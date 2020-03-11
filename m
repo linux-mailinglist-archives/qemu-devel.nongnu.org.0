@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7841D181DDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:31:01 +0100 (CET)
-Received: from localhost ([::1]:55432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC68181E35
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:45:49 +0100 (CET)
+Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC4G4-0003no-IU
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39948)
+	id 1jC4UO-0000cY-0h
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:45:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC4EH-0000c2-E9
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:29:10 -0400
+ (envelope-from <intermediadc@hotmail.com>) id 1jC4TI-0008Dl-P1
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:44:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC4EG-0005eh-1D
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:29:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52518
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC4EF-0005eO-SL
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583944147;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SKNDDL/KmeDcOjOVcM4Sko2Hko8Qu80NncIEbc3sMqY=;
- b=S41WgJp87hEqsQ+ylnbxj+f20nM5Yc9Y6XgfNRZSMGhMEiJUoCKUrjh5rb2Pye+GeNs/SI
- nt3lZqYXknBOZnuQCUygUCsyVTw9158MOO7RoC+2xnBLofa42RmmR3fzibu66NCKUvhQWo
- u4a0flI2Jg5luIgIuYWs6ggNYgLfx0A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-LYoMwBTJPQimLndKOjcwnw-1; Wed, 11 Mar 2020 12:28:55 -0400
-X-MC-Unique: LYoMwBTJPQimLndKOjcwnw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BD64DBA3;
- Wed, 11 Mar 2020 16:28:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-216.ams2.redhat.com
- [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A31885D9C5;
- Wed, 11 Mar 2020 16:28:51 +0000 (UTC)
-Subject: Re: [PATCH v5 0/5] qcow2: Implement zstd cluster compression method
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200304133538.9159-1-dplotnikov@virtuozzo.com>
- <bbb15291-ffb5-80f1-ed27-583ac3cb98bb@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <55afec29-1726-c36a-6d80-3dbd1839f0a6@redhat.com>
-Date: Wed, 11 Mar 2020 17:28:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <intermediadc@hotmail.com>) id 1jC4TG-0000AG-Ta
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:44:40 -0400
+Received: from mail-am6eur05olkn2060.outbound.protection.outlook.com
+ ([40.92.91.60]:36832 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <intermediadc@hotmail.com>)
+ id 1jC4TB-0008Kv-8Y; Wed, 11 Mar 2020 12:44:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bgj+jMaDOyBrXGg5HHEqoXF4JrQoYY4B3F+5KPBU0wtPq5I429I+zA1CsL+rtO90Q5Z5nww0TDj2ce5EmyqIHfX42FawrAYKMOeFTzvPKhgd6uGRHCrxuo74H6CauR1qElmhpsS6X0WPOONj7sEz3fx0fcpA6kOmykvRGNN1i+//XV63TUs6jZC5UZjbw1yL0E5ZYsqw5Tva2fqul4dmTaXjw4Qj9XFFYuQ7rIBOBODzu4B2qAQ+ZYOeqhYpyyJ1qyRKxkt0KgNNlOdbLDKQdw3obV0uqY4HcGj/BouNSsdhIDFm8Mwa2veWhGwqdHXBqd+leA/KkAB76G7LA5v6PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ga67aw54/s00d8lhaqFgnCB0XVmF1ns7wytI1gsYTOE=;
+ b=AlMY067553UhkgsFKWqYxHDUwKIxAfa9g7ds9HiRNFvw/7XhPxxsGPIXuN25SzmFFWCbZEmWontvGlsO928Em1tN3s2xAjMclRAjh8TCFZPsW+GY/r9XuhK+xXiqC2u2dGw4aOVasJ3JvCnYdVZ7gjTQAr2hibNbRZ9Qm6S1V78SNWoQ0MklYEDOzsiL/3RVvJ7KzUBuzFg7r+gAaJCdKe0H1z9Rxd7RJfVy4JQtMsEnB3au8gls11aiNyVtw7Bzn5iaTGkuNz6RbNXdOuR/VxXm6JXTZgzEWyfrBHGfeTuBvfv7Wfoji0gsXotKjClNoFbJbMdetEVAsvNlCUnSEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ga67aw54/s00d8lhaqFgnCB0XVmF1ns7wytI1gsYTOE=;
+ b=Kkupk6U/6dIZyzbSBvGLsubkT8JMglv0ZPLDg1odMT9jAJ5GxvQnLGxcXn3TAq/U4AX2aCKJRKe/1xjmdXghW+sEtsJbrUgU0P93Of5oxxmBprES5UZcwjGSrXJokD6nMbxVrJXC0mdqTJXSN3qfEgH+UUvE1R2T+Qqb1ou+qihFTQpwiu17+wH3brQbiuvXeK+2Ix2ORoIQSc6xR9tGvvPBnRJARHZtN0br7/8Iv8CPv00VtfIyJX1x90wuYpuQ3zq/Mr/dqM2uxRP9DUiwEf5WFZRUmpAbkCy9yq40Rf0zVo1/YRR/c9kdinVpdAesT62xSqxV0wDprbPezsE/sA==
+Received: from AM6EUR05FT066.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc11::3c) by
+ AM6EUR05HT246.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::368)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Wed, 11 Mar
+ 2020 16:44:29 +0000
+Received: from AM6PR03MB5525.eurprd03.prod.outlook.com (10.233.240.55) by
+ AM6EUR05FT066.mail.protection.outlook.com (10.233.240.108) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Wed, 11 Mar 2020 16:44:29 +0000
+Received: from AM6PR03MB5525.eurprd03.prod.outlook.com
+ ([fe80::c482:640:5728:93b7]) by AM6PR03MB5525.eurprd03.prod.outlook.com
+ ([fe80::c482:640:5728:93b7%5]) with mapi id 15.20.2793.018; Wed, 11 Mar 2020
+ 16:44:29 +0000
+From: luigi burdo <intermediadc@hotmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: R: Program counter stuck at 0xFFFFFFFC when emulating e5500 processor
+ on T4240-RDB board
+Thread-Topic: Program counter stuck at 0xFFFFFFFC when emulating e5500
+ processor on T4240-RDB board
+Thread-Index: AQHV98MtLDUIs86cVEqx/chgvBlp8A==
+Date: Wed, 11 Mar 2020 16:44:29 +0000
+Message-ID: <AM6PR03MB5525D904C01F4DCA98C73431C8FC0@AM6PR03MB5525.eurprd03.prod.outlook.com>
+Accept-Language: it-IT, en-US
+Content-Language: it-IT
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:58A015C25FEE89C6B6018195287EBD204AB916A9794584ADAFFE997CC7C25973;
+ UpperCasedChecksum:75F67FF0EB80782D0CD8C732644A64F208716F9FAE24FB4C08FAADA2DA2BFFF6;
+ SizeAsReceived:6959; Count:43
+x-tmn: [bFkMwPV/Fkmsa6fjK9egbUYBQVxLCOSf]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 43
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 1613ddfe-0add-4110-99fc-08d7c5db7800
+x-ms-traffictypediagnostic: AM6EUR05HT246:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XnNOw+I1vBq4D8CyhHYVOEUdBBEeZHP3Nkj1bsuLpqg9YQx52yt0hA05gaAh698UzRz9RsmIm5lbPkwUSzbx75ojbohpDPpva6/kiNUiI2PwfGSW8ISbU1tB2bVtLcvr5ErgDh+0a8XrKXD9SqT5hLBlX65yjHdSIsK5bGwq8VivRPdQr1UyobJk0WUmZy+1oX7XnhtpFuWCzIuiF6PgvXx1DJrhSHb68+T+gz+p0tU=
+x-ms-exchange-antispam-messagedata: /hmnhympgYc1aARGjkrgpFFksu3j46WodB/2l+n0Gmgde46Azdwm0dmPDJ2uJaYgdkIZjUYVFl86EnjyLWb+23nH2QVvIn5aRaXdZReYuTYCjHZbdN5mrTF/72mmcDGcKPWbGil8Ox9WTrL360BYBg==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM6PR03MB5525D904C01F4DCA98C73431C8FC0AM6PR03MB5525eurp_"
 MIME-Version: 1.0
-In-Reply-To: <bbb15291-ffb5-80f1-ed27-583ac3cb98bb@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Z43SBCmhgWMD1rltiMkZZzXglBOJpQlLW"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-OriginatorOrg: hotmail.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1613ddfe-0add-4110-99fc-08d7c5db7800
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2020 16:44:29.7090 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT246
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 40.92.91.60
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,66 +101,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, den@openvz.org
+Cc: Wayne Li <waynli329@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Z43SBCmhgWMD1rltiMkZZzXglBOJpQlLW
-Content-Type: multipart/mixed; boundary="qA7N8sobKU7KbqV3vXE5Vv7tLLWayX3G8"
-
---qA7N8sobKU7KbqV3vXE5Vv7tLLWayX3G8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--_000_AM6PR03MB5525D904C01F4DCA98C73431C8FC0AM6PR03MB5525eurp_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On 11.03.20 08:31, Denis Plotnikov wrote:
-> ping!
->=20
-> Is there any other comments/concerns/objections/suggestions according to
-> the series except the minor ones from Alberto and Vladimir?
-> If not, please, let me know, so I can resend the series with the minor
-> changes for applying to the corresponding branch.
+HI Devid,
+the kvm full work on e5500 cpu personally tested this on P5020 and P5040 wh=
+en i had the varisys beta boards AmigaOne
+But is  not possible made kvm-pr from an e5500 to and e6500 and vice versa.
+the e5500 was not kvm-pr compatible with 604e instructions set, probably so=
+mething is missing or locked in the cpu? just because i was using on the bo=
+ard standard PPC linux distros with only kernel with modules made for the e=
+5500 machine and the system was working right.
 
-Sounds good to me.
-
-I=E2=80=99d like to note that most iotests that seem to do something with
-compression (i.e., where grep finds a 'compress' somewhere; 013, 014,
-023, 042, 046, 053, 055, ...) pass with -o compression_type=3Dzstd, too.
-060 hangs somewhere.  112 complains about v2 incompatibility; and 214
-relies on intricacies of zlib, I think.  So that looks good, too.
-
-Well, one thing I did have to fix for this to work is to quote
-everything in common.pattern that tries to echo something with brackets
-(e.g. =E2=80=9CClusters to be compressed [1]=E2=80=9D).  I don=E2=80=99t qu=
-ite know why the
-brackets suddenly disappear when I run the tests with -o
-compression_type, who knows.  But putting quotes around the echo
-arguments fixes it, so...
-
-Max
+Probably the e6500 is more compatible with 604e G3/G4 and 970 in Kvm-pr
+Ciao
+Luigi
 
 
---qA7N8sobKU7KbqV3vXE5Vv7tLLWayX3G8--
+________________________________
+Da: Qemu-ppc per conto di David Gibson
+Inviato: Mercoled=EC, 11 Marzo, 2020 06:03
+A: Philippe Mathieu-Daud=E9
+Cc: Wayne Li; qemu-ppc; QEMU Developers
+Oggetto: Re: Program counter stuck at 0xFFFFFFFC when emulating e5500 proce=
+ssor on T4240-RDB board
 
---Z43SBCmhgWMD1rltiMkZZzXglBOJpQlLW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+On Thu, Feb 20, 2020 at 09:44:13AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Hello,
+>
+> On 2/20/20 6:40 AM, Wayne Li wrote:
+> > Dear QEMU list members,
+>
+> No subject: it is unlikely your question get noticed...
+>
+> Also you didn't Cc'ed the people who might help you (doing that for you):
+>
+> ./scripts/get_maintainer.pl -f target/ppc/cpu-models.c
+> David Gibson <david@gibson.dropbear.id.au> (maintainer:PowerPC TCG CPUs)
+> qemu-ppc@nongnu.org (open list:PowerPC TCG CPUs)
+> qemu-devel@nongnu.org (open list:All patches CC here)
 
------BEGIN PGP SIGNATURE-----
+Right.  Unfortunately the embedded cpu support is barely maintained,
+so there's only a little bit of help I can give.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5pEcEACgkQ9AfbAGHV
-z0CFoggAnKgpbXqbVv/cM4pZfAORJQc7ZgKZnQHIVopNu7Q1UGL+aR+Ve195x0LY
-M9jNiA9j4sdKNGJjOrnzCxTxWXs5wRodhMbqvI0gcrCM4p8im4NTte2B1KhWMSkm
-HNYmZGffvdBVkycRaREDT0VzZgjMf2eBmekfQBILPCQLw1PYBvLDmS56TTFQ10dS
-At2R5VMoW0rPpjHee8bi9pW+q4W71JqjYlXRmo28ksmhG9bCsxO+0O1xpkMdG7j8
-qwozJlnDJcJq1TXIIXbPF5ki7ZDV/aPBr0VSaBfroEiIFyDmuGE3S+DGVPvoLP0/
-iTmFaz3Svec4jXeIH3qZ2b0tA72Ejg==
-=mrqA
------END PGP SIGNATURE-----
+> > This will kind of be a repost but I'd like to post my question again
+> > because I've gained some more knowledge that makes me feel that my
+> > question would be easier to answer.  So we developed a custom-made QEMU
+> > VM that emulates a custom machine that has an e5500 processor.  I'm
+> > running this VM on a T4240-RDB board which has an e6500 processor and
+> > I'm trying to get the VM running with KVM enabled.  The problem I'm
+> > having is the program counter refuses to increment at all.  It just
+> > stays at the address 0xFFFFFFFC.  On a run without KVM enabled, the VM
+> > will also start executing at this same address but the program counter
+> > beings to increment immediately.  I know this is a custom QEMU VM and
+> > maybe some of the startup stuff we do could be causing problems, but
+> > what could possibly stop the program counter from incrementing
+> > altogether?
+> >
+> > Also, I do have another side question.  When running with KVM enabled, =
+I
+> > see the kernel-level ioctl call KVM_RUN running and then returning over
+> > and over again (by the way before the VM kinda grinds to a halt I only
+> > see QEMU make the KVM_RUN call twice, but the kernel-level ioctl
+> > function is being called over and over again for some reason).  And eac=
+h
+> > time the KVM_RUN call returns, the return-from-interrupt takes the VM t=
+o
+> > the address 0xFFFFFFFC.  What is the KVM_RUN ioctl call used for?  Why
+> > is it being called over and over again?  Maybe if I understood this
+> > better I'd be able to figure out what's stopping my program counter fro=
+m
+> > incrementing.
 
---Z43SBCmhgWMD1rltiMkZZzXglBOJpQlLW--
+I don't really know if KVM even attempts to support e5500 cpus.  We'd
+need to at least know what your host kernel is and what KVM variant it
+is using.  What's the instruction at 0xfffffffc which seems not to be
+handled here properly?  It sounds like you might be getting some sort
+of rolling trap, because KVM isn't handling that instruction correctly.
 
+The KVM_RUN is what causes KVM to actual enter the guest and execute
+instructions.  It returns when something triggers a guest exit - a
+trap or various other events can do this.
+
+--
+David Gibson                    | I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au  | minimalist, thank you.  NOT _the_ _other_
+                                | _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--_000_AM6PR03MB5525D904C01F4DCA98C73431C8FC0AM6PR03MB5525eurp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+HI Devid,</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+the kvm full work on e5500 cpu personally tested this on P5020 and P5040 wh=
+en i had the varisys beta boards AmigaOne</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+But is&nbsp; not possible made kvm-pr from an e5500 to and e6500 and vice v=
+ersa.&nbsp;</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+the e5500 was not kvm-pr compatible with 604e instructions set, probably so=
+mething is missing or locked in the cpu? just because i was using on the bo=
+ard standard PPC linux distros with only kernel with modules made for the e=
+5500 machine and the system was
+ working right.</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+Probably the e6500 is more compatible with 604e G3/G4 and 970 in Kvm-pr</di=
+v>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+Ciao&nbsp;</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+Luigi&nbsp;</div>
+<div>
+<div><br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0);">
+<br>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%;">
+<b>Da:</b> Qemu-ppc per conto di David Gibson<br>
+<b>Inviato:</b> Mercoled=EC, 11 Marzo, 2020 06:03<br>
+<b>A:</b> Philippe Mathieu-Daud=E9<br>
+<b>Cc:</b> Wayne Li; qemu-ppc; QEMU Developers<br>
+<b>Oggetto:</b> Re: Program counter stuck at 0xFFFFFFFC when emulating e550=
+0 processor on T4240-RDB board
+<div><br>
+</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Thu, Feb 20, 2020 at 09:44:13AM &#43;0100, Phil=
+ippe Mathieu-Daud=E9 wrote:<br>
+&gt; Hello,<br>
+&gt; <br>
+&gt; On 2/20/20 6:40 AM, Wayne Li wrote:<br>
+&gt; &gt; Dear QEMU list members,<br>
+&gt; <br>
+&gt; No subject: it is unlikely your question get noticed...<br>
+&gt; <br>
+&gt; Also you didn't Cc'ed the people who might help you (doing that for yo=
+u):<br>
+&gt; <br>
+&gt; ./scripts/get_maintainer.pl -f target/ppc/cpu-models.c<br>
+&gt; David Gibson &lt;david@gibson.dropbear.id.au&gt; (maintainer:PowerPC T=
+CG CPUs)<br>
+&gt; qemu-ppc@nongnu.org (open list:PowerPC TCG CPUs)<br>
+&gt; qemu-devel@nongnu.org (open list:All patches CC here)<br>
+<br>
+Right.&nbsp; Unfortunately the embedded cpu support is barely maintained,<b=
+r>
+so there's only a little bit of help I can give.<br>
+<br>
+&gt; &gt; This will kind of be a repost but I'd like to post my question ag=
+ain<br>
+&gt; &gt; because I've gained some more knowledge that makes me feel that m=
+y<br>
+&gt; &gt; question would be easier to answer.&nbsp; So we developed a custo=
+m-made QEMU<br>
+&gt; &gt; VM that emulates a custom machine that has an e5500 processor.&nb=
+sp; I'm<br>
+&gt; &gt; running this VM on a T4240-RDB board which has an e6500 processor=
+ and<br>
+&gt; &gt; I'm trying to get the VM running with KVM enabled.&nbsp; The prob=
+lem I'm<br>
+&gt; &gt; having is the program counter refuses to increment at all.&nbsp; =
+It just<br>
+&gt; &gt; stays at the address 0xFFFFFFFC.&nbsp; On a run without KVM enabl=
+ed, the VM<br>
+&gt; &gt; will also start executing at this same address but the program co=
+unter<br>
+&gt; &gt; beings to increment immediately.&nbsp; I know this is a custom QE=
+MU VM and<br>
+&gt; &gt; maybe some of the startup stuff we do could be causing problems, =
+but<br>
+&gt; &gt; what could possibly stop the program counter from incrementing<br=
+>
+&gt; &gt; altogether?<br>
+&gt; &gt; <br>
+&gt; &gt; Also, I do have another side question.&nbsp; When running with KV=
+M enabled, I<br>
+&gt; &gt; see the kernel-level ioctl call KVM_RUN running and then returnin=
+g over<br>
+&gt; &gt; and over again (by the way before the VM kinda grinds to a halt I=
+ only<br>
+&gt; &gt; see QEMU make the KVM_RUN call twice, but the kernel-level ioctl<=
+br>
+&gt; &gt; function is being called over and over again for some reason).&nb=
+sp; And each<br>
+&gt; &gt; time the KVM_RUN call returns, the return-from-interrupt takes th=
+e VM to<br>
+&gt; &gt; the address 0xFFFFFFFC.&nbsp; What is the KVM_RUN ioctl call used=
+ for?&nbsp; Why<br>
+&gt; &gt; is it being called over and over again?&nbsp; Maybe if I understo=
+od this<br>
+&gt; &gt; better I'd be able to figure out what's stopping my program count=
+er from<br>
+&gt; &gt; incrementing.<br>
+<br>
+I don't really know if KVM even attempts to support e5500 cpus.&nbsp; We'd<=
+br>
+need to at least know what your host kernel is and what KVM variant it<br>
+is using.&nbsp; What's the instruction at 0xfffffffc which seems not to be<=
+br>
+handled here properly?&nbsp; It sounds like you might be getting some sort<=
+br>
+of rolling trap, because KVM isn't handling that instruction correctly.<br>
+<br>
+The KVM_RUN is what causes KVM to actual enter the guest and execute<br>
+instructions.&nbsp; It returns when something triggers a guest exit - a<br>
+trap or various other events can do this.<br>
+<br>
+-- <br>
+David Gibson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | I'll have my music ba=
+roque, and my code<br>
+david AT gibson.dropbear.id.au&nbsp; | minimalist, thank you.&nbsp; NOT _th=
+e_ _other_<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | _way_ _around_!<br>
+<a href=3D"http://www.ozlabs.org/~dgibson" target=3D"_blank" rel=3D"noopene=
+r noreferrer" data-auth=3D"NotApplicable">http://www.ozlabs.org/~dgibson</a=
+><br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_AM6PR03MB5525D904C01F4DCA98C73431C8FC0AM6PR03MB5525eurp_--
 
