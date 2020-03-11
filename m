@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A61181832
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:37:16 +0100 (CET)
-Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C923F181839
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:38:48 +0100 (CET)
+Received: from localhost ([::1]:51012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0br-00068o-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45215)
+	id 1jC0dL-00017E-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aG-0004Ux-7P
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:37 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aH-0004X7-LV
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aF-00030K-7j
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:36 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43513)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aG-00036R-JK
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52760)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jC0aF-0002uz-0a
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:35 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v9so2376426wrf.10
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 05:35:34 -0700 (PDT)
+ id 1jC0aG-00034G-DO
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:36 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 11so1903959wmo.2
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 05:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RyiOiALmhWsHVTIBl5Km4kIgRAnoyapoCqy8nj7ptkc=;
- b=D47Obv3h8rRmWFVldTsXG95HpX6R4rRykcZGxKQf99wmVrz45YcqSnLzB4Bj5ZaPGE
- 9lYYs1F+6dT+svD+svyy6a1az1C4E7BfZt5hnAATDGifW47FTruzI9CSDQl4D4qbSk71
- gEJjGyD4CZmhzsaivDY6Y9VTFLRp5ZVg4xzhJ035ajvE7pBUmRhbvisJ0pUQ2JZp08H3
- 6VP2vKcO5yjrbyHKsqXABjaU8SlcsdO4kzc+vI2x4fnhqunq2AywBK5obLyOQRBhT1WV
- eqxatr3BljvV0Uhc3u68azsgTJWFaLqIpfWXY+3o+fN28ovM/YwEAIrhzeMEjgju5L6c
- xdRg==
+ bh=6H29QJg5B7bgS/AMKBONCsgkT/bfdiwpiQn7qsNuQ08=;
+ b=WAFQ7DtuG/qez7AE0Fv/S0S1knqoJH5Ekmjkul7RbNswktSaNxg2a09vIesnQ12HEC
+ f8wTPzgXX6elXvXX9va2WJ9ml2eYpAiiLZ/IMoyYldSVCIMnnLr69X6OvH/5Qm/tJYMh
+ lcpWclJgRMRR0d3H/R127BkHtcEn0ded6zi+MiXIKaCUmhi6gYLBu9MlUCSMWp6ufKOS
+ bv6Mm9F3GqDtNNjztBW64xOK1TlYVUhlEgVYcNAJBD2OZGh5ngH6qvYtFOTxtl8uZFB7
+ QowttBDEQevQYjGWFHsrph9WZjEz4AjrtDqw/VK5zO2zu4HQEWrqy7KVl4B1tbF6Fg18
+ oJwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RyiOiALmhWsHVTIBl5Km4kIgRAnoyapoCqy8nj7ptkc=;
- b=RWQyzliFNcusLmMi0kyZfWvt1LTT/otZ2OaYfzxDwohbaBH+wFK2eRhNJ1qk8bzcsm
- RoYsJOqz0Ul4Lo5of32wtoRsMR2xgWZP7Ob3QthtBS0+hMDEPBN165UUmCFVNkTbNPGr
- f8XLb+ntxg4F3ICR2TUG0EYfs5QH6Vdq8jOJe3QP48gmQgsB1ansIA1O4CB5wZKqBCZL
- yEO6iZromoryt06H1Fa5RvZTr42cMHgEGjKepNjTjROfjsvr/Q4Limc12Fm6FrWWJe8N
- TnLyucbMX2oWAXNlVP6fhahpdk7sCFPoTkNbGriLA4uaOL6p49z58cN35CUZgQsr8KIZ
- JrtA==
-X-Gm-Message-State: ANhLgQ0icRYdTaLOFWaz0of3vb8F8myZY7sOk6bgeEb2mqM+ayRab10O
- KZ0mOlOJObBwVHuSDaa58ixBmGX1duQDwQ==
-X-Google-Smtp-Source: ADFU+vv4+ILwiY6BdOSSg6pKdHprsLF3+LTCpLq6Hc8VC2xzpjyMlOa6U3sGzO6jPk2W123nobiLGA==
-X-Received: by 2002:a5d:5488:: with SMTP id h8mr4155130wrv.387.1583930133944; 
- Wed, 11 Mar 2020 05:35:33 -0700 (PDT)
+ bh=6H29QJg5B7bgS/AMKBONCsgkT/bfdiwpiQn7qsNuQ08=;
+ b=fnSgL0rtbGE9GTC0p5er3LQt6qHxvhArZiz0DrVGfCSPQOUJKxIyw/poUKUJbb/D14
+ FyM8U/ZP/nS9Mu6flwu4RUsNwResiaPZLpOBcIWH2t5WpN/X1iiwJG0oepE46gs6yhgo
+ 2t1BVlcdQWXBft2gMXP3v2WpoKXu0AVDQojw1IXQq4+kWa5/ikiXezbkpXr1+FO6Jwfu
+ loyb6oGzHw0KhI/r9ZKKOXUHZ7MXkRNN4m8+aM7WG7EgOKDIYkUzFierNrU3ZlUHbF36
+ jiHz4StX5ChFiFLFb+RefTwmTaJzeXHV+l14eXPOFxeNzeTvsP74vvw1SlU9arqVux0S
+ wwIQ==
+X-Gm-Message-State: ANhLgQ03z9MYxciE869V33xmTI/Z8I5SxtrXtvj9YRG6zvUCuffzwYB5
+ uU7qYYje8C9nc6kbs4m0LutED53LWp4FYA==
+X-Google-Smtp-Source: ADFU+vteUVcnFxFFap7IB/b/mUOcsgw2fMnfhtg3G0KDq3qwXrsJ4e22e58RiKOGw8C6QyFZF4qoDw==
+X-Received: by 2002:a05:600c:4107:: with SMTP id
+ j7mr3653442wmi.169.1583930135314; 
+ Wed, 11 Mar 2020 05:35:35 -0700 (PDT)
 Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
  [79.183.43.120])
- by smtp.gmail.com with ESMTPSA id o11sm61480696wrn.6.2020.03.11.05.35.32
+ by smtp.gmail.com with ESMTPSA id o11sm61480696wrn.6.2020.03.11.05.35.34
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 11 Mar 2020 05:35:33 -0700 (PDT)
+ Wed, 11 Mar 2020 05:35:34 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH v3 5/6] virtio-net: add migration support for RSS and hast
- report
-Date: Wed, 11 Mar 2020 14:35:17 +0200
-Message-Id: <20200311123518.4025-6-yuri.benditovich@daynix.com>
+Subject: [PATCH v3 6/6] tap: allow extended virtio header with hash info
+Date: Wed, 11 Mar 2020 14:35:18 +0200
+Message-Id: <20200311123518.4025-7-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200311123518.4025-1-yuri.benditovich@daynix.com>
 References: <20200311123518.4025-1-yuri.benditovich@daynix.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,40 +83,40 @@ Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save and restore RSS/hash report configuration.
-
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
- hw/net/virtio-net.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ net/tap.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 7b6a929e8c..c8d97d45cd 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2869,6 +2869,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-         }
-     }
+diff --git a/net/tap.c b/net/tap.c
+index 6207f61f84..47de7fdeb6 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -63,6 +63,14 @@ typedef struct TAPState {
+     Notifier exit;
+ } TAPState;
  
-+    if (n->rss_data.enabled) {
-+        trace_virtio_net_rss_enable(n->rss_data.hash_types,
-+                                    n->rss_data.indirections_len,
-+                                    sizeof(n->rss_data.key));
-+    } else {
-+        trace_virtio_net_rss_disable();
-+    }
-     return 0;
- }
++/* TODO: remove when virtio_net.h updated */
++struct virtio_net_hdr_v1_hash {
++    struct virtio_net_hdr_v1 hdr;
++    uint32_t hash_value;
++    uint16_t hash_report;
++    uint16_t padding;
++};
++
+ static void launch_script(const char *setup_script, const char *ifname,
+                           int fd, Error **errp);
  
-@@ -3094,6 +3101,8 @@ static const VMStateDescription vmstate_virtio_net_device = {
-                          vmstate_virtio_net_tx_waiting),
-         VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
-                             has_ctrl_guest_offloads),
-+        VMSTATE_UINT8_ARRAY(rss_data_migration, VirtIONet,
-+                            sizeof(VirtioNetRssData)),
-         VMSTATE_END_OF_LIST()
-    },
- };
+@@ -254,7 +262,8 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
+ 
+     assert(nc->info->type == NET_CLIENT_DRIVER_TAP);
+     assert(len == sizeof(struct virtio_net_hdr_mrg_rxbuf) ||
+-           len == sizeof(struct virtio_net_hdr));
++           len == sizeof(struct virtio_net_hdr) ||
++           len == sizeof(struct virtio_net_hdr_v1_hash));
+ 
+     tap_fd_set_vnet_hdr_len(s->fd, len);
+     s->host_vnet_hdr_len = len;
 -- 
 2.17.1
 
