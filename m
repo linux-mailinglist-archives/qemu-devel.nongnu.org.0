@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895A8181F3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:22:56 +0100 (CET)
-Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A0C181F74
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:28:30 +0100 (CET)
+Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC54J-0001Ln-KT
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57569)
+	id 1jC59h-0002Wu-K7
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jC53Z-0000nd-He
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jC57y-0000k2-0R
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:26:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jC53Y-0002AQ-6t
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:09 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40966)
+ (envelope-from <richard.henderson@linaro.org>) id 1jC57x-0006XF-17
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:26:41 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jC53Y-00029h-1K
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:08 -0400
-Received: by mail-pl1-x642.google.com with SMTP id t14so1396814plr.8
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 10:22:07 -0700 (PDT)
+ id 1jC57w-0006Wr-Q9
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:26:40 -0400
+Received: by mail-pf1-x441.google.com with SMTP id w65so1710491pfb.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 10:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/P3S/m9MSwDSJjJF6DEle31LnWPFIIeZ55U5cXyJnAM=;
- b=K2blL/zp2a0gUZ7lQelZ+jpOhSCEBp8n/bQQTJHSWh/SnMiNuEFPwZ5XXLknp9RKRG
- 1kRlWoiK9V+DgBLkT028JGrOr4pr+K+3qCXX15Qgx+YOKue95Jb1gzYtRfdas8eQWNrm
- p+6sDpiRR49T7fspdBiL1tIXcrhMnbTNY+vefNL1siHcjAEkKKQ1G7+MKsudg4BjmSSN
- 8syBfOrrhme5ltp5XMZb1ndxENBS3+pBNelMzGNWRnK1imsknhuY+ATIdqP1DHRpgSJS
- 2UhWOub2lRlsC2WeHsQlnm0DwUidLv7RbwWyCF1pbrSQr7hTdY0gCc1y/jHBCd0JOvTW
- ihQg==
+ bh=JA4h9WhweJSHFVdFBizsIQ6yGg6wS1/XfkARK3sz3Pw=;
+ b=nvEZnAE6pwIakdKhFenTI5OmWNjW8EIoKvaWgdfkOE/8ZjnNMnzH2GYsD3ozGAV6pX
+ L3dU0qPt5HKE+xXBNSHDEdDMtwM5rI+A2MyPGghoCdgbqwORRih93wFrmpPXtqibv7Ba
+ uISZZaWMFySjl5QOLA2nu6lGXOskPkCZ+hi46oDs3RgSyfjtQXfvWVXW6mvcFLI87R5k
+ /5ZfHMHFBCJtEcWs3qTO+cli9Y5QospMI9dT5QHO1VvsDoJuPiZ8z9/1MRCcS/hbNPqm
+ hKOfjhDoXjAdCsqj+THO3ivh0ioJg1pqpYz+pWsX5F7wQQ7jhLPciZ584NcQhVtcXpuS
+ u6fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/P3S/m9MSwDSJjJF6DEle31LnWPFIIeZ55U5cXyJnAM=;
- b=XrcD3tylKPLKht01n8LgYmleEQRPB+sfR83ItltXzjpv5LL3ejUVPs4X3qzST2gVPc
- jYf8fWswr9fb/AIXVi+Hd4O+0rHfITdzRTWVKh9FPqmxpWFiNOsTU7ivOoqFigyJOJxL
- DQ6dbOQ5ViKzbzAAB9SSo0sqvN9TRrfamuloKXLXR+jOOT5aGf/YIqpDv4+fVvQQrLNy
- oX+18LgDxKH0waqQ9cNpIJ/063tAcz3k5wGwtgVqHic4/z3js/Qun2eb9lO0CXEV0CBX
- QDqmGMtehl9pW6N3/fBApQUD9w4IpwOpT4AnN/PsTCLcSG4zMZou64fGbH7H3mN23Ma2
- oi+w==
-X-Gm-Message-State: ANhLgQ3Oc6X1VhgATv4C/wY5NOJBeVKexx9lHs9WW6+QQARCpYEP+t56
- 0szHoVPrC4Va81hoA9YARskv2w==
-X-Google-Smtp-Source: ADFU+vseHI5fex/sdnCS6lVUIB0h5ZAOrQ8qmtJ431pLwzPgmLWaOU1y9nWw5FATrE6g3kXkaT5oCQ==
-X-Received: by 2002:a17:90b:370c:: with SMTP id
- mg12mr4160249pjb.96.1583947319894; 
- Wed, 11 Mar 2020 10:21:59 -0700 (PDT)
+ bh=JA4h9WhweJSHFVdFBizsIQ6yGg6wS1/XfkARK3sz3Pw=;
+ b=KSjdFtBXQ55cvDcgIKNwuLRSbx+sxQvS6KqaW91Syo2s6g1FTMLO1S92ZVvBiSYyxu
+ JDIyII9wYyBRU6MOacXSPZi79HJuQDfkfn8sZjAL5di6u4f205jW8UZvoGRWEVATFN2y
+ XPlB9fymF2mIRkC0kF9pTC4JV6X/XrW2ezI+jUKEKVNJVuqD7ZvE+CDj4ZGPZyvs9rII
+ dlsGSKDOWzsdaKed7nQsQD5D1zD692pURosxVvTI1KCHUruPCKVdVKtrLF//xrWPp2ip
+ VHhUGHaWmcanamyr+Xc/gdaTz0UV2ifll+O5TFrXEbzjrso7Gfk0xsts5ukwmdyeFGKK
+ 4HBw==
+X-Gm-Message-State: ANhLgQ24cVFmp5lvqz9rpRXFbM8B8XZBViI1QHlV4FGyBzYKBS8t0cJB
+ UxmuaJtl2q/F07QCBoFno8Xceg==
+X-Google-Smtp-Source: ADFU+vseIpdvMS7RTCg9UwEbHg0cswa9U+2r8xoszBjk0X3cLDUzGINDSnV9bYjH9sbBAsXcbWyHpg==
+X-Received: by 2002:a63:701b:: with SMTP id l27mr3847788pgc.57.1583947599601; 
+ Wed, 11 Mar 2020 10:26:39 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- 5sm7819263pfw.98.2020.03.11.10.21.58
+ s23sm6097429pjp.28.2020.03.11.10.26.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Mar 2020 10:21:59 -0700 (PDT)
-Subject: Re: [PATCH v4 03/21] linux-user,hppa: add syscall table generation
+ Wed, 11 Mar 2020 10:26:38 -0700 (PDT)
+Subject: Re: [PATCH v4 08/21] linux-user,arm: add syscall table generation
  support
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20200310103403.3284090-1-laurent@vivier.eu>
- <20200310103403.3284090-4-laurent@vivier.eu>
+ <20200310103403.3284090-9-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ffc6073f-1c5d-6457-6694-e83ae6f4847d@linaro.org>
-Date: Wed, 11 Mar 2020 10:21:56 -0700
+Message-ID: <b7bd64cf-455c-d8b8-2b67-2ecff97ea72b@linaro.org>
+Date: Wed, 11 Mar 2020 10:26:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200310103403.3284090-4-laurent@vivier.eu>
+In-Reply-To: <20200310103403.3284090-9-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,23 +93,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/10/20 3:33 AM, Laurent Vivier wrote:
-> Copy syscall.tbl and syscallhdr.sh from linux/arch/parisc/kernel/syscalls v5.5
+> Copy syscall.tbl and syscallhdr.sh from linux/arch/arm/tools/syscalls v5.5
 > Update syscallhdr.sh to generate QEMU syscall_nr.h
+> 
+> Update syscall.c to manage TARGET_NR_arm_sync_file_range as it has
+> replaced TARGET_NR_sync_file_range2
+> 
+> Move existing stuff from linux-user/Makefile.objs to
+> linux-user/arm/Makefile.objs
 > 
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->  configure                     |   3 +-
->  linux-user/Makefile.objs      |   1 +
->  linux-user/hppa/Makefile.objs |   5 +
->  linux-user/hppa/syscall.tbl   | 435 ++++++++++++++++++++++++++++++++++
->  linux-user/hppa/syscall_nr.h  | 358 ----------------------------
->  linux-user/hppa/syscallhdr.sh |  32 +++
->  6 files changed, 475 insertions(+), 359 deletions(-)
->  create mode 100644 linux-user/hppa/Makefile.objs
->  create mode 100644 linux-user/hppa/syscall.tbl
->  delete mode 100644 linux-user/hppa/syscall_nr.h
->  create mode 100644 linux-user/hppa/syscallhdr.sh
+>  configure                    |   3 +-
+>  linux-user/Makefile.objs     |   3 +-
+>  linux-user/arm/Makefile.objs |   8 +
+>  linux-user/arm/syscall.tbl   | 451 +++++++++++++++++++++++++++++++++++
+>  linux-user/arm/syscall_nr.h  | 447 ----------------------------------
+>  linux-user/arm/syscallhdr.sh |  31 +++
+>  linux-user/syscall.c         |   6 +
+>  7 files changed, 499 insertions(+), 450 deletions(-)
+>  create mode 100644 linux-user/arm/Makefile.objs
+>  create mode 100644 linux-user/arm/syscall.tbl
+>  delete mode 100644 linux-user/arm/syscall_nr.h
+>  create mode 100644 linux-user/arm/syscallhdr.sh
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
