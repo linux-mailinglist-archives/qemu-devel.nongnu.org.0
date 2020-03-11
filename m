@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965A1181AC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:08:16 +0100 (CET)
-Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4CA181AD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:09:45 +0100 (CET)
+Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC21v-0008Oi-Ko
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36494)
+	id 1jC23M-0003yK-NP
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC1nA-0004cZ-TB
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:02 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jC1nD-0004kV-S2
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC1n9-0002o3-90
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:00 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23037
+ (envelope-from <mreitz@redhat.com>) id 1jC1nC-0002rU-9p
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57634
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1n9-0002nV-3B
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:59 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1nC-0002qq-4U
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583934778;
+ s=mimecast20190719; t=1583934781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G/f8zi/yuoYMPXC+CLnUsUmXddDv0sJgWs+3CU7kMAE=;
- b=M6JlXDKVaaR7HfxGv0nIq2/mT38ti2zs+bodkT08FmkWwmNv9tcXX7UJY3Yf4dHqtsjP/G
- kKdHPyx0u8cuxVT6l9UUywyzxTMoz0maExoRtBtm9TW8svAXCThPgeA4ltpB3fgcMxgwIo
- 6nhV+E4Y2dEgUHtts0dBOkl9mC/nqec=
+ bh=MLI4CO0lYmsE3HMfdKwXPXoJGri25UffaJPnJtC3324=;
+ b=ERJG/wPUQdCnno4eqB7ASMtKPOg9nZaeO8IlsBv5U124amk3qTHc0jSIZbxMtqzeJysOe/
+ eLpi3fEf3VeU4VyJCNjwdjYKwmj3r8GjRoBBJzHgaidvHMROcmPdYvYxg+TZ3Gj78ZF9UE
+ /TDWB4NS1qyhg95q5g7uZ9rkM9oFeao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-fb593t8GMsu-Q6mLVD8EZQ-1; Wed, 11 Mar 2020 09:52:56 -0400
-X-MC-Unique: fb593t8GMsu-Q6mLVD8EZQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-70-nKzPK9ABP3-Sj6r77mz_lw-1; Wed, 11 Mar 2020 09:52:59 -0400
+X-MC-Unique: nKzPK9ABP3-Sj6r77mz_lw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3B43189F767;
- Wed, 11 Mar 2020 13:52:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D583B1005510;
+ Wed, 11 Mar 2020 13:52:58 +0000 (UTC)
 Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F4741001DF0;
- Wed, 11 Mar 2020 13:52:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5091F91D9B;
+ Wed, 11 Mar 2020 13:52:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/19] block/block-copy: specialcase first copy_range request
-Date: Wed, 11 Mar 2020 14:52:07 +0100
-Message-Id: <20200311135213.1242028-14-mreitz@redhat.com>
+Subject: [PULL 14/19] block/block-copy: use block_status
+Date: Wed, 11 Mar 2020 14:52:08 +0100
+Message-Id: <20200311135213.1242028-15-mreitz@redhat.com>
 In-Reply-To: <20200311135213.1242028-1-mreitz@redhat.com>
 References: <20200311135213.1242028-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -77,138 +77,179 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-In block_copy_do_copy we fallback to read+write if copy_range failed.
-In this case copy_size is larger than defined for buffered IO, and
-there is corresponding commit. Still, backup copies data cluster by
-cluster, and most of requests are limited to one cluster anyway, so the
-only source of this one bad-limited request is copy-before-write
-operation.
+Use bdrv_block_status_above to chose effective chunk size and to handle
+zeroes effectively.
 
-Further patch will move backup to use block_copy directly, than for
-cases where copy_range is not supported, first request will be
-oversized in each backup. It's not good, let's change it now.
-
-Fix is simple: just limit first copy_range request like buffer-based
-request. If it succeed, set larger copy_range limit.
+This substitutes checking for just being allocated or not, and drops
+old code path for it. Assistance by backup job is dropped too, as
+caching block-status information is more difficult than just caching
+is-allocated information in our dirty bitmap, and backup job is not
+good place for this caching anyway.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200311103004.7649-4-vsementsov@virtuozzo.com>
+Message-Id: <20200311103004.7649-5-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 41 +++++++++++++++++++++++++++++++----------
- 1 file changed, 31 insertions(+), 10 deletions(-)
+ block/block-copy.c | 73 +++++++++++++++++++++++++++++++++++++---------
+ block/trace-events |  1 +
+ 2 files changed, 61 insertions(+), 13 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index e2d7b3b887..ddd61c1652 100644
+index ddd61c1652..b075dba206 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -70,16 +70,19 @@ void block_copy_state_free(BlockCopyState *s)
-     g_free(s);
+@@ -155,7 +155,7 @@ void block_copy_set_progress_meter(BlockCopyState *s, P=
+rogressMeter *pm)
+  */
+ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+                                            int64_t start, int64_t end,
+-                                           bool *error_is_read)
++                                           bool zeroes, bool *error_is_rea=
+d)
+ {
+     int ret;
+     int nbytes =3D MIN(end, s->len) - start;
+@@ -165,6 +165,18 @@ static int coroutine_fn block_copy_do_copy(BlockCopySt=
+ate *s,
+     assert(QEMU_IS_ALIGNED(end, s->cluster_size));
+     assert(end < s->len || end =3D=3D QEMU_ALIGN_UP(s->len, s->cluster_siz=
+e));
+=20
++    if (zeroes) {
++        ret =3D bdrv_co_pwrite_zeroes(s->target, start, nbytes, s->write_f=
+lags &
++                                    ~BDRV_REQ_WRITE_COMPRESSED);
++        if (ret < 0) {
++            trace_block_copy_write_zeroes_fail(s, start, ret);
++            if (error_is_read) {
++                *error_is_read =3D false;
++            }
++        }
++        return ret;
++    }
++
+     if (s->use_copy_range) {
+         ret =3D bdrv_co_copy_range(s->source, start, s->target, start, nby=
+tes,
+                                  0, s->write_flags);
+@@ -230,6 +242,38 @@ out:
+     return ret;
  }
 =20
-+static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *targ=
-et)
++static int block_copy_block_status(BlockCopyState *s, int64_t offset,
++                                   int64_t bytes, int64_t *pnum)
 +{
-+    return MIN_NON_ZERO(INT_MAX,
-+                        MIN_NON_ZERO(source->bs->bl.max_transfer,
-+                                     target->bs->bl.max_transfer));
++    int64_t num;
++    BlockDriverState *base;
++    int ret;
++
++    if (s->skip_unallocated && s->source->bs->backing) {
++        base =3D s->source->bs->backing->bs;
++    } else {
++        base =3D NULL;
++    }
++
++    ret =3D bdrv_block_status_above(s->source->bs, base, offset, bytes, &n=
+um,
++                                  NULL, NULL);
++    if (ret < 0 || num < s->cluster_size) {
++        /*
++         * On error or if failed to obtain large enough chunk just fallbac=
+k to
++         * copy one cluster.
++         */
++        num =3D s->cluster_size;
++        ret =3D BDRV_BLOCK_ALLOCATED | BDRV_BLOCK_DATA;
++    } else if (offset + num =3D=3D s->len) {
++        num =3D QEMU_ALIGN_UP(num, s->cluster_size);
++    } else {
++        num =3D QEMU_ALIGN_DOWN(num, s->cluster_size);
++    }
++
++    *pnum =3D num;
++    return ret;
 +}
 +
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size,
-                                      BdrvRequestFlags write_flags, Error *=
-*errp)
+ /*
+  * Check if the cluster starting at offset is allocated or not.
+  * return via pnum the number of contiguous clusters sharing this allocati=
+on.
+@@ -308,7 +352,6 @@ int coroutine_fn block_copy(BlockCopyState *s,
  {
-     BlockCopyState *s;
-     BdrvDirtyBitmap *copy_bitmap;
--    uint32_t max_transfer =3D
--            MIN_NON_ZERO(INT_MAX,
--                         MIN_NON_ZERO(source->bs->bl.max_transfer,
--                                      target->bs->bl.max_transfer));
+     int ret =3D 0;
+     int64_t end =3D bytes + start; /* bytes */
+-    int64_t status_bytes;
+     BlockCopyInFlightReq req;
 =20
-     copy_bitmap =3D bdrv_create_dirty_bitmap(source->bs, cluster_size, NUL=
-L,
-                                            errp);
-@@ -99,7 +102,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, =
-BdrvChild *target,
-         .mem =3D shres_create(BLOCK_COPY_MAX_MEM),
-     };
-=20
--    if (max_transfer < cluster_size) {
-+    if (block_copy_max_transfer(source, target) < cluster_size) {
-         /*
-          * copy_range does not respect max_transfer. We don't want to both=
-er
-          * with requests smaller than block-copy cluster size, so fallback=
- to
-@@ -114,12 +117,11 @@ BlockCopyState *block_copy_state_new(BdrvChild *sourc=
-e, BdrvChild *target,
-         s->copy_size =3D cluster_size;
-     } else {
-         /*
--         * copy_range does not respect max_transfer (it's a TODO), so we f=
-actor
--         * that in here.
-+         * We enable copy-range, but keep small copy_size, until first
-+         * successful copy_range (look at block_copy_do_copy).
-          */
-         s->use_copy_range =3D true;
--        s->copy_size =3D MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
--                           QEMU_ALIGN_DOWN(max_transfer, cluster_size));
-+        s->copy_size =3D MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
-     }
-=20
-     QLIST_INIT(&s->inflight_reqs);
-@@ -172,6 +174,22 @@ static int coroutine_fn block_copy_do_copy(BlockCopySt=
-ate *s,
-             s->copy_size =3D MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
-             /* Fallback to read+write with allocated buffer */
-         } else {
-+            if (s->use_copy_range) {
-+                /*
-+                 * Successful copy-range. Now increase copy_size.  copy_ra=
-nge
-+                 * does not respect max_transfer (it's a TODO), so we fact=
-or
-+                 * that in here.
-+                 *
-+                 * Note: we double-check s->use_copy_range for the case wh=
-en
-+                 * parallel block-copy request unsets it during previous
-+                 * bdrv_co_copy_range call.
-+                 */
-+                s->copy_size =3D
-+                        MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_COPY_RANGE=
-),
-+                            QEMU_ALIGN_DOWN(block_copy_max_transfer(s->sou=
-rce,
-+                                                                    s->tar=
-get),
-+                                            s->cluster_size));
-+            }
-             goto out;
-         }
-     }
-@@ -179,7 +197,10 @@ static int coroutine_fn block_copy_do_copy(BlockCopySt=
-ate *s,
      /*
-      * In case of failed copy_range request above, we may proceed with buf=
-fered
-      * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests =
-will
--     * be properly limited, so don't care too much.
-+     * be properly limited, so don't care too much. Moreover the most like=
-ly
-+     * case (copy_range is unsupported for the configuration, so the very =
-first
-+     * copy_range request fails) is handled by setting large copy_size onl=
-y
-+     * after first successful copy_range.
-      */
+@@ -325,7 +368,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
+     block_copy_inflight_req_begin(s, &req, start, end);
 =20
-     bounce_buffer =3D qemu_blockalign(s->source->bs, nbytes);
+     while (start < end) {
+-        int64_t next_zero, chunk_end;
++        int64_t next_zero, chunk_end, status_bytes;
+=20
+         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, start)) {
+             trace_block_copy_skip(s, start);
+@@ -343,24 +386,28 @@ int coroutine_fn block_copy(BlockCopyState *s,
+             chunk_end =3D next_zero;
+         }
+=20
+-        if (s->skip_unallocated) {
+-            ret =3D block_copy_reset_unallocated(s, start, &status_bytes);
+-            if (ret =3D=3D 0) {
+-                trace_block_copy_skip_range(s, start, status_bytes);
+-                start +=3D status_bytes;
+-                continue;
+-            }
+-            /* Clamp to known allocated region */
+-            chunk_end =3D MIN(chunk_end, start + status_bytes);
++        ret =3D block_copy_block_status(s, start, chunk_end - start,
++                                      &status_bytes);
++        if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
++            bdrv_reset_dirty_bitmap(s->copy_bitmap, start, status_bytes);
++            progress_set_remaining(s->progress,
++                                   bdrv_get_dirty_count(s->copy_bitmap) +
++                                   s->in_flight_bytes);
++            trace_block_copy_skip_range(s, start, status_bytes);
++            start +=3D status_bytes;
++            continue;
+         }
+=20
++        chunk_end =3D MIN(chunk_end, start + status_bytes);
++
+         trace_block_copy_process(s, start);
+=20
+         bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+         s->in_flight_bytes +=3D chunk_end - start;
+=20
+         co_get_from_shres(s->mem, chunk_end - start);
+-        ret =3D block_copy_do_copy(s, start, chunk_end, error_is_read);
++        ret =3D block_copy_do_copy(s, start, chunk_end, ret & BDRV_BLOCK_Z=
+ERO,
++                                 error_is_read);
+         co_put_to_shres(s->mem, chunk_end - start);
+         s->in_flight_bytes -=3D chunk_end - start;
+         if (ret < 0) {
+diff --git a/block/trace-events b/block/trace-events
+index 1a7329b736..29dff8881c 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -48,6 +48,7 @@ block_copy_process(void *bcs, int64_t start) "bcs %p star=
+t %"PRId64
+ block_copy_copy_range_fail(void *bcs, int64_t start, int ret) "bcs %p star=
+t %"PRId64" ret %d"
+ block_copy_read_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PR=
+Id64" ret %d"
+ block_copy_write_fail(void *bcs, int64_t start, int ret) "bcs %p start %"P=
+RId64" ret %d"
++block_copy_write_zeroes_fail(void *bcs, int64_t start, int ret) "bcs %p st=
+art %"PRId64" ret %d"
+=20
+ # ../blockdev.c
+ qmp_block_job_cancel(void *job) "job %p"
 --=20
 2.24.1
 
