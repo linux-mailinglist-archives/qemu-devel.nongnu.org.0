@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D76181AC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:07:04 +0100 (CET)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8048181AA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:01:58 +0100 (CET)
+Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC20k-0005nl-I1
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36180)
+	id 1jC1vp-0005u0-N2
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC1mo-0003sw-Cy
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jC1n0-0004Aw-Tm
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC1mn-0002XO-6G
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47371
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jC1mz-0002ch-Ik
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22498
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1mn-0002X1-1U
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:37 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1mz-0002b5-Cu
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583934756;
+ s=mimecast20190719; t=1583934759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8WjUtZP30gnI4PhVaeaDwn/qhVv9JohctZmRarIUqY0=;
- b=OIQrqZ5OnCeWOKqCfMlWPjYLsp8PEp5lSFecX57Q8iuAOWnFCFk5M7w5suaSycnpV3O1XB
- WWOCJa2UFiOirz9iaeQrSdZpnDHmltlNmSXkuEwAwjiqupbxsQW0m4YsNI+rTja1eFRopQ
- hZFUSu7A0Xd78REQdFfMHaKlrxl1Kn8=
+ bh=ceh+Z/k4QlcB7087W8AF6D0vfoTIvyOWKzKEzJMnX04=;
+ b=QPEt5lwZNIduuj8Dl8bCWbpZjvM2R1oktg8f5gJD4QbPwF8thHrm51Of0wBkfq9pYElrhi
+ sH7WkZ4yGFC0ipfHsj1AyhR0SAK/lS1iEthIbu75SrLSjGXxWnOoYnOdjhUbT9QDp7ahQf
+ 2CxirmjkZgMbVMAbqo0YlNKTX2I/fLM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-7JERtupvOgGc8vS2VmzktQ-1; Wed, 11 Mar 2020 09:52:34 -0400
-X-MC-Unique: 7JERtupvOgGc8vS2VmzktQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-39-g55f5o1KMN-zgKSf-0vjLw-1; Wed, 11 Mar 2020 09:52:37 -0400
+X-MC-Unique: g55f5o1KMN-zgKSf-0vjLw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A558800D54;
- Wed, 11 Mar 2020 13:52:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85F15800EBC;
+ Wed, 11 Mar 2020 13:52:36 +0000 (UTC)
 Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 190505C1C3;
- Wed, 11 Mar 2020 13:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00CC75C13D;
+ Wed, 11 Mar 2020 13:52:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/19] block/curl: HTTP header field names are case insensitive
-Date: Wed, 11 Mar 2020 14:52:00 +0100
-Message-Id: <20200311135213.1242028-7-mreitz@redhat.com>
+Subject: [PULL 07/19] iotests: Fix nonportable use of od --endian
+Date: Wed, 11 Mar 2020 14:52:01 +0100
+Message-Id: <20200311135213.1242028-8-mreitz@redhat.com>
 In-Reply-To: <20200311135213.1242028-1-mreitz@redhat.com>
 References: <20200311135213.1242028-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +76,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Edmondson <david.edmondson@oracle.com>
+From: Eric Blake <eblake@redhat.com>
 
-RFC 7230 section 3.2 indicates that HTTP header field names are case
-insensitive.
+Tests 261 and 272 fail on RHEL 7 with coreutils 8.22, since od
+--endian was not added until coreutils 8.23.  Fix this by manually
+constructing the final value one byte at a time.
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <20200224101310.101169-3-david.edmondson@oracle.com>
+Fixes: fc8ba423
+Reported-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200226125424.481840-1-eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/curl.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/common.rc | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index f9ffb7f4e2..6e325901dc 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -216,11 +216,12 @@ static size_t curl_header_cb(void *ptr, size_t size, =
-size_t nmemb, void *opaque)
-     size_t realsize =3D size * nmemb;
-     const char *header =3D (char *)ptr;
-     const char *end =3D header + realsize;
--    const char *accept_ranges =3D "Accept-Ranges:";
-+    const char *accept_ranges =3D "accept-ranges:";
-     const char *bytes =3D "bytes";
-=20
-     if (realsize >=3D strlen(accept_ranges)
--        && strncmp(header, accept_ranges, strlen(accept_ranges)) =3D=3D 0)=
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 8a6366c09d..4c246c0450 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -56,18 +56,30 @@ poke_file()
+ # peek_file_le 'test.img' 512 2 =3D> 65534
+ peek_file_le()
  {
-+        && g_ascii_strncasecmp(header, accept_ranges,
-+                               strlen(accept_ranges)) =3D=3D 0) {
+-    # Wrap in echo $() to strip spaces
+-    echo $(od -j"$2" -N"$3" --endian=3Dlittle -An -vtu"$3" "$1")
++    local val=3D0 shift=3D0 byte
++
++    # coreutils' od --endian is not portable, so manually assemble bytes.
++    for byte in $(od -j"$2" -N"$3" -An -v -tu1 "$1"); do
++        val=3D$(( val | (byte << shift) ))
++        shift=3D$((shift + 8))
++    done
++    printf %llu $val
+ }
 =20
-         char *p =3D strchr(header, ':') + 1;
+ # peek_file_be 'test.img' 512 2 =3D> 65279
+ peek_file_be()
+ {
+-    # Wrap in echo $() to strip spaces
+-    echo $(od -j"$2" -N"$3" --endian=3Dbig -An -vtu"$3" "$1")
++    local val=3D0 byte
++
++    # coreutils' od --endian is not portable, so manually assemble bytes.
++    for byte in $(od -j"$2" -N"$3" -An -v -tu1 "$1"); do
++        val=3D$(( (val << 8) | byte ))
++    done
++    printf %llu $val
+ }
 =20
+-# peek_file_raw 'test.img' 512 2 =3D> '\xff\xfe'
++# peek_file_raw 'test.img' 512 2 =3D> '\xff\xfe'. Do not use if the raw da=
+ta
++# is likely to contain \0 or trailing \n.
+ peek_file_raw()
+ {
+     dd if=3D"$1" bs=3D1 skip=3D"$2" count=3D"$3" status=3Dnone
 --=20
 2.24.1
 
