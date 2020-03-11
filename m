@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C1A1810F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:43:48 +0100 (CET)
-Received: from localhost ([::1]:46126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDE3181104
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:46:31 +0100 (CET)
+Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBv5n-0005ek-IX
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
+	id 1jBv8Q-0008EJ-NR
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:46:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59282)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1jBv4y-00058n-MN
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:42:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jBv6O-00065t-Ld
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:44:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1jBv4x-0001Bw-ES
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:42:56 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3272 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1jBv4u-00016N-B2; Wed, 11 Mar 2020 02:42:52 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id EC7167B4F0923BCCC96B;
- Wed, 11 Mar 2020 14:42:45 +0800 (CST)
-Received: from [127.0.0.1] (10.173.222.27) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Mar 2020
- 14:42:39 +0800
-Subject: Re: [kvm-unit-tests PATCH v5 05/13] arm/arm64: gicv3: Set the LPI
- config and pending tables
-To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
- <maz@kernel.org>, <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20200310145410.26308-1-eric.auger@redhat.com>
- <20200310145410.26308-6-eric.auger@redhat.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <cd3bab7d-a585-b091-621c-0ae712b82b3c@huawei.com>
-Date: Wed, 11 Mar 2020 14:42:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <richard.henderson@linaro.org>) id 1jBv6N-0001bs-Fi
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:44:24 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:44728)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jBv6N-0001an-AP
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:44:23 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d9so608427plo.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=87Rk2Cus7V553zmUHZsKztsptlyw22li5a6Jn7L7yqM=;
+ b=jIgyyhhICLIjSLjLOWshNGCsIO3EQvMaTa7iEm8NKuV8QZ9UJwuQRkCjtsLUCR/QXg
+ XKMmD8xH12NDTBtCYLD+TkhKFfDGqEgPzV88rbZ6iFwkVM2af8liN5kEmH8Tw+JnuDzV
+ 5zke21LSBMF6RyJt++Eemyl69h26vEMSG+opDF6jCVJajDO6Jc6XpM1khqY5QopSvYzw
+ 8sHfRpjfBGXtBCgxcwKxj081Tu83gSMsZZS4SzVpYMDXmgYdn/6I8zC02ho71Zq8VmBg
+ 3xt3IJWm9Ydwfvkp08rcPY1MympoADfyvXSQQw80QxRLooMnIsdQ9o4Kf86gErCoEz7y
+ mopw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=87Rk2Cus7V553zmUHZsKztsptlyw22li5a6Jn7L7yqM=;
+ b=k0pzMY4JlQsNOoKFDKyMUeDU8X/+BwrOuzFnmxtIvYeyLji+VHr4pCp4qQfz6/5vgN
+ laQs72xBFMOnChPtyYzti6wMlDy+9G8WwqTEVdE9ywU+XweSZqc/xRrx4JPg2A9cdOZO
+ m9MUN/WkUaiO8qDphKLYbAalkHK2uogzSz3EHWE8fCwPl+f63gM1FCMg/t2yHvvKI5o1
+ Ap2G4hLLCMNXmN1HIFEIvytmdfPr52p7+yPE4oITINW3MgGF5Z1QisaWSjhpCJ0RQ7Rz
+ lhT9dS2/It4nM1fX+AtOvBaQ6DGP0uj2aQPamAe/Q5Gtaq3vC22aWqZLNsyWQjosMeH3
+ IiOw==
+X-Gm-Message-State: ANhLgQ1tXy/inOPCX9UTm4bDZ3UNu79xo7ABJFdYd+onBixhptyxmxQU
+ Tao3yJKdvc2tdUDByuUssRrukmYpz/s=
+X-Google-Smtp-Source: ADFU+vtYWP4MqbZ+/OM1oIF+0mswM8Kxmuh3FAjA8/WWmiz72mieAHJLdiCxQ37ywLqEr/DZtYvMpg==
+X-Received: by 2002:a17:90a:8d86:: with SMTP id
+ d6mr1870847pjo.119.1583909061773; 
+ Tue, 10 Mar 2020 23:44:21 -0700 (PDT)
+Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
+ [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id z3sm50137807pfz.155.2020.03.10.23.44.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 23:44:21 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/16] target/arm: sve load/store improvements
+Date: Tue, 10 Mar 2020 23:44:04 -0700
+Message-Id: <20200311064420.30606-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200310145410.26308-6-eric.auger@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::62f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,166 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andre.przywara@arm.com, drjones@redhat.com, alexandru.elisei@arm.com,
- thuth@redhat.com, peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+The goal here is to support MTE, but there's some cleanup to do.
 
-On 2020/3/10 22:54, Eric Auger wrote:
-> Allocate the LPI configuration and per re-distributor pending table.
-> Set redistributor's PROPBASER and PENDBASER. The LPIs are enabled
-> by default in the config table.
-> 
-> Also introduce a helper routine that allows to set the pending table
-> bit for a given LPI.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
-> ---
-> 
-> v4 -> v5:
-> - Moved some reformattings previously done in
->    "arm/arm64: ITS: its_enable_defaults", in this patch
-> - added assert(!gicv3_redist_base()) in gicv3_lpi_alloc_tables()
-> - revert for_each_present_cpu() change
-> 
-> v2 -> v3:
-> - Move the helpers in lib/arm/gic-v3.c and prefix them with "gicv3_"
->    and add _lpi prefix too
-> 
-> v1 -> v2:
-> - remove memory attributes
-> ---
->   lib/arm/asm/gic-v3.h | 15 +++++++++++++
->   lib/arm/gic-v3.c     | 53 ++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 68 insertions(+)
-> 
-> diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
-> index 47df051..064cc68 100644
-> --- a/lib/arm/asm/gic-v3.h
-> +++ b/lib/arm/asm/gic-v3.h
-> @@ -50,6 +50,15 @@
->   #define MPIDR_TO_SGI_AFFINITY(cluster_id, level) \
->   	(MPIDR_AFFINITY_LEVEL(cluster_id, level) << ICC_SGI1R_AFFINITY_## level ## _SHIFT)
->   
-> +#define GICR_PROPBASER_IDBITS_MASK	(0x1f)
+Technically, we have sufficient interfaces in cputlb.c now, but it
+requires multiple tlb lookups on different interfaces to do so.
 
-Again this can be dropped, but not a problem.
+Adding probe_access_flags() allows probing the tlb and getting out
+some of the flags buried in the tlb comparator, such as TLB_MMIO
+and TLB_WATCHPOINT.  In addition, we get no-fault semantics,
+which we don't have via probe_acccess().
 
-> +
-> +#define GICR_PENDBASER_PTZ		BIT_ULL(62)
-> +
-> +#define LPI_PROP_GROUP1			(1 << 1)
-> +#define LPI_PROP_ENABLED		(1 << 0)
-> +#define LPI_PROP_DEFAULT_PRIO		0xa0
-> +#define LPI_PROP_DEFAULT		(LPI_PROP_DEFAULT_PRIO | LPI_PROP_GROUP1 | LPI_PROP_ENABLED)
-> +
->   #include <asm/arch_gicv3.h>
->   
->   #ifndef __ASSEMBLY__
-> @@ -66,6 +75,8 @@ struct gicv3_data {
->   	void *dist_base;
->   	void *redist_bases[GICV3_NR_REDISTS];
->   	void *redist_base[NR_CPUS];
-> +	u8 *lpi_prop;
-> +	void *lpi_pend[NR_CPUS];
->   	unsigned int irq_nr;
->   };
->   extern struct gicv3_data gicv3_data;
-> @@ -82,6 +93,10 @@ extern void gicv3_write_eoir(u32 irqstat);
->   extern void gicv3_ipi_send_single(int irq, int cpu);
->   extern void gicv3_ipi_send_mask(int irq, const cpumask_t *dest);
->   extern void gicv3_set_redist_base(size_t stride);
-> +extern void gicv3_lpi_set_config(int n, u8 val);
-> +extern u8 gicv3_lpi_get_config(int n);
+Adding cpu_probe_watchpoint() allows to *not* stop a first-fault
+or no-fault load when the page contains a watchpoint, but the actual
+access does not hit.
 
-These two declarations can be dropped, and I think it's better to
-move their macro implementations here (they're now in patch #7).
-But also not a problem.
+Having these available means that we can handle all of the watchpoints
+for a given set of loads/stores all at once, before we begin doing any
+actual memory operations.  Further, the actual memory operation on a
+page of ram that has a watchpoint can still use the fast path.
 
-> +extern void gicv3_lpi_set_clr_pending(int rdist, int n, bool set);
-> +extern void gicv3_lpi_alloc_tables(void);
->   
->   static inline void gicv3_do_wait_for_rwp(void *base)
->   {
-> diff --git a/lib/arm/gic-v3.c b/lib/arm/gic-v3.c
-> index feecb5e..d752bd4 100644
-> --- a/lib/arm/gic-v3.c
-> +++ b/lib/arm/gic-v3.c
-> @@ -5,6 +5,7 @@
->    */
->   #include <asm/gic.h>
->   #include <asm/io.h>
-> +#include <alloc_page.h>
->   
->   void gicv3_set_redist_base(size_t stride)
->   {
-> @@ -147,3 +148,55 @@ void gicv3_ipi_send_single(int irq, int cpu)
->   	cpumask_set_cpu(cpu, &dest);
->   	gicv3_ipi_send_mask(irq, &dest);
->   }
-> +
-> +#if defined(__aarch64__)
-> +
-> +/*
-> + * alloc_lpi_tables - Allocate LPI config and pending tables
-> + * and set PROPBASER (shared by all rdistributors) and per
-> + * redistributor PENDBASER.
-> + *
-> + * gicv3_set_redist_base() must be called before
-> + */
-> +void gicv3_lpi_alloc_tables(void)
-> +{
-> +	unsigned long n = SZ_64K >> PAGE_SHIFT;
-> +	unsigned long order = fls(n);
-> +	u64 prop_val;
-> +	int cpu;
-> +
-> +	assert(!gicv3_redist_base());
-
-I guess you wanted assert(gicv3_redist_base())? With this confirmed,
-
-Reviewed-by: Zenghui Yu <yuzenghui@huawei.com>
+Looking forward to MTE, we can examine the Tagged bit on a per-page
+basis and avoid dozens of mte_check calls that must be Unchecked.
+That comes later, in a new version of the MTE patch set, but I do
+add comments for where the checks should be added.
 
 
-Thanks
+r~
 
-> +
-> +	gicv3_data.lpi_prop = alloc_pages(order);
-> +
-> +	/* ID bits = 13, ie. up to 14b LPI INTID */
-> +	prop_val = (u64)(virt_to_phys(gicv3_data.lpi_prop)) | 13;
-> +
-> +	for_each_present_cpu(cpu) {
-> +		u64 pend_val;
-> +		void *ptr;
-> +
-> +		ptr = gicv3_data.redist_base[cpu];
-> +
-> +		writeq(prop_val, ptr + GICR_PROPBASER);
-> +
-> +		gicv3_data.lpi_pend[cpu] = alloc_pages(order);
-> +		pend_val = (u64)(virt_to_phys(gicv3_data.lpi_pend[cpu]));
-> +		writeq(pend_val, ptr + GICR_PENDBASER);
-> +	}
-> +}
-> +
-> +void gicv3_lpi_set_clr_pending(int rdist, int n, bool set)
-> +{
-> +	u8 *ptr = gicv3_data.lpi_pend[rdist];
-> +	u8 mask = 1 << (n % 8), byte;
-> +
-> +	ptr += (n / 8);
-> +	byte = *ptr;
-> +	if (set)
-> +		byte |=  mask;
-> +	else
-> +		byte &= ~mask;
-> +	*ptr = byte;
-> +}
-> +#endif /* __aarch64__ */
-> 
+
+Richard Henderson (16):
+  accel/tcg: Add block comment for probe_access
+  accel/tcg: Add probe_access_flags
+  exec: Add cpu_probe_watchpoint
+  target/arm: Use cpu_*_data_ra for sve_ldst_tlb_fn
+  target/arm: Drop manual handling of set/clear_helper_retaddr
+  target/arm: Add sve infrastructure for page lookup
+  target/arm: Adjust interface of sve_ld1_host_fn
+  target/arm: Use SVEContLdSt in sve_ld1_r
+  target/arm: Handle watchpoints in sve_ld1_r
+  target/arm: Use SVEContLdSt for multi-register contiguous loads
+  target/arm: Update contiguous first-fault and no-fault loads
+  target/arm: Use SVEContLdSt for contiguous stores
+  target/arm: Reuse sve_probe_page for gather first-fault loads
+  target/arm: Reuse sve_probe_page for scatter stores
+  target/arm: Reuse sve_probe_page for gather loads
+  target/arm: Remove sve_memopidx
+
+ include/exec/cpu-all.h     |   13 +-
+ include/exec/exec-all.h    |   39 +
+ include/hw/core/cpu.h      |    7 +
+ target/arm/internals.h     |    5 -
+ accel/tcg/cputlb.c         |  178 +--
+ accel/tcg/user-exec.c      |   36 +-
+ exec.c                     |   19 +
+ target/arm/sve_helper.c    | 2238 +++++++++++++++++++-----------------
+ target/arm/translate-sve.c |   17 +-
+ 9 files changed, 1404 insertions(+), 1148 deletions(-)
+
+-- 
+2.20.1
 
 
