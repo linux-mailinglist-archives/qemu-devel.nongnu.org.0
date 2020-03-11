@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2011825C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 00:24:49 +0100 (CET)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725D11825D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 00:26:01 +0100 (CET)
+Received: from localhost ([::1]:59480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCAiW-0003KV-4G
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 19:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41097)
+	id 1jCAjg-00055y-GI
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 19:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jCAhb-0002cs-0T
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:51 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jCAhf-0002fT-5i
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jCAhZ-0005oF-Px
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32164
+ (envelope-from <ehabkost@redhat.com>) id 1jCAhe-0005wR-4E
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55625
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jCAhZ-0005n1-Mi
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:49 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jCAhe-0005us-0R
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 19:23:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583969029;
+ s=mimecast20190719; t=1583969033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qYdLV55UsUUzkbxfnEdi7dxE9cxCxDLr2NjHuObzkdQ=;
- b=N52C2mCKLmjqVarZsrruDteHRsgyrgkjrUlCUcbyfcY882TE10Z7riLX3WWxgmyFj6Ai5R
- PHZWf9LoK9uTC0Uc/UIWphqpPgtuHOwwxVYHHF62nDuhHarDzlbc/8LXQysFMFuHpE6nCg
- CZV7QwhWXP39R5l29viB38DE96+aKoo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PZN4m+/PqtpyDtwq5UdVct/FSMkksce+UIeifqMZuiA=;
+ b=TaYgiAB09kytkKAEvCgzvwEqeqrqMXjp5KDlB4gFU5uQYobkfcbSfPKa/y5wiGhkfC8av1
+ J8doauWGv6xcn/nIagU4BMyqDfWYMwzPPrpDZIhu+hl4+t2lADOIOdb7JUBtGPKwLfNmUt
+ ZH7Ih3Q1gehqmrxobBOYMcePHx4eA40=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-8B4MEmUFPcSwlcsCd7F5Ug-1; Wed, 11 Mar 2020 19:23:47 -0400
-X-MC-Unique: 8B4MEmUFPcSwlcsCd7F5Ug-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-411-Es2TVU5FPU2VwlhRXc3kkg-1; Wed, 11 Mar 2020 19:23:50 -0400
+X-MC-Unique: Es2TVU5FPU2VwlhRXc3kkg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05F7413EA;
- Wed, 11 Mar 2020 23:23:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 685D6800D4E;
+ Wed, 11 Mar 2020 23:23:49 +0000 (UTC)
 Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50ACF73895;
- Wed, 11 Mar 2020 23:23:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A488460BF1;
+ Wed, 11 Mar 2020 23:23:46 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] Fix MAP_SYNC support when host has older glibc version
-Date: Wed, 11 Mar 2020 19:23:40 -0400
-Message-Id: <20200311232342.1614944-1-ehabkost@redhat.com>
+Subject: [PATCH v2 1/2] Use -isystem for linux-headers dir
+Date: Wed, 11 Mar 2020 19:23:41 -0400
+Message-Id: <20200311232342.1614944-2-ehabkost@redhat.com>
+In-Reply-To: <20200311232342.1614944-1-ehabkost@redhat.com>
+References: <20200311232342.1614944-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,33 +76,61 @@ Cc: peter.maydell@linaro.org, jingqi.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes v1 -> v2:=0D
-* Use -isystem for $PWD/linux-headers too=0D
-  Reported-by: "Michael S. Tsirkin" <mst@redhat.com>=0D
-=0D
-This is an alternative to the patch submitted at:=0D
-=0D
-  From: Jingqi Liu <jingqi.liu@intel.com>=0D
-  Subject: [PATCH] util: fix to get configuration macros in util/mmap-alloc=
-.c=0D
-  Date: Thu,  5 Mar 2020 23:41:42 +0800=0D
-  Message-Id: <20200305154142.63070-1-jingqi.liu@intel.com>=0D
-=0D
-Before moving the osdep.h include to the top of the file, we had=0D
-to address warnings triggered when <linux/mman.h> was included=0D
-after <sys/mman.h> (done in patch 1/2).=0D
-=0D
-Eduardo Habkost (2):=0D
-  Use -isystem for linux-headers dir=0D
-  mmap-alloc: Include osdep.h before checking CONFIG_LINUX=0D
-=0D
- Makefile.target   | 2 +-=0D
- configure         | 2 +-=0D
- util/mmap-alloc.c | 7 +++----=0D
- 3 files changed, 5 insertions(+), 6 deletions(-)=0D
-=0D
---=20=0D
-2.24.1=0D
-=0D
+glibc and Linux-provided headers are known to generate macro
+redefinition warnings when used together.  For example:
+<linux/mman.h> and <sys/mman.h> duplicate some macro definitions.
+
+We normally never see those warnings because GCC suppresses
+warnings generated by system headers.  We carry our own copy of
+Linux header files, though, and this makes those warnings not be
+suppressed when glibc headers are included before Linux headers
+(e.g. if <sys/mman.h> is included before <linux/mman.h>).
+
+Use -isystem instead of -I for linux-headers.  This makes the
+compiler treat our linux-headers directory the same way it treats
+system-provided Linux headers, and suppress warnings generated by
+them.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Changes v1 -> v2:
+* Use -isystem for $PWD/linux-headers too
+  Reported-by: "Michael S. Tsirkin" <mst@redhat.com>
+---
+ Makefile.target | 2 +-
+ configure       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.target b/Makefile.target
+index 2d43dc586a..934a9f7431 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -12,7 +12,7 @@ endif
+=20
+ $(call set-vpath, $(SRC_PATH):$(BUILD_DIR))
+ ifdef CONFIG_LINUX
+-QEMU_CFLAGS +=3D -I../linux-headers
++QEMU_CFLAGS +=3D -isystem ../linux-headers
+ endif
+ QEMU_CFLAGS +=3D -iquote .. -iquote $(SRC_PATH)/target/$(TARGET_BASE_ARCH)=
+ -DNEED_CPU_H
+=20
+diff --git a/configure b/configure
+index cbf864bff1..bf5bf70600 100755
+--- a/configure
++++ b/configure
+@@ -899,7 +899,7 @@ Linux)
+   linux=3D"yes"
+   linux_user=3D"yes"
+   kvm=3D"yes"
+-  QEMU_INCLUDES=3D"-I\$(SRC_PATH)/linux-headers -I$PWD/linux-headers $QEMU=
+_INCLUDES"
++  QEMU_INCLUDES=3D"-isystem \$(SRC_PATH)/linux-headers -isystem $PWD/linux=
+-headers $QEMU_INCLUDES"
+   supported_os=3D"yes"
+   libudev=3D"yes"
+ ;;
+--=20
+2.24.1
 
 
