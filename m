@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A576181099
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:23:41 +0100 (CET)
-Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00531810AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:30:07 +0100 (CET)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBumK-0000H7-JN
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1jBusY-0004TR-RU
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jBulT-0007zP-Gv
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:22:48 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jBurU-0003Ny-FU
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:29:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jBulS-00042g-Jw
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:22:47 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:50828)
+ (envelope-from <richard.henderson@linaro.org>) id 1jBurS-0000WN-QA
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:29:00 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44753)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jBulS-0003zr-DY
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:22:46 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id u10so455666pjy.0
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:22:46 -0700 (PDT)
+ id 1jBurS-0000St-J8
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:28:58 -0400
+Received: by mail-pf1-x443.google.com with SMTP id b72so710414pfb.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QDosoOA7LbdbFFpH59r0kpMLUcxkm5aOoy9uomL+7yw=;
- b=Gv6SOq8M2OjttM+9eTm6/XaWiCKP/PpHp2AClWr7RHNQOBFvAYFSq6Xl3JNl1HwSBJ
- C/tyDyZK0ESN05597csgJ5X8i8qLp1BLbKtZ+00w6oHX8gjeVzI8IASbVwHad14xJpOu
- G2d+IS41wTr0Bzjo73CoXt41M0eknbmzCMDi3T3XCJx4Io/CbGI0bkLxMl+c43+FZ1Tw
- 8qoQALi7oJiWyVgY/7/U148jNezKeVcMBlcQNjizQI4mgjbKZMpmxrca0UrjkkWJ3Lqc
- MZ/Q7vdk9PpLThaTgemuDBbMIVnNgWG3mM42jY9NA24Ecxer9PVSQKAM0mOVcaSctb30
- VVug==
+ bh=qwPEcdtCn6rxAwMSxRA6xEedpRlfzR6nWjibbbU7Mb8=;
+ b=maRWPSEYj+2wCCT1oSXlQt4OTPvXhDpiNuSf/YkwmKnWor4KBppNg+IYUIzOHFFeKZ
+ OVY47jXbrm/I40Y9J9pvYxqHl9GnHHQlOLb14PAIELRFoKEUrDu9ECyK4vHyss2SSzk4
+ cSMbhAiYkO2/m18s1S57eY3oKe4UdSM6YGWGAdUJeCwXbIA2QbUatFNWcyj2no24EEcK
+ QLSBmzyX6RyucLWficRLfPqJayDb0eA8mvpIIe9TX0XZLDPWhYdDYbov/noSzvmOIeo3
+ eyI8mJKPeVIROw5wg3FMFa8PB56iFNiXJDlSim9Dd8wU4NNW59W8OcffiedbdtoQFr4I
+ hdoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QDosoOA7LbdbFFpH59r0kpMLUcxkm5aOoy9uomL+7yw=;
- b=TjCN0OFHG2kvc9Zuau3gOK8vnnrrmfAJK3JI2uqLTLguIS/J73xI8jQBH2LEGJOb8E
- uam+mDGtmn2k+5hv3ZqDf6nN0xye/l+ONWdW+V2LMNXyD+YzHIYp3IqJWmzNcqDvDQBn
- oJwlDniC6EvQN9y4e+y/4jiagx+WhRZPfBWJ4el4oN92WSc6LwEn3Jvq0HxNdBWzNHEI
- GfR4ViU88jekWTAkgD6TAJEtp/8YnsTt9HfHMX/qEL3iVOJiNeUFESfasXzHLwnLLe21
- GgUQiIjATudN6/aTS3MLvX3hUeDsjpyuv0eiOaSKjROGB3v7VFmHcHCEqYwpK+u7hXoP
- R15Q==
-X-Gm-Message-State: ANhLgQ2EFlgSiDiUeqQz3oendHJVFJG8RUfYUPIZBnrq7dCVkZG9gp1c
- GmPWMYTxLIf5szVAWGI8rzaDqw==
-X-Google-Smtp-Source: ADFU+vtYtAkPWELuY+NZvL3i8LEiVg0AMC4CYMb0sNrFvBvU16+LP2g4iEqe085EsYvJrPADtw3i5g==
-X-Received: by 2002:a17:90b:1a89:: with SMTP id
- ng9mr1740954pjb.102.1583907765208; 
- Tue, 10 Mar 2020 23:22:45 -0700 (PDT)
+ bh=qwPEcdtCn6rxAwMSxRA6xEedpRlfzR6nWjibbbU7Mb8=;
+ b=MFozOWYvCO5vy2AXKbejwJUTJfs36xaV9kN7Viaexqmo8Gg9BV16dTO8noKSy8Pfmk
+ msydo2K7nfJcl2Y80A8k6VkMCyAXsnqGYC2dAZOZdTkTVlZhZW/KyJzoBBpYhK1XShWl
+ 7L65hXEcNbli+uLfifAYfgZZxj6A6kowJmXHKtdwQR8odLnVRK1XBmfZ0kIQfJL81+Zf
+ uY3mxl4n0ZMavsR2blgUMbIcT6IyyyaOBs8CZ2q7OCiU9fqULmJBW6Q+gj3me3TK2iIw
+ KHblQnvZ7zisPsUXfx+uAf4wREMXzdkuPSA5Xg/yg2x/QtAX65imXyT71M718NFeqN/k
+ +sGQ==
+X-Gm-Message-State: ANhLgQ13sNeSHkDty46RaR4dSCpvaqHpEuOsWArPfTxfcyyljU/1Fbl0
+ WmQMAPBMKYbanDq2KBNxLo6+5A==
+X-Google-Smtp-Source: ADFU+vt0rL/jJ+6Sic1o2SwIy0Va87mLJAzRK6V7x2SaadBxJWmhHbDWtx6FlA0t3UK+E/ENA4+sYw==
+X-Received: by 2002:a62:2b8a:: with SMTP id r132mr1373513pfr.56.1583908137167; 
+ Tue, 10 Mar 2020 23:28:57 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- a197sm21525618pfa.171.2020.03.10.23.22.44
+ h198sm4047848pfe.76.2020.03.10.23.28.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Mar 2020 23:22:44 -0700 (PDT)
-Subject: Re: [PATCH v4 11/18] qga/qapi-schema.json: Add some headings
+ Tue, 10 Mar 2020 23:28:56 -0700 (PDT)
+Subject: Re: [PATCH v4 12/18] scripts/qapi: Remove texinfo generation support
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20200309154405.13548-1-peter.maydell@linaro.org>
- <20200309154405.13548-12-peter.maydell@linaro.org>
+ <20200309154405.13548-13-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a660f61f-8c93-fec3-55a2-c4c397e05959@linaro.org>
-Date: Tue, 10 Mar 2020 23:22:42 -0700
+Message-ID: <5a710471-7a7b-1b5a-2365-cf25bc5283f5@linaro.org>
+Date: Tue, 10 Mar 2020 23:23:57 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200309154405.13548-12-peter.maydell@linaro.org>
+In-Reply-To: <20200309154405.13548-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,16 +91,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/20 8:43 AM, Peter Maydell wrote:
-> Add some section headings to the QGA json; this is purely so that we
-> have some H1 headings, as otherwise each command ends up being
-> visible in the interop/ manual's table of contents.  In an ideal
-> world there might be a proper 'Introduction' section the way there is
-> in qapi/qapi-schema.json.
+> We no longer use the generated texinfo format documentation,
+> so delete the code that generates it, and the test case for
+> the generation.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  qga/qapi-schema.json | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  Makefile                        |   1 -
+>  tests/Makefile.include          |  15 +-
+>  scripts/qapi-gen.py             |   2 -
+>  scripts/qapi/doc.py             | 302 --------------------------------
+>  scripts/qapi/gen.py             |   7 -
+>  tests/qapi-schema/doc-good.texi | 281 -----------------------------
+>  6 files changed, 1 insertion(+), 607 deletions(-)
+>  delete mode 100644 scripts/qapi/doc.py
+>  delete mode 100644 tests/qapi-schema/doc-good.texi
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
