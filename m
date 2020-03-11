@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9561819B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:27:13 +0100 (CET)
-Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7711819A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:25:42 +0100 (CET)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1OD-0003HP-1L
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58045)
+	id 1jC1Mj-0008MV-1F
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57973)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Kf-00061M-GK
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:38 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1KK-0005Ia-U6
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Ke-0006K3-Eb
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16540)
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1KJ-0005YJ-E5
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17170)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jC1Ke-0006J5-6q
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:32 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1jC1KJ-0005WO-63
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:23:11 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02BDLscL194032
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:23:31 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yq0hbh88u-1
+ 02BDMiPe003660
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:23:10 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yq0hds9jt-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:23:01 -0400
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:23:02 -0400
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 11 Mar 2020 13:22:24 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Wed, 11 Mar 2020 13:22:30 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Mar 2020 13:22:23 -0000
+ Wed, 11 Mar 2020 13:22:28 -0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02BDMM8m55705838
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02BDMQWs44105780
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 13:22:22 GMT
+ Wed, 11 Mar 2020 13:22:26 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0869D52063;
- Wed, 11 Mar 2020 13:22:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C741D52050;
+ Wed, 11 Mar 2020 13:22:26 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.36.208])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C0C2D52052;
- Wed, 11 Mar 2020 13:22:20 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 7A1E75204F;
+ Wed, 11 Mar 2020 13:22:25 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 09/15] s390x: protvirt: Set guest IPL PSW
-Date: Wed, 11 Mar 2020 09:21:45 -0400
+Subject: [PATCH v9 12/15] s390x: protvirt: Move IO control structures over SIDA
+Date: Wed, 11 Mar 2020 09:21:48 -0400
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031113-0012-0000-0000-0000038F6892
+x-cbid: 20031113-4275-0000-0000-000003AAA2A7
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031113-0013-0000-0000-000021CC3744
-Message-Id: <20200311132151.172389-10-frankja@linux.ibm.com>
+x-cbparentid: 20031113-4276-0000-0000-000038BFBEBC
+Message-Id: <20200311132151.172389-13-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-11_05:2020-03-11,
  2020-03-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 suspectscore=1 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=1 priorityscore=1501
+ spamscore=0 adultscore=0 mlxlogscore=797 mlxscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003110085
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
@@ -92,51 +92,174 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handling of CPU reset and setting of the IPL psw from guest storage at
-offset 0 is done by a Ultravisor call. Let's only fetch it if
-necessary.
+For protected guests, we need to put the IO emulation results into the
+SIDA, so SIE will write them into the guest at the next entry.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ target/s390x/ioinst.c | 87 ++++++++++++++++++++++++++++++-------------
+ 1 file changed, 61 insertions(+), 26 deletions(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 84029f14814b4980..a48d39f139cdc1c4 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -78,16 +78,20 @@ static bool s390_cpu_has_work(CPUState *cs)
- static void s390_cpu_load_normal(CPUState *s)
- {
-     S390CPU *cpu = S390_CPU(s);
--    uint64_t spsw = ldq_phys(s->as, 0);
--
--    cpu->env.psw.mask = spsw & PSW_MASK_SHORT_CTRL;
--    /*
--     * Invert short psw indication, so SIE will report a specification
--     * exception if it was not set.
--     */
--    cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
--    cpu->env.psw.addr = spsw & PSW_MASK_SHORT_ADDR;
-+    uint64_t spsw;
- 
-+    if (!s390_is_pv()) {
-+        spsw = ldq_phys(s->as, 0);
-+        cpu->env.psw.mask = spsw & PSW_MASK_SHORT_CTRL;
-+        /*
-+         * Invert short psw indication, so SIE will report a specification
-+         * exception if it was not set.
-+         */
-+        cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
-+        cpu->env.psw.addr = spsw & PSW_MASK_SHORT_ADDR;
+diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+index 481d789de9e09a04..61095bdc9ffef436 100644
+--- a/target/s390x/ioinst.c
++++ b/target/s390x/ioinst.c
+@@ -136,9 +136,13 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+     }
+-    if (s390_cpu_virt_mem_read(cpu, addr, ar, &schib, sizeof(schib))) {
+-        s390_cpu_virt_mem_handle_exc(cpu, ra);
+-        return;
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_read(cpu, addr, &schib, sizeof(schib));
 +    } else {
-+        s390_cpu_set_state(S390_CPU_STATE_LOAD, cpu);
-+    }
-     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
++        if (s390_cpu_virt_mem_read(cpu, addr, ar, &schib, sizeof(schib))) {
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
++            return;
++        }
+     }
+     if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid) ||
+         !ioinst_schib_valid(&schib)) {
+@@ -193,9 +197,13 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+     }
+-    if (s390_cpu_virt_mem_read(cpu, addr, ar, &orig_orb, sizeof(orb))) {
+-        s390_cpu_virt_mem_handle_exc(cpu, ra);
+-        return;
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_read(cpu, addr, &orig_orb, sizeof(orb));
++    } else {
++        if (s390_cpu_virt_mem_read(cpu, addr, ar, &orig_orb, sizeof(orb))) {
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
++            return;
++        }
+     }
+     copy_orb_from_guest(&orb, &orig_orb);
+     if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid) ||
+@@ -229,14 +237,19 @@ void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+     cc = css_do_stcrw(&crw);
+     /* 0 - crw stored, 1 - zeroes stored */
+ 
+-    if (s390_cpu_virt_mem_write(cpu, addr, ar, &crw, sizeof(crw)) == 0) {
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_write(cpu, addr, &crw, sizeof(crw));
+         setcc(cpu, cc);
+     } else {
+-        if (cc == 0) {
+-            /* Write failed: requeue CRW since STCRW is suppressing */
+-            css_undo_stcrw(&crw);
++        if (s390_cpu_virt_mem_write(cpu, addr, ar, &crw, sizeof(crw)) == 0) {
++            setcc(cpu, cc);
++        } else {
++            if (cc == 0) {
++                /* Write failed: requeue CRW since STCRW is suppressing */
++                css_undo_stcrw(&crw);
++            }
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
+         }
+-        s390_cpu_virt_mem_handle_exc(cpu, ra);
+     }
  }
- #endif
+ 
+@@ -258,6 +271,9 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
+     }
+ 
+     if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid)) {
++        if (s390_is_pv()) {
++            return;
++        }
+         /*
+          * As operand exceptions have a lower priority than access exceptions,
+          * we check whether the memory area is writeable (injecting the
+@@ -290,14 +306,19 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
+         }
+     }
+     if (cc != 3) {
+-        if (s390_cpu_virt_mem_write(cpu, addr, ar, &schib,
+-                                    sizeof(schib)) != 0) {
+-            s390_cpu_virt_mem_handle_exc(cpu, ra);
+-            return;
++        if (s390_is_pv()) {
++            s390_cpu_pv_mem_write(cpu, addr, &schib, sizeof(schib));
++        } else {
++            if (s390_cpu_virt_mem_write(cpu, addr, ar, &schib,
++                                        sizeof(schib)) != 0) {
++                s390_cpu_virt_mem_handle_exc(cpu, ra);
++                return;
++            }
+         }
+     } else {
+         /* Access exceptions have a higher priority than cc3 */
+-        if (s390_cpu_virt_mem_check_write(cpu, addr, ar, sizeof(schib)) != 0) {
++        if (!s390_is_pv() &&
++            s390_cpu_virt_mem_check_write(cpu, addr, ar, sizeof(schib)) != 0) {
+             s390_cpu_virt_mem_handle_exc(cpu, ra);
+             return;
+         }
+@@ -334,15 +355,20 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+     }
+     /* 0 - status pending, 1 - not status pending, 3 - not operational */
+     if (cc != 3) {
+-        if (s390_cpu_virt_mem_write(cpu, addr, ar, &irb, irb_len) != 0) {
+-            s390_cpu_virt_mem_handle_exc(cpu, ra);
+-            return -EFAULT;
++        if (s390_is_pv()) {
++            s390_cpu_pv_mem_write(cpu, addr, &irb, irb_len);
++        } else {
++            if (s390_cpu_virt_mem_write(cpu, addr, ar, &irb, irb_len) != 0) {
++                s390_cpu_virt_mem_handle_exc(cpu, ra);
++                return -EFAULT;
++            }
+         }
+         css_do_tsch_update_subch(sch);
+     } else {
+         irb_len = sizeof(irb) - sizeof(irb.emw);
+         /* Access exceptions have a higher priority than cc3 */
+-        if (s390_cpu_virt_mem_check_write(cpu, addr, ar, irb_len) != 0) {
++        if (!s390_is_pv() &&
++            s390_cpu_virt_mem_check_write(cpu, addr, ar, irb_len) != 0) {
+             s390_cpu_virt_mem_handle_exc(cpu, ra);
+             return -EFAULT;
+         }
+@@ -640,9 +666,13 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+      * present CHSC sub-handlers ... if we ever need more, we should take
+      * care of req->len here first.
+      */
+-    if (s390_cpu_virt_mem_read(cpu, addr, reg, buf, sizeof(ChscReq))) {
+-        s390_cpu_virt_mem_handle_exc(cpu, ra);
+-        return;
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_read(cpu, addr, buf, sizeof(ChscReq));
++    } else {
++        if (s390_cpu_virt_mem_read(cpu, addr, reg, buf, sizeof(ChscReq))) {
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
++            return;
++        }
+     }
+     req = (ChscReq *)buf;
+     len = be16_to_cpu(req->len);
+@@ -673,11 +703,16 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+         break;
+     }
+ 
+-    if (!s390_cpu_virt_mem_write(cpu, addr + len, reg, res,
+-                                 be16_to_cpu(res->len))) {
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_write(cpu, addr + len, res, be16_to_cpu(res->len));
+         setcc(cpu, 0);    /* Command execution complete */
+     } else {
+-        s390_cpu_virt_mem_handle_exc(cpu, ra);
++        if (!s390_cpu_virt_mem_write(cpu, addr + len, reg, res,
++                                     be16_to_cpu(res->len))) {
++            setcc(cpu, 0);    /* Command execution complete */
++        } else {
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
++        }
+     }
+ }
+ 
 -- 
 2.25.1
 
