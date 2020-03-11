@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1C3181F2A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:21:27 +0100 (CET)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89FD181F63
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:26:52 +0100 (CET)
+Received: from localhost ([::1]:56272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC52s-0007gs-GP
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57039)
+	id 1jC585-00005w-Mu
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jC51Y-0006wE-2F
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:20:05 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jC553-0001sl-03
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jC51T-0000zz-3G
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:20:03 -0400
-Received: from 17.mo5.mail-out.ovh.net ([46.105.56.132]:44729)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jC550-0003cr-O4
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:40 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:35152 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jC51S-0000y5-TO
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:19:59 -0400
-Received: from player687.ha.ovh.net (unknown [10.108.35.59])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 90A0E2722CB
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 18:19:56 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player687.ha.ovh.net (Postfix) with ESMTPSA id 432EB1046BAF1;
- Wed, 11 Mar 2020 17:19:42 +0000 (UTC)
-Date: Wed, 11 Mar 2020 18:19:41 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v3 0/2] spapr: Use vIOMMU translation for virtio by default
-Message-ID: <20200311181941.0ff9286c@bahia.home>
-In-Reply-To: <20200305043009.611636-1-david@gibson.dropbear.id.au>
-References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jC54x-0003RL-KI; Wed, 11 Mar 2020 13:23:35 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 85C7376D7FBABC6B84C4;
+ Thu, 12 Mar 2020 01:23:24 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 12 Mar 2020 01:23:14 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Subject: [PATCH v3 00/10] ARM virt: Add NVDIMM support
+Date: Wed, 11 Mar 2020 17:20:04 +0000
+Message-ID: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2142587524751137254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvvddgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Type: text/plain
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.56.132
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,63 +53,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, paulus@samba.org,
- clg@kaod.org, mdroth@us.ibm.com, qemu-ppc@nongnu.org
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
+ mst@redhat.com, linuxarm@huawei.com, xuwei5@hisilicon.com,
+ shannon.zhaosl@gmail.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Mar 2020 15:30:07 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+This series adds NVDIMM support to arm/virt platform.
+The series reuses some of the patches posted by Eric
+in his earlier attempt here[1].
 
-> Upcoming Secure VM support for pSeries machines introduces some
-> complications for virtio, since the transfer buffers need to be
-> explicitly shared so that the hypervisor can access them.
-> 
-> While it's not strictly speaking dependent on it, the fact that virtio
-> devices bypass normal platform IOMMU translation complicates the issue
-> on the guest side.  Since there are some significan downsides to
-> bypassing the vIOMMU anyway, let's just disable that.
-> 
-> There's already a flag to do this in virtio, just turn it on by
-> default for forthcoming pseries machine types.
-> 
-> Any opinions on whether dropping support for the older guest kernels
-> is acceptable at this point?
-> 
-> Changes since v2:
->  * Rebase and improve some comments
-> Changes since v1:
->  * Added information on which guest kernel versions will no longer
->    work with these changes
->  * Use Michael Tsirkin's suggested better way of handling the machine
->    type change
-> 
-> David Gibson (2):
->   spapr: Disable legacy virtio devices for pseries-5.0 and later
+This also include few fixes to qemu in general which were
+discovered while adding nvdimm support to arm/virt.
 
-This disables legacy AND transitional devices. IIUC this first patch
-is needed because only non-transitional (pure virtio-1) devices
-support iommu_platform=on, ie. this check in virtio_pci_device_plugged():
+Patch #2 addresses the issue[2] that, during migration, the 
+source and destination might end up with an inconsistency
+in acpi table memory region sizes.
 
-    if (legacy) {
-        if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-            error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
-                       " neither legacy nor transitional device");
-            return ;
-        }
+Patch #3 is to fix the qemu_ram_resize() callback issue[2].
 
-It certainly looks right for legacy devices but what about
-transitional ones ? I couldn't find any indication in the
-spec or in the QEMU archives that explains why IOMMU should
-only be used with non-transitional devices...
+Patch #4 is another fix to the nvdimm aml issue discussed
+here[3].
 
-Jason or Michael, can you explain ?
+I have done a basic sanity testing of NVDIMM devices
+with Guest booting with ACPI. Further testing is always
+welcome.
 
->   spapr: Enable virtio iommu_platform=on by default
-> 
->  hw/ppc/spapr.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
+Please let me know your feedback.
+
+Thanks,
+Shameer
+
+[1] https://patchwork.kernel.org/cover/10830777/
+[2] https://patchwork.kernel.org/patch/11339591/
+[3] https://patchwork.kernel.org/cover/11174959/
+
+v2 --> v3
+ - Added patch #1 and # 2 to fix the inconsistency in acpi
+   table memory region sizes during migration. Thanks to
+   David H.
+ - The fix for qemu_ram_resize() callback was modified to
+   the one in patch #3. Again thanks to David H.
+ - Addressed comments from MST and Eric on tests added.
+ - Addressed comments from Igor/MST on Integer size in patch #4
+ - Added Eric's R-by to patch #7.
+
+v1 --> v2
+ -Reworked patch #1 and now fix is inside qemu_ram_resize().
+ -Added patch #2 to fix the nvdim aml issue.
+ -Dropped support to DT cold plug.
+ -Updated test_acpi_virt_tcg_memhp() with pc-dimm and nvdimms(patch #7)
+
+David Hildenbrand (1):
+  exec: Fix for qemu_ram_resize() callback
+
+Kwangwoo Lee (2):
+  nvdimm: Use configurable ACPI IO base and size
+  hw/arm/virt: Add nvdimm hot-plug infrastructure
+
+Shameer Kolothum (7):
+  acpi: Use macro for table-loader file name
+  fw_cfg: Migrate ACPI table mr sizes separately
+  hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output buffer length
+  hw/arm/virt: Add nvdimm hotplug support
+  tests: Update ACPI tables list for upcoming arm/virt test changes
+  tests/bios-tables-test: Update arm/virt memhp test
+  tests/acpi: add expected tables for bios-tables-test
+
+ docs/specs/acpi_hw_reduced_hotplug.rst |   1 +
+ exec.c                                 |  14 +++-
+ hw/acpi/generic_event_device.c         |  15 ++++-
+ hw/acpi/nvdimm.c                       |  72 +++++++++++++++++----
+ hw/arm/Kconfig                         |   1 +
+ hw/arm/virt-acpi-build.c               |   8 ++-
+ hw/arm/virt.c                          |  35 ++++++++--
+ hw/core/machine.c                      |   1 +
+ hw/i386/acpi-build.c                   |   8 ++-
+ hw/i386/acpi-build.h                   |   3 +
+ hw/i386/pc_piix.c                      |   2 +
+ hw/i386/pc_q35.c                       |   2 +
+ hw/mem/Kconfig                         |   2 +-
+ hw/nvram/fw_cfg.c                      |  86 ++++++++++++++++++++++++-
+ include/hw/acpi/aml-build.h            |   1 +
+ include/hw/acpi/generic_event_device.h |   1 +
+ include/hw/arm/virt.h                  |   1 +
+ include/hw/mem/nvdimm.h                |   3 +
+ include/hw/nvram/fw_cfg.h              |   6 ++
+ tests/data/acpi/pc/SSDT.dimmpxm        | Bin 685 -> 734 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm       | Bin 685 -> 734 bytes
+ tests/data/acpi/virt/DSDT.memhp        | Bin 6644 -> 6668 bytes
+ tests/data/acpi/virt/NFIT.memhp        | Bin 0 -> 224 bytes
+ tests/data/acpi/virt/SSDT.memhp        | Bin 0 -> 736 bytes
+ tests/qtest/bios-tables-test.c         |   9 ++-
+ 25 files changed, 244 insertions(+), 27 deletions(-)
+ create mode 100644 tests/data/acpi/virt/NFIT.memhp
+ create mode 100644 tests/data/acpi/virt/SSDT.memhp
+
+-- 
+2.17.1
+
 
 
