@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7C9181CE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:52:26 +0100 (CET)
-Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A767B181CE0
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:51:38 +0100 (CET)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC3ek-0002rY-0r
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
+	id 1jC3dx-00018V-Oc
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jC3VK-0002xw-TL
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:44 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jC3VS-0003DK-K2
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jC3VI-00033F-DJ
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55911
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jC3VQ-0003hi-G0
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52094
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jC3VI-00030T-6x
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:40 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jC3VQ-0003gj-Cf
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583941359;
+ s=mimecast20190719; t=1583941368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G4epXuozV5upAZ2otn3gIuX0f++/O+nBRWrJUTAsG6Q=;
- b=SKnZcc5L0bvnGs1EHYM49Yt/Ui/84Q4R1mHzO9R5+wuin8C1kmnwQSoZWnIhnWMPLPFNZs
- FBR5sB9kahSe5IiAwrHO8+RRtMbYIQLZrB0LlgxfLO62+zkjEKjFr+86ZuFE34Zm0S2z2a
- TknAvw+83QwGybRlyWYNaujQE+QQVtE=
+ bh=TybeXpzKZnnidKvMeVUslFZhOOC2RpdS7pjktkiZCoI=;
+ b=dNT8EPfUKBajmgJ7iFh9m+qr4xAz+9q8+Ldiy/nWmwcTzG312cT15jfDDqsvLIipy2JQ/A
+ 4TbfGPa1OGZ2LbNtRUZJt6fajN/0vp5/6a4nCAQfwQgWoMZ8jBAAJYtB0a8nIowNWsYnxO
+ +AXHocP/WWcLYR+bboJrucnv7RB24rM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-nii55XpTN4CY7myDP1CXeQ-1; Wed, 11 Mar 2020 11:42:37 -0400
-X-MC-Unique: nii55XpTN4CY7myDP1CXeQ-1
+ us-mta-116-I9RaoBGoMi-gzqyH7WMaQw-1; Wed, 11 Mar 2020 11:42:40 -0400
+X-MC-Unique: I9RaoBGoMi-gzqyH7WMaQw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E9F8017CC;
- Wed, 11 Mar 2020 15:42:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C36318017CC;
+ Wed, 11 Mar 2020 15:42:39 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 810B560BEE;
- Wed, 11 Mar 2020 15:42:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF6BC90519;
+ Wed, 11 Mar 2020 15:42:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/13] tests/qemu-iotests: Fix socket_scm_helper build path
-Date: Wed, 11 Mar 2020 16:42:14 +0100
-Message-Id: <20200311154218.15532-10-kwolf@redhat.com>
+Subject: [PULL 10/13] block: introducing 'bdrv_co_delete_file' interface
+Date: Wed, 11 Mar 2020 16:42:15 +0100
+Message-Id: <20200311154218.15532-11-kwolf@redhat.com>
 In-Reply-To: <20200311154218.15532-1-kwolf@redhat.com>
 References: <20200311154218.15532-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,54 +75,84 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The socket_scm_helper path got corrupted during the mechanical
-refactor moving the qtests files into their own sub-directory.
+Adding to Block Drivers the capability of being able to clean up
+its created files can be useful in certain situations. For the
+LUKS driver, for instance, a failure in one of its authentication
+steps can leave files in the host that weren't there before.
 
-Fixes: 1e8a1fae7 ("test: Move qtests to a separate directory")
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200306165751.18986-1-philmd@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+This patch adds the 'bdrv_co_delete_file' interface to block
+drivers and add it to the 'file' driver in file-posix.c. The
+implementation is given by 'raw_co_delete_file'.
+
+Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20200130213907.2830642-2-danielhb413@gmail.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/Makefile.include       | 1 +
- tests/qtest/Makefile.include | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ include/block/block_int.h |  4 ++++
+ block/file-posix.c        | 23 +++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index edcbd475aa..67e8fcddda 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -589,6 +589,7 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
- tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
- tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
- tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
-j-y) libvhost-user.a
-+tests/qemu-iotests/socket_scm_helper$(EXESUF): tests/qemu-iotests/socket_s=
-cm_helper.o
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index d8d13700a9..ae9c4da4d0 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -314,6 +314,10 @@ struct BlockDriver {
+      */
+     int coroutine_fn (*bdrv_co_flush)(BlockDriverState *bs);
 =20
- SPEED =3D quick
++    /* Delete a created file. */
++    int coroutine_fn (*bdrv_co_delete_file)(BlockDriverState *bs,
++                                            Error **errp);
++
+     /*
+      * Flushes all data that was already written to the OS all the way dow=
+n to
+      * the disk (for example file-posix.c calls fsync()).
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 0f77447a25..9bc3838b2a 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2445,6 +2445,28 @@ static int coroutine_fn raw_co_create_opts(const cha=
+r *filename, QemuOpts *opts,
+     return raw_co_create(&options, errp);
+ }
 =20
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index 383b0ab217..76672990a7 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -287,7 +287,6 @@ tests/qtest/usb-hcd-ehci-test$(EXESUF): tests/qtest/usb=
--hcd-ehci-test.o $(libqos
- tests/qtest/usb-hcd-xhci-test$(EXESUF): tests/qtest/usb-hcd-xhci-test.o $(=
-libqos-usb-obj-y)
- tests/qtest/cpu-plug-test$(EXESUF): tests/qtest/cpu-plug-test.o
- tests/qtest/migration-test$(EXESUF): tests/qtest/migration-test.o tests/qt=
-est/migration-helpers.o
--tests/qtest/qemu-iotests/qtest/socket_scm_helper$(EXESUF): tests/qtest/qem=
-u-iotests/qtest/socket_scm_helper.o
- tests/qtest/test-netfilter$(EXESUF): tests/qtest/test-netfilter.o $(qtest-=
-obj-y)
- tests/qtest/test-filter-mirror$(EXESUF): tests/qtest/test-filter-mirror.o =
-$(qtest-obj-y)
- tests/qtest/test-filter-redirector$(EXESUF): tests/qtest/test-filter-redir=
-ector.o $(qtest-obj-y)
++static int coroutine_fn raw_co_delete_file(BlockDriverState *bs,
++                                           Error **errp)
++{
++    struct stat st;
++    int ret;
++
++    if (!(stat(bs->filename, &st) =3D=3D 0) || !S_ISREG(st.st_mode)) {
++        error_setg_errno(errp, ENOENT, "%s is not a regular file",
++                         bs->filename);
++        return -ENOENT;
++    }
++
++    ret =3D unlink(bs->filename);
++    if (ret < 0) {
++        ret =3D -errno;
++        error_setg_errno(errp, -ret, "Error when deleting file %s",
++                         bs->filename);
++    }
++
++    return ret;
++}
++
+ /*
+  * Find allocation range in @bs around offset @start.
+  * May change underlying file descriptor's file offset.
+@@ -3075,6 +3097,7 @@ BlockDriver bdrv_file =3D {
+     .bdrv_co_block_status =3D raw_co_block_status,
+     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
+     .bdrv_co_pwrite_zeroes =3D raw_co_pwrite_zeroes,
++    .bdrv_co_delete_file =3D raw_co_delete_file,
+=20
+     .bdrv_co_preadv         =3D raw_co_preadv,
+     .bdrv_co_pwritev        =3D raw_co_pwritev,
 --=20
 2.20.1
 
