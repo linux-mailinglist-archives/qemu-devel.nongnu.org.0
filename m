@@ -2,106 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2EB181AEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:16:13 +0100 (CET)
-Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B7E181AEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:16:34 +0100 (CET)
+Received: from localhost ([::1]:53134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC29b-0004EK-W6
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40385)
+	id 1jC29x-0004oO-EQ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40613)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jC1zM-0003uh-Iy
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:05:37 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jC211-0007ZE-Fn
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jC1zL-0005ER-9d
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:05:36 -0400
-Received: from mail-eopbgr60091.outbound.protection.outlook.com
- ([40.107.6.91]:62118 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jC1zI-0005C9-4v; Wed, 11 Mar 2020 10:05:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lxdtm9Le83LHq6H58vka0f8z+Wur4dmNtBxdvKIV/A0/a2iOIzUKkjNaPIViJOkuMwJWJtnqR9e+QCd05AtSj3h0+wPqz0DGwBOrfX1APNi+1w4P59XpSfLpWUJs9OQvtIHhqm6vyrcKyaOZ5Chkb0QyouzC7RNH51uFwApgMoJrMYECgeU1s91XVGH3TfuB4xDgvoBKUgQtCXNoe4x0xKU6SxCisV6v+QuBxoSJEI2VPBxJY+NWMLTJgbQHmfwoqArrVQiFA3bt2tyo+MpJqi/qTjO72lvyii03Xuzrxszr1JR5qGP0HULmIDkF/vSvDcK8CPODDah7HVRZiwr9AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wdNWddZboibVKNd6sn2CayHx7QjB6YmjHdswUZOo4qk=;
- b=Mo+esbpCcRIT20dhe6enwgozX2paiz8OtONsklj14/Fhb51ZzZgae0xX5iKyLBcRYvSEJmiMMU2N8gw4gLy04bAjBx6tuREKjlE4O7yqMV0bWutd6OvjexxPCCOoV06myo3RVPL3QsjHZWvwCeYpgKBdCvnBjmGn1uiVdiBcPuobFN9HVa1AfIAddh+s/nPPNMURAHaU0yu8B8EwvCybWXg+LRBjjQa/pEuVBhAqs23msst+bVLG6lvPcBotfLmj8qyJ5St6b23zTlrJl6rJpHhp8zz5Gz/jQMr/NjvAfVSL2V5HnHwnuisI8ZtTcyByIAxhypSxM/9yaOOgyGJ3cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wdNWddZboibVKNd6sn2CayHx7QjB6YmjHdswUZOo4qk=;
- b=Tjw+yfuI9KHtAFxvwn+UJfluBtOPcddikgnse5cWgxihOoeds0AS2RnsqfAvQ5BlHYd7kcgMiBqakyZ9lO/+N8hPMsUoGmGbV0oTKE/WMkKxbjm1SfzUWKZxfmWVd7zwbFcBVblqB7Oi0YaQE5Qg0FzdALJxmO5yUBt6p3pL4sg=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3253.eurprd08.prod.outlook.com (52.135.165.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Wed, 11 Mar 2020 14:05:28 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2814.007; Wed, 11 Mar 2020
- 14:05:28 +0000
-Subject: Re: [PATCH v8 02/10] scripts: add coccinelle script to use auto
- propagated errp
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200306051536.27803-1-vsementsov@virtuozzo.com>
- <20200306051536.27803-3-vsementsov@virtuozzo.com>
- <87lfo997hs.fsf@dusky.pond.sub.org>
- <fda76f8a-bb62-d867-d7b4-7cf8caf0489e@virtuozzo.com>
- <87a74ngriw.fsf@dusky.pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200311170524320
-Message-ID: <71ada30b-c72b-6251-cc38-877ddd4156a8@virtuozzo.com>
-Date: Wed, 11 Mar 2020 17:05:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <87a74ngriw.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR0802CA0021.eurprd08.prod.outlook.com
- (2603:10a6:3:bd::31) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
+ (envelope-from <mreitz@redhat.com>) id 1jC20y-0005Pr-Ut
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40737
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC20y-0005Pf-RG
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583935636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q1+xKLvY0Rc5gYIni1A+NEFzbp/PMO7k9dQobpBzxFc=;
+ b=MTowrT896tZ5C37WPKtfw2SfWh3yXCrsUb+JwsVg44tydxOTVMuRFrdVx3xgp8OObOVsMC
+ uEMPbTitKWxF9CK0bU4WVOqPFaaW5xnzhNq6k/zNYOghdvk9qRZf2O8XLWsX68Vnh2YsqY
+ l0G4fo3GKXyR/A3JZMPGGRxEebTRChI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-iBSJ08WePqO8yqTbTeyIeg-1; Wed, 11 Mar 2020 10:07:11 -0400
+X-MC-Unique: iBSJ08WePqO8yqTbTeyIeg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34F3D1006183;
+ Wed, 11 Mar 2020 14:07:10 +0000 (UTC)
+Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D0ED10013A1;
+ Wed, 11 Mar 2020 14:07:09 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests/026: Move v3-exclusive test to new file
+Date: Wed, 11 Mar 2020 15:07:07 +0100
+Message-Id: <20200311140707.1243218-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.24.200] (185.231.240.5) by
- HE1PR0802CA0021.eurprd08.prod.outlook.com (2603:10a6:3:bd::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.16 via Frontend Transport; Wed, 11 Mar 2020 14:05:26 +0000
-X-Tagtoolbar-Keys: D20200311170524320
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d81d41d6-9a70-47f0-acb9-08d7c5c540ca
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3253:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB32536A60B1FE5EB6600AC378C1FC0@AM6PR08MB3253.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0339F89554
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(39850400004)(136003)(366004)(346002)(396003)(376002)(199004)(54906003)(81156014)(81166006)(2906002)(36756003)(316002)(52116002)(16576012)(8676002)(5660300002)(956004)(6486002)(8936002)(66946007)(66556008)(4326008)(31686004)(66476007)(478600001)(7416002)(86362001)(26005)(186003)(2616005)(6916009)(31696002)(16526019);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3253;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jCWf3SSKGYw8HEtN9IGSa4I2QxkAi9X7uYWBBIwmSSQR2ALNnM6nLmXwlv4D9g8lKOOU8XvIRHt3YV9f7pX3CGjHQKzrpVICKKu9s++IGB8YnC8R2VKNCwI1cEhMjcDFxs7eCy93tt0FBEf8PqDzidkqtnnTIa7dD0USvXD2FiumQicj/j/sMjalKipHXEsPHJ3Qu19a005pbV1jqAPmHAcnZ22kxf/LPSqoJdUuPcMo2O6kVp60Q/7efRt92od0HkFjIO/1LIuFBfT0hGZVx6tp43PV92/0ArmA9tpbxm9kWy+zlCwA4ZhEwo7+FRsQlh7VwC5ITwRX8A8gaJ/ssPfty7T2DyVBOdIuKfjvpz51rk5QXynJaThXpmnzIxpRjIki2vO1gfN8YFbcEKrJUqRJ+IVLZ8pLCrtjS0BFjhHIouaIl0Y1o+UOprMMFEPq
-X-MS-Exchange-AntiSpam-MessageData: DmADZP0MdiY4aIo9RrpvTooL8VYa94lr4hAHU5cgf/NQgbCgbGpyrSPZDJz4EnGOj6QUWhCveXpcgSDh3talH5/f65F++KxFkZRnrRgyBn5ZVj7w3uBLN22i2ktIFm1Q3/c7YeVNrdWlQxAdnNWh6Q==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d81d41d6-9a70-47f0-acb9-08d7c5c540ca
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 14:05:28.4177 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v48qwGu3nrzx1/lRhYWp/LltieU+A8XPZXiApWvPGjLecQC33UuRjCytUu/JW5kR5cWaY0FiN46D8vIgtf2dfcNg6KMRmTriyOm3IHwZsDs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3253
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.91
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,148 +68,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.03.2020 12:38, Markus Armbruster wrote:
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> 
->> 09.03.2020 12:56, Markus Armbruster wrote:
->>> Suggest
->>>
->>>       scripts: Coccinelle script to use auto-propagated errp
->>>
->>> or
->>>
->>>       scripts: Coccinelle script to use ERRP_AUTO_PROPAGATE()
->>>
->>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> [...]
->>>> +// Note, that we update everything related to matched by rule1 function name
->>>> +// and local_err name. We may match something not related to the pattern
->>>> +// matched by rule1. For example, local_err may be defined with the same name
->>>> +// in different blocks inside one function, and in one block follow the
->>>> +// propagation pattern and in other block doesn't. Or we may have several
->>>> +// functions with the same name (for different configurations).
->>>
->>> Context: rule1 matches functions that have all three of
->>>
->>> * an Error **errp parameter
->>>
->>> * an Error *local_err = NULL variable declaration
->>>
->>> * an error_propagate(errp, local_err) or error_propagate_prepend(errp,
->>>     local_err, ...) expression, where @errp is the parameter and
->>>     @local_err is the variable.
->>>
->>> If I understand you correctly, you're pointing out two potential issues:
->>>
->>> 1. This rule can match functions rule1 does not match if there is
->>> another function with the same name that rule1 does match.
->>>
->>> 2. This rule matches in the entire function matched by rule1, even when
->>> parts of that function use a different @errp or @local_err.
->>>
->>> I figure these apply to all rules with identifier rule1.fn, not just
->>> this one.  Correct?
->>>
->>> Regarding 1.  There must be a better way to chain rules together, but I
->>> don't know it.
->>
->> Hmm, what about something like this:
->>
->> @rule1 disable optional_qualifier exists@
->> identifier fn, local_err;
->> symbol errp;
->> @@
->>
->>   fn(..., Error **
->> - errp
->> + ___errp_coccinelle_updating___
->>      , ...)
->>   {
->>       ...
->>       Error *local_err = NULL;
->>       ...
->> (
->>      error_propagate_prepend(errp, local_err, ...);
->> |
->>      error_propagate(errp, local_err);
->> )
->>       ...
->>   }
->>
->>
->> [..]
->>
->> match symbol ___errp_coccinelle_updating___ in following rules in function header
->>
->> [..]
->>
->>
->> @ disable optional_qualifier@
->> identifier fn, local_err;
->> symbol errp;
->> @@
->>
->>   fn(..., Error **
->> - ___errp_coccinelle_updating___
->> + errp
->>      , ...)
->>   {
->>       ...
->>   }
->>
->>
->> - hacky, but seems not more hacky than python detection, and should work better
-> 
-> As simple, forceful and unsubtle as a sledgehammer.  I like it :)
-> 
+data_file does not work with v2, and we probably want 026 to keep
+working for v2 images.  Thus, open a new file for v3-exclusive error
+path test cases.
 
+Fixes: 81311255f217859413c94f2cd9cebf2684bbda94
+       (=E2=80=9Ciotests/026: Test EIO on allocation in a data-file=E2=80=
+=9D)
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/026             | 31 -----------
+ tests/qemu-iotests/026.out         |  6 --
+ tests/qemu-iotests/026.out.nocache |  6 --
+ tests/qemu-iotests/289             | 89 ++++++++++++++++++++++++++++++
+ tests/qemu-iotests/289.out         |  8 +++
+ tests/qemu-iotests/group           |  1 +
+ 6 files changed, 98 insertions(+), 43 deletions(-)
+ create mode 100755 tests/qemu-iotests/289
+ create mode 100644 tests/qemu-iotests/289.out
 
-Hmm, not so simple.
+diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
+index b05a4692cf..b9713eb591 100755
+--- a/tests/qemu-iotests/026
++++ b/tests/qemu-iotests/026
+@@ -240,37 +240,6 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG"=
+ | _filter_qemu_io
+=20
+ _check_test_img
+=20
+-echo
+-echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
+-echo
+-
+-# Similar test as the last one, except we test what happens when there
+-# is an error when writing to an external data file instead of when
+-# writing to a preallocated zero cluster
+-_make_test_img -o "data_file=3D$TEST_IMG.data_file" $CLUSTER_SIZE
+-
+-# Put blkdebug above the data-file, and a raw node on top of that so
+-# that blkdebug will see a write_aio event and emit an error
+-$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
+-    "json:{
+-         'driver': 'qcow2',
+-         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
+-         'data-file': {
+-             'driver': 'raw',
+-             'file': {
+-                 'driver': 'blkdebug',
+-                 'config': '$TEST_DIR/blkdebug.conf',
+-                 'image': {
+-                     'driver': 'file',
+-                     'filename': '$TEST_IMG.data_file'
+-                 }
+-             }
+-         }
+-     }" \
+-    | _filter_qemu_io
+-
+-_check_test_img
+-
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
+index c1b3b58482..83989996ff 100644
+--- a/tests/qemu-iotests/026.out
++++ b/tests/qemu-iotests/026.out
+@@ -653,10 +653,4 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
+ No errors were found on the image.
+-
+-=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
+-
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
+DIR/t.IMGFMT.data_file
+-write failed: Input/output error
+-No errors were found on the image.
+ *** done
+diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.ou=
+t.nocache
+index 8d5001648a..9359d26d7e 100644
+--- a/tests/qemu-iotests/026.out.nocache
++++ b/tests/qemu-iotests/026.out.nocache
+@@ -661,10 +661,4 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
+ No errors were found on the image.
+-
+-=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
+-
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
+DIR/t.IMGFMT.data_file
+-write failed: Input/output error
+-No errors were found on the image.
+ *** done
+diff --git a/tests/qemu-iotests/289 b/tests/qemu-iotests/289
+new file mode 100755
+index 0000000000..1c11d4030e
+--- /dev/null
++++ b/tests/qemu-iotests/289
+@@ -0,0 +1,89 @@
++#!/usr/bin/env bash
++#
++# qcow2 v3-exclusive error path testing
++# (026 tests paths common to v2 and v3)
++#
++# Copyright (C) 2020 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=3D$(basename $0)
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++    rm "$TEST_DIR/blkdebug.conf"
++    rm -f "$TEST_IMG.data_file"
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.pattern
++
++_supported_fmt qcow2
++_supported_proto file
++# This is a v3-exclusive test;
++# As for data_file, error paths often very much depend on whether
++# there is an external data file or not; so we create one exactly when
++# we want to test it
++_unsupported_imgopts 'compat=3D0.10' data_file
++
++echo
++echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
++echo
++
++cat > "$TEST_DIR/blkdebug.conf" <<EOF
++[inject-error]
++event =3D "write_aio"
++errno =3D "5"
++once =3D "on"
++EOF
++
++# Test what happens when there is an error when writing to an external
++# data file instead of when writing to a preallocated zero cluster
++_make_test_img -o "data_file=3D$TEST_IMG.data_file" 64k
++
++# Put blkdebug above the data-file, and a raw node on top of that so
++# that blkdebug will see a write_aio event and emit an error.  This
++# will then trigger the alloc abort code, which we want to test here.
++$QEMU_IO -c "write 0 64k" \
++    "json:{
++         'driver': 'qcow2',
++         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
++         'data-file': {
++             'driver': 'raw',
++             'file': {
++                 'driver': 'blkdebug',
++                 'config': '$TEST_DIR/blkdebug.conf',
++                 'image': {
++                     'driver': 'file',
++                     'filename': '$TEST_IMG.data_file'
++                 }
++             }
++         }
++     }" \
++    | _filter_qemu_io
++
++_check_test_img
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/289.out b/tests/qemu-iotests/289.out
+new file mode 100644
+index 0000000000..e54e2629d4
+--- /dev/null
++++ b/tests/qemu-iotests/289.out
+@@ -0,0 +1,8 @@
++QA output created by 289
++
++=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536 data_file=3DTEST=
+_DIR/t.IMGFMT.data_file
++write failed: Input/output error
++No errors were found on the image.
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 559edc139a..a898fe2c26 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -294,3 +294,4 @@
+ 284 rw
+ 286 rw quick
+ 288 quick
++289 rw quick
+--=20
+2.24.1
 
-It leads to reindenting of function header, which is bad.
-
-Possible solution is instead
-
-fn(...)
-{
-+   ___errp_coccinelle_updating___();
-
-
-but this slow down coccinelle. For example, on block.c from ~3s to 1m16s.
-
-.
-
-So, I'm returning to just a warning.
-
-I think something simple like
-
-@@
-identifier rule1.fn;
-position p != rule1.p;
-@@
-
-fn@p(...) {...}
-
-@ script:python@
-
-<print warning>
-
-should work.
-
--- 
-Best regards,
-Vladimir
 
