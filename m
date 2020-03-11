@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E3181409
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 10:08:22 +0100 (CET)
-Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6BB18141F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 10:09:28 +0100 (CET)
+Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBxLh-0007pY-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 05:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44351)
+	id 1jBxMl-00019P-N1
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 05:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBxJb-0004uG-Vy
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:13 -0400
+ (envelope-from <bounces@canonical.com>) id 1jBxJc-0004uv-8l
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBxJV-0003Xl-O1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50412)
+ (envelope-from <bounces@canonical.com>) id 1jBxJY-0003aV-TC
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBxJV-0003Vf-Gv
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:05 -0400
+ id 1jBxJY-0003a0-Np
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 05:06:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBxJU-00009C-GD
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:06:04 +0000
+ id 1jBxJX-0000Dy-Qq
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:06:07 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 758962E80C7
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:06:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C97DC2E80C3
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:06:07 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Mar 2020 08:52:15 -0000
+Date: Wed, 11 Mar 2020 08:53:34 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -46,7 +46,7 @@ X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158391673566.11731.5730699102491344137.malone@wampee.canonical.com>
+Message-Id: <158391681481.6460.15086897163289504060.malone@chaenomeles.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -54,7 +54,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fe884fcce8f990061719a13fc4c9d3bfff774b0e
+X-Launchpad-Hash: 1c91b36d17d2af3ff74e140026e0fbb18eca1d35
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,30 +71,9 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@tstrike - can you trigger the same issue with all your guests?
-You list Windows and Centos guests, does it triggers with Centos as well or=
- only the Windows guests?
-Also if you have a chance (just to be sure) does it trigger with an Ubuntu =
-guest as well? This would help for people retrying not using a case that do=
-esn't even trigger in your setup.
-
-@tstrike - you seem to hit this while starting your guest through libvirt.
-Could you please attach your guest XML so that we can try to recreate this =
-case?
-  $ virsh dumpxml <guestname>
-That will help when trying to recreate your case.
-
-@tstrike
-It would also be helpful to get your qemu commandline as well as any furthe=
-r messages qemu might have reported.
-You'll find that in the per guest log file at:
- $ cat /var/log/libvirt/qemu/<guestname>.log
-
-If you could report all that here that should be useful for everyone
-tracking this bug.
-
-** Changed in: qemu (Ubuntu)
-       Status: New =3D> Incomplete
+@tstrike: finally for the sake of apparmor denials or any other odd
+error that might be mentioned in there attaching the output of `dmesg`
+on your host might be useful as well.
 
 -- =
 
