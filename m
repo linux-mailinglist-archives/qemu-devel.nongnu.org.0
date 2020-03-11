@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29071181B01
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:19:45 +0100 (CET)
-Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC00181B0B
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:21:09 +0100 (CET)
+Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC2D2-0000lg-5N
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38377)
+	id 1jC2EO-0003uc-9s
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38737)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1t0-0001xR-Qu
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:59:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1uD-0004Hc-8Z
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1sz-0004ph-PT
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:59:02 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36737)
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1uC-0006UM-8k
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33026)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jC1sz-0004pE-IV
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:59:01 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s5so2766380wrg.3
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 06:59:01 -0700 (PDT)
+ id 1jC1uC-0006TH-0u
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a25so2778819wrd.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 07:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=RxbkZ13uQJ/d2vXTLJ6WnKHPB9Aqr7X9J9zI1LwxZ2A=;
- b=GpE+iblqx2hlUnPOhVUhP/byQgIjI6wmHNZiKEzMhNpolbd67UOsl070PBJeq0q9NM
- aYtlNTma1bx1oxkOk9n7mKe+XEWBhxUfd9n31553f+X8PQEf3E4zSEFkUVz5DMTychHd
- NWxRLl8raDyWxN785aEHrn4pt0SkSL8tG5vL2XXYUdb1lRL8eSZFILRLzegfHBBGsQZX
- 345uotzwGyrCxc8FP1TKL5tm3lfYxOFyH/5LF7gAqTu7nXhJm1tjdZLud5AK2VkzQyU+
- myye3kaNqwaRbRTm8njGM3ROm60Orv/DoZck4UM20AUVi8ZUwNsCDON45aIYueaVTnyU
- PQTQ==
+ bh=EJ8l74UHFox+uXHqAoEMtrjV6J+RCNSdy/uZaeqlAT4=;
+ b=GpvaY9IBvh3/BQJydllHkTu0DLwVo/O/T+HbQjC5u2FBTEMxLHGmMaCChbZipDlEA7
+ EajzGeydqKOpJJOo0+vOvThYUGgJ0XOpFyY/Yd8kxBdCbI1aoVZzPATbXvqwikZdZocS
+ ZDuyqhIej4MvNsYCq1SMF94yJvMRvzRRhQubmYCfn1bZS2iC18fQjSixYS4mMnShJMQw
+ dgogvLQoBwatilfZFLsWv1zkRUknfKcskKTQrPZFi/NobRUYRONJouJ2IUaHbdzmecEa
+ dc07lwYK+bc2tLlQ74aaIAxUt1uNVfe20K+HUnbqpDIo7KUN2Gbcgp3GACoz82uHht+8
+ vJtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=RxbkZ13uQJ/d2vXTLJ6WnKHPB9Aqr7X9J9zI1LwxZ2A=;
- b=hawKQvZOmDBfYr2FML0oeqqhKfrMZVoquSGldS4gjbJ9qFTPT20z2fr0zCvKu4ul50
- fAOKpjac5f2AZAmmW4FBI1Kfb3Hil9ZnTrcwQwVb14obeD7JOoTB4JI2uG/5M+m9QLad
- 8lgwf8gwn5afw1ZN1BfcyjsYEXhqBabYLLRGhfXW2C4dHel6CfEosxtbTNuOX3ehUQNA
- Y7le6YBCV7Vw8QpLgm+GGCWgS3ReWk1S7qwLWY10FU227hOMLkFNA5+8X6/cUKBMLpED
- suM17qk5ff75nFnX2AP1xylhFUL3yN8Z7G/ZfFF8lqvO0VQpdFQ9nr0Ya0BDwZCx7ZH5
- ajcg==
-X-Gm-Message-State: ANhLgQ1bJWbYqQ5ZoQwy9Axn0b/zWe399qCNXVXL/M4psko1uLq468fj
- eAU4sd29oDZr4TsTyIHDTdXnhQ==
-X-Google-Smtp-Source: ADFU+vsGNA7M5PqXWf0GccdOIDPoHByOG0iiRPrpfjWxNO3wV33VQYR8cWqXqzGqIee6yOr2V7CpRQ==
-X-Received: by 2002:adf:bc87:: with SMTP id g7mr4706977wrh.121.1583935140524; 
- Wed, 11 Mar 2020 06:59:00 -0700 (PDT)
+ bh=EJ8l74UHFox+uXHqAoEMtrjV6J+RCNSdy/uZaeqlAT4=;
+ b=U3XBHr9rPnnnuiie4r7C/bJwPwCixgWZTcMpw2g20rWdRndi9i3qqBdpUIkqKu2mMH
+ g49LpmwQ0gJ9Bp4vm+tbwAsXpJ2jDbpiixVcUvdRxgQF6plK0PER2etoWv775hj/S175
+ 77IEMxyeLo23AqcWQb3LI+bM1SgeMIwzPEwmktmXFEVkaZFbQGI6yT5PjpZIpLTZDZ9a
+ ztEeeYQ71mY76jUhVebtogfp/8NKNK8G5FFpI5eNXF8viOQ/u35xoulSII3LXYI9QuXW
+ kZYgSrTdLvjkqc3y3fYx3EBL74Ty1Ura8D0xkoETABnf7PVAMdCXTltdAi32h8uEfALr
+ lWEA==
+X-Gm-Message-State: ANhLgQ1/3QbVG7gyyAiKNMHPJew5XR/KAD3aXkNUePcM4bVnCJFg3XU+
+ ps7cwXtXFtCJ2k2CbW+lKDdDfA==
+X-Google-Smtp-Source: ADFU+vtz51NvybQ4R0pjKxzpI2r01ZmvebAqHCViZFE0gTf06Kcz06AjSraazltkjOehYZ7eSm2zzQ==
+X-Received: by 2002:adf:80af:: with SMTP id 44mr4710671wrl.241.1583935214991; 
+ Wed, 11 Mar 2020 07:00:14 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y200sm6246933wmc.20.2020.03.11.06.58.59
+ by smtp.gmail.com with ESMTPSA id f17sm49715581wrm.3.2020.03.11.07.00.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 06:58:59 -0700 (PDT)
+ Wed, 11 Mar 2020 07:00:12 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 037BD1FF7E;
- Wed, 11 Mar 2020 13:58:59 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 649F21FF7E;
+ Wed, 11 Mar 2020 14:00:11 +0000 (GMT)
 References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
- <20200310213203.18730-13-nieklinnenbank@gmail.com>
+ <20200310213203.18730-19-nieklinnenbank@gmail.com>
 User-agent: mu4e 1.3.9; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH v7 12/18] hw/arm/allwinner: add RTC device support
-In-reply-to: <20200310213203.18730-13-nieklinnenbank@gmail.com>
-Date: Wed, 11 Mar 2020 13:58:59 +0000
-Message-ID: <878sk7gfh8.fsf@linaro.org>
+Subject: Re: [PATCH v7 18/18] docs: add Orange Pi PC document
+In-reply-to: <20200310213203.18730-19-nieklinnenbank@gmail.com>
+Date: Wed, 11 Mar 2020 14:00:11 +0000
+Message-ID: <875zfbgff8.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,22 +91,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-> Allwinner System-on-Chips usually contain a Real Time Clock (RTC)
-> for non-volatile system date and time keeping. This commit adds a generic
-> Allwinner RTC device that supports the RTC devices found in Allwinner SoC
-> family sun4i (A10), sun7i (A20) and sun6i and newer (A31, H2+, H3, etc).
-> The following RTC functionality and features are implemented:
+> The Xunlong Orange Pi PC machine is a functional ARM machine
+> based on the Allwinner H3 System-on-Chip. It supports mainline
+> Linux, U-Boot, NetBSD and is covered by acceptance tests.
 >
->  * Year-Month-Day read/write
->  * Hour-Minute-Second read/write
->  * General Purpose storage
->
-> The following boards are extended with the RTC device:
->
->  * Cubieboard (hw/arm/cubieboard.c)
->  * Orange Pi PC (hw/arm/orangepi.c)
->
-> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> This commit adds a documentation text file with a description
+> of the machine and instructions for the user.
+
+Awesome to have such comprehensive documentation for a system. Thanks
+;-)
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
