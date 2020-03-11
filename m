@@ -2,75 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C26181905
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:02:10 +0100 (CET)
-Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFEE181904
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:01:59 +0100 (CET)
+Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0zx-0007jp-BT
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:02:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51967)
+	id 1jC0zm-0007be-Eg
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1jC0yJ-0006Za-A9
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:00:32 -0400
+ (envelope-from <vt@altlinux.org>) id 1jC0yJ-0006Zb-D2
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:00:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1jC0yE-0006S5-Dj
+ (envelope-from <vt@altlinux.org>) id 1jC0yI-0006U9-1M
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:00:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29461
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1jC0yE-0006Re-96
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:00:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583931621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=81ranNgaJ7+QpsDSPTAEq8fKefnUAsd8CB3itcBZlTE=;
- b=SrE8GfeM5k0qJNQtWGu9/T+ssHUN0GHnAlMJ+owm4AKbCJWBrpyEp3pQguDb3oBu7lQHTf
- 7MR8d9GOhDmMDiPv1JYo0VrGZWBD8BedavjthLtTjfpEascQLarfzat7+KkaxRwdhb9IdM
- u5DHCQEL2vDrcCfTJ7FoxvojUklJ/9k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-2DGGhj-GP7ichjKRl3vFUA-1; Wed, 11 Mar 2020 09:00:18 -0400
-X-MC-Unique: 2DGGhj-GP7ichjKRl3vFUA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBDA2477;
- Wed, 11 Mar 2020 13:00:16 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.119.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E574B100EBA6;
- Wed, 11 Mar 2020 13:00:02 +0000 (UTC)
-Subject: Re: [PATCH RESEND 1/3] vfio/pci: fix a null pointer reference in
- vfio_rom_read
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200224064219.1434-1-longpeng2@huawei.com>
- <20200224064219.1434-2-longpeng2@huawei.com>
- <20200224090458.080152c0@w520.home>
- <5b6a9b3c-0efe-8f57-d61e-731e9fd51470@huawei.com>
- <20200310101108.3377b878@x1.home>
- <467b2253-a065-91c3-5b0c-4f03ee236d0c@redhat.com>
- <20200310193624.402fdb18@x1.home>
- <30f4a52f-a572-8643-1801-95c9fd2cd8a8@redhat.com>
- <87o8t3ds4a.fsf@dusky.pond.sub.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <1255d677-4c97-c326-890e-2fe132476367@redhat.com>
-Date: Wed, 11 Mar 2020 14:00:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+Received: from vmicros1.altlinux.org ([194.107.17.57]:60240)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <vt@altlinux.org>)
+ id 1jC0yH-0006Sa-Pm; Wed, 11 Mar 2020 09:00:25 -0400
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 1DDC672CCF0;
+ Wed, 11 Mar 2020 16:00:23 +0300 (MSK)
+Received: from altlinux.org (sole.flsd.net [185.75.180.6])
+ by imap.altlinux.org (Postfix) with ESMTPSA id 0A4CA4A4A16;
+ Wed, 11 Mar 2020 16:00:23 +0300 (MSK)
+Date: Wed, 11 Mar 2020 16:00:22 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] target/ppc: Fix rlwinm on ppc64
+Message-ID: <20200311130022.sswvce3wx3dii4mf@altlinux.org>
+References: <20200309204557.14836-1-vt@altlinux.org>
+ <20200310231503.GR660117@umbus.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <87o8t3ds4a.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <20200310231503.GR660117@umbus.fritz.box>
+User-Agent: NeoMutt/20171215-106-ac61c7
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 194.107.17.57
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,36 +52,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, weifuqiang@huawei.com, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, "Longpeng \(Mike,
- Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>
+Cc: qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/11/20 12:54, Markus Armbruster wrote:
-> Laszlo Ersek <lersek@redhat.com> writes:
+David,
 
->> In fact I was about to mention, "I really don't understand why compilers
->> don't yell upon seeing pointer-to-void arithmetic", but I got distracted
->> and forgot about that thought. In retrospect, that may have been for the
->> best! :)
+On Wed, Mar 11, 2020 at 10:15:03AM +1100, David Gibson wrote:
+> On Mon, Mar 09, 2020 at 11:45:57PM +0300, Vitaly Chikunov wrote:
+> > rlwinm cannot just AND with Mask if shift value is zero on ppc64 when
+> > Mask Begin is greater than Mask End and high bits are set to 1.
+> > 
+> > Note that PowerISA 3.0B says that for `rlwinm' ROTL32 is used, and
+> > ROTL32 is defined (in 3.3.14) so that rotated value should have two
+> > copies of lower word of the source value.
+> > 
+> > This seems to be another incarnation of the fix from 820724d170
+> > ("target-ppc: Fix rlwimi, rlwinm, rlwnm again"), except I leave
+> > optimization when Mask value is less than 32 bits.
+> > 
+> > Fixes: 7b4d326f47 ("target-ppc: Use the new deposit and extract ops")
+> > Cc: qemu-stable@nongnu.org
+> > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
 > 
-> You're looking for
-> 
-> '-Wpointer-arith'
->      Warn about anything that depends on the "size of" a function type
->      or of 'void'.  GNU C assigns these types a size of 1, for
->      convenience in calculations with 'void *' pointers and pointers to
->      functions.  In C++, warn also when an arithmetic operation involves
->      'NULL'.  This warning is also enabled by '-Wpedantic'.
-> 
+> Applied to ppc-for-5.0.
 
-Thanks! It seems like "-Wpedantic" and "-pedantic" are synonymous. And
-the latter used to be part of my standard set of flags, while I worked
-on hosted C programs where I could influence the build flags ;)
+Thanks! FYI, there is at least one real case of this bug:
+  https://github.com/iovisor/bcc/issues/2771
+so this is not theoretical, and, probably, should go to the stable
+too.
 
-Cheers,
-Laszlo
+Thanks,
+
+
+> 
+> > ---
+> >  target/ppc/translate.c | 20 +++++++++++---------
+> >  1 file changed, 11 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > index 36fa27367c..127c82a24e 100644
+> > --- a/target/ppc/translate.c
+> > +++ b/target/ppc/translate.c
+> > @@ -1938,15 +1938,17 @@ static void gen_rlwinm(DisasContext *ctx)
+> >          me += 32;
+> >  #endif
+> >          mask = MASK(mb, me);
+> > -        if (sh == 0) {
+> > -            tcg_gen_andi_tl(t_ra, t_rs, mask);
+> > -        } else if (mask <= 0xffffffffu) {
+> > -            TCGv_i32 t0 = tcg_temp_new_i32();
+> > -            tcg_gen_trunc_tl_i32(t0, t_rs);
+> > -            tcg_gen_rotli_i32(t0, t0, sh);
+> > -            tcg_gen_andi_i32(t0, t0, mask);
+> > -            tcg_gen_extu_i32_tl(t_ra, t0);
+> > -            tcg_temp_free_i32(t0);
+> > +        if (mask <= 0xffffffffu) {
+> > +            if (sh == 0) {
+> > +                tcg_gen_andi_tl(t_ra, t_rs, mask);
+> > +            } else {
+> > +                TCGv_i32 t0 = tcg_temp_new_i32();
+> > +                tcg_gen_trunc_tl_i32(t0, t_rs);
+> > +                tcg_gen_rotli_i32(t0, t0, sh);
+> > +                tcg_gen_andi_i32(t0, t0, mask);
+> > +                tcg_gen_extu_i32_tl(t_ra, t0);
+> > +                tcg_temp_free_i32(t0);
+> > +            }
+> >          } else {
+> >  #if defined(TARGET_PPC64)
+> >              tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
+> 
+> -- 
+> David Gibson			| I'll have my music baroque, and my code
+> david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+> 				| _way_ _around_!
+> http://www.ozlabs.org/~dgibson
+
 
 
