@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C923F181839
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:38:48 +0100 (CET)
-Received: from localhost ([::1]:51012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AF8181841
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:40:32 +0100 (CET)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0dL-00017E-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45235)
+	id 1jC0f1-0004OI-HQ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aH-0004X7-LV
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:38 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jC0cu-00018G-4q
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:38:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC0aG-00036R-JK
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:37 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52760)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jC0aG-00034G-DO
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:35:36 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 11so1903959wmo.2
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 05:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6H29QJg5B7bgS/AMKBONCsgkT/bfdiwpiQn7qsNuQ08=;
- b=WAFQ7DtuG/qez7AE0Fv/S0S1knqoJH5Ekmjkul7RbNswktSaNxg2a09vIesnQ12HEC
- f8wTPzgXX6elXvXX9va2WJ9ml2eYpAiiLZ/IMoyYldSVCIMnnLr69X6OvH/5Qm/tJYMh
- lcpWclJgRMRR0d3H/R127BkHtcEn0ded6zi+MiXIKaCUmhi6gYLBu9MlUCSMWp6ufKOS
- bv6Mm9F3GqDtNNjztBW64xOK1TlYVUhlEgVYcNAJBD2OZGh5ngH6qvYtFOTxtl8uZFB7
- QowttBDEQevQYjGWFHsrph9WZjEz4AjrtDqw/VK5zO2zu4HQEWrqy7KVl4B1tbF6Fg18
- oJwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6H29QJg5B7bgS/AMKBONCsgkT/bfdiwpiQn7qsNuQ08=;
- b=fnSgL0rtbGE9GTC0p5er3LQt6qHxvhArZiz0DrVGfCSPQOUJKxIyw/poUKUJbb/D14
- FyM8U/ZP/nS9Mu6flwu4RUsNwResiaPZLpOBcIWH2t5WpN/X1iiwJG0oepE46gs6yhgo
- 2t1BVlcdQWXBft2gMXP3v2WpoKXu0AVDQojw1IXQq4+kWa5/ikiXezbkpXr1+FO6Jwfu
- loyb6oGzHw0KhI/r9ZKKOXUHZ7MXkRNN4m8+aM7WG7EgOKDIYkUzFierNrU3ZlUHbF36
- jiHz4StX5ChFiFLFb+RefTwmTaJzeXHV+l14eXPOFxeNzeTvsP74vvw1SlU9arqVux0S
- wwIQ==
-X-Gm-Message-State: ANhLgQ03z9MYxciE869V33xmTI/Z8I5SxtrXtvj9YRG6zvUCuffzwYB5
- uU7qYYje8C9nc6kbs4m0LutED53LWp4FYA==
-X-Google-Smtp-Source: ADFU+vteUVcnFxFFap7IB/b/mUOcsgw2fMnfhtg3G0KDq3qwXrsJ4e22e58RiKOGw8C6QyFZF4qoDw==
-X-Received: by 2002:a05:600c:4107:: with SMTP id
- j7mr3653442wmi.169.1583930135314; 
- Wed, 11 Mar 2020 05:35:35 -0700 (PDT)
-Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
- [79.183.43.120])
- by smtp.gmail.com with ESMTPSA id o11sm61480696wrn.6.2020.03.11.05.35.34
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 11 Mar 2020 05:35:34 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com,
-	jasowang@redhat.com
-Subject: [PATCH v3 6/6] tap: allow extended virtio header with hash info
-Date: Wed, 11 Mar 2020 14:35:18 +0200
-Message-Id: <20200311123518.4025-7-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200311123518.4025-1-yuri.benditovich@daynix.com>
-References: <20200311123518.4025-1-yuri.benditovich@daynix.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+ (envelope-from <stefanha@redhat.com>) id 1jC0cs-0004AB-0i
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:38:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50501
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jC0cr-00043d-Ro
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:38:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583930296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=U/SDmzKoLyVjSdrtiXPQkLc2t/jZBGbtNUWd0UkpEb4=;
+ b=W4JrK2r08P2R0oD98lVnKF1xpcJhos7KZoMaGttfFKLTaL/2gePiaGnjzNtrqfPu4xuUwO
+ 4jdgtlQNSCqgmVsQ70HbWL8gP87X/2333qRXFwbp4+327vOYtGlJGSJzuF77GPTk5n6v0N
+ tSVJNji05LwYX69eYUEqntWEwP4fLpo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-lMRCue08NFmIKRT7KW8QAw-1; Wed, 11 Mar 2020 08:38:13 -0400
+X-MC-Unique: lMRCue08NFmIKRT7KW8QAw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DA88017DF;
+ Wed, 11 Mar 2020 12:38:12 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83587100164D;
+ Wed, 11 Mar 2020 12:38:09 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] thread: add lock guard macros
+Date: Wed, 11 Mar 2020 12:36:22 +0000
+Message-Id: <20200311123624.277221-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: base64
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,45 +68,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- net/tap.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/net/tap.c b/net/tap.c
-index 6207f61f84..47de7fdeb6 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -63,6 +63,14 @@ typedef struct TAPState {
-     Notifier exit;
- } TAPState;
- 
-+/* TODO: remove when virtio_net.h updated */
-+struct virtio_net_hdr_v1_hash {
-+    struct virtio_net_hdr_v1 hdr;
-+    uint32_t hash_value;
-+    uint16_t hash_report;
-+    uint16_t padding;
-+};
-+
- static void launch_script(const char *setup_script, const char *ifname,
-                           int fd, Error **errp);
- 
-@@ -254,7 +262,8 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
- 
-     assert(nc->info->type == NET_CLIENT_DRIVER_TAP);
-     assert(len == sizeof(struct virtio_net_hdr_mrg_rxbuf) ||
--           len == sizeof(struct virtio_net_hdr));
-+           len == sizeof(struct virtio_net_hdr) ||
-+           len == sizeof(struct virtio_net_hdr_v1_hash));
- 
-     tap_fd_set_vnet_hdr_len(s->fd, len);
-     s->host_vnet_hdr_len = len;
--- 
-2.17.1
+TG9jayBndWFyZHMgYXV0b21hdGljYWxseSBjYWxsIHFlbXVfKHJlY18pbXV0ZXhfdW5sb2NrKCkg
+d2hlbiByZXR1cm5pbmcgZnJvbSBhCmZ1bmN0aW9uIG9yIGxlYXZpbmcgbGVhdmluZyBhIGxleGlj
+YWwgc2NvcGUuICBUaGlzIHNpbXBsaWZpZXMgY29kZSBhbmQKZWxpbWluYXRlcyBsZWFrcyAoZXNw
+ZWNpYWxseSBpbiBlcnJvciBjb2RlIHBhdGhzKS4KClRoaXMgc2VyaWVzIGFkZHMgbG9jayBndWFy
+ZHMgZm9yIFFlbXVNdXRleCBhbmQgUWVtdVJlY011dGV4LiAgSXQgZG9lcyBub3QKY29udmVydCB0
+aGUgZW50aXJlIHRyZWUgYnV0IGluY2x1ZGVzIGV4YW1wbGUgY29udmVyc2lvbnMuCgpTdGVmYW4g
+SGFqbm9jemkgKDIpOgogIHRocmVhZDogYWRkIFFlbXVSZWNNdXRleCBsb2NrIGd1YXJkcwogIHRo
+cmVhZDogYWRkIFFlbXVNdXRleCBsb2NrIGd1YXJkcwoKIGluY2x1ZGUvcWVtdS90aHJlYWQuaCB8
+IDUyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIHBsdWdpbnMv
+Y29yZS5jICAgICAgICB8ICA2ICsrLS0tCiBwbHVnaW5zL2xvYWRlci5jICAgICAgfCAxNSArKysr
+KystLS0tLS0tCiB1dGlsL3FlbXUtdGltZXIuYyAgICAgfCAyMiArKysrKysrKystLS0tLS0tLS0K
+IDQgZmlsZXMgY2hhbmdlZCwgNzEgaW5zZXJ0aW9ucygrKSwgMjQgZGVsZXRpb25zKC0pCgotLSAK
+Mi4yNC4xCgo=
 
 
