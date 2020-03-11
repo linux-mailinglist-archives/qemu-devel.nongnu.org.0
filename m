@@ -2,76 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9815E181AF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:17:42 +0100 (CET)
-Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DD3181ADC
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:12:13 +0100 (CET)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC2B3-0006pO-KA
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
+	id 1jC25k-0004Pa-3G
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1sD-00085Z-W1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:15 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jC1sS-0000HA-Ke
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1sC-00044C-Iz
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:13 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33726)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jC1sC-00042x-AF
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r7so3240266wmg.0
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 06:58:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DyujtRVJDUvGTz1RJPeCTZdw8b14i6MgtBnZu1r0+e8=;
- b=SCtuBLj9aTwra9v/S9xQ4+uuUSvnoKyg5wj3a+V/5tmoPseCyWWS8ZPTRm3f3+xnZC
- ZspixT2ANiiA4roY4+FVRSE4JSHPUPk0J5K8fE3YkTiFw3aEPgdjiu/wJpdybtvyQ4IR
- OKbP9VqKG5wPKi5dmH1h3XvyKguPfB6HcZJ6mpMzy3envfyI7qbPfzVjaKKwitBfCJVx
- YKgx362RPpT2BliLnxf3WYBUb7QuPGzNKSjC9PMWD4rCMa802MQ4eL3RllckLdVdBipS
- GVFTEEv81b5lFK2OzBCVKvMUyjusac3UQ0mj8zBs7PK1DDPdgFC+WALSwV2R1sVMNSKh
- a96A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DyujtRVJDUvGTz1RJPeCTZdw8b14i6MgtBnZu1r0+e8=;
- b=odiHzbOwVPtVyp1K3TQV10iB8fsKPnTjK9RJso7jGf7qcIHfbN2FqQY/KibDDKx0Kl
- rZAOKIRg3DdS90gOHcU5AseHIymzpjODT0L5DGoZrzSFHe+0D1lw5Fv+yxmuQiTMvXnD
- FIbEdIIDFhTutzmGQ6TIMu3MiA9GxMaDqpj8BFtzlUHPNIerGZM3b5jYguH7go1xCuzL
- EBwHRLU3Q6X3zMK6xubzo3F2KoUszvWOA5zZk3SnAkCbiDxRX1e0rt74/yvvA9Q6la88
- uBSe8guzt3GMv0aQkBs4FZUh3x0oMyaCvNSS8cOOh3qrRJLQVD28i2pYGTbAPXoHzQWC
- f3rg==
-X-Gm-Message-State: ANhLgQ2ywSpPt0NjbSyjpmFOTgsJtlb6+LN61fPwoLxUzhuwDlwW56b3
- OzpS9E87fZUyTjFBs2oXboNL+g==
-X-Google-Smtp-Source: ADFU+vvHNlBalzpclENNbNmu0hp0dq1zOb/OtNND0Z3mjg4RFbHV71L86+mH4ArHDjyHhSdwk8xWyg==
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr122743wmg.41.1583935091041; 
- Wed, 11 Mar 2020 06:58:11 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p16sm7468162wmi.40.2020.03.11.06.58.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 06:58:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 250861FF7E;
- Wed, 11 Mar 2020 13:58:09 +0000 (GMT)
-References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
- <20200310213203.18730-11-nieklinnenbank@gmail.com>
-User-agent: mu4e 1.3.9; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH v7 10/18] hw/arm/allwinner-h3: add Boot ROM support
-In-reply-to: <20200310213203.18730-11-nieklinnenbank@gmail.com>
-Date: Wed, 11 Mar 2020 13:58:09 +0000
-Message-ID: <87eetzgfim.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jC1sQ-0004Aw-3r
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:28 -0400
+Received: from mail-eopbgr130114.outbound.protection.outlook.com
+ ([40.107.13.114]:5092 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jC1sP-00049b-EV; Wed, 11 Mar 2020 09:58:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WH2HVCyWmqKZ+PYOPIwmc8GFCJZjdK4/UomDPQPYCq4k10maBMT8HmnL0bP3UqxiAf2m/v2vd0dqpvNmZCoSleksh13ioTksTbBfw825X/1ygr7INnklmWL0IIZCqmYHYPSZxYqO/7l5mqRW3911HkshFkllJ9TZzSBAU0+cMv3PMv5JRCig6TwtEtGTu+fqDrmsaJSGatOlcD+Mpai7yHwy/R1fxvPrI3nvGlNbN9cdXVGrvIYzL2P/AVOgPjVyI5C2ts31vBzT+3Ukfhb5Ea1juDHgtKr/zROXRQoDNAe5BpHwbddY8Pe76yPtluetkpPMxCNKHo6cwuyiuHGDeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6/vyGycbXYNk6JV2DVwxmIbzfvEdqYK7tt67jMn1GOw=;
+ b=dGDDgO05ZRvFxCU+XyqdVMkJ9dYivrK02gYxF1NUkYODF+7WDUWUGkBUhNfHqYEePxluZQqK9nuF9/bI8K6T+YPVuwoC89PrKXsIcruwSXo72nQ8XNhCIDZFxpIXYFnK06IbPJccOShQSg0keo4LI/UH2UjmOek7+yDfJgfD8lc0FUNvBvJ2/w738rt2PSxJsm4cbufuG9gc5hcX7tpzlOBXHcBqHNXkv5d5UiFz/825WzJA3ElCrrpcFBciGHQJI4ty7be9/wwRrmf32AECRgxfQyltUzriUXSpBfiJbxiZiDOBNvX3xaimDyQMQ0XKWXDw5OTePaddRzlMmhdp/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6/vyGycbXYNk6JV2DVwxmIbzfvEdqYK7tt67jMn1GOw=;
+ b=pokCTGuz8h/CvVQPtRXur1OqQUzZkSMP0QnUQ+A3yKAgu7ioeg+RNiPtOAhCfGN4d780ve8PEUhlJUmCZ8eBesXMv5h7ifwSHl+/fRRs/NF1oK2hgCatM5m/TYO/OyLL0/4cP2nPvJw6P22CEOz4n/gVtQyW0IvnnXk4gPTQ08M=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3367.eurprd08.prod.outlook.com (20.177.113.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.16; Wed, 11 Mar 2020 13:58:21 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2814.007; Wed, 11 Mar 2020
+ 13:58:21 +0000
+Subject: Re: [PATCH v4 00/10] Further bitmaps improvements
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200205112041.6003-1-vsementsov@virtuozzo.com>
+ <4cf33f31-cdbb-cee4-a1b4-4053c88a002e@redhat.com>
+ <6b570584-100b-248f-5412-98a5d91f62f5@virtuozzo.com>
+ <ca6f95ef-d51f-130a-8ad1-4eba5e0a3528@redhat.com>
+ <7b655cdf-8c54-b10a-4140-2ad083dec75a@virtuozzo.com>
+ <153ff5cc-a929-1aa9-c405-846739b13570@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200311165819579
+Message-ID: <f3068c48-4c59-3328-5190-9e47a792ab57@virtuozzo.com>
+Date: Wed, 11 Mar 2020 16:58:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <153ff5cc-a929-1aa9-c405-846739b13570@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-ClientProxiedBy: HE1PR0102CA0069.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:7d::46) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR0102CA0069.eurprd01.prod.exchangelabs.com (2603:10a6:7:7d::46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend
+ Transport; Wed, 11 Mar 2020 13:58:21 +0000
+X-Tagtoolbar-Keys: D20200311165819579
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fb321078-0875-47be-d321-08d7c5c4428e
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3367:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3367CFE8945CBEA7E69D61FDC1FC0@AM6PR08MB3367.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0339F89554
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(136003)(366004)(39850400004)(396003)(199004)(81166006)(52116002)(186003)(86362001)(8936002)(6486002)(8676002)(31696002)(81156014)(16576012)(2906002)(316002)(53546011)(956004)(478600001)(2616005)(4326008)(16526019)(66476007)(66946007)(36756003)(5660300002)(26005)(31686004)(66556008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3367;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: beWI0zIKVI6YSM6ntQZuxfN2BA3UoXEN8oPfLFDcAs45pv8fezqOtZD7hIOZtih+3mCvQXBsBOXZus254dI8aOXhzd2LQHZBbSmnQqQvRens4wrwk6OtdguP3/y6S9Ly8uA0nz/O/2nAoYfWb2Y4fVEsg2LyigcWSZE+DXYq9ZL97ofGhtu+QXkuWrTCrNiO9IOn4ZFo815Tj8aYCVwH+XM8Y7hyCjYmRyyIytF1FGxJ80djSv/FFcf3dLCkgpsAyet1KNrEl+HUs2G0rtgGxlaqWFEAB2pUUiE9Jbp9JW8FJUe58UGl9lz8oA3xIYnww4/GxSe6ggnXBm1bG3cla6jvhj2rhTn953cM243zEw+cOfOyHp+RlRWjLoI4xPlDtT44ZeKTnmQ2I/klFSMlFGJDG0c9Pr37UqCrHhM1eI3+ySagUsEUBMbbdHT2TvKk
+X-MS-Exchange-AntiSpam-MessageData: tGsRXdLQOuMV45avNBi7WeWUrCjp9PstO2Uw+tXIAlX26sMEByn2gzWEXFWIEYFkJcpkfmRh5XCzzqCPnUpBa/YihBvR/KHYj8yoAzZyfjLNcSSxMSugM2C49TdQVhUPwpIBRe6qvKxe64XJ29m/ZQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb321078-0875-47be-d321-08d7c5c4428e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 13:58:21.9081 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4ffZdAdaiafvmZ92LH4gRfPPwUpGQSxGeJmGE8czDehKUd7v7lZkrCpwnBthGAvt27KZbnZPSN+FeGs3C/xTqef+nG/8Wths1AA81pKDLbA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3367
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.13.114
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,107 +115,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
- b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+11.03.2020 12:55, Max Reitz wrote:
+> On 11.03.20 07:17, Vladimir Sementsov-Ogievskiy wrote:
+>> 10.03.2020 20:17, Max Reitz wrote:
+>>> On 06.03.20 08:45, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 26.02.2020 16:13, Max Reitz wrote:
+>>>>> On 05.02.20 12:20, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> Hi!
+>>>>>>
+>>>>>> The main feature here is improvement of _next_dirty_area API, which
+>>>>>> I'm
+>>>>>> going to use then for backup / block-copy.
+>>>>>>
+>>>>>> Somehow, I thought that it was merged, but seems I even forgot to se=
+nd
+>>>>>> v4.
+>>>>>
+>>>>> The changes from v3 look good to me, but I=92d prefer a review from E=
+ric
+>>>>> on patch 8.
+>>>>>
+>>>>
+>>>> Hi!
+>>>>
+>>>> Could you take it now, or do you prefer me to resend?jjjjj
+>>>
+>>> I understand that you agreed to drop the comment above
+>>> bd_extent_array_convert_to_be(), then do the
+>>> =93s/further call/so further calls/=94 replacement, and finally replace=
+ the
+>>> whole four lines Eric has quoted by =93(this ensures that after a failu=
+re,
+>>> no further extents can accidentally change the bounds of the last exten=
+t
+>>> in the array)=94?
+>>>
+>>
+>> Yes, all true.
+>=20
+> Hm, I could take it then, but on second thought, John is the maintainer
+> for 8/10 patches, and Eric is for the other two...  So I=92m not sure
+> whether I=92m even the right person to do so.
+>=20
 
-Niek Linnenbank <nieklinnenbank@gmail.com> writes:
+Hmm, true. Let's wait for John?
 
-> A real Allwinner H3 SoC contains a Boot ROM which is the
-> first code that runs right after the SoC is powered on.
-> The Boot ROM is responsible for loading user code (e.g. a bootloader)
-> from any of the supported external devices and writing the downloaded
-> code to internal SRAM. After loading the SoC begins executing the code
-> written to SRAM.
->
-> This commits adds emulation of the Boot ROM firmware setup functionality
-> by loading user code from SD card in the A1 SRAM. While the A1 SRAM is
-> 64KiB, we limit the size to 32KiB because the real H3 Boot ROM also rejec=
-ts
-> sizes larger than 32KiB. For reference, this behaviour is documented
-> by the Linux Sunxi project wiki at:
->
->   https://linux-sunxi.org/BROM#U-Boot_SPL_limitations
->
-> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> ---
->  include/hw/arm/allwinner-h3.h | 21 +++++++++++++++++++++
->  hw/arm/allwinner-h3.c         | 18 ++++++++++++++++++
->  hw/arm/orangepi.c             |  5 +++++
->  3 files changed, 44 insertions(+)
->
-> diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
-> index f9b9a02373..d338003724 100644
-> --- a/include/hw/arm/allwinner-h3.h
-> +++ b/include/hw/arm/allwinner-h3.h
-> @@ -46,6 +46,7 @@
->  #include "hw/sd/allwinner-sdhost.h"
->  #include "hw/net/allwinner-sun8i-emac.h"
->  #include "target/arm/cpu.h"
-> +#include "sysemu/block-backend.h"
->=20=20
->  /**
->   * Allwinner H3 device list
-> @@ -129,4 +130,24 @@ typedef struct AwH3State {
->      MemoryRegion sram_c;
->  } AwH3State;
->=20=20
-> +/**
-> + * Emulate Boot ROM firmware setup functionality.
-> + *
-> + * A real Allwinner H3 SoC contains a Boot ROM
-> + * which is the first code that runs right after
-> + * the SoC is powered on. The Boot ROM is responsible
-> + * for loading user code (e.g. a bootloader) from any
-> + * of the supported external devices and writing the
-> + * downloaded code to internal SRAM. After loading the SoC
-> + * begins executing the code written to SRAM.
-> + *
-> + * This function emulates the Boot ROM by copying 32 KiB
-> + * of data from the given block device and writes it to
-> + * the start of the first internal SRAM memory.
-> + *
-> + * @s: Allwinner H3 state object pointer
-> + * @blk: Block backend device object pointer
-> + */
-> +void allwinner_h3_bootrom_setup(AwH3State *s, BlockBackend *blk);
-> +
->  #endif /* HW_ARM_ALLWINNER_H3_H */
-> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-> index d1245d2b01..56b5c563a8 100644
-> --- a/hw/arm/allwinner-h3.c
-> +++ b/hw/arm/allwinner-h3.c
-> @@ -29,6 +29,7 @@
->  #include "hw/char/serial.h"
->  #include "hw/misc/unimp.h"
->  #include "hw/usb/hcd-ehci.h"
-> +#include "hw/loader.h"
->  #include "sysemu/sysemu.h"
->  #include "hw/arm/allwinner-h3.h"
->=20=20
-> @@ -170,6 +171,23 @@ enum {
->      AW_H3_GIC_NUM_SPI       =3D 128
->  };
->=20=20
-> +void allwinner_h3_bootrom_setup(AwH3State *s, BlockBackend *blk)
-> +{
-> +    const int64_t rom_size =3D 32 * KiB;
-> +    uint8_t *buffer =3D g_new0(uint8_t, rom_size);
-
-There is an opportunity to use g_autofree here so you can skip..
-
-> +    g_free(buffer);
-> +}
-> +
-<snip>
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
-Alex Benn=C3=A9e
+Best regards,
+Vladimir
 
