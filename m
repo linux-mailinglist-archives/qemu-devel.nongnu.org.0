@@ -2,45 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F95180E81
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 04:30:56 +0100 (CET)
-Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDA2180EBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 04:47:42 +0100 (CET)
+Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBs57-0002HG-GC
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 23:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54313)
+	id 1jBsLN-0007qd-0j
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 23:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jBs4D-0001el-JY
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 23:29:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jBsKO-0007DJ-Ts
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 23:46:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jBs4C-0001Nx-Dv
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 23:29:57 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3196 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1jBs4C-0001Bh-20; Tue, 10 Mar 2020 23:29:56 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 5643B4A7CBD4F5EEDE15;
- Wed, 11 Mar 2020 11:29:49 +0800 (CST)
-Received: from huawei.com (10.133.205.93) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Mar 2020
- 11:29:38 +0800
-From: Chen Qun <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v3] block/iscsi:use the flags in iscsi_open() prevent Clang
- warning
-Date: Wed, 11 Mar 2020 11:29:27 +0800
-Message-ID: <20200311032927.35092-1-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+ (envelope-from <richard.henderson@linaro.org>) id 1jBsKM-0007UR-Pr
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 23:46:39 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46029)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jBsKM-0007Rg-IA
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 23:46:38 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id m15so396609pgv.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 20:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7aFFhA+otSlffaV4rPfn2s1GH+BPYE0xZYGnj0MMnOg=;
+ b=ZigIDMALa88e9tHmJuLYqC1QOk0gCio0sWOG6ggpcu3TX/jYSBQjqnft17CjTKBb3N
+ H51EuDC+H8j4Vqdg40qQCOrASIpTUdRHDHQRggvErerfQU+ksosDROZgxkbrRuLV41Fv
+ SB7J12T0EwgkJqiu+qc3Sby8Rw/SBhlZl+UOuuLDHh8CaDJ/16eRt1H4TKOIiSJi2oqX
+ wWKnbp0yOuypBL1aBhq0atTqR49MYqnzTdZJvfmVCJfTb1KMT33CNycbxcIAYOBTT6rN
+ a8tN6NRgzpvLNx/hvaNOgo4DDLKuo9XICLsymO9lyrxswmDHfmG2pTmQo61l84lbTAz/
+ 3qqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7aFFhA+otSlffaV4rPfn2s1GH+BPYE0xZYGnj0MMnOg=;
+ b=UIcRpFdOm3d/sz9hCEGMthbux7FdDOppeJZeVN0Qakm+5stgZxTR0k4FLJeCws341B
+ 3RkSGd5ocENnv/x3uGC7UrrgWhAOFTT7d0JauEm8F8u5zgbvNBxcpqSjVMsBzwxGGmre
+ rJLWDOapy4lb65rhePFHK+Bj00z6YWVSAhgK1OOlUh6jN3d8T+3hZ4HL4hEJl3hM4t41
+ 0DjJyJN0QMGMEjLeJ1jWDh9uP1NUa1kpouDl0AU6c82FAdQaJG++ShhX2zdUyYoDz7o3
+ Kd+7P6oucDuu5VyZa2mmygxS8Q+ogy0AiIRhScZbmUtmbRBS989PDn7G6czRPztZPGdv
+ clSw==
+X-Gm-Message-State: ANhLgQ2WPwYo/gmJ+hdLsHDhMa4aEH+7IF1q7o4oXm0N4+QbHs5H/okR
+ SOj4JeiGiaY+Fz89tYRkBQ3qLP1Z0UU=
+X-Google-Smtp-Source: ADFU+vt5c3MkyuMB/7Di7ggCIgRVl97+sDr/cpgR4zjpOCX3Q2C0bIC0vsRwZVm9SgWm22/EEXaWQg==
+X-Received: by 2002:a62:446:: with SMTP id 67mr780910pfe.109.1583898395482;
+ Tue, 10 Mar 2020 20:46:35 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ h29sm46671572pfk.57.2020.03.10.20.46.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Mar 2020 20:46:34 -0700 (PDT)
+Subject: Re: Questions about pollute the mail list archives
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, Alistair.Francis@wdc.com,
+ Palmer Dabbelt <palmer@dabbelt.com>
+References: <a17be147-3e03-b79f-1008-11734c03cfdf@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <528c86c4-aad5-78c2-c710-7a09ddc5230d@linaro.org>
+Date: Tue, 10 Mar 2020 20:46:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.205.93]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.190
+In-Reply-To: <a17be147-3e03-b79f-1008-11734c03cfdf@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::52e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,60 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Peter Lieven <pl@kamp.de>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>, Ronnie
- Sahlberg <ronniesahlberg@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clang static code analyzer show warning:
-  block/iscsi.c:1920:9: warning: Value stored to 'flags' is never read
-        flags &=3D ~BDRV_O_RDWR;
-        ^        ~~~~~~~~~~~~
+On 3/10/20 7:19 PM, LIU Zhiwei wrote:
+> Is it serious?
 
-In iscsi_allocmap_init() only checks BDRV_O_NOCACHE, which
-is the same in both of flags and bs->open_flags.
-We can use the flags instead bs->open_flags to prevent Clang warning.
+It isn't ideal.  I would eventually try to review via your branch, and find a
+copy of the patch to reply, or send a reply to the cover letter if no copy of
+the patch arrived.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
----
-Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Lieven <pl@kamp.de>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: Laurent Vivier <laurent@vivier.eu>
+> Is there any way to clear it in the mail list archives?
 
-v1->v2:
- Keep the 'flags' then use it(Base on Kevin's comments).
+No.
 
-v2->v3:
- Modify subject and commit messages(Base on Kevin's and Laurent's comment=
-s).
----
- block/iscsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Can I send it again to the mail list?
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 682abd8e09..50bae51700 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2002,7 +2002,7 @@ static int iscsi_open(BlockDriverState *bs, QDict *=
-options, int flags,
-         iscsilun->cluster_size =3D iscsilun->bl.opt_unmap_gran *
-             iscsilun->block_size;
-         if (iscsilun->lbprz) {
--            ret =3D iscsi_allocmap_init(iscsilun, bs->open_flags);
-+            ret =3D iscsi_allocmap_init(iscsilun, flags);
-         }
-     }
-=20
---=20
-2.23.0
+Yes.
+
+To avoid confusion I would label it v4, even if there are no changes since v3.
+
+I would recommend using the --batch-size and --relogin-delay options to
+git-send-email.  I don't know exactly what parameters you need, but choosing
+small batches and long-ish delays should mean that the whole patch set trickles
+out over the course of an hour or two.  Patience is something that computers
+are good at.  :-)
 
 
+r~
 
