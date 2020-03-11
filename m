@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5901815F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 11:36:38 +0100 (CET)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266AD1815DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 11:33:04 +0100 (CET)
+Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jByj7-0004M1-6O
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 06:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43655)
+	id 1jByff-0005Xz-3f
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 06:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jBydC-0002zs-K9
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 06:30:32 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jByd8-0002to-6H
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 06:30:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jBydB-0001Zp-0c
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 06:30:30 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33074)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jByd6-0001Wz-VF
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 06:30:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33054)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jByd3-0001Ro-Hu; Wed, 11 Mar 2020 06:30:21 -0400
+ id 1jByd3-0001Rb-IP; Wed, 11 Mar 2020 06:30:21 -0400
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1jBycx-0005cJ-TW; Wed, 11 Mar 2020 13:30:16 +0300
+ id 1jBycy-0005cJ-3u; Wed, 11 Mar 2020 13:30:16 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 2/9] block/block-copy: fix progress calculation
-Date: Wed, 11 Mar 2020 13:29:57 +0300
-Message-Id: <20200311103004.7649-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 3/9] block/block-copy: specialcase first copy_range request
+Date: Wed, 11 Mar 2020 13:29:58 +0300
+Message-Id: <20200311103004.7649-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200311103004.7649-1-vsementsov@virtuozzo.com>
 References: <20200311103004.7649-1-vsementsov@virtuozzo.com>
@@ -47,198 +47,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, andrey.shinkevich@virtuozzo.com,
- jsnow@redhat.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assume we have two regions, A and B, and region B is in-flight now,
-region A is not yet touched, but it is unallocated and should be
-skipped.
+In block_copy_do_copy we fallback to read+write if copy_range failed.
+In this case copy_size is larger than defined for buffered IO, and
+there is corresponding commit. Still, backup copies data cluster by
+cluster, and most of requests are limited to one cluster anyway, so the
+only source of this one bad-limited request is copy-before-write
+operation.
 
-Correspondingly, as progress we have
+Further patch will move backup to use block_copy directly, than for
+cases where copy_range is not supported, first request will be
+oversized in each backup. It's not good, let's change it now.
 
-  total = A + B
-  current = 0
+Fix is simple: just limit first copy_range request like buffer-based
+request. If it succeed, set larger copy_range limit.
 
-If we reset unallocated region A and call progress_reset_callback,
-it will calculate 0 bytes dirty in the bitmap and call
-job_progress_set_remaining, which will set
-
-   total = current + 0 = 0 + 0 = 0
-
-So, B bytes are actually removed from total accounting. When job
-finishes we'll have
-
-   total = 0
-   current = B
-
-, which doesn't sound good.
-
-This is because we didn't considered in-flight bytes, actually when
-calculating remaining, we should have set (in_flight + dirty_bytes)
-as remaining, not only dirty_bytes.
-
-To fix it, let's refactor progress calculation, moving it to block-copy
-itself instead of fixing callback. And, of course, track in_flight
-bytes count.
-
-We still have to keep one callback, to maintain backup job bytes_read
-calculation, but it will go on soon, when we turn the whole backup
-process into one block_copy call.
-
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h | 15 +++++----------
- block/backup.c             | 13 ++-----------
- block/block-copy.c         | 16 ++++++++++++----
- 3 files changed, 19 insertions(+), 25 deletions(-)
+ block/block-copy.c | 41 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 0a161724d7..9def00068c 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -26,7 +26,6 @@ typedef struct BlockCopyInFlightReq {
- } BlockCopyInFlightReq;
- 
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
--typedef void (*ProgressResetCallbackFunc)(void *opaque);
- typedef struct BlockCopyState {
-     /*
-      * BdrvChild objects are not owned or managed by block-copy. They are
-@@ -36,6 +35,7 @@ typedef struct BlockCopyState {
-     BdrvChild *source;
-     BdrvChild *target;
-     BdrvDirtyBitmap *copy_bitmap;
-+    int64_t in_flight_bytes;
-     int64_t cluster_size;
-     bool use_copy_range;
-     int64_t copy_size;
-@@ -60,15 +60,9 @@ typedef struct BlockCopyState {
-      */
-     bool skip_unallocated;
- 
-+    ProgressMeter *progress;
-     /* progress_bytes_callback: called when some copying progress is done. */
-     ProgressBytesCallbackFunc progress_bytes_callback;
--
--    /*
--     * progress_reset_callback: called when some bytes reset from copy_bitmap
--     * (see @skip_unallocated above). The callee is assumed to recalculate how
--     * many bytes remain based on the dirty bit count of copy_bitmap.
--     */
--    ProgressResetCallbackFunc progress_reset_callback;
-     void *progress_opaque;
- 
-     SharedResource *mem;
-@@ -79,12 +73,13 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      BdrvRequestFlags write_flags,
-                                      Error **errp);
- 
--void block_copy_set_callbacks(
-+void block_copy_set_progress_callback(
-         BlockCopyState *s,
-         ProgressBytesCallbackFunc progress_bytes_callback,
--        ProgressResetCallbackFunc progress_reset_callback,
-         void *progress_opaque);
- 
-+void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
-+
- void block_copy_state_free(BlockCopyState *s);
- 
- int64_t block_copy_reset_unallocated(BlockCopyState *s,
-diff --git a/block/backup.c b/block/backup.c
-index 1383e219f5..8694e0394b 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -57,15 +57,6 @@ static void backup_progress_bytes_callback(int64_t bytes, void *opaque)
-     BackupBlockJob *s = opaque;
- 
-     s->bytes_read += bytes;
--    job_progress_update(&s->common.job, bytes);
--}
--
--static void backup_progress_reset_callback(void *opaque)
--{
--    BackupBlockJob *s = opaque;
--    uint64_t estimate = bdrv_get_dirty_count(s->bcs->copy_bitmap);
--
--    job_progress_set_remaining(&s->common.job, estimate);
- }
- 
- static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-@@ -464,8 +455,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     job->cluster_size = cluster_size;
-     job->len = len;
- 
--    block_copy_set_callbacks(bcs, backup_progress_bytes_callback,
--                             backup_progress_reset_callback, job);
-+    block_copy_set_progress_callback(bcs, backup_progress_bytes_callback, job);
-+    block_copy_set_progress_meter(bcs, &job->common.job.progress);
- 
-     /* Required permissions are already taken by backup-top target */
-     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 79798a1567..e2d7b3b887 100644
+index e2d7b3b887..ddd61c1652 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -127,17 +127,20 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-     return s;
+@@ -70,16 +70,19 @@ void block_copy_state_free(BlockCopyState *s)
+     g_free(s);
  }
  
--void block_copy_set_callbacks(
-+void block_copy_set_progress_callback(
-         BlockCopyState *s,
-         ProgressBytesCallbackFunc progress_bytes_callback,
--        ProgressResetCallbackFunc progress_reset_callback,
-         void *progress_opaque)
- {
-     s->progress_bytes_callback = progress_bytes_callback;
--    s->progress_reset_callback = progress_reset_callback;
-     s->progress_opaque = progress_opaque;
- }
- 
-+void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm)
++static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
 +{
-+    s->progress = pm;
++    return MIN_NON_ZERO(INT_MAX,
++                        MIN_NON_ZERO(source->bs->bl.max_transfer,
++                                     target->bs->bl.max_transfer));
 +}
 +
- /*
-  * block_copy_do_copy
-  *
-@@ -269,7 +272,9 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+                                      int64_t cluster_size,
+                                      BdrvRequestFlags write_flags, Error **errp)
+ {
+     BlockCopyState *s;
+     BdrvDirtyBitmap *copy_bitmap;
+-    uint32_t max_transfer =
+-            MIN_NON_ZERO(INT_MAX,
+-                         MIN_NON_ZERO(source->bs->bl.max_transfer,
+-                                      target->bs->bl.max_transfer));
  
-     if (!ret) {
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
--        s->progress_reset_callback(s->progress_opaque);
-+        progress_set_remaining(s->progress,
-+                               bdrv_get_dirty_count(s->copy_bitmap) +
-+                               s->in_flight_bytes);
+     copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
+                                            errp);
+@@ -99,7 +102,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         .mem = shres_create(BLOCK_COPY_MAX_MEM),
+     };
+ 
+-    if (max_transfer < cluster_size) {
++    if (block_copy_max_transfer(source, target) < cluster_size) {
+         /*
+          * copy_range does not respect max_transfer. We don't want to bother
+          * with requests smaller than block-copy cluster size, so fallback to
+@@ -114,12 +117,11 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         s->copy_size = cluster_size;
+     } else {
+         /*
+-         * copy_range does not respect max_transfer (it's a TODO), so we factor
+-         * that in here.
++         * We enable copy-range, but keep small copy_size, until first
++         * successful copy_range (look at block_copy_do_copy).
+          */
+         s->use_copy_range = true;
+-        s->copy_size = MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
+-                           QEMU_ALIGN_DOWN(max_transfer, cluster_size));
++        s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
      }
  
-     *count = bytes;
-@@ -331,15 +336,18 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         trace_block_copy_process(s, start);
- 
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
-+        s->in_flight_bytes += chunk_end - start;
- 
-         co_get_from_shres(s->mem, chunk_end - start);
-         ret = block_copy_do_copy(s, start, chunk_end, error_is_read);
-         co_put_to_shres(s->mem, chunk_end - start);
-+        s->in_flight_bytes -= chunk_end - start;
-         if (ret < 0) {
-             bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
-             break;
+     QLIST_INIT(&s->inflight_reqs);
+@@ -172,6 +174,22 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+             s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+             /* Fallback to read+write with allocated buffer */
+         } else {
++            if (s->use_copy_range) {
++                /*
++                 * Successful copy-range. Now increase copy_size.  copy_range
++                 * does not respect max_transfer (it's a TODO), so we factor
++                 * that in here.
++                 *
++                 * Note: we double-check s->use_copy_range for the case when
++                 * parallel block-copy request unsets it during previous
++                 * bdrv_co_copy_range call.
++                 */
++                s->copy_size =
++                        MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
++                            QEMU_ALIGN_DOWN(block_copy_max_transfer(s->source,
++                                                                    s->target),
++                                            s->cluster_size));
++            }
+             goto out;
          }
+     }
+@@ -179,7 +197,10 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+     /*
+      * In case of failed copy_range request above, we may proceed with buffered
+      * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests will
+-     * be properly limited, so don't care too much.
++     * be properly limited, so don't care too much. Moreover the most likely
++     * case (copy_range is unsupported for the configuration, so the very first
++     * copy_range request fails) is handled by setting large copy_size only
++     * after first successful copy_range.
+      */
  
-+        progress_work_done(s->progress, chunk_end - start);
-         s->progress_bytes_callback(chunk_end - start, s->progress_opaque);
-         start = chunk_end;
-         ret = 0;
+     bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
 -- 
 2.21.0
 
