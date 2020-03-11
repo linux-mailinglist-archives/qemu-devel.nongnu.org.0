@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FD818186E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:46:40 +0100 (CET)
-Received: from localhost ([::1]:51226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3731818CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:52:35 +0100 (CET)
+Received: from localhost ([::1]:51298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0kx-0006gH-GG
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
+	id 1jC0qg-0002as-1J
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jC0hM-0001kV-U7
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:42:58 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jC0pv-0002CM-N1
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:51:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1jC0hL-0001Ar-E7
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:42:56 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:60274)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1jC0hL-00019u-1m
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:42:55 -0400
-Received: from PASHAISP (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id CA3C0725C1;
- Wed, 11 Mar 2020 15:42:49 +0300 (MSK)
-From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
-To: <qemu-devel@nongnu.org>
-References: <158323839655.22833.2201521760155801620.stgit@pasha-Precision-3630-Tower>
-In-Reply-To: <158323839655.22833.2201521760155801620.stgit@pasha-Precision-3630-Tower>
-Subject: RE: [PATCH v2] icount: make dma reads deterministic
-Date: Wed, 11 Mar 2020 15:42:48 +0300
-Message-ID: <004001d5f7a2$9297eb50$b7c7c1f0$@ru>
+ (envelope-from <robert.foley@linaro.org>) id 1jC0pu-0002cw-DS
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:51:47 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:40411)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1jC0pu-0002bH-5Z
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:51:46 -0400
+Received: by mail-lj1-x241.google.com with SMTP id 19so2171945ljj.7
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 05:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RxrCgcDeyx+cZbNt4wk7y7I+wi0StNegNeKf6H/f5UA=;
+ b=P9WVCgLr9979tY0pk3JZEdG4k5BUPxT4aIPs3H5tcu/k+GjHbR74CbfXGZxmaZYa/V
+ a1rjzoumNJrvblii2y/VI7o5uAqBmFCBFjvSYoCRP6GvK24d/qx/yW6b7TP/nmejGhzS
+ cGFD2D8dcd/5yugmcxbcZpMFAikAmroXIGsX1VbNs4mmoqhDnPW/fwAiYgE0jq0g3rOD
+ A/Sbk9cAtZIqCLrhTx/KjDDYJZvWp4kJTb38T4Z+/rQA9kvfWKNbHDuZYEcVAFToaJgf
+ 8kAhjiVBosvFsW72F8F9LbRTCFsTtrExRs6w4xMum8LX7pNwqVGRWDbPwFqUh2vtQTYD
+ 14cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RxrCgcDeyx+cZbNt4wk7y7I+wi0StNegNeKf6H/f5UA=;
+ b=OmFJ7q5UnT0zmjSjeTvP7ajh2bfeCx1q09XqOQP+a2ch25JUrsLGaLR5BPIhJjwLTt
+ UFACYHUdSa/Df9+jnYtL7KxRvVfyf4tIpTjX7jqmiJro09cACA9JQck1GPDKsIEr9nkQ
+ IfY4O2vzyrdIv7t8eLnOXNvHLhLCDV59S4gwCDSrSp3rcIv+7GBre46W36XxPwTXio5a
+ LnBYXcE42//2aufvITqnZpi+QUtRBzaf12a97vR/PbV9uiSDm8iZMx7hidXg7+amy3yj
+ /t+yQAcy07SB/HeE7GVU1a09m9WxdJxJMPJmDY/Sey+qN+cc5tmxzGSDZC2HZxpP3/XG
+ D7vA==
+X-Gm-Message-State: ANhLgQ3zJ/loITfEpOAjdNvOdOTk3jvB+jWlicihSprjR2LP/+X1YLzW
+ RnK7RmYvkGsH/qjdVaxg7ItzPUPHK/VSQoLCgNoH1g==
+X-Google-Smtp-Source: ADFU+vsKS9ufYQUZz38NwYOpIrIARAlu/yrlvZhd4aCySjNDJM2ohp+qAaurRJm7gSgzazycvCwp4P+drPDaecSJc8w=
+X-Received: by 2002:a2e:3812:: with SMTP id f18mr2047524lja.129.1583931104361; 
+ Wed, 11 Mar 2020 05:51:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdXxVvu5ci1CkcWrSPyWgvzl2tL8pgGS5EBA
-Content-Language: ru
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 83.149.199.45
+References: <20200310182536.11137-1-robert.foley@linaro.org>
+ <87pndjgksk.fsf@linaro.org>
+In-Reply-To: <87pndjgksk.fsf@linaro.org>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Wed, 11 Mar 2020 08:51:08 -0400
+Message-ID: <CAEyhzFvcqbmSPkW0Z076vdxSrj8ntC0W4dXgJjLbbwWUUOLJfw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] tests/vm: Add support for aarch64 VMs
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,122 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, pavel.dovgaluk@ispras.ru,
- mreitz@redhat.com
+Cc: Peter Puhov <peter.puhov@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+On Wed, 11 Mar 2020 at 08:04, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Robert Foley <robert.foley@linaro.org> writes:
+>
+> > This is version 3 of the patch series to
+> > add support for aarch64 VMs in the vm-build infrastructure.
+> >  - Ubuntu 18.04 aarch64 VM
+> >  - CentOS 8 aarch64 VM
+> >
+> > V2:
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05310.html
+>
+> Hmm weird - it's broken check-acceptance for me:
+>
+> JOB LOG    : /home/alex/avocado/job-results/job-2020-03-11T12.03-8250144/=
+job.log
+>  (01/29) ./tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_x=
+86_64_pc: ERROR: 'ConsoleSocket' object has no attribute 'makefile' (0.35 s=
+)
+>
 
+Nice catch.  Looks like our new ConsoleSocket object needs at least
+one more method on it.
+Will take a look at it.
 
-Pavel Dovgalyuk
-
-> -----Original Message-----
-> From: Pavel Dovgalyuk [mailto:pavel.dovgaluk@gmail.com]
-> Sent: Tuesday, March 03, 2020 3:27 PM
-> To: qemu-devel@nongnu.org
-> Cc: kwolf@redhat.com; jsnow@redhat.com; dovgaluk@ispras.ru; pavel.dovgaluk@ispras.ru;
-> mreitz@redhat.com
-> Subject: [PATCH v2] icount: make dma reads deterministic
-> 
-> Windows guest sometimes makes DMA requests with overlapping
-> target addresses. This leads to the following structure of iov for
-> the block driver:
-> 
-> addr size1
-> addr size2
-> addr size3
-> 
-> It means that three adjacent disk blocks should be read into the same
-> memory buffer. Windows does not expects anything from these bytes
-> (should it be data from the first block, or the last one, or some mix),
-> but uses them somehow. It leads to non-determinism of the guest execution,
-> because block driver does not preserve any order of reading.
-> 
-> This situation was discusses in the mailing list at least twice:
-> https://lists.gnu.org/archive/html/qemu-devel/2010-09/msg01996.html
-> https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05185.html
-> 
-> This patch makes such disk reads deterministic in icount mode.
-> It splits the whole request into several parts. Parts may overlap,
-> but SGs inside one part do not overlap.
-> Parts that are processed later overwrite the prior ones in case
-> of overlapping.
-> 
-> Examples for different SG part sequences:
-> 
-> 1)
-> A1 1000
-> A2 1000
-> A1 1000
-> A3 1000
-> ->
-> One request is split into two.
-> A1 1000
-> A2 1000
+Thanks & Regards,
+-Rob
 > --
-> A1 1000
-> A3 1000
-> 
-> 2)
-> A1 800
-> A2 1000
-> A1 1000
-> ->
-> A1 800
-> A2 1000
-> --
-> A1 1000
-> 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-> 
-> --
-> 
-> v2:
->  - Rewritten the loop to split the request instead of skipping the parts
->    (suggested by Kevin Wolf)
-> ---
->  dma-helpers.c |   19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/dma-helpers.c b/dma-helpers.c
-> index e8a26e81e1..959e114595 100644
-> --- a/dma-helpers.c
-> +++ b/dma-helpers.c
-> @@ -13,6 +13,8 @@
->  #include "trace-root.h"
->  #include "qemu/thread.h"
->  #include "qemu/main-loop.h"
-> +#include "sysemu/cpus.h"
-> +#include "qemu/range.h"
-> 
->  /* #define DEBUG_IOMMU */
-> 
-> @@ -142,6 +144,23 @@ static void dma_blk_cb(void *opaque, int ret)
->          cur_addr = dbs->sg->sg[dbs->sg_cur_index].base + dbs->sg_cur_byte;
->          cur_len = dbs->sg->sg[dbs->sg_cur_index].len - dbs->sg_cur_byte;
->          mem = dma_memory_map(dbs->sg->as, cur_addr, &cur_len, dbs->dir);
-> +        /*
-> +         * Make reads deterministic in icount mode. Windows sometimes issues
-> +         * disk read requests with overlapping SGs. It leads
-> +         * to non-determinism, because resulting buffer contents may be mixed
-> +         * from several sectors. This code splits all SGs into several
-> +         * groups. SGs in every group do not overlap.
-> +         */
-> +        if (use_icount && dbs->dir == DMA_DIRECTION_FROM_DEVICE) {
-> +            int i;
-> +            for (i = 0 ; i < dbs->iov.niov ; ++i) {
-> +                if (ranges_overlap((intptr_t)dbs->iov.iov[i].iov_base, dbs-
-> >iov.iov[i].iov_len,
-> +                                   (intptr_t)mem, cur_len)) {
-> +                    mem = NULL;
-> +                    break;
-> +                }
-> +            }
-> +        }
->          if (!mem)
->              break;
->          qemu_iovec_add(&dbs->iov, mem, cur_len);
-
-
+> Alex Benn=C3=A9e
 
