@@ -2,106 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4DD181B1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:25:40 +0100 (CET)
-Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377D6181B06
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:20:35 +0100 (CET)
+Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC2Il-0005PS-Jn
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39681)
+	id 1jC2Dq-0002Mr-7k
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1jC1wu-0000Kg-Qw
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:03:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1xz-0001gp-Ke
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:04:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1jC1wt-0001DA-FQ
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:03:04 -0400
-Received: from mail-bn3nam04on0624.outbound.protection.outlook.com
- ([2a01:111:f400:fe4e::624]:60198
- helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1jC1wt-00017H-4A
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:03:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HPGYOf5ncg29gEuzx+izWeJt7qL5LRjhfgh18zLZOSPUflR3OeXWTg18j9huU6DI3jMVqTmrif+I+KlJ4+YN1kfdYXhVzEAOldRIOuHdpRIqNEwSYcLQDt9ZnBJfk+IMhkKvRcxzpdd9yj54CdU3z/VrRNVkbl5uHFe5OnjPD7NkbtGvUYJ9P6elgOE1npx3pP588Z3dE9N5vET3R3/tmrKJiRp8C1/JK2OYeKqVJotEiIjFfPM41JaD7W+Qlgmb9qx4S/MfZjLiaPFBQvCj0ssNQXY6L73fFOwl5bvKf/xuz7sU0nb7RjWKSJvxJx7uyxfhFHWc768zl8qd9W7qNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yKeZ56dxyHdVyDeWgO3SOh7kypR0xgQvACYaHyBfZtA=;
- b=Rk0KvQSvi2A7/jnw/xATLiGmwdZdm/DQbGb5tbcKRIZIjOQnZOHDR0KeUOqkGFhd9ICH7yCJ3tcvHdvqHOQDtxG4hIRGRHRb68qz9MJM1AtxY+rfYAPMyT7Jdjx6W/213lCWnTwnhjr3xb2wGsvZLx7WHOnYxn4AIGYv0mkZpWGzy5FdLo8iro3NoAUK3BEz+oEL+88Kn+UZYis9pKs203TtnwXq/FZbkCQb0yTUmUlc/fGYZnb2jc34REUPanhdM32+szkDxBl7+hEKfTlP8ILzTMJ4u4XlAyhV+tERvbd74TBPyRDwyRaPKxMFqhoCV2f93uJd92BLQPU7CmwQ5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yKeZ56dxyHdVyDeWgO3SOh7kypR0xgQvACYaHyBfZtA=;
- b=H/lL3lYt6tv4VIPFyBk+el6WoKtAswOPtODvsfcwb2vhMtZh9fZBTRR1Px8YfgDabgHB+4BszCnXDEvY5Rj95jAYx/af5u75NSPa2RwfVsG8PtSGirJ+8R6e1cGGSMb0CYdbexM2PEe6Xfrk7VHz14s0fx1jmC57yLV694plPDk=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2366.namprd12.prod.outlook.com (2603:10b6:802:25::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Wed, 11 Mar
- 2020 14:03:01 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::382f:640c:215f:be93]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::382f:640c:215f:be93%5]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
- 14:03:01 +0000
-Subject: Re: [PATCH v6 01/13] hw/i386: Introduce X86CPUTopoInfo to contain
- topology info
-To: Igor Mammedov <imammedo@redhat.com>
-References: <158389385028.22020.7608244627303132902.stgit@naples-babu.amd.com>
- <158389400579.22020.10755767480575663831.stgit@naples-babu.amd.com>
- <20200311123955.29a4c0d1@redhat.com>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <f506eba6-49b9-041e-80a3-58a3968beb93@amd.com>
-Date: Wed, 11 Mar 2020 09:02:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200311123955.29a4c0d1@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR13CA0028.namprd13.prod.outlook.com
- (2603:10b6:3:7b::14) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1xy-0002Wg-H8
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:04:11 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39379)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jC1xy-0002WJ-8C
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:04:10 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f7so2269835wml.4
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 07:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=naHXYiAQQj95mPskYrvlj4n8/vg+KXMbd7zFJGbkX88=;
+ b=OJ4n4k+ty5WbvSdU5yxdqGO/LV4vVhqd9ZjU115na1c//OpHcuj9vYcVhZPbs+sRiY
+ dj42XmzrH3bNE8epao36oi5QF6x8SulLgPC2fHe5IrBI6fk9SCiZaIme47zZh2Lw1vM/
+ zbgPN6sB7bGBy3ZkItuDHZ/Gz+EXbs2s5VWo8W38gE70/UnCi4K/5AYYf5HZQvGK/G9j
+ 5FoUSkKMVCrJAAcFGZISaiWlqB3Ju39xVFKnaMoXQ8p9OifFUhISUCkyI1T48+q4IqhN
+ QDfG/FPhpxXZke6Hf7LijwTwjUq+8PjuMJtsnW5st3FpAd1BfNGWB74bbRDYynnbo3qH
+ +qGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=naHXYiAQQj95mPskYrvlj4n8/vg+KXMbd7zFJGbkX88=;
+ b=X5Q+hKjIOujnxoU7plvzLyj0rkJ3Cfd8SCeGPLQUp1dDC80YsztgYGxekgwzxjgf+9
+ 8sQCCzCIT9s/eYrfZ9so6/iinQe0ED8mBV2WCIGiGzEBsNppQejk+YHU8RteWHinuryP
+ nfP2N4Os4bFsVEMxEn/ROzzGWxAGvRn9/4FmbiZzjZeSIskNZA7GYT39xsuqZKebfxlE
+ mvmAucwDXOY6ckRk1SOMtSZzH17ERpPiHYYNzIu5NNdrFs5SneJN7TSd96LBmDYbx3+m
+ 0xw+yCxVFNQbLP+tRUHJjfsPYWXu3a9RosxUflKnz8jrBKinSv2Vu0dR58skwvlBb6vg
+ /AtA==
+X-Gm-Message-State: ANhLgQ3m3xIgfSv/Qrqp9DJHYp5ecl0/DzL75cqU0LplYcTMdn0oewGV
+ 9X8mtq/ztEw8pRiOKsXSLzGx0g==
+X-Google-Smtp-Source: ADFU+vsiNUJPKMGUZCwfvaALSwDPga35gECdCM6EtPfwHctgMA/pxh6bcNndlGLcwTW6NMCE02u9/Q==
+X-Received: by 2002:a7b:ce92:: with SMTP id q18mr4054133wmj.147.1583935449014; 
+ Wed, 11 Mar 2020 07:04:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f4sm15175548wrt.24.2020.03.11.07.04.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Mar 2020 07:04:07 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 75E091FF7E;
+ Wed, 11 Mar 2020 14:04:06 +0000 (GMT)
+References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Subject: Re: [PATCH v7 00/18] Add Allwinner H3 SoC and Orange Pi PC Machine
+In-reply-to: <20200310213203.18730-1-nieklinnenbank@gmail.com>
+Date: Wed, 11 Mar 2020 14:04:06 +0000
+Message-ID: <87o8t3f0o9.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.87] (165.204.77.1) by
- DM5PR13CA0028.namprd13.prod.outlook.com (2603:10b6:3:7b::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.9 via Frontend Transport; Wed, 11 Mar 2020 14:02:59 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3bc842ce-45c6-4885-efb5-08d7c5c4e8a0
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2366:
-X-Microsoft-Antispam-PRVS: <SN1PR12MB23665BBC3EE2A2A7BD13951895FC0@SN1PR12MB2366.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-Forefront-PRVS: 0339F89554
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(366004)(346002)(39860400002)(136003)(376002)(199004)(8676002)(31696002)(66476007)(66556008)(81166006)(66946007)(316002)(86362001)(2906002)(478600001)(16576012)(4326008)(81156014)(52116002)(6486002)(966005)(36756003)(53546011)(2616005)(956004)(44832011)(8936002)(5660300002)(31686004)(26005)(6916009)(186003)(16526019);
- DIR:OUT; SFP:1101; SCL:1; SRVR:SN1PR12MB2366;
- H:SN1PR12MB2560.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PCWUzlGlpHYdujHwabl9WKK6/j/+V0uFH3p21vuyPIw7awCOdKUzLxsm+AGiE3drVrN3Xrt67aMvMfo5PMJs8tLLCsN8/gdZv0QpnZCBv1qoozb3BUCoQLL3L2hKjpo4AIbstaipFtoArxRO5YS1CSj+9wu4Tnf/68VQf0bnNva9pFIwbPP7bZvU9kxceoeeDgq+V8vnARPr6QM9YnL7ZBUB8nfzPWXMcA/3pILG7HvQP/1x6Jxci1zcA2o3A37d43krGMRHBeWZkDtTW9osuQOtKuZzFoDmCVPOrTy0Tv1RTnT9UtIdUvri7R2grQxG3VSRuOOLRr1zbnCUSwxHAJYsLx5qoDRJunwWqrwrHnVLV/obiX53ePaLcvhJseGWAqOb5BWrNSXvinrUa7suO/tl80m0rmWCbVqw13YXPyJGOvU0wSMUp3sk6VKixXz2036mtEoWS8A3alAzqL8NTWga2hVD9NSQU0N7T9h5jg4iH237kQvd4LjL51SRablwY3t0tpoUQCq21n2IvliPkA==
-X-MS-Exchange-AntiSpam-MessageData: iDtqpZZxK08UUjlxuLZ87y2RJZes3QyY9Z1NnI+d5QwktA5EPJEEV/SDznA8KZRJeMskhhmhepEY//vNVrp3sqpjtCAbf8h35SJv3GJWEYybiB87oRB1MrHYkUJbUJjKpG1RKIhmHJ0VH2b3gllJPg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bc842ce-45c6-4885-efb5-08d7c5c4e8a0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 14:03:00.8614 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KynPeQvBuZa6I+b2AkGZKC8DDAPnQKWeOwSHYRaX2xbKo8SRn8PSEKLK/3Y1JcnA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2366
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a01:111:f400:fe4e::624
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,66 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-On 3/11/20 6:39 AM, Igor Mammedov wrote:
-> On Tue, 10 Mar 2020 21:33:25 -0500
-> Babu Moger <babu.moger@amd.com> wrote:
-> 
->> This is an effort to re-arrange few data structure for better readability.
->>
->> 1. Add X86CPUTopoInfo which will have all the topology informations
->>    required to build the cpu topology. There is no functional changes.
->>
->> 2. Introduce init_topo_info to initialize X86CPUTopoInfo members from
->>    X86MachineState.
->>
->> 3. Update x86 unit tests for new calling convention with parameter X86CPUTopoInfo
->>
->> There is no functional changes.
-> 
-> patch doesn't apply to current master, so I can't really test it
+> Dear QEMU developers,
+>
+> Hereby I would like to contribute the following set of patches to QEMU
+> which add support for the Allwinner H3 System on Chip and the
+> Orange Pi PC machine. The following features and devices are supported:
+<snip>
 
-I generated the patches on top of Eduardo's tree.
+I've finished my pass through and I think everything has a review tag
+now. As there are some small fixes needed you can you do a v8 respin
+which Peter can apply to target-arm/next.
 
-It should work if you apply after this patch.
-
-https://lore.kernel.org/qemu-devel/158326541877.40452.17535023236841538507.stgit@naples-babu.amd.com/
-
-Do you want me to generate on top of master ?
-
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->>  hw/i386/pc.c               |   12 ++++++------
->>  hw/i386/x86.c              |   32 ++++++++++++++++++++++++--------
->>  include/hw/i386/topology.h |   38 ++++++++++++++++++++++++--------------
->>  include/hw/i386/x86.h      |    3 +++
->>  tests/test-x86-cpuid.c     |   43 ++++++++++++++++++++++++-------------------
->>  5 files changed, 81 insertions(+), 47 deletions(-)
->>
-> [...]
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index 322fb6abbc..03b8962c98 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -57,6 +57,16 @@
->>  /* Physical Address of PVH entry point read from kernel ELF NOTE */
->>  static size_t pvh_start_addr;
->>  
->> +inline void init_topo_info(X86CPUTopoInfo *topo_info,
->> +                                  const X86MachineState *x86ms)
-> 
-> not aligned properly
-
-Will fix it.
-
-> 
-> [...]
-> 
+--=20
+Alex Benn=C3=A9e
 
