@@ -2,81 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAA01819AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:26:27 +0100 (CET)
-Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19F8181999
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:23:44 +0100 (CET)
+Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1NS-0001DW-Ki
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58313)
+	id 1jC1Kp-0005Vi-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Ld-0007mc-UP
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:24:34 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jC1Jr-0004fq-Fh
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:22:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Lc-00078h-V6
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:24:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4664
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <no-reply@patchew.org>) id 1jC1Jq-0005Bq-9B
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:22:43 -0400
+Resent-Date: Wed, 11 Mar 2020 09:22:43 -0400
+Resent-Message-Id: <E1jC1Jq-0005Bq-9B@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21178)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jC1Lc-00078M-Oz
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:24:32 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02BDOHGA010717
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:24:32 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yq04bt35n-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:24:26 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 11 Mar 2020 13:22:32 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Mar 2020 13:22:29 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02BDLSIv45810116
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 13:21:28 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 718BB52050;
- Wed, 11 Mar 2020 13:22:28 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.36.208])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2EE755204F;
- Wed, 11 Mar 2020 13:22:27 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status correctly
-Date: Wed, 11 Mar 2020 09:21:49 -0400
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jC1Jq-0005Be-0x
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:22:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1583932953; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FKbYQH381xCd70lNJhSeare2nd3poD3HFl777VLeYb77A9zNPWm1T/JCn+wCjtn9IWoPWtsTZSnsYAreOiZlKpkuwXy90zHdlSDYdBm9i+j+X2fWDfc4L61DgM3ZchAHbVAiGG8K0BagJhVWXv38MMgdEzQK6ft2/01BNo7ph1M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583932953;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=OpHkv7MkU4/HUlA2IJ0TnlcNRLj30fzKvPdmWia51us=; 
+ b=dIhZhlE+Gk4WUdKd/9C1Q7KJvARFWJ5E/Ab5J4du/e3PamuVxy3a5hs9bu8QPhMM2trOk+o0+dwHQnfy9ETHQqvOM2cbNKNvxwfsv/kCb75TgJSmIsUt2tI7LHSpQdllMcmOwDJa+4xrVCN4kvuEMzMj15R9gdhoQ0j4YYTNWho=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 15839329511951002.1353014033504;
+ Wed, 11 Mar 2020 06:22:31 -0700 (PDT)
+In-Reply-To: <20200311123624.277221-1-stefanha@redhat.com>
+Subject: Re: [PATCH 0/2] thread: add lock guard macros
+Message-ID: <158393294992.5248.13775226604855408879@39012742ff91>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031113-4275-0000-0000-000003AAA2B1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031113-4276-0000-0000-000038BFBEC8
-Message-Id: <20200311132151.172389-14-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-11_05:2020-03-11,
- 2020-03-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 impostorscore=0 malwarescore=0 mlxlogscore=857 spamscore=0
- suspectscore=1 priorityscore=1501 adultscore=0 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003110085
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: stefanha@redhat.com
+Date: Wed, 11 Mar 2020 06:22:31 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,45 +64,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For protected VMs status storing is not done by QEMU anymore.
-
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index ed726849114f2f35..5022df8812d406c9 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -25,6 +25,7 @@
- #include "qemu/timer.h"
- #include "qemu/qemu-print.h"
- #include "hw/s390x/ioinst.h"
-+#include "hw/s390x/pv.h"
- #include "sysemu/hw_accel.h"
- #include "sysemu/runstate.h"
- #ifndef CONFIG_USER_ONLY
-@@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
-     hwaddr len = sizeof(*sa);
-     int i;
- 
-+    /* Storing will occur on next SIE entry for protected VMs */
-+    if (s390_is_pv()) {
-+        return 0;
-+    }
-+
-     sa = cpu_physical_memory_map(addr, &len, true);
-     if (!sa) {
-         return -EFAULT;
--- 
-2.25.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxMTEyMzYyNC4yNzcy
+MjEtMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
+b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
+bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2Vy
+LWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0Bm
+ZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB1
+dGlsL3VyaS5vCiAgQ0MgICAgICB1dGlsL25vdGlmeS5vCi90bXAvcWVtdS10ZXN0L3NyYy91dGls
+L3FlbXUtdGltZXIuYzogSW4gZnVuY3Rpb24gJ3RpbWVybGlzdF9leHBpcmVkJzoKL3RtcC9xZW11
+LXRlc3Qvc3JjL3V0aWwvcWVtdS10aW1lci5jOjE5NjoyNDogZXJyb3I6ICdleHBpcmVfdGltZScg
+bWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV2Vycm9yPW1heWJl
+LXVuaW5pdGlhbGl6ZWRdCiAgICAgcmV0dXJuIGV4cGlyZV90aW1lIDw9IHFlbXVfY2xvY2tfZ2V0
+X25zKHRpbWVyX2xpc3QtPmNsb2NrLT50eXBlKTsKICAgICAgICAgICAgfn5+fn5+fn5+fn5+Xn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CmNjMTogYWxsIHdhcm5p
+bmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzCm1ha2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3Jj
+L3J1bGVzLm1hazo2OTogdXRpbC9xZW11LXRpbWVyLm9dIEVycm9yIDEKbWFrZTogKioqIFdhaXRp
+bmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxh
+c3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUgNjY0LCBpbiA8bW9k
+dWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnBy
+b2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2Vy
+JywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YmJlN2VjMzYxOWUy
+NDAxYTk3MDYwZDVkOWFiNTViYWMnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdz
+ZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAn
+RVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAn
+REVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2Nj
+YWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92
+YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1qZHRu
+d2tzYS9zcmMvZG9ja2VyLXNyYy4yMDIwLTAzLTExLTA5LjIwLjU0LjI4NTQ6L3Zhci90bXAvcWVt
+dTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cn
+XScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVs
+PWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YmJlN2VjMzYxOWUyNDAxYTk3MDYwZDVkOWFiNTViYWMK
+bWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0
+b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtamR0bndrc2Evc3JjJwptYWtlOiAqKiog
+W2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgMW0zNi42NTRz
+CnVzZXIgICAgMG03Ljg1NnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9w
+YXRjaGV3Lm9yZy9sb2dzLzIwMjAwMzExMTIzNjI0LjI3NzIyMS0xLXN0ZWZhbmhhQHJlZGhhdC5j
+b20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
