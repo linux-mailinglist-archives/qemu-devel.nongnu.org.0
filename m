@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F196181EB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:07:08 +0100 (CET)
-Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B26181EAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:06:16 +0100 (CET)
+Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC4p1-0001H5-BP
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53039)
+	id 1jC4oB-0007bn-Co
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <basil@daynix.com>) id 1jC4mR-0005Pe-Bq
+ (envelope-from <basil@daynix.com>) id 1jC4mR-0005Pj-E0
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:04:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <basil@daynix.com>) id 1jC4mQ-0000HL-Ak
+ (envelope-from <basil@daynix.com>) id 1jC4mQ-0000HE-AL
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:04:27 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35693)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33473)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <basil@daynix.com>) id 1jC4mP-0000DG-Ty
+ (Exim 4.71) (envelope-from <basil@daynix.com>) id 1jC4mP-0000Ds-PP
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:04:26 -0400
-Received: by mail-wm1-x344.google.com with SMTP id m3so2986067wmi.0
+Received: by mail-wr1-x443.google.com with SMTP id a25so3634296wrd.0
  for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 10:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=j3gdc3TumaCPLd0LPj5fkERHdWmWPqCYiCKpweTX04I=;
- b=rlgUXYXqocYFuCgj3WrWZoaHVVXO+h4twagDCgunurp6ZkEpdm8ipA1JqOCdxVBpZc
- M6RwUA8xn+OgANHT7j+UM3+fXc61PGdDYV5fcQdbusViscXppHfW36EHdCM1thNVPX4G
- G3O1rzicmZIyPptiVXea/sBMheJCjRfdycMcych4bY5kDC/KFm+QMvA5UTPDUl8Gj/LH
- fKM2AcfF64AE+QnAfUPL7oEsdWT/l3og4u31Inw/vRuqN7fy6684hyS8cLKgD0PqgZcG
- ddoS2nIdfhHPJGs4m631azgXt0EqcDYdiXcIeDHtI9cVF35n3PtbHwz52vr6Mx8+mAq8
- u2Dw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=YmXW/SP9doq5sjoE7E/52vrDte/Mf5r4HqcJtOH7zn4=;
+ b=0k6iuWTgJ6/QSPwDmiLJbkthg8AqOt/otdbrLa/gV/AeNHY1NuSlnoz1a+BGHic18K
+ tpE1zo0Yv+OxYl3olx74aDB5+ZvxhfdXp5DSJsYYrXdbWQkn3JCdYt97i0wMB+mgCk5f
+ cMWi+nvPe29+yHBPJxd86uNHxrrU0sFCWdULZFSYFZHPNanle4+KylP2y7R+l5+MfobJ
+ fCHj+uK6bmGDwIBIR5ri/PVYLgUzB8Lnel4CZ6QMbRiDQwuOT0IyHw3qier63EHdEIFL
+ KCdXlSEB7Uu7agQia/bqVf6vTX1LJIG1EYiT9I3n8EIOIXTZbVHCymTVxK39FSpXeJnf
+ I7iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=j3gdc3TumaCPLd0LPj5fkERHdWmWPqCYiCKpweTX04I=;
- b=pjtRxtKzA41gWfwiNYqFe5lXj7DjJaXtnZj7pDb7iV4H82zKZR/pVZvGTCqAw2cE3f
- S+oZvLq7s7D7qUw494PFAjZKG/qsavepJedwY2B3EVj3lh+sKpsASSEw/zdkhOm8YX54
- TOoMrxBhCt1XVsTEhAnYaJyEy2cBK9h72DNxlUuizrZtzcyZ2oLY0677PF6U/5kUakOR
- 6rfZx4IURPNDi05kqlyHGHeGEVBIMuVPKFg/KtxRzhUaXWDuoKqruuD3qUzBUj9w4Z+P
- JE9JixnMV8n5UDbi0RpKKEdmcr8q1eqbu2w3xmlQLRyBn8cMS5FYjMmKeiZil0+0Lwdh
- /TVg==
-X-Gm-Message-State: ANhLgQ2NbsXy/TpvGJNMFw/ZUnQ8Ethjo70ZDgo120xdxKapFaq0zE7Q
- h2E0m1sT5SMK6naznvPIZCq+/IPdZeg=
-X-Google-Smtp-Source: ADFU+vu+yS8PFSoFQE+kmA9ZxitRwSlgyGmPLzmQyZyf1r/F74S8nrURwJw/PJKOxsRmcTvpKNcaZg==
-X-Received: by 2002:a1c:9602:: with SMTP id y2mr4603653wmd.23.1583946262938;
- Wed, 11 Mar 2020 10:04:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=YmXW/SP9doq5sjoE7E/52vrDte/Mf5r4HqcJtOH7zn4=;
+ b=eAOAnyv9+pBngzRooGUJK2VsZtYBx+orKgWX7AvRLhDj3XZlNmJ/NZn+1WkA+cKicx
+ 5m/P92vqhEKuE3V437f8OrJm9QblbHUft4FwKypyxZ4vfkTRRsA4EvUBce+wKeBEDcAI
+ 67ppviNC4tw2spXkU4J0YcSAmo1zxO8mVlDDzl7IF9ULk1SJPIgnh/dFiFYG1QHlqZVb
+ V0VXmVzs2xW52SDndx/Km0NfBxlkvONLMp/OPjFtBN9bH5d0WRpUC8KmCpVEs/+0OGsH
+ noG3KF4c0qzYpqt/nz7JXsMlHhmbQ2rRelOytXkkyR1p/MLE3ZhYOfNThs2AI0Yx37bO
+ 52Lw==
+X-Gm-Message-State: ANhLgQ3iIpXKqy2qIRBfYyK5SnOkBN2RNwKBWXxrqgQaz5CSA0CJ3Ucd
+ keUf2DmcJ6+LHvS7L+uB1UWC0eZCijw=
+X-Google-Smtp-Source: ADFU+vtg/M/VE497TB0LrBcyuO23l+ry5KrFwnEGmLP2RbuDwL8/8gcH4A95HLGH7XpuB4Ha5brDaw==
+X-Received: by 2002:adf:9b19:: with SMTP id b25mr5437781wrc.368.1583946264116; 
+ Wed, 11 Mar 2020 10:04:24 -0700 (PDT)
 Received: from localhost.localdomain (bzq-84-110-34-91.static-ip.bezeqint.net.
  [84.110.34.91])
- by smtp.gmail.com with ESMTPSA id o26sm8510925wmc.33.2020.03.11.10.04.21
+ by smtp.gmail.com with ESMTPSA id o26sm8510925wmc.33.2020.03.11.10.04.23
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 11 Mar 2020 10:04:22 -0700 (PDT)
+ Wed, 11 Mar 2020 10:04:23 -0700 (PDT)
 From: Basil Salman <basil@daynix.com>
 To: qemu-devel@nongnu.org,
 	Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: [PATCH v3 0/3] QGA - Win fixes
-Date: Wed, 11 Mar 2020 19:04:14 +0200
-Message-Id: <20200311170417.13415-1-basil@daynix.com>
+Subject: [PATCH v3 1/3] qga: Installer: Wait for installation to finish
+Date: Wed, 11 Mar 2020 19:04:15 +0200
+Message-Id: <20200311170417.13415-2-basil@daynix.com>
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200311170417.13415-1-basil@daynix.com>
+References: <20200311170417.13415-1-basil@daynix.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,21 +80,28 @@ Cc: Yan Vugenfirer <yan@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series addresses serveral issues with qga-win please review
-them and share your thoughts.
+Installation might fail if we don't wait for the provider
+unregisteration process to finish.
 
-Basil Salman (2):
-  qga: Installer: Wait for installation to finish
-  qga-win: prevent crash when executing guest-file-read with large count
+Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
+Signed-off-by: Basil Salman <basil@daynix.com>
+---
+ qga/installer/qemu-ga.wxs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sameeh Jubran (1):
-  qga-win: Handle VSS_E_PROVIDER_ALREADY_REGISTERED error
-
- qga/commands-win32.c      |  8 +++++++-
- qga/installer/qemu-ga.wxs |  2 +-
- qga/vss-win32/install.cpp | 11 +++++++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
-
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 64bf90bd85..f6781752e6 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -81,7 +81,7 @@
+               Arguments="-d --retry-path"
+               >
+             </ServiceInstall>
+-            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="no" />
++            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="yes" />
+           </Component>
+           <?ifdef var.InstallVss?>
+           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
 -- 
 2.17.2
 
