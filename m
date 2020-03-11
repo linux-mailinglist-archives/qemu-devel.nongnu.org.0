@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE7F181E79
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:56:12 +0100 (CET)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1873A181E7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:57:20 +0100 (CET)
+Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC4eQ-0006XB-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50521)
+	id 1jC4fX-0000Zo-5S
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jC4d7-0003PR-QS
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:54:50 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jC4dm-0006B4-RI
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jC4cz-0008Vp-5a
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:54:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27639
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1jC4dl-0000W9-Nw
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:55:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46515
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jC4cz-0008VZ-2M
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:54:41 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jC4dl-0000Vp-KY
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583945680;
+ s=mimecast20190719; t=1583945729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oFr7djhE0/iS+iKhyNjI1DmbIejtjZhC0ylagqvEGVs=;
- b=gLKfPn7RfYuCBykt1hjagQfaewZ6nUVx5x/OkJW+kbXl2ndAjwVnhsvh6qHVu1pQTXAkeu
- uFioYbOd6CpiJ3qGliTb2SfQl9EkJnJXmvkfzNi+LCfndP0pENQG1Ps+27jH8M9IxdNxR9
- +ZP6dU5/6a0/En7sP+lK6KNr0xYbsPw=
+ bh=NQF34+AMeK7cntfhdCGMsjWhHXma/jCSq+tuBM98zew=;
+ b=Dft7cX2WQR6yMrfB6lSYEpSUTMbkmaEbiTIEO6R73LAY45Wqtxm76/USOpaMv/y9qTHA4t
+ Bt2hur73nRvfPcv817ZjL3sUvbTHDmRn2DFGJA1qnqewuPyUtHhCJAZtnMAoUkbUSaG86X
+ CbuEtNp1XZlFZI9C1lg77ePBPgWbu0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-Ku63rgnuPleH95IZ0EhkSw-1; Wed, 11 Mar 2020 12:54:33 -0400
-X-MC-Unique: Ku63rgnuPleH95IZ0EhkSw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-34-fDgjPgxmMVuZwbtD9kZBew-1; Wed, 11 Mar 2020 12:55:23 -0400
+X-MC-Unique: fDgjPgxmMVuZwbtD9kZBew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FB7618FF660;
- Wed, 11 Mar 2020 16:54:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12EFAA0CC0;
+ Wed, 11 Mar 2020 16:55:22 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDD131001DDE;
- Wed, 11 Mar 2020 16:54:31 +0000 (UTC)
-Date: Wed, 11 Mar 2020 16:54:30 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80E5E8F37B;
+ Wed, 11 Mar 2020 16:55:21 +0000 (UTC)
+Date: Wed, 11 Mar 2020 16:55:20 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: Re: [PULL 0/9] Block patches
-Message-ID: <20200311165430.GA281087@stefanha-x1.localdomain>
+Message-ID: <20200311165520.GB281087@stefanha-x1.localdomain>
 References: <20200311124045.277969-1-stefanha@redhat.com>
- <158393463555.5248.10581197100321444095@39012742ff91>
+ <158393470453.5248.14269785570464192054@39012742ff91>
 MIME-Version: 1.0
-In-Reply-To: <158393463555.5248.10581197100321444095@39012742ff91>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <158393470453.5248.14269785570464192054@39012742ff91>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+ protocol="application/pgp-signature"; boundary="cmJC7u66zC7hs+87"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,52 +76,45 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---HlL+5n6rz5pIUxbD
+--cmJC7u66zC7hs+87
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 11, 2020 at 06:50:37AM -0700, no-reply@patchew.org wrote:
+On Wed, Mar 11, 2020 at 06:51:46AM -0700, no-reply@patchew.org wrote:
 > Patchew URL: https://patchew.org/QEMU/20200311124045.277969-1-stefanha@re=
 dhat.com/
 ...
-> dbus-daemon[12353]: Could not get password database information for UID o=
-f current process: User "???" unknown or no memory to allocate password ent=
-ry
+> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+> 1/9 Checking commit 86ac8a79649d (qemu/queue.h: clear linked list pointer=
+s on remove)
+> ERROR: do not use assignment in if condition
+> #66: FILE: include/qemu/queue.h:314:
+> +    if (((head)->sqh_first =3D elm->field.sqe_next) =3D=3D NULL)        =
+      \
 >=20
-> **
-> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connecti=
-on: assertion failed (err =3D=3D NULL): The connection is closed (g-io-erro=
-r-quark, 18)
-> cleaning up pid 12353
-> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.=
-c:114:get_connection: assertion failed (err =3D=3D NULL): The connection is=
- closed (g-io-error-quark, 18)
-> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-x86=
-_64] Error 1
-> make: *** Waiting for unfinished jobs....
-> Traceback (most recent call last):
->   File "./tests/docker/docker.py", line 664, in <module>
+> total: 1 errors, 0 warnings, 59 lines checked
 
-Known patchew issue.  Unrelated to this pull request.
+This is for consistency with the rest of queue.h, which comes from BSD
+and does not follow QEMU coding style.
 
 Stefan
 
---HlL+5n6rz5pIUxbD
+--cmJC7u66zC7hs+87
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5pF8YACgkQnKSrs4Gr
-c8gYRAgApdJ/rcsK94p3kRkfIgX7U58T8NYoW5pj3Fuq7Mrr7ux1OTOoYFe0GLPB
-11b7eh7aOa0VijNBymGLCd+c9TXK5G+Dm6CDphDiRfaUk/Uu5DMMnJ5sCfuY3DOy
-RmAO5/eahDt+TWkv2W9yb3dDvPIcWWcSe5PFR0r0R/QVEtx31UOH5rIgFg6FoRrc
-Dm21PJkfa1QT05I/QOURUk8FGUTKZJTSZBeEbX+B9CF9cWrQcuG5PPA7IOhshrbV
-hfWGV+eqLLr9u2dTy+DVwbjjn6m4wEqxpojY0p43b6maQJrI/AEfiBaj/sTY+7/e
-UvMbxCowAI9nPALbg8yfoKNcuReyBw==
-=D7j9
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5pF/gACgkQnKSrs4Gr
+c8gf/gf9Hao9Hc0cJHC+1cyvHw4bTh68/Yp/58+zg09ucY/o2wiZRi2Mh0ncrMkK
+WaXGKlmEZZGMyAgBfolWGtgFuXMfkDxl99kvyVtqH/RdSrKx5bltsbNvqCi8PsLq
+sclsmhwWy5WC1pgaIAeiiRb4v74RHyRt9D6DoVhuMWtIdQ7icRMx8iU5W1ivC2cs
+pCwWWv/Zw3PB3BytYASYtg2LxDFCw3UxIRj4KQtsJEWzm+YDqk0pGVwNRE5q/6hD
+wIzfnoyv6BpMHGWxkzbAjifj44GHKt1NOC+jjnJ0Jrrt0NRq2FtlZUQ3HcN2ON0h
+kbsBDQwB6uGGl1djcvRWzOvCTTkr7w==
+=Cv+9
 -----END PGP SIGNATURE-----
 
---HlL+5n6rz5pIUxbD--
+--cmJC7u66zC7hs+87--
 
 
