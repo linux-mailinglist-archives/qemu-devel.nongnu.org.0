@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48B018200B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:51:57 +0100 (CET)
-Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E07182014
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:52:51 +0100 (CET)
+Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC5WO-0003lv-Ti
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
+	id 1jC5XG-0005wB-Rf
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jC5V9-0002A0-Fe
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:40 -0400
+ (envelope-from <bounces@canonical.com>) id 1jC5VB-0002Dk-IL
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jC5V8-0001R6-4v
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36064)
+ (envelope-from <bounces@canonical.com>) id 1jC5VA-0001Yh-7I
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36188)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jC5V7-0001NN-V6
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:38 -0400
+ id 1jC5VA-0001Sw-1C
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jC5V6-0003gp-43
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:36 +0000
+ id 1jC5V7-0003gp-OR
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1926D2E80CF
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8A2842E80DE
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Mar 2020 17:32:25 -0000
+Date: Wed, 11 Mar 2020 17:32:45 -0000
 From: tstrike <1866870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: paelzer tstrike34
 X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: tstrike (tstrike34)
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158394794522.12323.2343368793803178067.malone@soybean.canonical.com>
+Message-Id: <158394796608.12393.7878336437631380869.malone@soybean.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8cf311e9e8ee58e74f9bbe558f3bd522f6b48967
+X-Launchpad-Hash: 29ba9702e104777aef688304dd6fa8126743eb14
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,9 +70,9 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "Zabbix_Serviio.txt"
-   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5335797/+files/=
-Zabbix_Serviio.txt
+** Attachment added: "Windows 10 Guest"
+   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5335798/+files/=
+win10.txt
 
 -- =
 
