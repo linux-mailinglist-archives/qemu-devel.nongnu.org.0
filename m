@@ -2,55 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198DD181350
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 09:38:42 +0100 (CET)
-Received: from localhost ([::1]:48110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F271813BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 09:57:01 +0100 (CET)
+Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBwsz-0002qw-6j
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 04:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35554)
+	id 1jBxAi-00018p-Lj
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 04:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1jBws5-0002Lu-5a
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:37:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1jBx9l-0000cO-7Z
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:56:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1jBws3-0004nj-P1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:37:45 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3273 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1jBws1-0004gJ-Dj; Wed, 11 Mar 2020 04:37:41 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 439021D9CE9A4ADD8EEC;
- Wed, 11 Mar 2020 16:37:36 +0800 (CST)
-Received: from [127.0.0.1] (10.173.222.27) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 11 Mar 2020
- 16:37:26 +0800
-Subject: Re: [kvm-unit-tests PATCH v5 06/13] arm/arm64: ITS: Introspection
- tests
-To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
- <maz@kernel.org>, <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20200310145410.26308-1-eric.auger@redhat.com>
- <20200310145410.26308-7-eric.auger@redhat.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <83ffda30-e0dc-7fbf-1775-bc45a308acb4@huawei.com>
-Date: Wed, 11 Mar 2020 16:37:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <bounces@canonical.com>) id 1jBx9j-00062m-Un
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:56:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46698)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jBx9j-0005y2-P1
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:55:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jBx9f-00069q-RR
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 08:55:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 593312E80E6
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 08:55:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200310145410.26308-7-eric.auger@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Mar 2020 08:41:33 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158391609337.26230.16618003087845147722.launchpad@gac.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ee7a5bdd0d0e86977aa33e11236166ed56cd45f5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,40 +67,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andre.przywara@arm.com, drjones@redhat.com, alexandru.elisei@arm.com,
- thuth@redhat.com, peter.maydell@linaro.org
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+** Description changed:
 
-On 2020/3/10 22:54, Eric Auger wrote:
-> +#define GITS_TYPER_PLPIS                BIT(0)
-> +#define GITS_TYPER_VLPIS		BIT(1)
-> +#define GITS_TYPER_ITT_ENTRY_SIZE	GENMASK_ULL(7, 4)
-> +#define GITS_TYPER_ITT_ENTRY_SIZE_SHIFT	4
-> +#define GITS_TYPER_IDBITS		GENMASK_ULL(8, 12)
++ Symptom:
++ Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
++ =
 
-Note that this should be GENMASK_ULL(12, 8).
++ Traceback (most recent call last):
++   File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
++     callback(asyncjob, *args, **kwargs)
++   File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
++     callback(*args, **kwargs)
++   File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
++     ret =3D fn(self, *args, **kwargs)
++   File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
++     self._backend.resume()
++   File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
++     if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
++ libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
++ =
 
-> +#define GITS_TYPER_IDBITS_SHIFT         8
-> +#define GITS_TYPER_DEVBITS		GENMASK_ULL(13, 17)
++ =
 
-(17, 13)
++ ---
++ =
 
-> +#define GITS_TYPER_DEVBITS_SHIFT        13
-> +#define GITS_TYPER_PTA                  BIT(19)
-> +#define GITS_TYPER_CIDBITS		GENMASK_ULL(32, 35)
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+  =
 
-(35, 32)
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+  =
 
-> +#define GITS_TYPER_CIDBITS_SHIFT	32
-> +#define GITS_TYPER_CIL			BIT(36)
+  These Guests are not nested.
+  =
 
-And please use tab for all of them.
+  A lot of diganostic information are outlined in the previous bug report
+  link provided. The solution mentioned in previous report had been
+  allegedly integrated into the downstream updates.
 
+-- =
 
-Thanks,
-Zenghui
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
 
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
