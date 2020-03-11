@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6967181ADA
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:11:27 +0100 (CET)
-Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7ADC181AE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:13:50 +0100 (CET)
+Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC250-0001Oj-Ld
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36691)
+	id 1jC27J-0007F2-PR
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC1nR-0005Di-Lz
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:19 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jC1nU-0005L0-7c
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC1nO-0003AA-Re
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44956
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jC1nS-0003CG-7v
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33579
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1nO-00039R-MM
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:14 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1nS-0003Bx-2v
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:53:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583934794;
+ s=mimecast20190719; t=1583934797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q/uZDSPpfVWIiFgnW/C64syiVb6nwo8HlWQkJRVxJAk=;
- b=K9IMUqwvHSuj9gqe1aeCQMiPyvCxMd0h8i8Lq6Qx/nMedukPDvLPrhfcWlOQ5KZq8yk2eE
- WkJMV0b9qElSmRfEndM9NEQSXUDNM25ENvYfF8KltHrZQSUcNbiyxXsQS2B2jzi+L2yras
- +qZlRPRBaO5CTV3k/krFomZklqXiMk0=
+ bh=qsXFZvpC2pkw5R53Eh8TmgXAp8Rg3em1Lkxo7kx5aMs=;
+ b=jKk4ewI2XT4WkdY9nrW1CHeflN8ocTYM/DQv/dpQznOvzHAbLHdtnU1v+Q+QUtyhJ1zmY/
+ 0Oe5m96sVqteC6paZ5s7iGoGU321iLJarirgkOtKYKkPIzHd51Yf4ljIO20oNDvM3E2HLL
+ YPVmafJaHvpnrr3ljdIWB8e/+CdyT1w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-PL-rxqLxMfmJMjKttC46uw-1; Wed, 11 Mar 2020 09:53:12 -0400
-X-MC-Unique: PL-rxqLxMfmJMjKttC46uw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-205-x4Plmby7ORWvWOwBCAZjOg-1; Wed, 11 Mar 2020 09:53:15 -0400
+X-MC-Unique: x4Plmby7ORWvWOwBCAZjOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EC8A8010EA;
- Wed, 11 Mar 2020 13:53:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E2F1801E6C;
+ Wed, 11 Mar 2020 13:53:14 +0000 (UTC)
 Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81F505C13D;
- Wed, 11 Mar 2020 13:53:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75C378FBE0;
+ Wed, 11 Mar 2020 13:53:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/19] block/block-copy: reduce intersecting request lock
-Date: Wed, 11 Mar 2020 14:52:12 +0100
-Message-Id: <20200311135213.1242028-19-mreitz@redhat.com>
+Subject: [PULL 19/19] block/block-copy: hide structure definitions
+Date: Wed, 11 Mar 2020 14:52:13 +0100
+Message-Id: <20200311135213.1242028-20-mreitz@redhat.com>
 In-Reply-To: <20200311135213.1242028-1-mreitz@redhat.com>
 References: <20200311135213.1242028-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,259 +78,313 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Currently, block_copy operation lock the whole requested region. But
-there is no reason to lock clusters, which are already copied, it will
-disturb other parallel block_copy requests for no reason.
-
-Let's instead do the following:
-
-Lock only sub-region, which we are going to operate on. Then, after
-copying all dirty sub-regions, we should wait for intersecting
-requests block-copy, if they failed, we should retry these new dirty
-clusters.
+Hide structure definitions and add explicit API instead, to keep an
+eye on the scope of the shared fields.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200311103004.7649-9-vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200311103004.7649-10-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 129 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 105 insertions(+), 24 deletions(-)
+ block/backup-top.c         |  6 ++--
+ block/backup.c             | 25 ++++++++--------
+ block/block-copy.c         | 59 ++++++++++++++++++++++++++++++++++++++
+ include/block/block-copy.h | 52 +++------------------------------
+ 4 files changed, 80 insertions(+), 62 deletions(-)
 
+diff --git a/block/backup-top.c b/block/backup-top.c
+index 1bfb360bd3..3b50c06e2c 100644
+--- a/block/backup-top.c
++++ b/block/backup-top.c
+@@ -38,6 +38,7 @@ typedef struct BDRVBackupTopState {
+     BlockCopyState *bcs;
+     BdrvChild *target;
+     bool active;
++    int64_t cluster_size;
+ } BDRVBackupTopState;
+=20
+ static coroutine_fn int backup_top_co_preadv(
+@@ -57,8 +58,8 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *=
+bs, uint64_t offset,
+         return 0;
+     }
+=20
+-    off =3D QEMU_ALIGN_DOWN(offset, s->bcs->cluster_size);
+-    end =3D QEMU_ALIGN_UP(offset + bytes, s->bcs->cluster_size);
++    off =3D QEMU_ALIGN_DOWN(offset, s->cluster_size);
++    end =3D QEMU_ALIGN_UP(offset + bytes, s->cluster_size);
+=20
+     return block_copy(s->bcs, off, end - off, NULL);
+ }
+@@ -238,6 +239,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverSta=
+te *source,
+         goto fail;
+     }
+=20
++    state->cluster_size =3D cluster_size;
+     state->bcs =3D block_copy_state_new(top->backing, state->target,
+                                       cluster_size, write_flags, &local_er=
+r);
+     if (local_err) {
+diff --git a/block/backup.c b/block/backup.c
+index 8694e0394b..7430ca5883 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -102,7 +102,7 @@ static void backup_cleanup_sync_bitmap(BackupBlockJob *=
+job, int ret)
+=20
+     if (ret < 0 && job->bitmap_mode =3D=3D BITMAP_SYNC_MODE_ALWAYS) {
+         /* If we failed and synced, merge in the bits we didn't copy: */
+-        bdrv_dirty_bitmap_merge_internal(bm, job->bcs->copy_bitmap,
++        bdrv_dirty_bitmap_merge_internal(bm, block_copy_dirty_bitmap(job->=
+bcs),
+                                          NULL, true);
+     }
+ }
+@@ -145,7 +145,8 @@ void backup_do_checkpoint(BlockJob *job, Error **errp)
+         return;
+     }
+=20
+-    bdrv_set_dirty_bitmap(backup_job->bcs->copy_bitmap, 0, backup_job->len=
+);
++    bdrv_set_dirty_bitmap(block_copy_dirty_bitmap(backup_job->bcs), 0,
++                          backup_job->len);
+ }
+=20
+ static BlockErrorAction backup_error_action(BackupBlockJob *job,
+@@ -190,7 +191,7 @@ static int coroutine_fn backup_loop(BackupBlockJob *job=
+)
+     BdrvDirtyBitmapIter *bdbi;
+     int ret =3D 0;
+=20
+-    bdbi =3D bdrv_dirty_iter_new(job->bcs->copy_bitmap);
++    bdbi =3D bdrv_dirty_iter_new(block_copy_dirty_bitmap(job->bcs));
+     while ((offset =3D bdrv_dirty_iter_next(bdbi)) !=3D -1) {
+         do {
+             if (yield_and_check(job)) {
+@@ -210,14 +211,14 @@ static int coroutine_fn backup_loop(BackupBlockJob *j=
+ob)
+     return ret;
+ }
+=20
+-static void backup_init_copy_bitmap(BackupBlockJob *job)
++static void backup_init_bcs_bitmap(BackupBlockJob *job)
+ {
+     bool ret;
+     uint64_t estimate;
++    BdrvDirtyBitmap *bcs_bitmap =3D block_copy_dirty_bitmap(job->bcs);
+=20
+     if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
+-        ret =3D bdrv_dirty_bitmap_merge_internal(job->bcs->copy_bitmap,
+-                                               job->sync_bitmap,
++        ret =3D bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bit=
+map,
+                                                NULL, true);
+         assert(ret);
+     } else {
+@@ -226,12 +227,12 @@ static void backup_init_copy_bitmap(BackupBlockJob *j=
+ob)
+              * We can't hog the coroutine to initialize this thoroughly.
+              * Set a flag and resume work when we are able to yield safely=
+.
+              */
+-            job->bcs->skip_unallocated =3D true;
++            block_copy_set_skip_unallocated(job->bcs, true);
+         }
+-        bdrv_set_dirty_bitmap(job->bcs->copy_bitmap, 0, job->len);
++        bdrv_set_dirty_bitmap(bcs_bitmap, 0, job->len);
+     }
+=20
+-    estimate =3D bdrv_get_dirty_count(job->bcs->copy_bitmap);
++    estimate =3D bdrv_get_dirty_count(bcs_bitmap);
+     job_progress_set_remaining(&job->common.job, estimate);
+ }
+=20
+@@ -240,7 +241,7 @@ static int coroutine_fn backup_run(Job *job, Error **er=
+rp)
+     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
+     int ret =3D 0;
+=20
+-    backup_init_copy_bitmap(s);
++    backup_init_bcs_bitmap(s);
+=20
+     if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP) {
+         int64_t offset =3D 0;
+@@ -259,12 +260,12 @@ static int coroutine_fn backup_run(Job *job, Error **=
+errp)
+=20
+             offset +=3D count;
+         }
+-        s->bcs->skip_unallocated =3D false;
++        block_copy_set_skip_unallocated(s->bcs, false);
+     }
+=20
+     if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_NONE) {
+         /*
+-         * All bits are set in copy_bitmap to allow any cluster to be copi=
+ed.
++         * All bits are set in bcs bitmap to allow any cluster to be copie=
+d.
+          * This does not actually require them to be copied.
+          */
+         while (!job_is_cancelled(job)) {
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 8b91fa0b06..44a64a94c8 100644
+index 44a64a94c8..05227e18bf 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -39,29 +39,72 @@ static BlockCopyInFlightReq *find_conflicting_inflight_=
-req(BlockCopyState *s,
-     return NULL;
- }
+@@ -24,6 +24,55 @@
+ #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
 =20
--static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
--                                                       int64_t offset,
--                                                       int64_t bytes)
-+/*
-+ * If there are no intersecting requests return false. Otherwise, wait for=
- the
-+ * first found intersecting request to finish and return true.
-+ */
-+static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t of=
-fset,
-+                                             int64_t bytes)
- {
--    BlockCopyInFlightReq *req;
-+    BlockCopyInFlightReq *req =3D find_conflicting_inflight_req(s, offset,=
- bytes);
-=20
--    while ((req =3D find_conflicting_inflight_req(s, offset, bytes))) {
--        qemu_co_queue_wait(&req->wait_queue, NULL);
-+    if (!req) {
-+        return false;
-     }
++typedef struct BlockCopyInFlightReq {
++    int64_t offset;
++    int64_t bytes;
++    QLIST_ENTRY(BlockCopyInFlightReq) list;
++    CoQueue wait_queue; /* coroutines blocked on this request */
++} BlockCopyInFlightReq;
 +
-+    qemu_co_queue_wait(&req->wait_queue, NULL);
++typedef struct BlockCopyState {
++    /*
++     * BdrvChild objects are not owned or managed by block-copy. They are
++     * provided by block-copy user and user is responsible for appropriate
++     * permissions on these children.
++     */
++    BdrvChild *source;
++    BdrvChild *target;
++    BdrvDirtyBitmap *copy_bitmap;
++    int64_t in_flight_bytes;
++    int64_t cluster_size;
++    bool use_copy_range;
++    int64_t copy_size;
++    uint64_t len;
++    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
 +
-+    return true;
- }
-=20
-+/* Called only on full-dirty region */
- static void block_copy_inflight_req_begin(BlockCopyState *s,
-                                           BlockCopyInFlightReq *req,
-                                           int64_t offset, int64_t bytes)
- {
-+    assert(!find_conflicting_inflight_req(s, offset, bytes));
++    BdrvRequestFlags write_flags;
 +
-+    bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-+    s->in_flight_bytes +=3D bytes;
++    /*
++     * skip_unallocated:
++     *
++     * Used by sync=3Dtop jobs, which first scan the source node for unall=
+ocated
++     * areas and clear them in the copy_bitmap.  During this process, the =
+bitmap
++     * is thus not fully initialized: It may still have bits set for areas=
+ that
++     * are unallocated and should actually not be copied.
++     *
++     * This is indicated by skip_unallocated.
++     *
++     * In this case, block_copy() will query the source=E2=80=99s allocati=
+on status,
++     * skip unallocated regions, clear them in the copy_bitmap, and invoke
++     * block_copy_reset_unallocated() every time it does.
++     */
++    bool skip_unallocated;
 +
-     req->offset =3D offset;
-     req->bytes =3D bytes;
-     qemu_co_queue_init(&req->wait_queue);
-     QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
- }
-=20
--static void coroutine_fn block_copy_inflight_req_end(BlockCopyInFlightReq =
-*req)
-+/*
-+ * block_copy_inflight_req_shrink
-+ *
-+ * Drop the tail of the request to be handled later. Set dirty bits back a=
-nd
-+ * wake up all requests waiting for us (may be some of them are not inters=
-ecting
-+ * with shrunk request)
-+ */
-+static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
-+        BlockCopyInFlightReq *req, int64_t new_bytes)
- {
-+    if (new_bytes =3D=3D req->bytes) {
-+        return;
-+    }
-+
-+    assert(new_bytes > 0 && new_bytes < req->bytes);
-+
-+    s->in_flight_bytes -=3D req->bytes - new_bytes;
-+    bdrv_set_dirty_bitmap(s->copy_bitmap,
-+                          req->offset + new_bytes, req->bytes - new_bytes)=
-;
-+
-+    req->bytes =3D new_bytes;
-+    qemu_co_queue_restart_all(&req->wait_queue);
-+}
-+
-+static void coroutine_fn block_copy_inflight_req_end(BlockCopyState *s,
-+                                                     BlockCopyInFlightReq =
-*req,
-+                                                     int ret)
-+{
-+    s->in_flight_bytes -=3D req->bytes;
-+    if (ret < 0) {
-+        bdrv_set_dirty_bitmap(s->copy_bitmap, req->offset, req->bytes);
-+    }
-     QLIST_REMOVE(req, list);
-     qemu_co_queue_restart_all(&req->wait_queue);
- }
-@@ -357,12 +400,19 @@ int64_t block_copy_reset_unallocated(BlockCopyState *=
-s,
-     return ret;
- }
-=20
--int coroutine_fn block_copy(BlockCopyState *s,
--                            int64_t offset, int64_t bytes,
--                            bool *error_is_read)
-+/*
-+ * block_copy_dirty_clusters
-+ *
-+ * Copy dirty clusters in @offset/@bytes range.
-+ * Returns 1 if dirty clusters found and successfully copied, 0 if no dirt=
-y
-+ * clusters found and -errno on failure.
-+ */
-+static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-+                                                  int64_t offset, int64_t =
-bytes,
-+                                                  bool *error_is_read)
- {
-     int ret =3D 0;
--    BlockCopyInFlightReq req;
-+    bool found_dirty =3D false;
-=20
-     /*
-      * block_copy() user is responsible for keeping source and target in s=
-ame
-@@ -374,10 +424,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
-     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
-=20
--    block_copy_wait_inflight_reqs(s, offset, bytes);
--    block_copy_inflight_req_begin(s, &req, offset, bytes);
--
-     while (bytes) {
-+        BlockCopyInFlightReq req;
-         int64_t next_zero, cur_bytes, status_bytes;
-=20
-         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
-@@ -387,6 +435,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             continue; /* already copied */
-         }
-=20
-+        found_dirty =3D true;
-+
-         cur_bytes =3D MIN(bytes, s->copy_size);
-=20
-         next_zero =3D bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset,
-@@ -396,10 +446,14 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             assert(next_zero < offset + cur_bytes); /* no need to do MIN()=
++    ProgressMeter *progress;
++    /* progress_bytes_callback: called when some copying progress is done.=
  */
-             cur_bytes =3D next_zero - offset;
-         }
-+        block_copy_inflight_req_begin(s, &req, offset, cur_bytes);
-=20
-         ret =3D block_copy_block_status(s, offset, cur_bytes, &status_byte=
-s);
-+        assert(ret >=3D 0); /* never fail */
-+        cur_bytes =3D MIN(cur_bytes, status_bytes);
-+        block_copy_inflight_req_shrink(s, &req, cur_bytes);
-         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
--            bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, status_bytes);
-+            block_copy_inflight_req_end(s, &req, 0);
-             progress_set_remaining(s->progress,
-                                    bdrv_get_dirty_count(s->copy_bitmap) +
-                                    s->in_flight_bytes);
-@@ -409,21 +463,15 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             continue;
-         }
-=20
--        cur_bytes =3D MIN(cur_bytes, status_bytes);
--
-         trace_block_copy_process(s, offset);
-=20
--        bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
--        s->in_flight_bytes +=3D cur_bytes;
--
-         co_get_from_shres(s->mem, cur_bytes);
-         ret =3D block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_=
-ZERO,
-                                  error_is_read);
-         co_put_to_shres(s->mem, cur_bytes);
--        s->in_flight_bytes -=3D cur_bytes;
-+        block_copy_inflight_req_end(s, &req, ret);
-         if (ret < 0) {
--            bdrv_set_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
--            break;
-+            return ret;
-         }
-=20
-         progress_work_done(s->progress, cur_bytes);
-@@ -432,7 +480,40 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         bytes -=3D cur_bytes;
-     }
-=20
--    block_copy_inflight_req_end(&req);
-+    return found_dirty;
-+}
++    ProgressBytesCallbackFunc progress_bytes_callback;
++    void *progress_opaque;
 +
-+/*
-+ * block_copy
-+ *
-+ * Copy requested region, accordingly to dirty bitmap.
-+ * Collaborate with parallel block_copy requests: if they succeed it will =
-help
-+ * us. If they fail, we will retry not-copied regions. So, if we return er=
-ror,
-+ * it means that some I/O operation failed in context of _this_ block_copy=
- call,
-+ * not some parallel operation.
-+ */
-+int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t byt=
-es,
-+                            bool *error_is_read)
-+{
-+    int ret;
++    SharedResource *mem;
++} BlockCopyState;
 +
-+    do {
-+        ret =3D block_copy_dirty_clusters(s, offset, bytes, error_is_read)=
-;
-+
-+        if (ret =3D=3D 0) {
-+            ret =3D block_copy_wait_one(s, offset, bytes);
-+        }
-+
-+        /*
-+         * We retry in two cases:
-+         * 1. Some progress done
-+         *    Something was copied, which means that there were yield poin=
-ts
-+         *    and some new dirty bits may have appeared (due to failed par=
-allel
-+         *    block-copy requests).
-+         * 2. We have waited for some intersecting block-copy request
-+         *    It may have failed and produced new dirty bits.
-+         */
-+    } while (ret > 0);
+ static BlockCopyInFlightReq *find_conflicting_inflight_req(BlockCopyState =
+*s,
+                                                            int64_t offset,
+                                                            int64_t bytes)
+@@ -517,3 +566,13 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t=
+ offset, int64_t bytes,
 =20
      return ret;
  }
++
++BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
++{
++    return s->copy_bitmap;
++}
++
++void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
++{
++    s->skip_unallocated =3D skip;
++}
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index b76efb736f..aac85e1488 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -18,55 +18,8 @@
+ #include "block/block.h"
+ #include "qemu/co-shared-resource.h"
+=20
+-typedef struct BlockCopyInFlightReq {
+-    int64_t offset;
+-    int64_t bytes;
+-    QLIST_ENTRY(BlockCopyInFlightReq) list;
+-    CoQueue wait_queue; /* coroutines blocked on this request */
+-} BlockCopyInFlightReq;
+-
+ typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
+-typedef struct BlockCopyState {
+-    /*
+-     * BdrvChild objects are not owned or managed by block-copy. They are
+-     * provided by block-copy user and user is responsible for appropriate
+-     * permissions on these children.
+-     */
+-    BdrvChild *source;
+-    BdrvChild *target;
+-    BdrvDirtyBitmap *copy_bitmap;
+-    int64_t in_flight_bytes;
+-    int64_t cluster_size;
+-    bool use_copy_range;
+-    int64_t copy_size;
+-    uint64_t len;
+-    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
+-
+-    BdrvRequestFlags write_flags;
+-
+-    /*
+-     * skip_unallocated:
+-     *
+-     * Used by sync=3Dtop jobs, which first scan the source node for unall=
+ocated
+-     * areas and clear them in the copy_bitmap.  During this process, the =
+bitmap
+-     * is thus not fully initialized: It may still have bits set for areas=
+ that
+-     * are unallocated and should actually not be copied.
+-     *
+-     * This is indicated by skip_unallocated.
+-     *
+-     * In this case, block_copy() will query the source=E2=80=99s allocati=
+on status,
+-     * skip unallocated regions, clear them in the copy_bitmap, and invoke
+-     * block_copy_reset_unallocated() every time it does.
+-     */
+-    bool skip_unallocated;
+-
+-    ProgressMeter *progress;
+-    /* progress_bytes_callback: called when some copying progress is done.=
+ */
+-    ProgressBytesCallbackFunc progress_bytes_callback;
+-    void *progress_opaque;
+-
+-    SharedResource *mem;
+-} BlockCopyState;
++typedef struct BlockCopyState BlockCopyState;
+=20
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+                                      int64_t cluster_size,
+@@ -88,4 +41,7 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t byt=
+es,
+                             bool *error_is_read);
+=20
++BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
++void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
++
+ #endif /* BLOCK_COPY_H */
 --=20
 2.24.1
 
