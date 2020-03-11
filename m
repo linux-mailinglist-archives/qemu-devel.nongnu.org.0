@@ -2,56 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AB5181A70
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:53:46 +0100 (CET)
-Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC8A181A8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:57:38 +0100 (CET)
+Received: from localhost ([::1]:52526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1nt-00059g-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35714)
+	id 1jC1rd-00051S-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jC1mE-0002qe-Dq
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:03 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jC1ma-0003VX-Hn
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jC1mC-0001e8-5j
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:01 -0400
-Resent-Date: Wed, 11 Mar 2020 09:52:01 -0400
-Resent-Message-Id: <E1jC1mC-0001e8-5j@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21143)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jC1mB-0001dP-O5; Wed, 11 Mar 2020 09:51:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1583934709; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hmj7zDeAqAKA/dBDDlNE/V1j2dXiZQQELuomYXTzmAXCEeL5Q5yI6dqX3wT9D/KBLRbbn2m/CfXwvYT9t3WehfypWcRN5lx2PUR387fGRQtxRvz4ZBqvm+hRw3O3+yD4wwDLn9m7e5BOzxRlUZYP+H2dlWbuzhQ8B0Cx23VH/Vk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1583934709;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=hPWqXQD+iWy+iiLPtWS9ihfbOLuILTVMGxjQ6pj7woE=; 
- b=N7kZoclElMRStQpAAHelJn852dHoBjOJOk452heN/5OFuu75vyzfNrtH4cblnjJTloqluMTHNr6iDOeN+FBu497fsUy3Y89wMX9pk1dIYiacHnkJGC8Rm1Kv3pPSR1gmrCq4Op1DO6ULju8NgGRG/N0iQum21TyMCQ2nwDk2dks=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1583934706199183.91796003785146;
- Wed, 11 Mar 2020 06:51:46 -0700 (PDT)
-In-Reply-To: <20200311124045.277969-1-stefanha@redhat.com>
-Subject: Re: [PULL 0/9] Block patches
-Message-ID: <158393470453.5248.14269785570464192054@39012742ff91>
+ (envelope-from <mreitz@redhat.com>) id 1jC1mY-00028S-Pw
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28149
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1mY-00026x-Kh
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583934742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wkGyBa3TCP/ROrIoB7buEWTEbozhrYymF2lO25Imo80=;
+ b=Y8cQXhKJCDfSoN+zNH2Z1MPyfC4Rzi7lbOw7i8gExfsdaD03KJSPRvSuQ3U4XPVxtA3F9K
+ tYMuPjLP5r7Sw+Ek43zOXF90xsIALcMYGy1MRcOBp7C0pL6mBpL9oAczATEG6QnFHGV/5K
+ RC4m03V5q+bxOU1ZgH/mVtJrRJ3wDy4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-gXzoG7wPOaSqt3J9GrnNDg-1; Wed, 11 Mar 2020 09:52:20 -0400
+X-MC-Unique: gXzoG7wPOaSqt3J9GrnNDg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 162E6107ACC4;
+ Wed, 11 Mar 2020 13:52:19 +0000 (UTC)
+Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F0FB393;
+ Wed, 11 Mar 2020 13:52:18 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 01/19] luks: extract qcrypto_block_calculate_payload_offset()
+Date: Wed, 11 Mar 2020 14:51:55 +0100
+Message-Id: <20200311135213.1242028-2-mreitz@redhat.com>
+In-Reply-To: <20200311135213.1242028-1-mreitz@redhat.com>
+References: <20200311135213.1242028-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Wed, 11 Mar 2020 06:51:46 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,68 +70,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, peter.maydell@linaro.org, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, kwolf@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxMTEyNDA0NS4yNzc5
-NjktMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwLzldIEJsb2NrIHBhdGNoZXMKTWVzc2FnZS1p
-ZDogMjAyMDAzMTExMjQwNDUuMjc3OTY5LTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpUeXBlOiBzZXJp
-ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjNkYzQ3YzYgYWlvLXBvc2l4OiByZW1vdmUgaWRsZSBwb2xsIGhhbmRs
-ZXJzIHRvIGltcHJvdmUgc2NhbGFiaWxpdHkKNThjYTIzZCBhaW8tcG9zaXg6IHN1cHBvcnQgdXNl
-cnNwYWNlIHBvbGxpbmcgb2YgZmQgbW9uaXRvcmluZwpmYzU4ODRjIGFpby1wb3NpeDogYWRkIGlv
-X3VyaW5nIGZkIG1vbml0b3JpbmcgaW1wbGVtZW50YXRpb24KNzdmNjNkNiBhaW8tcG9zaXg6IHNp
-bXBsaWZ5IEZETW9uT3BzLT51cGRhdGUoKSBwcm90b3R5cGUKZDYyZDEwMCBhaW8tcG9zaXg6IGV4
-dHJhY3QgcHBvbGwoMikgYW5kIGVwb2xsKDcpIGZkIG1vbml0b3JpbmcKZGJiYmU2OSBhaW8tcG9z
-aXg6IG1vdmUgUkNVX1JFQURfTE9DSygpIGludG8gcnVuX3BvbGxfaGFuZGxlcnMoKQo5MzljYWZh
-IGFpby1wb3NpeDogY29tcGxldGVseSBzdG9wIHBvbGxpbmcgd2hlbiBkaXNhYmxlZAo0MjY0MjVi
-IGFpby1wb3NpeDogcmVtb3ZlIGNvbmZ1c2luZyBRTElTVF9TQUZFX1JFTU9WRSgpCjg2YWM4YTcg
-cWVtdS9xdWV1ZS5oOiBjbGVhciBsaW5rZWQgbGlzdCBwb2ludGVycyBvbiByZW1vdmUKCj09PSBP
-VVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgODZhYzhhNzk2NDlkIChxZW11L3F1
-ZXVlLmg6IGNsZWFyIGxpbmtlZCBsaXN0IHBvaW50ZXJzIG9uIHJlbW92ZSkKRVJST1I6IGRvIG5v
-dCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzY2OiBGSUxFOiBpbmNsdWRlL3FlbXUv
-cXVldWUuaDozMTQ6CisgICAgaWYgKCgoaGVhZCktPnNxaF9maXJzdCA9IGVsbS0+ZmllbGQuc3Fl
-X25leHQpID09IE5VTEwpICAgICAgICAgICAgICBcCgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDU5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-LgoKMi85IENoZWNraW5nIGNvbW1pdCA0MjY0MjViYTZiYzIgKGFpby1wb3NpeDogcmVtb3ZlIGNv
-bmZ1c2luZyBRTElTVF9TQUZFX1JFTU9WRSgpKQozLzkgQ2hlY2tpbmcgY29tbWl0IDkzOWNhZmEx
-Y2Y3ZiAoYWlvLXBvc2l4OiBjb21wbGV0ZWx5IHN0b3AgcG9sbGluZyB3aGVuIGRpc2FibGVkKQo0
-LzkgQ2hlY2tpbmcgY29tbWl0IGRiYmJlNjlhYThmZCAoYWlvLXBvc2l4OiBtb3ZlIFJDVV9SRUFE
-X0xPQ0soKSBpbnRvIHJ1bl9wb2xsX2hhbmRsZXJzKCkpCjUvOSBDaGVja2luZyBjb21taXQgZDYy
-ZDEwMDZlNTcxIChhaW8tcG9zaXg6IGV4dHJhY3QgcHBvbGwoMikgYW5kIGVwb2xsKDcpIGZkIG1v
-bml0b3JpbmcpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMg
-TUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ2OTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
-b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDcyMSBsaW5lcyBjaGVja2VkCgpQYXRjaCA1Lzkg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNi85IENoZWNraW5nIGNvbW1pdCA3N2Y2M2Q2NTM0
-OTYgKGFpby1wb3NpeDogc2ltcGxpZnkgRkRNb25PcHMtPnVwZGF0ZSgpIHByb3RvdHlwZSkKNy85
-IENoZWNraW5nIGNvbW1pdCBmYzU4ODRjYjkzY2MgKGFpby1wb3NpeDogYWRkIGlvX3VyaW5nIGZk
-IG1vbml0b3JpbmcgaW1wbGVtZW50YXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
-dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE4NjogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ1NiBsaW5lcyBj
-aGVja2VkCgpQYXRjaCA3LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC85IENoZWNraW5n
-IGNvbW1pdCA1OGNhMjNkZWIzZTYgKGFpby1wb3NpeDogc3VwcG9ydCB1c2Vyc3BhY2UgcG9sbGlu
-ZyBvZiBmZCBtb25pdG9yaW5nKQo5LzkgQ2hlY2tpbmcgY29tbWl0IDNkYzQ3YzZkMmY2YSAoYWlv
-LXBvc2l4OiByZW1vdmUgaWRsZSBwb2xsIGhhbmRsZXJzIHRvIGltcHJvdmUgc2NhbGFiaWxpdHkp
-Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
-aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAw
-MzExMTI0MDQ1LjI3Nzk2OS0xLXN0ZWZhbmhhQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+From: Stefan Hajnoczi <stefanha@redhat.com>
+
+The qcow2 .bdrv_measure() code calculates the crypto payload offset.
+This logic really belongs in crypto/block.c where it can be reused by
+other image formats.
+
+The "luks" block driver will need this same logic in order to implement
+.bdrv_measure(), so extract the qcrypto_block_calculate_payload_offset()
+function now.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200221112522.1497712-2-stefanha@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2.c          | 74 +++++++++++-------------------------------
+ crypto/block.c         | 36 ++++++++++++++++++++
+ include/crypto/block.h | 22 +++++++++++++
+ 3 files changed, 77 insertions(+), 55 deletions(-)
+
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 3640e8c07d..f667349e50 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4608,60 +4608,6 @@ static coroutine_fn int qcow2_co_flush_to_os(BlockDr=
+iverState *bs)
+     return ret;
+ }
+=20
+-static ssize_t qcow2_measure_crypto_hdr_init_func(QCryptoBlock *block,
+-        size_t headerlen, void *opaque, Error **errp)
+-{
+-    size_t *headerlenp =3D opaque;
+-
+-    /* Stash away the payload size */
+-    *headerlenp =3D headerlen;
+-    return 0;
+-}
+-
+-static ssize_t qcow2_measure_crypto_hdr_write_func(QCryptoBlock *block,
+-        size_t offset, const uint8_t *buf, size_t buflen,
+-        void *opaque, Error **errp)
+-{
+-    /* Discard the bytes, we're not actually writing to an image */
+-    return buflen;
+-}
+-
+-/* Determine the number of bytes for the LUKS payload */
+-static bool qcow2_measure_luks_headerlen(QemuOpts *opts, size_t *len,
+-                                         Error **errp)
+-{
+-    QDict *opts_qdict;
+-    QDict *cryptoopts_qdict;
+-    QCryptoBlockCreateOptions *cryptoopts;
+-    QCryptoBlock *crypto;
+-
+-    /* Extract "encrypt." options into a qdict */
+-    opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
+-    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
+-    qobject_unref(opts_qdict);
+-
+-    /* Build QCryptoBlockCreateOptions object from qdict */
+-    qdict_put_str(cryptoopts_qdict, "format", "luks");
+-    cryptoopts =3D block_crypto_create_opts_init(cryptoopts_qdict, errp);
+-    qobject_unref(cryptoopts_qdict);
+-    if (!cryptoopts) {
+-        return false;
+-    }
+-
+-    /* Fake LUKS creation in order to determine the payload size */
+-    crypto =3D qcrypto_block_create(cryptoopts, "encrypt.",
+-                                  qcow2_measure_crypto_hdr_init_func,
+-                                  qcow2_measure_crypto_hdr_write_func,
+-                                  len, errp);
+-    qapi_free_QCryptoBlockCreateOptions(cryptoopts);
+-    if (!crypto) {
+-        return false;
+-    }
+-
+-    qcrypto_block_free(crypto);
+-    return true;
+-}
+-
+ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *i=
+n_bs,
+                                        Error **errp)
+ {
+@@ -4712,9 +4658,27 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opt=
+s, BlockDriverState *in_bs,
+     g_free(optstr);
+=20
+     if (has_luks) {
++        g_autoptr(QCryptoBlockCreateOptions) create_opts =3D NULL;
++        QDict *opts_qdict;
++        QDict *cryptoopts;
+         size_t headerlen;
+=20
+-        if (!qcow2_measure_luks_headerlen(opts, &headerlen, &local_err)) {
++        opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
++        qdict_extract_subqdict(opts_qdict, &cryptoopts, "encrypt.");
++        qobject_unref(opts_qdict);
++
++        qdict_put_str(cryptoopts, "format", "luks");
++
++        create_opts =3D block_crypto_create_opts_init(cryptoopts, errp);
++        qobject_unref(cryptoopts);
++        if (!create_opts) {
++            goto err;
++        }
++
++        if (!qcrypto_block_calculate_payload_offset(create_opts,
++                                                    "encrypt.",
++                                                    &headerlen,
++                                                    &local_err)) {
+             goto err;
+         }
+=20
+diff --git a/crypto/block.c b/crypto/block.c
+index 325752871c..6f42b32f1e 100644
+--- a/crypto/block.c
++++ b/crypto/block.c
+@@ -115,6 +115,42 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateO=
+ptions *options,
+ }
+=20
+=20
++static ssize_t qcrypto_block_headerlen_hdr_init_func(QCryptoBlock *block,
++        size_t headerlen, void *opaque, Error **errp)
++{
++    size_t *headerlenp =3D opaque;
++
++    /* Stash away the payload size */
++    *headerlenp =3D headerlen;
++    return 0;
++}
++
++
++static ssize_t qcrypto_block_headerlen_hdr_write_func(QCryptoBlock *block,
++        size_t offset, const uint8_t *buf, size_t buflen,
++        void *opaque, Error **errp)
++{
++    /* Discard the bytes, we're not actually writing to an image */
++    return buflen;
++}
++
++
++bool
++qcrypto_block_calculate_payload_offset(QCryptoBlockCreateOptions *create_o=
+pts,
++                                       const char *optprefix,
++                                       size_t *len,
++                                       Error **errp)
++{
++    /* Fake LUKS creation in order to determine the payload size */
++    g_autoptr(QCryptoBlock) crypto =3D
++        qcrypto_block_create(create_opts, optprefix,
++                             qcrypto_block_headerlen_hdr_init_func,
++                             qcrypto_block_headerlen_hdr_write_func,
++                             len, errp);
++    return crypto !=3D NULL;
++}
++
++
+ QCryptoBlockInfo *qcrypto_block_get_info(QCryptoBlock *block,
+                                          Error **errp)
+ {
+diff --git a/include/crypto/block.h b/include/crypto/block.h
+index d49d2c2da9..c77ccaf9c0 100644
+--- a/include/crypto/block.h
++++ b/include/crypto/block.h
+@@ -145,6 +145,26 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateO=
+ptions *options,
+                                    Error **errp);
+=20
+=20
++/**
++ * qcrypto_block_calculate_payload_offset:
++ * @create_opts: the encryption options
++ * @optprefix: name prefix for options
++ * @len: output for number of header bytes before payload
++ * @errp: pointer to a NULL-initialized error object
++ *
++ * Calculate the number of header bytes before the payload in an encrypted
++ * storage volume.  The header is an area before the payload that is reser=
+ved
++ * for encryption metadata.
++ *
++ * Returns: true on success, false on error
++ */
++bool
++qcrypto_block_calculate_payload_offset(QCryptoBlockCreateOptions *create_o=
+pts,
++                                       const char *optprefix,
++                                       size_t *len,
++                                       Error **errp);
++
++
+ /**
+  * qcrypto_block_get_info:
+  * @block: the block encryption object
+@@ -269,5 +289,7 @@ uint64_t qcrypto_block_get_sector_size(QCryptoBlock *bl=
+ock);
+ void qcrypto_block_free(QCryptoBlock *block);
+=20
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(QCryptoBlock, qcrypto_block_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(QCryptoBlockCreateOptions,
++                              qapi_free_QCryptoBlockCreateOptions)
+=20
+ #endif /* QCRYPTO_BLOCK_H */
+--=20
+2.24.1
+
 
