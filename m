@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1B181CB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:46:42 +0100 (CET)
-Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7C9181CE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:52:26 +0100 (CET)
+Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC3ZA-0008I3-IB
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
+	id 1jC3ek-0002rY-0r
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jC3VI-0002sf-4h
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:41 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jC3VK-0002xw-TL
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jC3VH-0002vH-2Y
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21248
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jC3VI-00033F-DJ
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55911
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jC3VG-0002tV-T1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:38 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jC3VI-00030T-6x
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:42:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583941358;
+ s=mimecast20190719; t=1583941359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwtrIe9mlPyMqFukWE3oYgseNckLG6yMm06xtJDpqmM=;
- b=HTgsAAHhIM7fhA7BBsVIB/S8N5Yb3AXXEFFRU/a02YaAH7GzBuB2YD1j0jHXltG4LodAGs
- Qk/Pni/IXmPyAF3TGdF9SLw4d+ubpzLUzchFz5P1aKZcYEWZUzc9NMgWIM4JEcU53yPtOh
- x79IENyjkJ+FNrryx5Uryu2/e5f8fKU=
+ bh=G4epXuozV5upAZ2otn3gIuX0f++/O+nBRWrJUTAsG6Q=;
+ b=SKnZcc5L0bvnGs1EHYM49Yt/Ui/84Q4R1mHzO9R5+wuin8C1kmnwQSoZWnIhnWMPLPFNZs
+ FBR5sB9kahSe5IiAwrHO8+RRtMbYIQLZrB0LlgxfLO62+zkjEKjFr+86ZuFE34Zm0S2z2a
+ TknAvw+83QwGybRlyWYNaujQE+QQVtE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-_L-w9CqzPd25RHYR-MThdQ-1; Wed, 11 Mar 2020 11:42:36 -0400
-X-MC-Unique: _L-w9CqzPd25RHYR-MThdQ-1
+ us-mta-11-nii55XpTN4CY7myDP1CXeQ-1; Wed, 11 Mar 2020 11:42:37 -0400
+X-MC-Unique: nii55XpTN4CY7myDP1CXeQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD02800D4E;
- Wed, 11 Mar 2020 15:42:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E9F8017CC;
+ Wed, 11 Mar 2020 15:42:36 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 431C160BEE;
- Wed, 11 Mar 2020 15:42:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 810B560BEE;
+ Wed, 11 Mar 2020 15:42:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/13] qapi: Add '@allow-write-only-overlay' feature for
- 'blockdev-snapshot'
-Date: Wed, 11 Mar 2020 16:42:13 +0100
-Message-Id: <20200311154218.15532-9-kwolf@redhat.com>
+Subject: [PULL 09/13] tests/qemu-iotests: Fix socket_scm_helper build path
+Date: Wed, 11 Mar 2020 16:42:14 +0100
+Message-Id: <20200311154218.15532-10-kwolf@redhat.com>
 In-Reply-To: <20200311154218.15532-1-kwolf@redhat.com>
 References: <20200311154218.15532-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,51 +76,54 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Krempa <pkrempa@redhat.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Anounce that 'blockdev-snapshot' command's permissions allow changing
-of the backing file if the 'consistent_read' permission is not required.
+The socket_scm_helper path got corrupted during the mechanical
+refactor moving the qtests files into their own sub-directory.
 
-This is useful for libvirt to allow late opening of the backing chain
-during a blockdev-mirror.
-
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200310113831.27293-8-kwolf@redhat.com>
+Fixes: 1e8a1fae7 ("test: Move qtests to a separate directory")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200306165751.18986-1-philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-core.json | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/Makefile.include       | 1 +
+ tests/qtest/Makefile.include | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9758fc48d2..91586fb1fb 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1472,6 +1472,12 @@
- #
- # For the arguments, see the documentation of BlockdevSnapshot.
- #
-+# Features:
-+# @allow-write-only-overlay: If present, the check whether this operation =
-is safe
-+#                            was relaxed so that it can be used to change
-+#                            backing file of a destination of a blockdev-m=
-irror.
-+#                            (since 5.0)
-+#
- # Since: 2.5
- #
- # Example:
-@@ -1492,7 +1498,8 @@
- #
- ##
- { 'command': 'blockdev-snapshot',
--  'data': 'BlockdevSnapshot' }
-+  'data': 'BlockdevSnapshot',
-+  'features': [ 'allow-write-only-overlay' ] }
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index edcbd475aa..67e8fcddda 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -589,6 +589,7 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
+ tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
+ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
+ tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
+j-y) libvhost-user.a
++tests/qemu-iotests/socket_scm_helper$(EXESUF): tests/qemu-iotests/socket_s=
+cm_helper.o
 =20
- ##
- # @change-backing-file:
+ SPEED =3D quick
+=20
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 383b0ab217..76672990a7 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -287,7 +287,6 @@ tests/qtest/usb-hcd-ehci-test$(EXESUF): tests/qtest/usb=
+-hcd-ehci-test.o $(libqos
+ tests/qtest/usb-hcd-xhci-test$(EXESUF): tests/qtest/usb-hcd-xhci-test.o $(=
+libqos-usb-obj-y)
+ tests/qtest/cpu-plug-test$(EXESUF): tests/qtest/cpu-plug-test.o
+ tests/qtest/migration-test$(EXESUF): tests/qtest/migration-test.o tests/qt=
+est/migration-helpers.o
+-tests/qtest/qemu-iotests/qtest/socket_scm_helper$(EXESUF): tests/qtest/qem=
+u-iotests/qtest/socket_scm_helper.o
+ tests/qtest/test-netfilter$(EXESUF): tests/qtest/test-netfilter.o $(qtest-=
+obj-y)
+ tests/qtest/test-filter-mirror$(EXESUF): tests/qtest/test-filter-mirror.o =
+$(qtest-obj-y)
+ tests/qtest/test-filter-redirector$(EXESUF): tests/qtest/test-filter-redir=
+ector.o $(qtest-obj-y)
 --=20
 2.20.1
 
