@@ -2,56 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE5B180CF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 01:44:25 +0100 (CET)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599E8180D56
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 02:14:04 +0100 (CET)
+Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBpTz-0002q9-Sp
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 20:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37000)
+	id 1jBpwh-0001Nv-CO
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 21:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jBpTA-0002RL-4w
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 20:43:33 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jBpvj-0000Bv-5B
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 21:13:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jingqi.liu@intel.com>) id 1jBpT8-0007z0-6w
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 20:43:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:4390)
+ (envelope-from <dgibson@ozlabs.org>) id 1jBpvh-0006Mf-7k
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 21:13:02 -0400
+Received: from ozlabs.org ([203.11.71.1]:36395)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
- id 1jBpT7-0007h6-RM
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 20:43:30 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2020 17:43:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; d="scan'208";a="289203113"
-Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.4.117])
- ([10.238.4.117])
- by FMSMGA003.fm.intel.com with ESMTP; 10 Mar 2020 17:43:19 -0700
-Subject: Re: [PATCH] util: fix to get configuration macros in util/mmap-alloc.c
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200305154142.63070-1-jingqi.liu@intel.com>
- <20200305161047.GB3627464@lpt>
- <CAFEAcA-OQncMrU_-DJJ9g5rEcrJvbhTOjOVs0YqO3NS_Y413OQ@mail.gmail.com>
- <f774652b-5145-1e47-62c4-99a69a037506@intel.com>
- <CAFEAcA8HMSg8nS27YGPEQsPeGW2UicWRxeJDQf3oKbyHH2TY6Q@mail.gmail.com>
- <a57d479a-c9d5-0acc-b808-fe4e5a20ae80@intel.com>
- <20200310051003-mutt-send-email-mst@kernel.org>
-From: "Liu, Jingqi" <jingqi.liu@intel.com>
-Message-ID: <16328974-3c7f-0e69-9614-a085c5841a2e@intel.com>
-Date: Wed, 11 Mar 2020 08:43:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jBpvg-0006Ed-Ro; Tue, 10 Mar 2020 21:13:01 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48cYq85y7Qz9sPJ; Wed, 11 Mar 2020 12:12:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1583889172;
+ bh=ZZuFWOIKD8F6iCcQPGMLx8U2dzIb2s9fyLu6ujWFcd4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g0PXSiOmHZBYdFAmnmR4OJaXLQt7EIBYiOgxx+Vuy2EY77KKje/Nh2MsvwrjvDwPV
+ BO86Lzd+YSjIIn/0QX8TbioD4GnrSzGimujFChjI8MxZ2katUh+sjHoCEHK8YGZlnc
+ eb0orQVffW1ErF3Yr1ntM23MkJNHyfZ4+qwirHbQ=
+Date: Wed, 11 Mar 2020 11:58:57 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 1/2] spapr: Disable legacy virtio devices for
+ pseries-5.0 and later
+Message-ID: <20200311005857.GS660117@umbus.fritz.box>
+References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ <20200305043009.611636-2-david@gibson.dropbear.id.au>
+ <20200310115611.GE3234052@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200310051003-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.115
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mln0rGgUGuXEqmuI"
+Content-Disposition: inline
+In-Reply-To: <20200310115611.GE3234052@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,126 +57,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?J=c3=a1n_Tomko?= <jtomko@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, groug@kaod.org,
+ qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org, mdroth@us.ibm.com,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/2020 5:12 PM, Michael S. Tsirkin wrote:
-> On Tue, Mar 10, 2020 at 04:58:38PM +0800, Liu, Jingqi wrote:
->> On 3/9/2020 9:35 PM, Peter Maydell wrote:
->>> On Mon, 9 Mar 2020 at 13:23, Liu, Jingqi <jingqi.liu@intel.com> wrote:
->>>> On 3/6/2020 12:40 AM, Peter Maydell wrote:
->>>>> On Thu, 5 Mar 2020 at 16:11, Ján Tomko <jtomko@redhat.com> wrote:
->>>>>> On a Thursday in 2020, Jingqi Liu wrote:
->>>>>>> The CONFIG_LINUX symbol is always not defined in this file.
->>>>>>> This fixes that "config-host.h" header file is not included
->>>>>>> for getting macros.
->>>>>>>
->>>>>>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
->>>>>>> ---
->>>>>>> util/mmap-alloc.c | 2 ++
->>>>>>> 1 file changed, 2 insertions(+)
->>>>>>>
->>>>>>> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
->>>>>>> index 27dcccd8ec..24c0e380f3 100644
->>>>>>> --- a/util/mmap-alloc.c
->>>>>>> +++ b/util/mmap-alloc.c
->>>>>>> @@ -10,6 +10,8 @@
->>>>>>>     * later.  See the COPYING file in the top-level directory.
->>>>>>>     */
->>>>>>>
->>>>>>> +#include "config-host.h"
->>>>>>> +
->>>>>> According to CODING_STYLE.rst, qemu/osdep.h is the header file
->>>>>> that should be included first, before all the other includes.
->>>>>>
->>>>>> So the minimal fix would be moving qemu/osdep.h up here.
->>>>> Yes, osdep must always be first.
->>>>>
->>>>>>> #ifdef CONFIG_LINUX
->>>>>>> #include <linux/mman.h>
->>>>>>> #else  /* !CONFIG_LINUX */
->>>>> Do we really need this? osdep.h will pull in sys/mman.h
->>>>> for you, which should define the MAP_* constants.
->>>>>
->>>>> Also, you have no fallbmack for "I'm on Linux but the
->>>>> system headers don't define MAP_SHARED_VALIDATE or
->>>>> MAP_SYNC". Wouldn't it be better to just have
->>>>> #ifndef MAP_SYNC
->>>>> #define MAP_SYNC 0
->>>>> #endif
->>>>>
->>>>> etc ?
->>>> osdep.h pulls in sys/mman.h, which defines the MAP_* constants
->>>>
->>>> except for MAP_SYNC and MAP_SHARED_VALIDATE on Linux.
->>> Why not? Is this just "not yet in the version of glibc
->>> we're using", or is it a bug/missed feature in glibc
->>> that needs to be addressed there ?
->> I'm using the version 2.27 of glibc.
->>
->> I downloaded the version 2.28 of glibc source for compilation and
->> installation.
->>
->> I found MAP_SYNC and MAP_SHARED_VALIDATE are defined in this version.
->>
->> Seems it's older glibc version issue.
->>
->>>> How about just adding the following code in util/mmap-alloc.c ?
->>>> #ifndef MAP_SYNC
->>>> #define MAP_SYNC 0x80000
->>>> #endif
->>>>
->>>> #ifndef MAP_SHARED_VALIDATE
->>>> #define MAP_SHARED_VALIDATE 0x03
->>>> #endif
->>> You don't want to do that for non-Linux systems, so there
->>> you need to fall back to defining them to be 0.
->>>
->>> Are there any systems (distros) where the standard system
->>> sys/mman.h does not define these new MAP_* constants but we
->>> still really really need to use them? If not, then we
->>> could just have the fallback-to-0 fallback everywhere.
->> Good point.
->>
->> So as you mentioned, it would be better to just have the following code:
->>
->> #ifndef MAP_SYNC
->> #define MAP_SYNC 0
->> #endif
->>
->> #ifndef MAP_SHARED_VALIDATE
->> #define MAP_SHARED_VALIDATE 0
->> #endif
-> Won't this defeat the purpose of MAP_SHARED_VALIDATE?
->
-> We really have linux-headers/linux/mman.h for exactly this purpose.
 
-Yes, linux-headers/linux/mman.h has defined MAP_SYNC and 
-MAP_SHARED_VALIDATE.
+--mln0rGgUGuXEqmuI
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) If '#include <linux/mman.h>' first then '#include qemu/osdep.h', it 
-should be fine.
+On Tue, Mar 10, 2020 at 11:56:11AM +0000, Daniel P. Berrang=E9 wrote:
+> On Thu, Mar 05, 2020 at 03:30:08PM +1100, David Gibson wrote:
+> > PAPR specifies a kind of odd, paravirtualized PCI bus, which looks to
+> > the guess mostly like classic PCI, even if some of the individual
+> > devices on the bus are PCI Express.  One consequence of that is that
+> > virtio-pci devices still default to being in transitional mode, though
+> > legacy mode is now disabled by default on current q35 x86 machine
+> > types.
+>=20
+> Two things to note here
+>=20
+> x86 defaults to the i440fx  machine type, and so defaults
+> to transitional mode. AFAIK, only RHEL-8 downstream changed
+> x86 to defualt to q35
+>=20
+> With q35 whether you get transitional mode or not is actually
+> dependent on where you place the device. If it is placed into
+> a PCIe root port, then it is modern-only. If it is placed into
+> a PCI bridge, then it is transitional still.
 
-2) Peter mentioned osdep.h should go first.
+Yes, I'm aware.
 
-It will  cause redefinitions of other MAP_* macros after '#include 
-<linux/mman.h>'.
+> > Legacy mode virtio devices aren't really necessary any more, and are
+>=20
+> Legacy mode is required for RHEL-6 which has not reached EOL yet.
 
-This is where the conflict lies.
+Yeah.. I'm concerned about this, but I'm not sure what to do about it.
 
-Any comments ?
+> > causing some problems for future changes.  Therefore, for the
+> > pseries-5.0 machine type (and onwards), switch to modern-only
+> > virtio-pci devices by default.
+>=20
+> The challenge I see with pseries, as compared to x86 is around
+> how apps deal with mgmt / guest setup.  With x86 there are
+> distinct machine types i440fx / q35, so mgmt apps could decide
+> what todo based on the chipset & device support. eg they can
+> determine whether the guest supports PCIe at all, and they
+> can determine whether the guest supports virtio-1.0. Thus
+> they can decide between three options
+>=20
+>  - Use i440fx
+>  - Use q35 with placement in PCI bridge
+>  - Use q35 with placement in PCIe root port
+>=20
+> These rules applies no matter what version of q35/i440fx
+> is in use.
 
-Thanks,
+Yeah.. x86 also has the advantage of enough visibility that it can
+reasonbly easily get mgmt layers to do stuff about it.  This is much
+harder for POWER :/.
 
-Jingqi
+> With PPC, we're changing behaviour of the existing pseries
+> machine type in a minor version. Management apps need to
+> avoid creating logic that depends on a specific minor version
+> because these version numbers are all changed by downstream
+> distro vendors. IOW, as a comparison to x86, this change is
+> akin to altering behaviour of the i440fx machine type so
+> that it disables legacy mode despite still being PCI, and
+> not PCIe.
+>=20
+> Is there any liklihood we'll ever introduce a true PCIe
+> based machine type for PPC, so we get something much
+> closer to x86/aarch64 machine types in terms of PCIe
+> architecture ?
 
->> Thanks,
->>
->> Jingqi
->>
->>> thanks
->>> -- PMM
+It doesn't really make sense to do so.  For x86 - or more strictly for
+pc - the change from PCI to PCIe is a pretty fundamental system change
+with affects in lots of places, which makes a whole new versioned
+series of machine types a reasonable option.
+
+For pseries - that's not really the case.  PCI under PAPR is
+paravirtualized, and it always has been.  The interface we're matching
+is not real hardware, but the PAPR spec and to a lesser extent the
+existing PowerVM implementation of it.
+
+[Aside: you've made a subtle but common x86-centric assumption above
+ that there's only one important platform design per ISA.  There
+ is a real PCIe based PPC  machine type in "pnv" (and maybe some of
+ the embedded ones as well), but that's not the environment we care
+ about for guests in production, since we can't use KVM with it]
+
+What PAPR has is an odd hybrid - individual devices can be PCIe (we
+have calls to access extended config space) - but the overall bus
+structure is more-or-less like vanilla PCI.
+
+I think it would be possible to kind of expose a more PCIe like
+structure, but a) it would be weirdly artificial, b) it doesn't match
+the PAPR interfaces very well, c) it would make our behaviour
+different from PowerVM.
+
+It would certainly be possible to better handle PCIe devices on a root
+bus.  That's been on my todo someday list for ages, but I've kept
+putting it off because the tangible benefits are pretty minimal.
+
+Note that several things that I believe are now in the PCIe spec, but
+really derive more from PC legacy considerations, don't apply at all
+for PAPR.  e.g. there's no meaningful distinction between integrated
+and slotted devices, multiple independent host bridges is routine and
+doesn't require any (virtual) hardware visible domain numbers.
+
+> > This does mean we no longer support guest kernels prior to 4.0, unless
+> > they have modern virtio support backported (which some distro kernels
+> > like that in RHEL7 do).
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 2eb0d8f70d..3cfc98ac61 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -65,6 +65,7 @@
+> > =20
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/scsi/scsi.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> >  #include "hw/virtio/virtio-scsi.h"
+> >  #include "hw/virtio/vhost-scsi-common.h"
+> > =20
+> > @@ -4566,8 +4567,20 @@ static const TypeInfo spapr_machine_info =3D {
+> > =20
+> >  static void spapr_machine_latest_class_options(MachineClass *mc)
+> >  {
+> > +    /*
+> > +     * Most defaults for the latest behaviour are inherited from the
+> > +     * base class, but we need to override the (non ppc specific)
+> > +     * default behaviour for virtio.  We can't do that from the base
+> > +     * class since it doesn't have a compat_props.
+> > +     */
+> > +    static GlobalProperty compat[] =3D {
+> > +        { TYPE_VIRTIO_PCI, "disable-legacy", "on", },
+> > +    };
+> > +
+> >      mc->alias =3D "pseries";
+> >      mc->is_default =3D true;
+> > +
+> > +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> >  }
+> > =20
+> >  #define DEFINE_SPAPR_MACHINE(suffix, verstr, latest)                 \
+> > @@ -4607,6 +4620,9 @@ DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
+> >  static void spapr_machine_4_2_class_options(MachineClass *mc)
+> >  {
+> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> > +    static GlobalProperty compat[] =3D {
+> > +        { TYPE_VIRTIO_PCI, "disable-legacy", "auto" },
+> > +    };
+> > =20
+> >      spapr_machine_5_0_class_options(mc);
+> >      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_le=
+n);
+> > @@ -4614,6 +4630,7 @@ static void spapr_machine_4_2_class_options(Machi=
+neClass *mc)
+> >      smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
+> >      smc->rma_limit =3D 16 * GiB;
+> >      mc->nvdimm_supported =3D false;
+> > +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> >  }
+> > =20
+> >  DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
+>=20
+> Regards,
+> Daniel
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--mln0rGgUGuXEqmuI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5oN84ACgkQbDjKyiDZ
+s5LVVw//cowKHuGYKDS2fglF4EGiB1MoDnD4UFd9eKnbjO2UJq+6gZlgqCgGJ1TG
+uEphi+Tak5LxH4ytJumcCpqT0pDdNrbrR4XkMAVFbB1IAmMMgMrnNX0Ns+J8xXGV
++voYsgg6RfEG2DhaTBJ5qgTjLHc5bfeaayqsnJ3sZnOQ2eJLcEV06ku5EzZ4vXUi
+q26iCpcxD7vJ7wS1SzhvczQDLsTfZjHA/K/fpTkfCuQXV4UUqd6aG2f8+4jfSQdx
+M44DmtNajvkO1OwkDR0Xa+V+IaDU6G5ATFOssbL0F6nxlQAp+lQL277SwQIAjVIZ
+SisiNyF0vdBoUIWZrt2BKAhKnFzzm0pkqHFg8NfJu1zAwezi1OZvH6TP8THtbeUY
+zriRGQ4q9md4lkD+7BkD+JfjFbCrX/zFxCgVzmf5XDJ1ohnshT5cdqwZLN7dDhFf
+Qe9b01cKe/AcqjcNQStuMLHKpPd/+fjqJqvy7Ouz2Z3VZR4l4+UntDbhiVzQ2t2S
+KwhfoOO37yqkv/5YvLv6QRxnzXgO849OQd/SNMHycBJJRODdLeNsnJsrkwFmEQ/q
+ecyGHC0dro9NgfzQfB3CcT9jyC7E5J3vAXPwqsG5/xcJDtvU+l6VfcQuHJdbjPL7
+j8DCFuApZYEkY7/eRxgPIhHHY1oruYRSm+PkIHoGWMB6J7opErM=
+=9T2B
+-----END PGP SIGNATURE-----
+
+--mln0rGgUGuXEqmuI--
 
