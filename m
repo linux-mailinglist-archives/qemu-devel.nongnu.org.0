@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF30181AB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:04:15 +0100 (CET)
-Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D03F181AA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:01:27 +0100 (CET)
+Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1y2-0000YK-2f
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
+	id 1jC1vK-0004gx-2b
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:01:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC1ml-0003li-6B
+ (envelope-from <mreitz@redhat.com>) id 1jC1mm-0003nn-Gv
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC1mj-0002Ps-7i
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57436
+ (envelope-from <mreitz@redhat.com>) id 1jC1mk-0002TV-K4
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41618
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1mj-0002O3-1y
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:33 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC1mk-0002R9-Er
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583934752;
+ s=mimecast20190719; t=1583934753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qq6XgEjo+qIMXWXCWiN9rXOHiAaiICEsYe0CUsnYDWw=;
- b=P6loyAwlIv3vA4XtIzRTRh8DQNL2h3BBSnSv+M0KzKyRJpxKu2Bb5b31cfRGelVrU2tD8O
- gDe1XhNPjBiSAxgK6KwWoiD6rpbvWseTnaqLRgkQoPzJnLG8Sd9Vr6SLuCM/u35rvtmrbc
- lprXtIwQ5YAQE+hYOGJYmZ7xXft3jPM=
+ bh=a6t3X74nlBAIN+SErRk0soe+wHgMWzGzq3342XWA9qk=;
+ b=MEJB43366p1KXM6uFISdBzqoHY7rehQudka9A0BditQsdWeJTxua+0FQuzNMtNVQkACEWc
+ WcmiCcmuPeHOaD9o9fpOHzCifsiSN1pUQunhGaS/F2Y4jISOk1q8/xDNgyjMkayH4fDuEG
+ FCuSeZRLPHY2K7Ov9WSOSrtaJG0wZ6w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-LOV-fndVNb2Ltn3ovZy0Xg-1; Wed, 11 Mar 2020 09:52:28 -0400
-X-MC-Unique: LOV-fndVNb2Ltn3ovZy0Xg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-301-yCqzhhXQN4CdysaCqDxJUQ-1; Wed, 11 Mar 2020 09:52:31 -0400
+X-MC-Unique: yCqzhhXQN4CdysaCqDxJUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 835E6800EBC;
- Wed, 11 Mar 2020 13:52:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F0B107ACC7;
+ Wed, 11 Mar 2020 13:52:30 +0000 (UTC)
 Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F275092D2F;
- Wed, 11 Mar 2020 13:52:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1065A5D9C5;
+ Wed, 11 Mar 2020 13:52:29 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/19] iotests: add 288 luks qemu-img measure test
-Date: Wed, 11 Mar 2020 14:51:58 +0100
-Message-Id: <20200311135213.1242028-5-mreitz@redhat.com>
+Subject: [PULL 05/19] block/curl: HTTP header fields allow whitespace around
+ values
+Date: Wed, 11 Mar 2020 14:51:59 +0100
+Message-Id: <20200311135213.1242028-6-mreitz@redhat.com>
 In-Reply-To: <20200311135213.1242028-1-mreitz@redhat.com>
 References: <20200311135213.1242028-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,174 +77,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: David Edmondson <david.edmondson@oracle.com>
 
-This test exercises the block/crypto.c "luks" block driver
-.bdrv_measure() code.
+RFC 7230 section 3.2 indicates that whitespace is permitted between
+the field name and field value and after the field value.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <20200224101310.101169-2-david.edmondson@oracle.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200221112522.1497712-5-stefanha@redhat.com>
-[mreitz: Renamed test from 282 to 288]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/288     | 93 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/288.out | 30 ++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 124 insertions(+)
- create mode 100755 tests/qemu-iotests/288
- create mode 100644 tests/qemu-iotests/288.out
+ block/curl.c | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/288 b/tests/qemu-iotests/288
-new file mode 100755
-index 0000000000..6c62065aef
---- /dev/null
-+++ b/tests/qemu-iotests/288
-@@ -0,0 +1,93 @@
-+#!/usr/bin/env bash
-+#
-+# qemu-img measure tests for LUKS images
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/block/curl.c b/block/curl.c
+index f86299378e..f9ffb7f4e2 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -214,11 +214,34 @@ static size_t curl_header_cb(void *ptr, size_t size, =
+size_t nmemb, void *opaque)
+ {
+     BDRVCURLState *s =3D opaque;
+     size_t realsize =3D size * nmemb;
+-    const char *accept_line =3D "Accept-Ranges: bytes";
++    const char *header =3D (char *)ptr;
++    const char *end =3D header + realsize;
++    const char *accept_ranges =3D "Accept-Ranges:";
++    const char *bytes =3D "bytes";
+=20
+-    if (realsize >=3D strlen(accept_line)
+-        && strncmp((char *)ptr, accept_line, strlen(accept_line)) =3D=3D 0=
+) {
+-        s->accept_range =3D true;
++    if (realsize >=3D strlen(accept_ranges)
++        && strncmp(header, accept_ranges, strlen(accept_ranges)) =3D=3D 0)=
+ {
 +
-+# creator
-+owner=3Dstefanha@redhat.com
++        char *p =3D strchr(header, ':') + 1;
 +
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
++        /* Skip whitespace between the header name and value. */
++        while (p < end && *p && g_ascii_isspace(*p)) {
++            p++;
++        }
 +
-+status=3D1    # failure is the default!
++        if (end - p >=3D strlen(bytes)
++            && strncmp(p, bytes, strlen(bytes)) =3D=3D 0) {
 +
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm -f "$TEST_IMG.converted"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
++            /* Check that there is nothing but whitespace after the value.=
+ */
++            p +=3D strlen(bytes);
++            while (p < end && *p && g_ascii_isspace(*p)) {
++                p++;
++            }
 +
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+_supported_fmt luks
-+_supported_proto file
-+_supported_os Linux
-+
-+SECRET=3Dsecret,id=3Dsec0,data=3Dpassphrase
-+
-+echo "=3D=3D measure 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D create 1G image file (size should be no greater than measured=
-) =3D=3D"
-+echo
-+
-+_make_test_img 1G
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D modified 1G image file (size should be no greater than measur=
-ed) =3D=3D"
-+echo
-+
-+$QEMU_IO --object "$SECRET" --image-opts "$TEST_IMG" -c "write -P 0x51 0x1=
-0000 0x400" | _filter_qemu_io | _filter_testdir
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10,preallocation=3Dfalloc \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D measure with input image file =3D=3D"
-+echo
-+
-+IMGFMT=3Draw IMGKEYSECRET=3D IMGOPTS=3D _make_test_img 1G | _filter_imgfmt
-+QEMU_IO_OPTIONS=3D IMGOPTSSYNTAX=3D $QEMU_IO -f raw -c "write -P 0x51 0x10=
-000 0x400" "$TEST_IMG_FILE" | _filter_qemu_io | _filter_testdir
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  -f raw \
-+=09=09  "$TEST_IMG_FILE"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/288.out b/tests/qemu-iotests/288.out
-new file mode 100644
-index 0000000000..4bc593dc48
---- /dev/null
-+++ b/tests/qemu-iotests/288.out
-@@ -0,0 +1,30 @@
-+QA output created by 288
-+=3D=3D measure 1G image file =3D=3D
-+
-+required size: 1075810304
-+fully allocated size: 1075810304
-+
-+=3D=3D create 1G image file (size should be no greater than measured) =3D=
-=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+image file size in bytes: 1075810304
-+
-+=3D=3D modified 1G image file (size should be no greater than measured) =
-=3D=3D
-+
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+image file size in bytes: 1075810304
-+
-+=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D
-+
-+required size: 1075810304
-+fully allocated size: 1075810304
-+
-+=3D=3D measure with input image file =3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+required size: 1075810304
-+fully allocated size: 1075810304
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..559edc139a 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+288 quick
++            if (p =3D=3D end || !*p) {
++                s->accept_range =3D true;
++            }
++        }
+     }
+=20
+     return realsize;
 --=20
 2.24.1
 
