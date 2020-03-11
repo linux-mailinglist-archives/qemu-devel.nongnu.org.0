@@ -2,63 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F01181A98
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:59:32 +0100 (CET)
-Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AB5181A70
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:53:46 +0100 (CET)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1tT-0001zk-P6
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36111)
+	id 1jC1nt-00059g-Ce
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jC1ml-0003nF-Rx
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:37 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jC1mE-0002qe-Dq
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jC1mk-0002SE-3y
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46232
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jC1mj-0002QX-SL
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583934753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CnmHcvAzlYerfEhzxJ/5Dt9qcTxe4wP+0MOD1yMQ9wI=;
- b=J63rz2PzvqRgsf5Z83PJEJcQHb3JLjsSOaueuzslzKC5cVv8q1BaLb6RVCr75+ePsDlSEL
- GGTQ0qWN+fT06JEXpVDYml5Yw3vBnDRjSYAsBKLL1fynxAYsR9Gq5zx4Gs8wRq1PoCK2w/
- urR3P0qbwzUOUs8goU2N/fynjnmUAZY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-C0phuaU1PiefNOZWoeqxEQ-1; Wed, 11 Mar 2020 09:52:29 -0400
-X-MC-Unique: C0phuaU1PiefNOZWoeqxEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FA20107ACC4;
- Wed, 11 Mar 2020 13:52:28 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89AB69296C;
- Wed, 11 Mar 2020 13:52:23 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v6 11/13] arm/run: Allow Migration tests
-Date: Wed, 11 Mar 2020 14:51:15 +0100
-Message-Id: <20200311135117.9366-12-eric.auger@redhat.com>
-In-Reply-To: <20200311135117.9366-1-eric.auger@redhat.com>
-References: <20200311135117.9366-1-eric.auger@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1jC1mC-0001e8-5j
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:52:01 -0400
+Resent-Date: Wed, 11 Mar 2020 09:52:01 -0400
+Resent-Message-Id: <E1jC1mC-0001e8-5j@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21143)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jC1mB-0001dP-O5; Wed, 11 Mar 2020 09:51:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1583934709; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hmj7zDeAqAKA/dBDDlNE/V1j2dXiZQQELuomYXTzmAXCEeL5Q5yI6dqX3wT9D/KBLRbbn2m/CfXwvYT9t3WehfypWcRN5lx2PUR387fGRQtxRvz4ZBqvm+hRw3O3+yD4wwDLn9m7e5BOzxRlUZYP+H2dlWbuzhQ8B0Cx23VH/Vk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583934709;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=hPWqXQD+iWy+iiLPtWS9ihfbOLuILTVMGxjQ6pj7woE=; 
+ b=N7kZoclElMRStQpAAHelJn852dHoBjOJOk452heN/5OFuu75vyzfNrtH4cblnjJTloqluMTHNr6iDOeN+FBu497fsUy3Y89wMX9pk1dIYiacHnkJGC8Rm1Kv3pPSR1gmrCq4Op1DO6ULju8NgGRG/N0iQum21TyMCQ2nwDk2dks=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583934706199183.91796003785146;
+ Wed, 11 Mar 2020 06:51:46 -0700 (PDT)
+In-Reply-To: <20200311124045.277969-1-stefanha@redhat.com>
+Subject: Re: [PULL 0/9] Block patches
+Message-ID: <158393470453.5248.14269785570464192054@39012742ff91>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: stefanha@redhat.com
+Date: Wed, 11 Mar 2020 06:51:46 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,110 +63,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
- thuth@redhat.com, yuzenghui@huawei.com, alexandru.elisei@arm.com
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, peter.maydell@linaro.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's link getchar.o to use puts and getchar from the
-tests.
-
-Then allow tests belonging to the migration group to
-trigger the migration from the test code by putting
-"migrate" into the uart. Then the code can wait for the
-migration completion by using getchar().
-
-The __getchar implement is minimalist as it just reads the
-data register. It is just meant to read the single character
-emitted at the end of the migration by the runner script.
-
-It is not meant to read more data (FIFOs are not enabled).
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
----
-
-v3 -> v4:
-- remove space around Elvis operator
-- rename ___getchar into do_getchar
-
-v2 -> v3:
-- take the lock
-- assert if more than 16 chars
-- removed Thomas' R-b
----
- arm/Makefile.common |  2 +-
- arm/run             |  2 +-
- lib/arm/io.c        | 28 ++++++++++++++++++++++++++++
- 3 files changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/arm/Makefile.common b/arm/Makefile.common
-index b8988f2..a123e85 100644
---- a/arm/Makefile.common
-+++ b/arm/Makefile.common
-@@ -32,7 +32,7 @@ CFLAGS +=3D -I $(SRCDIR)/lib -I $(SRCDIR)/lib/libfdt -I=
- lib
- asm-offsets =3D lib/$(ARCH)/asm-offsets.h
- include $(SRCDIR)/scripts/asm-offsets.mak
-=20
--cflatobjs +=3D lib/util.o
-+cflatobjs +=3D lib/util.o lib/getchar.o
- cflatobjs +=3D lib/alloc_phys.o
- cflatobjs +=3D lib/alloc_page.o
- cflatobjs +=3D lib/vmalloc.o
-diff --git a/arm/run b/arm/run
-index 277db9b..a390ca5 100755
---- a/arm/run
-+++ b/arm/run
-@@ -61,6 +61,6 @@ fi
- M+=3D",accel=3D$ACCEL"
- command=3D"$qemu -nodefaults $M -cpu $processor $chr_testdev $pci_testde=
-v"
- command+=3D" -display none -serial stdio -kernel"
--command=3D"$(timeout_cmd) $command"
-+command=3D"$(migration_cmd) $(timeout_cmd) $command"
-=20
- run_qemu $command "$@"
-diff --git a/lib/arm/io.c b/lib/arm/io.c
-index 99fd315..343e108 100644
---- a/lib/arm/io.c
-+++ b/lib/arm/io.c
-@@ -87,6 +87,34 @@ void puts(const char *s)
- 	spin_unlock(&uart_lock);
- }
-=20
-+static int do_getchar(void)
-+{
-+	int c;
-+
-+	spin_lock(&uart_lock);
-+	c =3D readb(uart0_base);
-+	spin_unlock(&uart_lock);
-+
-+	return c ?: -1;
-+}
-+
-+/*
-+ * Minimalist implementation for migration completion detection.
-+ * Without FIFOs enabled on the QEMU UART device we just read
-+ * the data register: we cannot read more than 16 characters.
-+ */
-+int __getchar(void)
-+{
-+	int c =3D do_getchar();
-+	static int count;
-+
-+	if (c !=3D -1)
-+		++count;
-+
-+	assert(count < 16);
-+
-+	return c;
-+}
-=20
- /*
-  * Defining halt to take 'code' as an argument guarantees that it will
---=20
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxMTEyNDA0NS4yNzc5
+NjktMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwLzldIEJsb2NrIHBhdGNoZXMKTWVzc2FnZS1p
+ZDogMjAyMDAzMTExMjQwNDUuMjc3OTY5LTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpUeXBlOiBzZXJp
+ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
+YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
+aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
+bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5l
+dyBicmFuY2ggJ3Rlc3QnCjNkYzQ3YzYgYWlvLXBvc2l4OiByZW1vdmUgaWRsZSBwb2xsIGhhbmRs
+ZXJzIHRvIGltcHJvdmUgc2NhbGFiaWxpdHkKNThjYTIzZCBhaW8tcG9zaXg6IHN1cHBvcnQgdXNl
+cnNwYWNlIHBvbGxpbmcgb2YgZmQgbW9uaXRvcmluZwpmYzU4ODRjIGFpby1wb3NpeDogYWRkIGlv
+X3VyaW5nIGZkIG1vbml0b3JpbmcgaW1wbGVtZW50YXRpb24KNzdmNjNkNiBhaW8tcG9zaXg6IHNp
+bXBsaWZ5IEZETW9uT3BzLT51cGRhdGUoKSBwcm90b3R5cGUKZDYyZDEwMCBhaW8tcG9zaXg6IGV4
+dHJhY3QgcHBvbGwoMikgYW5kIGVwb2xsKDcpIGZkIG1vbml0b3JpbmcKZGJiYmU2OSBhaW8tcG9z
+aXg6IG1vdmUgUkNVX1JFQURfTE9DSygpIGludG8gcnVuX3BvbGxfaGFuZGxlcnMoKQo5MzljYWZh
+IGFpby1wb3NpeDogY29tcGxldGVseSBzdG9wIHBvbGxpbmcgd2hlbiBkaXNhYmxlZAo0MjY0MjVi
+IGFpby1wb3NpeDogcmVtb3ZlIGNvbmZ1c2luZyBRTElTVF9TQUZFX1JFTU9WRSgpCjg2YWM4YTcg
+cWVtdS9xdWV1ZS5oOiBjbGVhciBsaW5rZWQgbGlzdCBwb2ludGVycyBvbiByZW1vdmUKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgODZhYzhhNzk2NDlkIChxZW11L3F1
+ZXVlLmg6IGNsZWFyIGxpbmtlZCBsaXN0IHBvaW50ZXJzIG9uIHJlbW92ZSkKRVJST1I6IGRvIG5v
+dCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzY2OiBGSUxFOiBpbmNsdWRlL3FlbXUv
+cXVldWUuaDozMTQ6CisgICAgaWYgKCgoaGVhZCktPnNxaF9maXJzdCA9IGVsbS0+ZmllbGQuc3Fl
+X25leHQpID09IE5VTEwpICAgICAgICAgICAgICBcCgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDU5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
+ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
+b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
+LgoKMi85IENoZWNraW5nIGNvbW1pdCA0MjY0MjViYTZiYzIgKGFpby1wb3NpeDogcmVtb3ZlIGNv
+bmZ1c2luZyBRTElTVF9TQUZFX1JFTU9WRSgpKQozLzkgQ2hlY2tpbmcgY29tbWl0IDkzOWNhZmEx
+Y2Y3ZiAoYWlvLXBvc2l4OiBjb21wbGV0ZWx5IHN0b3AgcG9sbGluZyB3aGVuIGRpc2FibGVkKQo0
+LzkgQ2hlY2tpbmcgY29tbWl0IGRiYmJlNjlhYThmZCAoYWlvLXBvc2l4OiBtb3ZlIFJDVV9SRUFE
+X0xPQ0soKSBpbnRvIHJ1bl9wb2xsX2hhbmRsZXJzKCkpCjUvOSBDaGVja2luZyBjb21taXQgZDYy
+ZDEwMDZlNTcxIChhaW8tcG9zaXg6IGV4dHJhY3QgcHBvbGwoMikgYW5kIGVwb2xsKDcpIGZkIG1v
+bml0b3JpbmcpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMg
+TUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ2OTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDcyMSBsaW5lcyBjaGVja2VkCgpQYXRjaCA1Lzkg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNi85IENoZWNraW5nIGNvbW1pdCA3N2Y2M2Q2NTM0
+OTYgKGFpby1wb3NpeDogc2ltcGxpZnkgRkRNb25PcHMtPnVwZGF0ZSgpIHByb3RvdHlwZSkKNy85
+IENoZWNraW5nIGNvbW1pdCBmYzU4ODRjYjkzY2MgKGFpby1wb3NpeDogYWRkIGlvX3VyaW5nIGZk
+IG1vbml0b3JpbmcgaW1wbGVtZW50YXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
+dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE4NjogCm5ldyBm
+aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ1NiBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA3LzkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC85IENoZWNraW5n
+IGNvbW1pdCA1OGNhMjNkZWIzZTYgKGFpby1wb3NpeDogc3VwcG9ydCB1c2Vyc3BhY2UgcG9sbGlu
+ZyBvZiBmZCBtb25pdG9yaW5nKQo5LzkgQ2hlY2tpbmcgY29tbWl0IDNkYzQ3YzZkMmY2YSAoYWlv
+LXBvc2l4OiByZW1vdmUgaWRsZSBwb2xsIGhhbmRsZXJzIHRvIGltcHJvdmUgc2NhbGFiaWxpdHkp
+Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
+aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAw
+MzExMTI0MDQ1LjI3Nzk2OS0xLXN0ZWZhbmhhQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNo
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
