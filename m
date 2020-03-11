@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302F01810B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:32:03 +0100 (CET)
-Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21471810CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:33:54 +0100 (CET)
+Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBuuQ-0006xs-6q
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54805)
+	id 1jBuwD-0000Xj-Vb
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jBut6-00068S-5P
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:30:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jBuu3-00070o-CN
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:31:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jBut5-0004FI-74
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:30:40 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36371)
+ (envelope-from <richard.henderson@linaro.org>) id 1jBuu2-0005OT-Hd
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:31:39 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jBut5-0004EQ-0d
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:30:39 -0400
-Received: by mail-pg1-x542.google.com with SMTP id c7so626076pgw.3
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:30:38 -0700 (PDT)
+ id 1jBuu2-0005O7-AJ
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:31:38 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id l41so488955pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/ZFCBzt3mdxUbQN7SJLjCTwX6DUCbWCRyGVoGQqSXtQ=;
- b=WeMSFRTROG5nqHDIV8MCUXTcVB47E2k/md8zOWkz5Pq9KXsZj1Rkw3DuyQCNHBvUwC
- 9NHKOR2kyUw3mPujwUvQjdbodnTv1puWV5TzAxNlcDRxTiHWwRcGbUPIRF+AYfZh/P3a
- TbKWAjAXLCKLRvb/o+jk8D7GcfBwMkrvxCipe0WugMTkf7eDE/Ga//pD8GUQ6syQtWSr
- MHlrNF60bg4BXrxi4DXWacUD+yqEwREfkll8mAryYwblU1IezzO/UWQ1d+W4ytjKcRyI
- vo4Jzq8sEOi0e27sgFY062slQGAZuIuYwFtqLVcp+bICd98u92rnK+NVvLKT+aAegq7x
- /wUw==
+ bh=LBtzeqGpeGTyOnbMks2RJYD5NP5/mgzHAaWIk54Qw78=;
+ b=KJp3Ql64V17xOtuRjhoGWgQNMD0zsZNDI0x92z0Cka1YYc812k0PcuzpnGt09kFFHt
+ 2S8EeJBoEphpwTntQKDZtxuQ05RU5oqjWbiUPFjnDh9lugFioZK+SbUd9HEz5ty+fzTJ
+ gXF/YgpGjIn4xOkTKhz4K5wkpnBpi2vaLILeOtiCjvKZzkPNZAza0zPlZZRQQUSTvi7y
+ OzSQoSeIxHrDdtkhrg81qGDc3wBpLm3h3XzzjEc9vR7LIp5l1c4x9AiGkec83m0QZc3C
+ taHEV6IZLnAuKHYcrSM/1UZ8rXvq9cTT4Lh+qRwUSE1MgiacUtDIOD+QjNUTLdLpQWRv
+ KfEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/ZFCBzt3mdxUbQN7SJLjCTwX6DUCbWCRyGVoGQqSXtQ=;
- b=pXENZpzMhKXS94VDvhh/H0sb3KqDeMfYZIwulq0ROVoOZdkW9kLl19RabiJJosGF8Z
- or3VJl0kYeO1P+RViE2BlDW2bq2LkxnSwY2O7wzENsHF23BuxktwLL3gUKZmFetgsJVR
- ps1mKPee+TjhyA+d/AyXqP/3N9KnwXnzxuarFSYNdORSv0QnuejdIDovB4AG8BfEMc41
- Jx2dc8j3JmmsWB6536aYypAYv98ehZJZ0Fdio8vuEbzxHvoMDsG2pCQzv+KpD9TqN0SN
- avL4uklvl3MzJMCXflnMJCK6f2tb8PQ+R/Qk9AbBlM2dDj1Zc2Z5N/Qmtc6VwozcIIqk
- 71tw==
-X-Gm-Message-State: ANhLgQ23FgmkXhDeeRXcOrAiuxbPMiBQ7FCN6pFHVunvWxV+CugsDjtl
- cyOFAVTeo26g1chpb4Q8VHMJTECWH64=
-X-Google-Smtp-Source: ADFU+vuDLff8lSjB6Hk4bC0Od3j8n6iP6v/B3CYx1J3JkKp9Zh2Jrgn4pl2jibT9AQkOI6qpwsi+cw==
-X-Received: by 2002:a63:4e01:: with SMTP id c1mr1334586pgb.435.1583908237978; 
- Tue, 10 Mar 2020 23:30:37 -0700 (PDT)
+ bh=LBtzeqGpeGTyOnbMks2RJYD5NP5/mgzHAaWIk54Qw78=;
+ b=mN1hZQdSCByi/KPdlj9z4KjHlc8gBEGbUJWL8Okqjnq+o6rJSnheRACgVmLyiUI8nv
+ R9VFey0x5YAY4CwvAtbVZkgMUK7An1VJIVEVJQjt7KnCBlRff3NaQ5+YhmNJs0XaxfEJ
+ 6kzTB6T5FiKLgGLkz9DWPz4YWXKyEcKRA7VWNNSZvG1QicBfAUv0tGhn6+r88smhp+WM
+ +Ef+SzR/PlFXPpFZoe7Sfz9+Z4slI8BMBFNXhOjNPcWFENh8cctqUYmTinGZ7aXLLtGM
+ 9q19yzZ+ienC4pmMTetswc3DbpYi9WraiS1zHSXmXh2WlOmST+3S/owEaFJERfWOFf87
+ +GJQ==
+X-Gm-Message-State: ANhLgQ2+JGlY7Xi23w49zygx/dDVX1TM7Sw4QXd3zGp62CdrHXoXQ5Kz
+ HuMZCDvUDX25bQTEWeLxoEru9g==
+X-Google-Smtp-Source: ADFU+vtSLdoJx6CPulOstIT5keGTLfJsCnKXN7/OVNgyFpCjaAaC6dlfsYLn1vB+6KlXVPySiHrEJQ==
+X-Received: by 2002:a17:902:b909:: with SMTP id
+ bf9mr1622471plb.96.1583908297467; 
+ Tue, 10 Mar 2020 23:31:37 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- z17sm1329107pff.12.2020.03.10.23.30.36
+ 139sm26597664pfy.70.2020.03.10.23.31.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Mar 2020 23:30:37 -0700 (PDT)
-Subject: Re: [PATCH v4 16/18] Remove Texinfo related files from .gitignore and
- git.orderfile
+ Tue, 10 Mar 2020 23:31:36 -0700 (PDT)
+Subject: Re: [PATCH v4 17/18] configure: Drop texinfo requirement
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20200309154405.13548-1-peter.maydell@linaro.org>
- <20200309154405.13548-17-peter.maydell@linaro.org>
+ <20200309154405.13548-18-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c0d576fb-a769-1189-99a8-0846fef4aaf4@linaro.org>
-Date: Tue, 10 Mar 2020 23:30:35 -0700
+Message-ID: <283f68e7-08a4-ac1d-ef44-5153a673950e@linaro.org>
+Date: Tue, 10 Mar 2020 23:31:34 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200309154405.13548-17-peter.maydell@linaro.org>
+In-Reply-To: <20200309154405.13548-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,15 +92,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/20 8:44 AM, Peter Maydell wrote:
-> We don't use Texinfo any more; we can remove the references to the
-> .texi source files and the generated output files from our
-> .gitignore and git.orderfile.
+> We don't need the texinfo and pod2man programs to build our documentation
+> any more, so remove them from configure's tests.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  .gitignore            | 15 ---------------
->  scripts/git.orderfile |  1 -
->  2 files changed, 16 deletions(-)
+>  configure | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
