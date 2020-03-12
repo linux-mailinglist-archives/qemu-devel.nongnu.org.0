@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E144183702
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:11:58 +0100 (CET)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587B518374A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:21:12 +0100 (CET)
+Received: from localhost ([::1]:46478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRNE-0003XW-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38652)
+	id 1jCRWB-00022O-5v
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jCRE9-0002QN-7G
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:02:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCRH9-00050T-LZ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:05:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jCRE7-0000tt-De
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:02:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22161
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCRE7-0000rb-8D
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:02:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584032550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yDAn56p1JorUdIBrrLQJNk/GIMybbrppb3b4dS2ACFg=;
- b=X5l+4ayUEPUSZVh6W4GiLVKcmDeZt4MiUnFruyejGZZiE5wyuxr6c80eid62l8C5NhSV8w
- jmAPqbzM5tLAwTrY70wjH9h4N6cBAzJYn4ae5c5JHbugBRA3Cg1g09L7rMFiHqvQuNEjEQ
- 8x55+6trZG7BpupjdsYcGIhoBmtvfX8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-CfFOaPOxNCix2KHRQQt4pQ-1; Thu, 12 Mar 2020 13:02:25 -0400
-X-MC-Unique: CfFOaPOxNCix2KHRQQt4pQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31472803960;
- Thu, 12 Mar 2020 17:02:24 +0000 (UTC)
-Received: from work-vm (ovpn-116-106.ams2.redhat.com [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33E8F8FBE1;
- Thu, 12 Mar 2020 17:02:21 +0000 (UTC)
-Date: Thu, 12 Mar 2020 17:02:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] migration/throttle: Add throttle-trig-thres migration
- parameter
-Message-ID: <20200312170219.GK3211@work-vm>
-References: <20200221025727.63808-1-zhukeqian1@huawei.com>
- <2db47b97-729f-4ccb-dab2-585771acc2fe@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jCRH8-0005m3-EQ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:05:39 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33690)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jCRH8-0005j6-8f
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:05:38 -0400
+Received: by mail-oi1-x244.google.com with SMTP id r7so6241002oij.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xxylgvPZt6pkmnnFax2EPHHdp0hc8wVzhGL5wzMXqGY=;
+ b=hZUQiKxD2gS4ydpHQe0PsuGgSYjvbEUL9z5cax7ZJz3CmMOsIUewoZCJB+lFJvk7qJ
+ wEO5S/jbW9EgiUUOkofa8jLuJ2B3CN/MW6+agUW9IG2m2nxKD+jijKFnQCtNCA7Nvu9n
+ dpwjxuHohl6hcpF31SZITg90RSCOb/Bs0grXDTdAIVBbI7QIMbccTU23fNxBCVMwbajl
+ 1LX0AC6C23F5t/iw1Cd90t0Jm0Dmxon25XMikfJcqTgx5ROFzgbuFB619fQsbZNlBRJy
+ lmuav3OLkbTPSpTShGGtl/T0SGmdvOpNqsXfI9dOm/nX39ICj71UKKRapAZqM15HIabg
+ aWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xxylgvPZt6pkmnnFax2EPHHdp0hc8wVzhGL5wzMXqGY=;
+ b=fPZaxKM7aXpDiCUa5zeCt7pOk1Aqj1tcxIZppUNp6wVf8AsIkXqKf72Y6eBJtXuA4V
+ q6JfkKf3hfwuxr5NcihoL+wMAIUQJMCK5bwEDOKlVZq7R1weM72Qo8EHVQRhxZIRvjep
+ rN5hopwVD375xucfw5YCfYCJ1pb6/DCkxt+NKbWfKwO/P9Metv7OOZ5xLfRiwb7zZrF1
+ TgqK2l8yEwcBpIWm8OEuOKt+4imhS+5PgEPBe9gHsCIl5ld9upNtfBlu26OHHIS5gy2F
+ kQFgRgnXaLy33cljxWhECUm25olEuzkTGdphe4Gzp1FY0wISdBZAdiEzYOUsaKh0n/Kb
+ jZ8A==
+X-Gm-Message-State: ANhLgQ1KtqHFdbFsYf/53X49zU1hE/AFz54cPnrK8m6DsPw2YrcxoX55
+ +zGst5dLvloGixoDMHOCjOgd3447YgaIa/wZrKjgVA==
+X-Google-Smtp-Source: ADFU+vvZgG2S0wQEA/BSyvbNInKSWeyV8Ro4u7D4U2qPegfWXOEgP/rJb9VCtM7gefNYVoK4mZoo3XHJ7yFFTa5Kafs=
+X-Received: by 2002:aca:47c8:: with SMTP id u191mr3523548oia.170.1584032737245; 
+ Thu, 12 Mar 2020 10:05:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2db47b97-729f-4ccb-dab2-585771acc2fe@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200310210434.31544-1-linux@roeck-us.net>
+ <20200310210434.31544-3-linux@roeck-us.net>
+ <CAFEAcA811Zo6JjCait2G467oQo-nL0RTYVdqE-ofmDSxWPcuCQ@mail.gmail.com>
+ <20200312165511.GA16719@roeck-us.net>
+In-Reply-To: <20200312165511.GA16719@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Mar 2020 17:05:25 +0000
+Message-ID: <CAFEAcA8QKwrVyBz-iGe0+1Kr7efJZC7nwwrTTV0FSUnmcEW=xA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hw/arm/fsl-imx6ul: Wire up USB controllers
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +74,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eric Blake (eblake@redhat.com) wrote:
-> On 2/20/20 8:57 PM, Keqian Zhu wrote:
-> > Currently, if the bytes_dirty_period is more than the 50% of
-> > bytes_xfer_period, we start or increase throttling.
-> >=20
-> > If we make this percentage higher, then we can tolerate higher
-> > dirty rate during migration, which means less impact on guest.
-> > The side effect of higher percentage is longer migration time.
-> >=20
-> > We can configure this parameter to switch between migration time
-> > firt or guest performance first. The default value is 50.
-> >=20
-> > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> > ---
-> > Cc: Juan Quintela <quintela@redhat.com>
-> > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > Cc: Eric Blake <eblake@redhat.com>
-> > Cc: Markus Armbruster <armbru@redhat.com>
-> > ---
->=20
-> > +++ b/qapi/migration.json
-> > @@ -524,6 +524,10 @@
-> >   #                      compression, so set the decompress-threads to =
-the number about 1/4
-> >   #                      of compress-threads is adequate.
-> >   #
-> > +# @throttle-trig-thres: The ratio of bytes_dirty_period and bytes_xfer=
-_period to
-> > +#                       trigger throttling. It is expressed as percent=
-age. The
-> > +#                       default value is 50. (Since 5.0)
-> > +#
->=20
-> Abbreviating feels odd; can you please spell this out as
-> throttle-trigger-threshold?
->=20
-> Can the threshold exceed 100%?
+On Thu, 12 Mar 2020 at 16:55, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Thu, Mar 12, 2020 at 01:19:41PM +0000, Peter Maydell wrote:
+> > On Tue, 10 Mar 2020 at 21:04, Guenter Roeck <linux@roeck-us.net> wrote:
+> > > diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+> > > @@ -456,6 +467,28 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+> > >                                              FSL_IMX6UL_ENETn_TIMER_IRQ[i]));
+> > >      }
+> > >
+> > > +    /* USB */
+> > > +    for (i = 0; i < FSL_IMX6UL_NUM_USBS; i++) {
+> > > +        static const int FSL_IMX6UL_USBn_IRQ[] = {
+> > > +            FSL_IMX6UL_USB2_IRQ,
+> > > +            FSL_IMX6UL_USB1_IRQ,
+> > > +        };
+> >
+> > Do we really want to wire up USB1 to USB2_IRQ and USB2 to USB1_IRQ ?
+> > If so, a comment explaining that it is deliberate would be useful.
+> >
+> Yes. I think the definitions may be incorrect (or the Linux dts files are
+> incorrect, but that seems unlikely). I tried the other way but then I get
+> unhandled interrupt errors when trying to access a USB flash drive.
 
-Note the code checks for that and disallows it, only allowing 1..99
+I guess we should check the datasheet and see if we just
+have our #define names the wrong way around...
 
-Dave
+> > Side note: not used here, but in the header file we define:
+> >     FSL_IMX6UL_USB1_IRQ     = 42,
+> >     FSL_IMX6UL_USB2_IRQ     = 43,
+> >     FSL_IMX6UL_USB_PHY1_IRQ = 44,
+> >     FSL_IMX6UL_USB_PHY2_IRQ = 44,
+> >
+> > Is that last one correct, or a cut-n-paste error that should be "45" ?
+> >
+> From Linux devicetree files:
+>
+>         usbphy1: usbphy@20c9000 {
+>                 compatible = "fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+>                 reg = <0x020c9000 0x1000>;
+>                 interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
+>         usbphy2: usbphy@20ca000 {
+>                 compatible = "fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+>                 reg = <0x020ca000 0x1000>;
+>                 interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+>         usbotg1: usb@2184000 {
+>                 compatible = "fsl,imx6ul-usb", "fsl,imx27-usb";
+>                 reg = <0x02184000 0x200>;
+>                 interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+>         usbotg2: usb@2184200 {
+>                 compatible = "fsl,imx6ul-usb", "fsl,imx27-usb";
+>                 reg = <0x02184200 0x200>;
+>                 interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+>
+> Should I maybe fix the definitions in a separate patch ?
 
->=20
-> --=20
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Yes please.
 
+thanks
+-- PMM
 
