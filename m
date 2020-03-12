@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6D7183A18
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:59:55 +0100 (CET)
-Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8988183A35
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:07:24 +0100 (CET)
+Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCTzm-0000ZF-59
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47843)
+	id 1jCU71-0005Qh-TX
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jCTs1-00084U-I3
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:51:54 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jCU2C-0005B0-CT
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jCTs0-0006z1-D3
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:51:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20751
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCTs0-0006yW-8z
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:51:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584042711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GX3T7EUWPGa4fw59sAaXOlQEjwxDMJ6VP8MnQ+chE7g=;
- b=a1l9uy5dR6IVTxUikAnokILGDQkz/uI17op48DspKRxjJ/fkzIgp+UY7nvIvDHR+gI2B11
- ODDbwxygVzx3JzGNwMtsh0ejXZh52IJHWIAfe8a+dT3Yvk7OBZ3OPqPvllmqjX7PcNpwEH
- BfLd7TUOmJAEWNHufqMkzw6rWBTO8mA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-t28EuzAmPNGiC0PHJ2ETsw-1; Thu, 12 Mar 2020 15:51:44 -0400
-X-MC-Unique: t28EuzAmPNGiC0PHJ2ETsw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB03800D53;
- Thu, 12 Mar 2020 19:51:43 +0000 (UTC)
-Received: from work-vm (ovpn-116-106.ams2.redhat.com [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83BA892D2A;
- Thu, 12 Mar 2020 19:51:42 +0000 (UTC)
-Date: Thu, 12 Mar 2020 19:51:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Subject: Re: [PATCH V2 8/8] migration/colo: Only flush ram cache while do
- checkpoint
-Message-ID: <20200312195140.GQ3211@work-vm>
-References: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
- <20200224065414.36524-9-zhang.zhanghailiang@huawei.com>
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jCU2B-0005Mg-7W
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:02:24 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:36764)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1jCU2B-0005IF-1q; Thu, 12 Mar 2020 16:02:23 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id d15so7014787iog.3;
+ Thu, 12 Mar 2020 13:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iEExUs14yIhTspSpMTZEiP0XS6fhKXstB4RbOjXMcI8=;
+ b=kAcqgkax3VsBgHjQ/4y69SlZ1Wq95HihuANakTA4nSOEPI0bYWsiqAt4LxCmyxjsok
+ Osuj8BudukDevJ+O6y+7UKdDtkZYAgvXr51xFNISG5vHVfimofOJQbWi6b0zJN2eidpg
+ 6ytMLZVqz2xLmPC3afvyDObHxvua1NQdcPX20gdrfk0z2XunefVaTavFj/lxLTJnF8Uk
+ 676JqleQ0ICjAAQ9Wo/kBPd+DSOi6+QYYpra9iXi6bl4ltursirehS39kJacP/Pw3OEF
+ IFC15iyk/ZzRfd1DOA3/hGEbfyv8H9OWOztk6zDehCFDWWYm6rDtkA8S7S7zrVGtHRao
+ XYig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iEExUs14yIhTspSpMTZEiP0XS6fhKXstB4RbOjXMcI8=;
+ b=C9J2CnDbXJxujt9omtjT+UrH8t1hkHD9QHSvO723VISgpjVCYRPaS6+FywRvcRbxuC
+ A3G/JuFZum6Ln1DI1o8bIOxtH5KtOGiL9sFv1vqte4Htg9//go0unMm+e9CtU7wEPZXU
+ gq6OmrAFsodKGQaHKY3NtjFJg4YOGOgenstf2kTl/mXRh0uL/zllbl15lrP/jMWCgdGy
+ 1qSJvcmnrVqGYc7rBaz+4wdqOaj2WRkiVWIfE+ldsIrQadwB7EOyvMF8B/Sk+rQ2nu9t
+ hnW3l1bG0aNIAxNrz1r3JP+Yneu4z8JIrA3uBS2qsoTaDa4PPdI7wM/UdU+uYRL88v/s
+ pPfw==
+X-Gm-Message-State: ANhLgQ0RZeKVu3+0sx4sRMpN1IJ+LEJ47ZFvfJWkRMNL3a26waMfNYu5
+ FY03r//oIfCl25pi4H0Gj3GuDzcAYN/8MH2FAeU=
+X-Google-Smtp-Source: ADFU+vsZ+8dqR3Tlma42xnqtUmTMantE6dZEz8LVB+6IIJEMvyVz4NMKgWny3j4gp5QLi3vWQkZ/UbUPmyA636srTN0=
+X-Received: by 2002:a6b:5406:: with SMTP id i6mr9248179iob.188.1584043339648; 
+ Thu, 12 Mar 2020 13:02:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200224065414.36524-9-zhang.zhanghailiang@huawei.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200311221854.30370-1-nieklinnenbank@gmail.com>
+ <CAFEAcA9UqDRT-32Qnap8n3uYh8hyK_89KhsTwceHDRiTzihyJg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9UqDRT-32Qnap8n3uYh8hyK_89KhsTwceHDRiTzihyJg@mail.gmail.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Thu, 12 Mar 2020 21:02:08 +0100
+Message-ID: <CAPan3WpgoCnnQCqxeYC3vPJ692TxFkLxs3dnD1xv9HfCukr7NA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/18] Add Allwinner H3 SoC and Orange Pi PC Machine
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009195a605a0add438"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d2a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,79 +71,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielcho@qnap.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* zhanghailiang (zhang.zhanghailiang@huawei.com) wrote:
-> After add migrating ram backgroud, we will call ram_load
-> for this process, but we should not flush ram cache during
-> this process. Move the flush action to the right place.
->=20
-> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+--0000000000009195a605a0add438
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Thu, Mar 12, 2020 at 5:22 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-> ---
->  migration/colo.c | 1 +
->  migration/ram.c  | 5 +----
->  migration/ram.h  | 1 +
->  3 files changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/migration/colo.c b/migration/colo.c
-> index c36d94072f..18df8289f8 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -799,6 +799,7 @@ static void colo_incoming_process_checkpoint(Migratio=
-nIncomingState *mis,
-> =20
->      qemu_mutex_lock_iothread();
->      vmstate_loading =3D true;
-> +    colo_flush_ram_cache();
->      ret =3D qemu_load_device_state(fb);
->      if (ret < 0) {
->          error_setg(errp, "COLO: load device state failed");
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 1b3f423351..7bc841d14f 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3305,7 +3305,7 @@ static bool postcopy_is_running(void)
->   * Flush content of RAM cache into SVM's memory.
->   * Only flush the pages that be dirtied by PVM or SVM or both.
->   */
-> -static void colo_flush_ram_cache(void)
-> +void colo_flush_ram_cache(void)
->  {
->      RAMBlock *block =3D NULL;
->      void *dst_host;
-> @@ -3576,9 +3576,6 @@ static int ram_load(QEMUFile *f, void *opaque, int =
-version_id)
->      }
->      trace_ram_load_complete(ret, seq_iter);
-> =20
-> -    if (!ret  && migration_incoming_in_colo_state()) {
-> -        colo_flush_ram_cache();
-> -    }
->      return ret;
->  }
-> =20
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 5ceaff7cb4..ae14341482 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -67,5 +67,6 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock=
- *rb);
->  int colo_init_ram_cache(void);
->  void colo_release_ram_cache(void);
->  void colo_incoming_start_dirty_log(void);
-> +void colo_flush_ram_cache(void);
-> =20
->  #endif
-> --=20
-> 2.21.0
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On Wed, 11 Mar 2020 at 22:19, Niek Linnenbank <nieklinnenbank@gmail.com>
+> wrote:
+> >
+> > Dear QEMU developers,
+> >
+> > Hereby I would like to contribute the following set of patches to QEMU
+> > which add support for the Allwinner H3 System on Chip and the
+> > Orange Pi PC machine. The following features and devices are supported:
+> >
+> >  * SMP (Quad Core Cortex A7)
+> >  * Generic Interrupt Controller configuration
+> >  * SRAM mappings
+> >  * SDRAM controller
+> >  * Real Time Clock
+> >  * Timer device (re-used from Allwinner A10)
+> >  * UART
+> >  * SD/MMC storage controller
+> >  * EMAC ethernet
+> >  * USB 2.0 interfaces
+> >  * Clock Control Unit
+> >  * System Control module
+> >  * Security Identifier device
+>
+>
+>
+> Applied to target-arm.next, thanks.
 
+
+Great news! And thanks for your support as well Peter!
+
+
+> (I moved
+> the doc into the its new location now that the split-out
+> of the arm board docs into separate files has landed.)
+>
+> Yeah sure, indeed, that makes sense.
+
+Regards,
+Niek
+
+
+> -- PMM
+>
+
+
+-- 
+Niek Linnenbank
+
+--0000000000009195a605a0add438
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 12, 2020 at 5:22 PM Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, 11 Mar 2020 at 22:19, Niek Linnenbank &lt;<a href=3D"mailto:n=
+ieklinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;=
+ wrote:<br>
+&gt;<br>
+&gt; Dear QEMU developers,<br>
+&gt;<br>
+&gt; Hereby I would like to contribute the following set of patches to QEMU=
+<br>
+&gt; which add support for the Allwinner H3 System on Chip and the<br>
+&gt; Orange Pi PC machine. The following features and devices are supported=
+:<br>
+&gt;<br>
+&gt;=C2=A0 * SMP (Quad Core Cortex A7)<br>
+&gt;=C2=A0 * Generic Interrupt Controller configuration<br>
+&gt;=C2=A0 * SRAM mappings<br>
+&gt;=C2=A0 * SDRAM controller<br>
+&gt;=C2=A0 * Real Time Clock<br>
+&gt;=C2=A0 * Timer device (re-used from Allwinner A10)<br>
+&gt;=C2=A0 * UART<br>
+&gt;=C2=A0 * SD/MMC storage controller<br>
+&gt;=C2=A0 * EMAC ethernet<br>
+&gt;=C2=A0 * USB 2.0 interfaces<br>
+&gt;=C2=A0 * Clock Control Unit<br>
+&gt;=C2=A0 * System Control module<br>
+&gt;=C2=A0 * Security Identifier device<br>
+<br>
+<br>
+<br>
+Applied to target-arm.next, thanks. </blockquote><div><br></div><div>Great =
+news! And thanks for your support as well Peter!<br></div><div>=C2=A0</div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">(I moved<br>
+the doc into the its new location now that the split-out<br>
+of the arm board docs into separate files has landed.)<br>
+<br></blockquote><div>Yeah sure, indeed, that makes sense.</div><div><br></=
+div><div>Regards,</div><div>Niek<br></div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+-- PMM<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--0000000000009195a605a0add438--
 
