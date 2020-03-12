@@ -2,64 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3838A18357A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:52:39 +0100 (CET)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEC4183593
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:55:55 +0100 (CET)
+Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQ8T-0001ae-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50041)
+	id 1jCQBe-0001AI-Et
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jCQ15-0006PC-7d
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:45:00 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQ8l-0003Tk-9H
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jCQ13-0002FL-Aj
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:44:58 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30605
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jCQ11-0002EV-Ha
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:44:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584027895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JKpqkyg24HBYZMYaHdI/WtnrKZbcyivTfzakH3GMn20=;
- b=SS5zSKk4vgwgIKzbQ7y2OYrvl/ve5v5FOUaCln/BNtFTRlFVjbAzc5bhAX1jleX66sR6VV
- Z+F8p9p1hgcNch3woC0tRE97/lfCbbyvUWBgDChPIJ558EDOWC0/BfJn7/DBW6EGg5Ax9v
- Gf1WWIMNuSxs7HboqfIJ1X5Oyw5gPlw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-UFJlH_GWPHSbdtbRDWfAXg-1; Thu, 12 Mar 2020 11:44:53 -0400
-X-MC-Unique: UFJlH_GWPHSbdtbRDWfAXg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E24618018CB;
- Thu, 12 Mar 2020 15:44:51 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.36.118.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C3C35C1B5;
- Thu, 12 Mar 2020 15:44:46 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v3 12/12] arm: pmu: Test overflow interrupts
-Date: Thu, 12 Mar 2020 16:43:01 +0100
-Message-Id: <20200312154301.9130-13-eric.auger@redhat.com>
-In-Reply-To: <20200312154301.9130-1-eric.auger@redhat.com>
-References: <20200312154301.9130-1-eric.auger@redhat.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQ8k-0008BV-6e
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60474
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jCQ8k-00089w-1f
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:54 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02CFqO7J096017
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 11:52:53 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2yqpyatvs2-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 11:52:45 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Thu, 12 Mar 2020 15:51:16 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 12 Mar 2020 15:51:14 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02CFpD9j46137646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Mar 2020 15:51:13 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 22AFAA404D;
+ Thu, 12 Mar 2020 15:51:13 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E894EA4040;
+ Thu, 12 Mar 2020 15:51:12 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Mar 2020 15:51:12 +0000 (GMT)
+Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
+ correctly
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-14-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Thu, 12 Mar 2020 16:51:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20200311132151.172389-14-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031215-4275-0000-0000-000003AB3B12
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031215-4276-0000-0000-000038C05A2A
+Message-Id: <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-12_07:2020-03-11,
+ 2020-03-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ phishscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003120082
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,240 +139,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
- alexandru.elisei@arm.com, andre.przywara@arm.com
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test overflows for MEM_ACCESS and SW_INCR events. Also tests
-overflows with 64-bit events.
+On 11.03.20 14:21, Janosch Frank wrote:
+> For protected VMs status storing is not done by QEMU anymore.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
----
+> ---
+>  target/s390x/helper.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+> index ed726849114f2f35..5022df8812d406c9 100644
+> --- a/target/s390x/helper.c
+> +++ b/target/s390x/helper.c
+> @@ -25,6 +25,7 @@
+>  #include "qemu/timer.h"
+>  #include "qemu/qemu-print.h"
+>  #include "hw/s390x/ioinst.h"
+> +#include "hw/s390x/pv.h"
+>  #include "sysemu/hw_accel.h"
+>  #include "sysemu/runstate.h"
+>  #ifndef CONFIG_USER_ONLY
+> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
+>      hwaddr len = sizeof(*sa);
+>      int i;
+>  
+> +    /* Storing will occur on next SIE entry for protected VMs */
 
-v2 -> v3:
-- added prefix pop
-- added pmu_stats.unexpected
-- added pmu- prefix
-- remove traces in irq_handler()
+Maybe ... next SIE entry of the sending CPU .... 
+?
 
-v1 -> v2:
-- inline setup_irq() code
----
- arm/pmu.c         | 139 ++++++++++++++++++++++++++++++++++++++++++++++
- arm/unittests.cfg |   6 ++
- 2 files changed, 145 insertions(+)
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-diff --git a/arm/pmu.c b/arm/pmu.c
-index 79c2a0f..628249c 100644
---- a/arm/pmu.c
-+++ b/arm/pmu.c
-@@ -59,12 +59,20 @@
- #define PRE_OVERFLOW		0xFFFFFFF0
- #define PRE_OVERFLOW2		0xFFFFFFDC
-=20
-+#define PMU_PPI			23
-+
- struct pmu {
- 	unsigned int version;
- 	unsigned int nb_implemented_counters;
- 	uint32_t pmcr_ro;
- };
-=20
-+struct pmu_stats {
-+	unsigned long bitmap;
-+	uint32_t interrupts[32];
-+	bool unexpected;
-+};
-+
- static struct pmu pmu;
-=20
- #if defined(__arm__)
-@@ -146,6 +154,7 @@ static void test_sw_incr(void) {}
- static void test_chained_counters(void) {}
- static void test_chained_sw_incr(void) {}
- static void test_chain_promotion(void) {}
-+static void test_overflow_interrupt(void) {}
-=20
- #elif defined(__aarch64__)
- #define ID_AA64DFR0_PERFMON_SHIFT 8
-@@ -276,6 +285,43 @@ asm volatile(
- 	: "x9", "x10", "cc");
- }
-=20
-+static struct pmu_stats pmu_stats;
-+
-+static void irq_handler(struct pt_regs *regs)
-+{
-+	uint32_t irqstat, irqnr;
-+
-+	irqstat =3D gic_read_iar();
-+	irqnr =3D gic_iar_irqnr(irqstat);
-+
-+	if (irqnr =3D=3D PMU_PPI) {
-+		unsigned long overflows =3D read_sysreg(pmovsclr_el0);
-+		int i;
-+
-+		for (i =3D 0; i < 32; i++) {
-+			if (test_and_clear_bit(i, &overflows)) {
-+				pmu_stats.interrupts[i]++;
-+				pmu_stats.bitmap |=3D 1 << i;
-+			}
-+		}
-+		write_sysreg(ALL_SET, pmovsclr_el0);
-+	} else {
-+		pmu_stats.unexpected =3D true;
-+	}
-+	gic_write_eoir(irqstat);
-+}
-+
-+static void pmu_reset_stats(void)
-+{
-+	int i;
-+
-+	for (i =3D 0; i < 32; i++)
-+		pmu_stats.interrupts[i] =3D 0;
-+
-+	pmu_stats.bitmap =3D 0;
-+	pmu_stats.unexpected =3D false;
-+}
-+
- static void pmu_reset(void)
- {
- 	/* reset all counters, counting disabled at PMCR level*/
-@@ -286,6 +332,7 @@ static void pmu_reset(void)
- 	write_sysreg(ALL_SET, pmovsclr_el0);
- 	/* disable overflow interrupts on all counters */
- 	write_sysreg(ALL_SET, pmintenclr_el1);
-+	pmu_reset_stats();
- 	isb();
- }
-=20
-@@ -730,6 +777,94 @@ static void test_chain_promotion(void)
- 			read_sysreg(pmovsclr_el0));
- }
-=20
-+static bool expect_interrupts(uint32_t bitmap)
-+{
-+	int i;
-+
-+	if (pmu_stats.bitmap ^ bitmap || pmu_stats.unexpected)
-+		return false;
-+
-+	for (i =3D 0; i < 32; i++) {
-+		if (test_and_clear_bit(i, &pmu_stats.bitmap))
-+			if (pmu_stats.interrupts[i] !=3D 1)
-+				return false;
-+	}
-+	return true;
-+}
-+
-+static void test_overflow_interrupt(void)
-+{
-+	uint32_t events[] =3D {MEM_ACCESS, SW_INCR};
-+	void *addr =3D malloc(PAGE_SIZE);
-+	int i;
-+
-+	if (!satisfy_prerequisites(events, ARRAY_SIZE(events)))
-+		return;
-+
-+	gic_enable_defaults();
-+	install_irq_handler(EL1H_IRQ, irq_handler);
-+	local_irq_enable();
-+	gic_enable_irq(23);
-+
-+	pmu_reset();
-+
-+	write_regn_el0(pmevtyper, 0, MEM_ACCESS | PMEVTYPER_EXCLUDE_EL0);
-+	write_regn_el0(pmevtyper, 1, SW_INCR | PMEVTYPER_EXCLUDE_EL0);
-+	write_sysreg_s(0x3, PMCNTENSET_EL0);
-+	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
-+	write_regn_el0(pmevcntr, 1, PRE_OVERFLOW);
-+	isb();
-+
-+	/* interrupts are disabled */
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0), "no overflow interrupt received");
-+
-+	set_pmcr(pmu.pmcr_ro | PMU_PMCR_E);
-+	for (i =3D 0; i < 100; i++)
-+		write_sysreg(0x2, pmswinc_el0);
-+
-+	set_pmcr(pmu.pmcr_ro);
-+	report(expect_interrupts(0), "no overflow interrupt received");
-+
-+	/* enable interrupts */
-+
-+	pmu_reset_stats();
-+
-+	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
-+	write_regn_el0(pmevcntr, 1, PRE_OVERFLOW);
-+	write_sysreg(ALL_SET, pmintenset_el1);
-+	isb();
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	for (i =3D 0; i < 100; i++)
-+		write_sysreg(0x3, pmswinc_el0);
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro);
-+	report_info("overflow=3D0x%lx", read_sysreg(pmovsclr_el0));
-+	report(expect_interrupts(0x3),
-+		"overflow interrupts expected on #0 and #1");
-+
-+	/* promote to 64-b */
-+
-+	pmu_reset_stats();
-+
-+	write_regn_el0(pmevtyper, 1, CHAIN | PMEVTYPER_EXCLUDE_EL0);
-+	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
-+	isb();
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0),
-+		"no overflow interrupt expected on 32b boundary");
-+
-+	/* overflow on odd counter */
-+	pmu_reset_stats();
-+	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
-+	write_regn_el0(pmevcntr, 1, ALL_SET);
-+	isb();
-+	mem_access_loop(addr, 400, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0x2),
-+		"expect overflow interrupt on odd counter");
-+}
- #endif
-=20
- /*
-@@ -932,6 +1067,10 @@ int main(int argc, char *argv[])
- 		report_prefix_push(argv[1]);
- 		test_chain_promotion();
- 		report_prefix_pop();
-+	} else if (strcmp(argv[1], "pmu-overflow-interrupt") =3D=3D 0) {
-+		report_prefix_push(argv[1]);
-+		test_overflow_interrupt();
-+		report_prefix_pop();
- 	} else {
- 		report_abort("Unknown sub-test '%s'", argv[1]);
- 	}
-diff --git a/arm/unittests.cfg b/arm/unittests.cfg
-index 1b0c8c8..455fd10 100644
---- a/arm/unittests.cfg
-+++ b/arm/unittests.cfg
-@@ -114,6 +114,12 @@ groups =3D pmu
- arch =3D arm64
- extra_params =3D -append 'pmu-chain-promotion'
-=20
-+[pmu-overflow-interrupt]
-+file =3D pmu.flat
-+groups =3D pmu
-+arch =3D arm64
-+extra_params =3D -append 'pmu-overflow-interrupt'
-+
- # Test PMU support (TCG) with -icount IPC=3D1
- #[pmu-tcg-icount-1]
- #file =3D pmu.flat
---=20
-2.20.1
+
+> +    if (s390_is_pv()) {
+> +        return 0;
+> +    }
+> +
+>      sa = cpu_physical_memory_map(addr, &len, true);
+>      if (!sa) {
+>          return -EFAULT;
+> 
 
 
