@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4EF1836EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:09:08 +0100 (CET)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01DB1836EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:09:28 +0100 (CET)
+Received: from localhost ([::1]:46166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRKV-0005iL-9L
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36857)
+	id 1jCRKp-0006KL-R7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jCR4T-00020a-UO
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:35 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jCR4V-00025h-AR
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jCR4S-0008Ur-QK
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:33 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:57006)
+ (envelope-from <liran.alon@oracle.com>) id 1jCR4T-0008Vk-TH
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:35 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:57028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jCR4S-0008UE-EN
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:32 -0400
+ id 1jCR4T-0008V3-Km
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:33 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGmth9012070;
- Thu, 12 Mar 2020 16:52:30 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGmrS8012063;
+ Thu, 12 Mar 2020 16:52:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=+BXmdGn6wJnDS/Tu+W1NPSIaXx/YetQwn0v9FuEsv2E=;
- b=c0+ij1QGYkKY7q2l+3IrTe0vSNEzOHi+RlvFQ2MhumnQVwdPvnSGQ9YcIzSNq5nR0AiF
- ZGyQgdQyicJfs2/6xqP+10fVnLC4MSnx/qgC1po42s0mXGuyQA6lQOqq7N2USIasmCx4
- Ozp2N7prhreiLKlBc6pYvArt8scHIt98UKpLzd01Htbp4Fj0r+s04Wpnwa+VxnofW4hd
- jgpicMiBT8qWqZ0G5NawrspjlV8dKwAcJCmRiJHOccbPKStTe7C1D0ZozCeLbw4zGmpo
- SJnuFFXi4BFYvuxCo9mUjansR8WYHiYjHp+FG5L/Z27lrg2nvv7wqsCe6P4Sg704t2Dc CA== 
+ bh=jarRDdGyUEFzZbIrAkQVmM0Aonew4+OkRAXfo84g+Fg=;
+ b=UUWTIaiejOGN6PvlaltR4TNpT9xDa5vA2VlQyKSMEUMXfVVNhVc/y4oPkmpBMdIxJtop
+ 4mLqFynoinN7pkI4ioz16NPNtgEPbiH0M+WPSgMUklmAZYKH8VFA9/IpSebY4fwuGvl6
+ cdXRx1UxXJbG19y9lCzr+OA7Mi/ZV4SMhMUBgiQaLU+KEwtbJadsyDBp/JHQPWbzPDO6
+ a5LslrRKnw7ex0DLtDMecVxoUqzPLdJ5hk57b/BcXyUEKkePlChajOHVNL332W77oS7k
+ jTRGp3tTGn95ny7tij7jPwzN0caOzeo5CjL57rpHrDCOc+BDCDoqiL2V/fpqQfDYc0wx 2A== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 2ym31utt2h-1
+ by userp2130.oracle.com with ESMTP id 2ym31utt2m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:52:30 +0000
+ Thu, 12 Mar 2020 16:52:32 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGo7tn005903;
- Thu, 12 Mar 2020 16:52:29 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2yp8p7ypj3-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGnSaT003724;
+ Thu, 12 Mar 2020 16:52:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 2yp8p7ypnd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:52:29 +0000
+ Thu, 12 Mar 2020 16:52:31 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02CGqSN9032151;
- Thu, 12 Mar 2020 16:52:28 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02CGqUVo000768;
+ Thu, 12 Mar 2020 16:52:30 GMT
 Received: from spark.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 12 Mar 2020 09:52:27 -0700
+ with ESMTP ; Thu, 12 Mar 2020 09:52:30 -0700
 From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/16] hw/i386/vmport: Add device properties
-Date: Thu, 12 Mar 2020 18:54:17 +0200
-Message-Id: <20200312165431.82118-3-liran.alon@oracle.com>
+Subject: [PATCH v3 03/16] hw/i386/vmport: Propagate IOPort read to vCPU EAX
+ register
+Date: Thu, 12 Mar 2020 18:54:18 +0200
+Message-Id: <20200312165431.82118-4-liran.alon@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312165431.82118-1-liran.alon@oracle.com>
 References: <20200312165431.82118-1-liran.alon@oracle.com>
@@ -95,48 +96,108 @@ Cc: ehabkost@redhat.com, mst@redhat.com, Liran Alon <liran.alon@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No functional change.
+vmport_ioport_read() returns the value that should propagate to vCPU EAX
+register when guest reads VMPort IOPort (i.e. By x86 IN instruction).
 
-This is done as a preparation for the following patches that will
-introduce several device properties.
+However, because vmport_ioport_read() calls cpu_synchronize_state(), the
+returned value gets overridden by the value in QEMU vCPU EAX register.
+i.e. cpu->env.regs[R_EAX].
+
+To fix this issue, change vmport_ioport_read() to explicitly override
+cpu->env.regs[R_EAX] with the value it wish to propagate to vCPU EAX
+register.
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
 ---
- hw/i386/vmport.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/core/machine.c |  1 +
+ hw/i386/vmport.c  | 32 +++++++++++++++++++++++++++++---
+ 2 files changed, 30 insertions(+), 3 deletions(-)
 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 9e8c06036faf..0496112b741c 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@ GlobalProperty hw_compat_4_2[] = {
+     { "usb-redir", "suppress-remote-wake", "off" },
+     { "qxl", "revision", "4" },
+     { "qxl-vga", "revision", "4" },
++    { "vmport", "x-read-set-eax", "off" },
+ };
+ const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+ 
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index b4c5a57bb0e9..6ed110ef71a6 100644
+index 6ed110ef71a6..72f09ef5cba3 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -32,6 +32,7 @@
- #include "hw/isa/isa.h"
- #include "hw/i386/pc.h"
- #include "hw/input/i8042.h"
-+#include "hw/qdev-properties.h"
- #include "sysemu/hw_accel.h"
- #include "qemu/log.h"
- #include "trace.h"
-@@ -161,6 +162,10 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
-     vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
- }
+@@ -43,6 +43,11 @@
+ #define VMPORT_ENTRIES 0x2c
+ #define VMPORT_MAGIC   0x564D5868
  
-+static Property vmport_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++/* Compatibility flags for migration */
++#define VMPORT_COMPAT_READ_SET_EAX_BIT      0
++#define VMPORT_COMPAT_READ_SET_EAX          \
++    (1 << VMPORT_COMPAT_READ_SET_EAX_BIT)
 +
- static void vmport_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -168,6 +173,7 @@ static void vmport_class_initfn(ObjectClass *klass, void *data)
-     dc->realize = vmport_realizefn;
-     /* Reason: realize sets global port_state */
-     dc->user_creatable = false;
-+    device_class_set_props(dc, vmport_properties);
+ #define VMPORT(obj) OBJECT_CHECK(VMPortState, (obj), TYPE_VMPORT)
+ 
+ typedef struct VMPortState {
+@@ -51,6 +56,8 @@ typedef struct VMPortState {
+     MemoryRegion io;
+     VMPortReadFunc *func[VMPORT_ENTRIES];
+     void *opaque[VMPORT_ENTRIES];
++
++    uint32_t compat_flags;
+ } VMPortState;
+ 
+ static VMPortState *port_state;
+@@ -80,17 +87,33 @@ static uint64_t vmport_ioport_read(void *opaque, hwaddr addr,
+ 
+     eax = env->regs[R_EAX];
+     if (eax != VMPORT_MAGIC) {
+-        return eax;
++        goto out;
+     }
+ 
+     command = env->regs[R_ECX];
+     trace_vmport_command(command);
+     if (command >= VMPORT_ENTRIES || !s->func[command]) {
+         qemu_log_mask(LOG_UNIMP, "vmport: unknown command %x\n", command);
+-        return eax;
++        goto out;
+     }
+ 
+-    return s->func[command](s->opaque[command], addr);
++    eax = s->func[command](s->opaque[command], addr);
++
++out:
++    /*
++     * The call above to cpu_synchronize_state() gets vCPU registers values
++     * to QEMU but also cause QEMU to write QEMU vCPU registers values to
++     * vCPU implementation (e.g. Accelerator such as KVM) just before
++     * resuming guest.
++     *
++     * Therefore, in order to make IOPort return value propagate to
++     * guest EAX, we need to explicitly update QEMU EAX register value.
++     */
++    if (s->compat_flags & VMPORT_COMPAT_READ_SET_EAX) {
++        cpu->env.regs[R_EAX] = eax;
++    }
++
++    return eax;
  }
  
- static const TypeInfo vmport_info = {
+ static void vmport_ioport_write(void *opaque, hwaddr addr,
+@@ -163,6 +186,9 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property vmport_properties[] = {
++    /* Used to enforce compatibility for migration */
++    DEFINE_PROP_BIT("x-read-set-eax", VMPortState, compat_flags,
++                    VMPORT_COMPAT_READ_SET_EAX_BIT, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.20.1
 
