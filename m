@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3454182819
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 06:11:33 +0100 (CET)
-Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF5F182805
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 06:06:28 +0100 (CET)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCG84-0003iy-Pn
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 01:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
+	id 1jCG38-0001fg-TC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 01:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCG7K-0003Hv-VF
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 01:10:47 -0400
+ (envelope-from <bauerchen@tencent.com>) id 1jCG2C-0000RB-FF
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 01:05:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCG7J-0001Ls-Kp
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 01:10:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53066)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCG7J-0001Jl-Ek
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 01:10:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCG7I-0000Ah-G3
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:10:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D8B62E80C3
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:10:44 +0000 (UTC)
-MIME-Version: 1.0
+ (envelope-from <bauerchen@tencent.com>) id 1jCG28-0005CH-7Q
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 01:05:25 -0400
+Received: from mail4.tencent.com ([183.57.53.109]:39273)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <bauerchen@tencent.com>)
+ id 1jCG21-0004qu-Am; Thu, 12 Mar 2020 01:05:20 -0400
+Received: from EX-SZ019.tencent.com (unknown [10.28.6.74])
+ by mail4.tencent.com (Postfix) with ESMTP id 274E872602;
+ Thu, 12 Mar 2020 13:05:04 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tencent.com;
+ s=s202002; t=1583989504;
+ bh=uhzdmdvKT8dKVTv96B3/EZ+4HseNLifcAYKWkg+YkrA=;
+ h=From:To:CC:Subject:Date:References;
+ b=mxRFgsCW0z4ii38/Am+y5wAahAfe0j1Cz+QBKY5zPclOj0UFEtVFOSJLi3bwjXhZG
+ vVeNKceqWHuC+ZVk4KEeW1pGUm+q/6HDO3VDwRuzJoGSGZAEdyecubCmL93QBdhqVU
+ Kf6yl4NuHC2LNfv+5JP+NjOtjIS4JPzmr22pghFM=
+Received: from EX-SZ008.tencent.com (10.28.6.32) by EX-SZ019.tencent.com
+ (10.28.6.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Thu, 12 Mar
+ 2020 13:05:04 +0800
+Received: from EX-SZ005.tencent.com (10.28.6.29) by EX-SZ008.tencent.com
+ (10.28.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Thu, 12 Mar
+ 2020 13:05:03 +0800
+Received: from EX-SZ005.tencent.com ([fe80::a42c:28db:54ef:6adf]) by
+ EX-SZ005.tencent.com ([fe80::a42c:28db:54ef:6adf%4]) with mapi id
+ 15.01.1847.007; Thu, 12 Mar 2020 13:05:03 +0800
+From: =?utf-8?B?YmF1ZXJjaGVuKOmZiOiSmeiSmSk=?= <bauerchen@tencent.com>
+To: pbonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Re: [PATCH] mem-prealloc: initialize cond and mutex(Internet mail)
+Thread-Topic: Re: [PATCH] mem-prealloc: initialize cond and mutex(Internet
+ mail)
+Thread-Index: AQHV99O0uevKFo4oKEOufcaFp2Pr5A==
+Date: Thu, 12 Mar 2020 05:05:03 +0000
+Message-ID: <b25c127443a8448eb453cd439fd3821e@tencent.com>
+References: <20200306085014.120669-1-borntraeger@de.ibm.com>,
+ <20200309110331.3ef650a9@redhat.com>,
+ <13a05c3e-e374-8411-952d-05f4312ad6c0@redhat.com>,
+ <d37b122a-1980-32f3-6c06-89e5ef2a4807@de.ibm.com>,
+ <4976eaee60934e458e105bebe20d4d18@tencent.com>,
+ <20200309141914.0b9ad42f@Igors-MacBook-Pro>,
+ <d656861cb19e4f468da5fe2db80e060e@tencent.com>,
+ <a60b2bf8-5016-f0cc-217a-d9d0296e711b@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [10.28.2.14]
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 05:03:06 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog rth
-X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
-Message-Id: <158398938649.26276.11267664102647690834.malone@gac.canonical.com>
-Subject: [Bug 1867072] Re: ARM: tag bits cleared in FAR_EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6cb1fca332a8d49448727986bf0b77ff4b58e7cf
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 183.57.53.109
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,41 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
+Cc: borntraeger <borntraeger@de.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ mhartmay <mhartmay@linux.ibm.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Actually, I take that back: Peter has merged my TBI patch set,
-and is included in 6e8a73e911f066.
-
-Do you have a test case?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867072
-
-Title:
-  ARM: tag bits cleared in FAR_EL1
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  The ARM Architecture Reference Manual provides the following for
-  FAR_EL1:
-
-  "For a Data Abort or Watchpoint exception, if address tagging is
-  enabled for the address accessed by the data access that caused the
-  exception, then this field includes the tag."
-
-  However, I have found that the tag bits in FAR_EL1 are always clear,
-  even if the tag bits were set in the original access.
-
-  I can reproduce the problem on both 4.1.1 and master
-  (6e8a73e911f066527e775e04b98f31ebd19db600).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
+b2sgLHRoYW5rcyBQYW9sbwoKYmF1ZXIKwqAKRnJvbTrCoFBhb2xvIEJvbnppbmkKRGF0ZTrCoDIw
+MjAtMDMtMTLCoDAyOjM0ClRvOsKgYmF1ZXJjaGVuKOmZiOiSmeiSmSk7IElnb3IgTWFtbWVkb3YK
+Q0M6wqBib3JudHJhZWdlcjsgcWVtdS1kZXZlbDsgcWVtdS1zMzkweDsgbWhhcnRtYXkKU3ViamVj
+dDrCoFJlOiBbUEFUQ0hdIG1lbS1wcmVhbGxvYzogaW5pdGlhbGl6ZSBjb25kIGFuZCBtdXRleChJ
+bnRlcm5ldCBtYWlsKQpPbiAxMC8wMy8yMCAwODowNiwgYmF1ZXJjaGVuKOmZiOiSmeiSmSkgd3Jv
+dGU6Cj4gb2ggLHllcy5UaGFua3MKPiBJIHdhbnQgdG8ga25vdyBpZiBJIHN1Ym1pdCBhIG5ldyBm
+aXhlZCBwYXRjaCBvciBqdXN0IGEgcGF0Y2ggZml4ZWQKPiBjdXJyZW50IHByb2JsZW0/P8KgCj4g
+aWYgYSBuZXcgZml4ZWQgcGF0Y2gsIG1heWJlIG5lZWQgYSByZXZlcnQgPwrCoApTb3JyeSBJIG1p
+c3NlZCB0aGlzIG1lc3NhZ2UuwqAgSSBoYXZlIGFscmVhZHkgc2VudCBhIGZpeGVkIHBhdGNoLCB0
+aGFua3MhCsKgClBhb2xvCsKgCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gYmF1ZXJjaGVuKOmZiOiSmeiS
+mSkKPgo+wqDCoMKgwqAgwqAKPsKgwqDCoMKgICpGcm9tOirCoElnb3IgTWFtbWVkb3YgPG1haWx0
+bzppbWFtbWVkb0ByZWRoYXQuY29tPgo+wqDCoMKgwqAgKkRhdGU6KsKgMjAyMC0wMy0wOcKgMjE6
+MTkKPsKgwqDCoMKgICpUbzoqwqBiYXVlcmNoZW4o6ZmI6JKZ6JKZKSA8bWFpbHRvOmJhdWVyY2hl
+bkB0ZW5jZW50LmNvbT4KPsKgwqDCoMKgICpDQzoqwqBib3JudHJhZWdlciA8bWFpbHRvOmJvcm50
+cmFlZ2VyQGRlLmlibS5jb20+OyBwYm9uemluaQo+wqDCoMKgwqAgPG1haWx0bzpwYm9uemluaUBy
+ZWRoYXQuY29tPjsgcWVtdS1kZXZlbAo+wqDCoMKgwqAgPG1haWx0bzpxZW11LWRldmVsQG5vbmdu
+dS5vcmc+OyBxZW11LXMzOTB4Cj7CoMKgwqDCoCA8bWFpbHRvOnFlbXUtczM5MHhAbm9uZ251Lm9y
+Zz47IG1oYXJ0bWF5IDxtYWlsdG86bWhhcnRtYXlAbGludXguaWJtLmNvbT4KPsKgwqDCoMKgICpT
+dWJqZWN0OirCoFJlOiBbUEFUQ0hdIG1lbS1wcmVhbGxvYzogaW5pdGlhbGl6ZSBjb25kIGFuZAo+
+wqDCoMKgwqAgbXV0ZXgoSW50ZXJuZXQgbWFpbCkKPsKgwqDCoMKgIE9uIE1vbiwgOSBNYXIgMjAy
+MCAxMToxNjoxMCArMDAwMAo+wqDCoMKgwqAgYmF1ZXJjaGVuKOmZiOiSmeiSmSkgPGJhdWVyY2hl
+bkB0ZW5jZW50LmNvbT4gd3JvdGU6Cj7CoMKgwqDCoCDCoAo+wqDCoMKgwqAgPiBUaGFua3MsIMKg
+aW4gZmFjdCxkb190b3VjaF9wYWdlcyBpcyBjYWxsZWQganVzdCB3aGVuIHZtIHN0YXJ0cyB1cCwK
+PsKgwqDCoMKgIGJ1dCB1c2luZyBpbml0IGZsYWcgYW5kIEdvbmNlIG1heWJlIG1vcmUgZWxlZ2Fu
+dCAhCj7CoMKgwqDCoCA+IGlmIG5lZWRlZCxJIGNhbiBzdWJtaXQgYSBuZXcgcGF0Y2ggIQo+wqDC
+oMKgwqAgPiB0aGFua3MgdmVyeSBtdWNoIQo+wqDCoMKgwqAgwqAKPsKgwqDCoMKgIGl0J3MgY2Fs
+bGVkIGZyb20gb3NfbWVtX3ByZWFsbG9jKCkgLT4gdG91Y2hfYWxsX3BhZ2VzKCkgd2hpY2ggaXMg
+Y2FsbGVkCj7CoMKgwqDCoCBhdCBsZWFzdCBvbmNlIHBlciBhbiBpbnN0YW5jZSBvZiBob3RzbWVt
+IGJhY2tlbmQuIFNvIGlmIHNldmVyYWwgYmFja2VuZHMKPsKgwqDCoMKgIGFyZSB1c2VkIHRoZW4g
+aXQgc2hvdWxkIGJlIGNhbGxlZCBzZXZlcmFsIHRpbWVzLgo+wqDCoMKgwqAgVGhlIHNhbWUgYXBw
+bGllcyB3aGVuIGEgaG9zdG1lbSBiYWNrZW5kIGlzIGFkZGVkIGR1cmluZyBydW50aW1lCj7CoMKg
+wqDCoCAoaG90cGx1ZykKPsKgwqDCoMKgIMKgCj7CoMKgwqDCoCDCoAo+CsKgCsKg
 
