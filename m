@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82BB182F83
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:45:50 +0100 (CET)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52745182F96
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:49:37 +0100 (CET)
+Received: from localhost ([::1]:39944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCMHd-0005EG-Od
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:45:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
+	id 1jCMLI-0004Qe-CG
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58118)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMGA-0003Wh-UW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMGC-0003Zp-3z
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG9-00023F-TM
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:18 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52755)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMGA-00023t-UZ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:20 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38146)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCMG9-00022u-NW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:17 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id 11so5737592wmo.2
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:17 -0700 (PDT)
+ id 1jCMGA-00023P-O5
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:18 -0400
+Received: by mail-wm1-x331.google.com with SMTP id h83so2363213wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ltLfBMZsG49hGD8i/lFgQSG60+4ZbaBAO10u35X5v7U=;
- b=nXl9ZO2/NU9Ipw5vX47dYtVkxvhwp3GGVJDfeykzaYQs6fpusUq+/A9bCBWSo5ip+W
- lNK9myjarjl1xhI4tx/SEFj7szMOqO1azuJsTs/VCNNSbketTQFxgfCCbeNW2mkG3O89
- hFzju4Y0BLKjmAf3246Fqcub/pHKZXWmqA8/5/gpqVmstVO1pMKS3drwES5tqgJxzZb5
- MjSknq5W05YWY8gMDLTUN4uOEQdGNMBwntEO214CcCu1PRFqzv/DM14U9BdOyxXL91JB
- RP88B4/4CwYM7kIXsILLnDooK24mmzrtSthPc1CSYxI4LYgr6GGmDHiUUelMk3r79I5Q
- SNSQ==
+ bh=hATFJW6NZ1276fQrQO4mabOqWwY/vRk7Junh7L7ZlU0=;
+ b=wr1NbbbY6ptFMD51j5Qh3+1DknZRnIic71ZQl5xQGZSrqRdcm2wF33VOWfyjg2W61F
+ 3J++0j3rmAWAC3F+LWO5B7lgEe7/Yi9PPUWveGABgSUR99gxwp8m55+xVD9hdtgpxg2S
+ RDlIlMf8wrKYFycHVqdZD1TahjScAsyhMiIAu2fzVkZ5U0SpqJP4A5C/OElxQ+i+BZBm
+ fR7xlNjbC+5sUrAyjlh4vJ9DT29L7/Kqku23eoc75YBi5MMVbZpr/qGjtiiYPFDmYTvX
+ 4U9Vl1eH6zx2oyy8JlPHCGEIEdaPZvgTS4LXnN183DmYMyaE6JVk1pLJP6GXM6ewEmRu
+ uBpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ltLfBMZsG49hGD8i/lFgQSG60+4ZbaBAO10u35X5v7U=;
- b=WogOw3ZmcAIRTFrb8kY5wxilf+jsQA+eG9T75ztwEueje0R7rR5E8vzOiXKHILUe9G
- zs8QRprDScun1dxxNg0Dh3Yl8LdPuVw1ewUGLIWEQSNOfNApGE8P7JRQ6jFkXY85Sz/S
- rFH6Q8BjFQQfvA+RejohNkB08CPIPIxbQQ7LP5hGcxu8ftBaN6jwXFC+Pl1Hv1satA9r
- I2NE/SUwHMq09OPIuClX6KHAavyZZiD7bdrypjta//CdPZ1AOMDh1ktZQSSVIoP2DTk1
- WHo4t7iCojcu6jUZDQxhig0KY8At/G3xo1etgAwQGMSUdcDJNleEamvbFdj7VWH7hrVY
- TMEw==
-X-Gm-Message-State: ANhLgQ1Jp91XVdMDSQ4mpHNrOzZkVwXrCQAwItJyCKk37J5imF/O0KgH
- 0SK4+XwZeUNMBNMoBxg+0HR+4ykVMEQz6A==
-X-Google-Smtp-Source: ADFU+vvnaQlAIUHzpX1LvLmxKHZhKjDiA1Dkl3mNJj3t2RLLDlLsNcRYpqik1qZWoqgxNhHKXx1MDg==
-X-Received: by 2002:a7b:c8d5:: with SMTP id f21mr4478630wml.60.1584013456452; 
- Thu, 12 Mar 2020 04:44:16 -0700 (PDT)
+ bh=hATFJW6NZ1276fQrQO4mabOqWwY/vRk7Junh7L7ZlU0=;
+ b=kZjeSqfJ49ZsrMlR7osU2cjMH+I1QZpF8gZXwv669RmHjHLCMhNMrd46aBOykcNZNV
+ ZTQ5QNFbpB0GbULsgFQoan47C/sMflXM9nnY8o9DVfCKxhvxkgccMBSWJv3UirSK87In
+ 5bSmer/sAQ2kXfST4RHHLJEpSsbuPWSgPyWEP7YJ0eiPf/ljGCiIygRuNy1DhDnuPo2T
+ ufaAYq+hB01+irrGirRie86+45p8Ml5NCCAyjtpJdaIpwnPvr0KJhwgj99o3JbTrr/rG
+ EaoeUI7pm+TWXThNxYIRjnGEH7LZ6rK/8Srz+p8pe/BvG9JaxMFx4Y1zP6nnuHADeIe9
+ iO7g==
+X-Gm-Message-State: ANhLgQ2b3+eXxwXHFydF2Tlsv3MAOBmnjRX4JpsDiagWAEDsqJCihcLT
+ 4ihfJj1GoLUvwnkwZYLJmOFedych5CDivQ==
+X-Google-Smtp-Source: ADFU+vvZaD+z8lnJyIXOlVAe385ZdEQK55Iv0kQmz64FdTDj8OZuFqWwda6QhFDVzZjkqw8M9ucULQ==
+X-Received: by 2002:a7b:ce81:: with SMTP id q1mr4654088wmj.156.1584013457378; 
+ Thu, 12 Mar 2020 04:44:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.15
+ by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 04:44:15 -0700 (PDT)
+ Thu, 12 Mar 2020 04:44:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] Makefile: Make all Sphinx documentation depend on the
- extensions
-Date: Thu, 12 Mar 2020 11:44:01 +0000
-Message-Id: <20200312114408.16891-6-peter.maydell@linaro.org>
+Subject: [PULL 06/12] docs/index.rst, docs/index.html.in: Reorder manuals
+Date: Thu, 12 Mar 2020 11:44:02 +0000
+Message-Id: <20200312114408.16891-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312114408.16891-1-peter.maydell@linaro.org>
 References: <20200312114408.16891-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,37 +81,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the Python source files of our Sphinx extensions to the
-dependencies of the Sphinx manuals, so that if we edit the
-extension source code the manuals get rebuilt.
+Now that qemu-doc.html is no longer present, the ordering of manuals
+within the top-level index page looks a bit odd. Reshuffle so that
+the manuals the user is most likely to be interested in are at the
+top of the list, and the reference material is at the bottom.
 
-Adding this dependency unconditionally means that we'll rebuild
-a manual even if it happens to not use the extension whose
-source file was changed, but this is simpler and less error
-prone, and it's unlikely that we'll be making frequent changes
-to the extensions.
+Similarly, we reorder the index.rst file used as the base of
+the "all manuals in one" documentation for readthedocs.
+
+The new order is:
+ * system
+ * user
+ * tools
+ * interop
+ * specs
+ * QMP reference (if present)
+ * Guest agent protocol reference (if present)
+ * devel (if present)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200306171749.10756-6-peter.maydell@linaro.org
+Message-id: 20200306171749.10756-7-peter.maydell@linaro.org
 ---
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ docs/index.html.in | 10 +++++-----
+ docs/index.rst     |  8 ++++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index fae4ce181ea..65e89b5095a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1080,7 +1080,8 @@ build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" $(SPHINX_BUILD) $(
- # We assume all RST files in the manual's directory are used in it
- manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
-               $(SRC_PATH)/docs/defs.rst.inc \
--              $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
-+              $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py \
-+              $(SRC_PATH)/docs/sphinx/*.py
- # Macro to write out the rule and dependencies for building manpages
- # Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,extradeps])
- # 'extradeps' is optional, and specifies extra files (eg .hx files) that
+diff --git a/docs/index.html.in b/docs/index.html.in
+index cc19aad2ec5..e9a160384cf 100644
+--- a/docs/index.html.in
++++ b/docs/index.html.in
+@@ -7,13 +7,13 @@
+     <body>
+         <h1>QEMU @@VERSION@@ Documentation</h1>
+         <ul>
+-            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
+-            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
++            <li><a href="system/index.html">System Emulation User's Guide</a></li>
++            <li><a href="user/index.html">User Mode Emulation User's Guide</a></li>
++            <li><a href="tools/index.html">Tools Guide</a></li>
+             <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
+             <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
+-            <li><a href="system/index.html">System Emulation User's Guide</a></li>
+-            <li><a href="tools/index.html">Tools Guide</a></li>
+-            <li><a href="user/index.html">User Mode Emulation User's Guide</a></li>
++            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
++            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+         </ul>
+     </body>
+ </html>
+diff --git a/docs/index.rst b/docs/index.rst
+index 376dab28850..763e3d0426e 100644
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -10,9 +10,9 @@ Welcome to QEMU's documentation!
+    :maxdepth: 2
+    :caption: Contents:
+ 
+-   interop/index
+-   devel/index
+-   specs/index
+    system/index
+-   tools/index
+    user/index
++   tools/index
++   interop/index
++   specs/index
++   devel/index
 -- 
 2.20.1
 
