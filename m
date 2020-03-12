@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15201835EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:14:19 +0100 (CET)
-Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515871835E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:12:28 +0100 (CET)
+Received: from localhost ([::1]:44515 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQTR-0002iO-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
+	id 1jCQRe-0007pa-IW
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCQRz-0000yU-7K
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:48 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQQB-0006c4-Q3
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:10:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCQRw-0007S4-JU
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:45 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47638
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQQA-00063t-Pt
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:10:55 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24418)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jCQRv-0007R3-I0
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:44 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1jCQQA-00062O-GO
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:10:54 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02CG7mSR122290
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:12:42 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yqpebwdd5-1
+ 02CG4nKr050918
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:10:53 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yqn6d00y9-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:12:40 -0400
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:10:52 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Thu, 12 Mar 2020 16:09:56 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Thu, 12 Mar 2020 16:10:34 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 16:09:54 -0000
+ Thu, 12 Mar 2020 16:10:32 -0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02CG9rhY40173896
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02CGAWNU47972474
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:09:53 GMT
+ Thu, 12 Mar 2020 16:10:32 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F9B2A4051;
- Thu, 12 Mar 2020 16:09:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 029A6A405E;
+ Thu, 12 Mar 2020 16:10:32 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03BB7A404D;
- Thu, 12 Mar 2020 16:09:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D1FFAA404D;
+ Thu, 12 Mar 2020 16:10:31 +0000 (GMT)
 Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Mar 2020 16:09:52 +0000 (GMT)
-Subject: Re: [PATCH v9 10/15] s390x: protvirt: Move diag 308 data over SIDA
+ Thu, 12 Mar 2020 16:10:31 +0000 (GMT)
+Subject: Re: [PATCH v9 11/15] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-11-frankja@linux.ibm.com>
- <8231b188-50ca-e8e8-5e5d-fc07e0dfd20d@de.ibm.com>
- <0c8657b3-8f97-624b-1268-3cd0dbb1d36e@linux.ibm.com>
+ <20200311132151.172389-12-frankja@linux.ibm.com>
+ <e17fae02-5195-b4ed-9aca-63b8fb2b8a60@de.ibm.com>
+ <46eb4e3f-6dac-c26c-d757-90696c0b095c@linux.ibm.com>
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
  xsFNBE6cPPgBEAC2VpALY0UJjGmgAmavkL/iAdqul2/F9ONz42K6NrwmT+SI9CylKHIX+fdf
@@ -105,30 +105,30 @@ Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
  jaqYefx7yQ7FJXXETd2uVURiDeNEFhVZWb5CiBJM5c6qQMhmkS4VyT7/+raaEGgkEKEgHOWf
  ZDP8BHfXtszHqI3Fo1F4IKFo/AP8GOFFxMRgbvlAs8z/+rEEaQYjxYJqj08raw6P4LFBqozr
  nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Thu, 12 Mar 2020 17:09:52 +0100
+Date: Thu, 12 Mar 2020 17:10:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <0c8657b3-8f97-624b-1268-3cd0dbb1d36e@linux.ibm.com>
+In-Reply-To: <46eb4e3f-6dac-c26c-d757-90696c0b095c@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031216-0008-0000-0000-0000035C2BF7
+x-cbid: 20031216-0028-0000-0000-000003E3B951
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031216-0009-0000-0000-00004A7D7621
-Message-Id: <cf22eea4-2ab7-249e-7763-68764cb32dca@de.ibm.com>
+x-cbparentid: 20031216-0029-0000-0000-000024A90172
+Message-Id: <551d414a-419d-6422-1b9b-7fd51b0e9877@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-12_09:2020-03-11,
  2020-03-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- bulkscore=0 impostorscore=0 mlxlogscore=809 adultscore=0 mlxscore=0
- phishscore=0 suspectscore=2 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2001150001 definitions=main-2003120083
+ bulkscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ mlxlogscore=644 clxscore=1015 priorityscore=1501 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003120083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -146,20 +146,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 12.03.20 17:05, Janosch Frank wrote:
-> On 3/12/20 4:17 PM, Christian Borntraeger wrote:
->>
->>
+On 12.03.20 17:07, Janosch Frank wrote:
+> On 3/12/20 4:41 PM, Christian Borntraeger wrote:
 >> On 11.03.20 14:21, Janosch Frank wrote:
->>> For protected guests the IPIB is written/read to/from the SIDA, so we
+>>> IO instruction data is routed through SIDAD for protected guests, so
+>>> adresses do not need to be checked, as this is kernel memory.
 >>
->> I think we need to make up our mind regarding IPLB vs. IPIB....
->>
->> Otherwise
->> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>> Maybe also mention that the data structures for  the I/O instrutions
+>> start at offset 0 of the SIDA?
 > 
-> Shall I put that onto the list of things I need to fix in my cleanup series?
+> You mean in the comment for get_address_from_regs() or in the commit
+> message? It would certainly make sense for get_address_from_regs().
 
-Yes, nothing urgent but if you have free cycles somewhen, go ahead. 
+Maybe both?
 
 
