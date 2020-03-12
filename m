@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1CA18375B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:24:35 +0100 (CET)
-Received: from localhost ([::1]:46630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6159A1837BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:36:54 +0100 (CET)
+Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRZS-0007mq-9O
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42199)
+	id 1jCRlN-00004u-E0
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1jCRVn-0002JW-VQ
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:20:49 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCRkB-0007ls-0G
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1jCRVm-0005wj-Ri
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:20:47 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33090)
+ (envelope-from <bounces@canonical.com>) id 1jCRk9-0005tj-UK
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49566)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1jCRVk-0005vY-6c; Thu, 12 Mar 2020 13:20:44 -0400
-Received: by mail-pg1-x543.google.com with SMTP id m5so3397075pgg.0;
- Thu, 12 Mar 2020 10:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=yThmBkuW2LdehValOsK92YJ4z7LhKs38L7+Dci/UMV8=;
- b=djGOUB475YL4CZMFaIOy3V9zmrXfRPXnevAeJafk00xB94yJoh5aBVVNkGZrzQVZez
- gx2LFv2WP1HuVkdxTGdCl7WoU2MlbRE6Ukj38aAqJE1xYqUPxpWIjGk+HAWtiEo2ncuw
- E+d5Nk8gSO3BFTyFTfJbMRTVqhcLr+OyR7wb4Xd8BAgmJ99EFQxUYp6tVTwQ31WsUQGY
- QXO5h36UMxX4ZzUekD9WtUS9/qAtBj/vafycjnqrzcdO6xYLYOMLXkf4L3y8MIwQSQN5
- rF3avUpeCLNONX7r4gFu04pMxPkP40z1cUFz+BL+0Eb32qbvwAFp+d5cKxeIwuYxmBoE
- WWpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=yThmBkuW2LdehValOsK92YJ4z7LhKs38L7+Dci/UMV8=;
- b=A4QuwkvbOXWvYQedEEuDKyZ2hi8rEdWyHhrIBqDTF0+120v5oOYe1XCJqLHDW4dTxB
- UyN15R8ZtpTyeZhQWC6e7xSF52FldWSYjB+Sjzjt3GjbuMf93mi2QohlLpHhREF4Og9B
- y5dRu4jrNZlsnSPKAjX1IfVo+jB8hLspJmKgd8xbtML4EyKVQGAomXnFRLfDqrnKTOg0
- woXZaW4O9zPX5g91ELple8k/M1j3ECyDokwmMC45xd1kljS2zqByUFytpwv4GHgpXpgn
- tV+d6FZxxGqCz+sLHcDCexlyf8XF43H4UoSsgeIH5MZb1ETtaXVEUz3FYmP1zkzp6LCm
- UieQ==
-X-Gm-Message-State: ANhLgQ09qEcK3gl0Xz/Qi9hVTB4Ck8rvDC1SlW47FXcNEjlX1aItWMf8
- s8OYLug9wNO4IHq8tX+cY8w=
-X-Google-Smtp-Source: ADFU+vu74nXVbFAp1c0ChlaT+cdCPJu6FMIXB1JHDLF4T3zEwbsEaImSJ2yIonGXXOArhhV60cVhNQ==
-X-Received: by 2002:a63:9d0c:: with SMTP id i12mr8688044pgd.378.1584033642964; 
- Thu, 12 Mar 2020 10:20:42 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id e187sm3149706pfe.50.2020.03.12.10.20.41
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 10:20:42 -0700 (PDT)
-Date: Thu, 12 Mar 2020 10:20:40 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/3] hw/arm/fsl-imx6ul: Wire up USB controllers
-Message-ID: <20200312172040.GA18358@roeck-us.net>
-References: <20200310210434.31544-1-linux@roeck-us.net>
- <20200310210434.31544-3-linux@roeck-us.net>
- <CAFEAcA811Zo6JjCait2G467oQo-nL0RTYVdqE-ofmDSxWPcuCQ@mail.gmail.com>
- <20200312165511.GA16719@roeck-us.net>
- <CAFEAcA8QKwrVyBz-iGe0+1Kr7efJZC7nwwrTTV0FSUnmcEW=xA@mail.gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCRk9-0005st-P8
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCRk7-0003cJ-PC
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:35:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A56C02E80C8
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:35:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8QKwrVyBz-iGe0+1Kr7efJZC7nwwrTTV0FSUnmcEW=xA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Mar 2020 17:26:56 -0000
+From: Peter Collingbourne <1867072@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pcc-goog rth
+X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
+X-Launchpad-Bug-Modifier: Peter Collingbourne (pcc-goog)
+References: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
+Message-Id: <158403401628.28469.2199192139830063340.malone@gac.canonical.com>
+Subject: [Bug 1867072] Re: ARM: tag bits cleared in FAR_EL1
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2b87f0d00da1d896055c82becbc45c8d57dd3881
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,82 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 05:05:25PM +0000, Peter Maydell wrote:
-> On Thu, 12 Mar 2020 at 16:55, Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > On Thu, Mar 12, 2020 at 01:19:41PM +0000, Peter Maydell wrote:
-> > > On Tue, 10 Mar 2020 at 21:04, Guenter Roeck <linux@roeck-us.net> wrote:
-> > > > diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-> > > > @@ -456,6 +467,28 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-> > > >                                              FSL_IMX6UL_ENETn_TIMER_IRQ[i]));
-> > > >      }
-> > > >
-> > > > +    /* USB */
-> > > > +    for (i = 0; i < FSL_IMX6UL_NUM_USBS; i++) {
-> > > > +        static const int FSL_IMX6UL_USBn_IRQ[] = {
-> > > > +            FSL_IMX6UL_USB2_IRQ,
-> > > > +            FSL_IMX6UL_USB1_IRQ,
-> > > > +        };
-> > >
-> > > Do we really want to wire up USB1 to USB2_IRQ and USB2 to USB1_IRQ ?
-> > > If so, a comment explaining that it is deliberate would be useful.
-> > >
-> > Yes. I think the definitions may be incorrect (or the Linux dts files are
-> > incorrect, but that seems unlikely). I tried the other way but then I get
-> > unhandled interrupt errors when trying to access a USB flash drive.
-> 
-> I guess we should check the datasheet and see if we just
-> have our #define names the wrong way around...
-> 
+With those two patches applied I can no longer reproduce the problem,
+thanks!
 
-From "i.MX 6UltraLite Applications Processor Reference Manual":
+For posterity, this is how I've been reproducing the problem:
 
-74 USB USBO2 USB OTG2
-75 USB USBO2 USB OTG1
-76 USB_PHY UTMI0 interrupt request
-77 USB_PHY UTMI1 interrupt request
+1. Build a Linux kernel with this patch applied: https://patchwork.kernel.o=
+rg/patch/11435077/
+2. Run this program under the kernel:
 
-So it looks like the dts files in the Linux kernel are correct.
+#include <stdint.h>
+#include <stdio.h>
+#include <signal.h>
 
-> > > Side note: not used here, but in the header file we define:
-> > >     FSL_IMX6UL_USB1_IRQ     = 42,
-> > >     FSL_IMX6UL_USB2_IRQ     = 43,
-> > >     FSL_IMX6UL_USB_PHY1_IRQ = 44,
-> > >     FSL_IMX6UL_USB_PHY2_IRQ = 44,
-> > >
-> > > Is that last one correct, or a cut-n-paste error that should be "45" ?
-> > >
-> > From Linux devicetree files:
-> >
-> >         usbphy1: usbphy@20c9000 {
-> >                 compatible = "fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
-> >                 reg = <0x020c9000 0x1000>;
-> >                 interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> >         usbphy2: usbphy@20ca000 {
-> >                 compatible = "fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
-> >                 reg = <0x020ca000 0x1000>;
-> >                 interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
-> >         usbotg1: usb@2184000 {
-> >                 compatible = "fsl,imx6ul-usb", "fsl,imx27-usb";
-> >                 reg = <0x02184000 0x200>;
-> >                 interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-> >         usbotg2: usb@2184200 {
-> >                 compatible = "fsl,imx6ul-usb", "fsl,imx27-usb";
-> >                 reg = <0x02184200 0x200>;
-> >                 interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> > Should I maybe fix the definitions in a separate patch ?
-> 
-> Yes please.
-> 
-Ok, will do. And, sorry, I should have done that in the first place.
+void handler(int signo, siginfo_t *siginfo, void *context) {
+  uint32_t *begin =3D (uint32_t *)context;
+  uint32_t *end =3D ((uint32_t *)context) + (sizeof(ucontext_t)/4);
+  for (uint32_t *i =3D begin; i !=3D end; ++i) {
+    printf("%08p %08x\n", i, *i);
+  }
+  _exit(0);
+}
 
-Thanks,
-Guenter
+int main() {
+  struct sigaction sa;
+  sa.sa_sigaction =3D handler;
+  sa.sa_flags =3D SA_SIGINFO;
+  sigaction(SIGSEGV, &sa, 0);
+
+  return *(int *)((1ULL << 56) + 0x123456);
+}
+
+I would expect this program's output to include something like the
+following:
+
+0xffffd5869bd0 46415201
+0xffffd5869bd4 00000010
+0xffffd5869bd8 00123456
+0xffffd5869bdc 01000000
+
+But the output that I was seeing with the bad qemu looked like this:
+
+0xffffd5869bd0 46415201
+0xffffd5869bd4 00000010
+0xffffd5869bd8 00123456
+0xffffd5869bdc 00000000
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1867072
+
+Title:
+  ARM: tag bits cleared in FAR_EL1
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  The ARM Architecture Reference Manual provides the following for
+  FAR_EL1:
+
+  "For a Data Abort or Watchpoint exception, if address tagging is
+  enabled for the address accessed by the data access that caused the
+  exception, then this field includes the tag."
+
+  However, I have found that the tag bits in FAR_EL1 are always clear,
+  even if the tag bits were set in the original access.
+
+  I can reproduce the problem on both 4.1.1 and master
+  (6e8a73e911f066527e775e04b98f31ebd19db600).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
 
