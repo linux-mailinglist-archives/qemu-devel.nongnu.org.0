@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15281182D74
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:26:38 +0100 (CET)
-Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E088B182DFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:42:38 +0100 (CET)
+Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCL2y-0006x0-LW
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39111)
+	id 1jCLIT-0001cK-Eh
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41977)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1jCL25-0005Yg-DZ
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:44 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jCLHl-0001DY-AM
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:41:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1jCL22-00030T-VE
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35504
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jCL22-0002zI-Np
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584008737;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G7jEyYLokTrruOrRCqepmYEHqJ5Ok6mSEIyyRqTgfXY=;
- b=i1EbQHJSoaFwD/NRX1d1IEzJgYmT45F5eNhEiAVa3/4yAG/aU+dygNbzFPVq+x6+FBvuvg
- x9EC9BfwkraDcFu6xe3sZ6q20f1U4nCECpL17o83zCP0QOCBpph6MLy3x+EaPLIbOryK7Y
- jKGxnDM2QUdVfwULszxW0CtuzWp/9xQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-SmhC-fIdPJ25Vq-0GBqtsg-1; Thu, 12 Mar 2020 06:25:35 -0400
-X-MC-Unique: SmhC-fIdPJ25Vq-0GBqtsg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A985107B791;
- Thu, 12 Mar 2020 10:25:34 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 963998F37D;
- Thu, 12 Mar 2020 10:25:32 +0000 (UTC)
-Date: Thu, 12 Mar 2020 11:25:30 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Beata Michalska <beata.michalska@linaro.org>
-Subject: Re: [PATCH v3 2/2] target/arm: kvm: Handle DABT with no valid ISS
-Message-ID: <20200312102530.a55grtyfrnx2glj4@kamzik.brq.redhat.com>
-References: <20200312003401.29017-1-beata.michalska@linaro.org>
- <20200312003401.29017-3-beata.michalska@linaro.org>
+ (envelope-from <alex.bennee@linaro.org>) id 1jCLHj-0007Y0-S7
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:41:52 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54909)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jCLHj-0007Xl-Kp
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:41:51 -0400
+Received: by mail-wm1-x343.google.com with SMTP id n8so5511933wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 03:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LLFZrAobltgmvU6vJlk0C1lJO1F1EEmqYIwXBsGSKfs=;
+ b=bgpLSYwU1oaYIXTZNNsLCl6uhLkgTrLY0+0239Nqp1qWHQlB7xiuZOrjBBGVz+atUo
+ 6Dovzo6TkKkiD/OBS8Co1DH6MOYvmOJxb3Klj7OsK3+Ed6dIzc0aB0K68+BjTvZJaZqO
+ d3cFvhOZF0O2CR8R+ftngf1pYU1LQGPZyd+2abq3mmAGv9jC4GRJA6uEKVLFBWB54T4N
+ f/kDtSy7z1H6jQHUqLpZFnI8n/YzDF2W45CDL3j91px90iind4wSipANg1lXEpjX7oad
+ dnb5aZA0Q856eKTbmPLl61LZHydKNz0zgnGMKWoG/yXeJSY2xoUDKwI6rKE1d4F03t+4
+ HQHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LLFZrAobltgmvU6vJlk0C1lJO1F1EEmqYIwXBsGSKfs=;
+ b=mgy3NaxrXgqZ5l5vtoQCQSxzo7mTv0BnSq9IX6kQgy8iAPGab9HO0VVgWXK/bgNX42
+ bdrywclXE81QE6anWSK+FoqojSkSUkvcLEFQgU+sCvep5/isVBDZJS3RnZMytyoesS+a
+ n3st8X8djX2gBsGkV4dwEKEPu+G6eKCygr6iqyPBlyttQoGLIYUu27G7fLCmUetZgWtw
+ tuTIiy24tjWdFegpZZqV3W6OKPbaEss2LmNKjprBTIBOmiT30aglTzPfsCycz+1m9Xm7
+ DoWRmJywcwPYlwptHtAMpX+0B9ftYCb4O5Uk5ENrpKBLfC9uBe+AwESlYOd17nk4zgY0
+ MNjg==
+X-Gm-Message-State: ANhLgQ3YEdIFXpyl6ROFh+bEwscZl7x+HrU5i18bqINmRNu/uuFnAZbi
+ 6RbW0U4PyVPvxojqMlaoMBLiMQ==
+X-Google-Smtp-Source: ADFU+vuDyISQ7PavORnR+PNxv0MtvejMBrNGQXZLzb3tldhjIaxSW21kwpbY5mRPSYlEIaBHxUnH2g==
+X-Received: by 2002:a7b:c950:: with SMTP id i16mr4143395wml.97.1584009710297; 
+ Thu, 12 Mar 2020 03:41:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f207sm13047158wme.9.2020.03.12.03.41.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 03:41:49 -0700 (PDT)
+Received: from zen.home.arpa (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7CDBB1FF7E;
+ Thu, 12 Mar 2020 10:41:48 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tools/virtiofsd: add support for --socket-group
+Date: Thu, 12 Mar 2020 10:41:42 +0000
+Message-Id: <20200312104142.21259-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200312003401.29017-3-beata.michalska@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,332 +79,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, Christoffer.Dall@arm.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, kvmarm@lists.cs.columbia.edu
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 12:34:01AM +0000, Beata Michalska wrote:
-> On ARMv7 & ARMv8 some load/store instructions might trigger a data abort
-> exception with no valid ISS info to be decoded. The lack of decode info
-> makes it at least tricky to emulate those instruction which is one of the
-> (many) reasons why KVM will not even try to do so.
->=20
-> Add support for handling those by requesting KVM to inject external
-> dabt into the quest.
->=20
-> Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> ---
->  target/arm/cpu.h     |  3 ++
->  target/arm/kvm.c     | 81 ++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  target/arm/kvm32.c   | 26 +++++++++++++++++
->  target/arm/kvm64.c   | 36 +++++++++++++++++++++++
->  target/arm/kvm_arm.h | 22 ++++++++++++++
->  5 files changed, 168 insertions(+)
->=20
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 4ffd991..45fdd2e 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -560,6 +560,9 @@ typedef struct CPUARMState {
->          uint64_t esr;
->      } serror;
-> =20
-> +    uint8_t ext_dabt_pending:1; /* Request for injecting ext DABT */
-> +    uint8_t ext_dabt_raised:1; /* Tracking/verifying injection of ext DA=
-BT */
-> +
+If you like running QEMU as a normal user (very common for TCG runs)
+but you have to run virtiofsd as a root user you run into connection
+problems. Adding support for an optional --socket-group allows the
+users to keep using the command line.
 
-Why the bit-fields? We don't use them anywhere else in cpu.h, and that's
-probably because they're not portable. We should just use bools.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
->      /* State of our input IRQ/FIQ/VIRQ/VFIQ lines */
->      uint32_t irq_line_state;
-> =20
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index 85860e6..8b7b708 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -39,6 +39,7 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[=
-] =3D {
-> =20
->  static bool cap_has_mp_state;
->  static bool cap_has_inject_serror_esr;
-> +static bool cap_has_inject_ext_dabt;
-> =20
->  static ARMHostCPUFeatures arm_host_cpu_features;
-> =20
-> @@ -244,6 +245,16 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->          ret =3D -EINVAL;
->      }
-> =20
-> +    if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER)) {
-> +        if (kvm_vm_enable_cap(s, KVM_CAP_ARM_NISV_TO_USER, 0)) {
-> +            warn_report("Failed to enable DABT NISV cap");
-> +        } else {
-> +            /* Set status for supporting the external dabt injection */
-> +            cap_has_inject_ext_dabt =3D kvm_check_extension(s,
-> +                                    KVM_CAP_ARM_INJECT_EXT_DABT);
-> +        }
-> +    }
-> +
->      return ret;
->  }
-> =20
-> @@ -703,9 +714,20 @@ int kvm_put_vcpu_events(ARMCPU *cpu)
->          events.exception.serror_esr =3D env->serror.esr;
->      }
-> =20
-> +    if (cap_has_inject_ext_dabt) {
-> +        events.exception.ext_dabt_pending =3D env->ext_dabt_pending;
-> +    }
-> +
->      ret =3D kvm_vcpu_ioctl(CPU(cpu), KVM_SET_VCPU_EVENTS, &events);
->      if (ret) {
->          error_report("failed to put vcpu events");
-> +    } else if (env->ext_dabt_pending) {
-> +        /*
-> +         * Mark that the external DABT has been injected,
-> +         * if one has been requested
-> +         */
-> +        env->ext_dabt_raised =3D env->ext_dabt_pending;
-> +        env->ext_dabt_pending =3D 0;
->      }
-> =20
->      return ret;
-> @@ -737,6 +759,30 @@ int kvm_get_vcpu_events(ARMCPU *cpu)
-> =20
->  void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
->  {
-> +    ARMCPU *cpu =3D ARM_CPU(cs);
-> +    CPUARMState *env =3D &cpu->env;
-> +
-> +    if (unlikely(env->ext_dabt_raised)) {
-> +        /*
-> +         * Verifying that the ext DABT has been properly injected,
-> +         * otherwise risking indefinitely re-running the faulting instru=
-ction
-> +         * Covering a very narrow case for kernels 5.5..5.5.4
+---
+v1
+  - tweak documentation and commentary
+---
+ docs/tools/virtiofsd.rst        |  4 ++++
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c |  6 ++++++
+ tools/virtiofsd/fuse_virtio.c   | 20 ++++++++++++++++++--
+ 4 files changed, 29 insertions(+), 2 deletions(-)
 
-I'm still not convinced that QEMU needs to add workarounds for broken KVM,
-when KVM can be fixed, and even is already fixed. If you really want to
-keep it, then can you break this patch into two, splitting the dabt
-injection out from the workaround?
-
-> +         * when injected abort was misconfigured to be
-> +         * an IMPLEMENTATION DEFINED exception (for 32-bit EL1)
-> +         */
-> +        if (!arm_feature(env, ARM_FEATURE_AARCH64) &&
-> +            unlikely(kvm_arm_verify_ext_dabt_pending(cs))) {
-> +
-> +            error_report("Data abort exception with no valid ISS generat=
-ed by "
-> +                   "guest memory access. KVM unable to emulate faulting =
-"
-> +                   "instruction. Failed to inject an external data abort=
- "
-> +                   "into the guest.");
-> +            abort();
-> +       }
-> +       /* Clear the status */
-> +       env->ext_dabt_raised =3D 0;
-> +    }
-> +
->  }
-> =20
->  MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-> @@ -819,6 +865,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_ru=
-n *run)
->              ret =3D EXCP_DEBUG;
->          } /* otherwise return to guest */
->          break;
-> +    case KVM_EXIT_ARM_NISV:
-> +        /* External DABT with no valid iss to decode */
-> +        ret =3D kvm_arm_handle_dabt_nisv(cs, run->arm_nisv.esr_iss,
-> +                                       run->arm_nisv.fault_ipa);
-> +        break;
->      default:
->          qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
->                        __func__, run->exit_reason);
-> @@ -953,3 +1004,33 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->  {
->      return (data - 32) & 0xffff;
->  }
-> +
-> +int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-> +                             uint64_t fault_ipa)
-> +{
-> +    ARMCPU *cpu =3D ARM_CPU(cs);
-> +    CPUARMState *env =3D &cpu->env;
-> +
-> +   /*
-> +    * ISS [23:14] is invalid so there is a limited info
-> +    * on what has just happened so the only *useful* thing that can
-> +    * be retrieved from ISS is WnR & DFSC (though in some cases WnR
-> +    * might be less of a value as well)
-> +    */
-> +
-> +    /*
-> +     * Set pending ext dabt and trigger SET_EVENTS so that
-> +     * KVM can inject the abort
-> +     */
-> +    if (cap_has_inject_ext_dabt) {
-> +        kvm_cpu_synchronize_state(cs);
-> +        env->ext_dabt_pending =3D 1;
-> +    } else {
-> +        error_report("Data abort exception triggered by guest memory acc=
-ess "
-> +                     "at physical address: 0x"  TARGET_FMT_lx,
-> +                     (target_ulong)fault_ipa);
-> +        error_printf("KVM unable to emulate faulting instruction.\n");
-
-return -1;
-
-> +    }
-> +
-> +    return cap_has_inject_ext_dabt ? 0 : -1;
-
-return 0;
-
-> +}
-> diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-> index f271181..4795a7d 100644
-> --- a/target/arm/kvm32.c
-> +++ b/target/arm/kvm32.c
-> @@ -564,3 +564,29 @@ void kvm_arm_pmu_init(CPUState *cs)
->  {
->      qemu_log_mask(LOG_UNIMP, "%s: not implemented\n", __func__);
->  }
-> +
-> +
-> +#define ARM_REG_DFSR  ARM_CP15_REG32(0, 5, 0, 0)
-> +#define ARM_REG_TTBCR ARM_CP15_REG32(0, 2, 0, 2)
-> +
-> +#define DFSR_FSC(v)   (((v) >> 6 | (v)) & 0x1F)
-> +#define DFSC_EXTABT(lpae) (lpae) ? 0x10 : 0x08
-> +
-> +int kvm_arm_verify_ext_dabt_pending(CPUState *cs)
-> +{
-> +    uint32_t dfsr_val;
-> +
-> +    if (!kvm_get_one_reg(cs, ARM_REG_DFSR, &dfsr_val)) {
-> +
-
-extra line
-
-> +        ARMCPU *cpu =3D ARM_CPU(cs);
-> +        CPUARMState *env =3D &cpu->env;
-> +        uint32_t ttbcr;
-> +        int lpae =3D 0;
-> +
-> +        if (!kvm_get_one_reg(cs, ARM_REG_TTBCR, &ttbcr)) {
-> +            lpae =3D arm_feature(env, ARM_FEATURE_LPAE) && (ttbcr & TTBC=
-R_EAE);
-> +        }
-> +        return DFSR_FSC(dfsr_val) !=3D DFSC_EXTABT(lpae);
-> +    }
-> +    return 1;
-> +}
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index be5b31c..2f8ffc6 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -1430,3 +1430,39 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm=
-_debug_exit_arch *debug_exit)
-> =20
->      return false;
->  }
-> +
-> +
-> +#define ARM64_REG_ESR_EL1 ARM64_SYS_REG(3, 0, 5, 2, 0)
-> +#define ARM64_REG_TCR_EL1 ARM64_SYS_REG(3, 0, 2, 0, 2)
-> +
-> +#define ESR_DFSC(aarch64, v)    \
-> +    ((aarch64) ? ((v) & 0x3F)   \
-> +               : (((v) >> 6 | (v)) & 0x1F))
-> +
-> +#define ESR_DFSC_EXTABT(aarch64, lpae) \
-> +    ((aarch64) ? 0x10 : (lpae) ? 0x10 : 0x8)
-> +
-> +int kvm_arm_verify_ext_dabt_pending(CPUState *cs)
-> +{
-> +    uint64_t dfsr_val;
-> +
-> +    if (!kvm_get_one_reg(cs, ARM64_REG_ESR_EL1, &dfsr_val)) {
-> +        ARMCPU *cpu =3D ARM_CPU(cs);
-> +        CPUARMState *env =3D &cpu->env;
-> +        int aarch64_mode =3D arm_feature(env, ARM_FEATURE_AARCH64);
-> +        int lpae =3D 0;
-> +
-> +        if (!aarch64_mode) {
-> +
-
-extra line
-
-> +            uint64_t ttbcr;
-> +
-> +            if (!kvm_get_one_reg(cs, ARM64_REG_TCR_EL1, &ttbcr)) {
-> +                lpae =3D arm_feature(env, ARM_FEATURE_LPAE)
-> +                        && (ttbcr & TTBCR_EAE);
-> +            }
-> +        }
-> +        return ESR_DFSC(aarch64_mode, dfsr_val) !=3D
-> +                ESR_DFSC_EXTABT(aarch64_mode, lpae) ;
-                  ^ extra space
-
-> +    }
-> +    return 1;
-> +}
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index ae9e075..777c9bf 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -450,6 +450,28 @@ struct kvm_guest_debug_arch;
->  void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
-> =20
->  /**
-> + * kvm_arm_handle_dabt_nisv
-                              ^ missing :
-> + * @cs: CPUState
-> + * @esr_iss: ISS encoding (limited) for the exception from Data Abort
-> + *           ISV bit set to '0b0' -> no valid instruction syndrome
-> + * @fault_ipa: faulting address for the synch data abort
-> + *
-> + * Returns: 0 if the exception has been handled
-                                                  , < 0 otherwise
-
-> + */
-> +int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-> +                             uint64_t fault_ipa);
-> +
-> +/**
-> + * kvm_arm_verify_ext_dabt_pending
-                                     ^ missing :
-> + * @cs: CPUState
-> + *
-> + * Verify the fault status code wrt the Ext DABT injection
-> + *
-> + * Returns: 0 if the fault status code is as expected, non-zero otherwis=
-e
-
-I'd return a boolean from a function like this, true when verified and
-false otherwise.
-
-> + */
-> +int kvm_arm_verify_ext_dabt_pending(CPUState *cs);
-> +
-> +/**
->   * its_class_name:
->   *
->   * Return the ITS class name to use depending on whether KVM acceleratio=
-n
-> --=20
-> 2.7.4
->=20
->
-
-Thanks,
-drew=20
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 378594c422a..5a8246b74f8 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -85,6 +85,10 @@ Options
+ 
+   Listen on vhost-user UNIX domain socket at PATH.
+ 
++.. option:: --socket-group=GROUP
++
++  Set the vhost-user UNIX domain socket gid to GROUP.
++
+ .. option:: --fd=FDNUM
+ 
+   Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 1240828208a..492e002181e 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -68,6 +68,7 @@ struct fuse_session {
+     size_t bufsize;
+     int error;
+     char *vu_socket_path;
++    char *vu_socket_group;
+     int   vu_listen_fd;
+     int   vu_socketfd;
+     struct fv_VuDev *virtio_dev;
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 2dd36ec03b6..4d1ba2925d1 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2523,6 +2523,7 @@ static const struct fuse_opt fuse_ll_opts[] = {
+     LL_OPTION("--debug", debug, 1),
+     LL_OPTION("allow_root", deny_others, 1),
+     LL_OPTION("--socket-path=%s", vu_socket_path, 0),
++    LL_OPTION("--socket-group=%s", vu_socket_group, 0),
+     LL_OPTION("--fd=%d", vu_listen_fd, 0),
+     LL_OPTION("--thread-pool-size=%d", thread_pool_size, 0),
+     FUSE_OPT_END
+@@ -2630,6 +2631,11 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
+                  "fuse: --socket-path and --fd cannot be given together\n");
+         goto out4;
+     }
++    if (se->vu_socket_group && !se->vu_socket_path) {
++        fuse_log(FUSE_LOG_ERR,
++                 "fuse: --socket-group can only be used with --socket-path\n");
++        goto out4;
++    }
+ 
+     se->bufsize = FUSE_MAX_MAX_PAGES * getpagesize() + FUSE_BUFFER_HEADER_SIZE;
+ 
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 3b6d16a0417..331f9fc65c5 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -31,6 +31,8 @@
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
++#include <sys/types.h>
++#include <grp.h>
+ #include <unistd.h>
+ 
+ #include "contrib/libvhost-user/libvhost-user.h"
+@@ -924,15 +926,29 @@ static int fv_create_listen_socket(struct fuse_session *se)
+ 
+     /*
+      * Unfortunately bind doesn't let you set the mask on the socket,
+-     * so set umask to 077 and restore it later.
++     * so set umask appropriately and restore it later.
+      */
+-    old_umask = umask(0077);
++    if (se->vu_socket_group) {
++        old_umask = umask(S_IROTH | S_IWOTH | S_IXOTH);
++    } else {
++        old_umask = umask(S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
++    }
+     if (bind(listen_sock, (struct sockaddr *)&un, addr_len) == -1) {
+         fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
+         close(listen_sock);
+         umask(old_umask);
+         return -1;
+     }
++    if (se->vu_socket_group) {
++        struct group *g = getgrnam(se->vu_socket_group);
++        if (g) {
++            if (!chown(se->vu_socket_path, -1, g->gr_gid)) {
++                fuse_log(FUSE_LOG_WARNING,
++                         "vhost socket failed to set group to %s (%d)\n",
++                         se->vu_socket_group, g->gr_gid);
++            }
++        }
++    }
+     umask(old_umask);
+ 
+     if (listen(listen_sock, 1) == -1) {
+-- 
+2.20.1
 
 
