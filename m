@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF78182CC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:53:21 +0100 (CET)
-Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3820C182CE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:59:33 +0100 (CET)
+Received: from localhost ([::1]:38682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCKWm-0003gF-DO
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
+	id 1jCKcm-0005Wu-9N
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1jCKVx-00030T-AV
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:52:30 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jCKbv-00058G-H4
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:58:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1jCKVw-0008Rz-E4
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:52:29 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37310
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jCKVw-0008RA-Az
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:52:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584006747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zG8vPwXr3fW379kNEBs9k2zxUAhuYclstIC5n/OmTcY=;
- b=b/vhPXqYYMPntaKThNrjs0cdotHtowm7mHi1sfI8pzgA2TkmRQ7LisHKFwWNsgvjb53S61
- hVTuRmZIfLTku29lMyMqfHMUaNbrFa4TZd+WVTFYf4W4S8G5UIdXy/5igSOaVlJ6r8TJe0
- f6vsYGjSxQ2bTlqcc7kDYyLEU34inDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-0hKgPFkoNW-VDLxp0GcLmg-1; Thu, 12 Mar 2020 05:52:26 -0400
-X-MC-Unique: 0hKgPFkoNW-VDLxp0GcLmg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F1B7800D4E;
- Thu, 12 Mar 2020 09:52:24 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBE8360BEC;
- Thu, 12 Mar 2020 09:52:22 +0000 (UTC)
-Date: Thu, 12 Mar 2020 10:52:20 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Beata Michalska <beata.michalska@linaro.org>
-Subject: Re: [PATCH v3 1/2] target/arm: kvm: Inject events at the last stage
- of sync
-Message-ID: <20200312095220.bb6xdezdujufnfzg@kamzik.brq.redhat.com>
-References: <20200312003401.29017-1-beata.michalska@linaro.org>
- <20200312003401.29017-2-beata.michalska@linaro.org>
+ (envelope-from <alex.bennee@linaro.org>) id 1jCKbu-0004Vk-11
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:58:39 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38541)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jCKbt-0004Uq-PQ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:58:37 -0400
+Received: by mail-wm1-x341.google.com with SMTP id h83so1961097wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 02:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gbSZ9mOdwfgbvfFOPtxe7QuKMHGchSz65fWq7bDZzpE=;
+ b=WyikJJ7MxGVHsp60KIsB0VkU9ugZm0rWtyYdsodCXWrTP0YTwIi4+8ruRWG5DDeXqp
+ o3OwKTs6ENmsbb/P6jai9OuxjsIbPpmoDgAJSSpYWQNRVL0lH2LfNQVyGaBGV0MuZb1c
+ I3STIJ+GAJxPxQ1LGo5u4KG5BuR49DEGK2JBQYIQitLm09oh67MRrtOKGmwzqrkCI+1g
+ bIh6GZ9dQ4o3dEf8+jdrZc8QQXfB6FaH0ftfMp7c6WYInzYb2YSjqqTHUJCcvgKXyHe+
+ mNG7C2hnO+eNDpEeFnMuRbE4SwPD364riil6ybLL/efMQn+oOD+irNkKgs5ypO55CmOc
+ O5pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gbSZ9mOdwfgbvfFOPtxe7QuKMHGchSz65fWq7bDZzpE=;
+ b=L6vUvX/rG/q7trckPn8gB2ToxpEAW6q1EVBk+6V7/peoLdA7wjE5Vc0n+1j/t/4kgV
+ IXIypin77qanaMv2FtzR3SmL2rcZ7F3Li3aD8OrQhLLXbSY+ekiYb5ZmkaLVdR07hCGn
+ EqYjDpHQD/IN/GSYXGh3RbN0udQP3ISnAZecO7LznOu4TeixZ0xrspsgZDm90UXB7nGI
+ GuGd6DjwgFAUcMZ7DFLgdi7uiz8kM40C9UAm054QGE46zlLLopgBi79hj8EN9V/Eb1AT
+ PoxDIzQsLq6mvcN/hSyMn/RNcm2VThFxyYUXbGTmanoMB7nXVKBUXKmqPXxF8Lsi8ixv
+ n7Kw==
+X-Gm-Message-State: ANhLgQ2OmuUltpY4dbrmFD6n6KEORlzOy1sVrOSoELJYeQoPxI/cCT5k
+ JHpmtIb6HroNLengEmGio64qgAQoKho=
+X-Google-Smtp-Source: ADFU+vsVMNZc7P+Y9XEsnPaKDZpQ51az5ir8YFbMeNEsl5QcQDnrATFIooJB8+rzv1g6rSO/ge1ZQg==
+X-Received: by 2002:a05:600c:22c6:: with SMTP id
+ 6mr316773wmg.161.1584007115416; 
+ Thu, 12 Mar 2020 02:58:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 12sm11848778wmo.30.2020.03.12.02.58.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 02:58:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0D7001FF7E;
+ Thu, 12 Mar 2020 09:58:33 +0000 (GMT)
+References: <1581603905-21565-1-git-send-email-Filip.Bozuta@rt-rk.com>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Subject: Re: [PATCH v2 0/2] tests/tcg/multiarch: Add tests for implemented real
+In-reply-to: <1581603905-21565-1-git-send-email-Filip.Bozuta@rt-rk.com>
+Date: Thu, 12 Mar 2020 09:58:33 +0000
+Message-ID: <87d09hgaie.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200312003401.29017-2-beata.michalska@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,24 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, Christoffer.Dall@arm.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, kvmarm@lists.cs.columbia.edu
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 12:34:00AM +0000, Beata Michalska wrote:
-> KVM_SET_VCPU_EVENTS might actually lead to vcpu registers being modified.
-> As such this should be the last step of sync to avoid potential overwriti=
-ng
-> of whatever changes KVM might have done.
->=20
-> Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> ---
->  target/arm/kvm32.c | 15 ++++++++++-----
->  target/arm/kvm64.c | 15 ++++++++++-----
->  2 files changed, 20 insertions(+), 10 deletions(-)
+
+Filip Bozuta <Filip.Bozuta@rt-rk.com> writes:
+
+> This series covers tests for implemented rtc and alsa timer ioctls. The n=
+ames
+> of ioctls that are covered by these tests can be found in patch descripti=
+ons.
+> The functionalities of each ioctl that is tested can be found in patches =
+that
+> implement them.
 >
+> Some of the features that are accessible through these ioctls are not sup=
+ported
+> on all test host pc's. These tests were written so that the implemented i=
+octls
+> can be properly tested on pc's that support all of their features.
+>
+> Both rtc and alsa timer test folders have separate files for manually wri=
+tten
+> and remotely obtained tests. Tests that were obtained remotely run multip=
+le ioctl
+> tests at once, while the manually written tests can be used to run both i=
+ndividual=20
+> and multiple ioctl tests based on the command specified when running the =
+test.
+>
+> Filip Bozuta (2):
+>   tests/tcg/multiarch: Add tests for implemented rtc ioctls
+>   tests/tcg/multiarch: Add tests for implemented alsa sound timer ioctls
+>
+>  .../manual-test/alsa-timer-ioctl-manual-test.c     | 294 +++++++++++++++=
+++
+>  .../alsa-timer-ioctl-tests/remote-test/timer.c     | 158 +++++++++
+>  .../manual-test/rtc-ioctl-manual-test.c            | 352 +++++++++++++++=
+++++++
+>  .../rtc-ioctl-tests/remote-test/rtc-test.c         | 226
+>  +++++++++++++
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Because of the placement of the files these tests don't get built and
+run when running check-tcg. Please integrate them properly into the
+build system.
 
+While we do have some manual only tests they are really only
+placeholders until we can figure out how to plumb them in properly. You
+can skip them by using a special run-% rule, eg. the semihosting tests:
+
+  run-semiconsole: semiconsole
+          $(call skip-test, $<, "MANUAL ONLY")
+
+>  4 files changed, 1030 insertions(+)
+>  create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/manual-tes=
+t/alsa-timer-ioctl-manual-test.c
+>  create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/remote-tes=
+t/timer.c
+>  create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/manual-test/rtc-i=
+octl-manual-test.c
+>  create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/remote-test/rtc-t=
+est.c
+
+
+--=20
+Alex Benn=C3=A9e
 
