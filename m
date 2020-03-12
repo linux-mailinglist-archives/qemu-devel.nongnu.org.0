@@ -2,132 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEC4183593
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:55:55 +0100 (CET)
-Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567241835A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:59:18 +0100 (CET)
+Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQBe-0001AI-Et
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
+	id 1jCQEv-0001Ih-Da
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCQ8l-0003Tk-9H
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:58 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jCQ8E-0002Oe-GL
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCQ8k-0008BV-6e
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60474
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jCQ8k-00089w-1f
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:54 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02CFqO7J096017
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 11:52:53 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yqpyatvs2-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 11:52:45 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Thu, 12 Mar 2020 15:51:16 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 15:51:14 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02CFpD9j46137646
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 15:51:13 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22AFAA404D;
- Thu, 12 Mar 2020 15:51:13 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E894EA4040;
- Thu, 12 Mar 2020 15:51:12 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Mar 2020 15:51:12 +0000 (GMT)
-Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
- correctly
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-14-frankja@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Thu, 12 Mar 2020 16:51:12 +0100
+ (envelope-from <pbonzini@redhat.com>) id 1jCQ8D-0007DG-8j
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59719
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jCQ8D-0007C3-3K
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:52:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584028340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z7GOpK3/gyjplTCGGtQYiZFql9ANjhE63p4+WcIgY14=;
+ b=KzVqf0gwXpDuSlFgE3IvLZ2CrUhOAexPZTrAEFQKlsEy2pAq/FF3HOosEAztw+9sMZHBg2
+ YP6pPqyHUQ3ht5v+QGyy/JqjEC4PZUgzraziNNHx0L/2lmNyxH/s9+MjYO/7cHlQYwc1wp
+ wYaa9FpAG9EBdejhD7c0WyZGIKJvXiA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-F4wouPLFOfKVxiTmB9q7rw-1; Thu, 12 Mar 2020 11:52:19 -0400
+X-MC-Unique: F4wouPLFOfKVxiTmB9q7rw-1
+Received: by mail-wr1-f71.google.com with SMTP id c6so2794175wrm.18
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 08:52:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z7GOpK3/gyjplTCGGtQYiZFql9ANjhE63p4+WcIgY14=;
+ b=Rbxhylh0x4oOJ2LqFMCsrJehcuixakSg8uP7CVXFLmm+eEzZ7B+YdXyKdngoFqYsdo
+ c6q/H4EugzPU9aAe9vVHu1YiQGQ2S5BvzLSVd1GabggUaJYaZayi6YBDQ7+stc0TmVgb
+ 6iRj6ftqOGKBOsQTLHwcEvBpsRZs5dPiUgWfoTh11oaRQZkH4iFX0eFTfrikRU5lTsCh
+ eTQ1L2bNwUwvZ9qzAqXTViJX3G0H2qTPHKZpHJ2yBlMG3kAEadau2y6TBhSkcE1G6E3L
+ NkXIH2VinXb/XlrcTnWrTl++/+FRDuwCGvVaNEE0PWeTS/ykafWwkNHMZXJhud9olP1J
+ mzQw==
+X-Gm-Message-State: ANhLgQ1Cf4bLCorLpbvFQzlGa8h1A7fJZdYHUJNrv99tqI+FCKTy7yut
+ WeX//A3jzRpgyrC4M1uPTEPP8hLwpXMMHWTYKQdUq1JKgmWCYSAj7/9/4kkf4F0qZoV77i6CIar
+ WygxM8S3jt9BsruU=
+X-Received: by 2002:a1c:e91a:: with SMTP id q26mr5485412wmc.103.1584028337224; 
+ Thu, 12 Mar 2020 08:52:17 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsCB4IXIDEhxar8Nb6NRpNZ/9568Qi4VFBhv1JUV41YF+jN+PqM80FqtB6PUu1KSCayE1Zkdw==
+X-Received: by 2002:a1c:e91a:: with SMTP id q26mr5485392wmc.103.1584028336983; 
+ Thu, 12 Mar 2020 08:52:16 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.173.186])
+ by smtp.gmail.com with ESMTPSA id 133sm13626490wmd.5.2020.03.12.08.52.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Mar 2020 08:52:16 -0700 (PDT)
+Subject: Re: [PATCH V4 0/5] Introduce Advanced Watch Dog module
+To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>
+References: <20191217124554.30818-1-chen.zhang@intel.com>
+ <fa1ed6cb-63d7-ee83-a5a0-b099b662fef2@intel.com>
+ <0502a0db0a17484c9220b3a63c40b397@intel.com>
+ <08a1a225-52c1-4e6c-85f7-fcf6612b5383@redhat.com>
+ <3049425105b94f6cb9cd846c84c95a84@intel.com>
+ <783bac16-0e4d-f027-3e4a-b6fff500c244@redhat.com>
+ <c6564993-ec06-7fe1-137d-956f3d554e74@intel.com>
+ <679426098de74479a19c2287c68785c4@intel.com>
+ <029efd6f-f461-da09-c6b6-1acf67818b64@redhat.com>
+ <c16e2cda-a498-4913-2811-6c6ea6b0b0df@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <460ee5fb-fd36-0da3-0f81-22d9be12814b@redhat.com>
+Date: Thu, 12 Mar 2020 16:52:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200311132151.172389-14-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c16e2cda-a498-4913-2811-6c6ea6b0b0df@intel.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031215-4275-0000-0000-000003AB3B12
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031215-4276-0000-0000-000038C05A2A
-Message-Id: <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-12_07:2020-03-11,
- 2020-03-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- suspectscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
- phishscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003120082
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -139,53 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.03.20 14:21, Janosch Frank wrote:
-> For protected VMs status storing is not done by QEMU anymore.
+On 09/03/20 10:32, Zhang, Chen wrote:
+> 4. Implementation issue.
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-
-
-> ---
->  target/s390x/helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> The AWD script as an optional feature is OK for me.
 > 
-> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-> index ed726849114f2f35..5022df8812d406c9 100644
-> --- a/target/s390x/helper.c
-> +++ b/target/s390x/helper.c
-> @@ -25,6 +25,7 @@
->  #include "qemu/timer.h"
->  #include "qemu/qemu-print.h"
->  #include "hw/s390x/ioinst.h"
-> +#include "hw/s390x/pv.h"
->  #include "sysemu/hw_accel.h"
->  #include "sysemu/runstate.h"
->  #ifndef CONFIG_USER_ONLY
-> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
->      hwaddr len = sizeof(*sa);
->      int i;
->  
-> +    /* Storing will occur on next SIE entry for protected VMs */
-
-Maybe ... next SIE entry of the sending CPU .... 
-?
-
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-
-
-> +    if (s390_is_pv()) {
-> +        return 0;
-> +    }
-> +
->      sa = cpu_physical_memory_map(addr, &len, true);
->      if (!sa) {
->          return -EFAULT;
+> And report the triggering of the watchdog via QMP events is enough for
+> current usage.
 > 
+> But it looks have limitation to notify outside Qemu. I don't know which
+> is better choice.
+> 
+> If the QMP events solution is better, I will fix it in next version.
+
+Good, thanks.
+
+Naming-wise, it's ugly that we already have a WATCHDOG event for guest
+watchdog devices.  The following design however should allow setting up
+multiple watchdogs
+
+- Creating a watchdog from the command line:
+
+-object watchdog,id=STR,timeout=NNN,chardev=CHR
+
+and object_add/object-add can also be used for HMP and QMP.
+
+- Reporting a watchdog timeout via QMP:
+
+{ 'event': 'WATCHDOG_TIMEOUT',
+  'data': { 'id': 'str' } }
+
+- Protocol: the data sent on the chardev to QEMU must be
+
+WATCHDOG=1
+
+optionally followed by exactly one \n character.  All other data is ignored.
+
+Paolo
 
 
