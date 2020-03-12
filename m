@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D07C1839D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:51:09 +0100 (CET)
-Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC51F1839DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:53:35 +0100 (CET)
+Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCTrI-0003MD-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45307)
+	id 1jCTte-0003fU-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTj5-0005D9-Ml
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTj7-0005Hp-1n
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTj4-0001uc-L2
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:39 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43121)
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTj5-0001wE-Mz
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:40 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39512)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jCTj4-0001te-Eu
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:38 -0400
-Received: by mail-pf1-x444.google.com with SMTP id c144so3759906pfb.10
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:42:38 -0700 (PDT)
+ id 1jCTj5-0001v7-HL
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:39 -0400
+Received: by mail-pl1-x643.google.com with SMTP id j20so3066369pll.6
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+pq9oFT7R9IJPpeslQpwFqiLS0a1utLd0OoEdcej/ZM=;
- b=Z0f6CdgRbrkF9SqFjCgN7a+fM09hvkMXdpxNmFJzThEMQUaDC7XLqeqIg6BDO31+lx
- ZoFgzfgx0CJT35KjBo7Yfl2io/0+gcoIZ+wkC+SlhmBLYUelCLumX7MOX8n7j/YGFwbp
- E+K0KP6NXUaOIPP7d/zsKPlnbEuCm14x19KWM4l5SuIlfvbhJiylZMxuE4Hk/OBOlt69
- McDJlI4Y5i5BIOUPhhKShACXfzYaZCVjQdda28G+b6+hzhq60IlD5Ur2We12nNIk511j
- iVFDNX2hBuU0g6dOEXNczsPjIdGRpJmzcuoi3Zox6lbb6GEFdADZhAvi6XPkZEwZA4Rq
- BhBg==
+ bh=vOc7ZuIgleZgJxOlgoEqlYtRf9AKklvLS59uoi/QsS0=;
+ b=IFlOqtGfWq1iMqXTuyU+3m+mptLlC2hlRPuPsNrGog1gzbkUfb5GrqXKWOdGFXhFtR
+ CS3dEV1SDG1POMqJyfNr4YxNdTgRd/hKwrm0rSZ8S0s/Oe5h6tPvJWPzVqsC0X2A55Dg
+ YjhYUjr4VcBD4F0T7ZCBGsIDhCRxB6/OBIua4JRZp0O/TGetRmEIsTGF5mYFxIsffClg
+ WPFnbDIQIG3DauiIUaM8/NK/EIis+nILn60G0z+/wDt7OHWIkjEOXKFB7sLB/1d1PllH
+ 78ma0/nXlNv68oCzM5bc6SkIhaAA5f+H9ogHB/hXEAByooSrGTkDNxfCx0vbS2Css1R5
+ Xq8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+pq9oFT7R9IJPpeslQpwFqiLS0a1utLd0OoEdcej/ZM=;
- b=BNh2a0c3o89Kabt3Oq+GxrpICR5RADnu1kUzH+4K/awUHz5eX7qcj/Y+PeOGpG3IFH
- vXWgW1XdYQ6AwIMFKMj/VxudVDFXu96zP8rSma+BuwH7tRjs9EPX9TibFKpx9VTWI4OM
- 7fF9cgcnamM05P4w/NnwkBrTadNm2sOLslH1PeebXek9Sc6SYA76noH4Wuy4iKraAgmR
- A7wR1cEricgHeKfi1kZGj5HFQqgFNepZTNhr3hPZrQz3YoWClRYJWK7n5P3v0vSccVTm
- Vi/a1eh9kXpiN31+kAyHOZBRhEVpyQPiN29B1Elb+5VEGQJyJEAxELuvsDPGWPkl7l2T
- MgkA==
-X-Gm-Message-State: ANhLgQ0SRSDmrk1vh6fOd+pLBEH+f6/699FawRXkeCX3HK2mSSxcSsPo
- ayESrbeF2afo55/a5oWQyCtNMX5wpUY=
-X-Google-Smtp-Source: ADFU+vt+C1pnf2FMY/Sg6/BNv5qT6DEle70MB/qOpmEIQvr71Uku5x8JjTbbIqBuUoVBErHDCH96eQ==
-X-Received: by 2002:a62:ed19:: with SMTP id u25mr9482465pfh.173.1584042157146; 
- Thu, 12 Mar 2020 12:42:37 -0700 (PDT)
+ bh=vOc7ZuIgleZgJxOlgoEqlYtRf9AKklvLS59uoi/QsS0=;
+ b=sXmFRYqXICS1Er15XwTYsoC7wmZ/Rbv42gGBN5bMiHSK5+Z9hiDOtthhJhWCzkD/cN
+ 7Ryn+Z7kJRGYxLj4PAsPApea50/2L63UtrnByHaruV+5TPKClxEQcqFABFQFOjJlglOc
+ yn1G2ICWS3kjsp5JYVnMm47/dSUOnPVV4tu0n51oiRbULNv75l9HhBnYAhoQOs2y2SDa
+ i+S0SSUXEKnxSCV29T0Je9ykLY0xq3lSI9bMW92RbTswuhZMuz2Q5GnQjduFAH9cfF0c
+ 8JyYcX6w1Ee29pUY97hPwkQ7lQHIq8gJYhL9NuG/ahHJeC0LKPHL6i6KQq2H+DyiLXy0
+ qB1A==
+X-Gm-Message-State: ANhLgQ1zKBbp9Q21Bc+VtQgS3I/N9dPPehUx1iBB53igFSIigx+V8x/a
+ H76JPnL1/rCKL5hVyzfG2g+bTqkmxtA=
+X-Google-Smtp-Source: ADFU+vvZLD+z2DX3O7qKjJAFWxPaKaLsyNkrst8CU0ENJUUsbShw3K7LCngI4kznaQ9t9Ea9KPgt7w==
+X-Received: by 2002:a17:90a:8403:: with SMTP id j3mr5886357pjn.8.1584042158178; 
+ Thu, 12 Mar 2020 12:42:38 -0700 (PDT)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.42.35
+ by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.42.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 12:42:36 -0700 (PDT)
+ Thu, 12 Mar 2020 12:42:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 12/42] target/arm: Implement the SUBP instruction
-Date: Thu, 12 Mar 2020 12:41:49 -0700
-Message-Id: <20200312194219.24406-13-richard.henderson@linaro.org>
+Subject: [PATCH v6 13/42] target/arm: Define arm_cpu_do_unaligned_access for
+ user-only
+Date: Thu, 12 Mar 2020 12:41:50 -0700
+Message-Id: <20200312194219.24406-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312194219.24406-1-richard.henderson@linaro.org>
 References: <20200312194219.24406-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,60 +83,124 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+We need this to raise unaligned exceptions from user mode.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fix extraction length.
+v6: Use EXCP_UNALIGNED for user-only and update cpu_loop.c.
 ---
- target/arm/translate-a64.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ linux-user/aarch64/cpu_loop.c |  7 ++++++
+ linux-user/arm/cpu_loop.c     |  7 ++++++
+ target/arm/cpu.c              |  2 +-
+ target/arm/tlb_helper.c       | 41 ++++++++++++++++++++++-------------
+ 4 files changed, 41 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 9adc259186..49c94bc565 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -5348,19 +5348,39 @@ static void handle_crc32(DisasContext *s,
-  */
- static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
- {
--    unsigned int sf, rm, opcode, rn, rd;
-+    unsigned int sf, rm, opcode, rn, rd, setflag;
-     sf = extract32(insn, 31, 1);
-+    setflag = extract32(insn, 29, 1);
-     rm = extract32(insn, 16, 5);
-     opcode = extract32(insn, 10, 6);
-     rn = extract32(insn, 5, 5);
-     rd = extract32(insn, 0, 5);
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index bbe9fefca8..3cca637bb9 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -121,6 +121,13 @@ void cpu_loop(CPUARMState *env)
+             info._sifields._sigfault._addr = env->exception.vaddress;
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
++        case EXCP_UNALIGNED:
++            info.si_signo = TARGET_SIGBUS;
++            info.si_errno = 0;
++            info.si_code = TARGET_BUS_ADRALN;
++            info._sifields._sigfault._addr = env->exception.vaddress;
++            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            break;
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
+             info.si_signo = TARGET_SIGTRAP;
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index cf618daa1c..d2ce78ae73 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -395,6 +395,13 @@ void cpu_loop(CPUARMState *env)
+                 queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             }
+             break;
++        case EXCP_UNALIGNED:
++            info.si_signo = TARGET_SIGBUS;
++            info.si_errno = 0;
++            info.si_code = TARGET_BUS_ADRALN;
++            info._sifields._sigfault._addr = env->exception.vaddress;
++            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            break;
+         case EXCP_DEBUG:
+         excp_debug:
+             info.si_signo = TARGET_SIGTRAP;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 3623ecefbd..cb3c3fe8c2 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2831,8 +2831,8 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tlb_fill = arm_cpu_tlb_fill;
+     cc->debug_excp_handler = arm_debug_excp_handler;
+     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+-#if !defined(CONFIG_USER_ONLY)
+     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
++#if !defined(CONFIG_USER_ONLY)
+     cc->do_transaction_failed = arm_cpu_do_transaction_failed;
+     cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
+ #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index e63f8bda29..44d7bcc783 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -107,21 +107,6 @@ static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
+     raise_exception(env, exc, syn, target_el);
+ }
  
--    if (extract32(insn, 29, 1)) {
-+    if (setflag && opcode != 0) {
-         unallocated_encoding(s);
-         return;
+-/* Raise a data fault alignment exception for the specified virtual address */
+-void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+-                                 MMUAccessType access_type,
+-                                 int mmu_idx, uintptr_t retaddr)
+-{
+-    ARMCPU *cpu = ARM_CPU(cs);
+-    ARMMMUFaultInfo fi = {};
+-
+-    /* now we have a real cpu fault */
+-    cpu_restore_state(cs, retaddr, true);
+-
+-    fi.type = ARMFault_Alignment;
+-    arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
+-}
+-
+ /*
+  * arm_cpu_do_transaction_failed: handle a memory system error response
+  * (eg "no device/memory present at address") by raising an external abort
+@@ -198,3 +183,29 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      }
- 
-     switch (opcode) {
-+    case 0: /* SUBP(S) */
-+        if (sf == 0 || !dc_isar_feature(aa64_mte_insn_reg, s)) {
-+            goto do_unallocated;
-+        } else {
-+            TCGv_i64 tcg_n, tcg_m, tcg_d;
+ #endif
+ }
 +
-+            tcg_n = read_cpu_reg_sp(s, rn, true);
-+            tcg_m = read_cpu_reg_sp(s, rm, true);
-+            tcg_gen_sextract_i64(tcg_n, tcg_n, 0, 56);
-+            tcg_gen_sextract_i64(tcg_m, tcg_m, 0, 56);
-+            tcg_d = cpu_reg(s, rd);
++/* Raise a data fault alignment exception for the specified virtual address */
++void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
++                                 MMUAccessType access_type,
++                                 int mmu_idx, uintptr_t retaddr)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
 +
-+            if (setflag) {
-+                gen_sub_CC(true, tcg_d, tcg_n, tcg_m);
-+            } else {
-+                tcg_gen_sub_i64(tcg_d, tcg_n, tcg_m);
-+            }
-+        }
-+        break;
-     case 2: /* UDIV */
-         handle_div(s, false, sf, rm, rn, rd);
-         break;
++#ifdef CONFIG_USER_ONLY
++    cpu->env.exception.vaddress = vaddr;
++    /*
++     * For HW, this is EXCP_DATA_ABORT with a proper syndrome.
++     * Make it easier for ourselves in linux-user/arm/cpu_loop.c.
++     */
++    cs->exception_index = EXCP_UNALIGNED;
++    cpu_loop_exit_restore(cs, retaddr);
++#else
++    ARMMMUFaultInfo fi = {};
++
++    /* now we have a real cpu fault */
++    cpu_restore_state(cs, retaddr, true);
++
++    fi.type = ARMFault_Alignment;
++    arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
++#endif
++}
 -- 
 2.20.1
 
