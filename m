@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6159A1837BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:36:54 +0100 (CET)
-Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24ED21837B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:34:33 +0100 (CET)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRlN-00004u-E0
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44723)
+	id 1jCRj5-0005WK-VC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCRkB-0007ls-0G
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:40 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jCRiC-00056t-2J
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCRk9-0005tj-UK
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49566)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCRk9-0005st-P8
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:35:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCRk7-0003cJ-PC
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A56C02E80C8
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:35:35 +0000 (UTC)
+ (envelope-from <liran.alon@oracle.com>) id 1jCRi9-00055h-7I
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:33:34 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:50482)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1jCRi8-00054X-U4
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:33:33 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CHU5MH184621;
+ Thu, 12 Mar 2020 17:33:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=1k5neVzAI2t8O/+MOXu8yGGxm13ucX5gYysItt7VSOE=;
+ b=XWIUyM7OGV5VFe1dTKx65KHGFNXmDos/Xkw9LN/SOFLbzpy3njjCeJLXGlbIkCZonb+c
+ jE7W5EzoLZ2Jp4C2BjQElF9Ri32wX6lVx0sX5tcXbYtf9rMBJfmCmjXXdGEHoUp0rN09
+ oi7lQMTVXzxIIp4fH3jEKk+Izw5dqPnspdGE/BsGMDDJn8Xyxbn5On6jd7ZOUPhGy7xu
+ UXaV1UYjG3NDUQZmpnLtFcqQi/QVpOpy89tNEIugPNKlwFjWLLQUDHDjSIaz7WTm++bo
+ Im9jB95MZ88riLuM8SbjYtzWmWD+nX+zG1KGjPHLMLBW7Hu4NY+dM//r//KK0Hil5ITM WQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2yp9v6e3qt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Mar 2020 17:33:29 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CHX5YI157645;
+ Thu, 12 Mar 2020 17:33:28 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2yp8r0vdp9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Mar 2020 17:33:10 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02CHSa2v021888;
+ Thu, 12 Mar 2020 17:28:36 GMT
+Received: from Lirans-MacBook-Pro.local (/10.74.126.134)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 12 Mar 2020 10:28:35 -0700
+Subject: Re: [PATCH] acpi: Add Windows ACPI Emulated Device Table (WAET)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20200311170826.79419-1-liran.alon@oracle.com>
+ <20200312172745.1b7b2222@redhat.com>
+From: Liran Alon <liran.alon@oracle.com>
+Message-ID: <8b3f3166-cc60-eae2-c20d-ad4a593c3e30@oracle.com>
+Date: Thu, 12 Mar 2020 19:28:31 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200312172745.1b7b2222@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0 mlxscore=0
+ adultscore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003120089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003120089
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 17:26:56 -0000
-From: Peter Collingbourne <1867072@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog rth
-X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
-X-Launchpad-Bug-Modifier: Peter Collingbourne (pcc-goog)
-References: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
-Message-Id: <158403401628.28469.2199192139830063340.malone@gac.canonical.com>
-Subject: [Bug 1867072] Re: ARM: tag bits cleared in FAR_EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2b87f0d00da1d896055c82becbc45c8d57dd3881
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
+ 02CHU5MH184621
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,82 +95,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ Elad Gabay <elad.gabay@oracle.com>, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With those two patches applied I can no longer reproduce the problem,
-thanks!
 
-For posterity, this is how I've been reproducing the problem:
+On 12/03/2020 18:27, Igor Mammedov wrote:
+> On Wed, 11 Mar 2020 19:08:26 +0200
+> Liran Alon <liran.alon@oracle.com> wrote:
+>> +
+>> +static void
+>> +build_waet(GArray *table_data, BIOSLinker *linker)
+> see build_hmat_lb() for example how to doc comment for such function
+> should look like. Use earliest spec version where table was introduced.
 
-1. Build a Linux kernel with this patch applied: https://patchwork.kernel.o=
-rg/patch/11435077/
-2. Run this program under the kernel:
+Note that WAET is a table that is not part of ACPI spec officially.
+It's specified on it's own document, there is only a single version, and=20
+there is only a single table in that document describing that table=20
+structure.
 
-#include <stdint.h>
-#include <stdio.h>
-#include <signal.h>
+Therefore, I cannot write a comment such as build_hmat_lb() have:
+/*
+ =C2=A0* ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Informa=
+tion
+ =C2=A0* Structure: Table 5-146
+*/
 
-void handler(int signo, siginfo_t *siginfo, void *context) {
-  uint32_t *begin =3D (uint32_t *)context;
-  uint32_t *end =3D ((uint32_t *)context) + (sizeof(ucontext_t)/4);
-  for (uint32_t *i =3D begin; i !=3D end; ++i) {
-    printf("%08p %08x\n", i, *i);
-  }
-  _exit(0);
-}
+My best attempt to do something similar in v2 is:
+/*
+ =C2=A0* Windows ACPI Emulated Devices Table
+ =C2=A0* (Version 1.0 - April 6, 2009)
+ =C2=A0* Spec:=20
+http://download.microsoft.com/download/7/E/7/7E7662CF-CBEA-470B-A97E-CE7C=
+E0D98DC2/WAET.docx
+ =C2=A0*
+ =C2=A0* Helpful to speedup Windows guests and ignored by others.
+ =C2=A0*/
 
-int main() {
-  struct sigaction sa;
-  sa.sa_sigaction =3D handler;
-  sa.sa_flags =3D SA_SIGINFO;
-  sigaction(SIGSEGV, &sa, 0);
+If it's not sufficient. Please suggest alternative phrasing which I=20
+would use in v2.
 
-  return *(int *)((1ULL << 56) + 0x123456);
-}
+>
+>> +{
+>> +    AcpiTableWaet *waet;
+>> +
+>> +    waet =3D acpi_data_push(table_data, sizeof(*waet));
+>> +    waet->emulated_device_flags =3D cpu_to_le32(ACPI_WAET_PM_TIMER_GO=
+OD);
+> we don't use packed structures for building ACPI tables anymore (there =
+is
+> old code that still does but that's being converted when we touch it)
+>
+> pls use build_append_int_noprefix() api instead, see build_amd_iommu() =
+as
+> an example how to build binary tables using it and how to use comments
+> to document fields.
+> Basic idea is that api makes function building a table match table's
+> description in spec (each call represents a row in spec) and comment
+> belonging to a row should contain verbatim field name as used by spec
+> so reader could copy/past and grep it easily.
+Thanks for pointing this out.
+I will make sure to update my code accordingly in v2.
+>
+>
+>
+>
+>> +
+>> +    build_header(linker, table_data,
+>> +                 (void *)waet, "WAET", sizeof(*waet), 1, NULL, NULL);
+>> +}
+>> +
+>>   /*
+>>    *   IVRS table as specified in AMD IOMMU Specification v2.62, Secti=
+on 5.2
+>>    *   accessible here https://urldefense.com/v3/__http://support.amd.=
+com/TechDocs/48882_IOMMU.pdf__;!!GqivPVa7Brio!On_WsDCS8ysOeUG17h1l3dTpWEm=
+79AHwMHLbbUgsvagBSpgZAk5U1cXddn6ZNOU$
+>> @@ -2859,6 +2872,11 @@ void acpi_build(AcpiBuildTables *tables, Machin=
+eState *machine)
+>>                             machine->nvdimms_state, machine->ram_slots=
+);
+>>       }
+>>  =20
+>> +    if (!pcmc->do_not_add_waet_acpi) {
+>> +        acpi_add_table(table_offsets, tables_blob);
+>> +        build_waet(tables_blob, tables->linker);
+>> +    }
+> we typically do not version ACPI table changes (there might be exceptio=
+ns
+> but it should be a justified one).
+> ACPI tables are considered to be a part of firmware (even though they a=
+re
+> generated by QEMU) so on QEMU upgrade user gets a new firmware along wi=
+th
+> new ACPI tables.
 
-I would expect this program's output to include something like the
-following:
+Hmm... I would have expected as a QEMU user that upgrading QEMU may=20
+update my firmware exposed table (Such as ACPI),
+but only if I don't specify I wish to run on a specific machine-type. In=20
+that case, I would've expect to be exposed with exact same firmware=20
+information.
+I understood that this was one of the main reasons why ACPI/SMBIOS=20
+generation was moved from SeaBIOS to QEMU.
 
-0xffffd5869bd0 46415201
-0xffffd5869bd4 00000010
-0xffffd5869bd8 00123456
-0xffffd5869bdc 01000000
+If you think this isn't the case, I can just remove this flag (Makes=20
+code simpler). What do you prefer?
 
-But the output that I was seeing with the bad qemu looked like this:
+Thanks for the review,
+-Liran
 
-0xffffd5869bd0 46415201
-0xffffd5869bd4 00000010
-0xffffd5869bd8 00123456
-0xffffd5869bdc 00000000
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867072
-
-Title:
-  ARM: tag bits cleared in FAR_EL1
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  The ARM Architecture Reference Manual provides the following for
-  FAR_EL1:
-
-  "For a Data Abort or Watchpoint exception, if address tagging is
-  enabled for the address accessed by the data access that caused the
-  exception, then this field includes the tag."
-
-  However, I have found that the tag bits in FAR_EL1 are always clear,
-  even if the tag bits were set in the original access.
-
-  I can reproduce the problem on both 4.1.1 and master
-  (6e8a73e911f066527e775e04b98f31ebd19db600).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
 
