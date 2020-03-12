@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A5E183A29
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:05:23 +0100 (CET)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151FE183A27
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:04:51 +0100 (CET)
+Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCU54-0005Bv-8o
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46833)
+	id 1jCU4Y-000330-48
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jCTo1-0003kn-Uk
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:47:47 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jCTrB-0004yL-8o
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jCTo0-0004o5-Dr
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:47:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47672
+ (envelope-from <dgilbert@redhat.com>) id 1jCTr9-0006Ny-ME
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:51:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54977
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jCTo0-0004np-9E
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:47:44 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCTr9-0006Nm-HJ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:50:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584042463;
+ s=mimecast20190719; t=1584042659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WeGGn3tuYcsSwexU50DeBDd23ygmx98fJfdSJk4l0HA=;
- b=hRa8bRqWfRtLNu+yVs3N3Ssh3zkINz4f2W9+r1R/AYreYCZP2J1DFKmg0DhLKMs+yAEgSe
- 4qTXu2NsU06zeZdEIEX7NOlhJjKk/MGylBfAoyNJ5Itz1/QlVUdQ4GfAzlFvvMMuhfbY62
- 7F8U3JaO7C0MUXT1FEUiRZjOeDnD6tM=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-9Dl0c4YdMVGEeSkenVzonw-1; Thu, 12 Mar 2020 15:47:25 -0400
-X-MC-Unique: 9Dl0c4YdMVGEeSkenVzonw-1
-Received: by mail-qt1-f197.google.com with SMTP id l21so4903345qtq.1
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:47:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=SkcYgLGpr3Lsb1aJDuXv9LdnBxIKt6Gcb3cWx5ncf00=;
- b=mOz8LumASUhWGE+tysrZfrsY1ETntF2Bc8xhqDDyCxzeBiCV2DgiOgVPXkn5gMLHkz
- aycIFHEIY3Pjd6uTV6MoXxstM3+so/HJhZOkWm4AC+q4HsZvzBOXUOv8WzNDhj4OPuZE
- tfXmGViBNg9xQlXlQAEeMB5qwYB5K0pheO1iFbZbVvGxv46sLLTsuzv3SFlyn2mIk8iC
- wcZcPGuigRx2pk5/FCVjUhvSmDKpS8Fd8QzidTv840oQCfIuqz5+gGLcWmQHtesvy6hm
- 2n0pBk7RrODyU4ikhShGPIAat0JqdJ+RFQruwKlLrQgngLLRWNBniYFpM904nHAHNbGr
- jv8w==
-X-Gm-Message-State: ANhLgQ3MkWe+AVCG1GEdR/4SnYlWIqo1WfAJCyvxaDmhDobAPWDoDGp6
- Zb/Oc9IyhR4+8JXdjWPW9lfzV5gcY4B8pjf85YigoaVPM/r7QybM36VJXlAPqoSR3HRYWT9BJh3
- K3OfFmCh03ZzyNh8=
-X-Received: by 2002:a05:620a:12d5:: with SMTP id
- e21mr9360747qkl.226.1584042444958; 
- Thu, 12 Mar 2020 12:47:24 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vubRMoG4fHZDvDStmZHVaxeN8T4Zjz6M0iMdsbm9um9qmBHc8uaSsgsgMcmngHIGe/JKU0Tbw==
-X-Received: by 2002:a05:620a:12d5:: with SMTP id
- e21mr9360724qkl.226.1584042444685; 
- Thu, 12 Mar 2020 12:47:24 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
- by smtp.gmail.com with ESMTPSA id x188sm18853664qka.53.2020.03.12.12.47.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 12:47:23 -0700 (PDT)
-Date: Thu, 12 Mar 2020 15:47:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Liran Alon <liran.alon@oracle.com>
-Subject: Re: [PATCH] acpi: Add Windows ACPI Emulated Device Table (WAET)
-Message-ID: <20200312154646-mutt-send-email-mst@kernel.org>
-References: <20200311170826.79419-1-liran.alon@oracle.com>
- <20200312172745.1b7b2222@redhat.com>
- <8b3f3166-cc60-eae2-c20d-ad4a593c3e30@oracle.com>
+ bh=sM3V81NorV8Abha2mqO/c4ZJqJDaVb87L+jRguYIsRk=;
+ b=FqQbu5WOGupwdyFynvaEwFY4aC+6LQ/YFKsuuuykz7EbfqEQ6DsRz81IXRgZwmhOmifo/S
+ 8dgsr3ly6972wPo440swjrN2iWq0UrFw0zFJG+SY0rbbzlKkIHA04aBDw0XG5MWlctSP4D
+ /IaJAo7YfvxhbcziYx4s6i1XoEr2h48=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-bKZtvXnSNxWRYmHw_z-cPw-1; Thu, 12 Mar 2020 15:50:57 -0400
+X-MC-Unique: bKZtvXnSNxWRYmHw_z-cPw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E233C8017DF;
+ Thu, 12 Mar 2020 19:50:55 +0000 (UTC)
+Received: from work-vm (ovpn-116-106.ams2.redhat.com [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B52A68F375;
+ Thu, 12 Mar 2020 19:50:54 +0000 (UTC)
+Date: Thu, 12 Mar 2020 19:50:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Subject: Re: [PATCH V2 7/8] COLO: Migrate dirty pages during the gap of
+ checkpointing
+Message-ID: <20200312195052.GP3211@work-vm>
+References: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
+ <20200224065414.36524-8-zhang.zhanghailiang@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <8b3f3166-cc60-eae2-c20d-ad4a593c3e30@oracle.com>
+In-Reply-To: <20200224065414.36524-8-zhang.zhanghailiang@huawei.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -91,122 +74,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- Elad Gabay <elad.gabay@oracle.com>, Igor Mammedov <imammedo@redhat.com>,
- rth@twiddle.net
+Cc: danielcho@qnap.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 07:28:31PM +0200, Liran Alon wrote:
+* zhanghailiang (zhang.zhanghailiang@huawei.com) wrote:
+> We can migrate some dirty pages during the gap of checkpointing,
+> by this way, we can reduce the amount of ram migrated during checkpointin=
+g.
 >=20
-> On 12/03/2020 18:27, Igor Mammedov wrote:
-> > On Wed, 11 Mar 2020 19:08:26 +0200
-> > Liran Alon <liran.alon@oracle.com> wrote:
-> > > +
-> > > +static void
-> > > +build_waet(GArray *table_data, BIOSLinker *linker)
-> > see build_hmat_lb() for example how to doc comment for such function
-> > should look like. Use earliest spec version where table was introduced.
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+> ---
+>  migration/colo.c       | 73 ++++++++++++++++++++++++++++++++++++++++--
+>  migration/migration.h  |  1 +
+>  migration/trace-events |  1 +
+>  qapi/migration.json    |  4 ++-
+>  4 files changed, 75 insertions(+), 4 deletions(-)
 >=20
-> Note that WAET is a table that is not part of ACPI spec officially.
-> It's specified on it's own document, there is only a single version, and
-> there is only a single table in that document describing that table
-> structure.
->=20
-> Therefore, I cannot write a comment such as build_hmat_lb() have:
-> /*
-> =A0* ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-> =A0* Structure: Table 5-146
-> */
->=20
-> My best attempt to do something similar in v2 is:
-> /*
-> =A0* Windows ACPI Emulated Devices Table
-> =A0* (Version 1.0 - April 6, 2009)
-> =A0* Spec: http://download.microsoft.com/download/7/E/7/7E7662CF-CBEA-470=
-B-A97E-CE7CE0D98DC2/WAET.docx
-> =A0*
-> =A0* Helpful to speedup Windows guests and ignored by others.
-> =A0*/
->=20
-> If it's not sufficient. Please suggest alternative phrasing which I would
-> use in v2.
->=20
-> >=20
-> > > +{
-> > > +    AcpiTableWaet *waet;
-> > > +
-> > > +    waet =3D acpi_data_push(table_data, sizeof(*waet));
-> > > +    waet->emulated_device_flags =3D cpu_to_le32(ACPI_WAET_PM_TIMER_G=
-OOD);
-> > we don't use packed structures for building ACPI tables anymore (there =
-is
-> > old code that still does but that's being converted when we touch it)
-> >=20
-> > pls use build_append_int_noprefix() api instead, see build_amd_iommu() =
-as
-> > an example how to build binary tables using it and how to use comments
-> > to document fields.
-> > Basic idea is that api makes function building a table match table's
-> > description in spec (each call represents a row in spec) and comment
-> > belonging to a row should contain verbatim field name as used by spec
-> > so reader could copy/past and grep it easily.
-> Thanks for pointing this out.
-> I will make sure to update my code accordingly in v2.
-> >=20
-> >=20
-> >=20
-> >=20
-> > > +
-> > > +    build_header(linker, table_data,
-> > > +                 (void *)waet, "WAET", sizeof(*waet), 1, NULL, NULL)=
-;
-> > > +}
-> > > +
-> > >   /*
-> > >    *   IVRS table as specified in AMD IOMMU Specification v2.62, Sect=
-ion 5.2
-> > >    *   accessible here https://urldefense.com/v3/__http://support.amd=
-.com/TechDocs/48882_IOMMU.pdf__;!!GqivPVa7Brio!On_WsDCS8ysOeUG17h1l3dTpWEm7=
-9AHwMHLbbUgsvagBSpgZAk5U1cXddn6ZNOU$
-> > > @@ -2859,6 +2872,11 @@ void acpi_build(AcpiBuildTables *tables, Machi=
-neState *machine)
-> > >                             machine->nvdimms_state, machine->ram_slot=
-s);
-> > >       }
-> > > +    if (!pcmc->do_not_add_waet_acpi) {
-> > > +        acpi_add_table(table_offsets, tables_blob);
-> > > +        build_waet(tables_blob, tables->linker);
-> > > +    }
-> > we typically do not version ACPI table changes (there might be exceptio=
-ns
-> > but it should be a justified one).
-> > ACPI tables are considered to be a part of firmware (even though they a=
-re
-> > generated by QEMU) so on QEMU upgrade user gets a new firmware along wi=
-th
-> > new ACPI tables.
->=20
-> Hmm... I would have expected as a QEMU user that upgrading QEMU may updat=
-e
-> my firmware exposed table (Such as ACPI),
-> but only if I don't specify I wish to run on a specific machine-type. In
-> that case, I would've expect to be exposed with exact same firmware
-> information.
-> I understood that this was one of the main reasons why ACPI/SMBIOS
-> generation was moved from SeaBIOS to QEMU.
->=20
-> If you think this isn't the case, I can just remove this flag (Makes code
-> simpler). What do you prefer?
->=20
-> Thanks for the review,
-> -Liran
->=20
+> diff --git a/migration/colo.c b/migration/colo.c
+> index 44942c4e23..c36d94072f 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -47,6 +47,13 @@ static COLOMode last_colo_mode;
+> =20
+>  #define COLO_BUFFER_BASE_SIZE (4 * 1024 * 1024)
+> =20
+> +#define DEFAULT_RAM_PENDING_CHECK 1000
+> +
+> +/* should be calculated by bandwidth and max downtime ? */
+> +#define THRESHOLD_PENDING_SIZE (100 * 1024 * 1024UL)
 
-I'm inclined to agree, but no biggie if Igor disagrees let's go along
-with his opinion.
+In the last version I asked to change these two values to parameters.
 
---=20
-MST
+Dave
+
+> +static int checkpoint_request;
+> +
+>  bool migration_in_colo_state(void)
+>  {
+>      MigrationState *s =3D migrate_get_current();
+> @@ -517,6 +524,20 @@ static void colo_compare_notify_checkpoint(Notifier =
+*notifier, void *data)
+>      colo_checkpoint_notify(data);
+>  }
+> =20
+> +static bool colo_need_migrate_ram_background(MigrationState *s)
+> +{
+> +    uint64_t pending_size, pend_pre, pend_compat, pend_post;
+> +    int64_t max_size =3D THRESHOLD_PENDING_SIZE;
+> +
+> +    qemu_savevm_state_pending(s->to_dst_file, max_size, &pend_pre,
+> +                              &pend_compat, &pend_post);
+> +    pending_size =3D pend_pre + pend_compat + pend_post;
+> +
+> +    trace_colo_need_migrate_ram_background(pending_size);
+> +    return (pending_size >=3D max_size);
+> +}
+> +
+> +
+>  static void colo_process_checkpoint(MigrationState *s)
+>  {
+>      QIOChannelBuffer *bioc;
+> @@ -572,6 +593,8 @@ static void colo_process_checkpoint(MigrationState *s=
+)
+> =20
+>      timer_mod(s->colo_delay_timer,
+>              current_time + s->parameters.x_checkpoint_delay);
+> +    timer_mod(s->pending_ram_check_timer,
+> +        current_time + DEFAULT_RAM_PENDING_CHECK);
+> =20
+>      while (s->state =3D=3D MIGRATION_STATUS_COLO) {
+>          if (failover_get_state() !=3D FAILOVER_STATUS_NONE) {
+> @@ -584,9 +607,30 @@ static void colo_process_checkpoint(MigrationState *=
+s)
+>          if (s->state !=3D MIGRATION_STATUS_COLO) {
+>              goto out;
+>          }
+> -        ret =3D colo_do_checkpoint_transaction(s, bioc, fb);
+> -        if (ret < 0) {
+> -            goto out;
+> +        if (atomic_xchg(&checkpoint_request, 0)) {
+> +            /* start a colo checkpoint */
+> +            ret =3D colo_do_checkpoint_transaction(s, bioc, fb);
+> +            if (ret < 0) {
+> +                goto out;
+> +            }
+> +        } else {
+> +            if (colo_need_migrate_ram_background(s)) {
+> +                colo_send_message(s->to_dst_file,
+> +                                  COLO_MESSAGE_MIGRATE_RAM_BACKGROUND,
+> +                                  &local_err);
+> +                if (local_err) {
+> +                    goto out;
+> +                }
+> +
+> +                qemu_savevm_state_iterate(s->to_dst_file, false);
+> +                qemu_put_byte(s->to_dst_file, QEMU_VM_EOF);
+> +                ret =3D qemu_file_get_error(s->to_dst_file);
+> +                if (ret < 0) {
+> +                    error_setg_errno(&local_err, -ret,
+> +                        "Failed to send dirty pages backgroud");
+> +                    goto out;
+> +                }
+> +            }
+>          }
+>      }
+> =20
+> @@ -627,6 +671,8 @@ out:
+>      colo_compare_unregister_notifier(&packets_compare_notifier);
+>      timer_del(s->colo_delay_timer);
+>      timer_free(s->colo_delay_timer);
+> +    timer_del(s->pending_ram_check_timer);
+> +    timer_free(s->pending_ram_check_timer);
+>      qemu_sem_destroy(&s->colo_checkpoint_sem);
+> =20
+>      /*
+> @@ -644,6 +690,7 @@ void colo_checkpoint_notify(void *opaque)
+>      MigrationState *s =3D opaque;
+>      int64_t next_notify_time;
+> =20
+> +    atomic_inc(&checkpoint_request);
+>      qemu_sem_post(&s->colo_checkpoint_sem);
+>      s->colo_checkpoint_time =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+>      next_notify_time =3D s->colo_checkpoint_time +
+> @@ -651,6 +698,19 @@ void colo_checkpoint_notify(void *opaque)
+>      timer_mod(s->colo_delay_timer, next_notify_time);
+>  }
+> =20
+> +static void colo_pending_ram_check_notify(void *opaque)
+> +{
+> +    int64_t next_notify_time;
+> +    MigrationState *s =3D opaque;
+> +
+> +    if (migration_in_colo_state()) {
+> +        next_notify_time =3D DEFAULT_RAM_PENDING_CHECK +
+> +                           qemu_clock_get_ms(QEMU_CLOCK_HOST);
+> +        timer_mod(s->pending_ram_check_timer, next_notify_time);
+> +        qemu_sem_post(&s->colo_checkpoint_sem);
+> +    }
+> +}
+> +
+>  void migrate_start_colo_process(MigrationState *s)
+>  {
+>      qemu_mutex_unlock_iothread();
+> @@ -658,6 +718,8 @@ void migrate_start_colo_process(MigrationState *s)
+>      s->colo_delay_timer =3D  timer_new_ms(QEMU_CLOCK_HOST,
+>                                  colo_checkpoint_notify, s);
+> =20
+> +    s->pending_ram_check_timer =3D timer_new_ms(QEMU_CLOCK_HOST,
+> +                                colo_pending_ram_check_notify, s);
+>      qemu_sem_init(&s->colo_exit_sem, 0);
+>      migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
+>                        MIGRATION_STATUS_COLO);
+> @@ -806,6 +868,11 @@ static void colo_wait_handle_message(MigrationIncomi=
+ngState *mis,
+>      case COLO_MESSAGE_CHECKPOINT_REQUEST:
+>          colo_incoming_process_checkpoint(mis, fb, bioc, errp);
+>          break;
+> +    case COLO_MESSAGE_MIGRATE_RAM_BACKGROUND:
+> +        if (qemu_loadvm_state_main(mis->from_src_file, mis) < 0) {
+> +            error_setg(errp, "Load ram background failed");
+> +        }
+> +        break;
+>      default:
+>          error_setg(errp, "Got unknown COLO message: %d", msg);
+>          break;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 8473ddfc88..5355259789 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -219,6 +219,7 @@ struct MigrationState
+>      QemuSemaphore colo_checkpoint_sem;
+>      int64_t colo_checkpoint_time;
+>      QEMUTimer *colo_delay_timer;
+> +    QEMUTimer *pending_ram_check_timer;
+> =20
+>      /* The first error that has occurred.
+>         We used the mutex to be able to return the 1st error message */
+> diff --git a/migration/trace-events b/migration/trace-events
+> index 4ab0a503d2..f2ed0c8645 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -295,6 +295,7 @@ migration_tls_incoming_handshake_complete(void) ""
+>  colo_vm_state_change(const char *old, const char *new) "Change '%s' =3D>=
+ '%s'"
+>  colo_send_message(const char *msg) "Send '%s' message"
+>  colo_receive_message(const char *msg) "Receive '%s' message"
+> +colo_need_migrate_ram_background(uint64_t pending_size) "Pending 0x%" PR=
+Ix64 " dirty ram"
+> =20
+>  # colo-failover.c
+>  colo_failover_set_state(const char *new_state) "new state %s"
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 52f3429969..73445f1978 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -977,12 +977,14 @@
+>  #
+>  # @vmstate-loaded: VM's state has been loaded by SVM.
+>  #
+> +# @migrate-ram-background: Send some dirty pages during the gap of COLO =
+checkpoint
+> +#
+>  # Since: 2.8
+>  ##
+>  { 'enum': 'COLOMessage',
+>    'data': [ 'checkpoint-ready', 'checkpoint-request', 'checkpoint-reply'=
+,
+>              'vmstate-send', 'vmstate-size', 'vmstate-received',
+> -            'vmstate-loaded' ] }
+> +            'vmstate-loaded', 'migrate-ram-background' ] }
+> =20
+>  ##
+>  # @COLOMode:
+> --=20
+> 2.21.0
+>=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
