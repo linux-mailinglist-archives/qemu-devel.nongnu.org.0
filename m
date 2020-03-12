@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD8E1836D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:04:28 +0100 (CET)
-Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585571836AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:56:54 +0100 (CET)
+Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRFz-0006pY-TK
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:04:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35952)
+	id 1jCR8f-0003VQ-Az
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxt-0000vz-Gc
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxt-0000x3-T3
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxs-0005KE-4g
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxs-0005KP-MI
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:45 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37817)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51172)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQxr-0005Jn-UA
+ id 1jCQxs-0005K4-FR
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:44 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id a141so7117476wme.2
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:43 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id a5so6859605wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KTIuh78cMB59hpCH/7alRZC339vDDeP7d5J9NS8IDKc=;
- b=vIQ7c1kdFihJyJgt8OTI4KkvxngEdn4+YSLhpCL0SJ6y43JBpS5wJKJNFznjdtDShN
- p7aW2ZQ4K7SoQsSEgKS94ctVU7Mlm02pDrkpv//ZBaWiggqIXQr4ZEqYOAD8obeRBfOB
- jsa3CbET2iHQNfzMSzUbudWSK8RiXlAIJBpj4grBINnpjizb84enWrto9g5Zt0QhYqwJ
- CP+l6kE998sS1g1q8gvDBia0IkE4l1Bu2dRL/fZZhNPRX0nX3LMG7TjXPm6vAYtwYcQF
- ly7RKiiAhQl/8dKOqM8g3UDHg1EPAa5z7Co6g5S7drm1f2S8PHIDzkvdtlKoEzcdfVYX
- rsOg==
+ bh=Vxng+M8yzsnsXH08YfIVFh29B0ARvhhfBQTx3o0z1vQ=;
+ b=U/8G0Gtywpcq2Nr+FZ54HydWbzl9bLG+ed/mvWMkUiFn3Wg5gcv2bj00VMj/djCKlb
+ SN/sVwkz4IwUctWtG1CnxfiQzw+uLkuRGx3QLo6twkLa7tAcEtnXJfOgk7a4JKr6cqBG
+ 7LQbNgu3QxKYJ2X7Vmz44H9bO5SV5a/I6KJMe44qlJI2DDEmuEZQfi3cfAI0S+Kgj6Ur
+ oiGIBdNC8fC99KKSTrNiTwijRLpYt2cqgt1aNaIQALObdCl2qmrm4TskCqkIiwmXAaIb
+ xVU02xdjFnsrDh7G/cvFeLJQg+8dzQ6J0/JIkqUeOVqLQTOzYOT5Pay/q809IkvdXtpr
+ AO4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KTIuh78cMB59hpCH/7alRZC339vDDeP7d5J9NS8IDKc=;
- b=NlR2GC5KSS9FNG4b41cA7b5M7J4Sj0GsG/ltOejGmpBbBhnWy2Wy5zbWRsuho0qosJ
- 2wEhXda8j5GJMFXItbe1aovSmY+Cicw9Cqf1HYvbifqs/hrC4LCAzKWGK/iGKqZHqqJ9
- qL13Hhi8X2QlIluQQQgn6NyVzs/3bIH9ZaXA0odh+k6h/aICwT4R8eQQDCC0zNsdyqxS
- 2e6padlOd2KUxBgpp2rKil/c2kbFp6cKrGZ+Vj3HoXspyIcklbt7C9mNQSIKRbgc6R6o
- Gir7jFoeJQPOoNohjNdfld3bGvnhCtUp8v/by8tQbplMXTfoYwtAA/6Eam06tAsHBwEc
- 0KvA==
-X-Gm-Message-State: ANhLgQ13FIonTHYdRGM/gseBABlF3Ns07dGO5K0B7Zygvim4HFaQUhuc
- S3QNCZfcovPfmaQ4yUTR00U1gef38ZnbqA==
-X-Google-Smtp-Source: ADFU+vtJiC4yyh9KLUG2vn7iPAKG7Z055CBbFZjVkUCo+8smM5qJEn6qKx7vnTLP9uTsJao1CAujWQ==
-X-Received: by 2002:a7b:c10c:: with SMTP id w12mr3125030wmi.162.1584031542313; 
- Thu, 12 Mar 2020 09:45:42 -0700 (PDT)
+ bh=Vxng+M8yzsnsXH08YfIVFh29B0ARvhhfBQTx3o0z1vQ=;
+ b=fAF6c+DjL2NeqFJjM/O6NgjTspssuzXjEVx/BCMzCqhlqPYO7gQuU7fiEN5pUTyKR4
+ WnoCvHB8daLlGuWny05Zkd+oWFkELDKijdpjcdX2Tcddkkdm11K90Oi9c4/u7qqCGBlH
+ A8WARvcofO2nQziCMyZfOM/TTIf1Jj0XuWBattDiDaZMu4uEbyMBWN4zMyY9XzsbZzrO
+ Di9cJlpcvaO2kl7Ba6Fs3XAEzrzPuXjTxJl5R934/6RfmWi2kuXKq8yKiCGUC9ZGbN/g
+ qIQ5sG0TofnBrbI6Ns/SjrQoqW4q8xxIOS6rzX5ImIj/IqGmupV49J9iY/LRabK4lFgl
+ 4Oug==
+X-Gm-Message-State: ANhLgQ0iDCNkWd0UDkexCtltQtEhoUOr7epNc+ZL8s4aHzJ3ii0BAyBp
+ 4Rqtlyy1KY7fPRg9tAd47FeESrw8WgXVVg==
+X-Google-Smtp-Source: ADFU+vu9Os4ok3piNvGPBYHCKDW3MfSIiEr6Ue1yntYMo0bJrxQm30sLX9GAK8R+Oh9PA9ZWVv1xjw==
+X-Received: by 2002:a1c:418b:: with SMTP id o133mr5870841wma.165.1584031543183; 
+ Thu, 12 Mar 2020 09:45:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.41
+ by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 09:45:41 -0700 (PDT)
+ Thu, 12 Mar 2020 09:45:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/36] hw/arm/virt: kvm: Restructure finalize_gic_version()
-Date: Thu, 12 Mar 2020 16:44:57 +0000
-Message-Id: <20200312164459.25924-35-peter.maydell@linaro.org>
+Subject: [PULL 35/36] hw/arm/virt: kvm: allow gicv3 by default if v2 cannot
+ work
+Date: Thu, 12 Mar 2020 16:44:58 +0000
+Message-Id: <20200312164459.25924-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312164459.25924-1-peter.maydell@linaro.org>
 References: <20200312164459.25924-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,139 +84,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Restructure the finalize_gic_version with switch cases and
-clearly separate the following cases:
+At the moment if the end-user does not specify the gic-version along
+with KVM acceleration, v2 is set by default. However most of the
+systems now have GICv3 and sometimes they do not support GICv2
+compatibility.
 
-- KVM mode / in-kernel irqchip
-- KVM mode / userspace irqchip
-- TCG mode
+This patch keeps the default v2 selection in all cases except
+in the KVM accelerated mode when either
+- the host does not support GICv2 in-kernel emulation or
+- number of VCPUS exceeds 8.
 
-In KVM mode / in-kernel irqchip , we explictly check whether
-the chosen version is supported by the host. If the end-user
-explicitly sets v2/v3 and this is not supported by the host,
-then the user gets an explicit error message. Note that for
-old kernels where the CREATE_DEVICE ioctl doesn't exist then
-we will now fail if the user specifically asked for gicv2,
-where previously we (probably) would have succeeded.
-
-In KVM mode / userspace irqchip we immediatly output an error
-in case the end-user explicitly selected v3. Also we warn the
-end-user about the unexpected usage of gic-version=host in
-that case as only userspace GICv2 is supported.
+Those cases did not work anyway so we do not break any compatibility.
+Now we get v3 selected in such a case.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20200311131618.7187-6-eric.auger@redhat.com
+Message-id: 20200311131618.7187-7-eric.auger@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 88 +++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 67 insertions(+), 21 deletions(-)
+ hw/arm/virt.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index a94bc5ddae5..90966580a3d 100644
+index 90966580a3d..94f93dda54f 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1543,33 +1543,79 @@ static void virt_set_memmap(VirtMachineState *vms)
+@@ -1543,6 +1543,8 @@ static void virt_set_memmap(VirtMachineState *vms)
   */
  static void finalize_gic_version(VirtMachineState *vms)
  {
--    if (vms->gic_version == VIRT_GIC_VERSION_HOST ||
--        vms->gic_version == VIRT_GIC_VERSION_MAX) {
--        if (!kvm_enabled()) {
--            if (vms->gic_version == VIRT_GIC_VERSION_HOST) {
--                error_report("gic-version=host requires KVM");
--                exit(1);
--            } else {
--                /* "max": currently means 3 for TCG */
--                vms->gic_version = VIRT_GIC_VERSION_3;
--            }
--        } else {
--            int probe_bitmap = kvm_arm_vgic_probe();
-+    if (kvm_enabled()) {
-+        int probe_bitmap;
++    unsigned int max_cpus = MACHINE(vms)->smp.max_cpus;
++
+     if (kvm_enabled()) {
+         int probe_bitmap;
  
--            if (!probe_bitmap) {
-+        if (!kvm_irqchip_in_kernel()) {
-+            switch (vms->gic_version) {
-+            case VIRT_GIC_VERSION_HOST:
-+                warn_report(
-+                    "gic-version=host not relevant with kernel-irqchip=off "
-+                     "as only userspace GICv2 is supported. Using v2 ...");
-+                return;
-+            case VIRT_GIC_VERSION_MAX:
-+            case VIRT_GIC_VERSION_NOSEL:
-+                vms->gic_version = VIRT_GIC_VERSION_2;
-+                return;
-+            case VIRT_GIC_VERSION_2:
-+                return;
-+            case VIRT_GIC_VERSION_3:
-                 error_report(
--                    "Unable to determine GIC version supported by host");
-+                    "gic-version=3 is not supported with kernel-irqchip=off");
-                 exit(1);
--            } else {
--                if (probe_bitmap & KVM_ARM_VGIC_V3) {
--                    vms->gic_version = VIRT_GIC_VERSION_3;
--                } else {
--                    vms->gic_version = VIRT_GIC_VERSION_2;
--                }
+@@ -1582,7 +1584,20 @@ static void finalize_gic_version(VirtMachineState *vms)
              }
-         }
--    } else if (vms->gic_version == VIRT_GIC_VERSION_NOSEL) {
-+
-+        probe_bitmap = kvm_arm_vgic_probe();
-+        if (!probe_bitmap) {
-+            error_report("Unable to determine GIC version supported by host");
-+            exit(1);
-+        }
-+
-+        switch (vms->gic_version) {
-+        case VIRT_GIC_VERSION_HOST:
-+        case VIRT_GIC_VERSION_MAX:
-+            if (probe_bitmap & KVM_ARM_VGIC_V3) {
-+                vms->gic_version = VIRT_GIC_VERSION_3;
-+            } else {
+             return;
+         case VIRT_GIC_VERSION_NOSEL:
+-            vms->gic_version = VIRT_GIC_VERSION_2;
++            if ((probe_bitmap & KVM_ARM_VGIC_V2) && max_cpus <= GIC_NCPU) {
 +                vms->gic_version = VIRT_GIC_VERSION_2;
++            } else if (probe_bitmap & KVM_ARM_VGIC_V3) {
++                /*
++                 * in case the host does not support v2 in-kernel emulation or
++                 * the end-user requested more than 8 VCPUs we now default
++                 * to v3. In any case defaulting to v2 would be broken.
++                 */
++                vms->gic_version = VIRT_GIC_VERSION_3;
++            } else if (max_cpus > GIC_NCPU) {
++                error_report("host only supports in-kernel GICv2 emulation "
++                             "but more than 8 vcpus are requested");
++                exit(1);
 +            }
-+            return;
-+        case VIRT_GIC_VERSION_NOSEL:
-+            vms->gic_version = VIRT_GIC_VERSION_2;
-+            break;
-+        case VIRT_GIC_VERSION_2:
-+        case VIRT_GIC_VERSION_3:
-+            break;
-+        }
-+
-+        /* Check chosen version is effectively supported by the host */
-+        if (vms->gic_version == VIRT_GIC_VERSION_2 &&
-+            !(probe_bitmap & KVM_ARM_VGIC_V2)) {
-+            error_report("host does not support in-kernel GICv2 emulation");
-+            exit(1);
-+        } else if (vms->gic_version == VIRT_GIC_VERSION_3 &&
-+                   !(probe_bitmap & KVM_ARM_VGIC_V3)) {
-+            error_report("host does not support in-kernel GICv3 emulation");
-+            exit(1);
-+        }
-+        return;
-+    }
-+
-+    /* TCG mode */
-+    switch (vms->gic_version) {
-+    case VIRT_GIC_VERSION_NOSEL:
-         vms->gic_version = VIRT_GIC_VERSION_2;
-+        break;
-+    case VIRT_GIC_VERSION_MAX:
-+        vms->gic_version = VIRT_GIC_VERSION_3;
-+        break;
-+    case VIRT_GIC_VERSION_HOST:
-+        error_report("gic-version=host requires KVM");
-+        exit(1);
-+    case VIRT_GIC_VERSION_2:
-+    case VIRT_GIC_VERSION_3:
-+        break;
-     }
- }
- 
+             break;
+         case VIRT_GIC_VERSION_2:
+         case VIRT_GIC_VERSION_3:
 -- 
 2.20.1
 
