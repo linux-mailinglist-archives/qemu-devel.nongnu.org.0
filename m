@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6B4183346
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:37:08 +0100 (CET)
-Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E12418333D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:35:40 +0100 (CET)
+Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCOxP-0001PM-R5
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
+	id 1jCOvx-000695-3a
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jCOrR-0007S3-HI
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:59 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jCOtk-00031I-8s
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:33:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jCOrO-0006bi-Sr
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:57 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34919)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jCOrO-0006as-Fm
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:54 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id g6so2746357plt.2
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 07:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NSEQACypX/+5FjWaplvQgKNX4xaeLCqc5O2UmEo8r4w=;
- b=T65tm8lKON3XMVRqElGKNeTqyDzE35tHFVqCJyUqCVR6kJzQvWleky1pOprJnfLskA
- rHvhdSyBHB2lW8CAjMqnzymKdiMB54jV2OdeZCYNiQ5z+/HqjvIr4HGa7VBPOb76BhJs
- Jua3kXZ5rZ2R+sTZ6KjCs+WqzhwnWbDlRoASa2rJ3J5c6CJkV30sdyD38qdHClThu95M
- YgoKfcPVuExO4OmQHEg14XeoLvmcUxeSLNAgq3nSZGgUbjVAXPVyeAJLBHq/8NxQH1Te
- T35OeG8RM3rAF2DHs3GHCMpycliC6bFos+OGbLytOzJfG42nVx71wCo3zMHiUtUXLm1t
- Ek/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=NSEQACypX/+5FjWaplvQgKNX4xaeLCqc5O2UmEo8r4w=;
- b=IM57xp7L/eDHyE7FiUzL4eTNgsagGiosBpO3UsWsrobN9vnEjUm7tt3BtIRpSnv1jo
- 8lTrpkXq1EdG6oALF8rz3xhQPTAcGaAoJkqvtZUpmj4D9bTxtgQnRSSFRF7t920zLxMl
- xC2bk+w9GJEThNHPO9F77rjHys3qYouoFipzpq/dnSY/SZfTAodfsn12thiZIjfPl338
- AM8LDCR/4o09ycg38CZ2UVPgLbz15ZmI7kCpJKTMQHwWqJReangKrUAIk3BIUiE1ao51
- oqggjeF9TAqhXUPzX4WWokTn6FFJBoySIxMgm+dRii1XJUwyaREBGXzupD+Llda3aGmH
- ts+Q==
-X-Gm-Message-State: ANhLgQ1gUfXlZtPQ6l41Tf1TzN9TbVAU9uf9kd87F9StqKNMpnN725m7
- +LDRXueHe6+eIvj38pEJRVfNC2mQTbk=
-X-Google-Smtp-Source: ADFU+vvQQg9+2OlMEUBBTZUz3dudGL7I5zebZUKk5KN4+GextLKxxLdfegg7LdqG4Y0EAr5yJaCrtA==
-X-Received: by 2002:a17:902:9303:: with SMTP id
- bc3mr7855470plb.187.1584023451748; 
- Thu, 12 Mar 2020 07:30:51 -0700 (PDT)
-Received: from Rfoley-MA01.hsd1.ma.comcast.net
- ([2601:199:4480:60c0:845e:b9f6:81a6:8f5e])
- by smtp.gmail.com with ESMTPSA id 63sm14832651pfx.132.2020.03.12.07.30.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 07:30:51 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/10] tests/vm: Add workaround to consume console
-Date: Thu, 12 Mar 2020 10:27:28 -0400
-Message-Id: <20200312142728.12285-11-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200312142728.12285-1-robert.foley@linaro.org>
-References: <20200312142728.12285-1-robert.foley@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
+ (envelope-from <mlevitsk@redhat.com>) id 1jCOth-0007oI-UL
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:33:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41861
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jCOth-0007nu-ON
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:33:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584023596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cfb7TTuVc9Nbz1RrInVDWas33/OQXlomUl20knSLEww=;
+ b=dZEh7AU0zLD3phnGJ/eGG3rppiG5Bw1JA2J3Lt/uLbS7KNfEBjXcrVGKNCL9BBzUhzZiXi
+ LCYT/pplZHCC9/hIEYFIlTe18GenZJuf2ltDWJo2PsURCDH4juTfxrJbW39S+NOOk99Xc8
+ yFCiMSriHibAYLVxy1xGPSS7SMLRb+Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-eSKJgQzdNRaWEqVD3ggCLA-1; Thu, 12 Mar 2020 10:33:15 -0400
+X-MC-Unique: eSKJgQzdNRaWEqVD3ggCLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 420FB189F762;
+ Thu, 12 Mar 2020 14:33:14 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C17319C6A;
+ Thu, 12 Mar 2020 14:33:08 +0000 (UTC)
+Message-ID: <c2d1cbfdf24c0673d257329393b065635bb6f8f4.camel@redhat.com>
+Subject: Re: [PATCH v2 00/14] LUKS: encryption slot management using amend
+ interface
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Date: Thu, 12 Mar 2020 16:33:07 +0200
+In-Reply-To: <bd526fff-5719-c056-e1cc-722c4e49c82b@redhat.com>
+References: <20200308151903.25941-1-mlevitsk@redhat.com>
+ <bd526fff-5719-c056-e1cc-722c4e49c82b@redhat.com>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,376 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
- peter.puhov@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ConsoleSocket object provides a socket interface
-which will consume all arriving characters on the
-socket, but will provide those chars via recv() as
-would a regular socket.
-This is a workaround we found was needed since
-there is a known issue where QEMU will hang waiting
-for console characters to be consumed.
-We also add the option of logging the console to a file.
+On Thu, 2020-03-12 at 06:56 -0500, Eric Blake wrote:
+> On 3/8/20 10:18 AM, Maxim Levitsky wrote:
+> > Hi!
+> > Here is the updated series of my patches, incorporating all the feedback I received.
+> > 
+> > Patches are strictly divided by topic to 3 groups, and each group depends on former groups.
+> > 
+> > * Patches 1,2 implement qcrypto generic amend interface, including definition
+> >    of structs used in crypto.json and implement this in luks crypto driver
+> >    Nothing is exposed to the user at this stage
+> > 
+> > * Patches 3-9 use the code from patches 1,2 to implement qemu-img amend based encryption slot management
+> >    for luks and for qcow2, and add a bunch of iotests to cover that.
+> > 
+> > * Patches 10-13 add x-blockdev-amend (I'll drop the -x prefix if you like), and wire it
+> >    to luks and qcow2 driver to implement qmp based encryption slot management also using
+> >    the code from patches 1,2, and also add a bunch of iotests to cover this.
+> >   tests/qemu-iotests/284.out       |   6 +-
+> >   tests/qemu-iotests/300           | 207 ++++++++++++++++
+> 
+> Any reason why you skipped straight to test 300, rather than using an 
+> available slot like 290?  (Admittedly, our process for reserving slots 
+> is not very high-tech: manually scan the list for what other patches out 
+> there have claimed a slot, and be prepared to renumber when rebasing)
+The only reason I used these slots is that I know sadly that I'll have to resend and
+rebase this patchset for a while, and every time a test with the number I use is added,
+this causes relatively hard to fix conflict (or at least I don't know how to fix these conflicts effectively)
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- python/qemu/console_socket.py | 162 ++++++++++++++++++++++++++++++++++
- python/qemu/machine.py        |  23 ++++-
- tests/vm/Makefile.include     |   4 +
- tests/vm/basevm.py            |  24 ++++-
- 4 files changed, 205 insertions(+), 8 deletions(-)
- create mode 100644 python/qemu/console_socket.py
+Thus I used safe numbers, but at the rate this task progresses I won't be surprised that when this is merged,
+these will be test numbers to use...
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-new file mode 100644
-index 0000000000..a1f74e60ac
---- /dev/null
-+++ b/python/qemu/console_socket.py
-@@ -0,0 +1,162 @@
-+#!/usr/bin/env python3
-+#
-+# This python module implements a ConsoleSocket object which is
-+# designed always drain the socket itself, and place
-+# the bytes into a in memory buffer for later processing.
-+#
-+# Optionally a file path can be passed in and we will also
-+# dump the characters to this file for debug.
-+#
-+# Copyright 2020 Linaro
-+#
-+# Authors:
-+#  Robert Foley <robert.foley@linaro.org>
-+#
-+# This code is licensed under the GPL version 2 or later.  See
-+# the COPYING file in the top-level directory.
-+#
-+import asyncore
-+import socket
-+import threading
-+import io
-+import os
-+import sys
-+from collections import deque
-+import time
-+import traceback
-+
-+class ConsoleSocket(asyncore.dispatcher):
-+
-+    def __init__(self, address, file=None):
-+        self._recv_timeout_sec = 300
-+        self._buffer = deque()
-+        self._asyncore_thread = None
-+        self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-+        self._sock.connect(address)
-+        self._logfile = None
-+        if file:
-+            self._logfile = open(file, "w")
-+        asyncore.dispatcher.__init__(self, sock=self._sock)
-+        self._thread_start()
-+        self._open = True
-+
-+    def _thread_start(self):
-+        """Kick off a thread to wait on the asyncore.loop"""
-+        if self._asyncore_thread is not None:
-+            return
-+        self._asyncore_thread = threading.Thread(target=asyncore.loop,
-+                                                 kwargs={'timeout':1})
-+        self._asyncore_thread.daemon = True
-+        self._asyncore_thread.start()
-+
-+    def handle_close(self):
-+        """redirect close to base class"""
-+        # Call the base class close, but not self.close() since
-+        # handle_close() occurs in the context of the thread which
-+        # self.close() attempts to join.
-+        asyncore.dispatcher.close(self)
-+
-+    def close(self):
-+        """Close the base object and wait for the thread to terminate"""
-+        if self._open:
-+            self._open = False
-+            asyncore.dispatcher.close(self)
-+            if self._asyncore_thread is not None:
-+                thread, self._asyncore_thread = self._asyncore_thread, None
-+                thread.join()
-+            if self._logfile:
-+                self._logfile.close()
-+                self._logfile = None
-+
-+    def handle_read(self):
-+        """process arriving characters into in memory _buffer"""
-+        try:
-+            data = asyncore.dispatcher.recv(self, 1)
-+            # latin1 is needed since there are some chars
-+            # we are receiving that cannot be encoded to utf-8
-+            # such as 0xe2, 0x80, 0xA6.
-+            string = data.decode("latin1")
-+        except:
-+            print("Exception seen.")
-+            traceback.print_exc()
-+            return
-+        if self._logfile:
-+            self._logfile.write("{}".format(string))
-+            self._logfile.flush()
-+        for c in string:
-+            self._buffer.append(c)
-+
-+    def recv(self, n=1):
-+        """Return chars from in memory buffer"""
-+        start_time = time.time()
-+        while len(self._buffer) < n:
-+            time.sleep(0.1)
-+            elapsed_sec = time.time() - start_time
-+            if elapsed_sec > self._recv_timeout_sec:
-+                raise socket.timeout
-+        chars = ''.join([self._buffer.popleft() for i in range(n)])
-+        # We choose to use latin1 to remain consistent with
-+        # handle_read() and give back the same data as the user would
-+        # receive if they were reading directly from the
-+        # socket w/o our intervention.
-+        return chars.encode("latin1")
-+
-+    def set_blocking(self):
-+        """Maintain compatibility with socket API"""
-+        pass
-+
-+    def settimeout(self, seconds):
-+        """Set current timeout on recv"""
-+        self._recv_timeout_sec = seconds
-+
-+class ByteBuffer(deque):
-+    """Simple in memory buffer with read/write interface"""
-+    def write(self, bytes):
-+        for i in bytes:
-+            self.append(i)
-+    def read(self, n):
-+        return ''.join([self.popleft() for i in range(n)])
-+
-+if __name__ == '__main__':
-+    # Brief test to exercise the above code.
-+    # The ConsoleSocket will ship some data to the server,
-+    # the server will echo it back and the client will echo what it received.
-+
-+    # First remove the socket.
-+    address = "./test_console_socket"
-+    if os.path.exists(address):
-+        os.unlink(address)
-+
-+    # Create the server side.
-+    server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-+    server_socket.bind(address)
-+    server_socket.listen(1)
-+
-+    # Create the object we are trying to test.
-+    console_socket = ConsoleSocket(address, file="./logfile.txt")
-+
-+    # Generate some data and ship it over the socket.
-+    send_data = ""
-+    for i in range(10):
-+        send_data += "this is a test message {}\n".format(i)
-+    console_socket.send(send_data.encode('latin1'))
-+    connection, client_address = server_socket.accept()
-+
-+    # Process the data on the server and ship it back.
-+    data = connection.recv(len(send_data))
-+    print("server received: {}".format(data))
-+    print("server: sending data back to the client")
-+    connection.sendall(data)
-+
-+    # Client receives teh bytes and displays them.
-+    print("client: receiving bytes")
-+    bytes = console_socket.recv(len(data))
-+    recv_data = bytes.decode('latin1')
-+    print("client received: {}".format(recv_data))
-+    assert(recv_data == send_data)
-+    # Close console connection first, then close server.
-+    console_socket.close()
-+    connection.close()
-+    server_socket.close()
-+    print("test successful.")
-+
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 183d8f3d38..a995b8db3a 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -24,6 +24,7 @@ import subprocess
- import shutil
- import socket
- import tempfile
-+from qemu.console_socket import ConsoleSocket
- 
- from . import qmp
- 
-@@ -71,7 +72,8 @@ class QEMUMachine(object):
- 
-     def __init__(self, binary, args=None, wrapper=None, name=None,
-                  test_dir="/var/tmp", monitor_address=None,
--                 socket_scm_helper=None, sock_dir=None):
-+                 socket_scm_helper=None, sock_dir=None,
-+                 drain_console=False, console_log=None):
-         '''
-         Initialize a QEMUMachine
- 
-@@ -82,6 +84,9 @@ class QEMUMachine(object):
-         @param test_dir: where to create socket and log file
-         @param monitor_address: address for QMP monitor
-         @param socket_scm_helper: helper program, required for send_fd_scm()
-+        @param sock_dir: where to create socket (overrides test_dir for sock)
-+        @param console_log: (optional) path to console log file
-+        @param drain_console: (optional) True to drain console socket to buffer
-         @note: Qemu process is not started until launch() is used.
-         '''
-         if args is None:
-@@ -118,6 +123,12 @@ class QEMUMachine(object):
-         self._console_address = None
-         self._console_socket = None
-         self._remove_files = []
-+        self._console_log_path = console_log
-+        if self._console_log_path:
-+            # In order to log the console, buffering needs to be enabled.
-+            self._drain_console = True
-+        else:
-+            self._drain_console = drain_console
- 
-         # just in case logging wasn't configured by the main script:
-         logging.basicConfig()
-@@ -566,7 +577,11 @@ class QEMUMachine(object):
-         Returns a socket connected to the console
-         """
-         if self._console_socket is None:
--            self._console_socket = socket.socket(socket.AF_UNIX,
--                                                 socket.SOCK_STREAM)
--            self._console_socket.connect(self._console_address)
-+            if self._drain_console:
-+                self._console_socket = ConsoleSocket(self._console_address,
-+                                                     file=self._console_log_path)
-+            else:
-+                self._console_socket = socket.socket(socket.AF_UNIX,
-+                                                     socket.SOCK_STREAM)
-+                self._console_socket.connect(self._console_address)
-         return self._console_socket
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 419e0f8613..fb61f10619 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -50,6 +50,7 @@ endif
- 	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
- 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
- 	@echo "    BOOT_CONSOLE=1        	 - Show the console output at boot time. "
-+	@echo "    LOG_CONSOLE=1        	 - Log console to file in: ~/.cache/qemu-vm "
- 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
- 	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
- 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
-@@ -74,6 +75,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
- 		$(PYTHON) $< \
- 		$(if $(V)$(DEBUG), --debug) \
- 		$(if $(BOOT_CONSOLE),--boot-console) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$@" \
- 		--force \
-@@ -90,6 +92,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(V),--verbose) \
- 		$(if $(BOOT_CONSOLE),--boot-console) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
-@@ -112,6 +115,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
- 		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(BOOT_CONSOLE),--boot-console) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		--interactive \
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index bd4a1f9639..e39670635a 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -81,12 +81,14 @@ class BaseVM(object):
-     poweroff = "poweroff"
-     # enable IPv6 networking
-     ipv6 = True
-+    # This is the timeout on the wait for console bytes.
-+    socket_timeout = 120
-     # Scale up some timeouts under TCG.
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
-     tcg_ssh_timeout_multiplier = 4
-     def __init__(self, debug=False, vcpus=None, config=None,
--                 boot_console=False, build_path=None):
-+                 boot_console=False, build_path=None, log_console=False):
-         self._guest = None
-         self._build_path = build_path
-         self._boot_console = boot_console
-@@ -113,6 +115,11 @@ class BaseVM(object):
-         open(self._ssh_tmp_pub_key_file,
-              "w").write(self._config['ssh_pub_key'])
- 
-+        self._console_log_path = None
-+        if log_console:
-+                self._console_log_path = \
-+                         os.path.join(os.path.expanduser("~/.cache/qemu-vm"),
-+                                      "{}.install.log".format(self.name))
-         self.debug = debug
-         self._stderr = sys.stderr
-         self._devnull = open(os.devnull, "w")
-@@ -259,7 +266,9 @@ class BaseVM(object):
-         args += ["-device", "VGA"]
-         logging.debug("QEMU args: %s", " ".join(args))
-         qemu_path = get_qemu_path(self.arch, self._build_path)
--        guest = QEMUMachine(binary=qemu_path, args=args)
-+        guest = QEMUMachine(binary=qemu_path, args=args,
-+                            console_log=self._console_log_path,
-+                            drain_console=True)
-         guest.set_machine(self._config['machine'])
-         guest.set_console()
-         try:
-@@ -273,6 +282,8 @@ class BaseVM(object):
-             raise
-         atexit.register(self.shutdown)
-         self._guest = guest
-+        # Init console so we can start consuming the chars.
-+        self.console_init()
-         usernet_info = guest.qmp("human-monitor-command",
-                                  command_line="info usernet")
-         self.ssh_port = None
-@@ -284,7 +295,9 @@ class BaseVM(object):
-             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
-                             usernet_info)
- 
--    def console_init(self, timeout = 120):
-+    def console_init(self, timeout = None):
-+        if timeout == None:
-+            timeout = self.socket_timeout
-         vm = self._guest
-         vm.console_socket.settimeout(timeout)
- 
-@@ -559,6 +572,8 @@ def parse_args(vmcls):
-                       help="Show console during boot. ")
-     parser.add_option("--build-path", default=None,
-                       help="Path of build directory. ")
-+    parser.add_option("--log-console", action="store_true",
-+                      help="Log console to file.")
-     parser.disable_interspersed_args()
-     return parser.parse_args()
- 
-@@ -575,7 +590,8 @@ def main(vmcls, config=None):
-                                    else logging.WARN))
-         vm = vmcls(debug=args.debug, vcpus=args.jobs, config=config,
-                    boot_console=args.boot_console,
--                   build_path=args.build_path)
-+                   build_path=args.build_path,
-+                   log_console=args.log_console)
-         if args.build_image:
-             if os.path.exists(args.image) and not args.force:
-                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
--- 
-2.17.1
+TL;DR - these are placeholders, and once the patch set is blesssed for merging upstream I'll update this next
+available numbers.
+
+Best regards,
+	Maxim Levitsky
 
 
