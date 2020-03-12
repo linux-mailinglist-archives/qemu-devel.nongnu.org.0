@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E1B182B1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 09:23:41 +0100 (CET)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D07182B22
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 09:24:35 +0100 (CET)
+Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCJ80-0000MZ-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 04:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44477)
+	id 1jCJ8r-000223-VC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 04:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jCJ76-00083e-T6
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:22:46 -0400
+ (envelope-from <mst@redhat.com>) id 1jCJ7t-0000os-0u
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:23:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jCJ75-0000Ej-G9
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:22:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43461
+ (envelope-from <mst@redhat.com>) id 1jCJ7s-00018J-2I
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:23:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46199
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jCJ75-0000EK-C3
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:22:43 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jCJ7r-00018B-Ug
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 04:23:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584001362;
+ s=mimecast20190719; t=1584001411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ol9yK6++2tTjuGBZIYnj7FK20hIstBYvg7g7cvAicQ=;
- b=RjYDAz76c8fIh5WD5+kWPqkGfQ1PKq0rHHNwmI1TXT9DY0Dnc+TjSE5D70lbEL3mAxUJvK
- N4yYlWTPtHkrRnNCgBtJCNUdHkpNsFwSURXIWVooiWLjww/FUjlmTgGqnebCGljNJd7r8S
- Tua2zppEJeagQMC/rz5iyDgQvcR7jSc=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-ObZBpQflOum2lkOi3xmVtw-1; Thu, 12 Mar 2020 04:22:40 -0400
-X-MC-Unique: ObZBpQflOum2lkOi3xmVtw-1
-Received: by mail-qk1-f199.google.com with SMTP id e13so3301058qkm.23
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 01:22:40 -0700 (PDT)
+ bh=Sb1M8shC6Fkbvp/IB81QO6vS18WnUZtrSCtSCP8ibBg=;
+ b=fExyju89+/2bYZvIU6IdEK5fX/f9Ureli9pWYXnSOj45hcBRnQRK2pLPqdTpm7GhSBMLKa
+ AFM+eOclN1usRMqenNyHm2O42crZluEfn3uWaKEiRaxu9c+2MRcoAa2NeuUERHYVKYH2Y7
+ 3CsFrvQ3mmavvpSDLDFXJZw4w8TkQq8=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-qQSwoMDfPAqAb6qiuGnTsA-1; Thu, 12 Mar 2020 04:23:26 -0400
+X-MC-Unique: qQSwoMDfPAqAb6qiuGnTsA-1
+Received: by mail-qt1-f199.google.com with SMTP id l1so2971729qtp.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 01:23:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=y07wKixD9bXDYzgLRAj/SblRz1JIbf7etI9MTIvBiK8=;
- b=brHDruYjxzXQ7lSHWToF4kIdI4R+ppB1pSlYKTNhSnqiJIg0eiLN4bpoP4GpdrHZkg
- Y22n6/40NlfqX3Oc7xb/GlIYHwlrA/iALck0FJ61vqNqb9u+nWPH0s85BuXhjh6l103p
- GyzEdxxHGy/17dwXKXSp1dGNORI+l42cdSzUBvDwiHhq1eptj1Xo5/dCRftvYc8hD4LQ
- JH4ji8kBjmRWGmlgjk3Q+Ob5HwqRb6ClL6z4f0jrUsrgY/25bELWDfzKTVLYwl/oj7Im
- xjs5KF384hGJ2PLDyh0ssJGiut/qGAE+mHlcOABe3OmJGJqmTV8E+NB4AUhGb5HTe12C
- xEjQ==
-X-Gm-Message-State: ANhLgQ0pL1ecc1ByT+sLSZegky4efk73nXTtfvH3QdfLUEQjMiXrZnjP
- lCdmpyzG3a7p2fLp3D0D/jzCiazyUk6x4jSatO3j4A+oS4SW7QGBZGcZgw9v8gx7XGmq40ecQIV
- n/nUW7etsbYO+4z4=
-X-Received: by 2002:ac8:7693:: with SMTP id g19mr6271291qtr.25.1584001359831; 
- Thu, 12 Mar 2020 01:22:39 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vv1ZPS36m29U5sAyFN73kv9bIRR6S2DU5CKXR3ZAoUY4660GGLJ4VIiYpmUF7RvCaT4jgRMdQ==
-X-Received: by 2002:ac8:7693:: with SMTP id g19mr6271280qtr.25.1584001359570; 
- Thu, 12 Mar 2020 01:22:39 -0700 (PDT)
+ bh=3mDJAPcF19GH1Q9P98p4ad/9GRtbeU4MLRUhzJ/JRMo=;
+ b=MOHbkIjEcO96+4vETn16cvLalWFHvDZwKm/HMttPpudzpTP8BlYQsSuhb8NnCZCuZk
+ 7j4cX8XO3rn4t+aq5sV3j1i8nB3bieunw/QFa0HPk7RfWXPvxtHKyiJbUEFtcbjA+l/V
+ bb0zUzhoAaHULpfHvZ5cCPWtswAmVJJ7xbhUHUNdlQc98lWlEgvyG4kUCQtcZFJS+l23
+ ODGtx94ebPa96PoxoyWSHOMZV1ADWdT0ATINtqVHG+4u3iCAajdq7XDs2tPo9jjO5+0l
+ ktq3YJL6nRusK4HCRm7RPcFq3mVU823YRAGJ4onOD5ffgJVVcgtovkf0CEBJuYKNQSVM
+ Lqtg==
+X-Gm-Message-State: ANhLgQ32AuufdSdDihCy7s/+ADQJV+n59cgUbWqtoEZl3BjSkwwIc0Iq
+ R1McQ/iJMAwqNGOb+Y2gMKRtfheGOUU24H/latOsOC8r62NBgbV8PUYckXs6GFQgG/gLWFJcNvr
+ uWcqejsVOeZ1qRiM=
+X-Received: by 2002:aed:3b4c:: with SMTP id q12mr6102978qte.18.1584001406154; 
+ Thu, 12 Mar 2020 01:23:26 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vserAA5yRt5NoWv/evfX/PFiPnTVnyFhwIrFlC32ZQZPyQX6QsXdx0hnrbstLeuDLwvr4M2Tw==
+X-Received: by 2002:aed:3b4c:: with SMTP id q12mr6102965qte.18.1584001405954; 
+ Thu, 12 Mar 2020 01:23:25 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
- by smtp.gmail.com with ESMTPSA id m27sm2900117qtf.80.2020.03.12.01.22.37
+ by smtp.gmail.com with ESMTPSA id l6sm26773067qti.10.2020.03.12.01.23.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 01:22:38 -0700 (PDT)
-Date: Thu, 12 Mar 2020 04:22:34 -0400
+ Thu, 12 Mar 2020 01:23:25 -0700 (PDT)
+Date: Thu, 12 Mar 2020 04:23:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v3 5/6] virtio-net: add migration support for RSS and
- hast report
-Message-ID: <20200312041915-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v3 1/6] virtio-net: introduce RSS and hash report features
+Message-ID: <20200312042252-mutt-send-email-mst@kernel.org>
 References: <20200311123518.4025-1-yuri.benditovich@daynix.com>
- <20200311123518.4025-6-yuri.benditovich@daynix.com>
- <20200311094706-mutt-send-email-mst@kernel.org>
- <CAOEp5OdjP4XsSkyCU0n1YGvyWwayOH5D6iTP-8RRLYfwSJd=7Q@mail.gmail.com>
- <20200311161924-mutt-send-email-mst@kernel.org>
- <CAOEp5Oe8iwSgSGoPuBWJh_6FvSHMTnhJSLAMCt=vM9azmQfp0g@mail.gmail.com>
+ <20200311123518.4025-2-yuri.benditovich@daynix.com>
+ <20200311094553-mutt-send-email-mst@kernel.org>
+ <CAOEp5OdgDB5u-SeZO3y4iCTjFy6hpNfPA-ADaBbnvx=MHD_dTw@mail.gmail.com>
+ <20200311161819-mutt-send-email-mst@kernel.org>
+ <CAOEp5OcrWewBYNT8TT6r1oFc=diq-HoGfe-zXwXPNSP0RguFkQ@mail.gmail.com>
+ <20200312031427-mutt-send-email-mst@kernel.org>
+ <CAOEp5Od=GW1onOqchw3H8nYSUByuekYCvi6jsWO8v9SYiFF27Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Oe8iwSgSGoPuBWJh_6FvSHMTnhJSLAMCt=vM9azmQfp0g@mail.gmail.com>
+In-Reply-To: <CAOEp5Od=GW1onOqchw3H8nYSUByuekYCvi6jsWO8v9SYiFF27Q@mail.gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,129 +100,62 @@ Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 09:37:06AM +0200, Yuri Benditovich wrote:
+On Thu, Mar 12, 2020 at 09:42:20AM +0200, Yuri Benditovich wrote:
 >=20
 >=20
-> On Wed, Mar 11, 2020 at 10:21 PM Michael S. Tsirkin <mst@redhat.com> wrot=
-e:
+> On Thu, Mar 12, 2020 at 9:21 AM Michael S. Tsirkin <mst@redhat.com> wrote=
+:
 >=20
->     On Wed, Mar 11, 2020 at 04:00:44PM +0200, Yuri Benditovich wrote:
->     >
->     >
->     > On Wed, Mar 11, 2020 at 3:48 PM Michael S. Tsirkin <mst@redhat.com>
->     wrote:
->     >
->     >=A0 =A0 =A0On Wed, Mar 11, 2020 at 02:35:17PM +0200, Yuri Benditovic=
-h wrote:
->     >=A0 =A0 =A0> Save and restore RSS/hash report configuration.
+>     On Thu, Mar 12, 2020 at 09:02:38AM +0200, Yuri Benditovich wrote:
+>     >=A0 =A0 =A0>=A0 =A0 =A0> +#define virtio_net_config virtio_net_confi=
+g_with_rss
 >     >=A0 =A0 =A0>
->     >=A0 =A0 =A0> Signed-off-by: Yuri Benditovich <yuri.benditovich@dayni=
-x.com>
->     >=A0 =A0 =A0> ---
->     >=A0 =A0 =A0>=A0 hw/net/virtio-net.c | 9 +++++++++
->     >=A0 =A0 =A0>=A0 1 file changed, 9 insertions(+)
+>     >=A0 =A0 =A0>=A0 =A0 =A0Do we have to? Let's just tweak code to do th=
+e right thing...
 >     >=A0 =A0 =A0>
->     >=A0 =A0 =A0> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->     >=A0 =A0 =A0> index 7b6a929e8c..c8d97d45cd 100644
->     >=A0 =A0 =A0> --- a/hw/net/virtio-net.c
->     >=A0 =A0 =A0> +++ b/hw/net/virtio-net.c
->     >=A0 =A0 =A0> @@ -2869,6 +2869,13 @@ static int virtio_net_post_load_=
-device(void
->     >=A0 =A0 =A0*opaque, int version_id)
->     >=A0 =A0 =A0>=A0 =A0 =A0 =A0 =A0 }
->     >=A0 =A0 =A0>=A0 =A0 =A0 }
->     >=A0 =A0 =A0>=A0
->     >=A0 =A0 =A0> +=A0 =A0 if (n->rss_data.enabled) {
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 trace_virtio_net_rss_enable(n->rss_dat=
-a.hash_types,
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 n->rss_data.indirections_len,
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 sizeof(n->rss_data.key));
->     >=A0 =A0 =A0> +=A0 =A0 } else {
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 trace_virtio_net_rss_disable();
->     >=A0 =A0 =A0> +=A0 =A0 }
->     >=A0 =A0 =A0>=A0 =A0 =A0 return 0;
->     >=A0 =A0 =A0>=A0 }
->     >=A0 =A0 =A0>=A0
->     >=A0 =A0 =A0> @@ -3094,6 +3101,8 @@ static const VMStateDescription
->     >=A0 =A0 =A0vmstate_virtio_net_device =3D {
->     >=A0 =A0 =A0>=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0v=
-mstate_virtio_net_tx_waiting),
->     >=A0 =A0 =A0>=A0 =A0 =A0 =A0 =A0 VMSTATE_UINT64_TEST(curr_guest_offlo=
-ads, VirtIONet,
->     >=A0 =A0 =A0>=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 has_ctrl_guest_offloads),
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 VMSTATE_UINT8_ARRAY(rss_data_migration=
-, VirtIONet,
->     >=A0 =A0 =A0> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 sizeof(VirtioNetRssData)),
->     >=A0 =A0 =A0>=A0 =A0 =A0 =A0 =A0 VMSTATE_END_OF_LIST()
->     >=A0 =A0 =A0>=A0 =A0 =A0},
+>     >=A0 =A0 =A0>
+>     >=A0 =A0 =A0> Are we going to update the virtio_net some time?
+>     >=A0 =A0 =A0> If yes, IMO makes sense to do less tweaking in the midd=
+le of the
+>     code.
+>     >=A0 =A0 =A0> Then, upon update of virtio_net.h - easily remove all t=
+hese defines
+>     that
+>     >=A0 =A0 =A0were
+>     >=A0 =A0 =A0> added in virtio-net.c=A0
+>     >
+>     >=A0 =A0 =A0We'll update it in a month or two. But I'd be reluctant t=
+o merge
+>     hacks
+>     >=A0 =A0 =A0since people tend to copy-paste code ...
 >     >
 >     >
->     >=A0 =A0 =A0I think we should migrate the length too. Avoid arbitrary=
- limits.
->     >
->     >
->     > The length of what?
+>     > I agree that merging hacks is very bad practice.
+>     > Which change is more looks like a hack: redefine the struct to its =
+_real_
+>     > layout or change the type of the struct in 5 places?
 >=20
->     Of the tables.
->     > The structure is fixed-length and the intention=A0is just to
->     > keep/restore it.
->     > The length of indirection table and the table itself are part of th=
-e
->     structure.
->=20
->=20
->     And that's a problem, because
->     1. we are wasting memory for a rarely used feature
->     2. if we want to make the table bigger, we'll need to break
->     =A0 =A0migration compatibility
->=20
->     Just allocate these dynamically as needed, and migrate length.
+>     Anything that would be unacceptable as a permanent solution is a hack=
+.
+>     In this case how about
+>     =A0 =A0 =A0 =A0 virtio_net_config_rss {
+>     =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 struct virtio_net_config config;
+>     =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* RSS things */
+>     =A0 =A0 =A0 =A0 }
 >=20
 >=20
-> Unfortunately, this does not make things much better.
-> The maximum table size is 128, i.e we have persistent=A0allocation of 256=
- bytes.
-> 1. Addition of the code to make the allocation dynamic and migrate it wil=
-l eat
-> most of this.
-
-But that's shared between all VMs. Table is per VM.
-
-> 2. If we decide to change the maximum size if future, we anyway create
-> incompatibility. The driver asks what is maximum indirection table size a=
-t the
-> initialization time and the OS provides a table according to this. If we
-> migrate between two different implementations we find ourselves with queu=
-e mask
-> that is not compatible with maximum size. I'd rather add the comment "do =
-not
-> change these numbers".
-> 3. Size of key for Toeplitz is always 40
+> No problem.
 >=20
-> Please confirm you want to make it dynamic anyway
+> '#define virtio_net_config virtio_net_config_with_rss ' is OK?
 >=20
 
-Let's just make the code future-proof for when we want to change it.
+I don't think it is, macros are supposed to be all upper case.
 
 >=20
-> =A0
 >=20
 >=20
->=20
->     >
->     >=A0 =A0 =A0Yes this means we should allocate the indirection arrays =
-on the fly.
->     >=A0 =A0 =A0But that's probably a good idea anyway.
->     >
->     >=A0 =A0 =A0>=A0 };
->     >=A0 =A0 =A0> --
->     >=A0 =A0 =A0> 2.17.1
->     >
->     >
+>     --
+>     MST
 >=20
 >=20
 
