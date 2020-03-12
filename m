@@ -2,124 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C535B182BE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:07:08 +0100 (CET)
-Received: from localhost ([::1]:38048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D899182BDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:05:37 +0100 (CET)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCJo3-0003jk-SV
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52157)
+	id 1jCJmZ-0008Lu-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCJjo-0003zp-QA
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:02:46 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jCJiN-0001QK-4g
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:01:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCJjn-0006rI-CP
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:02:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2598)
+ (envelope-from <frankja@linux.ibm.com>) id 1jCJiL-0005vo-Qa
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:01:15 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32310
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jCJjn-0006qu-7e
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:02:43 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02C90bgL055539
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:02:42 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yqe67nyqm-1
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1jCJiL-0005sx-Kc
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:01:13 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02C8vixi029352
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:01:12 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2yqh99hy20-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:02:42 -0400
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:00:55 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Thu, 12 Mar 2020 08:50:38 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Thu, 12 Mar 2020 08:54:31 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 08:50:35 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02C8nYKe48431414
+ Thu, 12 Mar 2020 08:54:28 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02C8sS6Z61407478
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 08:49:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4EF9852054;
- Thu, 12 Mar 2020 08:50:34 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1F7CD5204F;
- Thu, 12 Mar 2020 08:50:34 +0000 (GMT)
-Subject: Re: [PATCH v9 06/15] s390x: Add SIDA memory ops
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+ Thu, 12 Mar 2020 08:54:28 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 030634C044;
+ Thu, 12 Mar 2020 08:54:28 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C87C14C04A;
+ Thu, 12 Mar 2020 08:54:27 +0000 (GMT)
+Received: from dyn-9-152-224-122.boeblingen.de.ibm.com (unknown
+ [9.152.224.122])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Mar 2020 08:54:27 +0000 (GMT)
+Subject: Re: [PATCH v9 02/15] s390x: protvirt: Support unpack facility
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-7-frankja@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Thu, 12 Mar 2020 09:50:33 +0100
+ <20200311132151.172389-3-frankja@linux.ibm.com>
+ <a0edb6d5-284f-5f10-02e5-d2f252043d71@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Thu, 12 Mar 2020 09:54:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200311132151.172389-7-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <a0edb6d5-284f-5f10-02e5-d2f252043d71@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Gsn8wURgqIIp1Ybjr4EAOE0AIkSY4W14q"
 X-TM-AS-GCONF: 00
-x-cbid: 20031208-0008-0000-0000-0000035BFB55
+x-cbid: 20031208-0012-0000-0000-0000038FD1CC
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031208-0009-0000-0000-00004A7D4448
-Message-Id: <83a4e6f4-c3ab-5ca6-68ce-b9daefd74598@de.ibm.com>
+x-cbparentid: 20031208-0013-0000-0000-000021CCA2F1
+Message-Id: <f7f2c1ca-5547-d793-5508-5d6d64319ae0@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-12_01:2020-03-11,
  2020-03-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ phishscore=0 suspectscore=3 adultscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003120048
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
@@ -134,137 +139,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.03.20 14:21, Janosch Frank wrote:
-> Protected guests save the instruction control blocks in the SIDA
-> instead of QEMU/KVM directly accessing the guest's memory.
-> 
-> Let's introduce new functions to access the SIDA.
-> 
-> Also the new memops are available with KVM_CAP_S390_PROTECTED, so
-> let's check for that.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Gsn8wURgqIIp1Ybjr4EAOE0AIkSY4W14q
+Content-Type: multipart/mixed; boundary="KoNdwDOuqePZPnRT3JgAjOZlJVdOzehc8"
+
+--KoNdwDOuqePZPnRT3JgAjOZlJVdOzehc8
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 3/11/20 5:07 PM, David Hildenbrand wrote:
+>=20
+>> +++ b/include/hw/s390x/pv.h
+>> @@ -0,0 +1,57 @@
+>> +/*
+>> + * Protected Virtualization header
+>> + *
+>> + * Copyright IBM Corp. 2020
+>> + * Author(s):
+>> + *  Janosch Frank <frankja@linux.ibm.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or=
+ (at
+>> + * your option) any later version. See the COPYING file in the top-le=
+vel
+>> + * directory.
+>> + */
+>> +#ifndef HW_S390_PV_H
+>> +#define HW_S390_PV_H
+>> +
+>> +#ifdef CONFIG_KVM
+>> +#include "hw/s390x/s390-virtio-ccw.h"
+>> +
+>> +static inline bool s390_is_pv(void)
+>> +{
+>> +    static S390CcwMachineState *ccw;
+>> +    Object *obj;
+>> +
+>> +    if (ccw) {
+>> +        return ccw->pv;
+>> +    }
+>> +
+>> +    /* we have to bail out for the "none" machine */
+>> +    obj =3D object_dynamic_cast(qdev_get_machine(),
+>> +                              TYPE_S390_CCW_MACHINE);
+>> +    if (!obj) {
+>> +        return false;
+>> +    }
+>> +    ccw =3D S390_CCW_MACHINE(obj);
+>> +    return ccw->pv;
+>> +}
+>> +
+>> +int s390_pv_vm_enable(void);
+>> +void s390_pv_vm_disable(void);
+>> +int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+>> +int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+>> +void s390_pv_perf_clear_reset(void);
+>> +int s390_pv_verify(void);
+>> +void s390_pv_unshare(void);
+>> +#else
+>> +static inline bool s390_is_pv(void) { return false; }
+>> +static inline int s390_pv_vm_enable(void) { return 0; }
+>> +static inline void s390_pv_vm_disable(void) {}
+>> +static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t len=
+gth) { return 0; }
+>> +static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64=
+_t tweak) { return 0; }
+>> +static inline void s390_pv_perf_clear_reset(void) {}
+>> +static inline int s390_pv_verify(void) { return 0; }
+>> +static inline void s390_pv_unshare(void) {}
+>> +#endif
+>=20
+> Maybe /* CONFIG_KVM */ for the else and endif. Whatever you prefer.
+
+Ack
+
+>=20
+>> +
+>> +
+>> +
+>=20
+> Nit: too many newlines.
+
+Ack
+
+>=20
+>> +#endif /* HW_S390_PV_H */
+>> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s39=
+0-virtio-ccw.h
+>> index 8aa27199c9123bab..cd1dccc6e3ba8645 100644
+>=20
+>=20
+> Nothing jumped at me :)
+>=20
 > Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Thanks
 
-> ---
->  target/s390x/cpu.h        |  7 ++++++-
->  target/s390x/kvm.c        | 25 +++++++++++++++++++++++++
->  target/s390x/kvm_s390x.h  |  2 ++
->  target/s390x/mmu_helper.c | 14 ++++++++++++++
->  4 files changed, 47 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 1d17709d6e10b5e0..035427521cec2528 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -823,7 +823,12 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
->  #define s390_cpu_virt_mem_check_write(cpu, laddr, ar, len)   \
->          s390_cpu_virt_mem_rw(cpu, laddr, ar, NULL, len, true)
->  void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uintptr_t ra);
-> -
-> +int s390_cpu_pv_mem_rw(S390CPU *cpu, unsigned int offset, void *hostbuf,
-> +                       int len, bool is_write);
-> +#define s390_cpu_pv_mem_read(cpu, offset, dest, len)    \
-> +        s390_cpu_pv_mem_rw(cpu, offset, dest, len, false)
-> +#define s390_cpu_pv_mem_write(cpu, offset, dest, len)       \
-> +        s390_cpu_pv_mem_rw(cpu, offset, dest, len, true)
->  
->  /* sigp.c */
->  int s390_cpu_restart(S390CPU *cpu);
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index eec0b92479465b9c..cdcd538b4f7fb318 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -154,6 +154,7 @@ static int cap_ri;
->  static int cap_gs;
->  static int cap_hpage_1m;
->  static int cap_vcpu_resets;
-> +static int cap_protected;
->  
->  static int active_cmma;
->  
-> @@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->      cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->      cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
->      cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
-> +    cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
->  
->      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
->          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
-> @@ -846,6 +848,29 @@ int kvm_s390_mem_op(S390CPU *cpu, vaddr addr, uint8_t ar, void *hostbuf,
->      return ret;
->  }
->  
-> +int kvm_s390_mem_op_pv(S390CPU *cpu, uint64_t offset, void *hostbuf,
-> +                       int len, bool is_write)
-> +{
-> +    struct kvm_s390_mem_op mem_op = {
-> +        .sida_offset = offset,
-> +        .size = len,
-> +        .op = is_write ? KVM_S390_MEMOP_SIDA_WRITE
-> +                       : KVM_S390_MEMOP_SIDA_READ,
-> +        .buf = (uint64_t)hostbuf,
-> +    };
-> +    int ret;
-> +
-> +    if (!cap_mem_op || !cap_protected) {
-> +        return -ENOSYS;
-> +    }
-> +
-> +    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_S390_MEM_OP, &mem_op);
-> +    if (ret < 0) {
-> +        error_report("KVM_S390_MEM_OP failed: %s", strerror(-ret));
-> +    }
-> +    return ret;
-> +}
-> +
->  /*
->   * Legacy layout for s390:
->   * Older S390 KVM requires the topmost vma of the RAM to be
-> diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-> index 0b21789796d7c462..9c38f6ccce83e39e 100644
-> --- a/target/s390x/kvm_s390x.h
-> +++ b/target/s390x/kvm_s390x.h
-> @@ -19,6 +19,8 @@ void kvm_s390_vcpu_interrupt(S390CPU *cpu, struct kvm_s390_irq *irq);
->  void kvm_s390_access_exception(S390CPU *cpu, uint16_t code, uint64_t te_code);
->  int kvm_s390_mem_op(S390CPU *cpu, vaddr addr, uint8_t ar, void *hostbuf,
->                      int len, bool is_write);
-> +int kvm_s390_mem_op_pv(S390CPU *cpu, vaddr addr, void *hostbuf, int len,
-> +                       bool is_write);
->  void kvm_s390_program_interrupt(S390CPU *cpu, uint16_t code);
->  int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
->  void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
-> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index 0be2f300bbe4ac8b..7d9f3059cd502c49 100644
-> --- a/target/s390x/mmu_helper.c
-> +++ b/target/s390x/mmu_helper.c
-> @@ -474,6 +474,20 @@ static int translate_pages(S390CPU *cpu, vaddr addr, int nr_pages,
->      return 0;
->  }
->  
-> +int s390_cpu_pv_mem_rw(S390CPU *cpu, unsigned int offset, void *hostbuf,
-> +                       int len, bool is_write)
-> +{
-> +    int ret;
-> +
-> +    if (kvm_enabled()) {
-> +        ret = kvm_s390_mem_op_pv(cpu, offset, hostbuf, len, is_write);
-> +    } else {
-> +        /* Protected Virtualization is a KVM/Hardware only feature */
-> +        g_assert_not_reached();
-> +    }
-> +    return ret;
-> +}
-> +
->  /**
->   * s390_cpu_virt_mem_rw:
->   * @laddr:     the logical start address
-> 
+>=20
+
+
+
+--KoNdwDOuqePZPnRT3JgAjOZlJVdOzehc8--
+
+--Gsn8wURgqIIp1Ybjr4EAOE0AIkSY4W14q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5p+MMACgkQ41TmuOI4
+ufiQdQ//Z3g8EB26f52NXpFz2FspM/DlzupZYW01LbJKuK3YS+7aLqgAL10Puhf9
+UpR0ls2CRwEG8dl1GAy9ewefQWyGLhm05ImGoXEODdX0Mc5WhYgjKyVJtSyAz2Qw
+JHrSErkCzF+bfuQLOE6KIiZk2OejSqTdFm70S6yFKU81JWI8XUBbgv0aPdg51qMD
+t2gykHU0kRpcFDgqpLh/cYLndju9TaTi/qs+8OkuL4T/eAFDH0uLuuGXErm6lADI
+K7/pF2d3zFLQrCDoUvrhyUUUTB6qz3e9lBne5xML6PhKpCJmzCchvNUHSKPKSo87
+MSh2W1W+jJ0vnWOIcQsMq/vpPFUfUDXYhZP4BNJA2RChBQZVx2I0Zof/N/Ftv7iV
+UoHozZmHTODOBem0DRwj4WoU9dn7ZcL+bIcmpERxmeTpCu16KZUJRNNsPwp1m/Ms
+foTRQJPxB4fDIMbpm5l3L8x+feNn2691iBPirEzwluVoFoGMBCa/FzqO3B6K9qnv
+bCHa6IzxnJP2Zb1a42hdF/LZ781bBX+4m2kteeAEpxTuK8jfCrtEIPATwOZz6iyT
+frFzZzM4lg/+wndbK4srmAp0u6B7WWPy8itoUPNIi9Kd9aXU2FiWvcsTwYK+apbD
+xhkP+NpFS9ANaZGYSOTVYHC+f4JXrAiOvL9BwjlSyyPyhbbm3hU=
+=NEBi
+-----END PGP SIGNATURE-----
+
+--Gsn8wURgqIIp1Ybjr4EAOE0AIkSY4W14q--
 
 
