@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8988183A35
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:07:24 +0100 (CET)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D584D183A79
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:17:38 +0100 (CET)
+Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCU71-0005Qh-TX
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
+	id 1jCUGv-000611-V7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jCU2C-0005B0-CT
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:02:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCUG5-0005cK-4J
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:16:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jCU2B-0005Mg-7W
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:02:24 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:36764)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCUG3-0008VR-Ls
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:16:44 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33603)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1jCU2B-0005IF-1q; Thu, 12 Mar 2020 16:02:23 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id d15so7014787iog.3;
- Thu, 12 Mar 2020 13:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iEExUs14yIhTspSpMTZEiP0XS6fhKXstB4RbOjXMcI8=;
- b=kAcqgkax3VsBgHjQ/4y69SlZ1Wq95HihuANakTA4nSOEPI0bYWsiqAt4LxCmyxjsok
- Osuj8BudukDevJ+O6y+7UKdDtkZYAgvXr51xFNISG5vHVfimofOJQbWi6b0zJN2eidpg
- 6ytMLZVqz2xLmPC3afvyDObHxvua1NQdcPX20gdrfk0z2XunefVaTavFj/lxLTJnF8Uk
- 676JqleQ0ICjAAQ9Wo/kBPd+DSOi6+QYYpra9iXi6bl4ltursirehS39kJacP/Pw3OEF
- IFC15iyk/ZzRfd1DOA3/hGEbfyv8H9OWOztk6zDehCFDWWYm6rDtkA8S7S7zrVGtHRao
- XYig==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jCUG3-0008V3-F9
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 16:16:43 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a25so9206224wrd.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 13:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8Tro1z7uTIp12iQuDnwssQFro2Zzq8+IX8DXdBO8SLQ=;
+ b=AI8YIRvIjbVTY7oDAMagQPOfSx5jEK2SnxmcDtTszUGceWT9+scIBaU5dOugoZIirE
+ uPuscEaLPslrVICKx9MIImg6roh8kF0QrSzt4ixjxBWjBZjgjv0x0MgNesXYP20+EN0P
+ P1zZlTGFKD1Uj4LFCBKBwXV8hLEA/0xgq+B6QUxiTePfgyhVDfxAhQO+sL3H7nhuR0nO
+ WB022es1Ukuq7LBGaiB7SvcC1M2s936fy4Wx2pIXtbD+D7A6so3OTvTFUEPvh7YeRKkR
+ PWmgjXWX3WaPe+yk1QEQhIB67Q6L0kwCSkLepo0a/MSZE+cATR6Ws4E6pERbPd8HOGoq
+ DxDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iEExUs14yIhTspSpMTZEiP0XS6fhKXstB4RbOjXMcI8=;
- b=C9J2CnDbXJxujt9omtjT+UrH8t1hkHD9QHSvO723VISgpjVCYRPaS6+FywRvcRbxuC
- A3G/JuFZum6Ln1DI1o8bIOxtH5KtOGiL9sFv1vqte4Htg9//go0unMm+e9CtU7wEPZXU
- gq6OmrAFsodKGQaHKY3NtjFJg4YOGOgenstf2kTl/mXRh0uL/zllbl15lrP/jMWCgdGy
- 1qSJvcmnrVqGYc7rBaz+4wdqOaj2WRkiVWIfE+ldsIrQadwB7EOyvMF8B/Sk+rQ2nu9t
- hnW3l1bG0aNIAxNrz1r3JP+Yneu4z8JIrA3uBS2qsoTaDa4PPdI7wM/UdU+uYRL88v/s
- pPfw==
-X-Gm-Message-State: ANhLgQ0RZeKVu3+0sx4sRMpN1IJ+LEJ47ZFvfJWkRMNL3a26waMfNYu5
- FY03r//oIfCl25pi4H0Gj3GuDzcAYN/8MH2FAeU=
-X-Google-Smtp-Source: ADFU+vsZ+8dqR3Tlma42xnqtUmTMantE6dZEz8LVB+6IIJEMvyVz4NMKgWny3j4gp5QLi3vWQkZ/UbUPmyA636srTN0=
-X-Received: by 2002:a6b:5406:: with SMTP id i6mr9248179iob.188.1584043339648; 
- Thu, 12 Mar 2020 13:02:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8Tro1z7uTIp12iQuDnwssQFro2Zzq8+IX8DXdBO8SLQ=;
+ b=ixcSFJAH/GjdU0Qs+Dsf3giluUFkwlQN/SUDZO66STY0OoimQaUPP9ucLBgIdCHmHn
+ rotvE+Yhx5+KvFKUju8uYtyqokffgkxKAQwIvCjH82rWhfT9DtBnPAx9hlvUVKemS3GX
+ RHZk85St7AvxzB1D4GlPWh5cKvTfW5MgK5UB4zfOPGagTW29UlCBggqyjhDlKANGUTTt
+ Ir6xPeRSRWkCn8dsW7eKEt4hW4CyFH1mOm0bhq8w6bFIh/tddi2+K04x59y2vri6vHkz
+ YqU2rcVZoeGwofYyF6jCpUgl1PqEvBngMHRZfNyj40lh8k1a8qcoBjdJ2nP9pTN8W4eR
+ ggZg==
+X-Gm-Message-State: ANhLgQ22MlJ+TPLNJdkpCmKzuLOxnedEKj7M983QhBagxALCiWKsbcj2
+ yICX3swVOL7Krp3FcJVImSWIIff28qjoWA==
+X-Google-Smtp-Source: ADFU+vthCeejKzA61MkXfTHxhSvXKUVR9Y+eQmmNY/uwaxTRr41gM6/JDzzUUHymmbo9KnHD0LShWA==
+X-Received: by 2002:a5d:6150:: with SMTP id y16mr12915859wrt.352.1584044201685; 
+ Thu, 12 Mar 2020 13:16:41 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p16sm4401554wmg.22.2020.03.12.13.16.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 13:16:40 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/net/i82596.c: Avoid reading off end of buffer in
+ i82596_receive()
+Date: Thu, 12 Mar 2020 20:16:38 +0000
+Message-Id: <20200312201638.6375-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200311221854.30370-1-nieklinnenbank@gmail.com>
- <CAFEAcA9UqDRT-32Qnap8n3uYh8hyK_89KhsTwceHDRiTzihyJg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9UqDRT-32Qnap8n3uYh8hyK_89KhsTwceHDRiTzihyJg@mail.gmail.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Thu, 12 Mar 2020 21:02:08 +0100
-Message-ID: <CAPan3WpgoCnnQCqxeYC3vPJ692TxFkLxs3dnD1xv9HfCukr7NA@mail.gmail.com>
-Subject: Re: [PATCH v8 00/18] Add Allwinner H3 SoC and Orange Pi PC Machine
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009195a605a0add438"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d2a
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,119 +76,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Helge Deller <deller@gmx.de>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009195a605a0add438
-Content-Type: text/plain; charset="UTF-8"
+The i82596_receive() function attempts to pass the guest a buffer
+which is effectively the concatenation of the data it is passed and a
+4 byte CRC value.  However, rather than implementing this as "write
+the data; then write the CRC" it instead bumps the length value of
+the data by 4, and writes 4 extra bytes from beyond the end of the
+buffer, which it then overwrites with the CRC.  It also assumed that
+we could always fit all four bytes of the CRC into the final receive
+buffer, which might not be true if the CRC needs to be split over two
+receive buffers.
 
-On Thu, Mar 12, 2020 at 5:22 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+Calculate separately how many bytes we need to transfer into the
+guest's receive buffer from the source buffer, and how many we need
+to transfer from the CRC work.
 
-> On Wed, 11 Mar 2020 at 22:19, Niek Linnenbank <nieklinnenbank@gmail.com>
-> wrote:
-> >
-> > Dear QEMU developers,
-> >
-> > Hereby I would like to contribute the following set of patches to QEMU
-> > which add support for the Allwinner H3 System on Chip and the
-> > Orange Pi PC machine. The following features and devices are supported:
-> >
-> >  * SMP (Quad Core Cortex A7)
-> >  * Generic Interrupt Controller configuration
-> >  * SRAM mappings
-> >  * SDRAM controller
-> >  * Real Time Clock
-> >  * Timer device (re-used from Allwinner A10)
-> >  * UART
-> >  * SD/MMC storage controller
-> >  * EMAC ethernet
-> >  * USB 2.0 interfaces
-> >  * Clock Control Unit
-> >  * System Control module
-> >  * Security Identifier device
->
->
->
-> Applied to target-arm.next, thanks.
+We add a count 'bufsz' of the number of bytes left in the source
+buffer, which we use purely to assert() that we don't overrun.
 
+Spotted by Coverity (CID 1419396) for the specific case when we end
+up using a local array as the source buffer.
 
-Great news! And thanks for your support as well Peter!
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+I know Helge has some significant rework of this device planned, but
+for 5.0 we need to fix the buffer overrun.
 
+Tested with 'make check' only.
+---
+ hw/net/i82596.c | 44 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 35 insertions(+), 9 deletions(-)
 
-> (I moved
-> the doc into the its new location now that the split-out
-> of the arm board docs into separate files has landed.)
->
-> Yeah sure, indeed, that makes sense.
-
-Regards,
-Niek
-
-
-> -- PMM
->
-
-
+diff --git a/hw/net/i82596.c b/hw/net/i82596.c
+index fe9f2390a94..2bd5d310367 100644
+--- a/hw/net/i82596.c
++++ b/hw/net/i82596.c
+@@ -501,7 +501,8 @@ ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
+     uint32_t rfd_p;
+     uint32_t rbd;
+     uint16_t is_broadcast = 0;
+-    size_t len = sz;
++    size_t len = sz; /* length of data for guest (including CRC) */
++    size_t bufsz = sz; /* length of data in buf */
+     uint32_t crc;
+     uint8_t *crc_ptr;
+     uint8_t buf1[MIN_BUF_SIZE + VLAN_HLEN];
+@@ -595,6 +596,7 @@ ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
+         if (len < MIN_BUF_SIZE) {
+             len = MIN_BUF_SIZE;
+         }
++        bufsz = len;
+     }
+ 
+     /* Calculate the ethernet checksum (4 bytes) */
+@@ -627,6 +629,7 @@ ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
+         while (len) {
+             uint16_t buffer_size, num;
+             uint32_t rba;
++            size_t bufcount, crccount;
+ 
+             /* printf("Receive: rbd is %08x\n", rbd); */
+             buffer_size = get_uint16(rbd + 12);
+@@ -639,14 +642,37 @@ ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
+             }
+             rba = get_uint32(rbd + 8);
+             /* printf("rba is 0x%x\n", rba); */
+-            address_space_write(&address_space_memory, rba,
+-                                MEMTXATTRS_UNSPECIFIED, buf, num);
+-            rba += num;
+-            buf += num;
+-            len -= num;
+-            if (len == 0) { /* copy crc */
+-                address_space_write(&address_space_memory, rba - 4,
+-                                    MEMTXATTRS_UNSPECIFIED, crc_ptr, 4);
++            /*
++             * Calculate how many bytes we want from buf[] and how many
++             * from the CRC.
++             */
++            if ((len - num) >= 4) {
++                /* The whole guest buffer, we haven't hit the CRC yet */
++                bufcount = num;
++            } else {
++                /* All that's left of buf[] */
++                bufcount = len - 4;
++            }
++            crccount = num - bufcount;
++
++            if (bufcount > 0) {
++                /* Still some of the actual data buffer to transfer */
++                bufsz -= bufcount;
++                assert(bufsz >= 0);
++                address_space_write(&address_space_memory, rba,
++                                    MEMTXATTRS_UNSPECIFIED, buf, bufcount);
++                rba += bufcount;
++                buf += bufcount;
++                len -= bufcount;
++            }
++
++            /* Write as much of the CRC as fits */
++            if (crccount > 0) {
++                address_space_write(&address_space_memory, rba,
++                                    MEMTXATTRS_UNSPECIFIED, crc_ptr, crccount);
++                rba += crccount;
++                crc_ptr += crccount;
++                len -= crccount;
+             }
+ 
+             num |= 0x4000; /* set F BIT */
 -- 
-Niek Linnenbank
+2.20.1
 
---0000000000009195a605a0add438
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 12, 2020 at 5:22 PM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, 11 Mar 2020 at 22:19, Niek Linnenbank &lt;<a href=3D"mailto:n=
-ieklinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;=
- wrote:<br>
-&gt;<br>
-&gt; Dear QEMU developers,<br>
-&gt;<br>
-&gt; Hereby I would like to contribute the following set of patches to QEMU=
-<br>
-&gt; which add support for the Allwinner H3 System on Chip and the<br>
-&gt; Orange Pi PC machine. The following features and devices are supported=
-:<br>
-&gt;<br>
-&gt;=C2=A0 * SMP (Quad Core Cortex A7)<br>
-&gt;=C2=A0 * Generic Interrupt Controller configuration<br>
-&gt;=C2=A0 * SRAM mappings<br>
-&gt;=C2=A0 * SDRAM controller<br>
-&gt;=C2=A0 * Real Time Clock<br>
-&gt;=C2=A0 * Timer device (re-used from Allwinner A10)<br>
-&gt;=C2=A0 * UART<br>
-&gt;=C2=A0 * SD/MMC storage controller<br>
-&gt;=C2=A0 * EMAC ethernet<br>
-&gt;=C2=A0 * USB 2.0 interfaces<br>
-&gt;=C2=A0 * Clock Control Unit<br>
-&gt;=C2=A0 * System Control module<br>
-&gt;=C2=A0 * Security Identifier device<br>
-<br>
-<br>
-<br>
-Applied to target-arm.next, thanks. </blockquote><div><br></div><div>Great =
-news! And thanks for your support as well Peter!<br></div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">(I moved<br>
-the doc into the its new location now that the split-out<br>
-of the arm board docs into separate files has landed.)<br>
-<br></blockquote><div>Yeah sure, indeed, that makes sense.</div><div><br></=
-div><div>Regards,</div><div>Niek<br></div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
--- PMM<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
-
---0000000000009195a605a0add438--
 
