@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0661833CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:52:19 +0100 (CET)
-Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263CA1833CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:52:22 +0100 (CET)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCPC6-0005GD-Az
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38885)
+	id 1jCPC9-0005OU-6G
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCPAX-0003bE-6N
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:42 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCPAa-0003hX-PN
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCPAV-0000ko-RP
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55086)
+ (envelope-from <bounces@canonical.com>) id 1jCPAX-0000vU-Vd
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55216)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCPAV-0000hQ-L9
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:39 -0400
+ id 1jCPAX-0000qP-P2
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:50:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCPAU-0008FV-Bs
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 14:50:38 +0000
+ id 1jCPAV-0008HD-Ur
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 14:50:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 58C392E80CC
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 14:50:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BE5ED2E80D1
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 14:50:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 14:35:41 -0000
+Date: Thu, 12 Mar 2020 14:36:59 -0000
 From: Andreas Hasenack <andreas@canonical.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 paelzer tstrike34
 X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: Andreas Hasenack (ahasenack)
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158402374170.3486.9052767212503157472.malone@soybean.canonical.com>
+Message-Id: <158402381966.3438.6426317515783287303.malone@soybean.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2852e86908a8a7c496b26927989f793c382daa13
+X-Launchpad-Hash: 5581ed0b89516662d4251322d1c793905ae132dd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,12 +70,18 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-/proc/cpuinfo
+I also have these two apparmor denied messages in dmesg:
+[ 1380.529549] audit: type=3D1400 audit(1584023445.093:139): apparmor=3D"DE=
+NIED" operation=3D"open" profile=3D"libvirt-aa346a1d-8caa-4c55-bef9-c3acbe1=
+7bdac" name=3D"/" pid=3D19712 comm=3D"qemu-system-x86" requested_mask=3D"r"=
+ denied_mask=3D"r" fsuid=3D64055 ouid=3D0
+[ 1380.529856] audit: type=3D1400 audit(1584023445.093:140): apparmor=3D"DE=
+NIED" operation=3D"open" profile=3D"libvirt-aa346a1d-8caa-4c55-bef9-c3acbe1=
+7bdac" name=3D"/sys/bus/nd/devices/" pid=3D19712 comm=3D"qemu-system-x86" r=
+equested_mask=3D"r" denied_mask=3D"r" fsuid=3D64055 ouid=3D0
 
 
-** Attachment added: "cpuinfo.txt"
-   https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866870/+attachment/=
-5336147/+files/cpuinfo.txt
+And one last bit of info, this system booted with mitigations=3Doff.
 
 -- =
 
