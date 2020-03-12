@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A87182C03
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:09:38 +0100 (CET)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B2C182C48
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:22:14 +0100 (CET)
+Received: from localhost ([::1]:38270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCJqT-0005vs-Sp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
+	id 1jCK2f-0004QV-Cp
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jCJpQ-0004wz-9G
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:08:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCK1T-0002Fa-TU
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:21:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jCJpP-0001hZ-22
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:08:32 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:33301)
+ (envelope-from <bounces@canonical.com>) id 1jCK1S-0005mI-Og
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:20:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jCJpO-0001gz-Lo
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:08:31 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id g66so2663422ywf.0
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 02:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2ZCCB0V5ITmL3JLDCm0vrSVolfwJ+Ce2a9w1M1kLyZ8=;
- b=xO8T2f5sMrItuUNjGRSEzVQVl+ALve0Osbcr3EfXNIwdPhp6u1uSHN2TQQtdigfAdL
- mLWuwuI8TPZLUTMgu9sx0FDUMBPjs4CGMODTrsAl4GVsOFfSPfKpXpBfGHVKzxhyRAWH
- cowLzHOtBCn+ee6yFU2GxuFDY/6wrwHt4u4Z64kAPbSyTsci5rEvPhSf5vezQrSxGd9g
- x6FCRWct80zjqx2+7Jh3fmJCST5bdCHLlOuuOs2APSSK3p5dpv/G2K64tSDPGryZlDUI
- 26o105YgL+jPyh5aarRj8Id8bh9OXrTt8mo77VvIgAIuIZ5ANV7wdVx3icXZtbavXwbG
- CkCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2ZCCB0V5ITmL3JLDCm0vrSVolfwJ+Ce2a9w1M1kLyZ8=;
- b=PaJXy1p7A5ng7p0eKOrrKBBnVf6zZK3grI9823kbjTf4hIa+/PNmW2b+fRB5tlgA0D
- coOW0yIHyvtthEuOpuLgeTcvQ1jH3tvFGW590toAVlI8cAD9frdgRY+jZp/nU0jAZchx
- d104P7adW+i51HmBi26UmL6ocQM2dcJN1X0Td/TxPl28zFWlHbmhTQFCgDntCVGcokbc
- oLpgXvDD8JxuA1MxxV6reCXq8gmuTX+VjOJRVHE7Ywmc3EyqjCj2bXaLw0AW0esrvj0b
- OQcoBVdPGCNqzEUUgUibeFVC1KrSTYvwdP04jcvqQPVhilZRRYNhOfifCsv2nuoygmiL
- cwIw==
-X-Gm-Message-State: ANhLgQ21NjIC7ZmGtUJx6tSsEapaautLWeEbOXUaAk8qV3vBO+5Gd1LC
- bo3fns7JPGfc/+sntsAsCnCfx5K3rB2DdwiVHEaqiQ==
-X-Google-Smtp-Source: ADFU+vsbbzOZX/A8TAAZ/WABERSD4EO6Z+RJuPAwAyLXCqdXjlkjxslnlwKx4neOx/VwudqB3YPPd27MHP328k7mzHc=
-X-Received: by 2002:a0d:ca4e:: with SMTP id m75mr7449743ywd.36.1584004109619; 
- Thu, 12 Mar 2020 02:08:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCK1S-0005ip-J2
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:20:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCK1P-00010e-Mo
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:20:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 803622E80DD
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:20:55 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200311123518.4025-1-yuri.benditovich@daynix.com>
- <20200311123518.4025-2-yuri.benditovich@daynix.com>
- <20200311094553-mutt-send-email-mst@kernel.org>
- <CAOEp5OdgDB5u-SeZO3y4iCTjFy6hpNfPA-ADaBbnvx=MHD_dTw@mail.gmail.com>
- <20200311161819-mutt-send-email-mst@kernel.org>
- <CAOEp5OcrWewBYNT8TT6r1oFc=diq-HoGfe-zXwXPNSP0RguFkQ@mail.gmail.com>
- <20200312031427-mutt-send-email-mst@kernel.org>
- <CAOEp5Od=GW1onOqchw3H8nYSUByuekYCvi6jsWO8v9SYiFF27Q@mail.gmail.com>
- <20200312042252-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200312042252-mutt-send-email-mst@kernel.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Thu, 12 Mar 2020 11:08:20 +0200
-Message-ID: <CAOEp5OdEAku2EZncVKVOHk++0GwMyUiNOGDA22_7S8Whcekqaw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] virtio-net: introduce RSS and hash report features
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000046e7e405a0a4b22c"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Mar 2020 09:09:18 -0000
+From: Boris  Derzhavets <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dbaxps0220 paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: Boris  Derzhavets (dbaxps0220)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158400415832.12550.14286402964002614829.malone@wampee.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 32a2d3b35a170be3c5aced028d1939a580214bad
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,181 +66,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000046e7e405a0a4b22c
-Content-Type: text/plain; charset="UTF-8"
+Reproduced via attempt to install KVM Guest F31 Server on Ubuntu 20.04
+(bare metal)
 
-On Thu, Mar 12, 2020 at 10:23 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+** Attachment added: "/var/log/libvirt/qemu/fedora31.log  - attempt to laun=
+ch F31 Server VM via Virt-manager on Ubuntu 20.04"
+   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5336017/+files/=
+fedora31.log
 
-> On Thu, Mar 12, 2020 at 09:42:20AM +0200, Yuri Benditovich wrote:
-> >
-> >
-> > On Thu, Mar 12, 2020 at 9:21 AM Michael S. Tsirkin <mst@redhat.com>
-> wrote:
-> >
-> >     On Thu, Mar 12, 2020 at 09:02:38AM +0200, Yuri Benditovich wrote:
-> >     >     >     > +#define virtio_net_config virtio_net_config_with_rss
-> >     >     >
-> >     >     >     Do we have to? Let's just tweak code to do the right
-> thing...
-> >     >     >
-> >     >     >
-> >     >     > Are we going to update the virtio_net some time?
-> >     >     > If yes, IMO makes sense to do less tweaking in the middle of
-> the
-> >     code.
-> >     >     > Then, upon update of virtio_net.h - easily remove all these
-> defines
-> >     that
-> >     >     were
-> >     >     > added in virtio-net.c
-> >     >
-> >     >     We'll update it in a month or two. But I'd be reluctant to
-> merge
-> >     hacks
-> >     >     since people tend to copy-paste code ...
-> >     >
-> >     >
-> >     > I agree that merging hacks is very bad practice.
-> >     > Which change is more looks like a hack: redefine the struct to its
-> _real_
-> >     > layout or change the type of the struct in 5 places?
-> >
-> >     Anything that would be unacceptable as a permanent solution is a
-> hack.
-> >     In this case how about
-> >             virtio_net_config_rss {
-> >                     struct virtio_net_config config;
-> >                     /* RSS things */
-> >             }
-> >
-> >
-> > No problem.
-> >
-> > '#define virtio_net_config virtio_net_config_with_rss ' is OK?
-> >
->
-> I don't think it is, macros are supposed to be all upper case.
->
+-- =
 
-Michael, just tell me please what you want:
-You prefer to change everywhere ' virtio_net_config' to
-'virtio_net_config_rss' and two month later to change it back?
-You prefer to change everywhere  ' virtio_net_config'  to
-'VIRTIO_NET_CONFIG' and define it according to the needs?
-Something other?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
 
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
 
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
 
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
 
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
 
->
-> >
-> >
-> >
-> >     --
-> >     MST
-> >
-> >
->
->
+  =
 
---00000000000046e7e405a0a4b22c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  ---
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 12, 2020 at 10:23 AM Mich=
-ael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, =
-Mar 12, 2020 at 09:42:20AM +0200, Yuri Benditovich wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Thu, Mar 12, 2020 at 9:21 AM Michael S. Tsirkin &lt;<a href=3D"mail=
-to:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Thu, Mar 12, 2020 at 09:02:38AM +0200, Yuri Bend=
-itovich wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt=
-; +#define virtio_net_config virtio_net_config_with_rss<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0Do =
-we have to? Let&#39;s just tweak code to do the right thing...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt; Are we going to update=
- the virtio_net some time?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt; If yes, IMO makes sens=
-e to do less tweaking in the middle of the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0code.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt; Then, upon update of v=
-irtio_net.h - easily remove all these defines<br>
-&gt;=C2=A0 =C2=A0 =C2=A0that<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0were<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0&gt; added in virtio-net.c=
-=C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0We&#39;ll update it in a mo=
-nth or two. But I&#39;d be reluctant to merge<br>
-&gt;=C2=A0 =C2=A0 =C2=A0hacks<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0since people tend to copy-p=
-aste code ...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; I agree that merging hacks is very bad practic=
-e.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; Which change is more looks like a hack: redefi=
-ne the struct to its _real_<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; layout or change the type of the struct in 5 p=
-laces?<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Anything that would be unacceptable as a permanent =
-solution is a hack.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0In this case how about<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 virtio_net_config_rss {=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 struct virtio_net_config config;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /* RSS things */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; <br>
-&gt; <br>
-&gt; No problem.<br>
-&gt; <br>
-&gt; &#39;#define virtio_net_config virtio_net_config_with_rss &#39; is OK?=
-<br>
-&gt; <br>
-<br>
-I don&#39;t think it is, macros are supposed to be all upper case.<br></blo=
-ckquote><div><br></div><div>Michael, just tell me please what you want:</di=
-v><div>You prefer to change everywhere &#39;
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
 
-virtio_net_config&#39; to &#39;virtio_net_config_rss&#39; and two month lat=
-er to change it back?</div><div>You prefer to change everywhere=C2=A0
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
 
-&#39;
+  These Guests are not nested.
 
-virtio_net_config&#39;=C2=A0 to &#39;VIRTIO_NET_CONFIG&#39; and define it a=
-ccording to the needs?</div><div>Something other?</div><div>=C2=A0<br></div=
-><div><br></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0--<br>
-&gt;=C2=A0 =C2=A0 =C2=A0MST<br>
-&gt; <br>
-&gt; <br>
-<br>
-</blockquote></div></div>
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
 
---00000000000046e7e405a0a4b22c--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
