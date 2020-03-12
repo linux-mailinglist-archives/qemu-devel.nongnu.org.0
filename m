@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57268182F81
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:45:48 +0100 (CET)
-Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4CB182F80
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:45:45 +0100 (CET)
+Received: from localhost ([::1]:39826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCMHb-00055d-C0
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58029)
+	id 1jCMHY-0004yX-Et
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:45:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG6-0003RJ-Ra
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:16 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMG6-0003RK-Qx
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG5-0001zD-5X
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMG5-0001zh-RR
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:14 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44547)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44198)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCMG4-0001y9-UJ
+ id 1jCMG5-0001z9-LY
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:13 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l18so6980991wru.11
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:12 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id l18so6981063wru.11
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ktwBlGPnJjETlEEbOT+skykkPPBSlbE51IVXCS/jbrw=;
- b=Koxv45o3VmRxkxi4aHsc/d12o0BjiuCjIHQOT88cGFJ8GMkFlrl2WTSpPcGdTBDbhE
- ydqcaLT7WhjYD6HIqERgzbI0Al9c47yjHD4snUfVcI6xTmYq3OLl+uU51JeDR6kkgJ4W
- pfpzBclSHZz/XvF8hDRjXUxms+yz7DVKubwjPXY5NjwxyLFtUAPV6nKuhZmxZWDSfsqE
- AkU3/bH+T7xK5F6pcpio5WlWNgBsSieEC6g93EId6Lvw8fawMKJJzoboWW7mwWemnPuC
- lyXbzuEztIhWMjCTMlpkaLhg8FxD/+wu7vPk8RXd7z0SztgimDxe7crnAX4WL08Ea+mQ
- qLLw==
+ bh=UObsBGwVnKBodrfFF5Zg1LJ0/tMYPiJ56dulhQSD3Lg=;
+ b=kTUiXXDZ9C3JA5EI6l72dJtvyZvaDtdxTssHCSl7LBD1CCYPZNwvmah5q2bdQkEQM3
+ mfl1SNEUXWEwgAh9Wj7qiOKeRJCpV01FBKNsB2ZTckj9uIMOSlCuBm2niz4snbJjYand
+ 23VeBP8+qUtFansEM23f/q4frPWHFUW+66k0PuIgm8MVIhmsyUQ7dA8cbdAd62gfg3Fd
+ o7q+MHGqidP1HHznefdiFy+mUen4+LWPWS7VWrBqF4W0IQC55xRKgWQZynls2SexSECB
+ r+31zACbkJvNx5VpQ9YrBNST7xDA1QdBf7gFQk4/aGfD616KBDVjZ5xb6rn0NAYu9IYE
+ 5xTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ktwBlGPnJjETlEEbOT+skykkPPBSlbE51IVXCS/jbrw=;
- b=SjEtAuGeQKpBzuylJU5j9Hjml/sOZC0ZWZoC6okX4CYfcLaIjd3ceDOcPu14oOuDYN
- Dg7hoDkO72vwS+cRtuXZbEFzGF0i9Fgag5DdIp4cNEmstAUpuBYGLcXb2MV003Y+n7JS
- NRyhC9hC7NBo1Ecx5afYG9LT7Eb4k+s4e1qAJovHnpWyRS5PAbIiWeDzIeHNIV6fgfgv
- VgCCgiZPqSYA4+epxoSKJYhtiOdABWXgXHZZVrVIl0qo7/oWPYVCLrbbvzjX8s1rHKg4
- I5OjTDTBziwhNuzUwm8Fomf36fAGcW5zieKUfNYIWs4nYBMMluXuLPezL0wCEdHPz0QX
- u2JQ==
-X-Gm-Message-State: ANhLgQ1NL2IX2pldAOS+DJDEmqN3KNyy3IPuxItgapDCnHrGLfUXUxe9
- xAhntsGqCwJj4s/HWm7T4zCnEREGBohgBA==
-X-Google-Smtp-Source: ADFU+vvIZCsIJ6VvuKKX4/3PdoG4dLQ3AkQ0Y41hXs7nTjJhu8pGbQPNaZrCu4z60Be1oMXEC3Vd3w==
-X-Received: by 2002:a5d:61c9:: with SMTP id q9mr11080625wrv.164.1584013451359; 
- Thu, 12 Mar 2020 04:44:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UObsBGwVnKBodrfFF5Zg1LJ0/tMYPiJ56dulhQSD3Lg=;
+ b=esT1YW+1Iaoy1MrhIdrOYJxJQC2QWimtkxjmHqeDvPv+dRkint4gjmPvkMcIoO6hdJ
+ 5RvKAB4a9E4XhSgqB9c2wE6CIlM0ROAOvxP9kkAQqZ075bUd355/a75Bo1q5gXLZKpqz
+ MEpj4aVo1p3ZDKIt7kIdFZ4t7nmHtuL4WQ2z//dMBojgnheSYFbpkm0DxAyPpt29iqn3
+ c/YvBMA/rDbBxQh/KiZx1bjJiHYL08KFtiSH/yc+revvw61j6HDuyV91cIxcupTmKm9i
+ 623mn38HAq1rFpHWBX/AAcj5jLc1tljqMhiwSRxqGvHxLZAdDEC5ihHv17dAGvU0/0uH
+ Z7jQ==
+X-Gm-Message-State: ANhLgQ29uoSUU71ODC8S0336ix8jmm7a4g+zRuhWIvss0d8J8sxQgyu5
+ fw1bgxr16FxObnuvxx8p6ZT/+bm4RvaYtw==
+X-Google-Smtp-Source: ADFU+vvdKNsSgTesq0bIPNGD3H0XybdrmR3IkLCnns+OaycSNxVLr5ZZOapKIItp+P/4F/7rIbwd2g==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr10489333wrk.407.1584013452421; 
+ Thu, 12 Mar 2020 04:44:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.10
+ by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 04:44:10 -0700 (PDT)
+ Thu, 12 Mar 2020 04:44:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] docs queue
-Date: Thu, 12 Mar 2020 11:43:56 +0000
-Message-Id: <20200312114408.16891-1-peter.maydell@linaro.org>
+Subject: [PULL 01/12] Makefile: Remove redundant Texinfo related code
+Date: Thu, 12 Mar 2020 11:43:57 +0000
+Message-Id: <20200312114408.16891-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200312114408.16891-1-peter.maydell@linaro.org>
+References: <20200312114408.16891-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,88 +81,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some documentation-related updates now that the main
-qemu-doc conversion is in master. Includes the splitting
-out of arm-specific info into subpages.
+The recent conversion of qemu-doc.texi to rST forgot a few stray bits
+of makefile code that are now redundant. Remove them.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200306171749.10756-2-peter.maydell@linaro.org
+---
+ Makefile | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-The following changes since commit 5931ed5641ca6c4a237e82e4e5d2a08639865ce7:
+diff --git a/Makefile b/Makefile
+index 37aed4a2442..fae4ce181ea 100644
+--- a/Makefile
++++ b/Makefile
+@@ -795,7 +795,7 @@ rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(M
+ endef
+ 
+ distclean: clean
+-	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
++	rm -f config-host.mak config-host.h* config-host.ld $(DOCS)
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-devices.mak config-all-disas.mak config.status
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+@@ -1122,15 +1122,6 @@ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+ 	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
+              "GEN","$@")
+ 
+-qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+-qemu-monitor.texi: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+-qemu-monitor-info.texi: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
+ 	@cp -p $< $@
+ 
+-- 
+2.20.1
 
-  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-03-11' into staging (2020-03-11 17:06:40 +0000)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-docs-20200312
-
-for you to fetch changes up to 6fe6d6c9a953901251e1a85088f0a61ff5caf648:
-
-  docs: Be consistent about capitalization of 'Arm' (2020-03-12 11:20:20 +0000)
-
-----------------------------------------------------------------
-docs queue:
- * Remove some no longer needed texinfo infrastructure
- * Reorder the top level index docs to put most useful manuals first
- * Split the Arm target-specific info into sub-pages
- * Improve the Arm documentation a bit with info previously
-   only on the wiki page
-
-----------------------------------------------------------------
-Peter Maydell (12):
-      Makefile: Remove redundant Texinfo related code
-      Update comments in .hx files that mention Texinfo
-      hxtool: Remove Texinfo generation support
-      docs/sphinx/hxtool.py: Remove STEXI/ETEXI support
-      Makefile: Make all Sphinx documentation depend on the extensions
-      docs/index.rst, docs/index.html.in: Reorder manuals
-      docs/qemu-option-trace.rst.inc: Remove redundant comment
-      Makefile: Allow for subdirectories in Sphinx manual dependencies
-      docs/system: Split target-arm.rst into sub-documents
-      docs/system/target-arm.rst: Add some introductory text
-      docs: Move arm-cpu-features.rst into the system manual
-      docs: Be consistent about capitalization of 'Arm'
-
- docs/can.txt                                       |   2 +-
- docs/devel/atomics.txt                             |   2 +-
- docs/devel/multi-thread-tcg.txt                    |   8 +-
- docs/replay.txt                                    |   2 +-
- docs/specs/fw_cfg.txt                              |   2 +-
- Makefile                                           |  16 +-
- MAINTAINERS                                        |   9 +
- docs/devel/kconfig.rst                             |   2 +-
- docs/devel/loads-stores.rst                        |   2 +-
- docs/devel/tcg.rst                                 |   2 +-
- docs/index.html.in                                 |  10 +-
- docs/index.rst                                     |   8 +-
- docs/qemu-option-trace.rst.inc                     |   4 -
- docs/specs/tpm.rst                                 |   6 +-
- docs/sphinx/hxtool.py                              |  28 +-
- .../arm/cpu-features.rst}                          |  12 +-
- docs/system/arm/integratorcp.rst                   |  16 ++
- docs/system/arm/musicpal.rst                       |  19 ++
- docs/system/arm/nseries.rst                        |  33 +++
- docs/system/arm/palm.rst                           |  23 ++
- docs/system/arm/realview.rst                       |  34 +++
- docs/system/arm/stellaris.rst                      |  26 ++
- docs/system/arm/sx1.rst                            |  18 ++
- docs/system/arm/versatile.rst                      |  29 ++
- docs/system/arm/xscale.rst                         |  29 ++
- docs/system/target-arm.rst                         | 295 ++++++---------------
- docs/user/main.rst                                 |   8 +-
- hmp-commands-info.hx                               |   8 +-
- hmp-commands.hx                                    |   8 +-
- qemu-options.hx                                    |   8 +-
- scripts/hxtool                                     |  78 +-----
- 31 files changed, 369 insertions(+), 378 deletions(-)
- rename docs/{arm-cpu-features.rst => system/arm/cpu-features.rst} (98%)
- create mode 100644 docs/system/arm/integratorcp.rst
- create mode 100644 docs/system/arm/musicpal.rst
- create mode 100644 docs/system/arm/nseries.rst
- create mode 100644 docs/system/arm/palm.rst
- create mode 100644 docs/system/arm/realview.rst
- create mode 100644 docs/system/arm/stellaris.rst
- create mode 100644 docs/system/arm/sx1.rst
- create mode 100644 docs/system/arm/versatile.rst
- create mode 100644 docs/system/arm/xscale.rst
 
