@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC82F1839D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:51:44 +0100 (CET)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B231839F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:56:50 +0100 (CET)
+Received: from localhost ([::1]:49650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCTrr-0005YK-Qu
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45519)
+	id 1jCTwn-0003iW-NC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjI-0005bn-2w
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTjH-0005bD-Uj
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjF-000299-RR
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTjG-00029m-E0
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:51 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:37866)
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:55665)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jCTjF-00027R-LA
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:49 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id ca13so3080240pjb.2
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:42:49 -0700 (PDT)
+ id 1jCTjG-00027e-7a
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:50 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id mj6so2824831pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JBLvmRkIs5r/ZixfpsDU17HkY1c+JR6WvLvqW6Jbx1o=;
- b=Abh9nIy34f4vrATLK4BTPz6BBAZvbS71pZ5ZszSqUMR27+Qc+okyzXmeb35xH02mDm
- isUnSqL+4kG17rO50PX5Z2GXhA2X4OOz004+7zZqQfqKHOFlpfwN+5toDXg49+ywI9Lt
- 2Lf65hgUU0z2akxJqgWWoEDPy6Ld9/SjjJsBnLonFDs0DWsIf3uNAq0goz1rv8ZNBgg+
- /c3VEgp1rl2vpNggfl5y7shTAidH+T/9Ef/bz8X7vF4nn2m/rH8jfHtyG8fPjDXa/np0
- BqKBS40NlrQL1NM+TTo6nyfXhPUbk0owGVveadB+iBxqXi0WnwTsp9x/VAOb3EKsaaaR
- whRQ==
+ bh=OdUOrVG4+6fOcBEkk2TzuAIf4lO1j/SFFZ3HajmExks=;
+ b=NQm0MU3cApmQWVJ1p95QWuiOx5XAxifQxmDkUuQZ8Gw4Th1elugQeFMOt9PvfpGsiC
+ U83e/TEiJcIYtY2ZLmPh8eZ3f/xH5sLnEeokLkaacqXXtPPFnxa4vgtrVrpGkXkN3cOG
+ YNljKf6M2dl4yZ9DxitGrlR6B0PuRcCDclQLoWjbLpHUlnCjQPZ1PztoO2RGE1c8EZSU
+ ehB/bFm3ExrQ+ayB4Z5ZRhjqU6HFqffb/q6z9eEA2afsbR2iwhkIZQMKARxmuDNbdS9O
+ e34n7aYYRn3ArD2lad7SuhqeOBgtUbbxV5WT2GWWdA9TQoa/F8XTC4bWARhKHzIc7x/0
+ +ARg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JBLvmRkIs5r/ZixfpsDU17HkY1c+JR6WvLvqW6Jbx1o=;
- b=pyWeyMcnCtyOswB0IsUF6PGy1qrd5O7/IXqtRub8fWk7vAZW2L/C262CIXylRT65L8
- ZTCxUGthegXMC5jq284MIqvgxRbWLOskPgKmjWRfTraujUhUgLv/HfobnLqMQjGeb93G
- K0mbHVkfbN0lHMcs2oFQi6qfc0RMlIIRiXvLgai/b7N45sWJjcc3Z3pM6kKKhxwiH5za
- 2h0WthoLBz0DycI9ylzIGJLjjPervLyKFWyUuLGiwM6l687W6HEN2URUsc3hanwKE0se
- f4Q4qPrSN68L1B1oMj+B2iNNxK/H/D/iyx0cc/Fym750HIHz6QeNbSrAoZghAPVECvo5
- j8dw==
-X-Gm-Message-State: ANhLgQ1zMyKVZGSXnT4f1lq1X49PIxcPj2e+IXH6v6xmx3Um7/HcJJxy
- CjARi38MDQy6XTOaEB+xyeN1i864tPE=
-X-Google-Smtp-Source: ADFU+vuwmAcOJBVmF2P+40EMXgJNif9lwvugy9SmbpXCqxsh2KUTrwL1NMf3Eq1W0poT/qunLc7F+g==
-X-Received: by 2002:a17:902:7d94:: with SMTP id
- a20mr9927958plm.307.1584042163358; 
- Thu, 12 Mar 2020 12:42:43 -0700 (PDT)
+ bh=OdUOrVG4+6fOcBEkk2TzuAIf4lO1j/SFFZ3HajmExks=;
+ b=h93fLn5IkxCAeFhxEHET5Er9nCROC06VZBaoGzkGPmpFM3kQQDv+uCZsQHwqr0UH6v
+ BftfvBljdBP30WUzeHk1D+zmeZ1iE32VgWt3kNj38GHELGALRiFeU6CL5Hp7NWxfVawB
+ +8GXZ1361th796gNw+UDHNaVEw39Dldm//wtG3+vKAEov/ujW6OBeoonlHtdw29jJVK9
+ 6ged4TudDxT78R98GLWn5gSuBhumBDkbzISL6NrR+6ltPGtv11rvPKzz49oIwXkcCaf2
+ TZCy9VRlO4F97BxMOXzbf7ZBSwgF6AejbdQxROvAqECQ38Q6GNvAicCHOTmPfbxqn3Dy
+ PXfA==
+X-Gm-Message-State: ANhLgQ2KxTsdaM40/SefuS9N5Zgnux7bNpUuqP4oFkPXku97WdILVS+b
+ /YEF1V6JkLQJHI7gttXfb6QSs03Fzps=
+X-Google-Smtp-Source: ADFU+vu0oH21qXkYGhSbyxVN3lhjP0De7OnHEpOmfTReU/VfNdXwsSJEX5BYO735f5eY6gzE9Zl2/g==
+X-Received: by 2002:a17:90b:94a:: with SMTP id
+ dw10mr5787263pjb.89.1584042165705; 
+ Thu, 12 Mar 2020 12:42:45 -0700 (PDT)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.42.42
+ by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 12:42:42 -0700 (PDT)
+ Thu, 12 Mar 2020 12:42:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 17/42] target/arm: Restrict the values of DCZID.BS under TCG
-Date: Thu, 12 Mar 2020 12:41:54 -0700
-Message-Id: <20200312194219.24406-18-richard.henderson@linaro.org>
+Subject: [PATCH v6 18/42] target/arm: Simplify DC_ZVA
+Date: Thu, 12 Mar 2020 12:41:55 -0700
+Message-Id: <20200312194219.24406-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312194219.24406-1-richard.henderson@linaro.org>
 References: <20200312194219.24406-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,53 +83,129 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can simplify our DC_ZVA if we recognize that the largest BS
-that we actually use in system mode is 64.  Let us just assert
-that it fits within TARGET_PAGE_SIZE.
-
-For DC_GVA and STZGM, we want to be able to write whole bytes
-of tag memory, so assert that BS is >= 2 * TAG_GRANULE, or 32.
+Now that we know that the operation is on a single page,
+we need not loop over pages while probing.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ target/arm/helper-a64.c | 94 +++++++++++------------------------------
+ 1 file changed, 25 insertions(+), 69 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index cb3c3fe8c2..96c20317ad 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1807,6 +1807,30 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index bc0649a44a..60a04dc880 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -1119,85 +1119,41 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
+      * (which matches the usual QEMU behaviour of not implementing either
+      * alignment faults or any memory attribute handling).
+      */
++    int blocklen = 4 << env_archcpu(env)->dcz_blocksize;
++    uint64_t vaddr = vaddr_in & -blocklen;
++    int mmu_idx = cpu_mmu_index(env, false);
++    void *mem;
+ 
+-    ARMCPU *cpu = env_archcpu(env);
+-    uint64_t blocklen = 4 << cpu->dcz_blocksize;
+-    uint64_t vaddr = vaddr_in & ~(blocklen - 1);
++    /*
++     * Trapless lookup.  In addition to actual invalid page, may
++     * return NULL for I/O, watchpoints, clean pages, etc.
++     */
++    mem = tlb_vaddr_to_host(env, vaddr, MMU_DATA_STORE, mmu_idx);
+ 
+ #ifndef CONFIG_USER_ONLY
+-    {
++    if (unlikely(!mem)) {
++        uintptr_t ra = GETPC();
++
+         /*
+-         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
+-         * the block size so we might have to do more than one TLB lookup.
+-         * We know that in fact for any v8 CPU the page size is at least 4K
+-         * and the block size must be 2K or less, but TARGET_PAGE_SIZE is only
+-         * 1K as an artefact of legacy v5 subpage support being present in the
+-         * same QEMU executable. So in practice the hostaddr[] array has
+-         * two entries, given the current setting of TARGET_PAGE_BITS_MIN.
++         * Trap if accessing an invalid page.  DC_ZVA requires that we supply
++         * the original pointer for an invalid page.  But watchpoints require
++         * that we probe the actual space.  So do both.
+          */
+-        int maxidx = DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
+-        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)];
+-        int try, i;
+-        unsigned mmu_idx = cpu_mmu_index(env, false);
+-        TCGMemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
++        (void) probe_write(env, vaddr_in, 1, mmu_idx, ra);
++        mem = probe_write(env, vaddr, blocklen, mmu_idx, ra);
+ 
+-        assert(maxidx <= ARRAY_SIZE(hostaddr));
+-
+-        for (try = 0; try < 2; try++) {
+-
+-            for (i = 0; i < maxidx; i++) {
+-                hostaddr[i] = tlb_vaddr_to_host(env,
+-                                                vaddr + TARGET_PAGE_SIZE * i,
+-                                                1, mmu_idx);
+-                if (!hostaddr[i]) {
+-                    break;
+-                }
+-            }
+-            if (i == maxidx) {
+-                /*
+-                 * If it's all in the TLB it's fair game for just writing to;
+-                 * we know we don't need to update dirty status, etc.
+-                 */
+-                for (i = 0; i < maxidx - 1; i++) {
+-                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
+-                }
+-                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE));
+-                return;
+-            }
++        if (unlikely(!mem)) {
+             /*
+-             * OK, try a store and see if we can populate the tlb. This
+-             * might cause an exception if the memory isn't writable,
+-             * in which case we will longjmp out of here. We must for
+-             * this purpose use the actual register value passed to us
+-             * so that we get the fault address right.
++             * The only remaining reason for mem == NULL is I/O.
++             * Just do a series of byte writes as the architecture demands.
+              */
+-            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
+-            /* Now we can populate the other TLB entries, if any */
+-            for (i = 0; i < maxidx; i++) {
+-                uint64_t va = vaddr + TARGET_PAGE_SIZE * i;
+-                if (va != (vaddr_in & TARGET_PAGE_MASK)) {
+-                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
+-                }
++            for (int i = 0; i < blocklen; i++) {
++                cpu_stb_mmuidx_ra(env, vaddr + i, 0, mmu_idx, ra);
+             }
+-        }
+-
+-        /*
+-         * Slow path (probably attempt to do this to an I/O device or
+-         * similar, or clearing of a block of code we have translations
+-         * cached for). Just do a series of byte writes as the architecture
+-         * demands. It's not worth trying to use a cpu_physical_memory_map(),
+-         * memset(), unmap() sequence here because:
+-         *  + we'd need to account for the blocksize being larger than a page
+-         *  + the direct-RAM access case is almost always going to be dealt
+-         *    with in the fastpath code above, so there's no speed benefit
+-         *  + we would have to deal with the map returning NULL because the
+-         *    bounce buffer was in use
+-         */
+-        for (i = 0; i < blocklen; i++) {
+-            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
++            return;
+         }
      }
+-#else
+-    memset(g2h(vaddr), 0, blocklen);
  #endif
- 
-+    if (tcg_enabled()) {
-+        int dcz_blocklen = 4 << cpu->dcz_blocksize;
 +
-+        /*
-+         * We only support DCZ blocklen that fits on one page.
-+         *
-+         * Architectually this is always true.  However TARGET_PAGE_SIZE
-+         * is variable and, for compatibility with -machine virt-2.7,
-+         * is only 1KiB, as an artifact of legacy ARMv5 subpage support.
-+         * But even then, while the largest architectural DCZ blocklen
-+         * is 2KiB, no cpu actually uses such a large blocklen.
-+         */
-+        assert(dcz_blocklen <= TARGET_PAGE_SIZE);
-+
-+        /*
-+         * We only support DCZ blocksize >= 2*TAG_GRANULE, which is to say
-+         * both nibbles of each byte storing tag data may be written at once.
-+         * Since TAG_GRANULE is 16, this means that blocklen must be >= 32.
-+         */
-+        if (cpu_isar_feature(aa64_mte, cpu)) {
-+            assert(dcz_blocklen >= 2 * TAG_GRANULE);
-+        }
-+    }
-+
-     qemu_init_vcpu(cs);
-     cpu_reset(cs);
- 
++    memset(mem, 0, blocklen);
+ }
 -- 
 2.20.1
 
