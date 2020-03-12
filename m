@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15411835F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:16:03 +0100 (CET)
-Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565361835FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:18:41 +0100 (CET)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQV8-0007Fy-2L
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57233)
+	id 1jCQXe-0005er-SQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jCQSp-0002f5-Ha
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:40 -0400
+ (envelope-from <david@redhat.com>) id 1jCQTE-0003do-92
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:14:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jCQSo-0008Cs-5X
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20585
+ (envelope-from <david@redhat.com>) id 1jCQTC-0008V8-JF
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:14:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37590
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jCQSo-0008Cg-1I
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:38 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jCQTC-0008UC-Fo
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:14:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584029617;
+ s=mimecast20190719; t=1584029641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7AoJdkA/vEE2eyNwUtS1zvah6ZFRv1wygcX5sCtbETQ=;
- b=F3wuXd70HnpoujDVaJu+L1ckRLJD/kRFpIznrl2p760U/Zc8Vd/rHhjiYhVbveF4t0hYwm
- fXQa0/MXv82YeYnd4w6v5T3a95RkFTNgEiSaGN7qdEXcRf2m7wg1UT4SB2Vq4e7eKMAQv1
- OkMt1/32+76JBG11CZqveHq4MKiQpt8=
+ bh=Z7Ux+hft2bjNmRhZXzv82rPU0Rif6f5eByKMYnOSff8=;
+ b=RqE63U5of2v5diiwBTFXraDE1Sb8gNn6WXhMiKPc9LWXbifh0TfanPO0uoYv0/7PsLV9q+
+ olXWwYzfuU/I403zSM2bzN5Ro5g7ohnI8xoEk9nGFKSgwobXXrNiNexbwKJUgGYfEEWdEV
+ fImBbK/dOB3GhKxbpzLacYdYi9RK+KI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-qbgfe4NMMluAJnv9obeMRQ-1; Thu, 12 Mar 2020 12:13:32 -0400
-X-MC-Unique: qbgfe4NMMluAJnv9obeMRQ-1
+ us-mta-224-3x4XsIjyO7-VY86DMSwXEQ-1; Thu, 12 Mar 2020 12:13:54 -0400
+X-MC-Unique: 3x4XsIjyO7-VY86DMSwXEQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32F3B108FD5E;
- Thu, 12 Mar 2020 16:13:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA464109A5B1;
+ Thu, 12 Mar 2020 16:13:53 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-131.ams2.redhat.com [10.36.117.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAC475C1B5;
- Thu, 12 Mar 2020 16:13:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD55B5C1B5;
+ Thu, 12 Mar 2020 16:13:34 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFCv2 2/4] intc/s390_flic_kvm.c: Use kvm_device_ioctl()
- instead of ioctl()
-Date: Thu, 12 Mar 2020 17:12:15 +0100
-Message-Id: <20200312161217.3590-3-david@redhat.com>
+Subject: [PATCH RFCv2 3/4] memory: Add region_resize() callback to memory
+ notifier
+Date: Thu, 12 Mar 2020 17:12:16 +0100
+Message-Id: <20200312161217.3590-4-david@redhat.com>
 In-Reply-To: <20200312161217.3590-1-david@redhat.com>
 References: <20200312161217.3590-1-david@redhat.com>
 MIME-Version: 1.0
@@ -72,193 +72,173 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ qemu-s390x@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use the official variant, which will e.g., trace the call.
-kvm_device_ioctl() will do the rc -> -errno conversion automatically, so
-we can drop that code.
+Let's provide a way for memory notifiers to get notified about a resize.
+If the region_resize() callback is not implemented by a notifier, we
+mimic the old behavior by removing the old section and adding the
+new, resized section.
 
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: qemu-s390x@nongnu.org
+This callback is helpful when backends (like KVM) want to implement
+atomic resizes of memory sections (e.g., resize while VCPUs are running and
+using the section).
+
+For now, we won't bother about a resize() callback for coalesced MMIO
+regions. The main future use case is for virtio-mem to resize ram memory
+regions while the guest is running.
+
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/intc/s390_flic_kvm.c | 43 ++++++++++++-----------------------------
- 1 file changed, 12 insertions(+), 31 deletions(-)
+ include/exec/memory.h | 18 +++++++++++
+ memory.c              | 72 ++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 85 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index a306b26faa..ce05306406 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -66,11 +66,8 @@ static int flic_get_all_irqs(KVMS390FLICState *flic,
-         .addr =3D (uint64_t) buf,
-         .attr =3D len,
-     };
--    int rc;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 74805dd448..704eb64d75 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -492,6 +492,24 @@ struct MemoryListener {
+      */
+     void (*region_nop)(MemoryListener *listener, MemoryRegionSection *sect=
+ion);
 =20
--    rc =3D ioctl(flic->fd, KVM_GET_DEVICE_ATTR, &attr);
--
--    return rc =3D=3D -1 ? -errno : rc;
-+    return kvm_device_ioctl(flic->fd, KVM_GET_DEVICE_ATTR, &attr);
++    /**
++     * @region_resize:
++     *
++     * Called during an address space update transaction,
++     * for a section of the address space that is in the same place in the
++     * address space as in the last transaction, however, the size changed=
+.
++     * Dirty memory logging can change as well.
++     *
++     * Note: If this callback is not implemented, the resize is communicat=
+ed
++     *       via a region_del(), followed by a region_add() instead.
++     *
++     * @listener: The #MemoryListener.
++     * @section: The old #MemoryRegionSection.
++     * @new: The new size.
++     */
++    void (*region_resize)(MemoryListener *listener,
++                          MemoryRegionSection *section, Int128 new);
++
+     /**
+      * @log_start:
+      *
+diff --git a/memory.c b/memory.c
+index 09be40edd2..097b0db0e4 100644
+--- a/memory.c
++++ b/memory.c
+@@ -246,6 +246,17 @@ static bool flatrange_equal(FlatRange *a, FlatRange *b=
+)
+         && a->nonvolatile =3D=3D b->nonvolatile;
  }
 =20
- static void flic_enable_pfault(KVMS390FLICState *flic)
-@@ -78,11 +75,8 @@ static void flic_enable_pfault(KVMS390FLICState *flic)
-     struct kvm_device_attr attr =3D {
-         .group =3D KVM_DEV_FLIC_APF_ENABLE,
-     };
--    int rc;
--
--    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
-=20
--    if (rc) {
-+    if (kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr)) {
-         fprintf(stderr, "flic: couldn't enable pfault\n");
-     }
- }
-@@ -92,11 +86,8 @@ static void flic_disable_wait_pfault(KVMS390FLICState *f=
-lic)
-     struct kvm_device_attr attr =3D {
-         .group =3D KVM_DEV_FLIC_APF_DISABLE_WAIT,
-     };
--    int rc;
-=20
--    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
--
--    if (rc) {
-+    if (kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr)) {
-         fprintf(stderr, "flic: couldn't disable pfault\n");
-     }
- }
-@@ -111,16 +102,13 @@ static void flic_disable_wait_pfault(KVMS390FLICState=
- *flic)
- static int flic_enqueue_irqs(void *buf, uint64_t len,
-                             KVMS390FLICState *flic)
++static bool flatrange_resized(FlatRange *a, FlatRange *b)
++{
++    return a->mr =3D=3D b->mr
++        && int128_eq(a->addr.start, b->addr.start)
++        && int128_ne(a->addr.size, b->addr.size)
++        && a->offset_in_region =3D=3D b->offset_in_region
++        && a->romd_mode =3D=3D b->romd_mode
++        && a->readonly =3D=3D b->readonly
++        && a->nonvolatile =3D=3D b->nonvolatile;
++}
++
+ static FlatView *flatview_new(MemoryRegion *mr_root)
  {
--    int rc;
-     struct kvm_device_attr attr =3D {
-         .group =3D KVM_DEV_FLIC_ENQUEUE,
-         .addr =3D (uint64_t) buf,
-         .attr =3D len,
-     };
-=20
--    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
--
--    return rc ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- static void kvm_s390_inject_flic(S390FLICState *fs, struct kvm_s390_irq *i=
-rq)
-@@ -187,7 +175,6 @@ static int kvm_s390_clear_io_flic(S390FLICState *fs, ui=
-nt16_t subchannel_id,
-                            uint16_t subchannel_nr)
- {
-     KVMS390FLICState *flic =3D s390_get_kvm_flic(fs);
--    int rc;
-     uint32_t sid =3D subchannel_id << 16 | subchannel_nr;
-     struct kvm_device_attr attr =3D {
-         .group =3D KVM_DEV_FLIC_CLEAR_IO_IRQ,
-@@ -197,8 +184,7 @@ static int kvm_s390_clear_io_flic(S390FLICState *fs, ui=
-nt16_t subchannel_id,
-     if (unlikely(!flic->clear_io_supported)) {
-         return -ENOSYS;
+     FlatView *view;
+@@ -887,6 +898,45 @@ static void flat_range_coalesced_io_add(FlatRange *fr,=
+ AddressSpace *as)
      }
--    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
--    return rc ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
  }
 =20
- static int kvm_s390_modify_ais_mode(S390FLICState *fs, uint8_t isc,
-@@ -218,7 +204,7 @@ static int kvm_s390_modify_ais_mode(S390FLICState *fs, =
-uint8_t isc,
-         return -ENOSYS;
-     }
-=20
--    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- static int kvm_s390_inject_airq(S390FLICState *fs, uint8_t type,
-@@ -235,7 +221,7 @@ static int kvm_s390_inject_airq(S390FLICState *fs, uint=
-8_t type,
-         return -ENOSYS;
-     }
-=20
--    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- /**
-@@ -285,7 +271,6 @@ static int kvm_s390_register_io_adapter(S390FLICState *=
-fs, uint32_t id,
-         .flags =3D flags,
-     };
-     KVMS390FLICState *flic =3D KVM_S390_FLIC(fs);
--    int r;
-     struct kvm_device_attr attr =3D {
-         .group =3D KVM_DEV_FLIC_ADAPTER_REGISTER,
-         .addr =3D (uint64_t)&adapter,
-@@ -296,9 +281,7 @@ static int kvm_s390_register_io_adapter(S390FLICState *=
-fs, uint32_t id,
-         return 0;
-     }
-=20
--    r =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
--
--    return r ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- static int kvm_s390_io_adapter_map(S390FLICState *fs, uint32_t id,
-@@ -314,15 +297,13 @@ static int kvm_s390_io_adapter_map(S390FLICState *fs,=
- uint32_t id,
-         .addr =3D (uint64_t)&req,
-     };
-     KVMS390FLICState *flic =3D s390_get_kvm_flic(fs);
--    int r;
-=20
-     if (!kvm_gsi_routing_enabled()) {
-         /* nothing to do */
-         return 0;
-     }
-=20
--    r =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
--    return r ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- static int kvm_s390_add_adapter_routes(S390FLICState *fs,
-@@ -519,7 +500,7 @@ static int kvm_flic_ais_post_load(void *opaque, int ver=
-sion_id)
-         return -ENOSYS;
-     }
-=20
--    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
-+    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
- }
-=20
- static const VMStateDescription kvm_s390_flic_ais_tmp =3D {
-@@ -636,9 +617,9 @@ static void kvm_s390_flic_reset(DeviceState *dev)
++static void memory_listener_resize_region(FlatRange *fr, AddressSpace *as,
++                                          Int128 new, bool adding)
++{
++    FlatView *as_view =3D address_space_to_flatview(as);
++    MemoryRegionSection old_mrs =3D section_from_flat_range(fr, as_view);
++    MemoryRegionSection new_mrs =3D old_mrs;
++    MemoryListener *listener;
++
++    new_mrs.size =3D new;
++
++    if (adding) {
++        QTAILQ_FOREACH(listener, &as->listeners, link_as) {
++            if (listener->region_resize) {
++                /* Grow in the adding phase. */
++                if (int128_lt(fr->addr.size, new)) {
++                    listener->region_resize(listener, &old_mrs, new);
++                }
++                continue;
++            }
++            if (listener->region_add) {
++                listener->region_add(listener, &new_mrs);
++            }
++        }
++    } else {
++        QTAILQ_FOREACH_REVERSE(listener, &as->listeners, link_as) {
++            if (listener->region_resize) {
++                /* Shrink in the removal phase. */
++                if (int128_gt(fr->addr.size, new)) {
++                    listener->region_resize(listener, &old_mrs, new);
++                }
++                continue;
++            }
++            if (listener->region_del) {
++                listener->region_del(listener, &old_mrs);
++            }
++        }
++    }
++}
++
+ static void address_space_update_topology_pass(AddressSpace *as,
+                                                const FlatView *old_view,
+                                                const FlatView *new_view,
+@@ -911,11 +961,23 @@ static void address_space_update_topology_pass(Addres=
+sSpace *as,
+             frnew =3D NULL;
          }
-     }
 =20
--    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
-+    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
-     if (rc) {
--        trace_flic_reset_failed(errno);
-+        trace_flic_reset_failed(-rc);
-     }
+-        if (frold
+-            && (!frnew
+-                || int128_lt(frold->addr.start, frnew->addr.start)
+-                || (int128_eq(frold->addr.start, frnew->addr.start)
+-                    && !flatrange_equal(frold, frnew)))) {
++        if (frold && frnew && flatrange_resized(frold, frnew)) {
++            /* In both and only the size (+ eventually logging) changed. *=
+/
++
++            memory_listener_resize_region(frold, as, frnew->addr.size,
++                                          adding);
++            if (adding) {
++                flat_range_coalesced_io_add(frnew, as);
++            } else {
++                flat_range_coalesced_io_del(frold, as);
++            }
++
++            ++iold;
++            ++inew;
++        } else if (frold && (!frnew
++                             || int128_lt(frold->addr.start, frnew->addr.s=
+tart)
++                             || (int128_eq(frold->addr.start, frnew->addr.=
+start)
++                                 && !flatrange_equal(frold, frnew)))) {
+             /* In old but not in new, or in both but attributes changed. *=
+/
 =20
-     flic_enable_pfault(flic);
+             if (!adding) {
 --=20
 2.24.1
 
