@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E41E182D7C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:27:40 +0100 (CET)
-Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B450F182D99
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:28:52 +0100 (CET)
+Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCL3z-0008Hv-1v
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39139)
+	id 1jCL59-0000kx-RB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCL28-0005eX-KE
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCL2B-0005m9-Ha
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCL27-00033H-Gg
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43138)
+ (envelope-from <bounces@canonical.com>) id 1jCL2A-00034k-5u
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43246)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCL27-00032d-BO
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:43 -0400
+ id 1jCL29-00033i-Cb
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCL25-0002IH-6F
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:41 +0000
+ id 1jCL27-0002MJ-Ub
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1BD152E80C9
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CDC562E80C3
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 10:19:31 -0000
+Date: Thu, 12 Mar 2020 10:19:57 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -46,7 +46,7 @@ X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158400837202.26372.2571466068179961945.malone@gac.canonical.com>
+Message-Id: <158400839787.7185.16125544147577741040.malone@chaenomeles.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -54,7 +54,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 75a9c0761cd51c8553b379adbe0f8dd7019ff944
+X-Launchpad-Hash: 884d4ac62bfe9326d069bd35fdf0245df9ee76b6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,24 +71,27 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I fetched
-https://download.fedoraproject.org/pub/fedora/linux/releases/31/Workstation=
-/x86_64/iso/Fedora-Workstation-Live-x86_64-31-1.9.iso
+@Boris - in your log I've seen that you also got the Penryn cpu which I fin=
+d odd.
+"-cpu Penryn,vme=3Don,vmx=3Don,x2apic=3Don,tsc-deadline=3Don,xsave=3Don,hyp=
+ervisor=3Don,arat=3Don,tsc-adjust=3Don,arch-capabilities=3Don,skip-l1dfl-vm=
+entry=3Don \"
+Assuming you also only used default I wonder how it got to that, maybe the =
+reason for that is the same reason that eventually triggers the error.
+But virt-manager/libvirt would usually just do a best-fit (for me Haswell-n=
+oTSX-IBRS).
 
-And installed it on Ubuntu 20.04 via virt-manager (keeping all things on
-its default).
 
-- New
-- Local Media
-- select ISO (Autodetects F31)
-- Forward, Forward, Forward, Finish
-
-Now warnings:
-sudo cat /var/log/libvirt/qemu/fedora31.log  | grep warning
-<empty>
-
-And it just works, the installer is on the graphical UI and waiting for
-me.
+@Boris and @tstrike Could you both please report:
+$ virsh capabilities
+$ virsh domcapabilities
+$ sudo qemu-system-x86_64 --enable-kvm --nographic --nodefaults -S -qmp-pre=
+tty stdio
+{"execute":"qmp_capabilities"}
+{"execute":"query-cpu-definitions"}
+Note: the command seems to hang as you are on QMP, then just enter the two =
+commands below one by one. This will add "qemu's explanation why a given cp=
+u is usable or not"
 
 -- =
 
