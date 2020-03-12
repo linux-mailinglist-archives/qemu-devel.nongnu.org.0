@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BB8183844
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 19:09:10 +0100 (CET)
-Received: from localhost ([::1]:47396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DE51838F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 19:46:16 +0100 (CET)
+Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCSGb-0003zD-Fr
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 14:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53499)
+	id 1jCSqV-0006MX-8f
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 14:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jCSFO-0002Xm-Ju
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:07:56 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jCSp6-00027b-Sa
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:44:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jCSFM-0003MY-F2
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:07:54 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57173
+ (envelope-from <dgilbert@redhat.com>) id 1jCSp5-00076Y-1h
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:44:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39031
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCSFM-0003FQ-51
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:07:52 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCSp4-00075r-Tc
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 14:44:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584036470;
+ s=mimecast20190719; t=1584038686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rjjk5DZbniRzVmALfrMcx+UXIqvi6YT8DrtlqaEc59A=;
- b=JZbODNO/aOtKRe+OIb9GcQ4jj9xCtqp5BscHdOrNU/cxZeJ59RNMz6Twl4mFm/3dzk918k
- lSdm2zO4XkaSu9lvZ5MJHBhbtti9kp0Jf/H/b6lOH68r1XwQhzGcAMaBGOfim1s91GIbK2
- vQYg6kcE/Ix8RpkYid0lq4eQ5ez+vPo=
+ bh=cXWX0siXr/EdrkvohaFdzwwOwZ4xJur6Mvj7FNGOvGg=;
+ b=GIaTJuKzwdj9H178DWDepwkthT3S70bN43dIMxxg4WiI328kU84LQO66TehycEZdZdh82U
+ XLuLMkGODyGTSgkkI9jzWtG3SE9Q+gYx9+cfo17bbVDMy9ImkV3TT7S26WasLku3ummovL
+ aBpg8gmACQKgL95hXpT2pN+B5uqNAEo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-j95Z4wAPNO2naHAGD_usQQ-1; Thu, 12 Mar 2020 14:07:47 -0400
-X-MC-Unique: j95Z4wAPNO2naHAGD_usQQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-319-UdrqxJ3kPlKw9885FVY0FQ-1; Thu, 12 Mar 2020 14:44:42 -0400
+X-MC-Unique: UdrqxJ3kPlKw9885FVY0FQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B1B11034B3A;
- Thu, 12 Mar 2020 18:07:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 147DD107ACC7;
+ Thu, 12 Mar 2020 18:44:41 +0000 (UTC)
 Received: from work-vm (ovpn-116-106.ams2.redhat.com [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B2F4060FCC;
- Thu, 12 Mar 2020 18:07:38 +0000 (UTC)
-Date: Thu, 12 Mar 2020 18:07:35 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C429B93500;
+ Thu, 12 Mar 2020 18:44:39 +0000 (UTC)
+Date: Thu, 12 Mar 2020 18:44:37 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH] migration/throttle: Add throttle-trig-thres migration
- parameter
-Message-ID: <20200312180735.GL3211@work-vm>
-References: <20200224023142.39360-1-zhukeqian1@huawei.com>
+To: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Subject: Re: [PATCH V2 4/8] COLO: Optimize memory back-up process
+Message-ID: <20200312184437.GM3211@work-vm>
+References: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
+ <20200224065414.36524-5-zhang.zhanghailiang@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200224023142.39360-1-zhukeqian1@huawei.com>
+In-Reply-To: <20200224065414.36524-5-zhang.zhanghailiang@huawei.com>
 User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -74,348 +74,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com
+Cc: danielcho@qnap.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Keqian Zhu (zhukeqian1@huawei.com) wrote:
-> Currently, if the bytes_dirty_period is more than the 50% of
-> bytes_xfer_period, we start or increase throttling.
+* zhanghailiang (zhang.zhanghailiang@huawei.com) wrote:
+> This patch will reduce the downtime of VM for the initial process,
+> Privously, we copied all these memory in preparing stage of COLO
+> while we need to stop VM, which is a time-consuming process.
+> Here we optimize it by a trick, back-up every page while in migration
+> process while COLO is enabled, though it affects the speed of the
+> migration, but it obviously reduce the downtime of back-up all SVM'S
+> memory in COLO preparing stage.
 >=20
-> If we make this percentage higher, then we can tolerate higher
-> dirty rate during migration, which means less impact on guest.
-> The side effect of higher percentage is longer migration time.
-> We can make this parameter configurable to switch between mig-
-> ration time first or guest performance first.
->=20
-> The default value is 50 and valid range is 1 to 100.
->=20
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-
-Apologies for the delay.
-This looks fine now; so
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-and I'll queue it.
-I think we could do with a better description than the current one if we
-can find it:
-
- The ratio of bytes_dirty_period and bytes_xfer_period
- to trigger throttling. It is expressed as percentage.
-
-assumes people understand what those bytes*period mean.
-
-Still, until we do:
-
-Queued for migration
+I'll queue this as well; I'm going to clean up some minor things:
 
 > ---
-> Changelog:
+>  migration/colo.c |  3 +++
+>  migration/ram.c  | 68 +++++++++++++++++++++++++++++++++++-------------
+>  migration/ram.h  |  1 +
+>  3 files changed, 54 insertions(+), 18 deletions(-)
 >=20
-> v1->v2
->  -Use full name for parameter. Suggested by Eric Blake.
->  -Change the upper bound of threshold to 100.
->  -Extract the throttle strategy as function.
->=20
-> ---
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
->=20
-> ---
->  migration/migration.c | 24 ++++++++++++++++++++
->  migration/ram.c       | 52 +++++++++++++++++++++++++------------------
->  monitor/hmp-cmds.c    |  7 ++++++
->  qapi/migration.json   | 16 ++++++++++++-
->  4 files changed, 76 insertions(+), 23 deletions(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 8fb68795dc..42d2d556e3 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -78,6 +78,7 @@
->  /*0: means nocompress, 1: best speed, ... 9: best compress ratio */
->  #define DEFAULT_MIGRATE_COMPRESS_LEVEL 1
->  /* Define default autoconverge cpu throttle migration parameters */
-> +#define DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD 50
->  #define DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL 20
->  #define DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT 10
->  #define DEFAULT_MIGRATE_MAX_CPU_THROTTLE 99
-> @@ -778,6 +779,8 @@ MigrationParameters *qmp_query_migrate_parameters(Err=
-or **errp)
->      params->compress_wait_thread =3D s->parameters.compress_wait_thread;
->      params->has_decompress_threads =3D true;
->      params->decompress_threads =3D s->parameters.decompress_threads;
-> +    params->has_throttle_trigger_threshold =3D true;
-> +    params->throttle_trigger_threshold =3D s->parameters.throttle_trigge=
-r_threshold;
->      params->has_cpu_throttle_initial =3D true;
->      params->cpu_throttle_initial =3D s->parameters.cpu_throttle_initial;
->      params->has_cpu_throttle_increment =3D true;
-> @@ -1164,6 +1167,15 @@ static bool migrate_params_check(MigrationParamete=
-rs *params, Error **errp)
->          return false;
->      }
+> diff --git a/migration/colo.c b/migration/colo.c
+> index 93c5a452fb..44942c4e23 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "qemu/rcu.h"
+>  #include "migration/failover.h"
+> +#include "migration/ram.h"
+>  #ifdef CONFIG_REPLICATION
+>  #include "replication.h"
+>  #endif
+> @@ -845,6 +846,8 @@ void *colo_process_incoming_thread(void *opaque)
+>       */
+>      qemu_file_set_blocking(mis->from_src_file, true);
 > =20
-> +    if (params->has_throttle_trigger_threshold &&
-> +        (params->throttle_trigger_threshold < 1 ||
-> +         params->throttle_trigger_threshold > 100)) {
-> +        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-> +                   "throttle_trigger_threshold",
-> +                   "an integer in the range of 1 to 100");
-> +        return false;
-> +    }
+> +    colo_incoming_start_dirty_log();
 > +
->      if (params->has_cpu_throttle_initial &&
->          (params->cpu_throttle_initial < 1 ||
->           params->cpu_throttle_initial > 99)) {
-> @@ -1279,6 +1291,10 @@ static void migrate_params_test_apply(MigrateSetPa=
-rameters *params,
->          dest->decompress_threads =3D params->decompress_threads;
->      }
-> =20
-> +    if (params->has_throttle_trigger_threshold) {
-> +        dest->throttle_trigger_threshold =3D params->throttle_trigger_th=
-reshold;
-> +    }
-> +
->      if (params->has_cpu_throttle_initial) {
->          dest->cpu_throttle_initial =3D params->cpu_throttle_initial;
->      }
-> @@ -1360,6 +1376,10 @@ static void migrate_params_apply(MigrateSetParamet=
-ers *params, Error **errp)
->          s->parameters.decompress_threads =3D params->decompress_threads;
->      }
-> =20
-> +    if (params->has_throttle_trigger_threshold) {
-> +        s->parameters.throttle_trigger_threshold =3D params->throttle_tr=
-igger_threshold;
-> +    }
-> +
->      if (params->has_cpu_throttle_initial) {
->          s->parameters.cpu_throttle_initial =3D params->cpu_throttle_init=
-ial;
->      }
-> @@ -3506,6 +3526,9 @@ static Property migration_properties[] =3D {
->      DEFINE_PROP_UINT8("x-decompress-threads", MigrationState,
->                        parameters.decompress_threads,
->                        DEFAULT_MIGRATE_DECOMPRESS_THREAD_COUNT),
-> +    DEFINE_PROP_UINT8("x-throttle-trigger-threshold", MigrationState,
-> +                      parameters.throttle_trigger_threshold,
-> +                      DEFAULT_MIGRATE_THROTTLE_TRIGGER_THRESHOLD),
->      DEFINE_PROP_UINT8("x-cpu-throttle-initial", MigrationState,
->                        parameters.cpu_throttle_initial,
->                        DEFAULT_MIGRATE_CPU_THROTTLE_INITIAL),
-> @@ -3606,6 +3629,7 @@ static void migration_instance_init(Object *obj)
->      params->has_compress_level =3D true;
->      params->has_compress_threads =3D true;
->      params->has_decompress_threads =3D true;
-> +    params->has_throttle_trigger_threshold =3D true;
->      params->has_cpu_throttle_initial =3D true;
->      params->has_cpu_throttle_increment =3D true;
->      params->has_max_bandwidth =3D true;
+>      bioc =3D qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
+>      fb =3D qemu_fopen_channel_input(QIO_CHANNEL(bioc));
+>      object_unref(OBJECT(bioc));
 > diff --git a/migration/ram.c b/migration/ram.c
-> index ed23ed1c7c..3a38253903 100644
+> index ed23ed1c7c..ebf9e6ba51 100644
 > --- a/migration/ram.c
 > +++ b/migration/ram.c
-> @@ -896,11 +896,38 @@ static void migration_update_rates(RAMState *rs, in=
-t64_t end_time)
+> @@ -2277,6 +2277,7 @@ static void ram_list_init_bitmaps(void)
+>               * dirty_memory[DIRTY_MEMORY_MIGRATION] don't include the wh=
+ole
+>               * guest memory.
+>               */
+> +
+
+That change is nice, but shouldn't really be here.
+
+>              block->bmap =3D bitmap_new(pages);
+>              bitmap_set(block->bmap, 0, pages);
+>              block->clear_bmap_shift =3D shift;
+> @@ -2986,7 +2987,6 @@ int colo_init_ram_cache(void)
+>                  }
+>                  return -errno;
+>              }
+> -            memcpy(block->colo_cache, block->host, block->used_length);
+>          }
 >      }
+> =20
+> @@ -3000,19 +3000,36 @@ int colo_init_ram_cache(void)
+> =20
+>          RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>              unsigned long pages =3D block->max_length >> TARGET_PAGE_BIT=
+S;
+> -
+>              block->bmap =3D bitmap_new(pages);
+> -            bitmap_set(block->bmap, 0, pages);
+>          }
+>      }
+> -    ram_state =3D g_new0(RAMState, 1);
+> -    ram_state->migration_dirty_pages =3D 0;
+> -    qemu_mutex_init(&ram_state->bitmap_mutex);
+> -    memory_global_dirty_log_start();
+> =20
+> +    ram_state_init(&ram_state);
+>      return 0;
 >  }
 > =20
-> +static void migration_trigger_throttle(RAMState *rs)
+> +/* TODO: duplicated with ram_init_bitmaps */
+> +void colo_incoming_start_dirty_log(void)
 > +{
-> +    MigrationState *s =3D migrate_get_current();
-> +    uint64_t threshold =3D s->parameters.throttle_trigger_threshold;
+> +    RAMBlock *block =3D NULL;
+> +    /* For memory_global_dirty_log_start below. */
+> +    qemu_mutex_lock_iothread();
+> +    qemu_mutex_lock_ramlist();
 > +
-> +    uint64_t bytes_xfer_period =3D ram_counters.transferred - rs->bytes_=
-xfer_prev;
-> +    uint64_t bytes_dirty_period =3D rs->num_dirty_pages_period * TARGET_=
-PAGE_SIZE;
-> +    uint64_t bytes_dirty_threshold =3D bytes_xfer_period * threshold / 1=
-00;
-> +
-> +    /* During block migration the auto-converge logic incorrectly detect=
-s
-> +     * that ram migration makes no progress. Avoid this by disabling the
-> +     * throttling logic during the bulk phase of block migration. */
-> +    if (migrate_auto_converge() && !blk_mig_bulk_active()) {
-> +        /* The following detection logic can be refined later. For now:
-> +           Check to see if the ratio between dirtied bytes and the appro=
-x.
-> +           amount of bytes that just got transferred since the last time
-> +           we were in this routine reaches the threshold. If that happen=
-s
-> +           twice, start or increase throttling. */
-> +
-> +        if ((bytes_dirty_period > bytes_dirty_threshold) &&
-> +            (++rs->dirty_rate_high_cnt >=3D 2)) {
-> +            trace_migration_throttle();
-> +            rs->dirty_rate_high_cnt =3D 0;
-> +            mig_throttle_guest_down();
+> +    memory_global_dirty_log_sync();
+> +    WITH_RCU_READ_LOCK_GUARD() {
+> +        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+> +            ramblock_sync_dirty_bitmap(ram_state, block);
+> +            /* Discard this dirty bitmap record */
+> +            bitmap_zero(block->bmap, block->max_length >> TARGET_PAGE_BI=
+TS);
 > +        }
+> +        memory_global_dirty_log_start();
 > +    }
+> +    ram_state->migration_dirty_pages =3D 0;
+> +    qemu_mutex_unlock_ramlist();
+> +    qemu_mutex_unlock_iothread();
 > +}
 > +
->  static void migration_bitmap_sync(RAMState *rs)
+>  /* It is need to hold the global lock to call this helper */
+>  void colo_release_ram_cache(void)
 >  {
->      RAMBlock *block;
->      int64_t end_time;
-> -    uint64_t bytes_xfer_now;
-> =20
->      ram_counters.dirty_sync_count++;
-> =20
-> @@ -927,26 +954,7 @@ static void migration_bitmap_sync(RAMState *rs)
-> =20
->      /* more than 1 second =3D 1000 millisecons */
->      if (end_time > rs->time_last_bitmap_sync + 1000) {
-> -        bytes_xfer_now =3D ram_counters.transferred;
-> -
-> -        /* During block migration the auto-converge logic incorrectly de=
-tects
-> -         * that ram migration makes no progress. Avoid this by disabling=
- the
-> -         * throttling logic during the bulk phase of block migration. */
-> -        if (migrate_auto_converge() && !blk_mig_bulk_active()) {
-> -            /* The following detection logic can be refined later. For n=
-ow:
-> -               Check to see if the dirtied bytes is 50% more than the ap=
-prox.
-> -               amount of bytes that just got transferred since the last =
-time we
-> -               were in this routine. If that happens twice, start or inc=
-rease
-> -               throttling */
-> -
-> -            if ((rs->num_dirty_pages_period * TARGET_PAGE_SIZE >
-> -                   (bytes_xfer_now - rs->bytes_xfer_prev) / 2) &&
-> -                (++rs->dirty_rate_high_cnt >=3D 2)) {
-> -                    trace_migration_throttle();
-> -                    rs->dirty_rate_high_cnt =3D 0;
-> -                    mig_throttle_guest_down();
-> -            }
-> -        }
-> +        migration_trigger_throttle(rs);
-> =20
->          migration_update_rates(rs, end_time);
-> =20
-> @@ -955,7 +963,7 @@ static void migration_bitmap_sync(RAMState *rs)
->          /* reset period counters */
->          rs->time_last_bitmap_sync =3D end_time;
->          rs->num_dirty_pages_period =3D 0;
-> -        rs->bytes_xfer_prev =3D bytes_xfer_now;
-> +        rs->bytes_xfer_prev =3D ram_counters.transferred;
+> @@ -3032,9 +3049,7 @@ void colo_release_ram_cache(void)
+>              }
+>          }
 >      }
->      if (migrate_use_events()) {
->          qapi_event_send_migration_pass(ram_counters.dirty_sync_count);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 53bc3f76c4..de67d0bd53 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -409,6 +409,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const=
- QDict *qdict)
->          monitor_printf(mon, "%s: %u\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_DECOMPRESS_THREAD=
-S),
->              params->decompress_threads);
-> +        assert(params->has_throttle_trigger_threshold);
-> +        monitor_printf(mon, "%s: %u\n",
-> +            MigrationParameter_str(MIGRATION_PARAMETER_THROTTLE_TRIGGER_=
-THRESHOLD),
-> +            params->throttle_trigger_threshold);
->          assert(params->has_cpu_throttle_initial);
->          monitor_printf(mon, "%s: %u\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_CPU_THROTTLE_INIT=
-IAL),
-> @@ -1764,6 +1768,9 @@ void hmp_migrate_set_parameter(Monitor *mon, const =
-QDict *qdict)
->          p->has_decompress_threads =3D true;
->          visit_type_int(v, param, &p->decompress_threads, &err);
->          break;
-> +    case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
-> +        p->has_throttle_trigger_threshold =3D true;
-> +        visit_type_int(v, param, &p->throttle_trigger_threshold, &err);
->      case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
->          p->has_cpu_throttle_initial =3D true;
->          visit_type_int(v, param, &p->cpu_throttle_initial, &err);
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 52f3429969..0e7ac64c98 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -524,6 +524,10 @@
->  #                      compression, so set the decompress-threads to the=
- number about 1/4
->  #                      of compress-threads is adequate.
->  #
-> +# @throttle-trigger-threshold: The ratio of bytes_dirty_period and bytes=
-_xfer_period
-> +#                              to trigger throttling. It is expressed as=
- percentage.
-> +#                              The default value is 50. (Since 5.0)
-> +#
->  # @cpu-throttle-initial: Initial percentage of time guest cpus are throt=
-tled
->  #                        when migration auto-converge is activated. The
->  #                        default value is 20. (Since 2.7)
-> @@ -592,7 +596,7 @@
->    'data': ['announce-initial', 'announce-max',
->             'announce-rounds', 'announce-step',
->             'compress-level', 'compress-threads', 'decompress-threads',
-> -           'compress-wait-thread',
-> +           'compress-wait-thread', 'throttle-trigger-threshold',
->             'cpu-throttle-initial', 'cpu-throttle-increment',
->             'tls-creds', 'tls-hostname', 'tls-authz', 'max-bandwidth',
->             'downtime-limit', 'x-checkpoint-delay', 'block-incremental',
-> @@ -626,6 +630,10 @@
->  #
->  # @decompress-threads: decompression thread count
->  #
-> +# @throttle-trigger-threshold: The ratio of bytes_dirty_period and bytes=
-_xfer_period
-> +#                              to trigger throttling. It is expressed as=
- percentage.
-> +#                              The default value is 50. (Since 5.0)
-> +#
->  # @cpu-throttle-initial: Initial percentage of time guest cpus are
->  #                        throttled when migration auto-converge is activ=
-ated.
->  #                        The default value is 20. (Since 2.7)
-> @@ -701,6 +709,7 @@
->              '*compress-threads': 'int',
->              '*compress-wait-thread': 'bool',
->              '*decompress-threads': 'int',
-> +            '*throttle-trigger-threshold': 'int',
->              '*cpu-throttle-initial': 'int',
->              '*cpu-throttle-increment': 'int',
->              '*tls-creds': 'StrOrNull',
-> @@ -759,6 +768,10 @@
->  #
->  # @decompress-threads: decompression thread count
->  #
-> +# @throttle-trigger-threshold: The ratio of bytes_dirty_period and bytes=
-_xfer_period
-> +#                              to trigger throttling. It is expressed as=
- percentage.
-> +#                              The default value is 50. (Since 5.0)
-> +#
->  # @cpu-throttle-initial: Initial percentage of time guest cpus are
->  #                        throttled when migration auto-converge is activ=
-ated.
->  #                        (Since 2.7)
-> @@ -834,6 +847,7 @@
->              '*compress-threads': 'uint8',
->              '*compress-wait-thread': 'bool',
->              '*decompress-threads': 'uint8',
-> +            '*throttle-trigger-threshold': 'uint8',
->              '*cpu-throttle-initial': 'uint8',
->              '*cpu-throttle-increment': 'uint8',
->              '*tls-creds': 'str',
+> -    qemu_mutex_destroy(&ram_state->bitmap_mutex);
+> -    g_free(ram_state);
+> -    ram_state =3D NULL;
+> +    ram_state_cleanup(&ram_state);
+>  }
+> =20
+>  /**
+> @@ -3302,7 +3317,6 @@ static void colo_flush_ram_cache(void)
+>              ramblock_sync_dirty_bitmap(ram_state, block);
+>          }
+>      }
+> -
+
+I'll remove that
+
+>      trace_colo_flush_ram_cache_begin(ram_state->migration_dirty_pages);
+>      WITH_RCU_READ_LOCK_GUARD() {
+>          block =3D QLIST_FIRST_RCU(&ram_list.blocks);
+> @@ -3348,7 +3362,7 @@ static int ram_load_precopy(QEMUFile *f)
+> =20
+>      while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
+>          ram_addr_t addr, total_ram_bytes;
+> -        void *host =3D NULL;
+> +        void *host =3D NULL, *host_bak =3D NULL;
+>          uint8_t ch;
+> =20
+>          /*
+> @@ -3379,20 +3393,35 @@ static int ram_load_precopy(QEMUFile *f)
+>                       RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)=
+) {
+>              RAMBlock *block =3D ram_block_from_stream(f, flags);
+> =20
+> +            host =3D host_from_ram_block_offset(block, addr);
+>              /*
+> -             * After going into COLO, we should load the Page into colo_=
+cache.
+> +             * After going into COLO stage, we should not load the page
+> +             * into SVM's memory diretly, we put them into colo_cache fi=
+rstly.
+                                        ^ typo - c
+> +             * NOTE: We need to keep a copy of SVM's ram in colo_cache.
+> +             * Privously, we copied all these memory in preparing stage =
+of COLO
+                    ^ typo - e
+
+> +             * while we need to stop VM, which is a time-consuming proce=
+ss.
+> +             * Here we optimize it by a trick, back-up every page while =
+in
+> +             * migration process while COLO is enabled, though it affect=
+s the
+> +             * speed of the migration, but it obviously reduce the downt=
+ime of
+> +             * back-up all SVM'S memory in COLO preparing stage.
+>               */
+> -            if (migration_incoming_in_colo_state()) {
+> -                host =3D colo_cache_from_block_offset(block, addr);
+> -            } else {
+> -                host =3D host_from_ram_block_offset(block, addr);
+> +            if (migration_incoming_colo_enabled()) {
+> +                if (migration_incoming_in_colo_state()) {
+> +                    /* In COLO stage, put all pages into cache temporari=
+ly */
+> +                    host =3D colo_cache_from_block_offset(block, addr);
+> +                } else {
+> +                   /*
+> +                    * In migration stage but before COLO stage,
+> +                    * Put all pages into both cache and SVM's memory.
+> +                    */
+> +                    host_bak =3D colo_cache_from_block_offset(block, add=
+r);
+> +                }
+>              }
+>              if (!host) {
+>                  error_report("Illegal RAM offset " RAM_ADDR_FMT, addr);
+>                  ret =3D -EINVAL;
+>                  break;
+>              }
+> -
+>              if (!migration_incoming_in_colo_state()) {
+>                  ramblock_recv_bitmap_set(block, host);
+>              }
+> @@ -3506,6 +3535,9 @@ static int ram_load_precopy(QEMUFile *f)
+>          if (!ret) {
+>              ret =3D qemu_file_get_error(f);
+>          }
+> +        if (!ret && host_bak) {
+> +            memcpy(host_bak, host, TARGET_PAGE_SIZE);
+> +        }
+>      }
+> =20
+>      ret |=3D wait_for_decompress_done();
+> diff --git a/migration/ram.h b/migration/ram.h
+> index a553d40751..5ceaff7cb4 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -66,5 +66,6 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock=
+ *rb);
+>  /* ram cache */
+>  int colo_init_ram_cache(void);
+>  void colo_release_ram_cache(void);
+> +void colo_incoming_start_dirty_log(void);
+> =20
+>  #endif
 > --=20
-> 2.19.1
+> 2.21.0
+>=20
 >=20
 --
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
