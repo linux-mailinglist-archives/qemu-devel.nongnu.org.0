@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E428118396F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:30:06 +0100 (CET)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D286B183986
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:34:19 +0100 (CET)
+Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCTWv-0005bk-Fe
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42144)
+	id 1jCTb0-00059N-U3
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jCTVS-0004D8-Dt
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:36 -0400
+ (envelope-from <eblake@redhat.com>) id 1jCTVe-0004X8-Bd
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jCTVQ-0006hw-Fe
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60333
+ (envelope-from <eblake@redhat.com>) id 1jCTVd-00079G-3q
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22271
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jCTVQ-0006ew-5t
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:32 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jCTVc-00078n-Vq
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:28:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584041311;
+ s=mimecast20190719; t=1584041324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=n8JMqNQOsyurPFl4DUBBfZRLqE6yhe53M5JEzz9sFM4=;
- b=Eh3xG2TDBVBil7/PQhpXaVgaW9+O4QHIAG0/CugHlsYowikJ13OWKhWy5FXoRgH7YF1piy
- TWizNxmmpnELQwQZbGBl3pFQkkgWQDGFRqQud2xEztdrccAgHec7QH8lDTqPBZ2oJqZsZ4
- GkrpFG3CnJVIAN6Mryn9l0RBsMs0PvQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OmtK5I7dZ+qRFL1n9MbERx53nrOlbYxLc9ckSTE2AwY=;
+ b=jEN7+s1YLluMb5wCLoeuIMiH5mM5spY0BYKynd6sZ9MAClhhRGGI1p/GnymLyG0RuLTaGw
+ JHVNwoNqPU1SpM7lBHWtUCpvMxxm4e+KXiKD/FeRkZeqUEa+Jm5EIzOV1S1GeL4KTfnPya
+ UwQ0Han0jw4bH9+lBth0QjFNHciVukA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-qQwBMbfuNdKKOO_sf5ue5g-1; Thu, 12 Mar 2020 15:28:27 -0400
-X-MC-Unique: qQwBMbfuNdKKOO_sf5ue5g-1
+ us-mta-324-NmWOcutFP4O0zxVGvDphuw-1; Thu, 12 Mar 2020 15:28:34 -0400
+X-MC-Unique: NmWOcutFP4O0zxVGvDphuw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62B6A1005513;
- Thu, 12 Mar 2020 19:28:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E336100550E;
+ Thu, 12 Mar 2020 19:28:32 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-177.phx2.redhat.com [10.3.116.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B0585DA76;
- Thu, 12 Mar 2020 19:28:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D52D65DA76;
+ Thu, 12 Mar 2020 19:28:27 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/7] Tighten qemu-img rules on missing backing format
-Date: Thu, 12 Mar 2020 14:28:15 -0500
-Message-Id: <20200312192822.3739399-1-eblake@redhat.com>
+Subject: [PATCH v4 1/7] sheepdog: Add trivial backing_fmt support
+Date: Thu, 12 Mar 2020 14:28:16 -0500
+Message-Id: <20200312192822.3739399-2-eblake@redhat.com>
+In-Reply-To: <20200312192822.3739399-1-eblake@redhat.com>
+References: <20200312192822.3739399-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -67,163 +70,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
- kchamart@redhat.com, libvir-list@redhat.com, mreitz@redhat.com
+Cc: kwolf@redhat.com, pkrempa@redhat.com,
+ "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
+ kchamart@redhat.com, libvir-list@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, mreitz@redhat.com,
+ "open list:Trivial patches" <qemu-trivial@nongnu.org>,
+ Liu Yuan <namei.unix@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3 was here:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg01730.html
-In v4:
-- old patch 1 was reworked into new patch 1-3, with stricter rules
-on which backing formats are accepted [Kevin]
-- patch 4 is new: amend is handled differently from rebase [Kashyap]
-- rebase to master
+Sheepdog already requires that if backing_file is present, that it be
+another sheepdog image (see sd_co_create).  Meanwhile, we want to move
+towards always being explicit about the backing format for other
+drivers where it matters.  So for convenience, make qemu-img create -F
+sheepdog work, while rejecting all other explicit formats (note that
+this is only for QemuOpts usage; there is no change to the QAPI to
+allow a format through -blockdev).
 
-Eric Blake (7):
-  sheepdog: Add trivial backing_fmt support
-  vmdk: Add trivial backing_fmt support
-  qcow: Tolerate backing_fmt=3D, but warn on backing_fmt=3Draw
-  qcow2: Deprecate use of qemu-img amend to change backing file
-  iotests: Specify explicit backing format where sensible
-  block: Add support to warn on backing file change without format
-  qemu-img: Deprecate use of -b without -F
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ block/sheepdog.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
- docs/system/deprecated.rst    | 31 +++++++++++++++
- docs/tools/qemu-img.rst       |  4 ++
- include/block/block.h         |  4 +-
- block.c                       | 34 +++++++++++++++--
- block/qcow.c                  | 16 +++++++-
- block/qcow2.c                 |  7 +++-
- block/sheepdog.c              | 14 +++++++
- block/stream.c                |  2 +-
- block/vmdk.c                  | 14 +++++++
- blockdev.c                    |  3 +-
- qemu-img.c                    |  4 +-
- tests/qemu-iotests/017        |  2 +-
- tests/qemu-iotests/017.out    |  2 +-
- tests/qemu-iotests/018        |  2 +-
- tests/qemu-iotests/018.out    |  2 +-
- tests/qemu-iotests/019        |  5 ++-
- tests/qemu-iotests/019.out    |  2 +-
- tests/qemu-iotests/020        |  4 +-
- tests/qemu-iotests/020.out    |  4 +-
- tests/qemu-iotests/024        |  8 ++--
- tests/qemu-iotests/024.out    |  5 ++-
- tests/qemu-iotests/028        |  4 +-
- tests/qemu-iotests/028.out    |  2 +-
- tests/qemu-iotests/030        | 26 +++++++++----
- tests/qemu-iotests/034        |  2 +-
- tests/qemu-iotests/034.out    |  2 +-
- tests/qemu-iotests/037        |  2 +-
- tests/qemu-iotests/037.out    |  2 +-
- tests/qemu-iotests/038        |  2 +-
- tests/qemu-iotests/038.out    |  2 +-
- tests/qemu-iotests/039        |  3 +-
- tests/qemu-iotests/039.out    |  2 +-
- tests/qemu-iotests/040        | 47 ++++++++++++++++-------
- tests/qemu-iotests/041        | 37 ++++++++++++------
- tests/qemu-iotests/042        |  4 +-
- tests/qemu-iotests/043        | 18 ++++-----
- tests/qemu-iotests/043.out    | 16 +++++---
- tests/qemu-iotests/046        |  2 +-
- tests/qemu-iotests/046.out    |  2 +-
- tests/qemu-iotests/050        |  4 +-
- tests/qemu-iotests/050.out    |  2 +-
- tests/qemu-iotests/051        |  2 +-
- tests/qemu-iotests/051.out    |  2 +-
- tests/qemu-iotests/051.pc.out |  2 +-
- tests/qemu-iotests/056        |  3 +-
- tests/qemu-iotests/060        |  2 +-
- tests/qemu-iotests/060.out    |  2 +-
- tests/qemu-iotests/061        | 10 ++---
- tests/qemu-iotests/061.out    | 11 +++---
- tests/qemu-iotests/069        |  2 +-
- tests/qemu-iotests/069.out    |  2 +-
- tests/qemu-iotests/073        |  2 +-
- tests/qemu-iotests/073.out    |  2 +-
- tests/qemu-iotests/082        | 10 +++--
- tests/qemu-iotests/082.out    | 14 ++++---
- tests/qemu-iotests/085        |  4 +-
- tests/qemu-iotests/085.out    |  6 +--
- tests/qemu-iotests/089        |  2 +-
- tests/qemu-iotests/089.out    |  2 +-
- tests/qemu-iotests/095        |  4 +-
- tests/qemu-iotests/095.out    |  4 +-
- tests/qemu-iotests/097        |  4 +-
- tests/qemu-iotests/097.out    | 16 ++++----
- tests/qemu-iotests/098        |  2 +-
- tests/qemu-iotests/098.out    |  8 ++--
- tests/qemu-iotests/110        |  4 +-
- tests/qemu-iotests/110.out    |  4 +-
- tests/qemu-iotests/114        | 11 ++++++
- tests/qemu-iotests/114.out    |  8 ++++
- tests/qemu-iotests/122        | 27 +++++++------
- tests/qemu-iotests/122.out    |  8 ++--
- tests/qemu-iotests/126        |  4 +-
- tests/qemu-iotests/126.out    |  4 +-
- tests/qemu-iotests/127        |  4 +-
- tests/qemu-iotests/127.out    |  4 +-
- tests/qemu-iotests/129        |  3 +-
- tests/qemu-iotests/133        |  2 +-
- tests/qemu-iotests/133.out    |  2 +-
- tests/qemu-iotests/139        |  2 +-
- tests/qemu-iotests/141        |  4 +-
- tests/qemu-iotests/141.out    |  4 +-
- tests/qemu-iotests/142        |  2 +-
- tests/qemu-iotests/142.out    |  2 +-
- tests/qemu-iotests/153        | 14 +++----
- tests/qemu-iotests/153.out    | 35 +++++++++--------
- tests/qemu-iotests/154        | 42 ++++++++++----------
- tests/qemu-iotests/154.out    | 42 ++++++++++----------
- tests/qemu-iotests/155        | 12 ++++--
- tests/qemu-iotests/156        |  9 +++--
- tests/qemu-iotests/156.out    |  6 +--
- tests/qemu-iotests/158        |  2 +-
- tests/qemu-iotests/158.out    |  2 +-
- tests/qemu-iotests/161        |  8 ++--
- tests/qemu-iotests/161.out    |  8 ++--
- tests/qemu-iotests/176        |  4 +-
- tests/qemu-iotests/176.out    | 32 ++++++++--------
- tests/qemu-iotests/177        |  2 +-
- tests/qemu-iotests/177.out    |  2 +-
- tests/qemu-iotests/179        |  2 +-
- tests/qemu-iotests/179.out    |  2 +-
- tests/qemu-iotests/189        |  2 +-
- tests/qemu-iotests/189.out    |  2 +-
- tests/qemu-iotests/191        | 12 +++---
- tests/qemu-iotests/191.out    | 12 +++---
- tests/qemu-iotests/195        |  6 +--
- tests/qemu-iotests/195.out    |  6 +--
- tests/qemu-iotests/198        |  2 +-
- tests/qemu-iotests/198.out    |  3 +-
- tests/qemu-iotests/204        |  2 +-
- tests/qemu-iotests/204.out    |  2 +-
- tests/qemu-iotests/216        |  2 +-
- tests/qemu-iotests/224        |  4 +-
- tests/qemu-iotests/225        |  2 +-
- tests/qemu-iotests/225.out    |  2 +-
- tests/qemu-iotests/228        |  5 ++-
- tests/qemu-iotests/245        |  3 +-
- tests/qemu-iotests/249        |  4 +-
- tests/qemu-iotests/249.out    |  4 +-
- tests/qemu-iotests/252        |  2 +-
- tests/qemu-iotests/257        |  3 +-
- tests/qemu-iotests/267        |  4 +-
- tests/qemu-iotests/267.out    |  6 +--
- tests/qemu-iotests/270        |  2 +-
- tests/qemu-iotests/270.out    |  2 +-
- tests/qemu-iotests/273        |  4 +-
- tests/qemu-iotests/273.out    |  4 +-
- tests/qemu-iotests/279        |  4 +-
- tests/qemu-iotests/279.out    |  4 +-
- tests/qemu-iotests/290        | 72 +++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/290.out    | 45 ++++++++++++++++++++++
- tests/qemu-iotests/group      |  1 +
- 131 files changed, 671 insertions(+), 348 deletions(-)
- create mode 100755 tests/qemu-iotests/290
- create mode 100644 tests/qemu-iotests/290.out
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index cfa84338a2d6..376f4ef74638 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -2166,8 +2166,16 @@ static int coroutine_fn sd_co_create_opts(const char=
+ *filename, QemuOpts *opts,
+     char *redundancy;
+     Error *local_err =3D NULL;
+     int ret;
++    char *backing_fmt =3D NULL;
 
+     redundancy =3D qemu_opt_get_del(opts, BLOCK_OPT_REDUNDANCY);
++    backing_fmt =3D qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
++
++    if (backing_fmt && strcmp(backing_fmt, "sheepdog") !=3D 0) {
++        error_setg(errp, "backing_file must be a sheepdog image");
++        ret =3D -EINVAL;
++        goto fail;
++    }
+
+     qdict =3D qemu_opts_to_qdict(opts, NULL);
+     qdict_put_str(qdict, "driver", "sheepdog");
+@@ -2232,6 +2240,7 @@ fail:
+     qapi_free_BlockdevCreateOptions(create_options);
+     qobject_unref(qdict);
+     g_free(redundancy);
++    g_free(backing_fmt);
+     return ret;
+ }
+
+@@ -3189,6 +3198,11 @@ static QemuOptsList sd_create_opts =3D {
+             .type =3D QEMU_OPT_STRING,
+             .help =3D "File name of a base image"
+         },
++        {
++            .name =3D BLOCK_OPT_BACKING_FMT,
++            .type =3D QEMU_OPT_STRING,
++            .help =3D "Must be 'sheepdog' if present",
++        },
+         {
+             .name =3D BLOCK_OPT_PREALLOC,
+             .type =3D QEMU_OPT_STRING,
 --=20
 2.25.1
 
