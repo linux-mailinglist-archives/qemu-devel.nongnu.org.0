@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9281830B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 13:56:55 +0100 (CET)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D951830BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 13:59:07 +0100 (CET)
+Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCNOQ-0000JO-2T
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 08:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46365)
+	id 1jCNQY-0003cI-NC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 08:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCNNI-0007pC-I5
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:55:46 -0400
+ (envelope-from <jandryuk@gmail.com>) id 1jCNNh-0008IA-0a
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCNNG-0006h4-2e
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:55:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52410)
+ (envelope-from <jandryuk@gmail.com>) id 1jCNNf-0006tX-II
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:08 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:36295)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCNNF-0006ga-TM
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:55:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCNNE-0007Hh-KH
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:55:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 963F62E80CC
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:55:40 +0000 (UTC)
+ (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jCNNf-0006sg-Ea
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:07 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id r15so2517445qve.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pRHvKC9SEli8jcbh0ubfqMq6CpQShtCZnK/HGpAj9hk=;
+ b=k8KfkQM5EyCCKzB20MEsXhPLyoDj55dGPHj6MBfjZVfmUFFNSzrTg+OuyCU9iLWXhP
+ fYe1wY/G4y9QoBc3J8a+QuuaSONKb28NtoKPdRI7ByO1eXG91wY7yfhgu5U3NFvWQIox
+ CZ4bARo5iwCJ+3go71ap3tQdH9ThANQ6T1cXXx0LGI9+mSItl8FSizOQb5+cttJSVffo
+ mIcLhZg/dfHVzt/W8RgeQdIoc+U4GY4QX2lDNVfb+V1uDWxZ4Po3IA2uPwfqGkYJ4yVP
+ x2MdHiFTA2oUS4vV1IUS5naeEerNrzIGeBCqZ/56p4l2AeubS9C3BNEYGBXMI8u38Y74
+ WgTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pRHvKC9SEli8jcbh0ubfqMq6CpQShtCZnK/HGpAj9hk=;
+ b=BCyYg1XAcbFZV+Misyj7olPWgDDRhGT3030Tq2hszG8RY8zqRFkj8wnAHdwqWrA6UJ
+ NbIFeLguLLkLHRlggiYV7Z3cEL8ILZxx1Sq7hw7rg+LRRmtCR6udL5M/N5ehZjIrqx5B
+ zJDIhAO2H/t7AY5qfcjI/OW3BHMu9DrVfFIzzC7NoSm/jieupryNdlwZgEBeeOFyo8WH
+ b4lLq51UmI+4+PPngdieKMdwjYslWmGQ8ki1VowfY7H5OimvM2eP5y9+IXr6xHBPN+oF
+ 74HgOw5dwswitQ7TE17069BiEwZnA1Ta3YMJPLaowrEB8aX4vLvWBN9BO7itewi9QlEX
+ 7umg==
+X-Gm-Message-State: ANhLgQ1z8Rg/I011z9g1vLIlKAUz5osbzmWlok6XzntR9hQF00N5Sj36
+ 3oj+fdX+xr7mEq2C6NSDb7w=
+X-Google-Smtp-Source: ADFU+vtP5sLtOGEfHlVOd2myrPuVE1P4xGGPh+gB0yRSe2MfIx2EitzKCeyCcyl1kT2UbTYHuymBZg==
+X-Received: by 2002:ad4:49c6:: with SMTP id j6mr7357083qvy.68.1584017765324;
+ Thu, 12 Mar 2020 05:56:05 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:ba27:ebff:fee8:ce27])
+ by smtp.gmail.com with ESMTPSA id
+ u3sm8001236qkc.4.2020.03.12.05.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 05:56:04 -0700 (PDT)
+From: Jason Andryuk <jandryuk@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Subject: [PATCH 0/4] usb-serial: xHCI and timeout fixes
+Date: Thu, 12 Mar 2020 08:55:19 -0400
+Message-Id: <20200312125524.7812-1-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 12:47:12 -0000
-From: tstrike <1866870@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dbaxps0220 paelzer tstrike34
-X-Launchpad-Bug-Reporter: tstrike (tstrike34)
-X-Launchpad-Bug-Modifier: tstrike (tstrike34)
-References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158401723274.26714.14792481221976479778.malone@gac.canonical.com>
-Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e5b000ce9164a20971954e9118f5ed1aae9f227a
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,193 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tstrike39@islandhealthcenter-media:~$ sudo cat  /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 23
-model name	: Intel(R) Core(TM)2 Quad CPU    Q9400  @ 2.66GHz
-stepping	: 10
-microcode	: 0xa0b
-cpu MHz		: 2416.548
-cache size	: 3072 KB
-physical id	: 0
-siblings	: 4
-core id		: 0
-cpu cores	: 4
-apicid		: 0
-initial apicid	: 0
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 13
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat =
-pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx lm constant_t=
-sc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 monitor =
-ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm pti tpr_sh=
-adow vnmi flexpriority dtherm
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapg=
-s itlb_multihit
-bogomips	: 5303.23
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:
+This patch series includes two fixes for usb-serial.
 
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 23
-model name	: Intel(R) Core(TM)2 Quad CPU    Q9400  @ 2.66GHz
-stepping	: 10
-microcode	: 0xa0b
-cpu MHz		: 2010.620
-cache size	: 3072 KB
-physical id	: 0
-siblings	: 4
-core id		: 2
-cpu cores	: 4
-apicid		: 2
-initial apicid	: 2
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 13
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat =
-pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx lm constant_t=
-sc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 monitor =
-ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm pti tpr_sh=
-adow vnmi flexpriority dtherm
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapg=
-s itlb_multihit
-bogomips	: 5303.23
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:
+The first is a data corruption issue with xHCI controllers.  The FTDI
+data packets need to have a 2 byte header start every 64 bytes of packet
+data.  For EHCI this is not a problem since USBPacket size is 64, so
+only 1 such chunk fits in a packet.  xHCI controllers supply 512 byte
+USBPackets, and usb-serial would only write a single header.  This
+confuses drivers since they interpret some data bytes as header bytes.
+Chunk the data with headers at every 64 byte offset.
 
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 23
-model name	: Intel(R) Core(TM)2 Quad CPU    Q9400  @ 2.66GHz
-stepping	: 10
-microcode	: 0xa0b
-cpu MHz		: 2419.534
-cache size	: 3072 KB
-physical id	: 0
-siblings	: 4
-core id		: 1
-cpu cores	: 4
-apicid		: 1
-initial apicid	: 1
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 13
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat =
-pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx lm constant_t=
-sc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 monitor =
-ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm pti tpr_sh=
-adow vnmi flexpriority dtherm
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapg=
-s itlb_multihit
-bogomips	: 5303.23
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:
+To allow full use of the 512 USBPackets, increase the buffer size to 512
+- 2 * 8 = 496 bytes.
 
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 23
-model name	: Intel(R) Core(TM)2 Quad CPU    Q9400  @ 2.66GHz
-stepping	: 10
-microcode	: 0xa0b
-cpu MHz		: 1988.790
-cache size	: 3072 KB
-physical id	: 0
-siblings	: 4
-core id		: 3
-cpu cores	: 4
-apicid		: 3
-initial apicid	: 3
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 13
-wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat =
-pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx lm constant_t=
-sc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 monitor =
-ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm pti tpr_sh=
-adow vnmi flexpriority dtherm
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapg=
-s itlb_multihit
-bogomips	: 5303.23
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:
+A second fix is to set the FTDI_THRE (Transmitter Holding Register) and
+FTDI_TEMT (Transmitter Empty) status bits in a GetModemStat response.
+This makes the linux driver happy when closing the device and avoids a
+30 second timeout.
 
--- =
+Jason Andryuk (4):
+  usb-serial: Move USB_TOKEN_IN into a helper function
+  usb-serial: chunk data to wMaxPacketSize
+  usb-serial: Increase receive buffer to 496
+  usb-serial: Fix timeout closing the device
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866870
+ hw/usb/dev-serial.c | 92 +++++++++++++++++++++++++++------------------
+ 1 file changed, 56 insertions(+), 36 deletions(-)
 
-Title:
-  KVM Guest pauses after upgrade to Ubuntu 20.04
+-- 
+2.24.1
 
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Symptom:
-  Error unpausing domain: internal error: unable to execute QEMU command 'c=
-ont': Resetting the Virtual Machine is required
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
- in resume
-      self._backend.resume()
-    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
-      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
-t': Resetting the Virtual Machine is required
-
-  =
-
-  ---
-
-  As outlined here:
-  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
-
-  After upgrade, all KVM guests are in a default pause state. Even after
-  forcing them off via virsh, and restarting them the guests are paused.
-
-  These Guests are not nested.
-
-  A lot of diganostic information are outlined in the previous bug
-  report link provided. The solution mentioned in previous report had
-  been allegedly integrated into the downstream updates.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
