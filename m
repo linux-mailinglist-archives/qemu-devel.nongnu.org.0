@@ -2,53 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA922182C45
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:21:18 +0100 (CET)
-Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1557F182C4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:24:06 +0100 (CET)
+Received: from localhost ([::1]:38319 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCK1l-0001yU-Ry
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56118)
+	id 1jCK4T-00076o-3W
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1jCK0k-0008NU-SA
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:20:15 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jCK3T-0005oC-03
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1jCK0j-0005FQ-OF
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:20:14 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:56604 helo=huawei.com)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jCK3R-00077b-95
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:23:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49624)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1jCK0h-00057p-2p; Thu, 12 Mar 2020 05:20:11 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id EDEF9ED6D8587C08CEB4;
- Thu, 12 Mar 2020 17:20:04 +0800 (CST)
-Received: from [127.0.0.1] (10.173.222.27) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 12 Mar 2020
- 17:19:54 +0800
-Subject: Re: [kvm-unit-tests PATCH v5 10/13] arm/arm64: ITS: INT functional
- tests
-To: Marc Zyngier <maz@kernel.org>, Auger Eric <eric.auger@redhat.com>
-References: <20200310145410.26308-1-eric.auger@redhat.com>
- <20200310145410.26308-11-eric.auger@redhat.com>
- <d3f651a0-2344-4d6e-111b-be133db7e068@huawei.com>
- <46f0ed1d-3bda-f91b-e2b0-addf1c61c373@redhat.com>
- <301a8b402ff7e480e927b0f8f8b093f2@kernel.org>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <7fb9f81f-6520-526d-7031-d3d08cb1dd6a@huawei.com>
-Date: Thu, 12 Mar 2020 17:19:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <301a8b402ff7e480e927b0f8f8b093f2@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.35
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jCK3R-00075A-28; Thu, 12 Mar 2020 05:23:01 -0400
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jCK3E-0004ma-JN; Thu, 12 Mar 2020 12:22:48 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/4] qcow2: Implement zstd cluster compression method
+Date: Thu, 12 Mar 2020 12:22:38 +0300
+Message-Id: <20200312092242.5536-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,105 +43,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, kvm@vger.kernel.org,
- andre.przywara@arm.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- thuth@redhat.com, alexandru.elisei@arm.com, kvmarm@lists.cs.columbia.edu,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/3/11 22:00, Marc Zyngier wrote:
-> That is still a problem with the ITS. There is no architectural way
-> to report an error, even if the error numbers are architected...
-> 
-> One thing we could do though is to implement the stall model (as described
-> in 5.3.2). It still doesn't give us the error, but at least the command
-> queue would stop on detecting an error.
+v6:
+   * "block/qcow2-threads: fix qcow2_decompress" is removed from the series
+      since it has been accepted by Max already
+   * add compile time checking for Qcow2Header to be a multiple of 8 [Max, Alberto]
+   * report error on qcow2 amending when the compression type is actually chnged [Max]
+   * remove the extra space and the extra new line [Max]
+   * re-arrange acks and signed-off-s [Vladimir]
 
-It would be interesting to see the buggy guest's behavior under the
-stall mode. I've used the following diff (absolutely *not* a formal
-patch, don't handle CREADR.Stalled and CWRITER.Retry at all) to have
-a try, and caught another command error in the 'its-trigger' test.
+v5:
+   * replace -ENOTSUP with abort in qcow2_co_decompress [Vladimir]
+   * set cluster size for all test cases in the beginning of the 287 test
 
-logs/its-trigger.log:
-" INT dev_id=2 event_id=20
-lib/arm64/gic-v3-its-cmd.c:194: assert failed: false: INT timeout! "
+v4:
+   * the series is rebased on top of 01 "block/qcow2-threads: fix qcow2_decompress"
+   * 01 is just a no-change resend to avoid extra dependencies. Still, it may be merged in separate
 
-dmesg:
-[13297.711958] ------------[ cut here ]------------
-[13297.711964] ITS command error encoding 0x10307
+v3:
+   * remove redundant max compression type value check [Vladimir, Eric]
+     (the switch below checks everything)
+   * prevent compression type changing on "qemu-img amend" [Vladimir]
+   * remove zstd config setting, since it has been added already by
+     "migration" patches [Vladimir]
+   * change the compression type error message [Vladimir] 
+   * fix alignment and 80-chars exceeding [Vladimir]
 
-It's the last INT test in test_its_trigger() who has triggered this
-error, Eric?
+v2:
+   * rework compression type setting [Vladimir]
+   * squash iotest changes to the compression type introduction patch [Vladimir, Eric]
+   * fix zstd availability checking in zstd iotest [Vladimir]
+   * remove unnecessry casting [Eric]
+   * remove rudundant checks [Eric]
+   * fix compressed cluster layout in qcow2 spec [Vladimir]
+   * fix wording [Eric, Vladimir]
+   * fix compression type filtering in iotests [Eric]
 
+v1:
+   the initial series
 
-Thanks.
+Denis Plotnikov (4):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: 287: add qcow2 compression type test
 
----8<---
-diff --git a/include/kvm/arm_vgic.h b/include/kvm/arm_vgic.h
-index 9d53f545a3d5..5717f5da0f22 100644
---- a/include/kvm/arm_vgic.h
-+++ b/include/kvm/arm_vgic.h
-@@ -179,6 +179,7 @@ struct vgic_its {
-  	u64			cbaser;
-  	u32			creadr;
-  	u32			cwriter;
-+	bool			stalled;
+ docs/interop/qcow2.txt           |  20 ++++
+ configure                        |   2 +-
+ qapi/block-core.json             |  23 +++-
+ block/qcow2.h                    |  20 +++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-threads.c            | 195 +++++++++++++++++++++++++++++--
+ block/qcow2.c                    | 132 +++++++++++++++++++++
+ tests/qemu-iotests/031.out       |  14 +--
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++++++++--------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 +++---
+ tests/qemu-iotests/065           |  28 +++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 128 ++++++++++++++++++++
+ tests/qemu-iotests/287.out       |  43 +++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 664 insertions(+), 108 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
 
-  	/* migration ABI revision in use */
-  	u32			abi_rev;
-diff --git a/virt/kvm/arm/vgic/vgic-its.c b/virt/kvm/arm/vgic/vgic-its.c
-index d53d34a33e35..72422b75e627 100644
---- a/virt/kvm/arm/vgic/vgic-its.c
-+++ b/virt/kvm/arm/vgic/vgic-its.c
-@@ -1519,6 +1519,9 @@ static void vgic_its_process_commands(struct kvm 
-*kvm, struct vgic_its *its)
-  	if (!its->enabled)
-  		return;
-
-+	if (unlikely(its->stalled))
-+		return;
-+
-  	cbaser = GITS_CBASER_ADDRESS(its->cbaser);
-
-  	while (its->cwriter != its->creadr) {
-@@ -1531,9 +1534,34 @@ static void vgic_its_process_commands(struct kvm 
-*kvm, struct vgic_its *its)
-  		 * According to section 6.3.2 in the GICv3 spec we can just
-  		 * ignore that command then.
-  		 */
--		if (!ret)
--			vgic_its_handle_command(kvm, its, cmd_buf);
-+		if (ret)
-+			goto done;
-+
-+		ret = vgic_its_handle_command(kvm, its, cmd_buf);
-+
-+		/*
-+		 * Choose the stall mode on detection of command errors.
-+		 * Guest still can't get the architected error numbers though...
-+		 */
-+		if (ret) {
-+			/* GITS_CREADR.Stalled is set to 1. */
-+			its->stalled = true;
-+
-+			/*
-+			 * GITS_TYPER.SEIS is 0 atm, no System error will be
-+			 * generated.  Instead report error encodings at ITS
-+			 * level.
-+			 */
-+			WARN_RATELIMIT(ret, "ITS command error encoding 0x%x", ret);
-+
-+			/*
-+			 * GITS_CREADR is not incremented and continues to
-+			 * point to the entry that triggered the error.
-+			 */
-+			break;
-+		}
-
-+done:
-  		its->creadr += ITS_CMD_SIZE;
-  		if (its->creadr == ITS_CMD_BUFFER_SIZE(its->cbaser))
-  			its->creadr = 0;
+-- 
+2.17.0
 
 
