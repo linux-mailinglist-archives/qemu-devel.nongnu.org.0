@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20F1183BDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:02:54 +0100 (CET)
-Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A902183C3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:16:47 +0100 (CET)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCVuo-0000o6-1K
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
+	id 1jCW8D-0003ib-IY
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54241)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jCVtJ-0008KL-Jh
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:25 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jCW75-0001Bi-1g
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:15:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jCVtH-0006Xv-EE
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58336
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jCVtH-0006X6-Ae
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584050479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UkamC+fKMdNKcd5Zm/3Gj1NYi0y4T+EZ4RCC9YiMKy4=;
- b=Bi/ubAwSe7iSyFHlwWNkU28ZOpKpLDpLNUDAudH9LL6OMlMWRFI9g+Bf0ds/xv+jnHq0hF
- FCK9zRXevmkn0NRbqfpDLy6pKMeWZW/BfR6NvF55MZZGDlX+XQE47SG5crbWW83Q7yaiiO
- 5zlz21n+wYdGq8ehECV5dC2G3tIafJg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-RwzvlAq-NNOXG1XTnDIr-w-1; Thu, 12 Mar 2020 18:01:12 -0400
-X-MC-Unique: RwzvlAq-NNOXG1XTnDIr-w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64B54140A;
- Thu, 12 Mar 2020 22:01:11 +0000 (UTC)
-Received: from [10.3.116.177] (ovpn-116-177.phx2.redhat.com [10.3.116.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D52719C6A;
- Thu, 12 Mar 2020 22:01:10 +0000 (UTC)
-Subject: Re: [PATCH v4 0/7] Tighten qemu-img rules on missing backing format
-To: qemu-devel@nongnu.org
-References: <158404914429.16773.14555927621203301707@39012742ff91>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0bf30278-a4a4-a87e-bd62-36b733193076@redhat.com>
-Date: Thu, 12 Mar 2020 17:01:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <alistair23@gmail.com>) id 1jCW73-00060p-Pl
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:15:34 -0400
+Received: from mail-vk1-xa41.google.com ([2607:f8b0:4864:20::a41]:43938)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jCW73-0005z6-Kr; Thu, 12 Mar 2020 18:15:33 -0400
+Received: by mail-vk1-xa41.google.com with SMTP id t3so2060899vkm.10;
+ Thu, 12 Mar 2020 15:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o/HkkMcrEHAWXFQusdHwU8phyQPq6T2aBZNnkj4Us1o=;
+ b=ZSqEC4PvT0GZFzmU4AK4rWA9/tvtmakdAKfiamMEQz5BJnmcJYT57GuxATFINlwgL7
+ ejksZfREkoG/0KFcEAndhMM7gNxxPYqZMJVf3uRFxDKQSThQGSlwWnVfW+4dtNqAc3ff
+ OZstFgyheUoT4xRGkVGTaN7q+Fhv40a3aPMz7lH0NtEPVeY5gN0GYyMzV5EcbaZNM2Ny
+ bhOBVzqZLv8M+0VwUICt/2rB7lDPy1r1/qnsf9eCfw8WxcEPMvyaJa0b62qrfC0plwhw
+ XXP2dhrp/RnNferAU5GvpLW+Y/id+22rgXasKcWiZn5LMTnnsbJjDAhoZp+jd3IW9MIb
+ irqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o/HkkMcrEHAWXFQusdHwU8phyQPq6T2aBZNnkj4Us1o=;
+ b=BNgOQmC+t++6OSOY6JSV9sk99bVfDhXuvwlJFyTIL3UjOIfO9KtfQpAbjwEMYoCcgw
+ UUoODBjdIxDeyORy1he41FD8YYl1Vf5hcs6INeFc2tIxQPMQPy0YKiBDj8nlKrj1zYmX
+ LbuCg74aDFU6EXaxN+G0WzCB5sNht+2izBxRi/VCSoa7liimHcOFvj3izDrpskTDIhyG
+ yLmlC4/mO0PVQ8eJlUGp39QNIUvyU4PMtEn909JRn8+Zl6j6v6XDIW2KctVbUpXbhbWI
+ Cu3oLuVFQgH0I+gXJrRV+N8N0cGj8FJax/YXUEb6Z3xOXaYnlWjV96bct38PB4i16roL
+ sHsg==
+X-Gm-Message-State: ANhLgQ1miDC1ESSQNGCHnni/0Ajq9/jiRS/IRroqjK8hFQbE69X/tYj3
+ EVwjaV2Agie5PwUqrUOAkBsg/nnGdNd7yfPeEH4=
+X-Google-Smtp-Source: ADFU+vst7lZRwIQtqa7jjyRuEzM36EzZeLMJfvzNJesRQfOZDgnUezlLvgol61/g2gWX0R5W1frrhD7DzxhrAx9TAf8=
+X-Received: by 2002:ac5:c1ca:: with SMTP id g10mr7059195vkk.16.1584051333014; 
+ Thu, 12 Mar 2020 15:15:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <158404914429.16773.14555927621203301707@39012742ff91>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-5-zhiwei_liu@c-sky.com>
+ <CAKmqyKOA2xH+wCZ2L1TGDoL+3kfdEVGFKcqARua_e7GdN_iTuQ@mail.gmail.com>
+ <ae6e17bd-bd61-2365-1451-da4a05b82ee1@c-sky.com>
+In-Reply-To: <ae6e17bd-bd61-2365-1451-da4a05b82ee1@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 12 Mar 2020 15:07:41 -0700
+Message-ID: <CAKmqyKOjeB3cnypSjm46WrfYAkwN9Uxonf0cKyCERKs5hcc-CA@mail.gmail.com>
+Subject: Re: [PATCH v5 04/60] target/riscv: add vector configure instruction
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::a41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,64 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, libvir-list@redhat.com, pkrempa@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/20 4:39 PM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200312192822.3739399-1-eblake@redhat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the asan build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> export ARCH=x86_64
-> make docker-image-fedora V=1 NETWORK=1
-> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
->    CC      block/replication.o
->    CC      block/throttle.o
->    CC      block/copy-on-read.o
-> /tmp/qemu-test/src/block/sheepdog.c:2174:9: error: variable 'qdict' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->      if (backing_fmt && strcmp(backing_fmt, "sheepdog") != 0) {
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> /tmp/qemu-test/src/block/sheepdog.c:2241:19: note: uninitialized use occurs here
-> ---
->                  ^
->                   = NULL
+On Thu, Mar 12, 2020 at 3:00 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+>
+>
+> On 2020/3/13 5:23, Alistair Francis wrote:
+> > On Thu, Mar 12, 2020 at 8:07 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+> >> vsetvl and vsetvli are two configure instructions for vl, vtype. TB flags
+> >> should update after configure instructions. The (ill, lmul, sew ) of vtype
+> >> and the bit of (VSTART == 0 && VL == VLMAX) will be placed within tb_flags.
+> >>
+> >> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> >> ---
+> >>   target/riscv/Makefile.objs              |  2 +-
+> >>   target/riscv/cpu.h                      | 63 ++++++++++++++++++----
+> >>   target/riscv/helper.h                   |  2 +
+> >>   target/riscv/insn32.decode              |  5 ++
+> >>   target/riscv/insn_trans/trans_rvv.inc.c | 69 +++++++++++++++++++++++++
+> >>   target/riscv/translate.c                | 17 +++++-
+> >>   target/riscv/vector_helper.c            | 53 +++++++++++++++++++
+> >>   7 files changed, 199 insertions(+), 12 deletions(-)
+> >>   create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+> >>   create mode 100644 target/riscv/vector_helper.c
+> >>
 
-Bah, real problem (and I missed it because I compiled for debug, while 
-this error depends on -O2 for gcc to flag it).  Squash this in:
+...
 
-diff --git i/block/sheepdog.c w/block/sheepdog.c
-index 376f4ef74638..e0ea335131d9 100644
---- i/block/sheepdog.c
-+++ w/block/sheepdog.c
-@@ -2161,9 +2161,9 @@ static int coroutine_fn sd_co_create_opts(const 
-char *filename, QemuOpts *opts,
-                                            Error **errp)
-  {
-      BlockdevCreateOptions *create_options = NULL;
--    QDict *qdict, *location_qdict;
-+    QDict *qdict = NULL, *location_qdict;
-      Visitor *v;
--    char *redundancy;
-+    char *redundancy = NULL;
-      Error *local_err = NULL;
-      int ret;
-      char *backing_fmt = NULL;
+> >> +    gen_get_gpr(s2, a->rs2);
+> >> +    gen_helper_vsetvl(dst, cpu_env, s1, s2);
+> >> +    gen_set_gpr(a->rd, dst);
+> >> +    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
+> >> +    exit_tb(ctx);
+> > Why does this
+> As the vsetvl will change vtype, the tb flags of the instructions next
+> to the vsetvl
+> will change(some tb flags  are from vtype, like LMUL).
+> >
+> >> +    ctx->base.is_jmp = DISAS_NORETURN;
+> >> +
+> >> +    tcg_temp_free(s1);
+> >> +    tcg_temp_free(s2);
+> >> +    tcg_temp_free(dst);
+> >> +    return true;
+> >> +}
+> >> +
+> >> +static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli * a)
+> >> +{
+> >> +    TCGv s1, s2, dst;
+> >> +    s2 = tcg_const_tl(a->zimm);
+> >> +    dst = tcg_temp_new();
+> >> +
+> >> +    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+> >> +    if (a->rs1 == 0) {
+> >> +        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+> >> +        s1 = tcg_const_tl(RV_VLEN_MAX);
+> >> +    } else {
+> >> +        s1 = tcg_temp_new();
+> >> +        gen_get_gpr(s1, a->rs1);
+> >> +    }
+> >> +    gen_helper_vsetvl(dst, cpu_env, s1, s2);
+> >> +    gen_set_gpr(a->rd, dst);
+> >> +    gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
+> > Need to be different to this?
+> Although vsetvli will also change vtype, the vtype will be a constant.
+> So the tb flags of  the instruction(A) next to
+> it will always be same with the tb flags at first translation of A.
+> That's why gen_goto_tb is enough.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Ah ok. Makes sense.
 
+Once you fix the one nit pick I had you can add my reviewed by:
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+>
+> Zhiwei
 
