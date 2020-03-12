@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983A6183A1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:03:12 +0100 (CET)
-Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0CA1839FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 20:56:58 +0100 (CET)
+Received: from localhost ([::1]:49659 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCU2x-00056I-IX
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46118)
+	id 1jCTwv-00042P-4E
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 15:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjk-00070x-Jf
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:22 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jCTjP-00062x-S3
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjj-0002SM-4o
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:20 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41421)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jCTji-0002Rv-Uq
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:19 -0400
-Received: by mail-pl1-x643.google.com with SMTP id t14so3062851plr.8
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=D6dUTV6+AbmOvovc5B167VTVViwAF6biFLlOzA9HmSw=;
- b=e09oKrAdsRYr04MKQUlFO5Sqre3QYt0so/zB/TKS5uGXJhsG6oOYeV7w+jgh5Y62Lm
- I//ZEHwflheAWSAxD8k+NuOx8a2NbefPHvR1uQGSDQh9SPObQtbjp+osr2MIT3T73/4X
- kCg72AenLxeDqJ4LAMGUnnKpQA9LdegM2cAAuMHnW/3wi6bee2ocaZuhXVV6nK+GTtNm
- BqB4lzAmezWoeC/GAjhoGbblxnFeHnrZy1NjmKTtdJwKktoCcaFStfNgnapjKM9lpmd0
- bRCJuzjeyPs+oyKiwfYbszRwc0ZT0iKX6Innswx5xCPMOd5b573cvaSCUHY/Ya957npe
- W05Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D6dUTV6+AbmOvovc5B167VTVViwAF6biFLlOzA9HmSw=;
- b=ujb3RzujdRBRk292qynfO9xHs5GZRWnpNNOaIQmfUIOlXOAQeN+Udpi7NNmK/Lqr6z
- d2Hj4bCUHu5zGSbVRhWKusc8pNmJ3Z1gz5nXd9MmxIKSeyH6aAZh/vT23ys2sv4e+Yp6
- 545ep9erOz98yCSU/Nta+K4DeDZLDrnWZWaijz3yKAR+uKUf8rVk4h4pjVcWdZTK6JET
- wNJDDKfdydjV+Wc5WqrcspH4wtnV07bj+/491ulq0XFX14+baAUEn0QEI5Y/yUgtMoIZ
- N+2PJreXN0nNa64sfRhgEqqTaF5cEpttYviE2glBCkwIwv2ChREy0mygX8dr0OpBrDGS
- oJ1g==
-X-Gm-Message-State: ANhLgQ0E2Q68pPheJ3YVIFbppi8/4dVlsdPCbxzzUYmaTMTeL1E7eyO8
- 96lNnfp922CONS3t9Vo9/ljHApyIm00=
-X-Google-Smtp-Source: ADFU+vuBH+RPEBGPrZa1p2Vs6VHSN6g4Zif2yEuU7dsc48h3upM17JSgGj4hBgX89AK3TeDaLTHS/w==
-X-Received: by 2002:a17:902:8a88:: with SMTP id
- p8mr10026309plo.56.1584042197603; 
- Thu, 12 Mar 2020 12:43:17 -0700 (PDT)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.43.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 12:43:16 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 42/42] target/arm: Add allocation tag storage for system
- mode
-Date: Thu, 12 Mar 2020 12:42:19 -0700
-Message-Id: <20200312194219.24406-43-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200312194219.24406-1-richard.henderson@linaro.org>
-References: <20200312194219.24406-1-richard.henderson@linaro.org>
+ (envelope-from <dgilbert@redhat.com>) id 1jCTjO-0002G3-O7
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35032
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCTjO-0002FR-Jh
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:42:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584042177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WUNWxSc4ky3PeMgsyReA6nF3hSlGxt/hqMniCgFnl+k=;
+ b=HlScxwe8Oujbuzdz2DHZJybcNi5iAbNMH8bCBqzfUtIgLZTKPL7/Ph6PedOdVjy9tkM1aU
+ v+fqJJUOBoIPbRCCvX/N3wdBtm0OKfrmEoglOu2KY2D5Ip8bli89+nh5HfiG4xMnyZqWMi
+ BCP47iSTiDZXCoUCG1ILTfL+EiJSg50=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-3fP_7PFeORu_eJUPSI0Qbw-1; Thu, 12 Mar 2020 15:42:54 -0400
+X-MC-Unique: 3fP_7PFeORu_eJUPSI0Qbw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D6CC100DFE2;
+ Thu, 12 Mar 2020 19:42:53 +0000 (UTC)
+Received: from work-vm (ovpn-116-106.ams2.redhat.com [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 286DD92D48;
+ Thu, 12 Mar 2020 19:42:51 +0000 (UTC)
+Date: Thu, 12 Mar 2020 19:42:49 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Subject: Re: [PATCH V2 6/8] migration: recognize COLO as part of activating
+ process
+Message-ID: <20200312194249.GO3211@work-vm>
+References: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
+ <20200224065414.36524-7-zhang.zhanghailiang@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+In-Reply-To: <20200224065414.36524-7-zhang.zhanghailiang@huawei.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,168 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: danielcho@qnap.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Look up the physical address for the given virtual address,
-convert that to a tag physical address, and finally return
-the host address that backs it.
+* zhanghailiang (zhang.zhanghailiang@huawei.com) wrote:
+> We will migrate parts of dirty pages backgroud lively during the gap time
+> of two checkpoints, without this modification, it will not work
+> because ram_save_iterate() will check it before send RAM_SAVE_FLAG_EOS
+> at the end of it.
+>=20
+> Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/mte_helper.c | 128 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index c51f7f04f4..47db87a5a1 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -21,6 +21,7 @@
- #include "cpu.h"
- #include "internals.h"
- #include "exec/exec-all.h"
-+#include "exec/ram_addr.h"
- #include "exec/cpu_ldst.h"
- #include "exec/helper-proto.h"
- 
-@@ -74,8 +75,135 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-                                    int ptr_size, MMUAccessType tag_access,
-                                    int tag_size, uintptr_t ra)
- {
-+#ifdef CONFIG_USER_ONLY
-     /* Tag storage not implemented.  */
-     return NULL;
-+#else
-+    uintptr_t index;
-+    CPUIOTLBEntry *iotlbentry;
-+    int in_page, flags;
-+    ram_addr_t ptr_ra;
-+    hwaddr ptr_paddr, tag_paddr, xlat;
-+    MemoryRegion *mr;
-+    ARMASIdx tag_asi;
-+    AddressSpace *tag_as;
-+    void *host;
-+
-+    /*
-+     * The caller must split calls to this function such that it will
-+     * not access *tag* memory beyond the end of the page.
-+     */
-+    in_page = -(ptr | -(TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1)));
-+    g_assert(tag_size <= in_page);
-+
-+    /*
-+     * Probe the first byte of the virtual address.  This raises an
-+     * exception for inaccessible pages, and resolves the virtual address
-+     * into the softmmu tlb.
-+     */
-+    flags = probe_access_flags(env, ptr, ptr_access, ptr_mmu_idx,
-+                               false, &host, ra);
-+
-+    /*
-+     * Find the iotlbentry for ptr.  This *must* be present in the TLB
-+     * because we just found the mapping.
-+     * TODO: Perhaps there should be a cputlb helper that returns a
-+     * matching tlb entry + iotlb entry.
-+     */
-+    index = tlb_index(env, ptr_mmu_idx, ptr);
-+# ifdef CONFIG_DEBUG_TCG
-+    {
-+        CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
-+        target_ulong comparator = (ptr_access == MMU_DATA_LOAD
-+                                   ? entry->addr_read
-+                                   : tlb_addr_write(entry));
-+        g_assert(tlb_hit(comparator, ptr));
-+    }
-+# endif
-+    iotlbentry = &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
-+
-+    /* If the virtual page MemAttr != Tagged, access unchecked. */
-+    if (!iotlbentry->attrs.target_tlb_bit1) {
-+        return NULL;
-+    }
-+
-+    /* If not normal memory, tag storage is not implemented, access unchecked. */
-+    if (unlikely(flags & TLB_MMIO)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Page @ 0x%" PRIx64 " indicates Tagged Normal memory "
-+                      "but is Device memory\n", ptr);
-+        return NULL;
-+    }
-+
-+    /*
-+     * The Normal memory access can extend to the next page.  E.g. a single
-+     * 8-byte access to the last byte of a page will check only the last
-+     * tag on the first page.
-+     * Any page access exception has priority over tag check exception.
-+     */
-+    in_page = -(ptr | TARGET_PAGE_MASK);
-+    if (unlikely(ptr_size > in_page)) {
-+        void *ignore;
-+        flags |= probe_access_flags(env, ptr + in_page, ptr_access,
-+                                    ptr_mmu_idx, false, &ignore, ra);
-+    }
-+
-+    /* Any debug exception has priority over a tag check exception. */
-+    if (unlikely(flags & TLB_WATCHPOINT)) {
-+        int wp = ptr_access == MMU_DATA_LOAD ? BP_MEM_READ : BP_MEM_WRITE;
-+        cpu_check_watchpoint(env_cpu(env), ptr, ptr_size,
-+                             iotlbentry->attrs, wp, ra);
-+    }
-+
-+    /*
-+     * Find the physical address within the normal mem space.
-+     * The memory region lookup must succeed because TLB_MMIO was
-+     * not set in the cputlb lookup above.
-+     */
-+    mr = memory_region_from_host(host, &ptr_ra);
-+    tcg_debug_assert(mr != NULL);
-+    tcg_debug_assert(memory_region_is_ram(mr));
-+    ptr_paddr = ptr_ra;
-+    do {
-+        ptr_paddr += mr->addr;
-+        mr = mr->container;
-+    } while (mr);
-+
-+    /* Convert to the physical address in tag space.  */
-+    tag_paddr = ptr_paddr >> (LOG2_TAG_GRANULE + 1);
-+
-+    /* Look up the address in tag space. */
-+    tag_asi = iotlbentry->attrs.secure ? ARMASIdx_TagS : ARMASIdx_TagNS;
-+    tag_as = cpu_get_address_space(env_cpu(env), tag_asi);
-+    mr = address_space_translate(tag_as, tag_paddr, &xlat, NULL,
-+                                 tag_access == MMU_DATA_STORE,
-+                                 iotlbentry->attrs);
-+
-+    /*
-+     * Note that @mr will never be NULL.  If there is nothing in the address
-+     * space at @tag_paddr, the translation will return the unallocated memory
-+     * region.  For our purposes, the result must be ram.
-+     */
-+    if (unlikely(!memory_region_is_ram(mr))) {
-+        /* ??? Failure is a board configuration error. */
-+        qemu_log_mask(LOG_UNIMP,
-+                      "Tag Memory @ 0x%" HWADDR_PRIx " not found for "
-+                      "Normal Memory @ 0x%" HWADDR_PRIx "\n",
-+                      tag_paddr, ptr_paddr);
-+        return NULL;
-+    }
-+
-+    /*
-+     * Ensure the tag memory is dirty on write, for migration.
-+     * Tag memory can never contain code or display memory (vga).
-+     */
-+    if (tag_access == MMU_DATA_STORE) {
-+        ram_addr_t tag_ra = memory_region_get_ram_addr(mr) + xlat;
-+        cpu_physical_memory_set_dirty_flag(tag_ra, DIRTY_MEMORY_MIGRATION);
-+    }
-+
-+    return memory_region_get_ram_ptr(mr) + xlat;
-+#endif
- }
- 
- uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
--- 
-2.20.1
+and queued.
+
+> ---
+>  migration/migration.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/migration/migration.c b/migration/migration.c
+> index e8c62c6e2e..f71c337600 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -840,6 +840,7 @@ bool migration_is_setup_or_active(int state)
+>      case MIGRATION_STATUS_PRE_SWITCHOVER:
+>      case MIGRATION_STATUS_DEVICE:
+>      case MIGRATION_STATUS_WAIT_UNPLUG:
+> +    case MIGRATION_STATUS_COLO:
+>          return true;
+> =20
+>      default:
+> --=20
+> 2.21.0
+>=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
