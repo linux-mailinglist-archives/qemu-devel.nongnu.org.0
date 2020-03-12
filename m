@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C03F183A31
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:06:41 +0100 (CET)
-Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2834183A1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 21:01:27 +0100 (CET)
+Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCU6K-0003Py-9F
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45779)
+	id 1jCU1G-000356-Oj
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 16:01:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjT-0006C9-1E
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTjU-0006G7-6J
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jCTjR-0002Ht-JK
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:02 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44657)
+ (envelope-from <richard.henderson@linaro.org>) id 1jCTjT-0002Ig-33
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:04 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42183)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jCTjR-0002Ha-Do
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:01 -0400
-Received: by mail-pg1-x543.google.com with SMTP id 37so3558674pgm.11
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:43:01 -0700 (PDT)
+ id 1jCTjS-0002II-Tz
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 15:43:03 -0400
+Received: by mail-pg1-x541.google.com with SMTP id h8so3564110pgs.9
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QJvhSRp707cxdamQl0vVDLxpjNb38jwO6L+jNT02qis=;
- b=Htm7rd1qhbD8wYpn5xGztYpEq7moH6Jqt1IzRBbiBRgtuNx6WRyILUK157ppeHE11z
- Ntq3SN/Mx+rNPDIH7aP7HoowgFWkZvaidtuf7SAyJ7gd7Duns+0n9KNCTJAwiAtMlmdT
- P2AuJ8hxcGowmVL0H+ZMvv5REOrgO5E+0vSgMKVTQ5R5LOalwjkw9MYBegqfUdGbvCIx
- n4BUVwtAnUMqp4gwyrr1xJwpWBc3ETjt0+MoXvkZgU41btzfrAD7tH93PxZGikxW/lxJ
- 6ViOLGedLDXtWkYtdHM9TsDZHJFfBTarLgN8ssPXDz8enlXnG/uZk1qR8WBYv1Pj98Zi
- Pekg==
+ bh=tHPURWIXRjblQZ58gS3vbMqtD53IcLCIb5jBh5LhEBk=;
+ b=MlOZmQFoWQ4BcERTNAds4uxhqMuCO/enNBCMxm2iuR8i7FsWL3S/cxT5f036TcYZ4U
+ HlSa2YxwlY+FlemkiBU8CJAN04Na0ofH+05kOPESp9gLLSqKCd0wweaTX6B2nvXrUbpS
+ csnTHbWzOkQG56KC4/uNjqPbzo3hDbQFIvid7/bjK0hEXABkJgd2fDqLLKufrjdC51Z7
+ 3zPyoGEjzj/b3wUap8rs1ENOrdztnzAzTgTSRSb3Ssk0oODPn/BHF26a+lDUVawMUj68
+ QNZ8xzLe95x6rqTL3QFN5xiEh+/qQvV0nARGhMxSPpTvle81ANNwUJgIqpS41svM8Gzm
+ vHXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QJvhSRp707cxdamQl0vVDLxpjNb38jwO6L+jNT02qis=;
- b=PB5xaJfuXBZy9zy+gCkhhL5TMgH+Tmjy01k3bTwOaYgVJad7xo1wpe1MpP1WMCBJYH
- KMluabD3g6n9gZTXonn7U9bBoEd6VtKrNVJWdXigYu5bAXlMen82lMwYDV+H7CjMrUDF
- V3vq/VB2Wzz5mYr9JSC5nrOQy0+XLzQIM7tsMnUTxGC3rdJTZRRlqjsYTUKjc0lzGfIc
- +TL/7WTkYdOKqlzPh5vgxqg+h7m1DoDhnpLAfQk2AorHFTkznc5q8eor6Sf3fXutZY9p
- dFjYxr4scgK74xHT+zNF4z1+vSB0XVBBL/bey93TywAen0qXmnuMdDeJrIDYCnRf56Bh
- 54uA==
-X-Gm-Message-State: ANhLgQ2BOxEVuTXqzhH5LWl/Z3j3C+jadvst4Aj/KwdL1du9G5W2CQRg
- GYPo4K0VgfyCRUhVfRfrVDu0XUYPH1U=
-X-Google-Smtp-Source: ADFU+vuTJzcTioii6xrC8Sx0g8tv+L/giG2Iml54SBRGew7tYRXGyHeSXVM1pQghu8G39Rarzzs3VQ==
-X-Received: by 2002:a62:16d2:: with SMTP id 201mr7235600pfw.295.1584042180076; 
- Thu, 12 Mar 2020 12:43:00 -0700 (PDT)
+ bh=tHPURWIXRjblQZ58gS3vbMqtD53IcLCIb5jBh5LhEBk=;
+ b=SKglMUmMRly3fB31+uyOIx4sUmqpX1CRhjr2GBMNLXWI9BUmf8enVVFs0nwtvLx8gc
+ vMT/9Ccrytb7z9bi18RoVj8vOInALFpXyGLnGV120LNqFbNaSgJm315lJa2IePihQnfp
+ s4bmXi8U6+PcOorHENC55y4pAv596/rqgM/OvHzzC4e7YciIf6u0+2WO0cQBh+dzQR5M
+ ux+jpUm15c9oBjuO53JVnaCDU6zjPWwuWvwpHIDA0+wMHCIJTcqKkrrfhUrcpVgqAQXP
+ H7idk70LRBnagcaZUu7fuHrtC3Vy0RiaoNjXi7db80pKGH/nYupmhgkg8SeOjHJgTNYU
+ cChA==
+X-Gm-Message-State: ANhLgQ3joiLx0P8zCOijQ8yRG7PkZH99jHZOcCUbSsc08A21/+6S7MzP
+ VtwcMKMIMiBzab7pw5KIn7rNb8f1JRE=
+X-Google-Smtp-Source: ADFU+vtFMWclMd3YoRHlJ5cMw94ueR6YapU3t7zRcDypGwQNnxaRfVG+nygU5ZXL3NfEgaeZhMbB4Q==
+X-Received: by 2002:a63:330f:: with SMTP id z15mr9534986pgz.104.1584042181608; 
+ Thu, 12 Mar 2020 12:43:01 -0700 (PDT)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.42.58
+ by smtp.gmail.com with ESMTPSA id g69sm6824842pje.34.2020.03.12.12.43.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 12:42:59 -0700 (PDT)
+ Thu, 12 Mar 2020 12:43:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 29/42] target/arm: Use mte_checkN for sve unpredicated
- stores
-Date: Thu, 12 Mar 2020 12:42:06 -0700
-Message-Id: <20200312194219.24406-30-richard.henderson@linaro.org>
+Subject: [PATCH v6 30/42] target/arm: Use mte_check1 for sve LD1R
+Date: Thu, 12 Mar 2020 12:42:07 -0700
+Message-Id: <20200312194219.24406-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312194219.24406-1-richard.henderson@linaro.org>
 References: <20200312194219.24406-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,218 +84,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  1 +
- target/arm/sve_helper.c    | 63 ++++++++++++++++++++++++++-
- target/arm/translate-sve.c | 88 ++++++++++++++------------------------
- 3 files changed, 94 insertions(+), 58 deletions(-)
+ target/arm/translate-sve.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 82ea70cf63..4e71501838 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -1124,6 +1124,7 @@ DEF_HELPER_FLAGS_5(sve_ftmad_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve_ftmad_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_4(sve_ldr, TCG_CALL_NO_WG, void, env, ptr, tl, int)
-+DEF_HELPER_FLAGS_4(sve_str, TCG_CALL_NO_WG, void, env, ptr, tl, int)
- 
- DEF_HELPER_FLAGS_4(sve_ld1bb_r, TCG_CALL_NO_WG, void, env, ptr, tl, i32)
- DEF_HELPER_FLAGS_4(sve_ld2bb_r, TCG_CALL_NO_WG, void, env, ptr, tl, i32)
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index ede72a2989..2396737420 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4191,7 +4191,7 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
- }
- 
- /*
-- * Load contiguous data, unpredicated.
-+ * Load/store contiguous data, unpredicated.
-  *
-  * Note that unpredicated load/store of vector/predicate registers
-  * are defined as a stream of bytes, which equates to little-endian
-@@ -4261,6 +4261,67 @@ void HELPER(sve_ldr)(CPUARMState *env, void *vd, target_ulong addr, int size)
-     }
- }
- 
-+void HELPER(sve_str)(CPUARMState *env, void *vd, target_ulong addr, int size)
-+{
-+    int mem_idx = cpu_mmu_index(env, false);
-+    int in_page = -((int)addr | TARGET_PAGE_MASK);
-+    uintptr_t ra = GETPC();
-+    uint64_t val;
-+    void *host;
-+    int i;
-+
-+    /* Small stores are expanded inline. */
-+    tcg_debug_assert(size > 2 * 8);
-+
-+    if (likely(size <= in_page)) {
-+        host = probe_write(env, addr, size, mem_idx, ra);
-+        if (likely(host != NULL)) {
-+            for (i = 0; i + 8 <= size; i += 8) {
-+                stq_le_p(host + i, *(uint64_t *)(vd + i));
-+            }
-+
-+            /* Predicate load length may be any multiple of 2. */
-+            if (unlikely(i != size)) {
-+                val = *(uint64_t *)(vd + i);
-+                if (size & 4) {
-+                    stl_le_p(host + i, val);
-+                    i += 4;
-+                    val >>= 32;
-+                }
-+                if (size & 2) {
-+                    stw_le_p(host + i, val);
-+                }
-+            }
-+            return;
-+        }
-+    } else {
-+        (void)probe_write(env, addr, in_page, mem_idx, ra);
-+        (void)probe_write(env, addr + in_page, size - in_page, mem_idx, ra);
-+    }
-+
-+    /*
-+     * Note there is no endian-specific target store function, so to handle
-+     * aarch64_be-linux-user we need to bswap the big-endian store.
-+     */
-+    for (i = 0; i + 8 <= size; i += 8) {
-+        val = *(uint64_t *)(vd + i);
-+        cpu_stq_data_ra(env, addr + i, le_bswap64(val), ra);
-+    }
-+
-+    /* Predicate load length may be any multiple of 2. */
-+    if (unlikely(i != size)) {
-+        val = *(uint64_t *)(vd + i);
-+        if (size & 4) {
-+            cpu_stl_data_ra(env, addr + i, le_bswap32(val), ra);
-+            i += 4;
-+            val >>= 32;
-+        }
-+        if (size & 2) {
-+            cpu_stw_data_ra(env, addr + i, le_bswap16(val), ra);
-+        }
-+    }
-+}
-+
- /*
-  * Analyse contiguous data, protected by a governing predicate.
-  */
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index e55f8835bb..49d2e68564 100644
+index 49d2e68564..e5d12edd55 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -4430,78 +4430,52 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-     int len_remain = len % 8;
-     int nparts = len / 8 + ctpop8(len_remain);
-     int midx = get_mem_index(s);
--    TCGv_i64 addr, t0;
-+    TCGv_i64 dirty_addr, clean_addr, t0;
-+    int i;
+@@ -4850,16 +4850,16 @@ static bool trans_LD1RQ_zpri(DisasContext *s, arg_rpri_load *a)
+ /* Load and broadcast element.  */
+ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
+ {
+-    if (!sve_access_check(s)) {
+-        return true;
+-    }
+-
+     unsigned vsz = vec_full_reg_size(s);
+     unsigned psz = pred_full_reg_size(s);
+     unsigned esz = dtype_esz[a->dtype];
+     unsigned msz = dtype_msz(a->dtype);
+     TCGLabel *over = gen_new_label();
+-    TCGv_i64 temp;
++    TCGv_i64 temp, clean_addr;
 +
-+    dirty_addr = read_cpu_reg_sp(s, rn, true);
-+    tcg_gen_addi_i64(dirty_addr, dirty_addr, imm);
-+
-+    clean_addr = gen_mte_checkN(s, dirty_addr, true, rn != 31, len, MO_8);
-+
-+    /* Limit tcg code expansion by doing large loads out of line. */
-+    if (nparts > 4) {
-+        TCGv_ptr t_rd = tcg_temp_new_ptr();
-+        TCGv_i32 t_len = tcg_const_i32(len);
-+
-+        tcg_gen_addi_ptr(t_rd, cpu_env, vofs);
-+        gen_helper_sve_str(cpu_env, t_rd, clean_addr, t_len);
-+        tcg_temp_free_ptr(t_rd);
-+        tcg_temp_free_i32(t_len);
-+        return;
++    if (!sve_access_check(s)) {
++        return true;
 +    }
  
--    addr = tcg_temp_new_i64();
-     t0 = tcg_temp_new_i64();
--
--    /* Note that unpredicated load/store of vector/predicate registers
--     * are defined as a stream of bytes, which equates to little-endian
--     * operations on larger quantities.  There is no nice way to force
--     * a little-endian store for aarch64_be-linux-user out of line.
--     *
--     * Attempt to keep code expansion to a minimum by limiting the
--     * amount of unrolling done.
--     */
--    if (nparts <= 4) {
--        int i;
--
--        for (i = 0; i < len_align; i += 8) {
--            tcg_gen_ld_i64(t0, cpu_env, vofs + i);
--            tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + i);
--            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEQ);
--        }
--    } else {
--        TCGLabel *loop = gen_new_label();
--        TCGv_ptr t2, i = tcg_const_local_ptr(0);
--
--        gen_set_label(loop);
--
--        t2 = tcg_temp_new_ptr();
--        tcg_gen_add_ptr(t2, cpu_env, i);
--        tcg_gen_ld_i64(t0, t2, vofs);
--
--        /* Minimize the number of local temps that must be re-read from
--         * the stack each iteration.  Instead, re-compute values other
--         * than the loop counter.
--         */
--        tcg_gen_addi_ptr(t2, i, imm);
--        tcg_gen_extu_ptr_i64(addr, t2);
--        tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, rn));
--        tcg_temp_free_ptr(t2);
--
--        tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEQ);
--
--        tcg_gen_addi_ptr(i, i, 8);
--
--        tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
--        tcg_temp_free_ptr(i);
-+    for (i = 0; i < len_align; i += 8) {
-+        tcg_gen_ld_i64(t0, cpu_env, vofs + i);
-+        tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEQ);
-+        tcg_gen_addi_i64(clean_addr, clean_addr, 8);
+     /* If the guarding predicate has no bits set, no load occurs.  */
+     if (psz <= 8) {
+@@ -4880,9 +4880,11 @@ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
      }
  
-     /* Predicate register stores can be any multiple of 2.  */
-     if (len_remain) {
-         tcg_gen_ld_i64(t0, cpu_env, vofs + len_align);
--        tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + len_align);
--
-         switch (len_remain) {
--        case 2:
--        case 4:
--        case 8:
--            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LE | ctz32(len_remain));
--            break;
--
-         case 6:
--            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEUL);
--            tcg_gen_addi_i64(addr, addr, 4);
-+            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUL);
-+            tcg_gen_addi_i64(clean_addr, clean_addr, 4);
-             tcg_gen_shri_i64(t0, t0, 32);
--            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEUW);
-+            /* fall through */
-+        case 2:
-+            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUW);
-+            break;
-+        case 4:
-+            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUL);
-             break;
--
-         default:
-             g_assert_not_reached();
-         }
-     }
--    tcg_temp_free_i64(addr);
-     tcg_temp_free_i64(t0);
- }
+     /* Load the data.  */
+-    temp = tcg_temp_new_i64();
+-    tcg_gen_addi_i64(temp, cpu_reg_sp(s, a->rn), a->imm << msz);
+-    tcg_gen_qemu_ld_i64(temp, temp, get_mem_index(s),
++    temp = read_cpu_reg_sp(s, a->rn, true);
++    tcg_gen_addi_i64(temp, temp, a->imm << msz);
++    clean_addr = gen_mte_check1(s, temp, false, true, msz);
++
++    tcg_gen_qemu_ld_i64(temp, clean_addr, get_mem_index(s),
+                         s->be_data | dtype_mop[a->dtype]);
  
+     /* Broadcast to *all* elements.  */
 -- 
 2.20.1
 
