@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D531834DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:22:18 +0100 (CET)
-Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94091834FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:30:08 +0100 (CET)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCPf7-0000a4-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:22:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44881)
+	id 1jCPmh-000650-LG
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCPdm-0007b8-CJ
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:20:55 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jCPlf-0004cP-ML
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:29:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCPdg-0004fZ-QX
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:20:50 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46414)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCPdf-0004dQ-8H
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:20:48 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 111so6598424oth.13
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 08:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4ZLGhiOilpINsS5jE5BvE2/xx+HNELOoeEuRjTXACAo=;
- b=gKpX0AmV46SKn1TU88cy0LRAVRLazRg4OasF7bSnVzgo6C8iexp0kqITY9ypGOC822
- jLj6xsVcpS43uNefsfQFmuBiCpyHCqmCGuGkwaCblgfMuYS0XNuSEGv5sHkv1tAbMG7x
- YdNBQulp3u4u2H4PxsHuLA4X6D0sNMHHq9AHAy5f5FXb6+ZItCXDv8h7migHuFgXC7r9
- tyGukwYarIUVxg57cz0aome+UYt2Rqw+aFW8OIayN+dTbP2Pv8Pe0MsLiFS7OpOAAvPi
- KBCymGrVFKAH8QbBfnQRo1w/xQaWbV4KGHfGGHASwjAtxuw4VwHe2KaFTZSBKxvE4hn4
- FCTQ==
+ (envelope-from <pbonzini@redhat.com>) id 1jCPle-0004UM-17
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:29:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45792
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jCPld-0004U1-NJ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:29:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584026940;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FpoM4a0s4GbmSqM3DdAEXmQOUs6euMRHeyQKl+IkM7w=;
+ b=dwbYg91pVNhNem5R/JjhbfNGQilRtZ2VUMtmMOrj798uJjYwkme89zUHEkoX9jbSjAt5ef
+ RIinRSvyXooU8OO8e3mXxNqeLb7j7DfDMz7BCNUOjSlO09dbtJW6SGrwG2nd+Si4s9+XzG
+ 2CnTOHVdrCaZo56cx1c0oSbKRiFJt5o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-92UrJ-jdMEWPl_WoQNcZ0Q-1; Thu, 12 Mar 2020 11:28:58 -0400
+X-MC-Unique: 92UrJ-jdMEWPl_WoQNcZ0Q-1
+Received: by mail-wm1-f72.google.com with SMTP id a13so2321503wme.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 08:28:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4ZLGhiOilpINsS5jE5BvE2/xx+HNELOoeEuRjTXACAo=;
- b=QNHyLeJ9KbZOZoeydiAMw+gtXuhqVMHM2n0hbuow5j1/e0uu2RJoSPNzGcBdbL0DRF
- j8ssHr5HjZbmm5d/wNX5OHj7o0W7d0Xa2YuTLY6xzC2+bz/maxj3Y6I4ekWKplL8hS7A
- 6Zzw6PKw5q8omcgbcmNB6GEmBwl8LQiuqkf0CwQUF2Y+fxCmQnTUFMghyslhzA8fxD1l
- iY88ikjWlUom8GhUsxGXk2CSkN3lKN8BiUhzk1fuuSYxpPOUw8LbzlLZTjHBc/LpxR7O
- kGwkEQuVmFaSEspLozHq9GLykzaM1fYitLmgPMwSGw6w4IRBNFlgJjsmysasFEu+K0Ax
- B9lQ==
-X-Gm-Message-State: ANhLgQ2CmSdMnxbjcXvsmv84/A/+ds35wFW+tZxCPk+Al9Y0ktZaclE0
- PTUm1uGHdzl+lFccDhoRUFFTYEDOW6lcfk2s1gPqDXkzu9o=
-X-Google-Smtp-Source: ADFU+vtsyyzl3qqKjfK/m90NITjYnBCla7pn1ZBV4zItpcXU3QTjKw9IjaZnFkZ4HNL3zm23Z+Dtj9YbUq2Vwvd9Wj4=
-X-Received: by 2002:a4a:dc05:: with SMTP id p5mr4445547oov.63.1584026445611;
- Thu, 12 Mar 2020 08:20:45 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FpoM4a0s4GbmSqM3DdAEXmQOUs6euMRHeyQKl+IkM7w=;
+ b=Vn3bzH/8BFNpVAziKAJaecsxsrY34q3IIlwBGnvasZsySjOyfPDG6gCG10n8mogtpT
+ AaE/yJiAv8+BH3hVMcnb+YYnrDleYoErApT/91MlC76d62cjDj/Gk8HFVztRuCbPIXXl
+ kWbzTHpNKhqfvhL54C2aVnbcFDBgdfU83LHMDB7mD0rsikWOow8gvaK6FhPFeERdKBRM
+ 4s5Cq1jPtjQ7NneXM+aJiI1i8jQW5MR+MVe/nrXdP4N6D3Pt5/yFGwQvM22IDZ8+PHfU
+ MRR84NEDNoLcoYp6sJMCAul+RfOsjaTbqQRNo93xeqhqgmKF8BZ6Aq7rdQUtbFMd6cCq
+ nJXQ==
+X-Gm-Message-State: ANhLgQ0F+o6SKmoTvMFPblNzspjp72/Kt2B2n77aw7PLNzoC2GK+g5qj
+ l0Q5v+XQF57HdDdT9fqnCn3JjOWp0ndOafjheTAW75WaMBOxRYxE1F5eii3o0C814DjxqhaWPno
+ Z5X5tJoAVmGnYHnw=
+X-Received: by 2002:a5d:474d:: with SMTP id o13mr11376284wrs.162.1584026936659; 
+ Thu, 12 Mar 2020 08:28:56 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtleXzM45HsnuAxSJkrDSJBZ5mnmrF0Svcoj2oFSa6cY7K/FbjtIVdKGIBtSVJYuu3t7rjlHQ==
+X-Received: by 2002:a5d:474d:: with SMTP id o13mr11376263wrs.162.1584026936464; 
+ Thu, 12 Mar 2020 08:28:56 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.173.186])
+ by smtp.gmail.com with ESMTPSA id e26sm11211273wmk.9.2020.03.12.08.28.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Mar 2020 08:28:55 -0700 (PDT)
+Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, rth@twiddle.net
+References: <20200310091443.1326-1-longpeng2@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
+Date: Thu, 12 Mar 2020 16:28:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200311162722.1846432-1-groug@kaod.org>
-In-Reply-To: <20200311162722.1846432-1-groug@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 15:20:33 +0000
-Message-ID: <CAFEAcA-4muCaCOLxMm0majMtS-goUa637u8sayqPozUgWF+qDw@mail.gmail.com>
-Subject: Re: [PULL 0/1] 9p patches 2020-03-10
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+In-Reply-To: <20200310091443.1326-1-longpeng2@huawei.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 at 16:27, Greg Kurz <groug@kaod.org> wrote:
->
-> The following changes since commit 7f368aed672117980f7f09933e1eb3e1139caae6:
->
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-hmp-20200309' into staging (2020-03-09 19:49:53 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/gkurz/qemu.git tags/9p-next-2020-03-10
->
-> for you to fetch changes up to 659f1953281bcfa5ac217e42877d7d3c32eeea38:
->
->   9p/proxy: Fix export_flags (2020-03-10 16:12:49 +0100)
->
-> ----------------------------------------------------------------
-> Fix the proxy fsdev so that it honours "readonly" and "writeout".
->
-> ----------------------------------------------------------------
+On 10/03/20 10:14, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+> 
+> We find an issue when repeat reboot in guest during migration, it cause the
+> migration thread never be waken up again.
+> 
+> <main loop>                        |<migration_thread>
+>                                    |
+> LOCK BQL                           |
+> ...                                |
+> main_loop_should_exit              |
+>  pause_all_vcpus                   |
+>   1. set all cpus ->stop=true      |
+>      and then kick                 |
+>   2. return if all cpus is paused  |
+>      (by '->stopped == true'), else|
+>   3. qemu_cond_wait [BQL UNLOCK]   |
+>                                    |LOCK BQL
+>                                    |...
+>                                    |do_vm_stop
+>                                    | pause_all_vcpus
+>                                    |  (A)set all cpus ->stop=true
+>                                    |     and then kick
+>                                    |  (B)return if all cpus is paused
+>                                    |     (by '->stopped == true'), else
+>                                    |  (C)qemu_cond_wait [BQL UNLOCK]
+>   4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
+>   5. goto 2.                       |
+>  (BQL is still LOCKed)             |
+>  resume_all_vcpus                  |
+>   1. set all cpus ->stop=false     |
+>      and ->stopped=false           |
+> ...                                |
+> BQL UNLOCK                         |  (E)LOCK BQL
+>                                    |  (F)goto B. [but stopped is false now!]
+>                                    |Finally, sleep at step 3 forever.
+> 
+> 
+> Note: This patch is just for discuss this issue, I'm looking forward to
+>       your suggestions, thanks!
+
+Thanks Mike,
+
+the above sketch is really helpful.
+
+I think the problem is not that pause_all_vcpus() is not pausing hard
+enough; the problem is rather than resume_all_vcpus(), when used outside
+vm_start(), should know about the race and do nothing if it happens.
+
+Fortunately resume_all_vcpus does not release the BQL so it should be
+enough to test once; translated to code, this would be the patch to fix it:
+
+diff --git a/cpus.c b/cpus.c
+index b4f8b84b61..1eb7533a91 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
+ {
+     CPUState *cpu;
+
++    if (!runstate_is_running()) {
++        return;
++    }
++
+     qemu_clock_enable(QEMU_CLOCK_VIRTUAL, true);
+     CPU_FOREACH(cpu) {
+         cpu_resume(cpu);
 
 
+Thanks,
 
-Applied, thanks.
+Paolo
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
--- PMM
 
