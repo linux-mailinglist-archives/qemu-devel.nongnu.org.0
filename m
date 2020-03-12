@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5430182F8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:47:33 +0100 (CET)
-Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82BB182F83
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:45:50 +0100 (CET)
+Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCMJI-0000QF-RA
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58084)
+	id 1jCMHd-0005EG-Od
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMGA-0003Um-7d
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMGA-0003Wh-UW
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG9-00022i-0I
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMG9-00023F-TM
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:18 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35935)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52755)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCMG8-00021q-QG
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:16 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g62so5922283wme.1
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:16 -0700 (PDT)
+ id 1jCMG9-00022u-NW
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:17 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id 11so5737592wmo.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8Ns4C0QWDYdgHc/0sLmGsAuNfWOgxN1irF3iygAMeMI=;
- b=vTmwaRAizjlAyPZa7dZRNHLHmiZsjReJpVJIRFds1SzfNHaT+S6khBsci5GqZKGJlM
- l3xrDMEDpkv3eNo3pYh7IbxDh10MoLNKrEDyRmtze9NIY+FQuw1FdV7qATCCn/NfKCep
- QcdC/ijeZI0VaSx+Fpk9W8XAXhm1eKqXiQxuLrLTz/vfeueIYjfHnQRS5TtEZKcaBkU4
- J4zCzP5uQRJ0dylsfANex2CMIoFlZI4qOBnRkfwQTpjfu+gkXt5f5cwp6y9sN6l1j8M9
- f2AaProS8mEOkMSd3YAT2HGH7vFiQr4CjruwzAUgwrnRgAwG9b/C9fd+lGgSZYH3iHZ0
- 7eiw==
+ bh=ltLfBMZsG49hGD8i/lFgQSG60+4ZbaBAO10u35X5v7U=;
+ b=nXl9ZO2/NU9Ipw5vX47dYtVkxvhwp3GGVJDfeykzaYQs6fpusUq+/A9bCBWSo5ip+W
+ lNK9myjarjl1xhI4tx/SEFj7szMOqO1azuJsTs/VCNNSbketTQFxgfCCbeNW2mkG3O89
+ hFzju4Y0BLKjmAf3246Fqcub/pHKZXWmqA8/5/gpqVmstVO1pMKS3drwES5tqgJxzZb5
+ MjSknq5W05YWY8gMDLTUN4uOEQdGNMBwntEO214CcCu1PRFqzv/DM14U9BdOyxXL91JB
+ RP88B4/4CwYM7kIXsILLnDooK24mmzrtSthPc1CSYxI4LYgr6GGmDHiUUelMk3r79I5Q
+ SNSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Ns4C0QWDYdgHc/0sLmGsAuNfWOgxN1irF3iygAMeMI=;
- b=bjmyUV1b8tR9RmjAGbeV+/Zud0C1692RVGw05g7/RxiDz6oVjBcuE78H/bT1jAelVJ
- C3xEfbyqP+AI1w05SAwK8bJabeLlMhVyWYPaC2/9RW/GRsk7+S+BzytiUGqIbJW1xibq
- Y3Jgyy7y4MRfv+fTnDUQ3iHWEdBvv3WUBk3wwsJgOU+tiWXQMhtYftFirWKqZY+faxQG
- D25NFgRPpPa7dwbDvdKSW4Nli2EPx+1j+pxfQS47v+/GvWGriCLPWwCtT1SnJ27JF9to
- kp7k4iTYBs0hl8yZ+0yyS8ye2NhkJ+uoEapF9WNx8tjUwgmFSR0nhNNz/3b0hGk5uL36
- 2zuA==
-X-Gm-Message-State: ANhLgQ1NqEfWx+dgP1qqA6zrEX7KSaQX5Q47+Uj0nAy6JdCQ/JAPmVpL
- gDuc2XOFqathXnbIbdUntK8dfcpUqvryJw==
-X-Google-Smtp-Source: ADFU+vtXdZKJwBQAbo685mkkT9Jfau7WPZugN4FA4ahIx9Ure4UQvbYHuNUuQrli1y0gQnMeySxjnQ==
-X-Received: by 2002:a1c:63c4:: with SMTP id x187mr4478014wmb.124.1584013455582; 
- Thu, 12 Mar 2020 04:44:15 -0700 (PDT)
+ bh=ltLfBMZsG49hGD8i/lFgQSG60+4ZbaBAO10u35X5v7U=;
+ b=WogOw3ZmcAIRTFrb8kY5wxilf+jsQA+eG9T75ztwEueje0R7rR5E8vzOiXKHILUe9G
+ zs8QRprDScun1dxxNg0Dh3Yl8LdPuVw1ewUGLIWEQSNOfNApGE8P7JRQ6jFkXY85Sz/S
+ rFH6Q8BjFQQfvA+RejohNkB08CPIPIxbQQ7LP5hGcxu8ftBaN6jwXFC+Pl1Hv1satA9r
+ I2NE/SUwHMq09OPIuClX6KHAavyZZiD7bdrypjta//CdPZ1AOMDh1ktZQSSVIoP2DTk1
+ WHo4t7iCojcu6jUZDQxhig0KY8At/G3xo1etgAwQGMSUdcDJNleEamvbFdj7VWH7hrVY
+ TMEw==
+X-Gm-Message-State: ANhLgQ1Jp91XVdMDSQ4mpHNrOzZkVwXrCQAwItJyCKk37J5imF/O0KgH
+ 0SK4+XwZeUNMBNMoBxg+0HR+4ykVMEQz6A==
+X-Google-Smtp-Source: ADFU+vvnaQlAIUHzpX1LvLmxKHZhKjDiA1Dkl3mNJj3t2RLLDlLsNcRYpqik1qZWoqgxNhHKXx1MDg==
+X-Received: by 2002:a7b:c8d5:: with SMTP id f21mr4478630wml.60.1584013456452; 
+ Thu, 12 Mar 2020 04:44:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.14
+ by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 12 Mar 2020 04:44:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/12] docs/sphinx/hxtool.py: Remove STEXI/ETEXI support
-Date: Thu, 12 Mar 2020 11:44:00 +0000
-Message-Id: <20200312114408.16891-5-peter.maydell@linaro.org>
+Subject: [PULL 05/12] Makefile: Make all Sphinx documentation depend on the
+ extensions
+Date: Thu, 12 Mar 2020 11:44:01 +0000
+Message-Id: <20200312114408.16891-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312114408.16891-1-peter.maydell@linaro.org>
 References: <20200312114408.16891-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,71 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that none of our input .hx files have STEXI/ETEXI blocks,
-we can remove the code in the Sphinx hxtool extension that
-supported parsing them.
+Add the Python source files of our Sphinx extensions to the
+dependencies of the Sphinx manuals, so that if we edit the
+extension source code the manuals get rebuilt.
+
+Adding this dependency unconditionally means that we'll rebuild
+a manual even if it happens to not use the extension whose
+source file was changed, but this is simpler and less error
+prone, and it's unlikely that we'll be making frequent changes
+to the extensions.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200306171749.10756-5-peter.maydell@linaro.org
+Message-id: 20200306171749.10756-6-peter.maydell@linaro.org
 ---
- docs/sphinx/hxtool.py | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/docs/sphinx/hxtool.py b/docs/sphinx/hxtool.py
-index 7dd223fe362..fb0649a3d5b 100644
---- a/docs/sphinx/hxtool.py
-+++ b/docs/sphinx/hxtool.py
-@@ -37,13 +37,11 @@ else:
- 
- __version__ = '1.0'
- 
--# We parse hx files with a state machine which may be in one of three
--# states: reading the C code fragment, inside a texi fragment,
--# or inside a rST fragment.
-+# We parse hx files with a state machine which may be in one of two
-+# states: reading the C code fragment, or inside a rST fragment.
- class HxState(Enum):
-     CTEXT = 1
--    TEXI = 2
--    RST = 3
-+    RST = 2
- 
- def serror(file, lnum, errtext):
-     """Raise an exception giving a user-friendly syntax error message"""
-@@ -110,31 +108,13 @@ class HxtoolDocDirective(Directive):
- 
-                 if directive == 'HXCOMM':
-                     pass
--                elif directive == 'STEXI':
--                    if state == HxState.RST:
--                        serror(hxfile, lnum, 'expected ERST, found STEXI')
--                    elif state == HxState.TEXI:
--                        serror(hxfile, lnum, 'expected ETEXI, found STEXI')
--                    else:
--                        state = HxState.TEXI
--                elif directive == 'ETEXI':
--                    if state == HxState.RST:
--                        serror(hxfile, lnum, 'expected ERST, found ETEXI')
--                    elif state == HxState.CTEXT:
--                        serror(hxfile, lnum, 'expected STEXI, found ETEXI')
--                    else:
--                        state = HxState.CTEXT
-                 elif directive == 'SRST':
-                     if state == HxState.RST:
-                         serror(hxfile, lnum, 'expected ERST, found SRST')
--                    elif state == HxState.TEXI:
--                        serror(hxfile, lnum, 'expected ETEXI, found SRST')
-                     else:
-                         state = HxState.RST
-                 elif directive == 'ERST':
--                    if state == HxState.TEXI:
--                        serror(hxfile, lnum, 'expected ETEXI, found ERST')
--                    elif state == HxState.CTEXT:
-+                    if state == HxState.CTEXT:
-                         serror(hxfile, lnum, 'expected SRST, found ERST')
-                     else:
-                         state = HxState.CTEXT
+diff --git a/Makefile b/Makefile
+index fae4ce181ea..65e89b5095a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1080,7 +1080,8 @@ build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" $(SPHINX_BUILD) $(
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
+               $(SRC_PATH)/docs/defs.rst.inc \
+-              $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
++              $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py \
++              $(SRC_PATH)/docs/sphinx/*.py
+ # Macro to write out the rule and dependencies for building manpages
+ # Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,extradeps])
+ # 'extradeps' is optional, and specifies extra files (eg .hx files) that
 -- 
 2.20.1
 
