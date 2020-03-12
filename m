@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F03182D4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:18:46 +0100 (CET)
-Received: from localhost ([::1]:38872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E41E182D7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:27:40 +0100 (CET)
+Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCKvN-00080V-CK
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36614)
+	id 1jCL3z-0008Hv-1v
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCKuX-0007J6-Ob
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCL28-0005eX-KE
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCKuW-0000nV-1T
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:53 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38735)
+ (envelope-from <bounces@canonical.com>) id 1jCL27-00033H-Gg
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43138)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCKuV-0000m5-Rn
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:51 -0400
-Received: by mail-ot1-x341.google.com with SMTP id t28so2914485ott.5
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 03:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JvRaI+c7gJCvoP3PLElHn3U609quG71LluLIxOIbUxM=;
- b=paOGrgfMOyD+N0BtammyUJypjtrRjpv4tARzhebHyudoFNYUJwUMMErhAzzNXmGbKs
- 9/FNYl/UGQwuUbeFTJag846WfsIsk3GSG4R29I5wfu8tjjkVau95YJn0bvlOg3QEjE7O
- B5+Z0R4liRZ8BjVnqDa0netJWa19xT7s6reMXFzXK63atfGSImc2GPfqwKfw8TdMBaA2
- W8d9BWVoDQLHJf2JW0vd81cO3x6ex7RL3NB5z1oX0C8iCWyNoWh/TL0R17dt8TT4DAAs
- qDbZCqQYx7g1dkkH9g51hCb3fsf7rl5k8PZESez1yMQnLa1V9ZTPOTBLd7Dw1KqN8njp
- o+TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JvRaI+c7gJCvoP3PLElHn3U609quG71LluLIxOIbUxM=;
- b=qm4rQJAS1WCLwA1oLuyzrwVRsQ9yevduL7G22Ua1TL4q3Ez02SPjJoQztwsRaIt0dB
- tNijl1zJtwmpUeKwLXmOuotgB5FltusjwHv0oftKZf9+k3BvP7oNxevTvFrmS/DA00xm
- evEHsxMbyzaxsbNlH4kkhcnfZmoswBatkrxqW0IOP/IIHWWcQIs0QcS90BzYfqUbqMh6
- 9FpxRbJo8a14LB05f3cfTZeltx/XsuVoy/WyeFKpu2wnd1nYdGM3A/KsbnVNJw6JXlrc
- PWn4gOqByMOWqfG7orl79I1QIwGjIcUtLtBosgjkgEqUYAZwwI3/sTyHgz4EE9m+gDeg
- T8dA==
-X-Gm-Message-State: ANhLgQ2monVzVyV9uJxJ3XYjN0tcIh2eq9ScnJCQIjnyLFSNd6GTzsdA
- /Oks/Vd1GIs+HJBLC+VBGfzVH7LcC9zhOvoLMObkkw==
-X-Google-Smtp-Source: ADFU+vtSmjSUkHtvDcXaxhxC+mjmxttvemOijllRSHFfExs0Ny4ehTojAXqriSQnAy+8tr0LdD4rij8aQhmkCN9w740=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr5741741otl.135.1584008270408; 
- Thu, 12 Mar 2020 03:17:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCL27-00032d-BO
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:25:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCL25-0002IH-6F
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1BD152E80C9
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:25:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200311232342.1614944-1-ehabkost@redhat.com>
- <20200311232342.1614944-2-ehabkost@redhat.com>
-In-Reply-To: <20200311232342.1614944-2-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 10:17:38 +0000
-Message-ID: <CAFEAcA86+_ZFVw_4pH-XDPpCB-h2U19g6YWm99dRkRfikwqQSw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] Use -isystem for linux-headers dir
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Mar 2020 10:19:31 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dbaxps0220 paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158400837202.26372.2571466068179961945.malone@gac.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 75a9c0761cd51c8553b379adbe0f8dd7019ff944
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,35 +67,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?J=C3=A1n_Tomko?= <jtomko@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 at 23:23, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> glibc and Linux-provided headers are known to generate macro
-> redefinition warnings when used together.  For example:
-> <linux/mman.h> and <sys/mman.h> duplicate some macro definitions.
->
-> We normally never see those warnings because GCC suppresses
-> warnings generated by system headers.  We carry our own copy of
-> Linux header files, though, and this makes those warnings not be
-> suppressed when glibc headers are included before Linux headers
-> (e.g. if <sys/mman.h> is included before <linux/mman.h>).
->
-> Use -isystem instead of -I for linux-headers.  This makes the
-> compiler treat our linux-headers directory the same way it treats
-> system-provided Linux headers, and suppress warnings generated by
-> them.
+I fetched
+https://download.fedoraproject.org/pub/fedora/linux/releases/31/Workstation=
+/x86_64/iso/Fedora-Workstation-Live-x86_64-31-1.9.iso
 
-I wondered whether this changed the search order for the headers
-(ie whether it meant we now picked up our copy of the header
-and not the system header in some cases), but both -I and -isystem
-directories are searched before the standard system headers,
-so the only effect is the warning suppression.
+And installed it on Ubuntu 20.04 via virt-manager (keeping all things on
+its default).
 
-thanks
--- PMM
+- New
+- Local Media
+- select ISO (Autodetects F31)
+- Forward, Forward, Forward, Finish
+
+Now warnings:
+sudo cat /var/log/libvirt/qemu/fedora31.log  | grep warning
+<empty>
+
+And it just works, the installer is on the graphical UI and waiting for
+me.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
