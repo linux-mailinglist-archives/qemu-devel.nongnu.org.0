@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D47B1836E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:07:19 +0100 (CET)
-Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE5B1836F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:10:46 +0100 (CET)
+Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRIk-0001BL-3N
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37053)
+	id 1jCRM5-0000gZ-Un
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:10:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jCR4n-0002xS-82
+ (envelope-from <liran.alon@oracle.com>) id 1jCR4n-0002xQ-87
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jCR4l-0000X5-Sj
+ (envelope-from <liran.alon@oracle.com>) id 1jCR4l-0000Wi-Qt
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:53 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60430)
+Received: from aserp2120.oracle.com ([141.146.126.78]:38010)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jCR4l-0000Sx-J4
+ id 1jCR4l-0000UE-Iu
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:52:51 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGoeVs031202;
- Thu, 12 Mar 2020 16:52:47 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGmcS9177888;
+ Thu, 12 Mar 2020 16:52:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=+JTlZG+9tNcR3M/UN4AXmTBqEL1Cr5/xtwgnES374Ck=;
- b=r0ehHathcYEWwNUo3ILozQuJaGxvdrLYxXQ4lO/oplpBKguIJSmPuw8GjaqXglV99o21
- 2AGKMSe7zENyqfSYvLQKh26DfljPoi1qKZBZzWuftipZC9M45YwvxWR0QtJRm3mPLJj0
- cDUQjxNFc0rRcVTrQwVVjVWHSxrvs73Wsj1DZjHlrQ0Rx/Db61S8UX/byw6uFRQBq7qO
- /l9FKoeCK4nwPkzIrH0ZJ8+kWe3cCmHpgH0FSvC2fDEXiWrB6+S5MhDgI57SObRxrGFM
- x/ZcIMpQNzo0QXtYUOhe/eNg1Z7nYxlpX4mj7Z7dUkEkOk8RQtv1r7v6XUCQB1LWVK9w vA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2yqkg8a03h-1
+ bh=FKCUnH7M6yII73DL3cJNRCcCrSaiey8Karm452GgPFQ=;
+ b=b8FYI4FfGn/0xCb0BrMT8cYLXgwxkTYi93pTwWk3Bw/Sq6UdgyUAITps+GRtK4REMaYI
+ iY4Z1S2mZia1uTkRBC7Heu5CQt74q2ezD5XyU9CAVCI21SdTVeBGGNK54O4MMRJ7Xtfi
+ /CKsS+XCBbEiNfal9cPrcC6aGbFgxIdyV5nFwt1vqAGHdYD1EpjlgsGuumQKl+424vTL
+ S22qdhv9nVB3/RGLSo6pTIoSlg2gWU3fY3xX2NcJpJ7J7wTxg2qUZOTGBytCHVeDLipm
+ X44SRHphPsRC5rIon/L46Pvnra6oz0VsnJXZduZ37ebwCxL3r6RNKZDJpXqpZFgz/AGf LQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2yp9v6dw5d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:52:47 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGoVh9123467;
- Thu, 12 Mar 2020 16:52:47 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2yp8r0snrf-1
+ Thu, 12 Mar 2020 16:52:49 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02CGoOpd065919;
+ Thu, 12 Mar 2020 16:52:49 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 2yqkvn0g09-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:52:46 +0000
+ Thu, 12 Mar 2020 16:52:48 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02CGqkgo009593;
- Thu, 12 Mar 2020 16:52:46 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02CGqmaV030549;
+ Thu, 12 Mar 2020 16:52:48 GMT
 Received: from spark.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 12 Mar 2020 09:52:45 -0700
+ with ESMTP ; Thu, 12 Mar 2020 09:52:48 -0700
 From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/16] hw/i386/vmport: Add support for CMD_GETBIOSUUID
-Date: Thu, 12 Mar 2020 18:54:24 +0200
-Message-Id: <20200312165431.82118-10-liran.alon@oracle.com>
+Subject: [PATCH v3 10/16] hw/i386/vmport: Add support for CMD_GETTIME
+Date: Thu, 12 Mar 2020 18:54:25 +0200
+Message-Id: <20200312165431.82118-11-liran.alon@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312165431.82118-1-liran.alon@oracle.com>
 References: <20200312165431.82118-1-liran.alon@oracle.com>
@@ -63,21 +63,21 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0 mlxscore=0
- adultscore=0 suspectscore=1 bulkscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003120085
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=1
+ mlxlogscore=999 malwarescore=0 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003120085
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- lowpriorityscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 adultscore=0 impostorscore=0
- malwarescore=0 priorityscore=1501 suspectscore=1 bulkscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2003120085
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,116 +95,81 @@ Cc: ehabkost@redhat.com, mst@redhat.com, Liran Alon <liran.alon@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is VMware documented functionallity that some guests rely on.
-Returns the BIOS UUID of the current virtual machine.
-
-Note that we also introduce a new compatability flag "x-cmds-v2" to
-make sure to expose new VMPort commands only to new machine-types.
-This flag will also be used by the following patches that will introduce
-additional VMPort commands.
+This command is used by guest to gettimeofday() from host.
+See usage example in open-vm-tools TimeSyncReadHost() function.
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
 ---
- hw/core/machine.c        |  1 +
- hw/i386/vmport.c         | 22 ++++++++++++++++++++++
+ hw/i386/vmport.c         | 21 +++++++++++++++++++++
  include/hw/i386/vmport.h |  1 +
- 3 files changed, 24 insertions(+)
+ 2 files changed, 22 insertions(+)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 0e2f37420360..523fa56991dc 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -42,6 +42,7 @@ GlobalProperty hw_compat_4_2[] = {
-     { "vmport", "x-read-set-eax", "off" },
-     { "vmport", "x-signal-unsupported-cmd", "off" },
-     { "vmport", "x-report-vmx-type", "off" },
-+    { "vmport", "x-cmds-v2", "off" },
- };
- const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
- 
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 6ab094311d6c..3fb8a8bd458a 100644
+index 3fb8a8bd458a..c5b659c59343 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -34,6 +34,7 @@
- #include "hw/i386/vmport.h"
- #include "hw/input/i8042.h"
- #include "hw/qdev-properties.h"
-+#include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
- #include "qemu/log.h"
- #include "trace.h"
-@@ -44,12 +45,15 @@
- #define VMPORT_COMPAT_READ_SET_EAX_BIT              0
- #define VMPORT_COMPAT_SIGNAL_UNSUPPORTED_CMD_BIT    1
- #define VMPORT_COMPAT_REPORT_VMX_TYPE_BIT           2
-+#define VMPORT_COMPAT_CMDS_V2_BIT                   3
- #define VMPORT_COMPAT_READ_SET_EAX              \
-     (1 << VMPORT_COMPAT_READ_SET_EAX_BIT)
- #define VMPORT_COMPAT_SIGNAL_UNSUPPORTED_CMD    \
-     (1 << VMPORT_COMPAT_SIGNAL_UNSUPPORTED_CMD_BIT)
- #define VMPORT_COMPAT_REPORT_VMX_TYPE           \
-     (1 << VMPORT_COMPAT_REPORT_VMX_TYPE_BIT)
-+#define VMPORT_COMPAT_CMDS_V2                   \
-+    (1 << VMPORT_COMPAT_CMDS_V2_BIT)
+@@ -66,6 +66,7 @@ typedef struct VMPortState {
  
- #define VMPORT(obj) OBJECT_CHECK(VMPortState, (obj), TYPE_VMPORT)
+     uint32_t vmware_vmx_version;
+     uint8_t vmware_vmx_type;
++    uint32_t max_time_lag_us;
  
-@@ -144,6 +148,18 @@ static uint32_t vmport_cmd_get_version(void *opaque, uint32_t addr)
-     return port_state->vmware_vmx_version;
+     uint32_t compat_flags;
+ } VMPortState;
+@@ -168,6 +169,20 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
+     return ram_size;
  }
  
-+static uint32_t vmport_cmd_get_bios_uuid(void *opaque, uint32_t addr)
++static uint32_t vmport_cmd_time(void *opaque, uint32_t addr)
 +{
 +    X86CPU *cpu = X86_CPU(current_cpu);
-+    uint32_t *uuid_parts = (uint32_t *)(qemu_uuid.data);
++    qemu_timeval tv;
 +
-+    cpu->env.regs[R_EAX] = le32_to_cpu(uuid_parts[0]);
-+    cpu->env.regs[R_EBX] = le32_to_cpu(uuid_parts[1]);
-+    cpu->env.regs[R_ECX] = le32_to_cpu(uuid_parts[2]);
-+    cpu->env.regs[R_EDX] = le32_to_cpu(uuid_parts[3]);
-+    return cpu->env.regs[R_EAX];
++    if (qemu_gettimeofday(&tv) < 0) {
++        return UINT32_MAX;
++    }
++
++    cpu->env.regs[R_EBX] = (uint32_t)tv.tv_usec;
++    cpu->env.regs[R_ECX] = port_state->max_time_lag_us;
++    return (uint32_t)tv.tv_sec;
 +}
 +
- static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
+ /* vmmouse helpers */
+ void vmmouse_get_data(uint32_t *data)
  {
-     X86CPU *cpu = X86_CPU(current_cpu);
-@@ -192,9 +208,13 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
-     isa_register_ioport(isadev, &s->io, 0x5658);
- 
-     port_state = s;
-+
-     /* Register some generic port commands */
-     vmport_register(VMPORT_CMD_GETVERSION, vmport_cmd_get_version, NULL);
+@@ -214,6 +229,7 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
      vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
-+    if (s->compat_flags & VMPORT_COMPAT_CMDS_V2) {
-+        vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NULL);
-+    }
+     if (s->compat_flags & VMPORT_COMPAT_CMDS_V2) {
+         vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NULL);
++        vmport_register(VMPORT_CMD_GETTIME, vmport_cmd_time, NULL);
+     }
  }
  
- static Property vmport_properties[] = {
-@@ -205,6 +225,8 @@ static Property vmport_properties[] = {
-                     VMPORT_COMPAT_SIGNAL_UNSUPPORTED_CMD_BIT, true),
-     DEFINE_PROP_BIT("x-report-vmx-type", VMPortState, compat_flags,
-                     VMPORT_COMPAT_REPORT_VMX_TYPE_BIT, true),
-+    DEFINE_PROP_BIT("x-cmds-v2", VMPortState, compat_flags,
-+                    VMPORT_COMPAT_CMDS_V2_BIT, true),
+@@ -249,6 +265,11 @@ static Property vmport_properties[] = {
+      * 5 - ACE 1.x (Deprecated)
+      */
+     DEFINE_PROP_UINT8("vmware-vmx-type", VMPortState, vmware_vmx_type, 2),
++    /*
++     * Max amount of time lag that can go uncorrected.
++     * Value taken from VMware Workstation 5.5.
++     **/
++    DEFINE_PROP_UINT32("max-time-lag", VMPortState, max_time_lag_us, 1000000),
  
-     /* Default value taken from open-vm-tools code VERSION_MAGIC definition */
-     DEFINE_PROP_UINT32("vmware-vmx-version", VMPortState,
+     DEFINE_PROP_END_OF_LIST(),
+ };
 diff --git a/include/hw/i386/vmport.h b/include/hw/i386/vmport.h
-index 0501ccac6ddf..7f33512ca6f0 100644
+index 7f33512ca6f0..50416c8c8f3e 100644
 --- a/include/hw/i386/vmport.h
 +++ b/include/hw/i386/vmport.h
-@@ -6,6 +6,7 @@ typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
- 
- typedef enum {
+@@ -8,6 +8,7 @@ typedef enum {
      VMPORT_CMD_GETVERSION       = 10,
-+    VMPORT_CMD_GETBIOSUUID      = 19,
+     VMPORT_CMD_GETBIOSUUID      = 19,
      VMPORT_CMD_GETRAMSIZE       = 20,
++    VMPORT_CMD_GETTIME          = 23,
      VMPORT_CMD_VMMOUSE_DATA     = 39,
      VMPORT_CMD_VMMOUSE_STATUS   = 40,
+     VMPORT_CMD_VMMOUSE_COMMAND  = 41,
 -- 
 2.20.1
 
