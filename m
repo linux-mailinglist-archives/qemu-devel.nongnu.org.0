@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15779183748
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:20:41 +0100 (CET)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E45018374B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:22:17 +0100 (CET)
+Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRVg-00012m-4i
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37686)
+	id 1jCRXE-0004SX-2X
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1jCR8o-0005L4-OZ
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:57:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCRCf-0006IP-4i
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:01:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1jCR8n-0004WM-OW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:57:02 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34039)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCRCd-00084m-Ty
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:01:00 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38846)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1jCR8l-0004Rg-CY; Thu, 12 Mar 2020 12:56:59 -0400
-Received: by mail-pg1-x541.google.com with SMTP id t3so3358207pgn.1;
- Thu, 12 Mar 2020 09:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=R1Klp5VmAGtpJcR4uZfnLflfD0zf1gm8bN8uDrXOuqw=;
- b=n2GlV9qaxcgxAWMqLiIAArXZ7T8pEEua/Q1vbXXt3GGW03JhWe2miqdzBtUKzZ0IvT
- e9Ca2xCAuq+Zclf2zA5gaFjm4Sq3Tun54zSVGei94jDUPoULUCW3JLyOhCi67Pjr+JTz
- VPY8C8G03QyboWBtG7fkmolFmycRTbXKQowD8WtzWrkmuaUZFnottGfo2HVqiidygAJh
- fNN0cyWUaHDbQHzlnOppNy4elBEdH1t4dnH9EvCLDkBfAKR3IjVi9glZe+J5feZRh130
- sZ6DFRLLE2+NiCGVAt9DZFZQo/5x793638F/vBQ4AoiYoC6BhvjufSxhaKzdwOBl5ktx
- zSjw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jCRCd-00084L-OH
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:00:59 -0400
+Received: by mail-oi1-x242.google.com with SMTP id k21so6210685oij.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 10:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sG2XHxtL29liFM8qAyu3jpV/gaMswIfwBnXLqD75KIw=;
+ b=tUY0rHtEFZga2G8zMqXXlIUYHIZ+tIEwasI8rTQMdtlszrxnH+GZ3gyv1DaUQpyy0U
+ Xy7GJ3pDw0Rqp+WhO1ASz0i+TFyU1EE+RGBVR6amSqNjbVhfb/NDIQJXym+0DbFM6wt6
+ eirhDm+K1X4e3rUFsDw+0TpAAMDoW0NV8YCk+6njKAqUpsJHG/n5JA6y2nTuieHyVMIq
+ guR1Lcl0/aJiQljsjhtVRY3d3MGaW9KKcYE5vHpLHJv69JSqkLqa+o/q+J0B7bFsi7Gf
+ 7rG92FXA9u9sc7ygSEVSORBsjyh20/wDDjOfU2X2Dhbwmlj8lyq6BsDroqzQo2ecBX8z
+ RbAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=R1Klp5VmAGtpJcR4uZfnLflfD0zf1gm8bN8uDrXOuqw=;
- b=kh+eaIdMRL3xw9AgEQKqiO+YQ8VePlw+37UJDDqQr+vYZnS8zxd6B6McRND3pKOt6H
- K1c82dEFVP5U+KS6rG73vDODbA5hIhat9OpOvmPXri/ivxZL7lal5E0o9W5t/OlXih8i
- YUwSSitgHKlondwSw2OOBv0nIXvBUSnZ1ALLU1GteOJ7DdGjg486YjtvxkEBbkUxCgEO
- 80BxVDX2lm03udC9uTjTgX8mXxsI9xCQ/fHInTPM1NVRQrfEzADyfMNfq0CLK8WXK74a
- pQ5OzS8mtvL3LkbCeYMi8twGc/LaW8g1xRNsmbm+s2d2nm7VJBFA4Rk0EQC0SuDENYyC
- S+TQ==
-X-Gm-Message-State: ANhLgQ11s+F5gH3hzalsoR6MuqEfKOdzMPGSrDPmzZyxMYaDgedsBDwZ
- ytfSpAAVcrSan8U9vqLx6cHVN6OC
-X-Google-Smtp-Source: ADFU+vv02tgl7/1sLd3pv5R9SrZixC4bN6WNWciNKx+a90kIKIManiEmnIE9lUJDC4cQ3WUmsIbrOg==
-X-Received: by 2002:a63:e00c:: with SMTP id e12mr8766856pgh.354.1584032217640; 
- Thu, 12 Mar 2020 09:56:57 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id h132sm51332238pfe.118.2020.03.12.09.56.56
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 09:56:57 -0700 (PDT)
-Date: Thu, 12 Mar 2020 09:56:56 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 3/3] hw/arm/fsl-imx6: Wire up USB controllers
-Message-ID: <20200312165656.GB16719@roeck-us.net>
-References: <20200310210434.31544-1-linux@roeck-us.net>
- <20200310210434.31544-4-linux@roeck-us.net>
- <CAFEAcA9itKNV6c07wm_4dJiGtHMLXCFt+A-W5xC5DX1Wxfu30w@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sG2XHxtL29liFM8qAyu3jpV/gaMswIfwBnXLqD75KIw=;
+ b=muyDwqzDx/1wktypjksbqQbsl2tYW+1xzGEI8D6kxUpnVBTXTf5HmRxwixeFh44rRT
+ VFeFY1dh2u/nRewfFzuH/AL4an+mUwtvXMjZrJnKzXfK/3g2gIH2LlRxURN+vkkvQLV3
+ 4hJdXd/7C6Ah8tjprJihmARuo1dMnARiCn29iNZ1vavoyDDXy0Y1BQiZPi2uhY91p7kz
+ whTTh2zp5WbqgHgPkAAg4uYnbsf/S+rsbfD4zUIspU8wU2tvSQbGtDNaqlYGb9AJ4nK+
+ TqkXiFEhLqaRoX65bu/Pr0pA3F1zhojdSvj243veD2I8p2cNJeTzLU33pBwCPo1KezzV
+ s3+Q==
+X-Gm-Message-State: ANhLgQ1Yrra6L7qJA+YzeSwSIdjSAZWZYw4Y1TcENNFd/wja9N86VES0
+ vocO5nC9eGCe9iRU/gjIiJzXQ5v9Imk+81eWtgZwPA==
+X-Google-Smtp-Source: ADFU+vuJ7k8R+ip/KOjJj6uWne3Jv24J0fy4U6KiLTAI0KU+Pm2pKuhlfUf0zt76SYIITIHWtqlR9aUEXJmH+2aTEjI=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr3226853oic.48.1584032458496; 
+ Thu, 12 Mar 2020 10:00:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9itKNV6c07wm_4dJiGtHMLXCFt+A-W5xC5DX1Wxfu30w@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200305105325.31264-1-kuhn.chenqun@huawei.com>
+ <CAFEAcA8fnz2oaa-CO-EEK_vQTWfPih4PrAB3i4UUgQpv9Y_4mg@mail.gmail.com>
+ <7412CDE03601674DA8197E2EBD8937E83B68019B@dggemm511-mbx.china.huawei.com>
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B68019B@dggemm511-mbx.china.huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 12 Mar 2020 17:00:46 +0000
+Message-ID: <CAFEAcA-q4t3yQcHaHzOGx2GpKpuW=kti51myuFK_K3aieRY3dg@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/net/imx_fec: write TGSR and TCSR3 in
+ imx_enet_write()
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 01:29:34PM +0000, Peter Maydell wrote:
-> On Tue, 10 Mar 2020 at 21:04, Guenter Roeck <linux@roeck-us.net> wrote:
+On Tue, 10 Mar 2020 at 08:08, Chenqun (kuhn) <kuhn.chenqun@huawei.com> wrote:
+>
+> >-----Original Message-----
+> >From: Peter Maydell [mailto:peter.maydell@linaro.org]
+> >>
+> >> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c index
+> >> 6a124a154a..322cbdcc17 100644
+> >> --- a/hw/net/imx_fec.c
+> >> +++ b/hw/net/imx_fec.c
+> >> @@ -855,13 +855,15 @@ static void imx_enet_write(IMXFECState *s,
+> >uint32_t index, uint32_t value)
+> >>          break;
+> >>      case ENET_TGSR:
+> >>          /* implement clear timer flag */
+> >> -        value = value & 0x0000000f;
+> >> +        s->regs[index] ^= s->regs[index] & value;
+> >> +        s->regs[index] &= 0x0000000f;
+> >>          break;
+> >>      case ENET_TCSR0:
+> >>      case ENET_TCSR1:
+> >>      case ENET_TCSR2:
+> >>      case ENET_TCSR3:
+> >> -        value = value & 0x000000fd;
+> >> +        s->regs[index] = (value & 0x00000080) ? (0x0000007d & value) :
+> >> +                         (value & 0x000000fd);
+> >>          break;
+> >>      case ENET_TCCR0:
+> >>      case ENET_TCCR1:
 > >
-> > With this patch, the USB controllers on 'sabrelite' are detected
-> > and can be used to boot the system.
+> >This isn't the usual way to write W1C behaviour.
+> >If all the relevant bits are W1C, as for TGSR:
 > >
-> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> 
-> > +    for (i = 0; i < FSL_IMX6_NUM_USBS; i++) {
-> > +        static const int FSL_IMX6_USBn_IRQ[] = {
-> > +            FSL_IMX6_USB_OTG_IRQ,
-> > +            FSL_IMX6_USB_HOST1_IRQ,
-> > +            FSL_IMX6_USB_HOST2_IRQ,
-> > +            FSL_IMX6_USB_HOST3_IRQ,
-> > +        };
-> > +
-> > +        object_property_set_bool(OBJECT(&s->usbphy[i]), true, "realized",
-> > +                                 &error_abort);
-> > +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usbphy[i]), 0,
-> > +                        FSL_IMX6_USBPHY1_ADDR + i * 0x1000);
-> 
-> Are you sure these addresses are right? Four of these starting
-> at USBPHY1_ADDR means the last one clashes with what we define
-> as "FSL_IMX6_SNVSHP_ADDR 0x020CC000".
-> 
-> I only have the i.MX 6Dual/6Quad reference manual to hand,
-> so maybe this imx6 variant is different, but that document
-> says there are 4 USB controllers but only 2 PHY blocks.
-> 
-Oops, I think you are correct. Good catch. I'll re-check the datsheet
-and send an updated patch.
+> >   s->regs[index] &= ~(value & 0xf); /* all bits W1C */
+> >
+> Yes, it looks better.
+> But do we need clear the reserved bit (31 - 4 bits) explicitly ?
 
-Thanks,
-Guenter
+Not necessarily, but it seems to be how the other registers
+in the device have generally been coded, and it's clearly
+what the intent was here given that the original (buggy)
+code was masking out reserved bits. So I think it makes
+sense to continue in that style.
+
+thanks
+-- PMM
 
