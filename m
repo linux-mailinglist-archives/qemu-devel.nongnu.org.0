@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F16183686
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:48:48 +0100 (CET)
-Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0A318367D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:46:42 +0100 (CET)
+Received: from localhost ([::1]:45348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCR0p-0005Ry-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:48:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35529)
+	id 1jCQyn-0001UK-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxG-00084z-Lh
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxG-00084T-Fh
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxF-0004z9-3X
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxF-0004zL-75
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:06 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36491)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43747)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQxE-0004yx-Qb
+ id 1jCQxF-0004z1-1D
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:05 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s5so8400717wrg.3
+Received: by mail-wr1-x434.google.com with SMTP id b2so2137427wrj.10
  for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rEt+o6axUSgPhmQ9zyoFb+qAnPQkRxDH3mh/1eRedds=;
- b=cz7O+I0B63n8u+WbBD2Ec9LfEAqV7cbtVMK2d0Dtc50twVFw0rpNZ8VS8mGLZ14AYp
- zWM0+wDCcXbjN70/8NSeW5u/Zb01uUoXQv+q63C25bD1oyz0NaqYFs8kQpHL5aRCOElV
- BiIXt18ME27m9eM4Mkr3SQxDiDm/gB+fxKBKbUTyB1zq40QGbQohJ40EyD0eHXjgrwZu
- 8QYGreUEdJHlrqPWiidMJ1xMRDrgwzs9IEYJyQPrsCEelHAZ7YBfaPA/rriQDY/gbiak
- XXnC+dtPe6yxKK4TQJQHf9e7ASn1pnUDsbny4P5c4mFncXDdTL2/DLz34mtTUybkECfD
- qGRg==
+ bh=2ZMyDKOs221YK54nfIMgl82UUxNxqh4DM/94KMAkg9o=;
+ b=CF7jfNpfOU7qbI7yJqZ6pdFAAm+rFsSqSdPNkF3DTNia1p16dJHn/WBbAOImg2ixBU
+ It2AO0ge5mhcburjxY+id3rTKUEfPtyaxt/ky0VW6HmPkHJ/239e73XzVhUMT7z0wOaW
+ le9fTX4UIF8A+Ufmfu8SVPPUNAOmn+Gb7c2PrsS6pexsBgvgqcPT9OZzFc1U+MCV08Yk
+ IrUBGJZsL5mYH8dxNBdHYT8i2jsEiLQ+Frt+JixjDbJeW4YPwcUOA5qCv8s7BKOYYBE0
+ fXKHQJy7/O6G3V3XnskTrwwBnVpuhvxW81tmFAnuawezigR4fM7WPlpH7oJr52jZCp5o
+ QG4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rEt+o6axUSgPhmQ9zyoFb+qAnPQkRxDH3mh/1eRedds=;
- b=Wvggyf20zo4BMcVhIoU0/QzbgLL9ACJnTOCjH9sNdtrZmXQlFp21detSznP31KYWU6
- jqF29hMWN5gZdwycNO3VzejK7lqa+c9yqXVpeWfJKvh26ccLyGsY9lcmxaqwxc5RUYsL
- ZTqcstU0WziIGvtfYeaCSNYkU4SpU7fDZZLETUReXFfXcU5KYjoYM3z/PO/TJ749+1XO
- o7fbWgbh6JQhKfL0C4TtTGameX/X4o4IBWWkNWex+Qm6/EZa1iq3eTaqokbsbUVY2ho7
- xht5qw7HLF/2+zFj9fvmjOTqCdasVTBeJKRMUghTXiqvuswze1egPhy6FbDGadp86fDp
- NDWw==
-X-Gm-Message-State: ANhLgQ3DsRgn933WBSoEfhnbJzbmH6PNOqFh6zXYIS1xVN+laVnVB/pF
- Fs4HwOMGUnVqMOjOisY6VPUPzvCOyX+YnA==
-X-Google-Smtp-Source: ADFU+vt0HEGB1QhQNkj6WcEZfO/Wq9ifAJA8bUaFLnqEz/H/5mslKEfQUpggbM12MAUYQpgwKxfdbg==
-X-Received: by 2002:a05:6000:12c3:: with SMTP id
- l3mr11811756wrx.70.1584031502480; 
- Thu, 12 Mar 2020 09:45:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2ZMyDKOs221YK54nfIMgl82UUxNxqh4DM/94KMAkg9o=;
+ b=Q30KZL8azOLj2wAVhm/lpMXXJIN87+h0qh+T4VMQ0sLIzLiMj/07980fbBzPZEh0iU
+ aLFpUOQKVxbU+Z5meFVD2x17E+Z41UzQHkxKc5E5iY2bNoVLa7lSLg6wE2cWm4ZhRzwH
+ 7Tm5Sh3ffZblTHVOgPI2eGFlndKjrgnr2kbJgZnLpLzzg8VatVEMYoFu7e1w+d9hZTGY
+ Ncs1zyCEFWMUv8MOSf1zoBr5rvB8Xjs/ZxgX+qbadXUdZYe5qBM/4jHWA/S/1T008z/s
+ DkbXkio8Gc2/Xwwc0dm0W/PEn8eZf3l5Q3zEI/ZrihSgIUToK5WrQ6HzG68mQHzRJHYI
+ oHgQ==
+X-Gm-Message-State: ANhLgQ21cCnkpd8C0D148DktgAsjLwgHC56x/bsz0nJWoy4I7nm5c8Ug
+ oW1REmSs4Muu9Wbnc8VBuFfdIAZBQTTMrQ==
+X-Google-Smtp-Source: ADFU+vsMWJp5DePOdrLm6pWoaOoew70K1yBtbWQ/WoWvCD0Dip914jyCHePwUtRMuaeDBTHF2CQWSA==
+X-Received: by 2002:a05:6000:120e:: with SMTP id
+ e14mr12236218wrx.182.1584031503777; 
+ Thu, 12 Mar 2020 09:45:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.01
+ by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 09:45:01 -0700 (PDT)
+ Thu, 12 Mar 2020 09:45:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/36] target-arm queue
-Date: Thu, 12 Mar 2020 16:44:23 +0000
-Message-Id: <20200312164459.25924-1-peter.maydell@linaro.org>
+Subject: [PULL 01/36] hw/intc/armv7m_nvic: Rebuild hflags on reset
+Date: Thu, 12 Mar 2020 16:44:24 +0000
+Message-Id: <20200312164459.25924-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200312164459.25924-1-peter.maydell@linaro.org>
+References: <20200312164459.25924-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,173 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-arm queue; dunno if this will be the last before softfreeze
-or not, but anyway probably the last large one. New orangepi-pc
-board model is the big item here.
+Some of an M-profile CPU's cached hflags state depends on state that's
+in our NVIC object. We already do an hflags rebuild when the NVIC
+registers are written, but we also need to do this on NVIC reset,
+because there's no guarantee that this will happen before the
+CPU reset.
 
-thanks
--- PMM
+This fixes an assertion due to mismatched hflags which happens if
+the CPU is reset from inside a HardFault handler.
 
-The following changes since commit 67d9ef7d541c3d21a25796c51c26da096a433565:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200303174950.3298-2-peter.maydell@linaro.org
+---
+ hw/intc/armv7m_nvic.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-docs-20200312' into staging (2020-03-12 15:20:52 +0000)
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index a62587eb3f0..1ad35e55292 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -2593,6 +2593,12 @@ static void armv7m_nvic_reset(DeviceState *dev)
+             s->itns[i] = true;
+         }
+     }
++
++    /*
++     * We updated state that affects the CPU's MMUidx and thus its hflags;
++     * and we can't guarantee that we run before the CPU reset function.
++     */
++    arm_rebuild_hflags(&s->cpu->env);
+ }
+ 
+ static void nvic_systick_trigger(void *opaque, int n, int level)
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200312
-
-for you to fetch changes up to aca53be34ac3e7cac5f39396a51a338860a5a837:
-
-  target/arm: kvm: Inject events at the last stage of sync (2020-03-12 16:31:10 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Fix various bugs that might result in an assert() due to
-   incorrect hflags for M-profile CPUs
- * Fix Aspeed SMC Controller user-mode select handling
- * Report correct (with-tag) address in fault address register
-   when TBI is enabled
- * cubieboard: make sure SOC object isn't leaked
- * fsl-imx25: Wire up eSDHC controllers
- * fsl-imx25: Wire up USB controllers
- * New board model: orangepi-pc (OrangePi PC)
- * ARM/KVM: if user doesn't select GIC version and the
-   host kernel can only provide GICv3, use that, rather
-   than defaulting to "fail because GICv2 isn't possible"
- * kvm: Only do KVM_SET_VCPU_EVENTS at the last stage of sync
-
-----------------------------------------------------------------
-Beata Michalska (1):
-      target/arm: kvm: Inject events at the last stage of sync
-
-Cédric Le Goater (2):
-      aspeed/smc: Add some tracing
-      aspeed/smc: Fix User mode select/unselect scheme
-
-Eric Auger (6):
-      hw/arm/virt: Document 'max' value in gic-version property description
-      hw/arm/virt: Introduce VirtGICType enum type
-      hw/arm/virt: Introduce finalize_gic_version()
-      target/arm/kvm: Let kvm_arm_vgic_probe() return a bitmap
-      hw/arm/virt: kvm: Restructure finalize_gic_version()
-      hw/arm/virt: kvm: allow gicv3 by default if v2 cannot work
-
-Guenter Roeck (2):
-      hw/arm/fsl-imx25: Wire up eSDHC controllers
-      hw/arm/fsl-imx25: Wire up USB controllers
-
-Igor Mammedov (1):
-      hw/arm/cubieboard: make sure SOC object isn't leaked
-
-Niek Linnenbank (13):
-      hw/arm: add Allwinner H3 System-on-Chip
-      hw/arm: add Xunlong Orange Pi PC machine
-      hw/arm/allwinner-h3: add Clock Control Unit
-      hw/arm/allwinner-h3: add USB host controller
-      hw/arm/allwinner-h3: add System Control module
-      hw/arm/allwinner: add CPU Configuration module
-      hw/arm/allwinner: add Security Identifier device
-      hw/arm/allwinner: add SD/MMC host controller
-      hw/arm/allwinner-h3: add EMAC ethernet device
-      hw/arm/allwinner-h3: add Boot ROM support
-      hw/arm/allwinner-h3: add SDRAM controller device
-      hw/arm/allwinner: add RTC device support
-      docs: add Orange Pi PC document
-
-Peter Maydell (4):
-      hw/intc/armv7m_nvic: Rebuild hflags on reset
-      target/arm: Update hflags in trans_CPS_v7m()
-      target/arm: Recalculate hflags correctly after writes to CONTROL
-      target/arm: Fix some comment typos
-
-Philippe Mathieu-Daudé (5):
-      tests/boot_linux_console: Add a quick test for the OrangePi PC board
-      tests/boot_linux_console: Add initrd test for the Orange Pi PC board
-      tests/boot_linux_console: Add a SD card test for the OrangePi PC board
-      tests/boot_linux_console: Add a SLOW test booting Ubuntu on OrangePi PC
-      tests/boot_linux_console: Test booting NetBSD via U-Boot on OrangePi PC
-
-Richard Henderson (2):
-      target/arm: Check addresses for disabled regimes
-      target/arm: Disable clean_data_tbi for system mode
-
- Makefile.objs                          |   1 +
- hw/arm/Makefile.objs                   |   1 +
- hw/misc/Makefile.objs                  |   5 +
- hw/net/Makefile.objs                   |   1 +
- hw/rtc/Makefile.objs                   |   1 +
- hw/sd/Makefile.objs                    |   1 +
- hw/usb/hcd-ehci.h                      |   1 +
- include/hw/arm/allwinner-a10.h         |   4 +
- include/hw/arm/allwinner-h3.h          | 161 ++++++
- include/hw/arm/fsl-imx25.h             |  18 +
- include/hw/arm/virt.h                  |  12 +-
- include/hw/misc/allwinner-cpucfg.h     |  52 ++
- include/hw/misc/allwinner-h3-ccu.h     |  66 +++
- include/hw/misc/allwinner-h3-dramc.h   | 106 ++++
- include/hw/misc/allwinner-h3-sysctrl.h |  67 +++
- include/hw/misc/allwinner-sid.h        |  60 +++
- include/hw/net/allwinner-sun8i-emac.h  |  99 ++++
- include/hw/rtc/allwinner-rtc.h         | 134 +++++
- include/hw/sd/allwinner-sdhost.h       | 135 +++++
- target/arm/helper.h                    |   1 +
- target/arm/kvm_arm.h                   |   3 +
- hw/arm/allwinner-a10.c                 |  19 +
- hw/arm/allwinner-h3.c                  | 465 ++++++++++++++++++
- hw/arm/cubieboard.c                    |  18 +
- hw/arm/fsl-imx25.c                     |  56 +++
- hw/arm/imx25_pdk.c                     |  16 +
- hw/arm/orangepi.c                      | 130 +++++
- hw/arm/virt.c                          | 145 ++++--
- hw/intc/armv7m_nvic.c                  |   6 +
- hw/misc/allwinner-cpucfg.c             | 282 +++++++++++
- hw/misc/allwinner-h3-ccu.c             | 242 +++++++++
- hw/misc/allwinner-h3-dramc.c           | 358 ++++++++++++++
- hw/misc/allwinner-h3-sysctrl.c         | 140 ++++++
- hw/misc/allwinner-sid.c                | 168 +++++++
- hw/net/allwinner-sun8i-emac.c          | 871 +++++++++++++++++++++++++++++++++
- hw/rtc/allwinner-rtc.c                 | 411 ++++++++++++++++
- hw/sd/allwinner-sdhost.c               | 854 ++++++++++++++++++++++++++++++++
- hw/ssi/aspeed_smc.c                    |  56 ++-
- hw/usb/hcd-ehci-sysbus.c               |  17 +
- target/arm/helper.c                    |  49 +-
- target/arm/kvm.c                       |  14 +-
- target/arm/kvm32.c                     |  15 +-
- target/arm/kvm64.c                     |  15 +-
- target/arm/translate-a64.c             |  11 +
- target/arm/translate.c                 |  14 +-
- MAINTAINERS                            |   9 +
- default-configs/arm-softmmu.mak        |   1 +
- docs/system/arm/orangepi.rst           | 253 ++++++++++
- docs/system/target-arm.rst             |   2 +
- hw/arm/Kconfig                         |  12 +
- hw/misc/trace-events                   |  19 +
- hw/net/Kconfig                         |   3 +
- hw/net/trace-events                    |  10 +
- hw/rtc/trace-events                    |   4 +
- hw/sd/trace-events                     |   7 +
- hw/ssi/trace-events                    |  10 +
- tests/acceptance/boot_linux_console.py | 230 +++++++++
- 57 files changed, 5787 insertions(+), 74 deletions(-)
- create mode 100644 include/hw/arm/allwinner-h3.h
- create mode 100644 include/hw/misc/allwinner-cpucfg.h
- create mode 100644 include/hw/misc/allwinner-h3-ccu.h
- create mode 100644 include/hw/misc/allwinner-h3-dramc.h
- create mode 100644 include/hw/misc/allwinner-h3-sysctrl.h
- create mode 100644 include/hw/misc/allwinner-sid.h
- create mode 100644 include/hw/net/allwinner-sun8i-emac.h
- create mode 100644 include/hw/rtc/allwinner-rtc.h
- create mode 100644 include/hw/sd/allwinner-sdhost.h
- create mode 100644 hw/arm/allwinner-h3.c
- create mode 100644 hw/arm/orangepi.c
- create mode 100644 hw/misc/allwinner-cpucfg.c
- create mode 100644 hw/misc/allwinner-h3-ccu.c
- create mode 100644 hw/misc/allwinner-h3-dramc.c
- create mode 100644 hw/misc/allwinner-h3-sysctrl.c
- create mode 100644 hw/misc/allwinner-sid.c
- create mode 100644 hw/net/allwinner-sun8i-emac.c
- create mode 100644 hw/rtc/allwinner-rtc.c
- create mode 100644 hw/sd/allwinner-sdhost.c
- create mode 100644 docs/system/arm/orangepi.rst
- create mode 100644 hw/ssi/trace-events
 
