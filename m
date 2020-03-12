@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A74185E59
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:59:54 +0100 (CET)
-Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86E9185E6C
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 17:16:24 +0100 (CET)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDVg7-0002j6-V4
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52003)
+	id 1jDVw7-0002sT-Bm
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 12:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDVWM-0006j9-H6
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:49:49 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jDVMN-0001HX-Jw
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:39:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDVWK-000104-JT
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:49:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50632
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <ehabkost@redhat.com>) id 1jDVMK-00035D-UB
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:39:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32978
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDVWK-0000wl-EQ
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:49:44 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jDVMK-000315-PT
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:39:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584287384;
+ s=mimecast20190719; t=1584286763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ONEdoUwTx+c86S7WZmJiL1bqdlmcyzfMSspXJm6+Z4w=;
- b=S+D7767TSBLzNg0hRBjYlmNtVomdVyPEGO7+4vHpEENVqSnP+bNgPs+CmpUq2xZMoCzDXb
- lz/qPRoXHBUJlIf615tpB8oKsuOFczsKd2OTUx825RWCmCt8v3WS3w17OZoTgcrm8/v0yj
- RabSd+fdalp0EExN3G36BhtdAyVQz3I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-TFdnjJeBOYi4Bl8pHz7Thg-1; Sun, 15 Mar 2020 11:49:40 -0400
-X-MC-Unique: TFdnjJeBOYi4Bl8pHz7Thg-1
-Received: by mail-wm1-f69.google.com with SMTP id y7so4616404wmd.4
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 08:49:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ONEdoUwTx+c86S7WZmJiL1bqdlmcyzfMSspXJm6+Z4w=;
- b=ejVdjHdgQRrQDk4Irx1eGV0IQQm+4aDCQbYkpw2BPZKqCO+EZsSFKZ9Wo5m9Mdrd8D
- pcr74QxI6b8YrcW+INHFlHtmzh4jcDXKoPJqvrNfKvxMCzgC117Yxas4s5NXObiO7dPg
- 7yDWcT9VridaDMxNHY6cYxzOl+TCKfLClX5Hf4LHy7htlzRkJ2feuAXjgnjJvmvDs+J5
- Kf7zMT68rJ6tbssmlaisYkCt1uRpJbiio1iaYFyZBE0RDJO217s2kKbRcwcSTyMzdZSL
- 6Wap/qCdU56qMj+tbVvM/pLjtOreu+rnJsnNXZp3fN8cTwu/zLcaitr0jqd4hf2ggl04
- Tf3w==
-X-Gm-Message-State: ANhLgQ1VeddcPXzBv8Q+Bb9rkDtZKlEqFKunZLCwuFOQxII+7ydYLgF7
- yWzPMBgC9628OnaLDuPqoltc19EqzP3KTX0qRtRSONWVDp0rgVLgvyD1UKE+VeVXg3mEz5AeAws
- Vzlxiy2dV4DOJoNs=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr23227606wmf.4.1584287379489; 
- Sun, 15 Mar 2020 08:49:39 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuZYs2RhsdVu/VpZ+r6AyEQ9rDDr2i4kUKf82Hoyo5Ox3a/Qrdho3EL494xOh5izIU/O+PpBg==
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr23227595wmf.4.1584287379240; 
- Sun, 15 Mar 2020 08:49:39 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id b202sm732078wmd.15.2020.03.15.08.49.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 08:49:38 -0700 (PDT)
-Subject: Re: [PATCH v3 25/34] qapi: New special feature flag "deprecated"
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-26-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6af79067-2631-c12d-5643-fbc78bfb1bcf@redhat.com>
-Date: Sun, 15 Mar 2020 16:49:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=jh9rZc7OHaNxOewgs7wHgs+MZ+rq/lRZmzPa03b/ndg=;
+ b=DTZCJR+/JHgoD7pbS6qwaWaPKd7F+mH5pOtoc3tFAZ8byNloLYqUkGtlzEgdL5cErM3gBH
+ 1loCZ2kWzwC6X2rA7pB2T2MQvErva+cKc3nOAIeMEPh7vjFE0pXabDiXVfSAVWxwp1j3dP
+ AWULFZ1lhaAzDGULwnUZA2PbQp20ibk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-SxxKn-uYMm-A8-iEdAcwKA-1; Sun, 15 Mar 2020 11:39:20 -0400
+X-MC-Unique: SxxKn-uYMm-A8-iEdAcwKA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A76D78017CC
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 15:39:19 +0000 (UTC)
+Received: from localhost (ovpn-121-84.rdu2.redhat.com [10.10.121.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A697E5C1B2;
+ Sun, 15 Mar 2020 15:39:16 +0000 (UTC)
+Date: Thu, 12 Mar 2020 13:30:13 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Oksana Vohchana <ovoshcha@redhat.com>
+Subject: Re: [PATCH v2] python/qemu/qmp.py: QMP debug with VM label
+Message-ID: <20200312173013.GR1187748@habkost.net>
+References: <20200312140547.20448-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200315144653.22660-26-armbru@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200312140547.20448-1-ovoshcha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,166 +71,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 3:46 PM, Markus Armbruster wrote:
-> Unlike regular feature flags, the new special feature flag
-> "deprecated" is recognized by the QAPI generator.  For now, it's only
-> permitted with commands, events, and struct members.  It will be put
-> to use shortly.
-
-What about using a '@DeprecatedSince' tag?
-Ah, that would apply to the whole structure and not a particular member...
-
-I am wondering because sometimes we deprecate something for 2 releases 
-but then once the deadline passed we forgot to remove it. Having the 
-release version deadline along with deprecation would help automating 
-removal checks.
-Maybe we can use a tag with release version, such 'deprecated_since:5.0'?
-
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Thu, Mar 12, 2020 at 04:05:47PM +0200, Oksana Vohchana wrote:
+> QEMUMachine writes some messages to the default logger.
+> But it sometimes hard to read the output if we have requests to
+> more than one VM.
+> This patch adds a label to the logger in the debug mode.
+>=20
+> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+>=20
 > ---
->   docs/devel/qapi-code-gen.txt                    | 6 ++++++
->   scripts/qapi/schema.py                          | 6 ++++++
->   tests/Makefile.include                          | 1 +
->   tests/qapi-schema/features-deprecated-type.err  | 2 ++
->   tests/qapi-schema/features-deprecated-type.json | 3 +++
->   tests/qapi-schema/features-deprecated-type.out  | 0
->   tests/qapi-schema/qapi-schema-test.json         | 6 +++---
->   tests/qapi-schema/qapi-schema-test.out          | 6 +++---
->   8 files changed, 24 insertions(+), 6 deletions(-)
->   create mode 100644 tests/qapi-schema/features-deprecated-type.err
->   create mode 100644 tests/qapi-schema/features-deprecated-type.json
->   create mode 100644 tests/qapi-schema/features-deprecated-type.out
-> 
-> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> index a1ef1cfd61..823adbabda 100644
-> --- a/docs/devel/qapi-code-gen.txt
-> +++ b/docs/devel/qapi-code-gen.txt
-> @@ -683,6 +683,12 @@ Intended use is to have each feature string signal that this build of
->   QEMU shows a certain behaviour.
->   
->   
-> +==== Special features ====
-> +
-> +Feature "deprecated" makes a command, event, or struct member as
-> +deprecated.  It is not supported elsewhere so far.
-> +
-> +
->   === Naming rules and reserved names ===
->   
->   All names must begin with a letter, and contain only ASCII letters,
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 6ee3677215..78309a00f0 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -193,6 +193,12 @@ class QAPISchemaType(QAPISchemaEntity):
->               return None
->           return self.name
->   
-> +    def check(self, schema):
-> +        QAPISchemaEntity.check(self, schema)
-> +        if 'deprecated' in [f.name for f in self.features]:
-> +            raise QAPISemError(
-> +                self.info, "feature 'deprecated' is not supported for types")
-> +
->       def describe(self):
->           assert self.meta
->           return "%s type '%s'" % (self.meta, self.name)
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 67e8fcddda..d1340301b2 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -242,6 +242,7 @@ qapi-schema += event-case.json
->   qapi-schema += event-member-invalid-dict.json
->   qapi-schema += event-nest-struct.json
->   qapi-schema += features-bad-type.json
-> +qapi-schema += features-deprecated-type.json
->   qapi-schema += features-duplicate-name.json
->   qapi-schema += features-if-invalid.json
->   qapi-schema += features-missing-name.json
-> diff --git a/tests/qapi-schema/features-deprecated-type.err b/tests/qapi-schema/features-deprecated-type.err
-> new file mode 100644
-> index 0000000000..af4ffe20aa
-> --- /dev/null
-> +++ b/tests/qapi-schema/features-deprecated-type.err
-> @@ -0,0 +1,2 @@
-> +features-deprecated-type.json: In struct 'S':
-> +features-deprecated-type.json:2: feature 'deprecated' is not supported for types
-> diff --git a/tests/qapi-schema/features-deprecated-type.json b/tests/qapi-schema/features-deprecated-type.json
-> new file mode 100644
-> index 0000000000..4b5bf5b86e
-> --- /dev/null
-> +++ b/tests/qapi-schema/features-deprecated-type.json
-> @@ -0,0 +1,3 @@
-> +# Feature 'deprecated' is not supported for types
-> +{ 'struct': 'S', 'data': {},
-> +  'features': [ 'deprecated' ] }
-> diff --git a/tests/qapi-schema/features-deprecated-type.out b/tests/qapi-schema/features-deprecated-type.out
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-> index f576c337af..6b1f05afa7 100644
-> --- a/tests/qapi-schema/qapi-schema-test.json
-> +++ b/tests/qapi-schema/qapi-schema-test.json
-> @@ -258,7 +258,7 @@
->     'data': { 'foo': 'int' },
->     'features': [] }
->   { 'struct': 'FeatureStruct1',
-> -  'data': { 'foo': { 'type': 'int', 'features': [ 'member-feature1' ] } },
-> +  'data': { 'foo': { 'type': 'int', 'features': [ 'deprecated' ] } },
->     'features': [ 'feature1' ] }
->   { 'struct': 'FeatureStruct2',
->     'data': { 'foo': 'int' },
-> @@ -308,7 +308,7 @@
->     'features': [] }
->   
->   { 'command': 'test-command-features1',
-> -  'features': [ 'feature1' ] }
-> +  'features': [ 'deprecated' ] }
->   { 'command': 'test-command-features3',
->     'features': [ 'feature1', 'feature2' ] }
->   
-> @@ -322,4 +322,4 @@
->                                                 'defined(TEST_IF_COND_2)'] } ] }
->   
->   { 'event': 'TEST-EVENT-FEATURES1',
-> -  'features': [ 'feature1' ] }
-> +  'features': [ 'deprecated' ] }
-> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-> index cd863ae966..891b4101e0 100644
-> --- a/tests/qapi-schema/qapi-schema-test.out
-> +++ b/tests/qapi-schema/qapi-schema-test.out
-> @@ -359,7 +359,7 @@ object FeatureStruct0
->       member foo: int optional=False
->   object FeatureStruct1
->       member foo: int optional=False
-> -        feature member-feature1
-> +        feature deprecated
->       feature feature1
->   object FeatureStruct2
->       member foo: int optional=False
-> @@ -419,7 +419,7 @@ command test-features0 q_obj_test-features0-arg -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
->   command test-command-features1 None -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
-> -    feature feature1
-> +    feature deprecated
->   command test-command-features3 None -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
->       feature feature1
-> @@ -440,7 +440,7 @@ command test-command-cond-features3 None -> None
->           if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
->   event TEST-EVENT-FEATURES1 None
->       boxed=False
-> -    feature feature1
-> +    feature deprecated
->   module include/sub-module.json
->   include sub-sub-module.json
->   object SecondArrayRef
-> 
+> v2:
+>  - Instead of shown the label in the message it provides the label
+>    only in the debug logger information
+> ---
+>  python/qemu/machine.py | 2 +-
+>  python/qemu/qmp.py     | 5 ++++-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 183d8f3d38..d0aa774c1c 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -270,7 +270,7 @@ class QEMUMachine(object):
+>                  self._vm_monitor =3D os.path.join(self._sock_dir,
+>                                                  self._name + "-monitor.s=
+ock")
+>                  self._remove_files.append(self._vm_monitor)
+> -            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, serv=
+er=3DTrue)
+> +            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, serv=
+er=3DTrue, nickname=3Dself._name)
+> =20
+>      def _post_launch(self):
+>          if self._qmp:
+> diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+> index f40586eedd..d58b18c304 100644
+> --- a/python/qemu/qmp.py
+> +++ b/python/qemu/qmp.py
+> @@ -46,7 +46,7 @@ class QEMUMonitorProtocol:
+>      #: Logger object for debugging messages
+>      logger =3D logging.getLogger('QMP')
+
+This will create a single logger instance.
+
+> =20
+> -    def __init__(self, address, server=3DFalse):
+> +    def __init__(self, address, server=3DFalse, nickname=3DNone):
+>          """
+>          Create a QEMUMonitorProtocol class.
+> =20
+> @@ -62,6 +62,7 @@ class QEMUMonitorProtocol:
+>          self.__address =3D address
+>          self.__sock =3D self.__get_sock()
+>          self.__sockfile =3D None
+> +        self._nickname =3D nickname
+>          if server:
+>              self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADD=
+R, 1)
+>              self.__sock.bind(self.__address)
+> @@ -188,6 +189,8 @@ class QEMUMonitorProtocol:
+>          @return QMP response as a Python dict or None if the connection =
+has
+>                  been closed
+>          """
+> +        if self._nickname:
+> +            self.logger.name =3D 'QMP.{}'.format(self._nickname)
+
+This will change the name of that single instance and affect
+every single QEMUMonitorProtocol object.  Please don't do that.
+
+You can just do:
+
+    self.logger =3D logging.getLogger('QMP').getChild(self._nickname)
+
+at __init__().
+
+
+>          self.logger.debug(">>> %s", qmp_cmd)
+>          try:
+>              self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+> --=20
+> 2.21.1
+>=20
+
+--=20
+Eduardo
 
 
