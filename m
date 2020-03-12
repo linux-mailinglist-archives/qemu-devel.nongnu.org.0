@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EAA18369A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:52:33 +0100 (CET)
-Received: from localhost ([::1]:45514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC235183694
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:50:59 +0100 (CET)
+Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCR4S-0008VD-I5
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35603)
+	id 1jCR2w-0003Hi-KB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxN-0008FI-P2
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxO-0008Gj-T8
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxL-00053r-KG
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:13 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41246)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxN-00055z-Ne
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:14 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34589)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQxL-00051z-DW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:11 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s14so8371939wrt.8
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:11 -0700 (PDT)
+ id 1jCQxN-00054U-GQ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:13 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z15so8381010wrl.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2a4oBo+1GmPL1/JooGpcol4Cf4xTWSFHxDnNoSO8Mq8=;
- b=w8bN2ukfZgL9OkxxFvPedxq0nhCZeuZ15NwgN8r4iVNaDPVO5E3zE+BYX7fFuOhtWA
- Q+5YKKCFQ49b6BjYuuSsfqG0W7r6hJiFIyN+BLF7BrQD2SS4B/7ShP4GgqnAOftCm6NT
- FvJzLtN0JRLQYBssQn7O2TX0mae4rwQL/v5LTAUTHzLcpI4zEEdyOIsjCKGLfO2H4khD
- 15zYKM1LmX8q4SQqg1YYqFHqYYJJgxqLCsufME+DkyJodDMXOnYWUtJlJf+DcjlJjzGI
- LHmRNBDl7kOi4JBIUrnfh4e8/VoH/X0A1rkM0kFShXTgNtPbaKk/lODx07ZCuxnoR364
- KmqA==
+ bh=tWA33XZa/cz9PUChiNWS4Z6nrgn0YwL/7Lfi/vyfbzE=;
+ b=Ni3ilxQGB1VEPlSVkK4tN3ruWhMW+q1BmovcUd1KvoWFP7++vx8aJ9iuc/qV0Euz3g
+ E7USbpbyTmmd+LRMuP8bOwN2H/L7qnjxEDCGQhZrWS2T3AXgpTx0Gw7Bhd00QtvgA2sq
+ BbN1oylQYL8/Nxy750eiyUOlvcnD43yanfjhcW8D26BR+X/k88PKeUDgjeTgyQASAgZT
+ SbbQjAo1kmzN6SbdTHxMDyscZ151ce/OeWS/pRI3HrucQUTfKuPV9CMuBBcIe0yQbrbh
+ elKZlk1bKUcGUKS3ixDIpt/XowIqwvwBE61TgwO0SchDwdA1F1wJZCDxVVb2I09b1hPE
+ KCJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2a4oBo+1GmPL1/JooGpcol4Cf4xTWSFHxDnNoSO8Mq8=;
- b=PoJDpPSj9lbQh5Qew1JI9DIFX6kS8FpW491PM/GX/dcmr9AVYZVJ330zj5ufm+8bZT
- 4sofm29brGunpV1L/hfgBXQYrGfr++hRGGtLUHTxN2lJpJ9Hffw2L/fV5Cn7g+BeavBs
- TkptmXWj6/S6e5kVuz4aj/IHDT3zYrnD8a/AZDmh/B3oDT0GmFuuhYt2iBiRyFBNWyk4
- RP1CYR3DZNfHB+FHeexlHEFr93pJwHRQJ7Kqt+wgptbhF1WLpWk2hC6Y9aB3wQbx1NBO
- 2MCHKHA2/VqMguXVVndL4NOnPdDHzcyzeRXAcDx0+UX9CXTH9M63TkaQeodnZ946JKVd
- IBKg==
-X-Gm-Message-State: ANhLgQ0qV5qbpqhyF0t0E7kLrWgTx9f5TcQpNg61gvSYfMMQKhhsdn8I
- Yb28SYufjay3uvay07ZQt0tcliBLuaFrMQ==
-X-Google-Smtp-Source: ADFU+vuOlM3/MzJWPxjUFts6QnBDhG2odQjQ+ZGETnBmPe2Pj8MbMfAT6d23rTk03u5h1XEZCTQ51w==
-X-Received: by 2002:a5d:4683:: with SMTP id u3mr12492793wrq.251.1584031510211; 
- Thu, 12 Mar 2020 09:45:10 -0700 (PDT)
+ bh=tWA33XZa/cz9PUChiNWS4Z6nrgn0YwL/7Lfi/vyfbzE=;
+ b=BEMC4cyJYtQGvX83IgUpvg4BQTl9z6oCQ0Hlohkl8GbMTJK9q/nB71vfFg6vJPOVrC
+ wxu6jRm698pTeS4QpegRTUoorfCF9nsTaPr1KeRCLYT5tITeGiDzToiPfaUDtUkHBZOx
+ nC9QMTzDzWHn05sCAcupBwdG/2bFsSI66RuH0nE6GlIwa78eRHrKzI8Y9jahLdKmVRAk
+ /HDab4ESqoRrCMR6ySu1hxyfzWYsYrMxAB6udldtBFcjmZ3i4K/gVCFM8FUplI/dVy9P
+ 9rrqC7ePzEuLr09+gmox9Cq0lvbtXKt8jiYjiicrfkcONrA1Zvtdegj1ktK8cDj8mMQB
+ qTJw==
+X-Gm-Message-State: ANhLgQ0Y780/8BAkuPajffpPrLTvulPnqyKadNgC6QYT3Kwbl2it+WDF
+ zznZCwMWLNIvZwOHXUF0eAeAJy35aw4W2w==
+X-Google-Smtp-Source: ADFU+vuXQDW4lN8Bmy1b4iBQ6rde0MsKRi1SXg7JeW40zhKEF3RIVsoa+R7iTOA+2grud1rIZFvaZg==
+X-Received: by 2002:a05:6000:1206:: with SMTP id
+ e6mr7822223wrx.339.1584031511140; 
+ Thu, 12 Mar 2020 09:45:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.09
+ by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 09:45:09 -0700 (PDT)
+ Thu, 12 Mar 2020 09:45:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/36] target/arm: Check addresses for disabled regimes
-Date: Thu, 12 Mar 2020 16:44:30 +0000
-Message-Id: <20200312164459.25924-8-peter.maydell@linaro.org>
+Subject: [PULL 08/36] target/arm: Disable clean_data_tbi for system mode
+Date: Thu, 12 Mar 2020 16:44:31 +0000
+Message-Id: <20200312164459.25924-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312164459.25924-1-peter.maydell@linaro.org>
 References: <20200312164459.25924-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +84,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We fail to validate the upper bits of a virtual address on a
-translation disabled regime, as per AArch64.TranslateAddressS1Off.
+We must include the tag in the FAR_ELx register when raising
+an addressing exception.  Which means that we should not clear
+out the tag during translation.
 
+We cannot at present comply with this for user mode, so we
+retain the clean_data_tbi function for the moment, though it
+no longer does what it says on the tin for system mode.  This
+function is to be replaced with MTE, so don't worry about the
+slight misnaming.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1867072
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200308012946.16303-2-richard.henderson@linaro.org
+Message-id: 20200308012946.16303-3-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ target/arm/translate-a64.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index fc1192d1204..b61ee73d18a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11780,7 +11780,40 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-     /* Definitely a real MMU, not an MPU */
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index fefe8af7f52..8fffb52203d 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -228,7 +228,18 @@ static void gen_a64_set_pc(DisasContext *s, TCGv_i64 src)
+ static TCGv_i64 clean_data_tbi(DisasContext *s, TCGv_i64 addr)
+ {
+     TCGv_i64 clean = new_tmp_a64(s);
++    /*
++     * In order to get the correct value in the FAR_ELx register,
++     * we must present the memory subsystem with the "dirty" address
++     * including the TBI.  In system mode we can make this work via
++     * the TLB, dropping the TBI during translation.  But for user-only
++     * mode we don't have that option, and must remove the top byte now.
++     */
++#ifdef CONFIG_USER_ONLY
+     gen_top_byte_ignore(s, clean, addr, s->tbid);
++#else
++    tcg_gen_mov_i64(clean, addr);
++#endif
+     return clean;
+ }
  
-     if (regime_translation_disabled(env, mmu_idx)) {
--        /* MMU disabled. */
-+        /*
-+         * MMU disabled.  S1 addresses within aa64 translation regimes are
-+         * still checked for bounds -- see AArch64.TranslateAddressS1Off.
-+         */
-+        if (mmu_idx != ARMMMUIdx_Stage2) {
-+            int r_el = regime_el(env, mmu_idx);
-+            if (arm_el_is_aa64(env, r_el)) {
-+                int pamax = arm_pamax(env_archcpu(env));
-+                uint64_t tcr = env->cp15.tcr_el[r_el].raw_tcr;
-+                int addrtop, tbi;
-+
-+                tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
-+                if (access_type == MMU_INST_FETCH) {
-+                    tbi &= ~aa64_va_parameter_tbid(tcr, mmu_idx);
-+                }
-+                tbi = (tbi >> extract64(address, 55, 1)) & 1;
-+                addrtop = (tbi ? 55 : 63);
-+
-+                if (extract64(address, pamax, addrtop - pamax + 1) != 0) {
-+                    fi->type = ARMFault_AddressSize;
-+                    fi->level = 0;
-+                    fi->stage2 = false;
-+                    return 1;
-+                }
-+
-+                /*
-+                 * When TBI is disabled, we've just validated that all of the
-+                 * bits above PAMax are zero, so logically we only need to
-+                 * clear the top byte for TBI.  But it's clearer to follow
-+                 * the pseudocode set of addrdesc.paddress.
-+                 */
-+                address = extract64(address, 0, 52);
-+            }
-+        }
-         *phys_ptr = address;
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         *page_size = TARGET_PAGE_SIZE;
 -- 
 2.20.1
 
