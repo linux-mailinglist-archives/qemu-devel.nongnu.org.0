@@ -2,129 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41ED1835E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:10:30 +0100 (CET)
-Received: from localhost ([::1]:44474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15201835EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:14:19 +0100 (CET)
+Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQPl-000599-3p
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:10:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54876)
+	id 1jCQTR-0002iO-SJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQNN-0003oz-Kk
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:08:03 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQRz-0000yU-7K
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQNM-00041h-5M
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:08:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11288)
+ (envelope-from <borntraeger@de.ibm.com>) id 1jCQRw-0007S4-JU
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47638
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jCQNL-000411-Pp
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:08:00 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jCQRv-0007R3-I0
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:12:44 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02CG7Gcc069808
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:07:58 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yqpe7ec54-1
+ 02CG7mSR122290
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:12:42 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yqpebwdd5-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:07:56 -0400
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:12:40 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 12 Mar 2020 16:07:50 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Thu, 12 Mar 2020 16:09:56 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 16:07:46 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02CG7jcW51249194
+ Thu, 12 Mar 2020 16:09:54 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02CG9rhY40173896
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:07:45 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C3A5352054;
- Thu, 12 Mar 2020 16:07:45 +0000 (GMT)
-Received: from dyn-9-152-224-122.boeblingen.de.ibm.com (unknown
- [9.152.224.122])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 882225204F;
- Thu, 12 Mar 2020 16:07:45 +0000 (GMT)
-Subject: Re: [PATCH v9 11/15] s390x: protvirt: Disable address checks for PV
- guest IO emulation
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+ Thu, 12 Mar 2020 16:09:53 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2F9B2A4051;
+ Thu, 12 Mar 2020 16:09:53 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 03BB7A404D;
+ Thu, 12 Mar 2020 16:09:53 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Mar 2020 16:09:52 +0000 (GMT)
+Subject: Re: [PATCH v9 10/15] s390x: protvirt: Move diag 308 data over SIDA
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-12-frankja@linux.ibm.com>
- <e17fae02-5195-b4ed-9aca-63b8fb2b8a60@de.ibm.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Date: Thu, 12 Mar 2020 17:07:45 +0100
+ <20200311132151.172389-11-frankja@linux.ibm.com>
+ <8231b188-50ca-e8e8-5e5d-fc07e0dfd20d@de.ibm.com>
+ <0c8657b3-8f97-624b-1268-3cd0dbb1d36e@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Thu, 12 Mar 2020 17:09:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <e17fae02-5195-b4ed-9aca-63b8fb2b8a60@de.ibm.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9lC64ycr25CScjA7CPwqwXH7IItqfoA6Y"
+In-Reply-To: <0c8657b3-8f97-624b-1268-3cd0dbb1d36e@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031216-0020-0000-0000-000003B3542F
+x-cbid: 20031216-0008-0000-0000-0000035C2BF7
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031216-0021-0000-0000-0000220BA8F3
-Message-Id: <46eb4e3f-6dac-c26c-d757-90696c0b095c@linux.ibm.com>
+x-cbparentid: 20031216-0009-0000-0000-00004A7D7621
+Message-Id: <cf22eea4-2ab7-249e-7763-68764cb32dca@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-12_09:2020-03-11,
  2020-03-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 adultscore=0 bulkscore=0 mlxscore=0
- suspectscore=3 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003120083
+ malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=809 adultscore=0 mlxscore=0
+ phishscore=0 suspectscore=2 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2001150001 definitions=main-2003120083
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -140,171 +144,22 @@ Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9lC64ycr25CScjA7CPwqwXH7IItqfoA6Y
-Content-Type: multipart/mixed; boundary="sTnHJ2a8EYZX1l8zEnwWjtlyjBUgD56i8"
 
---sTnHJ2a8EYZX1l8zEnwWjtlyjBUgD56i8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-On 3/12/20 4:41 PM, Christian Borntraeger wrote:
-> On 11.03.20 14:21, Janosch Frank wrote:
->> IO instruction data is routed through SIDAD for protected guests, so
->> adresses do not need to be checked, as this is kernel memory.
->=20
-> Maybe also mention that the data structures for  the I/O instrutions
-> start at offset 0 of the SIDA?
-
-You mean in the comment for get_address_from_regs() or in the commit
-message? It would certainly make sense for get_address_from_regs().
-
+On 12.03.20 17:05, Janosch Frank wrote:
+> On 3/12/20 4:17 PM, Christian Borntraeger wrote:
 >>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
->=20
->=20
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
->=20
->=20
->=20
->> ---
->>  target/s390x/ioinst.c | 33 ++++++++++++++++++++++++++-------
->>  1 file changed, 26 insertions(+), 7 deletions(-)
 >>
->> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
->> index c437a1d8c6afed80..481d789de9e09a04 100644
->> --- a/target/s390x/ioinst.c
->> +++ b/target/s390x/ioinst.c
->> @@ -16,6 +16,23 @@
->>  #include "hw/s390x/ioinst.h"
->>  #include "trace.h"
->>  #include "hw/s390x/s390-pci-bus.h"
->> +#include "hw/s390x/pv.h"
->> +
->> +static uint64_t get_address_from_regs(CPUS390XState *env, uint32_t ip=
-b,
->> +                                      uint8_t *ar)
->> +{
->> +    /*
->> +     * Addresses for protected guests are all offsets into the
->> +     * satellite block which holds the IO control structures. Those
->> +     * control structures are always aligned and accessible, so we ca=
-n
->> +     * return 0 here which will pass the following address checks.
->> +     */
->> +    if (s390_is_pv()) {
->> +        *ar =3D 0;
->> +        return 0;
->> +    }
->> +    return decode_basedisp_s(env, ipb, ar);
->> +}
->> =20
->>  int ioinst_disassemble_sch_ident(uint32_t value, int *m, int *cssid, =
-int *ssid,
->>                                   int *schid)
->> @@ -114,7 +131,7 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg=
-1, uint32_t ipb, uintptr_t ra)
->>      CPUS390XState *env =3D &cpu->env;
->>      uint8_t ar;
->> =20
->> -    addr =3D decode_basedisp_s(env, ipb, &ar);
->> +    addr =3D get_address_from_regs(env, ipb, &ar);
->>      if (addr & 3) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->>          return;
->> @@ -171,7 +188,7 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg=
-1, uint32_t ipb, uintptr_t ra)
->>      CPUS390XState *env =3D &cpu->env;
->>      uint8_t ar;
->> =20
->> -    addr =3D decode_basedisp_s(env, ipb, &ar);
->> +    addr =3D get_address_from_regs(env, ipb, &ar);
->>      if (addr & 3) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->>          return;
->> @@ -203,7 +220,7 @@ void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ip=
-b, uintptr_t ra)
->>      CPUS390XState *env =3D &cpu->env;
->>      uint8_t ar;
->> =20
->> -    addr =3D decode_basedisp_s(env, ipb, &ar);
->> +    addr =3D get_address_from_regs(env, ipb, &ar);
->>      if (addr & 3) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->>          return;
->> @@ -234,7 +251,7 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t re=
-g1, uint32_t ipb,
->>      CPUS390XState *env =3D &cpu->env;
->>      uint8_t ar;
->> =20
->> -    addr =3D decode_basedisp_s(env, ipb, &ar);
->> +    addr =3D get_address_from_regs(env, ipb, &ar);
->>      if (addr & 3) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->>          return;
->> @@ -303,7 +320,7 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1=
-, uint32_t ipb, uintptr_t ra)
->>          return -EIO;
->>      }
->>      trace_ioinst_sch_id("tsch", cssid, ssid, schid);
->> -    addr =3D decode_basedisp_s(env, ipb, &ar);
->> +    addr =3D get_address_from_regs(env, ipb, &ar);
->>      if (addr & 3) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->>          return -EIO;
->> @@ -601,7 +618,7 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb=
-, uintptr_t ra)
->>  {
->>      ChscReq *req;
->>      ChscResp *res;
->> -    uint64_t addr;
->> +    uint64_t addr =3D 0;
->>      int reg;
->>      uint16_t len;
->>      uint16_t command;
->> @@ -610,7 +627,9 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb=
-, uintptr_t ra)
->> =20
->>      trace_ioinst("chsc");
->>      reg =3D (ipb >> 20) & 0x00f;
->> -    addr =3D env->regs[reg];
->> +    if (!s390_is_pv()) {
->> +        addr =3D env->regs[reg];
->> +    }
->>      /* Page boundary? */
->>      if (addr & 0xfff) {
->>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>> On 11.03.20 14:21, Janosch Frank wrote:
+>>> For protected guests the IPIB is written/read to/from the SIDA, so we
 >>
+>> I think we need to make up our mind regarding IPLB vs. IPIB....
+>>
+>> Otherwise
+>> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> 
+> Shall I put that onto the list of things I need to fix in my cleanup series?
 
-
-
---sTnHJ2a8EYZX1l8zEnwWjtlyjBUgD56i8--
-
---9lC64ycr25CScjA7CPwqwXH7IItqfoA6Y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5qXlEACgkQ41TmuOI4
-ufitAg/+K7/+Hxnrt851S5zPS8cy2MYKUZLT9nzQYro7tKJkfQinzph8Ponk/mwJ
-NEwRxhFm0r3JMt6r4z357cn5RuQbPKmKd0gDweWMuFD+0bFetIJ0fU+7lErO0E3V
-fqZlS+dw2H4ojuT2Y8YQzB3ws7BJkVnpSN6XjwreuXJEItRkf12KTOnp2Q/h0MEb
-hbTfGjWEnn5N3OxWeHOwwqvKDYMLNUIKCtS7dGQVYFL1suZ3XXMEe2o9+GhqGg1I
-o2u174GP3JlENrvuJOuijw0K2vYlTUP9jqIpiKYGEra9IHLbH6mw687ACH/gDcb1
-6VMP69ecC8f+/Y8fiWXt3PWirCAKvc8tB5jbf5b2Z1SgcpxkuEO/TQluTr0X1Mez
-1KXByr5qWywtuQJRD3wkq5ADBB3SNkHq1AO22tjfDW3bAO465WET3W0otv6gbax2
-UN8Y6ge5jba7JjK+F/7ElxvvvloK0zUcZyWryJkCuSvF6VVJGCKIYTPwmn42Pc24
-5F4WFupuTxfCOuwTKXdzypazoUsbYxtEgAgvLvsBzUGoWzo4B3VxXK7FJ/FcQQJ1
-rpswye6dSKf4AdkGYzAD8Jx8UFO9uAl7a8alZPoesHXzv/6Hzhry1Z4rTjMht8GU
-r+0/t+L6BJeVzNm+LXERjnEd8v3Lmp0SP9VFWuXP5J1pDUbglkU=
-=N+KN
------END PGP SIGNATURE-----
-
---9lC64ycr25CScjA7CPwqwXH7IItqfoA6Y--
+Yes, nothing urgent but if you have free cycles somewhen, go ahead. 
 
 
