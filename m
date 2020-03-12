@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6739D18360A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:23:51 +0100 (CET)
-Received: from localhost ([::1]:44724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A674183633
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:32:27 +0100 (CET)
+Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQcg-00018g-Fn
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1jCQl0-0005vB-9j
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQbR-00009S-6J
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:22:34 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jCQhy-0008Oj-6d
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQbQ-00062I-3q
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:22:32 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:44848)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQbP-00061J-UI
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:22:32 -0400
-Received: by mail-oi1-x229.google.com with SMTP id d62so6024468oia.11
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n8mouH4+5KXIU8ayOQ93LGAgkFs47pe1sEFjRgLZ1/U=;
- b=gaHs3QU9bPUoSE/1Ij8i64wwJXEznu8EGTgNACwRwFbeiUhWE0Ejw7gWVY1n5PTcU+
- qGhRyTQMYv1RaVu5psGuJAldAe9g3QhQUoPOy3m1G3UBlUjPXj+TrMIdkS54bUIpDCIJ
- ZoMruusZcBMBK+Z6IoSMXs+L2eBD6TM51xV6GY8+hSKuJ5VFDBZwegwq8ryithmW5lBm
- /WOqKlQzAGiOLcBhiGGU+Fgik3I8nQS24ccxBBzTEaXOudAwyYWN3y3FAG8ngVeOv2Pa
- tcwXYb6AOeCvTRiRbDrsMW+P/bJYHZIuegUhNBeppYlkK+4vwO362alL0MaYqB9fe1pl
- d3QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n8mouH4+5KXIU8ayOQ93LGAgkFs47pe1sEFjRgLZ1/U=;
- b=kIO8c4cF4RL9qlN69/2ULpOZ89NJCdROtHRJkThIHM8CiEPDuyv8Q7lHVPjYv4DRwk
- 2DYAtKqdBltnSYbspXbx/i0FgQJGxyu1CRySA8bXM7XFqTKIZgI/qsbptizVc9D5eync
- aWTKgds/h+wyye2lhjd7qWf27uO0kRB9OYwNaLLCly8FjTatB1jrbqNCD3egfP5iARhF
- LsWSaxpXYpFcjVSsGDenE+ljFw0+s1k428tTn8dDRIua7Deth4bVTXcb+zBi1KgiIRpI
- ateV2503uMC1E+zau2pe8n67oer4FOkNI26d99ZMYtoDbDQeDIDvoQUEZ0P6u5+Y6DvU
- 1MyQ==
-X-Gm-Message-State: ANhLgQ3r0U/jkuaNGvSR6jJ/7ssoiyBxh7u/99TLkSTDrtMhwc/eqZLB
- I5Uvt2Y56gMCkYggl0eeZB88BiG4VpQYDIlH6Sa1wA==
-X-Google-Smtp-Source: ADFU+vvm44QeZu5ArgZHy6JC9416PD5p7ISXpNWGeiJLcDgIKjF8BqpmiDXrjBzfiR6rVei4BxgtyIasTqglgktXers=
-X-Received: by 2002:aca:47c8:: with SMTP id u191mr3355461oia.170.1584030150729; 
- Thu, 12 Mar 2020 09:22:30 -0700 (PDT)
+ (envelope-from <frankja@linux.ibm.com>) id 1jCQhv-0005I0-KD
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54820)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1jCQhv-0005Gv-Ce
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:15 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02CGKbPR141578
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:29:14 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yqrgv8dk8-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:28:08 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Thu, 12 Mar 2020 16:25:16 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 12 Mar 2020 16:25:13 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02CGPCCI66584752
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Mar 2020 16:25:12 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5C1DA405E;
+ Thu, 12 Mar 2020 16:25:12 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3734A4051;
+ Thu, 12 Mar 2020 16:25:11 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.152.224.122])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Mar 2020 16:25:11 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9] s390x: protvirt: Fence huge pages
+Date: Thu, 12 Mar 2020 12:25:10 -0400
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
-References: <20200311221854.30370-1-nieklinnenbank@gmail.com>
-In-Reply-To: <20200311221854.30370-1-nieklinnenbank@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 16:22:19 +0000
-Message-ID: <CAFEAcA9UqDRT-32Qnap8n3uYh8hyK_89KhsTwceHDRiTzihyJg@mail.gmail.com>
-Subject: Re: [PATCH v8 00/18] Add Allwinner H3 SoC and Orange Pi PC Machine
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::229
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031216-0016-0000-0000-000002F00678
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031216-0017-0000-0000-0000335375AE
+Message-Id: <20200312162510.5472-1-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-12_09:2020-03-11,
+ 2020-03-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ impostorscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 suspectscore=1 spamscore=0 malwarescore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003120083
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +90,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 at 22:19, Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
->
-> Dear QEMU developers,
->
-> Hereby I would like to contribute the following set of patches to QEMU
-> which add support for the Allwinner H3 System on Chip and the
-> Orange Pi PC machine. The following features and devices are supported:
->
->  * SMP (Quad Core Cortex A7)
->  * Generic Interrupt Controller configuration
->  * SRAM mappings
->  * SDRAM controller
->  * Real Time Clock
->  * Timer device (re-used from Allwinner A10)
->  * UART
->  * SD/MMC storage controller
->  * EMAC ethernet
->  * USB 2.0 interfaces
->  * Clock Control Unit
->  * System Control module
->  * Security Identifier device
+Let's bail out of the protected transition if we detect that huge
+pages might be in use.
 
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
 
+I'd like to squash this into the unpack patch to give a proper error
+message if we try to transition into the protected mode while being
+backed by huge pages. 
 
-Applied to target-arm.next, thanks. (I moved
-the doc into the its new location now that the split-out
-of the arm board docs into separate files has landed.)
+---
+ hw/s390x/ipl.h             | 16 ++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c |  1 -
+ target/s390x/diag.c        | 23 ++++++++---------------
+ target/s390x/kvm-stub.c    |  5 +++++
+ target/s390x/kvm.c         |  5 +++++
+ target/s390x/kvm_s390x.h   |  1 +
+ 6 files changed, 35 insertions(+), 16 deletions(-)
 
--- PMM
+diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+index af5bb130a6334821..95e3183c9cccf8b6 100644
+--- a/hw/s390x/ipl.h
++++ b/hw/s390x/ipl.h
+@@ -185,6 +185,22 @@ struct S390IPLState {
+ typedef struct S390IPLState S390IPLState;
+ QEMU_BUILD_BUG_MSG(offsetof(S390IPLState, iplb) & 3, "alignment of iplb wrong");
+ 
++#define DIAG_308_RC_OK              0x0001
++#define DIAG_308_RC_NO_CONF         0x0102
++#define DIAG_308_RC_INVALID         0x0402
++#define DIAG_308_RC_NO_PV_CONF      0x0902
++#define DIAG_308_RC_INVAL_FOR_PV    0x0a02
++
++#define DIAG308_RESET_MOD_CLR       0
++#define DIAG308_RESET_LOAD_NORM     1
++#define DIAG308_LOAD_CLEAR          3
++#define DIAG308_LOAD_NORMAL_DUMP    4
++#define DIAG308_SET                 5
++#define DIAG308_STORE               6
++#define DIAG308_PV_SET              8
++#define DIAG308_PV_STORE            9
++#define DIAG308_PV_START            10
++
+ #define S390_IPL_TYPE_FCP 0x00
+ #define S390_IPL_TYPE_CCW 0x02
+ #define S390_IPL_TYPE_PV 0x05
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index ebdaaa3a001f6e8c..d32f35c7f47b9c1d 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -361,7 +361,6 @@ out_err:
+     return rc;
+ }
+ 
+-#define DIAG_308_RC_INVAL_FOR_PV    0x0a02
+ static void s390_machine_inject_pv_error(CPUState *cs)
+ {
+     int r1 = (cs->kvm_run->s390_sieic.ipa & 0x00f0) >> 4;
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index b245e557037ded06..b1ca81633b83bbdc 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -21,6 +21,7 @@
+ #include "hw/s390x/ipl.h"
+ #include "hw/s390x/s390-virtio-ccw.h"
+ #include "hw/s390x/pv.h"
++#include "kvm_s390x.h"
+ 
+ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
+ {
+@@ -50,21 +51,6 @@ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
+     return diag288_class->handle_timer(diag288, func, timeout);
+ }
+ 
+-#define DIAG_308_RC_OK              0x0001
+-#define DIAG_308_RC_NO_CONF         0x0102
+-#define DIAG_308_RC_INVALID         0x0402
+-#define DIAG_308_RC_NO_PV_CONF      0x0902
+-
+-#define DIAG308_RESET_MOD_CLR       0
+-#define DIAG308_RESET_LOAD_NORM     1
+-#define DIAG308_LOAD_CLEAR          3
+-#define DIAG308_LOAD_NORMAL_DUMP    4
+-#define DIAG308_SET                 5
+-#define DIAG308_STORE               6
+-#define DIAG308_PV_SET              8
+-#define DIAG308_PV_STORE            9
+-#define DIAG308_PV_START            10
+-
+ static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
+                               uintptr_t ra, bool write)
+ {
+@@ -166,6 +152,13 @@ out:
+             return;
+         }
+ 
++        if (kvm_s390_get_hpage_1m()) {
++            error_report("Protected VMs can currently not be backed with "
++                         "huge pages");
++            env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
++            return;
++        }
++
+         s390_ipl_reset_request(cs, S390_RESET_PV);
+         break;
+     default:
+diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
+index c4cd497f850eb9c7..aa185017a2a886ca 100644
+--- a/target/s390x/kvm-stub.c
++++ b/target/s390x/kvm-stub.c
+@@ -39,6 +39,11 @@ int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu)
+     return 0;
+ }
+ 
++int kvm_s390_get_hpage_1m(void)
++{
++    return 0;
++}
++
+ int kvm_s390_get_ri(void)
+ {
+     return 0;
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index 1d6fd6a27b48e35f..c695941076b7aead 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -321,6 +321,11 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize, Error **errp)
+     cap_hpage_1m = 1;
+ }
+ 
++int kvm_s390_get_hpage_1m(void)
++{
++    return cap_hpage_1m;
++}
++
+ static void ccw_machine_class_foreach(ObjectClass *oc, void *opaque)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
+index 0b21789796d7c462..dea813f450153c34 100644
+--- a/target/s390x/kvm_s390x.h
++++ b/target/s390x/kvm_s390x.h
+@@ -23,6 +23,7 @@ void kvm_s390_program_interrupt(S390CPU *cpu, uint16_t code);
+ int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
+ void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
+ int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
++int kvm_s390_get_hpage_1m(void);
+ int kvm_s390_get_ri(void);
+ int kvm_s390_get_gs(void);
+ int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
+-- 
+2.25.1
+
 
