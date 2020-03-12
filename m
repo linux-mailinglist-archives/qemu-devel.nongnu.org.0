@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA194183BDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:03:26 +0100 (CET)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20F1183BDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:02:54 +0100 (CET)
+Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCVvJ-0001i5-Tq
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1jCVuo-0000o6-1K
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCVsu-00085n-Vr
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:00:57 -0400
+ (envelope-from <eblake@redhat.com>) id 1jCVtJ-0008KL-Jh
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCVst-00069i-A7
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:00:56 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:35855)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCVst-00068a-4h
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:00:55 -0400
-Received: by mail-oi1-x234.google.com with SMTP id k18so7227020oib.3
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 15:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zBEgTSkue8n3N3haF1UqERuVBSPxxEbviL0PkP9K0zY=;
- b=ZYTSeOeeYuCVOBGQ6oqzUWhMEXmHKuK6M7cyHceajl0LRUqticlltOKMFfCEA4sv4X
- 5pb8GDMeNPfjj05L3Hg5u6EdQsSr/omvBfmWmDx7a6Yagwy58A33gn7fF2riLAU3IXl/
- m3hUwHcwhpVS2v2epMna7vQwPk86pT7vM8WVp3d27Nv9pXjLUyob/F31Ka4A9+KOurrq
- Bvr3f0XrSuIsfXLws2kf6u1N7d8zulbe6Spj/onsyvQKyt7Bhj6xbRAao4ttK3IOLO1t
- PSqr97AOwsaAKd2+usoz38TaWnBDkv74yB/kb8p7s14UtwqzlkWhgCG7dew56fZVTXe4
- x2gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zBEgTSkue8n3N3haF1UqERuVBSPxxEbviL0PkP9K0zY=;
- b=s0igXgHNO5PzrxadfF+TWDs4H4QHl+FfIHvYlk5oCEUEQwBF6G7yOeAqyaL4KT+rkv
- ocFTwUpQFh6CSG3t9DrerLsGCnu5Gl6NLBHDEAJkS5Claj+2E85DxxV3RHWm2G8xuZNX
- ZUNLbusjAykvdARn+cdhsGaUK2QFTmTi0doxXIcxgHqwbWkKPJr5iDRpsqWbMK2sOA8Q
- JTThym1LS8RUeS4z+ZtzWbwWjKUt7eiiYPa7LF4oVb/uygCVeLHXKtj66gA1bxl80E0R
- Hgb4PHGYpiiXadpqb6aULF0Pa6eLxsnj/Hyj72n6j+rlY5triBQSeSFSoAAIXHapA2OH
- 4+kQ==
-X-Gm-Message-State: ANhLgQ1TiGhcgvm1eSXgC1hvIrPrS5uod4euvFgCZrt15Ik71zdETWqV
- hOvW+DYUcxamHYUvU3cjX/y4ewbyMUYkabdukIAEiA==
-X-Google-Smtp-Source: ADFU+vuvFBSiL3uADk8C4Ay9xj3hi+w+qbQpCY99PbqwQvzYuIjXbRkJNtX4KMxc0aHo8wi/fWkzgXM+CGyxptngu4M=
-X-Received: by 2002:aca:c695:: with SMTP id w143mr4537727oif.98.1584050453858; 
- Thu, 12 Mar 2020 15:00:53 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jCVtH-0006Xv-EE
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:21 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58336
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jCVtH-0006X6-Ae
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:01:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584050479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UkamC+fKMdNKcd5Zm/3Gj1NYi0y4T+EZ4RCC9YiMKy4=;
+ b=Bi/ubAwSe7iSyFHlwWNkU28ZOpKpLDpLNUDAudH9LL6OMlMWRFI9g+Bf0ds/xv+jnHq0hF
+ FCK9zRXevmkn0NRbqfpDLy6pKMeWZW/BfR6NvF55MZZGDlX+XQE47SG5crbWW83Q7yaiiO
+ 5zlz21n+wYdGq8ehECV5dC2G3tIafJg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-RwzvlAq-NNOXG1XTnDIr-w-1; Thu, 12 Mar 2020 18:01:12 -0400
+X-MC-Unique: RwzvlAq-NNOXG1XTnDIr-w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64B54140A;
+ Thu, 12 Mar 2020 22:01:11 +0000 (UTC)
+Received: from [10.3.116.177] (ovpn-116-177.phx2.redhat.com [10.3.116.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D52719C6A;
+ Thu, 12 Mar 2020 22:01:10 +0000 (UTC)
+Subject: Re: [PATCH v4 0/7] Tighten qemu-img rules on missing backing format
+To: qemu-devel@nongnu.org
+References: <158404914429.16773.14555927621203301707@39012742ff91>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0bf30278-a4a4-a87e-bd62-36b733193076@redhat.com>
+Date: Thu, 12 Mar 2020 17:01:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200312193616.438922-1-crosa@redhat.com>
-In-Reply-To: <20200312193616.438922-1-crosa@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 22:00:42 +0000
-Message-ID: <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::234
+In-Reply-To: <158404914429.16773.14555927621203301707@39012742ff91>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,29 +75,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Wainer Moschetta <wmoschet@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, libvir-list@redhat.com, pkrempa@redhat.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Mar 2020 at 19:36, Cleber Rosa <crosa@redhat.com> wrote:
->
-> The idea about a public facing Gating CI for QEMU was lastly
-> summarized in an RFC[1].  Since then, it was decided that a
-> simpler version should be attempted first.
+On 3/12/20 4:39 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200312192822.3739399-1-eblake@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series failed the asan build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> export ARCH=x86_64
+> make docker-image-fedora V=1 NETWORK=1
+> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
+> === TEST SCRIPT END ===
+> 
+>    CC      block/replication.o
+>    CC      block/throttle.o
+>    CC      block/copy-on-read.o
+> /tmp/qemu-test/src/block/sheepdog.c:2174:9: error: variable 'qdict' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+>      if (backing_fmt && strcmp(backing_fmt, "sheepdog") != 0) {
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> /tmp/qemu-test/src/block/sheepdog.c:2241:19: note: uninitialized use occurs here
+> ---
+>                  ^
+>                   = NULL
 
-OK, so my question here is:
- * what are the instructions that I have to follow to be
-able to say "ok, here's my branch, run it through these tests,
-please" ?
+Bah, real problem (and I missed it because I compiled for debug, while 
+this error depends on -O2 for gcc to flag it).  Squash this in:
 
-thanks
--- PMM
+diff --git i/block/sheepdog.c w/block/sheepdog.c
+index 376f4ef74638..e0ea335131d9 100644
+--- i/block/sheepdog.c
++++ w/block/sheepdog.c
+@@ -2161,9 +2161,9 @@ static int coroutine_fn sd_co_create_opts(const 
+char *filename, QemuOpts *opts,
+                                            Error **errp)
+  {
+      BlockdevCreateOptions *create_options = NULL;
+-    QDict *qdict, *location_qdict;
++    QDict *qdict = NULL, *location_qdict;
+      Visitor *v;
+-    char *redundancy;
++    char *redundancy = NULL;
+      Error *local_err = NULL;
+      int ret;
+      char *backing_fmt = NULL;
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
