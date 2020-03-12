@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46274182D2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:12:32 +0100 (CET)
-Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F03182D4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 11:18:46 +0100 (CET)
+Received: from localhost ([::1]:38872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCKpL-0005Az-6T
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35579)
+	id 1jCKvN-00080V-CK
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 06:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCKod-0004lB-Jq
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:11:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCKuX-0007J6-Ob
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCKoc-0003pb-9i
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:11:47 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38665)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCKuW-0000nV-1T
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:53 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38735)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCKoc-0003pR-3l
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:11:46 -0400
-Received: by mail-ot1-x343.google.com with SMTP id t28so2896561ott.5
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 03:11:46 -0700 (PDT)
+ id 1jCKuV-0000m5-Rn
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 06:17:51 -0400
+Received: by mail-ot1-x341.google.com with SMTP id t28so2914485ott.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 03:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gYuC/43+aqzczPwvXcevGnLj4Oj3/YRC9kospWvX1+w=;
- b=Z9tkdPB33pytrv+6s/rnlxWeIC46CscIRVgQbET4lETsNjbrobgfkQWPfFiF7P5K9K
- 5trtKShxn7Th2RCuIMtzlRrvlK2YtBwZ1WtCsD/2si1+RStLnIrRwo3hXMPX9bS4aA0U
- M2YdzJaQp6q9oV4puJxc6O/Kzjpdchc6y6Smzz69fqxS1AVwpKoDld0DgI61t0/Bs/gl
- OLXL+8i3tuZp56ctiZ33+fQ3EXazvDZmYLg8VaiTnh+MXCCqqO3UPcmJWzrAGP+/r1DC
- PYfmLCbtjcqucER+vrOjxBwK5N8zNuL39cR3vByiI794S7McyVTCkNi8XSgrTjwg0gdC
- E+Xg==
+ :cc; bh=JvRaI+c7gJCvoP3PLElHn3U609quG71LluLIxOIbUxM=;
+ b=paOGrgfMOyD+N0BtammyUJypjtrRjpv4tARzhebHyudoFNYUJwUMMErhAzzNXmGbKs
+ 9/FNYl/UGQwuUbeFTJag846WfsIsk3GSG4R29I5wfu8tjjkVau95YJn0bvlOg3QEjE7O
+ B5+Z0R4liRZ8BjVnqDa0netJWa19xT7s6reMXFzXK63atfGSImc2GPfqwKfw8TdMBaA2
+ W8d9BWVoDQLHJf2JW0vd81cO3x6ex7RL3NB5z1oX0C8iCWyNoWh/TL0R17dt8TT4DAAs
+ qDbZCqQYx7g1dkkH9g51hCb3fsf7rl5k8PZESez1yMQnLa1V9ZTPOTBLd7Dw1KqN8njp
+ o+TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gYuC/43+aqzczPwvXcevGnLj4Oj3/YRC9kospWvX1+w=;
- b=Y94MIKqP4kMz0g6e066b5dqfH/FSvVvDNtenDLTrS5unxqsZumViq3/E3J+dXxdG11
- Ujrboa4ud+KgykvizxNrtm45OVo8W9kQmDs+9FYZwYNwAe46NyJQE8qcA28pN/Pf+dzf
- YXRCuGpjkUfX30hxIXVT0uwDg70TQJr7x51P7dAfXKwEbtU7NQHRk6oG2tztgODjXOBK
- OrlxcjHX+lhp7L9ed8bY3eequDJ6mdPcLaV+YjcI9OTcrvaqZzfMRJafeA/04VE9u5cM
- /BbB35KmPRnUD+oFUAK06PkeAuZb6CFzrPu/R5tRTCK9phY+Cg+L4HLlAjN2wHKFPwau
- vMMg==
-X-Gm-Message-State: ANhLgQ3YeXfFAwA1q3f+yqGrG0pYFFtj3BfyzhXcNwTVYWMaJGahTT9e
- LSILLys0kRwr29fpWyjTgiZNBM9VoSOY1F/7JklL5A==
-X-Google-Smtp-Source: ADFU+vupV6/PzE2jYKxiB5K51dc3YU2ImiskaIxiUCxCxMZoXbGM9NJEDCLXrk9/BbaO49/zRfoObfZs12qGVJ3fwG4=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr5720783otl.135.1584007905058; 
- Thu, 12 Mar 2020 03:11:45 -0700 (PDT)
+ bh=JvRaI+c7gJCvoP3PLElHn3U609quG71LluLIxOIbUxM=;
+ b=qm4rQJAS1WCLwA1oLuyzrwVRsQ9yevduL7G22Ua1TL4q3Ez02SPjJoQztwsRaIt0dB
+ tNijl1zJtwmpUeKwLXmOuotgB5FltusjwHv0oftKZf9+k3BvP7oNxevTvFrmS/DA00xm
+ evEHsxMbyzaxsbNlH4kkhcnfZmoswBatkrxqW0IOP/IIHWWcQIs0QcS90BzYfqUbqMh6
+ 9FpxRbJo8a14LB05f3cfTZeltx/XsuVoy/WyeFKpu2wnd1nYdGM3A/KsbnVNJw6JXlrc
+ PWn4gOqByMOWqfG7orl79I1QIwGjIcUtLtBosgjkgEqUYAZwwI3/sTyHgz4EE9m+gDeg
+ T8dA==
+X-Gm-Message-State: ANhLgQ2monVzVyV9uJxJ3XYjN0tcIh2eq9ScnJCQIjnyLFSNd6GTzsdA
+ /Oks/Vd1GIs+HJBLC+VBGfzVH7LcC9zhOvoLMObkkw==
+X-Google-Smtp-Source: ADFU+vtSmjSUkHtvDcXaxhxC+mjmxttvemOijllRSHFfExs0Ny4ehTojAXqriSQnAy+8tr0LdD4rij8aQhmkCN9w740=
+X-Received: by 2002:a9d:76c9:: with SMTP id p9mr5741741otl.135.1584008270408; 
+ Thu, 12 Mar 2020 03:17:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200228153619.9906-1-peter.maydell@linaro.org>
- <20200228153619.9906-32-peter.maydell@linaro.org>
- <87blp3x7rr.fsf@dusky.pond.sub.org>
- <CAFEAcA9EEuAeKm8kXtSJUtm6F3=VfyMxOkESvrZzoVt87HwKpw@mail.gmail.com>
- <87sgiertt8.fsf@dusky.pond.sub.org>
-In-Reply-To: <87sgiertt8.fsf@dusky.pond.sub.org>
+References: <20200311232342.1614944-1-ehabkost@redhat.com>
+ <20200311232342.1614944-2-ehabkost@redhat.com>
+In-Reply-To: <20200311232342.1614944-2-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 10:11:34 +0000
-Message-ID: <CAFEAcA9PrO+=pVyh1DR2Xh=apkZAXw0_aF=RxUmG=kR5VOdeDQ@mail.gmail.com>
-Subject: Re: [PATCH v3 31/33] docs: Stop building qemu-doc
-To: Markus Armbruster <armbru@redhat.com>
+Date: Thu, 12 Mar 2020 10:17:38 +0000
+Message-ID: <CAFEAcA86+_ZFVw_4pH-XDPpCB-h2U19g6YWm99dRkRfikwqQSw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Use -isystem for linux-headers dir
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,34 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Jingqi Liu <jingqi.liu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?J=C3=A1n_Tomko?= <jtomko@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Mar 2020 at 06:06, Markus Armbruster <armbru@redhat.com> wrote:
-> Would it be possible to additionally render a complete manual as one
-> humongous .html?  Without an index, there's only search, and the
-> ergonomics of searching within a single page are so much better.
+On Wed, 11 Mar 2020 at 23:23, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> glibc and Linux-provided headers are known to generate macro
+> redefinition warnings when used together.  For example:
+> <linux/mman.h> and <sys/mman.h> duplicate some macro definitions.
+>
+> We normally never see those warnings because GCC suppresses
+> warnings generated by system headers.  We carry our own copy of
+> Linux header files, though, and this makes those warnings not be
+> suppressed when glibc headers are included before Linux headers
+> (e.g. if <sys/mman.h> is included before <linux/mman.h>).
+>
+> Use -isystem instead of -I for linux-headers.  This makes the
+> compiler treat our linux-headers directory the same way it treats
+> system-provided Linux headers, and suppress warnings generated by
+> them.
 
-There is a "build one big fat HTML page" Sphinx builder,
-I think. But again, I'm dubious about increasing the number
-of supported output formats -- it's all extra makefile complexity
-and more things to get right in 'make install' and so on.
-
-PS: assuming you have js enabled, each HTML manual has a js
-search engine built in, eg the 'quick search' box at the bottom
-of the LHS navigation bar on
-https://www.qemu.org/docs/master/system/index.html
-
-> I'm tempted to write a trivial QAPI doc comment backend to spit out
-> minimally processed doc comments as one plain text file just for that.
-
-What would be the difference there compared to just looking
-at the manpage? The manpages don't have the full content
-of all the HTML manuals, but the QAPI reference manpages
-will have all the QAPI content.
+I wondered whether this changed the search order for the headers
+(ie whether it meant we now picked up our copy of the header
+and not the system header in some cases), but both -I and -isystem
+directories are searched before the standard system headers,
+so the only effect is the warning suppression.
 
 thanks
 -- PMM
