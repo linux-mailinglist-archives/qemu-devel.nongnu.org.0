@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A674183633
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:32:27 +0100 (CET)
-Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40574183628
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:30:14 +0100 (CET)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQl0-0005vB-9j
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
+	id 1jCQir-0000Gj-AJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:30:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQhy-0008Oj-6d
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:19 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jCQgw-0005no-Vr
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:28:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQhv-0005I0-KD
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54820)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jCQhv-0005Gv-Ce
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:29:15 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02CGKbPR141578
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:29:14 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yqrgv8dk8-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:28:08 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 12 Mar 2020 16:25:16 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 16:25:13 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02CGPCCI66584752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:25:12 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C5C1DA405E;
- Thu, 12 Mar 2020 16:25:12 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F3734A4051;
- Thu, 12 Mar 2020 16:25:11 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.152.224.122])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Mar 2020 16:25:11 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9] s390x: protvirt: Fence huge pages
-Date: Thu, 12 Mar 2020 12:25:10 -0400
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ (envelope-from <imammedo@redhat.com>) id 1jCQgu-0004Cx-NI
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:28:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50908
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jCQgu-0004Bo-GS
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:28:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584030491;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QY6DqpCPqLTl0EzQC9IzAK2H+be/aVlhpek/py68clI=;
+ b=UyeZLbmDZ31Ibs2Y4AWU0wJIOqveuQAWfsNMPozFdm6GdKV1/7q0kPqKQ4lRjL58fY3cu5
+ 62MpU+OvmoloqRL8O2NAKKkUrympUze43F1iUtskXSdRbRE92kfXQuDBxdWdnAE5qai3FO
+ zdj8Ny5RirkPHE6C35CkJ2yzKMgyKXs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-gyCGpKDCPJStdRqKafyCHA-1; Thu, 12 Mar 2020 12:27:53 -0400
+X-MC-Unique: gyCGpKDCPJStdRqKafyCHA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57B41107ACC7;
+ Thu, 12 Mar 2020 16:27:52 +0000 (UTC)
+Received: from localhost (ovpn-200-48.brq.redhat.com [10.40.200.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B034E92D39;
+ Thu, 12 Mar 2020 16:27:47 +0000 (UTC)
+Date: Thu, 12 Mar 2020 17:27:45 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH] acpi: Add Windows ACPI Emulated Device Table (WAET)
+Message-ID: <20200312172745.1b7b2222@redhat.com>
+In-Reply-To: <20200311170826.79419-1-liran.alon@oracle.com>
+References: <20200311170826.79419-1-liran.alon@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031216-0016-0000-0000-000002F00678
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031216-0017-0000-0000-0000335375AE
-Message-Id: <20200312162510.5472-1-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-12_09:2020-03-11,
- 2020-03-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- impostorscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
- adultscore=0 suspectscore=1 spamscore=0 malwarescore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003120083
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,162 +71,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ Elad Gabay <elad.gabay@oracle.com>, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's bail out of the protected transition if we detect that huge
-pages might be in use.
+On Wed, 11 Mar 2020 19:08:26 +0200
+Liran Alon <liran.alon@oracle.com> wrote:
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
+> From: Elad Gabay <elad.gabay@oracle.com>
+> 
+> Microsoft introduced this ACPI table to avoid Windows guests performing
+> various workarounds for device erratas. As the virtual device emulated
+> by VMM may not have the errata.
+> 
+> Currently, WAET allows hypervisor to inform guest about two
+> specific behaviors: One for RTC and the other for ACPI PM Timer.
+> 
+> Support for WAET have been introduced since Windows Vista. This ACPI
+> table is also exposed by other hypervisors, such as VMware, by default.
+> 
+> This patch adds WAET ACPI Table to QEMU. It also makes sure to introduce
+> the new ACPI table only for new machine-types.
 
-I'd like to squash this into the unpack patch to give a proper error
-message if we try to transition into the protected mode while being
-backed by huge pages. 
+in addition to comments made by Michael ...
 
----
- hw/s390x/ipl.h             | 16 ++++++++++++++++
- hw/s390x/s390-virtio-ccw.c |  1 -
- target/s390x/diag.c        | 23 ++++++++---------------
- target/s390x/kvm-stub.c    |  5 +++++
- target/s390x/kvm.c         |  5 +++++
- target/s390x/kvm_s390x.h   |  1 +
- 6 files changed, 35 insertions(+), 16 deletions(-)
+> 
+> Signed-off-by: Elad Gabay <elad.gabay@oracle.com>
+> Co-developed-by: Liran Alon <liran.alon@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> ---
+>  hw/i386/acpi-build.c        | 18 ++++++++++++++++++
+>  hw/i386/pc_piix.c           |  2 ++
+>  hw/i386/pc_q35.c            |  2 ++
+>  include/hw/acpi/acpi-defs.h | 25 +++++++++++++++++++++++++
+>  include/hw/i386/pc.h        |  1 +
+>  5 files changed, 48 insertions(+)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 9c4e46fa7466..29f70741cd96 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2512,6 +2512,19 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker)
+>      build_header(linker, table_data, (void *)(table_data->data + dmar_start),
+>                   "DMAR", table_data->len - dmar_start, 1, NULL, NULL);
+>  }
+> +
+> +static void
+> +build_waet(GArray *table_data, BIOSLinker *linker)
+see build_hmat_lb() for example how to doc comment for such function
+should look like. Use earliest spec version where table was introduced.
 
-diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
-index af5bb130a6334821..95e3183c9cccf8b6 100644
---- a/hw/s390x/ipl.h
-+++ b/hw/s390x/ipl.h
-@@ -185,6 +185,22 @@ struct S390IPLState {
- typedef struct S390IPLState S390IPLState;
- QEMU_BUILD_BUG_MSG(offsetof(S390IPLState, iplb) & 3, "alignment of iplb wrong");
- 
-+#define DIAG_308_RC_OK              0x0001
-+#define DIAG_308_RC_NO_CONF         0x0102
-+#define DIAG_308_RC_INVALID         0x0402
-+#define DIAG_308_RC_NO_PV_CONF      0x0902
-+#define DIAG_308_RC_INVAL_FOR_PV    0x0a02
-+
-+#define DIAG308_RESET_MOD_CLR       0
-+#define DIAG308_RESET_LOAD_NORM     1
-+#define DIAG308_LOAD_CLEAR          3
-+#define DIAG308_LOAD_NORMAL_DUMP    4
-+#define DIAG308_SET                 5
-+#define DIAG308_STORE               6
-+#define DIAG308_PV_SET              8
-+#define DIAG308_PV_STORE            9
-+#define DIAG308_PV_START            10
-+
- #define S390_IPL_TYPE_FCP 0x00
- #define S390_IPL_TYPE_CCW 0x02
- #define S390_IPL_TYPE_PV 0x05
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index ebdaaa3a001f6e8c..d32f35c7f47b9c1d 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -361,7 +361,6 @@ out_err:
-     return rc;
- }
- 
--#define DIAG_308_RC_INVAL_FOR_PV    0x0a02
- static void s390_machine_inject_pv_error(CPUState *cs)
- {
-     int r1 = (cs->kvm_run->s390_sieic.ipa & 0x00f0) >> 4;
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index b245e557037ded06..b1ca81633b83bbdc 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -21,6 +21,7 @@
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/s390-virtio-ccw.h"
- #include "hw/s390x/pv.h"
-+#include "kvm_s390x.h"
- 
- int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
- {
-@@ -50,21 +51,6 @@ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
-     return diag288_class->handle_timer(diag288, func, timeout);
- }
- 
--#define DIAG_308_RC_OK              0x0001
--#define DIAG_308_RC_NO_CONF         0x0102
--#define DIAG_308_RC_INVALID         0x0402
--#define DIAG_308_RC_NO_PV_CONF      0x0902
--
--#define DIAG308_RESET_MOD_CLR       0
--#define DIAG308_RESET_LOAD_NORM     1
--#define DIAG308_LOAD_CLEAR          3
--#define DIAG308_LOAD_NORMAL_DUMP    4
--#define DIAG308_SET                 5
--#define DIAG308_STORE               6
--#define DIAG308_PV_SET              8
--#define DIAG308_PV_STORE            9
--#define DIAG308_PV_START            10
--
- static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
-                               uintptr_t ra, bool write)
- {
-@@ -166,6 +152,13 @@ out:
-             return;
-         }
- 
-+        if (kvm_s390_get_hpage_1m()) {
-+            error_report("Protected VMs can currently not be backed with "
-+                         "huge pages");
-+            env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
-+            return;
-+        }
-+
-         s390_ipl_reset_request(cs, S390_RESET_PV);
-         break;
-     default:
-diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
-index c4cd497f850eb9c7..aa185017a2a886ca 100644
---- a/target/s390x/kvm-stub.c
-+++ b/target/s390x/kvm-stub.c
-@@ -39,6 +39,11 @@ int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu)
-     return 0;
- }
- 
-+int kvm_s390_get_hpage_1m(void)
-+{
-+    return 0;
-+}
-+
- int kvm_s390_get_ri(void)
- {
-     return 0;
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 1d6fd6a27b48e35f..c695941076b7aead 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -321,6 +321,11 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize, Error **errp)
-     cap_hpage_1m = 1;
- }
- 
-+int kvm_s390_get_hpage_1m(void)
-+{
-+    return cap_hpage_1m;
-+}
-+
- static void ccw_machine_class_foreach(ObjectClass *oc, void *opaque)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index 0b21789796d7c462..dea813f450153c34 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -23,6 +23,7 @@ void kvm_s390_program_interrupt(S390CPU *cpu, uint16_t code);
- int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
- void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
- int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
-+int kvm_s390_get_hpage_1m(void);
- int kvm_s390_get_ri(void);
- int kvm_s390_get_gs(void);
- int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
--- 
-2.25.1
+> +{
+> +    AcpiTableWaet *waet;
+> +
+> +    waet = acpi_data_push(table_data, sizeof(*waet));
+> +    waet->emulated_device_flags = cpu_to_le32(ACPI_WAET_PM_TIMER_GOOD);
+
+we don't use packed structures for building ACPI tables anymore (there is
+old code that still does but that's being converted when we touch it)
+
+pls use build_append_int_noprefix() api instead, see build_amd_iommu() as
+an example how to build binary tables using it and how to use comments
+to document fields.
+Basic idea is that api makes function building a table match table's
+description in spec (each call represents a row in spec) and comment
+belonging to a row should contain verbatim field name as used by spec
+so reader could copy/past and grep it easily.
+
+
+
+
+> +
+> +    build_header(linker, table_data,
+> +                 (void *)waet, "WAET", sizeof(*waet), 1, NULL, NULL);
+> +}
+> +
+>  /*
+>   *   IVRS table as specified in AMD IOMMU Specification v2.62, Section 5.2
+>   *   accessible here http://support.amd.com/TechDocs/48882_IOMMU.pdf
+> @@ -2859,6 +2872,11 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>                            machine->nvdimms_state, machine->ram_slots);
+>      }
+>  
+> +    if (!pcmc->do_not_add_waet_acpi) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_waet(tables_blob, tables->linker);
+> +    }
+
+we typically do not version ACPI table changes (there might be exceptions
+but it should be a justified one).
+ACPI tables are considered to be a part of firmware (even though they are
+generated by QEMU) so on QEMU upgrade user gets a new firmware along with
+new ACPI tables.
+
+> +
+>      /* Add tables supplied by user (if any) */
+>      for (u = acpi_table_first(); u; u = acpi_table_next(u)) {
+>          unsigned len = acpi_table_len(u);
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 9088db8fb601..2d11a8b50a9c 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -432,9 +432,11 @@ DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
+>  
+>  static void pc_i440fx_4_2_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_i440fx_5_0_machine_options(m);
+>      m->alias = NULL;
+>      m->is_default = false;
+> +    pcmc->do_not_add_waet_acpi = true;
+>      compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+>      compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
+>  }
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 84cf925cf43a..1e0a726b27a7 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -361,8 +361,10 @@ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
+>  
+>  static void pc_q35_4_2_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_5_0_machine_options(m);
+>      m->alias = NULL;
+> +    pcmc->do_not_add_waet_acpi = true;
+>      compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+>      compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
+>  }
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index 57a3f58b0c9a..803c904471d5 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -634,4 +634,29 @@ struct AcpiIortRC {
+>  } QEMU_PACKED;
+>  typedef struct AcpiIortRC AcpiIortRC;
+>  
+> +/*
+> + * Windows ACPI Emulated Devices Table.
+> + * Specification:
+> + * http://download.microsoft.com/download/7/E/7/7E7662CF-CBEA-470B-A97E-CE7CE0D98DC2/WAET.docx
+> + */
+> +
+> +/*
+> + * Indicates whether the RTC has been enhanced not to require acknowledgment
+> + * after it asserts an interrupt. With this bit set, an interrupt handler can
+> + * bypass reading the RTC register C to unlatch the pending interrupt.
+> + */
+> +#define ACPI_WAET_RTC_GOOD      (1 << 0)
+> +/*
+> + * Indicates whether the ACPI PM timer has been enhanced not to require
+> + * multiple reads. With this bit set, only one read of the ACPI PM timer is
+> + * necessary to obtain a reliable value.
+> + */
+> +#define ACPI_WAET_PM_TIMER_GOOD (1 << 1)
+> +
+> +struct AcpiTableWaet {
+> +    ACPI_TABLE_HEADER_DEF
+> +    uint32_t emulated_device_flags;
+> +} QEMU_PACKED;
+> +typedef struct AcpiTableWaet AcpiTableWaet;
+> +
+>  #endif
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 60c988c4a5aa..f1f64e8f45c8 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -100,6 +100,7 @@ typedef struct PCMachineClass {
+>      int legacy_acpi_table_size;
+>      unsigned acpi_data_size;
+>      bool do_not_add_smb_acpi;
+> +    bool do_not_add_waet_acpi;
+>  
+>      /* SMBIOS compat: */
+>      bool smbios_defaults;
 
 
