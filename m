@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DEC183741
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:18:28 +0100 (CET)
-Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15779183748
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:20:41 +0100 (CET)
+Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRTX-000569-Jj
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37485)
+	id 1jCRVg-00012m-4i
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jCR7T-0002DA-N4
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:55:40 -0400
+ (envelope-from <groeck7@gmail.com>) id 1jCR8o-0005L4-OZ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:57:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jCR7S-0003SS-Km
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:55:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:47953)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jCR7S-0003R9-C0
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:55:38 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mgvev-1jpMF9276T-00hLz3; Thu, 12 Mar 2020 17:55:34 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: fix socket() strace
-Date: Thu, 12 Mar 2020 17:55:30 +0100
-Message-Id: <20200312165530.53450-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <groeck7@gmail.com>) id 1jCR8n-0004WM-OW
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:57:02 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34039)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1jCR8l-0004Rg-CY; Thu, 12 Mar 2020 12:56:59 -0400
+Received: by mail-pg1-x541.google.com with SMTP id t3so3358207pgn.1;
+ Thu, 12 Mar 2020 09:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=R1Klp5VmAGtpJcR4uZfnLflfD0zf1gm8bN8uDrXOuqw=;
+ b=n2GlV9qaxcgxAWMqLiIAArXZ7T8pEEua/Q1vbXXt3GGW03JhWe2miqdzBtUKzZ0IvT
+ e9Ca2xCAuq+Zclf2zA5gaFjm4Sq3Tun54zSVGei94jDUPoULUCW3JLyOhCi67Pjr+JTz
+ VPY8C8G03QyboWBtG7fkmolFmycRTbXKQowD8WtzWrkmuaUZFnottGfo2HVqiidygAJh
+ fNN0cyWUaHDbQHzlnOppNy4elBEdH1t4dnH9EvCLDkBfAKR3IjVi9glZe+J5feZRh130
+ sZ6DFRLLE2+NiCGVAt9DZFZQo/5x793638F/vBQ4AoiYoC6BhvjufSxhaKzdwOBl5ktx
+ zSjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=R1Klp5VmAGtpJcR4uZfnLflfD0zf1gm8bN8uDrXOuqw=;
+ b=kh+eaIdMRL3xw9AgEQKqiO+YQ8VePlw+37UJDDqQr+vYZnS8zxd6B6McRND3pKOt6H
+ K1c82dEFVP5U+KS6rG73vDODbA5hIhat9OpOvmPXri/ivxZL7lal5E0o9W5t/OlXih8i
+ YUwSSitgHKlondwSw2OOBv0nIXvBUSnZ1ALLU1GteOJ7DdGjg486YjtvxkEBbkUxCgEO
+ 80BxVDX2lm03udC9uTjTgX8mXxsI9xCQ/fHInTPM1NVRQrfEzADyfMNfq0CLK8WXK74a
+ pQ5OzS8mtvL3LkbCeYMi8twGc/LaW8g1xRNsmbm+s2d2nm7VJBFA4Rk0EQC0SuDENYyC
+ S+TQ==
+X-Gm-Message-State: ANhLgQ11s+F5gH3hzalsoR6MuqEfKOdzMPGSrDPmzZyxMYaDgedsBDwZ
+ ytfSpAAVcrSan8U9vqLx6cHVN6OC
+X-Google-Smtp-Source: ADFU+vv02tgl7/1sLd3pv5R9SrZixC4bN6WNWciNKx+a90kIKIManiEmnIE9lUJDC4cQ3WUmsIbrOg==
+X-Received: by 2002:a63:e00c:: with SMTP id e12mr8766856pgh.354.1584032217640; 
+ Thu, 12 Mar 2020 09:56:57 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id h132sm51332238pfe.118.2020.03.12.09.56.56
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 12 Mar 2020 09:56:57 -0700 (PDT)
+Date: Thu, 12 Mar 2020 09:56:56 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 3/3] hw/arm/fsl-imx6: Wire up USB controllers
+Message-ID: <20200312165656.GB16719@roeck-us.net>
+References: <20200310210434.31544-1-linux@roeck-us.net>
+ <20200310210434.31544-4-linux@roeck-us.net>
+ <CAFEAcA9itKNV6c07wm_4dJiGtHMLXCFt+A-W5xC5DX1Wxfu30w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:S8VBigd0/pfnZuC1hFc18/4bvMs6PXJ6lf+oPtaFy8YD2L1eQYO
- AYE68kjRW64/v/CInWp87+LDb84B5FFQQe2cz9ZOUjRKglTSJsoceJ/YvNeRhaXeusrRqDx
- k8eO5DJD8TYiFFhE7V0D2ZF9aILPZ0sTkrnhRPBclQ+9ctUBxw66aWHIkoRFzC1V0gefhvh
- Szp9eV37s7DlkqUcvVNug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:U70d+VLByeA=:Z+B5d7u5C+bHRc2P4xcqh8
- tb2ovQnjd7PwU07wtvY7e9I/Akbyx4htJKp4aWDhOTA5HveY0ko4DTpkjGj2Iw8M5a34bO2wH
- Q02CsilPn/qqv/uemeV1S3BiYWckEC375ZbxmYgVYoMFgmh6xOWiCmYN9RcNJO/YuHlG7pDvn
- NZC2NPpKKr2hKRG/iMUrAE7ZcLDRkQj7/S6+QYtpjoiZ2NxC/+4WgHoBH8n7t5KaN/FV58raz
- ZUhy91afj8/Vdxj89Y1KmfaOu4U0fIdrHcVo1wOqgX2Rj/5cdFta5IFhqZ0o8NwWNeCDUJvM8
- EvvFi9QCSE44R3AByjKkRxM5VWS9djaClMF8GmeVT05EdrOB6iG6gxioVbIyVPWXc2ahv8Yt0
- AxeuH1WHnGiZK8wzCWnu6bKpjcruY47R2t4j/HpKrSkis5YGSySjgWRAGVZ0ZHKgKZh8ppt2n
- YRviOP1ZfFyHNpudJDxX8zk4WuMpbNn18U+ObN+bieD+XNnC5nWU99Sry/Goed6dyinT50p7S
- vyn2SLe8DkpjbHxeESHTTkmashBADSSi1LUhSLGSQzhXg9S8/JfRrRTLzfoYvwS6U0klUz/3M
- UD8xCvkDsHw6wN4NQM90HcgJmEkYn/fUumYOZApxF/dvuZgoHW3bpfdjGKq8ixLMAHPuOJ7Ie
- /7MydGqGKA5v/ui9zCnDjMjJE6dlQGZ7YtvnYJxURqCBR1Esl3uaRllUUQVKmjPl9OZZvUW/F
- tHDmoq4nP9nupf5a4vJfxR85J2FR9gI7+FIaR8WoLZYdfdpzdjcd4PuoYm1Cqe1fzXh8znY/5
- fOk9tSTeT/tpn4n3hDHqb8Wg5V/DLoQsbCkPOhQnNsZFQSRc8yi4tFUhSptP2fel7p9U4c1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9itKNV6c07wm_4dJiGtHMLXCFt+A-W5xC5DX1Wxfu30w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,49 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-print_socket_type() doesn't manage flags and the correct type cannot
-be displayed
+On Thu, Mar 12, 2020 at 01:29:34PM +0000, Peter Maydell wrote:
+> On Tue, 10 Mar 2020 at 21:04, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > With this patch, the USB controllers on 'sabrelite' are detected
+> > and can be used to boot the system.
+> >
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> > +    for (i = 0; i < FSL_IMX6_NUM_USBS; i++) {
+> > +        static const int FSL_IMX6_USBn_IRQ[] = {
+> > +            FSL_IMX6_USB_OTG_IRQ,
+> > +            FSL_IMX6_USB_HOST1_IRQ,
+> > +            FSL_IMX6_USB_HOST2_IRQ,
+> > +            FSL_IMX6_USB_HOST3_IRQ,
+> > +        };
+> > +
+> > +        object_property_set_bool(OBJECT(&s->usbphy[i]), true, "realized",
+> > +                                 &error_abort);
+> > +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usbphy[i]), 0,
+> > +                        FSL_IMX6_USBPHY1_ADDR + i * 0x1000);
+> 
+> Are you sure these addresses are right? Four of these starting
+> at USBPHY1_ADDR means the last one clashes with what we define
+> as "FSL_IMX6_SNVSHP_ADDR 0x020CC000".
+> 
+> I only have the i.MX 6Dual/6Quad reference manual to hand,
+> so maybe this imx6 variant is different, but that document
+> says there are 4 USB controllers but only 2 PHY blocks.
+> 
+Oops, I think you are correct. Good catch. I'll re-check the datsheet
+and send an updated patch.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
-
-Notes:
-    v2: replace gemu_log() by qemu_log() as it has been removed from qemu
-
- linux-user/strace.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 4f7130b2ff63..69232f7e27b8 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -444,7 +444,7 @@ print_socket_domain(int domain)
- static void
- print_socket_type(int type)
- {
--    switch (type) {
-+    switch (type & TARGET_SOCK_TYPE_MASK) {
-     case TARGET_SOCK_DGRAM:
-         qemu_log("SOCK_DGRAM");
-         break;
-@@ -464,6 +464,12 @@ print_socket_type(int type)
-         qemu_log("SOCK_PACKET");
-         break;
-     }
-+    if (type & TARGET_SOCK_CLOEXEC) {
-+        qemu_log("|SOCK_CLOEXEC");
-+    }
-+    if (type & TARGET_SOCK_NONBLOCK) {
-+        qemu_log("|SOCK_NONBLOCK");
-+    }
- }
- 
- static void
--- 
-2.24.1
-
+Thanks,
+Guenter
 
