@@ -2,38 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C811182C50
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:24:06 +0100 (CET)
-Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355F182C78
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 10:28:30 +0100 (CET)
+Received: from localhost ([::1]:38382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCK4T-00077I-CE
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56521)
+	id 1jCK8j-0004Bs-KT
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 05:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jCK3T-0005oD-4d
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:23:04 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jCK7y-0003hZ-2Z
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:27:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jCK3R-00078A-HG
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:23:03 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49626)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jCK7w-00080u-7h
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 05:27:42 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2083 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jCK3R-00075E-A2; Thu, 12 Mar 2020 05:23:01 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jCK3F-0004ma-Qx; Thu, 12 Mar 2020 12:22:50 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/4] iotests: 287: add qcow2 compression type test
-Date: Thu, 12 Mar 2020 12:22:42 +0300
-Message-Id: <20200312092242.5536-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200312092242.5536-1-dplotnikov@virtuozzo.com>
-References: <20200312092242.5536-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jCK7r-0007ye-RD; Thu, 12 Mar 2020 05:27:36 -0400
+Received: from lhreml706-cah.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 4BF8BA7AAC2B53C2828A;
+ Thu, 12 Mar 2020 09:27:33 +0000 (GMT)
+Received: from lhreml702-chm.china.huawei.com (10.201.108.51) by
+ lhreml706-cah.china.huawei.com (10.201.108.47) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 12 Mar 2020 09:27:32 +0000
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml702-chm.china.huawei.com (10.201.108.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Thu, 12 Mar 2020 09:27:32 +0000
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.1713.004; Thu, 12 Mar 2020 09:27:32 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH v3 02/10] fw_cfg: Migrate ACPI table mr sizes separately
+Thread-Topic: [PATCH v3 02/10] fw_cfg: Migrate ACPI table mr sizes separately
+Thread-Index: AQHV98nfLQ/oyrUoTECo1X+eD0njY6hD4yyAgADIa/A=
+Date: Thu, 12 Mar 2020 09:27:32 +0000
+Message-ID: <cf6384c5b66a4c9ba37c39a07ec9ed6a@huawei.com>
+References: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
+ <20200311172014.33052-3-shameerali.kolothum.thodi@huawei.com>
+ <20200311170827-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200311170827-mutt-send-email-mst@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.237]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,217 +69,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 128 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 172 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..49d15b3d43
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..5edbadef40 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
--- 
-2.17.0
+> -----Original Message-----
+> From: Michael S. Tsirkin [mailto:mst@redhat.com]
+> Sent: 11 March 2020 21:10
+> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+> eric.auger@redhat.com; imammedo@redhat.com; peter.maydell@linaro.org;
+> shannon.zhaosl@gmail.com; xiaoguangrong.eric@gmail.com;
+> david@redhat.com; xuwei (O) <xuwei5@huawei.com>; lersek@redhat.com;
+> Linuxarm <linuxarm@huawei.com>
+> Subject: Re: [PATCH v3 02/10] fw_cfg: Migrate ACPI table mr sizes separat=
+ely
+>=20
+> On Wed, Mar 11, 2020 at 05:20:06PM +0000, Shameer Kolothum wrote:
+> > Any sub-page size update to ACPI table MRs will be lost during
+> > migration, as we use aligned size in ram_load_precopy() ->
+> > qemu_ram_resize() path. This will result in inconsistency in sizes
+> > between source and destination. In order to avoid this, save and
+> > restore them separately during migration.
+
+
+> Is there a reason this is part of nvdimm patchset?
+
+Not really. But this problem is more visible if we have nvdimm hotplug
+support added to arm/virt. On x86, both acpi table and linker MRs are alrea=
+dy
+aligned and I don't know a use case where you can change RSDP MR size(See b=
+elow).
+
+>
+> Hmm but for old machine types we still have a problem right?
+> How about aligning size on source for them?
+> Then there won't be an inconsistency across migration.
+> Wastes some boot time/memory but maybe that's better
+> than a chance of not booting ...
+
+Right. That was considered. On x86, except RSDP MR, both the LINKER and ACP=
+I
+TABLE MRs are already aligned/padded. And we cannot make RSDP mr aligned
+as it will break the seabios based boot. So a generic solution based on ali=
+gnment=20
+is not possible unless we guarantee that RSDP is not going to be modified.
+
+What we could do for Arm/virt is just follow the x86 way and add padding fo=
+r
+table and linker MRs. But this was discussed before and IIRC, was not well
+received.
+
+Thanks,
+Shameer
+
+> > Suggested-by: David Hildenbrand <david@redhat.com>
+> > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > ---
+> > Please find the discussion here,
+> > https://patchwork.kernel.org/patch/11339591/
+> > ---
+> >  hw/core/machine.c         |  1 +
+> >  hw/nvram/fw_cfg.c         | 86
+> ++++++++++++++++++++++++++++++++++++++-
+> >  include/hw/nvram/fw_cfg.h |  6 +++
+> >  3 files changed, 92 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index 9e8c06036f..6d960bd47f 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -39,6 +39,7 @@ GlobalProperty hw_compat_4_2[] =3D {
+> >      { "usb-redir", "suppress-remote-wake", "off" },
+> >      { "qxl", "revision", "4" },
+> >      { "qxl-vga", "revision", "4" },
+> > +    { "fw_cfg", "acpi-mr-restore", "false" },
+> >  };
+> >  const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
+> >
+> > diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> > index 179b302f01..36d1e32f83 100644
+> > --- a/hw/nvram/fw_cfg.c
+> > +++ b/hw/nvram/fw_cfg.c
+> > @@ -39,6 +39,7 @@
+> >  #include "qemu/config-file.h"
+> >  #include "qemu/cutils.h"
+> >  #include "qapi/error.h"
+> > +#include "hw/acpi/aml-build.h"
+> >
+> >  #define FW_CFG_FILE_SLOTS_DFLT 0x20
+> >
+> > @@ -610,6 +611,50 @@ bool fw_cfg_dma_enabled(void *opaque)
+> >      return s->dma_enabled;
+> >  }
+> >
+> > +static bool fw_cfg_acpi_mr_restore(void *opaque)
+> > +{
+> > +    FWCfgState *s =3D opaque;
+> > +    return s->acpi_mr_restore;
+> > +}
+> > +
+> > +static void fw_cfg_update_mr(FWCfgState *s, uint16_t key, size_t size)
+> > +{
+> > +    MemoryRegion *mr;
+> > +    ram_addr_t offset;
+> > +    int arch =3D !!(key & FW_CFG_ARCH_LOCAL);
+> > +    void *ptr;
+> > +
+> > +    key &=3D FW_CFG_ENTRY_MASK;
+> > +    assert(key < fw_cfg_max_entry(s));
+> > +
+> > +    ptr =3D s->entries[arch][key].data;
+> > +    mr =3D memory_region_from_host(ptr, &offset);
+> > +
+> > +    memory_region_ram_resize(mr, size, &error_abort);
+> > +}
+> > +
+> > +static int fw_cfg_acpi_mr_restore_post_load(void *opaque, int version_=
+id)
+> > +{
+> > +    FWCfgState *s =3D opaque;
+> > +    int i, index;
+> > +
+> > +    assert(s->files);
+> > +
+> > +    index =3D be32_to_cpu(s->files->count);
+> > +
+> > +    for (i =3D 0; i < index; i++) {
+> > +        if (!strcmp(s->files->f[i].name, ACPI_BUILD_TABLE_FILE)) {
+> > +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i,
+> s->table_mr_size);
+> > +        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_LOADER_FILE=
+)) {
+> > +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i,
+> s->linker_mr_size);
+> > +        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_RSDP_FILE))=
+ {
+> > +            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i,
+> s->rsdp_mr_size);
+> > +        }
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> >  static const VMStateDescription vmstate_fw_cfg_dma =3D {
+> >      .name =3D "fw_cfg/dma",
+> >      .needed =3D fw_cfg_dma_enabled,
+> > @@ -619,6 +664,20 @@ static const VMStateDescription
+> vmstate_fw_cfg_dma =3D {
+> >      },
+> >  };
+> >
+> > +static const VMStateDescription vmstate_fw_cfg_acpi_mr =3D {
+> > +    .name =3D "fw_cfg/acpi_mr",
+> > +    .version_id =3D 1,
+> > +    .minimum_version_id =3D 1,
+> > +    .needed =3D fw_cfg_acpi_mr_restore,
+> > +    .post_load =3D fw_cfg_acpi_mr_restore_post_load,
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_UINT64(table_mr_size, FWCfgState),
+> > +        VMSTATE_UINT64(linker_mr_size, FWCfgState),
+> > +        VMSTATE_UINT64(rsdp_mr_size, FWCfgState),
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
+> > +};
+> > +
+> >  static const VMStateDescription vmstate_fw_cfg =3D {
+> >      .name =3D "fw_cfg",
+> >      .version_id =3D 2,
+> > @@ -631,6 +690,7 @@ static const VMStateDescription vmstate_fw_cfg =3D =
+{
+> >      },
+> >      .subsections =3D (const VMStateDescription*[]) {
+> >          &vmstate_fw_cfg_dma,
+> > +        &vmstate_fw_cfg_acpi_mr,
+> >          NULL,
+> >      }
+> >  };
+> > @@ -815,6 +875,23 @@ static struct {
+> >  #define FW_CFG_ORDER_OVERRIDE_LAST 200
+> >  };
+> >
+> > +/*
+> > + * Any sub-page size update to these table MRs will be lost during mig=
+ration,
+> > + * as we use aligned size in ram_load_precopy() -> qemu_ram_resize() p=
+ath.
+> > + * In order to avoid the inconsistency in sizes save them seperately a=
+nd
+> > + * migrate over in vmstate post_load().
+> > + */
+> > +static void fw_cfg_acpi_mr_save(FWCfgState *s, const char *filename,
+> size_t len)
+> > +{
+> > +    if (!strcmp(filename, ACPI_BUILD_TABLE_FILE)) {
+> > +        s->table_mr_size =3D len;
+> > +    } else if (!strcmp(filename, ACPI_BUILD_LOADER_FILE)) {
+> > +        s->linker_mr_size =3D len;
+> > +    } else if (!strcmp(filename, ACPI_BUILD_RSDP_FILE)) {
+> > +        s->rsdp_mr_size =3D len;
+> > +    }
+> > +}
+> > +
+> >  static int get_fw_cfg_order(FWCfgState *s, const char *name)
+> >  {
+> >      int i;
+> > @@ -914,6 +991,7 @@ void fw_cfg_add_file_callback(FWCfgState *s,
+> const char *filename,
+> >      trace_fw_cfg_add_file(s, index, s->files->f[index].name, len);
+> >
+> >      s->files->count =3D cpu_to_be32(count+1);
+> > +    fw_cfg_acpi_mr_save(s, filename, len);
+> >  }
+> >
+> >  void fw_cfg_add_file(FWCfgState *s,  const char *filename,
+> > @@ -937,6 +1015,7 @@ void *fw_cfg_modify_file(FWCfgState *s, const char
+> *filename,
+> >              ptr =3D fw_cfg_modify_bytes_read(s, FW_CFG_FILE_FIRST + i,
+> >                                             data, len);
+> >              s->files->f[i].size   =3D cpu_to_be32(len);
+> > +            fw_cfg_acpi_mr_save(s, filename, len);
+> >              return ptr;
+> >          }
+> >      }
+> > @@ -973,7 +1052,10 @@ static void fw_cfg_machine_ready(struct Notifier
+> *n, void *data)
+> >      qemu_register_reset(fw_cfg_machine_reset, s);
+> >  }
+> >
+> > -
+> > +static Property fw_cfg_properties[] =3D {
+> > +    DEFINE_PROP_BOOL("acpi-mr-restore", FWCfgState, acpi_mr_restore,
+> true),
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> >
+> >  static void fw_cfg_common_realize(DeviceState *dev, Error **errp)
+> >  {
+> > @@ -1097,6 +1179,8 @@ static void fw_cfg_class_init(ObjectClass *klass,
+> void *data)
+> >
+> >      dc->reset =3D fw_cfg_reset;
+> >      dc->vmsd =3D &vmstate_fw_cfg;
+> > +
+> > +    device_class_set_props(dc, fw_cfg_properties);
+> >  }
+> >
+> >  static const TypeInfo fw_cfg_info =3D {
+> > diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+> > index b5291eefad..457fee7425 100644
+> > --- a/include/hw/nvram/fw_cfg.h
+> > +++ b/include/hw/nvram/fw_cfg.h
+> > @@ -53,6 +53,12 @@ struct FWCfgState {
+> >      dma_addr_t dma_addr;
+> >      AddressSpace *dma_as;
+> >      MemoryRegion dma_iomem;
+> > +
+> > +    /* restore during migration */
+> > +    bool acpi_mr_restore;
+> > +    size_t table_mr_size;
+> > +    size_t linker_mr_size;
+> > +    size_t rsdp_mr_size;
+> >  };
+> >
+> >  struct FWCfgIoState {
+> > --
+> > 2.17.1
+> >
 
 
