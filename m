@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3852818367F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:46:48 +0100 (CET)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A376183688
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:48:51 +0100 (CET)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQyt-0001hj-9A
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35579)
+	id 1jCR0s-0005dc-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxK-0008AW-Mu
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxL-0008D8-Un
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxJ-00050v-7o
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:10 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34654)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxK-00051L-Fu
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:11 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37614)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQxJ-00050h-0o
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:09 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id z15so8380777wrl.1
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:08 -0700 (PDT)
+ id 1jCQxK-000514-9E
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:10 -0400
+Received: by mail-wr1-x431.google.com with SMTP id 6so8367864wre.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4S8wIrHJy8qFtt3EBjVlgr+BtDAqyjEFLwh2HjaLWUk=;
- b=yZzLQwPSkh5fUXqef84ZglQW0gYEmofXpniD+fsrAcbbjTENf5iD9cKfZZsbi7/TZB
- 8QHalJrbYJLILmw1Mk/LGa0ER5vehaUtuzFnnH16bc20fKyVn7Ya+dmBSKhYySOyMYFG
- nt+5b8cIFxmwLa9+cwDWE0ldRiS/1WGsfarnBvIDZwTVEq1/m0Qfvmq/dYoY1oQ4/XGA
- u6IZ/DHqJ+z5ZWphQitxzFlOAzXGZRKPyIjz3cD+ReX2rLleFgNECZuEMpYupFFTR4wG
- hoXGEvhJcQum/4+OP31F4TaY3KqPCAkkfVEITscTFvxTwvyodbZ+GM3j0qkNrFy+ihlp
- PfSw==
+ bh=/PWbtf8pRZrw4wwB/2VhUgWYgstVtgiipMKB/g1At8o=;
+ b=wTUQYuIsqAntuMi3uFoT0i1uV16vdE67N+C7rFUP0l5Inb/a7EEdVX/uLQp3YOZU9M
+ 2BlDpMIR6Y+jW27o0bOzeXL9N2vMzHIA/L3iyKEJDtl6ywKsFXKEIaoOlKxnkSY6QENi
+ K57dCfYxP4Exbz6Ize/BZhKVa8D6OodJ0VDExq0D30ehooxIvA6afBx7ffq/zVNpvsBt
+ e9WBkiUi72ECFYXZDyragU1ObPMVGpgvohLnHUNFGxW4w8v0Jg+a4UMk1b8gqLoGFnU4
+ hZYx/CecBnFFDX4QM6tcndCAnHb+jreBUaAMUkVdCAlJhea88RxgNfdMoKszkDSd5K/G
+ PGjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4S8wIrHJy8qFtt3EBjVlgr+BtDAqyjEFLwh2HjaLWUk=;
- b=cLB/0VRXXIk7rhM2bLUZ1CeSkoiIvjO70uCvzaN1IEXWawepsrdGsdWzNtp0CPBOII
- BVB6N/FBrYKNxn4hh7rFGAcCmeRanRpzHWr4Hojktb+oSNiPAg0t2GmJHjMcWXEpOz0J
- lXBN3vV0uoSRlwU1VL1eGa/O4tlmW3ebNQkcrm3in7HoAZR6Z3a4r5aIWDhL7iXmAdD9
- gntZCGWbwNgKrvLgpO8FlJi1RpTyXGvgyHVF7Dzg5I9nTYBSRtHMHDi27P4LoGRdIglk
- PY9S24aQf33rSDyqkb2kh2unqMH+jIYzy9reoXTxJ06hhIW/34waQZEfumfaUU0MWqm1
- VBZg==
-X-Gm-Message-State: ANhLgQ0PJJIv5iDx9dNImnza+n0LRQgdeFN2Vp9s80Si9GvG8HSHdYxe
- YlTykyZd94wpNfQLrm+BjJ0Fs/rSEw7CzQ==
-X-Google-Smtp-Source: ADFU+vv+s6BEVEREgmwT6zlKZl3Pa8RkSXkc9spD+YN1kN8yoT4+W2YAEoKPuDKoj6rfN4gWtJidqQ==
-X-Received: by 2002:adf:f0c6:: with SMTP id x6mr11602750wro.273.1584031507673; 
- Thu, 12 Mar 2020 09:45:07 -0700 (PDT)
+ bh=/PWbtf8pRZrw4wwB/2VhUgWYgstVtgiipMKB/g1At8o=;
+ b=JNmasdyKK/xuZ/CjlIWUdmX0qKVx7HapUmNVUAw/c2wvDDMF5SFu4KHtdrJ43tnu2s
+ 2ZmAGFgPcTI7D6c06sQnzGCUgqdkDZdHPHpCfSdqjaJCk2dU0K+AAlMJSpFVDizn4/jw
+ lJB+GhN5hnVdEW/BgHGbKpg2oOL3V966AjfGnLZQe9uSK0rNw4faCdKn9UsiZti1g7Oh
+ +kMH2Elc80SRK3ziDDEr3pYN2foRM2lx5NaarHCIBz6gX3LLM3X8eBcgKIJj2dhNIpU0
+ pddxwxFw7w0W4+++upEoRqnLyLH1RIRzXc7m17rToFW/Xwyu9911EiLzhBEar3dhRvSo
+ fBIg==
+X-Gm-Message-State: ANhLgQ3uZ4uw/f0YOhZI1mlCWVhaNylmoAcceimnRXl8gmQdQVoMIkn0
+ eWWqUc0xMqrJVA2JOVV/XT1624Hh4g0f7g==
+X-Google-Smtp-Source: ADFU+vtiCaUOGSg9m15kyJ+XTSoCxa5v8TsSGZTe7ivRcoGHE9U+DnjPSp2fRMj7cH5gNQf4vtvwfg==
+X-Received: by 2002:adf:b19d:: with SMTP id q29mr11745218wra.211.1584031508962; 
+ Thu, 12 Mar 2020 09:45:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.06
+ by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 09:45:07 -0700 (PDT)
+ Thu, 12 Mar 2020 09:45:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/36] aspeed/smc: Add some tracing
-Date: Thu, 12 Mar 2020 16:44:28 +0000
-Message-Id: <20200312164459.25924-6-peter.maydell@linaro.org>
+Subject: [PULL 06/36] aspeed/smc: Fix User mode select/unselect scheme
+Date: Thu, 12 Mar 2020 16:44:29 +0000
+Message-Id: <20200312164459.25924-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312164459.25924-1-peter.maydell@linaro.org>
 References: <20200312164459.25924-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,123 +84,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
+The Aspeed SMC Controller can operate in different modes : Read, Fast
+Read, Write and User modes. When the User mode is configured, it
+selects automatically the SPI slave device until the CE_STOP_ACTIVE
+bit is set to 1. When any other modes are configured the device is
+unselected. The HW logic handles the chip select automatically when
+the flash is accessed through its AHB window.
+
+When configuring the CEx Control Register, the User mode logic to
+select and unselect the slave is incorrect and data corruption can be
+seen on machines using two chips, witherspoon and romulus.
+
+Rework the handler setting the CEx Control Register to fix this issue.
+
+Fixes: 7c1c69bca43c ("ast2400: add SMC controllers (FMC and SPI)")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200206112645.21275-2-clg@kaod.org
+Message-id: 20200206112645.21275-3-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- Makefile.objs       |  1 +
- hw/ssi/aspeed_smc.c | 17 +++++++++++++++++
- hw/ssi/trace-events |  9 +++++++++
- 3 files changed, 27 insertions(+)
- create mode 100644 hw/ssi/trace-events
+ hw/ssi/aspeed_smc.c | 39 +++++++++++++++++++++++----------------
+ hw/ssi/trace-events |  1 +
+ 2 files changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 40d3a1696cb..a7c967633ac 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -175,6 +175,7 @@ trace-events-subdirs += hw/scsi
- trace-events-subdirs += hw/sd
- trace-events-subdirs += hw/sparc
- trace-events-subdirs += hw/sparc64
-+trace-events-subdirs += hw/ssi
- trace-events-subdirs += hw/timer
- trace-events-subdirs += hw/tpm
- trace-events-subdirs += hw/usb
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 23c8d2f0624..e5621bf728c 100644
+index e5621bf728c..32be2a02b0e 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -31,6 +31,7 @@
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- #include "qemu/units.h"
-+#include "trace.h"
- 
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-@@ -513,6 +514,8 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
- 
-     s->ctrl->reg_to_segment(s, new, &seg);
- 
-+    trace_aspeed_smc_flash_set_segment(cs, new, seg.addr, seg.addr + seg.size);
-+
-     /* The start address of CS0 is read-only */
-     if (cs == 0 && seg.addr != s->ctrl->flash_window_base) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -753,6 +756,8 @@ static uint64_t aspeed_smc_flash_read(void *opaque, hwaddr addr, unsigned size)
-                       __func__, aspeed_smc_flash_mode(fl));
+@@ -639,27 +639,23 @@ static inline int aspeed_smc_flash_is_4byte(const AspeedSMCFlash *fl)
      }
- 
-+    trace_aspeed_smc_flash_read(fl->id, addr, size, ret,
-+                                aspeed_smc_flash_mode(fl));
-     return ret;
  }
  
-@@ -808,6 +813,9 @@ static bool aspeed_smc_do_snoop(AspeedSMCFlash *fl,  uint64_t data,
+-static inline bool aspeed_smc_is_ce_stop_active(const AspeedSMCFlash *fl)
++static void aspeed_smc_flash_do_select(AspeedSMCFlash *fl, bool unselect)
+ {
+-    const AspeedSMCState *s = fl->controller;
++    AspeedSMCState *s = fl->controller;
+ 
+-    return s->regs[s->r_ctrl0 + fl->id] & CTRL_CE_STOP_ACTIVE;
++    trace_aspeed_smc_flash_select(fl->id, unselect ? "un" : "");
++
++    qemu_set_irq(s->cs_lines[fl->id], unselect);
+ }
+ 
+ static void aspeed_smc_flash_select(AspeedSMCFlash *fl)
+ {
+-    AspeedSMCState *s = fl->controller;
+-
+-    s->regs[s->r_ctrl0 + fl->id] &= ~CTRL_CE_STOP_ACTIVE;
+-    qemu_set_irq(s->cs_lines[fl->id], aspeed_smc_is_ce_stop_active(fl));
++    aspeed_smc_flash_do_select(fl, false);
+ }
+ 
+ static void aspeed_smc_flash_unselect(AspeedSMCFlash *fl)
+ {
+-    AspeedSMCState *s = fl->controller;
+-
+-    s->regs[s->r_ctrl0 + fl->id] |= CTRL_CE_STOP_ACTIVE;
+-    qemu_set_irq(s->cs_lines[fl->id], aspeed_smc_is_ce_stop_active(fl));
++    aspeed_smc_flash_do_select(fl, true);
+ }
+ 
+ static uint32_t aspeed_smc_check_segment_addr(const AspeedSMCFlash *fl,
+@@ -911,13 +907,25 @@ static const MemoryRegionOps aspeed_smc_flash_ops = {
+     },
+ };
+ 
+-static void aspeed_smc_flash_update_cs(AspeedSMCFlash *fl)
++static void aspeed_smc_flash_update_ctrl(AspeedSMCFlash *fl, uint32_t value)
+ {
      AspeedSMCState *s = fl->controller;
-     uint8_t addr_width = aspeed_smc_flash_is_4byte(fl) ? 4 : 3;
++    bool unselect;
  
-+    trace_aspeed_smc_do_snoop(fl->id, s->snoop_index, s->snoop_dummies,
-+                              (uint8_t) data & 0xff);
+-    s->snoop_index = aspeed_smc_is_ce_stop_active(fl) ? SNOOP_OFF : SNOOP_START;
++    /* User mode selects the CS, other modes unselect */
++    unselect = (value & CTRL_CMD_MODE_MASK) != CTRL_USERMODE;
+ 
+-    qemu_set_irq(s->cs_lines[fl->id], aspeed_smc_is_ce_stop_active(fl));
++    /* A change of CTRL_CE_STOP_ACTIVE from 0 to 1, unselects the CS */
++    if (!(s->regs[s->r_ctrl0 + fl->id] & CTRL_CE_STOP_ACTIVE) &&
++        value & CTRL_CE_STOP_ACTIVE) {
++        unselect = true;
++    }
 +
-     if (s->snoop_index == SNOOP_OFF) {
-         return false; /* Do nothing */
- 
-@@ -858,6 +866,9 @@ static void aspeed_smc_flash_write(void *opaque, hwaddr addr, uint64_t data,
-     AspeedSMCState *s = fl->controller;
-     int i;
- 
-+    trace_aspeed_smc_flash_write(fl->id, addr, size, data,
-+                                 aspeed_smc_flash_mode(fl));
++    s->regs[s->r_ctrl0 + fl->id] = value;
 +
-     if (!aspeed_smc_is_writable(fl)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: flash is not writable at 0x%"
-                       HWADDR_PRIx "\n", __func__, addr);
-@@ -972,6 +983,9 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr addr, unsigned int size)
-         (s->ctrl->has_dma && addr == R_DMA_CHECKSUM) ||
-         (addr >= R_SEG_ADDR0 && addr < R_SEG_ADDR0 + s->ctrl->max_slaves) ||
-         (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + s->ctrl->max_slaves)) {
++    s->snoop_index = unselect ? SNOOP_OFF : SNOOP_START;
 +
-+        trace_aspeed_smc_read(addr, size, s->regs[addr]);
-+
-         return s->regs[addr];
-     } else {
-         qemu_log_mask(LOG_UNIMP, "%s: not implemented: 0x%" HWADDR_PRIx "\n",
-@@ -1091,6 +1105,7 @@ static void aspeed_smc_dma_checksum(AspeedSMCState *s)
-                           __func__, s->regs[R_DMA_FLASH_ADDR]);
-             return;
-         }
-+        trace_aspeed_smc_dma_checksum(s->regs[R_DMA_FLASH_ADDR], data);
++    aspeed_smc_flash_do_select(fl, unselect);
+ }
  
-         /*
-          * When the DMA is on-going, the DMA registers are updated
-@@ -1225,6 +1240,8 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
- 
-     addr >>= 2;
- 
-+    trace_aspeed_smc_write(addr, size, data);
-+
-     if (addr == s->r_conf ||
-         (addr >= s->r_timings &&
-          addr < s->r_timings + s->ctrl->nregs_timings) ||
+ static void aspeed_smc_reset(DeviceState *d)
+@@ -1249,8 +1257,7 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
+         s->regs[addr] = value;
+     } else if (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + s->num_cs) {
+         int cs = addr - s->r_ctrl0;
+-        s->regs[addr] = value;
+-        aspeed_smc_flash_update_cs(&s->flashes[cs]);
++        aspeed_smc_flash_update_ctrl(&s->flashes[cs], value);
+     } else if (addr >= R_SEG_ADDR0 &&
+                addr < R_SEG_ADDR0 + s->ctrl->max_slaves) {
+         int cs = addr - R_SEG_ADDR0;
 diff --git a/hw/ssi/trace-events b/hw/ssi/trace-events
-new file mode 100644
-index 00000000000..ffe531a500a
---- /dev/null
+index ffe531a500a..0a70629801a 100644
+--- a/hw/ssi/trace-events
 +++ b/hw/ssi/trace-events
-@@ -0,0 +1,9 @@
-+# aspeed_smc.c
-+
-+aspeed_smc_flash_set_segment(int cs, uint64_t reg, uint64_t start, uint64_t end) "CS%d segreg=0x%"PRIx64" [ 0x%"PRIx64" - 0x%"PRIx64" ]"
-+aspeed_smc_flash_read(int cs, uint64_t addr,  uint32_t size, uint64_t data, int mode) "CS%d @0x%" PRIx64 " size %u: 0x%" PRIx64" mode:%d"
-+aspeed_smc_do_snoop(int cs, int index, int dummies, int data) "CS%d index:0x%x dummies:%d data:0x%x"
-+aspeed_smc_flash_write(int cs, uint64_t addr,  uint32_t size, uint64_t data, int mode) "CS%d @0x%" PRIx64 " size %u: 0x%" PRIx64" mode:%d"
-+aspeed_smc_read(uint64_t addr,  uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
-+aspeed_smc_dma_checksum(uint32_t addr, uint32_t data) "0x%08x: 0x%08x"
-+aspeed_smc_write(uint64_t addr,  uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
+@@ -7,3 +7,4 @@ aspeed_smc_flash_write(int cs, uint64_t addr,  uint32_t size, uint64_t data, int
+ aspeed_smc_read(uint64_t addr,  uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
+ aspeed_smc_dma_checksum(uint32_t addr, uint32_t data) "0x%08x: 0x%08x"
+ aspeed_smc_write(uint64_t addr,  uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
++aspeed_smc_flash_select(int cs, const char *prefix) "CS%d %sselect"
 -- 
 2.20.1
 
