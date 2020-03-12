@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362901830B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 13:57:36 +0100 (CET)
-Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A91F1830BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 13:59:18 +0100 (CET)
+Received: from localhost ([::1]:41034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCNP5-0001Sz-8S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 08:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46436)
+	id 1jCNQi-0003zu-5f
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 08:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jCNNs-00007v-IW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:21 -0400
+ (envelope-from <jandryuk@gmail.com>) id 1jCNNz-0000Md-2v
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jCNNr-0006yd-Eb
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:20 -0400
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:40836)
+ (envelope-from <jandryuk@gmail.com>) id 1jCNNy-000728-5J
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:26 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:33713)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jCNNr-0006yQ-AX
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:19 -0400
-Received: by mail-qv1-xf41.google.com with SMTP id u17so2513065qvv.7
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:56:19 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jCNNy-00071v-1W
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 08:56:26 -0400
+Received: by mail-qk1-x741.google.com with SMTP id p62so5938039qkb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 05:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4z9fu4xftoAJXpbaT1HbZZon3sBmsuESzWRYay2EczM=;
- b=rqPFAbpujbuqIWfV0t/8pk2q2TiJNsEPYy5iFs/3l0DX9ja66X7vVAb7ILOLm9aEbx
- 9X9Cb6k7qJ1fROdhm+HRqNuu/AlmOgQmEh6NGAuaZrjNYAEWUYjBwAHIzgSynn9EAzMx
- THXIazwrOvUUSGQKoPnFkasIh5UxFJoI/fPm/zjZcnSe/HQ/CzBUoP3iEPfHu3clGQ1t
- cGMeig9s5SVgE6RA2vxBSznkxlebr3PXEA3h4oisokTarv6HzqhV1xfkvEG8CAUGfdwV
- lclUMqRaKQx07/uVSxK+Fyk2ngrjlg4132TMcuCyPQPH9U0D6MHye7yDKWEdwUcMVGML
- knyQ==
+ bh=UG4m6nBY/x3HnWJceuhcnmoPek0jkN3T0AxBQPCCNJM=;
+ b=unYkWqbGENx7v41jlgwEIRmjv9vnQwnTcK4ladC9SrgfjhuL+j+Kslv1n5JihcBJts
+ OWXPPFF8F503nlDUMLxewYMaxDE58Af/bsBA0WO3OiOKPnK2KJ4lso6aIN/jkp9ZvzJe
+ Fruca1m6xTk7BTw0wKqvxPx4ZNo+VNIFHdE0n+JN8DVq2+mG1lh9xmMTBlMSXY3qOfwB
+ LaD5PHvi+rjv3oB8hA+N53s/yE9ib+34WGLwMLa7CNEbqexwxoGwBYVvcktm2EDptYTM
+ hPkKT++zzlJW1JCmrXU2+qeQ2uYzQOnTQg/jadnz+594SVaAar4KTRw17GjMny4+5zz8
+ PW6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4z9fu4xftoAJXpbaT1HbZZon3sBmsuESzWRYay2EczM=;
- b=PWSAReilF1BW9AzJ5CPdZg0XEwumnCKp9cMZWa7Ix9HvV5pint9ZEPeKP4jKXbR6n1
- IOli0qtrFdu8nBvs2QVCdkmTACRpqdGRAVrZZQAKXj/AcD+HAWl7etWW3MH/I+Kv0oP1
- OqDQ2vguECps4wkwhWQUPu22r2txbPdRJap7nQ5VApC5k66v3xkJRSrBRSQ99R6l8Q6w
- Zdxg+KN6o9zHwyt28Xsmr8N7ABZ3IAKAUHVSmLwDbLLWcsR9DF6s2uMa/P8U5VR1imrE
- x7L6iixfbkHLEJDI61sz/JGrTHfTZGgmvNYvxx57btGmfJZMgXObLbQe3ezSdU79j8cs
- LmYQ==
-X-Gm-Message-State: ANhLgQ1TWqTc/IOLNalWpVUcWZe7T6MVvGzN1QkblS2cuCT6OqkO37Yb
- nY6YDNYPrYWdvzfZEm0YHQA=
-X-Google-Smtp-Source: ADFU+vtjOgVbtAYoWDePx8jh8danVl7zMEXxJJP8City2OKT5rati/En6CzdzN4EwpKTQycwGB4qNw==
-X-Received: by 2002:ad4:4862:: with SMTP id u2mr7249542qvy.67.1584017778757;
- Thu, 12 Mar 2020 05:56:18 -0700 (PDT)
+ bh=UG4m6nBY/x3HnWJceuhcnmoPek0jkN3T0AxBQPCCNJM=;
+ b=uFcT1/fu1Eel9gxVJQOOsK+fC75ze+7ag4oAFa8NUWGWpHBg/mnK1KlhT+y3MiT/i6
+ YYyZbJ+RmvXXwycFKcHZJSNUtnsanvSNge4OMz1CM9PVznw4GzJcnDnCz88SPY0UCmgU
+ L0s+/HqANIWJirFuV2qQEoAUjUZ0xqcSRxQ5L7DiOQnbUlz9Xn0L+1i5Lfn9PjDyGO0v
+ oxvA/d5nTDniKz8r/WHlPdew8WHvoWB9+bZ3wAs4xJ+siFXVbkMwdP99W40hg6tw4Vgf
+ 0OtopSgZJSzFVQZpscaeiiZrmPdhgBTkNnZGo9RaIS6Qi6naGwcn7Ce7yOGyDKTpcszt
+ CIyg==
+X-Gm-Message-State: ANhLgQ1kiRYhDxTu1+qh/2dcd+kl+Z3F2eSpDMq4cloAF6gmGuciGC0X
+ fa4sn2tIzGLsMiHyO6QhByE=
+X-Google-Smtp-Source: ADFU+vtna1WHnqmIguikH2v/QI7VNUzznH+3AWOmsv6ISJAYhfhxKuYj/v4swd8HKvCgj4+GP/AOAQ==
+X-Received: by 2002:a05:620a:1210:: with SMTP id
+ u16mr7511441qkj.493.1584017785554; 
+ Thu, 12 Mar 2020 05:56:25 -0700 (PDT)
 Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:ba27:ebff:fee8:ce27])
  by smtp.gmail.com with ESMTPSA id
- u3sm8001236qkc.4.2020.03.12.05.56.17
+ u3sm8001236qkc.4.2020.03.12.05.56.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 05:56:17 -0700 (PDT)
+ Thu, 12 Mar 2020 05:56:24 -0700 (PDT)
 From: Jason Andryuk <jandryuk@gmail.com>
 To: Gerd Hoffmann <kraxel@redhat.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>
-Subject: [PATCH 2/4] usb-serial: chunk data to wMaxPacketSize
-Date: Thu, 12 Mar 2020 08:55:21 -0400
-Message-Id: <20200312125524.7812-3-jandryuk@gmail.com>
+Subject: [PATCH 3/4] usb-serial: Increase receive buffer to 496
+Date: Thu, 12 Mar 2020 08:55:22 -0400
+Message-Id: <20200312125524.7812-4-jandryuk@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200312125524.7812-1-jandryuk@gmail.com>
 References: <20200312125524.7812-1-jandryuk@gmail.com>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,98 +83,29 @@ Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-usb-serial has issues with xHCI controllers where data is lost in the
-VM.  Inspecting the URBs in the guest, EHCI starts every 64 byte boundary
-(wMaxPacketSize) with a header.  EHCI hands packets into
-usb_serial_token_in() with size 64, so these cannot cross the 64 byte
-boundary.  The xHCI controller has packets of 512 bytes and the usb-serial
-will just write through the 64 byte boundary.  In the guest, this means
-data bytes are interpreted as header, so data bytes don't make it out
-the serial interface.
-
-Re-work usb_serial_token_in to chunk data into 64 byte units - 2 byte
-header and 62 bytes data.  The Linux driver reads wMaxPacketSize to find
-the chunk size, so we match that.
-
-Real hardware was observed to pass in 512 byte URBs (496 bytes data +
-8 * 2 byte headers).  Since usb-serial only buffers 384 bytes of data,
-usb-serial will pass in 6 64 byte blocks and 1 12 byte partial block for
-462 bytes max.
+A FTDI USB adapter on an xHCI controller can send 512 byte USB packets.
+These are 8 * ( 2 bytes header + 62 bytes data).  A 384 byte receive
+buffer is insufficient to fill a 512 byte packet, so bump the receive
+size to 496 ( 512 - 2 * 8 ).
 
 Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
 ---
- hw/usb/dev-serial.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ hw/usb/dev-serial.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 71fa786bd8..96b6c34202 100644
+index 96b6c34202..ef33bcd127 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -360,15 +360,16 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+@@ -29,7 +29,7 @@ do { printf("usb-serial: " fmt , ## __VA_ARGS__); } while (0)
+ #define DPRINTF(fmt, ...) do {} while(0)
+ #endif
  
- static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
- {
--    int first_len, len;
-+    const int max_packet_size = desc_iface0.eps[0].wMaxPacketSize;
-+    int packet_len;
-     uint8_t header[2];
+-#define RECV_BUF 384
++#define RECV_BUF (512 - (2 * 8))
  
--    first_len = RECV_BUF - s->recv_ptr;
--    len = p->iov.size;
--    if (len <= 2) {
-+    packet_len = p->iov.size;
-+    if (packet_len <= 2) {
-         p->status = USB_RET_NAK;
-         return;
-     }
-+
-     header[0] = usb_get_modem_lines(s) | 1;
-     /* We do not have the uart details */
-     /* handle serial break */
-@@ -380,21 +381,31 @@ static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
-     } else {
-         header[1] = 0;
-     }
--    len -= 2;
--    if (len > s->recv_used)
--        len = s->recv_used;
--    if (!len) {
-+
-+    if (!s->recv_used) {
-         p->status = USB_RET_NAK;
-         return;
-     }
--    if (first_len > len)
--        first_len = len;
--    usb_packet_copy(p, header, 2);
--    usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
--    if (len > first_len)
--        usb_packet_copy(p, s->recv_buf, len - first_len);
--    s->recv_used -= len;
--    s->recv_ptr = (s->recv_ptr + len) % RECV_BUF;
-+
-+    while (s->recv_used && packet_len > 2) {
-+        int first_len, len;
-+
-+        len = MIN(packet_len, max_packet_size);
-+        len -= 2;
-+        if (len > s->recv_used)
-+            len = s->recv_used;
-+
-+        first_len = RECV_BUF - s->recv_ptr;
-+        if (first_len > len)
-+            first_len = len;
-+        usb_packet_copy(p, header, 2);
-+        usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
-+        if (len > first_len)
-+            usb_packet_copy(p, s->recv_buf, len - first_len);
-+        s->recv_used -= len;
-+        s->recv_ptr = (s->recv_ptr + len) % RECV_BUF;
-+        packet_len -= len + 2;
-+    }
- 
-     return;
- }
+ /* Commands */
+ #define FTDI_RESET		0
 -- 
 2.24.1
 
