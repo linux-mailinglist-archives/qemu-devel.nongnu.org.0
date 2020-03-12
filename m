@@ -2,59 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB75182680
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 02:11:56 +0100 (CET)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4134182691
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 02:24:45 +0100 (CET)
+Received: from localhost ([::1]:60324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCCOA-0005s3-V3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 21:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
+	id 1jCCab-0003gX-05
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 21:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jCCN7-0005TF-2D
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 21:10:50 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jCCZc-0002gi-2x
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 21:23:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jCCN5-0005ft-SM
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 21:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57678)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jCCN5-0005cU-N5
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 21:10:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jCCN4-0006yZ-Cl
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 01:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5B8A12E80AB
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 01:10:46 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1jCCZa-0006qJ-JR
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 21:23:43 -0400
+Received: from ozlabs.org ([203.11.71.1]:51723)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jCCZZ-0006cr-W6; Wed, 11 Mar 2020 21:23:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48dB1312WMz9sSK; Thu, 12 Mar 2020 12:23:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1583976215;
+ bh=5nq7/1oND4dTdU49mB3nxJfYEDnYchzxfMTwKGKz8KI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eHCgIce513422jEcjPcwgQXtj9ea/esAM2jmTUsbuNuRlzlrp+GOd6dNJNWG8VaE6
+ Jq2o9yJkzwtTNCpOvjuH0OLZ85Hczgwggi1IOwjEOoYwFVf1Lo3Vpda6Ijvu+Bjd+a
+ zMcKe4JonxqMl7MWdF7DUSv7ttDFhYJHy9nWWgsA=
+Date: Thu, 12 Mar 2020 12:08:47 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: Upstream QEMU guest support policy ? Re: [PATCH v3 0/2] spapr:
+ Use vIOMMU translation for virtio by default
+Message-ID: <20200312010847.GA711223@umbus.fritz.box>
+References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ <20200310114343.GD3234052@redhat.com>
+ <20200311011247.GT660117@umbus.fritz.box>
+ <20200311100127.GC3614859@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Mar 2020 00:56:50 -0000
-From: Peter Collingbourne <1867072@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog
-X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
-X-Launchpad-Bug-Modifier: Peter Collingbourne (pcc-goog)
-Message-Id: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
-Subject: [Bug 1867072] [NEW] ARM: tag bits cleared in FAR_EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bef4e9a2def116393da970a54ee58edee835ac43
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+In-Reply-To: <20200311100127.GC3614859@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,55 +58,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
+Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
+ groug@kaod.org, paulus@samba.org, clg@kaod.org, mdroth@us.ibm.com,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-The ARM Architecture Reference Manual provides the following for
-FAR_EL1:
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"For a Data Abort or Watchpoint exception, if address tagging is enabled
-for the address accessed by the data access that caused the exception,
-then this field includes the tag."
+On Wed, Mar 11, 2020 at 10:01:27AM +0000, Daniel P. Berrang=E9 wrote:
+65;5803;1c> On Wed, Mar 11, 2020 at 12:12:47PM +1100, David Gibson wrote:
+> > On Tue, Mar 10, 2020 at 11:43:43AM +0000, Daniel P. Berrang=E9 wrote:
+> > > On Thu, Mar 05, 2020 at 03:30:07PM +1100, David Gibson wrote:
+> > > > Upcoming Secure VM support for pSeries machines introduces some
+> > > > complications for virtio, since the transfer buffers need to be
+> > > > explicitly shared so that the hypervisor can access them.
+> > > >=20
+> > > > While it's not strictly speaking dependent on it, the fact that vir=
+tio
+> > > > devices bypass normal platform IOMMU translation complicates the is=
+sue
+> > > > on the guest side.  Since there are some significan downsides to
+> > > > bypassing the vIOMMU anyway, let's just disable that.
+> > > >=20
+> > > > There's already a flag to do this in virtio, just turn it on by
+> > > > default for forthcoming pseries machine types.
+> > >=20
+> > > Breaking existing guest OS to support a new secure VM feature that
+> > > may not even be used/wanted doesn't seems like a sensible tradeoff
+> > > for default out of the box behaviour.
+> > >=20
+> > > IOW, if Secure VM needs this, can we tie the change in virtio and
+> > > IOMMU defaults to the machine type flag that enables the use of
+> > > Secure VM.
+> >=20
+> > There is no such flag.
+> >=20
+> > In the POWER secure VM model, the secure mode option isn't something
+> > that's constructed in when the hypervisor builds the VM.  Instead the
+> > VM is started normally and transitions itself to secure mode by
+> > talking directly with the ultravisor (it then uses TPM shenannigans to
+> > safely get the keys to its real storage backend(s)).
+>=20
+> This is pretty suprising to me. The ability to use secure VM mode surely
+> depends on host hardware features. We would need to be able to block the
+> use of this, in order to allow VMs to be live migrated to hosts which
+> lack the feature. Automatically & silently enabling a feature that
+> has a hardware dependancy is something we aim to avoid, unless the user
+> has opted in via some flag (such as -cpu host, or a -cpu $NAME, that
+> implies the feature).
 
-However, I have found that the tag bits in FAR_EL1 are always clear,
-even if the tag bits were set in the original access.
+That is an excellent point, which I had not previously considered.
 
-I can reproduce the problem on both 4.1.1 and master
-(6e8a73e911f066527e775e04b98f31ebd19db600).
+I have confirmed that there is indeed not, at present, a way to
+disable the secure transition.  But, it looks like it's not too late
+to fix it.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+I've discussed with Paul Mackerras, and early in the secure transition
+apparently the UV makes a call to the HV, which is allowed to fail.
 
--- =
+So, we're looking at adding another KVM capability for secure mode.
+It will default to disabled, and until it is explicitly enabled, KVM
+will always fail that call from the UV, effectively preventing guests
+=66rom going into secure mode.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867072
+We can then wire that up to a new spapr cap in qemu, which we can also
+use to configure these virtio defaults.
 
-Title:
-  ARM: tag bits cleared in FAR_EL1
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Status in QEMU:
-  New
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Bug description:
-  The ARM Architecture Reference Manual provides the following for
-  FAR_EL1:
+-----BEGIN PGP SIGNATURE-----
 
-  "For a Data Abort or Watchpoint exception, if address tagging is
-  enabled for the address accessed by the data access that caused the
-  exception, then this field includes the tag."
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5pi5wACgkQbDjKyiDZ
+s5JYIQ//aRwD2Eyb6E2lUJlADogtMj4XuIK39l1Pf0RPgPoU0J84CrDVT3qvwa/R
+mVU/ddVxerC/gIiDAbFOIxLhTORGmEKtYvA0Ywin3GnI8F873bcXATQQEqeg5cVA
+f79moOYvDg2/UyyamSA6pB3zWAoFeftPF3KPeWLCCtqQsIen/0cxznVcgZohVWKc
+N8R3OfygWbN4bkgv/dOII8nHHGmRv/3GtK8W6foGwMuvslG8Gft5AnhW6pH93Cmh
+frCCzqklKraNr6tXau//3+xdIhRrOoCZ258VEpCo11n6ykbyREjYBQAbIYd2H5PG
+aoIJKSOvvX4g+0n4ouq9c+BYqcJp+tBd+SF2xUAPbXQx27VWy7E9qGL55Z30tzCQ
+GB/5mg89U/g4AuWJbNhaPvH0k2blhdWyEy3Ax8S8T7K/20W0ETTz5DSp08CTZsLr
+1KKWiRUUDJs4wu/Rpef1ADPXZ3Pa8wLQgZtj5IogM/Zk9kfXXO1Js+Czix0YyMQv
+rYk8ykipqvUQ/TCS03nZChHYr+a4IDk/4rxJdeRNH9698IVCMYTHVVoAPOLWc1pR
+X5i/mzfR+8w37YKPlNe5bo2Qt9hN3PkSG4hUMuhGwOOPx324NhMxearbZ2NAjqln
+C7CVZKuPDUbq5fboKtOXD/tZAMe6aoXaVeUBQ/q4iXmq36/q8K4=
+=fA/X
+-----END PGP SIGNATURE-----
 
-  However, I have found that the tag bits in FAR_EL1 are always clear,
-  even if the tag bits were set in the original access.
-
-  I can reproduce the problem on both 4.1.1 and master
-  (6e8a73e911f066527e775e04b98f31ebd19db600).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
+--M9NhX3UHpAaciwkO--
 
