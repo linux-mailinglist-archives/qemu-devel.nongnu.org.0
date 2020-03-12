@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868A7182F82
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:45:48 +0100 (CET)
-Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214AF182F8D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 12:47:31 +0100 (CET)
+Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCMHb-00056O-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1jCMJG-0000Mm-6l
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 07:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG8-0003RQ-1S
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMG9-0003SU-1y
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCMG6-00020T-T9
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:15 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45696)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCMG8-00021Y-0i
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:16 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51085)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCMG6-0001zv-NA
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:14 -0400
-Received: by mail-wr1-x434.google.com with SMTP id m9so6988913wro.12
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:14 -0700 (PDT)
+ id 1jCMG7-00020n-Q0
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 07:44:15 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id a5so5753183wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 04:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Wtsv78F6mJieh5xJc3TypPpJyRz/ixRbYU95r889w4Y=;
- b=g2Qvk9XjcN9D9eamrJWm8nqNgyt7qRkO004yCndHWA2Tmb5s6gpBnw3ab1Up/+yt5J
- zffp5WX8PTCaM3CXhFlvAxiQoMOrfT8LvV/bo2vAd7ntAJiDU5f8zAaP/BQnR1soF8dU
- 8UIyYxVNMoFTvBgO9TccdMaow9owMuAgY8pfnnxWOMMswOKwXhlCe0JRGhAk0qisZ1+M
- 4ZMAXwuDyQDyyPkMTGgOeJv4SKCOEfWf+Wp/Z4PFzwC6FfePaOkSwAmh+BUql0iN85DL
- X+OAssAdR5NSJsgfNKdzIrEs3dZHkol7m3cT9h4AzogpDXSLyBEzF2Qps+phFOGuDG9V
- bXZQ==
+ bh=S3FP1kpG0+CD0HY1IFdcDdgzt4hFOb8Y8vdpTW5pwMc=;
+ b=XJnPgQGY04SzJe3OclZjoaTdZop/gDTkE2udHAhXaBBkgEHTsrZ6SDUsx2HfVh/O57
+ kjpCkJMK6FX/hhCdBhWetPwYLf1fRDIjYDdmWWbPj4Cr2u5pd44lXWfviLW2Vo0P5FU4
+ HZdXiP2w1GX1FiwQwjgyMvNwn/oTrcmRZ0/cCyPjzZmPHiAa22QLvGoG2Nd4TCrXH96w
+ BGJTGVcPEB/ErmK8mlW0XXwk7jRgn9Nin0sz/UtqMu53K27XELQZh+MIVGVTLYeSnk3T
+ XiAyXEDE6oRR1XYOKbgC2JSCDFPG9VmpR7TrST85Y6tZPh7hfMlPV2+tberWNetkdvKS
+ u2/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wtsv78F6mJieh5xJc3TypPpJyRz/ixRbYU95r889w4Y=;
- b=BZE56fD06kouuzXhWJiFVheClgJvCXmQ0+pWm9jdhVkKDZsO15AFQP+4IrbW247u+6
- JtOig/dK6I+Kpaw3Ezid6gUn9MhUud4bUCdAaZO6N3Pp7CfKr+VwB0WiW4cvZB61d+Ga
- RTnZGGjpGMLKHeDV8FoJtpfeODsUGzm4UaeLfUgBlslbMFrKLkUwUzZhGryFn4qZIgjj
- 1CGpCMyCbdgWkR+PR4MEDYbtNwXV3n+beFKlDLXcV+QJCKfoPE/J0rxaJG+77hq7moPG
- 69FAPlQV1yVcldBahPodmuSzVicPpd1HVHDfYgj7Ycf6SEIUvEiDfjS1Gx/U17GgoU0r
- sSWA==
-X-Gm-Message-State: ANhLgQ3nS/FQ0m5Mmggre9pnnXlW3BejR+J1emjsQqUrs3Phxy0vMQoE
- 5rssnyrCE3cub4tuqbzt2zLiURIG/5otxQ==
-X-Google-Smtp-Source: ADFU+vsHOULlPTrhQ4uXnyz49FYMK7afZcGMp+6FEWX/hIasJG6KhhtYMxDmooLAhCqFRe3y6fe1Ew==
-X-Received: by 2002:adf:f089:: with SMTP id n9mr10639715wro.395.1584013453402; 
- Thu, 12 Mar 2020 04:44:13 -0700 (PDT)
+ bh=S3FP1kpG0+CD0HY1IFdcDdgzt4hFOb8Y8vdpTW5pwMc=;
+ b=mNmY8ZD0FpTOIkZ7+9K+YDlHHs/XzneYlYjd6zBy2diNOoaTTj4WGYQaquVxLOPtVj
+ IWeNTzmjpqIBmMSyqK9/JlrL6bnoHWrqrqIayOLtIIBsbzhMq+mjKA4N5zJ9VfRWQ/NB
+ nWxsQT3pC+oKi3fh0u9RIgU13f329z7EVcMJJwijEpaLkbnuG5xuxUkdjyzVfw2OK1kn
+ OR9f42OvgCUUtFcFHWvrpE3Fys0UHE6fmz278/FldytgH4AbgspVTA8fFlh5c0siX0Ag
+ LVgWSpmJb8GELeVtvsCCuFAVFcgQnaLfhaFGcABLxYCcNGEM988w/oKJ4gjycL8ZwbUN
+ b8jQ==
+X-Gm-Message-State: ANhLgQ3nqSgwxDT5geo/EjLiJHdyN/eNvPpxofAow7mjErqh5BVCCuFk
+ MUXw5avcHVRJiyQpRBrbRUZryPUQZ8NZWg==
+X-Google-Smtp-Source: ADFU+vtPlMOeJMi6VA2y0icJWvyj6HqY0KkXjC0W4oDzpW5CYObZ5Xc5cbVohuy+uUSIbXn3mXJGoQ==
+X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr4746086wmc.52.1584013454353; 
+ Thu, 12 Mar 2020 04:44:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.12
+ by smtp.gmail.com with ESMTPSA id p16sm2688564wmg.22.2020.03.12.04.44.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 04:44:12 -0700 (PDT)
+ Thu, 12 Mar 2020 04:44:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] Update comments in .hx files that mention Texinfo
-Date: Thu, 12 Mar 2020 11:43:58 +0000
-Message-Id: <20200312114408.16891-3-peter.maydell@linaro.org>
+Subject: [PULL 03/12] hxtool: Remove Texinfo generation support
+Date: Thu, 12 Mar 2020 11:43:59 +0000
+Message-Id: <20200312114408.16891-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312114408.16891-1-peter.maydell@linaro.org>
 References: <20200312114408.16891-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,73 +81,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the header comments in .hx files that mention STEXI/ETEXI
-markup; this is now SRST/ERST as all these files have been
-converted to rST.
+All the STEXI/ETEXI blocks and the Makfile rules that use them have now
+been removed from the codebase. We can remove the code from the hxtool
+script which handles the STEXI/ETEXI directives and the '-t' option.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200306171749.10756-3-peter.maydell@linaro.org
+Message-id: 20200306171749.10756-4-peter.maydell@linaro.org
 ---
- hmp-commands-info.hx | 8 ++++----
- hmp-commands.hx      | 8 ++++----
- qemu-options.hx      | 8 ++++----
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ scripts/hxtool | 78 +-------------------------------------------------
+ 1 file changed, 1 insertion(+), 77 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 499d6d54b01..ca5198438de 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -1,9 +1,9 @@
--HXCOMM Use DEFHEADING() to define headings in both help text and texi
--HXCOMM Text between STEXI and ETEXI are copied to texi version and
--HXCOMM discarded from C version
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST.
-+HXCOMM Text between SRST and ERST is copied to the rST version and
-+HXCOMM discarded from C version.
- HXCOMM DEF(command, args, callback, arg_string, help) is used to construct
- HXCOMM monitor info commands
--HXCOMM HXCOMM can be used for comments, discarded from both texi and C
-+HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
- HXCOMM
- HXCOMM In this file, generally SRST fragments should have two extra
- HXCOMM spaces of indent, so that the documentation list item for "info foo"
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index f12263e071f..7f0f3974ad9 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1,9 +1,9 @@
--HXCOMM Use DEFHEADING() to define headings in both help text and texi
--HXCOMM Text between STEXI and ETEXI are copied to texi version and
--HXCOMM discarded from C version
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST.
-+HXCOMM Text between SRST and ERST is copied to the rST version and
-+HXCOMM discarded from C version.
- HXCOMM DEF(command, args, callback, arg_string, help) is used to construct
- HXCOMM monitor commands
--HXCOMM HXCOMM can be used for comments, discarded from both texi and C
-+HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
+diff --git a/scripts/hxtool b/scripts/hxtool
+index 0003e7b673d..7b1452f3cf1 100644
+--- a/scripts/hxtool
++++ b/scripts/hxtool
+@@ -7,7 +7,7 @@ hxtoh()
+         case $str in
+             HXCOMM*)
+             ;;
+-            STEXI*|ETEXI*|SRST*|ERST*) flag=$(($flag^1))
++            SRST*|ERST*) flag=$(($flag^1))
+             ;;
+             *)
+             test $flag -eq 1 && printf "%s\n" "$str"
+@@ -16,84 +16,8 @@ hxtoh()
+     done
+ }
  
- 
-     {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index f9fefd43be9..1d8f852d896 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1,10 +1,10 @@
--HXCOMM Use DEFHEADING() to define headings in both help text and texi
--HXCOMM Text between STEXI and ETEXI are copied to texi version and
--HXCOMM discarded from C version
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST.
-+HXCOMM Text between SRST and ERST is copied to the rST version and
-+HXCOMM discarded from C version.
- HXCOMM DEF(option, HAS_ARG/0, opt_enum, opt_help, arch_mask) is used to
- HXCOMM construct option structures, enums and help message for specified
- HXCOMM architectures.
--HXCOMM HXCOMM can be used for comments, discarded from both texi and C
-+HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
- 
- DEFHEADING(Standard options:)
+-print_texi_heading()
+-{
+-    if test "$*" != ""; then
+-        title="$*"
+-        printf "@subsection %s\n" "${title%:}"
+-    fi
+-}
+-
+-hxtotexi()
+-{
+-    flag=0
+-    rstflag=0
+-    line=1
+-    while read -r str; do
+-        case "$str" in
+-            HXCOMM*)
+-            ;;
+-            STEXI*)
+-            if test $rstflag -eq 1 ; then
+-                printf "line %d: syntax error: expected ERST, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            if test $flag -eq 1 ; then
+-                printf "line %d: syntax error: expected ETEXI, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            flag=1
+-            ;;
+-            ETEXI*)
+-            if test $rstflag -eq 1 ; then
+-                printf "line %d: syntax error: expected ERST, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            if test $flag -ne 1 ; then
+-                printf "line %d: syntax error: expected STEXI, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            flag=0
+-            ;;
+-            SRST*)
+-            if test $rstflag -eq 1 ; then
+-                printf "line %d: syntax error: expected ERST, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            if test $flag -eq 1 ; then
+-                printf "line %d: syntax error: expected ETEXI, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            rstflag=1
+-            ;;
+-            ERST*)
+-            if test $flag -eq 1 ; then
+-                printf "line %d: syntax error: expected ETEXI, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            if test $rstflag -ne 1 ; then
+-                printf "line %d: syntax error: expected SRST, found '%s'\n" "$line" "$str" >&2
+-                exit 1
+-            fi
+-            rstflag=0
+-            ;;
+-            DEFHEADING*)
+-            print_texi_heading "$(expr "$str" : "DEFHEADING(\(.*\))")"
+-            ;;
+-            ARCHHEADING*)
+-            print_texi_heading "$(expr "$str" : "ARCHHEADING(\(.*\),.*)")"
+-            ;;
+-            *)
+-            test $flag -eq 1 && printf '%s\n' "$str"
+-            ;;
+-        esac
+-        line=$((line+1))
+-    done
+-}
+-
+ case "$1" in
+ "-h") hxtoh ;;
+-"-t") hxtotexi ;;
+ *) exit 1 ;;
+ esac
  
 -- 
 2.20.1
