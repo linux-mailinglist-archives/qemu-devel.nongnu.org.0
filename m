@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0B91835F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:16:24 +0100 (CET)
-Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287F0183604
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:20:48 +0100 (CET)
+Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCQVS-00005Q-CI
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57173)
+	id 1jCQZj-00044g-73
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQSa-0002Ku-An
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:26 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jCQWt-0005Wk-Rt
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:17:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jCQSY-0007xw-M4
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:24 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60524)
+ (envelope-from <frankja@linux.ibm.com>) id 1jCQWs-00029z-MW
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:17:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6262)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jCQSY-0007xL-CS
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:13:22 -0400
+ id 1jCQWs-00028A-DG
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:17:50 -0400
 Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02CG7FDs069756
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:13:21 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yqpe7es4a-1
+ 02CG7FOa069752
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:17:49 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yqpe7f2bv-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:13:19 -0400
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 12:17:48 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 12 Mar 2020 16:13:15 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Thu, 12 Mar 2020 16:17:45 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Mar 2020 16:13:12 -0000
+ Thu, 12 Mar 2020 16:17:42 -0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02CGDBIC42664418
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02CGHfDi50659514
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Mar 2020 16:13:11 GMT
+ Thu, 12 Mar 2020 16:17:41 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D2CC52050;
- Thu, 12 Mar 2020 16:13:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 182D85205F;
+ Thu, 12 Mar 2020 16:17:41 +0000 (GMT)
 Received: from dyn-9-152-224-122.boeblingen.de.ibm.com (unknown
  [9.152.224.122])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D128F52052;
- Thu, 12 Mar 2020 16:13:10 +0000 (GMT)
-Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
- correctly
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E32AB5204E;
+ Thu, 12 Mar 2020 16:17:40 +0000 (GMT)
+Subject: Re: [PATCH v9 11/15] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
 To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-14-frankja@linux.ibm.com>
- <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
+ <20200311132151.172389-12-frankja@linux.ibm.com>
+ <e17fae02-5195-b4ed-9aca-63b8fb2b8a60@de.ibm.com>
+ <46eb4e3f-6dac-c26c-d757-90696c0b095c@linux.ibm.com>
+ <551d414a-419d-6422-1b9b-7fd51b0e9877@de.ibm.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -101,19 +103,19 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Date: Thu, 12 Mar 2020 17:13:10 +0100
+Date: Thu, 12 Mar 2020 17:17:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
+In-Reply-To: <551d414a-419d-6422-1b9b-7fd51b0e9877@de.ibm.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="nnsXzrbVIwIBgrtXcrAKj3bWUTOqJ7fOp"
+ boundary="WIR6ImAW2wG5HvZNDy9uhqznuAoViSCio"
 X-TM-AS-GCONF: 00
-x-cbid: 20031216-0028-0000-0000-000003E3B9A3
+x-cbid: 20031216-0008-0000-0000-0000035C2CE3
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031216-0029-0000-0000-000024A901C6
-Message-Id: <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
+x-cbparentid: 20031216-0009-0000-0000-00004A7D7715
+Message-Id: <3c2ced8e-e429-9be1-9067-faf248d0a2b2@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-12_09:2020-03-11,
  2020-03-12 signatures=0
@@ -141,92 +143,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nnsXzrbVIwIBgrtXcrAKj3bWUTOqJ7fOp
-Content-Type: multipart/mixed; boundary="M80R2NwX2ONg1WaguFo8Fn8row1kozeT3"
+--WIR6ImAW2wG5HvZNDy9uhqznuAoViSCio
+Content-Type: multipart/mixed; boundary="uRDnpUKGC3JdCxdNpUGt0XJK7ItWadSJV"
 
---M80R2NwX2ONg1WaguFo8Fn8row1kozeT3
+--uRDnpUKGC3JdCxdNpUGt0XJK7ItWadSJV
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 3/12/20 4:51 PM, Christian Borntraeger wrote:
-> On 11.03.20 14:21, Janosch Frank wrote:
->> For protected VMs status storing is not done by QEMU anymore.
+On 3/12/20 5:10 PM, Christian Borntraeger wrote:
+>=20
+>=20
+> On 12.03.20 17:07, Janosch Frank wrote:
+>> On 3/12/20 4:41 PM, Christian Borntraeger wrote:
+>>> On 11.03.20 14:21, Janosch Frank wrote:
+>>>> IO instruction data is routed through SIDAD for protected guests, so=
+
+>>>> adresses do not need to be checked, as this is kernel memory.
+>>>
+>>> Maybe also mention that the data structures for  the I/O instrutions
+>>> start at offset 0 of the SIDA?
 >>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> You mean in the comment for get_address_from_regs() or in the commit
+>> message? It would certainly make sense for get_address_from_regs().
 >=20
+> Maybe both?
 >=20
->> ---
->>  target/s390x/helper.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
->> index ed726849114f2f35..5022df8812d406c9 100644
->> --- a/target/s390x/helper.c
->> +++ b/target/s390x/helper.c
->> @@ -25,6 +25,7 @@
->>  #include "qemu/timer.h"
->>  #include "qemu/qemu-print.h"
->>  #include "hw/s390x/ioinst.h"
->> +#include "hw/s390x/pv.h"
->>  #include "sysemu/hw_accel.h"
->>  #include "sysemu/runstate.h"
->>  #ifndef CONFIG_USER_ONLY
->> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, =
-bool store_arch)
->>      hwaddr len =3D sizeof(*sa);
->>      int i;
->> =20
->> +    /* Storing will occur on next SIE entry for protected VMs */
->=20
-> Maybe ... next SIE entry of the sending CPU ....=20
-> ?
 
-Well that would be the current cpu, right?
-So:
-/* For PVMs storing will occur when this cpu enters SIE again */
+This is what I have now:
 
->=20
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
->=20
->=20
->> +    if (s390_is_pv()) {
->> +        return 0;
->> +    }
->> +
->>      sa =3D cpu_physical_memory_map(addr, &len, true);
->>      if (!sa) {
->>          return -EFAULT;
->>
+s390x: protvirt: Disable address checks for PV guest IO emulation
+
+IO instruction data is routed through SIDAD for protected guests, so
+adresses do not need to be checked, as this is kernel memory which is
+always available.
+
+Also the instruction data always starts at offset 0 of the SIDAD.
+
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+
+and
+
++    /*
 
 
++     * Addresses for protected guests are all offsets into the
 
---M80R2NwX2ONg1WaguFo8Fn8row1kozeT3--
 
---nnsXzrbVIwIBgrtXcrAKj3bWUTOqJ7fOp
++     * satellite block which holds the IO control structures. Those
+
+
++     * control structures are always starting at offset 0 and are
+
+
++     * always aligned and accessible. So we can return 0 here which
+
+
++     * will pass the following address checks.
+
+
++     */
+
+
+--uRDnpUKGC3JdCxdNpUGt0XJK7ItWadSJV--
+
+--WIR6ImAW2wG5HvZNDy9uhqznuAoViSCio
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5qX5YACgkQ41TmuOI4
-ufhGLA//QXKteD6Ev/Js8odlpE1Hv+GJK1l86WTVriccXzM/7/SuxbPwEUEsEtKL
-OKQpzjtc87fhCdmo7nzNGUrWyh4JQCc3XkqN3r+GW74dX40+5I0Ks+Jx5BzZa93i
-pEksQCUCI0slHB4xw8ejn6u4LN9JUNQwORx9GB7vigaOus9Qxt6c0d8cNvNYsnFS
-D67O8GU+gsASM8nSYjTAKD8jvV05f/g/yGOnj1G8jyTSCLmysU/fzMsMXJe8cV8u
-CE6Ch92vGO48+0V2kwOhVHz6q+YtvZDB61db02XGg8Cd+8tkAaYaMEs3NngfYqnx
-Jp9APxVB7C1+SkhVpO+uDSIqZhZokzcbOTafuEbnLjG0zrJePtafVfKIy2mDtMSO
-Io8ONPQ/zld9tXCpFTx5ks2L+tl0Ccf1OelsWqqP6c6g6zabjdyCma3fuvDMZvRT
-Sg+a9HtDHt4YkCMzEhoFe6b+qpJ2VId2ow1FK0Eq5rrjHkozA7ItqqGxOPXuQhE/
-QJcibyAAtioXte+UPzYLMEfNW5VwrYz9oBmgBEpY+nd2LvuIh/b1zB/d7/tgS4sc
-WjSAUalFPATJ2oOya+bzPG0RbyH2vAvHykrsUUoK1oRlbHnq+1TOZQoE2YNj/wke
-FXhQCcg0wQq0PJrhmzUpRh8jezs5SMQHRWXYxKN7VGCNqDFYsQs=
-=+7fN
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5qYKQACgkQ41TmuOI4
+ufgQxRAA0ajpnf2WqpsgCHcaZITEi8uw94FAo3aHkWXJRt0IwDJeo4l0PM+UJyea
+q1PyuB+OPVpXWboSt0zjcl0umEnQP/a23gdOiErqlECVKfACkN3JLxEJpPZmPciu
+RGJJXhdEqm4lL5NipH3+LCuXXjT5++7qlvIyCSidFJPKMo9XDsoXsg/MPuGBoFEI
+/40cYN2zWL4u4a+cgw4YAcM1pOiRRhaTV7dVp5oW+M282fYGvO2KtJCbOBoXqtQf
+IFwlZlmfVdGUSaI3NW+S+2pg1H9XSyzfFSlCCFyeCH8RC8uptpKR9plf79Fr09wZ
+6lIu8dZBlx40FdCTOOlCpcT6qYYvUDOqyfFEp42D4km+bNpdHFnT3KlgthHouOlU
+pp+v/NBZKWl5x8rvCCPoBVmTCvY1blLXH4MXLFQ2H+ybLRnRY2M3uBTiDKrQ9mWb
+DUXNfpv/9hxR/TtrifzOYQn+kMRGtsC5MhnC/q/W9C4cYuIFff3HPCCCS05kiTL6
+KAkQ+g0EgcnFM3FevmGNk9Q4bTjDJ27itQSy+TLoPO3JlLBLQEhoyDIra86NwPED
+yANEIHv70B2AMAkOV6J02kfljJNWUyGJSRVi3P1g6w3c+eQLVkKXfhfJsCPfx+6i
+YsLWS9k+krKkJXV4k98kHnJbzqwsP27YDZlAEph/UAhF0BWEkF0=
+=zJgH
 -----END PGP SIGNATURE-----
 
---nnsXzrbVIwIBgrtXcrAKj3bWUTOqJ7fOp--
+--WIR6ImAW2wG5HvZNDy9uhqznuAoViSCio--
 
 
