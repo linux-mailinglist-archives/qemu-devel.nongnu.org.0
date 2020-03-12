@@ -2,49 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD20183743
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:18:56 +0100 (CET)
-Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E69B18342F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 16:13:01 +0100 (CET)
+Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCRTz-0005pD-2U
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38233)
+	id 1jCPW7-0000gZ-F8
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 11:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jCRC8-0004JI-3K
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:00:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCPTz-0002hA-DF
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:10:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jCRC5-0007dB-59
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 13:00:26 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:60490)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jCRC3-0007Yi-0d; Thu, 12 Mar 2020 13:00:23 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743909|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.0358285-0.000344232-0.963827;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03305; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.H-QJ.qU_1584032412; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H-QJ.qU_1584032412)
- by smtp.aliyun-inc.com(10.147.40.233);
- Fri, 13 Mar 2020 01:00:13 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v5 60/60] target/riscv: configure and turn on vector extension
- from command line
-Date: Thu, 12 Mar 2020 22:59:00 +0800
-Message-Id: <20200312145900.2054-61-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ (envelope-from <bounces@canonical.com>) id 1jCPTy-0005ls-0s
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:10:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34924)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCPTx-0005lK-Rw
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 11:10:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCPTw-0003oZ-Ec
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 15:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 682872E8047
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 15:10:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Mar 2020 15:00:36 -0000
+From: tstrike <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: tstrike (tstrike34)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158402523618.28840.14346437637429764636.malone@gac.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a73dea54bc6185d0b3c51cbedb9c5f10bba3f0f6
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,121 +66,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-"-cpu rv64,v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+AppArmor is completely disabled on my server.
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
+-- =
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
- target/riscv/cpu.h |  2 ++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6e4135583d..5f1cdd4f2b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -395,7 +395,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     set_priv_version(env, priv_version);
--    set_vext_version(env, vext_version);
-     set_resetvec(env, DEFAULT_RSTVEC);
- 
-     if (cpu->cfg.mmu) {
-@@ -463,6 +462,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -500,10 +538,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index e069e55e81..36ead8d6d5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -285,12 +285,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
--- 
-2.23.0
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
 
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
