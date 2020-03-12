@@ -2,141 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1842C183C4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:21:26 +0100 (CET)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA3E183C9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 23:37:07 +0100 (CET)
+Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCWCj-0005n6-3w
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58613)
+	id 1jCWRu-0000dm-A5
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 18:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jCWBY-0003qz-8z
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:20:14 -0400
+ (envelope-from <yuanzi@google.com>) id 1jCWQt-0008Vy-0W
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:36:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jCWBV-00055q-6N
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:20:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26125
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jCWBV-00054k-0e
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:20:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584051608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=eLVQZAYgwHpB2gEAiucZfyq4TDXUck2RWQ+TQ6Pceyw=;
- b=EnMBrHgqJdkqe78JaIEORqs7PyVsd3+DwkarqMH94svhLB50ARxdBwheOOtXJSHrHAZeeI
- 9Kgcogtou/kwJfzPm/+xzlFb8eCx63G+w62JZEcSafQONt7l5jFGZ4AcCuVudgmi3175KA
- kz9+nb9B4lucmvIWV8KccHsN++GulOk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-9RypKjPTP66LjL8rgBPyig-1; Thu, 12 Mar 2020 18:19:57 -0400
-X-MC-Unique: 9RypKjPTP66LjL8rgBPyig-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 407FE1005510;
- Thu, 12 Mar 2020 22:19:56 +0000 (UTC)
-Received: from [10.10.125.118] (ovpn-125-118.rdu2.redhat.com [10.10.125.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AC819A6A;
- Thu, 12 Mar 2020 22:19:55 +0000 (UTC)
-Subject: Re: [PATCH] iotests/026: Move v3-exclusive test to new file
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200311140707.1243218-1-mreitz@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
- IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
- vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
- rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
- 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
- ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
- 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
- h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
- T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
- LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
- KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
- BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
- qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
- LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
- ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
- J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
- vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
- il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
- 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
- tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
- 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
- 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
- d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
- 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
- MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
- NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
- TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
- L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
- JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
- /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
- nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
- 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
- Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
- e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
- ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
- vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
- C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
- fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
- rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
- TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
- PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
- Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
- E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
- Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
- rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
- cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
- wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
- jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
- vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
- eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
- RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
- CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
- AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
- VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
- XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
- Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
- y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
- sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
- HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
- 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
- 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
- y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
- uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
- YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
- 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
- Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
- TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
- TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
- GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
- rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
- i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
- RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
- glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <d7c67c4f-67a9-d42d-acbd-8d4bcd5cf4ee@redhat.com>
-Date: Thu, 12 Mar 2020 18:19:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <yuanzi@google.com>) id 1jCWQq-0006lo-2E
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:36:02 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33538)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuanzi@google.com>) id 1jCWQp-0006jM-Os
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 18:36:00 -0400
+Received: by mail-oi1-x243.google.com with SMTP id r7so7322454oij.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 15:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dxeGdg05yMpgRzKGB7JQyUg4NCnYx6sJGaPlvgrULUY=;
+ b=C+Lwoc8uzxzlKQvFavOLPKHx5pUd6q8DD16nr/dzsFa5HNzi5xgUlCB4VpGZLhyQwP
+ sjXRveUI0CULYB1GSEYrKUcYUTjngrg3RyVhct4HT6hokxKuem5Jfc6RpXPRR0CZUS1l
+ EwzBNQLGtLAE5o0YEIIp+gFZceuYp5kDdVfaRAYyDUto49K2lygF4ORvbgO6RopJkCnC
+ WI5yXxRZPnOK6d3PIWqQ7DQmPHFRNHelKKM5ZqzJWZ2qNN6oOhk53uN5wJbfljh8Q0FL
+ XTY9keoGZ9NjeYGeftZHdvQ7uWKCwHME6aFbVv8bpLgiYRHuZg8pgnwI71o0LhR20bkm
+ Awdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dxeGdg05yMpgRzKGB7JQyUg4NCnYx6sJGaPlvgrULUY=;
+ b=qr6FdVaEwOlnEn0cuONv8470m22W45LF04J4nehJHuVhGrletVSb40EnGkzymj6GC+
+ gwUT7kBagAfN2ILyI52jEkemdsxIPHzXOh1RaptD80sIJnkV2yzMmdu41J5HI3k0AZeq
+ ZHJZak4OGMOxrVrmNCZvykl7L/YGuNa/z1wFsAfTXhpERxcEBYrr7h51lk9aCUYcRhfi
+ BNpWhR+3r7mzkzhY7FFmlXzoURxq4J6urozPpCzFDkpG9oag41LuPFZLQml1hN3dujOa
+ C9NfQ0JQfZMqMROE8Za4RYQwQwvGgveHJkw5JYeEshGtkZI+o80HggficE9KqmJjheGA
+ 9Whw==
+X-Gm-Message-State: ANhLgQ0QyOV4Bv8JdKtzwV65UqvoLSSQAfBmnxSV7+XwMxu7S2He0xR/
+ C7FLMktIxFSnXa1ELlUM5ix3vVFsgeheDRk/uyAwtQ==
+X-Google-Smtp-Source: ADFU+vsveiUqhb5sxPLKj4SFTmpDC7aYPzgkLhwSMVDkGUcA1ods1vuy2SW6Xf4B7OKzpd2jHZDE/4+EtGhc6FTTbkE=
+X-Received: by 2002:aca:df0b:: with SMTP id w11mr4468986oig.68.1584052557640; 
+ Thu, 12 Mar 2020 15:35:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200311140707.1243218-1-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200222010925.32858-1-yuanzi@google.com>
+ <CADjx4CKoSuu2zWn7BRhpxLL3TaimR7fX99u_r41egctwA1LVTQ@mail.gmail.com>
+ <553af2a0-2092-fe7f-ad7a-3b7ecebbe0a5@vivier.eu>
+ <CADjx4CJSDkA3aDxhp2yZJBnKtUe4YntfpdEKp91VS0JiUhE+2Q@mail.gmail.com>
+ <0f138812-b036-f99b-3d50-b871863d22f2@vivier.eu>
+ <CADjx4CJ1Z7kbntP+QH6WOiZSSa7g0nU596e6iiHWWbCAqebP+A@mail.gmail.com>
+ <CADjx4C+wS-1dpTiJDULs09y1T8yYSLTBJ7E6LZYoUqZbW-cfxQ@mail.gmail.com>
+ <19f04b9a-866f-9529-4f89-bf88cf487738@vivier.eu>
+In-Reply-To: <19f04b9a-866f-9529-4f89-bf88cf487738@vivier.eu>
+From: Lirong Yuan <yuanzi@google.com>
+Date: Thu, 12 Mar 2020 15:35:46 -0700
+Message-ID: <CADjx4CKQpFG7tRPauXt68Z0JPzRjFxa2rp2m20ZGqrp8jbsT4g@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Add an argument QEMU_MMAP_BASE to set custom
+ mmap base address in qemu user mode
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>
+Content-Type: multipart/alternative; boundary="0000000000000484b805a0affa0f"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -148,312 +80,690 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000000484b805a0affa0f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Mar 12, 2020 at 1:42 AM Laurent Vivier <laurent@vivier.eu> wrote:
 
-On 3/11/20 10:07 AM, Max Reitz wrote:
-> data_file does not work with v2, and we probably want 026 to keep
-> working for v2 images.  Thus, open a new file for v3-exclusive error
-> path test cases.
->=20
-> Fixes: 81311255f217859413c94f2cd9cebf2684bbda94
->        (=E2=80=9Ciotests/026: Test EIO on allocation in a data-file=E2=80=
-=9D)
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Le 09/03/2020 =C3=A0 19:07, Lirong Yuan a =C3=A9crit :
+> >
+> > On Mon, Mar 2, 2020 at 11:51 AM Lirong Yuan <yuanzi@google.com
+> > <mailto:yuanzi@google.com>> wrote:
+> >
+> >     On Mon, Mar 2, 2020 at 10:39 AM Laurent Vivier <laurent@vivier.eu
+> >     <mailto:laurent@vivier.eu>> wrote:
+> >     >
+> >     > Le 02/03/2020 =C3=A0 18:53, Lirong Yuan a =C3=A9crit :
+> >     > > On Mon, Mar 2, 2020 at 6:56 AM Laurent Vivier <laurent@vivier.e=
+u
+> >     <mailto:laurent@vivier.eu>> wrote:
+> >     > >>
+> >     > >> Le 29/02/2020 =C3=A0 01:43, Lirong Yuan a =C3=A9crit :
+> >     > >>> On Fri, Feb 21, 2020 at 5:09 PM Lirong Yuan <yuanzi@google.co=
+m
+> >     <mailto:yuanzi@google.com>> wrote:
+> >     > >>>>
+> >     > >>>> This change allows us to set custom base address for guest
+> >     programs. It is needed to allow qemu to work with Thread Sanitizer
+> >     (TSan), which has specific boundary definitions for memory mappings
+> >     on different platforms:
+> >     > >>>>
+> >
+> https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl=
+/tsan_platform.h
+> >     > >>
+> >     > >> Could you give more details and some examples?
+> >     > >>
+> >     > >> Thanks,
+> >     > >> Laurent
+> >     > >>
+> >     > >>>> Signed-off-by: Lirong Yuan <yuanzi@google.com
+> >     <mailto:yuanzi@google.com>>
+> >     > >>>> ---
+> >     > >>>>  linux-user/main.c | 12 ++++++++++++
+> >     > >>>>  linux-user/mmap.c |  3 ++-
+> >     > >>>>  linux-user/qemu.h |  5 +++++
+> >     > >>>>  3 files changed, 19 insertions(+), 1 deletion(-)
+> >     > >>>>
+> >     > >>>> diff --git a/linux-user/main.c b/linux-user/main.c
+> >     > >>>> index fba833aac9..c01af6bfee 100644
+> >     > >>>> --- a/linux-user/main.c
+> >     > >>>> +++ b/linux-user/main.c
+> >     > >>>> @@ -336,6 +336,16 @@ static void handle_arg_guest_base(const
+> >     char *arg)
+> >     > >>>>      have_guest_base =3D 1;
+> >     > >>>>  }
+> >     > >>>>
+> >     > >>>> +static void handle_arg_mmap_base(const char *arg)
+> >     > >>>> +{
+> >     > >>>> +    int err =3D qemu_strtoul(arg, NULL, 0, &mmap_base);
+> >     > >>>> +    if (err) {
+> >     > >>>> +        fprintf(stderr, "Invalid mmap_base: %s, err: %d\n",
+> >     arg, err);
+> >     > >>>> +        exit(EXIT_FAILURE);
+> >     > >>>> +    }
+> >     > >>>> +    mmap_next_start =3D mmap_base;
+> >     > >>>> +}
+> >     > >>>> +
+> >     > >>>>  static void handle_arg_reserved_va(const char *arg)
+> >     > >>>>  {
+> >     > >>>>      char *p;
+> >     > >>>> @@ -440,6 +450,8 @@ static const struct qemu_argument
+> >     arg_table[] =3D {
+> >     > >>>>       "uname",      "set qemu uname release string to
+> 'uname'"},
+> >     > >>>>      {"B",          "QEMU_GUEST_BASE",  true,
+> >     handle_arg_guest_base,
+> >     > >>>>       "address",    "set guest_base address to 'address'"},
+> >     > >>>> +    {"mmap_base",  "QEMU_MMAP_BASE",   true,
+> >     handle_arg_mmap_base,
+> >     > >>>> +     "",           "begin allocating guest pages at this
+> >     host address"},
+> >     > >>>>      {"R",          "QEMU_RESERVED_VA", true,
+> >     handle_arg_reserved_va,
+> >     > >>>>       "size",       "reserve 'size' bytes for guest virtual
+> >     address space"},
+> >     > >>>>      {"d",          "QEMU_LOG",         true,  handle_arg_lo=
+g,
+> >     > >>>> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+> >     > >>>> index 8685f02e7e..3f35543acf 100644
+> >     > >>>> --- a/linux-user/mmap.c
+> >     > >>>> +++ b/linux-user/mmap.c
+> >     > >>>> @@ -189,6 +189,7 @@ static int mmap_frag(abi_ulong real_star=
+t,
+> >     > >>>>  # define TASK_UNMAPPED_BASE  0x40000000
+> >     > >>>>  #endif
+> >     > >>>>  abi_ulong mmap_next_start =3D TASK_UNMAPPED_BASE;
+> >     > >>>> +abi_ulong mmap_base =3D TASK_UNMAPPED_BASE;
+> >     > >>>>
+> >     > >>>>  unsigned long last_brk;
+> >     > >>>>
+> >     > >>>> @@ -299,7 +300,7 @@ abi_ulong mmap_find_vma(abi_ulong start,
+> >     abi_ulong size, abi_ulong align)
+> >     > >>>>
+> >     > >>>>              if ((addr & (align - 1)) =3D=3D 0) {
+> >     > >>>>                  /* Success.  */
+> >     > >>>> -                if (start =3D=3D mmap_next_start && addr >=
+=3D
+> >     TASK_UNMAPPED_BASE) {
+> >     > >>>> +                if (start =3D=3D mmap_next_start && addr >=
+=3D
+> >     mmap_base) {
+> >     > >>>>                      mmap_next_start =3D addr + size;
+> >     > >>>>                  }
+> >     > >>>>                  return addr;
+> >     > >>>> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> >     > >>>> index 560a68090e..83c00cfea2 100644
+> >     > >>>> --- a/linux-user/qemu.h
+> >     > >>>> +++ b/linux-user/qemu.h
+> >     > >>>> @@ -161,6 +161,11 @@ void task_settid(TaskState *);
+> >     > >>>>  void stop_all_tasks(void);
+> >     > >>>>  extern const char *qemu_uname_release;
+> >     > >>>>  extern unsigned long mmap_min_addr;
+> >     > >>>> +/*
+> >     > >>>> + * mmap_base is minimum address to use when allocating gues=
+t
+> >     pages. All guest
+> >     > >>>> + * pages will be allocated at this (guest) address or highe=
+r
+> >     addresses.
+> >     > >>>> + */
+> >     > >>>> +extern abi_ulong mmap_base;
+> >     > >>>>
+> >     > >>>>  /* ??? See if we can avoid exposing so much of the loader
+> >     internals.  */
+> >     > >>>>
+> >     > >>>> --
+> >     > >>>> 2.25.0.265.gbab2e86ba0-goog
+> >     > >>>>
+> >     > >>>
+> >     > >>> Friendly ping~
+> >     > >>>
+> >     > >>> Link to the page for the patch on patchwork:
+> >     > >>> http://patchwork.ozlabs.org/patch/1242370/
+> >     > >>>
+> >     > >>
+> >     > >
+> >     > > Hi Laurent,
+> >     > >
+> >     > > Sure! We tried to run a program with TSAN enabled
+> >     > > (
+> https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual)
+> >     > > in qemu, and got this error message:
+> >     > > "FATAL: ThreadSanitizer: unexpected memory mapping
+> >     > > 0x004000000000-0x004000253000"
+> >     > >
+> >     > > The root cause is that the default guest base address that qemu
+> uses
+> >     > > is 0x4000000000 (1ul<<38), and does not align with TSAN's
+> >     expectation:
+> >     > >
+> >
+> https://github.com/qemu/qemu/blob/c81acb643a61db199b9198add7972d8a8496b27=
+c/linux-user/mmap.c#L187
+> >     > >
+> >
+> https://github.com/llvm/llvm-project/blob/e7de00cf974a4e30d4900518ae8473a=
+117efbd6c/compiler-rt/lib/tsan/rtl/tsan_platform.h#L150
+> >     > >
+> >     > > By setting QEMU_GUEST_BASE, we can place the guest program at a
+> >     > > different base address in the host program. However, the h2g
+> >     function
+> >     > > (in |open_self_maps| in syscall.c) translates the address back
+> to be
+> >     > > based at 0x4000000000. E.g. the base address
+> >     > > 0x4000000000+QEMU_GUEST_BASE will be converted to 0x4000000000
+> with
+> >     > > function h2g:
+> >     > >
+> >
+> https://github.com/qemu/qemu/blob/c81acb643a61db199b9198add7972d8a8496b27=
+c/linux-user/syscall.c#L7076
+> >     > >
+> >     > > One solution then, is to update |open_self_maps| in syscall.c t=
+o
+> not
+> >     > > use h2g. However this changes the meaning of QEMU_GUEST_BASE an=
+d
+> >     could
+> >     > > break existing programs that set non-zero QEMU_GUEST_BASE.
+> >     > >
+> >     > > So, how did qemu pick the base address 0x4000000000 then?
+> Looking at
+> >     > > the blame output in github, one recent change for the base
+> >     address was
+> >     > > committed 10 years ago:
+> >     > > https://github.com/qemu/qemu/c|open_self_maps|
+> >     <https://github.com/qemu/qemu/c%7Copen_self_maps%7C> in
+> >     > > syscall.commit/14f24e1465edc44b9b4d89fbbea66e06088154e1
+> >     > >
+> >     > > Another one was committed 12 years ago:
+> >     > >
+> >
+> https://github.com/qemu/qemu/commit/a03e2d421e7f33316750d6b7396d1a7e14b18=
+d53
+> >     > >
+> >     > > The description of the first change is "place the default
+> >     mapping base
+> >     > > for 64-bit guests (on 64-bit hosts) outside the low 4G". It
+> >     would seem
+> >     > > that minimum requirements for the base address are:
+> >     > > 1) addr >=3D 4G (for 64-bit)
+> >     > > 2) addr < lowest address used by the host qemu program by some
+> >     margin
+> >     > >
+> >     > > Given that
+> >     > > 1) only TSAN explicitly check for the validity of addresses
+> >     > > 2) 0x4000000000 is not a valid address for programs on aarch64
+> >     > > (according to TSAN)
+> >     > > 3) different architectures have different valid addresses,
+> >     > > it would seem that adding an argument for changing the
+> >     hard-coded base
+> >     > > address is a viable solution.
+> >     >
+> >     > Thank you for the detailed explanation.
+> >     >
+> >     > Could you show me an example of the QEMU command line you use?
+> >     >
+> >     > I'm wondering if hardcoding directly the good value would be a
+> better
+> >     > solution?
+> >     >
+> >     > Richard, do you have some thoughts on this?
+> >     >
+> >     > Thanks,
+> >     > Laurent
+> >
+> >     Sure! First we compile a simple race program with TSAN enabled:
+> >     ( Simple race program is here:
+> >
+> https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual#usage
+> >     )
+> >     $ clang++ simple_race.cc -fsanitize=3Dthread -fPIE -pie -g -o
+> simple_race
+> >
+> >     Next we run a script for executing the program, and it exports
+> >     environment variables:
+> >     QEMU_CPU=3Dmax
+> >     QEMU_MMAP_BASE=3D0x0000005500000000
+> >
+> >     And runs the QEMU program:
+> >     $ qemu-aarch64 simple_race
+> >
+> >     I changed the default value for all other programs that I am workin=
+g
+> >     with, and so far we haven't seen any problems.
+> >     For the patch, it might be better to err on the safe side and not
+> >     change the hard-coded value, as it might cause potential breakages
+> for
+> >     other users.
+> >     Though I don't know much about how the default value might be used =
+or
+> >     depended on by other programs, so if you see no concerns for updati=
+ng
+> >     the value, I'd be happy to change it too.
+> >
+> >
+> > Friendly ping~
+> >
+> > Link to the page for the patch on patchwork:
+> > http://patchwork.ozlabs.org/patch/1242370/
+>
+> I would prefer if you hardcode the value for aarch64 rather than adding
+> a new parameter.
+>
+> Thanks,
+> Laurent
+>
 
-Let me start this reply with something good, or at least something
-that's not bad. It's value neutral at worst.
+For sure! I will send a patch shortly for hardcoding the value on aarch64.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-Tested-by: John Snow <jsnow@redhat.com>
+Note that although the value has been working fine for our tests, we are
+not sure that it won't break other tests on other systems.
 
+Regards,
+Lirong
 
-Now, let's get cracking on some prime nonsense.
+--0000000000000484b805a0affa0f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I assume this patch is still 'pending'. Here's a complete tangent
-unrelated to your patch in every single way:
+<div dir=3D"ltr"><div dir=3D"ltr"><div>On Thu, Mar 12, 2020 at 1:42 AM Laur=
+ent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&g=
+t; wrote:<br></div></div><div class=3D"gmail_quote"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">Le 09/03/2020 =C3=A0 19:07, Lirong Yuan a =C3=A9=
+crit=C2=A0:<br>
+&gt; <br>
+&gt; On Mon, Mar 2, 2020 at 11:51 AM Lirong Yuan &lt;<a href=3D"mailto:yuan=
+zi@google.com" target=3D"_blank">yuanzi@google.com</a><br>
+&gt; &lt;mailto:<a href=3D"mailto:yuanzi@google.com" target=3D"_blank">yuan=
+zi@google.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On Mon, Mar 2, 2020 at 10:39 AM Laurent Vivier &lt;=
+<a href=3D"mailto:laurent@vivier.eu" target=3D"_blank">laurent@vivier.eu</a=
+><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:laurent@vivier.eu" tar=
+get=3D"_blank">laurent@vivier.eu</a>&gt;&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Le 02/03/2020 =C3=A0 18:53, Lirong Yuan a =C3=
+=A9crit :<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; On Mon, Mar 2, 2020 at 6:56 AM Laurent Vi=
+vier &lt;<a href=3D"mailto:laurent@vivier.eu" target=3D"_blank">laurent@viv=
+ier.eu</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:laurent@vivier.eu" tar=
+get=3D"_blank">laurent@vivier.eu</a>&gt;&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt; Le 29/02/2020 =C3=A0 01:43, Lirong Yu=
+an a =C3=A9crit :<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt; On Fri, Feb 21, 2020 at 5:09 PM L=
+irong Yuan &lt;<a href=3D"mailto:yuanzi@google.com" target=3D"_blank">yuanz=
+i@google.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:yuanzi@google.com" tar=
+get=3D"_blank">yuanzi@google.com</a>&gt;&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; This change allows us to set =
+custom base address for guest<br>
+&gt;=C2=A0 =C2=A0 =C2=A0programs. It is needed to allow qemu to work with T=
+hread Sanitizer<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(TSan), which has specific boundary definitions for=
+ memory mappings<br>
+&gt;=C2=A0 =C2=A0 =C2=A0on different platforms:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/llvm/llvm-project/blo=
+b/master/compiler-rt/lib/tsan/rtl/tsan_platform.h" rel=3D"noreferrer" targe=
+t=3D"_blank">https://github.com/llvm/llvm-project/blob/master/compiler-rt/l=
+ib/tsan/rtl/tsan_platform.h</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt; Could you give more details and some =
+examples?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt; Thanks,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt; Laurent<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; Signed-off-by: Lirong Yuan &l=
+t;<a href=3D"mailto:yuanzi@google.com" target=3D"_blank">yuanzi@google.com<=
+/a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:yuanzi@google.com" tar=
+get=3D"_blank">yuanzi@google.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; ---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 linux-user/main.c | 12 =
+++++++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 linux-user/mmap.c |=C2=
+=A0 3 ++-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 linux-user/qemu.h |=C2=
+=A0 5 +++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 3 files changed, 19 ins=
+ertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; diff --git a/linux-user/main.=
+c b/linux-user/main.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; index fba833aac9..c01af6bfee =
+100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; --- a/linux-user/main.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +++ b/linux-user/main.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; @@ -336,6 +336,16 @@ static v=
+oid handle_arg_guest_base(const<br>
+&gt;=C2=A0 =C2=A0 =C2=A0char *arg)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 have_gues=
+t_base =3D 1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +static void handle_arg_mmap_=
+base(const char *arg)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 int err =3D qe=
+mu_strtoul(arg, NULL, 0, &amp;mmap_base);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 if (err) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+fprintf(stderr, &quot;Invalid mmap_base: %s, err: %d\n&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0arg, err);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+exit(EXIT_FAILURE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 mmap_next_star=
+t =3D mmap_base;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 static void handle_arg_=
+reserved_va(const char *arg)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 char *p;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; @@ -440,6 +450,8 @@ static co=
+nst struct qemu_argument<br>
+&gt;=C2=A0 =C2=A0 =C2=A0arg_table[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&qu=
+ot;uname&quot;,=C2=A0 =C2=A0 =C2=A0 &quot;set qemu uname release string to =
+&#39;uname&#39;&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 {&quot;B&=
+quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QEMU_GUEST_BASE&quot;,=C2=A0=
+ true,=C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0handle_arg_guest_base,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&qu=
+ot;address&quot;,=C2=A0 =C2=A0 &quot;set guest_base address to &#39;address=
+&#39;&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 {&quot;mmap_ba=
+se&quot;,=C2=A0 &quot;QEMU_MMAP_BASE&quot;,=C2=A0 =C2=A0true,=C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0handle_arg_mmap_base,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0&quot;&q=
+uot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;begin allocating guest =
+pages at this<br>
+&gt;=C2=A0 =C2=A0 =C2=A0host address&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 {&quot;R&=
+quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QEMU_RESERVED_VA&quot;, true=
+,=C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0handle_arg_reserved_va,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&qu=
+ot;size&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;reserve &#39;size&#39; bytes=
+ for guest virtual<br>
+&gt;=C2=A0 =C2=A0 =C2=A0address space&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 {&quot;d&=
+quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QEMU_LOG&quot;,=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0true,=C2=A0 handle_arg_log,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; diff --git a/linux-user/mmap.=
+c b/linux-user/mmap.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; index 8685f02e7e..3f35543acf =
+100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; --- a/linux-user/mmap.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +++ b/linux-user/mmap.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; @@ -189,6 +189,7 @@ static in=
+t mmap_frag(abi_ulong real_start,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 # define TASK_UNMAPPED_=
+BASE=C2=A0 0x40000000<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 abi_ulong mmap_next_sta=
+rt =3D TASK_UNMAPPED_BASE;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +abi_ulong mmap_base =3D TASK=
+_UNMAPPED_BASE;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 unsigned long last_brk;=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; @@ -299,7 +300,7 @@ abi_ulong=
+ mmap_find_vma(abi_ulong start,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0abi_ulong size, abi_ulong align)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 if ((addr &amp; (align - 1)) =3D=3D 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Success.=C2=A0 */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (start =3D=3D mmap_next_start &amp;&amp; add=
+r &gt;=3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0TASK_UNMAPPED_BASE) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (start =3D=3D mmap_next_start &amp;&amp; add=
+r &gt;=3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0mmap_base) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_next_start =3D addr +=
+ size;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return addr;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; diff --git a/linux-user/qemu.=
+h b/linux-user/qemu.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; index 560a68090e..83c00cfea2 =
+100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; --- a/linux-user/qemu.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +++ b/linux-user/qemu.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; @@ -161,6 +161,11 @@ void tas=
+k_settid(TaskState *);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 void stop_all_tasks(voi=
+d);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 extern const char *qemu=
+_uname_release;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 extern unsigned long mm=
+ap_min_addr;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +/*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; + * mmap_base is minimum addr=
+ess to use when allocating guest<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pages. All guest<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; + * pages will be allocated a=
+t this (guest) address or higher<br>
+&gt;=C2=A0 =C2=A0 =C2=A0addresses.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; + */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; +extern abi_ulong mmap_base;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;=C2=A0 /* ??? See if we can av=
+oid exposing so much of the loader<br>
+&gt;=C2=A0 =C2=A0 =C2=A0internals.=C2=A0 */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; --<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt; 2.25.0.265.gbab2e86ba0-goog<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt; Friendly ping~<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt; Link to the page for the patch on=
+ patchwork:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt; <a href=3D"http://patchwork.ozlab=
+s.org/patch/1242370/" rel=3D"noreferrer" target=3D"_blank">http://patchwork=
+.ozlabs.org/patch/1242370/</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Hi Laurent,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Sure! We tried to run a program with TSAN=
+ enabled<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; (<a href=3D"https://github.com/google/san=
+itizers/wiki/ThreadSanitizerCppManual" rel=3D"noreferrer" target=3D"_blank"=
+>https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual</a>)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; in qemu, and got this error message:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &quot;FATAL: ThreadSanitizer: unexpected =
+memory mapping<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 0x004000000000-0x004000253000&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; The root cause is that the default guest =
+base address that qemu uses<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; is 0x4000000000 (1ul&lt;&lt;38), and does=
+ not align with TSAN&#39;s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0expectation:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/qemu/qemu/blob/c81acb=
+643a61db199b9198add7972d8a8496b27c/linux-user/mmap.c#L187" rel=3D"noreferre=
+r" target=3D"_blank">https://github.com/qemu/qemu/blob/c81acb643a61db199b91=
+98add7972d8a8496b27c/linux-user/mmap.c#L187</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/llvm/llvm-project/blo=
+b/e7de00cf974a4e30d4900518ae8473a117efbd6c/compiler-rt/lib/tsan/rtl/tsan_pl=
+atform.h#L150" rel=3D"noreferrer" target=3D"_blank">https://github.com/llvm=
+/llvm-project/blob/e7de00cf974a4e30d4900518ae8473a117efbd6c/compiler-rt/lib=
+/tsan/rtl/tsan_platform.h#L150</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; By setting QEMU_GUEST_BASE, we can place =
+the guest program at a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; different base address in the host progra=
+m. However, the h2g<br>
+&gt;=C2=A0 =C2=A0 =C2=A0function<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; (in |open_self_maps| in syscall.c) transl=
+ates the address back to be<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; based at 0x4000000000. E.g. the base addr=
+ess<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 0x4000000000+QEMU_GUEST_BASE will be conv=
+erted to 0x4000000000 with<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; function h2g:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/qemu/qemu/blob/c81acb=
+643a61db199b9198add7972d8a8496b27c/linux-user/syscall.c#L7076" rel=3D"noref=
+errer" target=3D"_blank">https://github.com/qemu/qemu/blob/c81acb643a61db19=
+9b9198add7972d8a8496b27c/linux-user/syscall.c#L7076</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; One solution then, is to update |open_sel=
+f_maps| in syscall.c to not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; use h2g. However this changes the meaning=
+ of QEMU_GUEST_BASE and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0could<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; break existing programs that set non-zero=
+ QEMU_GUEST_BASE.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; So, how did qemu pick the base address 0x=
+4000000000 then? Looking at<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; the blame output in github, one recent ch=
+ange for the base<br>
+&gt;=C2=A0 =C2=A0 =C2=A0address was<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; committed 10 years ago:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; <a href=3D"https://github.com/qemu/qemu/c=
+%7Copen_self_maps%7C" rel=3D"noreferrer" target=3D"_blank">https://github.c=
+om/qemu/qemu/c|open_self_maps|</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://github.com/qemu/qemu/c%7Cope=
+n_self_maps%7C" rel=3D"noreferrer" target=3D"_blank">https://github.com/qem=
+u/qemu/c%7Copen_self_maps%7C</a>&gt; in<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; syscall.commit/14f24e1465edc44b9b4d89fbbe=
+a66e06088154e1<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Another one was committed 12 years ago:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/qemu/qemu/commit/a03e=
+2d421e7f33316750d6b7396d1a7e14b18d53" rel=3D"noreferrer" target=3D"_blank">=
+https://github.com/qemu/qemu/commit/a03e2d421e7f33316750d6b7396d1a7e14b18d5=
+3</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; The description of the first change is &q=
+uot;place the default<br>
+&gt;=C2=A0 =C2=A0 =C2=A0mapping base<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; for 64-bit guests (on 64-bit hosts) outsi=
+de the low 4G&quot;. It<br>
+&gt;=C2=A0 =C2=A0 =C2=A0would seem<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; that minimum requirements for the base ad=
+dress are:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 1) addr &gt;=3D 4G (for 64-bit)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 2) addr &lt; lowest address used by the h=
+ost qemu program by some<br>
+&gt;=C2=A0 =C2=A0 =C2=A0margin<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; Given that<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 1) only TSAN explicitly check for the val=
+idity of addresses<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 2) 0x4000000000 is not a valid address fo=
+r programs on aarch64<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; (according to TSAN)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; 3) different architectures have different=
+ valid addresses,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; it would seem that adding an argument for=
+ changing the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0hard-coded base<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; address is a viable solution.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Thank you for the detailed explanation.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Could you show me an example of the QEMU comma=
+nd line you use?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; I&#39;m wondering if hardcoding directly the g=
+ood value would be a better<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; solution?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Richard, do you have some thoughts on this?<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Thanks,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Laurent<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Sure! First we compile a simple race program with T=
+SAN enabled:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0( Simple race program is here:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/google/sanitizers/wik=
+i/ThreadSanitizerCppManual#usage" rel=3D"noreferrer" target=3D"_blank">http=
+s://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual#usage</a><br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0$ clang++ simple_race.cc -fsanitize=3Dthread -fPIE =
+-pie -g -o simple_race<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Next we run a script for executing the program, and=
+ it exports<br>
+&gt;=C2=A0 =C2=A0 =C2=A0environment variables:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0QEMU_CPU=3Dmax<br>
+&gt;=C2=A0 =C2=A0 =C2=A0QEMU_MMAP_BASE=3D0x0000005500000000<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0And runs the QEMU program:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0$ qemu-aarch64 simple_race<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0I changed the default value for all other programs =
+that I am working<br>
+&gt;=C2=A0 =C2=A0 =C2=A0with, and so far we haven&#39;t seen any problems.<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0For the patch, it might be better to err on the saf=
+e side and not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0change the hard-coded value, as it might cause pote=
+ntial breakages for<br>
+&gt;=C2=A0 =C2=A0 =C2=A0other users.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Though I don&#39;t know much about how the default =
+value might be used or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0depended on by other programs, so if you see no con=
+cerns for updating<br>
+&gt;=C2=A0 =C2=A0 =C2=A0the value, I&#39;d be happy to change it too.<br>
+&gt; <br>
+&gt; <br>
+&gt; Friendly ping~<br>
+&gt; <br>
+&gt; Link to the page for the patch on patchwork:<br>
+&gt; <a href=3D"http://patchwork.ozlabs.org/patch/1242370/" rel=3D"noreferr=
+er" target=3D"_blank">http://patchwork.ozlabs.org/patch/1242370/</a>=C2=A0<=
+br>
+<br>
+I would prefer if you hardcode the value for aarch64 rather than adding<br>
+a new parameter.<br>
+<br>
+Thanks,<br>
+Laurent<br></blockquote><div><br></div>For sure! I will send a patch shortl=
+y for hardcoding the value on aarch64.<div><br></div><div>Note that althoug=
+h the value has been working fine for our tests, we are not sure that it wo=
+n&#39;t break other tests on other systems.<br clear=3D"all"><div><div dir=
+=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><br></div><div>Reg=
+ards,<br></div></div></div></div></div><div>Lirong=C2=A0</div></div></div>
 
-What's the best way to use patchew to see series that are "pending" in
-some way? I'd like to:
-
-- Search only the block list (to:qemu-block@nongnu.org. I assume this
-catches CCs too.)
-- Exclude series that are merged (-is:merged)
-- Exclude obsoleted series (-is:obsolete)
-
-This gets a bit closer to things that are interesting in some way --
-give or take some fuzziness with patchew's detection of "merged" or
-"obsoleted" sometimes.
-
-- Exclude pull requests. (-is:pull seems broken, actually.)
-- Exclude reviewed series (-is:reviewed -- what does patchew consider
-'reviewed'? does this mean fully reviewed, or any reviews?)
-
-This gives me something a bit more useful.
-
-- Exclude 'expired' series. I use 30 days as a mental model for this. It
-might be nice to formalize this and mark patches that received no
-replies and didn't detect any other state change as "expired" and send
-an autoreply from the bot.
-
-(I.e., patches that are complete, applied, passed CI, were not
-obsoleted, did not appear to be merged, and received no replies from
-anyone except the patch author)
-
-
-("Hi, this patch received no replies from anyone except the author (you)
-for 30 days. The series is being dropped from the pending queue and is
-being marked expired. If the patches are still important, please rebase
-them and re-send to the list.
-
-Please use scripts/get_maintainers.pl to identify candidate maintainers
-and reviewers and make sure they are CC'd.
-
-This series appears to touch files owned by the following maintainers:
-- Blah
-- Etc
-- And so on
-
-For more information on the contribution process, please visit:
-<wiki links to contribution guides, etc>")
-
-We don't have anything like that, so age:<30d suffices. Alright, this
-list is starting to look *pretty* decent.
-
-project:QEMU to:qemu-block@nongnu.org not:obsolete not:merged
--is:reviewed age:<30d
-
-Lastly, maybe we can exclude series that don't have replies yet. It's
-not clear to patchew which replies are:
-
-- Unrelated comments, like this one here
-- Requests for a change
-- A question for the submitter
-- A softly-worded N-A-C-K
-
-and without a concept of designated reviewer, perhaps lack of replies is
-good evidence that the series is untouched and needs someone to 'pick it
-up'; (-has:replies)
-
-https://patchew.org/search?q=3Dproject%3AQEMU+to%3Aqemu-block%40nongnu.org+=
-not%3Aobsolete+not%3Amerged+-is%3Areviewed+age%3A%3C30d+-has%3Areplies
-
-Alright, that's pretty good, actually.
-
-OK, yes, this patch still needs love as far as patchew understands.
-
-> ---
->  tests/qemu-iotests/026             | 31 -----------
->  tests/qemu-iotests/026.out         |  6 --
->  tests/qemu-iotests/026.out.nocache |  6 --
->  tests/qemu-iotests/289             | 89 ++++++++++++++++++++++++++++++
->  tests/qemu-iotests/289.out         |  8 +++
->  tests/qemu-iotests/group           |  1 +
->  6 files changed, 98 insertions(+), 43 deletions(-)
->  create mode 100755 tests/qemu-iotests/289
->  create mode 100644 tests/qemu-iotests/289.out
->=20
-> diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
-> index b05a4692cf..b9713eb591 100755
-> --- a/tests/qemu-iotests/026
-> +++ b/tests/qemu-iotests/026
-> @@ -240,37 +240,6 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IM=
-G" | _filter_qemu_io
-> =20
->  _check_test_img
-> =20
-> -echo
-> -echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-> -echo
-> -
-> -# Similar test as the last one, except we test what happens when there
-> -# is an error when writing to an external data file instead of when
-> -# writing to a preallocated zero cluster
-> -_make_test_img -o "data_file=3D$TEST_IMG.data_file" $CLUSTER_SIZE
-> -
-> -# Put blkdebug above the data-file, and a raw node on top of that so
-> -# that blkdebug will see a write_aio event and emit an error
-> -$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
-> -    "json:{
-> -         'driver': 'qcow2',
-> -         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
-> -         'data-file': {
-> -             'driver': 'raw',
-> -             'file': {
-> -                 'driver': 'blkdebug',
-> -                 'config': '$TEST_DIR/blkdebug.conf',
-> -                 'image': {
-> -                     'driver': 'file',
-> -                     'filename': '$TEST_IMG.data_file'
-> -                 }
-> -             }
-> -         }
-> -     }" \
-> -    | _filter_qemu_io
-> -
-> -_check_test_img
-> -
->  # success, all done
->  echo "*** done"
->  rm -f $seq.full
-> diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
-> index c1b3b58482..83989996ff 100644
-> --- a/tests/qemu-iotests/026.out
-> +++ b/tests/qemu-iotests/026.out
-> @@ -653,10 +653,4 @@ wrote 1024/1024 bytes at offset 0
->  1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  write failed: Input/output error
->  No errors were found on the image.
-> -
-> -=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-> -
-> -Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTES=
-T_DIR/t.IMGFMT.data_file
-> -write failed: Input/output error
-> -No errors were found on the image.
->  *** done
-> diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.=
-out.nocache
-> index 8d5001648a..9359d26d7e 100644
-> --- a/tests/qemu-iotests/026.out.nocache
-> +++ b/tests/qemu-iotests/026.out.nocache
-> @@ -661,10 +661,4 @@ wrote 1024/1024 bytes at offset 0
->  1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  write failed: Input/output error
->  No errors were found on the image.
-> -
-> -=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-> -
-> -Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTES=
-T_DIR/t.IMGFMT.data_file
-> -write failed: Input/output error
-> -No errors were found on the image.
->  *** done
-> diff --git a/tests/qemu-iotests/289 b/tests/qemu-iotests/289
-> new file mode 100755
-> index 0000000000..1c11d4030e
-> --- /dev/null
-> +++ b/tests/qemu-iotests/289
-> @@ -0,0 +1,89 @@
-> +#!/usr/bin/env bash
-> +#
-> +# qcow2 v3-exclusive error path testing
-> +# (026 tests paths common to v2 and v3)
-> +#
-> +# Copyright (C) 2020 Red Hat, Inc.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +
-> +seq=3D$(basename $0)
-> +echo "QA output created by $seq"
-> +
-> +status=3D1=09# failure is the default!
-> +
-> +_cleanup()
-> +{
-> +    _cleanup_test_img
-> +    rm "$TEST_DIR/blkdebug.conf"
-> +    rm -f "$TEST_IMG.data_file"
-> +}
-> +trap "_cleanup; exit \$status" 0 1 2 3 15
-> +
-> +# get standard environment, filters and checks
-> +. ./common.rc
-> +. ./common.filter
-> +. ./common.pattern
-> +
-> +_supported_fmt qcow2
-> +_supported_proto file
-> +# This is a v3-exclusive test;
-> +# As for data_file, error paths often very much depend on whether
-> +# there is an external data file or not; so we create one exactly when
-> +# we want to test it
-> +_unsupported_imgopts 'compat=3D0.10' data_file
-> +
-> +echo
-> +echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-> +echo
-> +
-> +cat > "$TEST_DIR/blkdebug.conf" <<EOF
-> +[inject-error]
-> +event =3D "write_aio"
-> +errno =3D "5"
-> +once =3D "on"
-> +EOF
-> +
-> +# Test what happens when there is an error when writing to an external
-> +# data file instead of when writing to a preallocated zero cluster
-> +_make_test_img -o "data_file=3D$TEST_IMG.data_file" 64k
-> +
-> +# Put blkdebug above the data-file, and a raw node on top of that so
-> +# that blkdebug will see a write_aio event and emit an error.  This
-> +# will then trigger the alloc abort code, which we want to test here.
-> +$QEMU_IO -c "write 0 64k" \
-> +    "json:{
-> +         'driver': 'qcow2',
-> +         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
-> +         'data-file': {
-> +             'driver': 'raw',
-> +             'file': {
-> +                 'driver': 'blkdebug',
-> +                 'config': '$TEST_DIR/blkdebug.conf',
-> +                 'image': {
-> +                     'driver': 'file',
-> +                     'filename': '$TEST_IMG.data_file'
-> +                 }
-> +             }
-> +         }
-> +     }" \
-> +    | _filter_qemu_io
-> +
-> +_check_test_img
-> +
-> +# success, all done
-> +echo "*** done"
-> +rm -f $seq.full
-> +status=3D0
-> diff --git a/tests/qemu-iotests/289.out b/tests/qemu-iotests/289.out
-> new file mode 100644
-> index 0000000000..e54e2629d4
-> --- /dev/null
-> +++ b/tests/qemu-iotests/289.out
-> @@ -0,0 +1,8 @@
-> +QA output created by 289
-> +
-> +=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-> +
-> +Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536 data_file=3DTE=
-ST_DIR/t.IMGFMT.data_file
-> +write failed: Input/output error
-> +No errors were found on the image.
-> +*** done
-> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-> index 559edc139a..a898fe2c26 100644
-> --- a/tests/qemu-iotests/group
-> +++ b/tests/qemu-iotests/group
-> @@ -294,3 +294,4 @@
->  284 rw
->  286 rw quick
->  288 quick
-> +289 rw quick
->=20
-
---=20
-=E2=80=94js
-
+--0000000000000484b805a0affa0f--
 
