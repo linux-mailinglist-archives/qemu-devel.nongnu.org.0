@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585571836AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 17:56:54 +0100 (CET)
-Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B836F1836DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 18:06:19 +0100 (CET)
+Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCR8f-0003VQ-Az
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 12:56:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35957)
+	id 1jCRHm-0004w6-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 13:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxt-0000x3-T3
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxw-000104-Ox
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCQxs-0005KP-MI
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:45 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51172)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCQxt-0005Km-La
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:46 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52340)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCQxs-0005K4-FR
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:44 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a5so6859605wmb.0
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:44 -0700 (PDT)
+ id 1jCQxt-0005KU-Eq
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 12:45:45 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id 11so6848372wmo.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 09:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Vxng+M8yzsnsXH08YfIVFh29B0ARvhhfBQTx3o0z1vQ=;
- b=U/8G0Gtywpcq2Nr+FZ54HydWbzl9bLG+ed/mvWMkUiFn3Wg5gcv2bj00VMj/djCKlb
- SN/sVwkz4IwUctWtG1CnxfiQzw+uLkuRGx3QLo6twkLa7tAcEtnXJfOgk7a4JKr6cqBG
- 7LQbNgu3QxKYJ2X7Vmz44H9bO5SV5a/I6KJMe44qlJI2DDEmuEZQfi3cfAI0S+Kgj6Ur
- oiGIBdNC8fC99KKSTrNiTwijRLpYt2cqgt1aNaIQALObdCl2qmrm4TskCqkIiwmXAaIb
- xVU02xdjFnsrDh7G/cvFeLJQg+8dzQ6J0/JIkqUeOVqLQTOzYOT5Pay/q809IkvdXtpr
- AO4Q==
+ bh=vJ3ZeC2bpotYlmZBdGp1J0EoxT3McUTT78mDcwucmBE=;
+ b=SSy+c+wxss2xwJUAOZM8mE8US+pFFEr7EIT0fDnXwmW1Ea+KD6NXjzfP2r0MaM4aky
+ gGmnH0ZC7oM+NQhbsAF22IRH+kg3gj4kLz1FX0HnCAO+AYf3/DhakIuh3RPShiKDrOrf
+ uEXD4ofLs0dFK9K7vbQvepcALp4JYUTQ5YQAzrRDAKDtxCsHMaQ7mYFZjxtdBCqbUIn7
+ pcH3RH4zR/4wUqumqpLjykgUPgcClquhxEzU00L8Qo8BjzFb159UpX02+TgmiJal4zaV
+ syIcUbyLLVVBQYqRzU5JXinNBjPn8pNiA4sunDEPX06DzjKD+tThwQonCm11k59R0QHc
+ DMrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Vxng+M8yzsnsXH08YfIVFh29B0ARvhhfBQTx3o0z1vQ=;
- b=fAF6c+DjL2NeqFJjM/O6NgjTspssuzXjEVx/BCMzCqhlqPYO7gQuU7fiEN5pUTyKR4
- WnoCvHB8daLlGuWny05Zkd+oWFkELDKijdpjcdX2Tcddkkdm11K90Oi9c4/u7qqCGBlH
- A8WARvcofO2nQziCMyZfOM/TTIf1Jj0XuWBattDiDaZMu4uEbyMBWN4zMyY9XzsbZzrO
- Di9cJlpcvaO2kl7Ba6Fs3XAEzrzPuXjTxJl5R934/6RfmWi2kuXKq8yKiCGUC9ZGbN/g
- qIQ5sG0TofnBrbI6Ns/SjrQoqW4q8xxIOS6rzX5ImIj/IqGmupV49J9iY/LRabK4lFgl
- 4Oug==
-X-Gm-Message-State: ANhLgQ0iDCNkWd0UDkexCtltQtEhoUOr7epNc+ZL8s4aHzJ3ii0BAyBp
- 4Rqtlyy1KY7fPRg9tAd47FeESrw8WgXVVg==
-X-Google-Smtp-Source: ADFU+vu9Os4ok3piNvGPBYHCKDW3MfSIiEr6Ue1yntYMo0bJrxQm30sLX9GAK8R+Oh9PA9ZWVv1xjw==
-X-Received: by 2002:a1c:418b:: with SMTP id o133mr5870841wma.165.1584031543183; 
- Thu, 12 Mar 2020 09:45:43 -0700 (PDT)
+ bh=vJ3ZeC2bpotYlmZBdGp1J0EoxT3McUTT78mDcwucmBE=;
+ b=Y0H9WdNYf6h9dbbNn2nKXe2D88KauAjgIAdbbHiiRj2j9MllcSSYHcmbv0UPnomfmv
+ BxRSPCdkGCWtgSUlagh1fpJuRf5DU43srj3vmNZlvdyrWwva4WIjdUgePqKNNZk20476
+ TB+mwe8mNt5BRymvIIRgkxPH7z+pBb6cc1UGmI9fEDlDcBYKAj9Cw13Dchgy1XsJMMSk
+ u+5Zz4K1Va0+QUNNvKv3pwOzYip3anxSo5yStWP3SIIzxOi4Aa8Suug+1vhhQVjVGbMF
+ D0Aq0c7KeiqRmSyxtIhV4i9BR25MRGIzApMhweOoRoFEzbwVBTGZEZRLfAzWmXUxJecs
+ S3UQ==
+X-Gm-Message-State: ANhLgQ2u2OaepKa3OkwbtResoDPPl1iTfw9skmb42gaeapwue3clw1VQ
+ FfPfST1TyqaNGwy8mAgayFpMF8eqC6HJ3w==
+X-Google-Smtp-Source: ADFU+vvRKsPrPFKd8kbcdW/U+9AHTl9nDJEbsTFOt/i+FNVHOg1Oi+ihwJnMUJZdCcEeMu1Cq4qYhQ==
+X-Received: by 2002:a7b:c1cd:: with SMTP id a13mr5535735wmj.105.1584031544151; 
+ Thu, 12 Mar 2020 09:45:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.42
+ by smtp.gmail.com with ESMTPSA id j15sm36838640wrp.85.2020.03.12.09.45.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 09:45:42 -0700 (PDT)
+ Thu, 12 Mar 2020 09:45:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/36] hw/arm/virt: kvm: allow gicv3 by default if v2 cannot
- work
-Date: Thu, 12 Mar 2020 16:44:58 +0000
-Message-Id: <20200312164459.25924-36-peter.maydell@linaro.org>
+Subject: [PULL 36/36] target/arm: kvm: Inject events at the last stage of sync
+Date: Thu, 12 Mar 2020 16:44:59 +0000
+Message-Id: <20200312164459.25924-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312164459.25924-1-peter.maydell@linaro.org>
 References: <20200312164459.25924-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,65 +81,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Beata Michalska <beata.michalska@linaro.org>
 
-At the moment if the end-user does not specify the gic-version along
-with KVM acceleration, v2 is set by default. However most of the
-systems now have GICv3 and sometimes they do not support GICv2
-compatibility.
+KVM_SET_VCPU_EVENTS might actually lead to vcpu registers being modified.
+As such this should be the last step of sync to avoid potential overwriting
+of whatever changes KVM might have done.
 
-This patch keeps the default v2 selection in all cases except
-in the KVM accelerated mode when either
-- the host does not support GICv2 in-kernel emulation or
-- number of VCPUS exceeds 8.
-
-Those cases did not work anyway so we do not break any compatibility.
-Now we get v3 selected in such a case.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20200311131618.7187-7-eric.auger@redhat.com
+Message-id: 20200312003401.29017-2-beata.michalska@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ target/arm/kvm32.c | 15 ++++++++++-----
+ target/arm/kvm64.c | 15 ++++++++++-----
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 90966580a3d..94f93dda54f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1543,6 +1543,8 @@ static void virt_set_memmap(VirtMachineState *vms)
-  */
- static void finalize_gic_version(VirtMachineState *vms)
- {
-+    unsigned int max_cpus = MACHINE(vms)->smp.max_cpus;
-+
-     if (kvm_enabled()) {
-         int probe_bitmap;
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index f703c4fcad8..f271181ab8e 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -409,17 +409,22 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         return ret;
+     }
  
-@@ -1582,7 +1584,20 @@ static void finalize_gic_version(VirtMachineState *vms)
-             }
-             return;
-         case VIRT_GIC_VERSION_NOSEL:
--            vms->gic_version = VIRT_GIC_VERSION_2;
-+            if ((probe_bitmap & KVM_ARM_VGIC_V2) && max_cpus <= GIC_NCPU) {
-+                vms->gic_version = VIRT_GIC_VERSION_2;
-+            } else if (probe_bitmap & KVM_ARM_VGIC_V3) {
-+                /*
-+                 * in case the host does not support v2 in-kernel emulation or
-+                 * the end-user requested more than 8 VCPUs we now default
-+                 * to v3. In any case defaulting to v2 would be broken.
-+                 */
-+                vms->gic_version = VIRT_GIC_VERSION_3;
-+            } else if (max_cpus > GIC_NCPU) {
-+                error_report("host only supports in-kernel GICv2 emulation "
-+                             "but more than 8 vcpus are requested");
-+                exit(1);
-+            }
-             break;
-         case VIRT_GIC_VERSION_2:
-         case VIRT_GIC_VERSION_3:
+-    ret = kvm_put_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     write_cpustate_to_list(cpu, true);
+ 
+     if (!write_list_to_kvmstate(cpu, level)) {
+         return EINVAL;
+     }
+ 
++    /*
++     * Setting VCPU events should be triggered after syncing the registers
++     * to avoid overwriting potential changes made by KVM upon calling
++     * KVM_SET_VCPU_EVENTS ioctl
++     */
++    ret = kvm_put_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_kvm(cpu);
+ 
+     return ret;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 93ba1448daf..be5b31c2b0f 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -1094,17 +1094,22 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         return ret;
+     }
+ 
+-    ret = kvm_put_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     write_cpustate_to_list(cpu, true);
+ 
+     if (!write_list_to_kvmstate(cpu, level)) {
+         return -EINVAL;
+     }
+ 
++   /*
++    * Setting VCPU events should be triggered after syncing the registers
++    * to avoid overwriting potential changes made by KVM upon calling
++    * KVM_SET_VCPU_EVENTS ioctl
++    */
++    ret = kvm_put_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_kvm(cpu);
+ 
+     return ret;
 -- 
 2.20.1
 
