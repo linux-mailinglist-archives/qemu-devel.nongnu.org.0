@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787531831D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 14:42:30 +0100 (CET)
-Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9181318320A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 14:51:52 +0100 (CET)
+Received: from localhost ([::1]:41856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCO6X-0003JA-Iz
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 09:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55772)
+	id 1jCOFb-0003bO-8G
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 09:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCO5d-0002dc-CT
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:41:34 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCOEW-0000o8-8x
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:50:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCO5c-0002Cs-9Y
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:41:33 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35674)
+ (envelope-from <bounces@canonical.com>) id 1jCOEU-0007zI-SQ
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:50:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCO5c-0002Bv-4t
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:41:32 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k8so4042909oik.2
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 06:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a32ZZEX/gCmST/AYs/6Rmu6wb4d+7oXusEcXRkcl8sE=;
- b=cCgHebz0/J7fQat7z1XmtWnPzPhHdwtheCnBsVxlbmxq/qi4zZm27pzjbYuC20tvFf
- iTyeCX9BqFzFNzP/z1ot2CtNS2na9gQt4SIteN9w7otMa50KN0th6l0ABGlGoU3MoNuG
- GhTWEUWKKHRc0SLc8y0u2o/U09PmOVyW/5frgicjjZGy3lnYiSKtIBj8wR0BtwVFfDVc
- 9XpXMMXEXa7ppctOI9UwKvs2IKdHz+C1QfnwDRQZJ3onJY2MVCv7hiGkt09LqAz2zAHf
- 2zyVRgIw5AytQqDLbZSWnrTuT8noLD7dxPQS8K5bg5lUaj/l1SqUJ/VLqSb3E6+op8A6
- Ud/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a32ZZEX/gCmST/AYs/6Rmu6wb4d+7oXusEcXRkcl8sE=;
- b=KEC9SO0K628AhwQBSw0cO7Djm6YpyirXch4XNVa0Ae1QNrvHSqK3Y9wFQYECzvW5AJ
- urgiTjWtOucL0JxMcAp6ufWA5HTPcDECTDuyL72dd5xyRcHK/2U/FulRe9FQKHTWZbsh
- cquBCbfst9pl8Ub8OnRBwyJdERXHHGxqoNSlwhxz1k3Fc5Qh5swUfP4WMFRSsmURRG7h
- ri3cAZBMKn/LSkH5c2mSOP5JXrwUex5pp6lixAWlVwXIVqMX9nf5X/kNQImg65WcUJ3I
- 0QmZfdLQzwp2wK8ydzQRSazF5v5bnQ3d7tETZtpY9OY1IeG8wSVbOfiNfIfqeea/hedI
- fy4w==
-X-Gm-Message-State: ANhLgQ3CR+UcjHvekGVJR/d7cMIoRRUN4C8ObPV46h4JzNN6d9y39b1c
- CpbVq1YVsv3e86b4OlPpL9SG5g/ytC+rfJiRD9425Q==
-X-Google-Smtp-Source: ADFU+vs9gBlVZFpcZnmS3uHkTEC/E1y1CjfkyW2UHDhEmlSfMEVfcgJ2YgPvPl6fgwO752JSLDrSDxdjBJzIoqPksAY=
-X-Received: by 2002:aca:c608:: with SMTP id w8mr2720087oif.163.1584020491007; 
- Thu, 12 Mar 2020 06:41:31 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCOEU-0007yQ-Mm
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 09:50:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCOES-0005Xt-5g
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 13:50:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EE7AD2E80CC
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 13:50:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200310215146.19688-1-linux@roeck-us.net>
-In-Reply-To: <20200310215146.19688-1-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 12 Mar 2020 13:41:19 +0000
-Message-ID: <CAFEAcA8LM1bVGMMSAzNXGOmckah71MHQkUFyrhFbAMNqqeSCgA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] hw/arm: fsl-imx25: Connect eSDHC and USB controllers
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Mar 2020 13:41:43 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dbaxps0220 paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158402050357.25890.4633057907889866578.malone@gac.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 385d73a257c7ce3bac4276a6a92095ecb4030bc9
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,25 +67,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 at 21:51, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> The following two patches wire up eSDHC and USB controllers for fsl-imx25.
-> With these patches in place, the imx25-pdk emulation can boot from SD cards
-> and from USB.
->
-> ----------------------------------------------------------------
-> Guenter Roeck (2):
->       hw/arm: fsl-imx25: Wire up eSDHC controllers
->       hw/arm/fsl-imx25: Wire up USB controllers
+It detects host as Penryn as well for @tstrike.
+Which is fine if it is a chip of around that era.
+He reported to have an "Intel(R) Core(TM)2 Quad CPU Q9400 @ 2.66GHz"
+And for that chip the detection and chip used might be correct.
 
+So to summarize all repro fails, but on Penryn ERA chips 2/2 cases
+trigger the bug.
 
+I wonder if one that wants to reproduce needs a system with such a chip
+as well then to test and trigger this.
 
-Applied to target-arm.next, thanks.
+There should be plenty of people on CC as this is mirrored to qemu-devel
+due to the upstream qemu task. Is there an microarchitectural x86
+specialist that knows if the chips of that generation have some special
+issues in regard to VMX that might explain what we see here?
 
--- PMM
+It would be great if everyone could ask around for more systems with chips =
+of that era.
+Maybe we can further bisect which work and which will fail.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
