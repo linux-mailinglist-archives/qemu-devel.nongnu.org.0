@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32FA18333E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:36:08 +0100 (CET)
-Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A0E183326
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Mar 2020 15:32:43 +0100 (CET)
+Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCOwR-0006qe-NR
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
+	id 1jCOt8-0000Pf-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 10:32:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35659)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jCOrA-0007AA-7B
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:42 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jCOrC-0007Bt-2r
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jCOr8-0006SU-6O
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:40 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46111)
+ (envelope-from <robert.foley@linaro.org>) id 1jCOrA-0006U9-2R
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:42 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37608)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jCOr7-0006Rm-UR
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:38 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id w12so2721964pll.13
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 07:30:37 -0700 (PDT)
+ id 1jCOr9-0006TQ-SC
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 10:30:40 -0400
+Received: by mail-pg1-x543.google.com with SMTP id a32so2315308pga.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 07:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8cjhkat5SI1SyV/p2VUsqhwuExQNXm65M6Nib9b3T5k=;
- b=oXCaFS6Z0bZshOiBHLpxYDVjpe/mA3nr8UKakpXzHqVGZUpYZnl9AymHJc/REp47dt
- 06y24gDBXEQt925LmGJlfqINL/QvnexrevhckPdXBqZ0Owf8vsedJ+yPgtU5vgc83TxZ
- rFi0YL50zXXzQUq8oY59ImkWaY6TEttoTO/vlP3Xn3/jmYL5S1TJRG2qlWF5dQoi7w8Q
- cJRpaEe5+uLdXLTK0IOnHzzG25wLbTQYu72oQEe3MYFfchYrEKZ0PIOmTxhNz1NZZfpQ
- XOGXscdnbuMwJcYKDB2skkqOx/628Xsr9yyzRnB6dM+mKcLd7G56xt27W4wZEFHYLkFK
- mvCA==
+ bh=w4JJmuHvLzQg3vaVBI7GHDHOQVzkw/mMvoetRPw77+8=;
+ b=W/mnVi8c2KjM/5e2QZ3Ftsnxdjo05uFVABNXcZYmTNenvI5PbD8DkGneoaoo0PN3uQ
+ HNNPcsvB7mxOJhCnPsejFwKv0BuvfJUwWZ+MK2nfVFYAqJw+pkRaXohL8UnjPBFupcVo
+ E7Q+OTkPS57iAxpkJnDlxXDijd1gDc0I+IUtyHZoay2/TH9QNV3He699JLSCfMZwi0vm
+ CcCIHSxp13yiDzQ5uMYnmAUTMF4cabJuQUN90jvdlTWC6ImmCAKhIvRJUs0IzQsYdrHX
+ CVdIqQZbfvy0GYRgVV3djkFiJfPbrOPnNrxv1BgTqZdzQq66pZcMChWtZ1b365u0pY/9
+ VPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8cjhkat5SI1SyV/p2VUsqhwuExQNXm65M6Nib9b3T5k=;
- b=XRnBpC4JrNxsTdWH/or2nDTJnLml6jeEHr5/jsJTcQRx72bZOaW1jQrb9wtufEHLPv
- 8UZeaWTJ3gIlMj2x8/ZL+qhZIezWTHbU0thrbbkgDE3fTiq7kEsJvrc8+/nlcpRjE1FG
- gpUFhUHKHego09d/g7AsqBXPCmOUoh/EZdzDpJ+c1vWSdUsZDAKSKKNiCiVBtbT38rQw
- cywVAFoBh2xMqLg5Vbb9KIy3SteBIBHD9oYQo5OP6QcrC0ZINv56FZT1uFVFGMKHAn2W
- tZEKcdbEViKzFZKB9ot6XsyRZbGJtyABHXQyXw2sgzDbcvLGrLrsoMAtxupHlm/gi+0d
- Whsg==
-X-Gm-Message-State: ANhLgQ0gSxtmPb/fPdcwXDKFSxJBYKlX5PEIX4RtT7l+l1g1+7GgOfBq
- 6L/+f4OTGU3uNGKPXPrK/Copy3T67ws=
-X-Google-Smtp-Source: ADFU+vuYWESf6LkcBMxYCnkjnLvAe3kYY5B4IyJIOZ1Qm2diFNHRqwPg1sECNX9tsyKwGaXs4+fopA==
-X-Received: by 2002:a17:90a:f0cd:: with SMTP id
- fa13mr4380053pjb.129.1584023436220; 
- Thu, 12 Mar 2020 07:30:36 -0700 (PDT)
+ bh=w4JJmuHvLzQg3vaVBI7GHDHOQVzkw/mMvoetRPw77+8=;
+ b=KbJH/+lZt+cuj2G23rabfGcxyVpbp1NVvWj0o0v4Rlk7COobL1ho7UwwlYF34ynB2H
+ 3NGnIcs0hoHvDOJz0LCR8o33/4HKiE/5nswuKeLD2tM8/ESWW8T7wy4Vv6KGKOpegbY+
+ Lge76+rjMw9vtqy3CYctuhUpQZOHr4n9L7+0f3wYA+jG1M9HunNuepfXlYd6M31UO2mh
+ oryDFk3WxfLe4oPzeoWdWW5kPYIz+D2Pc/zLVDs6DNKYmvRaV/n1q3In+nmb2XYGHKtH
+ WaJgFcYwfG6nKrVR9WUBIymlReZldVeKhFsqJidswu8Pp45norXjAax0XxNKJqHP4mkZ
+ NuEw==
+X-Gm-Message-State: ANhLgQ0DrcIfXgx4v73TwGOPCWkrmASYCdJ2ZZ4Y5RLIykGW5OsV/TL8
+ m/BujkGYVXh/YVRR/Pex33r7vs9Dhqg=
+X-Google-Smtp-Source: ADFU+vsu+g5JSl+gD0SdqXNxdr2liQ3KLg0ldIshtSl9UYQYuzbXutyozg2Vr2P04YW89Q2wDSUqVw==
+X-Received: by 2002:a63:e007:: with SMTP id e7mr8479101pgh.262.1584023438147; 
+ Thu, 12 Mar 2020 07:30:38 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:845e:b9f6:81a6:8f5e])
- by smtp.gmail.com with ESMTPSA id 63sm14832651pfx.132.2020.03.12.07.30.34
+ by smtp.gmail.com with ESMTPSA id 63sm14832651pfx.132.2020.03.12.07.30.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 07:30:35 -0700 (PDT)
+ Thu, 12 Mar 2020 07:30:37 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/10] tests/vm: Add configuration to basevm.py
-Date: Thu, 12 Mar 2020 10:27:20 -0400
-Message-Id: <20200312142728.12285-3-robert.foley@linaro.org>
+Subject: [PATCH v4 03/10] tests/vm: Added configuration file support
+Date: Thu, 12 Mar 2020 10:27:21 -0400
+Message-Id: <20200312142728.12285-4-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200312142728.12285-1-robert.foley@linaro.org>
 References: <20200312142728.12285-1-robert.foley@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62f
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,271 +80,254 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added use of a configuration to tests/vm/basevm.py.
-The configuration provides parameters used to configure a VM.
-This allows for providing alternate configurations to the VM being
-created/launched. cpu, machine, memory, and NUMA configuration are all
-examples of configuration which we might want to vary on the VM being created
-or launched.
-This will for example allow for creating an aarch64 vm.
+Changes to tests/vm/basevm.py to allow accepting a configuration file
+as a parameter. Allows for specifying VM options such as
+cpu, machine, memory, and arbitrary qemu arguments for specifying options
+such as NUMA configuration.
+Also added an example conf_example_aarch64.yml and conf_example_x86.yml.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- tests/vm/basevm.py | 159 ++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 120 insertions(+), 39 deletions(-)
+ configure                         |  9 ++++++
+ tests/vm/Makefile.include         |  6 ++++
+ tests/vm/basevm.py                | 40 +++++++++++++++++++++++-
+ tests/vm/conf_example_aarch64.yml | 51 +++++++++++++++++++++++++++++++
+ tests/vm/conf_example_x86.yml     | 50 ++++++++++++++++++++++++++++++
+ 5 files changed, 155 insertions(+), 1 deletion(-)
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
 
+diff --git a/configure b/configure
+index 3c7470096f..739cde2318 100755
+--- a/configure
++++ b/configure
+@@ -947,6 +947,13 @@ do
+     fi
+ done
+ 
++# Check for existence of python3 yaml, needed to
++# import yaml config files into vm-build.
++python_yaml="no"
++if $(python3 -c "import yaml" 2> /dev/null); then
++    python_yaml="yes"
++fi
++
+ : ${smbd=${SMBD-/usr/sbin/smbd}}
+ 
+ # Default objcc to clang if available, otherwise use CC
+@@ -6584,6 +6591,7 @@ if test "$docs" != "no"; then
+     echo "sphinx-build      $sphinx_build"
+ fi
+ echo "genisoimage       $genisoimage"
++echo "python_yaml       $python_yaml"
+ echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
+ if test "$slirp" != "no" ; then
+     echo "smbd              $smbd"
+@@ -7634,6 +7642,7 @@ echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+ echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
+ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
++echo "PYTHON_YAML=$python_yaml" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+   echo "IASL=$iasl" >> $config_host_mak
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 1bf9693d19..78a2de1f82 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -43,6 +43,12 @@ endif
+ 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
+ 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
+ 	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
++ifeq ($(PYTHON_YAML),yes)
++	@echo "    QEMU_CONFIG=/path/conf.yml   - Change path to VM configuration .yml file."
++else
++	@echo "    (install python3-yaml to enable support for yaml file to configure a VM.)"
++endif
++	@echo "                                   See conf_example_*.yml for file format details."
+ 
+ vm-build-all: $(addprefix vm-build-, $(IMAGES))
+ 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index db479a65fd..97c6f625c9 100644
+index 97c6f625c9..dd545d3d1d 100644
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -30,15 +30,39 @@ import shutil
- import multiprocessing
- import traceback
- 
--SSH_KEY = open(os.path.join(os.path.dirname(__file__),
--               "..", "keys", "id_rsa")).read()
--SSH_PUB_KEY = open(os.path.join(os.path.dirname(__file__),
--                   "..", "keys", "id_rsa.pub")).read()
+@@ -461,9 +461,43 @@ class BaseVM(object):
+                                cwd=cidir,
+                                stdin=self._devnull, stdout=self._stdout,
+                                stderr=self._stdout)
 -
-+SSH_KEY_FILE = os.path.join(os.path.dirname(__file__),
-+               "..", "keys", "id_rsa")
-+SSH_PUB_KEY_FILE = os.path.join(os.path.dirname(__file__),
-+                   "..", "keys", "id_rsa.pub")
-+
-+# This is the standard configuration.
-+# Any or all of these can be overridden by
-+# passing in a config argument to the VM constructor.
-+DEFAULT_CONFIG = {
-+    'cpu'             : "max",
-+    'machine'         : 'pc',
-+    'guest_user'      : "qemu",
-+    'guest_pass'      : "qemupass",
-+    'root_pass'       : "qemupass",
-+    'ssh_key_file'    : SSH_KEY_FILE,
-+    'ssh_pub_key_file': SSH_PUB_KEY_FILE,
-+    'memory'          : "4G",
-+    'extra_args'      : [],
-+    'qemu_args'       : "",
-+    'dns'             : "",
-+    'ssh_port'        : 0,
-+    'install_cmds'    : "",
-+    'boot_dev_type'   : "block",
-+    'ssh_timeout'     : 1,
-+}
-+BOOT_DEVICE = {
-+    'block' :  "-drive file={},if=none,id=drive0,cache=writeback "\
-+               "-device virtio-blk,drive=drive0,bootindex=0",
-+    'scsi'  :  "-device virtio-scsi-device,id=scsi "\
-+               "-drive file={},format=raw,if=none,id=hd0 "\
-+               "-device scsi-hd,drive=hd0,bootindex=0",
-+}
- class BaseVM(object):
--    GUEST_USER = "qemu"
--    GUEST_PASS = "qemupass"
--    ROOT_PASS = "qemupass"
+         return os.path.join(cidir, "cloud-init.iso")
  
-     envvars = [
-         "https_proxy",
-@@ -61,19 +85,30 @@ class BaseVM(object):
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
-     tcg_ssh_timeout_multiplier = 4
--    def __init__(self, debug=False, vcpus=None):
-+    def __init__(self, debug=False, vcpus=None, config=None):
-         self._guest = None
-+        # Allow input config to override defaults.
-+        self._config = DEFAULT_CONFIG.copy()
-+        if config != None:
-+            self._config.update(config)
-+        self.validate_ssh_keys()
-         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
-                                                          suffix=".tmp",
-                                                          dir="."))
-         atexit.register(shutil.rmtree, self._tmpdir)
--
--        self._ssh_key_file = os.path.join(self._tmpdir, "id_rsa")
--        open(self._ssh_key_file, "w").write(SSH_KEY)
--        subprocess.check_call(["chmod", "600", self._ssh_key_file])
--
--        self._ssh_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
--        open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
-+        # Copy the key files to a temporary directory.
-+        # Also chmod the key file to agree with ssh requirements.
-+        self._config['ssh_key'] = \
-+            open(self._config['ssh_key_file']).read().rstrip()
-+        self._config['ssh_pub_key'] = \
-+            open(self._config['ssh_pub_key_file']).read().rstrip()
-+        self._ssh_tmp_key_file = os.path.join(self._tmpdir, "id_rsa")
-+        open(self._ssh_tmp_key_file, "w").write(self._config['ssh_key'])
-+        subprocess.check_call(["chmod", "600", self._ssh_tmp_key_file])
++def parse_config(config, args):
++    """ Parse yaml config and populate our config structure.
++        The yaml config allows the user to override the
++        defaults for VM parameters.  In many cases these
++        defaults can be overridden without rebuilding the VM."""
++    if args.config:
++        config_file = args.config
++    elif 'QEMU_CONFIG' in os.environ:
++        config_file = os.environ['QEMU_CONFIG']
++    else:
++        return config
++    if not os.path.exists(config_file):
++        raise Exception("config file {} does not exist".format(config_file))
++    # We gracefully handle importing the yaml module
++    # since it might not be installed.
++    # If we are here it means the user supplied a .yml file,
++    # so if the yaml module is not installed we will exit with error.
++    try:
++        import yaml
++    except ImportError:
++        print("The python3-yaml package is needed "\
++              "to support config.yaml files")
++        # Instead of raising an exception we exit to avoid
++        # a raft of messy (expected) errors to stdout.
++        exit(1)
++    with open(config_file) as f:
++        yaml_dict = yaml.safe_load(f)
 +
-+        self._ssh_tmp_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
-+        open(self._ssh_tmp_pub_key_file,
-+             "w").write(self._config['ssh_pub_key'])
++    if 'qemu-conf' in yaml_dict:
++        config.update(yaml_dict['qemu-conf'])
++    else:
++        raise Exception("config file {} is not valid"\
++                        " missing qemu-conf".format(config_file))
++    return config
++
+ def parse_args(vmcls):
  
-         self.debug = debug
-         self._stderr = sys.stderr
-@@ -82,11 +117,14 @@ class BaseVM(object):
-             self._stdout = sys.stdout
-         else:
-             self._stdout = self._devnull
-+        netdev = "user,id=vnet,hostfwd=:127.0.0.1:{}-:22"
-         self._args = [ \
--            "-nodefaults", "-m", "4G",
--            "-cpu", "max",
--            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22" +
--                       (",ipv6=no" if not self.ipv6 else ""),
-+            "-nodefaults", "-m", self._config['memory'],
-+            "-cpu", self._config['cpu'],
-+            "-netdev",
-+            netdev.format(self._config['ssh_port']) +
-+            (",ipv6=no" if not self.ipv6 else "") +
-+            (",dns=" + self._config['dns'] if self._config['dns'] else ""),
-             "-device", "virtio-net-pci,netdev=vnet",
-             "-vnc", "127.0.0.1:0,to=20"]
-         if vcpus and vcpus > 1:
-@@ -97,6 +135,45 @@ class BaseVM(object):
-             logging.info("KVM not available, not using -enable-kvm")
-         self._data_args = []
- 
-+        if self._config['qemu_args'] != None:
-+            qemu_args = self._config['qemu_args']
-+            qemu_args = qemu_args.replace('\n',' ').replace('\r','')
-+            # Remove any empty strings from list.
-+            self._config['extra_args'] = [x for x in qemu_args.split(' ') if x]
-+
-+    def validate_ssh_keys(self):
-+        """Check to see if the ssh key files exist."""
-+        if 'ssh_key_file' not in self._config or\
-+           not os.path.exists(self._config['ssh_key_file']):
-+            raise Exception("ssh key file not found.")
-+        if 'ssh_pub_key_file' not in self._config or\
-+           not os.path.exists(self._config['ssh_pub_key_file']):
-+               raise Exception("ssh pub key file not found.")
-+
-+    def wait_boot(self, wait_string=None):
-+        """Wait for the standard string we expect
-+           on completion of a normal boot.
-+           The user can also choose to override with an
-+           alternate string to wait for."""
-+        if wait_string is None:
-+            if self.login_prompt is None:
-+                raise Exception("self.login_prompt not defined")
-+            wait_string = self.login_prompt
-+        # Intentionally bump up the default timeout under TCG,
-+        # since the console wait below takes longer.
-+        timeout = self.socket_timeout
-+        if not kvm_available(self.arch):
-+            timeout *= 8
-+        self.console_init(timeout=timeout)
-+        self.console_wait(wait_string)
-+
-+    def __getattr__(self, name):
-+        # Support direct access to config by key.
-+        # for example, access self._config['cpu'] by self.cpu
-+        if name.lower() in self._config.keys():
-+            return self._config[name.lower()]
-+        return object.__getattribute__(self, name)
-+
-     def _download_with_cache(self, url, sha256sum=None, sha512sum=None):
-         def check_sha256sum(fname):
-             if not sha256sum:
-@@ -128,8 +205,9 @@ class BaseVM(object):
-                    "-t",
-                    "-o", "StrictHostKeyChecking=no",
-                    "-o", "UserKnownHostsFile=" + os.devnull,
--                   "-o", "ConnectTimeout=1",
--                   "-p", self.ssh_port, "-i", self._ssh_key_file]
-+                   "-o",
-+                   "ConnectTimeout={}".format(self._config["ssh_timeout"]),
-+                   "-p", self.ssh_port, "-i", self._ssh_tmp_key_file]
-         # If not in debug mode, set ssh to quiet mode to
-         # avoid printing the results of commands.
-         if not self.debug:
-@@ -178,15 +256,15 @@ class BaseVM(object):
-                             "virtio-blk,drive=%s,serial=%s,bootindex=1" % (name, name)]
- 
-     def boot(self, img, extra_args=[]):
--        args = self._args + [
--            "-device", "VGA",
--            "-drive", "file=%s,if=none,id=drive0,cache=writeback" % img,
--            "-device", "virtio-blk,drive=drive0,bootindex=0"]
--        args += self._data_args + extra_args
-+        boot_dev = BOOT_DEVICE[self._config['boot_dev_type']]
-+        boot_params = boot_dev.format(img)
-+        args = self._args + boot_params.split(' ')
-+        args += self._data_args + extra_args + self._config['extra_args']
-+        args += ["-device", "VGA"]
-         logging.debug("QEMU args: %s", " ".join(args))
-         qemu_bin = os.environ.get("QEMU", "qemu-system-" + self.arch)
-         guest = QEMUMachine(binary=qemu_bin, args=args)
--        guest.set_machine('pc')
-+        guest.set_machine(self._config['machine'])
-         guest.set_console()
-         try:
-             guest.launch()
-@@ -294,7 +372,8 @@ class BaseVM(object):
-         self.console_send(command)
- 
-     def console_ssh_init(self, prompt, user, pw):
--        sshkey_cmd = "echo '%s' > .ssh/authorized_keys\n" % SSH_PUB_KEY.rstrip()
-+        sshkey_cmd = "echo '%s' > .ssh/authorized_keys\n" \
-+                     % self._config['ssh_pub_key'].rstrip()
-         self.console_wait_send("login:",    "%s\n" % user)
-         self.console_wait_send("Password:", "%s\n" % pw)
-         self.console_wait_send(prompt,      "mkdir .ssh\n")
-@@ -353,23 +432,23 @@ class BaseVM(object):
-                           "local-hostname: {}-guest\n".format(name)])
-         mdata.close()
-         udata = open(os.path.join(cidir, "user-data"), "w")
--        print("guest user:pw {}:{}".format(self.GUEST_USER,
--                                           self.GUEST_PASS))
-+        print("guest user:pw {}:{}".format(self._config['guest_user'],
-+                                           self._config['guest_pass']))
-         udata.writelines(["#cloud-config\n",
-                           "chpasswd:\n",
-                           "  list: |\n",
--                          "    root:%s\n" % self.ROOT_PASS,
--                          "    %s:%s\n" % (self.GUEST_USER,
--                                           self.GUEST_PASS),
-+                          "    root:%s\n" % self._config['root_pass'],
-+                          "    %s:%s\n" % (self._config['guest_user'],
-+                                           self._config['guest_pass']),
-                           "  expire: False\n",
-                           "users:\n",
--                          "  - name: %s\n" % self.GUEST_USER,
-+                          "  - name: %s\n" % self._config['guest_user'],
-                           "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
-                           "    ssh-authorized-keys:\n",
--                          "    - %s\n" % SSH_PUB_KEY.rstrip(),
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-                           "  - name: root\n",
-                           "    ssh-authorized-keys:\n",
--                          "    - %s\n" % SSH_PUB_KEY.rstrip(),
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-                           "locale: en_US.UTF-8\n"])
-         proxy = os.environ.get("http_proxy")
-         if not proxy is None:
-@@ -422,15 +501,17 @@ def parse_args(vmcls):
+     def get_default_jobs():
+@@ -498,6 +532,9 @@ def parse_args(vmcls):
+                       help="Interactively run command")
+     parser.add_option("--snapshot", "-s", action="store_true",
+                       help="run tests with a snapshot")
++    parser.add_option("--config", "-c", default=None,
++                      help="Provide config yaml for configuration. "\
++                           "See config_example.yaml for example.")
      parser.disable_interspersed_args()
      return parser.parse_args()
  
--def main(vmcls):
-+def main(vmcls, config=None):
-     try:
-+        if config == None:
-+            config = {}
-         args, argv = parse_args(vmcls)
+@@ -509,6 +546,7 @@ def main(vmcls, config=None):
          if not argv and not args.build_qemu and not args.build_image:
              print("Nothing to do?")
              return 1
++        config = parse_config(config, args)
          logging.basicConfig(level=(logging.DEBUG if args.debug
                                     else logging.WARN))
--        vm = vmcls(debug=args.debug, vcpus=args.jobs)
-+        vm = vmcls(debug=args.debug, vcpus=args.jobs, config=config)
-         if args.build_image:
-             if os.path.exists(args.image) and not args.force:
-                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
+         vm = vmcls(debug=args.debug, vcpus=args.jobs, config=config)
+diff --git a/tests/vm/conf_example_aarch64.yml b/tests/vm/conf_example_aarch64.yml
+new file mode 100644
+index 0000000000..9d44ae356f
+--- /dev/null
++++ b/tests/vm/conf_example_aarch64.yml
+@@ -0,0 +1,51 @@
++#
++# Example yaml for use by any of the scripts in tests/vm.
++# Can be provided as an environment variable QEMU_CONFIG
++#
++qemu-conf:
++
++    # If any of the below are not provided, we will just use the qemu defaults.
++
++    # Login username and password(has to be sudo enabled)
++    guest_user: qemu
++    guest_pass: "qemupass"
++
++    # Password for root user can be different from guest.
++    root_pass: "qemupass"
++
++    # If one key is provided, both must be provided.
++    #ssh_key: /complete/path/of/your/keyfile/id_rsa
++    #ssh_pub_key: /complete/path/of/your/keyfile/id_rsa.pub
++
++    cpu: max
++    machine: virt,gic-version=max
++    memory: 16G
++
++    # The below is a example for how to configure NUMA topology with
++    # 4 NUMA nodes and 2 different NUMA distances.
++    qemu_args: "-smp cpus=16,sockets=2,cores=8
++                -numa node,cpus=0-3,nodeid=0 -numa node,cpus=4-7,nodeid=1
++                -numa node,cpus=8-11,nodeid=2 -numa node,cpus=12-15,nodeid=3
++                -numa dist,src=0,dst=1,val=15 -numa dist,src=2,dst=3,val=15
++                -numa dist,src=0,dst=2,val=20 -numa dist,src=0,dst=3,val=20
++                -numa dist,src=1,dst=2,val=20 -numa dist,src=1,dst=3,val=20"
++
++    # By default we do not set the DNS.
++    # You override the defaults by setting the below.
++    #dns: 1.234.567.89
++
++    # By default we will use a "block" device, but
++    # you can also boot from a "scsi" device.
++    # Just keep in mind your scripts might need to change
++    # As you will have /dev/sda instead of /dev/vda (for block device)
++    boot_dev_type: "block"
++
++    # By default the ssh port is not fixed.
++    # A fixed ssh port makes it easier for automated tests.
++    #ssh_port: 5555
++
++    # To install a different set of packages, provide a command to issue
++    #install_cmds: "apt-get update ; apt-get build-dep -y qemu"
++
++    # Or to skip the install entirely, just provide ""
++    #install_cmds: ""
+diff --git a/tests/vm/conf_example_x86.yml b/tests/vm/conf_example_x86.yml
+new file mode 100644
+index 0000000000..78d3f5830f
+--- /dev/null
++++ b/tests/vm/conf_example_x86.yml
+@@ -0,0 +1,50 @@
++#
++# Example yaml for use by any of the x86 based scripts in tests/vm.
++# Can be provided as an environment variable QEMU_CONFIG
++#
++qemu-conf:
++
++    # If any of the below are not provided, we will just use the qemu defaults.
++
++    # Login username and password(has to be sudo enabled)
++    guest_user: "qemu"
++    guest_pass: "qemupass"
++
++    # Password for root user can be different from guest.
++    root_pass: "qemupass"
++
++    # Provide default ssh keys of current user.
++    # You need to edit the below for your user.
++    #ssh_key_file: /home/<user>/.ssh/id_rsa
++    #ssh_pub_key_file: /home/<user>/.ssh/id_rsa.pub
++
++    cpu: max
++    machine: pc
++    memory: 8G
++
++    # The below is a example for how to configure NUMA topology with
++    # 4 NUMA nodes and 2 different NUMA distances.
++    qemu_args: "-smp cpus=8,sockets=2,cores=4
++                -object memory-backend-ram,size=4G,policy=bind,host-nodes=0,id=ram-node0
++                -object memory-backend-ram,size=4G,policy=bind,host-nodes=0,id=ram-node1
++                -object memory-backend-ram,size=4G,policy=bind,host-nodes=1,id=ram-node2
++                -object memory-backend-ram,size=4G,policy=bind,host-nodes=1,id=ram-node3
++                -numa node,cpus=0-1,nodeid=0 -numa node,cpus=2-3,nodeid=1
++                -numa node,cpus=4-5,nodeid=2 -numa node,cpus=6-7,nodeid=3
++                -numa dist,src=0,dst=1,val=15 -numa dist,src=2,dst=3,val=15
++                -numa dist,src=0,dst=2,val=20 -numa dist,src=0,dst=3,val=20
++                -numa dist,src=1,dst=2,val=20 -numa dist,src=1,dst=3,val=20"
++
++    # By default we do not set the DNS.
++    # You override the defaults by setting the below.
++    #dns: "1.234.567.89"
++
++    # By default we will use a "block" device, but
++    # you can also boot from a "scsi" device.
++    # Just keep in mind your scripts might need to change
++    # As you will have /dev/sda instead of /dev/vda (for block device)
++    boot_dev_type: "block"
++
++    # By default the ssh port is not fixed.
++    # A fixed ssh port makes it easier for automated tests.
++    ssh_port: 5555
 -- 
 2.17.1
 
