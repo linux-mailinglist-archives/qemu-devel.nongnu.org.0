@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7E5183FDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 04:55:41 +0100 (CET)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCB1183FD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 04:54:29 +0100 (CET)
+Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCbQC-0004uq-IV
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 23:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47883)
+	id 1jCbP2-00038U-3d
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 23:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiangyifei@huawei.com>) id 1jCbMJ-0006tj-T5
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:51:41 -0400
+ (envelope-from <jiangyifei@huawei.com>) id 1jCbMJ-0006tf-9l
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:51:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiangyifei@huawei.com>) id 1jCbMI-0000dJ-Jp
+ (envelope-from <jiangyifei@huawei.com>) id 1jCbMH-0000bT-VH
  for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:51:39 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:35016 helo=huawei.com)
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3201 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
- id 1jCbMI-0000SK-71; Thu, 12 Mar 2020 23:51:38 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 96924BFA16C42F5E1A22;
+ id 1jCbMH-0000SL-EM; Thu, 12 Mar 2020 23:51:37 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B2A68667E133AF381F94;
  Fri, 13 Mar 2020 11:51:31 +0800 (CST)
 Received: from huawei.com (10.133.201.158) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Fri, 13 Mar 2020
- 11:51:24 +0800
+ 11:51:25 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC 7/9] hw/riscv: PLIC update external interrupt by KVM when
- kvm enabled
-Date: Fri, 13 Mar 2020 11:49:47 +0800
-Message-ID: <20200313034949.3028-8-jiangyifei@huawei.com>
+Subject: [PATCH RFC 8/9] target/riscv: Handler KVM_EXIT_RISCV_SBI exit
+Date: Fri, 13 Mar 2020 11:49:48 +0800
+Message-ID: <20200313034949.3028-9-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.23.0.windows.1
 In-Reply-To: <20200313034949.3028-1-jiangyifei@huawei.com>
 References: <20200313034949.3028-1-jiangyifei@huawei.com>
@@ -42,7 +41,7 @@ X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,106 +61,97 @@ Cc: anup.patel@wdc.com, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only support supervisor external interrupt currently.
+Use char-fe handler console sbi call, which implement early
+console io while apply 'earlycon=3Dsbi' into kernel parameters.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- hw/riscv/sifive_plic.c   | 31 ++++++++++++++++++++++---------
- target/riscv/kvm.c       | 19 +++++++++++++++++++
- target/riscv/kvm_riscv.h |  1 +
- 3 files changed, 42 insertions(+), 9 deletions(-)
+ target/riscv/kvm.c | 54 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index c1e04cbb98..ff5c18ed20 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -29,6 +29,8 @@
- #include "target/riscv/cpu.h"
- #include "sysemu/sysemu.h"
- #include "hw/riscv/sifive_plic.h"
-+#include "sysemu/kvm.h"
-+#include "kvm_riscv.h"
-=20
- #define RISCV_DEBUG_PLIC 0
-=20
-@@ -145,15 +147,26 @@ static void sifive_plic_update(SiFivePLICState *pli=
-c)
-             continue;
-         }
-         int level =3D sifive_plic_irqs_pending(plic, addrid);
--        switch (mode) {
--        case PLICMode_M:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(=
-level));
--            break;
--        case PLICMode_S:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(=
-level));
--            break;
--        default:
--            break;
-+        if (kvm_enabled()) {
-+            if (mode =3D=3D PLICMode_M) {
-+                continue;
-+            }
-+#ifdef CONFIG_KVM
-+            kvm_riscv_set_irq(RISCV_CPU(cpu), IRQ_S_EXT, level);
-+#endif
-+        } else {
-+            switch (mode) {
-+            case PLICMode_M:
-+                riscv_cpu_update_mip(RISCV_CPU(cpu),
-+                                     MIP_MEIP, BOOL_TO_MASK(level));
-+                break;
-+            case PLICMode_S:
-+                riscv_cpu_update_mip(RISCV_CPU(cpu),
-+                                     MIP_SEIP, BOOL_TO_MASK(level));
-+                break;
-+            default:
-+                break;
-+            }
-         }
-     }
-=20
 diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index b9aec66b69..0f429fd802 100644
+index 0f429fd802..1df70fbb29 100644
 --- a/target/riscv/kvm.c
 +++ b/target/riscv/kvm.c
-@@ -440,3 +440,22 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
-     env->gpr[11] =3D cpu->env.fdt_start;         /* a1 */
+@@ -38,6 +38,7 @@
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "kvm_riscv.h"
++#include "chardev/char-fe.h"
+=20
+ static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
+ {
+@@ -61,6 +62,19 @@ static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
+=20
+ #define RISCV_FP_D_REG(idx)  kvm_riscv_reg_id(KVM_REG_RISCV_FP_D, idx)
+=20
++enum sbi_ext_id {
++    SBI_EXT_0_1_SET_TIMER =3D 0x0,
++    SBI_EXT_0_1_CONSOLE_PUTCHAR =3D 0x1,
++    SBI_EXT_0_1_CONSOLE_GETCHAR =3D 0x2,
++    SBI_EXT_0_1_CLEAR_IPI =3D 0x3,
++    SBI_EXT_0_1_SEND_IPI =3D 0x4,
++    SBI_EXT_0_1_REMOTE_FENCE_I =3D 0x5,
++    SBI_EXT_0_1_REMOTE_SFENCE_VMA =3D 0x6,
++    SBI_EXT_0_1_REMOTE_SFENCE_VMA_ASID =3D 0x7,
++    SBI_EXT_0_1_SHUTDOWN =3D 0x8,
++    SBI_EXT_BASE =3D 0x10,
++};
++
+ static int kvm_riscv_get_regs_core(CPUState *cs)
+ {
+     int ret =3D 0;
+@@ -423,9 +437,47 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
+     return true;
  }
 =20
-+void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
++static int kvm_riscv_handle_sbi(struct kvm_run *run)
 +{
-+    int ret;
-+    unsigned virq =3D level ? KVM_INTERRUPT_SET : KVM_INTERRUPT_UNSET;
-+
-+    if (irq !=3D IRQ_S_EXT) {
-+        return;
++    int ret =3D 0;
++    unsigned char ch;
++    switch (run->riscv_sbi.extension_id) {
++    case SBI_EXT_0_1_CONSOLE_PUTCHAR:
++        ch =3D run->riscv_sbi.args[0];
++        qemu_chr_fe_write(serial_hd(0)->be, &ch, sizeof(ch));
++        break;
++    case SBI_EXT_0_1_CONSOLE_GETCHAR:
++        ret =3D qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
++        if (ret =3D=3D sizeof(ch)) {
++            run->riscv_sbi.args[0] =3D ch;
++        } else {
++            run->riscv_sbi.args[0] =3D -1;
++        }
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: un-handled SBI EXIT, specific reasons is %lu\=
+n",
++                      __func__, run->riscv_sbi.extension_id);
++        ret =3D -1;
++        break;
 +    }
-+
-+    if (!kvm_enabled()) {
-+        return;
-+    }
-+
-+    ret =3D kvm_vcpu_ioctl(CPU(cpu), KVM_INTERRUPT, &virq);
-+    if (ret < 0) {
-+        perror("Set irq failed");
-+        abort();
-+    }
++    return ret;
 +}
-diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-index f38c82bf59..ed281bdce0 100644
---- a/target/riscv/kvm_riscv.h
-+++ b/target/riscv/kvm_riscv.h
-@@ -20,5 +20,6 @@
- #define QEMU_KVM_RISCV_H
++
+ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+ {
+-    return 0;
++    int ret =3D 0;
++    switch (run->exit_reason) {
++    case KVM_EXIT_RISCV_SBI:
++        ret =3D kvm_riscv_handle_sbi(run);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
++                      __func__, run->exit_reason);
++        ret =3D -1;
++        break;
++    }
++    return ret;
+ }
 =20
- void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
-+void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
-=20
- #endif
+ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
 --=20
 2.19.1
 
