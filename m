@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E17F184EF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:50:29 +0100 (CET)
-Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A69184EFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:52:05 +0100 (CET)
+Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpO8-0005pe-91
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
+	id 1jCpPf-0000HX-0a
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpCH-0001jl-B7
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:38:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpFz-0000sb-Fs
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpCG-0005MO-7C
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:38:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59590
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jCpFy-00055T-BZ
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33214
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpCG-0005Li-3s
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:38:12 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpFy-00055B-8X
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124691;
+ s=mimecast20190719; t=1584124921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jc8uJI+fsWVnbFhna2J0NMxSMRDSs2zyN/X211eVidg=;
- b=SpV1jA0tXgvUa77PO6hYPhCjWVtlRLPl5Wm6Xs0ZaWl2JyJrpxioEPEXWg+wPXsKrzacv2
- dUb7a0QvyR8Z5uJgCNMJ6bHpIJzzN8x/bFIOx8qMHHkDNad5wSvcLZSpZ/xJqM59LfAU0B
- a/ITmn5CLHzJufI2yMNjs7a4hr42N8o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-mlC3S_BPOHuHagFc_wpHuA-1; Fri, 13 Mar 2020 14:38:08 -0400
-X-MC-Unique: mlC3S_BPOHuHagFc_wpHuA-1
-Received: by mail-wm1-f69.google.com with SMTP id a11so1368835wmm.9
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:38:07 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qTJWLuPvDtPVlT+0gmAc/Ch34jN4Re0x/yogrlHnxD4=;
+ b=XZFGSYEpPk+QV1kLwWA5g/bXmvgoxIGN6bMIiWhYTlqRklZE1yvDaZ8DnYLA/RLti7XFcR
+ LgEuZkoebNeRY4dVZ7aR+LCEcXRhD5Mr+zJ3fHXYhGutvzJUw6rHF/NPEnqgGHYAwo6mOI
+ vDMqYJw6IHKspbZ28OTlnsSntxIKkL8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-opIrMOY4PQuqrqI7uvPJlg-1; Fri, 13 Mar 2020 14:41:56 -0400
+X-MC-Unique: opIrMOY4PQuqrqI7uvPJlg-1
+Received: by mail-wr1-f69.google.com with SMTP id p2so2188437wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:41:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oL9lM1TjQ9zbVx8kM0/Y3ow0t+KGUtP0TdO5NgiCTHI=;
- b=mrDSz/yyKJ+1g2wO+8s0H/K3mzjnsDVhLUimpM8xJS1L/cImJhlmqhpw8m6x3f97ix
- fJfEh4f+eeMoSFi1WHfmP/qa1wEIAXWbI62sWolG1jfXYSkoSJ+gX5aU/UAxpkIxn4H7
- ou0qNOkf8BhCVY3wX7qv/96LqsirC3RuY1IKkRdeh4v4hjdvqHTOVXGmVkt4GS7ITkLS
- aNaki2W04Em4yZyjPCQmKtE6A7GB3IEGC/kcrQRf26gslrwhhSs7H7pP8rj3Gx3YiYCv
- nKLd5fmO++Ak61lvN+5qges8UuKBavuxhgnMEG8nyjj9MSyLLyBg7fJrE67Sehz24abG
- XhPw==
-X-Gm-Message-State: ANhLgQ3t9eUy/f9HmGjKQz01cNxKMkq5tS7q70XE7FiJzPsBc06HL4J4
- 3blwk/E55atIoEMWQCO21n075GlM/mqu0s5+0PfeSxbvWpaNYqd3E8Nsr8o+fQ67SslQa8UFnkx
- uI34lRhLEo2i8NQY=
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr12481664wmg.41.1584124686791; 
- Fri, 13 Mar 2020 11:38:06 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvkUiNDT12hS5ZR4JFRBhywm9lydrk/287pcgsHZIDKqKgIi1sD3FdgAsAeou1Hy1iXt4HYMQ==
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr12481624wmg.41.1584124686545; 
- Fri, 13 Mar 2020 11:38:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9wmwK7XBEa9KVBRzHAi0ocsEP1vfCuqCnlmQIUqq3Zk=;
+ b=XG1ISdgf3M81C9JKZaWxLNWrkTSE8gSkHF+iGjO06/Vk5mt88kXNUZ3fn2q38bAM5T
+ GxxYFOkP2vkAExSKTpM8J82pOXCUYnZiW+TcT00v8rF4UP7SdiawgP0aD0mGnmY8GoYr
+ 1GVRMSMspC0iqilkiKg2+Wc4tLvIZ9WwwweqWs/9IoTkOT5igjnX/fpJW+6XWAaWOjBc
+ CBiCDZgN/8xmM57NG/IIcLQm6tJOwIDJUkkBcTAt3vHLBPF6Z5dvA2mgnE/djIaLyVWk
+ Ea+oTE9EXQlQ+i8MHMFaV/jfWw8SGR1czSE8tj7+dOYFv3cYrkVEpLY8fP8O9Yp+AIxE
+ JtsQ==
+X-Gm-Message-State: ANhLgQ1TLioCG0iicEwrvX+e0iQ49LKAXzgtVVaB3vrUKBA5XhXWAqpX
+ yBe8M8fiA8vkwNhmtPeyAEafOXKe61YzmoWpypYpVayaAA8fJUef7X8JYyt5Uy7Du39SYAvl8Go
+ Lq8D36+QyuWKZmfo=
+X-Received: by 2002:adf:ec88:: with SMTP id z8mr3578732wrn.61.1584124915226;
+ Fri, 13 Mar 2020 11:41:55 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vt7pFHf5AdpsKedlzL6DqJNE3CPV+5w77ZSUkvrl6LrSA/u1d3ihAukt+FGJzU196kdaVvQ/A==
+X-Received: by 2002:adf:ec88:: with SMTP id z8mr3578701wrn.61.1584124915016;
+ Fri, 13 Mar 2020 11:41:55 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id f17sm59325628wrm.3.2020.03.13.11.38.05
+ by smtp.gmail.com with ESMTPSA id a199sm9047221wme.29.2020.03.13.11.41.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:38:06 -0700 (PDT)
+ Fri, 13 Mar 2020 11:41:54 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] hw/core: Restrict CpuClass::get_crash_info() to
- system-mode
-Date: Fri, 13 Mar 2020 19:36:52 +0100
-Message-Id: <20200313183652.10258-15-philmd@redhat.com>
+Subject: [PATCH 0/9] user-mode: Prune build dependencies (part 2)
+Date: Fri, 13 Mar 2020 19:41:44 +0100
+Message-Id: <20200313184153.11275-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200313183652.10258-1-philmd@redhat.com>
-References: <20200313183652.10258-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -80,7 +74,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,84 +86,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Ben Warren <ben@skyportsystems.com>, Peter Lieven <pl@kamp.de>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Igor Mammedov <imammedo@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- include/hw/core/cpu.h | 7 ++++++-
- hw/core/cpu.c         | 2 ++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+This is the second part of a series reducing user-mode
+dependencies. By stripping out unused code, the build
+and testing time is reduced (as is space used by objects).
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 73e9a869a4..48ab5ec3ed 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -492,6 +492,8 @@ bool cpu_paging_enabled(const CPUState *cpu);
- void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
-                             Error **errp);
-=20
-+#if !defined(CONFIG_USER_ONLY)
-+
- /**
-  * cpu_write_elf64_note:
-  * @f: pointer to a function that writes memory to a file
-@@ -541,6 +543,8 @@ int cpu_write_elf32_qemunote(WriteCoreDumpFunction f, C=
-PUState *cpu,
-  */
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
-=20
-+#endif /* !CONFIG_USER_ONLY */
-+
- /**
-  * CPUDumpFlags:
-  * @CPU_DUMP_CODE:
-@@ -634,7 +638,8 @@ static inline int cpu_asidx_from_attrs(CPUState *cpu, M=
-emTxAttrs attrs)
-     }
-     return ret;
- }
--#endif
-+
-+#endif /* CONFIG_USER_ONLY */
-=20
- /**
-  * cpu_list_add:
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index fe65ca62ac..debdd7e670 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -209,6 +209,7 @@ static bool cpu_common_exec_interrupt(CPUState *cpu, in=
-t int_req)
-     return false;
- }
-=20
-+#if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
- {
-     CPUClass *cc =3D CPU_GET_CLASS(cpu);
-@@ -219,6 +220,7 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu=
-)
-     }
-     return res;
- }
-+#endif
-=20
- void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
- {
+Part 2:
+- Extract code not related to user-mode from qapi/misc.json
+
+Based-on: <20200313183652.10258-1-philmd@redhat.com>
+
+Philippe Mathieu-Daud=C3=A9 (9):
+  target/i386: Restrict X86CPUFeatureWord to X86 targets
+  qapi/misc: Move add_client command with chardev code
+  qapi/misc: Restrict LostTickPolicy enum to machine code
+  qapi/misc: Restrict balloon-related commands to machine code
+  qapi/misc: Move query-uuid command with block code
+  qapi/misc: Restrict query-vm-generation-id command to machine code
+  qapi/misc: Restrict ACPI commands to machine code
+  qapi/misc: Restrict PCI commands to machine code
+  qapi/misc: Restrict device memory commands to machine code
+
+ qapi/block-core.json                 |  30 +
+ qapi/char.json                       |  32 ++
+ qapi/machine-target.json             |  45 ++
+ qapi/machine.json                    | 766 ++++++++++++++++++++++++--
+ qapi/misc.json                       | 788 ---------------------------
+ include/hw/acpi/acpi_dev_interface.h |   2 +-
+ include/hw/mem/memory-device.h       |   1 +
+ include/hw/rtc/mc146818rtc.h         |   2 +-
+ include/hw/virtio/virtio-pmem.h      |   2 +-
+ include/sysemu/balloon.h             |   2 +-
+ balloon.c                            |   2 +-
+ block/iscsi.c                        |   2 +-
+ hw/acpi/core.c                       |   2 +-
+ hw/acpi/cpu.c                        |   2 +-
+ hw/acpi/memory_hotplug.c             |   2 +-
+ hw/acpi/vmgenid.c                    |   2 +-
+ hw/core/qdev-properties.c            |   1 +
+ hw/i386/kvm/i8254.c                  |   2 +-
+ hw/pci/pci-stub.c                    |   2 +-
+ hw/pci/pci.c                         |   2 +-
+ hw/virtio/virtio-balloon.c           |   2 +-
+ monitor/hmp-cmds.c                   |   1 +
+ monitor/qmp-cmds.c                   |   1 +
+ stubs/uuid.c                         |   2 +-
+ stubs/vmgenid.c                      |   2 +-
+ target/i386/cpu.c                    |   2 +-
+ target/i386/machine-stub.c           |  22 +
+ target/i386/Makefile.objs            |   3 +-
+ 28 files changed, 876 insertions(+), 848 deletions(-)
+ create mode 100644 target/i386/machine-stub.c
+
 --=20
 2.21.1
 
