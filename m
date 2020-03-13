@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3807D184610
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 12:41:15 +0100 (CET)
-Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351F4184662
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 13:02:36 +0100 (CET)
+Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCigk-00063z-1V
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 07:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51009)
+	id 1jCj1O-0007Zx-SK
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 08:02:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jCifl-0005Aw-FM
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:14 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCj0O-0006qJ-9I
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 08:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jCifk-0001NT-DK
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:13 -0400
-Received: from 7.mo68.mail-out.ovh.net ([46.105.63.230]:43235)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jCifk-0001J7-7w
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:12 -0400
-Received: from player746.ha.ovh.net (unknown [10.108.35.223])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 6072815F83D
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 12:40:10 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player746.ha.ovh.net (Postfix) with ESMTPSA id 929E110774105;
- Fri, 13 Mar 2020 11:40:05 +0000 (UTC)
-Date: Fri, 13 Mar 2020 12:40:03 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 2/4] spapr: Move creation of ibm,architecture-vec-5
- property
-Message-ID: <20200313124003.63b87232@bahia.home>
-In-Reply-To: <20200313040539.819138-3-david@gibson.dropbear.id.au>
-References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
- <20200313040539.819138-3-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1jCj0K-0003PL-H3
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 08:01:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51478)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCj0J-0003LW-Su
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 08:01:28 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCj0G-0004JD-Jl
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 12:01:24 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 332522E80CB
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 12:01:24 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 8149545001532561894
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvjedgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejgeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Mar 2020 11:42:57 -0000
+From: John Boero <1847232@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=david@redhat.com; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: boeroboy davidhildenbrand ivmn th-huth
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: John Boero (boeroboy)
+References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
+Message-Id: <158409977730.18756.8898708141347821171.malone@chaenomeles.canonical.com>
+Subject: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating HASH
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e2a9fb84568a5c36df903141ef05a9f9ad044b9b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.63.230
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,81 +66,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, philmd@redhat.com, clg@kaod.org, qemu-devel@nongnu.org
+Reply-To: Bug 1847232 <1847232@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 15:05:37 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Thank you so much!  I've been hitting the same issue with s390x.
 
-> This is currently called from spapr_dt_cas_updates() which is a hang over
-> from when we created this only as a diff to the DT at CAS time.  Now that
-> we fully rebuild the DT at CAS time, just create it alon with the rest
+Maybe an endian issue with hardware vx?
 
-s/alon/along
+** Bug watch added: github.com/moby/moby/issues #40240
+   https://github.com/moby/moby/issues/40240
 
-> of the properties in /chosen.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/ppc/spapr.c | 26 +++-----------------------
->  1 file changed, 3 insertions(+), 23 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 66289ffef5..fc28d9df25 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -889,22 +889,6 @@ static int spapr_rng_populate_dt(void *fdt)
->      return ret ? -1 : 0;
->  }
->  
-> -static int spapr_dt_cas_updates(SpaprMachineState *spapr, void *fdt,
-> -                                SpaprOptionVector *ov5_updates)
+-- =
 
-Heh I should have looked at patch 2 before commenting on patch 1 :)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847232
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Title:
+  qemu TCG in s390x mode issue with calculating HASH
 
-> -{
-> -    int offset;
-> -
-> -    offset = fdt_path_offset(fdt, "/chosen");
-> -    if (offset < 0) {
-> -        offset = fdt_add_subnode(fdt, 0, "chosen");
-> -        if (offset < 0) {
-> -            return offset;
-> -        }
-> -    }
-> -    return spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
-> -                                  "ibm,architecture-vec-5");
-> -}
-> -
->  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
->  {
->      MachineState *ms = MACHINE(spapr);
-> @@ -1115,6 +1099,9 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt)
->  
->      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
->  
-> +    _FDT(spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
-> +                                "ibm,architecture-vec-5"));
-> +
->      g_free(stdout_path);
->      g_free(bootlist);
->  }
-> @@ -1263,13 +1250,6 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
->          }
->      }
->  
-> -    /* ibm,client-architecture-support updates */
-> -    ret = spapr_dt_cas_updates(spapr, fdt, spapr->ov5_cas);
-> -    if (ret < 0) {
-> -        error_report("couldn't setup CAS properties fdt");
-> -        exit(1);
-> -    }
-> -
->      if (smc->dr_phb_enabled) {
->          ret = spapr_dt_drc(fdt, 0, NULL, SPAPR_DR_CONNECTOR_TYPE_PHB);
->          if (ret < 0) {
+Status in QEMU:
+  Fix Released
 
+Bug description:
+  When using go on s390x on Debian x64 (buster) (host) and debian s390x
+  (sid) (guest) I run into the following problem :
+
+  The following occurs while trying to build a custom project :
+
+  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+  Get
+  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
+0150613233007-fe3947df716e.mod:
+  local error: tls: bad record MAC
+
+  Doing a git bisect I find that this problem only occurs on and after
+  commit 08ef92d556c584c7faf594ff3af46df456276e1b
+
+  Before that commit, all works fine. Past this commit, build always
+  fails.
+
+  Without any proof, It looks like a hash calculation bug related to
+  using z/Arch vector facilities...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
