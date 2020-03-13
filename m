@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64398185111
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:25:22 +0100 (CET)
-Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257D518511B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:27:05 +0100 (CET)
+Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCro1-0002eI-DL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46625)
+	id 1jCrpg-00058k-77
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrly-0007lx-Mr
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:16 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlx-0007jG-HU
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlw-0000Kq-0Q
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:14 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57645)
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlv-0000Kd-V7
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:13 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57667)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jCrlr-0008UM-Ec; Fri, 13 Mar 2020 17:23:09 -0400
+ id 1jCrls-00009c-Py; Fri, 13 Mar 2020 17:23:08 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 019D7747E13;
+ by localhost (Postfix) with SMTP id 1E989747E04;
  Fri, 13 Mar 2020 22:23:06 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 71609747E04; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
-Message-Id: <3240656814c804513de08bdbbf318f2f590df241.1584134074.git.balaton@eik.bme.hu>
+ id 89B66747E0F; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
+Message-Id: <f0c416bb421f7d652559e1fbb82dc5d1259eeaac.1584134074.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
 References: <cover.1584134074.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 2/8] hw/ide: Get rid of piix4_init function
+Subject: [PATCH 7/8] hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
 Date: Fri, 13 Mar 2020 22:14:34 +0100
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
@@ -55,84 +55,40 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes pci_piix4_ide_init() function similar to clean up done to
-other ide devices.
+We can move it next to the MAX_IDE_BUS define now that less files use
+it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ide/piix.c    | 12 +-----------
- hw/isa/piix4.c   |  5 ++++-
- include/hw/ide.h |  1 -
- 3 files changed, 5 insertions(+), 13 deletions(-)
+ include/hw/ide.h          | 2 --
+ include/hw/ide/internal.h | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 8bcd6b72c2..3b2de4c312 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -208,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
-     }
- }
- 
--/* hd_table must contain 4 block drivers */
--/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
--PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
--{
--    PCIDevice *dev;
--
--    dev = pci_create_simple(bus, devfn, "piix4-ide");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
- static void piix3_ide_class_init(ObjectClass *klass, void *data)
- {
-@@ -247,6 +236,7 @@ static const TypeInfo piix3_ide_xen_info = {
-     .class_init    = piix3_ide_class_init,
- };
- 
-+/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
- static void piix4_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 7edec5e149..0ab4787658 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -35,6 +35,7 @@
- #include "hw/timer/i8254.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "migration/vmstate.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -255,10 +256,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
-         *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-     }
- 
-+    pci = pci_create_simple(pci_bus, pci->devfn + 1, "piix4-ide");
-     hd = g_new(DriveInfo *, ide_drives);
-     ide_drive_get(hd, ide_drives);
--    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-+    pci_ide_create_devs(pci, hd);
-     g_free(hd);
-+
-     pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
-         *smbus = piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
 diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 883bbaeb9b..21bd8f23f1 100644
+index d52c211f32..c5ce5da4f4 100644
 --- a/include/hw/ide.h
 +++ b/include/hw/ide.h
-@@ -12,7 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+@@ -4,8 +4,6 @@
+ #include "hw/isa/isa.h"
+ #include "exec/memory.h"
+ 
+-#define MAX_IDE_DEVS	2
+-
+ /* ide-isa.c */
+ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
                          DriveInfo *hd0, DriveInfo *hd1);
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 1a49d35959..fd3cae4acf 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -28,6 +28,7 @@ typedef struct IDEDMAOps IDEDMAOps;
+ #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
  
- /* ide-pci.c */
--PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+ #define MAX_IDE_BUS 2
++#define MAX_IDE_DEVS 2
  
- /* ide-mmio.c */
+ /* Bits of HD_STATUS */
+ #define ERR_STAT		0x01
 -- 
 2.21.1
 
