@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE39F183FE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 05:07:12 +0100 (CET)
-Received: from localhost ([::1]:53530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6904A18407E
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 06:27:42 +0100 (CET)
+Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCbbL-0004mI-P4
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 00:07:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44153)
+	id 1jCcrE-0008CH-VK
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 01:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jCba7-0003Ph-6y
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 00:05:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jCcpw-0007kq-P8
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 01:26:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jCba6-000768-3q
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 00:05:55 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59867 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jCba5-0006rE-AX; Fri, 13 Mar 2020 00:05:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48dsYj34s9z9sSW; Fri, 13 Mar 2020 15:05:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584072345;
- bh=4+vqW/+RBRo5X6Te37ypI3apVYu8PMdyc07IjtIT7Ng=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nz5WkQo2a7+N0qCHLKIu/aj1PsHVjdm5xcVcTbFYrlUUoWP2N1am8sM0yvxFALPGs
- bcE6Z/31+a8yd8EVzDcZ+ycD6RzXo6OZops2iwvGZNQZ3fUmukCq0RVtr0Qk0ES0pS
- 5vIsYgtRsI0/Y0tpCym1YiBrdJ+tDhUjgRA9Bwx4=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: groug@kaod.org,
-	clg@kaod.org,
-	philmd@redhat.com
-Subject: [PATCH 4/4] spapr: Fold spapr_node0_size() into its only caller
-Date: Fri, 13 Mar 2020 15:05:39 +1100
-Message-Id: <20200313040539.819138-5-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200313040539.819138-1-david@gibson.dropbear.id.au>
-References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
+ (envelope-from <richard.henderson@linaro.org>) id 1jCcpv-0004gx-Kz
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 01:26:20 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:36913)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jCcpv-0004fA-DG
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 01:26:19 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id ca13so3707373pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 22:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+e4fyTDy0r9KzAFfSiWr6DhKCoTvO7zjWFgRj7An7YQ=;
+ b=PzdIMajMaby/N9WxVfihw1viCtJ4LpuMMhd0qnhD7fCFwS+kw+T2TPOPxdUkfgRwzk
+ c9T3+e8YQwP6CT5K/kD/EHLvwR/qLqtwJttI9foZiq80qkmbq+i9xX9USVcZEYxZg/ew
+ kC9hN8uTa4FzOIl0tgX5T62yep3syMQI/O8rrWSLJhhrtgBWRAV7CD5bXorFyOCfaIrX
+ 4XEv5xAiZaNT8PS6heOEnaiXJvbNG92nQ/6ShlcoL9GOLyTYIGUgPLCFeMlgO1r4cCos
+ iW9JuNuSy+ZWCKm6ga8erbgZiIC4KWPbpUFMjnBcxb0m308pniZyK6zrK+QdO4igc8xI
+ yLrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+e4fyTDy0r9KzAFfSiWr6DhKCoTvO7zjWFgRj7An7YQ=;
+ b=jUbaBj6iCyX6VQlxWb9Qru5V1ILJeaj/I886/ylMeOgiPRA6jW9blFRP3Gnmx3oaDc
+ w3tfGTaOw4TGM46subSAxzQuowckz9fyk6kH9XTSM+M9PgkE5HIHZm0Rrm3gGebB4KFE
+ /ybgmiED9U55lPz/CpFb7hZGDhZRfO4mbOxq+9NPwqXcfNGYF3Du9o4N1lc8zXg7RdFA
+ vczQy7o3zvYPl+huloFbhyCJkUkxMfp8XwjnN4EdC3aU4lX1wwdrt7IiUJyF1b1xOeq9
+ GRASlfcum6xZxzJJibf+2qR0qNHSPcB/wR1sToS3fGXaGgG9WQVFPGvGULHOsfrMVCLo
+ nhfQ==
+X-Gm-Message-State: ANhLgQ0fqu+QEwLdt6Ca4+iexWnnKhrBfz5Q8F8ncrDkTezzuIhmC9MA
+ c0LZPUE4zEfLvFpPVUUOFbkAlA==
+X-Google-Smtp-Source: ADFU+vuWX8zs/99Ab7pYAT0ImUYzl5YtT4f5xYcMUKY9HwI0YsALMcvlAnOa56GibgU9iMyJb/wFzA==
+X-Received: by 2002:a17:90a:d103:: with SMTP id
+ l3mr7984625pju.116.1584077178258; 
+ Thu, 12 Mar 2020 22:26:18 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ ep10sm10467049pjb.26.2020.03.12.22.26.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Mar 2020 22:26:17 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] target/riscv: Don't set write permissions on dirty
+ PTEs
+To: Alistair Francis <alistair23@gmail.com>
+References: <c827880a47774cd3a6bcd59b79657f380da11d5d.1583284602.git.alistair.francis@wdc.com>
+ <e8498727-03f8-7e04-efd3-c04763dcbfac@linaro.org>
+ <CAKmqyKOnb+CpnugoUkeL_kabyiCfZCmWyNF9uV5GUBT_pek=0g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <47b0bc38-6384-9ab4-7c3e-d5ed405ea90d@linaro.org>
+Date: Thu, 12 Mar 2020 22:26:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <CAKmqyKOnb+CpnugoUkeL_kabyiCfZCmWyNF9uV5GUBT_pek=0g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,101 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Real Mode Area (RMA) needs to fit within the NUMA node owning memory
-at address 0.  That's usually node 0, but can be a later one if there are
-some nodes which have no memory (only CPUs).
+On 3/12/20 3:10 PM, Alistair Francis wrote:
+>> I still think this must be a guest (or nested guest) bug related to clearing
+>> PTE bits and failing to flush the TLB properly.
+> 
+> It think so as well now. I have changed the Linux guest and Hypervisor
+> to be very aggressive with flushing but still can't get guest user
+> space working. I'll keep digging and see if I can figure out what's
+> going on.
+> 
+>>
+>> I don't see how it could be a qemu tlb flushing bug.  The only primitive,
+>> sfence.vma, is quite heavy-handed and explicitly local to the thread.
+> 
+> Yes, both sfence and hfence flush all TLBs, so that doesn't seem to be
+> the problem.
 
-This is currently handled by the spapr_node0_size() helper.  It has only
-one caller, so there's not a lot of point splitting it out.  It's also
-extremely easy to misread the code as clamping to the size of the smalles=
-t
-node rather than the first node with any memory.
+Here's an idea: change the tlb_flush() calls to tlb_flush_all_cpus_synced().
 
-So, fold it into the caller, and add some commentary to make it a bit
-clearer exactly what it's doing.
+If that works, it suggests a guest interprocessor interrupt bug in the tlb
+shoot-down.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6c32ec3c0a..6a42c0f1c9 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -295,20 +295,6 @@ static void spapr_dt_pa_features(SpaprMachineState *=
-spapr,
-     _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_si=
-ze)));
- }
-=20
--static hwaddr spapr_node0_size(MachineState *machine)
--{
--    if (machine->numa_state->num_nodes) {
--        int i;
--        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
--            if (machine->numa_state->nodes[i].node_mem) {
--                return MIN(pow2floor(machine->numa_state->nodes[i].node_=
-mem),
--                           machine->ram_size);
--            }
--        }
--    }
--    return machine->ram_size;
--}
--
- static void add_str(GString *s, const gchar *s1)
- {
-     g_string_append_len(s, s1, strlen(s1) + 1);
-@@ -2631,10 +2617,24 @@ static hwaddr spapr_rma_size(SpaprMachineState *s=
-papr, Error **errp)
-     MachineState *machine =3D MACHINE(spapr);
-     SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-     hwaddr rma_size =3D machine->ram_size;
--    hwaddr node0_size =3D spapr_node0_size(machine);
-=20
-     /* RMA has to fit in the first NUMA node */
--    rma_size =3D MIN(rma_size, node0_size);
-+    if (machine->numa_state->num_nodes) {
-+        /*
-+         * It's possible for there to be some zero-memory nodes first
-+         * in the list.  We need the RMA to fit inside the memory of
-+         * the first node which actually has some memory.
-+         */
-+        int i;
-+
-+        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-+            if (machine->numa_state->nodes[i].node_mem !=3D 0) {
-+                hwaddr node_size =3D machine->numa_state->nodes[i].node_=
-mem;
-+                rma_size =3D MIN(rma_size, pow2floor(node_size));
-+                break;
-+            }
-+        }
-+    }
-=20
-     /*
-      * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-@@ -2651,6 +2651,11 @@ static hwaddr spapr_rma_size(SpaprMachineState *sp=
-apr, Error **errp)
-         rma_size =3D MIN(rma_size, smc->rma_limit);
-     }
-=20
-+    /*
-+     * RMA size must be a power of 2
-+     */
-+    rma_size =3D pow2floor(rma_size);
-+
-     if (rma_size < MIN_RMA_SLOF) {
-         error_setg(errp,
- "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area me=
-mory)",
---=20
-2.24.1
-
+r~
 
