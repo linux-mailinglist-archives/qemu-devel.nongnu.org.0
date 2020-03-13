@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD1E185129
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:28:50 +0100 (CET)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E226185113
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:25:42 +0100 (CET)
+Received: from localhost ([::1]:37672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCrrN-0007yG-C9
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1jCroL-0003AV-2w
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlz-0007mx-6n
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:16 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlw-0007hN-Fh
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlx-0000QL-1u
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:15 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57630)
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlv-0000IL-2v
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:12 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57651)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jCrlr-0008TF-CM; Fri, 13 Mar 2020 17:23:09 -0400
+ id 1jCrlr-0008Ud-Fl; Fri, 13 Mar 2020 17:23:08 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B314E747E1B;
- Fri, 13 Mar 2020 22:23:05 +0100 (CET)
+ by localhost (Postfix) with SMTP id 03ECA747E1C;
+ Fri, 13 Mar 2020 22:23:06 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7C6C1747E13; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
-Message-Id: <eb14ddee41be26f38ee0fe5ff0ff42c79afe9731.1584134074.git.balaton@eik.bme.hu>
+ id 778B0747E14; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
+Message-Id: <7679b82b4f26fdb16f00c3b130f8e6a807724f73.1584134074.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
 References: <cover.1584134074.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 4/8] hw/ide: Move MAX_IDE_BUS define to one header
+Subject: [PATCH 3/8] hw/ide: Remove now unneded #include "hw/pci/pci.h" from
+ hw/ide.h
 Date: Fri, 13 Mar 2020 22:14:34 +0100
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
@@ -55,182 +56,66 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are several definitions of MAX_IDE_BUS in different boards (some
-of them unused) with the same value. Move it to include/hw/ide/internal.h
-to have it in a central place.
+After previous patches we don't need hw/pci/pci.h any more in
+hw/ide.h. Some files depended on implicit inclusion by this header
+which are also fixed up here.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/alpha/dp264.c          | 2 --
- hw/hppa/machine.c         | 2 --
- hw/i386/pc_piix.c         | 2 --
- hw/mips/mips_fulong2e.c   | 1 -
- hw/mips/mips_malta.c      | 4 +---
- hw/mips/mips_r4k.c        | 4 +---
- hw/ppc/mac_newworld.c     | 1 -
- hw/ppc/mac_oldworld.c     | 1 -
- hw/ppc/prep.c             | 2 --
- hw/sparc64/sun4u.c        | 1 -
- include/hw/ide/internal.h | 2 ++
- 11 files changed, 4 insertions(+), 18 deletions(-)
+ hw/ide/ahci_internal.h        | 1 +
+ include/hw/ide.h              | 1 -
+ include/hw/ide/pci.h          | 1 +
+ include/hw/misc/macio/macio.h | 1 +
+ 4 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 27595767e5..0f58b1b668 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -24,8 +24,6 @@
- #include "qemu/cutils.h"
- #include "net/net.h"
- 
--#define MAX_IDE_BUS 2
--
- static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
- {
-     if (((addr >> 41) & 3) == 2) {
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 9175f4b790..1f9a390f99 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -24,8 +24,6 @@
- #include "qemu/log.h"
- #include "net/net.h"
- 
--#define MAX_IDE_BUS 2
--
- static ISABus *hppa_isa_bus(void)
- {
-     ISABus *isa_bus;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c399398739..b363a69e2e 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -63,8 +63,6 @@
- #include "sysemu/numa.h"
- #include "hw/mem/nvdimm.h"
- 
--#define MAX_IDE_BUS 2
--
- #ifdef CONFIG_IDE_ISA
- static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
- static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 639ba2a091..3690b76061 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -55,7 +55,6 @@
- 
- /* fulong 2e has a 512k flash: Winbond W39L040AP70Z */
- #define BIOS_SIZE               (512 * KiB)
--#define MAX_IDE_BUS             2
- 
- /*
-  * PMON is not part of qemu and released with BSD license, anyone
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index d380f73d7b..6f51e33e7b 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -40,7 +40,7 @@
- #include "sysemu/arch_init.h"
- #include "qemu/log.h"
- #include "hw/mips/bios.h"
--#include "hw/ide.h"
-+#include "hw/ide/internal.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
- #include "elf.h"
-@@ -68,8 +68,6 @@
- 
- #define FLASH_SIZE          0x400000
- 
--#define MAX_IDE_BUS         2
--
- typedef struct {
-     MemoryRegion iomem;
-     MemoryRegion iomem_lo; /* 0 - 0x900 */
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index ad8b75e286..2e5372bda0 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -25,7 +25,7 @@
- #include "hw/block/flash.h"
- #include "qemu/log.h"
- #include "hw/mips/bios.h"
--#include "hw/ide.h"
-+#include "hw/ide/internal.h"
- #include "hw/loader.h"
- #include "elf.h"
- #include "hw/rtc/mc146818rtc.h"
-@@ -37,8 +37,6 @@
- #include "sysemu/runstate.h"
- #include "qemu/error-report.h"
- 
--#define MAX_IDE_BUS 2
--
- static const int ide_iobase[2] = { 0x1f0, 0x170 };
- static const int ide_iobase2[2] = { 0x3f6, 0x376 };
- static const int ide_irq[2] = { 14, 15 };
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index b8189bf7a4..daa1523feb 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -75,7 +75,6 @@
+diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
+index 73424516da..bab0459774 100644
+--- a/hw/ide/ahci_internal.h
++++ b/hw/ide/ahci_internal.h
+@@ -27,6 +27,7 @@
+ #include "hw/ide/ahci.h"
+ #include "hw/ide/internal.h"
  #include "hw/sysbus.h"
- #include "trace.h"
++#include "hw/pci/pci.h"
  
--#define MAX_IDE_BUS 2
- #define CFG_ADDR 0xf0000510
- #define TBFREQ (100UL * 1000UL * 1000UL)
- #define CLOCKFREQ (900UL * 1000UL * 1000UL)
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 440c406eb4..2478748c78 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -51,7 +51,6 @@
- #include "kvm_ppc.h"
- #include "exec/address-spaces.h"
+ #define AHCI_MEM_BAR_SIZE         0x1000
+ #define AHCI_MAX_PORTS            32
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index 21bd8f23f1..d52c211f32 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -2,7 +2,6 @@
+ #define HW_IDE_H
  
--#define MAX_IDE_BUS 2
- #define CFG_ADDR 0xf0000510
- #define TBFREQ 16600000UL
- #define CLOCKFREQ 266000000UL
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index 111cc80867..e1b1549e58 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -56,8 +56,6 @@
- /* SMP is not enabled, for now */
- #define MAX_CPUS 1
+ #include "hw/isa/isa.h"
+-#include "hw/pci/pci.h"
+ #include "exec/memory.h"
  
--#define MAX_IDE_BUS 2
--
- #define CFG_ADDR 0xf0000510
+ #define MAX_IDE_DEVS	2
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index a9f2c33e68..98ffa7dfcd 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -2,6 +2,7 @@
+ #define HW_IDE_PCI_H
  
- #define KERNEL_LOAD_ADDR 0x01000000
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index d33e84f831..74acfd39b3 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -66,7 +66,6 @@
- #define PBM_PCI_IO_BASE      (PBM_SPECIAL_BASE + 0x02000000ULL)
- #define PROM_FILENAME        "openbios-sparc64"
- #define NVRAM_SIZE           0x2000
--#define MAX_IDE_BUS          2
- #define BIOS_CFG_IOPORT      0x510
- #define FW_CFG_SPARC64_WIDTH (FW_CFG_ARCH_LOCAL + 0x00)
- #define FW_CFG_SPARC64_HEIGHT (FW_CFG_ARCH_LOCAL + 0x01)
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 1bc1fc73e5..1a49d35959 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
- #define TYPE_IDE_BUS "IDE"
- #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
+ #include "hw/ide/internal.h"
++#include "hw/pci/pci.h"
  
-+#define MAX_IDE_BUS 2
-+
- /* Bits of HD_STATUS */
- #define ERR_STAT		0x01
- #define INDEX_STAT		0x02
+ #define BM_STATUS_DMAING 0x01
+ #define BM_STATUS_ERROR  0x02
+diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
+index 070a694eb5..87335a991c 100644
+--- a/include/hw/misc/macio/macio.h
++++ b/include/hw/misc/macio/macio.h
+@@ -27,6 +27,7 @@
+ #define MACIO_H
+ 
+ #include "hw/char/escc.h"
++#include "hw/pci/pci.h"
+ #include "hw/ide/internal.h"
+ #include "hw/intc/heathrow_pic.h"
+ #include "hw/misc/macio/cuda.h"
 -- 
 2.21.1
 
