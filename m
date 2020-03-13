@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE13B184EDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:46:05 +0100 (CET)
-Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DA6184ECB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:40:52 +0100 (CET)
+Received: from localhost ([::1]:35181 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpJs-0006nG-Qt
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53979)
+	id 1jCpEp-0004z1-SP
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpBb-0000CW-P4
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpBi-0000Py-9I
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpBa-0003Tv-Bh
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55067
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jCpBh-0003pn-7c
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21198
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBa-0003SW-34
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:30 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBh-0003ol-3W
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124649;
+ s=mimecast20190719; t=1584124656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xgDberYaZDed20sm6tRRJ30h81E1DyL3M/u30/cftuw=;
- b=QYvSgVC4i9C16PK41rSbmKX1I7AI2CevaTwauULW1Zoz+6Lm7xsFkBPNvbmPFlu4YVJulC
- wO4r5ozCtYznCqxzpAoQ9zjCxamq8QsXAp0nHlkSEkPIvN7ilLvp20GQ5MX25eor1WjoXy
- vAQdenILRpj9nctpEdvTSzWxnW/Ej+s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312--oaMDIgZNWCCohZj9yvPDA-1; Fri, 13 Mar 2020 14:37:28 -0400
-X-MC-Unique: -oaMDIgZNWCCohZj9yvPDA-1
-Received: by mail-wm1-f69.google.com with SMTP id s15so1719914wmc.0
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:28 -0700 (PDT)
+ bh=pry6+pV8fUl3y5exktsH4W1Uxi8wrIUzy2x3T/v2sI4=;
+ b=TFhdUo7jXxwE5RJBEZavz5j5k4w3O62mzUP7sI+L2WVZANUvPeCygGF5aoW976TbTw7ovp
+ vGP1ugJnScUlyRcFg4SUusfNQNZIHQ8WfJ93f9Nvit5526v2ewsY0GnEIDuz2Lbbgbs8j0
+ mw8cJPZD4H/n9JUQTRy3fjMZBAhbUuc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-Cxawn8MnP3u-l34Xj_xAew-1; Fri, 13 Mar 2020 14:37:33 -0400
+X-MC-Unique: Cxawn8MnP3u-l34Xj_xAew-1
+Received: by mail-wr1-f70.google.com with SMTP id b12so4758392wro.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RC71PykOebGOXBV3Avk2avLieaYMFi0EYKRjpxiFXHU=;
- b=FUVgfIB0s0fbN50aAbMrMR1UX4GkZ962SOayWvNLqUo+/T7MxaB+hGyweIcRrI5x9Q
- w852tSbHDHReKUoNIWlfMB6Bhq7EY/xfbJiyGCRhP/bKnEuoDawTiO2jVFXz/zKGi+W2
- 7cC4bNRYjNX3JN00G7pTX4rGKZZw2sPSXh3HzdQpHK57c0tsrGqOXyq0tt8P+/IK7yJ3
- Mpkvi0VYqk9fuFte2fvBclGObqNB5hwNpg+KVpCT/bVaH6WHNY2JBiv6hL29w0QQn3Hq
- SdQ9yR8l2b5jaGT2SPup8Xhx9+07+lJ14QdurZM2HdgztwFLFy5XhomK6Ws/XGnIntYA
- 311w==
-X-Gm-Message-State: ANhLgQ13unAQIS/3tibnlTNWf9luTbthJVs5+tr2pfaa8fzaOjNOzPaG
- yVgOEUfnOzyX8BU+FeNvyLGxTRMPxRA/0mK5RJfJ2+FdbJO39GEumfxUhwk+zKjyz0NUspoS4rx
- kZMTDh+JnXADUl8g=
-X-Received: by 2002:adf:e4ca:: with SMTP id v10mr18665480wrm.305.1584124646870; 
- Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vujjgTFOCuWjS1sUnHVe14BjCxdTIeVV/2vuhZ1FIR92L6DidbJ7VLByJXmZrt1QAbjPTocEA==
-X-Received: by 2002:adf:e4ca:: with SMTP id v10mr18665462wrm.305.1584124646657; 
- Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
+ bh=GzR0VTVvQsF/hlsamkIvnRsrC8/9iy2Vlr1dz/V+KBw=;
+ b=ba7nZKNyKwhFqzwt2Wc5KGN83SpnOaxKcP18MWMfuFSe9Wv6nMB3ArY7B2Z2ixEUMQ
+ 3RHE6IFJPdaFsE0tKnEphN9GPFm0IFLkLDfdFD1JVDbSHKTJec62yMm+g+tZAMGCW4dl
+ Za8/GHWtqhQ3C+Ud2RsFJqj2XQ8lVVO0dMfZuj4W84T7P8GVrhb+DclPkyswpOvxd5tk
+ MsF/oxT5TxR0D4wz9SNlDVk3x6fGu+gLyzzT4ta7/H+NWGyqW39ayC2FXGICkq7tUwxQ
+ EmwPKoRf/ZIvDChh1j7KFAGB8/kkj5VKPJWfPKw141R3Hw7qkCB1Icf/grZtp3+143JI
+ nPNg==
+X-Gm-Message-State: ANhLgQ09xwQ1tKNmF0Qlwe1qCbXh8PFkENKqNvyijiYfksTCouTW/3j3
+ CrALL7NMCxiA2B/bj6HE8OdPpkIXMfMZnxYcKwmdz5oJQSPFpPBi2L/q7mDbpNOO7fgXB8LWbPd
+ tgWijRK1vrEVCxTQ=
+X-Received: by 2002:a5d:660d:: with SMTP id n13mr18234112wru.383.1584124651689; 
+ Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsXUbMgZopATF5ABmIQGcTP5jpwz9bFq/9SdX9Ao7M7bfLF6/N69ygmaZANBNBGhiIuInwKsA==
+X-Received: by 2002:a5d:660d:: with SMTP id n13mr18234084wru.383.1584124651541; 
+ Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id w81sm17726166wmg.19.2020.03.13.11.37.25
+ by smtp.gmail.com with ESMTPSA id p10sm16966938wru.4.2020.03.13.11.37.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
+ Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/14] util/Makefile: Reduce the user-mode object list
-Date: Fri, 13 Mar 2020 19:36:44 +0100
-Message-Id: <20200313183652.10258-7-philmd@redhat.com>
+Subject: [PATCH 07/14] target/riscv/cpu: Restrict CPU migration to system-mode
+Date: Fri, 13 Mar 2020 19:36:45 +0100
+Message-Id: <20200313183652.10258-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313183652.10258-1-philmd@redhat.com>
 References: <20200313183652.10258-1-philmd@redhat.com>
@@ -76,7 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,109 +104,45 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These stubs are not required when configured with --disable-system.
-
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- util/Makefile.objs | 59 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 38 insertions(+), 21 deletions(-)
+ target/riscv/cpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 6718a38b61..24ae2e4dfa 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -1,8 +1,4 @@
- util-obj-y =3D osdep.o cutils.o unicode.o qemu-timer-common.o
--util-obj-y +=3D bufferiszero.o
--util-obj-y +=3D lockcnt.o
--util-obj-y +=3D aiocb.o async.o aio-wait.o thread-pool.o qemu-timer.o
--util-obj-y +=3D main-loop.o
- util-obj-$(call lnot,$(CONFIG_ATOMIC64)) +=3D atomic64.o
- util-obj-$(CONFIG_POSIX) +=3D aio-posix.o
- util-obj-$(CONFIG_POSIX) +=3D fdmon-poll.o
-@@ -21,31 +17,20 @@ util-obj-$(CONFIG_WIN32) +=3D oslib-win32.o
- util-obj-$(CONFIG_WIN32) +=3D qemu-thread-win32.o
- util-obj-y +=3D envlist.o path.o module.o
- util-obj-y +=3D host-utils.o
--util-obj-y +=3D bitmap.o bitops.o hbitmap.o
-+util-obj-y +=3D bitmap.o bitops.o
- util-obj-y +=3D fifo8.o
--util-obj-y +=3D nvdimm-utils.o
- util-obj-y +=3D cacheinfo.o
- util-obj-y +=3D error.o qemu-error.o
- util-obj-y +=3D qemu-print.o
- util-obj-y +=3D id.o
--util-obj-y +=3D iov.o qemu-config.o qemu-sockets.o uri.o notify.o
-+util-obj-y +=3D qemu-config.o notify.o
- util-obj-y +=3D qemu-option.o qemu-progress.o
- util-obj-y +=3D keyval.o
--util-obj-y +=3D hexdump.o
- util-obj-y +=3D crc32c.o
- util-obj-y +=3D uuid.o
--util-obj-y +=3D throttle.o
- util-obj-y +=3D getauxval.o
--util-obj-y +=3D readline.o
- util-obj-y +=3D rcu.o
- util-obj-$(CONFIG_MEMBARRIER) +=3D sys_membarrier.o
--util-obj-y +=3D qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
--util-obj-y +=3D qemu-coroutine-sleep.o
--util-obj-y +=3D qemu-co-shared-resource.o
--util-obj-y +=3D coroutine-$(CONFIG_COROUTINE_BACKEND).o
--util-obj-y +=3D buffer.o
--util-obj-y +=3D timed-average.o
--util-obj-y +=3D base64.o
- util-obj-y +=3D log.o
- util-obj-y +=3D pagesize.o
- util-obj-y +=3D qdist.o
-@@ -54,12 +39,44 @@ util-obj-y +=3D qsp.o
- util-obj-y +=3D range.o
- util-obj-y +=3D stats64.o
- util-obj-y +=3D systemd.o
--util-obj-y +=3D iova-tree.o
--util-obj-$(CONFIG_INOTIFY1) +=3D filemonitor-inotify.o
--util-obj-$(call lnot,$(CONFIG_INOTIFY1)) +=3D filemonitor-stub.o
--util-obj-$(CONFIG_LINUX) +=3D vfio-helpers.o
- util-obj-$(CONFIG_POSIX) +=3D drm.o
- util-obj-y +=3D guest-random.o
- util-obj-$(CONFIG_GIO) +=3D dbus.o
- dbus.o-cflags =3D $(GIO_CFLAGS)
- dbus.o-libs =3D $(GIO_LIBS)
-+
-+#######################################################################
-+# code used by both qemu system emulation and qemu-img
-+
-+ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
-+
-+util-obj-y +=3D aio-wait.o
-+util-obj-y +=3D aiocb.o
-+util-obj-y +=3D async.o
-+util-obj-y +=3D base64.o
-+util-obj-y +=3D buffer.o
-+util-obj-y +=3D bufferiszero.o
-+util-obj-y +=3D coroutine-$(CONFIG_COROUTINE_BACKEND).o
-+util-obj-y +=3D hexdump.o
-+util-obj-y +=3D lockcnt.o
-+util-obj-y +=3D iov.o
-+util-obj-y +=3D iova-tree.o
-+util-obj-y +=3D hbitmap.o
-+util-obj-y +=3D main-loop.o
-+util-obj-y +=3D nvdimm-utils.o
-+util-obj-y +=3D qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
-+util-obj-y +=3D qemu-coroutine-sleep.o
-+util-obj-y +=3D qemu-co-shared-resource.o
-+util-obj-y +=3D qemu-sockets.o
-+util-obj-y +=3D qemu-timer.o
-+util-obj-y +=3D thread-pool.o
-+util-obj-y +=3D throttle.o
-+util-obj-y +=3D timed-average.o
-+util-obj-y +=3D uri.o
-+
-+util-obj-$(CONFIG_LINUX) +=3D vfio-helpers.o
-+util-obj-$(CONFIG_INOTIFY1) +=3D filemonitor-inotify.o
-+util-obj-$(call lnot,$(CONFIG_INOTIFY1)) +=3D filemonitor-stub.o
-+util-obj-$(CONFIG_BLOCK) +=3D readline.o
-+
-+endif # CONFIG_SOFTMMU || CONFIG_TOOLS
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index c0b7023100..b59e09209e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -475,10 +475,12 @@ static void riscv_cpu_init(Object *obj)
+     cpu_set_cpustate_pointers(cpu);
+ }
+=20
++#ifndef CONFIG_USER_ONLY
+ static const VMStateDescription vmstate_riscv_cpu =3D {
+     .name =3D "cpu",
+     .unmigratable =3D 1,
+ };
++#endif
+=20
+ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+@@ -534,13 +536,13 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
+ *data)
+     cc->do_transaction_failed =3D riscv_cpu_do_transaction_failed;
+     cc->do_unaligned_access =3D riscv_cpu_do_unaligned_access;
+     cc->get_phys_page_debug =3D riscv_cpu_get_phys_page_debug;
++    /* For now, mark unmigratable: */
++    cc->vmsd =3D &vmstate_riscv_cpu;
+ #endif
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize =3D riscv_translate_init;
+     cc->tlb_fill =3D riscv_cpu_tlb_fill;
+ #endif
+-    /* For now, mark unmigratable: */
+-    cc->vmsd =3D &vmstate_riscv_cpu;
+     device_class_set_props(dc, riscv_cpu_properties);
+ }
+=20
 --=20
 2.21.1
 
