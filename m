@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391A8183ED2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 02:47:25 +0100 (CET)
-Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAAA183ED5
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 02:49:13 +0100 (CET)
+Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCZQ4-0002vW-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 21:47:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
+	id 1jCZRo-0004sj-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 21:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1jCZOg-0001EB-F1
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:45:59 -0400
+ (envelope-from <groeck7@gmail.com>) id 1jCZOi-0001Ho-Mo
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1jCZOe-0005xs-Fi
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:45:58 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43740)
+ (envelope-from <groeck7@gmail.com>) id 1jCZOf-00060D-TS
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:46:00 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36025)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1jCZOe-0005wf-AX; Thu, 12 Mar 2020 21:45:56 -0400
-Received: by mail-pg1-x542.google.com with SMTP id u12so4007295pgb.10;
- Thu, 12 Mar 2020 18:45:56 -0700 (PDT)
+ id 1jCZOf-0005zJ-NG; Thu, 12 Mar 2020 21:45:57 -0400
+Received: by mail-pg1-x544.google.com with SMTP id c7so4025825pgw.3;
+ Thu, 12 Mar 2020 18:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=3nP+DcWKLTYYKct2ubngpCtOm7Ri8oAKLhdkhHkT/ig=;
- b=rLGgjIkegX5yV1VDD79JbMlyf4SDYnGnD8z5g0DjCwoUKxCCnwYkwG+7gzascm6Z6G
- lH7q9hcU62/ngF1mCiGrs1rOOuH0husYFzleirp5nqWeGCr+gPlKX9I0H7flcF4LhnCD
- kvrPzd1WFyAoSg6Y7RTiyS8ueOzMJbUjJ9xjF/UakKlisymc2buTlU8tl8ooT6QxVlOl
- xpjZV6XwP+RtIrZwoWemWTMRvGB6Nx/vHt3lleLUy/ZJpRq8o9KgGSqYp4S5pdUP0xnG
- sRpbpBiddly475ryO05HWNtBoZ7TntOxAl0UJo+TSfssk4IwnLAUrJjU3BCEJyYt8zgf
- iIdQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=XtJQxJTKaz+K6vh1vsw9EMxIYbglO+yfVrRXNqgLkQU=;
+ b=SC9ancqQj10uhLcp2jb9juAWLjy18J8bUcZt83rVF+87yxhygIfXESBi7D+rgkA3nt
+ YdRI1MxfK4qut2Vp4utXXzjsmVvlqrBjanaQVjGN5WCR3bhmGlUEjGCAaH5iB17XVX9E
+ 2FMsot+n7QHm2IWWqWc+BTS6J9IO84Xjlh3bLsc1AElrlcJ1ox5IuIoRc/YV9YTLJCRX
+ oKIgFTKDUv/B1m3JxiKauwBULtv7Dg1BXLmfnPccTXCoTQTkSbClc3o040qaThxYdGGw
+ PF+qs7u2GzkMudlr8v0mERdJNRYOcX0rPtg1tv8n5qzU9/XQb8EywtypZOxkL2nEzvZT
+ eq+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=3nP+DcWKLTYYKct2ubngpCtOm7Ri8oAKLhdkhHkT/ig=;
- b=dw4Vk8GkTSwMWSqg9GjKE/T6FuO/OP0w2F3qgXSgCnYyu/OvGDsqPAXLhRRtCAGGYF
- 9wxyUG6rXTJlJr0RNE8uun52mpw3Qu/+Jqx4BnBSIlfw8zFDNfI7tlmdQPF9HsnoTCWr
- 0yTOC7P6PLYN0k0c4JIpaqm+p/HC4y/jQXHrOoMFDGQWRh9SHKX2GrkcTfuFxrzAlOX/
- wmOOo8TBx48kuQEg1XNxYSzVJpQk3NL1nsvxdw864Lto3pyUAZBxczLM50xL6qdJb9Pc
- 1dftLJX9VLi0eVbXzjxYpcoFAxB/im6uAEyE2Rd8/45bzeRTO7ATtmr5B1u9LlR/Vg0k
- 4AaA==
-X-Gm-Message-State: ANhLgQ0WWfkuk4mbcAtDf6/kc192OoeOsdAL0Y9vv7z4oSBA2zD/cJgv
- +g0v/Lpr0NbgfGJ0X0BixiA=
-X-Google-Smtp-Source: ADFU+vvrjoIsw24JhGMBD9siWuTpZTwC6YGbSP5yBkjxlkii407UP2YFZLLv6mMuNhBeGkIG9jTB/A==
-X-Received: by 2002:a63:ef04:: with SMTP id u4mr10587087pgh.292.1584063955082; 
- Thu, 12 Mar 2020 18:45:55 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=XtJQxJTKaz+K6vh1vsw9EMxIYbglO+yfVrRXNqgLkQU=;
+ b=pxAdeaGv401iXa0ETSEE/b+V+R3ANw7PRR5pdQ+An+CWYwIiYRKVdkaYREL5xiylmn
+ fbGTXMjGdYSj740/DaRV5ZcKdsbdwcwfQIHPGK7MkpwDMw38Khkk7eZpotwKXCDejmRP
+ O3++6/dBMC417XBd96KJN+WTsJnIZ6b7N4YE9YsS2eGcWO6qODlTaJsflemySnsPiWgz
+ Cj5MvgUZ1tS7l+j07a7ly9y6YV2eiEq9Ba6mXY16jT8SR7/1QL63y9DFLtILmE0B3FH4
+ vxevy/DtonQIG7PzZCx4KdvfagABzjuqyuJZauIhruEURxEL4KhQhD8gkR2SWePeO40c
+ 6DcA==
+X-Gm-Message-State: ANhLgQ0v+07Xh2j/nOWuRba+zLhz6eOtour1fxd2gpIxGmsvHPVDYDSa
+ gViVl3jQy3xwGqQpxDF4dzY=
+X-Google-Smtp-Source: ADFU+vt5qR+dTRFpsFyd9tve2cMHxiU5FtCzSldpmjtaUQliZWhFDyBjLGEi6cMdv0oy8p4434YAXA==
+X-Received: by 2002:a62:1847:: with SMTP id 68mr9115056pfy.288.1584063956659; 
+ Thu, 12 Mar 2020 18:45:56 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id f19sm13741857pgn.42.2020.03.12.18.45.53
+ by smtp.gmail.com with ESMTPSA id 129sm49610183pgf.10.2020.03.12.18.45.55
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Mar 2020 18:45:54 -0700 (PDT)
+ Thu, 12 Mar 2020 18:45:56 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 0/5] Wire up USB controllers in i.MX6 emulations
-Date: Thu, 12 Mar 2020 18:45:46 -0700
-Message-Id: <20200313014551.12554-1-linux@roeck-us.net>
+Subject: [PATCH v3 1/5] hw/usb: Add basic i.MX USB Phy support
+Date: Thu, 12 Mar 2020 18:45:47 -0700
+Message-Id: <20200313014551.12554-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200313014551.12554-1-linux@roeck-us.net>
+References: <20200313014551.12554-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,53 +79,371 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series wires up the USB controllers on fsl-imx6 and fsl-imx6ul
-emulations.
+Add basic USB PHY support as implemented in i.MX23, i.MX28, i.MX6,
+and i.MX7 SoCs.
 
-The first patch provides a basic implementation of the USB PHY controller
-used in i.MX28 and later chips. Only reset bit handling in the control
-register is actually implemented. Basic USB PHY support is needed to make
-the USB ports operational in Linux.
+The only support really needed - at least to boot Linux - is support
+for soft reset, which needs to reset various registers to their initial
+value. Otherwise, just record register values.
 
-The second patch fixes USB and USB PHY interrupt numbers for i.MX6UL.
-
-The third patch instantiates unimplemented pwm and can devices. This patch
-is necessary to avoid crashes in Linux when it tries to access those
-devices. The crashes are observed when trying to boot Linux v4.21 or later.
-
-The final two patches instantiate the USB controllers for i.mMX6 and
-i.MX6UL.
-
-v3:
-- Minor cleanup in patch 1/5 (see details in patch)
-- Added patch to fix USB and USB PHY interrupt numbers for fsl-imx6ul.
-- Added patch to instantiate unimplemented pwm and CAN devices.
-- Instantiate USB and USB PHY separately. They are logically different,
-  and the number of instances is not always the same.
-
-v2:
-- Implement and instantiate basic USB PHY implementation
-  instead of emulating a single USB PHY register
-
-----------------------------------------------------------------
-Guenter Roeck (5):
-      hw/usb: Add basic i.MX USB Phy support
-      hw/arm/fsl-imx6ul: Fix USB interrupt numbers
-      hw/arm/fsl-imx6ul: Instantiate unimplemented pwm and can devices
-      hw/arm/fsl-imx6ul: Wire up USB controllers
-      hw/arm/fsl-imx6: Wire up USB controllers
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v3: Added Reviewed-by:;
+    dropped duplicate "the" in comments;
+    added new files to MAINTAINERS
+v2: New patch, replacing dummy STMP register support with basic USB PHY
+    emulation.
 
  MAINTAINERS                  |   2 +
  hw/arm/Kconfig               |   1 +
- hw/arm/fsl-imx6.c            |  36 +++++++
- hw/arm/fsl-imx6ul.c          |  49 ++++++++++
  hw/usb/Kconfig               |   5 +
  hw/usb/Makefile.objs         |   2 +
- hw/usb/imx-usb-phy.c         | 225 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/fsl-imx6.h    |   6 ++
- include/hw/arm/fsl-imx6ul.h  |  16 ++-
- include/hw/usb/imx-usb-phy.h |  53 ++++++++++
- 10 files changed, 392 insertions(+), 3 deletions(-)
+ hw/usb/imx-usb-phy.c         | 225 +++++++++++++++++++++++++++++++++++
+ include/hw/usb/imx-usb-phy.h |  53 +++++++++
+ 6 files changed, 288 insertions(+)
  create mode 100644 hw/usb/imx-usb-phy.c
  create mode 100644 include/hw/usb/imx-usb-phy.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d881ba7d9c..1cfdeeae32 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -748,6 +748,8 @@ F: hw/arm/sabrelite.c
+ F: hw/arm/fsl-imx6.c
+ F: hw/misc/imx6_*.c
+ F: hw/ssi/imx_spi.c
++F: hw/usb/imx-usb-phy.c
++F: include/hw/usb/imx-usb-phy.h
+ F: include/hw/arm/fsl-imx6.h
+ F: include/hw/misc/imx6_*.h
+ F: include/hw/ssi/imx_spi.h
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index bc54fd61f9..21c627c3b7 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -361,6 +361,7 @@ config FSL_IMX6
+     select IMX
+     select IMX_FEC
+     select IMX_I2C
++    select IMX_USBPHY
+     select SDHCI
+ 
+ config ASPEED_SOC
+diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
+index 5e70ed5f7b..464348ba14 100644
+--- a/hw/usb/Kconfig
++++ b/hw/usb/Kconfig
+@@ -91,3 +91,8 @@ config USB_STORAGE_MTP
+     bool
+     default y
+     depends on USB
++
++config IMX_USBPHY
++    bool
++    default y
++    depends on USB
+diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
+index 2b10868937..66835e5bf7 100644
+--- a/hw/usb/Makefile.objs
++++ b/hw/usb/Makefile.objs
+@@ -61,3 +61,5 @@ common-obj-$(CONFIG_XEN) += xen-usb.o
+ xen-usb.o-cflags := $(LIBUSB_CFLAGS)
+ xen-usb.o-libs := $(LIBUSB_LIBS)
+ endif
++
++common-obj-$(CONFIG_IMX_USBPHY) += imx-usb-phy.o
+diff --git a/hw/usb/imx-usb-phy.c b/hw/usb/imx-usb-phy.c
+new file mode 100644
+index 0000000000..e705a03a1f
+--- /dev/null
++++ b/hw/usb/imx-usb-phy.c
+@@ -0,0 +1,225 @@
++/*
++ * i.MX USB PHY
++ *
++ * Copyright (c) 2020 Guenter Roeck <linux@roeck-us.net>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ * We need to implement basic reset control in the PHY control register.
++ * For everything else, it is sufficient to set whatever is written.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/usb/imx-usb-phy.h"
++#include "migration/vmstate.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++
++static const VMStateDescription vmstate_imx_usbphy = {
++    .name = TYPE_IMX_USBPHY,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(usbphy, IMXUSBPHYState, USBPHY_MAX),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static void imx_usbphy_softreset(IMXUSBPHYState *s)
++{
++    s->usbphy[USBPHY_PWD] = 0x001e1c00;
++    s->usbphy[USBPHY_TX] = 0x10060607;
++    s->usbphy[USBPHY_RX] = 0x00000000;
++    s->usbphy[USBPHY_CTRL] = 0xc0200000;
++}
++
++static void imx_usbphy_reset(DeviceState *dev)
++{
++    IMXUSBPHYState *s = IMX_USBPHY(dev);
++
++    s->usbphy[USBPHY_STATUS] = 0x00000000;
++    s->usbphy[USBPHY_DEBUG] = 0x7f180000;
++    s->usbphy[USBPHY_DEBUG0_STATUS] = 0x00000000;
++    s->usbphy[USBPHY_DEBUG1] = 0x00001000;
++    s->usbphy[USBPHY_VERSION] = 0x04020000;
++
++    imx_usbphy_softreset(s);
++}
++
++static uint64_t imx_usbphy_read(void *opaque, hwaddr offset, unsigned size)
++{
++    IMXUSBPHYState *s = (IMXUSBPHYState *)opaque;
++    uint32_t index = offset >> 2;
++    uint32_t value;
++
++    switch (index) {
++    case USBPHY_PWD_SET:
++    case USBPHY_TX_SET:
++    case USBPHY_RX_SET:
++    case USBPHY_CTRL_SET:
++    case USBPHY_DEBUG_SET:
++    case USBPHY_DEBUG1_SET:
++        /*
++         * All REG_NAME_SET register access are in fact targeting the
++         * REG_NAME register.
++         */
++        value = s->usbphy[index - 1];
++        break;
++    case USBPHY_PWD_CLR:
++    case USBPHY_TX_CLR:
++    case USBPHY_RX_CLR:
++    case USBPHY_CTRL_CLR:
++    case USBPHY_DEBUG_CLR:
++    case USBPHY_DEBUG1_CLR:
++        /*
++         * All REG_NAME_CLR register access are in fact targeting the
++         * REG_NAME register.
++         */
++        value = s->usbphy[index - 2];
++        break;
++    case USBPHY_PWD_TOG:
++    case USBPHY_TX_TOG:
++    case USBPHY_RX_TOG:
++    case USBPHY_CTRL_TOG:
++    case USBPHY_DEBUG_TOG:
++    case USBPHY_DEBUG1_TOG:
++        /*
++         * All REG_NAME_TOG register access are in fact targeting the
++         * REG_NAME register.
++         */
++        value = s->usbphy[index - 3];
++        break;
++    default:
++        value = s->usbphy[index];
++        break;
++    }
++    return (uint64_t)value;
++}
++
++static void imx_usbphy_write(void *opaque, hwaddr offset, uint64_t value,
++                             unsigned size)
++{
++    IMXUSBPHYState *s = (IMXUSBPHYState *)opaque;
++    uint32_t index = offset >> 2;
++
++    switch (index) {
++    case USBPHY_CTRL:
++        s->usbphy[index] = value;
++        if (value & USBPHY_CTRL_SFTRST) {
++            imx_usbphy_softreset(s);
++        }
++        break;
++    case USBPHY_PWD:
++    case USBPHY_TX:
++    case USBPHY_RX:
++    case USBPHY_STATUS:
++    case USBPHY_DEBUG:
++    case USBPHY_DEBUG1:
++        s->usbphy[index] = value;
++        break;
++    case USBPHY_CTRL_SET:
++        s->usbphy[index - 1] |= value;
++        if (value & USBPHY_CTRL_SFTRST) {
++            imx_usbphy_softreset(s);
++        }
++        break;
++    case USBPHY_PWD_SET:
++    case USBPHY_TX_SET:
++    case USBPHY_RX_SET:
++    case USBPHY_DEBUG_SET:
++    case USBPHY_DEBUG1_SET:
++        /*
++         * All REG_NAME_SET register access are in fact targeting the
++         * REG_NAME register. So we change the value of the REG_NAME
++         * register, setting bits passed in the value.
++         */
++        s->usbphy[index - 1] |= value;
++        break;
++    case USBPHY_PWD_CLR:
++    case USBPHY_TX_CLR:
++    case USBPHY_RX_CLR:
++    case USBPHY_CTRL_CLR:
++    case USBPHY_DEBUG_CLR:
++    case USBPHY_DEBUG1_CLR:
++        /*
++         * All REG_NAME_CLR register access are in fact targeting the
++         * REG_NAME register. So we change the value of the REG_NAME
++         * register, unsetting bits passed in the value.
++         */
++        s->usbphy[index - 2] &= ~value;
++        break;
++    case USBPHY_CTRL_TOG:
++        s->usbphy[index - 3] ^= value;
++        if ((value & USBPHY_CTRL_SFTRST) &&
++            (s->usbphy[index - 3] & USBPHY_CTRL_SFTRST)) {
++            imx_usbphy_softreset(s);
++        }
++        break;
++    case USBPHY_PWD_TOG:
++    case USBPHY_TX_TOG:
++    case USBPHY_RX_TOG:
++    case USBPHY_DEBUG_TOG:
++    case USBPHY_DEBUG1_TOG:
++        /*
++         * All REG_NAME_TOG register access are in fact targeting the
++         * REG_NAME register. So we change the value of the REG_NAME
++         * register, toggling bits passed in the value.
++         */
++        s->usbphy[index - 3] ^= value;
++        break;
++    default:
++        /* Other registers are read-only */
++        break;
++    }
++}
++
++static const struct MemoryRegionOps imx_usbphy_ops = {
++    .read = imx_usbphy_read,
++    .write = imx_usbphy_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        /*
++         * Our device would not work correctly if the guest was doing
++         * unaligned access. This might not be a limitation on the real
++         * device but in practice there is no reason for a guest to access
++         * this device unaligned.
++         */
++        .min_access_size = 4,
++        .max_access_size = 4,
++        .unaligned = false,
++    },
++};
++
++static void imx_usbphy_realize(DeviceState *dev, Error **errp)
++{
++    IMXUSBPHYState *s = IMX_USBPHY(dev);
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &imx_usbphy_ops, s,
++                          "imx-usbphy", 0x1000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
++}
++
++static void imx_usbphy_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = imx_usbphy_reset;
++    dc->vmsd = &vmstate_imx_usbphy;
++    dc->desc = "i.MX USB PHY Module";
++    dc->realize = imx_usbphy_realize;
++}
++
++static const TypeInfo imx_usbphy_info = {
++    .name          = TYPE_IMX_USBPHY,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(IMXUSBPHYState),
++    .class_init    = imx_usbphy_class_init,
++};
++
++static void imx_usbphy_register_types(void)
++{
++    type_register_static(&imx_usbphy_info);
++}
++
++type_init(imx_usbphy_register_types)
+diff --git a/include/hw/usb/imx-usb-phy.h b/include/hw/usb/imx-usb-phy.h
+new file mode 100644
+index 0000000000..07f0235d10
+--- /dev/null
++++ b/include/hw/usb/imx-usb-phy.h
+@@ -0,0 +1,53 @@
++#ifndef IMX_USB_PHY_H
++#define IMX_USB_PHY_H
++
++#include "hw/sysbus.h"
++#include "qemu/bitops.h"
++
++enum IMXUsbPhyRegisters {
++    USBPHY_PWD,
++    USBPHY_PWD_SET,
++    USBPHY_PWD_CLR,
++    USBPHY_PWD_TOG,
++    USBPHY_TX,
++    USBPHY_TX_SET,
++    USBPHY_TX_CLR,
++    USBPHY_TX_TOG,
++    USBPHY_RX,
++    USBPHY_RX_SET,
++    USBPHY_RX_CLR,
++    USBPHY_RX_TOG,
++    USBPHY_CTRL,
++    USBPHY_CTRL_SET,
++    USBPHY_CTRL_CLR,
++    USBPHY_CTRL_TOG,
++    USBPHY_STATUS,
++    USBPHY_DEBUG = 0x14,
++    USBPHY_DEBUG_SET,
++    USBPHY_DEBUG_CLR,
++    USBPHY_DEBUG_TOG,
++    USBPHY_DEBUG0_STATUS,
++    USBPHY_DEBUG1 = 0x1c,
++    USBPHY_DEBUG1_SET,
++    USBPHY_DEBUG1_CLR,
++    USBPHY_DEBUG1_TOG,
++    USBPHY_VERSION,
++    USBPHY_MAX
++};
++
++#define USBPHY_CTRL_SFTRST BIT(31)
++
++#define TYPE_IMX_USBPHY "imx.usbphy"
++#define IMX_USBPHY(obj) OBJECT_CHECK(IMXUSBPHYState, (obj), TYPE_IMX_USBPHY)
++
++typedef struct IMXUSBPHYState {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion iomem;
++
++    uint32_t usbphy[USBPHY_MAX];
++} IMXUSBPHYState;
++
++#endif /* IMX_USB_PHY_H */
+-- 
+2.17.1
+
 
