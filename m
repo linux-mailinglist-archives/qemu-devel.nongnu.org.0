@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077D21849B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:43:21 +0100 (CET)
-Received: from localhost ([::1]:60220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408B81849C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:45:13 +0100 (CET)
+Received: from localhost ([::1]:60246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jClWy-00061M-30
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35166)
+	id 1jClYm-0000V8-A6
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1jClTJ-0000CE-4w
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:39:34 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jClVC-0003dF-4P
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:41:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1jClTI-0006B4-3O
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:39:32 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40714)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1jClTH-00067m-U1; Fri, 13 Mar 2020 10:39:32 -0400
-Received: by mail-qk1-x744.google.com with SMTP id m2so12814821qka.7;
- Fri, 13 Mar 2020 07:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=44w/yXzypDOsT7HO0jyj2OMeDtD4ttnIYtGEriwFSuc=;
- b=TlnBWd6FmTE86knBjLg7vroxAjkmzetACv+SXTozHvzgA2lf92b5HKu/a8/0omz/KC
- c0d/+zXe67Arp13XN/SoM1cnmPHp+5uqciTehNt5HPJGsI0f8vbG9jxeghvvH1c2747l
- 5+G4aanf99K/H1RKokzro5FJw95HefjOJTEGgNlcStX1owEns63jTsYxpfRwpoO+1A9U
- FQNIiAoh/19fi3CRrPXAJxKakjtw7WRUFIyz+lCDaXnSLvg/9+XkV+XZr5k/hvtyGb0L
- BdE175lRLkqwUol9xC9iIbI8B/LFVE4se9pf2/FUt3bsmelcELxqLfy/6/wTshW8TJ9d
- 0edA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=44w/yXzypDOsT7HO0jyj2OMeDtD4ttnIYtGEriwFSuc=;
- b=LseWe5gQTcGjSl88mG85B3SDdce05Ve+KZx7+NZLkqiWBYxOWCERo/hX+KPL1mkEsk
- 9UTCQF21RyY10EfaRcPIeRd4MCw0M7p2tilSaziE014nn4hFWPYwAcKJQxtK8/aGaXdx
- ZxlfRmDZD+FGJ/rKT6GpoZJptd4EM7f1zUpFs6gYbgFlZDQMO56sqRkdqIagMcbD4hod
- qeayHadiqW/Wj/XCIPAq+xf23DDqzx7YnWB9JgpIJEsWa44DiDjdI8PXHiMWGwkEgKQL
- bltBAEDMO1v1LG4IhvQ8f8S3Iyr8Bj0duAmmFxCO1VmUaalv8f6kb8KN4QWe1NJDli4n
- 65nA==
-X-Gm-Message-State: ANhLgQ1KqR6iwWwvepxfQZr80c5vtQ4qc+1JfqsPZnuznSYQJAZt1vmS
- 0zSf4isL2IHRfHDayNk/8LosGHb+OGolgz8TTsw=
-X-Google-Smtp-Source: ADFU+vtsj11dQDDpuIXzfmmG+DxL1oS6r1O5lhlqPfZUWlf87RTNuXSKLcb4nUhSlvFyemveYds4NOxTdw21QSY5Z/0=
-X-Received: by 2002:a25:84c6:: with SMTP id x6mr5471940ybm.56.1584110370891;
- Fri, 13 Mar 2020 07:39:30 -0700 (PDT)
+ (envelope-from <eric.auger@redhat.com>) id 1jClVA-0002BF-UR
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:41:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40860
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jClVA-0002AQ-RD
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:41:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584110488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1zSnj9J6ob7Sfz2lTwIToqr1OnQwfXjRKbrKUiZo9n0=;
+ b=BfsiWi3mu+KqLkSmu1u5E0dZedTw3cfHcyN09V5ArWEVP2dPAhu5YwPZoCp6VhCOTWU1qQ
+ ffwZN+I/ib5K/4ftXa/7vmclR0NlqK8kwLmx2cFUgos/suEK/ktaprnq5G9kQezwQPT6YS
+ CC7XjR2yvPnfi1DFez+S7psUJOYcVr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-O6dzKMXOPiyOFO8hglQX6g-1; Fri, 13 Mar 2020 10:41:24 -0400
+X-MC-Unique: O6dzKMXOPiyOFO8hglQX6g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C26D18B9FC2;
+ Fri, 13 Mar 2020 14:41:22 +0000 (UTC)
+Received: from [10.36.118.12] (unknown [10.36.118.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5F079A6A;
+ Fri, 13 Mar 2020 14:41:09 +0000 (UTC)
+Subject: Re: [PATCH v7 3/5] virtio-iommu: Call iommu notifier for attach/detach
+To: Bharat Bhushan <bbhushan2@marvell.com>, peter.maydell@linaro.org,
+ peterx@redhat.com, eric.auger.pro@gmail.com, alex.williamson@redhat.com,
+ kevin.tian@intel.com, mst@redhat.com, tnowicki@marvell.com,
+ drjones@redhat.com, linuc.decode@gmail.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, bharatb.linux@gmail.com
+References: <20200313074811.27175-1-bbhushan2@marvell.com>
+ <20200313074811.27175-4-bbhushan2@marvell.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <da0a4d7b-c27d-839d-56b6-da67c94adeb7@redhat.com>
+Date: Fri, 13 Mar 2020 15:41:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20200313005508.1906-1-coreyw7@fb.com>
- <20200313005508.1906-2-coreyw7@fb.com>
-In-Reply-To: <20200313005508.1906-2-coreyw7@fb.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 13 Mar 2020 22:39:20 +0800
-Message-ID: <CAEUhbmVP__C6F8J+c0pcjcqCCp-q1waO=Kgr6k+QAd+3HLnj+A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] riscv: sifive_e: Support changing CPU type
-To: Corey Wharton <coreyw7@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::744
+In-Reply-To: <20200313074811.27175-4-bbhushan2@marvell.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,25 +80,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 13, 2020 at 8:57 AM Corey Wharton <coreyw7@fb.com> wrote:
->
-> Allows the CPU to be changed from the default via the -cpu command
-> line option.
->
-> Signed-off-by: Corey Wharton <coreyw7@fb.com>
-> ---
->  hw/riscv/sifive_e.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
+Hi Bharat
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+On 3/13/20 8:48 AM, Bharat Bhushan wrote:
+> iommu-notifier are called when a device is attached
+IOMMU notifiers
+> or detached to as address-space.
+> This is needed for VFIO.
+and vhost for detach
+> 
+> Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+> ---
+>  hw/virtio/virtio-iommu.c | 47 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index e51344a53e..2006f72901 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -49,6 +49,7 @@ typedef struct VirtIOIOMMUEndpoint {
+>      uint32_t id;
+>      VirtIOIOMMUDomain *domain;
+>      QLIST_ENTRY(VirtIOIOMMUEndpoint) next;
+> +    VirtIOIOMMU *viommu;
+This needs specal care on post-load. When migrating the EPs, only the id
+is migrated. On post-load you need to set viommu as it is done for
+domain. migration is allowed with vhost.
+>  } VirtIOIOMMUEndpoint;
+>  
+>  typedef struct VirtIOIOMMUInterval {
+> @@ -155,8 +156,44 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr iova,
+>      memory_region_notify_iommu(mr, 0, entry);
+>  }
+>  
+> +static gboolean virtio_iommu_mapping_unmap(gpointer key, gpointer value,
+> +                                           gpointer data)
+> +{
+> +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
+> +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
+> +
+> +    virtio_iommu_notify_unmap(mr, interval->low,
+> +                              interval->high - interval->low + 1);
+> +
+> +    return false;
+> +}
+> +
+> +static gboolean virtio_iommu_mapping_map(gpointer key, gpointer value,
+> +                                         gpointer data)
+> +{
+> +    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
+> +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
+> +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
+> +
+> +    virtio_iommu_notify_map(mr, interval->low, mapping->phys_addr,
+> +                            interval->high - interval->low + 1);
+> +
+> +    return false;
+> +}
+> +
+>  static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
+>  {
+> +    VirtioIOMMUNotifierNode *node;
+> +    VirtIOIOMMU *s = ep->viommu;
+> +    VirtIOIOMMUDomain *domain = ep->domain;
+> +
+> +    QLIST_FOREACH(node, &s->notifiers_list, next) {
+> +        if (ep->id == node->iommu_dev->devfn) {
+> +            g_tree_foreach(domain->mappings, virtio_iommu_mapping_unmap,
+> +                           &node->iommu_dev->iommu_mr);
+I understand this should fo the job for domain removal
+> +        }
+> +    }
+> +
+>      if (!ep->domain) {
+>          return;
+>      }
+> @@ -178,6 +215,7 @@ static VirtIOIOMMUEndpoint *virtio_iommu_get_endpoint(VirtIOIOMMU *s,
+>      }
+>      ep = g_malloc0(sizeof(*ep));
+>      ep->id = ep_id;
+> +    ep->viommu = s;
+>      trace_virtio_iommu_get_endpoint(ep_id);
+>      g_tree_insert(s->endpoints, GUINT_TO_POINTER(ep_id), ep);
+>      return ep;
+> @@ -272,6 +310,7 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>  {
+>      uint32_t domain_id = le32_to_cpu(req->domain);
+>      uint32_t ep_id = le32_to_cpu(req->endpoint);
+> +    VirtioIOMMUNotifierNode *node;
+>      VirtIOIOMMUDomain *domain;
+>      VirtIOIOMMUEndpoint *ep;
+>  
+> @@ -299,6 +338,14 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>  
+>      ep->domain = domain;
+>  
+> +    /* Replay existing address space mappings on the associated memory region */
+maybe use the "domain" terminology here.
+> +    QLIST_FOREACH(node, &s->notifiers_list, next) {
+> +        if (ep_id == node->iommu_dev->devfn) {
+> +            g_tree_foreach(domain->mappings, virtio_iommu_mapping_map,
+> +                           &node->iommu_dev->iommu_mr);
+> +        }
+> +    }
+> +
+>      return VIRTIO_IOMMU_S_OK;
+>  }
+>  
+> 
+Thanks
+
+Eric
+
 
