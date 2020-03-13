@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EE3184EC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:39:00 +0100 (CET)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE3A184ECA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:40:52 +0100 (CET)
+Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpD1-0001ws-FR
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
+	id 1jCpEp-000503-15
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpBB-0007iy-1D
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpBH-0007qr-Qz
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpBA-0002La-06
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50166
+ (envelope-from <philmd@redhat.com>) id 1jCpBG-0002Sx-RE
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36390
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpB9-0002Kw-S0
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:03 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBG-0002Rp-N0
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124623;
+ s=mimecast20190719; t=1584124629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iLgNrlwyJy7v8dAuschP4PozhwWEQ5HJ4QmdriYy9Wk=;
- b=bQMb23M207hIcpVi5QiqHVvpE0xEBc7ll30X/Rcq36qj+a1YFIaRoppEIlRxaB8IktYjIl
- HP8NHthelRkMBeJdQVbE/A0gscKbRsDAnNkz1SRU9d3Z5uMWCJ5JT5Um+VwyYIUmq8TyK/
- U7W+JzBmrY+vwOaJPoQ5O0n9ohV98nY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-PDyaD2xXPeKshdZ-N_d6Hw-1; Fri, 13 Mar 2020 14:37:02 -0400
-X-MC-Unique: PDyaD2xXPeKshdZ-N_d6Hw-1
-Received: by mail-wm1-f71.google.com with SMTP id n188so3800907wmf.0
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:01 -0700 (PDT)
+ bh=QzUdM1ZagK75BIGV+iiLIHXu9NBWzrOD4R++sxCHDoI=;
+ b=a1ctCp124O9hJqJJ8pgJgQiCBuXhNXYkVltnflY4kyudFl5yOgQ7sk711H2R0IpKWzkza/
+ MsZhzz/Vt1T7yrl1/ikKJ9jHW46Uv1ituvYlTgpNcLYOWaoMOEXHld1a9RasmUegaD76is
+ F55uCaUKvqO7ryW4JLskDQ9KWLzFLzk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-ZxnLby-VO2qVP1Z5T_oLnA-1; Fri, 13 Mar 2020 14:37:07 -0400
+X-MC-Unique: ZxnLby-VO2qVP1Z5T_oLnA-1
+Received: by mail-wm1-f69.google.com with SMTP id g26so3289630wmk.6
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=moZeqK0xvieWMnbLXAu30p4QSLVxENxO9B1zIYBPdN0=;
- b=Ftk8Jg25SywyhvczlKAckLJ+ejzu1qwuuPp7qZxTQ5Zs/fylVHtzEXnQKG3bMrsOTH
- Qy71B9Lf8X/k9Jaz9qzlzwOHjds8MP5wOBxmrLmPicOIEC0QQI6zGKKlmzlU0KYcsurq
- PtGluQD/Dn1RJq4J/pUrDw8SVZM8giOqi+sl7Wrr4QX7f/pcw1ZZa0dUI5+uDzLDgTA9
- GLQ+QkLE1bF2/wFUCsU/V2UmMLTt+xfoblCaBK4gG2JMXfPzwKlKMfmLT/7NB+iNOqTy
- L9E+cAiw60xzro3aqkmm2EwLxh2NmqRuAecnxHfS67nMIQxp4NNhT5RFYU8GXcgpvB53
- Tu8Q==
-X-Gm-Message-State: ANhLgQ3NF7/5yaOC9bdIFcBPgBmj6UMTl6NGpPblldKPCwbDb+gF6Xig
- HJaImi1MXjApD3DcY80+Tu7MF72gtUg54YCrvHXlbyN2C2smwV9BaLxIIt8sj1DRQjNEpzf+Vhn
- c2KYPw04At+tS98k=
-X-Received: by 2002:adf:9364:: with SMTP id 91mr18691350wro.223.1584124620540; 
- Fri, 13 Mar 2020 11:37:00 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvLDAdBf5CysHXDLa59Zq3LkeNJxBty6UOuXhAtFGkATum/4g3WahoH0bLSPvYFQI4SzHF95Q==
-X-Received: by 2002:adf:9364:: with SMTP id 91mr18691318wro.223.1584124620383; 
- Fri, 13 Mar 2020 11:37:00 -0700 (PDT)
+ bh=intvWc0QjhhlSzR1IDRa0EVk0LsfQ2/cVL2atlURA2k=;
+ b=DwBE9hwkFblBjhws8Oi1Xcpd4SDZerCCuQOMT+afxdbV46eYp7358RtXcni2fvXXm+
+ XsqK0FFr3bDJtG3q7BrI+LjSRiJi2tHbE/muGBKoqXD2N/YdYlpJf0ceZx+jaq2ZKQPR
+ XLY1CVMk+zgw0UWn4CWbtzTH4Hx5egM2RXnoqVO1WUXjnG9PgkcEJ7+dyD0IUjOU+zKa
+ TrRqh2gwwW0ghcpUrSWwoLBLmKTySRX3WCnCqFawD03Dyg26rFOZlE9awfr+375/HV1I
+ tMAs6AaP8ixnEfW4e/6OLD84JMR5n1P8firBTEaJ7asRvRa/CAH4BZ3rk91QzmG03pCb
+ YkpA==
+X-Gm-Message-State: ANhLgQ0RWMp6oAGvgFAurZ9eCd4jbhGBPROsd16ITF5cKac5qym2ykja
+ gS0yQcsBq/o/rrM4rAm+4MOTueZjDIFI3Ao16BRv1hY4cZWbaU+4GM8FTPrF4UOnpL+DtNe2ipl
+ FXX7kexsEohyM+vk=
+X-Received: by 2002:a7b:cc06:: with SMTP id f6mr7730339wmh.65.1584124626711;
+ Fri, 13 Mar 2020 11:37:06 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vs6LWJfbWP4kFQvfej2dGXUhXsnUPkGfYqWd+58D4W2bm/r9A5Xs2YTAiB5KtkiaaAcwYQ9sw==
+X-Received: by 2002:a7b:cc06:: with SMTP id f6mr7730297wmh.65.1584124626502;
+ Fri, 13 Mar 2020 11:37:06 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id g12sm6334174wrm.87.2020.03.13.11.36.58
+ by smtp.gmail.com with ESMTPSA id 62sm27365177wri.30.2020.03.13.11.37.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:36:59 -0700 (PDT)
+ Fri, 13 Mar 2020 11:37:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/14] Makefile: Only build virtiofsd if system-mode is enabled
-Date: Fri, 13 Mar 2020 19:36:39 +0100
-Message-Id: <20200313183652.10258-2-philmd@redhat.com>
+Subject: [PATCH 02/14] configure: Avoid building TCG when not needed
+Date: Fri, 13 Mar 2020 19:36:40 +0100
+Message-Id: <20200313183652.10258-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313183652.10258-1-philmd@redhat.com>
 References: <20200313183652.10258-1-philmd@redhat.com>
@@ -105,31 +105,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not build the virtiofsd helper when configured with
---disable-system.
+Avoid building TCG when building only tools:
+
+  ./configure --enable-tools --disable-system --disable-user
+
+This saves us from running the soft-float tests enabled since
+commit 76170102508.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 7df22fcc5d..ed77b6e50b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -346,8 +346,8 @@ vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-g=
-pu.json
- endif
+diff --git a/configure b/configure
+index eb49bb6680..c2ffcb0431 100755
+--- a/configure
++++ b/configure
+@@ -1650,6 +1650,10 @@ if [ "$ARCH" =3D "unknown" ]; then
+   linux_user=3D"no"
+ fi
 =20
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--HELPERS-y +=3D virtiofsd$(EXESUF)
--vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
-+HELPERS-$(CONFIG_SOFTMMU) +=3D virtiofsd$(EXESUF)
-+vhost-user-json-$(CONFIG_SOFTMMU) +=3D tools/virtiofsd/50-qemu-virtiofsd.j=
-son
- endif
++if [ "$bsd_user" =3D "no" -a "$linux_user" =3D "no" -a "$softmmu" =3D "no"=
+ ] ; then
++  tcg=3D"no"
++fi
++
+ default_target_list=3D""
 =20
- # Sphinx does not allow building manuals into the same directory as
+ mak_wilds=3D""
 --=20
 2.21.1
 
