@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49482183E38
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 02:04:20 +0100 (CET)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BF1183EBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 02:44:49 +0100 (CET)
+Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCYkN-0003tY-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 21:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43798)
+	id 1jCZNY-00060W-4T
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 21:44:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39803)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jCYiw-0002dF-Qc
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:02:51 -0400
+ (envelope-from <longpeng2@huawei.com>) id 1jCZMo-0005bT-RI
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:44:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jCYiv-00047Q-Sa
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:02:50 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:42330 helo=mail.rt-rk.com)
+ (envelope-from <longpeng2@huawei.com>) id 1jCZMn-0003h6-HF
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:44:02 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3200 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1jCYiv-00033y-LW
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:02:49 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id E9FC51A4173;
- Fri, 13 Mar 2020 02:01:47 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from localhost.localdomain (226.87.148.91.adsl.dyn.beotel.net
- [91.148.87.226])
- by mail.rt-rk.com (Postfix) with ESMTPSA id B7D151A4130;
- Fri, 13 Mar 2020 02:01:47 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PATCH 3/3] MAINTAINERS: Add a file to the main MIPS section
-Date: Fri, 13 Mar 2020 02:00:52 +0100
-Message-Id: <1584061252-16635-4-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1584061252-16635-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1584061252-16635-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
+ id 1jCZMn-0003aB-69
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 21:44:01 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B1F04DF983B2DAA674EF;
+ Fri, 13 Mar 2020 09:43:53 +0800 (CST)
+Received: from [10.173.228.124] (10.173.228.124) by smtp.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 13 Mar
+ 2020 09:43:45 +0800
+Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
+To: Paolo Bonzini <pbonzini@redhat.com>, <rth@twiddle.net>
+References: <20200310091443.1326-1-longpeng2@huawei.com>
+ <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+Message-ID: <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
+Date: Fri, 13 Mar 2020 09:43:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+In-Reply-To: <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.228.124]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,36 +58,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aleksandar.m.mail@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 
-A recently added acceptance test is important not only for
-Malta machine, but for overall MIPS target, since it tests
-smp feature.
 
-CC: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+On 2020/3/12 23:28, Paolo Bonzini wrote:
+> On 10/03/20 10:14, Longpeng(Mike) wrote:
+>> From: Longpeng <longpeng2@huawei.com>
+>>
+>> We find an issue when repeat reboot in guest during migration, it cause the
+>> migration thread never be waken up again.
+>>
+>> <main loop>                        |<migration_thread>
+>>                                    |
+>> LOCK BQL                           |
+>> ...                                |
+>> main_loop_should_exit              |
+>>  pause_all_vcpus                   |
+>>   1. set all cpus ->stop=true      |
+>>      and then kick                 |
+>>   2. return if all cpus is paused  |
+>>      (by '->stopped == true'), else|
+>>   3. qemu_cond_wait [BQL UNLOCK]   |
+>>                                    |LOCK BQL
+>>                                    |...
+>>                                    |do_vm_stop
+>>                                    | pause_all_vcpus
+>>                                    |  (A)set all cpus ->stop=true
+>>                                    |     and then kick
+>>                                    |  (B)return if all cpus is paused
+>>                                    |     (by '->stopped == true'), else
+>>                                    |  (C)qemu_cond_wait [BQL UNLOCK]
+>>   4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
+>>   5. goto 2.                       |
+>>  (BQL is still LOCKed)             |
+>>  resume_all_vcpus                  |
+>>   1. set all cpus ->stop=false     |
+>>      and ->stopped=false           |
+>> ...                                |
+>> BQL UNLOCK                         |  (E)LOCK BQL
+>>                                    |  (F)goto B. [but stopped is false now!]
+>>                                    |Finally, sleep at step 3 forever.
+>>
+>>
+>> Note: This patch is just for discuss this issue, I'm looking forward to
+>>       your suggestions, thanks!
+> 
+> Thanks Mike,
+> 
+> the above sketch is really helpful.
+> 
+> I think the problem is not that pause_all_vcpus() is not pausing hard
+> enough; the problem is rather than resume_all_vcpus(), when used outside
+> vm_start(), should know about the race and do nothing if it happens.
+> 
+> Fortunately resume_all_vcpus does not release the BQL so it should be
+> enough to test once; translated to code, this would be the patch to fix it:
+> 
+> diff --git a/cpus.c b/cpus.c
+> index b4f8b84b61..1eb7533a91 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
+>  {
+>      CPUState *cpu;
+> 
+> +    if (!runstate_is_running()) {
+> +        return;
+> +    }
+> +
+Hi Paolo,
+
+The runstate of my above sketch is running, so maybe your patch can fix some
+other issues but not mine ?
+
+main_loop_should_exit
+  ( *reset* requested )
+  pause_all_vcpus
+  resume_all_vcpus
+  if (!runstate_check(RUN_STATE_RUNNING) &&
+          !runstate_check(RUN_STATE_INMIGRATE)) {
+      runstate_set(RUN_STATE_PRELAUNCH);
+  ...
+
+
+migration_completion
+  vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+    vm_stop ( if runstate_is_running )
+      do_vm_stop
+        pause_all_vcpus ( if runstate_is_running )
+
+
+>      qemu_clock_enable(QEMU_CLOCK_VIRTUAL, true);
+>      CPU_FOREACH(cpu) {
+>          cpu_resume(cpu);
+> 
+> 
+> Thanks,
+> 
+> Paolo
+> 
+> .
+> 
+
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8411c96..5c56e14 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -226,6 +226,7 @@ F: include/hw/mips/
- F: include/hw/misc/mips_*
- F: include/hw/timer/mips_gictimer.h
- F: tests/acceptance/linux_ssh_mips_malta.py
-+F: tests/acceptance/machine_mips_malta.py
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
-=20
---=20
-2.7.4
-
+Regards,
+Longpeng(Mike)
 
