@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DA6184ECB
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:40:52 +0100 (CET)
-Received: from localhost ([::1]:35181 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BEE184ED1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:43:13 +0100 (CET)
+Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpEp-0004z1-SP
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54184)
+	id 1jCpH6-00022Y-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:43:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpBi-0000Py-9I
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:39 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpBl-0000YH-J8
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpBh-0003pn-7c
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21198
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jCpBk-00043x-MM
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:41 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51630
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBh-0003ol-3W
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:37 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBk-000426-I6
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124656;
+ s=mimecast20190719; t=1584124660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pry6+pV8fUl3y5exktsH4W1Uxi8wrIUzy2x3T/v2sI4=;
- b=TFhdUo7jXxwE5RJBEZavz5j5k4w3O62mzUP7sI+L2WVZANUvPeCygGF5aoW976TbTw7ovp
- vGP1ugJnScUlyRcFg4SUusfNQNZIHQ8WfJ93f9Nvit5526v2ewsY0GnEIDuz2Lbbgbs8j0
- mw8cJPZD4H/n9JUQTRy3fjMZBAhbUuc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-Cxawn8MnP3u-l34Xj_xAew-1; Fri, 13 Mar 2020 14:37:33 -0400
-X-MC-Unique: Cxawn8MnP3u-l34Xj_xAew-1
-Received: by mail-wr1-f70.google.com with SMTP id b12so4758392wro.4
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:32 -0700 (PDT)
+ bh=3SuVECRO5K7Gvy7TFYYgJaxwMNPrKIUm0bQrl4kHjTk=;
+ b=g9gGj84Ulvxt2KZyF2CkyZSWaV/fWRPQJFj755+pOqx6JOtdCUmh5YgEi6ksqyHNMuOsuU
+ Nl+2zIi3gnw2cYoPO/GkfPQcYlT94OoxnKZwHpDSbFNulRRFR95Y6FmXJszxUATbx5zfqh
+ dvpVDuvGtWS2rHnQqL37rQVvZMW9+ro=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-FalTuHuPMT-YcUp342WQuw-1; Fri, 13 Mar 2020 14:37:38 -0400
+X-MC-Unique: FalTuHuPMT-YcUp342WQuw-1
+Received: by mail-wr1-f72.google.com with SMTP id t4so1772159wrv.9
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GzR0VTVvQsF/hlsamkIvnRsrC8/9iy2Vlr1dz/V+KBw=;
- b=ba7nZKNyKwhFqzwt2Wc5KGN83SpnOaxKcP18MWMfuFSe9Wv6nMB3ArY7B2Z2ixEUMQ
- 3RHE6IFJPdaFsE0tKnEphN9GPFm0IFLkLDfdFD1JVDbSHKTJec62yMm+g+tZAMGCW4dl
- Za8/GHWtqhQ3C+Ud2RsFJqj2XQ8lVVO0dMfZuj4W84T7P8GVrhb+DclPkyswpOvxd5tk
- MsF/oxT5TxR0D4wz9SNlDVk3x6fGu+gLyzzT4ta7/H+NWGyqW39ayC2FXGICkq7tUwxQ
- EmwPKoRf/ZIvDChh1j7KFAGB8/kkj5VKPJWfPKw141R3Hw7qkCB1Icf/grZtp3+143JI
- nPNg==
-X-Gm-Message-State: ANhLgQ09xwQ1tKNmF0Qlwe1qCbXh8PFkENKqNvyijiYfksTCouTW/3j3
- CrALL7NMCxiA2B/bj6HE8OdPpkIXMfMZnxYcKwmdz5oJQSPFpPBi2L/q7mDbpNOO7fgXB8LWbPd
- tgWijRK1vrEVCxTQ=
-X-Received: by 2002:a5d:660d:: with SMTP id n13mr18234112wru.383.1584124651689; 
- Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsXUbMgZopATF5ABmIQGcTP5jpwz9bFq/9SdX9Ao7M7bfLF6/N69ygmaZANBNBGhiIuInwKsA==
-X-Received: by 2002:a5d:660d:: with SMTP id n13mr18234084wru.383.1584124651541; 
- Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
+ bh=7qrHY3POAwgPR/yw4WHGaOw9mwemlFbyLT5p0JEbbnw=;
+ b=EfXFx7gxBJiuAct8zVykw55RVGC4k8p1hU0xZ9iETg+hUSZZ+Wt0wlwfYjUGqv3jAw
+ dQIw3KmFCQDbunaFRCxk+Mjsc0w3++TDs/TjwSGjz9Ccl4iUH9ir0oto+V1nDIL+P4dl
+ YfJs1X6avd/JSUcKs9WGSkyeL/KpDa1kTFYEQqq07Ma/NSb3HJK5HBUOkEM6tTmiPNb9
+ Z/KtIyT6KAhu1TaRbhBJlmdgm454e+WRjZjvEfnhFbLQ2rflhqzYRoQ2hn4JbCgDIoSk
+ PRzlkweSi8rqWSpugprqT77iHaeGE2LMiiBYJZ1vfX/EXNIxDWCVKS1X8CWB+q52Q88V
+ En5Q==
+X-Gm-Message-State: ANhLgQ2g6pjWoIN1WAHnsugFycFGMCYAZw/RHL25PzAatfJsPsbdjclA
+ LFSpiLyWk5Vr/zK+T3x3PU7U6xP3fVdXTNgPI42dZX2zOWdCI3zywQROFV2u/r53FBbvby3N43h
+ 86EpEuJvFEhD4PqE=
+X-Received: by 2002:a1c:9cd1:: with SMTP id f200mr10863171wme.80.1584124656631; 
+ Fri, 13 Mar 2020 11:37:36 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvhA9+6w6SxST3JF6c4Ko2DAdhDZUQcupyXKHijFIIWpb7ZBMQOtnHcAwPsLhSqhwg+SoVqzw==
+X-Received: by 2002:a1c:9cd1:: with SMTP id f200mr10863153wme.80.1584124656402; 
+ Fri, 13 Mar 2020 11:37:36 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id p10sm16966938wru.4.2020.03.13.11.37.30
+ by smtp.gmail.com with ESMTPSA id b6sm24047514wrv.43.2020.03.13.11.37.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:37:31 -0700 (PDT)
+ Fri, 13 Mar 2020 11:37:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/14] target/riscv/cpu: Restrict CPU migration to system-mode
-Date: Fri, 13 Mar 2020 19:36:45 +0100
-Message-Id: <20200313183652.10258-8-philmd@redhat.com>
+Subject: [PATCH 08/14] exec: Assert CPU migration is not used on user-only
+ build
+Date: Fri, 13 Mar 2020 19:36:46 +0100
+Message-Id: <20200313183652.10258-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313183652.10258-1-philmd@redhat.com>
 References: <20200313183652.10258-1-philmd@redhat.com>
@@ -76,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,43 +108,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/riscv/cpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ exec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c0b7023100..b59e09209e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -475,10 +475,12 @@ static void riscv_cpu_init(Object *obj)
-     cpu_set_cpustate_pointers(cpu);
- }
+diff --git a/exec.c b/exec.c
+index 0cc500d53a..7bc9828c5b 100644
+--- a/exec.c
++++ b/exec.c
+@@ -946,7 +946,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
 =20
-+#ifndef CONFIG_USER_ONLY
- static const VMStateDescription vmstate_riscv_cpu =3D {
-     .name =3D "cpu",
-     .unmigratable =3D 1,
- };
-+#endif
+     qemu_plugin_vcpu_init_hook(cpu);
 =20
- static Property riscv_cpu_properties[] =3D {
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-@@ -534,13 +536,13 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
- *data)
-     cc->do_transaction_failed =3D riscv_cpu_do_transaction_failed;
-     cc->do_unaligned_access =3D riscv_cpu_do_unaligned_access;
-     cc->get_phys_page_debug =3D riscv_cpu_get_phys_page_debug;
-+    /* For now, mark unmigratable: */
-+    cc->vmsd =3D &vmstate_riscv_cpu;
- #endif
- #ifdef CONFIG_TCG
-     cc->tcg_initialize =3D riscv_translate_init;
-     cc->tlb_fill =3D riscv_cpu_tlb_fill;
- #endif
--    /* For now, mark unmigratable: */
--    cc->vmsd =3D &vmstate_riscv_cpu;
-     device_class_set_props(dc, riscv_cpu_properties);
- }
-=20
+-#ifndef CONFIG_USER_ONLY
++#ifdef CONFIG_USER_ONLY
++    assert(cc->vmsd =3D=3D NULL);
++#else /* !CONFIG_USER_ONLY */
+     if (qdev_get_vmsd(DEVICE(cpu)) =3D=3D NULL) {
+         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+     }
 --=20
 2.21.1
 
