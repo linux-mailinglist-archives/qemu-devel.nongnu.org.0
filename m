@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC31B1842CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 09:39:12 +0100 (CET)
-Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123131842E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 09:48:31 +0100 (CET)
+Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCfqZ-0006A3-Bw
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 04:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
+	id 1jCfzZ-0001Ou-Tj
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 04:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <longpeng2@huawei.com>) id 1jCfoI-0002eD-NG
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:36:51 -0400
+ (envelope-from <eskultet@redhat.com>) id 1jCfyY-0000jE-UH
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:47:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <longpeng2@huawei.com>) id 1jCfoH-0006ai-4J
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:36:50 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3203 helo=huawei.com)
+ (envelope-from <eskultet@redhat.com>) id 1jCfyT-0003z9-Ma
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:47:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35868
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
- id 1jCfoG-0006G3-Na
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:36:49 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 6906E481E54121781860;
- Fri, 13 Mar 2020 16:36:42 +0800 (CST)
-Received: from [10.173.228.124] (10.173.228.124) by smtp.huawei.com
- (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 13 Mar
- 2020 16:36:35 +0800
-Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20200310091443.1326-1-longpeng2@huawei.com>
- <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
- <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
- <e4dc19fd-bee2-251f-1fef-b41cd6da6c23@redhat.com>
-From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-Message-ID: <e7a49ec8-6a71-78a9-05c6-f6967e1d55f2@huawei.com>
-Date: Fri, 13 Mar 2020 16:36:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (Exim 4.71) (envelope-from <eskultet@redhat.com>) id 1jCfyS-0003uN-MV
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584089221;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=01cObIdsnXAJqweEMp1IJOJGBzN1vdKyhb4xENxI0Mc=;
+ b=RKI5oRZoEsNnWmwfRkvI9cUtMKq7B8zMBvO2UAmEk/1E6Q1wjWKW8k5WqJWLVOCdzKo/lu
+ yarCqwea98XRahdtrEej57UiqXylNAuJG+aCGxMI3AK+0Oktf46mtdrK+OGDSDu39ur8Jn
+ Pj4hq0BJnpic9XuX9gsE3KRsTkhOhUA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-xDvDjbIPPWC6KcYqtt8RzA-1; Fri, 13 Mar 2020 04:46:59 -0400
+X-MC-Unique: xDvDjbIPPWC6KcYqtt8RzA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E765A18C8C11
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 08:46:58 +0000 (UTC)
+Received: from beluga.usersys.redhat.com (unknown [10.43.2.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 299915C1C3;
+ Fri, 13 Mar 2020 08:46:58 +0000 (UTC)
+Date: Fri, 13 Mar 2020 09:46:55 +0100
+From: Erik Skultety <eskultet@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 1/5] tests/docker: add CentOS 8 Dockerfile
+Message-ID: <20200313084655.GC293912@beluga.usersys.redhat.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <20200312193616.438922-2-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e4dc19fd-bee2-251f-1fef-b41cd6da6c23@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.228.124]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200312193616.438922-2-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,45 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, rth@twiddle.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Mar 12, 2020 at 03:36:12PM -0400, Cleber Rosa wrote:
+> Which is currenly missing, and will be referenced later in the
+> contributed CI playbooks.
+>=20
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/docker/dockerfiles/centos8.docker | 32 +++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/centos8.docker
+>=20
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> new file mode 100644
+> index 0000000000..bfa0d33c9c
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -0,0 +1,32 @@
+> +FROM centos:8.1.1911
+> +
+> +RUN dnf -y update
+> +ENV PACKAGES \
+> +    SDL-devel \
+> +    bison \
+> +    bzip2 \
+> +    bzip2-devel \
+> +    dbus-daemon \
+> +    flex \
+> +    gcc \
+> +    gcc-c++ \
+> +    gettext \
+> +    git \
+> +    glib2-devel \
+> +    libaio-devel \
+> +    libepoxy-devel \
+> +    lzo-devel \
+> +    make \
+> +    mesa-libEGL-devel \
+> +    nettle-devel \
+> +    perl-Test-Harness \
+> +    pixman-devel \
+> +    python36 \
+> +    rdma-core-devel \
+> +    spice-glib-devel \
+> +    spice-server \
+> +    tar \
+> +    zlib-devel
+> +
+> +RUN dnf install -y $PACKAGES
+> +RUN rpm -q $PACKAGES | sort > /packages.txt
 
+How is the packages.txt consumed later?
 
-On 2020/3/13 15:09, Paolo Bonzini wrote:
-> On 13/03/20 02:43, Longpeng (Mike, Cloud Infrastructure Service Product
-> Dept.) wrote:
->>> diff --git a/cpus.c b/cpus.c
->>> index b4f8b84b61..1eb7533a91 100644
->>> --- a/cpus.c
->>> +++ b/cpus.c
->>> @@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
->>>  {
->>>      CPUState *cpu;
->>>
->>> +    if (!runstate_is_running()) {
->>> +        return;
->>> +    }
->>> +
->> Hi Paolo,
->>
->> The runstate of my above sketch is running, so maybe your patch can fix some
->> other issues but not mine ?
-> 
-> You're right, do_vm_stop sets the runstate after pause_all_vcpus.  We
-> can move that before and it should fix your case too.
-> 
-Uh, it seems to work. So can I send a patch based on your suggestion ? Or feel
-free to do if you want to fix it by yourself.
+Erik
 
-> Paolo
-> 
-> 
----
-Regards,
-Longpeng(Mike)
 
