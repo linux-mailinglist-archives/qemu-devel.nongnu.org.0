@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDC71848BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:03:58 +0100 (CET)
-Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7321848B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:02:34 +0100 (CET)
+Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCkur-0001uA-Fx
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42834)
+	id 1jCktV-00088w-3i
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <remi@remlab.net>) id 1jCkrb-0005b2-B7
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:00:36 -0400
+ (envelope-from <remi@remlab.net>) id 1jCkrb-0005bX-I9
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <remi@remlab.net>) id 1jCkrZ-00015j-PM
+ (envelope-from <remi@remlab.net>) id 1jCkrZ-00015p-PH
  for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:00:35 -0400
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:49726
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:49728
  helo=ns207790.ip-94-23-215.eu) by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <remi@remlab.net>)
- id 1jCkrV-0000do-KU; Fri, 13 Mar 2020 10:00:29 -0400
+ id 1jCkrV-0000fY-K3; Fri, 13 Mar 2020 10:00:29 -0400
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id B2F3E5FD7F;
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 0419B5FDA7;
  Fri, 13 Mar 2020 15:00:24 +0100 (CET)
 From: =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>
 To: qemu-arm@nongnu.org
-Subject: [PATCH 3/5] target/arm: MTE unprivileged system mode disassembly
-Date: Fri, 13 Mar 2020 16:00:21 +0200
-Message-Id: <20200313140023.83844-3-remi@remlab.net>
+Subject: [PATCH 4/5] target/arm: MTE privileged system mode assembly
+Date: Fri, 13 Mar 2020 16:00:22 +0200
+Message-Id: <20200313140023.83844-4-remi@remlab.net>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -52,107 +52,153 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-This adds the MTE instructions that conditionally available at EL0,
-but undefined in Linux user mode.
+This adds all remaining MTE instructions for EL1, EL2 and EL3 on a
+processor with ID_AA64PFR1_EL1.MTE =3D=3D 1.
 
 Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
 ---
- target/arm/helper.c | 56 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 54 insertions(+), 2 deletions(-)
+ target/arm/cpu64.c         |  8 +++---
+ target/arm/helper.c        | 19 ++++++++++++++
+ target/arm/translate-a64.c | 52 +++++++++++++++++++++++++++++++++++---
+ 3 files changed, 71 insertions(+), 8 deletions(-)
 
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index a72dfd3d98..749eb93872 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -665,13 +665,11 @@ static void aarch64_max_initfn(Object *obj)
+=20
+         t =3D cpu->isar.id_aa64pfr1;
+         t =3D FIELD_DP64(t, ID_AA64PFR1, BT, 1);
+-#ifdef CONFIG_USER_ONLY
+-        /* All MTE instructions and processor states are supported for u=
+ser
+-         * mode. This corresponds to feature field value 1 (field value =
+2
+-         * implies MemTag memory support).
++        /* All MTE instructions and processor states are supported. This
++         * corresponds to feature field value 1 (field value 2 implies M=
+emTag
++         * memory support).
+          */
+         t =3D FIELD_DP64(t, ID_AA64PFR1, MTE, 1);
+-#endif
+         cpu->isar.id_aa64pfr1 =3D t;
+=20
+         t =3D cpu->isar.id_aa64mmfr1;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index ed56198623..dd64fcb4ef 100644
+index dd64fcb4ef..630dc04302 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6837,6 +6837,18 @@ static const ARMCPRegInfo dcpodp_reg[] =3D {
-       .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn=
- },
-     REGINFO_SENTINEL
- };
-+
-+static const ARMCPRegInfo mte_dcpodp_reginfo[] =3D {
-+    { .name =3D "DC_CGVADP", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 13, .opc2 =3D 3,
-+      .access =3D PL0_W, .type =3D ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_EN=
-D,
-+      .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn=
- },
-+    { .name =3D "DC_CGDVADP", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 13, .opc2 =3D 5,
-+      .access =3D PL0_W, .type =3D ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_EN=
-D,
-+      .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn=
- },
-+    REGINFO_SENTINEL
-+};
- #endif /*CONFIG_USER_ONLY*/
-=20
- static uint64_t tco_read(CPUARMState *env, const ARMCPRegInfo *ri)
-@@ -6856,10 +6868,44 @@ static void tco_write(CPUARMState *env, const ARM=
-CPRegInfo *ri, uint64_t val)
- static const ARMCPRegInfo mte_reginfo[] =3D {
-     { .name =3D "DC_GVA", .state =3D ARM_CP_STATE_AA64,
-       .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 4, .opc2 =3D 3,
--      .access =3D PL0_W, .type =3D ARM_CP_NOP },
-+      .access =3D PL0_W, .type =3D ARM_CP_NOP,
-+#ifndef CONFIG_USER_ONLY
-+      .accessfn =3D aa64_zva_access,
-+#endif
-+    },
-     { .name =3D "DC_GZVA", .state =3D ARM_CP_STATE_AA64,
-       .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 4, .opc2 =3D 4,
--      .access =3D PL0_W, .type =3D ARM_CP_DC_ZVA },
-+      .access =3D PL0_W, .type =3D ARM_CP_DC_ZVA,
-+#ifndef CONFIG_USER_ONLY
-+      .accessfn =3D aa64_zva_access,
-+#endif
-+    },
-+    { .name =3D "DC_CGVAC", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 10, .opc2 =3D 3,
-+      .access =3D PL0_W, .type =3D ARM_CP_NOP,
-+      .accessfn =3D aa64_cacheop_poc_access },
-+    { .name =3D "DC_CGDVAC", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 10, .opc2 =3D 5,
-+      .access =3D PL0_W, .type =3D ARM_CP_NOP,
-+      .accessfn =3D aa64_cacheop_poc_access },
-+#ifndef CONFIG_USER_ONLY
-+    { .name =3D "DC_CGVAP", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 12, .opc2 =3D 3,
-+      .access =3D PL0_W, .type =3D ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_EN=
-D,
-+      .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn=
- },
-+    { .name =3D "DC_CGDVAP", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 12, .opc2 =3D 5,
-+      .access =3D PL0_W, .type =3D ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_EN=
-D,
-+      .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn=
- },
-+#endif
-+    { .name =3D "DC_CIGVAC", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 14, .opc2 =3D 3,
-+      .access =3D PL0_W, .type =3D ARM_CP_NOP,
-+      .accessfn =3D aa64_cacheop_poc_access },
-+    { .name =3D "DC_CIGDVAC", .state =3D ARM_CP_STATE_AA64,
-+      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 14, .opc2 =3D 5,
-+      .access =3D PL0_W, .type =3D ARM_CP_NOP,
-+      .accessfn =3D aa64_cacheop_poc_access },
+@@ -6906,10 +6906,29 @@ static const ARMCPRegInfo mte_reginfo[] =3D {
+       .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 14, .opc2 =3D 5,
+       .access =3D PL0_W, .type =3D ARM_CP_NOP,
+       .accessfn =3D aa64_cacheop_poc_access },
++    { .name =3D "RGSR_EL1", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 1, .crm =3D 0, .opc2 =3D 5,
++      .access =3D PL1_RW, .fieldoffset =3D offsetof(CPUARMState, rgsr_el=
+1) },
++    { .name =3D "GCR_EL1", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 1, .crm =3D 0, .opc2 =3D 6,
++      .access =3D PL1_RW, .fieldoffset =3D offsetof(CPUARMState, gcr_el1=
+) },
      { .name =3D "TCO", .state =3D ARM_CP_STATE_AA64,
        .opc0 =3D 3, .opc1 =3D 3, .crn =3D 4, .crm =3D 2, .opc2 =3D 7,
        .access =3D PL0_RW, .type =3D ARM_CP_NO_RAW,
-@@ -7985,6 +8031,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
- #endif /*CONFIG_USER_ONLY*/
-     if (cpu_isar_feature(aa64_mte, cpu)) {
-         define_arm_cp_regs(cpu, mte_reginfo);
-+
-+#ifndef CONFIG_USER_ONLY
-+        if (cpu_isar_feature(aa64_dcpodp, cpu)) {
-+            define_one_arm_cp_reg(cpu, mte_dcpodp_reginfo);
-+        }
-+#endif
-     }
+       .readfn =3D tco_read, .writefn =3D tco_write },
++    { .name =3D "TFSR_EL1", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 6, .crm =3D 5, .opc2 =3D 0,
++      .access =3D PL1_RW, .fieldoffset =3D offsetof(CPUARMState, tfsr_el=
+[1]) },
++    { .name =3D "TFSR_EL2", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 4, .crn =3D 6, .crm =3D 5, .opc2 =3D 0,
++      .access =3D PL2_RW, .type =3D ARM_CP_ALIAS,
++      .fieldoffset =3D offsetof(CPUARMState, tfsr_el[1]) },
++    { .name =3D "TFSR_EL3", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 6, .crn =3D 6, .crm =3D 5, .opc2 =3D 0,
++      .access =3D PL3_RW, .fieldoffset =3D offsetof(CPUARMState, tfsr_el=
+[3]) },
++    { .name =3D "TFSRE0_EL1", .state =3D ARM_CP_STATE_AA64,
++      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 6, .crm =3D 6, .opc2 =3D 1,
++      .access =3D PL1_RW, .fieldoffset =3D offsetof(CPUARMState, tfsre0_=
+el1) },
+     REGINFO_SENTINEL
+ };
  #endif
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 6d86480043..9382f53794 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -2716,6 +2716,38 @@ static void disas_ld_lit(DisasContext *s, uint32_t=
+ insn)
+     tcg_temp_free_i64(clean_addr);
+ }
 =20
++#ifndef CONFIG_USER_ONLY
++static void disas_ldst_memtag_vec(DisasContext *s, int rn, int rt,
++                                  bool is_load)
++{
++    TCGv_i64 tcg_addr;
++
++    if (rn =3D=3D rt) {
++        return;
++    }
++
++    if (rn =3D=3D 31) {
++        gen_check_sp_alignment(s);
++    }
++
++    /* The starting point between the specified address and the aligned
++     * address is implementation defined. We start at the aligned addres=
+s.
++     */
++    tcg_addr =3D tcg_temp_new_i64();
++    tcg_gen_andi_i64(tcg_addr, cpu_reg_sp(s, rn),
++                     ~((16 * ARM_TAG_GRANULE) - 1));
++
++    /* In principles, memory access permissions should be checked here. =
+*/
++    if (is_load) {
++        tcg_gen_movi_i64(cpu_reg(s, rt), 0);
++    }
++
++    tcg_gen_addi_i64(cpu_reg_sp(s, rn), tcg_addr, 16 * ARM_TAG_GRANULE);
++
++    tcg_temp_free_i64(tcg_addr);
++}
++#endif
++
+ /* LDG, LDGV(EL1), ST(Z)(2)G, STGV */
+ static void disas_ldst_memtag(DisasContext *s, uint32_t insn)
+ {
+@@ -2736,9 +2768,23 @@ static void disas_ldst_memtag(DisasContext *s, uin=
+t32_t insn)
+         return;
+     }
+=20
+-    if (op2 =3D=3D 0 && opc !=3D 1) {
+-        unallocated_encoding(s);
+-        return;
++    if (op2 =3D=3D 0) {
++        switch (opc) {
++        case 1:
++            break;
++#ifndef CONFIG_USER_ONLY
++        case 2:
++        case 3:
++            if (s->current_el > 0 && offset =3D=3D 0) {
++                disas_ldst_memtag_vec(s, rn, rt, opc & 1);
++                return;
++            }
++#endif
++            /* fall through */
++        default:
++            unallocated_encoding(s);
++            return;
++        }
+     }
+=20
+     if (rn =3D=3D 31) {
 --=20
 2.25.1
 
