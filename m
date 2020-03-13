@@ -2,45 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB978184DCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 18:39:57 +0100 (CET)
-Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA03184E42
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 18:59:19 +0100 (CET)
+Received: from localhost ([::1]:34566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCoHs-0002Sm-EX
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 13:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
+	id 1jCoac-00054X-8H
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 13:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jCoGa-0001ym-FY
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:38:37 -0400
+ (envelope-from <eblake@redhat.com>) id 1jCoZS-00048o-9c
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:58:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1jCoGZ-0003hQ-Hy
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:38:36 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:54114)
+ (envelope-from <eblake@redhat.com>) id 1jCoZR-0000P8-7m
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:58:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60966
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>)
- id 1jCoGW-0003FG-UL; Fri, 13 Mar 2020 13:38:32 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 02DHbjW0005484
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 13 Mar 2020 13:37:51 -0400
-Date: Fri, 13 Mar 2020 13:37:45 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jCoZR-0000K6-4G
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:58:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584122284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZOg+qiDCgh/bdQKhu8ipfiaFC8F8QtJxFAUPBB9XuLY=;
+ b=RnU7GDPuCx2/ifqaL+xFwrUxqmxdx8GOUmYoKlpGwa3le7Yrp/AA99wxXMlhR38SWUMYjk
+ XrUsn2kypGzbZhFqdM0zIyTbxe/dM2YYS5NvR1g8hlq3vDVpT3jUgat0nbIqTEr9WA1yEo
+ bx55V0yEYoASmYGx4sZIma4RjdsU3b8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-MuPqJ9UCP3ajygcmfuaUmw-1; Fri, 13 Mar 2020 13:57:46 -0400
+X-MC-Unique: MuPqJ9UCP3ajygcmfuaUmw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B918C801E66;
+ Fri, 13 Mar 2020 17:57:44 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D405C8FBED;
+ Fri, 13 Mar 2020 17:57:43 +0000 (UTC)
 Subject: Re: [PATCH 1/3] Use &error_abort instead of separate assert()
-Message-ID: <20200313173745.2cwlwbkt4fc7nmpc@mozz.bu.edu>
+To: Alexander Bulekov <alxndr@bu.edu>, Markus Armbruster <armbru@redhat.com>
 References: <20200313170517.22480-1-armbru@redhat.com>
  <20200313170517.22480-2-armbru@redhat.com>
+ <20200313173745.2cwlwbkt4fc7nmpc@mozz.bu.edu>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <563f6769-74f4-f532-0e76-fe5875742ee1@redhat.com>
+Date: Fri, 13 Mar 2020 12:57:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200313170517.22480-2-armbru@redhat.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x
-X-Received-From: 128.197.228.104
+In-Reply-To: <20200313173745.2cwlwbkt4fc7nmpc@mozz.bu.edu>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,45 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ashijeetacharya@gmail.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, paul.durrant@citrix.com
+Cc: qemu-block@nongnu.org, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ ashijeetacharya@gmail.com, paul.durrant@citrix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200313 1805, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-
-> index 1a99277d60..aa9eee6ebf 100644
-> --- a/tests/qtest/fuzz/qos_fuzz.c
-> +++ b/tests/qtest/fuzz/qos_fuzz.c
-> @@ -57,8 +57,7 @@ static void qos_set_machines_devices_available(void)
->      QList *lst;
->      Error *err = NULL;
-Can this err declaration be removed? Don't think it's used anywhere
-else.
-
->  
-> -    qmp_marshal_query_machines(NULL, &response, &err);
-> -    assert(!err);
-> +    qmp_marshal_query_machines(NULL, &response, &error_abort);
->      lst = qobject_to(QList, response);
->      apply_to_qlist(lst, true);
->  
-> @@ -70,8 +69,7 @@ static void qos_set_machines_devices_available(void)
->      qdict_put_bool(args, "abstract", true);
->      qdict_put_obj(req, "arguments", (QObject *) args);
->  
-> -    qmp_marshal_qom_list_types(args, &response, &err);
-> -    assert(!err);
-> +    qmp_marshal_qom_list_types(args, &response, &error_abort);
->      lst = qobject_to(QList, response);
->      apply_to_qlist(lst, false);
->      qobject_unref(response);
-> -- 
-> 2.21.1
+On 3/13/20 12:37 PM, Alexander Bulekov wrote:
+> On 200313 1805, Markus Armbruster wrote:
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > 
-Thanks!
+> 
+>> index 1a99277d60..aa9eee6ebf 100644
+>> --- a/tests/qtest/fuzz/qos_fuzz.c
+>> +++ b/tests/qtest/fuzz/qos_fuzz.c
+>> @@ -57,8 +57,7 @@ static void qos_set_machines_devices_available(void)
+>>       QList *lst;
+>>       Error *err = NULL;
+> Can this err declaration be removed? Don't think it's used anywhere
+> else.
 
-Acked-by: Alexander Bulekov <alxndr@bu.edu>
+Correct, it is not.  With that additional line gone,
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
