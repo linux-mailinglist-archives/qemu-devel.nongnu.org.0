@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E226185113
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:25:42 +0100 (CET)
-Received: from localhost ([::1]:37672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A609185122
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:28:25 +0100 (CET)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCroL-0003AV-2w
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46494)
+	id 1jCrqy-0007Jl-8I
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlw-0007hN-Fh
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:14 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrly-0007kf-3r
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlv-0000IL-2v
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:12 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57651)
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlw-0000M4-9r
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:14 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57664)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jCrlr-0008Ud-Fl; Fri, 13 Mar 2020 17:23:08 -0400
+ id 1jCrls-00009P-Fb; Fri, 13 Mar 2020 17:23:08 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 03ECA747E1C;
+ by localhost (Postfix) with SMTP id 2AC58747E1D;
  Fri, 13 Mar 2020 22:23:06 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 778B0747E14; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
-Message-Id: <7679b82b4f26fdb16f00c3b130f8e6a807724f73.1584134074.git.balaton@eik.bme.hu>
+ id 8D7BE747E18; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
+Message-Id: <deda1450b52b50a1d179715a5c6817eecd502648.1584134074.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
 References: <cover.1584134074.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 3/8] hw/ide: Remove now unneded #include "hw/pci/pci.h" from
- hw/ide.h
+Subject: [PATCH 8/8] hw/ide: Remove unneeded inclusion of hw/ide.h
 Date: Fri, 13 Mar 2020 22:14:34 +0100
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,66 +56,117 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After previous patches we don't need hw/pci/pci.h any more in
-hw/ide.h. Some files depended on implicit inclusion by this header
-which are also fixed up here.
+After previous clean ups we can drop direct inclusion of hw/ide.h from
+several places.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ide/ahci_internal.h        | 1 +
- include/hw/ide.h              | 1 -
- include/hw/ide/pci.h          | 1 +
- include/hw/misc/macio/macio.h | 1 +
- 4 files changed, 3 insertions(+), 1 deletion(-)
+ hw/hppa/hppa_sys.h      | 1 -
+ hw/hppa/machine.c       | 1 -
+ hw/i386/pc_piix.c       | 1 -
+ hw/isa/piix4.c          | 1 -
+ hw/mips/mips_fulong2e.c | 1 -
+ hw/ppc/mac_newworld.c   | 1 -
+ hw/ppc/mac_oldworld.c   | 1 -
+ hw/ppc/prep.c           | 1 -
+ 8 files changed, 8 deletions(-)
 
-diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
-index 73424516da..bab0459774 100644
---- a/hw/ide/ahci_internal.h
-+++ b/hw/ide/ahci_internal.h
-@@ -27,6 +27,7 @@
- #include "hw/ide/ahci.h"
- #include "hw/ide/internal.h"
- #include "hw/sysbus.h"
-+#include "hw/pci/pci.h"
+diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
+index 4d08501464..0b18271cc9 100644
+--- a/hw/hppa/hppa_sys.h
++++ b/hw/hppa/hppa_sys.h
+@@ -5,7 +5,6 @@
  
- #define AHCI_MEM_BAR_SIZE         0x1000
- #define AHCI_MAX_PORTS            32
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 21bd8f23f1..d52c211f32 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -2,7 +2,6 @@
- #define HW_IDE_H
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
+-#include "hw/ide.h"
+ #include "hw/boards.h"
+ #include "hw/intc/i8259.h"
  
- #include "hw/isa/isa.h"
--#include "hw/pci/pci.h"
- #include "exec/memory.h"
- 
- #define MAX_IDE_DEVS	2
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index a9f2c33e68..98ffa7dfcd 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -2,6 +2,7 @@
- #define HW_IDE_PCI_H
- 
- #include "hw/ide/internal.h"
-+#include "hw/pci/pci.h"
- 
- #define BM_STATUS_DMAING 0x01
- #define BM_STATUS_ERROR  0x02
-diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
-index 070a694eb5..87335a991c 100644
---- a/include/hw/misc/macio/macio.h
-+++ b/include/hw/misc/macio/macio.h
-@@ -27,6 +27,7 @@
- #define MACIO_H
- 
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 1f9a390f99..d1fbf781c5 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -13,7 +13,6 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/ide.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/char/serial.h"
+ #include "hw/net/lasi_82596.h"
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index a7a696d0c8..ac78b07451 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -38,7 +38,6 @@
+ #include "hw/pci/pci_ids.h"
+ #include "hw/usb.h"
+ #include "net/net.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "hw/irq.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 13fa1660c3..136a763e3f 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -34,7 +34,6 @@
+ #include "hw/dma/i8257.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 508dc57737..ab6634d538 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -36,7 +36,6 @@
+ #include "audio/audio.h"
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "elf.h"
+ #include "hw/isa/vt82c686.h"
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index daa1523feb..dfe5aeab0a 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -62,7 +62,6 @@
  #include "hw/char/escc.h"
-+#include "hw/pci/pci.h"
- #include "hw/ide/internal.h"
- #include "hw/intc/heathrow_pic.h"
- #include "hw/misc/macio/cuda.h"
+ #include "hw/misc/macio/macio.h"
+ #include "hw/ppc/openpic.h"
+-#include "hw/ide.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+ #include "elf.h"
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 2478748c78..4c1b1f35a1 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -41,7 +41,6 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/char/escc.h"
+ #include "hw/misc/macio/macio.h"
+-#include "hw/ide.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+ #include "elf.h"
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index e1b1549e58..52bded7e5e 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -37,7 +37,6 @@
+ #include "hw/boards.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+-#include "hw/ide.h"
+ #include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "hw/rtc/mc146818rtc.h"
 -- 
 2.21.1
 
