@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199821848D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:08:39 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CC01848CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:08:13 +0100 (CET)
+Received: from localhost ([::1]:59484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCkzO-0007f6-5F
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52457)
+	id 1jCkyy-00073u-39
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jCkxl-00061U-IB
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:06:58 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jCkxw-0006Ap-Oq
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:07:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jCkxk-0004Tl-G4
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:06:57 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39311)
+ (envelope-from <alex.bennee@linaro.org>) id 1jCkxv-0005qs-ME
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:07:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42872)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jCkxk-0004LD-83
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:06:56 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r15so12266428wrx.6
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 07:06:55 -0700 (PDT)
+ id 1jCkxv-0005g8-FF
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:07:07 -0400
+Received: by mail-wr1-x444.google.com with SMTP id v11so12261531wrm.9
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 07:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=Hd8dq4YRRXXBUTBa41qw1iCjSDdmQfJL9aQ4cSEPc2w=;
- b=yblzl/fY9Wihr5cvNC4d1Xq9/cpj/QYocqeXSlZWzl0YYKL/qsV4KHx2Lqe2iCJMav
- L7NV/9yLsoOL23/QP3yrmnsTFJLXbkxnSYD2jxPON8MX2o0THHlkWK4QC5uLUBQW8Lg+
- +7NWKwp++eBXlQf7m1oukbc4/giiSAq76Lxl1hhuFgnUM0FdChPvnubsqXzj5RZ6ck24
- avwbL3egvB3ZRtYxTRRtkK218nJjNmkYVGBdHnLI4sd6BwszTZLZn8yCtXb5vltRBzhY
- 08FOGX1vmkKjwB0FA+byrMxVFUBmYd2Dy1lL+Oi3yObLzkwp5ikqOLf63TABR0YBYIOv
- uqwg==
+ bh=U/uXuR/Wlab8SolAJBgyrDnRZuUe3vsTkI8L6hNG0q8=;
+ b=uRJ03mwltFzJQ8sa6L+Sv5/EvgGgGeHd5PwjnKbTrNcr1ao0joLXMdke9bobPI+l1R
+ Y6AmpHHmqkZiUDAbFD2DJj3tJ5JwYpTEeoPNfDlz88NQzJ38bD4L9TcMWEy6rLChahTG
+ OH9HzP71oa1t9VX7oXmfBF/Pzy5ClpvgjjA6veZc7jT2xLG+aNnsbbrbsbn6h6Mo9nPm
+ DLRo87dq3yp1glfeEk1AQ5pCYUH0bpTA5mDWehFzzpG7lPYiYVOsBwh1izuZrPDwHnRR
+ lN6zHxjcQ0kDb5o9aRXr3krsTqA5hf1QU/kZD0CDOiNzudcJ8lmJ9WmDN2oWyAcjWU2f
+ hKDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Hd8dq4YRRXXBUTBa41qw1iCjSDdmQfJL9aQ4cSEPc2w=;
- b=cnbdJqLEXw0PlK/G1bH3GnmfAzqU+oCfAGCK/ttqh1RGZlYltOFaoLSzMRBpPq3W9c
- 77Uql/NskOD8z42xvXXIMQ/ni+tXAANEcA0r0u57VdOMJrHxVUan1lcYuyzLhKC4epc/
- eBV0PDCzcWt+IIk1cuzF2TF10cfFaWxfyEQTnZV6plw6FmdtNg6rS3hQ2horxZPiX3+O
- 6Xfqelc+EtikEgphRITDxe9rNz/TXb+77KfIV6akqqUWzwCGnsFRFK3xGcTVjSIspkuK
- MEyfhDHFrgU9237cvPO8E7LH2qfuBwVDzUm1VXuLEZkg29qmNZQDJxMH6PAp8SDlR+M3
- IsfQ==
-X-Gm-Message-State: ANhLgQ2bC391JdCykpa6FEyw+jqLqltpLHPVVH8ZyDIAOAmcG5fSglzd
- aZihnfbITyYDAi1cONse/nsPKHM9PpI=
-X-Google-Smtp-Source: ADFU+vst+qbySmqVWrmvTQyeoclOpoRlSlFwC/C6yB+zd1p7UyvZEujtYuTyuKRufY7nzCfCeHQUQQ==
-X-Received: by 2002:adf:afcb:: with SMTP id y11mr17105234wrd.141.1584108414099; 
- Fri, 13 Mar 2020 07:06:54 -0700 (PDT)
+ bh=U/uXuR/Wlab8SolAJBgyrDnRZuUe3vsTkI8L6hNG0q8=;
+ b=fExrIbeskfZHNwoF3Sleeas7fm8PbZy+rAJerwUwi/LMU6yCKYEHp7jwCws59+XPSf
+ fmvY3Prt3VlHsJu7k+9EBKdDJue4MR4wx40XRtd+7xqySkLxMVEU9CxSliGPiDJyE999
+ NhQ1iy60cDFvZkbLQJDaWsloaXhhVluHIqs7j4WaPWj7TRbWtZpEGU89TVeL4kHyVUgq
+ H7PeWg3w55rLIU7QAo/5g6qnvVetn8cYTuGtNde6XtVWzn2g3y51CsPFP3zmrZf+4NjY
+ KMr1Ic16M3Ea87Z+4MibnobMAFBhfjSFdcHmR+8aHzsNv/DIUjIa8uycrQZlJ2FWvyOh
+ xV+Q==
+X-Gm-Message-State: ANhLgQ1Atvd3WfKc0jL/ZLxYxg7ABHilozZwKj+MEO618xK0FqGn1sRs
+ jNFQ0yafgZfg6+N5ghob6w5MDg==
+X-Google-Smtp-Source: ADFU+vvm8laCAI9CsQvOKcYhlhJ3Wpa16tGUiu3e8G79FySCo+zixyWFdN+Ir7JtV7ru+vYC7k4SKA==
+X-Received: by 2002:a5d:66cc:: with SMTP id k12mr19301617wrw.157.1584108424846; 
+ Fri, 13 Mar 2020 07:07:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x5sm18316100wrv.67.2020.03.13.07.06.52
+ by smtp.gmail.com with ESMTPSA id t193sm17852448wmt.14.2020.03.13.07.07.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 07:06:52 -0700 (PDT)
+ Fri, 13 Mar 2020 07:07:03 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0BA021FF7E;
- Fri, 13 Mar 2020 14:06:52 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id ABF051FF7E;
+ Fri, 13 Mar 2020 14:07:01 +0000 (GMT)
 References: <20200312193616.438922-1-crosa@redhat.com>
  <20200312193616.438922-2-crosa@redhat.com>
- <20200313084655.GC293912@beluga.usersys.redhat.com>
 User-agent: mu4e 1.3.9; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Erik Skultety <eskultet@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
 Subject: Re: [PATCH 1/5] tests/docker: add CentOS 8 Dockerfile
-In-reply-to: <20200313084655.GC293912@beluga.usersys.redhat.com>
-Date: Fri, 13 Mar 2020 14:06:52 +0000
-Message-ID: <87imj8cps3.fsf@linaro.org>
+In-reply-to: <20200312193616.438922-2-crosa@redhat.com>
+Date: Fri, 13 Mar 2020 14:07:01 +0000
+Message-ID: <87fteccpru.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,83 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>, Wainer Moschetta <wmoschet@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Erik Skultety <eskultet@redhat.com> writes:
+Cleber Rosa <crosa@redhat.com> writes:
 
-> On Thu, Mar 12, 2020 at 03:36:12PM -0400, Cleber Rosa wrote:
->> Which is currenly missing, and will be referenced later in the
->> contributed CI playbooks.
->>=20
->> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>  tests/docker/dockerfiles/centos8.docker | 32 +++++++++++++++++++++++++
->>  1 file changed, 32 insertions(+)
->>  create mode 100644 tests/docker/dockerfiles/centos8.docker
->>=20
->> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dock=
-erfiles/centos8.docker
->> new file mode 100644
->> index 0000000000..bfa0d33c9c
->> --- /dev/null
->> +++ b/tests/docker/dockerfiles/centos8.docker
->> @@ -0,0 +1,32 @@
->> +FROM centos:8.1.1911
->> +
->> +RUN dnf -y update
->> +ENV PACKAGES \
->> +    SDL-devel \
->> +    bison \
->> +    bzip2 \
->> +    bzip2-devel \
->> +    dbus-daemon \
->> +    flex \
->> +    gcc \
->> +    gcc-c++ \
->> +    gettext \
->> +    git \
->> +    glib2-devel \
->> +    libaio-devel \
->> +    libepoxy-devel \
->> +    lzo-devel \
->> +    make \
->> +    mesa-libEGL-devel \
->> +    nettle-devel \
->> +    perl-Test-Harness \
->> +    pixman-devel \
->> +    python36 \
->> +    rdma-core-devel \
->> +    spice-glib-devel \
->> +    spice-server \
->> +    tar \
->> +    zlib-devel
->> +
->> +RUN dnf install -y $PACKAGES
->> +RUN rpm -q $PACKAGES | sort > /packages.txt
+> Which is currenly missing, and will be referenced later in the
+> contributed CI playbooks.
 >
-> How is the packages.txt consumed later?
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-I think it's just following the pattern of a number of the containers by du=
-mping the
-package list for later reference by the run support scripts (tests/docker/r=
-un):
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-  if test -n "$SHOW_ENV"; then
-      if test -f /packages.txt; then
-          echo "Packages installed:"
-          cat /packages.txt
-          echo
-      fi
-      echo "Environment variables:"
-      env
-      echo
-  fi
-
+> ---
+>  tests/docker/dockerfiles/centos8.docker | 32 +++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/centos8.docker
 >
-> Erik
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> new file mode 100644
+> index 0000000000..bfa0d33c9c
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -0,0 +1,32 @@
+> +FROM centos:8.1.1911
+> +
+> +RUN dnf -y update
+> +ENV PACKAGES \
+> +    SDL-devel \
+> +    bison \
+> +    bzip2 \
+> +    bzip2-devel \
+> +    dbus-daemon \
+> +    flex \
+> +    gcc \
+> +    gcc-c++ \
+> +    gettext \
+> +    git \
+> +    glib2-devel \
+> +    libaio-devel \
+> +    libepoxy-devel \
+> +    lzo-devel \
+> +    make \
+> +    mesa-libEGL-devel \
+> +    nettle-devel \
+> +    perl-Test-Harness \
+> +    pixman-devel \
+> +    python36 \
+> +    rdma-core-devel \
+> +    spice-glib-devel \
+> +    spice-server \
+> +    tar \
+> +    zlib-devel
+> +
+> +RUN dnf install -y $PACKAGES
+> +RUN rpm -q $PACKAGES | sort > /packages.txt
 
 
 --=20
