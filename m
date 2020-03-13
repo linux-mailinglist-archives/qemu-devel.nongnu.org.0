@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25D4184778
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:09:26 +0100 (CET)
-Received: from localhost ([::1]:58525 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7822184772
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:07:02 +0100 (CET)
+Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCk46-00058J-1L
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1jCk1l-0001ZS-VV
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:07:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imbrenda@linux.ibm.com>) id 1jCjwg-0001Ww-Nb
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:01:51 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imbrenda@linux.ibm.com>) id 1jCjwf-0007PP-Br
+ (envelope-from <imbrenda@linux.ibm.com>) id 1jCjwf-0001VM-93
  for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:01:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4160)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <imbrenda@linux.ibm.com>) id 1jCjwa-0007D5-6B
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:01:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36104
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
- id 1jCjwf-0007M4-2N
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:01:45 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02DCojWh143439
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 09:01:44 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yr17j5cbp-1
+ id 1jCjwa-0007CX-0G
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:01:40 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02DCvtg3020921
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 09:01:39 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2yqx4dsk80-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 09:01:43 -0400
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 09:01:39 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
- Fri, 13 Mar 2020 13:01:41 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 13 Mar 2020 13:01:37 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Mar 2020 13:01:38 -0000
+ Fri, 13 Mar 2020 13:01:35 -0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02DD1a3066584792
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02DD1XG020971670
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Mar 2020 13:01:36 GMT
+ Fri, 13 Mar 2020 13:01:33 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9E7D5A4068;
- Fri, 13 Mar 2020 13:01:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7808DA405C;
+ Fri, 13 Mar 2020 13:01:33 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27D62A4067;
- Fri, 13 Mar 2020 13:01:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id ED082A4054;
+ Fri, 13 Mar 2020 13:01:32 +0000 (GMT)
 Received: from p-imbrenda (unknown [9.145.9.63])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 13 Mar 2020 13:01:36 +0000 (GMT)
-Date: Fri, 13 Mar 2020 13:57:22 +0100
+ Fri, 13 Mar 2020 13:01:32 +0000 (GMT)
+Date: Fri, 13 Mar 2020 13:57:26 +0100
 From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9 04/15] s390x: protvirt: Inhibit balloon when
- switching to protected mode
-In-Reply-To: <20200311132151.172389-5-frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 05/15] s390x: protvirt: KVM intercept changes
+In-Reply-To: <20200311132151.172389-6-frankja@linux.ibm.com>
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-5-frankja@linux.ibm.com>
+ <20200311132151.172389-6-frankja@linux.ibm.com>
 Organization: IBM
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031313-0028-0000-0000-000003E42D9B
+x-cbid: 20031313-0016-0000-0000-000002F079F3
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031313-0029-0000-0000-000024A978E0
-Message-Id: <20200313135722.684a462e@p-imbrenda>
+x-cbparentid: 20031313-0017-0000-0000-00003353EDAC
+Message-Id: <20200313135726.71cc5242@p-imbrenda>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-13_04:2020-03-12,
  2020-03-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015 bulkscore=0
- spamscore=0 suspectscore=2 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 adultscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2003130066
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,78 +99,61 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 09:21:40 -0400
+On Wed, 11 Mar 2020 09:21:41 -0400
 Janosch Frank <frankja@linux.ibm.com> wrote:
 
-> Ballooning in protected VMs can only be done when the guest shares the
-> pages it gives to the host. If pages are not shared, the integrity
-> checks will fail once those pages have been altered and are given back
-> to the guest.
+> Protected VMs no longer intercept with code 4 for an instruction
+> interception. Instead they have codes 104 and 108 for protected
+> instruction interception and protected instruction notification
+> respectively.
 > 
-> As we currently do not yet have a solution for this we will continue
-> like this:
+> The 104 mirrors the 4 interception.
 > 
-> 1. We block ballooning now in QEMU (with this patch)
+> The 108 is a notification interception to let KVM and QEMU know that
+> something changed and we need to update tracking information or
+> perform specific tasks. It's currently taken for the following
+> instructions:
 > 
-> 2. Later we will provide a change to virtio that removes the blocker
-> and adds VIRTIO_F_IOMMU_PLATFORM automatically by QEMU when doing the
-> protvirt switch. This is ok as the guest balloon driver will reject to
-> work with the IOMMU change
+> * spx (To inform about the changed prefix location)
+> * sclp (On incorrect SCCB values, so we can inject a IRQ)
+> * sigp (All but "stop and store status")
+> * diag308 (Subcodes 0/1)
 > 
-> 3. Later we can fix the guest balloon driver to accept the IOMMU
-> feature bit and correctly exercise sharing and unsharing of balloon
-> pages
+> Of these exits only sclp errors, state changing sigps and diag308 will
+> reach QEMU. QEMU will do its parts of the job, while the ultravisor
+> has done the instruction part of the job.
 > 
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > Reviewed-by: David Hildenbrand <david@redhat.com>
 > Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 > ---
->  hw/s390x/s390-virtio-ccw.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  target/s390x/kvm.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index deb31e060052d279..066e01f303c35671 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -41,6 +41,7 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/s390x/tod.h"
->  #include "sysemu/sysemu.h"
-> +#include "sysemu/balloon.h"
->  #include "hw/s390x/pv.h"
->  #include "migration/blocker.h"
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 1d6fd6a27b48e35f..eec0b92479465b9c 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -115,6 +115,8 @@
+>  #define ICPT_CPU_STOP                   0x28
+>  #define ICPT_OPEREXC                    0x2c
+>  #define ICPT_IO                         0x40
+> +#define ICPT_PV_INSTR                   0x68
+> +#define ICPT_PV_INSTR_NOTIFICATION      0x6c
 >  
-> @@ -326,6 +327,7 @@ static void
-> s390_machine_unprotect(S390CcwMachineState *ms) ms->pv = false;
->      migrate_del_blocker(pv_mig_blocker);
->      error_free_or_abort(&pv_mig_blocker);
-> +    qemu_balloon_inhibit(false);
->  }
->  
->  static int s390_machine_protect(S390CcwMachineState *ms)
-> @@ -333,10 +335,12 @@ static int
-> s390_machine_protect(S390CcwMachineState *ms) Error *local_err = NULL;
->      int rc;
->  
-> +    qemu_balloon_inhibit(true);
->      error_setg(&pv_mig_blocker,
->                 "protected VMs are currently not migrateable.");
->      rc = migrate_add_blocker(pv_mig_blocker, &local_err);
->      if (local_err) {
-> +        qemu_balloon_inhibit(false);
->          error_report_err(local_err);
->          error_free_or_abort(&pv_mig_blocker);
->          return rc;
-> @@ -345,6 +349,7 @@ static int
-> s390_machine_protect(S390CcwMachineState *ms) /* Create SE VM */
->      rc = s390_pv_vm_enable();
->      if (rc) {
-> +        qemu_balloon_inhibit(false);
->          error_report_err(local_err);
->          migrate_del_blocker(pv_mig_blocker);
->          error_free_or_abort(&pv_mig_blocker);
+>  #define NR_LOCAL_IRQS 32
+>  /*
+> @@ -1693,6 +1695,8 @@ static int handle_intercept(S390CPU *cpu)
+>              (long)cs->kvm_run->psw_addr);
+>      switch (icpt_code) {
+>          case ICPT_INSTRUCTION:
+> +        case ICPT_PV_INSTR:
+> +        case ICPT_PV_INSTR_NOTIFICATION:
+>              r = handle_instruction(cpu, run);
+>              break;
+>          case ICPT_PROGRAM:
 
-looks straightforward
+very straightforward
 
 Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
