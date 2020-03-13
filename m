@@ -2,49 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46887183FA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 04:26:40 +0100 (CET)
-Received: from localhost ([::1]:53236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB161183FDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 04:56:50 +0100 (CET)
+Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCay7-0007Xx-Ct
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 23:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38167)
+	id 1jCbRK-0006az-1E
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 23:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhukeqian1@huawei.com>) id 1jCaxK-00073V-On
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:25:51 -0400
+ (envelope-from <jiangyifei@huawei.com>) id 1jCbMK-0006tp-Ak
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhukeqian1@huawei.com>) id 1jCaxJ-0003EQ-Ms
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:25:50 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:44372 helo=huawei.com)
+ (envelope-from <jiangyifei@huawei.com>) id 1jCbMI-0000dW-LL
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 23:51:40 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3284 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhukeqian1@huawei.com>)
- id 1jCaxH-0002zc-BW; Thu, 12 Mar 2020 23:25:47 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id F40B1C7ED93B429C1D3E;
- Fri, 13 Mar 2020 11:25:39 +0800 (CST)
-Received: from [127.0.0.1] (10.173.221.230) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0;
- Fri, 13 Mar 2020 11:25:32 +0800
-Subject: Re: [PATCH] migration/throttle: Add throttle-trig-thres migration
- parameter
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200224023142.39360-1-zhukeqian1@huawei.com>
- <20200312180735.GL3211@work-vm>
-From: zhukeqian <zhukeqian1@huawei.com>
-Message-ID: <66e1b7b4-1563-ef23-2dbf-a19311f3ec1d@huawei.com>
-Date: Fri, 13 Mar 2020 11:25:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
+ id 1jCbMI-0000M6-93; Thu, 12 Mar 2020 23:51:38 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 72366771CD93184FE310;
+ Fri, 13 Mar 2020 11:51:26 +0800 (CST)
+Received: from huawei.com (10.133.201.158) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Fri, 13 Mar 2020
+ 11:51:19 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH RFC 0/9] Add riscv64 kvm accel support
+Date: Fri, 13 Mar 2020 11:49:40 +0800
+Message-ID: <20200313034949.3028-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20200312180735.GL3211@work-vm>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.221.230]
+Content-Type: text/plain
+X-Originating-IP: [10.133.201.158]
 X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,60 +51,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com
+Cc: anup.patel@wdc.com, zhang.zhanghailiang@huawei.com,
+ sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
+ victor.zhangxiaofeng@huawei.com, Alistair.Francis@wdc.com,
+ yinyipeng1@huawei.com, palmer@dabbelt.com, Yifei Jiang <jiangyifei@huawei.com>,
+ dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dr. David,
+Hi,
 
-On 2020/3/13 2:07, Dr. David Alan Gilbert wrote:
-> * Keqian Zhu (zhukeqian1@huawei.com) wrote:
->> Currently, if the bytes_dirty_period is more than the 50% of
->> bytes_xfer_period, we start or increase throttling.
->>
->> If we make this percentage higher, then we can tolerate higher
->> dirty rate during migration, which means less impact on guest.
->> The side effect of higher percentage is longer migration time.
->> We can make this parameter configurable to switch between mig-
->> ration time first or guest performance first.
->>
->> The default value is 50 and valid range is 1 to 100.
->>
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> 
-> Apologies for the delay.
-It is not late, no worries ;).
-> This looks fine now; so
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> and I'll queue it.
-Thanks.
-> I think we could do with a better description than the current one if we
-> can find it:
-> 
->  The ratio of bytes_dirty_period and bytes_xfer_period
->  to trigger throttling. It is expressed as percentage.
-> 
-> assumes people understand what those bytes*period mean.
-> 
-> Still, until we do:
-> 
-> Queued for migration
-> 
-[...]
->> -- 
->> 2.19.1
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
-> .
-> 
-Thanks,
-Keqian
+This series adds riscv64 kvm support, It is based on riscv_kvm_master
+branch at https://github.com/kvm-riscv/linux.
+
+This series depends on above pending changes which haven't yet been
+accepted, so this QEMU patch series is blocked until that dependency
+has been dealt with, but is worth reviewing anyway.
+
+Several steps to use this:
+
+1. Build riscv64 emulation
+$ ./configure --target-list=3Driscv64-softmmu
+$ make -j$(nproc)
+
+2. Build kernel
+riscv_kvm_master branch at https://github.com/kvm-riscv/linux
+
+3. Build QEMU VM
+I cross build in riscv toolchain
+$ PKG_CONFIG_LIBDIR=3D<toolchain pkgconfig path>
+$ export PKG_CONFIG_SYSROOT_DIR=3D<toolchain sysroot path>
+$ ./configure --target-list=3Driscv64-softmmu --enable-kvm \
+--cross-prefix=3Driscv64-linux-gnu- --disable-libiscsi --disable-glusterf=
+s \
+--disable-libusb --disable-usb-redir --audio-drv-list=3D --disable-opengl=
+ \
+--disable-libxml2
+
+4. Start riscv64 emulation
+$ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64,x-h=3Dtrue -nographic =
+\
+        -name guest=3Driscv-hyp,debug-threads=3Don \
+        -smp 4 \
+        -kernel ./fw_jump.elf \
+        -device loader,file=3D./Image,addr=3D0x80200000 \
+        -drive file=3D./hyp.img,format=3Draw,id=3Dhd0 \
+        -device virtio-blk-device,drive=3Dhd0 \
+        -append "root=3D/dev/vda rw console=3DttyS0 earlycon=3Dsbi"
+
+5. Start kvm-acceled QEMU VM in riscv64 emulation
+$ ./qemu-system-riscv64 -M virt,accel=3Dkvm -m 1024M -cpu host -nographic=
+ \
+        -name guest=3Driscv-guset \
+         -smp 2 \
+        -kernel ./Image \
+        -drive file=3D./guest.img,format=3Draw,id=3Dhd0 \
+        -device virtio-blk-device,drive=3Dhd0 \
+        -append "root=3D/dev/vda rw console=3DttyS0 earlycon=3Dsbi"
+
+Yifei Jiang (9):
+  linux-header: Update linux/kvm.h
+  target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+  target/riscv: Implement function kvm_arch_init_vcpu
+  target/riscv: Implement kvm_arch_get_registers
+  target/riscv: Implement kvm_arch_put_registers
+  target/riscv: Support start kernel directly by KVM
+  hw/riscv: PLIC update external interrupt by KVM when kvm enabled
+  target/riscv: Handler KVM_EXIT_RISCV_SBI exit
+  target/riscv: add host riscv64 cpu type
+
+ configure                  |   1 +
+ hw/riscv/sifive_plic.c     |  31 ++-
+ hw/riscv/virt.c            |  15 +-
+ linux-headers/linux/kvm.h  |   8 +
+ target/riscv/Makefile.objs |   1 +
+ target/riscv/cpu.c         |   9 +
+ target/riscv/cpu.h         |   4 +
+ target/riscv/kvm.c         | 513 +++++++++++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h   |  25 ++
+ 9 files changed, 596 insertions(+), 11 deletions(-)
+ create mode 100644 target/riscv/kvm.c
+ create mode 100644 target/riscv/kvm_riscv.h
+
+--=20
+2.19.1
+
 
 
