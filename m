@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C213A184822
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:30:00 +0100 (CET)
-Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14BF184840
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:35:50 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCkNz-0001ya-KS
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50592)
+	id 1jCkTe-0004G8-1c
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCkNB-0001Xh-VS
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:29:10 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jCkSs-0003qu-6K
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:35:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCkNA-0004RO-SO
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:29:09 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37280)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCkNA-0004Q8-MD
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:29:08 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w13so9336259oih.4
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 06:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TEBEAkRmGVVCH/9YuWoJb2TmAVZWCUwMxeF8Yqvohbw=;
- b=GrYOhtJPkpP/7GoVpYI54sKk2C9bUdTYHvpfsdyEyhD3+DdplB+iFUsv2uFzrjUbNp
- YvkuhXnlRmElyxKOqJ/xS7TuFQ1aA1zM6SIlNihzQ/7IFy25mMjn7Cgat9PSbTju1Bil
- wd55JxazLT2kl8gLpKfrf86lGzOWhDg3+3EnYtC7zU3TS1vfKN1+XPiCsfrGzwF0xEQW
- F81eP0+JCGrSJQScpT27TbDg/2UEidNrxhwA5+UtmQgMFNex91ksRixXF3s1ZUnr7gNT
- zxbY8Y1knnPW52/MPJ1e2cgoOT8epn4pf/7/B2hr8LN2/ZqyBHdN6NcCrnkN+MeF7wWW
- HB/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TEBEAkRmGVVCH/9YuWoJb2TmAVZWCUwMxeF8Yqvohbw=;
- b=B6+gh4Q0Ezbg1JySy18gFzCWOgHrZPRx7Q4XU4O9goOY3RUxaASWGkvLOZoV9b5Yb9
- cnbwRbptuiapUTpZbIhoAq96ZDOO9b7nBcSa2bmP0aGosyd/s3GQPBdi+1lsC1+azNVc
- b9CEHtN2rBsNeC8reGW+yCEciz+0+aob2cnO99ZMEQhb7UHxY8mobEDPs1S2K0ftuE8Q
- QQw4cOCM3DAErKYfu5H6BQj5f/F3OakMjuQJPOG6SL0hKw48C0Qv5WuY6f2Ju/cz1l9U
- 9jW2WBaWkf/DuKMrbXdrorkh/DJdVYosW/+ssRWwhsjFL+7RphDPT15P7B6jY60UeX6f
- 8eHw==
-X-Gm-Message-State: ANhLgQ0eVpTX7Cfew+cYNdhB9FEmwMK7+gOSuKCLKDBU9UoG5R06qYpC
- WdgXm7pYXdtk9GijUTBR0MFSEZNJ9PDVjbEAQKnP7A==
-X-Google-Smtp-Source: ADFU+vsS5z2DP0IBTs0GomoSm5BR2+zEzhfpb2Ri/W2zZUCW3NrPvSO1ZqdIean6ozyOQA2ptKrM+rd/t2j0JSZO6x0=
-X-Received: by 2002:aca:47c8:: with SMTP id u191mr7190493oia.170.1584106147767; 
- Fri, 13 Mar 2020 06:29:07 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1jCkSp-0006ea-Gy
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:35:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20301
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jCkSp-0006Xy-58
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:34:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584106498;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EbO2XW29MTb/l1T07/sWDQ2OndnyYd01avw4tAwRFGc=;
+ b=B7Lrqtc29BgBuYLOX3PGuKW6pi+Ofj7imeJgcbGIqeTL9dhBY+LpLGruzTHyuZh1YBDFIV
+ Fh5OFaCx1FIaGoqEjyTesWUWtTMxez5R85gMwzUrD+GcoXYr+BWXWoYtRi/AhTY0LhMLQc
+ ykc9ZCy9ZxGI0NOffrYbNOqZCt5hV+w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-I77e2eLPPxaRmAii7tl7xA-1; Fri, 13 Mar 2020 09:34:56 -0400
+X-MC-Unique: I77e2eLPPxaRmAii7tl7xA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F19DB1005512;
+ Fri, 13 Mar 2020 13:34:54 +0000 (UTC)
+Received: from work-vm (ovpn-117-92.ams2.redhat.com [10.36.117.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C61215D9CA;
+ Fri, 13 Mar 2020 13:34:53 +0000 (UTC)
+Date: Fri, 13 Mar 2020 13:34:51 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] exec/rom_reset: Free rom data during inmigrate skip
+Message-ID: <20200313133451.GD3581@work-vm>
+References: <20200313123014.206828-1-dgilbert@redhat.com>
+ <CAFEAcA8KPovUiycEr2hHb4LP0SL-hBCTNgkA9KFKMb6FQTceuQ@mail.gmail.com>
+ <CAFEAcA9pBMC0W9cHKmq5nttPcA9qpYofSvkZEnmkGuS2g_vPTA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-15-frankja@linux.ibm.com>
-In-Reply-To: <20200311132151.172389-15-frankja@linux.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Mar 2020 13:28:56 +0000
-Message-ID: <CAFEAcA84eNDe82ZNCDO3apgjhoa3UEriWo1+2aW7L4ok0hMZgQ@mail.gmail.com>
-Subject: Re: [PATCH v9 14/15] docs: Add protvirt docs
-To: Janosch Frank <frankja@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <CAFEAcA9pBMC0W9cHKmq5nttPcA9qpYofSvkZEnmkGuS2g_vPTA@mail.gmail.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,48 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yan Vugenfirer <yvugenfi@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 at 13:31, Janosch Frank <frankja@linux.ibm.com> wrote:
->
-> Lets add some documentation for the Protected VM functionality.
->
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  docs/system/index.rst    |  1 +
->  docs/system/protvirt.rst | 56 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 57 insertions(+)
->  create mode 100644 docs/system/protvirt.rst
->
-> diff --git a/docs/system/index.rst b/docs/system/index.rst
-> index 6e5f20fa1333ce23..74afbd7cc3fc0296 100644
-> --- a/docs/system/index.rst
-> +++ b/docs/system/index.rst
-> @@ -34,3 +34,4 @@ Contents:
->     deprecated
->     build-platforms
->     license
-> +   protvirt
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Fri, 13 Mar 2020 at 13:21, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> >
+> > On Fri, 13 Mar 2020 at 12:31, Dr. David Alan Gilbert (git)
+> > <dgilbert@redhat.com> wrote:
+> > >
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > >
+> > > Commit 355477f8c73e9 skips rom reset when we're an incoming migration
+> > > so as not to overwrite shared ram in the ignore-shared migration
+> > > optimisation.
+> > > However, it's got an unexpected side effect that because it skips
+> > > freeing the ROM data, when rom_reset gets called later on, after
+> > > migration (e.g. during a reboot), the ROM does get reset to the origi=
+nal
+> > > file contents.  Because of seabios/x86's weird reboot process
+> > > this confuses a reboot into hanging after a migration.
+> > >
+> > > Fixes: 355477f8c73e9 ("migration: do not rom_reset() during incoming =
+migration")
+> > > https://bugzilla.redhat.com/show_bug.cgi?id=3D1809380
+> > >
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > >  hw/core/loader.c | 23 ++++++++++++++---------
+> > >  1 file changed, 14 insertions(+), 9 deletions(-)
+> > >
+> >
+> > >      QTAILQ_FOREACH(rom, &roms, next) {
+> > >          if (rom->fw_file) {
+> > >              continue;
+> > >          }
+> > > +        /*
+> > > +         * We don't need to fill in the RAM with ROM data because we=
+'ll fill
+> > > +         * the data in during the next incoming migration in all cas=
+es.  Note
+> > > +         * that some of those RAMs can actually be modified by the g=
+uest on ARM
+> > > +         * so this is probably the only right thing to do here.
+> > > +         */
+> > > +        if (runstate_check(RUN_STATE_INMIGRATE) && rom->data) {
+> > > +            /*
+> > > +             * Free it so that a rom_reset after migration doesn't o=
+verwrite a
+> > > +             * potentially modified 'rom'.
+> > > +             */
+> > > +            rom_free_data(rom);
+> >
+> > Shouldn't this condition match the condition in rom_reset()
+> > for when we call rom_free_data()? You want the behaviour
+> > on a subsequent reset to match the behaviour you'd get
+> > if you did a reset on the source end without the migration.
+>=20
+> Wait, this *is* rom_reset(). Now I'm really confused.
 
-The order of this list in index.rst determines the order
-of the table of contents in the manual. Could you put
-your new document at a reasonable place in the manual,
-not just at the bottom of the list, please?
+The exsiting rom_reset gets called multiple times:
+  a) During init
+      This actually copies the ROMs and then calls rom_free_data
 
-For something that is s390 specific, the ideal would
-be to create a new docs/system/target-s390x.rst
-which is then the place where all s390 docs can
-hang off of. This is how we're handling various
-other guest architecture docs. It doesn't all
-have to go in a single page -- eg target-arm.rst
-is an example of putting some sub-documents into
-docs/system/arm/ and referring to them from
-target-arm.rst.
+  b) During a subsequent reboot
+      This is mostly skipped because rom->data is now free because
+      of the prior call to rom_free_data during (a)
 
-thanks
--- PMM
+During an inbound migrate, (a) happens before the migration, and
+(b) happens during a reboot after the migration.
+
+The problem is that 355477f8c73e9 caused (a) to be skipped
+then when (b) happens it actually overwrites the ROM because
+the rom_free_data had been skipped.  What I'm doing here is=20
+doing the rom_free_data(..) which causes it to then skip this
+iteration during (a) AND causes it to skip it during (b).
+
+Dave
+
+> thanks
+> -- PMM
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
