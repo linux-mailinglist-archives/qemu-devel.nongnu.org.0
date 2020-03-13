@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5FF184125
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:03:48 +0100 (CET)
-Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC48B184145
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:10:57 +0100 (CET)
+Received: from localhost ([::1]:54616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCeMF-0001KS-BV
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43657)
+	id 1jCeTB-0004qP-23
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiangyifei@huawei.com>) id 1jCeL1-0000Zt-3L
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:02:32 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jCeSK-0004LJ-UN
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiangyifei@huawei.com>) id 1jCeKz-0004V9-K4
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:02:30 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2510 helo=huawei.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jCeSI-0001U7-7O
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57244
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
- id 1jCeKy-0004Be-U6; Fri, 13 Mar 2020 03:02:29 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
- by Forcepoint Email with ESMTP id 3D56C256F584CE755062;
- Fri, 13 Mar 2020 15:02:20 +0800 (CST)
-Received: from DGGEMM505-MBX.china.huawei.com ([169.254.1.8]) by
- DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0439.000;
- Fri, 13 Mar 2020 15:02:12 +0800
-From: Jiangyifei <jiangyifei@huawei.com>
-To: Anup Patel <anup@brainfault.org>
-Subject: RE: [PATCH RFC 0/9] Add riscv64 kvm accel support
-Thread-Topic: [PATCH RFC 0/9] Add riscv64 kvm accel support
-Thread-Index: AQHV+OqsP3y56Dmww0a/2synn2NrhKhFgTqAgACQGBA=
-Date: Fri, 13 Mar 2020 07:02:12 +0000
-Message-ID: <3915816D913D8241BB43E932213F57D4ADC56065@DGGEMM505-MBX.china.huawei.com>
-References: <20200313034949.3028-1-jiangyifei@huawei.com>
- <CAAhSdy3-K5rxiJkjBp8iUnDqVZz0hQkNCVactmamsOcVZv3GOQ@mail.gmail.com>
-In-Reply-To: <CAAhSdy3-K5rxiJkjBp8iUnDqVZz0hQkNCVactmamsOcVZv3GOQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.201.158]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jCeSH-0001RV-UV
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584083401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nyol2i9OCPXQyZQ2DOtx8VgaSwLx9w9v7j4usAOnsbM=;
+ b=i4bKrtM8qaGGZwZPabGtvaEsMJYgtDTiKAP2vOWYjyetVmgOimJlRmR3Fp38f0IN/57/nY
+ 1uBs0i3QbaPYYID6axe9Vb427mZztIvtmy1L4yVbqYEqmcmPyRfap3LHrAjaJgC7kPhH3A
+ LRI5LbWvLqpaGWTleBzTWAl0wDz13VE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-F1qHMyurPUqiclindfhh-A-1; Fri, 13 Mar 2020 03:09:59 -0400
+X-MC-Unique: F1qHMyurPUqiclindfhh-A-1
+Received: by mail-wr1-f69.google.com with SMTP id w6so3822561wrm.16
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 00:09:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nyol2i9OCPXQyZQ2DOtx8VgaSwLx9w9v7j4usAOnsbM=;
+ b=goXA3nXryHk7iiVnA+a8yx/gUeNprlrYCCR5++wC2GgZSMOJDsxL/nF2IBtGad9pNi
+ r12s6jQxns78tQtpjJV1JYq0/gYYkreGsj4nk3j8paVp8zTm7246YUDD1+pl/LkLlG4O
+ 6Iruw6ydVr2mgFN8ohT1S+0X205tldmGlhwngUX/COAmLC4lve14uWNP4rXANpJdmhlz
+ E6pqK5e0M/GcMe2BxYscbDMaUrE66h5ENqAANHBas2nCBHh6SmE1aPgHyJml6FHdpujm
+ hRY6pAbWC+jkI84cLfLWXl8+aVluw3Oy1Zan3mSQeCISNsrY5SJK+iRodGe8kwTGwkrT
+ S35w==
+X-Gm-Message-State: ANhLgQ3HuxtsviT0Z0Y0kQy25HPAcoycwKtFetjv5Grhmwbf9KW+QQ4J
+ SO0xhaMQqxBiZHcMRZpmlrY0xhbz67K5ETO84imvTkrZ2aDWB0sLSuMB2LAHinb4X7oget0392H
+ HgFvn0qncZSlVdAs=
+X-Received: by 2002:a05:600c:22c6:: with SMTP id
+ 6mr5702174wmg.161.1584083398251; 
+ Fri, 13 Mar 2020 00:09:58 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vscyeCP6dzGc6aYo9YUQ2VHfzw4cj7worbFJah5WoF1p3589h95rcgPWYRBJVxqitDBtnuUlQ==
+X-Received: by 2002:a05:600c:22c6:: with SMTP id
+ 6mr5702138wmg.161.1584083397953; 
+ Fri, 13 Mar 2020 00:09:57 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7de8:5d90:2370:d1ac?
+ ([2001:b07:6468:f312:7de8:5d90:2370:d1ac])
+ by smtp.gmail.com with ESMTPSA id h13sm21116443wrv.39.2020.03.13.00.09.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Mar 2020 00:09:57 -0700 (PDT)
+Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
+To: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>, rth@twiddle.net
+References: <20200310091443.1326-1-longpeng2@huawei.com>
+ <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
+ <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e4dc19fd-bee2-251f-1fef-b41cd6da6c23@redhat.com>
+Date: Fri, 13 Mar 2020 08:09:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.188
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,101 +96,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "dengkai \(A\)" <dengkai1@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFudXAgUGF0ZWwgW21haWx0
-bzphbnVwQGJyYWluZmF1bHQub3JnXQ0KPiBTZW50OiBGcmlkYXksIE1hcmNoIDEzLCAyMDIwIDI6
-MDAgUE0NCj4gVG86IEppYW5neWlmZWkgPGppYW5neWlmZWlAaHVhd2VpLmNvbT4NCj4gQ2M6IFFF
-TVUgRGV2ZWxvcGVycyA8cWVtdS1kZXZlbEBub25nbnUub3JnPjsgb3BlbiBsaXN0OlJJU0MtViA8
-cWVtdS0NCj4gcmlzY3ZAbm9uZ251Lm9yZz47IEFudXAgUGF0ZWwgPGFudXAucGF0ZWxAd2RjLmNv
-bT47IFpoYW5naGFpbGlhbmcNCj4gPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47IFNh
-Z2FyIEthcmFuZGlrYXINCj4gPHNhZ2Fya0BlZWNzLmJlcmtlbGV5LmVkdT47IEJhc3RpYW4gS29w
-cGVsbWFubiA8a2Jhc3RpYW5AbWFpbC51bmktDQo+IHBhZGVyYm9ybi5kZT47IFpoYW5neGlhb2Zl
-bmcgKEYpIDx2aWN0b3Iuemhhbmd4aWFvZmVuZ0BodWF3ZWkuY29tPjsNCj4gQWxpc3RhaXIgRnJh
-bmNpcyA8QWxpc3RhaXIuRnJhbmNpc0B3ZGMuY29tPjsgeWlueWlwZW5nDQo+IDx5aW55aXBlbmcx
-QGh1YXdlaS5jb20+OyBQYWxtZXIgRGFiYmVsdCA8cGFsbWVyQGRhYmJlbHQuY29tPjsNCj4gZGVu
-Z2thaSAoQSkgPGRlbmdrYWkxQGh1YXdlaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggUkZD
-IDAvOV0gQWRkIHJpc2N2NjQga3ZtIGFjY2VsIHN1cHBvcnQNCj4gDQo+IE9uIEZyaSwgTWFyIDEz
-LCAyMDIwIGF0IDk6MjMgQU0gWWlmZWkgSmlhbmcgPGppYW5neWlmZWlAaHVhd2VpLmNvbT4gd3Jv
-dGU6DQo+ID4NCj4gPiBIaSwNCj4gPg0KPiA+IFRoaXMgc2VyaWVzIGFkZHMgcmlzY3Y2NCBrdm0g
-c3VwcG9ydCwgSXQgaXMgYmFzZWQgb24gcmlzY3Zfa3ZtX21hc3Rlcg0KPiA+IGJyYW5jaCBhdCBo
-dHRwczovL2dpdGh1Yi5jb20va3ZtLXJpc2N2L2xpbnV4Lg0KPiA+DQo+ID4gVGhpcyBzZXJpZXMg
-ZGVwZW5kcyBvbiBhYm92ZSBwZW5kaW5nIGNoYW5nZXMgd2hpY2ggaGF2ZW4ndCB5ZXQgYmVlbg0K
-PiA+IGFjY2VwdGVkLCBzbyB0aGlzIFFFTVUgcGF0Y2ggc2VyaWVzIGlzIGJsb2NrZWQgdW50aWwg
-dGhhdCBkZXBlbmRlbmN5DQo+ID4gaGFzIGJlZW4gZGVhbHQgd2l0aCwgYnV0IGlzIHdvcnRoIHJl
-dmlld2luZyBhbnl3YXkuDQo+ID4NCj4gPiBTZXZlcmFsIHN0ZXBzIHRvIHVzZSB0aGlzOg0KPiA+
-DQo+ID4gMS4gQnVpbGQgcmlzY3Y2NCBlbXVsYXRpb24NCj4gPiAkIC4vY29uZmlndXJlIC0tdGFy
-Z2V0LWxpc3Q9cmlzY3Y2NC1zb2Z0bW11ICQgbWFrZSAtaiQobnByb2MpDQo+ID4NCj4gPiAyLiBC
-dWlsZCBrZXJuZWwNCj4gPiByaXNjdl9rdm1fbWFzdGVyIGJyYW5jaCBhdCBodHRwczovL2dpdGh1
-Yi5jb20va3ZtLXJpc2N2L2xpbnV4DQo+ID4NCj4gPiAzLiBCdWlsZCBRRU1VIFZNDQo+ID4gSSBj
-cm9zcyBidWlsZCBpbiByaXNjdiB0b29sY2hhaW4NCj4gPiAkIFBLR19DT05GSUdfTElCRElSPTx0
-b29sY2hhaW4gcGtnY29uZmlnIHBhdGg+ICQgZXhwb3J0DQo+ID4gUEtHX0NPTkZJR19TWVNST09U
-X0RJUj08dG9vbGNoYWluIHN5c3Jvb3QgcGF0aD4gJCAuL2NvbmZpZ3VyZQ0KPiA+IC0tdGFyZ2V0
-LWxpc3Q9cmlzY3Y2NC1zb2Z0bW11IC0tZW5hYmxlLWt2bSBcDQo+ID4gLS1jcm9zcy1wcmVmaXg9
-cmlzY3Y2NC1saW51eC1nbnUtIC0tZGlzYWJsZS1saWJpc2NzaQ0KPiA+IC0tZGlzYWJsZS1nbHVz
-dGVyZnMgXCAtLWRpc2FibGUtbGlidXNiIC0tZGlzYWJsZS11c2ItcmVkaXINCj4gPiAtLWF1ZGlv
-LWRydi1saXN0PSAtLWRpc2FibGUtb3BlbmdsIFwNCj4gPiAtLWRpc2FibGUtbGlieG1sMg0KPiA+
-DQo+ID4gNC4gU3RhcnQgcmlzY3Y2NCBlbXVsYXRpb24NCj4gPiAkIC4vcWVtdS1zeXN0ZW0tcmlz
-Y3Y2NCAtTSB2aXJ0IC1tIDQwOTZNIC1jcHUgcnY2NCx4LWg9dHJ1ZSAtbm9ncmFwaGljIFwNCj4g
-PiAgICAgICAgIC1uYW1lIGd1ZXN0PXJpc2N2LWh5cCxkZWJ1Zy10aHJlYWRzPW9uIFwNCj4gPiAg
-ICAgICAgIC1zbXAgNCBcDQo+ID4gICAgICAgICAta2VybmVsIC4vZndfanVtcC5lbGYgXA0KPiA+
-ICAgICAgICAgLWRldmljZSBsb2FkZXIsZmlsZT0uL0ltYWdlLGFkZHI9MHg4MDIwMDAwMCBcDQo+
-ID4gICAgICAgICAtZHJpdmUgZmlsZT0uL2h5cC5pbWcsZm9ybWF0PXJhdyxpZD1oZDAgXA0KPiA+
-ICAgICAgICAgLWRldmljZSB2aXJ0aW8tYmxrLWRldmljZSxkcml2ZT1oZDAgXA0KPiA+ICAgICAg
-ICAgLWFwcGVuZCAicm9vdD0vZGV2L3ZkYSBydyBjb25zb2xlPXR0eVMwIGVhcmx5Y29uPXNiaSIN
-Cj4gPg0KPiA+IDUuIFN0YXJ0IGt2bS1hY2NlbGVkIFFFTVUgVk0gaW4gcmlzY3Y2NCBlbXVsYXRp
-b24gJA0KPiA+IC4vcWVtdS1zeXN0ZW0tcmlzY3Y2NCAtTSB2aXJ0LGFjY2VsPWt2bSAtbSAxMDI0
-TSAtY3B1IGhvc3QgLW5vZ3JhcGhpYyBcDQo+ID4gICAgICAgICAtbmFtZSBndWVzdD1yaXNjdi1n
-dXNldCBcDQo+ID4gICAgICAgICAgLXNtcCAyIFwNCj4gPiAgICAgICAgIC1rZXJuZWwgLi9JbWFn
-ZSBcDQo+ID4gICAgICAgICAtZHJpdmUgZmlsZT0uL2d1ZXN0LmltZyxmb3JtYXQ9cmF3LGlkPWhk
-MCBcDQo+ID4gICAgICAgICAtZGV2aWNlIHZpcnRpby1ibGstZGV2aWNlLGRyaXZlPWhkMCBcDQo+
-ID4gICAgICAgICAtYXBwZW5kICJyb290PS9kZXYvdmRhIHJ3IGNvbnNvbGU9dHR5UzAgZWFybHlj
-b249c2JpIg0KPiA+DQo+ID4gWWlmZWkgSmlhbmcgKDkpOg0KPiA+ICAgbGludXgtaGVhZGVyOiBV
-cGRhdGUgbGludXgva3ZtLmgNCj4gPiAgIHRhcmdldC9yaXNjdjogQWRkIHRhcmdldC9yaXNjdi9r
-dm0uYyB0byBwbGFjZSB0aGUgcHVibGljIGt2bSBpbnRlcmZhY2UNCj4gPiAgIHRhcmdldC9yaXNj
-djogSW1wbGVtZW50IGZ1bmN0aW9uIGt2bV9hcmNoX2luaXRfdmNwdQ0KPiA+ICAgdGFyZ2V0L3Jp
-c2N2OiBJbXBsZW1lbnQga3ZtX2FyY2hfZ2V0X3JlZ2lzdGVycw0KPiA+ICAgdGFyZ2V0L3Jpc2N2
-OiBJbXBsZW1lbnQga3ZtX2FyY2hfcHV0X3JlZ2lzdGVycw0KPiA+ICAgdGFyZ2V0L3Jpc2N2OiBT
-dXBwb3J0IHN0YXJ0IGtlcm5lbCBkaXJlY3RseSBieSBLVk0NCj4gPiAgIGh3L3Jpc2N2OiBQTElD
-IHVwZGF0ZSBleHRlcm5hbCBpbnRlcnJ1cHQgYnkgS1ZNIHdoZW4ga3ZtIGVuYWJsZWQNCj4gPiAg
-IHRhcmdldC9yaXNjdjogSGFuZGxlciBLVk1fRVhJVF9SSVNDVl9TQkkgZXhpdA0KPiA+ICAgdGFy
-Z2V0L3Jpc2N2OiBhZGQgaG9zdCByaXNjdjY0IGNwdSB0eXBlDQo+ID4NCj4gPiAgY29uZmlndXJl
-ICAgICAgICAgICAgICAgICAgfCAgIDEgKw0KPiA+ICBody9yaXNjdi9zaWZpdmVfcGxpYy5jICAg
-ICB8ICAzMSArKy0NCj4gPiAgaHcvcmlzY3YvdmlydC5jICAgICAgICAgICAgfCAgMTUgKy0NCj4g
-PiAgbGludXgtaGVhZGVycy9saW51eC9rdm0uaCAgfCAgIDggKw0KPiA+ICB0YXJnZXQvcmlzY3Yv
-TWFrZWZpbGUub2JqcyB8ICAgMSArDQo+ID4gIHRhcmdldC9yaXNjdi9jcHUuYyAgICAgICAgIHwg
-ICA5ICsNCj4gPiAgdGFyZ2V0L3Jpc2N2L2NwdS5oICAgICAgICAgfCAgIDQgKw0KPiA+ICB0YXJn
-ZXQvcmlzY3Yva3ZtLmMgICAgICAgICB8IDUxMw0KPiArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrDQo+ID4gIHRhcmdldC9yaXNjdi9rdm1fcmlzY3YuaCAgIHwgIDI1ICsrDQo+
-ID4gIDkgZmlsZXMgY2hhbmdlZCwgNTk2IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKSAg
-Y3JlYXRlIG1vZGUNCj4gPiAxMDA2NDQgdGFyZ2V0L3Jpc2N2L2t2bS5jICBjcmVhdGUgbW9kZSAx
-MDA2NDQgdGFyZ2V0L3Jpc2N2L2t2bV9yaXNjdi5oDQo+ID4NCj4gPiAtLQ0KPiA+IDIuMTkuMQ0K
-PiA+DQo+ID4NCj4gPg0KPiANCj4gRmlyc3Qgb2YgYWxsIG1hbnkgdGhhbmtzIGZvciBkb2luZyBR
-RU1VIEtWTSBzdXBwb3J0LiBJdCB3YXN0ZWQgYml0IG9mIG15DQo+IHRpbWUgYmVjYXVzZSBJIHdh
-cyBhbHJlYWR5IGRvaW5nIGl0IGJ1dCBJIGFtIGhhcHB5IHRvIHNlZSB0aGUgcGF0Y2hlcyBvbiBs
-aXN0DQo+IHNvb25lci4NCj4gDQo+IEluIGZ1dHVyZSwgcGxlYXNlIENDIHRoZSBLVk0gUklTQy1W
-IG1haWxpbmcgbGlzdCBmb3IgYWxsIFFFTVUgS1ZNIFJJU0MtVg0KPiB3b3JrLiBUaGUgS1ZNIFJJ
-U0MtViBtYWlsaW5nIGxpc3QgZm9yIHJlbGF0ZWQgcHJvamVjdHMgKFFFTVUsIEtWTVRPT0wsDQo+
-IGxpYnZpcnQsIGV0YykgYW5kIG5vdCBqdXN0IExpbnV4IEtWTSBSSVNDLVYuDQo+IA0KPiBDdXJy
-ZW50bHksIHdlIGNhbiBvbmx5IHJldmlldyB0aGlzIHBhdGNoIHNlcmllcyBhbmQgZ2V0IGl0IGlu
-IGZpbmFsIHNoYXBlIGJ1dCBpdA0KPiBjYW4gb25seSBiZSBtZXJnZWQgaW4gUUVNVSBhZnRlciBM
-aW51eCBLVk0gUklTQy1WIHBhdGNoZXMgYXJlIG1lcmdlZCBpbg0KPiBMaW51eCBrZXJuZWwuDQo+
-IA0KPiBJIHdpbGwgYmUgc2VuZGluZyBvdXQgS1ZNIFJJU0MtViB2MTEgc2VyaWVzIHRvZGF5LiBU
-aGVyZSBpcyBhIGNydWNpYWwgYnVnIGZpeA0KPiByZWxhdGVkIHRvIEhJREVMRUcgQ1NSIHByb2dy
-YW1pbmcuIFRoaXMgYnVnIGZpeCBpcyByZXF1aXJlZCBpbiBib3RoIFFFTVUNCj4gYW5kIEtWTSBS
-SVNDLVYuIFBhbG1lciBoYXMgYWxyZWFkeSBhY2NlcHRlZCBRRU1VIEhJREVMRUcgQ1NSIGZpeC4g
-VGhlDQo+IEtWTSBSSVNDLVYNCj4gdjExIHNlcmllcyB3aWxsIGhhdmUgdGhpcyBmaXggYXMgd2Vs
-bC4NCj4gDQo+IFRoYW5rcyAmIFJlZ2FyZHMsDQo+IEFudXAgUGF0ZWwNCg0KVGhhbmsgeW91IGZv
-ciB5b3VyIHF1aWNrIHJlcGx5IGFuZCBiZWluZyBhYmxlIHRvIHJldmlldyBmb3IgdXMuIFdlIHdp
-bGwgc29vbiBiZSB2ZXJpZnlpbmcgYmFzZWQgb24gdGhlIEtWTSBSSVNDLVYgdjExIHNlcmllcy4N
-Cg0KUmVnYXJkcywNCllpZmVpIEppYW5nDQo=
+On 13/03/20 02:43, Longpeng (Mike, Cloud Infrastructure Service Product
+Dept.) wrote:
+>> diff --git a/cpus.c b/cpus.c
+>> index b4f8b84b61..1eb7533a91 100644
+>> --- a/cpus.c
+>> +++ b/cpus.c
+>> @@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
+>>  {
+>>      CPUState *cpu;
+>>
+>> +    if (!runstate_is_running()) {
+>> +        return;
+>> +    }
+>> +
+> Hi Paolo,
+> 
+> The runstate of my above sketch is running, so maybe your patch can fix some
+> other issues but not mine ?
+
+You're right, do_vm_stop sets the runstate after pause_all_vcpus.  We
+can move that before and it should fix your case too.
+
+Paolo
+
 
