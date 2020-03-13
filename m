@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878CF1852CC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 00:57:04 +0100 (CET)
-Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AB8185321
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 01:05:36 +0100 (CET)
+Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCuAp-0000jW-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 19:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42451)
+	id 1jCuJ5-0003OB-HM
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 20:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <samuel.thibault@gnu.org>) id 1jCuA5-0000Ff-3C
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 19:56:18 -0400
+ (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
+ id 1jCuHq-0002Kh-Lm
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:04:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <samuel.thibault@gnu.org>) id 1jCuA3-0008FX-VR
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 19:56:17 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:47810)
+ (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
+ id 1jCuHp-0002OG-DD
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:04:18 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:59684)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <samuel.thibault@gnu.org>)
- id 1jCuA3-000871-Kg
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 19:56:15 -0400
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 27F82D10E;
- Sat, 14 Mar 2020 00:56:12 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XQZ2Sfe1rh0r; Sat, 14 Mar 2020 00:56:10 +0100 (CET)
-Received: from function (lfbn-bor-1-797-11.w86-234.abo.wanadoo.fr
- [86.234.239.11])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id A96CAD10D;
- Sat, 14 Mar 2020 00:56:10 +0100 (CET)
-Received: from samy by function with local (Exim 4.93)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1jCu9x-001Avv-BH; Sat, 14 Mar 2020 00:56:09 +0100
-Date: Sat, 14 Mar 2020 00:56:09 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Jason Andryuk <jandryuk@gmail.com>
-Subject: Re: [PATCH 1/4] usb-serial: Move USB_TOKEN_IN into a helper function
-Message-ID: <20200313235609.bmfiyzhsat3pqvkt@function>
-References: <20200312125524.7812-1-jandryuk@gmail.com>
- <20200312125524.7812-2-jandryuk@gmail.com>
+ (Exim 4.71) (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
+ id 1jCuHo-0001nP-N2; Fri, 13 Mar 2020 20:04:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1584144272; x=1615680272;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=BA949ONjqslxDLdDXXQETbLrZFzbaBvwbmBFsMoheIE=;
+ b=Lm+Qu8XrQ5TQq0n1RiIJwt9PW3fsk7EknbNnbaZhYaMTChBqlRf6bUBL
+ sIkq/zsSp5YPS5tWjAvGMLoL1NxecVOzwCWtnOwHa+I40H76m55rdfngg
+ 3gtNKxkG4jqThzhQvwggb7bgL7Z/13H7luyKoxoIUTLXDpdYn4sR/GfsF
+ SqlP8vbYlIFqejgiGWzkk9I2cM6pFNKmpZ6ddW3ooeA2DHDk6mh/Hqqw/
+ g/WHe0I0WMG+cRS9NtrKSMzXujFQxKStsfPg15WXbo+cbq7fErimRZ1HG
+ HO4fQvGXFg+1cKZHZ7bygxuTzsXq5V73axhpsSUUmnl2rIZJyQE4Gc6ff g==;
+IronPort-SDR: +DuUN8/TaHIlIrgKhJmON+h8j/ja2iAdmSmEx+9HbFvS6tA7Ui4a7QKL8pIheg2OWefgSroMof
+ 8TmNoEAT514nuD1zyVaym8qi87ONyzF/MbwUgapIWuiIuQbGVL9rq4vrC4FzFjG/hEK0hCcjm3
+ lczLtnk5il9Y+WZShJLLWF2xSibC2LS9PIH6o4LgpMVSOhha3q3LGf/p5BK6WDTFIu7+Hlr7rz
+ 8RB4cjk/EvFXNuw/g9s6vwriM0qk2j5r3TAW1BgCkRvmzIi00REmLhV/OHGzN0zij5xiGO/Nov
+ d4E=
+X-IronPort-AV: E=Sophos;i="5.70,550,1574092800"; d="scan'208";a="234512340"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2020 08:04:26 +0800
+IronPort-SDR: Bnj/4CrGem5zmlGnefp00k5mvZ+ubM8CoO+Y6PbBDW17dJESs9hz41JBKx/yuU8+hg3M3qlbTx
+ +6C+AD29mt1veuO9lmp+EZVC9UALAHUoQYGTpkB8HgtlgXql6ZHX4h9/mUHaKKAb8mvhJUjz4S
+ u4heb0TKH7VlXtHKFdhIpKW7h5MSxEdg9Th/qaZ1LrATvm3rUmYRxpkaln6Qs6zQUneH1J/dKz
+ C88TA4CT9yhEavmUVEBa0mPamct6ycHnVEUJTokoUAl9xMrHqZWMfZ6PCKyNMmp3woaqq6eo64
+ HrHlVFU5Bc7YghjRh5eBzanR
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2020 16:56:10 -0700
+IronPort-SDR: do9pklDcTVONtt3Ttkx2h6vBFHADIsIAif4CCB5QDlN+o/p6M+q/C1FckioLzjSWNz0U36SnLS
+ NhPKL2bBRfeosFdyBAy5TeHWwfhqEEzMztmAvMj4gGJ1DigLDcUtsAbz8+zQ6Oxg8NHGJGoQT2
+ YBlEOQ8g29JsUZGcDm9LldIjeafU76kfgH3fnutCiPIZvNxoPZJn+dmNjC/bKN67v3bR5e8r3q
+ 3K7X2yec3FozD/cse42XhWDikvzCAMC3K+OfNC6d0cg5qs/dQtwCdSo/4CIXk6HmUWheSEQLLy
+ S6E=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip02.wdc.com with ESMTP; 13 Mar 2020 17:04:14 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org,
+	laurent@vivier.eu
+Subject: [PATCH v8 0/4]  linux-user: generate syscall_nr.sh for RISC-V
+Date: Fri, 13 Mar 2020 16:56:46 -0700
+Message-Id: <cover.1584143748.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200312125524.7812-2-jandryuk@gmail.com>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a0c:e300::1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.143.124
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,133 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jason Andryuk, le jeu. 12 mars 2020 08:55:20 -0400, a ecrit:
-> We'll be adding a loop, so move the code into a helper function.  break=
-s
-> are replaced with returns.
->=20
-> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+This series updates the RISC-V syscall_nr.sh based on the 5.5 kernel.
 
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+There are two parts to this. One is just adding the new syscalls, the
+other part is updating the RV32 syscalls to match the fact that RV32 is
+a 64-bit time_t architectures (y2038) safe.
 
-> ---
->  hw/usb/dev-serial.c | 77 +++++++++++++++++++++++++--------------------
->  1 file changed, 43 insertions(+), 34 deletions(-)
->=20
-> diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-> index daac75b7ae..71fa786bd8 100644
-> --- a/hw/usb/dev-serial.c
-> +++ b/hw/usb/dev-serial.c
-> @@ -358,13 +358,53 @@ static void usb_serial_handle_control(USBDevice *=
-dev, USBPacket *p,
->      }
->  }
-> =20
-> +static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
-> +{
-> +    int first_len, len;
-> +    uint8_t header[2];
-> +
-> +    first_len =3D RECV_BUF - s->recv_ptr;
-> +    len =3D p->iov.size;
-> +    if (len <=3D 2) {
-> +        p->status =3D USB_RET_NAK;
-> +        return;
-> +    }
-> +    header[0] =3D usb_get_modem_lines(s) | 1;
-> +    /* We do not have the uart details */
-> +    /* handle serial break */
-> +    if (s->event_trigger && s->event_trigger & FTDI_BI) {
-> +        s->event_trigger &=3D ~FTDI_BI;
-> +        header[1] =3D FTDI_BI;
-> +        usb_packet_copy(p, header, 2);
-> +        return;
-> +    } else {
-> +        header[1] =3D 0;
-> +    }
-> +    len -=3D 2;
-> +    if (len > s->recv_used)
-> +        len =3D s->recv_used;
-> +    if (!len) {
-> +        p->status =3D USB_RET_NAK;
-> +        return;
-> +    }
-> +    if (first_len > len)
-> +        first_len =3D len;
-> +    usb_packet_copy(p, header, 2);
-> +    usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
-> +    if (len > first_len)
-> +        usb_packet_copy(p, s->recv_buf, len - first_len);
-> +    s->recv_used -=3D len;
-> +    s->recv_ptr =3D (s->recv_ptr + len) % RECV_BUF;
-> +
-> +    return;
-> +}
-> +
->  static void usb_serial_handle_data(USBDevice *dev, USBPacket *p)
->  {
->      USBSerialState *s =3D (USBSerialState *)dev;
->      uint8_t devep =3D p->ep->nr;
->      struct iovec *iov;
-> -    uint8_t header[2];
-> -    int i, first_len, len;
-> +    int i;
-> =20
->      switch (p->pid) {
->      case USB_TOKEN_OUT:
-> @@ -382,38 +422,7 @@ static void usb_serial_handle_data(USBDevice *dev,=
- USBPacket *p)
->      case USB_TOKEN_IN:
->          if (devep !=3D 1)
->              goto fail;
-> -        first_len =3D RECV_BUF - s->recv_ptr;
-> -        len =3D p->iov.size;
-> -        if (len <=3D 2) {
-> -            p->status =3D USB_RET_NAK;
-> -            break;
-> -        }
-> -        header[0] =3D usb_get_modem_lines(s) | 1;
-> -        /* We do not have the uart details */
-> -        /* handle serial break */
-> -        if (s->event_trigger && s->event_trigger & FTDI_BI) {
-> -            s->event_trigger &=3D ~FTDI_BI;
-> -            header[1] =3D FTDI_BI;
-> -            usb_packet_copy(p, header, 2);
-> -            break;
-> -        } else {
-> -            header[1] =3D 0;
-> -        }
-> -        len -=3D 2;
-> -        if (len > s->recv_used)
-> -            len =3D s->recv_used;
-> -        if (!len) {
-> -            p->status =3D USB_RET_NAK;
-> -            break;
-> -        }
-> -        if (first_len > len)
-> -            first_len =3D len;
-> -        usb_packet_copy(p, header, 2);
-> -        usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
-> -        if (len > first_len)
-> -            usb_packet_copy(p, s->recv_buf, len - first_len);
-> -        s->recv_used -=3D len;
-> -        s->recv_ptr =3D (s->recv_ptr + len) % RECV_BUF;
-> +        usb_serial_token_in(s, p);
->          break;
-> =20
->      default:
-> --=20
-> 2.24.1
->=20
+We need to make some changes to syscall.c to avoid warnings/errors
+during compliling with the new syscall.
 
---=20
-Samuel
-Tu as lu les docs. Tu es devenu un informaticien. Que tu le veuilles
-ou non. Lire la doc, c'est le Premier et Unique Commandement de
-l'informaticien.
--+- TP in: Guide du Linuxien pervers - "L'=C3=A9vangile selon St Thomas"
+I did some RV32 user space testing after applying these patches. I ran the
+glibc testsuite in userspace and I don't see any regressions.
+
+v8:
+ - Add a g_assert_not_reached() in do_sys_futex
+v7:
+ - Update futuex_time64 support to work correctly
+v6:
+ - Split out futex patch and make it more robust
+v5:
+ - Addres comments raised on v4
+   - Don't require 64-bit host for * _time64 functions
+
+Alistair Francis (4):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user: Support futex_time64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
+
+ linux-user/riscv/syscall32_nr.h | 295 +++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall64_nr.h | 301 ++++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall_nr.h   | 294 +------------------------------
+ linux-user/strace.c             |   2 +
+ linux-user/syscall.c            | 247 ++++++++++++++++++++++++--
+ 5 files changed, 834 insertions(+), 305 deletions(-)
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
+
+-- 
+2.25.1
+
 
