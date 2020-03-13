@@ -2,71 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8281841BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:51:50 +0100 (CET)
-Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DE21841A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:44:28 +0100 (CET)
+Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCf6j-0007XO-Cu
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
+	id 1jCezb-0003D0-6A
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jCf5w-00074L-TW
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:51:01 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jCeyq-0002oS-Fn
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:43:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jCf5v-0007jx-Vi
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:51:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44656
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pannengyuan@huawei.com>) id 1jCeyp-0000XW-8A
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:43:40 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:55050 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jCf5v-0007iW-SK
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:50:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584085859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HS9HuOWOHKe84T80WbF1D6/C2TPEug2GV+/9lm/uW4w=;
- b=JcPVI0WReoSE4xWNUJkLjbMPD5XVaIQiBLMhH1/TwkFmmJtThw9hAC7H93lc47EUmMs2XO
- jjmyTH03+4F9U1MJl05XPRyaVMkB6cbNkrjee+3NbcRFM3T9XQj6eWaFBnWBt62BGt1EPF
- eqQVz9/fE/qcu1f0gTi/4Eu+U11ScTY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-8S4xheiBMLWRxhYonGBOWA-1; Fri, 13 Mar 2020 03:50:55 -0400
-X-MC-Unique: 8S4xheiBMLWRxhYonGBOWA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FFA0801E6D;
- Fri, 13 Mar 2020 07:50:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
- [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D115F5C1C3;
- Fri, 13 Mar 2020 07:50:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F75711386A6; Fri, 13 Mar 2020 08:50:45 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v9 02/10] scripts: Coccinelle script to use
- ERRP_AUTO_PROPAGATE()
-References: <20200312085936.9552-1-vsementsov@virtuozzo.com>
- <20200312085936.9552-3-vsementsov@virtuozzo.com>
-Date: Fri, 13 Mar 2020 08:50:45 +0100
-In-Reply-To: <20200312085936.9552-3-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 12 Mar 2020 11:59:28 +0300")
-Message-ID: <87eetwlmlm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1jCeyo-000083-Sw
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:43:39 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1115275C35D31BE7AA87;
+ Fri, 13 Mar 2020 15:43:29 +0800 (CST)
+Received: from localhost.huawei.com (10.175.104.216) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 13 Mar 2020 15:43:22 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <pbonzini@redhat.com>, <berrange@redhat.com>, <ehabkost@redhat.com>
+Subject: [PATCH] qom-qmp-cmds: remove unnecessary alloc in qmp_object_add to
+ fix memleak
+Date: Fri, 13 Mar 2020 15:58:58 +0800
+Message-ID: <20200313075858.15860-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.175.104.216]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,80 +52,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
+ Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+In qmp_object_add(), user_creatable_add_type() may set errp with some error message and
+return NULL. In this case, qmp_object_add() still alloc memory to *ret_data which return
+to the caller and causes a memory leak.
 
-[...]
-> +// Warn several Error * definitions.
-> +@check1 disable optional_qualifier exists@
-> +identifier fn =3D rule1.fn, local_err, local_err2;
-> +@@
-> +
-> + fn(..., Error ** ____, ...)
-> + {
-> +     ...
-> +     Error *local_err =3D NULL;
-> +     ... when any
-> +     Error *local_err2 =3D NULL;
-> +     ... when any
-> + }
-> +
-> +@ script:python @
-> +fn << check1.fn;
-> +@@
-> +
-> +print('Warning: function {} has several definitions of '
-> +      'Error * local variable'.format(fn))
+This patch do this alloc() action only if obj is not NULL to fix it. And initialize ret_data
+in xen-block to avoid a possible uninitialized error.
 
-Printing the positions like you do in the next rule is useful when
-examining these warnings.
+The Leak stack:
+Direct leak of 4120 byte(s) in 1 object(s) allocated from:
+    #0 0x7f6106ce5970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
+    #1 0x7f6105e6a49d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+    #2 0x55d2c58c17fd in qdict_new /mnt/sdb/qemu-new/qemu_test/qemu/qobject/qdict.c:29
+    #3 0x55d2c53a0051 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/qom/qom-qmp-cmds.c:291
+    #4 0x55d2c57b47da in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:132
+    #5 0x55d2c57b47da in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:175
+    #6 0x55d2c52f1430 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:145
+    #7 0x55d2c52f3087 in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:234
+    #8 0x55d2c58e6153 in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/util/async.c:136
 
-> +
-> +// Warn several propagations in control flow.
-> +@check2 disable optional_qualifier exists@
-> +identifier fn =3D rule1.fn;
-> +symbol errp;
-> +position p1, p2;
-> +@@
-> +
-> + fn(..., Error ** ____, ...)
-> + {
-> +     ...
-> +(
-> +     error_propagate_prepend(errp, ...);@p1
-> +|
-> +     error_propagate(errp, ...);@p1
-> +)
-> +     ...
-> +(
-> +     error_propagate_prepend(errp, ...);@p2
-> +|
-> +     error_propagate(errp, ...);@p2
-> +)
-> +     ... when any
-> + }
-> +
-> +@ script:python @
-> +fn << check2.fn;
-> +p1 << check2.p1;
-> +p2 << check2.p2;
-> +@@
-> +
-> +print('Warning: function {} propagates to errp several times in '
-> +      'one control flow: at {}:{} and then at {}:{}'.format(
-> +          fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
-[...]
+Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+Cc: Kevin Wolf <kwolf@redhat.com>
+---
+ hw/block/xen-block.c | 2 +-
+ qom/qom-qmp-cmds.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 3885464513..041866b846 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -860,7 +860,7 @@ static XenBlockIOThread *xen_block_iothread_create(const char *id,
+     XenBlockIOThread *iothread = g_new(XenBlockIOThread, 1);
+     Error *local_err = NULL;
+     QDict *opts;
+-    QObject *ret_data;
++    QObject *ret_data = NULL;
+ 
+     iothread->id = g_strdup(id);
+ 
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 435193b036..6bd137ccbf 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -287,8 +287,8 @@ void qmp_object_add(QDict *qdict, QObject **ret_data, Error **errp)
+     visit_free(v);
+     if (obj) {
+         object_unref(obj);
++        *ret_data = QOBJECT(qdict_new());
+     }
+-    *ret_data = QOBJECT(qdict_new());
+ }
+ 
+ void qmp_object_del(const char *id, Error **errp)
+-- 
+2.18.2
 
 
