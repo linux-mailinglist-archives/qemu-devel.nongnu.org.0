@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6886C185121
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:27:40 +0100 (CET)
-Received: from localhost ([::1]:37756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD1E185129
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 22:28:50 +0100 (CET)
+Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCrqF-0006Aw-G7
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46583)
+	id 1jCrrN-0007yG-C9
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 17:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrly-0007kW-1d
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:15 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlz-0007mx-6n
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jCrlw-0000L1-0q
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:13 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57665)
+ (envelope-from <balaton@eik.bme.hu>) id 1jCrlx-0000QL-1u
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 17:23:15 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57630)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jCrls-00009O-G7; Fri, 13 Mar 2020 17:23:08 -0400
+ id 1jCrlr-0008TF-CM; Fri, 13 Mar 2020 17:23:09 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0592F747E15;
- Fri, 13 Mar 2020 22:23:06 +0100 (CET)
+ by localhost (Postfix) with SMTP id B314E747E1B;
+ Fri, 13 Mar 2020 22:23:05 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6A1B5747E12; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
-Message-Id: <adddfa21552783020d64e1314318cab6d24362c3.1584134074.git.balaton@eik.bme.hu>
+ id 7C6C1747E13; Fri, 13 Mar 2020 22:23:05 +0100 (CET)
+Message-Id: <eb14ddee41be26f38ee0fe5ff0ff42c79afe9731.1584134074.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
 References: <cover.1584134074.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 1/8] hw/ide: Get rid of piix3_init functions
+Subject: [PATCH 4/8] hw/ide: Move MAX_IDE_BUS define to one header
 Date: Fri, 13 Mar 2020 22:14:34 +0100
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,116 +55,182 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes pci_piix3_ide_init() and pci_piix3_xen_ide_init()
-functions similar to clean up done to other ide devices.
+There are several definitions of MAX_IDE_BUS in different boards (some
+of them unused) with the same value. Move it to include/hw/ide/internal.h
+to have it in a central place.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/i386/pc_piix.c | 10 +++++-----
- hw/ide/pci.c      |  1 +
- hw/ide/piix.c     | 21 +--------------------
- include/hw/ide.h  |  2 --
- 4 files changed, 7 insertions(+), 27 deletions(-)
+ hw/alpha/dp264.c          | 2 --
+ hw/hppa/machine.c         | 2 --
+ hw/i386/pc_piix.c         | 2 --
+ hw/mips/mips_fulong2e.c   | 1 -
+ hw/mips/mips_malta.c      | 4 +---
+ hw/mips/mips_r4k.c        | 4 +---
+ hw/ppc/mac_newworld.c     | 1 -
+ hw/ppc/mac_oldworld.c     | 1 -
+ hw/ppc/prep.c             | 2 --
+ hw/sparc64/sun4u.c        | 1 -
+ include/hw/ide/internal.h | 2 ++
+ 11 files changed, 4 insertions(+), 18 deletions(-)
 
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index 27595767e5..0f58b1b668 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -24,8 +24,6 @@
+ #include "qemu/cutils.h"
+ #include "net/net.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
+ {
+     if (((addr >> 41) & 3) == 2) {
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 9175f4b790..1f9a390f99 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -24,8 +24,6 @@
+ #include "qemu/log.h"
+ #include "net/net.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ static ISABus *hppa_isa_bus(void)
+ {
+     ISABus *isa_bus;
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index e2d98243bc..c399398739 100644
+index c399398739..b363a69e2e 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -39,6 +39,7 @@
- #include "hw/usb.h"
- #include "net/net.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
+@@ -63,8 +63,6 @@
+ #include "sysemu/numa.h"
+ #include "hw/mem/nvdimm.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ #ifdef CONFIG_IDE_ISA
+ static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
+ static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 639ba2a091..3690b76061 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -55,7 +55,6 @@
+ 
+ /* fulong 2e has a 512k flash: Winbond W39L040AP70Z */
+ #define BIOS_SIZE               (512 * KiB)
+-#define MAX_IDE_BUS             2
+ 
+ /*
+  * PMON is not part of qemu and released with BSD license, anyone
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index d380f73d7b..6f51e33e7b 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -40,7 +40,7 @@
+ #include "sysemu/arch_init.h"
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+-#include "hw/ide.h"
++#include "hw/ide/internal.h"
  #include "hw/irq.h"
- #include "sysemu/kvm.h"
- #include "hw/kvm/clock.h"
-@@ -242,11 +243,10 @@ static void pc_init1(MachineState *machine,
-     ide_drive_get(hd, ARRAY_SIZE(hd));
-     if (pcmc->pci_enabled) {
-         PCIDevice *dev;
--        if (xen_enabled()) {
--            dev = pci_piix3_xen_ide_init(pci_bus, hd, piix3_devfn + 1);
--        } else {
--            dev = pci_piix3_ide_init(pci_bus, hd, piix3_devfn + 1);
--        }
+ #include "hw/loader.h"
+ #include "elf.h"
+@@ -68,8 +68,6 @@
+ 
+ #define FLASH_SIZE          0x400000
+ 
+-#define MAX_IDE_BUS         2
+-
+ typedef struct {
+     MemoryRegion iomem;
+     MemoryRegion iomem_lo; /* 0 - 0x900 */
+diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+index ad8b75e286..2e5372bda0 100644
+--- a/hw/mips/mips_r4k.c
++++ b/hw/mips/mips_r4k.c
+@@ -25,7 +25,7 @@
+ #include "hw/block/flash.h"
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+-#include "hw/ide.h"
++#include "hw/ide/internal.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+ #include "hw/rtc/mc146818rtc.h"
+@@ -37,8 +37,6 @@
+ #include "sysemu/runstate.h"
+ #include "qemu/error-report.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ static const int ide_iobase[2] = { 0x1f0, 0x170 };
+ static const int ide_iobase2[2] = { 0x3f6, 0x376 };
+ static const int ide_irq[2] = { 14, 15 };
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index b8189bf7a4..daa1523feb 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -75,7 +75,6 @@
+ #include "hw/sysbus.h"
+ #include "trace.h"
+ 
+-#define MAX_IDE_BUS 2
+ #define CFG_ADDR 0xf0000510
+ #define TBFREQ (100UL * 1000UL * 1000UL)
+ #define CLOCKFREQ (900UL * 1000UL * 1000UL)
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 440c406eb4..2478748c78 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -51,7 +51,6 @@
+ #include "kvm_ppc.h"
+ #include "exec/address-spaces.h"
+ 
+-#define MAX_IDE_BUS 2
+ #define CFG_ADDR 0xf0000510
+ #define TBFREQ 16600000UL
+ #define CLOCKFREQ 266000000UL
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index 111cc80867..e1b1549e58 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -56,8 +56,6 @@
+ /* SMP is not enabled, for now */
+ #define MAX_CPUS 1
+ 
+-#define MAX_IDE_BUS 2
+-
+ #define CFG_ADDR 0xf0000510
+ 
+ #define KERNEL_LOAD_ADDR 0x01000000
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index d33e84f831..74acfd39b3 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -66,7 +66,6 @@
+ #define PBM_PCI_IO_BASE      (PBM_SPECIAL_BASE + 0x02000000ULL)
+ #define PROM_FILENAME        "openbios-sparc64"
+ #define NVRAM_SIZE           0x2000
+-#define MAX_IDE_BUS          2
+ #define BIOS_CFG_IOPORT      0x510
+ #define FW_CFG_SPARC64_WIDTH (FW_CFG_ARCH_LOCAL + 0x00)
+ #define FW_CFG_SPARC64_HEIGHT (FW_CFG_ARCH_LOCAL + 0x01)
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 1bc1fc73e5..1a49d35959 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
+ #define TYPE_IDE_BUS "IDE"
+ #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
+ 
++#define MAX_IDE_BUS 2
 +
-+        dev = pci_create_simple(pci_bus, piix3_devfn + 1,
-+                                xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
-+        pci_ide_create_devs(dev, hd);
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
-         pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 1a6a287e76..4fc76c5225 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -476,6 +476,7 @@ const VMStateDescription vmstate_ide_pci = {
-     }
- };
- 
-+/* hd_table must contain 4 block drivers */
- void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd_table)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index bc575b4d70..8bcd6b72c2 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -197,15 +197,6 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
-     return 0;
- }
- 
--PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
--{
--    PCIDevice *dev;
--
--    dev = pci_create_simple(bus, devfn, "piix3-ide-xen");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- static void pci_piix_ide_exitfn(PCIDevice *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-@@ -217,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
-     }
- }
- 
--/* hd_table must contain 4 block drivers */
--/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
--PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
--{
--    PCIDevice *dev;
--
--    dev = pci_create_simple(bus, devfn, "piix3-ide");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- /* hd_table must contain 4 block drivers */
- /* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
-@@ -239,6 +219,7 @@ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
-     return dev;
- }
- 
-+/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
- static void piix3_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index dea0ecf5be..883bbaeb9b 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -12,8 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
- 
- /* ide-pci.c */
--PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
--PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
- 
+ /* Bits of HD_STATUS */
+ #define ERR_STAT		0x01
+ #define INDEX_STAT		0x02
 -- 
 2.21.1
 
