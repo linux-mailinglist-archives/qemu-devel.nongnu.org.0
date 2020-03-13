@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76C91849EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:50:34 +0100 (CET)
-Received: from localhost ([::1]:60376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99A41849E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:49:10 +0100 (CET)
+Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCldw-0006gF-Ox
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:50:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1jClcb-000423-LY
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jClcS-0004h2-Sy
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:49:01 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jClbf-0003Lo-Ly
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:48:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jClcR-0006Gd-Ih
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:49:00 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:43298)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jClcR-0006F3-CO
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:48:59 -0400
-Received: by mail-oi1-x233.google.com with SMTP id p125so9595274oif.10
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 07:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GWljFi9fnqqkpaxlrWeRu49izTGa7gsrABdhz6/dr5U=;
- b=sRRQvXDw75DYXrF+hNPO5Fw9/FzpwIHONkfejaxqV6Dr4+Jbh1+8FZ/qqKcwADOk1m
- ZHSMdv3wceYVp7f8cXf4VeIlatnhc0S9le8R0ALaKM5bM9Kq9m6GWiLEVNHgEa+hOx+r
- /T71rG9ySKH9EjTT3LYL43kBz557gIqgI2RtVOl3qVGJsijo94nANURFbuLQLjleuEmY
- zzRvtbUNP0ezFKuBAaEnWZiUkFohyi9C0jJW+b+GpNrEqyuGOZDytao7xdpuFXljwEDl
- f5Lp+4qPL16byK4T9HdgWEZtR4E65c6Aowb2+Yib1+Qifpgi0+it4u4zwCTyc4h4I0Fw
- 9H1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GWljFi9fnqqkpaxlrWeRu49izTGa7gsrABdhz6/dr5U=;
- b=e8ammH1pm5lijUc/5i8IccBD2+r7l0ijaGMVOA301/iJWvnNcIRmEmLjV0VPoP6XuL
- wOCO4nMhQKpPD6PgYaUd/sI9Nxn6Q7Zf+fh3ghVNf8SAWIBSP7uoAQ+n9iiHnLHS7OhT
- iVXFHfTnWDszHhXRkedjrGkC56pSHBq7O+jn4Jpa+kIG96yTplAjZVou4sghMaCN17kf
- wI/z5ZYENV9+uNTlkxjk9cxFwiS8aqk9I77PhdgsdunmkDTD+xl51DzNcL0ByVOPExzA
- W+81GTa0SymM+GId6pcIf86Jf7kEs8qteGFK9t4wGusGL3MspIXSbWHuBuF1CxkTWL5O
- z5BA==
-X-Gm-Message-State: ANhLgQ17n07wfNYQzCPqfg52i5seWcCw4tNhYYVTUV5Y7tA1zkVR4fFl
- 8XZXIDZHcBCqfQofxyoyqVujwZXyh5sJ5J4HdEw1wg==
-X-Google-Smtp-Source: ADFU+vv1dgMH+s/gxj5ZH1XLQ578Bub8QrpR+v2FcZg3hvPg9FnAeueRNrxsL8fX6TcZADGEaRojjBNxb/GguswKEeQ=
-X-Received: by 2002:aca:c695:: with SMTP id w143mr7381170oif.98.1584110938055; 
- Fri, 13 Mar 2020 07:48:58 -0700 (PDT)
+ (envelope-from <liran.alon@oracle.com>) id 1jClbd-0004aY-Df
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:48:11 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36106)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1jClbb-0004Wg-JS
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:48:08 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02DEcigO049392;
+ Fri, 13 Mar 2020 14:48:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=/InK+MOXRPTanep5gLM0Mh5zt+g2IAGF7PYJfuNGg/A=;
+ b=O9bjRW9BO3rKxMMgq/b139w9N1PQI+4Ts5LkwHtDZjAK03Pe8BJnsOthVepYRv0SD01r
+ yJxiiOK4dv0c5EkzmFuY9EYa+pP7mxq91D3qASx7H+XzSv2QnRN5JVTZQ2PpoS31m5QO
+ eZNeXkdYi5yCcSTuw6dsdrlWkp23ntuiaMqodJODnLI2JLZaH2U6fsry5ds9VGe0D4pn
+ teKewaXgTWKmV/4+cYz/RA/zWnGuKlFLcpV3ztw6rqGp7m1xX7TWgut5bvYoLlytmr8y
+ R2tJDSGDZBroqvA2PjGQU9ZNNqr0Xo4OY04A8P5a8YyX69GPaREME7xDUM/GmtZ5fyBc Vw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2yqtagc8v5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Mar 2020 14:48:03 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02DEcKUG065807;
+ Fri, 13 Mar 2020 14:48:02 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2yqtadaf5r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Mar 2020 14:48:02 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02DEm16F020823;
+ Fri, 13 Mar 2020 14:48:01 GMT
+Received: from spark.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 13 Mar 2020 07:48:00 -0700
+From: Liran Alon <liran.alon@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3]: acpi: Add Windows ACPI Emulated Device Table (WAET)
+Date: Fri, 13 Mar 2020 16:50:06 +0200
+Message-Id: <20200313145009.144820-1-liran.alon@oracle.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200313103039.150133-1-dgilbert@redhat.com>
-In-Reply-To: <20200313103039.150133-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Mar 2020 14:48:46 +0000
-Message-ID: <CAFEAcA_smwdHY6rYR=hVOJ=6Jvyi0te9HmD6io_59D8sNOK-zg@mail.gmail.com>
-Subject: Re: [PULL 0/5] migration queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::233
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 mlxlogscore=695 spamscore=0 suspectscore=1
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003130077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9558
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxlogscore=757 phishscore=0
+ suspectscore=1 bulkscore=0 impostorscore=0 spamscore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003130077
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 at 10:32, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit d4f7d56759f7c75270c13d5f3f5f736a9558929c:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200312' into staging (2020-03-12 17:34:34 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/dagrh/qemu.git tags/pull-migration-20200313a
->
-> for you to fetch changes up to 19dd408a479cae3027ae9ff9ef3f509ad3e681e5:
->
->   migration: recognize COLO as part of activating process (2020-03-13 09:36:30 +0000)
->
-> ----------------------------------------------------------------
-> Migration pull 2020-03-13
->
-> zstd build fix
-> A new auto-converge parameter
-> Some COLO improvements
+Hi,
 
+This patch-series aims to expose WAET ACPI table to guest. Which
+improves performance of Windows guests (since Vista) and ignored by
+other guests. This ACPI table is exposed by default by other common
+hypervisors such as VMware, Xen (HVM), GCP and AWS.
 
-Applied, thanks.
+Regards,
+-Liran
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+v1->v2:
+- Update bios-tables-test qtest by the process described at ./tests/qtest/bios-tables-test.c [MST]
+- Add to commit message and code better description of the effect of enabling the ACPI PM timer good bit. [MST]
+- Remove WAET flags macros and instead use them directly in WAET code generation together with a proper comment. [MST]
+- Remove WaetAcpiTable structure and generate table by new coding convention (E.g. Use build_append_int_noprefix()) [Igor]
+- Add documentation to build_waet() on specification, spec version and purpose of table. [MST]
+- Removed flag that controls if WAET is exposed or not. [Igor]
 
--- PMM
 
