@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832F3184D37
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 18:06:57 +0100 (CET)
-Received: from localhost ([::1]:34148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364F4184D46
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 18:08:07 +0100 (CET)
+Received: from localhost ([::1]:34164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCnlw-0001MF-JG
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 13:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35051)
+	id 1jCnn3-00038a-DR
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 13:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jCnkT-0008GB-D7
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:26 -0400
+ (envelope-from <armbru@redhat.com>) id 1jCnkU-0008GN-N1
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jCnkR-0006SO-Vl
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:24 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35254
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jCnkT-0006X1-Dy
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23871
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jCnkR-0006PQ-Og
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:23 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jCnkT-0006WL-9W
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 13:05:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584119122;
+ s=mimecast20190719; t=1584119125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uVOb/spz+MMBSJGvzwf3QNtSw4L/HTWH/LLS9nF88iU=;
- b=SQZ07zX6Rqc10H/tQ5HvavIap6ScgPwklvFgo//2szSDlCVXJUyPHVf4+SS7CEw5OH8jKt
- hWC9HGo7UAvw0zSP+zOri3H7w3kzGCAEtaQivcdc6uiTMotlOnjk3PgWoyJRjmkB2maaWv
- mVt3sRDl9DVrbtg+fNraP/5+oHT+7MA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RXFL1Ha/rKYObaZ6v70V4iaynp2s2hyBUXDZFuBgsZc=;
+ b=Ta7CQfjCL1jbpCeXxyoXKmmc2HAltMQHF7QUur6r4w3EJmxsNKc+X09jdeoxm4e/5LTWfs
+ VZO4/vlSrwh5AZvt942FC5AdsD2kfQLMYHoskufS9XItckQHJF5lk5yQldmhaWEmjCJ5Is
+ NZfwxYVyXXDlmjCaqVnMvrxu+9qmJHE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-dS8oFyoAOYiH_SOTa_M7lw-1; Fri, 13 Mar 2020 13:05:21 -0400
-X-MC-Unique: dS8oFyoAOYiH_SOTa_M7lw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-417-ZdOZT-LYMDmYXNzbO3iczA-1; Fri, 13 Mar 2020 13:05:21 -0400
+X-MC-Unique: ZdOZT-LYMDmYXNzbO3iczA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B63058024DC;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE62C1418;
  Fri, 13 Mar 2020 17:05:19 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
  [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F8058FBF3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53F141001B34;
  Fri, 13 Mar 2020 17:05:19 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C20F711386A6; Fri, 13 Mar 2020 18:05:17 +0100 (CET)
+ id C626211385ED; Fri, 13 Mar 2020 18:05:17 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Minor error handling cleanups
-Date: Fri, 13 Mar 2020 18:05:14 +0100
-Message-Id: <20200313170517.22480-1-armbru@redhat.com>
+Subject: [PATCH 1/3] Use &error_abort instead of separate assert()
+Date: Fri, 13 Mar 2020 18:05:15 +0100
+Message-Id: <20200313170517.22480-2-armbru@redhat.com>
+In-Reply-To: <20200313170517.22480-1-armbru@redhat.com>
+References: <20200313170517.22480-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,18 +79,87 @@ Cc: alxndr@bu.edu, vsementsov@virtuozzo.com, ashijeetacharya@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (3):
-  Use &error_abort instead of separate assert()
-  hw/misc/ivshmem: Use one Error * variable instead of two
-  xen-block: Use one Error * variable instead of two
-
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
  block/monitor/block-hmp-cmds.c | 4 +---
- hw/block/xen-block.c           | 5 +----
- hw/misc/ivshmem.c              | 7 +++----
  target/arm/monitor.c           | 8 ++------
  tests/qtest/fuzz/qos_fuzz.c    | 6 ++----
- 5 files changed, 9 insertions(+), 21 deletions(-)
+ 3 files changed, 5 insertions(+), 13 deletions(-)
 
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.=
+c
+index c3a6368dfc..4c8c375172 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -838,10 +838,8 @@ void hmp_info_blockstats(Monitor *mon, const QDict *qd=
+ict)
+ void hmp_info_block_jobs(Monitor *mon, const QDict *qdict)
+ {
+     BlockJobInfoList *list;
+-    Error *err =3D NULL;
+=20
+-    list =3D qmp_query_block_jobs(&err);
+-    assert(!err);
++    list =3D qmp_query_block_jobs(&error_abort);
+=20
+     if (!list) {
+         monitor_printf(mon, "No active jobs\n");
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index c2dc7908de..ea6598c412 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -206,9 +206,7 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(Cp=
+uModelExpansionType type,
+             return NULL;
+         }
+     } else {
+-        Error *err =3D NULL;
+-        arm_cpu_finalize_features(ARM_CPU(obj), &err);
+-        assert(err =3D=3D NULL);
++        arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
+     }
+=20
+     expansion_info =3D g_new0(CpuModelExpansionInfo, 1);
+@@ -221,12 +219,10 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(=
+CpuModelExpansionType type,
+     while ((name =3D cpu_model_advertised_features[i++]) !=3D NULL) {
+         ObjectProperty *prop =3D object_property_find(obj, name, NULL);
+         if (prop) {
+-            Error *err =3D NULL;
+             QObject *value;
+=20
+             assert(prop->get);
+-            value =3D object_property_get_qobject(obj, name, &err);
+-            assert(!err);
++            value =3D object_property_get_qobject(obj, name, &error_abort)=
+;
+=20
+             qdict_put_obj(qdict_out, name, value);
+         }
+diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+index 1a99277d60..aa9eee6ebf 100644
+--- a/tests/qtest/fuzz/qos_fuzz.c
++++ b/tests/qtest/fuzz/qos_fuzz.c
+@@ -57,8 +57,7 @@ static void qos_set_machines_devices_available(void)
+     QList *lst;
+     Error *err =3D NULL;
+=20
+-    qmp_marshal_query_machines(NULL, &response, &err);
+-    assert(!err);
++    qmp_marshal_query_machines(NULL, &response, &error_abort);
+     lst =3D qobject_to(QList, response);
+     apply_to_qlist(lst, true);
+=20
+@@ -70,8 +69,7 @@ static void qos_set_machines_devices_available(void)
+     qdict_put_bool(args, "abstract", true);
+     qdict_put_obj(req, "arguments", (QObject *) args);
+=20
+-    qmp_marshal_qom_list_types(args, &response, &err);
+-    assert(!err);
++    qmp_marshal_qom_list_types(args, &response, &error_abort);
+     lst =3D qobject_to(QList, response);
+     apply_to_qlist(lst, false);
+     qobject_unref(response);
 --=20
 2.21.1
 
