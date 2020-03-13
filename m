@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BC118429F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 09:30:03 +0100 (CET)
-Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BCE18428F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 09:26:52 +0100 (CET)
+Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCfhi-0006Rk-VE
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 04:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56724)
+	id 1jCfed-0001rB-Cp
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 04:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56855)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jCfcy-0008RO-Qr
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:25:10 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jCfd5-0000Gy-3V
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:25:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jCfcx-0004xE-Nu
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:25:08 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51520
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jCfd3-00058P-3I
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 04:25:15 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51530
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jCfcv-0004sW-Fa; Fri, 13 Mar 2020 04:25:05 -0400
+ id 1jCfd0-00050d-P0; Fri, 13 Mar 2020 04:25:10 -0400
 Received: from host86-185-91-43.range86-185.btcentralplus.com ([86.185.91.43]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jCfdH-0007Mr-P2; Fri, 13 Mar 2020 08:25:29 +0000
+ id 1jCfdJ-0007Mr-P4; Fri, 13 Mar 2020 08:25:34 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: jsnow@redhat.com, philmd@redhat.com, amarkovic@wavecomp.com,
  mst@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  balaton@eik.bme.hu
-Date: Fri, 13 Mar 2020 08:24:40 +0000
-Message-Id: <20200313082444.2439-4-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 13 Mar 2020 08:24:41 +0000
+Message-Id: <20200313082444.2439-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200313082444.2439-1-mark.cave-ayland@ilande.co.uk>
 References: <20200313082444.2439-1-mark.cave-ayland@ilande.co.uk>
@@ -39,7 +39,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.185.91.43
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 3/7] pci: Honour wmask when resetting PCI_INTERRUPT_LINE
+Subject: [PATCH 4/7] via-ide: ensure that PCI_INTERRUPT_LINE is hard-wired to
+ its default value
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -59,40 +60,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+Some firmwares accidentally write to PCI_INTERRUPT_LINE on startup which has
+no effect on real hardware since it is hard-wired to its default value, but
+causes the guest OS to become confused trying to initialise IDE devices
+when running under QEMU.
 
-The pci_do_device_reset() function (called from pci_device_reset)
-clears the PCI_INTERRUPT_LINE config reg of devices on the bus but did
-this without taking wmask into account. We'll have a device model now
-that needs to set a constant value for this reg and this patch allows
-to do that without additional workaround in device emulation to
-reverse the effect of this PCI bus reset function.
-
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/pci/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/ide/via.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e1ed6677e1..b5bc842fac 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -302,8 +302,11 @@ static void pci_do_device_reset(PCIDevice *dev)
-     pci_word_test_and_clear_mask(dev->config + PCI_STATUS,
-                                  pci_get_word(dev->wmask + PCI_STATUS) |
-                                  pci_get_word(dev->w1cmask + PCI_STATUS));
-+    /* Some devices make bits of PCI_INTERRUPT_LINE read only */
-+    pci_byte_test_and_clear_mask(dev->config + PCI_INTERRUPT_LINE,
-+                              pci_get_word(dev->wmask + PCI_INTERRUPT_LINE) |
-+                              pci_get_word(dev->w1cmask + PCI_INTERRUPT_LINE));
-     dev->config[PCI_CACHE_LINE_SIZE] = 0x0;
--    dev->config[PCI_INTERRUPT_LINE] = 0x0;
-     for (r = 0; r < PCI_NUM_REGIONS; ++r) {
-         PCIIORegion *region = &dev->io_regions[r];
-         if (!region->size) {
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 3153be8862..8363bd4802 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -169,7 +169,7 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode */
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+-    dev->wmask[PCI_INTERRUPT_LINE] = 0xf;
++    dev->wmask[PCI_INTERRUPT_LINE] = 0;
+ 
+     memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
+                           &d->bus[0], "via-ide0-data", 8);
 -- 
 2.20.1
 
