@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7DA184ED3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:43:26 +0100 (CET)
-Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE13B184EDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:46:05 +0100 (CET)
+Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpHI-0002Qg-OO
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
+	id 1jCpJs-0006nG-Qt
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpBW-0008Qd-Jv
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpBb-0000CW-P4
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpBV-0003DR-BF
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32628
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jCpBa-0003Tv-Bh
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:31 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55067
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBV-0003C0-6P
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:25 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpBa-0003SW-34
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:37:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124644;
+ s=mimecast20190719; t=1584124649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RNscj4znfEFoxUyR2eitCsjwBW0o2g2YBibwWrrvxzw=;
- b=durJYdeUM0TRBu/gX3dQnZSfpWgVA+KuxLKRqqPerXzuBOLEUxtuNfXI7+XyZTlqzTIwKD
- Et6XJYdkmn/j6YqAigDT3MweTAl9SyC11/A/CUQcgU5QOA+prrPXKiR3KN1CdmkpbzE/pE
- 4tLDuq6DiH6Vy2reIh7qsYa+1V1kL/Q=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-vw2RxISwP1yLFu33rPkvnw-1; Fri, 13 Mar 2020 14:37:23 -0400
-X-MC-Unique: vw2RxISwP1yLFu33rPkvnw-1
-Received: by mail-wr1-f71.google.com with SMTP id x14so4684216wrv.23
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:23 -0700 (PDT)
+ bh=xgDberYaZDed20sm6tRRJ30h81E1DyL3M/u30/cftuw=;
+ b=QYvSgVC4i9C16PK41rSbmKX1I7AI2CevaTwauULW1Zoz+6Lm7xsFkBPNvbmPFlu4YVJulC
+ wO4r5ozCtYznCqxzpAoQ9zjCxamq8QsXAp0nHlkSEkPIvN7ilLvp20GQ5MX25eor1WjoXy
+ vAQdenILRpj9nctpEdvTSzWxnW/Ej+s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312--oaMDIgZNWCCohZj9yvPDA-1; Fri, 13 Mar 2020 14:37:28 -0400
+X-MC-Unique: -oaMDIgZNWCCohZj9yvPDA-1
+Received: by mail-wm1-f69.google.com with SMTP id s15so1719914wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:37:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UFdvn7QNDrVxUqibYwnc6bH6F2vFCMCHuZOu+Zd/Cpc=;
- b=RyPOiAlnsIMq2rFilZ1cL6TT3PFeCU2+9y/XHoenfP1d1PRV3rbsdrUOtab4rkxbuG
- 0LgA6KzOA9H7FWAz7zgQ46wYdhYR1wOSmKIGJb4cEsvREvHp7YmubPYdu3eZ4JTV/e50
- a3YhsB9wsC9CEMn3LRSN+T2fONzYl758I1m6sx5lVx1EDPfTT6yUSqludpWZTMfvA/A2
- 4qW+6IbKCctqGRvqunqfMIZB0aBJVYGnlnY6nQVtufvo9OYqxrWZ2saIuDI769mhC+cL
- O4qn5F+o+YAirx0O7IInT7H4R1ff/kwUN6p1IzggjU9okijhYzFSTheS0eSJ0e0GMDuy
- hk5g==
-X-Gm-Message-State: ANhLgQ0Lte3xoUt4sIfxysUGYoq+393cU36xgLRLmzo7jsxiDcTewLeL
- MZ3N8o40ejteslSmj0TadVPSkB8m2xCB7D17wZtE+/U02YxpIntNBBWBoZDE7XpTE2Ynw7Tqh3n
- 8q6Q/wW+vrP5R/Ls=
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr18557122wro.193.1584124641899; 
- Fri, 13 Mar 2020 11:37:21 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtYmL5ub8rSmVi8dir3DAkQWGyPCni3RmNUQh9poMuQNlUlVUmlvaOCY/piDuFUDxUIHX22Mg==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr18557095wro.193.1584124641662; 
- Fri, 13 Mar 2020 11:37:21 -0700 (PDT)
+ bh=RC71PykOebGOXBV3Avk2avLieaYMFi0EYKRjpxiFXHU=;
+ b=FUVgfIB0s0fbN50aAbMrMR1UX4GkZ962SOayWvNLqUo+/T7MxaB+hGyweIcRrI5x9Q
+ w852tSbHDHReKUoNIWlfMB6Bhq7EY/xfbJiyGCRhP/bKnEuoDawTiO2jVFXz/zKGi+W2
+ 7cC4bNRYjNX3JN00G7pTX4rGKZZw2sPSXh3HzdQpHK57c0tsrGqOXyq0tt8P+/IK7yJ3
+ Mpkvi0VYqk9fuFte2fvBclGObqNB5hwNpg+KVpCT/bVaH6WHNY2JBiv6hL29w0QQn3Hq
+ SdQ9yR8l2b5jaGT2SPup8Xhx9+07+lJ14QdurZM2HdgztwFLFy5XhomK6Ws/XGnIntYA
+ 311w==
+X-Gm-Message-State: ANhLgQ13unAQIS/3tibnlTNWf9luTbthJVs5+tr2pfaa8fzaOjNOzPaG
+ yVgOEUfnOzyX8BU+FeNvyLGxTRMPxRA/0mK5RJfJ2+FdbJO39GEumfxUhwk+zKjyz0NUspoS4rx
+ kZMTDh+JnXADUl8g=
+X-Received: by 2002:adf:e4ca:: with SMTP id v10mr18665480wrm.305.1584124646870; 
+ Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vujjgTFOCuWjS1sUnHVe14BjCxdTIeVV/2vuhZ1FIR92L6DidbJ7VLByJXmZrt1QAbjPTocEA==
+X-Received: by 2002:adf:e4ca:: with SMTP id v10mr18665462wrm.305.1584124646657; 
+ Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id n2sm12942644wrr.62.2020.03.13.11.37.20
+ by smtp.gmail.com with ESMTPSA id w81sm17726166wmg.19.2020.03.13.11.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:37:21 -0700 (PDT)
+ Fri, 13 Mar 2020 11:37:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/14] stubs/Makefile: Reduce the user-mode object list
-Date: Fri, 13 Mar 2020 19:36:43 +0100
-Message-Id: <20200313183652.10258-6-philmd@redhat.com>
+Subject: [PATCH 06/14] util/Makefile: Reduce the user-mode object list
+Date: Fri, 13 Mar 2020 19:36:44 +0100
+Message-Id: <20200313183652.10258-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313183652.10258-1-philmd@redhat.com>
 References: <20200313183652.10258-1-philmd@redhat.com>
@@ -76,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,88 +108,103 @@ These stubs are not required when configured with --disable-system.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- stubs/Makefile.objs | 52 ++++++++++++++++++++++++++-------------------
- 1 file changed, 30 insertions(+), 22 deletions(-)
+ util/Makefile.objs | 59 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 21 deletions(-)
 
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 45be5dc0ed..5ffa085c67 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -1,46 +1,54 @@
--stub-obj-y +=3D arch_type.o
--stub-obj-y +=3D bdrv-next-monitor-owned.o
- stub-obj-y +=3D blk-commit-all.o
--stub-obj-y +=3D blockdev-close-all-bdrv-states.o
--stub-obj-y +=3D clock-warp.o
- stub-obj-y +=3D cpu-get-clock.o
- stub-obj-y +=3D cpu-get-icount.o
- stub-obj-y +=3D dump.o
- stub-obj-y +=3D error-printf.o
- stub-obj-y +=3D fdset.o
- stub-obj-y +=3D gdbstub.o
--stub-obj-y +=3D get-vm-name.o
--stub-obj-y +=3D iothread.o
- stub-obj-y +=3D iothread-lock.o
- stub-obj-y +=3D is-daemonized.o
- stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
--stub-obj-y +=3D machine-init-done.o
--stub-obj-y +=3D migr-blocker.o
--stub-obj-y +=3D change-state-handler.o
--stub-obj-y +=3D monitor.o
- stub-obj-y +=3D monitor-core.o
- stub-obj-y +=3D notify-event.o
-+stub-obj-y +=3D qmp_memory_device.o
- stub-obj-y +=3D qtest.o
-+stub-obj-y +=3D ramfb.o
- stub-obj-y +=3D replay.o
--stub-obj-y +=3D replay-user.o
- stub-obj-y +=3D runstate-check.o
-+stub-obj-$(CONFIG_SOFTMMU) +=3D semihost.o
- stub-obj-y +=3D set-fd-handler.o
-+stub-obj-y +=3D vmgenid.o
- stub-obj-y +=3D sysbus.o
- stub-obj-y +=3D tpm.o
- stub-obj-y +=3D trace-control.o
--stub-obj-y +=3D uuid.o
--stub-obj-y +=3D vm-stop.o
- stub-obj-y +=3D vmstate.o
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index 6718a38b61..24ae2e4dfa 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -1,8 +1,4 @@
+ util-obj-y =3D osdep.o cutils.o unicode.o qemu-timer-common.o
+-util-obj-y +=3D bufferiszero.o
+-util-obj-y +=3D lockcnt.o
+-util-obj-y +=3D aiocb.o async.o aio-wait.o thread-pool.o qemu-timer.o
+-util-obj-y +=3D main-loop.o
+ util-obj-$(call lnot,$(CONFIG_ATOMIC64)) +=3D atomic64.o
+ util-obj-$(CONFIG_POSIX) +=3D aio-posix.o
+ util-obj-$(CONFIG_POSIX) +=3D fdmon-poll.o
+@@ -21,31 +17,20 @@ util-obj-$(CONFIG_WIN32) +=3D oslib-win32.o
+ util-obj-$(CONFIG_WIN32) +=3D qemu-thread-win32.o
+ util-obj-y +=3D envlist.o path.o module.o
+ util-obj-y +=3D host-utils.o
+-util-obj-y +=3D bitmap.o bitops.o hbitmap.o
++util-obj-y +=3D bitmap.o bitops.o
+ util-obj-y +=3D fifo8.o
+-util-obj-y +=3D nvdimm-utils.o
+ util-obj-y +=3D cacheinfo.o
+ util-obj-y +=3D error.o qemu-error.o
+ util-obj-y +=3D qemu-print.o
+ util-obj-y +=3D id.o
+-util-obj-y +=3D iov.o qemu-config.o qemu-sockets.o uri.o notify.o
++util-obj-y +=3D qemu-config.o notify.o
+ util-obj-y +=3D qemu-option.o qemu-progress.o
+ util-obj-y +=3D keyval.o
+-util-obj-y +=3D hexdump.o
+ util-obj-y +=3D crc32c.o
+ util-obj-y +=3D uuid.o
+-util-obj-y +=3D throttle.o
+ util-obj-y +=3D getauxval.o
+-util-obj-y +=3D readline.o
+ util-obj-y +=3D rcu.o
+ util-obj-$(CONFIG_MEMBARRIER) +=3D sys_membarrier.o
+-util-obj-y +=3D qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
+-util-obj-y +=3D qemu-coroutine-sleep.o
+-util-obj-y +=3D qemu-co-shared-resource.o
+-util-obj-y +=3D coroutine-$(CONFIG_COROUTINE_BACKEND).o
+-util-obj-y +=3D buffer.o
+-util-obj-y +=3D timed-average.o
+-util-obj-y +=3D base64.o
+ util-obj-y +=3D log.o
+ util-obj-y +=3D pagesize.o
+ util-obj-y +=3D qdist.o
+@@ -54,12 +39,44 @@ util-obj-y +=3D qsp.o
+ util-obj-y +=3D range.o
+ util-obj-y +=3D stats64.o
+ util-obj-y +=3D systemd.o
+-util-obj-y +=3D iova-tree.o
+-util-obj-$(CONFIG_INOTIFY1) +=3D filemonitor-inotify.o
+-util-obj-$(call lnot,$(CONFIG_INOTIFY1)) +=3D filemonitor-stub.o
+-util-obj-$(CONFIG_LINUX) +=3D vfio-helpers.o
+ util-obj-$(CONFIG_POSIX) +=3D drm.o
+ util-obj-y +=3D guest-random.o
+ util-obj-$(CONFIG_GIO) +=3D dbus.o
+ dbus.o-cflags =3D $(GIO_CFLAGS)
+ dbus.o-libs =3D $(GIO_LIBS)
 +
 +#######################################################################
 +# code used by both qemu system emulation and qemu-img
 +
 +ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
 +
-+stub-obj-y +=3D arch_type.o
-+stub-obj-y +=3D bdrv-next-monitor-owned.o
-+stub-obj-y +=3D blockdev-close-all-bdrv-states.o
-+stub-obj-y +=3D change-state-handler.o
-+stub-obj-y +=3D clock-warp.o
- stub-obj-y +=3D fd-register.o
--stub-obj-y +=3D qmp_memory_device.o
--stub-obj-y +=3D target-monitor-defs.o
--stub-obj-y +=3D target-get-monitor-def.o
--stub-obj-y +=3D vmgenid.o
--stub-obj-y +=3D xen-common.o
--stub-obj-y +=3D xen-hvm.o
-+stub-obj-y +=3D fw_cfg.o
-+stub-obj-y +=3D get-vm-name.o
-+stub-obj-y +=3D iothread.o
-+stub-obj-y +=3D machine-init-done.o
-+stub-obj-y +=3D migr-blocker.o
-+stub-obj-y +=3D monitor.o
- stub-obj-y +=3D pci-host-piix.o
- stub-obj-y +=3D ram-block.o
--stub-obj-y +=3D ramfb.o
--stub-obj-y +=3D fw_cfg.o
--stub-obj-$(CONFIG_SOFTMMU) +=3D semihost.o
-+stub-obj-y +=3D replay-user.o
-+stub-obj-y +=3D target-get-monitor-def.o
-+stub-obj-y +=3D target-monitor-defs.o
-+stub-obj-y +=3D uuid.o
-+stub-obj-y +=3D vm-stop.o
-+stub-obj-y +=3D xen-common.o
-+stub-obj-y +=3D xen-hvm.o
++util-obj-y +=3D aio-wait.o
++util-obj-y +=3D aiocb.o
++util-obj-y +=3D async.o
++util-obj-y +=3D base64.o
++util-obj-y +=3D buffer.o
++util-obj-y +=3D bufferiszero.o
++util-obj-y +=3D coroutine-$(CONFIG_COROUTINE_BACKEND).o
++util-obj-y +=3D hexdump.o
++util-obj-y +=3D lockcnt.o
++util-obj-y +=3D iov.o
++util-obj-y +=3D iova-tree.o
++util-obj-y +=3D hbitmap.o
++util-obj-y +=3D main-loop.o
++util-obj-y +=3D nvdimm-utils.o
++util-obj-y +=3D qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
++util-obj-y +=3D qemu-coroutine-sleep.o
++util-obj-y +=3D qemu-co-shared-resource.o
++util-obj-y +=3D qemu-sockets.o
++util-obj-y +=3D qemu-timer.o
++util-obj-y +=3D thread-pool.o
++util-obj-y +=3D throttle.o
++util-obj-y +=3D timed-average.o
++util-obj-y +=3D uri.o
++
++util-obj-$(CONFIG_LINUX) +=3D vfio-helpers.o
++util-obj-$(CONFIG_INOTIFY1) +=3D filemonitor-inotify.o
++util-obj-$(call lnot,$(CONFIG_INOTIFY1)) +=3D filemonitor-stub.o
++util-obj-$(CONFIG_BLOCK) +=3D readline.o
 +
 +endif # CONFIG_SOFTMMU || CONFIG_TOOLS
 --=20
