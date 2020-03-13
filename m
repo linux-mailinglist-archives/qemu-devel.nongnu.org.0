@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02FC184117
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 07:51:37 +0100 (CET)
-Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C12184129
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:05:27 +0100 (CET)
+Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCeAS-0003oX-QO
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 02:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51227)
+	id 1jCeNr-0002d6-1w
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jCe9b-000379-Cz
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 02:50:45 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1jCeN6-0001pQ-2b
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:04:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jCe9Z-0003B3-OK
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 02:50:43 -0400
-Received: from ozlabs.org ([203.11.71.1]:58943)
+ (envelope-from <chen.zhang@intel.com>) id 1jCeN4-0001md-7C
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:04:39 -0400
+Received: from mga04.intel.com ([192.55.52.120]:5758)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jCe9Y-00033J-Kk; Fri, 13 Mar 2020 02:50:41 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48dxCw4Mq8z9sRN; Fri, 13 Mar 2020 17:50:36 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584082236;
- bh=+CQNCzPszlzFbywxD9b+ARZpp3aLxX1aagHS1bsP9jM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m9Ci+Qs1n5I1A6sMaIlkCOIJIKpi5+k5je5pUzBUldAZnAwmw++aBzkkO9YKNYQkz
- jOz0vIm9GCDUlMwmznT6H3NOHPjXjAmhXICLlpVcrsb8+qagJK6FJiD9EJH9Hch+v9
- wU2mb3YYcejtJk2RQeDBHNVoWN7O02PSemuj6NIs=
-Date: Fri, 13 Mar 2020 17:50:28 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH v4 3/3] hw/misc/mos6522: move timer_new from init() into
- realize() to avoid memleaks
-Message-ID: <20200313065028.GF711223@umbus.fritz.box>
-References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <20200305065422.12707-4-pannengyuan@huawei.com>
- <20200305225652.GA617846@umbus.fritz.box>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Mjqg7Yu+0hL22rav"
-Content-Disposition: inline
-In-Reply-To: <20200305225652.GA617846@umbus.fritz.box>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1jCeN3-0001dR-V5
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:04:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2020 00:04:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,547,1574150400"; d="scan'208";a="278121860"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2020 00:04:31 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH] configure: Fix configure error.
+Date: Fri, 13 Mar 2020 14:55:25 +0800
+Message-Id: <20200313065525.31722-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,109 +51,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- euler.robot@huawei.com
+Cc: Zhang Chen <chen.zhang@intel.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Zhang Chen <chen.zhang@intel.com>
 
---Mjqg7Yu+0hL22rav
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When run the ./configure will always get this error:
+Unknown option --exist
 
-On Fri, Mar 06, 2020 at 09:56:52AM +1100, David Gibson wrote:
-> On Thu, Mar 05, 2020 at 02:54:22PM +0800, Pan Nengyuan wrote:
-> > There are some memleaks when we call 'device_list_properties'. This pat=
-ch move timer_new from init into realize to fix it.
-> >=20
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
->=20
-> Applied to ppc-for-5.0.
->=20
-> Probably the memory region stuff should be in realize() rather than
-> init() as well, but that can be fixed later.
+It caused by this patch:
+commit 3a67848134d0c07da49033f9ed08bf0ddeec0c6d
+Author: Juan Quintela <quintela@redhat.com>
+Date:   Tue Dec 17 21:15:24 2019 +0100
 
-=2E...and removed again.  This causes SEGVs during make
-check-qtest-ppc64.
+    configure: Enable test and libs for zstd
 
->=20
-> > ---
-> > Cc: Laurent Vivier <laurent@vivier.eu>
-> > Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > Cc: David Gibson <david@gibson.dropbear.id.au>
-> > Cc: qemu-ppc@nongnu.org
-> > ---
-> > v2->v1:
-> > - no changes in this patch.
-> > v3->v2:
-> > - remove null check in reset, and add calls to mos6522_realize() in mac=
-_via_realize to make this move to be valid.
-> > v4->v3:
-> > - split patch into two, this patch fix the memleaks.
-> > ---
-> >  hw/misc/mos6522.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >=20
-> > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> > index 19e154b870..c1cd154a84 100644
-> > --- a/hw/misc/mos6522.c
-> > +++ b/hw/misc/mos6522.c
-> > @@ -485,6 +485,11 @@ static void mos6522_init(Object *obj)
-> >      for (i =3D 0; i < ARRAY_SIZE(s->timers); i++) {
-> >          s->timers[i].index =3D i;
-> >      }
-> > +}
-> > +
-> > +static void mos6522_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    MOS6522State *s =3D MOS6522(dev);
-> > =20
-> >      s->timers[0].timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_ti=
-mer1, s);
-> >      s->timers[1].timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_ti=
-mer2, s);
-> > @@ -502,6 +507,7 @@ static void mos6522_class_init(ObjectClass *oc, voi=
-d *data)
-> > =20
-> >      dc->reset =3D mos6522_reset;
-> >      dc->vmsd =3D &vmstate_mos6522;
-> > +    dc->realize =3D mos6522_realize;
-> >      device_class_set_props(dc, mos6522_properties);
-> >      mdc->parent_reset =3D dc->reset;
-> >      mdc->set_sr_int =3D mos6522_set_sr_int;
->=20
+    Add it to several build systems to make testing good.
 
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/configure b/configure
+index 3c7470096f..305591f7e0 100755
+--- a/configure
++++ b/configure
+@@ -2475,7 +2475,7 @@ fi
+ # zstd check
+ 
+ if test "$zstd" != "no" ; then
+-    if $pkg_config --exist libzstd ; then
++    if $pkg_config --exists libzstd ; then
+         zstd_cflags="$($pkg_config --cflags libzstd)"
+         zstd_libs="$($pkg_config --libs libzstd)"
+         LIBS="$zstd_libs $LIBS"
+-- 
+2.17.1
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Mjqg7Yu+0hL22rav
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5rLTIACgkQbDjKyiDZ
-s5KiMRAApJqwY0vAvLV0M9TYODXbYs8Tb9qwpoWlj5nXiXwWwDjQgchqbJbmn803
-JWGGWxb8ufm/Gn/coH1QrXuoSy809Zpp3RwLbKeAyR9B+QUj8r258yLX0cpiLmO3
-Gg33I2KAaP4x12T2cm13rEEsvkeST9C2xqxSvuzBbHBmugcW477K/m64N9giitxG
-HwN7h5f5cQ6dw7UWf3rN/175DSh9YArJB2rWlmfwNgmSyKzi2wrae16KsTt/qZ32
-xMrjQEPytqi+TV17UHwsSyO79vDoD6+UBzqseKhk8nBf51DFJqAKiMhs+oEFfBpn
-0Cop7ENoherV0rnfIE/8LV+OH03cxtD5CIziZ+GsYIiygLV6X6kAQdx7pLgbbKR9
-Tbt10rbFSUC083GcnmR3nbxikdmAeK0jSwRJe1VKNWjGm6U5QTUVIFRzpdc3FSXJ
-h637w4HSyvRHk7+GTD68hdcW9X0buiO4JUmqRItNeWDp6Fv7QIB1mNwYba9CBCMO
-4SqOc+O2vO7FW/axGkoFVqpnq4mfUA257buGPnNsqtXVOEOJxVPhOLy5nIg1ErOH
-jFuefTY443Aha2OWfP+RJwCYXYM0QD6aeayLj084WwGGIVdz6tch0HFqvanA2rmn
-m7Xw3cb6r/p+Ad8R48AYzXQ9QkGOqq76LX1z+nMKZwTlj6w0b1o=
-=7fVu
------END PGP SIGNATURE-----
-
---Mjqg7Yu+0hL22rav--
 
