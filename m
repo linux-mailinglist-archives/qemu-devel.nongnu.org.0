@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02BC8183DC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 01:07:15 +0100 (CET)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F71183DC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 01:10:26 +0100 (CET)
+Received: from localhost ([::1]:51906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCXr8-0004Wy-32
-	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 20:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36211)
+	id 1jCXuD-0000ZT-R7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Mar 2020 20:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jCXqI-0003Kf-Pk
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:06:23 -0400
+ (envelope-from <mst@redhat.com>) id 1jCXt8-0007Vp-Bc
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:09:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jCXqH-0001Af-O4
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:06:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21214
+ (envelope-from <mst@redhat.com>) id 1jCXt7-0004Z6-6Y
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:09:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53578
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jCXqH-0001A3-Hq
- for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:06:21 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jCXt7-0004XG-2P
+ for qemu-devel@nongnu.org; Thu, 12 Mar 2020 20:09:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584057980;
+ s=mimecast20190719; t=1584058156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5wkBkrLPtaNbKE6fo9mKv9F/Z+gimgYA+hpYGJYsU2U=;
- b=Bpk592PQt7z2veOrHohjGR1b8CiUkOrcNylidftuL/UKyX81eRfejQLqFcJblLUAqo1VbD
- oxgVZrr2+YRRjlH2AnD0FnuCmkaK8PhgEGh7z/PFsiHLMEQvz3+rcOosmCM4hWxTUG+XWe
- lJQVjhTCMWy/HJTBCGshMl+a9WYcmXk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-ttCZ6cVVOwKfCpRHoBmnCA-1; Thu, 12 Mar 2020 20:06:19 -0400
-X-MC-Unique: ttCZ6cVVOwKfCpRHoBmnCA-1
-Received: by mail-wr1-f69.google.com with SMTP id j17so3397000wru.19
- for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:06:19 -0700 (PDT)
+ bh=EfZ65XEJbZi87jFA7uKtuBsbEs9VRwVoIR6Q2qTTe9M=;
+ b=FE7zzI63ySBLN/tU1yPFxWA1kEHIf7UQkmR5SqwtIRahkoK3BYgYGg8eMaBxLgNsA2qD6G
+ T6njQOEN4wYOSfj8g5VFvOHZuc7UjtC0yZZdXwv7G66NDnc7P9CbtscpyLj/SemYr7Wos2
+ oJo2AQr62p98YPzDPp4uD/YqszX/kmM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-yWOLee8SOMKu5oOZOle9og-1; Thu, 12 Mar 2020 20:09:14 -0400
+X-MC-Unique: yWOLee8SOMKu5oOZOle9og-1
+Received: by mail-wr1-f71.google.com with SMTP id c16so3430656wrt.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Mar 2020 17:09:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=q2X+t0E8XeMLXyYG++iN5sUs/z0ZRVCm6c40Vin5RJs=;
- b=TlsgTiwVClDP7XVgIxHhM9Po4vENqp9uumkrzrgnIKuk4EnFmDCeI53sCouNM5rCHi
- glxG5SdByxbrdon5U+IjJduzAElQs3JZcfKN9c4nJ/rHOo28UpWOqsfncicD42EnTKy9
- GbYU1cZicKZo9nfChjsWIjq/PzS6n54Uz9P1LJNXvsbs9aE/YhnIcVhUxExr2VOYwU1F
- taZW5Twc7qPdHd5AxhGcVatwjVXpgpbt9b5Fmxb4+yCnYA680t/COZOJ8xNFdLN82gv4
- wE8udSGK71A7QZBxyXJ03qNf6+JElyqtoWLYnNBRZDc3+R6XKnse+xRD3cEkPsagT1QA
- mQHw==
-X-Gm-Message-State: ANhLgQ2chLdkU6IQ+oIagwGUL+xEXl1KeurIXG3WSEPiqy45j6eWTTQl
- zFxswmhvUrYgHs5oStOSOFhJ41SD9Jg37GFaxYnAJUd5XvE1mCyZ+VypwNUGGpsfxx24aHgPKtc
- aPKSQAD3gGV90QNQ=
-X-Received: by 2002:a1c:8149:: with SMTP id c70mr7219923wmd.123.1584057977991; 
- Thu, 12 Mar 2020 17:06:17 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvV3T+EVHi43Z7iHXmb55I4LoyDfIo80LdRUsgdM/zT41J5jQm7qbwwTgxz8OBV1NNDNwDnKw==
-X-Received: by 2002:a1c:8149:: with SMTP id c70mr7219907wmd.123.1584057977757; 
- Thu, 12 Mar 2020 17:06:17 -0700 (PDT)
+ bh=/nb8v9fUR57iCXN9CyWS3DlE/aBydWOPaKhUlQg0PeM=;
+ b=bE9i1sDHZyhzLXlDCMYjR4bZT8MoEGIGhjsQOY5vYCbw3/58lNoVf3/XWndw3ntWBk
+ z+xNlrxRHvlt503Pgt9X4F2VMO3Nk5SsadKI+w6iAZ2c38NSYMrSM+5Cg39BbWDpjAwI
+ VePzHjzqQYK8vpCqQ35kzY1S7TV0ZGsqwRn5RO2TqDWmC7vh4jVBGJsUZ0ayI0USEFJn
+ adeSe74BEHhqi++gvmZ9HLxMRSConBAoJfIsrzhN9jMRFWsUwrlA4r7dYbrEz6ot2WnT
+ 1w8BXRY2cPxakCUvAb3wPJQbWeCNnzpTSW0ENSVwEw/n61eYHo0st4Io6ZmXA5Nhrdh6
+ mfnQ==
+X-Gm-Message-State: ANhLgQ28Qmgb7AJsTA+NMZvjSFt/GC/m1Mx6MJH9oPIGaxgJ0EG22BPc
+ cNKP9B9cWZihYKmEFnNMiHs9C+1zBf3Rzj7cA6RcGgeVL4tIL4OXyYeEMnwJxD3lIv4UQIGvHku
+ nOtwr1P/AMnoTelE=
+X-Received: by 2002:adf:b189:: with SMTP id q9mr13413463wra.169.1584058153593; 
+ Thu, 12 Mar 2020 17:09:13 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtH7wrPcUx2GlWcUvBhovvpbFu243B69IlE/KGbTerSEW101fiXmAEoBNOul6QfD9ObDZw1IQ==
+X-Received: by 2002:adf:b189:: with SMTP id q9mr13413423wra.169.1584058153303; 
+ Thu, 12 Mar 2020 17:09:13 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
- by smtp.gmail.com with ESMTPSA id q7sm24687078wrd.54.2020.03.12.17.06.16
+ by smtp.gmail.com with ESMTPSA id k18sm27291692wru.94.2020.03.12.17.09.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 17:06:17 -0700 (PDT)
-Date: Thu, 12 Mar 2020 20:06:14 -0400
+ Thu, 12 Mar 2020 17:09:12 -0700 (PDT)
+Date: Thu, 12 Mar 2020 20:09:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Liran Alon <liran.alon@oracle.com>
-Subject: Re: [PATCH v3 11/16] hw/i386/vmport: Add support for CMD_GETTIMEFULL
-Message-ID: <20200312200518-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v3 12/16] hw/i386/vmport: Add support for CMD_GET_VCPU_INFO
+Message-ID: <20200312200658-mutt-send-email-mst@kernel.org>
 References: <20200312165431.82118-1-liran.alon@oracle.com>
- <20200312165431.82118-12-liran.alon@oracle.com>
+ <20200312165431.82118-13-liran.alon@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200312165431.82118-12-liran.alon@oracle.com>
+In-Reply-To: <20200312165431.82118-13-liran.alon@oracle.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -94,69 +94,78 @@ Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 06:54:26PM +0200, Liran Alon wrote:
-> Similar to CMD_GETTIME but lacks the 136-year overflow issue,
-> by returning full 64-bit of host uSeconds.
+On Thu, Mar 12, 2020 at 06:54:27PM +0200, Liran Alon wrote:
+> Command currently returns that it is unimplemented by setting
+> the reserved-bit in it's return value.
+>=20
+> Following patches will return various useful vCPU information
+> to guest.
 >=20
 > Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 > Signed-off-by: Liran Alon <liran.alon@oracle.com>
 > ---
->  hw/i386/vmport.c         | 17 +++++++++++++++++
+>  hw/i386/vmport.c         | 14 ++++++++++++++
 >  include/hw/i386/vmport.h |  1 +
->  2 files changed, 18 insertions(+)
+>  2 files changed, 15 insertions(+)
 >=20
 > diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-> index c5b659c59343..7e57eda4b526 100644
+> index 7e57eda4b526..2ce78aaf7b4c 100644
 > --- a/hw/i386/vmport.c
 > +++ b/hw/i386/vmport.c
-> @@ -183,6 +183,22 @@ static uint32_t vmport_cmd_time(void *opaque, uint32=
-_t addr)
->      return (uint32_t)tv.tv_sec;
+> @@ -55,6 +55,13 @@
+>  #define VMPORT_COMPAT_CMDS_V2                   \
+>      (1 << VMPORT_COMPAT_CMDS_V2_BIT)
+> =20
+> +/* vCPU features reported by CMD_GET_VCPU_INFO */
+> +#define VCPU_INFO_SLC64_BIT             0
+> +#define VCPU_INFO_SYNC_VTSCS_BIT        1
+> +#define VCPU_INFO_HV_REPLAY_OK_BIT      2
+> +#define VCPU_INFO_LEGACY_X2APIC_BIT     3
+> +#define VCPU_INFO_RESERVED_BIT          31
+> +
+>  #define VMPORT(obj) OBJECT_CHECK(VMPortState, (obj), TYPE_VMPORT)
+> =20
+>  typedef struct VMPortState {
+
+
+Prefix with VMPORT_ please, and add comments.
+
+
+> @@ -199,6 +206,11 @@ static uint32_t vmport_cmd_time_full(void *opaque, u=
+int32_t addr)
+>      return VMPORT_MAGIC;
 >  }
 > =20
-> +static uint32_t vmport_cmd_time_full(void *opaque, uint32_t addr)
+> +static uint32_t vmport_cmd_get_vcpu_info(void *opaque, uint32_t addr)
 > +{
-> +    X86CPU *cpu =3D X86_CPU(current_cpu);
-> +    qemu_timeval tv;
-> +
-> +    if (qemu_gettimeofday(&tv) < 0) {
-> +        return UINT32_MAX;
-> +    }
-> +
-> +    cpu->env.regs[R_ESI] =3D (uint32_t)((uint64_t)tv.tv_sec >> 32);
-> +    cpu->env.regs[R_EDX] =3D (uint32_t)tv.tv_sec;
-> +    cpu->env.regs[R_EBX] =3D (uint32_t)tv.tv_usec;
-> +    cpu->env.regs[R_ECX] =3D port_state->max_time_lag_us;
-> +    return VMPORT_MAGIC;
+> +    return 1 << VCPU_INFO_RESERVED_BIT;
 > +}
 > +
 >  /* vmmouse helpers */
 >  void vmmouse_get_data(uint32_t *data)
 >  {
-
-And with usec precision, same comments apply in an even stronger way.
-
-
-> @@ -230,6 +246,7 @@ static void vmport_realizefn(DeviceState *dev, Error =
+> @@ -247,6 +259,8 @@ static void vmport_realizefn(DeviceState *dev, Error =
 **errp)
->      if (s->compat_flags & VMPORT_COMPAT_CMDS_V2) {
 >          vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid=
 , NULL);
 >          vmport_register(VMPORT_CMD_GETTIME, vmport_cmd_time, NULL);
-> +        vmport_register(VMPORT_CMD_GETTIMEFULL, vmport_cmd_time_full, NU=
+>          vmport_register(VMPORT_CMD_GETTIMEFULL, vmport_cmd_time_full, NU=
 LL);
+> +        vmport_register(VMPORT_CMD_GET_VCPU_INFO, vmport_cmd_get_vcpu_in=
+fo,
+> +                        NULL);
 >      }
 >  }
 > =20
 > diff --git a/include/hw/i386/vmport.h b/include/hw/i386/vmport.h
-> index 50416c8c8f3e..5d19963ed417 100644
+> index 5d19963ed417..34cc050b1ffa 100644
 > --- a/include/hw/i386/vmport.h
 > +++ b/include/hw/i386/vmport.h
-> @@ -12,6 +12,7 @@ typedef enum {
->      VMPORT_CMD_VMMOUSE_DATA     =3D 39,
+> @@ -13,6 +13,7 @@ typedef enum {
 >      VMPORT_CMD_VMMOUSE_STATUS   =3D 40,
 >      VMPORT_CMD_VMMOUSE_COMMAND  =3D 41,
-> +    VMPORT_CMD_GETTIMEFULL      =3D 46,
+>      VMPORT_CMD_GETTIMEFULL      =3D 46,
+> +    VMPORT_CMD_GET_VCPU_INFO    =3D 68,
 >      VMPORT_ENTRIES
 >  } VMPortCommand;
 > =20
