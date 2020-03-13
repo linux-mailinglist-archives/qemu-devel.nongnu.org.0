@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E19F184F08
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:55:10 +0100 (CET)
-Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A71184F1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 20:01:08 +0100 (CET)
+Received: from localhost ([::1]:35704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpSf-0005NV-KS
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35479)
+	id 1jCpYR-0008O1-6o
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 15:01:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpKP-000107-7B
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:38 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpKU-0001CT-JU
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpKO-0006VP-5C
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38535
+ (envelope-from <philmd@redhat.com>) id 1jCpKT-0006fA-6Z
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31965
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpKN-0006UB-UZ
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:36 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpKS-0006eu-Vk
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584125195;
+ s=mimecast20190719; t=1584125200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L+odCepFdf+oKmvTAs3N2qnqRhrI1h6ro08GqtUbZKA=;
- b=GhEqAWO0/bLmyJTyTvTzkRUegLbWXATcjLuITsxcg6FFuJioiIGE7dZ5l6NqeAYhFw7Nlj
- xBElYDZrcM4lGDpdZbLecNOePpTfzyiLvpML4gs1n1XC1p5dnS3vAbMpfCXptbW2+9saRE
- ZCscq5a3tbWFZxPGa2RYcXwtayEwDhw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-h-E9eXkCMxa8wf0nJXRL-g-1; Fri, 13 Mar 2020 14:46:33 -0400
-X-MC-Unique: h-E9eXkCMxa8wf0nJXRL-g-1
-Received: by mail-wr1-f72.google.com with SMTP id v6so4681004wrg.22
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:46:33 -0700 (PDT)
+ bh=hAYLPxHUnOlrNHYHvYLYzD4/J8jjhxAfYHPGN6DyHN4=;
+ b=JcIYNhCcyFjsFcU5roOX6w/r0bSgcdsQNsIGn2UK/0P4LNGIrYRSM94B9lOnP1T4jG4oXY
+ H7cnqz5tTeu/mFSB5ECAWxE1wHr9FI6bN3mDCUsE4aknhUrHe1mvXWUQOCHUszJ6eN3+GL
+ HkCpc5Fibljs3xeolhq2/UbB1lLTTSI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-JPcsCRNhMAKcmy6HWXKH8Q-1; Fri, 13 Mar 2020 14:46:38 -0400
+X-MC-Unique: JPcsCRNhMAKcmy6HWXKH8Q-1
+Received: by mail-wr1-f71.google.com with SMTP id n11so4235561wrs.13
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xA3+617D9wmcRIrFdm8JishVoWNzKu8Wd1In0oWHLRo=;
- b=pe1lVg49AqYsDQF0OYHlPkx/naE6OKNC/5AuMrO/2ZhXKYxyiOSQzILNs6S0ftY3J9
- E6WuBFiIKUXUtg2Rf2tG7dq2/fjrH3gSBJUHiajOwxZaZ83J+i0dDaBwyZJDKPGeb1Gu
- /utJpYBmQqqeOThBXTxFqO1IBN5n8sNgfAn02jJKWzkE693+Q1zmAmpqg856eHq3vCKi
- u0gS8373QT4MpcKCSSds6hDXJ0eEFfgXYL6cJd00EqGDZxOLULyPOCmvyjUhwFz1stV0
- JmR+NydArj+b/ZV598CR19w5bm+IA1dvmLJC8zl5Qx/vf8GLaqZvVXM/3G43fY+MZoj+
- CmlA==
-X-Gm-Message-State: ANhLgQ3yXJL48++6ljvEWWZ4rabqJphfT6XlWAaNrKIFAj51MI1DPCby
- ZqJ+U8dtpwN2t9Rgbyz/frBB99wAgLpXDhfQcBvEuEVJjZN0vvUEnHIA5ZhYB15s6cOmmC6phnX
- KBOp/Qn6K9/+tEqU=
-X-Received: by 2002:adf:e3cc:: with SMTP id k12mr15163718wrm.266.1584125192673; 
- Fri, 13 Mar 2020 11:46:32 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vv7Z0lzfYlF1vs1Lz7g7NclFsuaD+xFkjgyU5AXEQD3hHaG5QK7fUjcVcTEvxd0G3p+sZw/Zg==
-X-Received: by 2002:adf:e3cc:: with SMTP id k12mr15163698wrm.266.1584125192517; 
- Fri, 13 Mar 2020 11:46:32 -0700 (PDT)
+ bh=cIXy97ZAaCWGemZtPhQNSpEKiIqxtcSXAi/QC+TSqM0=;
+ b=S9aTgjH4PIrDy0FxlSuwImIB0Zw223gqRkyJOMJfZ3WxI7AO9DsW6h8rjZmAUhXgxI
+ xXsfyva5XrRP6H9sDksuYYvp5Z8MgK4FpOUFERv/mv4zzanOMeFZd5NOOJUMpd+B2jb2
+ /FCwS1I+qqx7hR+EqVQNilOTt+kxWUGzRTQigsX+Z6iGw03P2NPiY2Hj809IaTvGyq19
+ 3X9P2vRQh1ymhzgxucGY736T716bbURARfatz8XHd0fVTMxVTxjXh3g/aFGZqvEW3rN7
+ l/miMzAC3Frc11hFLolndqfSNroXgj039gj+3VS+i9oocCLqIuXJw5W2MetSTewVQJS6
+ Du9w==
+X-Gm-Message-State: ANhLgQ0e6UXDqik30bnUuyLZ+/rHbKxf7dzDmvJTDcsn2Qk/UQzQMQc+
+ yGtGFhruymxNeoehR+E6pX4kbk8nZrEiqLxpKZjxTo/0mQWJB6yHdqNPbQAe0VdJ91GUv/5az3K
+ AtqgTtfw4+PubFWg=
+X-Received: by 2002:a1c:f60d:: with SMTP id w13mr12537676wmc.171.1584125197412; 
+ Fri, 13 Mar 2020 11:46:37 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtFeKSD2DbvqurrcqPhmXEEwtHORYygoit/XxpGA8biSIa/fimyf7g5cm6vWLLxCKizdMF2KA==
+X-Received: by 2002:a1c:f60d:: with SMTP id w13mr12537651wmc.171.1584125197155; 
+ Fri, 13 Mar 2020 11:46:37 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id u8sm34255802wrn.69.2020.03.13.11.46.31
+ by smtp.gmail.com with ESMTPSA id g5sm14216255wrr.57.2020.03.13.11.46.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:46:32 -0700 (PDT)
+ Fri, 13 Mar 2020 11:46:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] hw/core/qdev-properties: Export qdev_prop_enum
-Date: Fri, 13 Mar 2020 19:46:03 +0100
-Message-Id: <20200313184607.11792-6-philmd@redhat.com>
+Subject: [PATCH 6/9] hw/core/qdev-properties: Export some integer-related
+ functions
+Date: Fri, 13 Mar 2020 19:46:04 +0100
+Message-Id: <20200313184607.11792-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313184607.11792-1-philmd@redhat.com>
 References: <20200313184607.11792-1-philmd@redhat.com>
@@ -76,8 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,43 +97,181 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We are going to split this file and reuse these static functions.
+Declare them in the local "qdev-prop-internal.h" header.
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/qdev-properties.h | 1 +
- hw/core/qdev-properties.c    | 7 +++++++
- 2 files changed, 8 insertions(+)
+ hw/core/qdev-prop-internal.h |  9 ++++++++
+ hw/core/qdev-properties.c    | 42 +++++++++++++++++++-----------------
+ 2 files changed, 31 insertions(+), 20 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index f161604fb6..134753d595 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -8,6 +8,7 @@
- extern const PropertyInfo qdev_prop_bit;
- extern const PropertyInfo qdev_prop_bit64;
- extern const PropertyInfo qdev_prop_bool;
-+extern const PropertyInfo qdev_prop_enum;
- extern const PropertyInfo qdev_prop_uint8;
- extern const PropertyInfo qdev_prop_uint16;
- extern const PropertyInfo qdev_prop_uint32;
+diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
+index 2a8c9a306a..dd2f215f1c 100644
+--- a/hw/core/qdev-prop-internal.h
++++ b/hw/core/qdev-prop-internal.h
+@@ -15,5 +15,14 @@ void qdev_propinfo_set_enum(Object *obj, Visitor *v, con=
+st char *name,
+=20
+ void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
+                                           const Property *prop);
++void qdev_propinfo_set_default_value_int(ObjectProperty *op,
++                                         const Property *prop);
++void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
++                                          const Property *prop);
++
++void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
++                              void *opaque, Error **errp);
++void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
++                             void *opaque, Error **errp);
+=20
+ #endif
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 9c383ffa44..5912c394d4 100644
+index 5912c394d4..534fc674db 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -84,6 +84,13 @@ void qdev_propinfo_set_default_value_enum(ObjectProperty=
- *op,
-         qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
+@@ -275,12 +275,14 @@ static void set_uint8(Object *obj, Visitor *v, const =
+char *name, void *opaque,
+     visit_type_uint8(v, name, ptr, errp);
  }
 =20
-+const PropertyInfo qdev_prop_enum =3D {
-+    .name  =3D "enum",
-+    .get   =3D qdev_propinfo_get_enum,
-+    .set   =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
-+};
-+
- /* Bit */
+-static void set_default_value_int(ObjectProperty *op, const Property *prop=
+)
++void qdev_propinfo_set_default_value_int(ObjectProperty *op,
++                                         const Property *prop)
+ {
+     object_property_set_default_int(op, prop->defval.i);
+ }
 =20
- static uint32_t qdev_get_prop_mask(Property *prop)
+-static void set_default_value_uint(ObjectProperty *op, const Property *pro=
+p)
++void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
++                                          const Property *prop)
+ {
+     object_property_set_default_uint(op, prop->defval.u);
+ }
+@@ -289,13 +291,13 @@ const PropertyInfo qdev_prop_uint8 =3D {
+     .name  =3D "uint8",
+     .get   =3D get_uint8,
+     .set   =3D set_uint8,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- 16bit integer --- */
+=20
+-static void get_uint16(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
++void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
++                              void *opaque, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+     Property *prop =3D opaque;
+@@ -321,9 +323,9 @@ static void set_uint16(Object *obj, Visitor *v, const c=
+har *name,
+=20
+ const PropertyInfo qdev_prop_uint16 =3D {
+     .name  =3D "uint16",
+-    .get   =3D get_uint16,
++    .get   =3D qdev_propinfo_get_uint16,
+     .set   =3D set_uint16,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- 32bit integer --- */
+@@ -353,8 +355,8 @@ static void set_uint32(Object *obj, Visitor *v, const c=
+har *name,
+     visit_type_uint32(v, name, ptr, errp);
+ }
+=20
+-static void get_int32(Object *obj, Visitor *v, const char *name, void *opa=
+que,
+-                      Error **errp)
++void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
++                             void *opaque, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+     Property *prop =3D opaque;
+@@ -382,14 +384,14 @@ const PropertyInfo qdev_prop_uint32 =3D {
+     .name  =3D "uint32",
+     .get   =3D get_uint32,
+     .set   =3D set_uint32,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ const PropertyInfo qdev_prop_int32 =3D {
+     .name  =3D "int32",
+-    .get   =3D get_int32,
++    .get   =3D qdev_propinfo_get_int32,
+     .set   =3D set_int32,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_int,
+ };
+=20
+ /* --- 64bit integer --- */
+@@ -448,14 +450,14 @@ const PropertyInfo qdev_prop_uint64 =3D {
+     .name  =3D "uint64",
+     .get   =3D get_uint64,
+     .set   =3D set_uint64,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ const PropertyInfo qdev_prop_int64 =3D {
+     .name  =3D "int64",
+     .get   =3D get_int64,
+     .set   =3D set_int64,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_int,
+ };
+=20
+ /* --- string --- */
+@@ -739,9 +741,9 @@ const PropertyInfo qdev_prop_pci_devfn =3D {
+     .name  =3D "int32",
+     .description =3D "Slot and optional function number, example: 06.0 or =
+06",
+     .print =3D print_pci_devfn,
+-    .get   =3D get_int32,
++    .get   =3D qdev_propinfo_get_int32,
+     .set   =3D set_pci_devfn,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- blocksize --- */
+@@ -787,9 +789,9 @@ static void set_blocksize(Object *obj, Visitor *v, cons=
+t char *name,
+ const PropertyInfo qdev_prop_blocksize =3D {
+     .name  =3D "uint16",
+     .description =3D "A power of two between 512 and 32768",
+-    .get   =3D get_uint16,
++    .get   =3D qdev_propinfo_get_uint16,
+     .set   =3D set_blocksize,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- pci host address --- */
+@@ -1071,7 +1073,7 @@ const PropertyInfo qdev_prop_arraylen =3D {
+     .name =3D "uint32",
+     .get =3D get_uint32,
+     .set =3D set_prop_arraylen,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- public helpers --- */
+@@ -1265,7 +1267,7 @@ const PropertyInfo qdev_prop_size =3D {
+     .name  =3D "size",
+     .get =3D get_size,
+     .set =3D set_size,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- object link property --- */
 --=20
 2.21.1
 
