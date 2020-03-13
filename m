@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06635184895
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:56:55 +0100 (CET)
-Received: from localhost ([::1]:59178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721AF18489C
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:58:14 +0100 (CET)
+Received: from localhost ([::1]:59222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCko1-0002YW-Jp
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:56:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35445)
+	id 1jCkpJ-0004o5-GT
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCknD-0001xw-3f
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:56:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jCkoC-0003Vc-6m
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:57:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCknB-00041X-UI
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:56:02 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37983)
+ (envelope-from <peter.maydell@linaro.org>) id 1jCkoB-0001Z0-7u
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:57:04 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43771)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCknB-0003z3-OU
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:56:01 -0400
-Received: by mail-ot1-x342.google.com with SMTP id t28so7519733ott.5
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 06:56:01 -0700 (PDT)
+ id 1jCkoB-0001V8-2I
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:57:03 -0400
+Received: by mail-ot1-x342.google.com with SMTP id a6so10111491otb.10
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 06:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xTTntM3fNzs+2JnmLYStgo0n7jeZrWIApCXxBedI9+s=;
- b=BJaOwiMbslq/TGTXu3fxk4/im6bdtWPViRYSaluR2yM2Xhn05OwWoRcnOiFNUd0Dd+
- 252b1VlXeXr9Lb3ap+U/hS3oeW9dKZ9zjrGDEMb7t1NwUq1QWqiWOS1XLh3x2U8s5Qv6
- Do0hpEJ8lTc2Eb4ZD0BQgY6fOvgvGxYjKg4z5UI/bzHqTe3XHNCsMw1pBt1IPSlqA3bH
- ZkJM+LDicTaswh44gtIsBj4eOwiH5WuBQTxDvtXgHXigsfEwhJNNsMs5aK71ltFiiveF
- 0g94pobMt4Kg+75dNFqU5aaekXghg7bGmo1AmhOforE02ehtcTP4cVoeEUpPJZJgvqlg
- 8zNQ==
+ :cc; bh=IJdvUzrHteMZEgl+DI2/aeVxkxT8DVzhpeHskrvxYmI=;
+ b=rr17rRGHTIdqPqzJdC6LBx6rh0fatux6j+fISDvsoGAcqPCRn1ph7zUbJvVda2r2g7
+ jtykAiXC1ZGEEVxgNxjwaJb8tv8fOPgYfd1YkHQrEgUua/Li+Z0uk/KVMlGPBx6FcWop
+ lPVI7rwBwuMHq8TXtGAjfPeIaI/iGrfrofPjcyGSZm3o9PY5jtxzadOeaUZ4fcyENXg5
+ 4G4Esk8VZK4pHgsW6QvTWAfXAjWRZoG2S9ezJta0JxjzNbgcUvJXwPLnXkEil0oDkiLt
+ RG2bJqL8dwld4q1n42HtPsbfJJjE6Cj4UUSJ358K6mQgfic7f7ZxHm5ifKJHPJgpgkDF
+ L0Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xTTntM3fNzs+2JnmLYStgo0n7jeZrWIApCXxBedI9+s=;
- b=VYFib3dLgOSLO8PpashdPnnhqGgtUfW79uEKXEAzYx2vIJwySqG+kvhkAmm4UP08Az
- +Yqxl/yZ71nD/oeiGQnY3B4gZdf/JudSNapgR/4ldo/+3d5VfIQCaXph6aaCr8eiZY8o
- q07mBEh6/PoD9FW/rhuXznpVkn0Rzosw5RFnlLPN19R5aUfNsScqxyhXLq6PgeeCavX3
- CTtwOFRiw5uji7M+yI/9bbUW2gMNbj2rELt6QfZ9Uc9GtndCniMFun54PZWc4VD97c6O
- nhdIkGdD9ShYw6xaoxJFgkNCJdbT2jsUQAIJKWtPTQd5DZivIAzGH9duZxa8/l1zIBxS
- Xn2A==
-X-Gm-Message-State: ANhLgQ0VNiy3liOiiPOk/ttwN/A4LOfIl5oXmnvcqzMVRSh3AvPMMGb8
- V/05UfHVO3Mx9NKd1kH2ylOPu+f6ZsX81qKrXYGXGA==
-X-Google-Smtp-Source: ADFU+vtvQCA+46ZDZQ9+w/1MizPsie47jSpACW0dzq3klLYSIuXZFe73dI/krltGKTmqhJs0In/i1lzhVxqF9GDmtYg=
-X-Received: by 2002:a9d:6c05:: with SMTP id f5mr11204304otq.232.1584107760699; 
- Fri, 13 Mar 2020 06:56:00 -0700 (PDT)
+ bh=IJdvUzrHteMZEgl+DI2/aeVxkxT8DVzhpeHskrvxYmI=;
+ b=W/fXIGTu4xUeJPqJZ3/qUiA4iZZJ9PDla7/kUsjyekc4mdqsDTnzPspCJ6/4GmxWOH
+ 0sjc2E+P7u16+nmcwovapzveummnwHN9xcpsXoU34rkMGWx3oVHY1nFMEd+tDvXmkaRo
+ adzcKvJpMCc09ygYjoxckNqBuKuAuHjApC1SraMIWPR4xZBZSyK6gPrJtGnoWx+O2uNV
+ hIqj0s00oARGsUaP8R123R7JGJ1Hu1JiydV1Thhw2gcKI3+1iVTajfYlpJyNx8UWPonn
+ /Rldz2KY2EW7QTQD3P6By+WBzmDx2nYhggtN8JyMJYXNJTy6TjVdAPPrv4hDK4SlpPAt
+ +NLg==
+X-Gm-Message-State: ANhLgQ2BWLVbR55baqtWmT6FubP0VnB/qIRoCLv5yWIisXs7EZi8YEhP
+ KHWhUi9L0CmmhkipdkXRkWcPxlvqYaAKeo/fd35U7w==
+X-Google-Smtp-Source: ADFU+vveKe3bx6W0gi+EWRB7MSkoA0uLeD8mArWYugSSzyuF6p6KeoWVdAwgQNbLR9vGpLWlpt710YAVmCY3dlHPEiU=
+X-Received: by 2002:a9d:76c9:: with SMTP id p9mr11182576otl.135.1584107822319; 
+ Fri, 13 Mar 2020 06:57:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200312193616.438922-1-crosa@redhat.com>
- <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
- <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
-In-Reply-To: <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
+ <20200312193616.438922-5-crosa@redhat.com>
+In-Reply-To: <20200312193616.438922-5-crosa@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Mar 2020 13:55:49 +0000
-Message-ID: <CAFEAcA_aocOSyy+6vG5T6PJm9HgFC2sKa+BKGp-AcKosiiT8iA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
+Date: Fri, 13 Mar 2020 13:56:51 +0000
+Message-ID: <CAFEAcA-=3-AFUec1tMTFgXyHGscC-PF_+XEBTbujCsLB043MEw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] GitLab Gating CI: introduce pipeline-status contrib
+ script
 To: Cleber Rosa <crosa@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -85,28 +85,40 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Mar 2020 at 22:16, Cleber Rosa <crosa@redhat.com> wrote:
+On Thu, 12 Mar 2020 at 19:37, Cleber Rosa <crosa@redhat.com> wrote:
 >
-> On Thu, Mar 12, 2020 at 10:00:42PM +0000, Peter Maydell wrote:
-> > OK, so my question here is:
-> >  * what are the instructions that I have to follow to be
-> > able to say "ok, here's my branch, run it through these tests,
-> > please" ?
+> This script is intended to be used right after a push to a branch.
 >
-> The quick answer is:
+> By default, it will look for the pipeline associated with the commit
+> that is the HEAD of the *local* staging branch.  It can be used as a
+> one time check, or with the `--wait` option to wait until the pipeline
+> completes.
 >
->  $ git push git@gitlab.com:qemu-project/qemu.git my-branch:staging
+> If the pipeline is successful, then a merge of the staging branch into
+> the master branch should be the next step.
 >
-> The longer explanation is that these jobs are limited to a "staging"
-> branch, so all you'd have to do is to push something to a branch
-> called "staging".  If that branch happens to be from the
-> "gitlab.com/qemu-project/qemu" repo, than the runners setup there
-> would be used.  The documentation an ansible playbooks are supposed
-> to help with this setup.
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  contrib/ci/scripts/gitlab-pipeline-status | 148 ++++++++++++++++++++++
+>  1 file changed, 148 insertions(+)
+>  create mode 100755 contrib/ci/scripts/gitlab-pipeline-status
+>
+> diff --git a/contrib/ci/scripts/gitlab-pipeline-status b/contrib/ci/scripts/gitlab-pipeline-status
+> new file mode 100755
+> index 0000000000..83d412daec
+> --- /dev/null
+> +++ b/contrib/ci/scripts/gitlab-pipeline-status
+> @@ -0,0 +1,148 @@
+> +#!/usr/bin/env python3
+> +
+> +"""
+> +Checks the GitLab pipeline status for a given commit commit
+> +"""
 
-Great, thanks. Could I do that for testing purposes with a
-staging branch that includes these patches, or would we have
-to wait for them to be in master before it works?
+All new files, and particularly new scripts and source
+files, should have the usual copyright-and-license
+comment at the top, please.
 
+thanks
 -- PMM
 
