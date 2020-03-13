@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803E5184F13
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:58:21 +0100 (CET)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A96184EF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:49:40 +0100 (CET)
+Received: from localhost ([::1]:35486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpVk-0003xG-IW
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35721)
+	id 1jCpNL-0004GD-HO
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpKd-0001Va-CR
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:52 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpKi-0001iH-3K
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpKc-00071z-B0
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27385
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jCpKg-0007BW-VA
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40112
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpKc-00071I-6k
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:50 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpKg-0007B5-Qs
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584125209;
+ s=mimecast20190719; t=1584125214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qp7vKpOv2W7tIk36eqDbxgbGQUwh1AA9h75Fp+jTf+g=;
- b=CBmDUPlc2LUnVPpAK5T2de+A+2CV0kPmNc6yNf/FoCdqTEoTjamAlLhH0bJ5CHNutsg/4l
- 3AC6N6e3nPh0IY2HCi6AXmFZSq5DZq4xek2Mr2seFfPLEuM7fqS0wY785xHOHPk3D1ldx+
- xicfATmHl1S7ON6wcNBCgU/fcipUM3o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-tXbpwCjMM6iwdjjSyoMMow-1; Fri, 13 Mar 2020 14:46:48 -0400
-X-MC-Unique: tXbpwCjMM6iwdjjSyoMMow-1
-Received: by mail-wr1-f72.google.com with SMTP id u12so2283269wrw.10
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:46:48 -0700 (PDT)
+ bh=ZjDGFX22CortiZUqlge2N0NxEGUXl4+FNuK6/r9znhY=;
+ b=aeTz4+kxCsOYft0A58Wz54U86sM+vqZaUnV/tKUEznAUzT0DlkHUmSZ/5S38YHSoZGijKb
+ rVT2fleBEou/e+TRd5Hu5i50bLgpguAigNqGpAtCedGYwSnoXSHHbLIxW+jnH666WlKH5b
+ uLITzMYiNfmbzKRKQkVUHXp9XHJEWn4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-WDZY-YydMTSqCqY67emnkw-1; Fri, 13 Mar 2020 14:46:52 -0400
+X-MC-Unique: WDZY-YydMTSqCqY67emnkw-1
+Received: by mail-wm1-f69.google.com with SMTP id n25so3306703wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:46:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3a+Tnm1TZFFOSQQDhmf8V5bigxeVUKZlbcJluEprtLU=;
- b=gYwQElMx1vMo6ceeJ6jpNnyIumFHq7iBybGjQuoxOpcZ5TxJK6of9mFI37AF/w3Rg4
- ficp2ymD9CtH6ZjFYXL3/qq2dZxQpN3AA1YtPmnix2f7h+XEf9qqgeVWFp2iNZ0GGRSb
- vTPV1BNeobOw//x3YCJTd9jZNS+yWOeg8gIOzKT9qNDxrglm//4P/eTL7MAh8FQxg0vf
- lSQnib7bIt9RUF2lLtpj6R7ZCsGRwzlhxmywXItY5jnrOTwKyt1Uiy6GVevZ5sdS6gNO
- Gz41q3rLPzJt0QdDssMDvO20J74YAnMmEew/XFZ8p/9wt5G0qgeWNBeAMO14kWqVeWE3
- PD9w==
-X-Gm-Message-State: ANhLgQ3bYGl7w7WDccyWr5UyGS2lmswjuqSX56YhMLbMD4JVO0x4pZAR
- ThIGMNMkYO2UMY2G1glcbfCsZjLwYtRwqdZV+4i5aeTYmFu2Ot7rkUsaoQ23sJGd78ua6fd+Uuw
- 54Nvqu2pCWbaV92o=
-X-Received: by 2002:a1c:418b:: with SMTP id
- o133mr12554787wma.165.1584125206768; 
- Fri, 13 Mar 2020 11:46:46 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsTWLso2AUAV0UjexAIg/0GX7zlm2N8Xuan3B9/zbfe9muByFs7C6b/pWpzDwJ/vc1St8TMwg==
-X-Received: by 2002:a1c:418b:: with SMTP id
- o133mr12554767wma.165.1584125206561; 
- Fri, 13 Mar 2020 11:46:46 -0700 (PDT)
+ bh=MzlEjNxFW1B+Pna0KCr1+SoRrDU73//S4ZgYAyodi0I=;
+ b=j3ycLo/92Uqbe5R4KabAZqbzMF5a2R3MQmABQkVQZv9lisVnBL2vI3ZJUfA8P92Vj2
+ 6CEnLIx3YevA7SerFcRNisxXo0r+QqQxTn4m16oCiKDDHZeLtR5Sew0bIZ2k9dnGqoX0
+ 1g2s//EAqBv1MlIXv/VO/nLxfOX4StUv3na8s/SnLuDjai+sPhttJNq0rNRt2uzkOww6
+ AzQgTVDTT4cPQpoKtGcOk/oI9Q5UQj+qY2sUvJx90wPFlfYetYcTXyil0kZQecyByk5j
+ 6lJWHTMw4ZBkxTsC9zXilB5p1jBJV+RjYY+Fgp3l1BrMcOrdvpKnGhsDDNrdD1FeQdlL
+ Z7YQ==
+X-Gm-Message-State: ANhLgQ0WrCJlTjao184Wa/tyQav0a/fmkY+xh4otJS1aFx/NNWQLQIst
+ I7GB77+ehHIyCxPnIWiHGJwsTv9xiUI8eN0sg1pu91g6lKKlCYTrhxpT6rm4Sdatrry+rkslCs6
+ iM9MOTnMPgY7ZGeM=
+X-Received: by 2002:a05:600c:414a:: with SMTP id
+ h10mr12617592wmm.53.1584125211441; 
+ Fri, 13 Mar 2020 11:46:51 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvcIC8/s7jd8O3tECp2CeXvZNxiE2MgUCHjeZn3Z52bR9hHkvOIdNxLCv9hZxa0j6svSZO9Wg==
+X-Received: by 2002:a05:600c:414a:: with SMTP id
+ h10mr12617573wmm.53.1584125211201; 
+ Fri, 13 Mar 2020 11:46:51 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id d21sm901937wrb.51.2020.03.13.11.46.45
+ by smtp.gmail.com with ESMTPSA id b6sm24080755wrv.43.2020.03.13.11.46.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:46:46 -0700 (PDT)
+ Fri, 13 Mar 2020 11:46:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] hw/core: Add qdev stub for user-mode
-Date: Fri, 13 Mar 2020 19:46:06 +0100
-Message-Id: <20200313184607.11792-9-philmd@redhat.com>
+Subject: [PATCH 9/9] qapi: Restrict code generated for user-mode
+Date: Fri, 13 Mar 2020 19:46:07 +0100
+Message-Id: <20200313184607.11792-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313184607.11792-1-philmd@redhat.com>
 References: <20200313184607.11792-1-philmd@redhat.com>
@@ -79,7 +79,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,58 +99,70 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While user-mode does not use peripherals (devices), it uses a
-CPU which is a device.
-In the next commit we will reduce the QAPI generated code for
-user-mode. Since qdev.c calls qapi_event_send_device_deleted(),
-let's add a stub for it.
+A lot of QAPI generated code is never used by user-mode.
+
+Rewrite the QAPI_COMMON_MODULES variable one entry per line,
+and split it in 3 groups:
+- always used
+- use by system-mode or tools
+- only used by system-mode
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/core/qdev-stubs.c  | 20 ++++++++++++++++++++
- hw/core/Makefile.objs |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 hw/core/qdev-stubs.c
+ qapi/Makefile.objs | 37 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/hw/core/qdev-stubs.c b/hw/core/qdev-stubs.c
-new file mode 100644
-index 0000000000..0819dcba12
---- /dev/null
-+++ b/hw/core/qdev-stubs.c
-@@ -0,0 +1,20 @@
-+/*
-+ * QAPI qdev stubs
-+ *
-+ * Copyright (c) 2020 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-events-qdev.h"
-+
-+void qapi_event_send_device_deleted(bool has_device,
-+                                    const char *device, const char *path)
-+{
-+}
-diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index 6215e7c208..89bf247173 100644
---- a/hw/core/Makefile.objs
-+++ b/hw/core/Makefile.objs
-@@ -8,6 +8,7 @@ common-obj-y +=3D vmstate-if.o
- # irq.o needed for qdev GPIO handling:
- common-obj-y +=3D irq.o
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 4673ab7490..18435db426 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -5,11 +5,40 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
+ util-obj-y +=3D qmp-event.o
+ util-obj-y +=3D qapi-util.o
 =20
-+common-obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D qdev-stubs.o
- common-obj-$(CONFIG_SOFTMMU) +=3D reset.o
- common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
- common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
+-QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
+rypto
+-QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
+-QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
+ tpm
+-QAPI_COMMON_MODULES +=3D trace transaction ui
++QAPI_COMMON_MODULES =3D common
++QAPI_COMMON_MODULES +=3D introspect
++QAPI_COMMON_MODULES +=3D misc
++
++ifeq ($(CONFIG_SOFTMMU),y)
++QAPI_COMMON_MODULES +=3D audio
++QAPI_COMMON_MODULES +=3D dump
++QAPI_COMMON_MODULES +=3D machine
++QAPI_COMMON_MODULES +=3D migration
++QAPI_COMMON_MODULES +=3D net rocker
++QAPI_COMMON_MODULES +=3D qdev
++QAPI_COMMON_MODULES +=3D rdma
++QAPI_COMMON_MODULES +=3D tpm
++QAPI_COMMON_MODULES +=3D trace
++QAPI_COMMON_MODULES +=3D ui
+ QAPI_TARGET_MODULES =3D machine-target misc-target
++endif # CONFIG_SOFTMMU
++
++ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
++QAPI_COMMON_MODULES +=3D authz
++QAPI_COMMON_MODULES +=3D block
++QAPI_COMMON_MODULES +=3D block-core
++QAPI_COMMON_MODULES +=3D char
++QAPI_COMMON_MODULES +=3D control
++QAPI_COMMON_MODULES +=3D crypto
++QAPI_COMMON_MODULES +=3D error
++QAPI_COMMON_MODULES +=3D job
++QAPI_COMMON_MODULES +=3D pragma
++QAPI_COMMON_MODULES +=3D qom
++QAPI_COMMON_MODULES +=3D run-state
++QAPI_COMMON_MODULES +=3D sockets
++QAPI_COMMON_MODULES +=3D transaction
++endif # CONFIG_SOFTMMU || CONFIG_TOOLS
++
+ QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+=20
+ util-obj-y +=3D qapi-builtin-types.o
 --=20
 2.21.1
 
