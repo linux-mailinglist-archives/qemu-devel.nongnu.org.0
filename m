@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620D2184F00
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:53:49 +0100 (CET)
-Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CBD184EFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:52:52 +0100 (CET)
+Received: from localhost ([::1]:35562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpRM-0002t0-FN
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1jCpQR-0001WW-40
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpG8-00015Z-DR
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCpGC-0001FI-TP
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpG7-0005DD-7W
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43245
+ (envelope-from <philmd@redhat.com>) id 1jCpGB-0005NV-FC
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:16 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56964
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpG7-0005Bq-32
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:11 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpGB-0005Kq-AA
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124930;
+ s=mimecast20190719; t=1584124933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gB6GZqgn898T5lEn2dO+WgYcEg7ajywrV26pIieifgY=;
- b=PTVXv2SsdQj8yI2wJ4EvG6UqAnFEdhmjjD68UK6dFE1rTSeAdyFsiIHi+X8XHySLg48cb2
- FjdZERQfWAU3i7AhfyArgstI6AU+Ejz2N8M9lEqNU33pNmxtEr657nZEjT3wbF0np0uS1u
- YW5ClfFSvKN0RulDclkO0Jg+znIwOZs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-RPQNmPpNMYiBRpXSDIxj2w-1; Fri, 13 Mar 2020 14:42:07 -0400
-X-MC-Unique: RPQNmPpNMYiBRpXSDIxj2w-1
-Received: by mail-wm1-f71.google.com with SMTP id f9so1729508wme.7
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:42:06 -0700 (PDT)
+ bh=vTQj/CuraqaEI9qDf4IXecW3ZSVpPZJ56FMzGpZyIT0=;
+ b=B6pBjyLyTEUwJqZQVmOh/3FmoxSD1QxZXx1UXGEPTrvYtk4G5khBGFQsM6gn5+g4L38cLV
+ 9/EJnkRZRKpAQcHQb/Jm+YRdbd2xeEYWQJtMK3E05R2ZEUyrryHYHkTo6Y0rw3k3xOJg5A
+ 0mdtIw1AS45OVW6ne5elf5DhXwyF4+Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-ppCwk4ZMMdSK-DiKQiX2Jg-1; Fri, 13 Mar 2020 14:42:12 -0400
+X-MC-Unique: ppCwk4ZMMdSK-DiKQiX2Jg-1
+Received: by mail-wr1-f71.google.com with SMTP id j17so4728530wru.19
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:42:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=o8NYWim6/Yd9aExraYkJVT9nhkAtGbxd6mTZNaLxBUc=;
- b=UNM+cvT9KmFgaInwNoJHO2e3/lAZfonj99QcHS5yA+WhQrcfX5JjtXGoJ142u84UYL
- Co4OZqFm6ZSCOGSbFcAM1a7gXYzMrYB3kNcNWVUG0yh4QbrEkDWfV7orPnSXe2otzunC
- K5bX558rINwc2ChLPYZ3kWVXAO52O/yRjaG1WgFyYMgn+nCJJxJGsS4b0EVEPsCrQfOE
- TPGD4DbyPiG/j1QXGrjRsjEkJNbPHijpVvkB3Um4f8/YadXMN94A5s/cbz7P86KN7X6+
- DJAnenlvZURKh1JzFfEPPr+ggFXuGE6f/Lzcl74Kxq0sUChi5CdvtJQIS+/v9rQyZX5J
- KIoQ==
-X-Gm-Message-State: ANhLgQ3CsP9na/NjQmyPZLKpSzkgDX7xanRkupz/Fw/wm6Mj6GPPhRvw
- pTkraNWW42vfOtQh2j5149eRjEZtKvvmDf4heui0uUA9b55S2Z5dOj3G7zuY4yDOZH+RrEW96q7
- pPtLBRpLhm3FkxnE=
-X-Received: by 2002:a05:600c:2c4a:: with SMTP id
- r10mr12491412wmg.32.1584124925415; 
- Fri, 13 Mar 2020 11:42:05 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vschwfV0QpBwrB08rFODD3V2lE2SuNkAUoFXtgXuLIe7krN99M3zz/hJayDJL70d0loTZ2dQA==
-X-Received: by 2002:a05:600c:2c4a:: with SMTP id
- r10mr12491370wmg.32.1584124925123; 
- Fri, 13 Mar 2020 11:42:05 -0700 (PDT)
+ bh=6BA/ayS7bx6RNJ1ANrutCVjpBouFGlBaWUedscA9deQ=;
+ b=GlxSeA3g6vTF2W7jJ+FgZxc+LEYX5ruknH8ba7ku0NmgYu9iSEcWHLSrEO3D1ZyvmV
+ IaqISXHa07pUXF5kQYD6PrbXgDAd8UfgVu+qawQBQrAz0SPJcjd5VZ+kW4s93Wzch7n6
+ QBKR4L4Ig4HBwAaq/p+N0pATRZ36yqYLTn1wghKjbfBk4LkVVrACi6cg3fdxCjhcWIDZ
+ 7TgGGofTkx2mM63kei3KK4xyZx+pWJftdMkNGEugp7h2phHDNMvn8o7rCVs8Vk3PQZHT
+ cOcdEanymsPWVmmS8PUyHkvtQP3RhkOgYZfgqZhnEtI9OiUV0dFzwd2gvFPuRaPZp7NM
+ F97Q==
+X-Gm-Message-State: ANhLgQ0PoLE7WXXRP5cKIu8s0k2YH0WiZ04+pFxHRz4dAbx7ee/S6T6e
+ dvIUEiReDB1o3AukVBD3dXVQRVazr8Dqb3FTfeaIx/OYfeDzcB18G3TQjnLfxJfGLTZOyOVt5hy
+ 3YLEyRBSap/7etts=
+X-Received: by 2002:a5d:4d51:: with SMTP id a17mr1885088wru.285.1584124930482; 
+ Fri, 13 Mar 2020 11:42:10 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsPSfJJWGlZeTRLMSIZDbub+F3/I7ELWsUxQYHzbN1CTOauijAugkpIvd3Dl5CCINUMPWZllw==
+X-Received: by 2002:a5d:4d51:: with SMTP id a17mr1885052wru.285.1584124930178; 
+ Fri, 13 Mar 2020 11:42:10 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id k18sm30787429wru.94.2020.03.13.11.42.03
+ by smtp.gmail.com with ESMTPSA id f207sm19637801wme.9.2020.03.13.11.42.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:42:04 -0700 (PDT)
+ Fri, 13 Mar 2020 11:42:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] qapi/misc: Move add_client command with chardev code
-Date: Fri, 13 Mar 2020 19:41:46 +0100
-Message-Id: <20200313184153.11275-3-philmd@redhat.com>
+Subject: [PATCH 3/9] qapi/misc: Restrict LostTickPolicy enum to machine code
+Date: Fri, 13 Mar 2020 19:41:47 +0100
+Message-Id: <20200313184153.11275-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313184153.11275-1-philmd@redhat.com>
 References: <20200313184153.11275-1-philmd@redhat.com>
@@ -78,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,106 +105,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qapi/char.json     | 32 ++++++++++++++++++++++++++++++++
- qapi/misc.json     | 32 --------------------------------
- monitor/qmp-cmds.c |  1 +
- 3 files changed, 33 insertions(+), 32 deletions(-)
+ qapi/machine.json            | 32 ++++++++++++++++++++++++++++++++
+ qapi/misc.json               | 32 --------------------------------
+ include/hw/rtc/mc146818rtc.h |  2 +-
+ hw/core/qdev-properties.c    |  1 +
+ hw/i386/kvm/i8254.c          |  2 +-
+ 5 files changed, 35 insertions(+), 34 deletions(-)
 
-diff --git a/qapi/char.json b/qapi/char.json
-index 6907b2bfdb..8b7baf11eb 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -572,3 +572,35 @@
- { 'event': 'VSERPORT_CHANGE',
-   'data': { 'id': 'str',
-             'open': 'bool' } }
+diff --git a/qapi/machine.json b/qapi/machine.json
+index de05730704..07ffc07ba2 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -415,6 +415,38 @@
+ ##
+ { 'command': 'query-target', 'returns': 'TargetInfo' }
+=20
++##
++# @LostTickPolicy:
++#
++# Policy for handling lost ticks in timer devices.  Ticks end up getting
++# lost when, for example, the guest is paused.
++#
++# @discard: throw away the missed ticks and continue with future injection
++#           normally.  The guest OS will see the timer jump ahead by a
++#           potentially quite significant amount all at once, as if the
++#           intervening chunk of time had simply not existed; needless to
++#           say, such a sudden jump can easily confuse a guest OS which is
++#           not specifically prepared to deal with it.  Assuming the guest
++#           OS can deal correctly with the time jump, the time in the gues=
+t
++#           and in the host should now match.
++#
++# @delay: continue to deliver ticks at the normal rate.  The guest OS will
++#         not notice anything is amiss, as from its point of view time wil=
+l
++#         have continued to flow normally.  The time in the guest should n=
+ow
++#         be behind the time in the host by exactly the amount of time dur=
+ing
++#         which ticks have been missed.
++#
++# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
++#        The guest OS will not notice anything is amiss, as from its point
++#        of view time will have continued to flow normally.  Once the time=
+r
++#        has managed to catch up with all the missing ticks, the time in
++#        the guest and in the host should match.
++#
++# Since: 2.0
++##
++{ 'enum': 'LostTickPolicy',
++  'data': ['discard', 'delay', 'slew' ] }
 +
-+##
-+# @add_client:
-+#
-+# Allow client connections for VNC, Spice and socket based
-+# character devices to be passed in to QEMU via SCM_RIGHTS.
-+#
-+# @protocol: protocol name. Valid names are "vnc", "spice" or the
-+#            name of a character device (eg. from -chardev id=3DXXXX)
-+#
-+# @fdname: file descriptor name previously passed via 'getfd' command
-+#
-+# @skipauth: whether to skip authentication. Only applies
-+#            to "vnc" and "spice" protocols
-+#
-+# @tls: whether to perform TLS. Only applies to the "spice"
-+#       protocol
-+#
-+# Returns: nothing on success.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "add_client", "arguments": { "protocol": "vnc",
-+#                                              "fdname": "myclient" } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'add_client',
-+  'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
-+            '*tls': 'bool' } }
+ ##
+ # @NumaOptionsType:
+ #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index c18fe681fb..e84e6823e9 100644
+index e84e6823e9..f827bdc8f6 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -39,38 +39,6 @@
- { 'enum': 'LostTickPolicy',
-   'data': ['discard', 'delay', 'slew' ] }
+@@ -7,38 +7,6 @@
+=20
+ { 'include': 'common.json' }
 =20
 -##
--# @add_client:
+-# @LostTickPolicy:
 -#
--# Allow client connections for VNC, Spice and socket based
--# character devices to be passed in to QEMU via SCM_RIGHTS.
+-# Policy for handling lost ticks in timer devices.  Ticks end up getting
+-# lost when, for example, the guest is paused.
 -#
--# @protocol: protocol name. Valid names are "vnc", "spice" or the
--#            name of a character device (eg. from -chardev id=3DXXXX)
+-# @discard: throw away the missed ticks and continue with future injection
+-#           normally.  The guest OS will see the timer jump ahead by a
+-#           potentially quite significant amount all at once, as if the
+-#           intervening chunk of time had simply not existed; needless to
+-#           say, such a sudden jump can easily confuse a guest OS which is
+-#           not specifically prepared to deal with it.  Assuming the guest
+-#           OS can deal correctly with the time jump, the time in the gues=
+t
+-#           and in the host should now match.
 -#
--# @fdname: file descriptor name previously passed via 'getfd' command
+-# @delay: continue to deliver ticks at the normal rate.  The guest OS will
+-#         not notice anything is amiss, as from its point of view time wil=
+l
+-#         have continued to flow normally.  The time in the guest should n=
+ow
+-#         be behind the time in the host by exactly the amount of time dur=
+ing
+-#         which ticks have been missed.
 -#
--# @skipauth: whether to skip authentication. Only applies
--#            to "vnc" and "spice" protocols
+-# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
+-#        The guest OS will not notice anything is amiss, as from its point
+-#        of view time will have continued to flow normally.  Once the time=
+r
+-#        has managed to catch up with all the missing ticks, the time in
+-#        the guest and in the host should match.
 -#
--# @tls: whether to perform TLS. Only applies to the "spice"
--#       protocol
--#
--# Returns: nothing on success.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "add_client", "arguments": { "protocol": "vnc",
--#                                              "fdname": "myclient" } }
--# <- { "return": {} }
--#
+-# Since: 2.0
 -##
--{ 'command': 'add_client',
--  'data': { 'protocol': 'str', 'fdname': 'str', '*skipauth': 'bool',
--            '*tls': 'bool' } }
+-{ 'enum': 'LostTickPolicy',
+-  'data': ['discard', 'delay', 'slew' ] }
 -
  ##
  # @NameInfo:
  #
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 864cbfa32e..67d95b4af7 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -31,6 +31,7 @@
- #include "sysemu/block-backend.h"
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 10c93a096a..58a7748c66 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -9,7 +9,7 @@
+ #ifndef HW_RTC_MC146818RTC_H
+ #define HW_RTC_MC146818RTC_H
+=20
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qemu/queue.h"
+ #include "qemu/timer.h"
+ #include "hw/isa/isa.h"
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 2047114fca..59380ed761 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -4,6 +4,7 @@
  #include "qapi/error.h"
- #include "qapi/qapi-commands-block.h"
-+#include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
+ #include "hw/pci/pci.h"
+ #include "qapi/qapi-types-block.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ctype.h"
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index 876f5aa6fa..22ba6149b5 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -25,7 +25,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include <linux/kvm.h>
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
 --=20
 2.21.1
 
