@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83521847FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:23:35 +0100 (CET)
-Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B9518482D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 14:31:48 +0100 (CET)
+Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCkHm-0007cG-PG
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40221)
+	id 1jCkPj-0002zb-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 09:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCkH2-0007Bu-5o
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:22:49 -0400
+ (envelope-from <bounces@canonical.com>) id 1jCkOj-0002XW-Sf
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:30:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCkH0-0006uQ-Oi
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:22:48 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40024)
+ (envelope-from <bounces@canonical.com>) id 1jCkOi-00087O-FD
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:30:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38974)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCkH0-0006to-KL
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:22:46 -0400
-Received: by mail-oi1-x243.google.com with SMTP id y71so9281606oia.7
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 06:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tIhT9RkNi26F0uPQlkj3e3uT3165a4NlVSG8CphaLgA=;
- b=ow3w9gt5xf72XgWeJus6Eau+zDF5iSi1jRgpIyQjulggBEeyjNcomrHCAVAjonm/Fg
- aWej3qyff93MUWGVVdTdz6CQ80Req4JEAV3Cacn+1JVCUPUEYQ5rn0Doy7o7NWyJI2XM
- GTk8lU9yqE3+/K9ht2dQXKg1+1B+bNwVXN0Zu2u/436vSQe1LoDqu+Dv3jpQhIFVzcsG
- u80DViZsfmZLpmrtQ9oKDJr0sP+jggzSplcmwx3jIKDUmOEEAhftJruTJqHh/LtXJzTZ
- uVeNzlKQFlZ6Je0CrRkxWsSMVKq0dSn+MCdjdeRGFBL/iIWdkV4pMZmZ6/u/3AoTaXTq
- 6fPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tIhT9RkNi26F0uPQlkj3e3uT3165a4NlVSG8CphaLgA=;
- b=K8DyVIhwwsp54VQBnwLV5egqZcVlQysdwteUNfSY+VOfdNvghK/0+qyQGsuKUxY2Jc
- 6SIFw3AWO01WjE98u5DCIlCNTaxGwUQQbXfGXtcqD7hnzVMbX2d1MB6xtNEbKWydumyL
- epR3Fl1gXP1L8pujliqNS48HnXTRPpWx3PWHZdldAcfhNwtqzTtIfVl8jbaGA+7VYOx3
- DbQsGyvfCcLIYwotiWxG/a4/ElxM67YFfNdC8SUnG7qfTBSET6B2NwAXA9ChVQV4cEZX
- NHBxIEIbwu0jlaQrcQ5zfEw38cv0RXBnMnsVR1kbAOPz53MjhHEuCwJih6PPAJstx68k
- KX4Q==
-X-Gm-Message-State: ANhLgQ0VSw4abbTiEDA1rzsbakFOvFSLluMgHz4IBdEHvcQriP2Azz/T
- qFIKotkAY8sGAj3kxwqTB+PP3iqYngLxrizI021fMA==
-X-Google-Smtp-Source: ADFU+vuw757g5uqBXv/760hR8doaaC43Sen6T0X9qYCHY8cB2Rle2Gjw+Fn48zqZGTl49JkGS2a/NkeeR1MotmQJjMA=
-X-Received: by 2002:aca:c695:: with SMTP id w143mr7018079oif.98.1584105765809; 
- Fri, 13 Mar 2020 06:22:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jCkOi-00083N-8o
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:30:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jCkOg-0005zD-Hh
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 13:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7714F2E80CB
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 13:30:42 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200313123014.206828-1-dgilbert@redhat.com>
- <CAFEAcA8KPovUiycEr2hHb4LP0SL-hBCTNgkA9KFKMb6FQTceuQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8KPovUiycEr2hHb4LP0SL-hBCTNgkA9KFKMb6FQTceuQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Mar 2020 13:22:34 +0000
-Message-ID: <CAFEAcA9pBMC0W9cHKmq5nttPcA9qpYofSvkZEnmkGuS2g_vPTA@mail.gmail.com>
-Subject: Re: [PATCH] exec/rom_reset: Free rom data during inmigrate skip
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Mar 2020 13:24:25 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158410586595.18971.5431714954795746149.malone@chaenomeles.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fef2f5fc83bcc32dc9830913a51c042a67d04604
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,61 +66,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yan Vugenfirer <yvugenfi@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 at 13:21, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 13 Mar 2020 at 12:31, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > Commit 355477f8c73e9 skips rom reset when we're an incoming migration
-> > so as not to overwrite shared ram in the ignore-shared migration
-> > optimisation.
-> > However, it's got an unexpected side effect that because it skips
-> > freeing the ROM data, when rom_reset gets called later on, after
-> > migration (e.g. during a reboot), the ROM does get reset to the original
-> > file contents.  Because of seabios/x86's weird reboot process
-> > this confuses a reboot into hanging after a migration.
-> >
-> > Fixes: 355477f8c73e9 ("migration: do not rom_reset() during incoming migration")
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1809380
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  hw/core/loader.c | 23 ++++++++++++++---------
-> >  1 file changed, 14 insertions(+), 9 deletions(-)
-> >
->
-> >      QTAILQ_FOREACH(rom, &roms, next) {
-> >          if (rom->fw_file) {
-> >              continue;
-> >          }
-> > +        /*
-> > +         * We don't need to fill in the RAM with ROM data because we'll fill
-> > +         * the data in during the next incoming migration in all cases.  Note
-> > +         * that some of those RAMs can actually be modified by the guest on ARM
-> > +         * so this is probably the only right thing to do here.
-> > +         */
-> > +        if (runstate_check(RUN_STATE_INMIGRATE) && rom->data) {
-> > +            /*
-> > +             * Free it so that a rom_reset after migration doesn't overwrite a
-> > +             * potentially modified 'rom'.
-> > +             */
-> > +            rom_free_data(rom);
->
-> Shouldn't this condition match the condition in rom_reset()
-> for when we call rom_free_data()? You want the behaviour
-> on a subsequent reset to match the behaviour you'd get
-> if you did a reset on the source end without the migration.
+The vmx things make me wonder about a fix Paolo did a while ago for
+enabling inidivudal vmx features rather than vmx as a whole;  but I
+can't remember if that was a kernel or qemu fix.
 
-Wait, this *is* rom_reset(). Now I'm really confused.
+One thing I notice, that may be a red-herring, all of the machine code
+in the errors are 'f3 0f 1e fb' which is the new 'endbr32' security
+instruction - but that's really a rep nop, that I thought old
+instructions can handle anyway??
 
-thanks
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
