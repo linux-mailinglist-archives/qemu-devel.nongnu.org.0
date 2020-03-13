@@ -2,84 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A96184EF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:49:40 +0100 (CET)
-Received: from localhost ([::1]:35486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350E7184F58
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 20:37:04 +0100 (CET)
+Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpNL-0004GD-HO
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35810)
+	id 1jCq7D-0004FW-5G
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 15:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpKi-0001iH-3K
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:58 -0400
+ (envelope-from <prvs=03412eee96=coreyw7@fb.com>) id 1jCq5m-00035v-7J
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 15:35:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpKg-0007BW-VA
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40112
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpKg-0007B5-Qs
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:46:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584125214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZjDGFX22CortiZUqlge2N0NxEGUXl4+FNuK6/r9znhY=;
- b=aeTz4+kxCsOYft0A58Wz54U86sM+vqZaUnV/tKUEznAUzT0DlkHUmSZ/5S38YHSoZGijKb
- rVT2fleBEou/e+TRd5Hu5i50bLgpguAigNqGpAtCedGYwSnoXSHHbLIxW+jnH666WlKH5b
- uLITzMYiNfmbzKRKQkVUHXp9XHJEWn4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-WDZY-YydMTSqCqY67emnkw-1; Fri, 13 Mar 2020 14:46:52 -0400
-X-MC-Unique: WDZY-YydMTSqCqY67emnkw-1
-Received: by mail-wm1-f69.google.com with SMTP id n25so3306703wmi.5
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:46:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MzlEjNxFW1B+Pna0KCr1+SoRrDU73//S4ZgYAyodi0I=;
- b=j3ycLo/92Uqbe5R4KabAZqbzMF5a2R3MQmABQkVQZv9lisVnBL2vI3ZJUfA8P92Vj2
- 6CEnLIx3YevA7SerFcRNisxXo0r+QqQxTn4m16oCiKDDHZeLtR5Sew0bIZ2k9dnGqoX0
- 1g2s//EAqBv1MlIXv/VO/nLxfOX4StUv3na8s/SnLuDjai+sPhttJNq0rNRt2uzkOww6
- AzQgTVDTT4cPQpoKtGcOk/oI9Q5UQj+qY2sUvJx90wPFlfYetYcTXyil0kZQecyByk5j
- 6lJWHTMw4ZBkxTsC9zXilB5p1jBJV+RjYY+Fgp3l1BrMcOrdvpKnGhsDDNrdD1FeQdlL
- Z7YQ==
-X-Gm-Message-State: ANhLgQ0WrCJlTjao184Wa/tyQav0a/fmkY+xh4otJS1aFx/NNWQLQIst
- I7GB77+ehHIyCxPnIWiHGJwsTv9xiUI8eN0sg1pu91g6lKKlCYTrhxpT6rm4Sdatrry+rkslCs6
- iM9MOTnMPgY7ZGeM=
-X-Received: by 2002:a05:600c:414a:: with SMTP id
- h10mr12617592wmm.53.1584125211441; 
- Fri, 13 Mar 2020 11:46:51 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvcIC8/s7jd8O3tECp2CeXvZNxiE2MgUCHjeZn3Z52bR9hHkvOIdNxLCv9hZxa0j6svSZO9Wg==
-X-Received: by 2002:a05:600c:414a:: with SMTP id
- h10mr12617573wmm.53.1584125211201; 
- Fri, 13 Mar 2020 11:46:51 -0700 (PDT)
-Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id b6sm24080755wrv.43.2020.03.13.11.46.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:46:50 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] qapi: Restrict code generated for user-mode
-Date: Fri, 13 Mar 2020 19:46:07 +0100
-Message-Id: <20200313184607.11792-10-philmd@redhat.com>
+ (envelope-from <prvs=03412eee96=coreyw7@fb.com>) id 1jCq5l-0007fC-5o
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 15:35:34 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:27802)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=03412eee96=coreyw7@fb.com>)
+ id 1jCq5i-0007V9-RE; Fri, 13 Mar 2020 15:35:31 -0400
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02DIpHdY006021; Fri, 13 Mar 2020 12:35:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=facebook; bh=Gqb4Kplo7iJD/dasTcAzF0Oly2xDUuR1CKIfVh084u4=;
+ b=K5odHVzPyk9qxx4hjcbyNr2MzjMZ8fn3QNRUbFnsJBijT2n8Fibui/uytEtIIyZgS93z
+ qYNAOaD1vPuBfBM1KA5mmdDqTGIDL2SlzaBchnwU6DQx4FyRr/cZG4M/nCs/kuYZyvRc
+ 4qk1L8CRSuIG8A/2GyksQDh/s9tzIHEQWw0= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2yqt7t5y03-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 13 Mar 2020 12:35:18 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.172) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1847.3; Fri, 13 Mar 2020 12:35:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K5pyWJs9s23k5Ris/Ej4HVK3G8cbj7t5SeAn5wjeQzbklwp1oLU5tiPxrPqd33IAXbkY/TAslH8I/sbeuHdrcwOPdVokAScjDSZdnTmT77EjF4kAouRK7l/a7aY28ncHLhk7lxXw4yQjpyO85yjkGSdOgxGltTuKuskGaWQeg2GhFC0SUIyNzFSJTQwBwGLNc4gd6FSD8Dn1rfPLjq+Y93YhBpoS8qFQfycnxdTQctOZPlYcJBoW5dNSG086Qy7jiTimeJZxdgYv4gHqidwncMJ7e9YdjUNru1hR/9JqIrdl1BHTMa/FsywVbWGEwEh57O5juOL3OwHxQvVkQbczww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gqb4Kplo7iJD/dasTcAzF0Oly2xDUuR1CKIfVh084u4=;
+ b=LaRQkPTJ7ZaBRo3+7JNQkzMf+m0Kln1HPuO33q2saYLMumBq27/uLJPt7cIHn378tlAwsPUdi1JkfH8iDrL6ju3F3EkVtuA2j0zx9yShw/5JHR203w8SO8RAU/UzcX3QRAkiHDAWWZ37CNyxR/UBjC2lk3dyhfZWLkcDPoI5541fNW02YLsWmJ4PZh1kCP4sXc1Lh7wsay+9RUBQMKwOPn4JHeliyhFHUmMQ3t+lSo3bp/dbroTrOweHL9UHMtEs2PrnkPxr/hk/Dx88nXpkJaCKW5WaPmh77ohOmQQY5unZ8m+TQx8dV6/LMAaGNDdnh4cTPTTYnyv0siPQH3KwJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gqb4Kplo7iJD/dasTcAzF0Oly2xDUuR1CKIfVh084u4=;
+ b=aCFHEbb1Fj7uSKUozBYX9z7kDR/oiA4Yhnn0a6ODLVIMG81D2G9SgaWBlInAeAzuOApiM190223ZKOKruxQ3HfCXmNxSTdqJEX+B+pb6Goxu++4C/e/fWUxvPk5GRwjnGnbGZbheoVL2rwYMN34b8S5p+TTRfR67Cer/wNFCc+4=
+Received: from MW3PR15MB4041.namprd15.prod.outlook.com (2603:10b6:303:47::20)
+ by MW3PR15MB3803.namprd15.prod.outlook.com (2603:10b6:303:41::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18; Fri, 13 Mar
+ 2020 19:35:16 +0000
+Received: from MW3PR15MB4041.namprd15.prod.outlook.com
+ ([fe80::c110:c47c:2e3b:af31]) by MW3PR15MB4041.namprd15.prod.outlook.com
+ ([fe80::c110:c47c:2e3b:af31%5]) with mapi id 15.20.2814.018; Fri, 13 Mar 2020
+ 19:35:16 +0000
+From: Corey Wharton <coreyw7@fb.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH v2 0/2] Support different CPU types for the sifive_e machine
+Date: Fri, 13 Mar 2020 12:34:27 -0700
+Message-Id: <20200313193429.8035-1-coreyw7@fb.com>
 X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200313184607.11792-1-philmd@redhat.com>
-References: <20200313184607.11792-1-philmd@redhat.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR21CA0060.namprd21.prod.outlook.com
+ (2603:10b6:300:db::22) To MW3PR15MB4041.namprd15.prod.outlook.com
+ (2603:10b6:303:47::20)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from coreyw7-fedora-MJ09BKJM.thefacebook.com
+ (2620:10d:c090:500::7:96c0) by MWHPR21CA0060.namprd21.prod.outlook.com
+ (2603:10b6:300:db::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.6 via Frontend
+ Transport; Fri, 13 Mar 2020 19:35:15 +0000
+X-Mailer: git-send-email 2.21.1
+X-Originating-IP: [2620:10d:c090:500::7:96c0]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7af22d59-4e31-47ca-6b52-08d7c785a82e
+X-MS-TrafficTypeDiagnostic: MW3PR15MB3803:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW3PR15MB38039CBD7E4266E0245C63E593FA0@MW3PR15MB3803.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 034119E4F6
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(346002)(366004)(376002)(136003)(396003)(199004)(186003)(16526019)(66476007)(5660300002)(66556008)(2616005)(66946007)(2906002)(36756003)(8936002)(81156014)(81166006)(8676002)(6506007)(4744005)(1076003)(6666004)(52116002)(4326008)(478600001)(86362001)(6512007)(54906003)(316002)(6486002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MW3PR15MB3803;
+ H:MW3PR15MB4041.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Cvgf+AF24C+UJMZ938O+dxJT9L53Psuz1Fz1nM1RKGTL0TZV4TWmlZLVk3ld+ppGIN/s+ak466z59OuyrWt7nWgMzUx9BCZrMf3e6cfoK97nUGiCxli7b0JXgjrRIJ3M0VEv2mtqt0rcv/M9lYlBAQhKfzfSLYzmJXlN2ndwGwzQ5yixlT1JH6JiJtuWpsjjFhyQ3iiszlXffpGwji6l24/so0x3fDrEpvxZVBJ6s8DkbWl1fcGaq/4QetWxjQ/xLrR/UtYdhFuxYcqc/ByvV5b+oOoYe1HU/C4LSLx+WjozbEVXf9G9VS9HQWJfe6+lDULQoWS7s1MPG3ANwPlIs5BhthFptsTjTb3QHFdHHax2HXMYr6Ky4ANAkBDkbxq8hUKT/Ksli11bUvXVBnHPZrno2J1Y7JJHYFFQTBqVBGp5yHh6NdDOqM1c5sQaHCxu
+X-MS-Exchange-AntiSpam-MessageData: yb+3Chni6/3362jCT4yhQS4aXLO2Ksoq7rHoyjDa0ixXSiOHW284CfGEB/54LC3ZbdtqSjxzEyxG0Qj53TrgkqbHh1z1wdqiL0eQEv86VdSSOmleTGNnXzr7G3yS5eGpcqQntWVpmkbpytFdNcuiqg3LU04/pnlOiLGnjArPKHYQOzOVthKxRtJ/119MLyC7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7af22d59-4e31-47ca-6b52-08d7c785a82e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2020 19:35:16.4537 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: guclRID4ucQwaP3VBLG7lPmNbzLy+3QTzibBGt0Gp3NRx8jHq1amFZPaHdzplw+c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB3803
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-13_08:2020-03-12,
+ 2020-03-13 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ clxscore=1011 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ phishscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=444
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003130090
+X-FB-Internal: deliver
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 67.231.145.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,79 +133,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>, Corey Wharton <coreyw7@fb.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A lot of QAPI generated code is never used by user-mode.
+The purpose of this patch set is to allow the sifive_e machine to run
+with different CPU targets to enable different ISA entensions. To that
+end it also introduces a new sifive-e34 CPU type which provides the
+same ISA as sifive-e31, with the addition of the single precision
+floating-point extension (f). The default CPU for the sifive_e machine
+is unchanged.
 
-Rewrite the QAPI_COMMON_MODULES variable one entry per line,
-and split it in 3 groups:
-- always used
-- use by system-mode or tools
-- only used by system-mode
+v2: Added missing RVU flag
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- qapi/Makefile.objs | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+Corey Wharton (2):
+  riscv: sifive_e: Support changing CPU type
+  target/riscv: Add a sifive-e34 cpu type
 
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index 4673ab7490..18435db426 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -5,11 +5,40 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
- util-obj-y +=3D qmp-event.o
- util-obj-y +=3D qapi-util.o
-=20
--QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
-rypto
--QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
--QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
- tpm
--QAPI_COMMON_MODULES +=3D trace transaction ui
-+QAPI_COMMON_MODULES =3D common
-+QAPI_COMMON_MODULES +=3D introspect
-+QAPI_COMMON_MODULES +=3D misc
-+
-+ifeq ($(CONFIG_SOFTMMU),y)
-+QAPI_COMMON_MODULES +=3D audio
-+QAPI_COMMON_MODULES +=3D dump
-+QAPI_COMMON_MODULES +=3D machine
-+QAPI_COMMON_MODULES +=3D migration
-+QAPI_COMMON_MODULES +=3D net rocker
-+QAPI_COMMON_MODULES +=3D qdev
-+QAPI_COMMON_MODULES +=3D rdma
-+QAPI_COMMON_MODULES +=3D tpm
-+QAPI_COMMON_MODULES +=3D trace
-+QAPI_COMMON_MODULES +=3D ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
-+endif # CONFIG_SOFTMMU
-+
-+ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
-+QAPI_COMMON_MODULES +=3D authz
-+QAPI_COMMON_MODULES +=3D block
-+QAPI_COMMON_MODULES +=3D block-core
-+QAPI_COMMON_MODULES +=3D char
-+QAPI_COMMON_MODULES +=3D control
-+QAPI_COMMON_MODULES +=3D crypto
-+QAPI_COMMON_MODULES +=3D error
-+QAPI_COMMON_MODULES +=3D job
-+QAPI_COMMON_MODULES +=3D pragma
-+QAPI_COMMON_MODULES +=3D qom
-+QAPI_COMMON_MODULES +=3D run-state
-+QAPI_COMMON_MODULES +=3D sockets
-+QAPI_COMMON_MODULES +=3D transaction
-+endif # CONFIG_SOFTMMU || CONFIG_TOOLS
-+
- QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
-=20
- util-obj-y +=3D qapi-builtin-types.o
---=20
+ hw/riscv/sifive_e.c |  3 ++-
+ target/riscv/cpu.c  | 10 ++++++++++
+ target/riscv/cpu.h  |  1 +
+ 3 files changed, 13 insertions(+), 1 deletion(-)
+
+-- 
 2.21.1
 
 
