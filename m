@@ -2,133 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6F3184199
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:40:54 +0100 (CET)
-Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3D31841A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:46:45 +0100 (CET)
+Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCew9-0000ly-7I
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47503)
+	id 1jCf1o-00056F-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCeuz-0008Fj-VR
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:39:43 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jCf0a-0004ae-Ar
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:45:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jCeuy-0005O8-Ra
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:39:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12400)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jCeuy-0005LO-Jy
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:39:40 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02D7YTm1032277
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 03:39:39 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yquenq1ch-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 03:39:39 -0400
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Fri, 13 Mar 2020 07:39:35 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Mar 2020 07:39:32 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02D7dWJD63176840
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Mar 2020 07:39:32 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAFC5A405F;
- Fri, 13 Mar 2020 07:39:31 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6C0D9A405B;
- Fri, 13 Mar 2020 07:39:31 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.119])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 13 Mar 2020 07:39:31 +0000 (GMT)
-Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
- correctly
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-14-frankja@linux.ibm.com>
- <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
- <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Fri, 13 Mar 2020 08:39:31 +0100
+ (envelope-from <pbonzini@redhat.com>) id 1jCf0Y-0005Bh-QR
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:45:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55594
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jCf0Y-00059Y-Ka
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:45:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584085525;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ev1LaletljAcFZDUIc2HtfAsv7u1N5T2U0c9M7bw5lw=;
+ b=QN9+AHqegZr9nZLj4zFDt9bc6Jj6Ahu1iJa3Q9iNwd+eWlh8+tcoojtAVzC4aFTJNLb+R4
+ aM8b7fDbX0+upJrNlvOMstylPwT/B4zkfgaTI5/RQnsCGPYd7qE1lfq9lfzNPDAmPTGHI4
+ EaVieTFe4ZQdVWWxe4bCjrUlpPQkWdI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-e1em2ej8M-6ErMGTxKXgvw-1; Fri, 13 Mar 2020 03:45:24 -0400
+X-MC-Unique: e1em2ej8M-6ErMGTxKXgvw-1
+Received: by mail-wm1-f72.google.com with SMTP id a13so3107334wme.7
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 00:45:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ev1LaletljAcFZDUIc2HtfAsv7u1N5T2U0c9M7bw5lw=;
+ b=a5rEYIZd/Ywy5zLArneg6aRikB9jyO7ftS2AT6twns8lU9b12NpQq1M3MHZxOroPEv
+ KAzOS/3qvq8fQziGrLIHDANrCYrO1PLhM2IlCMJLSNoVsJm6TnNYFftZU+eu/9HY81kc
+ 4rW1im55oA4ZkrO76K9EU/jXBApjGlic6Y/qs1yiHREM+5ld6H8CXF6VUjmrUPKohpYC
+ mew3TBDaLEUavlJExSOPbs8smtr3079PGHz0ilo1/3Ufk4clnAnFfZGXyAhpRoqzuCcm
+ iQ7qmajLrdKsXcwi4agMh0WhrOWmsI5HHhBQPPnpXFnWsQRc8DCrAPICcLjED0kJuXEc
+ KA6w==
+X-Gm-Message-State: ANhLgQ1WUxljQnhXUG/p+suHu8UoLlWPHOXlxxvDKzemSpwNb9WBqh9h
+ 1UBk6w26EGcRsOWgkEW7K2IVrJlVbcFqHCNCGTLdTHp4ayYIRvFft1QeSppM7BRcicGTnIE4Kkm
+ pVI5iZwl/4ys+HTc=
+X-Received: by 2002:adf:e3cc:: with SMTP id k12mr12085820wrm.266.1584085523128; 
+ Fri, 13 Mar 2020 00:45:23 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsOp/nAuDaPuH0+tKKVu8VZ2G+oh3toFW21OglVBuxYlNegzHo8cLQtWGJx2kvBqYL+ul8WYQ==
+X-Received: by 2002:adf:e3cc:: with SMTP id k12mr12085799wrm.266.1584085522923; 
+ Fri, 13 Mar 2020 00:45:22 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7de8:5d90:2370:d1ac?
+ ([2001:b07:6468:f312:7de8:5d90:2370:d1ac])
+ by smtp.gmail.com with ESMTPSA id c11sm79036800wrp.51.2020.03.13.00.45.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Mar 2020 00:45:22 -0700 (PDT)
+Subject: Re: [PATCH] modules: load modules from versioned /var/run dir
+To: Michael Tokarev <mjt@tls.msk.ru>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>
+References: <20200306132648.27577-1-christian.ehrhardt@canonical.com>
+ <20200310093910.GB140737@stefanha-x1.localdomain>
+ <ab8aaa05-8738-f789-8281-cc9d4235a225@msgid.tls.msk.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d837839f-e1e5-3cbf-b8fd-a2a6cc4ad5ce@redhat.com>
+Date: Fri, 13 Mar 2020 08:45:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ab8aaa05-8738-f789-8281-cc9d4235a225@msgid.tls.msk.ru>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031307-0008-0000-0000-0000035C7D4A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031307-0009-0000-0000-00004A7DC96E
-Message-Id: <31082618-8c87-db32-8421-de78fa97c959@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-13_03:2020-03-11,
- 2020-03-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=0 clxscore=1015
- adultscore=0 bulkscore=0 phishscore=0 mlxlogscore=966 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003130041
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -140,51 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
+Cc: pkg-qemu-devel@lists.alioth.debian.org,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12.03.20 17:13, Janosch Frank wrote:
-> On 3/12/20 4:51 PM, Christian Borntraeger wrote:
->> On 11.03.20 14:21, Janosch Frank wrote:
->>> For protected VMs status storing is not done by QEMU anymore.
->>>
->>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>> Reviewed-by: David Hildenbrand <david@redhat.com>
->>
->>
->>> ---
->>>  target/s390x/helper.c | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
->>> index ed726849114f2f35..5022df8812d406c9 100644
->>> --- a/target/s390x/helper.c
->>> +++ b/target/s390x/helper.c
->>> @@ -25,6 +25,7 @@
->>>  #include "qemu/timer.h"
->>>  #include "qemu/qemu-print.h"
->>>  #include "hw/s390x/ioinst.h"
->>> +#include "hw/s390x/pv.h"
->>>  #include "sysemu/hw_accel.h"
->>>  #include "sysemu/runstate.h"
->>>  #ifndef CONFIG_USER_ONLY
->>> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
->>>      hwaddr len = sizeof(*sa);
->>>      int i;
->>>  
->>> +    /* Storing will occur on next SIE entry for protected VMs */
->>
->> Maybe ... next SIE entry of the sending CPU .... 
->> ?
+On 13/03/20 08:34, Michael Tokarev wrote:
+>> The use of /var/run makes me a little uneasy.  I guess it's related to
+>> wanting to uninstall the old package so the .so in their original
+>> location cannot be used (even if they had a versioned path)?
 > 
-> Well that would be the current cpu, right?
-> So:
-> /* For PVMs storing will occur when this cpu enters SIE again */
+> BTW, this is /run nowadays, not /var/run, as far as I can see.
 
-ack.
+/var/run is still symlinked to /run.  QEMU generally uses /var/run,
+though we could consider switching sooner or later.
+
+Paolo
 
 
