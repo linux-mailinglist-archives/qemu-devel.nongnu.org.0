@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B32E184601
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 12:32:25 +0100 (CET)
-Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3807D184610
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 12:41:15 +0100 (CET)
+Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCiYB-0001Tc-Pz
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 07:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35598)
+	id 1jCigk-00063z-1V
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 07:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51009)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jCiWw-0000bL-IJ
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:31:07 -0400
+ (envelope-from <groug@kaod.org>) id 1jCifl-0005Aw-FM
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jCiWv-0002sr-6b
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:31:06 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43056)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jCiWu-0002pA-S0
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:31:04 -0400
-Received: by mail-ot1-x344.google.com with SMTP id a6so9651477otb.10
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 04:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=if/r4vhAG7a4GtEP5IdX/8TjTnZVSBtb22Vph6IFxds=;
- b=RVxZbbhXqIb/UUD71GKEx0l4ixmcZhVCjXZs9f6Z8Nloai3TcaSitIBzOWGALDXAqV
- Q5ccBG3l6h2/LwLLVNAy0bANYqLrWvM2xD7nrioBAQf0qwD2eEt26P10Muj+eMdjkddV
- 31xzu88veHngwrPj08T9MdcihS2RXq6GHRzYzt0y7/8dXzAISxPiYozoA9CIGApleMJY
- vll82BAhe2scJJoG0NbWIvZLpsdthe+bki7TAtF7V3w5x/E4T1UKuJERcfBPrpSDjOa9
- UE5mAIVDw1KxkaMwKB9kOmyPQc4ew3Zs66CEVM5rqstf0Hwv0KS6TPmSd05L39qneuEX
- PRrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=if/r4vhAG7a4GtEP5IdX/8TjTnZVSBtb22Vph6IFxds=;
- b=mmKEFCYUgOiL59W56814VrkDF9JVWVj7WRIQnxNk10hsm4yIzH2bp2brcjdZ4j0zGs
- lZL0mWAY79F1i1lvJdwA0T4lvJk0L0uUyZldm+ipVl177BfVDB3rf7l8TNexglwiVCO4
- /pnMJp1sJcampdCW7C1LBh3u935CPOUuL9AHznwKieqEOzP3u7ss2kZpnI0nY+9vAe+Z
- cqvz2XwhQjZx5LTZ+AGeyyGQjy5bzGseTdFBbiUm5nD2pXcNwFofteFxm5+1QvxxPFSD
- +MOBazxHmcYg+4dVdL/N9A/jiusexEYxa5y+/BaDWd+bEt0TfV8s0ulBDhPlB7513TpD
- Yoow==
-X-Gm-Message-State: ANhLgQ01GcbjXK/IWSrvQIuqf5RuOw++ojr2lt7DMwcYDr5+Ne+9DJgY
- 9yxfFEJFFc93XmlcMMAglS38VXTGTAA0PIkGgfk6NQ==
-X-Google-Smtp-Source: ADFU+vu5/FKfSmmbkyhf0WACghwf/J7mf02Wjz4MdB/8YCHIakVrrTagmUpmP6kU+R/3XHbQzNwcls/sF+E1rP1g2UI=
-X-Received: by 2002:a9d:1d43:: with SMTP id m61mr1574284otm.91.1584099062575; 
- Fri, 13 Mar 2020 04:31:02 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1jCifk-0001NT-DK
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:13 -0400
+Received: from 7.mo68.mail-out.ovh.net ([46.105.63.230]:43235)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jCifk-0001J7-7w
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 07:40:12 -0400
+Received: from player746.ha.ovh.net (unknown [10.108.35.223])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 6072815F83D
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 12:40:10 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player746.ha.ovh.net (Postfix) with ESMTPSA id 929E110774105;
+ Fri, 13 Mar 2020 11:40:05 +0000 (UTC)
+Date: Fri, 13 Mar 2020 12:40:03 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 2/4] spapr: Move creation of ibm,architecture-vec-5
+ property
+Message-ID: <20200313124003.63b87232@bahia.home>
+In-Reply-To: <20200313040539.819138-3-david@gibson.dropbear.id.au>
+References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
+ <20200313040539.819138-3-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200313032327.7008-1-kuhn.chenqun@huawei.com>
-In-Reply-To: <20200313032327.7008-1-kuhn.chenqun@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Mar 2020 11:30:51 +0000
-Message-ID: <CAFEAcA9mOppVAYgP4LJeuSBgiaYN16H+JHbKr7OTFvjbvD-3wA@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/net/imx_fec: write TGSR and TCSR3 in
- imx_enet_write()
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 8149545001532561894
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvjedgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejgeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.63.230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,84 +57,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Euler Robot <euler.robot@huawei.com>
+Cc: qemu-ppc@nongnu.org, philmd@redhat.com, clg@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 at 03:23, Chen Qun <kuhn.chenqun@huawei.com> wrote:
->
-> The current code causes clang static code analyzer generate warning:
-> hw/net/imx_fec.c:858:9: warning: Value stored to 'value' is never read
->         value =3D value & 0x0000000f;
->         ^       ~~~~~~~~~~~~~~~~~~
-> hw/net/imx_fec.c:864:9: warning: Value stored to 'value' is never read
->         value =3D value & 0x000000fd;
->         ^       ~~~~~~~~~~~~~~~~~~
->
-> According to the definition of the function, the two =E2=80=9Cvalue=E2=80=
-=9D assignments
->  should be written to registers.
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+On Fri, 13 Mar 2020 15:05:37 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> This is currently called from spapr_dt_cas_updates() which is a hang over
+> from when we created this only as a diff to the DT at CAS time.  Now that
+> we fully rebuild the DT at CAS time, just create it alon with the rest
+
+s/alon/along
+
+> of the properties in /chosen.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Peter Chubb <peter.chubb@nicta.com.au>
->
-> v1->v2:
->   The register 'ENET_TGSR' write-1-to-clear timer flag.
->   The register 'ENET_TCSRn' 7bit(TF) write-1-to-clear timer flag.
->
-> v2->v3:
->   Optimize code style, based on discussions with Peter.
-> ---
->  hw/net/imx_fec.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-> index 6a124a154a..3547975710 100644
-> --- a/hw/net/imx_fec.c
-> +++ b/hw/net/imx_fec.c
-> @@ -854,14 +854,17 @@ static void imx_enet_write(IMXFECState *s, uint32_t=
- index, uint32_t value)
->          s->regs[index] =3D value & 0x00007f7f;
->          break;
->      case ENET_TGSR:
-> -        /* implement clear timer flag */
-> -        value =3D value & 0x0000000f;
-> +        /* implement clear timer flag, 0-3 bits W1C, reserved bits write=
- zero */
-> +        s->regs[index] &=3D ~(value & 0x0000000f) & 0x0000000f;
+>  hw/ppc/spapr.c | 26 +++-----------------------
+>  1 file changed, 3 insertions(+), 23 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 66289ffef5..fc28d9df25 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -889,22 +889,6 @@ static int spapr_rng_populate_dt(void *fdt)
+>      return ret ? -1 : 0;
+>  }
+>  
+> -static int spapr_dt_cas_updates(SpaprMachineState *spapr, void *fdt,
+> -                                SpaprOptionVector *ov5_updates)
 
-I think I must have misunderstood what you were
-suggesting in your previous question.
-The final & with 0x0000000f here is unnecessary, because
-those bits are always 0 in s->regs[index] anyway.
+Heh I should have looked at patch 2 before commenting on patch 1 :)
 
->          break;
->      case ENET_TCSR0:
->      case ENET_TCSR1:
->      case ENET_TCSR2:
->      case ENET_TCSR3:
-> -        value =3D value & 0x000000fd;
-> +        /* 7 bits W1C, reserved bits write zero */
-> +        s->regs[index] &=3D ~(value & 0x00000080) & 0x000000ff;
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Similarly here.
+> -{
+> -    int offset;
+> -
+> -    offset = fdt_path_offset(fdt, "/chosen");
+> -    if (offset < 0) {
+> -        offset = fdt_add_subnode(fdt, 0, "chosen");
+> -        if (offset < 0) {
+> -            return offset;
+> -        }
+> -    }
+> -    return spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> -                                  "ibm,architecture-vec-5");
+> -}
+> -
+>  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>  {
+>      MachineState *ms = MACHINE(spapr);
+> @@ -1115,6 +1099,9 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt)
+>  
+>      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+>  
+> +    _FDT(spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> +                                "ibm,architecture-vec-5"));
+> +
+>      g_free(stdout_path);
+>      g_free(bootlist);
+>  }
+> @@ -1263,13 +1250,6 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
+>          }
+>      }
+>  
+> -    /* ibm,client-architecture-support updates */
+> -    ret = spapr_dt_cas_updates(spapr, fdt, spapr->ov5_cas);
+> -    if (ret < 0) {
+> -        error_report("couldn't setup CAS properties fdt");
+> -        exit(1);
+> -    }
+> -
+>      if (smc->dr_phb_enabled) {
+>          ret = spapr_dt_drc(fdt, 0, NULL, SPAPR_DR_CONNECTOR_TYPE_PHB);
+>          if (ret < 0) {
 
-> +        s->regs[index] &=3D ~0x0000007d; /* writable fields */
-> +        s->regs[index] |=3D (value & 0x0000007d);
->          break;
->      case ENET_TCCR0:
->      case ENET_TCCR1:
-
-Short answer: my recommendation is to use the expressions
-I recommended that you use...
-
-thanks
--- PMM
 
