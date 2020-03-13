@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F161848AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:01:22 +0100 (CET)
-Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707AD1848C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:05:54 +0100 (CET)
+Received: from localhost ([::1]:59428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCksJ-0005Uo-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:01:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41373)
+	id 1jCkwj-0004UA-G3
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <remi@remlab.net>) id 1jCkql-0004sp-DJ
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:59:44 -0400
+ (envelope-from <remi@remlab.net>) id 1jCkrb-0005bJ-Fk
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:00:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <remi@remlab.net>) id 1jCkqk-0005mO-9Z
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 09:59:43 -0400
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:49706
+ (envelope-from <remi@remlab.net>) id 1jCkrZ-00015x-Pf
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 10:00:35 -0400
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:49722
  helo=ns207790.ip-94-23-215.eu) by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <remi@remlab.net>)
- id 1jCkqe-0005KY-PC; Fri, 13 Mar 2020 09:59:36 -0400
-Received: from basile.remlab.net (87-92-31-51.bb.dnainternet.fi [87.92.31.51])
- (Authenticated sender: remi)
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id A19B85FAA2;
- Fri, 13 Mar 2020 14:59:30 +0100 (CET)
-From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
+ id 1jCkrR-0000XA-D7; Fri, 13 Mar 2020 10:00:29 -0400
+Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 166455FAA2;
+ Fri, 13 Mar 2020 15:00:24 +0100 (CET)
+From: =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>
 To: qemu-arm@nongnu.org
-Subject: [RFC] [PATCH 0/5] ARMv8.5-MemTag disassembly
-Date: Fri, 13 Mar 2020 15:59:29 +0200
-Message-ID: <2159383.tmy0LfLZHX@basile.remlab.net>
-Organization: Remlab
+Subject: [PATCH 1/5] target/arm: MTE processor state
+Date: Fri, 13 Mar 2020 16:00:19 +0200
+Message-Id: <20200313140023.83844-1-remi@remlab.net>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2001:41d0:2:5a1a::
@@ -51,55 +50,132 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-	Hello,
+From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-The following changes since commit d4f7d56759f7c75270c13d5f3f5f736a9558929c:
+This adds architectural definitions and internal processor state for
+the ARMv8.5-MemTag, a.k.a. MTE extension:
+ - a new ISAR register feature field,
+ - new ATA flag bits for tag access in SCR, HCR and SCTLR registers,
+ - a TCO flag in PSTATE and SPSR_ELx registers,
+ - new CPU registers for pseudo-random tags generation.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
-312' into staging (2020-03-12 17:34:34 +0000)
+Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+---
+ target/arm/cpu.h        | 17 +++++++++++++++++
+ target/arm/helper-a64.c |  2 ++
+ target/arm/helper.c     | 17 +++++++++++++++++
+ 3 files changed, 36 insertions(+)
 
-adds support for the ARM MTE compatibility subset (which does not seem to h=
-ave
-an official name) to QEMU user mode and system mode on "max" CPU. This
-corresponds to MTE =3D=3D 1 in the instruction set feature field, and allows
-running code with MTE instructions without actual tag storage.
-
-Similar to the SP alignment checks, it also adds stubs for memory tag checks
-that don't actually do anything at this point and would be optimized out by
-the compiler.
-
-=46or proper storage and checking of memory tags, MTE =3D=3D 2 would be
-necessary. I have some code (on top of this RFC but not included) to add the
-tag allocation logic. But I have no clue how to actually store the tags in =
-QEMU
-system mode at this point, so it's mostly dead code.
-
-In user mode, it seems impossible anyway, as tags are indexed by physical, =
-not
-virtual address and QEMU cannot know which virtual memory address may
-physically alias another within the user process.
-
-=2D---------------------------------------------------------------
-R=C3=A9mi Denis-Courmont (5):
-      target/arm: MTE processor state
-      target/arm: MTE user mode disassembly
-      target/arm: MTE unprivileged system mode disassembly
-      target/arm: MTE privileged system mode assembly
-      target/arm: MTE tag check stubs
-
- target/arm/cpu.h           |  17 +++
- target/arm/cpu64.c         |   5 +
- target/arm/helper-a64.c    |   2 +
- target/arm/helper.c        | 118 +++++++++++++++
- target/arm/translate-a64.c | 370 +++++++++++++++++++++++++++++++++++++++++=
-+---
- 5 files changed, 494 insertions(+), 18 deletions(-)
-
-=2D-=20
-=D0=A0=D0=B5=D0=BC=D0=B8 =D0=94=D1=91=D0=BD=D0=B8-=D0=9A=D1=83=D1=80=D0=BC=
-=D0=BE=D0=BD
-http://www.remlab.net/
-
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 4ffd991b6f..e19ce0d746 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -267,6 +267,14 @@ typedef struct CPUARMState {
+     uint64_t elr_el[4]; /* AArch64 exception link regs  */
+     uint64_t sp_el[4]; /* AArch64 banked stack pointers */
+=20
++    /* Tag registers */
++    uint64_t gcr_el1;
++    uint64_t rgsr_el1;
++    union {
++        uint64_t tfsre0_el1;
++        uint64_t tfsr_el[4];
++    };
++
+     /* System control coprocessor (cp15) */
+     struct {
+         uint32_t c0_cpuid;
+@@ -1259,6 +1267,7 @@ void pmu_init(ARMCPU *cpu);
+ #define PSTATE_SS (1U << 21)
+ #define PSTATE_PAN (1U << 22)
+ #define PSTATE_UAO (1U << 23)
++#define PSTATE_TCO (1U << 25)
+ #define PSTATE_V (1U << 28)
+ #define PSTATE_C (1U << 29)
+ #define PSTATE_Z (1U << 30)
+@@ -2949,6 +2958,9 @@ typedef enum ARMASIdx {
+     ARMASIdx_S =3D 1,
+ } ARMASIdx;
+=20
++#define ARM_LOG2_TAG_GRANULE 4
++#define ARM_TAG_GRANULE (UINT64_C(1) << ARM_LOG2_TAG_GRANULE)
++
+ /* Return the Exception Level targeted by debug exceptions. */
+ static inline int arm_debug_target_el(CPUARMState *env)
+ {
+@@ -3777,6 +3789,11 @@ static inline bool isar_feature_aa64_bti(const ARM=
+ISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) !=3D 0;
+ }
+=20
++static inline unsigned isar_feature_aa64_mte(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE);
++}
++
+ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >=3D 4 &&
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index bc0649a44a..5c8d081d4c 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -1036,6 +1036,8 @@ void HELPER(exception_return)(CPUARMState *env, uin=
+t64_t new_pc)
+=20
+         env->aarch64 =3D 1;
+         spsr &=3D aarch64_pstate_valid_mask(&env_archcpu(env)->isar);
++        /* TCO bit is copied from CPSR, not SPSR */
++        spsr =3D (spsr & ~PSTATE_TCO) | (env->pstate & PSTATE_TCO);
+         pstate_write(env, spsr);
+         if (!arm_singlestep_active(env)) {
+             env->pstate &=3D ~PSTATE_SS;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b61ee73d18..38500e4f92 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1993,6 +1993,9 @@ static void scr_write(CPUARMState *env, const ARMCP=
+RegInfo *ri, uint64_t value)
+     if (cpu_isar_feature(aa64_pauth, cpu)) {
+         valid_mask |=3D SCR_API | SCR_APK;
+     }
++    if (cpu_isar_feature(aa64_mte, cpu) >=3D 2) {
++        valid_mask |=3D SCR_ATA;
++    }
+=20
+     /* Clear all-context RES0 bits.  */
+     value &=3D valid_mask;
+@@ -4691,6 +4694,11 @@ static void sctlr_write(CPUARMState *env, const AR=
+MCPRegInfo *ri,
+         value &=3D ~SCTLR_M;
+     }
+=20
++    if (cpu_isar_feature(aa64_mte, cpu) < 2) {
++        /* ATA and ATA0 are RES0 without full MTE implementation */
++        value &=3D ~(SCTLR_ATA | SCTLR_ATA0);
++    }
++
+     raw_write(env, ri, value);
+     /* ??? Lots of these bits are not implemented.  */
+     /* This may enable/disable the MMU, so do a TLB flush.  */
+@@ -5226,6 +5234,15 @@ static void do_hcr_write(CPUARMState *env, uint64_=
+t value, uint64_t valid_mask)
+         if (cpu_isar_feature(aa64_pauth, cpu)) {
+             valid_mask |=3D HCR_API | HCR_APK;
+         }
++        switch (cpu_isar_feature(aa64_mte, cpu)) {
++        default:
++            valid_mask |=3D HCR_ATA;
++            /* fall through */
++        case 1:
++            valid_mask |=3D HCR_DCT;
++        case 0:
++            break;
++        }
+     }
+=20
+     /* Clear RES0 bits.  */
+--=20
+2.25.1
 
 
