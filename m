@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F2518498D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:38:05 +0100 (CET)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E48718499D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:40:51 +0100 (CET)
+Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jClRs-0003La-AY
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:38:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
+	id 1jClUY-0001Bd-8F
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
- id 1jCf3X-0005sr-Gq
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:48:32 -0400
+ id 1jCf3c-0005uf-4w
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
- id 1jCf3W-0001av-GE
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:48:31 -0400
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:14992
+ id 1jCf3a-0001pE-U2
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:48:36 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:40254
  helo=mx0b-0016f401.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
- id 1jCf3U-0001V8-Bv; Fri, 13 Mar 2020 03:48:28 -0400
+ id 1jCf3Y-0001cn-1v; Fri, 13 Mar 2020 03:48:32 -0400
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
  by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02D7jiWU023265; Fri, 13 Mar 2020 00:48:25 -0700
+ 02D7iq87022612; Fri, 13 Mar 2020 00:48:29 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0818; bh=qEAv6IpogbV7YHyhj2l6c6UjHVFT5rsptczJTs+HL8c=;
- b=iVe/ipo9dIab1/pUn/lnIVmy4KIa8U27A5fis00wp1p4uP/uOmGRhxYR+0SeyxXOHMiP
- wxx0cFsla1+tHkYQYpfvb/YPDBChdTjBA72EjOFutrfpn2j+vqWdaiTSRh0TYzL8BEo6
- ZN2y3SIAboiedJYH3Nktlt2GrMqugdZXU6vdk7RIsGdzz4ZXzN26N4XydQ/abQBl1nIC
- okJbYuPYvqxJGebVX0l0FVmWG+ZpPPRJZtPRV9ZZeLR8zkYW5b1fHVvWYohWGL2T+8hJ
- MZbLjK1XNke+UogX94Uf0XvubseVxQcbLMM4ynsfTVkUlKnJ0qMTi88veOGKQYshOQPF fg== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
- by mx0a-0016f401.pphosted.com with ESMTP id 2yqt7t2v9w-3
+ content-type; s=pfpt0818; bh=LjywHiaOudVGVnAq4/GJUsKnBJ0ndzG4l4NRbVS34SM=;
+ b=c6eKI6qkQOk7Iv5QgcY/3s1pJzpwcfn4kj+4NYmjwgMSD8S4p5IiNwGrEHwlpz8n1hd/
+ qPyHPw8TWxXQnBbdhR+040pX2/jxWeGjyOl933BCU0npAP6VnhQnfqKveipwMk7hugK1
+ 9olorg6YkcC/tRT4fdM1ra/ESE313aP88FZ05t9l/3z4Ggi3DTu90A7s8RyPv0zisLeY
+ FWCdlYcTa7aky3vxW6Ox8xPjF1hISYtCSvYmyAJF+kpQW0pIQ5uqTH3PHbYwbQDigFIh
+ zqE6MViHKzf4x+iikQjtDWHGhJRKBiu1Bu+Kv+JzIHZBc4sXhR0eqF8SOY0rLKoKjNY+ xQ== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+ by mx0a-0016f401.pphosted.com with ESMTP id 2yqt7t2va8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Fri, 13 Mar 2020 00:48:25 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 13 Mar 2020 00:48:24 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 13 Mar 2020 00:48:23 -0700
+ Fri, 13 Mar 2020 00:48:29 -0700
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 13 Mar
+ 2020 00:48:28 -0700
 Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH04.marvell.com
  (10.93.176.84) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 13 Mar 2020 00:48:18 -0700
+ Transport; Fri, 13 Mar 2020 00:48:24 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
  <kevin.tian@intel.com>, <mst@redhat.com>, <tnowicki@marvell.com>,
  <drjones@redhat.com>, <linuc.decode@gmail.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <bharatb.linux@gmail.com>
-Subject: [PATCH v7 1/5] hw/vfio/common: Remove error print on mmio region
- translation by viommu
-Date: Fri, 13 Mar 2020 13:18:07 +0530
-Message-ID: <20200313074811.27175-2-bbhushan2@marvell.com>
+Subject: [PATCH v7 2/5] virtio-iommu: Add iommu notifier for map/unmap
+Date: Fri, 13 Mar 2020 13:18:08 +0530
+Message-ID: <20200313074811.27175-3-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200313074811.27175-1-bbhushan2@marvell.com>
 References: <20200313074811.27175-1-bbhushan2@marvell.com>
@@ -84,30 +80,163 @@ Cc: Eric Auger <eric.auger@redhat.com>, Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On ARM, the MSI doorbell is translated by the virtual IOMMU.
-As such address_space_translate() returns the MSI controller
-MMIO region and we get an "iommu map to non memory area"
-message. Let's remove this latter.
+This patch extends VIRTIO_IOMMU_T_MAP/UNMAP request to
+notify registered iommu-notifier. Which will call vfio
+notifier to map/unmap region in iommu.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- hw/vfio/common.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/virtio/trace-events           |  2 +
+ hw/virtio/virtio-iommu.c         | 66 +++++++++++++++++++++++++++++++-
+ include/hw/virtio/virtio-iommu.h |  6 +++
+ 3 files changed, 73 insertions(+), 1 deletion(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 5ca11488d6..c586edf47a 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -426,8 +426,6 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
-                                  &xlat, &len, writable,
-                                  MEMTXATTRS_UNSPECIFIED);
-     if (!memory_region_is_ram(mr)) {
--        error_report("iommu map to non memory area %"HWADDR_PRIx"",
--                     xlat);
-         return false;
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index e83500bee9..d94a1cd8a3 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -73,3 +73,5 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
+ virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
+ virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
+ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
++virtio_iommu_notify_map(const char *name, uint64_t iova, uint64_t paddr, uint64_t map_size) "mr=%s iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64
++virtio_iommu_notify_unmap(const char *name, uint64_t iova, uint64_t map_size) "mr=%s iova=0x%"PRIx64" size=0x%"PRIx64
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 4cee8083bc..e51344a53e 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -123,6 +123,38 @@ static gint interval_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
      }
+ }
  
++static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr iova,
++                                    hwaddr paddr, hwaddr size)
++{
++    IOMMUTLBEntry entry;
++
++    entry.target_as = &address_space_memory;
++    entry.addr_mask = size - 1;
++
++    entry.iova = iova;
++    trace_virtio_iommu_notify_map(mr->parent_obj.name, iova, paddr, size);
++    entry.perm = IOMMU_RW;
++    entry.translated_addr = paddr;
++
++    memory_region_notify_iommu(mr, 0, entry);
++}
++
++static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr iova,
++                                      hwaddr size)
++{
++    IOMMUTLBEntry entry;
++
++    entry.target_as = &address_space_memory;
++    entry.addr_mask = size - 1;
++
++    entry.iova = iova;
++    trace_virtio_iommu_notify_unmap(mr->parent_obj.name, iova, size);
++    entry.perm = IOMMU_NONE;
++    entry.translated_addr = 0;
++
++    memory_region_notify_iommu(mr, 0, entry);
++}
++
+ static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
+ {
+     if (!ep->domain) {
+@@ -307,9 +339,12 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+     uint64_t virt_start = le64_to_cpu(req->virt_start);
+     uint64_t virt_end = le64_to_cpu(req->virt_end);
+     uint32_t flags = le32_to_cpu(req->flags);
++    hwaddr size = virt_end - virt_start + 1;
++    VirtioIOMMUNotifierNode *node;
+     VirtIOIOMMUDomain *domain;
+     VirtIOIOMMUInterval *interval;
+     VirtIOIOMMUMapping *mapping;
++    VirtIOIOMMUEndpoint *ep;
+ 
+     if (flags & ~VIRTIO_IOMMU_MAP_F_MASK) {
+         return VIRTIO_IOMMU_S_INVAL;
+@@ -339,9 +374,37 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+ 
+     g_tree_insert(domain->mappings, interval, mapping);
+ 
++    /* All devices in an address-space share mapping */
++    QLIST_FOREACH(node, &s->notifiers_list, next) {
++        QLIST_FOREACH(ep, &domain->endpoint_list, next) {
++            if (ep->id == node->iommu_dev->devfn) {
++                virtio_iommu_notify_map(&node->iommu_dev->iommu_mr,
++                                        virt_start, phys_start, size);
++            }
++        }
++    }
++
+     return VIRTIO_IOMMU_S_OK;
+ }
+ 
++static void virtio_iommu_remove_mapping(VirtIOIOMMU *s, VirtIOIOMMUDomain *domain,
++                                        VirtIOIOMMUInterval *interval)
++{
++    VirtioIOMMUNotifierNode *node;
++    VirtIOIOMMUEndpoint *ep;
++
++    QLIST_FOREACH(node, &s->notifiers_list, next) {
++        QLIST_FOREACH(ep, &domain->endpoint_list, next) {
++            if (ep->id == node->iommu_dev->devfn) {
++                virtio_iommu_notify_unmap(&node->iommu_dev->iommu_mr,
++                                          interval->low,
++                                          interval->high - interval->low + 1);
++            }
++        }
++    }
++    g_tree_remove(domain->mappings, (gpointer)(interval));
++}
++
+ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+                               struct virtio_iommu_req_unmap *req)
+ {
+@@ -368,7 +431,7 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+         uint64_t current_high = iter_key->high;
+ 
+         if (interval.low <= current_low && interval.high >= current_high) {
+-            g_tree_remove(domain->mappings, iter_key);
++            virtio_iommu_remove_mapping(s, domain, iter_key);
+             trace_virtio_iommu_unmap_done(domain_id, current_low, current_high);
+         } else {
+             ret = VIRTIO_IOMMU_S_RANGE;
+@@ -655,6 +718,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+ 
++    QLIST_INIT(&s->notifiers_list);
+     virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
+                 sizeof(struct virtio_iommu_config));
+ 
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+index 6f67f1020a..4539c8ae72 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -44,6 +44,11 @@ typedef struct IOMMUPciBus {
+     IOMMUDevice  *pbdev[0]; /* Parent array is sparse, so dynamically alloc */
+ } IOMMUPciBus;
+ 
++typedef struct VirtioIOMMUNotifierNode {
++    IOMMUDevice *iommu_dev;
++    QLIST_ENTRY(VirtioIOMMUNotifierNode) next;
++} VirtioIOMMUNotifierNode;
++
+ typedef struct VirtIOIOMMU {
+     VirtIODevice parent_obj;
+     VirtQueue *req_vq;
+@@ -56,6 +61,7 @@ typedef struct VirtIOIOMMU {
+     GTree *domains;
+     QemuMutex mutex;
+     GTree *endpoints;
++    QLIST_HEAD(, VirtioIOMMUNotifierNode) notifiers_list;
+ } VirtIOIOMMU;
+ 
+ #endif
 -- 
 2.17.1
 
