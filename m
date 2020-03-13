@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877CC183FE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 05:07:10 +0100 (CET)
-Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE4C183FF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 05:08:26 +0100 (CET)
+Received: from localhost ([::1]:53550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCbbJ-0004gw-AV
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 00:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
+	id 1jCbcX-0006pj-K1
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 00:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jCba7-0003Pg-7c
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 00:05:56 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jCba7-0003Pi-P1
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 00:05:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jCba6-000767-3i
+ (envelope-from <dgibson@ozlabs.org>) id 1jCba6-00076R-4g
  for qemu-devel@nongnu.org; Fri, 13 Mar 2020 00:05:55 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34433)
+Received: from ozlabs.org ([2401:3900:2:1::2]:45881)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jCba5-0006rh-4P; Fri, 13 Mar 2020 00:05:54 -0400
+ id 1jCba5-0006rM-Cy; Fri, 13 Mar 2020 00:05:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48dsYj2Hb5z9sSV; Fri, 13 Mar 2020 15:05:45 +1100 (AEDT)
+ id 48dsYj3P9Tz9sSZ; Fri, 13 Mar 2020 15:05:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584072345;
- bh=lA1CWq6sTkYH0ckLD0jbjNno+xackfvWz9OnWzmHeU4=;
+ bh=ZyGNsReuHLghgU8doLbna1YKekJoPV2uMcvG/SjAWAo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gfs3wPNxtW/ijFL365hm7QA99qkUsyyvuShTxzbSp9UOZpQwIC0u+dR1K6Zr5VGoa
- ERxcdun0ujwsuMTjnZtKBwOjhC0XV6Qr8ZeZDxFYFHud/H2p2xgakJ1FPLEJoWgmwi
- 2ja21SIfHd1MOTbjebS3U8KIkaM1zRmRc8I2paR8=
+ b=CLz67zEwjFhsRlWUROzzbOOezNmrIzOnAspTVRhWIjdQUyg3/ulTFuXyTmJApuLQ5
+ Oahf6FTjFbc7/aDV+1M0pe8MEkiSBjVuAUULCKQzzllVrWl6Pwb2KVQHWC2BK8kV49
+ kqchnSuf2cViQD/WfIA/MNaHd0jM0WWNvxeD/UWM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: groug@kaod.org,
 	clg@kaod.org,
 	philmd@redhat.com
-Subject: [PATCH 2/4] spapr: Move creation of ibm,architecture-vec-5 property
-Date: Fri, 13 Mar 2020 15:05:37 +1100
-Message-Id: <20200313040539.819138-3-david@gibson.dropbear.id.au>
+Subject: [PATCH 3/4] spapr: Rename DT functions to newer naming convention
+Date: Fri, 13 Mar 2020 15:05:38 +1100
+Message-Id: <20200313040539.819138-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200313040539.819138-1-david@gibson.dropbear.id.au>
 References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
@@ -60,69 +60,300 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is currently called from spapr_dt_cas_updates() which is a hang over
-from when we created this only as a diff to the DT at CAS time.  Now that
-we fully rebuild the DT at CAS time, just create it alon with the rest
-of the properties in /chosen.
+In the spapr code we've been gradually moving towards a convention that
+functions which create pieces of the device tree are called spapr_dt_*().
+This patch speeds that along by renaming most of the things that don't ye=
+t
+match that so that they do.
+
+For now we leave the *_dt_populate() functions which are actual methods
+used in the DRCClass::dt_populate method.
+
+While we're there we remove a few comments that don't really say anything
+useful.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 26 +++-----------------------
- 1 file changed, 3 insertions(+), 23 deletions(-)
+ hw/ppc/spapr.c              | 62 +++++++++++++++++--------------------
+ hw/ppc/spapr_ovec.c         |  4 +--
+ include/hw/ppc/spapr_ovec.h |  4 +--
+ 3 files changed, 33 insertions(+), 37 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 66289ffef5..fc28d9df25 100644
+index fc28d9df25..6c32ec3c0a 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -889,22 +889,6 @@ static int spapr_rng_populate_dt(void *fdt)
-     return ret ? -1 : 0;
+@@ -217,10 +217,9 @@ static int spapr_fixup_cpu_numa_dt(void *fdt, int of=
+fset, PowerPCCPU *cpu)
+                           sizeof(associativity));
  }
 =20
--static int spapr_dt_cas_updates(SpaprMachineState *spapr, void *fdt,
--                                SpaprOptionVector *ov5_updates)
--{
--    int offset;
--
--    offset =3D fdt_path_offset(fdt, "/chosen");
--    if (offset < 0) {
--        offset =3D fdt_add_subnode(fdt, 0, "chosen");
--        if (offset < 0) {
--            return offset;
--        }
--    }
--    return spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
--                                  "ibm,architecture-vec-5");
--}
--
- static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+-/* Populate the "ibm,pa-features" property */
+-static void spapr_populate_pa_features(SpaprMachineState *spapr,
+-                                       PowerPCCPU *cpu,
+-                                       void *fdt, int offset)
++static void spapr_dt_pa_features(SpaprMachineState *spapr,
++                                 PowerPCCPU *cpu,
++                                 void *fdt, int offset)
+ {
+     uint8_t pa_features_206[] =3D { 6, 0,
+         0xf6, 0x1f, 0xc7, 0x00, 0x80, 0xc0 };
+@@ -315,8 +314,8 @@ static void add_str(GString *s, const gchar *s1)
+     g_string_append_len(s, s1, strlen(s1) + 1);
+ }
+=20
+-static int spapr_populate_memory_node(void *fdt, int nodeid, hwaddr star=
+t,
+-                                       hwaddr size)
++static int spapr_dt_memory_node(void *fdt, int nodeid, hwaddr start,
++                                hwaddr size)
+ {
+     uint32_t associativity[] =3D {
+         cpu_to_be32(0x4), /* length */
+@@ -391,9 +390,8 @@ spapr_get_drconf_cell(uint32_t seq_lmbs, uint64_t bas=
+e_addr,
+     return elem;
+ }
+=20
+-/* ibm,dynamic-memory-v2 */
+-static int spapr_populate_drmem_v2(SpaprMachineState *spapr, void *fdt,
+-                                   int offset, MemoryDeviceInfoList *dim=
+ms)
++static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fd=
+t,
++                                      int offset, MemoryDeviceInfoList *=
+dimms)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+     uint8_t *int_buf, *cur_index;
+@@ -484,8 +482,7 @@ static int spapr_populate_drmem_v2(SpaprMachineState =
+*spapr, void *fdt,
+     return 0;
+ }
+=20
+-/* ibm,dynamic-memory */
+-static int spapr_populate_drmem_v1(SpaprMachineState *spapr, void *fdt,
++static int spapr_dt_dynamic_memory(SpaprMachineState *spapr, void *fdt,
+                                    int offset, MemoryDeviceInfoList *dim=
+ms)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+@@ -554,7 +551,8 @@ static int spapr_populate_drmem_v1(SpaprMachineState =
+*spapr, void *fdt,
+  * Refer to docs/specs/ppc-spapr-hotplug.txt for the documentation
+  * of this device tree node.
+  */
+-static int spapr_populate_drconf_memory(SpaprMachineState *spapr, void *=
+fdt)
++static int spapr_dt_dynamic_reconfiguration_memory(SpaprMachineState *sp=
+apr,
++                                                   void *fdt)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+     int nb_numa_nodes =3D machine->numa_state->num_nodes;
+@@ -593,9 +591,9 @@ static int spapr_populate_drconf_memory(SpaprMachineS=
+tate *spapr, void *fdt)
+     /* ibm,dynamic-memory or ibm,dynamic-memory-v2 */
+     dimms =3D qmp_memory_device_list();
+     if (spapr_ovec_test(spapr->ov5_cas, OV5_DRMEM_V2)) {
+-        ret =3D spapr_populate_drmem_v2(spapr, fdt, offset, dimms);
++        ret =3D spapr_dt_dynamic_memory_v2(spapr, fdt, offset, dimms);
+     } else {
+-        ret =3D spapr_populate_drmem_v1(spapr, fdt, offset, dimms);
++        ret =3D spapr_dt_dynamic_memory(spapr, fdt, offset, dimms);
+     }
+     qapi_free_MemoryDeviceInfoList(dimms);
+=20
+@@ -626,7 +624,7 @@ static int spapr_populate_drconf_memory(SpaprMachineS=
+tate *spapr, void *fdt)
+     return ret;
+ }
+=20
+-static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
++static int spapr_dt_memory(SpaprMachineState *spapr, void *fdt)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+     SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+@@ -649,7 +647,7 @@ static int spapr_populate_memory(SpaprMachineState *s=
+papr, void *fdt)
+         if (!mem_start) {
+             /* spapr_machine_init() checks for rma_size <=3D node0_size
+              * already */
+-            spapr_populate_memory_node(fdt, i, 0, spapr->rma_size);
++            spapr_dt_memory_node(fdt, i, 0, spapr->rma_size);
+             mem_start +=3D spapr->rma_size;
+             node_size -=3D spapr->rma_size;
+         }
+@@ -661,7 +659,7 @@ static int spapr_populate_memory(SpaprMachineState *s=
+papr, void *fdt)
+                 sizetmp =3D 1ULL << ctzl(mem_start);
+             }
+=20
+-            spapr_populate_memory_node(fdt, i, mem_start, sizetmp);
++            spapr_dt_memory_node(fdt, i, mem_start, sizetmp);
+             node_size -=3D sizetmp;
+             mem_start +=3D sizetmp;
+         }
+@@ -672,7 +670,7 @@ static int spapr_populate_memory(SpaprMachineState *s=
+papr, void *fdt)
+         int ret;
+=20
+         g_assert(smc->dr_lmb_enabled);
+-        ret =3D spapr_populate_drconf_memory(spapr, fdt);
++        ret =3D spapr_dt_dynamic_reconfiguration_memory(spapr, fdt);
+         if (ret) {
+             return ret;
+         }
+@@ -681,8 +679,8 @@ static int spapr_populate_memory(SpaprMachineState *s=
+papr, void *fdt)
+     return 0;
+ }
+=20
+-static void spapr_populate_cpu_dt(CPUState *cs, void *fdt, int offset,
+-                                  SpaprMachineState *spapr)
++static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
++                         SpaprMachineState *spapr)
  {
      MachineState *ms =3D MACHINE(spapr);
-@@ -1115,6 +1099,9 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
+     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+@@ -782,7 +780,7 @@ static void spapr_populate_cpu_dt(CPUState *cs, void =
+*fdt, int offset,
+                           page_sizes_prop, page_sizes_prop_size)));
+     }
+=20
+-    spapr_populate_pa_features(spapr, cpu, fdt, offset);
++    spapr_dt_pa_features(spapr, cpu, fdt, offset);
+=20
+     _FDT((fdt_setprop_cell(fdt, offset, "ibm,chip-id",
+                            cs->cpu_index / vcpus_per_socket)));
+@@ -816,7 +814,7 @@ static void spapr_populate_cpu_dt(CPUState *cs, void =
+*fdt, int offset,
+                               pcc->lrg_decr_bits)));
+ }
+=20
+-static void spapr_populate_cpus_dt_node(void *fdt, SpaprMachineState *sp=
+apr)
++static void spapr_dt_cpus(void *fdt, SpaprMachineState *spapr)
+ {
+     CPUState **rev;
+     CPUState *cs;
+@@ -860,13 +858,13 @@ static void spapr_populate_cpus_dt_node(void *fdt, =
+SpaprMachineState *spapr)
+         offset =3D fdt_add_subnode(fdt, cpus_offset, nodename);
+         g_free(nodename);
+         _FDT(offset);
+-        spapr_populate_cpu_dt(cs, fdt, offset, spapr);
++        spapr_dt_cpu(cs, fdt, offset, spapr);
+     }
+=20
+     g_free(rev);
+ }
+=20
+-static int spapr_rng_populate_dt(void *fdt)
++static int spapr_dt_rng(void *fdt)
+ {
+     int node;
+     int ret;
+@@ -1099,8 +1097,7 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
 r, void *fdt)
 =20
      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
 =20
-+    _FDT(spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
-+                                "ibm,architecture-vec-5"));
-+
+-    _FDT(spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+-                                "ibm,architecture-vec-5"));
++    _FDT(spapr_dt_ovec(fdt, chosen, spapr->ov5_cas, "ibm,architecture-ve=
+c-5"));
+=20
      g_free(stdout_path);
      g_free(bootlist);
- }
-@@ -1263,13 +1250,6 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bo=
-ol reset, size_t space)
+@@ -1181,7 +1178,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, boo=
+l reset, size_t space)
+     /* /interrupt controller */
+     spapr_irq_dt(spapr, spapr_max_server_number(spapr), fdt, PHANDLE_INT=
+C);
+=20
+-    ret =3D spapr_populate_memory(spapr, fdt);
++    ret =3D spapr_dt_memory(spapr, fdt);
+     if (ret < 0) {
+         error_report("couldn't setup memory nodes in fdt");
+         exit(1);
+@@ -1191,7 +1188,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, boo=
+l reset, size_t space)
+     spapr_dt_vdevice(spapr->vio_bus, fdt);
+=20
+     if (object_resolve_path_type("", TYPE_SPAPR_RNG, NULL)) {
+-        ret =3D spapr_rng_populate_dt(fdt);
++        ret =3D spapr_dt_rng(fdt);
+         if (ret < 0) {
+             error_report("could not set up rng device in the fdt");
+             exit(1);
+@@ -1206,8 +1203,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, boo=
+l reset, size_t space)
          }
      }
 =20
--    /* ibm,client-architecture-support updates */
--    ret =3D spapr_dt_cas_updates(spapr, fdt, spapr->ov5_cas);
--    if (ret < 0) {
--        error_report("couldn't setup CAS properties fdt");
--        exit(1);
--    }
--
-     if (smc->dr_phb_enabled) {
-         ret =3D spapr_dt_drc(fdt, 0, NULL, SPAPR_DR_CONNECTOR_TYPE_PHB);
-         if (ret < 0) {
+-    /* cpus */
+-    spapr_populate_cpus_dt_node(fdt, spapr);
++    spapr_dt_cpus(fdt, spapr);
+=20
+     if (smc->dr_lmb_enabled) {
+         _FDT(spapr_dt_drc(fdt, 0, NULL, SPAPR_DR_CONNECTOR_TYPE_LMB));
+@@ -3400,8 +3396,8 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachi=
+neState *spapr,
+     addr =3D spapr_drc_index(drc) * SPAPR_MEMORY_BLOCK_SIZE;
+     node =3D object_property_get_uint(OBJECT(drc->dev), PC_DIMM_NODE_PRO=
+P,
+                                     &error_abort);
+-    *fdt_start_offset =3D spapr_populate_memory_node(fdt, node, addr,
+-                                                   SPAPR_MEMORY_BLOCK_SI=
+ZE);
++    *fdt_start_offset =3D spapr_dt_memory_node(fdt, node, addr,
++                                             SPAPR_MEMORY_BLOCK_SIZE);
+     return 0;
+ }
+=20
+@@ -3802,7 +3798,7 @@ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMach=
+ineState *spapr,
+     offset =3D fdt_add_subnode(fdt, 0, nodename);
+     g_free(nodename);
+=20
+-    spapr_populate_cpu_dt(cs, fdt, offset, spapr);
++    spapr_dt_cpu(cs, fdt, offset, spapr);
+=20
+     *fdt_start_offset =3D offset;
+     return 0;
+diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
+index 0ff6d1aeae..dd003f1763 100644
+--- a/hw/ppc/spapr_ovec.c
++++ b/hw/ppc/spapr_ovec.c
+@@ -200,8 +200,8 @@ SpaprOptionVector *spapr_ovec_parse_vector(target_ulo=
+ng table_addr, int vector)
+     return ov;
+ }
+=20
+-int spapr_ovec_populate_dt(void *fdt, int fdt_offset,
+-                           SpaprOptionVector *ov, const char *name)
++int spapr_dt_ovec(void *fdt, int fdt_offset,
++                  SpaprOptionVector *ov, const char *name)
+ {
+     uint8_t vec[OV_MAXBYTES + 1];
+     uint16_t vec_len;
+diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
+index 2bed517a2b..d4dee9e06a 100644
+--- a/include/hw/ppc/spapr_ovec.h
++++ b/include/hw/ppc/spapr_ovec.h
+@@ -72,8 +72,8 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
+ void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
+ bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
+ SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int =
+vector);
+-int spapr_ovec_populate_dt(void *fdt, int fdt_offset,
+-                           SpaprOptionVector *ov, const char *name);
++int spapr_dt_ovec(void *fdt, int fdt_offset,
++                  SpaprOptionVector *ov, const char *name);
+=20
+ /* migration */
+ extern const VMStateDescription vmstate_spapr_ovec;
 --=20
 2.24.1
 
