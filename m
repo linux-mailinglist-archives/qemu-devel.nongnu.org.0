@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC48B184145
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 08:10:57 +0100 (CET)
-Received: from localhost ([::1]:54616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766F6184998
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 15:39:07 +0100 (CET)
+Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCeTB-0004qP-23
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 03:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56894)
+	id 1jClSs-0005uz-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 10:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jCeSK-0004LJ-UN
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:06 -0400
+ (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
+ id 1jCeXt-0006rb-31
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:15:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jCeSI-0001U7-7O
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57244
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jCeSH-0001RV-UV
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:10:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584083401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nyol2i9OCPXQyZQ2DOtx8VgaSwLx9w9v7j4usAOnsbM=;
- b=i4bKrtM8qaGGZwZPabGtvaEsMJYgtDTiKAP2vOWYjyetVmgOimJlRmR3Fp38f0IN/57/nY
- 1uBs0i3QbaPYYID6axe9Vb427mZztIvtmy1L4yVbqYEqmcmPyRfap3LHrAjaJgC7kPhH3A
- LRI5LbWvLqpaGWTleBzTWAl0wDz13VE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-F1qHMyurPUqiclindfhh-A-1; Fri, 13 Mar 2020 03:09:59 -0400
-X-MC-Unique: F1qHMyurPUqiclindfhh-A-1
-Received: by mail-wr1-f69.google.com with SMTP id w6so3822561wrm.16
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 00:09:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Nyol2i9OCPXQyZQ2DOtx8VgaSwLx9w9v7j4usAOnsbM=;
- b=goXA3nXryHk7iiVnA+a8yx/gUeNprlrYCCR5++wC2GgZSMOJDsxL/nF2IBtGad9pNi
- r12s6jQxns78tQtpjJV1JYq0/gYYkreGsj4nk3j8paVp8zTm7246YUDD1+pl/LkLlG4O
- 6Iruw6ydVr2mgFN8ohT1S+0X205tldmGlhwngUX/COAmLC4lve14uWNP4rXANpJdmhlz
- E6pqK5e0M/GcMe2BxYscbDMaUrE66h5ENqAANHBas2nCBHh6SmE1aPgHyJml6FHdpujm
- hRY6pAbWC+jkI84cLfLWXl8+aVluw3Oy1Zan3mSQeCISNsrY5SJK+iRodGe8kwTGwkrT
- S35w==
-X-Gm-Message-State: ANhLgQ3HuxtsviT0Z0Y0kQy25HPAcoycwKtFetjv5Grhmwbf9KW+QQ4J
- SO0xhaMQqxBiZHcMRZpmlrY0xhbz67K5ETO84imvTkrZ2aDWB0sLSuMB2LAHinb4X7oget0392H
- HgFvn0qncZSlVdAs=
-X-Received: by 2002:a05:600c:22c6:: with SMTP id
- 6mr5702174wmg.161.1584083398251; 
- Fri, 13 Mar 2020 00:09:58 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vscyeCP6dzGc6aYo9YUQ2VHfzw4cj7worbFJah5WoF1p3589h95rcgPWYRBJVxqitDBtnuUlQ==
-X-Received: by 2002:a05:600c:22c6:: with SMTP id
- 6mr5702138wmg.161.1584083397953; 
- Fri, 13 Mar 2020 00:09:57 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7de8:5d90:2370:d1ac?
- ([2001:b07:6468:f312:7de8:5d90:2370:d1ac])
- by smtp.gmail.com with ESMTPSA id h13sm21116443wrv.39.2020.03.13.00.09.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Mar 2020 00:09:57 -0700 (PDT)
-Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
-To: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>, rth@twiddle.net
-References: <20200310091443.1326-1-longpeng2@huawei.com>
- <8ed76f64-1a24-a278-51f3-19515e65ff39@redhat.com>
- <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e4dc19fd-bee2-251f-1fef-b41cd6da6c23@redhat.com>
-Date: Fri, 13 Mar 2020 08:09:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
+ id 1jCeXs-00043o-6C
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 03:15:49 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:38816)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=2341787188=bbhushan2@marvell.com>)
+ id 1jCeXp-0003u2-JZ; Fri, 13 Mar 2020 03:15:45 -0400
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02D79r9H009668; Fri, 13 Mar 2020 00:15:41 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=pfpt0818;
+ bh=qEAv6IpogbV7YHyhj2l6c6UjHVFT5rsptczJTs+HL8c=;
+ b=CRVBDdthzIfg6mB2/qjIvAGWr2LqmU68sHLndah0Jsr+8SqVpcyqhJ/waoz5g0LuccaL
+ meMOWbsZtmCpHO6grYW6e251AukvTyBaP7EMJv8x9tyN45fG9bK2rZgqHaS2E0+DuHQ1
+ f0qlX6xXLXh8zPClUafeOA+RmP6k2dVPK/3rG7IeOL02biPf6Zc1F61qhFAE20x3trSQ
+ 2UstkLV2gaNOICiBncwYt+W3WSSgnjsnrN8rzmy3A9Mi+xWElA2A20dAU6sSKXMlGdit
+ IF81S2LGJvdukHzBc5qLJMKxXPuemqv3a+1RUjgYn3YJnBMYQNp+8UvU5YgVcDzhQ8WF ew== 
+Received: from sc-exch01.marvell.com ([199.233.58.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 2yqt7f2s69-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Fri, 13 Mar 2020 00:15:41 -0700
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 13 Mar
+ 2020 00:15:38 -0700
+Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 13 Mar 2020 00:15:34 -0700
+From: Bharat Bhushan <bbhushan2@marvell.com>
+To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
+ <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
+ <kevin.tian@intel.com>, <mst@redhat.com>, <tnowicki@marvell.com>,
+ <drjones@redhat.com>, <linuc.decode@gmail.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <bharatb.linux@gmail.com>
+Subject: [PATCH v6 1/5] hw/vfio/common: Remove error print on mmio region
+ translation by viommu
+Date: Fri, 13 Mar 2020 12:45:28 +0530
+Message-ID: <20200313071532.26533-1-bbhushan2@marvell.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <a6c8eac3-a714-ff6f-2bd6-1fa1d1037a81@huawei.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-13_02:2020-03-11,
+ 2020-03-13 signatures=0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 67.231.156.173
+X-Mailman-Approved-At: Fri, 13 Mar 2020 10:36:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,34 +74,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>
+Cc: Eric Auger <eric.auger@redhat.com>, Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/03/20 02:43, Longpeng (Mike, Cloud Infrastructure Service Product
-Dept.) wrote:
->> diff --git a/cpus.c b/cpus.c
->> index b4f8b84b61..1eb7533a91 100644
->> --- a/cpus.c
->> +++ b/cpus.c
->> @@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
->>  {
->>      CPUState *cpu;
->>
->> +    if (!runstate_is_running()) {
->> +        return;
->> +    }
->> +
-> Hi Paolo,
-> 
-> The runstate of my above sketch is running, so maybe your patch can fix some
-> other issues but not mine ?
+On ARM, the MSI doorbell is translated by the virtual IOMMU.
+As such address_space_translate() returns the MSI controller
+MMIO region and we get an "iommu map to non memory area"
+message. Let's remove this latter.
 
-You're right, do_vm_stop sets the runstate after pause_all_vcpus.  We
-can move that before and it should fix your case too.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+---
+ hw/vfio/common.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Paolo
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 5ca11488d6..c586edf47a 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -426,8 +426,6 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+                                  &xlat, &len, writable,
+                                  MEMTXATTRS_UNSPECIFIED);
+     if (!memory_region_is_ram(mr)) {
+-        error_report("iommu map to non memory area %"HWADDR_PRIx"",
+-                     xlat);
+         return false;
+     }
+ 
+-- 
+2.17.1
 
 
