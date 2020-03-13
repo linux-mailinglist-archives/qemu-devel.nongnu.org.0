@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6BB7184EDC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 19:46:16 +0100 (CET)
-Received: from localhost ([::1]:35362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB76D185044
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 21:26:18 +0100 (CET)
+Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCpK4-0007Hz-0b
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 14:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59337)
+	id 1jCqsr-0001Km-GI
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 16:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCpGO-0001i2-Tx
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1jCqrm-0000jC-6F
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:25:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCpGK-0005jT-9X
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50973
+ (envelope-from <philmd@redhat.com>) id 1jCqrk-0002Vf-0V
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:25:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29674
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCpGK-0005iX-5D
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 14:42:24 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCqrj-0002QH-LC
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:25:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584124943;
+ s=mimecast20190719; t=1584131105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=icvsAljHCvMOvrCYpqizBXKfThlHp6MVycf3qobY6O0=;
- b=ZGShbtDvIXZBGM9kSuPYsiwpYYVhnSxv8Bf3Zozx6NHk8LoalaKcr+WLfUTs291A6UWp3/
- nLCuCbc9W3w7nrtP6HhRavFawGmucJmrwwVWlxbjZputdLkeye0Z/nHKZk0q2UrRPqtTg9
- cauVttPNGKuxUra1vc77t1OHrQJh0po=
+ bh=vo3+ii3JGks+EREaSuL0QZJtIf7IDcvFuLgdh6GeUCY=;
+ b=MhJ7kFSiqSmhhIzWmmqRTZe7KuPtgW8Z2uKRXjcQKyJ+XcMg6U297zLgXPbn1LDV9haFH2
+ q0bB77zfAL0MyLSK72NkscnIXCP5lrE/vsnR+woO2vNIAoxrwLnoaqnFdAT6hXwCxOHHIL
+ A3PdZHCKlaSxADB+qoG36F/LXB4/iJk=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-oFgS-J4_M9uE2arrU2rRFw-1; Fri, 13 Mar 2020 14:42:21 -0400
-X-MC-Unique: oFgS-J4_M9uE2arrU2rRFw-1
-Received: by mail-wr1-f71.google.com with SMTP id c6so4685936wrm.18
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:42:21 -0700 (PDT)
+ us-mta-7-d9n7Kzs7PRiCuNEndPOyMQ-1; Fri, 13 Mar 2020 14:42:40 -0400
+X-MC-Unique: d9n7Kzs7PRiCuNEndPOyMQ-1
+Received: by mail-wr1-f71.google.com with SMTP id n11so4230144wrs.13
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 11:42:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tWYpPXM4ob5O9NHPJVJk5pAHGrKHnH0gc4Gbe7NXkpg=;
- b=ZLyYAJusKGdUKGg0qHoNlpeXaNUAg/YAda8xs7hDa/5HVjnn2bX1mDCzhOo4ftBrps
- hYE/S11CX3Q9UDQanOYoaAFFDM7p94tJr7p32EvCRNXIAwmUg9luaaC4xilYI600/VgD
- 1jHUoz4ZqnbhIba5iFh8jsa4jckUM0xuWIq5nGGMl6PR8TdW6gOnEktnObUJMxNhqpE9
- 50Afnwv7xO+reXhAMCITleeW64qw0cMKf2ljhXvghFh5HkhIfydMfjZ72BoZYGOwJ0G0
- 5qTjcA6xWwu35BWJywgFaVzBlNICkM8s5r6jC3213TMx+HpGnjSRNn0TeJiyoWxXnEv0
- 1Nyg==
-X-Gm-Message-State: ANhLgQ0bIK0ZQGKwjii+hyAB8yhN8ciAjOlYZgh7PSy572hJfg6zuuN0
- PqB284Tpr34/VWULItrmEUAQ3L9IL0K4Zk0TWQ4uX7/7z5lCu4qqRUJCZMQxdKe/+LA1nPu+Vri
- epKaYAicQJWCxopg=
-X-Received: by 2002:a5d:5512:: with SMTP id b18mr18771695wrv.215.1584124940660; 
- Fri, 13 Mar 2020 11:42:20 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs0VUlU5DssYZDnreWuJZwLltrmFuSNqz/2k0gHNsivWnegCyHm4fcmYUDpkxcEbESKsDvhrw==
-X-Received: by 2002:a5d:5512:: with SMTP id b18mr18771675wrv.215.1584124940326; 
- Fri, 13 Mar 2020 11:42:20 -0700 (PDT)
+ bh=Vd+1ataaoa8axdg0o2XU+CePXzHrmwk/HaCKtdgaSRE=;
+ b=Jx2T3iZrQuyHzoDw8AFreP4V5HdYP01WeYd0OReHBqoC3MPQwIFRGyOGhVZamNkfh7
+ Muw9ZEwZI5KqwAOAGq3qzK1vSxISc52DUJyih6M4tQCiGHG4qpSiGwkRvWeqw3vLFHSx
+ y/SIRC7xqpfu2jTiRKYdMpkIh4bXoglQLiL4O5MVOU/y/fuufkwgFTTaiG2lY5dqfi5C
+ gZ0aLVe33iyNpRUK7DvcI+BPhIW6woI1l5LOqUhWg3YbhdyagC4mlo71se2YUodVz0Xo
+ FV8ByXLlfryp8hrnDPK2IZxA+I6qMnra1hnandIf4BYw9K3p2Bc6sn6yGVin01PPz1IX
+ 7/aQ==
+X-Gm-Message-State: ANhLgQ3wgj1vceeZbYhrmFRnxSJnLD6gR33FJIaeeYehWY7+g32w/1BP
+ jHIvc4MOiyoUiUbLNid7p8r0BsLmYd1bGSBwS1FO4mGbws6+iMmHM57ax7wFgD4M9ppiIwlftvj
+ 2xO4HTDbqdgc6NzU=
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr12143245wmh.186.1584124945481; 
+ Fri, 13 Mar 2020 11:42:25 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vv3STGOfMaDr6dWOTdSGIngDWsSE4G8BpfwXSJXFtNpvajRbbCC1M/j4/nvrw7oPhnIjU6CTQ==
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr12143225wmh.186.1584124945261; 
+ Fri, 13 Mar 2020 11:42:25 -0700 (PDT)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id f15sm17861272wmj.25.2020.03.13.11.42.18
+ by smtp.gmail.com with ESMTPSA id e1sm70015939wrx.90.2020.03.13.11.42.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Mar 2020 11:42:19 -0700 (PDT)
+ Fri, 13 Mar 2020 11:42:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] qapi/misc: Move query-uuid command with block code
-Date: Fri, 13 Mar 2020 19:41:49 +0100
-Message-Id: <20200313184153.11275-6-philmd@redhat.com>
+Subject: [PATCH 6/9] qapi/misc: Restrict query-vm-generation-id command to
+ machine code
+Date: Fri, 13 Mar 2020 19:41:50 +0100
+Message-Id: <20200313184153.11275-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200313184153.11275-1-philmd@redhat.com>
 References: <20200313184153.11275-1-philmd@redhat.com>
@@ -106,117 +107,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qapi/block-core.json | 30 ++++++++++++++++++++++++++++++
- qapi/misc.json       | 30 ------------------------------
- block/iscsi.c        |  2 +-
- stubs/uuid.c         |  2 +-
- 4 files changed, 32 insertions(+), 32 deletions(-)
+ qapi/machine.json | 20 ++++++++++++++++++++
+ qapi/misc.json    | 21 ---------------------
+ hw/acpi/vmgenid.c |  2 +-
+ stubs/vmgenid.c   |  2 +-
+ 4 files changed, 22 insertions(+), 23 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 91586fb1fb..5c3fa6c5d0 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5415,3 +5415,33 @@
- { 'command': 'blockdev-snapshot-delete-internal-sync',
-   'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
-   'returns': 'SnapshotInfo' }
+diff --git a/qapi/machine.json b/qapi/machine.json
+index c096efbea3..1a2a4b0d48 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -415,6 +415,26 @@
+ ##
+ { 'command': 'query-target', 'returns': 'TargetInfo' }
+=20
++##
++# @GuidInfo:
++#
++# GUID information.
++#
++# @guid: the globally unique identifier
++#
++# Since: 2.9
++##
++{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
 +
 +##
-+# @UuidInfo:
++# @query-vm-generation-id:
 +#
-+# Guest UUID information (Universally Unique Identifier).
++# Show Virtual Machine Generation ID
 +#
-+# @UUID: the UUID of the guest
-+#
-+# Since: 0.14.0
-+#
-+# Notes: If no UUID was specified for the guest, a null UUID is returned.
++# Since: 2.9
 +##
-+{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
++{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
 +
-+##
-+# @query-uuid:
-+#
-+# Query the guest UUID information.
-+#
-+# Returns: The @UuidInfo for the guest
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-uuid" }
-+# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
-+#
-+##
-+{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true =
-}
+ ##
+ # @LostTickPolicy:
+ #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 74cbe253f2..18cd0719f3 100644
+index 18cd0719f3..8e0902caf4 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -65,36 +65,6 @@
- ##
- { 'command': 'query-kvm', 'returns': 'KvmInfo' }
-=20
--##
--# @UuidInfo:
--#
--# Guest UUID information (Universally Unique Identifier).
--#
--# @UUID: the UUID of the guest
--#
--# Since: 0.14.0
--#
--# Notes: If no UUID was specified for the guest, a null UUID is returned.
--##
--{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
--
--##
--# @query-uuid:
--#
--# Query the guest UUID information.
--#
--# Returns: The @UuidInfo for the guest
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-uuid" }
--# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
--#
--##
--{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true =
-}
--
- ##
- # @IOThreadInfo:
+@@ -1351,24 +1351,3 @@
  #
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 682abd8e09..68ed5cf3f8 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -42,7 +42,7 @@
- #include "qemu/uuid.h"
- #include "sysemu/replay.h"
+ ##
+ { 'command': 'xen-load-devices-state', 'data': {'filename': 'str'} }
+-
+-##
+-# @GuidInfo:
+-#
+-# GUID information.
+-#
+-# @guid: the globally unique identifier
+-#
+-# Since: 2.9
+-##
+-{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
+-
+-##
+-# @query-vm-generation-id:
+-#
+-# Show Virtual Machine Generation ID
+-#
+-# Since: 2.9
+-##
+-{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+-
+diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+index 2df7623d74..2b26bacaf8 100644
+--- a/hw/acpi/vmgenid.c
++++ b/hw/acpi/vmgenid.c
+@@ -12,7 +12,7 @@
+=20
+ #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-block-core.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "crypto/secret.h"
-diff --git a/stubs/uuid.c b/stubs/uuid.c
-index 67f182fa3a..9ef75fdae4 100644
---- a/stubs/uuid.c
-+++ b/stubs/uuid.c
-@@ -1,5 +1,5 @@
++#include "qapi/qapi-commands-machine.h"
+ #include "qemu/module.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/aml-build.h"
+diff --git a/stubs/vmgenid.c b/stubs/vmgenid.c
+index 568e42b064..bfad656c6c 100644
+--- a/stubs/vmgenid.c
++++ b/stubs/vmgenid.c
+@@ -1,6 +1,6 @@
  #include "qemu/osdep.h"
+ #include "qapi/error.h"
 -#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-block-core.h"
- #include "qemu/uuid.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "qapi/qmp/qerror.h"
 =20
- UuidInfo *qmp_query_uuid(Error **errp)
+ GuidInfo *qmp_query_vm_generation_id(Error **errp)
 --=20
 2.21.1
 
