@@ -2,86 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2CE184FEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 21:09:08 +0100 (CET)
-Received: from localhost ([::1]:36396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F56185046
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Mar 2020 21:28:09 +0100 (CET)
+Received: from localhost ([::1]:36526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCqcG-0006jP-2f
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 16:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45514)
+	id 1jCque-0002Ek-7y
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 16:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jCqb1-0006Jo-9W
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:07:52 -0400
+ (envelope-from <brijesh.singh@amd.com>) id 1jCqts-0001ok-2S
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:27:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jCqb0-0003Dc-5p
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:07:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37736
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jCqb0-0003Aw-1M
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:07:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584130069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U0x82LgMbNQm246MDfZYsJBCoDnwEYdgG/yjEKNhCfU=;
- b=JvrtcTho6Z7S+54vrjb8xrk8Fv7iJE3bT2oRHHKFgKjRFMRl27X3rqr25I8jHb28+v2xnE
- I82Gg25q3Mazz3OzsJBr0ib8oHTiErkpHIUI02IIuOtoXG2y/8LEADX3uHbnCzu0lIVMyB
- lKRtJ3PUemROn22W0NBGcBYFGT+oM9M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-7kcezP__PLuPgWFhmGe40g-1; Fri, 13 Mar 2020 16:07:48 -0400
-X-MC-Unique: 7kcezP__PLuPgWFhmGe40g-1
-Received: by mail-wr1-f72.google.com with SMTP id u18so4781863wrn.11
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 13:07:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=U0x82LgMbNQm246MDfZYsJBCoDnwEYdgG/yjEKNhCfU=;
- b=lIwdUzrJztixaopesSqTi3ZuaMrDRRmiTGL57LCq1PNlI5EvkRkNJjMTEMaqolA7Ux
- +VUfZ5r3V4CvGJW7UiJfZIfOJcHyL62NqsGBaXr1nwEZxl9GUKVGyybbQPWIb43IzGNC
- OD6mjb10F95p8WJfvWsZIJw0cgoX/vKLOvPw8tPrhB9YfU2sibRLW2OEDGE0vAghpYJd
- QY6QSh0tV54Isl8e61A4IrI0A8K382T4zWEtcKxfgVrvbsDpTECFYCXgCOYJjSYSh+8k
- Dj+esoNvO3d60AbvnnQYFwrcNu5Ixc/Ju2z+CmEKXUkg7LcLyi72JiSF2PvGOyjpA+le
- obJA==
-X-Gm-Message-State: ANhLgQ1+Neadm+VrJON54cpEDvzV4id0b0YC1aP7QiLwTI9rxT8l3PKe
- b79NrA+excT4a1OxnllVuigvSuOUgRgbToil94qxJS2MmD4/VNfOhDkVAJ+mTS08jSiVsGV9/Le
- zzfkU45CvALaBvMU=
-X-Received: by 2002:a05:600c:29cf:: with SMTP id
- s15mr12010455wmd.117.1584130066831; 
- Fri, 13 Mar 2020 13:07:46 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsuw9XaYQ3SNRFePPOzaBafDNg924v2g3Zf//2ZIhG36HNrdKR3D7cmkf52bAEznn5HFtAJJg==
-X-Received: by 2002:a05:600c:29cf:: with SMTP id
- s15mr12010432wmd.117.1584130066550; 
- Fri, 13 Mar 2020 13:07:46 -0700 (PDT)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id t126sm16359669wmb.27.2020.03.13.13.07.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Mar 2020 13:07:46 -0700 (PDT)
-Subject: Re: [PATCH v3 15/16] hw/i386/vmport: Add support for CMD_GETHZ
-To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
-References: <20200312165431.82118-1-liran.alon@oracle.com>
- <20200312165431.82118-16-liran.alon@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <97784452-8270-e0ab-1164-d3a9fe567006@redhat.com>
-Date: Fri, 13 Mar 2020 21:07:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200312165431.82118-16-liran.alon@oracle.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (envelope-from <brijesh.singh@amd.com>) id 1jCqtq-0004di-VT
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 16:27:20 -0400
+Received: from mail-mw2nam10on2042.outbound.protection.outlook.com
+ ([40.107.94.42]:6197 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
+ id 1jCqto-0004aK-7i; Fri, 13 Mar 2020 16:27:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PBoa8OfALQImWgndRxMy7lRfvWiLYpbZW8AXKxASMzncN11vL7XOEj/v/J7cC2WEDbsDGGT+OooUnlyMfhbXIO6DYMKZdariHGZq4b7Hk4mFKYPIv3yUUof2sxRO2SRIN77rdP1EHde8Zz211Lc0QB/2ZVM/9UwSexm+ulEK/KNXObGb1HVBNfPrI0HlVA/JbKH2u3iyFq9DyiQ3Bd1At2u1Aaz/dhT29hdi37uDzn8+VH9V276cy5QW6acbnumHee589ALG5Blir+RREinKMExg9nlTAF2vehp0XQcOj97mbVFOGEP5LPEmqFzwdOFw3aUzOXm+4VHaMZayTzinyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/hXHw2jJHMgQTTe4PJr0PS2bHb9uxxdnbdKQVwDtXDA=;
+ b=AUtUwVi76beMJConU484qvdI30SjcuIszlQ5Sh0oitB20TlSR3wXScEQ34xK0XvHo89BHCQkGKN2L7BPGQSVVQ0bSCkgAzOd7gcrZJlhdfH2WITB1C2MUnn3itqhUI0NuD19Z3jYtZtYqJltLIt+/8KwwAoeVKOgRSg0sKlfmfOwh1lY3iX7fAsA64gHoBxRQTqVRlEj46QQFXhSUQrd1f77ZsTS7dZie0g1xU8+bXmVZK8N4fcPV/gwy4Tfu3fFQ1foCvBn6F7EW8PVP8kamKaxBCqDhQhzCk0EIqyImG+BHlvaSMESj3E9oKqLuCh6vLjphh7t9ZlnDd28iMMQRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/hXHw2jJHMgQTTe4PJr0PS2bHb9uxxdnbdKQVwDtXDA=;
+ b=a9uJdz6VRoyBk/FAB/Nd39Bef0XZ80j6dk7hkQiImTFXNC+zjJX5Aa8e5nQpkLxtwZJTCEZRTOqZFB5D/BoN2nMn5CzqKJu/KELBi1GhzlL4jLmF+X6vUrBFkGrO3t8DEkhmsfgKc82mF77tPa3EyrRm9aroJh6zw3u8MrXkFHs=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=brijesh.singh@amd.com; 
+Received: from CY4PR12MB1926.namprd12.prod.outlook.com (2603:10b6:903:11b::11)
+ by CY4PR12MB1749.namprd12.prod.outlook.com (2603:10b6:903:11d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Fri, 13 Mar
+ 2020 20:27:11 +0000
+Received: from CY4PR12MB1926.namprd12.prod.outlook.com
+ ([fe80::e5ec:63d5:a9a8:74c4]) by CY4PR12MB1926.namprd12.prod.outlook.com
+ ([fe80::e5ec:63d5:a9a8:74c4%12]) with mapi id 15.20.2793.021; Fri, 13 Mar
+ 2020 20:27:11 +0000
+Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
+To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200226094357.25061-1-jasowang@redhat.com>
+ <20200226142839.4263de9b.pasic@linux.ibm.com>
+ <20200226083654-mutt-send-email-mst@kernel.org>
+ <20200226163618.31aa86ed.pasic@linux.ibm.com>
+ <20200226115009-mutt-send-email-mst@kernel.org>
+ <20200227140215.2d12149c.pasic@linux.ibm.com>
+ <20200227104233-mutt-send-email-mst@kernel.org>
+ <20200313134446.782c5f7c.pasic@linux.ibm.com>
+From: Brijesh Singh <brijesh.singh@amd.com>
+Message-ID: <a79eec52-ec68-31a8-f692-17da0723e36c@amd.com>
+Date: Fri, 13 Mar 2020 15:27:59 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.5.0
+In-Reply-To: <20200313134446.782c5f7c.pasic@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Language: en-US
+X-ClientProxiedBy: DM5PR19CA0010.namprd19.prod.outlook.com
+ (2603:10b6:3:151::20) To CY4PR12MB1926.namprd12.prod.outlook.com
+ (2603:10b6:903:11b::11)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Brijeshs-MacBook-Pro.local (165.204.77.11) by
+ DM5PR19CA0010.namprd19.prod.outlook.com (2603:10b6:3:151::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.11 via Frontend Transport; Fri, 13 Mar 2020 20:27:09 +0000
+X-Originating-IP: [165.204.77.11]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3124ff0c-fe8d-4b16-1816-08d7c78ce887
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1749:|CY4PR12MB1749:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR12MB17491ABDB6FE285EBE34713FE5FA0@CY4PR12MB1749.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 034119E4F6
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(366004)(136003)(346002)(396003)(39860400002)(199004)(26005)(186003)(16526019)(31696002)(52116002)(44832011)(6486002)(66946007)(66476007)(478600001)(31686004)(6512007)(66556008)(2616005)(956004)(86362001)(6506007)(53546011)(81156014)(81166006)(8936002)(6666004)(8676002)(5660300002)(36756003)(110136005)(4326008)(54906003)(316002)(2906002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1749;
+ H:CY4PR12MB1926.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aN0BJADt7GPidJoS0Dh+kDDO7kLYxYzeWIXLq31yEEKXRleyUZYbniYsA/jE+89DeKLBx466INOhkhxzpIrRD1/48Si8ZKqa5GmkEaxqCl2Dnq8XQD0y1wRLjTFeCV6aj08pobcIo6Q4yPOkMW3ke9aO4k49J0qfNfwafB7fx8JT68AP8/GHHZN+wOJlxscjDqoQ0id7NQaJje9sTGqIwam6/WV3zbazyhBnUjjGqrpBvzvGDqaaukrSVI+Lg4qV1k97m90gB+Y1pub7XI3v33ZpqWjwFgHj51Qcy7F8dqH+tCupattK78+oNVOLPo7NqNgxLjrKb2PcMqryxzoFr8NX++7I5eIh/jzuPDA3dedqs1VRwbaCu8A3I9sRQjIIoNVUGoDe/sdfslScl34AZ3nUbbFFn227oOR5AssAxYVgvV5nX5JE7moMBm9DQicQ
+X-MS-Exchange-AntiSpam-MessageData: Zn79CuwCZkHRCBzYFp6t0Df9dAnB+DYZcCyGLLp0vnI8nYCzNNeRHdVkrTaqOoL6Rq0kCTodBeKNmYDcbPhP3un0jKh6OXH48jas5pr5wkjsvT/Pd9kTwjU+0SwSof2qPL2L/Gftn/4/+b7g8axrbg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3124ff0c-fe8d-4b16-1816-08d7c78ce887
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2020 20:27:10.9219 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eqgOr7o/NRzBpQqtwhcJBOcN9g7MPofKCo9gjvk+6+wJwpTysldx7zfYQ05adTVYm8hPpnV+FruTfq734MS6CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1749
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.94.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,78 +116,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Nikita Leshenko <nikita.leshchenko@oracle.com>,
- rth@twiddle.net, ehabkost@redhat.com, mst@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Jason Wang <jasowang@redhat.com>,
+ brijesh.singh@amd.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/20 5:54 PM, Liran Alon wrote:
-> This command returns to guest information on LAPIC bus frequency and TSC
-> frequency.
-> 
-> One can see how this interface is used by Linux vmware_platform_setup()
-> introduced in Linux commit 88b094fb8d4f ("x86: Hypervisor detection and
-> get tsc_freq from hypervisor").
-> 
-> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> ---
->   hw/i386/vmport.c         | 19 +++++++++++++++++++
->   include/hw/i386/vmport.h |  1 +
->   2 files changed, 20 insertions(+)
-> 
-> diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-> index 1664a6b97332..9d3921cf418d 100644
-> --- a/hw/i386/vmport.c
-> +++ b/hw/i386/vmport.c
-> @@ -176,6 +176,24 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
->       return ram_size;
->   }
->   
-> +static uint32_t vmport_cmd_get_hz(void *opaque, uint32_t addr)
-> +{
-> +    X86CPU *cpu = X86_CPU(current_cpu);
-> +
-> +    if (cpu->env.tsc_khz && cpu->env.apic_bus_freq) {
-> +        uint64_t tsc_freq = (uint64_t)cpu->env.tsc_khz * 1000;
-> +
-> +        cpu->env.regs[R_ECX] = cpu->env.apic_bus_freq;
-> +        cpu->env.regs[R_EBX] = (uint32_t)(tsc_freq >> 32);
-> +        cpu->env.regs[R_EAX] = (uint32_t)tsc_freq;
-> +    } else {
-> +        /* Signal cmd as not supported */
-> +        cpu->env.regs[R_EBX] = UINT32_MAX;
-> +    }
-> +
-> +    return cpu->env.regs[R_EAX];
-> +}
-> +
->   static uint32_t vmport_cmd_time(void *opaque, uint32_t addr)
->   {
->       X86CPU *cpu = X86_CPU(current_cpu);
-> @@ -265,6 +283,7 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
->       if (s->compat_flags & VMPORT_COMPAT_CMDS_V2) {
->           vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NULL);
->           vmport_register(VMPORT_CMD_GETTIME, vmport_cmd_time, NULL);
-> +        vmport_register(VMPORT_CMD_GETHZ, vmport_cmd_get_hz, NULL);
->           vmport_register(VMPORT_CMD_GETTIMEFULL, vmport_cmd_time_full, NULL);
->           vmport_register(VMPORT_CMD_GET_VCPU_INFO, vmport_cmd_get_vcpu_info,
->                           NULL);
-> diff --git a/include/hw/i386/vmport.h b/include/hw/i386/vmport.h
-> index 34cc050b1ffa..aee809521aa0 100644
-> --- a/include/hw/i386/vmport.h
-> +++ b/include/hw/i386/vmport.h
-> @@ -12,6 +12,7 @@ typedef enum {
->       VMPORT_CMD_VMMOUSE_DATA     = 39,
->       VMPORT_CMD_VMMOUSE_STATUS   = 40,
->       VMPORT_CMD_VMMOUSE_COMMAND  = 41,
-> +    VMPORT_CMD_GETHZ            = 45,
 
-Can you rename to something easier to read, such _GET_FREQS_HZ or nicer?
+On 3/13/20 7:44 AM, Halil Pasic wrote:
+> [..]
+>>> CCing Tom. @Tom does vhost-vsock work for you with SEV and current qemu?
+>>>
+>>> Also, one can specify iommu_platform=on on a device that ain't a part of
+>>> a secure-capable VM, just for the fun of it. And that breaks
+>>> vhost-vsock. Or is setting iommu_platform=on only valid if
+>>> qemu-system-s390x is protected virtualization capable?
+>>>
+>>> BTW, I don't have a strong opinion on the fixes tag. We currently do not
+>>> recommend setting iommu_platform, and thus I don't think we care too
+>>> much about past qemus having problems with it.
+>>>
+>>> Regards,
+>>> Halil
+>>
+>> Let's just say if we do have a Fixes: tag we want to set it correctly to
+>> the commit that needs this fix.
+>>
+> I finally did some digging regarding the performance degradation. For
+> s390x the performance degradation on vhost-net was introduced by commit
+> 076a93d797 ("exec: simplify address_space_get_iotlb_entry"). Before
+> IOMMUTLBEntry.addr_mask used to be based on plen, which in turn was
+> calculated as the rest of the memory regions size (from address), and
+> covered most of the guest address space. That is we didn't have a whole
+> lot of IOTLB API overhead.
+>
+> With commit 076a93d797 I see IOMMUTLBEntry.addr_mask == 0xfff which comes
+> as ~TARGET_PAGE_MASK from flatview_do_translate(). To have things working
+> properly I applied 75e5b70e6, b021d1c044, and d542800d1e on the level of
+> 076a93d797 and 076a93d797~1.
+>
+> Regarding vhost-vsock. It does not work with iommu_platform=on since the
+> very beginning (i.e. 8607f5c307 ("virtio: convert to use DMA api")). Not
+> sure if that is a good or a bad thing. (If the vhost driver in the kernel
+> would actually have to do the IOTLB translation, then failing in case
+> where it does not support it seems sane. The problem is that
+> ACCESS_PLATFORM is used for more than one thing (needs translation, and
+> restricted memory access).)
+>
+> I don't think I've heard back from AMD whether vsock works with SEV or
+> not... I don't have access to HW to test it myself.
 
->       VMPORT_CMD_GETTIMEFULL      = 46,
->       VMPORT_CMD_GET_VCPU_INFO    = 68,
->       VMPORT_ENTRIES
-> 
 
+I just tried vhost-vsock on AMD SEV machine and it does not work. I am
+using FC31 (qemu 4.1.1.1.fc31).
+
+
+> We (s390) don't require this being backported to the stable qemus,
+> because for us iommu_platform=on becomes relevant with protected
+> virtualization, and those qemu versions don't support it.
+>
+> Cheers,
+> Halil
+>
 
