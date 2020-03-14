@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B9D185688
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 23:51:36 +0100 (CET)
-Received: from localhost ([::1]:49034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D426318568B
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 00:04:05 +0100 (CET)
+Received: from localhost ([::1]:49118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDFd1-0008GW-Bk
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 18:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45442)
+	id 1jDFp6-00037H-O2
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 19:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDFc6-0007oR-8F
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 18:50:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDFoM-0002f6-4g
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 19:03:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDFc5-0001K9-4p
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 18:50:38 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43332)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDFoK-0006i9-U7
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 19:03:17 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46626)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDFc4-0001E3-Td
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 18:50:37 -0400
-Received: by mail-pl1-x643.google.com with SMTP id f8so6024523plt.10
- for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 15:50:36 -0700 (PDT)
+ id 1jDFoK-0006fu-Mj
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 19:03:16 -0400
+Received: by mail-pg1-x543.google.com with SMTP id y30so7233468pga.13
+ for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 16:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x+2ExWCdgPOc2RCTH+KP3i3/Ob6BFksFsrU2ghAskyA=;
- b=qrJP6DsrbpZ6j/kB5IN9lBY+sW1mAFw3GXoansZKeJ0c1yM6eDRqmvqBvLo6r6JyUf
- 9u1cf0BODSqX0/X/OJYgsSRUa3Jx68YsvRj9CthwztXL8MrnpwHEVNwyLCRTJ+D6HFU8
- Z/eW2dhRUoT9RiMLsLnhPOmPOAq7B/2rdD9HOglSvwpYxGFHMzyW8TduLJME1rHZp6QB
- B923aEFeFIL99C8m25CdGp2aPYv7ZFBA9wv4lT5dsf88GsRzKvWb4l8YEBUa2TB/nNGt
- phZmXYYr84H4UzKSgNcHRIOiQe6O2YoO6GYMf+wV3WmiVdQJRvg9rD0rE0zaVX6FIOr/
- 4XAA==
+ bh=EYcotxQ3d9BZDFs6JiK6yD8PfS1/vt8pL2o8EJkQVuw=;
+ b=FB8mhBSG4GPTQSXdAxGqC+FCidOu0I9sZ72T6AAjz4M7Dv/dWey3k30F86pQ3taU27
+ affNg0KhzaDK4IJ6QQUXUfhKGFHl+KMmzWzZTadDEK3NkbIvHTcClXO/O2h27pnqp3/b
+ 9H/gcizLMYyXabf2WUz21QY5sZNgjVxNo+lrpyESxPFSz5wDeUMCUDY0eWBbNDoCQkwR
+ A4lP1/QnL7SbXYvNx9VvQxxrh+ACv8M+mq3bzMynpIQirFusbvb6IYkQAPW0MyEXag/C
+ 2Oki0WDbbv8n39z0QeKLe+6PSL4+1RxGn8y4MCCD2XlDIY6zePcJwsmMk+MbLKMfgfpt
+ zKjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x+2ExWCdgPOc2RCTH+KP3i3/Ob6BFksFsrU2ghAskyA=;
- b=PJkWpOQ6z6E/+mi7o+xl1F0W2a5wg3oNv/yMf9qgMySAI/zSnD8BhdvO21zrTKkNYO
- 6OnFkZy6ZiE2zwdTY2huuunIAvFDPgitJFDSwFuqIIC0TKCl9+z2H9gHJP0WLvg9T/5d
- +Mu5xW1Q24qTQnRVEKc/m08GOkXXwGQaQ4CT75D1cXEM+bD5KJDV74IPheOe7Ndcjwu8
- CgMEVQwG5UrRIEr7Qrbo6ckSBMN8MiRK7Rb/+MZFQ3fS+Xrs2VJhNHw1Q5TF5WyuduF1
- 7XzTdX890VND9mN/WHQswqLNryfmsdeJyqlvPoDn8uvkQHsRdC5qu9jnYXDjzTLzV2rX
- tKcA==
-X-Gm-Message-State: ANhLgQ1yd3M5E4g+FT80L1Gm8CCPxGK/4jvUOFs3tWfjVYJbE0TWK/yh
- YH6viz4QDAldS3a/9Ip9OmesPg==
-X-Google-Smtp-Source: ADFU+vuyWkEOWTfjkj6DCsY28Q3IYQO3mDOfnqczUrzy+HHMaZdCCmOi2+zSqAoCMIAEZqyo8AY7jw==
-X-Received: by 2002:a17:902:b710:: with SMTP id
- d16mr17813001pls.293.1584226235723; 
- Sat, 14 Mar 2020 15:50:35 -0700 (PDT)
+ bh=EYcotxQ3d9BZDFs6JiK6yD8PfS1/vt8pL2o8EJkQVuw=;
+ b=ttcZrafLI5SNYseYqfM/PxQCo0BY3OWEJar4IvBMZyQ0mYFxnAtCev5dFcLh0s/NpX
+ VwV4bkQJ+5M6xxkxjj3/XHeQY7XhQsEYjQ/Y1qQOaBw7Tnm2S7YYdub/Hlo64VDUFM/8
+ dHbfdx3EZSbMENRi0AClMLlU0xrTOTq5pT6n+ckpleadBlfoL7Vwpcmnjca7eM3h+SXh
+ nNxBWFXg7nOrrhcOftxpjTMVgrfs1Go6s6Ax2Qhp2W/GSk/PE2Y2WNI1lBXpuZaj6kc1
+ 19BaXMEkdKVLxBfiwKDorg3i5QQs428Xb5xCMDnuSMQN+66XvKTGKBCypJHPy5/5tdcE
+ OyTA==
+X-Gm-Message-State: ANhLgQ0tKtdvZD7zzd0KWdHUhjcTCAx6J+YSDzGSLrBlDqXMIVREwCBC
+ MVVurDbb6zXYK4C+00zTqlUvvw==
+X-Google-Smtp-Source: ADFU+vs9gownYDcscT1+s8dlmQjkUHNAXO+E52gGnHu1HnQ14OFY+oxdYljT733JkqMtWP2EIBb7iA==
+X-Received: by 2002:a63:798a:: with SMTP id
+ u132mr20793820pgc.203.1584226995549; 
+ Sat, 14 Mar 2020 16:03:15 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- m18sm58477228pgd.39.2020.03.14.15.50.34
+ b24sm25081064pfi.52.2020.03.14.16.03.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Mar 2020 15:50:35 -0700 (PDT)
-Subject: Re: [PATCH v5 41/60] target/riscv: vector floating-point/integer
+ Sat, 14 Mar 2020 16:03:14 -0700 (PDT)
+Subject: Re: [PATCH v5 42/60] target/riscv: widening floating-point/integer
  type-convert instructions
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
 References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-42-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-43-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <25ceee74-aadc-fd25-2acb-b78b28bbb6fa@linaro.org>
-Date: Sat, 14 Mar 2020 15:50:33 -0700
+Message-ID: <04c08bf0-5f1d-58de-0c2c-4f72da9af963@linaro.org>
+Date: Sat, 14 Mar 2020 16:03:12 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200312145900.2054-42-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200312145900.2054-43-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,16 +92,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/12/20 7:58 AM, LIU Zhiwei wrote:
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/helper.h                   | 13 ++++++++++
->  target/riscv/insn32.decode              |  4 +++
->  target/riscv/insn_trans/trans_rvv.inc.c |  6 +++++
->  target/riscv/vector_helper.c            | 33 +++++++++++++++++++++++++
->  4 files changed, 56 insertions(+)
+> +/*
+> + * vfwcvt.f.f.v vd, vs2, vm #
+> + * Convert single-width float to double-width float.
+> + */
+> +static uint32_t vfwcvtffv16(uint16_t a, float_status *s)
+> +{
+> +    return float16_to_float32(a, true, s);
+> +}
+> +static uint64_t vfwcvtffv32(uint32_t a, float_status *s)
+> +{
+> +    return float32_to_float64(a, s);
+> +}
 
+Do you actually need this second one, as opposed to using float32_to_float64
+directly?
+
+> +RVVCALL(OPFVV1, vfwcvt_f_f_v_h, WOP_UU_H, H4, H2, vfwcvtffv16)
+> +RVVCALL(OPFVV1, vfwcvt_f_f_v_w, WOP_UU_W, H8, H4, vfwcvtffv32)
+> +GEN_VEXT_V_ENV(vfwcvt_f_f_v_h, 2, 4, clearl)
+> +GEN_VEXT_V_ENV(vfwcvt_f_f_v_w, 4, 8, clearq)
+> 
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
