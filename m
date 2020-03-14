@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CE5185329
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 01:09:15 +0100 (CET)
-Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971FD18531D
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 01:04:12 +0100 (CET)
+Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCuMc-0007Jn-GL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 20:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
+	id 1jCuHj-0001wh-Lq
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 20:04:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
- id 1jCuI1-0002Yo-QE
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:04:33 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jCuGp-0001UF-W9
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:03:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
- id 1jCuHx-0003TX-Po
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:04:29 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:48956)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=335a9ddda=alistair.francis@wdc.com>)
- id 1jCuHx-0003HD-AF; Fri, 13 Mar 2020 20:04:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1584144265; x=1615680265;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8GG7/NwTe/v0nhGWC/8JZ1QB6iMOX/J6IecX74Zct7I=;
- b=m/wsGEbocpDsnj0Kdm0aMmFI6A646jCeZCoe0CrsXCDbIGMBi8I5/kG3
- m7MK8EqV3wYCedR5COmZc16z47lGcgH55txydlyH8uDqmHeSa2Sp6aQfQ
- vCTQrDxDLZA4vEZGzdqmFk1ZhAlQKZKr/mCBp4uxIpkwdLVBErepH4iT8
- 85xRTEfok0lK94br7VxNo3W+NvDs7jXnFhlEs2mYAP4ULHoEoYQfkB0oM
- 5duXwutvJz/dIn/J6O34NXKxCtHHepthjSTd7zSOt7pu17mtGn6+YCbdX
- BkfepX7yUExxkNNfFG/QTQAqcBgwI3lW2kCnBU2eoRma8AkDD4Tnjj+2x A==;
-IronPort-SDR: Z3YEUlrfRZTgZ4Va3rN6Y69IkGx45mcNga6khvOQXQka08y7H6lW/VXajuIkuuzuLBnBesofhM
- Bct/2zzZB81sHV7woi9wGeUJpFsmT7q4D0wYjcYRWXZJk1qrWBJwwdZgl1Aqn+NtyhRtng+Zd/
- uQs3Etqx3ZRcKgo7km7TykQeIaKW+2QvtWDuPijORzpEoHOuQtJexUgFOkU3aCcz/F5foSuizl
- iM+PymNxdIiPivxFL90tYNNzDmoc85hkZxr77EA3Fj+cUMVuVXzrBsFPfE+oBbY+MwQuUm/fx4
- aD8=
-X-IronPort-AV: E=Sophos;i="5.70,550,1574092800"; d="scan'208";a="240748057"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2020 08:04:23 +0800
-IronPort-SDR: UvjQ903FMkMij2w1oCO1LU+rKi3VkF/YD0Gm64fyI4RFSFKWdMbV+pTOaWpSofUrgoPllh5V/d
- fHYhy388XlnqQ8lbsfRxArCD2yjAx5BWNak6TwYGvqpMSrnrxG7fHMYO5+eQ0coEHOQnKR+2KE
- 2Qa75ebxW6cr8hvbQgp8qVIjnpg+Dgyz1sO2mJrDuvVDAdx5wZ1aVH3x6caMuk3g6Ag3a40QXT
- 0+vP3iDtC6YBAqTNVfrXVV33uSvMd6TMHIrr5qzKeN0V8lQ2My7hl3KI4fRs0wunCr+FJDXGQY
- s4ZCd7uOJqkrpC+veGhU+f2p
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2020 16:55:57 -0700
-IronPort-SDR: 57+F6DP/fsCfQsoZ5XRIgf4NIzXq54Q2krhi2CGFFFwVMJqqr7qvd4TnyArhN7trzL6mQfXR3h
- rUXBeQp7f1KXTS5SkUCcHiztu3aXBekXSh1HVjZX9EnSdMoLNPqhsDZLvQH1f1dqDOUOtep117
- 5/ye96u27+APz8au1xzZKlEatn23hzgpZRzeeZG8htB7HsqcixONNhFNnKhg2NSDOX72bg+ev6
- CTpMpJ7v44O82HSdUfXRbIKvjST3xjHrDPlWyeeROqrVnAMNdSNr6xsCCyU0mmfy6+KoZggXjG
- /00=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 13 Mar 2020 17:04:23 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org,
-	laurent@vivier.eu
-Subject: [PATCH v8 4/4] linux-user/riscv: Update the syscall_nr's to the 5.5
- kernel
-Date: Fri, 13 Mar 2020 16:56:56 -0700
-Message-Id: <2be0f9fa31745bcbe01cd89b5f9c23568d146955.1584143748.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1584143748.git.alistair.francis@wdc.com>
-References: <cover.1584143748.git.alistair.francis@wdc.com>
+ (envelope-from <alistair23@gmail.com>) id 1jCuGn-0005DE-Fd
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 20:03:15 -0400
+Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:44266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jCuGn-0005Bt-9v; Fri, 13 Mar 2020 20:03:13 -0400
+Received: by mail-vs1-xe42.google.com with SMTP id e138so1626811vsc.11;
+ Fri, 13 Mar 2020 17:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ivad3kgq3pd0RWqlEOq1n5K2bnpZeBXHNH1FVNYvEkQ=;
+ b=aW9ofLqzCEoVe/Y4OPUZ9NQRmIXmurVMGR5uKXBgowiYIjrom+kqhSGxcy9VbpbvM1
+ D4/6wkqRCxYnBaYl/72LluYDstExpISSiW2M+ACIGY4fzDPgfxvuqZLmaeDDP77ptPVP
+ C9sK3ZCicSM15RCUe0v/j983Tawtw4hsQQiu8mH9HxYHGDnoGm7jb34qzMWLc3+WuiY2
+ 2BsIBK9OPRT/0VFwfdCDnlU+AmzVkaX/FbMJ8MEPHASFqeEqBtjs92qNCPK8q9WIppMz
+ WnR5xMkvbEOeb9WqaDoJtMe3YY3VksrD7YREgaQ9GBUAysYIjWzZKUQcDhN3fk8i6IS0
+ jUgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ivad3kgq3pd0RWqlEOq1n5K2bnpZeBXHNH1FVNYvEkQ=;
+ b=CdkmfoV3gyE20BSVGS+KdB3+AJMDRc02HgspyboIphCSF3YrFCmHn052+3IyApLYQ2
+ xgaeyAjTKQaggDldNoWXxDDRD+Q/eDvALPXWo2oG8Frq/RtgDTP/uVEuTISIq1ecBOUz
+ qQkG0rSgMFgCrK4j1of/NgIrdqA1hniOv/hJZvJ7A+6Di2q2+jMMOPwen83cJPM8l4vY
+ xkQoQU621eFeB8BiryFAxaNFCFtMxNiLVGum6oSKELZDFcrIArhf73ZejsTsNJumiY7G
+ kIcw+mRNXazbCNAqK0Ug1GsuZ2PXOsxLt9VxEtAadoVdj4bH/uTAPUSZ6ctMiAFb708P
+ jD6Q==
+X-Gm-Message-State: ANhLgQ0Z5REhPBgWm1cnDMqpTQT/KW7c+CFAg2VhcWy1sib1kYQNz2Iy
+ W8Nxx2Fp+E0r2YHV/2Iw7FDoieBDYBWFg2nyc74=
+X-Google-Smtp-Source: ADFU+vsgDuyettrI+48o2qoQNrdjPdHscrKLHo1DgGJHZH8ksSK5gf6sQLTKgKEjSGlu6BGgi4fP8ov98+xQH9xJQ10=
+X-Received: by 2002:a67:db81:: with SMTP id f1mr7158301vsk.151.1584144192402; 
+ Fri, 13 Mar 2020 17:03:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.141.245
+References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-9-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200312145900.2054-9-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 13 Mar 2020 17:02:46 -0700
+Message-ID: <CAKmqyKPPVVO8oxe8HDsQ+D4Cj1XuXASY5A1x1qfY606=16WZ2A@mail.gmail.com>
+Subject: Re: [PATCH v5 08/60] target/riscv: add vector amo operations
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,936 +71,448 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/riscv/syscall32_nr.h | 295 +++++++++++++++++++++++++++++++
- linux-user/riscv/syscall64_nr.h | 301 ++++++++++++++++++++++++++++++++
- linux-user/riscv/syscall_nr.h   | 294 +------------------------------
- 3 files changed, 598 insertions(+), 292 deletions(-)
- create mode 100644 linux-user/riscv/syscall32_nr.h
- create mode 100644 linux-user/riscv/syscall64_nr.h
+On Thu, Mar 12, 2020 at 8:15 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Vector AMOs operate as if aq and rl bits were zero on each element
+> with regard to ordering relative to other instructions in the same hart.
+> Vector AMOs provide no ordering guarantee between element operations
+> in the same vector AMO instruction
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu.h                      |   1 +
+>  target/riscv/helper.h                   |  29 +++++
+>  target/riscv/insn32-64.decode           |  11 ++
+>  target/riscv/insn32.decode              |  13 +++
+>  target/riscv/insn_trans/trans_rvv.inc.c | 130 +++++++++++++++++++++
+>  target/riscv/vector_helper.c            | 143 ++++++++++++++++++++++++
+>  6 files changed, 327 insertions(+)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index b6ebb9b0eb..e069e55e81 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -374,6 +374,7 @@ FIELD(VDATA, MLEN, 0, 8)
+>  FIELD(VDATA, VM, 8, 1)
+>  FIELD(VDATA, LMUL, 9, 2)
+>  FIELD(VDATA, NF, 11, 4)
+> +FIELD(VDATA, WD, 11, 1)
+>
+>  FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
+>  FIELD(TB_FLAGS, LMUL, 3, 2)
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 72ba4d9bdb..70a4b05f75 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -240,3 +240,32 @@ DEF_HELPER_5(vlhuff_v_w, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlhuff_v_d, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlwuff_v_w, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlwuff_v_d, void, ptr, ptr, tl, env, i32)
+> +#ifdef TARGET_RISCV64
+> +DEF_HELPER_6(vamoswapw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoswapd_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxorw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxord_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoorw_v_d,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoord_v_d,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomind_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominud_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxud_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +#endif
+> +DEF_HELPER_6(vamoswapw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxorw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoorw_v_w,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominuw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxuw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
+> index 380bf791bc..86153d93fa 100644
+> --- a/target/riscv/insn32-64.decode
+> +++ b/target/riscv/insn32-64.decode
+> @@ -57,6 +57,17 @@ amomax_d   10100 . . ..... ..... 011 ..... 0101111 @atom_st
+>  amominu_d  11000 . . ..... ..... 011 ..... 0101111 @atom_st
+>  amomaxu_d  11100 . . ..... ..... 011 ..... 0101111 @atom_st
+>
+> +#*** Vector AMO operations (in addition to Zvamo) ***
+> +vamoswapd_v     00001 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoaddd_v      00000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoxord_v      00100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoandd_v      01100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoord_v       01000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomind_v      10000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +
+>  # *** RV64F Standard Extension (in addition to RV32F) ***
+>  fcvt_l_s   1100000  00010 ..... ... ..... 1010011 @r2_rm
+>  fcvt_lu_s  1100000  00011 ..... ... ..... 1010011 @r2_rm
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index b76c09c8c0..1330703720 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -44,6 +44,7 @@
+>  &u    imm rd
+>  &shift     shamt rs1 rd
+>  &atomic    aq rl rs2 rs1 rd
+> +&rwdvm     vm wd rd rs1 rs2
+>  &r2nfvm    vm rd rs1 nf
+>  &rnfvm     vm rd rs1 rs2 nf
+>
+> @@ -67,6 +68,7 @@
+>  @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
+>  @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
+>  @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
+> +@r_wdvm  ..... wd:1 vm:1 ..... ..... ... ..... ....... &rwdvm %rs2 %rs1 %rd
+>  @r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
+>
+>  @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
+> @@ -261,6 +263,17 @@ vsxh_v     ... -11 . ..... ..... 101 ..... 0100111 @r_nfvm
+>  vsxw_v     ... -11 . ..... ..... 110 ..... 0100111 @r_nfvm
+>  vsxe_v     ... -11 . ..... ..... 111 ..... 0100111 @r_nfvm
+>
+> +#*** Vector AMO operations are encoded under the standard AMO major opcode ***
+> +vamoswapw_v     00001 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoaddw_v      00000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoxorw_v      00100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoandw_v      01100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoorw_v       01000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamominw_v      10000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamomaxw_v      10100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamominuw_v     11000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamomaxuw_v     11100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +
+>  # *** new major opcode OP-V ***
+>  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index 9d9fc886d6..3c677160c5 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -600,3 +600,133 @@ GEN_VEXT_TRANS(vleff_v, 3, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlbuff_v, 4, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlhuff_v, 5, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlwuff_v, 6, r2nfvm, ldff_op, ld_us_check)
+> +
+> +/*
+> + *** vector atomic operation
+> + */
+> +typedef void gen_helper_amo(TCGv_ptr, TCGv_ptr, TCGv, TCGv_ptr,
+> +        TCGv_env, TCGv_i32);
+> +
+> +static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
+> +        uint32_t data, gen_helper_amo *fn, DisasContext *s)
+> +{
+> +    TCGv_ptr dest, mask, index;
+> +    TCGv base;
+> +    TCGv_i32 desc;
+> +
+> +    dest = tcg_temp_new_ptr();
+> +    mask = tcg_temp_new_ptr();
+> +    index = tcg_temp_new_ptr();
+> +    base = tcg_temp_new();
+> +    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
+> +
+> +    gen_get_gpr(base, rs1);
+> +    tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
+> +    tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
+> +    tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
+> +
+> +    fn(dest, mask, base, index, cpu_env, desc);
+> +
+> +    tcg_temp_free_ptr(dest);
+> +    tcg_temp_free_ptr(mask);
+> +    tcg_temp_free_ptr(index);
+> +    tcg_temp_free(base);
+> +    tcg_temp_free_i32(desc);
+> +    return true;
+> +}
+> +
+> +static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+> +{
+> +    uint32_t data = 0;
+> +    gen_helper_amo *fn;
+> +    static gen_helper_amo *const fnsw[9] = {
+> +        /* no atomic operation */
+> +        gen_helper_vamoswapw_v_w,
+> +        gen_helper_vamoaddw_v_w,
+> +        gen_helper_vamoxorw_v_w,
+> +        gen_helper_vamoandw_v_w,
+> +        gen_helper_vamoorw_v_w,
+> +        gen_helper_vamominw_v_w,
+> +        gen_helper_vamomaxw_v_w,
+> +        gen_helper_vamominuw_v_w,
+> +        gen_helper_vamomaxuw_v_w
+> +    };
+> +#ifdef TARGET_RISCV64
+> +    static gen_helper_amo *const fnsd[18] = {
+> +        gen_helper_vamoswapw_v_d,
+> +        gen_helper_vamoaddw_v_d,
+> +        gen_helper_vamoxorw_v_d,
+> +        gen_helper_vamoandw_v_d,
+> +        gen_helper_vamoorw_v_d,
+> +        gen_helper_vamominw_v_d,
+> +        gen_helper_vamomaxw_v_d,
+> +        gen_helper_vamominuw_v_d,
+> +        gen_helper_vamomaxuw_v_d,
+> +        gen_helper_vamoswapd_v_d,
+> +        gen_helper_vamoaddd_v_d,
+> +        gen_helper_vamoxord_v_d,
+> +        gen_helper_vamoandd_v_d,
+> +        gen_helper_vamoord_v_d,
+> +        gen_helper_vamomind_v_d,
+> +        gen_helper_vamomaxd_v_d,
+> +        gen_helper_vamominud_v_d,
+> +        gen_helper_vamomaxud_v_d
+> +    };
+> +#endif
+> +
+> +    if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+> +        gen_helper_exit_atomic(cpu_env);
+> +        s->base.is_jmp = DISAS_NORETURN;
+> +        return true;
+> +    } else {
+> +        fn = fnsw[seq];
+> +#ifdef TARGET_RISCV64
+> +        if (s->sew == 3) {
+> +            fn = fnsd[seq];
+> +        }
+> +#endif
+> +    }
+> +
+> +    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
+> +    data = FIELD_DP32(data, VDATA, VM, a->vm);
+> +    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, WD, a->wd);
+> +    return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+> +}
+> +/*
+> + * There are two rules check here.
+> + *
+> + * 1. SEW must be at least as wide as the AMO memory element size.
+> + *
+> + * 2. If SEW is greater than XLEN, an illegal instruction exception is raised.
+> + */
+> +static bool amo_check(DisasContext *s, arg_rwdvm* a)
+> +{
+> +    return (vext_check_isa_ill(s, RVV | RVA) &&
+> +            (!a->wd || vext_check_overlap_mask(s, a->rd, a->vm, false)) &&
+> +            vext_check_reg(s, a->rd, false) &&
+> +            vext_check_reg(s, a->rs2, false) &&
+> +            ((1 << s->sew) <= sizeof(target_ulong)) &&
+> +            ((1 << s->sew) >= 4));
+> +}
+> +
+> +GEN_VEXT_TRANS(vamoswapw_v, 0, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoaddw_v, 1, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoxorw_v, 2, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoandw_v, 3, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoorw_v, 4, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominw_v, 5, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxw_v, 6, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominuw_v, 7, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxuw_v, 8, rwdvm, amo_op, amo_check)
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_TRANS(vamoswapd_v, 9, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoaddd_v, 10, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoxord_v, 11, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoandd_v, 12, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoord_v, 13, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomind_v, 14, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxd_v, 15, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominud_v, 16, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxud_v, 17, rwdvm, amo_op, amo_check)
+> +#endif
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 3841301b74..f9b409b169 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -94,6 +94,11 @@ static inline uint32_t vext_lmul(uint32_t desc)
+>      return FIELD_EX32(simd_data(desc), VDATA, LMUL);
+>  }
+>
+> +static uint32_t vext_wd(uint32_t desc)
+> +{
+> +    return (simd_data(desc) >> 11) & 0x1;
+> +}
+> +
+>  /*
+>   * Get vector group length in bytes. Its range is [64, 2048].
+>   *
+> @@ -685,3 +690,141 @@ GEN_VEXT_LDFF(vlhuff_v_w, uint16_t, uint32_t, MO_LEUW, ldhu_w, clearl)
+>  GEN_VEXT_LDFF(vlhuff_v_d, uint16_t, uint64_t, MO_LEUW, ldhu_d, clearq)
+>  GEN_VEXT_LDFF(vlwuff_v_w, uint32_t, uint32_t, MO_LEUL, ldwu_w, clearl)
+>  GEN_VEXT_LDFF(vlwuff_v_d, uint32_t, uint64_t, MO_LEUL, ldwu_d, clearq)
+> +
+> +/*
+> + *** Vector AMO Operations (Zvamo)
+> + */
+> +typedef void (*vext_amo_noatomic_fn)(void *vs3, target_ulong addr,
+> +        uint32_t wd, uint32_t idx, CPURISCVState *env, uintptr_t retaddr);
+> +
+> +/* no atomic opreation for vector atomic insructions */
+> +#define DO_SWAP(N, M) (M)
+> +#define DO_AND(N, M)  (N & M)
+> +#define DO_XOR(N, M)  (N ^ M)
+> +#define DO_OR(N, M)   (N | M)
+> +#define DO_ADD(N, M)  (N + M)
 
-diff --git a/linux-user/riscv/syscall32_nr.h b/linux-user/riscv/syscall32_nr.h
-new file mode 100644
-index 0000000000..4fef73e954
---- /dev/null
-+++ b/linux-user/riscv/syscall32_nr.h
-@@ -0,0 +1,295 @@
-+/*
-+ * This file contains the system call numbers.
-+ */
-+#ifndef LINUX_USER_RISCV_SYSCALL32_NR_H
-+#define LINUX_USER_RISCV_SYSCALL32_NR_H
-+
-+#define TARGET_NR_io_setup 0
-+#define TARGET_NR_io_destroy 1
-+#define TARGET_NR_io_submit 2
-+#define TARGET_NR_io_cancel 3
-+#define TARGET_NR_setxattr 5
-+#define TARGET_NR_lsetxattr 6
-+#define TARGET_NR_fsetxattr 7
-+#define TARGET_NR_getxattr 8
-+#define TARGET_NR_lgetxattr 9
-+#define TARGET_NR_fgetxattr 10
-+#define TARGET_NR_listxattr 11
-+#define TARGET_NR_llistxattr 12
-+#define TARGET_NR_flistxattr 13
-+#define TARGET_NR_removexattr 14
-+#define TARGET_NR_lremovexattr 15
-+#define TARGET_NR_fremovexattr 16
-+#define TARGET_NR_getcwd 17
-+#define TARGET_NR_lookup_dcookie 18
-+#define TARGET_NR_eventfd2 19
-+#define TARGET_NR_epoll_create1 20
-+#define TARGET_NR_epoll_ctl 21
-+#define TARGET_NR_epoll_pwait 22
-+#define TARGET_NR_dup 23
-+#define TARGET_NR_dup3 24
-+#define TARGET_NR_fcntl64 25
-+#define TARGET_NR_inotify_init1 26
-+#define TARGET_NR_inotify_add_watch 27
-+#define TARGET_NR_inotify_rm_watch 28
-+#define TARGET_NR_ioctl 29
-+#define TARGET_NR_ioprio_set 30
-+#define TARGET_NR_ioprio_get 31
-+#define TARGET_NR_flock 32
-+#define TARGET_NR_mknodat 33
-+#define TARGET_NR_mkdirat 34
-+#define TARGET_NR_unlinkat 35
-+#define TARGET_NR_symlinkat 36
-+#define TARGET_NR_linkat 37
-+#define TARGET_NR_umount2 39
-+#define TARGET_NR_mount 40
-+#define TARGET_NR_pivot_root 41
-+#define TARGET_NR_nfsservctl 42
-+#define TARGET_NR_statfs64 43
-+#define TARGET_NR_fstatfs64 44
-+#define TARGET_NR_truncate64 45
-+#define TARGET_NR_ftruncate64 46
-+#define TARGET_NR_fallocate 47
-+#define TARGET_NR_faccessat 48
-+#define TARGET_NR_chdir 49
-+#define TARGET_NR_fchdir 50
-+#define TARGET_NR_chroot 51
-+#define TARGET_NR_fchmod 52
-+#define TARGET_NR_fchmodat 53
-+#define TARGET_NR_fchownat 54
-+#define TARGET_NR_fchown 55
-+#define TARGET_NR_openat 56
-+#define TARGET_NR_close 57
-+#define TARGET_NR_vhangup 58
-+#define TARGET_NR_pipe2 59
-+#define TARGET_NR_quotactl 60
-+#define TARGET_NR_getdents64 61
-+#define TARGET_NR_llseek 62
-+#define TARGET_NR_read 63
-+#define TARGET_NR_write 64
-+#define TARGET_NR_readv 65
-+#define TARGET_NR_writev 66
-+#define TARGET_NR_pread64 67
-+#define TARGET_NR_pwrite64 68
-+#define TARGET_NR_preadv 69
-+#define TARGET_NR_pwritev 70
-+#define TARGET_NR_sendfile64 71
-+#define TARGET_NR_signalfd4 74
-+#define TARGET_NR_vmsplice 75
-+#define TARGET_NR_splice 76
-+#define TARGET_NR_tee 77
-+#define TARGET_NR_readlinkat 78
-+#define TARGET_NR_fstatat64 79
-+#define TARGET_NR_fstat64 80
-+#define TARGET_NR_sync 81
-+#define TARGET_NR_fsync 82
-+#define TARGET_NR_fdatasync 83
-+#define TARGET_NR_sync_file_range 84
-+#define TARGET_NR_timerfd_create 85
-+#define TARGET_NR_acct 89
-+#define TARGET_NR_capget 90
-+#define TARGET_NR_capset 91
-+#define TARGET_NR_personality 92
-+#define TARGET_NR_exit 93
-+#define TARGET_NR_exit_group 94
-+#define TARGET_NR_waitid 95
-+#define TARGET_NR_set_tid_address 96
-+#define TARGET_NR_unshare 97
-+#define TARGET_NR_set_robust_list 99
-+#define TARGET_NR_get_robust_list 100
-+#define TARGET_NR_getitimer 102
-+#define TARGET_NR_setitimer 103
-+#define TARGET_NR_kexec_load 104
-+#define TARGET_NR_init_module 105
-+#define TARGET_NR_delete_module 106
-+#define TARGET_NR_timer_create 107
-+#define TARGET_NR_timer_getoverrun 109
-+#define TARGET_NR_timer_delete 111
-+#define TARGET_NR_syslog 116
-+#define TARGET_NR_ptrace 117
-+#define TARGET_NR_sched_setparam 118
-+#define TARGET_NR_sched_setscheduler 119
-+#define TARGET_NR_sched_getscheduler 120
-+#define TARGET_NR_sched_getparam 121
-+#define TARGET_NR_sched_setaffinity 122
-+#define TARGET_NR_sched_getaffinity 123
-+#define TARGET_NR_sched_yield 124
-+#define TARGET_NR_sched_get_priority_max 125
-+#define TARGET_NR_sched_get_priority_min 126
-+#define TARGET_NR_restart_syscall 128
-+#define TARGET_NR_kill 129
-+#define TARGET_NR_tkill 130
-+#define TARGET_NR_tgkill 131
-+#define TARGET_NR_sigaltstack 132
-+#define TARGET_NR_rt_sigsuspend 133
-+#define TARGET_NR_rt_sigaction 134
-+#define TARGET_NR_rt_sigprocmask 135
-+#define TARGET_NR_rt_sigpending 136
-+#define TARGET_NR_rt_sigqueueinfo 138
-+#define TARGET_NR_rt_sigreturn 139
-+#define TARGET_NR_setpriority 140
-+#define TARGET_NR_getpriority 141
-+#define TARGET_NR_reboot 142
-+#define TARGET_NR_setregid 143
-+#define TARGET_NR_setgid 144
-+#define TARGET_NR_setreuid 145
-+#define TARGET_NR_setuid 146
-+#define TARGET_NR_setresuid 147
-+#define TARGET_NR_getresuid 148
-+#define TARGET_NR_setresgid 149
-+#define TARGET_NR_getresgid 150
-+#define TARGET_NR_setfsuid 151
-+#define TARGET_NR_setfsgid 152
-+#define TARGET_NR_times 153
-+#define TARGET_NR_setpgid 154
-+#define TARGET_NR_getpgid 155
-+#define TARGET_NR_getsid 156
-+#define TARGET_NR_setsid 157
-+#define TARGET_NR_getgroups 158
-+#define TARGET_NR_setgroups 159
-+#define TARGET_NR_uname 160
-+#define TARGET_NR_sethostname 161
-+#define TARGET_NR_setdomainname 162
-+#define TARGET_NR_getrlimit 163
-+#define TARGET_NR_setrlimit 164
-+#define TARGET_NR_getrusage 165
-+#define TARGET_NR_umask 166
-+#define TARGET_NR_prctl 167
-+#define TARGET_NR_getcpu 168
-+#define TARGET_NR_getpid 172
-+#define TARGET_NR_getppid 173
-+#define TARGET_NR_getuid 174
-+#define TARGET_NR_geteuid 175
-+#define TARGET_NR_getgid 176
-+#define TARGET_NR_getegid 177
-+#define TARGET_NR_gettid 178
-+#define TARGET_NR_sysinfo 179
-+#define TARGET_NR_mq_open 180
-+#define TARGET_NR_mq_unlink 181
-+#define TARGET_NR_mq_notify 184
-+#define TARGET_NR_mq_getsetattr 185
-+#define TARGET_NR_msgget 186
-+#define TARGET_NR_msgctl 187
-+#define TARGET_NR_msgrcv 188
-+#define TARGET_NR_msgsnd 189
-+#define TARGET_NR_semget 190
-+#define TARGET_NR_semctl 191
-+#define TARGET_NR_semop 193
-+#define TARGET_NR_shmget 194
-+#define TARGET_NR_shmctl 195
-+#define TARGET_NR_shmat 196
-+#define TARGET_NR_shmdt 197
-+#define TARGET_NR_socket 198
-+#define TARGET_NR_socketpair 199
-+#define TARGET_NR_bind 200
-+#define TARGET_NR_listen 201
-+#define TARGET_NR_accept 202
-+#define TARGET_NR_connect 203
-+#define TARGET_NR_getsockname 204
-+#define TARGET_NR_getpeername 205
-+#define TARGET_NR_sendto 206
-+#define TARGET_NR_recvfrom 207
-+#define TARGET_NR_setsockopt 208
-+#define TARGET_NR_getsockopt 209
-+#define TARGET_NR_shutdown 210
-+#define TARGET_NR_sendmsg 211
-+#define TARGET_NR_recvmsg 212
-+#define TARGET_NR_readahead 213
-+#define TARGET_NR_brk 214
-+#define TARGET_NR_munmap 215
-+#define TARGET_NR_mremap 216
-+#define TARGET_NR_add_key 217
-+#define TARGET_NR_request_key 218
-+#define TARGET_NR_keyctl 219
-+#define TARGET_NR_clone 220
-+#define TARGET_NR_execve 221
-+#define TARGET_NR_mmap2 222
-+#define TARGET_NR_fadvise64_64 223
-+#define TARGET_NR_swapon 224
-+#define TARGET_NR_swapoff 225
-+#define TARGET_NR_mprotect 226
-+#define TARGET_NR_msync 227
-+#define TARGET_NR_mlock 228
-+#define TARGET_NR_munlock 229
-+#define TARGET_NR_mlockall 230
-+#define TARGET_NR_munlockall 231
-+#define TARGET_NR_mincore 232
-+#define TARGET_NR_madvise 233
-+#define TARGET_NR_remap_file_pages 234
-+#define TARGET_NR_mbind 235
-+#define TARGET_NR_get_mempolicy 236
-+#define TARGET_NR_set_mempolicy 237
-+#define TARGET_NR_migrate_pages 238
-+#define TARGET_NR_move_pages 239
-+#define TARGET_NR_rt_tgsigqueueinfo 240
-+#define TARGET_NR_perf_event_open 241
-+#define TARGET_NR_accept4 242
-+#define TARGET_NR_arch_specific_syscall 244
-+#define TARGET_NR_riscv_flush_icache (TARGET_NR_arch_specific_syscall + 15)
-+#define TARGET_NR_prlimit64 261
-+#define TARGET_NR_fanotify_init 262
-+#define TARGET_NR_fanotify_mark 263
-+#define TARGET_NR_name_to_handle_at 264
-+#define TARGET_NR_open_by_handle_at 265
-+#define TARGET_NR_syncfs 267
-+#define TARGET_NR_setns 268
-+#define TARGET_NR_sendmmsg 269
-+#define TARGET_NR_process_vm_readv 270
-+#define TARGET_NR_process_vm_writev 271
-+#define TARGET_NR_kcmp 272
-+#define TARGET_NR_finit_module 273
-+#define TARGET_NR_sched_setattr 274
-+#define TARGET_NR_sched_getattr 275
-+#define TARGET_NR_renameat2 276
-+#define TARGET_NR_seccomp 277
-+#define TARGET_NR_getrandom 278
-+#define TARGET_NR_memfd_create 279
-+#define TARGET_NR_bpf 280
-+#define TARGET_NR_execveat 281
-+#define TARGET_NR_userfaultfd 282
-+#define TARGET_NR_membarrier 283
-+#define TARGET_NR_mlock2 284
-+#define TARGET_NR_copy_file_range 285
-+#define TARGET_NR_preadv2 286
-+#define TARGET_NR_pwritev2 287
-+#define TARGET_NR_pkey_mprotect 288
-+#define TARGET_NR_pkey_alloc 289
-+#define TARGET_NR_pkey_free 290
-+#define TARGET_NR_statx 291
-+#define TARGET_NR_rseq 293
-+#define TARGET_NR_kexec_file_load 294
-+#define TARGET_NR_clock_gettime64 403
-+#define TARGET_NR_clock_settime64 404
-+#define TARGET_NR_clock_adjtime64 405
-+#define TARGET_NR_clock_getres_time64 406
-+#define TARGET_NR_clock_nanosleep_time64 407
-+#define TARGET_NR_timer_gettime64 408
-+#define TARGET_NR_timer_settime64 409
-+#define TARGET_NR_timerfd_gettime64 410
-+#define TARGET_NR_timerfd_settime64 411
-+#define TARGET_NR_utimensat_time64 412
-+#define TARGET_NR_pselect6_time64 413
-+#define TARGET_NR_ppoll_time64 414
-+#define TARGET_NR_io_pgetevents_time64 416
-+#define TARGET_NR_recvmmsg_time64 417
-+#define TARGET_NR_mq_timedsend_time64 418
-+#define TARGET_NR_mq_timedreceive_time64 419
-+#define TARGET_NR_semtimedop_time64 420
-+#define TARGET_NR_rt_sigtimedwait_time64 421
-+#define TARGET_NR_futex_time64 422
-+#define TARGET_NR_sched_rr_get_interval_time64 423
-+#define TARGET_NR_pidfd_send_signal 424
-+#define TARGET_NR_io_uring_setup 425
-+#define TARGET_NR_io_uring_enter 426
-+#define TARGET_NR_io_uring_register 427
-+#define TARGET_NR_open_tree 428
-+#define TARGET_NR_move_mount 429
-+#define TARGET_NR_fsopen 430
-+#define TARGET_NR_fsconfig 431
-+#define TARGET_NR_fsmount 432
-+#define TARGET_NR_fspick 433
-+#define TARGET_NR_pidfd_open 434
-+#define TARGET_NR_clone3 435
-+#define TARGET_NR_syscalls 436
-+
-+#endif /* LINUX_USER_RISCV_SYSCALL32_NR_H */
-diff --git a/linux-user/riscv/syscall64_nr.h b/linux-user/riscv/syscall64_nr.h
-new file mode 100644
-index 0000000000..cc82f3244f
---- /dev/null
-+++ b/linux-user/riscv/syscall64_nr.h
-@@ -0,0 +1,301 @@
-+/*
-+ * This file contains the system call numbers.
-+ */
-+#ifndef LINUX_USER_RISCV_SYSCALL64_NR_H
-+#define LINUX_USER_RISCV_SYSCALL64_NR_H
-+
-+#define TARGET_NR_io_setup 0
-+#define TARGET_NR_io_destroy 1
-+#define TARGET_NR_io_submit 2
-+#define TARGET_NR_io_cancel 3
-+#define TARGET_NR_io_getevents 4
-+#define TARGET_NR_setxattr 5
-+#define TARGET_NR_lsetxattr 6
-+#define TARGET_NR_fsetxattr 7
-+#define TARGET_NR_getxattr 8
-+#define TARGET_NR_lgetxattr 9
-+#define TARGET_NR_fgetxattr 10
-+#define TARGET_NR_listxattr 11
-+#define TARGET_NR_llistxattr 12
-+#define TARGET_NR_flistxattr 13
-+#define TARGET_NR_removexattr 14
-+#define TARGET_NR_lremovexattr 15
-+#define TARGET_NR_fremovexattr 16
-+#define TARGET_NR_getcwd 17
-+#define TARGET_NR_lookup_dcookie 18
-+#define TARGET_NR_eventfd2 19
-+#define TARGET_NR_epoll_create1 20
-+#define TARGET_NR_epoll_ctl 21
-+#define TARGET_NR_epoll_pwait 22
-+#define TARGET_NR_dup 23
-+#define TARGET_NR_dup3 24
-+#define TARGET_NR_fcntl 25
-+#define TARGET_NR_inotify_init1 26
-+#define TARGET_NR_inotify_add_watch 27
-+#define TARGET_NR_inotify_rm_watch 28
-+#define TARGET_NR_ioctl 29
-+#define TARGET_NR_ioprio_set 30
-+#define TARGET_NR_ioprio_get 31
-+#define TARGET_NR_flock 32
-+#define TARGET_NR_mknodat 33
-+#define TARGET_NR_mkdirat 34
-+#define TARGET_NR_unlinkat 35
-+#define TARGET_NR_symlinkat 36
-+#define TARGET_NR_linkat 37
-+#define TARGET_NR_umount2 39
-+#define TARGET_NR_mount 40
-+#define TARGET_NR_pivot_root 41
-+#define TARGET_NR_nfsservctl 42
-+#define TARGET_NR_statfs 43
-+#define TARGET_NR_fstatfs 44
-+#define TARGET_NR_truncate 45
-+#define TARGET_NR_ftruncate 46
-+#define TARGET_NR_fallocate 47
-+#define TARGET_NR_faccessat 48
-+#define TARGET_NR_chdir 49
-+#define TARGET_NR_fchdir 50
-+#define TARGET_NR_chroot 51
-+#define TARGET_NR_fchmod 52
-+#define TARGET_NR_fchmodat 53
-+#define TARGET_NR_fchownat 54
-+#define TARGET_NR_fchown 55
-+#define TARGET_NR_openat 56
-+#define TARGET_NR_close 57
-+#define TARGET_NR_vhangup 58
-+#define TARGET_NR_pipe2 59
-+#define TARGET_NR_quotactl 60
-+#define TARGET_NR_getdents64 61
-+#define TARGET_NR_lseek 62
-+#define TARGET_NR_read 63
-+#define TARGET_NR_write 64
-+#define TARGET_NR_readv 65
-+#define TARGET_NR_writev 66
-+#define TARGET_NR_pread64 67
-+#define TARGET_NR_pwrite64 68
-+#define TARGET_NR_preadv 69
-+#define TARGET_NR_pwritev 70
-+#define TARGET_NR_sendfile 71
-+#define TARGET_NR_pselect6 72
-+#define TARGET_NR_ppoll 73
-+#define TARGET_NR_signalfd4 74
-+#define TARGET_NR_vmsplice 75
-+#define TARGET_NR_splice 76
-+#define TARGET_NR_tee 77
-+#define TARGET_NR_readlinkat 78
-+#define TARGET_NR_newfstatat 79
-+#define TARGET_NR_fstat 80
-+#define TARGET_NR_sync 81
-+#define TARGET_NR_fsync 82
-+#define TARGET_NR_fdatasync 83
-+#define TARGET_NR_sync_file_range 84
-+#define TARGET_NR_timerfd_create 85
-+#define TARGET_NR_timerfd_settime 86
-+#define TARGET_NR_timerfd_gettime 87
-+#define TARGET_NR_utimensat 88
-+#define TARGET_NR_acct 89
-+#define TARGET_NR_capget 90
-+#define TARGET_NR_capset 91
-+#define TARGET_NR_personality 92
-+#define TARGET_NR_exit 93
-+#define TARGET_NR_exit_group 94
-+#define TARGET_NR_waitid 95
-+#define TARGET_NR_set_tid_address 96
-+#define TARGET_NR_unshare 97
-+#define TARGET_NR_futex 98
-+#define TARGET_NR_set_robust_list 99
-+#define TARGET_NR_get_robust_list 100
-+#define TARGET_NR_nanosleep 101
-+#define TARGET_NR_getitimer 102
-+#define TARGET_NR_setitimer 103
-+#define TARGET_NR_kexec_load 104
-+#define TARGET_NR_init_module 105
-+#define TARGET_NR_delete_module 106
-+#define TARGET_NR_timer_create 107
-+#define TARGET_NR_timer_gettime 108
-+#define TARGET_NR_timer_getoverrun 109
-+#define TARGET_NR_timer_settime 110
-+#define TARGET_NR_timer_delete 111
-+#define TARGET_NR_clock_settime 112
-+#define TARGET_NR_clock_gettime 113
-+#define TARGET_NR_clock_getres 114
-+#define TARGET_NR_clock_nanosleep 115
-+#define TARGET_NR_syslog 116
-+#define TARGET_NR_ptrace 117
-+#define TARGET_NR_sched_setparam 118
-+#define TARGET_NR_sched_setscheduler 119
-+#define TARGET_NR_sched_getscheduler 120
-+#define TARGET_NR_sched_getparam 121
-+#define TARGET_NR_sched_setaffinity 122
-+#define TARGET_NR_sched_getaffinity 123
-+#define TARGET_NR_sched_yield 124
-+#define TARGET_NR_sched_get_priority_max 125
-+#define TARGET_NR_sched_get_priority_min 126
-+#define TARGET_NR_sched_rr_get_interval 127
-+#define TARGET_NR_restart_syscall 128
-+#define TARGET_NR_kill 129
-+#define TARGET_NR_tkill 130
-+#define TARGET_NR_tgkill 131
-+#define TARGET_NR_sigaltstack 132
-+#define TARGET_NR_rt_sigsuspend 133
-+#define TARGET_NR_rt_sigaction 134
-+#define TARGET_NR_rt_sigprocmask 135
-+#define TARGET_NR_rt_sigpending 136
-+#define TARGET_NR_rt_sigtimedwait 137
-+#define TARGET_NR_rt_sigqueueinfo 138
-+#define TARGET_NR_rt_sigreturn 139
-+#define TARGET_NR_setpriority 140
-+#define TARGET_NR_getpriority 141
-+#define TARGET_NR_reboot 142
-+#define TARGET_NR_setregid 143
-+#define TARGET_NR_setgid 144
-+#define TARGET_NR_setreuid 145
-+#define TARGET_NR_setuid 146
-+#define TARGET_NR_setresuid 147
-+#define TARGET_NR_getresuid 148
-+#define TARGET_NR_setresgid 149
-+#define TARGET_NR_getresgid 150
-+#define TARGET_NR_setfsuid 151
-+#define TARGET_NR_setfsgid 152
-+#define TARGET_NR_times 153
-+#define TARGET_NR_setpgid 154
-+#define TARGET_NR_getpgid 155
-+#define TARGET_NR_getsid 156
-+#define TARGET_NR_setsid 157
-+#define TARGET_NR_getgroups 158
-+#define TARGET_NR_setgroups 159
-+#define TARGET_NR_uname 160
-+#define TARGET_NR_sethostname 161
-+#define TARGET_NR_setdomainname 162
-+#define TARGET_NR_getrlimit 163
-+#define TARGET_NR_setrlimit 164
-+#define TARGET_NR_getrusage 165
-+#define TARGET_NR_umask 166
-+#define TARGET_NR_prctl 167
-+#define TARGET_NR_getcpu 168
-+#define TARGET_NR_gettimeofday 169
-+#define TARGET_NR_settimeofday 170
-+#define TARGET_NR_adjtimex 171
-+#define TARGET_NR_getpid 172
-+#define TARGET_NR_getppid 173
-+#define TARGET_NR_getuid 174
-+#define TARGET_NR_geteuid 175
-+#define TARGET_NR_getgid 176
-+#define TARGET_NR_getegid 177
-+#define TARGET_NR_gettid 178
-+#define TARGET_NR_sysinfo 179
-+#define TARGET_NR_mq_open 180
-+#define TARGET_NR_mq_unlink 181
-+#define TARGET_NR_mq_timedsend 182
-+#define TARGET_NR_mq_timedreceive 183
-+#define TARGET_NR_mq_notify 184
-+#define TARGET_NR_mq_getsetattr 185
-+#define TARGET_NR_msgget 186
-+#define TARGET_NR_msgctl 187
-+#define TARGET_NR_msgrcv 188
-+#define TARGET_NR_msgsnd 189
-+#define TARGET_NR_semget 190
-+#define TARGET_NR_semctl 191
-+#define TARGET_NR_semtimedop 192
-+#define TARGET_NR_semop 193
-+#define TARGET_NR_shmget 194
-+#define TARGET_NR_shmctl 195
-+#define TARGET_NR_shmat 196
-+#define TARGET_NR_shmdt 197
-+#define TARGET_NR_socket 198
-+#define TARGET_NR_socketpair 199
-+#define TARGET_NR_bind 200
-+#define TARGET_NR_listen 201
-+#define TARGET_NR_accept 202
-+#define TARGET_NR_connect 203
-+#define TARGET_NR_getsockname 204
-+#define TARGET_NR_getpeername 205
-+#define TARGET_NR_sendto 206
-+#define TARGET_NR_recvfrom 207
-+#define TARGET_NR_setsockopt 208
-+#define TARGET_NR_getsockopt 209
-+#define TARGET_NR_shutdown 210
-+#define TARGET_NR_sendmsg 211
-+#define TARGET_NR_recvmsg 212
-+#define TARGET_NR_readahead 213
-+#define TARGET_NR_brk 214
-+#define TARGET_NR_munmap 215
-+#define TARGET_NR_mremap 216
-+#define TARGET_NR_add_key 217
-+#define TARGET_NR_request_key 218
-+#define TARGET_NR_keyctl 219
-+#define TARGET_NR_clone 220
-+#define TARGET_NR_execve 221
-+#define TARGET_NR_mmap 222
-+#define TARGET_NR_fadvise64 223
-+#define TARGET_NR_swapon 224
-+#define TARGET_NR_swapoff 225
-+#define TARGET_NR_mprotect 226
-+#define TARGET_NR_msync 227
-+#define TARGET_NR_mlock 228
-+#define TARGET_NR_munlock 229
-+#define TARGET_NR_mlockall 230
-+#define TARGET_NR_munlockall 231
-+#define TARGET_NR_mincore 232
-+#define TARGET_NR_madvise 233
-+#define TARGET_NR_remap_file_pages 234
-+#define TARGET_NR_mbind 235
-+#define TARGET_NR_get_mempolicy 236
-+#define TARGET_NR_set_mempolicy 237
-+#define TARGET_NR_migrate_pages 238
-+#define TARGET_NR_move_pages 239
-+#define TARGET_NR_rt_tgsigqueueinfo 240
-+#define TARGET_NR_perf_event_open 241
-+#define TARGET_NR_accept4 242
-+#define TARGET_NR_recvmmsg 243
-+#define TARGET_NR_arch_specific_syscall 244
-+#define TARGET_NR_riscv_flush_icache (TARGET_NR_arch_specific_syscall + 15)
-+#define TARGET_NR_wait4 260
-+#define TARGET_NR_prlimit64 261
-+#define TARGET_NR_fanotify_init 262
-+#define TARGET_NR_fanotify_mark 263
-+#define TARGET_NR_name_to_handle_at 264
-+#define TARGET_NR_open_by_handle_at 265
-+#define TARGET_NR_clock_adjtime 266
-+#define TARGET_NR_syncfs 267
-+#define TARGET_NR_setns 268
-+#define TARGET_NR_sendmmsg 269
-+#define TARGET_NR_process_vm_readv 270
-+#define TARGET_NR_process_vm_writev 271
-+#define TARGET_NR_kcmp 272
-+#define TARGET_NR_finit_module 273
-+#define TARGET_NR_sched_setattr 274
-+#define TARGET_NR_sched_getattr 275
-+#define TARGET_NR_renameat2 276
-+#define TARGET_NR_seccomp 277
-+#define TARGET_NR_getrandom 278
-+#define TARGET_NR_memfd_create 279
-+#define TARGET_NR_bpf 280
-+#define TARGET_NR_execveat 281
-+#define TARGET_NR_userfaultfd 282
-+#define TARGET_NR_membarrier 283
-+#define TARGET_NR_mlock2 284
-+#define TARGET_NR_copy_file_range 285
-+#define TARGET_NR_preadv2 286
-+#define TARGET_NR_pwritev2 287
-+#define TARGET_NR_pkey_mprotect 288
-+#define TARGET_NR_pkey_alloc 289
-+#define TARGET_NR_pkey_free 290
-+#define TARGET_NR_statx 291
-+#define TARGET_NR_io_pgetevents 292
-+#define TARGET_NR_rseq 293
-+#define TARGET_NR_kexec_file_load 294
-+#define TARGET_NR_pidfd_send_signal 424
-+#define TARGET_NR_io_uring_setup 425
-+#define TARGET_NR_io_uring_enter 426
-+#define TARGET_NR_io_uring_register 427
-+#define TARGET_NR_open_tree 428
-+#define TARGET_NR_move_mount 429
-+#define TARGET_NR_fsopen 430
-+#define TARGET_NR_fsconfig 431
-+#define TARGET_NR_fsmount 432
-+#define TARGET_NR_fspick 433
-+#define TARGET_NR_pidfd_open 434
-+#define TARGET_NR_clone3 435
-+#define TARGET_NR_syscalls 436
-+
-+#endif /* LINUX_USER_RISCV_SYSCALL64_NR_H */
-diff --git a/linux-user/riscv/syscall_nr.h b/linux-user/riscv/syscall_nr.h
-index 5c87282209..0a5a2f2fb1 100644
---- a/linux-user/riscv/syscall_nr.h
-+++ b/linux-user/riscv/syscall_nr.h
-@@ -6,300 +6,10 @@
- #ifndef LINUX_USER_RISCV_SYSCALL_NR_H
- #define LINUX_USER_RISCV_SYSCALL_NR_H
- 
--#define TARGET_NR_io_setup 0
--#define TARGET_NR_io_destroy 1
--#define TARGET_NR_io_submit 2
--#define TARGET_NR_io_cancel 3
--#define TARGET_NR_io_getevents 4
--#define TARGET_NR_setxattr 5
--#define TARGET_NR_lsetxattr 6
--#define TARGET_NR_fsetxattr 7
--#define TARGET_NR_getxattr 8
--#define TARGET_NR_lgetxattr 9
--#define TARGET_NR_fgetxattr 10
--#define TARGET_NR_listxattr 11
--#define TARGET_NR_llistxattr 12
--#define TARGET_NR_flistxattr 13
--#define TARGET_NR_removexattr 14
--#define TARGET_NR_lremovexattr 15
--#define TARGET_NR_fremovexattr 16
--#define TARGET_NR_getcwd 17
--#define TARGET_NR_lookup_dcookie 18
--#define TARGET_NR_eventfd2 19
--#define TARGET_NR_epoll_create1 20
--#define TARGET_NR_epoll_ctl 21
--#define TARGET_NR_epoll_pwait 22
--#define TARGET_NR_dup 23
--#define TARGET_NR_dup3 24
- #ifdef TARGET_RISCV32
--#define TARGET_NR_fcntl64 25
-+# include "syscall32_nr.h"
- #else
--#define TARGET_NR_fcntl 25
-+# include "syscall64_nr.h"
- #endif
--#define TARGET_NR_inotify_init1 26
--#define TARGET_NR_inotify_add_watch 27
--#define TARGET_NR_inotify_rm_watch 28
--#define TARGET_NR_ioctl 29
--#define TARGET_NR_ioprio_set 30
--#define TARGET_NR_ioprio_get 31
--#define TARGET_NR_flock 32
--#define TARGET_NR_mknodat 33
--#define TARGET_NR_mkdirat 34
--#define TARGET_NR_unlinkat 35
--#define TARGET_NR_symlinkat 36
--#define TARGET_NR_linkat 37
--#define TARGET_NR_renameat 38
--#define TARGET_NR_umount2 39
--#define TARGET_NR_mount 40
--#define TARGET_NR_pivot_root 41
--#define TARGET_NR_nfsservctl 42
--#define TARGET_NR_statfs 43
--#define TARGET_NR_fstatfs 44
--#define TARGET_NR_truncate 45
--#define TARGET_NR_ftruncate 46
--#define TARGET_NR_fallocate 47
--#define TARGET_NR_faccessat 48
--#define TARGET_NR_chdir 49
--#define TARGET_NR_fchdir 50
--#define TARGET_NR_chroot 51
--#define TARGET_NR_fchmod 52
--#define TARGET_NR_fchmodat 53
--#define TARGET_NR_fchownat 54
--#define TARGET_NR_fchown 55
--#define TARGET_NR_openat 56
--#define TARGET_NR_close 57
--#define TARGET_NR_vhangup 58
--#define TARGET_NR_pipe2 59
--#define TARGET_NR_quotactl 60
--#define TARGET_NR_getdents64 61
--#ifdef TARGET_RISCV32
--#define TARGET_NR__llseek 62
--#else
--#define TARGET_NR_lseek 62
--#endif
--#define TARGET_NR_read 63
--#define TARGET_NR_write 64
--#define TARGET_NR_readv 65
--#define TARGET_NR_writev 66
--#define TARGET_NR_pread64 67
--#define TARGET_NR_pwrite64 68
--#define TARGET_NR_preadv 69
--#define TARGET_NR_pwritev 70
--#define TARGET_NR_sendfile 71
--#define TARGET_NR_pselect6 72
--#define TARGET_NR_ppoll 73
--#define TARGET_NR_signalfd4 74
--#define TARGET_NR_vmsplice 75
--#define TARGET_NR_splice 76
--#define TARGET_NR_tee 77
--#define TARGET_NR_readlinkat 78
--#define TARGET_NR_newfstatat 79
--#define TARGET_NR_fstat 80
--#define TARGET_NR_sync 81
--#define TARGET_NR_fsync 82
--#define TARGET_NR_fdatasync 83
--#define TARGET_NR_sync_file_range 84
--#define TARGET_NR_timerfd_create 85
--#define TARGET_NR_timerfd_settime 86
--#define TARGET_NR_timerfd_gettime 87
--#define TARGET_NR_utimensat 88
--#define TARGET_NR_acct 89
--#define TARGET_NR_capget 90
--#define TARGET_NR_capset 91
--#define TARGET_NR_personality 92
--#define TARGET_NR_exit 93
--#define TARGET_NR_exit_group 94
--#define TARGET_NR_waitid 95
--#define TARGET_NR_set_tid_address 96
--#define TARGET_NR_unshare 97
--#define TARGET_NR_futex 98
--#define TARGET_NR_set_robust_list 99
--#define TARGET_NR_get_robust_list 100
--#define TARGET_NR_nanosleep 101
--#define TARGET_NR_getitimer 102
--#define TARGET_NR_setitimer 103
--#define TARGET_NR_kexec_load 104
--#define TARGET_NR_init_module 105
--#define TARGET_NR_delete_module 106
--#define TARGET_NR_timer_create 107
--#define TARGET_NR_timer_gettime 108
--#define TARGET_NR_timer_getoverrun 109
--#define TARGET_NR_timer_settime 110
--#define TARGET_NR_timer_delete 111
--#define TARGET_NR_clock_settime 112
--#define TARGET_NR_clock_gettime 113
--#define TARGET_NR_clock_getres 114
--#define TARGET_NR_clock_nanosleep 115
--#define TARGET_NR_syslog 116
--#define TARGET_NR_ptrace 117
--#define TARGET_NR_sched_setparam 118
--#define TARGET_NR_sched_setscheduler 119
--#define TARGET_NR_sched_getscheduler 120
--#define TARGET_NR_sched_getparam 121
--#define TARGET_NR_sched_setaffinity 122
--#define TARGET_NR_sched_getaffinity 123
--#define TARGET_NR_sched_yield 124
--#define TARGET_NR_sched_get_priority_max 125
--#define TARGET_NR_sched_get_priority_min 126
--#define TARGET_NR_sched_rr_get_interval 127
--#define TARGET_NR_restart_syscall 128
--#define TARGET_NR_kill 129
--#define TARGET_NR_tkill 130
--#define TARGET_NR_tgkill 131
--#define TARGET_NR_sigaltstack 132
--#define TARGET_NR_rt_sigsuspend 133
--#define TARGET_NR_rt_sigaction 134
--#define TARGET_NR_rt_sigprocmask 135
--#define TARGET_NR_rt_sigpending 136
--#define TARGET_NR_rt_sigtimedwait 137
--#define TARGET_NR_rt_sigqueueinfo 138
--#define TARGET_NR_rt_sigreturn 139
--#define TARGET_NR_setpriority 140
--#define TARGET_NR_getpriority 141
--#define TARGET_NR_reboot 142
--#define TARGET_NR_setregid 143
--#define TARGET_NR_setgid 144
--#define TARGET_NR_setreuid 145
--#define TARGET_NR_setuid 146
--#define TARGET_NR_setresuid 147
--#define TARGET_NR_getresuid 148
--#define TARGET_NR_setresgid 149
--#define TARGET_NR_getresgid 150
--#define TARGET_NR_setfsuid 151
--#define TARGET_NR_setfsgid 152
--#define TARGET_NR_times 153
--#define TARGET_NR_setpgid 154
--#define TARGET_NR_getpgid 155
--#define TARGET_NR_getsid 156
--#define TARGET_NR_setsid 157
--#define TARGET_NR_getgroups 158
--#define TARGET_NR_setgroups 159
--#define TARGET_NR_uname 160
--#define TARGET_NR_sethostname 161
--#define TARGET_NR_setdomainname 162
--#define TARGET_NR_getrlimit 163
--#define TARGET_NR_setrlimit 164
--#define TARGET_NR_getrusage 165
--#define TARGET_NR_umask 166
--#define TARGET_NR_prctl 167
--#define TARGET_NR_getcpu 168
--#define TARGET_NR_gettimeofday 169
--#define TARGET_NR_settimeofday 170
--#define TARGET_NR_adjtimex 171
--#define TARGET_NR_getpid 172
--#define TARGET_NR_getppid 173
--#define TARGET_NR_getuid 174
--#define TARGET_NR_geteuid 175
--#define TARGET_NR_getgid 176
--#define TARGET_NR_getegid 177
--#define TARGET_NR_gettid 178
--#define TARGET_NR_sysinfo 179
--#define TARGET_NR_mq_open 180
--#define TARGET_NR_mq_unlink 181
--#define TARGET_NR_mq_timedsend 182
--#define TARGET_NR_mq_timedreceive 183
--#define TARGET_NR_mq_notify 184
--#define TARGET_NR_mq_getsetattr 185
--#define TARGET_NR_msgget 186
--#define TARGET_NR_msgctl 187
--#define TARGET_NR_msgrcv 188
--#define TARGET_NR_msgsnd 189
--#define TARGET_NR_semget 190
--#define TARGET_NR_semctl 191
--#define TARGET_NR_semtimedop 192
--#define TARGET_NR_semop 193
--#define TARGET_NR_shmget 194
--#define TARGET_NR_shmctl 195
--#define TARGET_NR_shmat 196
--#define TARGET_NR_shmdt 197
--#define TARGET_NR_socket 198
--#define TARGET_NR_socketpair 199
--#define TARGET_NR_bind 200
--#define TARGET_NR_listen 201
--#define TARGET_NR_accept 202
--#define TARGET_NR_connect 203
--#define TARGET_NR_getsockname 204
--#define TARGET_NR_getpeername 205
--#define TARGET_NR_sendto 206
--#define TARGET_NR_recvfrom 207
--#define TARGET_NR_setsockopt 208
--#define TARGET_NR_getsockopt 209
--#define TARGET_NR_shutdown 210
--#define TARGET_NR_sendmsg 211
--#define TARGET_NR_recvmsg 212
--#define TARGET_NR_readahead 213
--#define TARGET_NR_brk 214
--#define TARGET_NR_munmap 215
--#define TARGET_NR_mremap 216
--#define TARGET_NR_add_key 217
--#define TARGET_NR_request_key 218
--#define TARGET_NR_keyctl 219
--#define TARGET_NR_clone 220
--#define TARGET_NR_execve 221
--#ifdef TARGET_RISCV32
--#define TARGET_NR_mmap2 222
--#define TARGET_NR_fadvise64_64 223
--#else
--#define TARGET_NR_mmap 222
--#define TARGET_NR_fadvise64 223
--#endif
--#define TARGET_NR_swapon 224
--#define TARGET_NR_swapoff 225
--#define TARGET_NR_mprotect 226
--#define TARGET_NR_msync 227
--#define TARGET_NR_mlock 228
--#define TARGET_NR_munlock 229
--#define TARGET_NR_mlockall 230
--#define TARGET_NR_munlockall 231
--#define TARGET_NR_mincore 232
--#define TARGET_NR_madvise 233
--#define TARGET_NR_remap_file_pages 234
--#define TARGET_NR_mbind 235
--#define TARGET_NR_get_mempolicy 236
--#define TARGET_NR_set_mempolicy 237
--#define TARGET_NR_migrate_pages 238
--#define TARGET_NR_move_pages 239
--#define TARGET_NR_rt_tgsigqueueinfo 240
--#define TARGET_NR_perf_event_open 241
--#define TARGET_NR_accept4 242
--#define TARGET_NR_recvmmsg 243
--#define TARGET_NR_arch_specific_syscall 244
--#define TARGET_NR_wait4 260
--#define TARGET_NR_prlimit64 261
--#define TARGET_NR_fanotify_init 262
--#define TARGET_NR_fanotify_mark 263
--#define TARGET_NR_name_to_handle_at 264
--#define TARGET_NR_open_by_handle_at 265
--#define TARGET_NR_clock_adjtime 266
--#define TARGET_NR_syncfs 267
--#define TARGET_NR_setns 268
--#define TARGET_NR_sendmmsg 269
--#define TARGET_NR_process_vm_readv 270
--#define TARGET_NR_process_vm_writev 271
--#define TARGET_NR_kcmp 272
--#define TARGET_NR_finit_module 273
--#define TARGET_NR_sched_setattr 274
--#define TARGET_NR_sched_getattr 275
--#define TARGET_NR_renameat2 276
--#define TARGET_NR_seccomp 277
--#define TARGET_NR_getrandom 278
--#define TARGET_NR_memfd_create 279
--#define TARGET_NR_bpf 280
--#define TARGET_NR_execveat 281
--#define TARGET_NR_userfaultfd 282
--#define TARGET_NR_membarrier 283
--#define TARGET_NR_mlock2 284
--#define TARGET_NR_copy_file_range 285
--#define TARGET_NR_preadv2 286
--#define TARGET_NR_pwritev2 287
--#define TARGET_NR_pkey_mprotect 288
--#define TARGET_NR_pkey_alloc 289
--#define TARGET_NR_pkey_free 290
--#define TARGET_NR_statx 291
--#define TARGET_NR_io_pgetevents 292
--#define TARGET_NR_rseq 293
--#define TARGET_NR_kexec_file_load 294
--
--#define TARGET_NR_syscalls (TARGET_NR_kexec_file_load + 1)
- 
- #endif
--- 
-2.25.1
+Why don't these need to be atomic?
 
+> +
+> +#define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ESZ, MSZ, H, DO_OP, SUF) \
+> +static void vext_##NAME##_noatomic_op(void *vs3,                \
+> +            target_ulong addr, uint32_t wd, uint32_t idx,       \
+> +                CPURISCVState *env, uintptr_t retaddr)          \
+> +{                                                               \
+> +    typedef int##ESZ##_t ETYPE;                                 \
+> +    typedef int##MSZ##_t MTYPE;                                 \
+> +    typedef uint##MSZ##_t UMTYPE __attribute__((unused));       \
+> +    ETYPE *pe3 = (ETYPE *)vs3 + H(idx);                         \
+> +    MTYPE a = *pe3, b = cpu_ld##SUF##_data(env, addr);          \
+> +    a = DO_OP(a, b);                                            \
+> +    cpu_st##SUF##_data(env, addr, a);                           \
+> +    if (wd) {                                                   \
+> +        *pe3 = a;                                               \
+> +    }                                                           \
+> +}
+> +
+> +/* Signed min/max */
+> +#define DO_MAX(N, M)  ((N) >= (M) ? (N) : (M))
+> +#define DO_MIN(N, M)  ((N) >= (M) ? (M) : (N))
+> +
+> +/* Unsigned min/max */
+> +#define DO_MAXU(N, M) DO_MAX((UMTYPE)N, (UMTYPE)M)
+> +#define DO_MINU(N, M) DO_MIN((UMTYPE)N, (UMTYPE)M)
+> +
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapw_v_w, 32, 32, H4, DO_SWAP, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddw_v_w,  32, 32, H4, DO_ADD,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxorw_v_w,  32, 32, H4, DO_XOR,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandw_v_w,  32, 32, H4, DO_AND,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoorw_v_w,   32, 32, H4, DO_OR,   l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominw_v_w,  32, 32, H4, DO_MIN,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxw_v_w,  32, 32, H4, DO_MAX,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_w, 32, 32, H4, DO_MINU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_w, 32, 32, H4, DO_MAXU, l)
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapw_v_d, 64, 32, H8, DO_SWAP, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapd_v_d, 64, 64, H8, DO_SWAP, q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddw_v_d,  64, 32, H8, DO_ADD,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddd_v_d,  64, 64, H8, DO_ADD,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxorw_v_d,  64, 32, H8, DO_XOR,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxord_v_d,  64, 64, H8, DO_XOR,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandw_v_d,  64, 32, H8, DO_AND,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandd_v_d,  64, 64, H8, DO_AND,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoorw_v_d,   64, 32, H8, DO_OR,   l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoord_v_d,   64, 64, H8, DO_OR,   q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominw_v_d,  64, 32, H8, DO_MIN,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomind_v_d,  64, 64, H8, DO_MIN,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxw_v_d,  64, 32, H8, DO_MAX,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxd_v_d,  64, 64, H8, DO_MAX,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_d, 64, 32, H8, DO_MINU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominud_v_d, 64, 64, H8, DO_MINU, q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_d, 64, 32, H8, DO_MAXU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxud_v_d, 64, 64, H8, DO_MAXU, q)
+> +#endif
+
+I'm confused why these are different to
+
+> +
+> +static inline void vext_amo_noatomic(void *vs3, void *v0, target_ulong base,
+> +        void *vs2, CPURISCVState *env, uint32_t desc,
+> +        vext_get_index_addr get_index_addr,
+> +        vext_amo_noatomic_fn noatomic_op,
+> +        vext_ld_clear_elem clear_elem,
+> +        uint32_t esz, uint32_t msz, uintptr_t ra)
+> +{
+> +    uint32_t i;
+> +    target_long addr;
+> +    uint32_t wd = vext_wd(desc);
+> +    uint32_t vm = vext_vm(desc);
+> +    uint32_t mlen = vext_mlen(desc);
+> +    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +
+> +    for (i = 0; i < env->vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
+> +            continue;
+> +        }
+> +        probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_LOAD);
+> +        probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_STORE);
+> +    }
+> +    for (i = 0; i < env->vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
+> +            continue;
+> +        }
+> +        addr = get_index_addr(base, i, vs2);
+> +        noatomic_op(vs3, addr, wd, i, env, ra);
+> +    }
+> +    clear_elem(vs3, env->vl, env->vl * esz, vlmax * esz);
+> +}
+> +
+> +#define GEN_VEXT_AMO(NAME, MTYPE, ETYPE, INDEX_FN, CLEAR_FN)    \
+> +void HELPER(NAME)(void *vs3, void *v0, target_ulong base,       \
+> +        void *vs2, CPURISCVState *env, uint32_t desc)           \
+> +{                                                               \
+> +    vext_amo_noatomic(vs3, v0, base, vs2, env, desc,            \
+> +        INDEX_FN, vext_##NAME##_noatomic_op, CLEAR_FN,          \
+> +        sizeof(ETYPE), sizeof(MTYPE), GETPC());                 \
+> +}
+> +
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_AMO(vamoswapw_v_d, int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoswapd_v_d, int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoaddw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoaddd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoxorw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoxord_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoandw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoandd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoorw_v_d,   int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoord_v_d,   int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamominw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomind_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamominuw_v_d, uint32_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamominud_v_d, uint64_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxuw_v_d, uint32_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxud_v_d, uint64_t, uint64_t, idx_d, clearq)
+> +#endif
+> +GEN_VEXT_AMO(vamoswapw_v_w, int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoaddw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoxorw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoandw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoorw_v_w,   int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamominw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamomaxw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamominuw_v_w, uint32_t, uint32_t, idx_w, clearl)
+> +GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
+
+These?
+
+Alistair
+
+> --
+> 2.23.0
+>
 
