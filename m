@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F2A185510
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 08:36:20 +0100 (CET)
-Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21168185515
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 08:53:46 +0100 (CET)
+Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD1LG-0006YW-MF
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 03:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
+	id 1jD1c8-0001Jj-Ta
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 03:53:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jD1KM-0005dn-8R
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:35:23 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jD1bD-0000nV-Qf
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:52:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jD1KL-0003d6-4q
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:35:22 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44074)
+ (envelope-from <richard.henderson@linaro.org>) id 1jD1bC-0008CQ-MY
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:52:47 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41493)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jD1KK-0003YN-UA
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:35:21 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b72so6663869pfb.11
- for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 00:35:20 -0700 (PDT)
+ id 1jD1bC-00083J-EH
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 03:52:46 -0400
+Received: by mail-pf1-x441.google.com with SMTP id z65so6685915pfz.8
+ for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 00:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L6PnIl46SHmSjcpt8xU/K11ykKRTer8M9KJmMkyuEM8=;
- b=otjGv07fDRlrVn9szVvYefGYRvNIwws85KkZguxUJKQMvvf7+3vcGu04led6/YlPUA
- mRSaDnxBbZq6BYrJCDobdQmAxu8VEV2TMh7IUutKBvbORl19hAKSrcz1eL1SGNfX1FPI
- rpUHjXyHw1Rr0OOJN6dYRorXXIqJZslJO8OzDB2EUr0O58lk5obUXNB0LS1I5FDzbVx8
- wrSBy0CljRmz/z9i+60dkYBWkD/116yOXMXXuOGlxV7TXH0JMVTvDZj6xemfRrQ+FxHg
- TbyIFXrbVpKanrk2zWt0cc6jW37JbfWd/yriHV+MgawpOMG4xp97+lP2AS2W4nqlkZ1m
- ojOA==
+ bh=WFe7DR/lnqsPXYVJ5niqxwU/ERf64ikxyq6h0nS9UaI=;
+ b=EbmN94eP7MLe2BzF63ffLVhyvyFh9ajs/OzlgsPmyQ8RWPaVLfS30Dg1uwyLRYRSvk
+ SM1SVEPod2I8RRLtfyfYcpGoBNy+j8fmovA81302oqPm4wrdI4MJQpofcisHlxa5rD3L
+ BiwCuoZnEVYDl5RO/i18ZbET+uvhhDzV1+bPKtebHVX7ZKW7whys169BcMBxIBL9ik2w
+ CXHXwhiX7KvQZGpRBiLvM8IhgJR3kxmO384O9StOf6Tx/zw2dgNktbwi1EQb9pdKx9tc
+ rBUtgN0VCUCUgwcqkDSzfJrf1LqLvXsgP1xApOVBaV3UylgHNxP6HeAX91YZ8eGlTAgp
+ W+kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L6PnIl46SHmSjcpt8xU/K11ykKRTer8M9KJmMkyuEM8=;
- b=ocaNaw/pVVjxq1JoIXbQrdJ1uhxu0eg4lXMPiDP0zEAqx+WQCB8jEnxsBJrFqqId10
- RBOYR26Ja63oF85evos94A5F2hUZbXyomyGLwDSQUe+7QNTIxBvEMlCKt9Jnvz0yyo80
- B2opu4rJVJe10MiQvRL4UNwbCbL4yUKY3twLtUxYYz8dcoZYPLJCZt2pA/jQMkwvugGw
- 4s21BjZUIHJ43q/T3BQymEH+rh5ZJrDPVCUGoZDYmeZtgaQe/BzM527I631huaXQI2QA
- heY6txn849wz3ppwtbSN07hZePFuAxmgC9oPvp0m+l3aLORGcmce3dqxztzVPxl168PH
- hzmA==
-X-Gm-Message-State: ANhLgQ0CacXAOMm9n/9Ny7VfMc8fwhbPPJQPp0+sC6S1xY35/LwhZ5c0
- a7IDtHxqJI2sn4hqut20XqRMUw==
-X-Google-Smtp-Source: ADFU+vuKxTtEkv18LgiguhQ5qrCJM674cJA0jNL96BSm6f6hc0Wfco2oiYo3o8JW5lg6stqidtG3vA==
-X-Received: by 2002:a62:194c:: with SMTP id 73mr17968393pfz.159.1584171319900; 
- Sat, 14 Mar 2020 00:35:19 -0700 (PDT)
+ bh=WFe7DR/lnqsPXYVJ5niqxwU/ERf64ikxyq6h0nS9UaI=;
+ b=lFF/rtiwwZrAjEnZWbnGp6e9RjOPMGnfFMMD1xS1TYywO9oVW4d28dLV+xD6DKq9aw
+ FWZHthjC5lwzLsvZ7fs3UjE3oDgiHq6tG4BWGRtK65DsmKQ5iXjzo/gzWiW2QTePfR7s
+ NmGVqHLlrOxUoKwr0Ji+ztoF6h1zxyVrRpGnRczh6Cc5o1kzb1AZolg9vitsBsUORwd5
+ ATRgWGNVUb8t0174RJAgDXLzpz7uwvdbmPHNts7PpotAxlR5ZGXH06EqXXqgk85LqneI
+ cv8ijJRRt1XHq93bDVsVbeUNIIrAvYrA18qUPgFzLQzW+y4wPY4zW0caQgeN4X+7Akwa
+ LgzQ==
+X-Gm-Message-State: ANhLgQ3yfgRpZheolJPgfPOmNCYqASZlnW+rjMTN4T+nG1grXpIeItmp
+ HQZy5ze6fE6d5lvpFReXU2nRog==
+X-Google-Smtp-Source: ADFU+vvxteoYMtgxAPSg3IpljBhCrqnK/lbilaktgbcOkVEjNK2NFiQyw2uNNN4RNkqrB9EyFqyXxA==
+X-Received: by 2002:a62:7d4e:: with SMTP id y75mr7913569pfc.32.1584172365105; 
+ Sat, 14 Mar 2020 00:52:45 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- p1sm20760144pfq.114.2020.03.14.00.35.18
+ d206sm1751809pfd.160.2020.03.14.00.52.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Mar 2020 00:35:19 -0700 (PDT)
-Subject: Re: [PATCH v5 22/60] target/riscv: vector integer merge and move
- instructions
+ Sat, 14 Mar 2020 00:52:44 -0700 (PDT)
+Subject: Re: [PATCH v5 23/60] target/riscv: vector single-width saturating add
+ and subtract
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
 References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-23-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-24-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <daeefcff-c444-b289-abcf-74301b09cce9@linaro.org>
-Date: Sat, 14 Mar 2020 00:27:55 -0700
+Message-ID: <be948e99-0c65-9f0a-c641-fdf9dec257c6@linaro.org>
+Date: Sat, 14 Mar 2020 00:52:41 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200312145900.2054-23-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200312145900.2054-24-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,64 +91,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/12/20 7:58 AM, LIU Zhiwei wrote:
-> +/* Vector Integer Merge and Move Instructions */
-> +static bool opivv_vmerge_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s, RVV) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-> +            vext_check_reg(s, a->rd, false) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_reg(s, a->rs1, false) &&
-> +            ((a->vm == 0) || (a->rs2 == 0)));
-> +}
-> +GEN_OPIVV_TRANS(vmerge_vvm, opivv_vmerge_check)
-> +
-> +static bool opivx_vmerge_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s, RVV) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-> +            vext_check_reg(s, a->rd, false) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            ((a->vm == 0) || (a->rs2 == 0)));
-> +}
-> +GEN_OPIVX_TRANS(vmerge_vxm, opivx_vmerge_check)
-> +
-> +GEN_OPIVI_TRANS(vmerge_vim, 0, vmerge_vxm, opivx_vmerge_check)
+> +/* Vector Single-Width Saturating Add and Subtract */
+> +GEN_OPIVV_GVEC_TRANS(vsaddu_vv, usadd)
+> +GEN_OPIVV_GVEC_TRANS(vsadd_vv,  ssadd)
+> +GEN_OPIVV_GVEC_TRANS(vssubu_vv, ussub)
+> +GEN_OPIVV_GVEC_TRANS(vssub_vv,  sssub)
+> +GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
+> +GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
+> +GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+> +GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+> +GEN_OPIVI_TRANS(vsaddu_vi, 1, vsaddu_vx, opivx_check)
+> +GEN_OPIVI_TRANS(vsadd_vi, 0, vsadd_vx, opivx_check)
 
-I think you need to special case these.  The unmasked instructions are the
-canonical move instructions: vmv.v.*.
+The vxsat bit can't be set by the gvec routines, at least on its own.
 
-You definitely want to use tcg_gen_gvec_mov (vv), tcg_gen_gvec_dup_i{32,64}
-(vx) and tcg_gen_gvec_dup{8,16,32,64}i (vi).
+For ppc I compute the saturation bit by doing the vector saturating add, the
+vector normal add, and comparing the two.  See uses of vscr_sat.
 
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
-> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-> +            *((ETYPE *)vd + H1(i)) = s2;                             \
-> +        } else {                                                     \
-> +            ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
-> +            *((ETYPE *)vd + H(i)) = s1;                              \
-> +        }                                                            \
-
-Perhaps better as
-
-ETYPE *vt = (!vm && !vext_elem_mask(v0, mlen, i) ? vs2 : vs1);
-*((ETYPE *)vd + H(i)) = *((ETYPE *)vt + H(i));
-
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
-> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-> +            *((ETYPE *)vd + H1(i)) = s2;                             \
-> +        } else {                                                     \
-> +            *((ETYPE *)vd + H(i)) = (ETYPE)(target_long)s1;          \
-> +        }                                                            \
-
-Perhaps better as
-
-ETYPE s2 = *((ETYPE *)vs2 + H(i));
-ETYPE d = (!vm && !vext_elem_mask(v0, mlen, i)
-           ? s2 : (ETYPE)(target_long)s1);
-*((ETYPE *)vd + H(i)) = d;
-
-as most host platforms have a conditional reg-reg move, but not a conditional load.
+But for now, you can just use your own current out-of-line functions.
 
 
 r~
