@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE1A185530
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:38:33 +0100 (CET)
-Received: from localhost ([::1]:42530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFD518552F
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:37:25 +0100 (CET)
+Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD2JU-000249-OX
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54540)
+	id 1jD2IO-00080O-HU
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HD-0006cy-7D
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:12 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0004fE-4q
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0006cw-IO
  for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:11 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53342 helo=huawei.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HB-0004Zy-9V
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:10 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53344 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1jD2HB-0004M0-P3; Sat, 14 Mar 2020 04:36:10 -0400
+ id 1jD2HA-0004M1-Tw; Sat, 14 Mar 2020 04:36:09 -0400
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 125627FA44D9298E9226;
+ by Forcepoint Email with ESMTP id 0D3BC9AEFBC28A105EB2;
  Sat, 14 Mar 2020 16:36:03 +0800 (CST)
 Received: from localhost.huawei.com (10.175.104.216) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 14 Mar 2020 16:35:54 +0800
+ 14.3.487.0; Sat, 14 Mar 2020 16:35:56 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 3/4] hw/misc/macio: fix incorrect creation of mos6522's
- subclasses
-Date: Sat, 14 Mar 2020 16:47:29 +0800
-Message-ID: <20200314084730.25876-4-pannengyuan@huawei.com>
+Subject: [PATCH v5 4/4] hw/misc/mos6522: move timer_new from init() into
+ realize() to avoid memleaks
+Date: Sat, 14 Mar 2020 16:47:30 +0800
+Message-ID: <20200314084730.25876-5-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200314084730.25876-1-pannengyuan@huawei.com>
 References: <20200314084730.25876-1-pannengyuan@huawei.com>
@@ -54,94 +54,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>, Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
- euler.robot@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Laurent
+ Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org, euler.robot@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two other places where we create mos6522's subclasses but forgot to realize
-it. This patch do the realize in these places to fix that.
+There are some memleaks when we call 'device_list_properties'.
+This patch move timer_new from init into realize to fix it.
 
+Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 ---
+Cc: Laurent Vivier <laurent@vivier.eu>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: qemu-ppc@nongnu.org
 ---
-v5:
-- Also fix incorrect creation of mos6522's subclasses on two other places.
-  Not sure if there is a conversion plan, we still keep sysbus_init_child_obj in init()
-  in this patch as it was.
+v2->v1:
+- no changes in this patch.
+v3->v2:
+- remove null check in reset, and add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
+v4->v3:
+- split patch into two, this patch fix the memleaks.
+v5->v4:
+- No change in this patch. But add [patch 3/4] to fix SEGVs during make check-qtest-ppc64 if apply this patch.
+  This patch also depend to another fix [patch 2/4].
 ---
- hw/misc/macio/cuda.c | 11 +++++++++--
- hw/misc/macio/pmu.c  | 11 +++++++++--
- 2 files changed, 18 insertions(+), 4 deletions(-)
+ hw/misc/mos6522.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index e0cc0aac5d..ee780a8288 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -36,6 +36,7 @@
- #include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "trace.h"
- 
- /* Bits in B data register: all active low */
-@@ -524,11 +525,17 @@ static void cuda_realize(DeviceState *dev, Error **errp)
-     CUDAState *s = CUDA(dev);
-     SysBusDevice *sbd;
-     MOS6522State *ms;
--    DeviceState *d;
-+    DeviceState *d = DEVICE(&s->mos6522_cuda);
-     struct tm tm;
-+    Error *err = NULL;
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index 19e154b870..c1cd154a84 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -485,6 +485,11 @@ static void mos6522_init(Object *obj)
+     for (i = 0; i < ARRAY_SIZE(s->timers); i++) {
+         s->timers[i].index = i;
+     }
++}
 +
-+    object_property_set_bool(OBJECT(d), true, "realized", &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
++static void mos6522_realize(DeviceState *dev, Error **errp)
++{
++    MOS6522State *s = MOS6522(dev);
  
-     /* Pass IRQ from 6522 */
--    d = DEVICE(&s->mos6522_cuda);
-     ms = MOS6522(d);
-     sbd = SYS_BUS_DEVICE(s);
-     sysbus_pass_irq(sbd, SYS_BUS_DEVICE(ms));
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index b8466a4a3f..ae55992288 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -43,6 +43,7 @@
- #include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "trace.h"
+     s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer1, s);
+     s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
+@@ -502,6 +507,7 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
  
- 
-@@ -741,11 +742,17 @@ static void pmu_realize(DeviceState *dev, Error **errp)
-     PMUState *s = VIA_PMU(dev);
-     SysBusDevice *sbd;
-     MOS6522State *ms;
--    DeviceState *d;
-+    DeviceState *d = DEVICE(&s->mos6522_pmu);;
-     struct tm tm;
-+    Error *err = NULL;
-+
-+    object_property_set_bool(OBJECT(d), true, "realized", &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- 
-     /* Pass IRQ from 6522 */
--    d = DEVICE(&s->mos6522_pmu);
-     ms = MOS6522(d);
-     sbd = SYS_BUS_DEVICE(s);
-     sysbus_pass_irq(sbd, SYS_BUS_DEVICE(ms));
+     dc->reset = mos6522_reset;
+     dc->vmsd = &vmstate_mos6522;
++    dc->realize = mos6522_realize;
+     device_class_set_props(dc, mos6522_properties);
+     mdc->parent_reset = dc->reset;
+     mdc->set_sr_int = mos6522_set_sr_int;
 -- 
 2.18.2
 
