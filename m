@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B781853EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 02:50:56 +0100 (CET)
-Received: from localhost ([::1]:39930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FB81853EE
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 02:51:59 +0100 (CET)
+Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jCvx1-0008I7-Cw
-	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 21:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55120)
+	id 1jCvy2-0001IK-Ix
+	for lists+qemu-devel@lfdr.de; Fri, 13 Mar 2020 21:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jCvvs-0007Qm-96
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:49:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jCvwT-0008Cd-Iw
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:50:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jCvvr-0003UW-0u
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:49:44 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39020)
+ (envelope-from <richard.henderson@linaro.org>) id 1jCvwS-0005kb-I5
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:50:21 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:52597)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jCvvq-0003PY-OO
- for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:49:42 -0400
-Received: by mail-pl1-x643.google.com with SMTP id j20so5153357pll.6
- for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 18:49:42 -0700 (PDT)
+ id 1jCvwS-0005gj-AX
+ for qemu-devel@nongnu.org; Fri, 13 Mar 2020 21:50:20 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id f15so5069763pjq.2
+ for <qemu-devel@nongnu.org>; Fri, 13 Mar 2020 18:50:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fny5UvBKk0IpFay3Kp6K4gQ40euxGyv5MhPSATQPqWM=;
- b=Ubm6pxtUUf6hI61k+GpdiImUkrHH2pROa13fMA0t+IiOUmRF3oL1rO//43GjjpCHNJ
- G6FMERGVFCwLJOqHQqgVA4Tb8Edj3xon6MUdVGRnc9Yh399rKfT02KCv19bAX8L8IlIb
- UENQ2e6zXTzeI7mvAXhcUFsPkoqAro8UEcKygI5y1GX0U3bFJczWrqsI97ezs5egNcPG
- xjMn0b5zJZ8NuxGyWKY3Rh+iuDcq/mHirIQG/TMjBfHj2ILdFb2nJ0IeXZkIzyFy5iX8
- FYn7mbXfgTHWwHG1Zb85+v/92v5D/S2/9UNrYREyDWJcbDvkOhhlcRS2MVaTYxYBdXLW
- apjA==
+ bh=UCiInjJDQYoCkQCTjf1DHVbDt9m5uWJ7EptQOdDN1F0=;
+ b=hxNUKTZ6Bce6YZsEc4cH4jFU4qFu0yJushF+GyBFwX3m2L2sNu5MhJnI5NW0lHGaNN
+ cW7kVbz3LudDKsSqdO9dshnV1Z1JRjH0E+Osx/U1IZLWtjOiSBKjp3bBOgyONtbUNrBo
+ e79Y7q8PEHmhpni+QyP/PaBmqm5TrDUaixCjKRhkaNuMpAgzEsJedzuGGciL5VzjLmGE
+ ZF72U9pIiF1yUhxmD2OAuJVPrYAzR/zzG6cE/rcrBQnoI3y45dzuDDh2nQ+8kUCVFcrh
+ jVjwFuNoc52cq+iHA/vDtmHc/Ie8UUHT+lmXVcFFE+VaLMaI53mEhyZiL6Iv4uJ/f6x9
+ dXJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fny5UvBKk0IpFay3Kp6K4gQ40euxGyv5MhPSATQPqWM=;
- b=SIvA8C9VAlkxodZV4LE9IoqDIbOLhcasMMATtP+kfXjaoXfIikHfmr8iGEYlrPuYbC
- fAnlNc1u5BFscEEvzjsProOA/VIxCrr8pjzRA0K6V0uizA0wMJOJVhtrqTa6QbMigTxr
- NHUxBbjSn9+gcgiv2ugRtMMNJN1H3kuT/ulm1tsxLfyCqyFDDm5EKEowl2bH8ReLNSQc
- zOG45Ou6k9u+rYyaW8INvXuOmutLVl2eCnwjsAuu9dzfcY3tqnxHDn89e41x0bb7v7TG
- YESYcAxbCFRSj36x0cYHi6UMbK7A+gtmrDvs1+uy37R6kXYW45d6ZPc5asRd0+Dba5X+
- o3nQ==
-X-Gm-Message-State: ANhLgQ1vAvZfI+6VQh3jysnuuMWOMBEGx6OW5C0TVwUm2h7yMdH0ezeE
- GrU+rw4s6OshwCnJjaRMR0Vj2A==
-X-Google-Smtp-Source: ADFU+vvMM+AFLkO1qHOm/fYg6YShEyUPumOloY40dzlbk4X7Bzgdfh3c3dn52qeblm9XSZwn/Ai0+A==
-X-Received: by 2002:a17:90a:630b:: with SMTP id
- e11mr12542516pjj.53.1584150581243; 
- Fri, 13 Mar 2020 18:49:41 -0700 (PDT)
+ bh=UCiInjJDQYoCkQCTjf1DHVbDt9m5uWJ7EptQOdDN1F0=;
+ b=N5MJGJ/3HzoEZhaQqc0VzoFONbLd8BtCCiwKtM08giV9D1vOBhOyqh11QQYc4YkQuA
+ jr3BJIXQGx4L/FVnnAUQ0tawHQq9gVbc7izfaUKz4hPODdD7ENuHe/tasl6zw827Tf4J
+ yKZdT8ZRzVxAEHEMvR5UXOFPKIiWDlRh1ueYALhThtT1ecAU3MOhWqTFnYH8z2+4k9cj
+ 3KPRDDWTZQrGmuPtZi/n5LW6KmKZ3MPBNX/5j9CvlrnRjp8ESKXk2ElAfFD71QKPHM9W
+ iWGUOIkGxz+zRVFvqTlMsllIjrawsXqD+11GWF2ogyLUv+L7xnaxR5CqsaMjNw/ffX/2
+ feRA==
+X-Gm-Message-State: ANhLgQ2LAQJ1+BBXXobO9PJwY/71nw7MDOESL25hW1ZuASai/4FBne1H
+ BX5JI5+2AWkQc8AZYJqztR6NHg==
+X-Google-Smtp-Source: ADFU+vtdB+XXlUBzFIDP2WOUZrQMhfLPBo4W1KRwBKK6uEb7iXZOIFgrMi9iN/BkpToEBWho5viP/A==
+X-Received: by 2002:a17:902:728d:: with SMTP id
+ d13mr15918961pll.92.1584150619409; 
+ Fri, 13 Mar 2020 18:50:19 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- fz3sm13288697pjb.41.2020.03.13.18.49.40
+ e187sm2141568pfe.143.2020.03.13.18.50.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Mar 2020 18:49:40 -0700 (PDT)
-Subject: Re: [PATCH v5 06/60] target/riscv: add vector index load and store
- instructions
+ Fri, 13 Mar 2020 18:50:18 -0700 (PDT)
+Subject: Re: [PATCH v5 07/60] target/riscv: add fault-only-first unit stride
+ load
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
 References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-7-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-8-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bfcd198e-2fe3-c21e-bbde-6d106673584a@linaro.org>
-Date: Fri, 13 Mar 2020 18:49:38 -0700
+Message-ID: <9d6ca94b-2097-678c-a890-8b413b6d69d0@linaro.org>
+Date: Fri, 13 Mar 2020 18:50:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200312145900.2054-7-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200312145900.2054-8-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,71 +92,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/12/20 7:58 AM, LIU Zhiwei wrote:
-> +static inline void vext_ldst_index(void *vd, void *v0, target_ulong base,
-> +        void *vs2, CPURISCVState *env, uint32_t desc,
-> +        vext_get_index_addr get_index_addr,
-> +        vext_ldst_elem_fn ldst_elem,
-> +        vext_ld_clear_elem clear_elem,
-> +        uint32_t esz, uint32_t msz, uintptr_t ra,
-> +        MMUAccessType access_type)
-> +{
-> +    uint32_t i, k;
-> +    uint32_t nf = vext_nf(desc);
-> +    uint32_t vm = vext_vm(desc);
-> +    uint32_t mlen = vext_mlen(desc);
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;
-> +
-> +    if (env->vl == 0) {
-> +        return;
-> +    }
-> +    /* probe every access*/
-> +    for (i = 0; i < env->vl; i++) {
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-> +            continue;
-> +        }
-> +        probe_pages(env, get_index_addr(base, i, vs2), nf * msz, ra,
-> +                access_type);
-
-Indentation.
-
-> +    /* load bytes from guest memory */
-> +    for (i = 0; i < env->vl; i++) {
-> +        k = 0;
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-> +            continue;
-> +        }
-> +        while (k < nf) {
-> +            abi_ptr addr = get_index_addr(base, i, vs2) + k * msz;
-> +            ldst_elem(env, addr, i + k * vlmax, vd, ra);
-> +            k++;
-> +        }
-
-Why the odd formulation with k?
-
-> +        for (k = 0; k < nf; k++) {
-> +            clear_elem(vd, env->vl + k * vlmax, env->vl * esz, vlmax * esz);
-> +        }
-
-Using a for is certainly a bit clearer.
-
-Which does bring to mind an optimization -- letting the compiler know that
-these loops always go at least once.
-
-We can do that either by writing all of them as do { } while.
-
-Or by encoding NF in desc like the instruction does:
-
-static inline uint32_t vext_nf(uint32_t desc)
-{
-    return FIELD_EX32(simd_data(desc), VDATA, NF) + 1;
-}
-
-which will let the compiler know that NF >= 1.
-
-But that's minor, and we can look at these sorts of things later.
+> The unit-stride fault-only-fault load instructions are used to
+> vectorize loops with data-dependent exit conditions(while loops).
+> These instructions execute as a regular load except that they
+> will only take a trap on element 0.
+> 
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/helper.h                   |  22 +++++
+>  target/riscv/insn32.decode              |   7 ++
+>  target/riscv/insn_trans/trans_rvv.inc.c |  69 +++++++++++++++
+>  target/riscv/vector_helper.c            | 111 ++++++++++++++++++++++++
+>  4 files changed, 209 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
