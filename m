@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2296318552E
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:37:25 +0100 (CET)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313AD185531
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:38:35 +0100 (CET)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD2IO-000819-5b
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54511)
+	id 1jD2JW-00026H-8g
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0006cv-7v
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:11 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0006cx-SH
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HA-0004Xp-Si
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HB-0004bk-H5
  for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:10 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3722 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53340 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1jD2HA-0003wo-GT; Sat, 14 Mar 2020 04:36:08 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id EBE393BC5AB3469B3A53;
- Sat, 14 Mar 2020 16:35:57 +0800 (CST)
+ id 1jD2HA-0004M2-QT
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:09 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 07CC86648574A9F8CC6D;
+ Sat, 14 Mar 2020 16:36:03 +0800 (CST)
 Received: from localhost.huawei.com (10.175.104.216) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 14 Mar 2020 16:35:51 +0800
+ 14.3.487.0; Sat, 14 Mar 2020 16:35:53 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 1/4] s390x: fix memleaks in cpu_finalize
-Date: Sat, 14 Mar 2020 16:47:27 +0800
-Message-ID: <20200314084730.25876-2-pannengyuan@huawei.com>
+Subject: [PATCH v5 2/4] mac_via: fix incorrect creation of mos6522 device in
+ mac_via
+Date: Sat, 14 Mar 2020 16:47:28 +0800
+Message-ID: <20200314084730.25876-3-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200314084730.25876-1-pannengyuan@huawei.com>
 References: <20200314084730.25876-1-pannengyuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-Originating-IP: [10.175.104.216]
 X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,151 +55,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-s390x@nongnu.org,
- euler.robot@huawei.com, Richard Henderson <rth@twiddle.net>
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Laurent
+ Vivier <laurent@vivier.eu>, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fix memleaks when we call tests/qtest/cpu-plug-test on s390x. =
-The leak stack is as follow:
+This patch fix a bug in mac_via where it failed to actually realize devices it was using.
+And move the init codes which inits the mos6522 objects and properties on them from realize()
+into init(). However, we keep qdev_set_parent_bus in realize(), otherwise it will cause
+device-introspect-test test fail. Then do the realize mos6522 device in the mac_vir_realize.
 
-Direct leak of 48 byte(s) in 1 object(s) allocated from:
-    #0 0x7fb43c7cd970 in __interceptor_calloc (/lib64/libasan.so.5+0xef97=
-0)
-    #1 0x7fb43be2149d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
-    #2 0x558ba96da716 in timer_new_full /mnt/sdb/qemu-new/qemu/include/qe=
-mu/timer.h:530
-    #3 0x558ba96da716 in timer_new /mnt/sdb/qemu-new/qemu/include/qemu/ti=
-mer.h:551
-    #4 0x558ba96da716 in timer_new_ns /mnt/sdb/qemu-new/qemu/include/qemu=
-/timer.h:569
-    #5 0x558ba96da716 in s390_cpu_initfn /mnt/sdb/qemu-new/qemu/target/s3=
-90x/cpu.c:285
-    #6 0x558ba9c969ab in object_init_with_type /mnt/sdb/qemu-new/qemu/qom=
-/object.c:372
-    #7 0x558ba9c9eb5f in object_initialize_with_type /mnt/sdb/qemu-new/qe=
-mu/qom/object.c:516
-    #8 0x558ba9c9f053 in object_new_with_type /mnt/sdb/qemu-new/qemu/qom/=
-object.c:684
-    #9 0x558ba967ede6 in s390x_new_cpu /mnt/sdb/qemu-new/qemu/hw/s390x/s3=
-90-virtio-ccw.c:64
-    #10 0x558ba99764b3 in hmp_cpu_add /mnt/sdb/qemu-new/qemu/hw/core/mach=
-ine-hmp-cmds.c:57
-    #11 0x558ba9b1c27f in handle_hmp_command /mnt/sdb/qemu-new/qemu/monit=
-or/hmp.c:1082
-    #12 0x558ba96c1b02 in qmp_human_monitor_command /mnt/sdb/qemu-new/qem=
-u/monitor/misc.c:142
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 ---
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
-v2->v1:
-- Similarly to other cleanups, move timer_new into realize(Suggested by P=
-hilippe Mathieu-Daud=C3=A9)
-v3->v2:
-- Also do the timer_free in unrealize, it seems balanced.
 v4->v3:
-- Also do timer_free on the error path in realize() and fix some coding s=
-tyle.
-- Use device_class_set_parent_unrealize to declare unrealize.
+- split v3 into two patches, this patch fix incorrect creation of mos6522, move inits and props
+  from realize into init.
 v5->v4:
-- remove timer_del on the error path of realize(), it's redundant. (Sugge=
-sted by David Hildenbrand)
-- Simply use errp instead a temporary variable. (Suggested by David Hilde=
-nbrand)
+- remove redundant code.
+- As discussion in https://patchwork.kernel.org/patch/11421229/, we still keep 
+  qdev_set_parent_bus in realize().
 ---
- target/s390x/cpu-qom.h |  1 +
- target/s390x/cpu.c     | 30 ++++++++++++++++++++++++++----
- 2 files changed, 27 insertions(+), 4 deletions(-)
+ hw/misc/mac_via.c | 40 +++++++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 13 deletions(-)
 
-diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-index dbe5346ec9..af9ffed0d8 100644
---- a/target/s390x/cpu-qom.h
-+++ b/target/s390x/cpu-qom.h
-@@ -61,6 +61,7 @@ typedef struct S390CPUClass {
-     const char *desc;
-=20
-     DeviceRealize parent_realize;
-+    DeviceUnrealize parent_unrealize;
-     void (*parent_reset)(CPUState *cpu);
-     void (*load_normal)(CPUState *cpu);
-     void (*reset)(CPUState *cpu, cpu_reset_type type);
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index cf84d307c6..8ce38bf399 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -182,6 +182,12 @@ static void s390_cpu_realizefn(DeviceState *dev, Err=
-or **errp)
- #if !defined(CONFIG_USER_ONLY)
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-     unsigned int max_cpus =3D ms->smp.max_cpus;
-+
-+    cpu->env.tod_timer =3D
-+        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
-+    cpu->env.cpu_timer =3D
-+        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
-+
-     if (cpu->env.core_id >=3D max_cpus) {
-         error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
-                    ", maximum core-id: %d", cpu->env.core_id,
-@@ -224,9 +230,27 @@ static void s390_cpu_realizefn(DeviceState *dev, Err=
-or **errp)
-=20
-     scc->parent_realize(dev, &err);
- out:
-+    timer_free(cpu->env.tod_timer);
-+    timer_free(cpu->env.cpu_timer);
-     error_propagate(errp, err);
- }
-=20
-+static void s390_cpu_unrealizefn(DeviceState *dev, Error **errp)
-+{
-+    S390CPUClass *scc =3D S390_CPU_GET_CLASS(dev);
-+
-+#if !defined(CONFIG_USER_ONLY)
-+    S390CPU *cpu =3D S390_CPU(dev);
-+
-+    timer_del(cpu->env.tod_timer);
-+    timer_del(cpu->env.cpu_timer);
-+    timer_free(cpu->env.tod_timer);
-+    timer_free(cpu->env.cpu_timer);
-+#endif
-+
-+    scc->parent_unrealize(dev, errp);
-+}
-+
- static GuestPanicInformation *s390_cpu_get_crash_info(CPUState *cs)
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index b7d0012794..d208f0b18a 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -868,24 +868,24 @@ static void mac_via_reset(DeviceState *dev)
+ static void mac_via_realize(DeviceState *dev, Error **errp)
  {
-     GuestPanicInformation *panic_info;
-@@ -279,10 +303,6 @@ static void s390_cpu_initfn(Object *obj)
-                         s390_cpu_get_crash_info_qom, NULL, NULL, NULL, N=
-ULL);
-     s390_cpu_model_register_props(obj);
- #if !defined(CONFIG_USER_ONLY)
--    cpu->env.tod_timer =3D
--        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
--    cpu->env.cpu_timer =3D
--        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
- #endif
+     MacVIAState *m = MAC_VIA(dev);
+-    MOS6522State *ms;
+     struct tm tm;
+     int ret;
++    Error *err = NULL;
+ 
+-    /* Init VIAs 1 and 2 */
+-    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
+-                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
++    qdev_set_parent_bus(DEVICE(&m->mos6522_via1), sysbus_get_default());
++    qdev_set_parent_bus(DEVICE(&m->mos6522_via2), sysbus_get_default());
+ 
+-    sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
+-                          sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
++    object_property_set_bool(OBJECT(&m->mos6522_via1), true, "realized", &err);
++    if (err != NULL) {
++        error_propagate(errp, err);
++        return;
++    }
+ 
+-    /* Pass through mos6522 output IRQs */
+-    ms = MOS6522(&m->mos6522_via1);
+-    object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
+-                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
+-    ms = MOS6522(&m->mos6522_via2);
+-    object_property_add_alias(OBJECT(dev), "irq[1]", OBJECT(ms),
+-                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++    object_property_set_bool(OBJECT(&m->mos6522_via2), true, "realized", &err);
++    if (err != NULL) {
++        error_propagate(errp, err);
++        return;
++    }
+ 
+     /* Pass through mos6522 input IRQs */
+     qdev_pass_gpios(DEVICE(&m->mos6522_via1), dev, "via1-irq");
+@@ -948,6 +948,20 @@ static void mac_via_init(Object *obj)
+     /* ADB */
+     qbus_create_inplace((BusState *)&m->adb_bus, sizeof(m->adb_bus),
+                         TYPE_ADB_BUS, DEVICE(obj), "adb.0");
++
++    /* Init VIAs 1 and 2 */
++    object_initialize_child(OBJECT(m), "via1", &m->mos6522_via1,
++                            sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1,
++                            &error_abort, NULL);
++    object_initialize_child(OBJECT(m), "via2", &m->mos6522_via2,
++                            sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2,
++                            &error_abort, NULL);
++
++    /* Pass through mos6522 output IRQs */
++    object_property_add_alias(OBJECT(m), "irq[0]", OBJECT(&m->mos6522_via1),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++    object_property_add_alias(OBJECT(m), "irq[1]", OBJECT(&m->mos6522_via2),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
  }
-@@ -453,6 +473,8 @@ static void s390_cpu_class_init(ObjectClass *oc, void=
- *data)
-=20
-     device_class_set_parent_realize(dc, s390_cpu_realizefn,
-                                     &scc->parent_realize);
-+    device_class_set_parent_unrealize(dc, s390_cpu_unrealizefn,
-+                                      &scc->parent_unrealize);
-     device_class_set_props(dc, s390x_cpu_properties);
-     dc->user_creatable =3D true;
-=20
---=20
+ 
+ static void postload_update_cb(void *opaque, int running, RunState state)
+-- 
 2.18.2
 
 
