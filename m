@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445831855A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 12:37:56 +0100 (CET)
-Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CD91855A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 12:42:41 +0100 (CET)
+Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD575-00038s-2w
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 07:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51789)
+	id 1jD5Bg-0007Tk-VM
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 07:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jD56E-0002kU-M2
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:37:03 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jD58r-00043b-Db
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jD56C-0003rx-Bh
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:37:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22188
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <laurent@vivier.eu>) id 1jD58q-00059b-4q
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:52513)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jD56C-0003il-3u
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:37:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584185819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3EtCP9YizKUYIF1ZN6juDcOBwv6j6T1uLYRUvfLUJVg=;
- b=LwbAM8C9uC5llOkp+H73JRqAgQ8oIPmglGU2qtLTbgZp7uEwHh1FVaVVDjghdjLju3IjBT
- WNjcQpwuFhr0gNat1HXvb5G6vUlSUweU6L7m11kdBxRS7/uMip3uet2LZTefDCmQNMUAr1
- E+yOvZrTun6hvlmVZ9uKFOF2NQWmtnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-MRHhhA0KO-uwwGVRxQyd6g-1; Sat, 14 Mar 2020 07:36:56 -0400
-X-MC-Unique: MRHhhA0KO-uwwGVRxQyd6g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27998800D50;
- Sat, 14 Mar 2020 11:36:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
- [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDCAB10016EB;
- Sat, 14 Mar 2020 11:36:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 539B01138404; Sat, 14 Mar 2020 12:36:53 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] softmmu/vl.c: Handle '-cpu help' and '-device help'
- before 'no default machine'
-References: <20200313172447.15471-1-peter.maydell@linaro.org>
-Date: Sat, 14 Mar 2020 12:36:53 +0100
-In-Reply-To: <20200313172447.15471-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Fri, 13 Mar 2020 17:24:47 +0000")
-Message-ID: <87d09f9nhm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jD58p-00053A-Rp
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:44 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1Myb8P-1jVsfr0Iu5-00z2QN; Sat, 14 Mar 2020 12:39:26 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] linux-user: generate syscall_nr.h from linux unistd.h
+Date: Sat, 14 Mar 2020 12:39:18 +0100
+Message-Id: <20200314113922.233353-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:sVlwDNYH4MsAz7mLutowi/qy0p1hd95PpvtUxzZ5yUxpU1DVtNj
+ 7rlV8ZPUf4gP10AdyB49qjFqp0S4Sp81a+GOyPA6IOaCb6NKJ5Fo3P128b1hlJBzqWrvq3S
+ Ak3GWQG3Mv5E2JM1L5wZY3DtVOTQFSCBLNukp3yS6LHhWvrUsxqhW5IuKWPR4/rx4CWENRm
+ DDdC6L6EfFTHeu/9fT+OQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nKeczkALNUQ=:AhmqT2FttC2dpPC0qKvCrB
+ zrYrMPSxvFvND1Y++0LG9wCz+K7d0pqYf19CMPBZ+MuUd+8EJ5L7KHrnjv3iNNSHKetbRMDD/
+ z783Y+4+3tPjNyv8vRJ0xvQ9qrGFf+EacAMUt/1EHLX4MRFA0bu86xgFNmjbPC8dHywOXvUV/
+ dR2Uxe8mobCJL5I4mRIT8kI3I/u6NdaIQcYN6qtYQLJ/gG0pFPueSaeeGwTpOzPqaw49xsSw7
+ k7cWXtHbSfeB0+H4GBvJt47LAkPdD96P+J2BP6IeFtujnt4Nh6KP/bmBDZgo7q4MZK5kh6tUF
+ HWSMRs4zLNo2cX/dJWweBXdXU9WGC1aUsHXOy8e0Thf9/hb9eO1FVN3a+NPIgsVileiHWxEWG
+ bWXWiVbToKhpqfWDRmQPG5edC7LEH8WEL9aQY8srXabuvbVAhCYcj9PMCy4yBy6S2Iufz+gEm
+ aBcOhQRJ3xPKiz/3D6fwR1Juo98meiyLc0xBLG3qocecacdApm98ftbPg+gGYhxVvZ6d3S00J
+ 5CdZzGftni3xSEAv5Dv4w049QJR4sEwTGt9uXXdODlPUhqg5B91mYgN1pqzlod4gKuZ7/68uA
+ c74bpjDAYF1j0DhPOtx2kF4oJdffD/LwSbc4h0FyM4eKw7rvt9L9uXh6IyBvupMm8RNhzqxS1
+ F8I/G4vSR40P6iL9rEAcZhYhkOpt36DmIpNWc5f2TG8LT2eUSY4nNkFWzhOiKVyG0mexcfgly
+ F3lMZhLYtwHdCQHb3hZRS7yxtpNeac1DQuncjNDsbc2LDkJHwC0yg+xtBLvyYHfxTOkTu68K3
+ Qb6qKcjY7NwQn6lCxAdIG7AF9xEy0PepOfJMtYyETMfQD0QCi8DfgWdIjYpBepqc34JTPf6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,37 +61,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This series adds a script to generate syscall_nr.h for
+architectures that don't use syscall.tbl but asm-generic/unistd.h
 
-> Currently if you try to ask for the list of CPUs for a target
-> architecture which does not specify a default machine type
-> you just get an error:
->
->   $ qemu-system-arm -cpu help
->   qemu-system-arm: No machine specified, and there is no default
->   Use -machine help to list supported machines
->
-> Since the list of CPUs doesn't depend on the machine, this is
-> unnecessarily unhelpful. "-device help" has a similar problem.
->
-> Move the checks for "did the user ask for -cpu help or -device help"
-> up so they precede the select_machine() call which checks that the
-> user specified a valid machine type.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This has been on-and-off irritating me for years, and it's
-> embarrassing how simple the fix turns out to be...
+The script uses several cpp passes and filters result with a grep/sed/tr sequence.
+The result must be checked before being used, so it's why the script is not
+automatically run.
 
-Same here.  The patch works as advertized, thus:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I have run the script, checked and added new files for arm64, nios2, openrisc.
 
-Can you offer a completeness argument?  We call is_help_option() and
-qemu_opt_has_help_opt() from quite a few places.
+I don't include result for riscv as Alistair is already working on a series
+for this architecture and it needs some changes in syscall.c as some
+syscalls are not defined.
+
+We also need to add the _time64 variant of syscalls added by the update of the
+syscall_nr.h.
+
+Based-on: <20200310103403.3284090-1-laurent@vivier.eu>
+
+v2: add comments suggested by Taylor
+
+Laurent Vivier (4):
+  scripts: add a script to generate syscall_nr.h
+  linux-user, aarch64: sync syscall numbers with kernel v5.5
+  linux-user,nios2: sync syscall numbers with kernel v5.5
+  linux-user, openrisc: sync syscall numbers with kernel v5.5
+
+ linux-user/aarch64/syscall_nr.h  |  34 +-
+ linux-user/nios2/syscall_nr.h    | 650 +++++++++++++++----------------
+ linux-user/openrisc/syscall_nr.h | 309 +++------------
+ scripts/gensyscalls.sh           | 102 +++++
+ 4 files changed, 513 insertions(+), 582 deletions(-)
+ create mode 100755 scripts/gensyscalls.sh
+
+-- 
+2.24.1
 
 
