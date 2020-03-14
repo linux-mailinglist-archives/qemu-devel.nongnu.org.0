@@ -2,79 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7024D185536
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:47:20 +0100 (CET)
-Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7928F18552D
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:37:24 +0100 (CET)
+Received: from localhost ([::1]:42500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD2Rz-0007SQ-H2
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59087)
+	id 1jD2IN-0007zJ-Hf
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jD2Qu-0006yr-A6
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:46:13 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0006cu-4S
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jD2Qt-00031f-Bb
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:46:12 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36304)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jD2Qt-00030f-57
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:46:11 -0400
-Received: by mail-pl1-x643.google.com with SMTP id g2so2952053plo.3
- for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 01:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mPDY3hmf0gb6iDEElCxRUKeNbw9Im0NdxwliR+IOBfk=;
- b=Rcvlkm6nun8vVVxuZBwrqj66fcxhPnV1gGTv9c+KIMkZZTNNk1OMFWNyZS3QyoYv0o
- qSOno+MBtVuhl6z6e0s8utle3vG5dJY52nb3ZQ3uXYFvppH39oIhNRsnEERY86uT05vC
- 5htVjI5msVOEU9CERTotWMzfwU/YrkcG1SyOkU9XVS2n3EuhF59MIGxxWtTbZE6lpYWW
- lxxVVRFQ1lRqFlnbuybHQ/8hA90wNUyPsgARh77fSG/22Oq2XzBGMvlB7Na3IIm7qG/q
- lwzF+LeIt8NtR1NYuZBLlmOg4BoXocGGBwztT4c3kyZ8pkicMOVLNNzK1EanKVD7hYu9
- hfKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mPDY3hmf0gb6iDEElCxRUKeNbw9Im0NdxwliR+IOBfk=;
- b=kf/8ofeMJUTK8rsQWVd56Wj+L9MNVPqwKfNieNDk3KAQmuTtsLUwyZ5T+gvR5ivAFc
- oJYUZHQWh/cQi9gaKuKDqbi7b0GSMIB/W9toejBq92j2OS+s/exRLo2N9OdQ3DY6cprI
- eWgz9JMXpMbYHc5IVwce1+WmMLAeZiPBfVn7CrNjRVNawZsR74v8Rf/CgBNUoD9Ix4NZ
- EzhLYIhklhQ7JN15wMSOtDv3r4EmKH1S+221YXkTKMlEbd3AxKjaTDYncPI0LHc2AbLO
- S9qTqP6oaWzUXbfPKWt/XFAOfnnyCJ2Cx4a59iSGfAuJnRax/KrA/EXOx6HAygjg0xw0
- jviw==
-X-Gm-Message-State: ANhLgQ35aT41SiCNVmclkommJdPW0dQdfm6wZhk71GpLrD55chFnlF5x
- 8BAcxJW5gjGH30jqDmY03ApzCw==
-X-Google-Smtp-Source: ADFU+vvYImFaqDfaTWB5enZoCa1ezNPJBtwOtZWSmH9zCLWHsAaeW99Y5pUTcGBqk/IbbHtOJvh9AQ==
-X-Received: by 2002:a17:90a:c687:: with SMTP id
- n7mr14424592pjt.155.1584175569562; 
- Sat, 14 Mar 2020 01:46:09 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- o129sm7469832pfb.61.2020.03.14.01.46.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Mar 2020 01:46:08 -0700 (PDT)
-Subject: Re: [PATCH v5 32/60] target/riscv: vector widening floating-point
- multiply
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-33-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <496260bd-968d-fbc1-faca-37944adf12e9@linaro.org>
-Date: Sat, 14 Mar 2020 01:46:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <pannengyuan@huawei.com>) id 1jD2HA-0004Xw-TK
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:09 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3287 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1jD2HA-0003x0-GE
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:08 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id E821862D9F99863BFB72;
+ Sat, 14 Mar 2020 16:35:57 +0800 (CST)
+Received: from localhost.huawei.com (10.175.104.216) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 14 Mar 2020 16:35:49 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v5 0/4] delay timer_new from init to realize to fix memleaks.
+Date: Sat, 14 Mar 2020 16:47:26 +0800
+Message-ID: <20200314084730.25876-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-In-Reply-To: <20200312145900.2054-33-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.175.104.216]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,21 +52,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: peter.maydell@linaro.org, Pan Nengyuan <pannengyuan@huawei.com>,
+ zhang.zhanghailiang@huawei.com, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/20 7:58 AM, LIU Zhiwei wrote:
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/helper.h                   |  5 +++++
->  target/riscv/insn32.decode              |  2 ++
->  target/riscv/insn_trans/trans_rvv.inc.c |  4 ++++
->  target/riscv/vector_helper.c            | 22 ++++++++++++++++++++++
->  4 files changed, 33 insertions(+)
+This series delay timer_new from init into realize to avoid memleaks when=
+ we call 'device_list_properties'.
+And do timer_free only in s390x_cpu_finalize because it's hotplugable. Ho=
+wever, mos6522_realize is never called
+at all due to the incorrect creation of it. So we fix the incorrect creat=
+ion in mac_via/cuda/pmu first, then=20
+move the timer_new to mos6522_realize().
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v1:
+   - Delay timer_new() from init() to realize() to fix memleaks.
+v2:
+   - Similarly to other cleanups, move timer_new into realize in target/s=
+390x/cpu.c (Suggested by Philippe Mathieu-Daud=C3=A9).
+   - Send these two patches as a series instead of send each as a single =
+patch but with wrong subject in v1.
+v3:
+   - It's not valid in mos6522 if we move timer_new from init to realize,=
+ because it's never called at all.
+     Thus, we remove null check in reset, and add calls to mos6522_realiz=
+e() in mac_via_realize to make this move to be valid.
+   - split patch by device to make it more clear.
+v4:
+   - Also do timer_free on the error path in realize() and fix some codin=
+g style. Then use device_class_set_parent_unrealize to declare unrealize.
+   - split the mos6522 patch into two, one to fix incorrect creation of m=
+os6522, the other to fix memleak.
 
-r~
+v5:=20
+   - Fix two other places where we create mos6522's subclasses but forgot=
+ to realize it(macio/cuda,macio/pmu).=20
+     Otherwise, this will cause SEGVs during make check-qtest-ppc64.
+   - Remove timer_del on the error path of s390x_cpu_realize() and simply=
+ use errp instead a temporary variable.
+
+Pan Nengyuan (4):
+  s390x: fix memleaks in cpu_finalize
+  mac_via: fix incorrect creation of mos6522 device in mac_via
+  hw/misc/macio: fix incorrect creation of mos6522's subclasses
+  hw/misc/mos6522: move timer_new from init() into realize() to avoid
+    memleaks
+
+ hw/misc/mac_via.c      | 40 +++++++++++++++++++++++++++-------------
+ hw/misc/macio/cuda.c   | 11 +++++++++--
+ hw/misc/macio/pmu.c    | 11 +++++++++--
+ hw/misc/mos6522.c      |  6 ++++++
+ target/s390x/cpu-qom.h |  1 +
+ target/s390x/cpu.c     | 30 ++++++++++++++++++++++++++----
+ 6 files changed, 78 insertions(+), 21 deletions(-)
+
+--=20
+2.18.2
+
 
