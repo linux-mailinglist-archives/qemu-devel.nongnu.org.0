@@ -2,46 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFD518552F
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:37:25 +0100 (CET)
-Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF99A185537
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 09:51:12 +0100 (CET)
+Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD2IO-00080O-HU
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54518)
+	id 1jD2Vj-0000Xr-UX
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 04:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HC-0006cw-IO
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:11 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jD2UE-0008DH-3d
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:49:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1jD2HB-0004Zy-9V
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:36:10 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53344 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1jD2HA-0004M1-Tw; Sat, 14 Mar 2020 04:36:09 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 0D3BC9AEFBC28A105EB2;
- Sat, 14 Mar 2020 16:36:03 +0800 (CST)
-Received: from localhost.huawei.com (10.175.104.216) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 14 Mar 2020 16:35:56 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 4/4] hw/misc/mos6522: move timer_new from init() into
- realize() to avoid memleaks
-Date: Sat, 14 Mar 2020 16:47:30 +0800
-Message-ID: <20200314084730.25876-5-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
+ (envelope-from <no-reply@patchew.org>) id 1jD2UB-00029G-IO
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:49:37 -0400
+Resent-Date: Sat, 14 Mar 2020 04:49:36 -0400
+Resent-Message-Id: <E1jD2UB-00029G-IO@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21135)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jD2U9-0001yu-IQ
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 04:49:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1584175756; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HbUvHTB/v/JEG8HIrWsoXtPUzztSX/J6YA+03KXSP288TjR6+nvgWbcSs8Kgonhgpu7QYTc30RBMvxAvv2U77BfaYSzbqL3XuSUfw45SN6wopNNxqWyJ5dJ8LvJDB1QUsupOUqwO2bTdkvLBFhmJzxCd4Sv7X67diRlN2TwPgcE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1584175756;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=w6whUahiKhDP/14heov8yuTjCXlBwFDWrtZ3kxcr+OA=; 
+ b=UAxNj5i6iIfu+YTglJtXbzgB3XJMagbWMtx59GYfU7HsB8+1sAv8uC+eM77vkvboAGyaaXbLLd79GBoKpshyuSOr1XiUwt6q/sN4pCmWlMIYPH2GRVbmylE+hTmmdtMFQjegUi4HPUJh+BjCTJN0CKPe8qr9tN5P3CBZjxem2+0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1584175755025908.0344551673073;
+ Sat, 14 Mar 2020 01:49:15 -0700 (PDT)
 In-Reply-To: <20200314084730.25876-1-pannengyuan@huawei.com>
-References: <20200314084730.25876-1-pannengyuan@huawei.com>
+Subject: Re: [PATCH v5 0/4] delay timer_new from init to realize to fix
+ memleaks.
+Message-ID: <158417575384.31574.3454645038204657338@39012742ff91>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pannengyuan@huawei.com
+Date: Sat, 14 Mar 2020 01:49:15 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,63 +64,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Laurent
- Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org, euler.robot@huawei.com,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, euler.robot@huawei.com, pannengyuan@huawei.com,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some memleaks when we call 'device_list_properties'.
-This patch move timer_new from init into realize to fix it.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-ppc@nongnu.org
----
-v2->v1:
-- no changes in this patch.
-v3->v2:
-- remove null check in reset, and add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
-v4->v3:
-- split patch into two, this patch fix the memleaks.
-v5->v4:
-- No change in this patch. But add [patch 3/4] to fix SEGVs during make check-qtest-ppc64 if apply this patch.
-  This patch also depend to another fix [patch 2/4].
----
- hw/misc/mos6522.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 19e154b870..c1cd154a84 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -485,6 +485,11 @@ static void mos6522_init(Object *obj)
-     for (i = 0; i < ARRAY_SIZE(s->timers); i++) {
-         s->timers[i].index = i;
-     }
-+}
-+
-+static void mos6522_realize(DeviceState *dev, Error **errp)
-+{
-+    MOS6522State *s = MOS6522(dev);
- 
-     s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer1, s);
-     s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
-@@ -502,6 +507,7 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
- 
-     dc->reset = mos6522_reset;
-     dc->vmsd = &vmstate_mos6522;
-+    dc->realize = mos6522_realize;
-     device_class_set_props(dc, mos6522_properties);
-     mdc->parent_reset = dc->reset;
-     mdc->set_sr_int = mos6522_set_sr_int;
--- 
-2.18.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxNDA4NDczMC4yNTg3
+Ni0xLXBhbm5lbmd5dWFuQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2NSAwLzRdIGRlbGF5IHRpbWVyX25ldyBm
+cm9tIGluaXQgdG8gcmVhbGl6ZSB0byBmaXggbWVtbGVha3MuCk1lc3NhZ2UtaWQ6IDIwMjAwMzE0
+MDg0NzMwLjI1ODc2LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNvbQpUeXBlOiBzZXJpZXMKCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
+di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
+YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4
+MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXct
+cHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDAzMTIxNDU5MDAu
+MjA1NC0xLXpoaXdlaV9saXVAYy1za3kuY29tIC0+IHBhdGNoZXcvMjAyMDAzMTIxNDU5MDAuMjA1
+NC0xLXpoaXdlaV9saXVAYy1za3kuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcK
+NTcyMjViNSBody9taXNjL21vczY1MjI6IG1vdmUgdGltZXJfbmV3IGZyb20gaW5pdCgpIGludG8g
+cmVhbGl6ZSgpIHRvIGF2b2lkIG1lbWxlYWtzCjY4YWUwYTIgaHcvbWlzYy9tYWNpbzogZml4IGlu
+Y29ycmVjdCBjcmVhdGlvbiBvZiBtb3M2NTIyJ3Mgc3ViY2xhc3Nlcwo1YjgzMjViIG1hY192aWE6
+IGZpeCBpbmNvcnJlY3QgY3JlYXRpb24gb2YgbW9zNjUyMiBkZXZpY2UgaW4gbWFjX3ZpYQozMzBk
+ZTQ4IHMzOTB4OiBmaXggbWVtbGVha3MgaW4gY3B1X2ZpbmFsaXplCgo9PT0gT1VUUFVUIEJFR0lO
+ID09PQoxLzQgQ2hlY2tpbmcgY29tbWl0IDMzMGRlNDg0YTUxNSAoczM5MHg6IGZpeCBtZW1sZWFr
+cyBpbiBjcHVfZmluYWxpemUpCjIvNCBDaGVja2luZyBjb21taXQgNWI4MzI1YmRiNzUyIChtYWNf
+dmlhOiBmaXggaW5jb3JyZWN0IGNyZWF0aW9uIG9mIG1vczY1MjIgZGV2aWNlIGluIG1hY192aWEp
+CjMvNCBDaGVja2luZyBjb21taXQgNjhhZTBhMmVhOTViIChody9taXNjL21hY2lvOiBmaXggaW5j
+b3JyZWN0IGNyZWF0aW9uIG9mIG1vczY1MjIncyBzdWJjbGFzc2VzKQpFUlJPUjogc3VwZXJmbHVv
+dXMgdHJhaWxpbmcgc2VtaWNvbG9uCiM2MjogRklMRTogaHcvbWlzYy9tYWNpby9wbXUuYzo3NDU6
+CisgICAgRGV2aWNlU3RhdGUgKmQgPSBERVZJQ0UoJnMtPm1vczY1MjJfcG11KTs7Cgp0b3RhbDog
+MSBlcnJvcnMsIDAgd2FybmluZ3MsIDUyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoKNC80IENoZWNraW5nIGNvbW1pdCA1NzIyNWI1Y2VhM2IgKGh3
+L21pc2MvbW9zNjUyMjogbW92ZSB0aW1lcl9uZXcgZnJvbSBpbml0KCkgaW50byByZWFsaXplKCkg
+dG8gYXZvaWQgbWVtbGVha3MpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
+ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzIwMjAwMzE0MDg0NzMwLjI1ODc2LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNv
+bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
