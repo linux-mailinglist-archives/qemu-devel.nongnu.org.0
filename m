@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CD91855A7
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 12:42:41 +0100 (CET)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7971855A4
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 12:41:26 +0100 (CET)
+Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jD5Bg-0007Tk-VM
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 07:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53667)
+	id 1jD5AT-0005TF-FV
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 07:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jD58r-00043b-Db
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:46 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jD58m-00040o-2g
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jD58q-00059b-4q
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:52513)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jD58p-00053A-Rp
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:44 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jD58i-0004vl-ST
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:36489)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jD58h-0004n1-L3
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 07:39:35 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Myb8P-1jVsfr0Iu5-00z2QN; Sat, 14 Mar 2020 12:39:26 +0100
+ id 1MTznO-1inCFY2syI-00R1TA; Sat, 14 Mar 2020 12:39:26 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] linux-user: generate syscall_nr.h from linux unistd.h
-Date: Sat, 14 Mar 2020 12:39:18 +0100
-Message-Id: <20200314113922.233353-1-laurent@vivier.eu>
+Subject: [PATCH v2 1/4] scripts: add a script to generate syscall_nr.h
+Date: Sat, 14 Mar 2020 12:39:19 +0100
+Message-Id: <20200314113922.233353-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200314113922.233353-1-laurent@vivier.eu>
+References: <20200314113922.233353-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sVlwDNYH4MsAz7mLutowi/qy0p1hd95PpvtUxzZ5yUxpU1DVtNj
- 7rlV8ZPUf4gP10AdyB49qjFqp0S4Sp81a+GOyPA6IOaCb6NKJ5Fo3P128b1hlJBzqWrvq3S
- Ak3GWQG3Mv5E2JM1L5wZY3DtVOTQFSCBLNukp3yS6LHhWvrUsxqhW5IuKWPR4/rx4CWENRm
- DDdC6L6EfFTHeu/9fT+OQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nKeczkALNUQ=:AhmqT2FttC2dpPC0qKvCrB
- zrYrMPSxvFvND1Y++0LG9wCz+K7d0pqYf19CMPBZ+MuUd+8EJ5L7KHrnjv3iNNSHKetbRMDD/
- z783Y+4+3tPjNyv8vRJ0xvQ9qrGFf+EacAMUt/1EHLX4MRFA0bu86xgFNmjbPC8dHywOXvUV/
- dR2Uxe8mobCJL5I4mRIT8kI3I/u6NdaIQcYN6qtYQLJ/gG0pFPueSaeeGwTpOzPqaw49xsSw7
- k7cWXtHbSfeB0+H4GBvJt47LAkPdD96P+J2BP6IeFtujnt4Nh6KP/bmBDZgo7q4MZK5kh6tUF
- HWSMRs4zLNo2cX/dJWweBXdXU9WGC1aUsHXOy8e0Thf9/hb9eO1FVN3a+NPIgsVileiHWxEWG
- bWXWiVbToKhpqfWDRmQPG5edC7LEH8WEL9aQY8srXabuvbVAhCYcj9PMCy4yBy6S2Iufz+gEm
- aBcOhQRJ3xPKiz/3D6fwR1Juo98meiyLc0xBLG3qocecacdApm98ftbPg+gGYhxVvZ6d3S00J
- 5CdZzGftni3xSEAv5Dv4w049QJR4sEwTGt9uXXdODlPUhqg5B91mYgN1pqzlod4gKuZ7/68uA
- c74bpjDAYF1j0DhPOtx2kF4oJdffD/LwSbc4h0FyM4eKw7rvt9L9uXh6IyBvupMm8RNhzqxS1
- F8I/G4vSR40P6iL9rEAcZhYhkOpt36DmIpNWc5f2TG8LT2eUSY4nNkFWzhOiKVyG0mexcfgly
- F3lMZhLYtwHdCQHb3hZRS7yxtpNeac1DQuncjNDsbc2LDkJHwC0yg+xtBLvyYHfxTOkTu68K3
- Qb6qKcjY7NwQn6lCxAdIG7AF9xEy0PepOfJMtYyETMfQD0QCi8DfgWdIjYpBepqc34JTPf6
+X-Provags-ID: V03:K1:/waqe7BHcdWI/bjungRZH1rmP7Q5rqRXDhR7H9n91n3I0nm/u64
+ XHgHaKNMGYEN3rMA4QwaU6E39gZ3eS0LIF8pdI82X2/MofnhDJ1DQ59reGY+J6Uok/YNYUA
+ wnDyYcLAxJb3x+Ny5F+kzP2LnAmwYIqjbt748DlMd9f+ZakVRSvte7c4G+L2iikXVbcisxW
+ 6rKaA+SNUWqTgL+dJJoVA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A4n6unve7z8=:b8eBrPDygn5lbg3udnAGM9
+ We20VKwtlyDoPqsJlrsamnSRaG2tYQ5w2dDFxm0wfHeSMdeurSRTtAGXtwZJ7SUJNEyVWp1as
+ 1ylG9slCa3T7SDs6Q4epLjKJuBFKABh4GM5epcqjoPGYtw2Q0lSMbPUf0km45aqgaoeVirSSR
+ GveLNEcO5QMwlOM92m2bcZPcOiYn1HlLgP7w2t+XvnTFQQW3pAkECVeMTsRd4T9veilmOLwbt
+ VH0cUf5HBmzXGwqhDOunoiq5ZPUXOKOUSQReIanzFr9IFbNhMYwHVPx/nFI6Sa3SDACrAlZPJ
+ JrhPslyke4ViR0m2l1+Zb2fuTHNpEAvgvDRRR9XFhG+wV/q++1krRUrpOsFI+wDoljvtKJOgF
+ h/oLCFpIawAtkmGbDgYY9xbEUmNDkMUBL69oVjhmIhsPw0IjfAPeNAYi9QEXjP2xFaa+9biAY
+ DlH1WpwHH3PnlkDsitJBpHgnRw7IO/BaBn7NFrQ95tlbOJx0B2cFagIK4AomIfl0B2hva+DLi
+ EtHDwiiAcLzAk7qPZfW3ZBaKKggFZT7a9ETi7/3AYN4F8gFjxItPBk5OwQzkg5TCinpJMVErm
+ xR6aSCFezfsJRYJTMI8/axZG2munNmBmyy0OWZkmmAJdFAXe56bSOeWu+EKIzlqyc6iZJBd4Q
+ m5NEbKnOIdlZfoCytjcWFnKCnyeeYabykKmNw7HSGWa/udeow+6jmSk5Ss2lr7agfxXaNCNyC
+ tJKcEEFg/pywx3FDAcxzLbRUbotM3voOjjJHdAGwkTvKyGb1zbA7NZQZJ0Tp9ixvTU5tUyGMU
+ DsG6XoEhpsz9FlTn6TEyJdRv92RXp78rb05VuHXw+RJtCXzsmoWsRbVylxNnIjNoNr9ENdr
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,39 +69,128 @@ Cc: Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds a script to generate syscall_nr.h for
-architectures that don't use syscall.tbl but asm-generic/unistd.h
+This script is needed for targets based on asm-generic syscall numbers generation
 
-The script uses several cpp passes and filters result with a grep/sed/tr sequence.
-The result must be checked before being used, so it's why the script is not
-automatically run.
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+---
 
-I have run the script, checked and added new files for arm64, nios2, openrisc.
+Notes:
+    v2: add comments suggested by Taylor
 
-I don't include result for riscv as Alistair is already working on a series
-for this architecture and it needs some changes in syscall.c as some
-syscalls are not defined.
-
-We also need to add the _time64 variant of syscalls added by the update of the
-syscall_nr.h.
-
-Based-on: <20200310103403.3284090-1-laurent@vivier.eu>
-
-v2: add comments suggested by Taylor
-
-Laurent Vivier (4):
-  scripts: add a script to generate syscall_nr.h
-  linux-user, aarch64: sync syscall numbers with kernel v5.5
-  linux-user,nios2: sync syscall numbers with kernel v5.5
-  linux-user, openrisc: sync syscall numbers with kernel v5.5
-
- linux-user/aarch64/syscall_nr.h  |  34 +-
- linux-user/nios2/syscall_nr.h    | 650 +++++++++++++++----------------
- linux-user/openrisc/syscall_nr.h | 309 +++------------
- scripts/gensyscalls.sh           | 102 +++++
- 4 files changed, 513 insertions(+), 582 deletions(-)
+ scripts/gensyscalls.sh | 102 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
  create mode 100755 scripts/gensyscalls.sh
 
+diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
+new file mode 100755
+index 000000000000..71557ab45be3
+--- /dev/null
++++ b/scripts/gensyscalls.sh
+@@ -0,0 +1,102 @@
++#!/bin/sh
++#
++# Update syscall_nr.h files from linux headers asm-generic/unistd.h
++#
++# This code is licensed under the GPL version 2 or later.  See
++# the COPYING file in the top-level directory.
++#
++
++linux="$1"
++output="$2"
++
++TMP=$(mktemp -d)
++
++if [ "$linux" = "" ] ; then
++    echo "Needs path to linux source tree" 1>&2
++    exit 1
++fi
++
++if [ "$output" = "" ] ; then
++    output="$PWD"
++fi
++
++upper()
++{
++    echo "$1" | tr "[:lower:]" "[:upper:]" | tr "[:punct:]" "_"
++}
++
++qemu_arch()
++{
++    case "$1" in
++    arm64)
++        echo "aarch64"
++        ;;
++    *)
++        upper "$1"
++        ;;
++    esac
++}
++
++read_includes()
++{
++    arch=$1
++    bits=$2
++
++     cpp -P -nostdinc -fdirectives-only \
++        -D_UAPI_ASM_$(upper ${arch})_BITSPERLONG_H \
++        -D__BITS_PER_LONG=${bits} \
++        -I${linux}/arch/${arch}/include/uapi/ \
++        -I${linux}/include/uapi \
++        -I${TMP} \
++        "${linux}/arch/${arch}/include/uapi/asm/unistd.h"
++}
++
++filter_defines()
++{
++    grep -e "#define __NR_" -e "#define __NR3264"
++}
++
++rename_defines()
++{
++    sed "s/ __NR_/ TARGET_NR_/g;s/(__NR_/(TARGET_NR_/g"
++}
++
++evaluate_values()
++{
++    sed "s/#define TARGET_NR_/QEMU TARGET_NR_/" | \
++    cpp -P -nostdinc | \
++    sed "s/^QEMU /#define /"
++}
++
++generate_syscall_nr()
++{
++    arch=$1
++    bits=$2
++    file="$3"
++    guard="$(upper LINUX_USER_$(qemu_arch $arch)_$(basename "$file"))"
++
++    (echo "/*"
++    echo " * This file contains the system call numbers."
++    echo " * Do not modify."
++    echo " * This file is generated by scripts/gensyscalls.sh"
++    echo " */"
++    echo "#ifndef ${guard}"
++    echo "#define ${guard}"
++    echo
++    read_includes $arch $bits | filter_defines | rename_defines | \
++                                evaluate_values | sort -n -k 3
++    echo
++    echo "#endif /* ${guard} */"
++    echo) > "$file"
++}
++
++mkdir "$TMP/asm"
++> "$TMP/asm/bitsperlong.h"
++
++generate_syscall_nr arm64 64 "$output/linux-user/aarch64/syscall_nr.h"
++generate_syscall_nr nios2 32 "$output/linux-user/nios2/syscall_nr.h"
++generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
++
++generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
++generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
++rm -fr "$TMP"
 -- 
 2.24.1
 
