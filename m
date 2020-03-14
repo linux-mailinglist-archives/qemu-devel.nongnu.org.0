@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34757185645
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 21:06:30 +0100 (CET)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D45185649
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Mar 2020 21:49:15 +0100 (CET)
+Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDD3E-000634-Pq
-	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 16:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56298)
+	id 1jDDib-0004Cm-Lu
+	for lists+qemu-devel@lfdr.de; Sat, 14 Mar 2020 16:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jDD2L-0005d5-QT
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:05:35 -0400
+ (envelope-from <mst@redhat.com>) id 1jDDhn-0003hc-R8
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:48:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jDD2J-00027T-KL
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:05:33 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:38930)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jDD2I-0001wB-AG
- for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:05:31 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02EJwoGc040466;
- Sat, 14 Mar 2020 20:05:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=dX3Ana//VW7Q9Xw/hQ0rYs2v4mD4SSaOtC/gV7OA4Wc=;
- b=LA38qxLKtvxutKwvoxJrd7HynMssPgPOMZgqG15nF5GIiMNyhycGyGaMoJaDUyX/UaGt
- HL/vAyLmJG/TG3rBwRRa1kTnPxwamdzKso0x6TyklsrsujuWZ8M9M2jW5i9Aq//c9a+p
- 9EsmbFhTZnU1W9B0CBEAmKWQ0XFkxmVlYyr9eiKVP6IlNqLiMnWsfiCvrwr9CODD04H6
- s9NK+YNmBLiMJ/iZSkTOn2NlRn1+ZpknUQtJQQIfTIyMk9fJsO97gTw2G4EAlJyywuiq
- x8KO4aiE9uGC1Lz/Wua3o5SAZUpJiy2kFFxiloZYGauyKviazftWo/WE2ZD87Hp0u92s Bg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2yrqwmsevm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 14 Mar 2020 20:05:27 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02EJwZDc041497;
- Sat, 14 Mar 2020 20:05:26 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2yrmcs8chr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 14 Mar 2020 20:05:26 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02EK5P1U026258;
- Sat, 14 Mar 2020 20:05:25 GMT
-Received: from [192.168.14.112] (/79.179.237.174)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 14 Mar 2020 13:05:25 -0700
+ (envelope-from <mst@redhat.com>) id 1jDDhm-0003V4-Cc
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:48:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36716
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jDDhm-0003Sg-8C
+ for qemu-devel@nongnu.org; Sat, 14 Mar 2020 16:48:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584218901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iAxXpPPeFK3SIRsOqup1qcd6VaqZUEFs2Ih414MfK4c=;
+ b=NdHiRheBb1Qza2uJc37ccqhf1OPc82rhmUYWecGYMXh3TmQGpwHLH3p38ZS3ZwupFY7onZ
+ 6gTvvSOzqpv21CqugeKz4X+lHKwun2QvB+HKYVAghynKn/IX/BKRIsADzD1GYB/vtHeN8a
+ 4EssdsCNxePwjqn9YCH7vQWSAZw982k=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-XDItSyGoPEmdeNcPG0zneQ-1; Sat, 14 Mar 2020 16:48:18 -0400
+X-MC-Unique: XDItSyGoPEmdeNcPG0zneQ-1
+Received: by mail-qt1-f197.google.com with SMTP id k20so12216249qtm.11
+ for <qemu-devel@nongnu.org>; Sat, 14 Mar 2020 13:48:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BwVHJNoMVG1nZn7dvG+7MEZvPMuWSS7I3CFnDRNm83U=;
+ b=EEoBmTJ5p6kEk3K5dRfYyoXiBd0vEaZX/WvBOPsQTZmiXiMfagySp8e4mQqNzXyvri
+ +t874l42VZi4P7bfT8iiBPsYih+ckNxd8kJ5IbVEik+shxa5X7drPtEZ7ZVVD/D9G78t
+ 6uJl+J8hiFrCmi3z/N3A8q0kfDqtf5swMHcnpCscFWO1/ZtEbjxtoO5kp3sUB/pVU1ff
+ RZtv65n89vCw+QGXUpbKmMX0ou/IgDIXx97BI/tjTzBLookiKa+KhCMVz52V3YihOH1p
+ oknB/ot7iI6eNG/J5DLL6m2EyGWfgz7819aEPk3+LU3J+AC5lxf5jUYfIH/J4eW2H7mV
+ 8vxg==
+X-Gm-Message-State: ANhLgQ3PbpKTFCeNWMRLI+tQyOD6jHunl4tay7sFRrQIQBnJJ4fP0s6x
+ D4xc9azl1tlNaNd8i9JHpbACZVAG5+4zVrKO0jzfmBQsLg0LJmt/zpoyoz22JBhw2/n85KPD6Yg
+ HyhGm/E+vsK3DmmA=
+X-Received: by 2002:ac8:6b54:: with SMTP id x20mr18775511qts.41.1584218897901; 
+ Sat, 14 Mar 2020 13:48:17 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtiXwrdNsRx2P/KEKNwj4iMnQmJC2w1evYb9dqKbpy1OiMSzLzK40bI1o7JusQcmtkRpE4l9g==
+X-Received: by 2002:ac8:6b54:: with SMTP id x20mr18775501qts.41.1584218897641; 
+ Sat, 14 Mar 2020 13:48:17 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-7-202.red.bezeqint.net. [79.180.7.202])
+ by smtp.gmail.com with ESMTPSA id
+ d72sm11876895qkg.102.2020.03.14.13.48.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 14 Mar 2020 13:48:16 -0700 (PDT)
+Date: Sat, 14 Mar 2020 16:48:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Subject: Re: [PATCH v3 10/16] hw/i386/vmport: Add support for CMD_GETTIME
-To: Nikita Leshenko <nikita.leshchenko@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200312165431.82118-1-liran.alon@oracle.com>
- <20200312165431.82118-11-liran.alon@oracle.com>
- <20200312195652-mutt-send-email-mst@kernel.org>
+Message-ID: <20200314162920-mutt-send-email-mst@kernel.org>
+References: <20200312195652-mutt-send-email-mst@kernel.org>
  <0bc7dac9-41a6-5af2-a1d5-ef1e79f92eea@oracle.com>
  <20200313113049-mutt-send-email-mst@kernel.org>
  <3c0d9308-f56c-0766-9815-241a28d9a246@oracle.com>
@@ -66,35 +76,16 @@ References: <20200312165431.82118-1-liran.alon@oracle.com>
  <a9ac1106-67be-5d5d-fd30-669a483f09b0@oracle.com>
  <20200314152119-mutt-send-email-mst@kernel.org>
  <C3D0DD6C-592E-4230-A7D6-FF423265DF03@oracle.com>
-From: Liran Alon <liran.alon@oracle.com>
-Message-ID: <5f9f6b13-d382-b9a6-52cd-80014c2f01b8@oracle.com>
-Date: Sat, 14 Mar 2020 22:05:20 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
 In-Reply-To: <C3D0DD6C-592E-4230-A7D6-FF423265DF03@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9560
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- adultscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 malwarescore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003140108
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9560
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 mlxlogscore=999
- mlxscore=0 bulkscore=0 phishscore=0 spamscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 clxscore=1015 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003140108
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
- 02EJwoGc040466
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,170 +97,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- rth@twiddle.net
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Liran Alon <liran.alon@oracle.com>, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 14/03/2020 21:58, Nikita Leshenko wrote:
->
->> On 14 Mar 2020, at 21:26, Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Sat, Mar 14, 2020 at 09:17:30PM +0200, Liran Alon wrote:
->>> On 14/03/2020 21:14, Michael S. Tsirkin wrote:
->>>> On Sat, Mar 14, 2020 at 09:04:30PM +0200, Liran Alon wrote:
->>>>> On 14/03/2020 20:18, Michael S. Tsirkin wrote:
->>>>>> On Fri, Mar 13, 2020 at 06:26:54PM +0200, Liran Alon wrote:
->>>>>>> On 13/03/2020 17:47, Michael S. Tsirkin wrote:
->>>>>>>> On Fri, Mar 13, 2020 at 05:25:20PM +0200, Liran Alon wrote:
->>>>>>>>>>> @@ -168,6 +169,20 @@ static uint32_t vmport_cmd_ram_size(void=
- *opaque, uint32_t addr)
->>>>>>>>>>>          return ram_size;
->>>>>>>>>>>      }
->>>>>>>>>>> +static uint32_t vmport_cmd_time(void *opaque, uint32_t addr)
->>>>>>>>>>> +{
->>>>>>>>>>> +    X86CPU *cpu =3D X86_CPU(current_cpu);
->>>>>>>>>>> +    qemu_timeval tv;
->>>>>>>>>>> +
->>>>>>>>>>> +    if (qemu_gettimeofday(&tv) < 0) {
->>>>>>>>>>> +        return UINT32_MAX;
->>>>>>>>>>> +    }
->>>>>>>>>>> +
->>>>>>>>>>> +    cpu->env.regs[R_EBX] =3D (uint32_t)tv.tv_usec;
->>>>>>>>>>> +    cpu->env.regs[R_ECX] =3D port_state->max_time_lag_us;
->>>>>>>>>>> +    return (uint32_t)tv.tv_sec;
->>>>>>>>>>> +}
->>>>>>>>>>> +
->>>>>>>>>>>      /* vmmouse helpers */
->>>>>>>>>>>      void vmmouse_get_data(uint32_t *data)
->>>>>>>>>>>      {
->>>>>>>>>> That's a very weird thing to return to the guest.
->>>>>>>>>> For example it's not monotonic across migrations.
->>>>>>>>> That's the VMware PV interface... I didn't design it. :P
->>>>>>>>> Regarding how it handles the fact time is not monotonic across =
-migrations,
->>>>>>>>> see big comment at the start of services/plugins/timeSync/timeS=
-ync.c in
->>>>>>>>> open-vm-tools regarding the time-sync algorithm used by VMware =
-Tools.
->>>>>>>>> Specifically:
->>>>>>>>> """
->>>>>>>>> During normal operation this plugin only steps the time forward=
- and only if
->>>>>>>>> the error is greater than one second.
->>>>>>>> Looks like guest assumes this time only moves forward.
->>>>>>>> So something needs to be done to avoid it moving
->>>>>>>> backward across migrations.
->>>>>>> Where do you see this assumption in guest code? I don't think thi=
-s is true.
->>>>>>> Guest code seems to handle this by making sure to only step the t=
-ime
->>>>>>> forward.
->>>>>> Exactly. So if host time moved backward e.g. by 100s, then for 100=
-s
->>>>>> time is not correcting. Which possibly vmware has a way to mitigat=
-e
->>>>>> against e.g. by synchronising host time using their
->>>>>> management app.
->>>>>>
->>>>>>> Read carefully services/plugins/timeSync/timeSync.c and point me =
-to what I'm
->>>>>>> missing if you think otherwise (i.e. I missed something).
->>>>>> I'm just going by what you write in a patch.
->>>>>>
->>>>> So guest doesn't assume that this time only moves forward...
->>>>>
->>>>> Can you clarify then which change do you suggest making to this pat=
-ch in
->>>>> this regard? It seems correct to me.
->>>>> i.e. The CMD_GETTIME implementation seems correct to me and it does=
-n't need
->>>>> to do anything special to handle host time moving backwards.
->>>>>
->>>>> -Liran
->>>>>
->>>> I think something needs to be done to make sure host time as reporte=
-d by
->>>> this command does not move backwards significantly. Just forwarding
->>>> gettimeofday won't cut it IMHO. Look at kvm clock for inspiration of
->>>> things to do.
->>>>
->>> It isn't required by the command interface definition.
->>> It's explicitly specified in timeSync.c that guest code handles the c=
-ase
->>> host time goes backwards.
->> According to what you wrote it does not crash but also does not do
->> updates. That will work well only if the time difference isn't large.
->> Then with time as guest gets interrupted by host, the time difference
->> shrinks and eventually you are resyncing again.  And I'm guessing ther=
-e
->> are hypervisor management interfaces in place to make sure that is so.
->> Linux is not guaranteed to have such interfaces so you have to come
->> up with QEMU specific ones.
->>
->>
->>> We are not inventing the interface, we just implement it according to=
- it's
->>> definition.
->>>
->>> -Liran
->> Host time is a vague enough terminology. I suspect this implementation
->> is too simplistic to cover all cases.
->>
->> --=20
->> MST
-> I saw this discussion from the side and I just wanted to point out that=
- as far
-> as I understand this interface is needed to sync *wallclock time* betwe=
-en the
-> guest and the host, mostly for user experience. There is no guarantee t=
-hat it's
-> monotonic. Unlike TSC, we don't need to take special care with regard t=
-o live
-> migration or drift.
->
-> Just as NTP may report inconsistent time, it's OK if this interface is =
-somewhat
-> inconsistent.
->
-> I think that the reason that open-vm-tools doesn't move time backwards =
-is to
-> help applications that treat wallclock time as if it's monotonic time a=
-nd break
-> if the date is moved backwards (which may happen more frequently in vir=
-tual
-> environment so it's handled specifically). But this doesn't change the =
-fact that
-> this PV interface is for reporting wall time. So I couldn't understand =
-what
-> source other than gettimeofday() you were suggesting for Liran to use t=
-o report
+On Sat, Mar 14, 2020 at 09:58:23PM +0200, Nikita Leshenko wrote:
+> I think that the reason that open-vm-tools doesn't move time backwards is=
+ to
+> help applications that treat wallclock time as if it's monotonic time and=
+ break
+> if the date is moved backwards (which may happen more frequently in virtu=
+al
+> environment so it's handled specifically). But this doesn't change the fa=
+ct that
+> this PV interface is for reporting wall time.
+> So I couldn't understand what
+> source other than gettimeofday() you were suggesting for Liran to use to =
+report
 > wallclock time.
->
-> Nikita
->
-Michael, you can also refer to this VMware time-keeping whitepaper:=20
-https://www.vmware.com/pdf/vmware_timekeeping.pdf.
-According to section "Initializing and Correcting Wall-Clock Time":
-"""
-VMware Tools can also optionally be used to correct long=E2=80=90term dri=
-ft and=20
-errors by periodically
-resynchronizing the virtual machine=E2=80=99s clock to the host=E2=80=99s=
- clock, but the=20
-current version at this writing is limited.
-In particular, in guest operating systems other than NetWare, it does=20
-not correct errors in which the guest clock
-is ahead of real time, only those in which the guest clock is behind.
 
-"""
+Some kind of offset to wallclock time I'm guessing. For example,
+we could save wall clock on vm save, and if it goes
+backwards on vm load, add an offset.
 
-If I understand correctly, this seems to validate my assumption that=20
-current implementation for CMD_GETTIME is sufficient.
-
--Liran
-
-
+--=20
+MST
 
 
