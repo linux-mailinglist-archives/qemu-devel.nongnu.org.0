@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8194C185E3E
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:44:00 +0100 (CET)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7E5185E3C
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:37:16 +0100 (CET)
+Received: from localhost ([::1]:55181 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDVQk-0002OA-OL
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40531)
+	id 1jDVKE-0007JG-OE
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXk-0005Zt-Rc
+ (envelope-from <armbru@redhat.com>) id 1jDUXl-0005cA-V3
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VF-Sq
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40140
+ (envelope-from <armbru@redhat.com>) id 1jDUXj-0002W1-CM
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58978
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002OT-Fo
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002OG-Di
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1584283624;
@@ -27,43 +27,42 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oYE3kivzTU/MHGBvZenoCiESySyZ9Mfy3dijo0V7Q1w=;
- b=H35/ZS/YK7F3cbm/G3rM/fGitBDc8seyjQnhcXgQQf8VX82Hps5GjlG2wk1eQQmFd1BZRy
- aurBgtjVEEWjv+4V3rgwL2lBc5YqwsxJZqJdASYWkamURJgPzj0NcBvwgXwN7L1MiXNGOY
- t/DB4piNwtyTONn49Ts7jEcgJaiEZrA=
+ bh=60n4UvY4nJ9qhhi+o1KATEXmoVRpzmup+ji/INf9+7E=;
+ b=aKew/6Lh2kIC0voDNwv78XCoCEutD6eebCl4mDOzqDTdML+ch4rmSzGhEf9hYifBUP3jT2
+ dEOBh5xlh6zegkpJQLb47v2Rp6s8APorA8Hjjb/S/FHd880NVXkqEZ3vHuZOAgvmgGv28u
+ ClLemBvw6D2EMxzluxniIvkjNa6sqiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-K2c0PiNiMNenA51JmdjBhQ-1; Sun, 15 Mar 2020 10:47:00 -0400
-X-MC-Unique: K2c0PiNiMNenA51JmdjBhQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-142-9RSYb8fuNompD-obSv57Hw-1; Sun, 15 Mar 2020 10:47:00 -0400
+X-MC-Unique: 9RSYb8fuNompD-obSv57Hw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D3D107ACC4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D55DF107ACC7;
  Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CA2391D88;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80B419CA3;
  Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D8BD6113525E; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id DF11211336AF; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 31/34] qapi: Implement deprecated-output=hide for QMP
- introspection
-Date: Sun, 15 Mar 2020 15:46:50 +0100
-Message-Id: <20200315144653.22660-32-armbru@redhat.com>
+Subject: [PATCH v3 33/34] qapi: Implement deprecated-input=reject for QMP
+ command arguments
+Date: Sun, 15 Mar 2020 15:46:52 +0100
+Message-Id: <20200315144653.22660-34-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,196 +78,278 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy suppresses deprecated bits in output, and thus permits
-"testing the future".  Implement it for QMP command query-qmp-schema:
-suppress information on deprecated commands, events and object type
-members, i.e. anything that has the special feature flag "deprecated".
+This policy rejects deprecated input, and thus permits "testing the
+future".  Implement it for QMP command arguments: reject commands with
+deprecated ones.  Example: when QEMU is run with -compat
+deprecated-input=3Dreject, then
+
+    {"execute": "eject", "arguments": {"device": "cd"}}
+
+fails like this
+
+    {"error": {"class": "GenericError", "desc": "Deprecated parameter 'devi=
+ce' disabled by policy"}}
+
+When the argument is removed, the error will change to
+
+    {"error": {"class": "GenericError", "desc": "Parameter 'device' is unex=
+pected"}}
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/introspect.json       |   2 +-
- monitor/monitor-internal.h |   3 --
- monitor/misc.c             |   2 -
- monitor/qmp-cmds-control.c | 102 ++++++++++++++++++++++++++++++++-----
- qemu-storage-daemon.c      |   2 -
- 5 files changed, 90 insertions(+), 21 deletions(-)
+ include/qapi/qobject-input-visitor.h |  9 +++++++++
+ include/qapi/visitor-impl.h          |  2 +-
+ include/qapi/visitor.h               |  2 +-
+ qapi/qapi-visit-core.c               |  4 ++--
+ qapi/qobject-input-visitor.c         | 28 ++++++++++++++++++++++++++++
+ qapi/qobject-output-visitor.c        |  3 ++-
+ tests/test-qmp-cmds.c                | 25 +++++++++++++++++++++++++
+ scripts/qapi/commands.py             |  2 +-
+ scripts/qapi/visit.py                | 10 ++++++----
+ 9 files changed, 75 insertions(+), 10 deletions(-)
 
-diff --git a/qapi/introspect.json b/qapi/introspect.json
-index b1aabd4cfd..3ebd817866 100644
---- a/qapi/introspect.json
-+++ b/qapi/introspect.json
-@@ -48,7 +48,7 @@
- ##
- { 'command': 'query-qmp-schema',
-   'returns': [ 'SchemaInfo' ],
--  'gen': false }                # just to simplify qmp_query_json()
-+  'allow-preconfig': true }
+diff --git a/include/qapi/qobject-input-visitor.h b/include/qapi/qobject-in=
+put-visitor.h
+index 95985e25e5..cbc54de4ac 100644
+--- a/include/qapi/qobject-input-visitor.h
++++ b/include/qapi/qobject-input-visitor.h
+@@ -58,6 +58,15 @@ typedef struct QObjectInputVisitor QObjectInputVisitor;
+  */
+ Visitor *qobject_input_visitor_new(QObject *obj);
 =20
- ##
- # @SchemaMetaType:
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 3e6baba88f..4d402ded85 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -180,7 +180,4 @@ void help_cmd(Monitor *mon, const char *name);
- void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
- int hmp_compare_cmd(const char *name, const char *list);
++/*
++ * Create a QObject input visitor for @obj for use with QMP
++ *
++ * This is like qobject_input_visitor_new(), except it obeys the
++ * policy for handling deprecated management interfaces set with
++ * -compat.
++ */
++Visitor *qobject_input_visitor_new_qmp(QObject *obj);
++
+ /*
+  * Create a QObject input visitor for @obj for use with keyval_parse()
+  *
+diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+index a6b26b7a5b..ccc159a0d2 100644
+--- a/include/qapi/visitor-impl.h
++++ b/include/qapi/visitor-impl.h
+@@ -111,7 +111,7 @@ struct Visitor
+     void (*optional)(Visitor *v, const char *name, bool *present);
 =20
--void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
--                                 Error **errp);
--
- #endif
-diff --git a/monitor/misc.c b/monitor/misc.c
-index c3bc34c099..0237c71140 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -243,8 +243,6 @@ static void monitor_init_qmp_commands(void)
+     /* Optional */
+-    bool (*deprecated)(Visitor *v, const char *name);
++    bool (*deprecated)(Visitor *v, const char *name, Error **errp);
 =20
-     qmp_init_marshal(&qmp_commands);
-=20
--    qmp_register_command(&qmp_commands, "query-qmp-schema",
--                         qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
-     qmp_register_command(&qmp_commands, "device_add", qmp_device_add,
-                          QCO_NO_OPTIONS);
-     qmp_register_command(&qmp_commands, "netdev_add", qmp_netdev_add,
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 5cd9bb817c..bf5b711a7b 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -26,10 +26,14 @@
-=20
- #include "monitor-internal.h"
- #include "qemu-version.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-introspect.h"
- #include "qapi/qapi-emit-events.h"
- #include "qapi/qapi-introspect.h"
-+#include "qapi/qapi-visit-introspect.h"
-+#include "qapi/qobject-input-visitor.h"
+     /* Must be set */
+     VisitorType type;
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index c89d51b2a4..2a3c4d0407 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -456,7 +456,7 @@ bool visit_optional(Visitor *v, const char *name, bool =
+*present);
+  * visit_start_struct() and visit_end_struct(), since only objects
+  * have deprecated members.
+  */
+-bool visit_deprecated(Visitor *v, const char *name);
++bool visit_deprecated(Visitor *v, const char *name, Error **errp);
 =20
  /*
-  * Accept QMP capabilities in @list for @mon.
-@@ -153,17 +157,89 @@ EventInfoList *qmp_query_events(Error **errp)
-     return ev_list;
+  * Visit an enum value.
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index 501b3ccdef..71e4978a6f 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -137,11 +137,11 @@ bool visit_optional(Visitor *v, const char *name, boo=
+l *present)
+     return *present;
  }
 =20
--/*
-- * Minor hack: generated marshalling suppressed for this command
-- * ('gen': false in the schema) so we can parse the JSON string
-- * directly into QObject instead of first parsing it with
-- * visit_type_SchemaInfoList() into a SchemaInfoList, then marshal it
-- * to QObject with generated output marshallers, every time.  Instead,
-- * we do it in test-qobject-input-visitor.c, just to make sure
-- * qapi-gen.py's output actually conforms to the schema.
-- */
--void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
--                                 Error **errp)
--{
--    *ret_data =3D qobject_from_qlit(&qmp_schema_qlit);
-+static void *split_off_generic_list(void *list,
-+                                    bool (*splitp)(void *elt),
-+                                    void **part)
-+{
-+    GenericList *keep =3D NULL, **keep_tailp =3D &keep;
-+    GenericList *split =3D NULL, **split_tailp =3D &split;
-+    GenericList *tail;
-+
-+    for (tail =3D list; tail; tail =3D tail->next) {
-+        if (splitp(tail)) {
-+            *split_tailp =3D tail;
-+            split_tailp =3D &tail->next;
-+        } else {
-+            *keep_tailp =3D tail;
-+            keep_tailp =3D &tail->next;
-+        }
-+    }
-+
-+    *keep_tailp =3D *split_tailp =3D NULL;
-+    *part =3D split;
-+    return keep;
-+}
-+
-+static bool is_in(const char *s, strList *list)
-+{
-+    strList *tail;
-+
-+    for (tail =3D list; tail; tail =3D tail->next) {
-+        if (!strcmp(tail->value, s)) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static bool is_entity_deprecated(void *link)
-+{
-+    return is_in("deprecated", ((SchemaInfoList *)link)->value->features);
-+}
-+
-+static bool is_member_deprecated(void *link)
-+{
-+    return is_in("deprecated",
-+                 ((SchemaInfoObjectMemberList *)link)->value->features);
-+}
-+
-+static SchemaInfoList *zap_deprecated(SchemaInfoList *schema)
-+{
-+    void *to_zap;
-+    SchemaInfoList *tail;
-+    SchemaInfo *ent;
-+
-+    schema =3D split_off_generic_list(schema, is_entity_deprecated, &to_za=
-p);
-+    qapi_free_SchemaInfoList(to_zap);
-+
-+    for (tail =3D schema; tail; tail =3D tail->next) {
-+        ent =3D tail->value;
-+        if (ent->meta_type =3D=3D SCHEMA_META_TYPE_OBJECT) {
-+            ent->u.object.members
-+                =3D split_off_generic_list(ent->u.object.members,
-+                                         is_member_deprecated, &to_zap);
-+            qapi_free_SchemaInfoObjectMemberList(to_zap);
-+        }
-+    }
-+
-+    return schema;
-+}
-+
-+SchemaInfoList *qmp_query_qmp_schema(Error **errp)
-+{
-+    QObject *obj =3D qobject_from_qlit(&qmp_schema_qlit);
-+    Visitor *v =3D qobject_input_visitor_new(obj);
-+    SchemaInfoList *schema =3D NULL;
-+
-+    /* test_visitor_in_qmp_introspect() ensures this can't fail */
-+    visit_type_SchemaInfoList(v, NULL, &schema, &error_abort);
-+    g_assert(schema);
-+
-+    qobject_unref(obj);
-+    visit_free(v);
-+
-+    if (compat_policy.deprecated_output =3D=3D COMPAT_POLICY_OUTPUT_HIDE) =
-{
-+        return zap_deprecated(schema);
-+    }
-+    return schema;
- }
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index dd128978cc..23433090a8 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -142,8 +142,6 @@ static QemuOptsList qemu_object_opts =3D {
- static void init_qmp_commands(void)
+-bool visit_deprecated(Visitor *v, const char *name)
++bool visit_deprecated(Visitor *v, const char *name, Error **errp)
  {
-     qmp_init_marshal(&qmp_commands);
--    qmp_register_command(&qmp_commands, "query-qmp-schema",
--                         qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
+     trace_visit_deprecated(v, name);
+     if (v->deprecated) {
+-        return v->deprecated(v, name);
++        return v->deprecated(v, name, errp);
+     }
+     return true;
+ }
+diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+index 32236cbcb1..6ea93f5a7a 100644
+--- a/qapi/qobject-input-visitor.c
++++ b/qapi/qobject-input-visitor.c
+@@ -14,6 +14,7 @@
 =20
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities"=
-,
+ #include "qemu/osdep.h"
+ #include <math.h>
++#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/visitor-impl.h"
+@@ -43,6 +44,7 @@ typedef struct StackObject {
+=20
+ struct QObjectInputVisitor {
+     Visitor visitor;
++    CompatPolicyInput deprecated_policy;
+=20
+     /* Root of visit at visitor creation. */
+     QObject *root;
+@@ -640,6 +642,23 @@ static void qobject_input_optional(Visitor *v, const c=
+har *name, bool *present)
+     *present =3D true;
+ }
+=20
++static bool qobject_input_deprecated(Visitor *v, const char *name,
++                                     Error **errp)
++{
++    QObjectInputVisitor *qiv =3D to_qiv(v);
++
++    switch (qiv->deprecated_policy) {
++    case COMPAT_POLICY_INPUT_ACCEPT:
++        return true;
++    case COMPAT_POLICY_INPUT_REJECT:
++        error_setg(errp, "Deprecated parameter '%s' disabled by policy",
++                   name);
++        return false;
++    default:
++        abort();
++    }
++}
++
+ static void qobject_input_free(Visitor *v)
+ {
+     QObjectInputVisitor *qiv =3D to_qiv(v);
+@@ -674,6 +693,7 @@ static QObjectInputVisitor *qobject_input_visitor_base_=
+new(QObject *obj)
+     v->visitor.end_list =3D qobject_input_end_list;
+     v->visitor.start_alternate =3D qobject_input_start_alternate;
+     v->visitor.optional =3D qobject_input_optional;
++    v->visitor.deprecated =3D qobject_input_deprecated;
+     v->visitor.free =3D qobject_input_free;
+=20
+     v->root =3D qobject_ref(obj);
+@@ -696,6 +716,14 @@ Visitor *qobject_input_visitor_new(QObject *obj)
+     return &v->visitor;
+ }
+=20
++Visitor *qobject_input_visitor_new_qmp(QObject *obj)
++{
++    QObjectInputVisitor *v =3D to_qiv(qobject_input_visitor_new(obj));
++
++    v->deprecated_policy =3D compat_policy.deprecated_input;
++    return &v->visitor;
++}
++
+ Visitor *qobject_input_visitor_new_keyval(QObject *obj)
+ {
+     QObjectInputVisitor *v =3D qobject_input_visitor_base_new(obj);
+diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
+index 84cee17596..73983ca5cc 100644
+--- a/qapi/qobject-output-visitor.c
++++ b/qapi/qobject-output-visitor.c
+@@ -201,7 +201,8 @@ static void qobject_output_type_null(Visitor *v, const =
+char *name,
+     qobject_output_add(qov, name, qnull());
+ }
+=20
+-static bool qobject_output_deprecated(Visitor *v, const char *name)
++static bool qobject_output_deprecated(Visitor *v, const char *name,
++                                      Error **errp)
+ {
+     QObjectOutputVisitor *qov =3D to_qov(v);
+=20
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index a2099fee7d..4ca658acf9 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -299,6 +299,29 @@ static void test_dispatch_cmd_deprecated(void)
+     do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
+ }
+=20
++static void test_dispatch_cmd_arg_deprecated(void)
++{
++    const char *cmd =3D "{ 'execute': 'test-features0',"
++        " 'arguments': { 'fs1': { 'foo': 42 } } }";
++    QDict *ret;
++
++    memset(&compat_policy, 0, sizeof(compat_policy));
++
++    /* accept */
++    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) =3D=3D 1);
++    qobject_unref(ret);
++
++    compat_policy.has_deprecated_input =3D true;
++    compat_policy.deprecated_input =3D COMPAT_POLICY_INPUT_ACCEPT;
++    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    assert(ret && qdict_size(ret) =3D=3D 1);
++    qobject_unref(ret);
++
++    compat_policy.deprecated_input =3D COMPAT_POLICY_INPUT_REJECT;
++    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR, cmd);
++}
++
+ static void test_dispatch_cmd_ret_deprecated(void)
+ {
+     const char *cmd =3D "{ 'execute': 'test-features0' }";
+@@ -399,6 +422,8 @@ int main(int argc, char **argv)
+                     test_dispatch_cmd_success_response);
+     g_test_add_func("/qmp/dispatch_cmd_deprecated",
+                     test_dispatch_cmd_deprecated);
++    g_test_add_func("/qmp/dispatch_cmd_arg_deprecated",
++                    test_dispatch_cmd_arg_deprecated);
+     g_test_add_func("/qmp/dispatch_cmd_ret_deprecated",
+                     test_dispatch_cmd_ret_deprecated);
+     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index f628bbf144..3fb4ed42ed 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -132,7 +132,7 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+         push_indent()
+=20
+     ret +=3D mcgen('''
+-    v =3D qobject_input_visitor_new(QOBJECT(args));
++    v =3D qobject_input_visitor_new_qmp(QOBJECT(args));
+     visit_start_struct(v, NULL, NULL, 0, &err);
+     if (err) {
+         goto out;
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 21df3abed2..9119eb015b 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -66,15 +66,12 @@ void visit_type_%(c_name)s_members(Visitor *v, %(c_name=
+)s *obj, Error **errp)
+             push_indent()
+         if deprecated:
+             ret +=3D mcgen('''
+-    if (visit_deprecated(v, "%(name)s")) {
++    if (visit_deprecated(v, "%(name)s", &err)) {
+ ''',
+                          name=3Dmemb.name)
+             push_indent()
+         ret +=3D mcgen('''
+     visit_type_%(c_type)s(v, "%(name)s", &obj->%(c_name)s, &err);
+-    if (err) {
+-        goto out;
+-    }
+ ''',
+                      c_type=3Dmemb.type.c_name(), name=3Dmemb.name,
+                      c_name=3Dc_name(memb.name))
+@@ -82,6 +79,11 @@ void visit_type_%(c_name)s_members(Visitor *v, %(c_name)=
+s *obj, Error **errp)
+             pop_indent()
+             ret +=3D mcgen('''
+     }
++''')
++        ret +=3D mcgen('''
++    if (err) {
++        goto out;
++    }
+ ''')
+         if memb.optional:
+             pop_indent()
 --=20
 2.21.1
 
