@@ -2,61 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2E118609A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 00:50:57 +0100 (CET)
-Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC46F186094
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 00:37:34 +0100 (CET)
+Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDd1z-0001CD-SO
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 19:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
+	id 1jDcp3-0006p6-DB
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 19:37:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jDciR-0006A3-DS
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:30:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDcfS-0005ZW-6x
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:27:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jDciQ-0005GK-9i
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:30:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36822)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDcfR-0002EN-37
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:27:38 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44454)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jDciQ-00054t-3J
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:30:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jDciN-0006mM-Me
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 23:30:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A54852E8073
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 23:30:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jDcfQ-0002Ar-RG
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:27:37 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 37so8614358pgm.11
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 16:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7kzRqUlLpkGjDOydIsoDKwsazMahQVbzT0T2HoBLlxQ=;
+ b=IxNeug0L1ffIqU2BO8WEllFNhMJbqy54y+4HisD1mrqZu7ZvnG7H97sfceyU1W2F5U
+ UsNSfc2aUJYuXLel+Ph8PjasFV8F1y1HrwepQKGK2wIhaAgiLJ10r4QdxNNpllFnq5d6
+ I/u+YGy+XhD0Ukr39LYwhuWFez8OnKvrosW8kkZ8iXHwXch5XDMVbBjZ88opAZhJoOpN
+ Rl/W9f/u9/k0A3Q6JHgmNe+0S5wSRLKF3SdW9pi4FaUZhrHYogAQPIqO/NFxj1EClQ26
+ 0Z7X5siiM+CZdcODlC+NDOYc23Aqz8rkHD0PM43QzYkscRCVg2zi+ykQlvFOg+ArPN/y
+ rnOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7kzRqUlLpkGjDOydIsoDKwsazMahQVbzT0T2HoBLlxQ=;
+ b=TrLTMOXn0InpsU0Rt7IeRRd3GLMPAt1Q0tZyZ5Quf1FDOESAVTg0Jb2gRAGOk78Ydh
+ +r8p+0XbAss+g7qDIJErwmtZJJVwRz6GTHTGwSuXObfnMc4lVjGlLhoCfWvo+WgkoQbR
+ 0WQCm88GC5bHkRMknDRNwKryvpI4R9urs07JmjwGVu9VUpfm+argbSGL2pjvWojEEcJA
+ +ThHbOope9qoZ3ZSARHR1POIYKEcQ1mQGLkLQVDocCRJV4NzHsdNsLn6U1M3HL7cOGAj
+ tqfTzNnnQKrz0uGmJFR3XlHLPlj3dPQjIjaBkPe7PSz1SznWSRkybq80SzF1KZM7NOhS
+ j4DQ==
+X-Gm-Message-State: ANhLgQ2zCedCA6RkPem73s0aVsvHCob1KElpoXwaPlTN/F2Z7OZ0Gt0y
+ tHKBX+7FduSNtc/QBgvaMIGBKg==
+X-Google-Smtp-Source: ADFU+vuExsYpZ3cHVZw6YERRgXKeYQAvx9SsZxCJrBulDM9ZhXR+zJhpimV6dFUbkprPjUGzfsDsIg==
+X-Received: by 2002:aa7:9790:: with SMTP id o16mr23754567pfp.322.1584314855272; 
+ Sun, 15 Mar 2020 16:27:35 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ c11sm14574147pfc.216.2020.03.15.16.27.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 15 Mar 2020 16:27:34 -0700 (PDT)
+Subject: Re: [PATCH v5 24/60] target/riscv: vector single-width averaging add
+ and subtract
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-25-zhiwei_liu@c-sky.com>
+ <834922de-5107-0d00-6d4d-47bd830129a5@linaro.org>
+ <2db448ea-f17f-e627-055d-fb3cdf6cfddc@linaro.org>
+ <d48f77ee-ad99-26fa-a597-6cdcd2d55508@c-sky.com>
+ <426e31f8-1b54-7b5a-b2a9-a2742f9c74af@linaro.org>
+ <e40db19f-0bf6-9ccd-3f41-855f67cf88f2@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <af9227f2-eba9-eb27-d409-c95556b046e7@linaro.org>
+Date: Sun, 15 Mar 2020 16:27:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Mar 2020 23:21:58 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog rth
-X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
-Message-Id: <158431451904.27919.5920506279698421090.malone@gac.canonical.com>
-Subject: [Bug 1867072] Re: ARM: tag bits cleared in FAR_EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: faa49d9dba407f406b52cc7776458cb7c82b4bb5
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <e40db19f-0bf6-9ccd-3f41-855f67cf88f2@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,41 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
+Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix now in master.
+On 3/15/20 4:23 PM, LIU Zhiwei wrote:
+> Many other fixed point instructions also need vxsat besides vxsrm.
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Ah yes.
 
--- =
+> In that cases, can I just define OPIVV2_RM like this:
+> 
+> #define OPIVV2_RM(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)     \
+> static inline void                                                  \
+> do_##NAME(void *vd, void *vs1, void *vs2, int i,                    \
+>           CPURISCVState *env, int vxrm)                             \
+> {                                                                   \
+>     TX1 s1 = *((T1 *)vs1 + HS1(i));                                 \
+>     TX2 s2 = *((T2 *)vs2 + HS2(i));                                 \
+>     *((TD *)vd + HD(i)) = OP(env, vxrm, s2, s1);                    \
+> }
+> 
+> static inline int32_t aadd32(|__attribute__((unused)) |CPURISCVState *env, 
+> 			     int vxrm, int32_t a, int32_t b)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867072
+You can drop the unused.  We don't turn on warnings for unused arguments, as we
+have a *lot* of them for exactly this reason -- keeping a common functional
+interface.
 
-Title:
-  ARM: tag bits cleared in FAR_EL1
 
-Status in QEMU:
-  Fix Committed
+> {
+>     int64_t res = (int64_t)a + b;
+>     uint8_t round = get_round(vxrm, res, 1);
+> 
+>     return (res >> 1) + round;
+> }
+> 
+> 
+> In this way， I can write just one OPIVV2_RM instead of (OPIVV2_RM,
+> OPIVV2_RM_ENV, OPIVV2_ENV).
 
-Bug description:
-  The ARM Architecture Reference Manual provides the following for
-  FAR_EL1:
+Yes, that's fine.
 
-  "For a Data Abort or Watchpoint exception, if address tagging is
-  enabled for the address accessed by the data access that caused the
-  exception, then this field includes the tag."
 
-  However, I have found that the tag bits in FAR_EL1 are always clear,
-  even if the tag bits were set in the original access.
-
-  I can reproduce the problem on both 4.1.1 and master
-  (6e8a73e911f066527e775e04b98f31ebd19db600).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
+r~
 
