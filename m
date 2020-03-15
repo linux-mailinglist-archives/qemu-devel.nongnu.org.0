@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76F3185DC7
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:08:22 +0100 (CET)
-Received: from localhost ([::1]:54922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1DF185DCA
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:12:41 +0100 (CET)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUsH-00056W-NP
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40698)
+	id 1jDUwR-0000MD-Rl
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:12:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXo-0005fw-K1
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:14 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXk-0002Y1-NR
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60890
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXi-0002QP-Of
+ (envelope-from <armbru@redhat.com>) id 1jDUXf-0005Wx-Ck
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:06 -0400
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <armbru@redhat.com>) id 1jDUXc-0002Eo-Om
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42270
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXc-0002B1-I3
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283625;
+ s=mimecast20190719; t=1584283620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OAcKp8JghT/9hui2h5h1UQ3i4BMCNvd5oT573j49rZk=;
- b=OiLUKLE2T7kyGDTbfU0cQpTBpSYKqsyIzAaiZRAol7X/6MlyQpyXfTldfTleoDp27MVwDK
- SERDDd/9rAl496WLf5daOzAtOy/ttTOLaQy/vhEpJpXz4cEPccKuRvPVVKWRGQi+62mYSf
- 8Jh84oagyl4ca6Lo/qt0LZ1g6him6LY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G3gldn13+rEHEEDZV+NrWfuPEvINGJrpCchV2rYKIZE=;
+ b=BbqJEb3Z9TAK1UUbKFasLVD7Nt9/XCgYQgVuYwfyvyMManiWZtQlmg0hHb4qZIcmzYtYXC
+ XClfXiyYNnVYfUcBEvkG3JF19dP5JhxTTXjnPerkvObiAY+KhI9MpZAK9+WCxnfasRGlgn
+ eMQTHlBqHbZgGoOOs21FnwpYMpk8wbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-jtKgGRIROCiIWcamwoZkNg-1; Sun, 15 Mar 2020 10:47:01 -0400
-X-MC-Unique: jtKgGRIROCiIWcamwoZkNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-40-VwdLwlqDPqGuJJJFDMbaOQ-1; Sun, 15 Mar 2020 10:46:56 -0400
+X-MC-Unique: VwdLwlqDPqGuJJJFDMbaOQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 706A2107ACCA;
- Sun, 15 Mar 2020 14:47:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6379F8017CC;
+ Sun, 15 Mar 2020 14:46:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E816B10098FB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E82BB5DA2C;
  Sun, 15 Mar 2020 14:46:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7641A1138404; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id 7882C1138405; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/34] Configurable policy for handling deprecated
- interfaces
-Date: Sun, 15 Mar 2020 15:46:19 +0100
-Message-Id: <20200315144653.22660-1-armbru@redhat.com>
+Subject: [PATCH v3 01/34] qemu-doc: Belatedly document QMP command arg &
+ result deprecation
+Date: Sun, 15 Mar 2020 15:46:20 +0100
+Message-Id: <20200315144653.22660-2-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
+References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,161 +74,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Luk=C3=A1=C5=A1=20Doktor?= <ldoktor@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- libvir-list@redhat.com, mdroth@linux.vnet.ibm.com, libguestfs@redhat.com
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series extends QMP introspection to cover deprecation.
-Additionally, new option -compat lets you configure what to do when
-deprecated interfaces get used.  This is intended for testing users of
-the management interfaces.  It is experimental.
+A number of deprecated QMP arguments and results were missed in commit
+eb22aeca65 "docs: document deprecation policy & deprecated features in
+appendix" (v2.10.0):
 
--compat deprecated-input=3D<in-policy> configures what to do when
-deprecated input is received.  Available policies:
+* Commit b33945cfff "block: Accept device model name for
+  blockdev-open/close-tray" (v2.8.0) deprecated blockdev-open-tray,
+  blockdev-close-tray argument @device.
 
-* accept: Accept deprecated commands and arguments (default)
-* reject: Reject them
-* crash: Crash
+* Commit fbe2d8163e "block: Accept device model name for eject"
+  (v2.8.0) deprecated eject argument @device.
 
--compat deprecated-output=3D<out-policy> configures what to do when
-deprecated output is sent.  Available output policies:
+* Commit 70e2cb3bd7 "block: Accept device model name for
+  blockdev-change-medium" (v2.8.0) deprecated blockdev-change-medium
+  argument @device.
 
-* accept: Emit deprecated command results and events (default)
-* hide: Suppress them
+* Commit 7a9877a026 "block: Accept device model name for
+  block_set_io_throttle" (v2.8.0) deprecated block_set_io_throttle
+  argument @device.
 
-For now, -compat covers only deprecated syntactic aspects of QMP.  We
-may want to extend it to cover semantic aspects, CLI, and experimental
-features.
+* Commit c01c214b69 "block: remove all encryption handling APIs"
+  (v2.10.0) deprecated query-named-block-nodes result
+  @encryption_key_missing and query-block result @inserted member
+  @encryption_key_missing.
 
-PATCH 01-04: Documentation fixes
-PATCH 05-10: Test improvements
-PATCH 11-24: Add feature flags to remaining user-defined types and to
-      =09     struct members
-PATCH 25-26: New special feature 'deprecated', visible in
-      =09     introspection
-PATCH 27-34: New -compat to set policy for handling stuff marked with
-      =09     feature 'deprecated'
+* Commit c42e8742f5 "block: Use JSON null instead of "" to disable
+  backing file" (v2.10.0) deprecated blockdev-add empty string
+  argument @backing.
 
-v3:
-* Rebased, non-trivial conflicts in PATCH 01+26+27+34 due to RST
-  conversion and code motion
-* PATCH 28-29: Old PATCH 28 split up to ease review
-* PATCH 30-31: New
-* PATCH 32-33: Old PATCH 29 split up to ease review
+Since then, we missed a few more:
 
-Comparison to RFC (24 Oct 2019):
-* Cover arguments and results in addition to commands and events
-* Half-baked "[RFC PATCH 18/19] qapi: Include a warning in the
-  response to a deprecated command" dropped
+* Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
+  deprecated block-commit arguments @base and @top.
 
-See also last item of
-    Subject: Minutes of KVM Forum BoF on deprecating stuff
-    Date: Fri, 26 Oct 2018 16:03:51 +0200
-    Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
-    https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg05828.html
+* Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
+  properties" (v4.0.0) deprecated query-named-block-nodes result
+  @dirty-bitmaps member @status, not just query-block.
 
-Cc: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-Cc: libguestfs@redhat.com
-Cc: libvir-list@redhat.com
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Cc: Peter Krempa <pkrempa@redhat.com>
+Make up for all that.
 
-Markus Armbruster (34):
-  qemu-doc: Belatedly document QMP command arg & result deprecation
-  qapi: Belatedly update doc comment for @wait deprecation
-  docs/devel/qapi-code-gen: Clarify allow-oob introspection
-  docs/devel/qapi-code-gen: Document 'features' introspection
-  tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
-  tests/test-qmp-cmds: Check responses more thoroughly
-  tests/test-qmp-cmds: Simplify test data setup
-  tests/test-qmp-event: Simplify test data setup
-  tests/test-qmp-event: Use qobject_is_equal()
-  tests/test-qmp-event: Check event is actually emitted
-  qapi/schema: Clean up around QAPISchemaEntity.connect_doc()
-  qapi: Add feature flags to remaining definitions
-  qapi: Consistently put @features parameter right after @ifcond
-  qapi/introspect: Rename *qlit* to reduce confusion
-  qapi/introspect: Factor out _make_tree()
-  qapi/schema: Change _make_features() to a take feature list
-  qapi/schema: Reorder classes so related ones are together
-  qapi/schema: Rename QAPISchemaObjectType{Variant,Variants}
-  qapi/schema: Call QAPIDoc.connect_member() in just one place
-  qapi: Add feature flags to struct members
-  qapi: Inline do_qmp_dispatch() into qmp_dispatch()
-  qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
-  qapi: Simplify how qmp_dispatch() gets the request ID
-  qapi: Replace qmp_dispatch()'s TODO comment by an explanation
-  qapi: New special feature flag "deprecated"
-  qapi: Mark deprecated QMP parts with feature 'deprecated'
-  qemu-options: New -compat to set policy for deprecated interfaces
-  qapi: Implement deprecated-output=3Dhide for QMP command results
-  qapi: Implement deprecated-output=3Dhide for QMP events
-  qapi: Implement deprecated-output=3Dhide for QMP event data
-  qapi: Implement deprecated-output=3Dhide for QMP introspection
-  qapi: Implement deprecated-input=3Dreject for QMP commands
-  qapi: Implement deprecated-input=3Dreject for QMP command arguments
-  qapi: New -compat deprecated-input=3Dcrash
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 4 deletions(-)
 
- docs/devel/qapi-code-gen.txt                  |  79 ++-
- docs/system/deprecated.rst                    |  48 +-
- tests/qapi-schema/doc-good.texi               |  32 ++
- qapi/block-core.json                          |  48 +-
- qapi/block.json                               |  30 +-
- qapi/char.json                                |   1 +
- qapi/compat.json                              |  52 ++
- qapi/control.json                             |  11 +-
- qapi/introspect.json                          |  28 +-
- qapi/machine.json                             |  34 +-
- qapi/migration.json                           |  36 +-
- qapi/misc.json                                |  13 +-
- qapi/qapi-schema.json                         |   1 +
- include/qapi/compat-policy.h                  |  20 +
- include/qapi/qmp/dispatch.h                   |   1 +
- include/qapi/qobject-input-visitor.h          |   9 +
- include/qapi/qobject-output-visitor.h         |   9 +
- include/qapi/visitor-impl.h                   |   3 +
- include/qapi/visitor.h                        |   9 +
- monitor/monitor-internal.h                    |   3 -
- monitor/misc.c                                |   2 -
- monitor/qmp-cmds-control.c                    | 102 +++-
- qapi/qapi-visit-core.c                        |   9 +
- qapi/qmp-dispatch.c                           | 137 ++---
- qapi/qobject-input-visitor.c                  |  29 ++
- qapi/qobject-output-visitor.c                 |  20 +
- qemu-storage-daemon.c                         |   2 -
- softmmu/vl.c                                  |  17 +
- tests/test-qmp-cmds.c                         | 249 +++++----
- tests/test-qmp-event.c                        | 201 +++-----
- qapi/Makefile.objs                            |   8 +-
- qapi/trace-events                             |   1 +
- qemu-options.hx                               |  22 +
- scripts/qapi/commands.py                      |  20 +-
- scripts/qapi/doc.py                           |  16 +-
- scripts/qapi/events.py                        |  22 +-
- scripts/qapi/expr.py                          |  14 +-
- scripts/qapi/introspect.py                    | 104 ++--
- scripts/qapi/schema.py                        | 488 ++++++++++--------
- scripts/qapi/types.py                         |   8 +-
- scripts/qapi/visit.py                         |  28 +-
- tests/Makefile.include                        |   1 +
- tests/qapi-schema/alternate-base.err          |   2 +-
- tests/qapi-schema/doc-good.json               |  22 +-
- tests/qapi-schema/doc-good.out                |  18 +
- .../qapi-schema/features-deprecated-type.err  |   2 +
- .../qapi-schema/features-deprecated-type.json |   3 +
- .../qapi-schema/features-deprecated-type.out  |   0
- tests/qapi-schema/qapi-schema-test.json       |  51 +-
- tests/qapi-schema/qapi-schema-test.out        |  48 +-
- tests/qapi-schema/test-qapi.py                |  26 +-
- 51 files changed, 1384 insertions(+), 755 deletions(-)
- create mode 100644 qapi/compat.json
- create mode 100644 include/qapi/compat-policy.h
- create mode 100644 tests/qapi-schema/features-deprecated-type.err
- create mode 100644 tests/qapi-schema/features-deprecated-type.json
- create mode 100644 tests/qapi-schema/features-deprecated-type.out
-
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 0838338d8f..bfc693e8e0 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -180,27 +180,67 @@ QEMU Machine Protocol (QMP) commands
+=20
+ Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
+=20
++``blockdev-open-tray``, ``blockdev-close-tray`` argument ``device`` (since=
+ 2.8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+'''''''
++
++Use argument ``id`` instead.
++
++``eject`` argument ``device`` (since 2.8.0)
++'''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
++``blockdev-change-medium`` argument ``device`` (since 2.8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
++``block_set_io_throttle`` argument ``device`` (since 2.8.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
+ ``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+=20
+ Use ``migrate-set-parameters`` instead.
+=20
++``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.=
+0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+''
++
++Always false.
++
++``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Always false.
++
++``blockdev-add`` empty string argument ``backing`` (since 2.10.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument value ``null`` instead.
++
+ ``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+=20
+ Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
+=20
++``block-commit`` arguments ``base`` and ``top`` (since 3.1.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use arguments ``base-node`` and ``top-node`` instead.
++
+ ``object-add`` option ``props`` (since 5.0)
+ '''''''''''''''''''''''''''''''''''''''''''
+=20
+ Specify the properties for the object as top-level arguments instead.
+=20
+-``query-block`` result field ``dirty-bitmaps[i].status`` (since 4.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].st=
+atus (since 4.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+''''''''''''''''
+=20
+ The ``status`` field of the ``BlockDirtyInfo`` structure, returned by
+-the query-block command is deprecated. Two new boolean fields,
+-``recording`` and ``busy`` effectively replace it.
++these commands is deprecated. Two new boolean fields, ``recording`` and
++``busy`` effectively replace it.
+=20
+ ``query-block`` result field ``dirty-bitmaps`` (Since 4.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 --=20
 2.21.1
 
