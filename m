@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B075185DC8
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:08:25 +0100 (CET)
-Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27204185DCB
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:12:42 +0100 (CET)
+Received: from localhost ([::1]:54970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUsK-00057H-6G
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40346)
+	id 1jDUwT-0000Lp-0h
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXf-0005X3-Co
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXo-0005gJ-Qc
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXd-0002IT-Go
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38704
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jDUXj-0002WF-E2
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46828
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXd-0002GE-6e
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:01 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002OE-Cd
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283620;
+ s=mimecast20190719; t=1584283624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=33c4ueoVBGyZ2XGID+Hy1RjDbX+v1BvMmaf5/j0WSSg=;
- b=VLjI1Jd7h7hMaQ8GnBfNpKQN64/NVF19H7C13n53gIl87hPjz2efmsxrOqafoAYmx7LdyV
- TVIr6P973T57lK9mMWCzs2mv/csmYzBnI5WNK64l5sx5ZZsVRGqlYq82IJzXNh5yvQ7KC9
- dlOQuKuZHc8+RvxAcP1RdpO01HaEXa4=
+ bh=sJhlVzaLjOESlp7sH9EzT1iPivs9BmQbuJRGb5TJMY4=;
+ b=aX6tUi6x99u606OuWdUaxDxkS1k2cELdaqhuaC+ZGmTuPswFqUpNACcenwrwaYOQ5u4fxp
+ CJnpdRlREVGm7EN4M9dOTktEK0PVrR/S6C7xxbz38YQXomtjxlmUaEaJwkbEF0AhQclO+Z
+ WRfK73SfJpQG/VxrxLy0SwsAU4wjpfo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-BKmjmW3KP6SEUwG3dpeM0Q-1; Sun, 15 Mar 2020 10:46:59 -0400
-X-MC-Unique: BKmjmW3KP6SEUwG3dpeM0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-97-DdMXZ7FuPg6HAK0KKqth0g-1; Sun, 15 Mar 2020 10:47:00 -0400
+X-MC-Unique: DdMXZ7FuPg6HAK0KKqth0g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71DF11005513;
- Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DF69800D53;
+ Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C0195DA7C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95BC573860;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B850B11358A3; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id C8EE4113523E; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 21/34] qapi: Inline do_qmp_dispatch() into qmp_dispatch()
-Date: Sun, 15 Mar 2020 15:46:40 +0100
-Message-Id: <20200315144653.22660-22-armbru@redhat.com>
+Subject: [PATCH v3 26/34] qapi: Mark deprecated QMP parts with feature
+ 'deprecated'
+Date: Sun, 15 Mar 2020 15:46:45 +0100
+Message-Id: <20200315144653.22660-27-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,166 +79,582 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both functions check @request is a QDict, and both have code for
-QCO_NO_SUCCESS_RESP.  This wasn't the case back when they were
-created.  It's a sign of muddled responsibilities.  Inline.  The next
-commits will clean up some more.
+Add feature 'deprecated' to the deprecated QMP commands, so their
+deprecation becomes visible in output of query-qmp-schema.  Looks like
+this:
+
+    {"name": "query-cpus",
+     "ret-type": "[164]",
+     "meta-type": "command",
+     "arg-type": "0",
+---> "features": ["deprecated"]}
+
+Management applications could conceivably use this for static
+checking.
+
+The deprecated commands are change, cpu-add, migrate-set-cache-size,
+migrate_set_downtime, migrate_set_speed, query-cpus, query-events,
+query-migrate-cache-size.
+
+The deprecated command arguments are block-commit arguments @base and
+@top, and block_set_io_throttle, blockdev-change-medium,
+blockdev-close-tray, blockdev-open-tray, eject argument @device.
+
+The deprecated command results are query-cpus-fast result @arch,
+query-block result @dirty-bitmaps, query-named-block-nodes result
+@encryption_key_missing and result @dirty-bitmaps's member @status.
+Same for query-block result @inserted, which mirrors
+query-named-block-nodes.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/qmp-dispatch.c | 90 +++++++++++++++++++++------------------------
- 1 file changed, 41 insertions(+), 49 deletions(-)
+ qapi/block-core.json | 48 ++++++++++++++++++++++++++++++++++----------
+ qapi/block.json      | 30 ++++++++++++++++++---------
+ qapi/control.json    | 11 ++++++----
+ qapi/machine.json    | 34 +++++++++++++++++--------------
+ qapi/migration.json  | 36 ++++++++++++++++++++++-----------
+ qapi/misc.json       | 13 ++++++------
+ 6 files changed, 115 insertions(+), 57 deletions(-)
 
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index bc264b3c9b..a588072523 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -75,19 +75,42 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
-uest, bool allow_oob,
-     return dict;
- }
-=20
--static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
--                                bool allow_oob, Error **errp)
-+QDict *qmp_error_response(Error *err)
- {
--    Error *local_err =3D NULL;
-+    QDict *rsp;
-+
-+    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
-} }",
-+                                  QapiErrorClass_str(error_get_class(err))=
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 91586fb1fb..943df1926a 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -297,7 +297,7 @@
+ #
+ # @encrypted: true if the backing device is encrypted
+ #
+-# @encryption_key_missing: Deprecated; always false
++# @encryption_key_missing: always false
+ #
+ # @detect_zeroes: detect and optimize zero writes (Since 2.1)
+ #
+@@ -363,13 +363,19 @@
+ # @dirty-bitmaps: dirty bitmaps information (only present if node
+ #                 has one or more dirty bitmaps) (Since 4.2)
+ #
++# Features:
++# @deprecated: Member @encryption_key_missing is deprecated.  It is
++#     always false.
++#
+ # Since: 0.14.0
+ #
+ ##
+ { 'struct': 'BlockDeviceInfo',
+   'data': { 'file': 'str', '*node-name': 'str', 'ro': 'bool', 'drv': 'str'=
 ,
-+                                  error_get_pretty(err));
-+    error_free(err);
-+    return rsp;
-+}
-+
-+/*
-+ * Does @qdict look like a command to be run out-of-band?
-+ */
-+bool qmp_is_oob(const QDict *dict)
-+{
-+    return qdict_haskey(dict, "exec-oob")
-+        && !qdict_haskey(dict, "execute");
-+}
-+
-+QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
-+                    bool allow_oob)
-+{
-+    Error *err =3D NULL;
-     bool oob;
-     const char *command;
--    QDict *args, *dict;
-+    QDict *args;
-     QmpCommand *cmd;
-+    QDict *dict =3D qobject_to(QDict, request);
-+    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
-     QObject *ret =3D NULL;
-+    QDict *rsp;
+             '*backing_file': 'str', 'backing_file_depth': 'int',
+-            'encrypted': 'bool', 'encryption_key_missing': 'bool',
++            'encrypted': 'bool',
++            'encryption_key_missing': { 'type': 'bool',
++                                        'features': [ 'deprecated' ] },
+             'detect_zeroes': 'BlockdevDetectZeroesOptions',
+             'bps': 'int', 'bps_rd': 'int', 'bps_wr': 'int',
+             'iops': 'int', 'iops_rd': 'int', 'iops_wr': 'int',
+@@ -475,7 +481,7 @@
+ #
+ # @granularity: granularity of the dirty bitmap in bytes (since 1.4)
+ #
+-# @status: Deprecated in favor of @recording and @locked. (since 2.4)
++# @status: current status of the dirty bitmap (since 2.4)
+ #
+ # @recording: true if the bitmap is recording new writes from the guest.
+ #             Replaces `active` and `disabled` statuses. (since 4.0)
+@@ -492,11 +498,17 @@
+ #                @busy to be false. This bitmap cannot be used. To remove
+ #                it, use @block-dirty-bitmap-remove. (Since 4.0)
+ #
++# Features:
++# @deprecated: Member @status is deprecated.  Use @recording and
++#     @locked instead.
++#
+ # Since: 1.3
+ ##
+ { 'struct': 'BlockDirtyInfo',
+   'data': {'*name': 'str', 'count': 'int', 'granularity': 'uint32',
+-           'recording': 'bool', 'busy': 'bool', 'status': 'DirtyBitmapStat=
+us',
++           'recording': 'bool', 'busy': 'bool',
++           'status': { 'type': 'DirtyBitmapStatus',
++                       'features': [ 'deprecated' ] },
+            'persistent': 'bool', '*inconsistent': 'bool' } }
 =20
--    dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
-+    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
-     if (!dict) {
--        return NULL;
-+        goto out;
-     }
+ ##
+@@ -587,7 +599,6 @@
+ #
+ # @dirty-bitmaps: dirty bitmaps information (only present if the
+ #                 driver has one or more dirty bitmaps) (Since 2.0)
+-#                 Deprecated in 4.2; see BlockDeviceInfo instead.
+ #
+ # @io-status: @BlockDeviceIoStatus. Only present if the device
+ #             supports it and the VM is configured to stop on errors
+@@ -597,13 +608,18 @@
+ # @inserted: @BlockDeviceInfo describing the device if media is
+ #            present
+ #
++# Features:
++# @deprecated: Member @dirty-bitmaps is deprecated.  Use @inserted
++#     member @dirty-bitmaps instead.
++#
+ # Since:  0.14.0
+ ##
+ { 'struct': 'BlockInfo',
+   'data': {'device': 'str', '*qdev': 'str', 'type': 'str', 'removable': 'b=
+ool',
+            'locked': 'bool', '*inserted': 'BlockDeviceInfo',
+            '*tray_open': 'bool', '*io-status': 'BlockDeviceIoStatus',
+-           '*dirty-bitmaps': ['BlockDirtyInfo'] } }
++           '*dirty-bitmaps': { 'type': ['BlockDirtyInfo'],
++                               'features': [ 'deprecated' ] } } }
 =20
-     command =3D qdict_get_try_str(dict, "execute");
-@@ -99,27 +122,27 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
-QObject *request,
-     }
-     cmd =3D qmp_find_command(cmds, command);
-     if (cmd =3D=3D NULL) {
--        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has not been found", command);
--        return NULL;
-+        goto out;
-     }
-     if (!cmd->enabled) {
--        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has been disabled for this instance",
-                   command);
--        return NULL;
-+        goto out;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
--        error_setg(errp, "The command %s does not support OOB",
-+        error_setg(&err, "The command %s does not support OOB",
-                    command);
--        return NULL;
-+        goto out;
-     }
+ ##
+ # @BlockMeasureInfo:
+@@ -1551,7 +1567,7 @@
+ # @base: Same as @base-node, except that it is a file name rather than a n=
+ode
+ #        name. This must be the exact filename string that was used to ope=
+n the
+ #        node; other strings, even if addressing the same file, are not
+-#        accepted (deprecated, use @base-node instead)
++#        accepted
+ #
+ # @top-node: The node name of the backing image within the image chain
+ #            which contains the topmost data to be committed down. If
+@@ -1560,7 +1576,7 @@
+ # @top: Same as @top-node, except that it is a file name rather than a nod=
+e
+ #       name. This must be the exact filename string that was used to open=
+ the
+ #       node; other strings, even if addressing the same file, are not
+-#       accepted (deprecated, use @base-node instead)
++#       accepted
+ #
+ # @backing-file: The backing file string to write into the overlay
+ #                image of 'top'.  If 'top' is the active layer,
+@@ -1614,6 +1630,10 @@
+ #                list without user intervention.
+ #                Defaults to true. (Since 3.1)
+ #
++# Features:
++# @deprecated: Members @base and @top are deprecated.  Use @base-node
++#     and @top-node instead.
++#
+ # Returns: - Nothing on success
+ #          - If @device does not exist, DeviceNotFound
+ #          - Any other error returns a GenericError.
+@@ -1630,7 +1650,9 @@
+ ##
+ { 'command': 'block-commit',
+   'data': { '*job-id': 'str', 'device': 'str', '*base-node': 'str',
+-            '*base': 'str', '*top-node': 'str', '*top': 'str',
++            '*base': { 'type': 'str', 'features': [ 'deprecated' ] },
++            '*top-node': 'str',
++            '*top': { 'type': 'str', 'features': [ 'deprecated' ] },
+             '*backing-file': 'str', '*speed': 'int',
+             '*on-error': 'BlockdevOnError',
+             '*filter-node-name': 'str',
+@@ -2296,7 +2318,7 @@
+ #
+ # A set of parameters describing block throttling.
+ #
+-# @device: Block device name (deprecated, use @id instead)
++# @device: Block device name
+ #
+ # @id: The name or QOM path of the guest device (since: 2.8)
+ #
+@@ -2364,10 +2386,14 @@
+ #
+ # @group: throttle group name (Since 2.4)
+ #
++# Features:
++# @deprecated: Member @device is deprecated.  Use @id instead.
++#
+ # Since: 1.1
+ ##
+ { 'struct': 'BlockIOThrottle',
+-  'data': { '*device': 'str', '*id': 'str', 'bps': 'int', 'bps_rd': 'int',
++  'data': { '*device': { 'type': 'str', 'features': [ 'deprecated' ] },
++            '*id': 'str', 'bps': 'int', 'bps_rd': 'int',
+             'bps_wr': 'int', 'iops': 'int', 'iops_rd': 'int', 'iops_wr': '=
+int',
+             '*bps_max': 'int', '*bps_rd_max': 'int',
+             '*bps_wr_max': 'int', '*iops_max': 'int',
+diff --git a/qapi/block.json b/qapi/block.json
+index 97bf52b7c7..2ddbfa8306 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -90,15 +90,18 @@
+ ##
+ # @eject:
+ #
+-# Ejects a device from a removable drive.
++# Ejects the medium from a removable drive.
+ #
+-# @device: Block device name (deprecated, use @id instead)
++# @device: Block device name
+ #
+ # @id: The name or QOM path of the guest device (since: 2.8)
+ #
+ # @force: If true, eject regardless of whether the drive is locked.
+ #         If not specified, the default value is false.
+ #
++# Features:
++# @deprecated: Member @device is deprecated.  Use @id instead.
++#
+ # Returns: - Nothing on success
+ #          - If @device is not a valid block device, DeviceNotFound
+ # Notes:    Ejecting a device with no media results in success
+@@ -111,7 +114,7 @@
+ # <- { "return": {} }
+ ##
+ { 'command': 'eject',
+-  'data': { '*device': 'str',
++  'data': { '*device': { 'type': 'str', 'features': [ 'deprecated' ] },
+             '*id': 'str',
+             '*force': 'bool' } }
 =20
-     if (runstate_check(RUN_STATE_PRECONFIG) &&
-         !(cmd->options & QCO_ALLOW_PRECONFIG)) {
--        error_setg(errp, "The command '%s' isn't permitted in '%s' state",
-+        error_setg(&err, "The command '%s' isn't permitted in '%s' state",
-                    cmd->name, RunState_str(RUN_STATE_PRECONFIG));
--        return NULL;
-+        goto out;
-     }
+@@ -134,7 +137,7 @@
+ #   to it
+ # - if the guest device does not have an actual tray
+ #
+-# @device: Block device name (deprecated, use @id instead)
++# @device: Block device name
+ #
+ # @id: The name or QOM path of the guest device (since: 2.8)
+ #
+@@ -143,6 +146,9 @@
+ #         immediately); if true, the tray will be opened regardless of whe=
+ther
+ #         it is locked
+ #
++# Features:
++# @deprecated: Member @device is deprecated.  Use @id instead.
++#
+ # Since: 2.5
+ #
+ # Example:
+@@ -161,7 +167,7 @@
+ #
+ ##
+ { 'command': 'blockdev-open-tray',
+-  'data': { '*device': 'str',
++  'data': { '*device': { 'type': 'str', 'features': [ 'deprecated' ] },
+             '*id': 'str',
+             '*force': 'bool' } }
 =20
-     if (!qdict_haskey(dict, "arguments")) {
-@@ -129,9 +152,9 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, Q=
-Object *request,
-         qobject_ref(args);
-     }
+@@ -174,10 +180,13 @@
+ #
+ # If the tray was already closed before, this will be a no-op.
+ #
+-# @device: Block device name (deprecated, use @id instead)
++# @device: Block device name
+ #
+ # @id: The name or QOM path of the guest device (since: 2.8)
+ #
++# Features:
++# @deprecated: Member @device is deprecated.  Use @id instead.
++#
+ # Since: 2.5
+ #
+ # Example:
+@@ -196,7 +205,7 @@
+ #
+ ##
+ { 'command': 'blockdev-close-tray',
+-  'data': { '*device': 'str',
++  'data': { '*device': { 'type': 'str', 'features': [ 'deprecated' ] },
+             '*id': 'str' } }
 =20
--    cmd->fn(args, &ret, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    cmd->fn(args, &ret, &err);
-+    if (err) {
-+        ;
-     } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
-         g_assert(!ret);
-     } else if (!ret) {
-@@ -141,38 +164,7 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
-QObject *request,
+ ##
+@@ -303,7 +312,7 @@
+ # combines blockdev-open-tray, blockdev-remove-medium, blockdev-insert-med=
+ium
+ # and blockdev-close-tray).
+ #
+-# @device: Block device name (deprecated, use @id instead)
++# @device: Block device name
+ #
+ # @id: The name or QOM path of the guest device
+ #      (since: 2.8)
+@@ -316,6 +325,9 @@
+ # @read-only-mode: change the read-only mode of the device; defaults
+ #                  to 'retain'
+ #
++# Features:
++# @deprecated: Member @device is deprecated.  Use @id instead.
++#
+ # Since: 2.5
+ #
+ # Examples:
+@@ -350,7 +362,7 @@
+ #
+ ##
+ { 'command': 'blockdev-change-medium',
+-  'data': { '*device': 'str',
++  'data': { '*device': { 'type': 'str', 'features': [ 'deprecated' ] },
+             '*id': 'str',
+             'filename': 'str',
+             '*format': 'str',
+diff --git a/qapi/control.json b/qapi/control.json
+index 85b12fe0fb..6b816bb61f 100644
+--- a/qapi/control.json
++++ b/qapi/control.json
+@@ -174,13 +174,15 @@
+ #
+ # Return information on QMP events.
+ #
++# Features:
++# @deprecated: This command is deprecated, because its output doesn't
++#     reflect compile-time configuration.  Use 'query-qmp-schema'
++#     instead.
++#
+ # Returns: A list of @EventInfo.
+ #
+ # Since: 1.2.0
+ #
+-# Note: This command is deprecated, because its output doesn't reflect
+-#       compile-time configuration.  Use query-qmp-schema instead.
+-#
+ # Example:
+ #
+ # -> { "execute": "query-events" }
+@@ -198,7 +200,8 @@
+ # Note: This example has been shortened as the real response is too long.
+ #
+ ##
+-{ 'command': 'query-events', 'returns': ['EventInfo'] }
++{ 'command': 'query-events', 'returns': ['EventInfo'],
++  'features': [ 'deprecated' ] }
 =20
-     qobject_unref(args);
+ ##
+ # @quit:
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 6c11e3cf3a..0da3f3adc4 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -184,8 +184,11 @@
+ # This command causes vCPU threads to exit to userspace, which causes
+ # a small interruption to guest CPU execution. This will have a negative
+ # impact on realtime guests and other latency sensitive guest workloads.
+-# It is recommended to use @query-cpus-fast instead of this command to
+-# avoid the vCPU interruption.
++#
++# Features:
++# @deprecated: This command is deprecated, because it interferes with
++#     the guest.  Use 'query-cpus-fast' instead to avoid the vCPU
++#     interruption.
+ #
+ # Returns: a list of @CpuInfo for each virtual CPU
+ #
+@@ -216,12 +219,9 @@
+ #       ]
+ #    }
+ #
+-# Notes: This interface is deprecated (since 2.12.0), and it is strongly
+-#        recommended that you avoid using it. Use @query-cpus-fast to
+-#        obtain information about virtual CPUs.
+-#
+ ##
+-{ 'command': 'query-cpus', 'returns': ['CpuInfo'] }
++{ 'command': 'query-cpus', 'returns': ['CpuInfo'],
++  'features': [ 'deprecated' ] }
 =20
--    return ret;
--}
--
--QDict *qmp_error_response(Error *err)
--{
--    QDict *rsp;
--
--    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
-} }",
--                                  QapiErrorClass_str(error_get_class(err))=
-,
--                                  error_get_pretty(err));
--    error_free(err);
--    return rsp;
--}
--
--/*
-- * Does @qdict look like a command to be run out-of-band?
-- */
--bool qmp_is_oob(const QDict *dict)
--{
--    return qdict_haskey(dict, "exec-oob")
--        && !qdict_haskey(dict, "execute");
--}
--
--QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
--                    bool allow_oob)
--{
--    Error *err =3D NULL;
--    QDict *dict =3D qobject_to(QDict, request);
--    QObject *ret, *id =3D dict ? qdict_get(dict, "id") : NULL;
--    QDict *rsp;
--
--    ret =3D do_qmp_dispatch(cmds, request, allow_oob, &err);
-+out:
-     if (err) {
-         rsp =3D qmp_error_response(err);
-     } else if (ret) {
+ ##
+ # @CpuInfoFast:
+@@ -237,12 +237,14 @@
+ # @props: properties describing to which node/socket/core/thread
+ #         virtual CPU belongs to, provided if supported by board
+ #
+-# @arch: base architecture of the cpu; deprecated since 3.0.0 in favor
+-#        of @target
++# @arch: base architecture of the cpu
+ #
+ # @target: the QEMU system emulation target, which determines which
+ #          additional fields will be listed (since 3.0)
+ #
++# Features:
++# @deprecated: Member @arch is deprecated.  Use @target instead.
++#
+ # Since: 2.12
+ #
+ ##
+@@ -251,7 +253,8 @@
+                       'qom-path'     : 'str',
+                       'thread-id'    : 'int',
+                       '*props'       : 'CpuInstanceProperties',
+-                      'arch'         : 'CpuInfoArch',
++                      'arch'         : { 'type': 'CpuInfoArch',
++                                         'features': [ 'deprecated' ] },
+                       'target'       : 'SysEmuTarget' },
+   'discriminator' : 'target',
+   'data'          : { 's390x'        : 'CpuInfoS390' } }
+@@ -307,21 +310,22 @@
+ #
+ # @id: ID of CPU to be created, valid values [0..max_cpus)
+ #
++# Features:
++# @deprecated: This command is deprecated.  Use `device_add` instead.
++#     See the `query-hotpluggable-cpus` command for details.
++#
+ # Returns: Nothing on success
+ #
+ # Since: 1.5
+ #
+-# Note: This command is deprecated.  The `device_add` command should be
+-#       used instead.  See the `query-hotpluggable-cpus` command for
+-#       details.
+-#
+ # Example:
+ #
+ # -> { "execute": "cpu-add", "arguments": { "id": 2 } }
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'cpu-add', 'data': {'id': 'int'} }
++{ 'command': 'cpu-add', 'data': {'id': 'int'},
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @MachineInfo:
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 0d1c0712ca..eca2981d0a 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1210,9 +1210,11 @@
+ #
+ # @value: maximum downtime in seconds
+ #
+-# Returns: nothing on success
++# Features:
++# @deprecated: This command is deprecated.  Use
++#     'migrate-set-parameters' instead.
+ #
+-# Notes: This command is deprecated in favor of 'migrate-set-parameters'
++# Returns: nothing on success
+ #
+ # Since: 0.14.0
+ #
+@@ -1222,7 +1224,8 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'} }
++{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'},
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @migrate_set_speed:
+@@ -1231,9 +1234,11 @@
+ #
+ # @value: maximum speed in bytes per second.
+ #
+-# Returns: nothing on success
++# Features:
++# @deprecated: This command is deprecated.  Use
++#     'migrate-set-parameters' instead.
+ #
+-# Notes: This command is deprecated in favor of 'migrate-set-parameters'
++# Returns: nothing on success
+ #
+ # Since: 0.14.0
+ #
+@@ -1243,7 +1248,8 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'migrate_set_speed', 'data': {'value': 'int'} }
++{ 'command': 'migrate_set_speed', 'data': {'value': 'int'},
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @migrate-set-cache-size:
+@@ -1252,13 +1258,15 @@
+ #
+ # @value: cache size in bytes
+ #
++# Features:
++# @deprecated: This command is deprecated.  Use
++#     'migrate-set-parameters' instead.
++#
+ # The size will be rounded down to the nearest power of 2.
+ # The cache size can be modified before and during ongoing migration
+ #
+ # Returns: nothing on success
+ #
+-# Notes: This command is deprecated in favor of 'migrate-set-parameters'
+-#
+ # Since: 1.2
+ #
+ # Example:
+@@ -1268,17 +1276,20 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'} }
++{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'},
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @query-migrate-cache-size:
+ #
+ # Query migration XBZRLE cache size
+ #
++# Features:
++# @deprecated: This command is deprecated.  Use
++#     'query-migrate-parameters' instead.
++#
+ # Returns: XBZRLE cache size in bytes
+ #
+-# Notes: This command is deprecated in favor of 'query-migrate-parameters'
+-#
+ # Since: 1.2
+ #
+ # Example:
+@@ -1287,7 +1298,8 @@
+ # <- { "return": 67108864 }
+ #
+ ##
+-{ 'command': 'query-migrate-cache-size', 'returns': 'int' }
++{ 'command': 'query-migrate-cache-size', 'returns': 'int',
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @migrate:
+diff --git a/qapi/misc.json b/qapi/misc.json
+index c18fe681fb..99b90ac80b 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -872,14 +872,14 @@
+ #       If @device is 'vnc' and @target is 'password', this is the new VNC
+ #       password to set.  See change-vnc-password for additional notes.
+ #
++# Features:
++# @deprecated: This command is deprecated.  For changing block
++#     devices, use 'blockdev-change-medium' instead; for changing VNC
++#     parameters, use 'change-vnc-password' instead.
++#
+ # Returns: - Nothing on success.
+ #          - If @device is not a valid block device, DeviceNotFound
+ #
+-# Notes: This interface is deprecated, and it is strongly recommended that=
+ you
+-#        avoid using it.  For changing block devices, use
+-#        blockdev-change-medium; for changing VNC parameters, use
+-#        change-vnc-password.
+-#
+ # Since: 0.14.0
+ #
+ # Example:
+@@ -900,7 +900,8 @@
+ #
+ ##
+ { 'command': 'change',
+-  'data': {'device': 'str', 'target': 'str', '*arg': 'str'} }
++  'data': {'device': 'str', 'target': 'str', '*arg': 'str'},
++  'features': [ 'deprecated' ] }
+=20
+ ##
+ # @xen-set-global-dirty-log:
 --=20
 2.21.1
 
