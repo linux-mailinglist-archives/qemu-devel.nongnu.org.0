@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877EA186046
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 23:40:25 +0100 (CET)
-Received: from localhost ([::1]:59792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBFF186050
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 23:54:21 +0100 (CET)
+Received: from localhost ([::1]:59926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDbvk-0001dn-Bk
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 18:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56923)
+	id 1jDc9D-00078J-Ht
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 18:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDbpK-0007jH-7T
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:33:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDc3e-0005ui-Ud
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDbpI-0006YI-W6
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:33:46 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41793)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDc3c-00028i-Ah
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:48:34 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33481)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDbpI-0006Q4-6z
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:33:44 -0400
-Received: by mail-pg1-x541.google.com with SMTP id b1so8557450pgm.8
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 15:33:44 -0700 (PDT)
+ id 1jDc3a-00022l-Fx
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:48:30 -0400
+Received: by mail-pf1-x433.google.com with SMTP id n7so8847933pfn.0
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 15:48:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C8xrtjZPdhkGh9RyuMEXja32sZxVcrJKH8SOoPBFV+I=;
- b=S7p11nb7RkRO3B2CKas/xZBbykefVMuGQavF9k2EpUSryb4hk0D7aR0ykRSR/ya3Vc
- g3Jkp0sQuy3AlvNbiZ4DkN7PWuuQBoQAjKFHxJ9yEwzGUKqy2wLs/UPcoguqYEbHOUaD
- +YIYh00mfewuYg5l+YaNFqbisx9f4IXkLx52Yarnoiy9wLpnCpXyEHXuIc+winQlkk3g
- WcVXW6hSSm2XswORQWkwFn/5o7DvNSmncCExThyvk0iJo8q90FABr2I4K6oL2Rrl1PGk
- 7e+B57NEQLXRmvq0O8ifOWBaXPmvVJctdB8Q5nv3S2XdrmRiMUjOipbwzfLC0HgM7lSE
- uGwQ==
+ bh=n6UA6UwGYBpx07k8X+ObhKmnQvaXgHp9gw+kWS7WnRM=;
+ b=jdtEbdrrrFHXE7Zu4emYynfi5C7MPLsC9pO+IlMpLz2WsBPxuFfMt7JzzUZ6XLF/OZ
+ dXNzav9SiE52zYoPaA87eRb8ni02CdKI5OP4zF36jBeftiBHI0guS3sRCXYOKuI2DWP+
+ Kz2X3/XIRlM7y3z2AxqAvenLxuP5bayIx21xa13PZyM5LeaZ10HWcE0zU9I+CsCQdhTi
+ OiKp00CWsmRYRiBW1HyBRvIPyB1CROtWjpTsz9eUwggDiM61Db2zFHgmfYzVxnHES8Bp
+ lAaCOK4QKTeZIQVxh3jjfZuGEITW4rxViVNN1Q0gKNin2NP+5jfYz445MKtGNl2OUsRb
+ +FSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=C8xrtjZPdhkGh9RyuMEXja32sZxVcrJKH8SOoPBFV+I=;
- b=hdVik7lSApBUgw3NCd0IQOH88AowmeLDV0QFilTQlacEltvYmm/dpXVcl5ssx2wcEn
- q6byeJaQjSwcNrW2EGU5W/7vShStSeIP4uJNmVXURUy6e6ZdXyW0U/dB9dFCLz/CMrgT
- Xwybu9pQhW/BHMucQiPZGi5sGQPUAt5w8sH0v2EhPTl/PE2+0unq4R7bbF8K1nzcUQSW
- Ye42wu1yV9Xk3zhvJP073J43tT/JV679mLj/Sx7C7MbWuNwZrZ/dXf0zRSb77C0HXSVL
- eEj2xSvyS+I3rvfqL9nM/7gzurwFW0kSqwnW+/E89GGdK7/3qkX47z+rpm5ho/Aqj4Wb
- yrZQ==
-X-Gm-Message-State: ANhLgQ2K1+CKcDp7alC5WSaQl9Y/SgPngKtDHEqiw4YZ//tfewf+yZAI
- t4IAcQsYthq6Jp3N5+XeStfIfA==
-X-Google-Smtp-Source: ADFU+vv4ID1TV72I/f91ubBzIpArlK8S71wQ1JT6Z3mqMXjq0lOpmdWDq1J+3g+wmfbKprdmTM4tqQ==
-X-Received: by 2002:a62:e20a:: with SMTP id a10mr23092322pfi.270.1584311623231; 
- Sun, 15 Mar 2020 15:33:43 -0700 (PDT)
+ bh=n6UA6UwGYBpx07k8X+ObhKmnQvaXgHp9gw+kWS7WnRM=;
+ b=sCQJxsbzIHnrnXiLIZekgytLUNJVzMJ3LjSVfGTusZ4hL6vC8ykglH6XxIL/Tb0gY0
+ JFMYLvyfIe/hG2ZbYpPOmdJgpmSJlHTj0NiytvTExhp9gInqHZ9KeFsWVQ9Ks20FHYMJ
+ uSU9pZXSz96/opd325s5g3r2ns5vpOoHstoY76s9JAwqHHYhkZ0dVXkq0GuAwSZtQnm4
+ zds2/+4khahdvCflx3o2YVudq5X1m3WvY9SOss8OcXc5Qf97ftZos0fOGhtys2O5MCn/
+ HHWiZtPMZHK5GATz8gNBzpIbQud12tf+QWVxt73QgNFlU+Vz0lZ0ggkRxSFvRtiaaBfo
+ sy2g==
+X-Gm-Message-State: ANhLgQ37msmT7MG9ChszobkH/Vqp6yaTUCg8/YnpYWGcwEtP2+PA7wT4
+ yi7l8aRwrVIlWaGgrjHypLVSDQ==
+X-Google-Smtp-Source: ADFU+vvWGB6vtndsXUN+b/9xYcmDYfVt7ZAGX+6YYQzZqdeEmJ0Q+SAWyWe4mIVgB5+aWL8M2KtQxw==
+X-Received: by 2002:a63:6d4e:: with SMTP id i75mr23331103pgc.443.1584312508038; 
+ Sun, 15 Mar 2020 15:48:28 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- 11sm13757742pfv.43.2020.03.15.15.33.41
+ z8sm11226754pjq.10.2020.03.15.15.48.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 15:33:42 -0700 (PDT)
-Subject: Re: [PATCH 01/14] Makefile: Only build virtiofsd if system-mode is
- enabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200313183652.10258-1-philmd@redhat.com>
- <20200313183652.10258-2-philmd@redhat.com>
- <8f73d608-d28e-b896-b1f0-f95d599502f0@vivier.eu>
- <d9b29b2b-58ff-512c-c426-0ffe7bcad295@linaro.org>
- <29d183c5-6dc5-39a0-e8be-fa2e7f37d331@redhat.com>
+ Sun, 15 Mar 2020 15:48:27 -0700 (PDT)
+Subject: Re: [PATCH 05/13] target/rx: CPU definitions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200315132810.7022-1-f4bug@amsat.org>
+ <20200315132810.7022-6-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c9c4a379-4710-b2c4-54ae-e33b02de5c64@linaro.org>
-Date: Sun, 15 Mar 2020 15:33:40 -0700
+Message-ID: <5d5fbed8-36a3-fd15-72a7-b401a417b5f1@linaro.org>
+Date: Sun, 15 Mar 2020 15:48:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <29d183c5-6dc5-39a0-e8be-fa2e7f37d331@redhat.com>
+In-Reply-To: <20200315132810.7022-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,56 +84,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 3:16 PM, Philippe Mathieu-Daudé wrote:
-> On 3/15/20 8:40 PM, Richard Henderson wrote:
->> On 3/13/20 3:28 PM, Laurent Vivier wrote:
->>>>   ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
->>>> -HELPERS-y += virtiofsd$(EXESUF)
->>>> -vhost-user-json-y += tools/virtiofsd/50-qemu-virtiofsd.json
->>>> +HELPERS-$(CONFIG_SOFTMMU) += virtiofsd$(EXESUF)
->>>> +vhost-user-json-$(CONFIG_SOFTMMU) += tools/virtiofsd/50-qemu-virtiofsd.json
->> ...
->>>
->>> Why don't you do that instead?
->>>
->>>    ifeq
->>> ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG)$(CONFIG_SOFTMMU),yyyy)
-> 
-> This was my first option but checkpatch complained because it is 80 chars long...
-> 
-> I also tried:
-> 
-> ifeq \
-> ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG)$(CONFIG_SOFTMMU),yyyy)
-> 
-> which is uglier and still too long.
-> 
-> Following qemu-bridge-helper syntax I also tried:
-> 
-> ifeq ($(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yy)
-> HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += virtiofsd$(EXESUF)
-> 
-> which is also too long ¯\_(ツ)_/¯
-> 
-> If you accept checkpatch complain I can use the form you prefer :)
+On 3/15/20 6:28 AM, Philippe Mathieu-Daudé wrote:
+> +#define MMU_MODE0_SUFFIX _all
 
-Hmph.  Of the choices, I prefer the 80+ char line.
-
+These have been removed.
 
 r~
 
