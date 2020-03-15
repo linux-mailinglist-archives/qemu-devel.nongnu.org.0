@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FA1186097
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 00:44:23 +0100 (CET)
-Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905B91860B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:07:05 +0100 (CET)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDcve-00087t-Ak
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 19:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34775)
+	id 1jDdHb-0005BT-UH
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDchA-0005sX-GV
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:29:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDd8J-0003CL-DI
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:57:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDch8-0007mA-9X
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:29:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51393
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDd8H-0007ha-Sh
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:57:26 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31623
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDch8-0007hu-3M
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:29:22 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDd8H-0007fq-PH
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:57:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584314961;
+ s=mimecast20190719; t=1584316645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4WumEjFpLdGXtIVB+lKkCaTKMvo703FUA4qb/lVmZ4U=;
- b=bEKk4obOw+fTf9kwg2bEqJbvdkUmWn9UOPi1ALo9kjdD9itCC8qnDlWgHQKKEFhGecqEGO
- uF12Axk8uy1KMsGxkza/6ce6/st82vD1Uk0w9Edp7RYZj551VS/XjQBXHnLd9hmXiULyd8
- /J33AoYR5Qm+bDbLj+fHKhqtwMmLAtM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-Xmdyg5s4N5uhswyEVCGM8Q-1; Sun, 15 Mar 2020 19:29:18 -0400
-X-MC-Unique: Xmdyg5s4N5uhswyEVCGM8Q-1
-Received: by mail-wr1-f71.google.com with SMTP id c16so8155928wrt.2
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 16:29:18 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A5wF4UKQa6hyE13AMLkCTJSWqwYFABdzGNM1d2VU3QY=;
+ b=ERFlFFC4o73mYX6rekB1h5jF7tqAv7xfjP0BqY9qSOM9K+UPCCVoCOqs8lAawEImVrEpRW
+ CGvP+1ERXge73MOIK+ecYs+T2H5pMmhOkkxQDu97pIwU56O+/4nVtFeFC0KSA8T+Vbi9uH
+ /i5QLv1UuqRyEqtLxmHt16/3iUkz6nk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-Q92n89wBNECs0z23gpclow-1; Sun, 15 Mar 2020 19:57:21 -0400
+X-MC-Unique: Q92n89wBNECs0z23gpclow-1
+Received: by mail-wr1-f69.google.com with SMTP id b12so8191297wro.4
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 16:57:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GcXHnaqHRCexDMQKxXRREMxgznnfbEwtSJrVCXJw9kE=;
- b=g5cBzEMN+vqj+se6/sNOMyVk3udvZXDcfavqhzKuwrPUG9d9e9XylnNaByhRfHY+6V
- +t1iEthf4kiGLqrkcptwWv8rKLfpPtdcVa0yVZHrHPO1vqnkRwVfD/gHC+jugEWVWomP
- PRPupAgssiwx3peu/awVpDfvZCnp1T2Yvo5xOfVSw39sjOPK6GbUVsfih3iTqd7Fzsno
- ykwFF8YkR4VZFR1ZR13hPMgO9wvdTZGyeAlnjn8/W3KkLGSMepQ53bRWM3D3tleNBdc1
- FNgKtxQq1nJNpGsTFNzebBQrfNMNT4YhiCnCLtmGX9K/z7UJ3e449V4D7EZPDMnX1GNK
- x3EQ==
-X-Gm-Message-State: ANhLgQ34lUmXP2Oh1I9ALd2ywP/gCIPp7Cex5Xyn5o/TDciWJ9BftyZM
- fJ2A4FT8Mn4M3HXrIY3cPLJXYWDVTRzxNpSUPoxy3R6I04vbm/6rIBqLIL1utkZWbwrin3ELtDL
- lPBYxvA5vMrgxeIc=
-X-Received: by 2002:adf:8023:: with SMTP id 32mr21691296wrk.189.1584314957879; 
- Sun, 15 Mar 2020 16:29:17 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtbkXp6lrfy8keAFwi9Nk+31/DC50pnjme/fFfdMlfjyt2SkbWgxcCkk5l/ETfYkj7nFz0Z2Q==
-X-Received: by 2002:adf:8023:: with SMTP id 32mr21691278wrk.189.1584314957689; 
- Sun, 15 Mar 2020 16:29:17 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
+ bh=v9H7ZHM1J1otUFCQRV2HnRwrlN+ErGeadw/66H05kJ8=;
+ b=igAkKc4kkNvXJxeivKHt+6aBSsMvrkwlwfckaQ4SeLFQ5QI9YOk2ioDUYbXUcVqGMs
+ MF7KOc5kPjhqiRtLcGlnzCiKqK1zrf/36qMljnYbhRR+Uh6I5GKp12DHTq4YkBfCXmaw
+ xfMnZaR7h8eu2iTHXyErYQHg5P0hm8VXN4vOngUB8rhGyJ+W/Vti+vAR64qkoeAfKE16
+ 5R/E+fth2f415dJhwkl+aASTjH/jhtcA+GDkisA0sifFm/lva1GcOQJIqsVsF7/cb1/T
+ 8tx8GeZeuN45RYU92M54AD1PhG6IyZ9ARuAyWJurvu2Sfumrx0qU7Wyu1wehnZO+Pes7
+ 0Bqw==
+X-Gm-Message-State: ANhLgQ0zx8jYt1HZ8FnqELiUE4qRcHXfK6QqLXteYJ6Ht1TaELioSqAC
+ rbWbsEAStZ2YYU9k2ekO21x7i9q6a5CwRY/4uU6p1AnUSrngl20otQnPMTqxV7UWbxC5fgilFVK
+ v8VRDNpMwaZp1vSo=
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr23977856wmg.146.1584316640172; 
+ Sun, 15 Mar 2020 16:57:20 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvOmTR4IeMGi95EQbhw+xfEVPc8gKsKJNWAvDd5kc2xUszq94/iOf60u4QuzbASa3DUffWwrw==
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr23977828wmg.146.1584316639891; 
+ Sun, 15 Mar 2020 16:57:19 -0700 (PDT)
+Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id b202sm2308921wmd.15.2020.03.15.16.29.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 16:29:17 -0700 (PDT)
-Subject: Re: [PATCH 8/9] hw/core: Add qdev stub for user-mode
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200313184607.11792-1-philmd@redhat.com>
- <20200313184607.11792-9-philmd@redhat.com>
- <7775dd60-7c5d-e973-162d-5eb742b41c07@redhat.com>
- <9118c5b3-196b-9002-dcb8-1d3b91b59fc3@redhat.com>
- <3e06976a-b58d-a66e-8a13-5e3d7a325dc1@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4564cb14-2fdb-2ea1-aef4-558160ea99cd@redhat.com>
-Date: Mon, 16 Mar 2020 00:29:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by smtp.gmail.com with ESMTPSA id e7sm71252280wrt.70.2020.03.15.16.57.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Mar 2020 16:57:19 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/12] user-mode: Prune build dependencies (part 1)
+Date: Mon, 16 Mar 2020 00:57:04 +0100
+Message-Id: <20200315235716.28448-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <3e06976a-b58d-a66e-8a13-5e3d7a325dc1@redhat.com>
-Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,42 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/14/20 11:57 AM, Paolo Bonzini wrote:
-> On 14/03/20 11:49, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>
->>>> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
->>>> index 6215e7c208..89bf247173 100644
->>>> --- a/hw/core/Makefile.objs
->>>> +++ b/hw/core/Makefile.objs
->>>> @@ -8,6 +8,7 @@ common-obj-y +=3D vmstate-if.o
->>>>  =C2=A0 # irq.o needed for qdev GPIO handling:
->>>>  =C2=A0 common-obj-y +=3D irq.o
->>>> +common-obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D qdev-stubs.o
->>>
->>> This should be:
->>>
->>>  =C2=A0=C2=A0=C2=A0 obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D qdev-stubs.=
-o
->>
->> Actually I moved it to stub-obj-y which makes things easier.
->=20
-> No, common-obj- is the right thing, followed by
->=20
-> common-obj-$(CONFIG_ALL) +=3D qdev-stubs.o
+This is the first part of a series reducing user-mode
+dependencies. By stripping out unused code, the build
+and testing time is reduced (as is space used by objects).
 
-I don't understand CONFIG_ALL magic, why is that different to common-obj-y?
+Part 1:
+- reduce user-mode object list
+- remove some migration code from user-mode
+- remove cpu_get_crash_info()
 
-Anyway your suggestion works, so I'll blindly use it, thanks.
+Since v1:
+- Addressed Laurent/Richard review comments
+- Removed 'exec: Drop redundant #ifdeffery'
+- Removed 'target: Restrict write_elfXX_note() handlers to system-mode'
 
->=20
-> Paolo
->=20
+v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688456.html
+
+Philippe Mathieu-Daud=C3=A9 (12):
+  Makefile: Only build virtiofsd if system-mode is enabled
+  configure: Avoid building TCG when not needed
+  tests/Makefile: Only display TCG-related tests when TCG is available
+  tests/Makefile: Restrict some softmmu-only tests
+  util/Makefile: Reduce the user-mode object list
+  stubs/Makefile: Reduce the user-mode object list
+  target/riscv/cpu: Restrict CPU migration to system-mode
+  exec: Assert CPU migration is not used on user-only build
+  arch_init: Remove unused 'qapi-commands-misc.h' include
+  target/i386: Restrict CpuClass::get_crash_info() to system-mode
+  target/s390x: Restrict CpuClass::get_crash_info() to system-mode
+  hw/core: Restrict CpuClass::get_crash_info() to system-mode
+
+ configure              |  4 +++
+ Makefile               |  2 +-
+ include/hw/core/cpu.h  |  7 ++++-
+ arch_init.c            |  1 -
+ exec.c                 |  4 ++-
+ hw/core/cpu.c          |  2 ++
+ target/i386/cpu.c      |  6 ++++-
+ target/riscv/cpu.c     |  6 +++--
+ target/s390x/cpu.c     | 12 ++++-----
+ stubs/Makefile.objs    | 52 +++++++++++++++++++++----------------
+ tests/Makefile.include | 18 +++++++------
+ util/Makefile.objs     | 59 +++++++++++++++++++++++++++---------------
+ 12 files changed, 108 insertions(+), 65 deletions(-)
+
+--=20
+2.21.1
 
 
