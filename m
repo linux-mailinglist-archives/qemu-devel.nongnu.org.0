@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C32A185FF7
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 22:24:45 +0100 (CET)
-Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38421186016
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 22:39:28 +0100 (CET)
+Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDakV-0003JJ-Ri
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 17:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
+	id 1jDayk-0000Zw-GN
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 17:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jDaed-0001iQ-TH
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:18:41 -0400
+ (envelope-from <mst@redhat.com>) id 1jDac5-0000dN-LS
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:16:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jDaec-0006JS-Sd
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:18:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59584
+ (envelope-from <mst@redhat.com>) id 1jDac3-00026d-42
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:16:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56227
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jDaec-0006Hc-Ns
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:18:38 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jDac2-0001yg-R0
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:15:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584307118;
+ s=mimecast20190719; t=1584306957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VTyMKLYginLmm1txRqrZAcoPUUw7zuPYpuhvlLcE+Mg=;
- b=UAltgL50dzRyoFGX977SklvRfhzfI99Zm6rmS6g7lyHg7UXgcchUCFHCZv/qcg9N1NRyPH
- heJLZEORwUamvHMD768NX61nWF7myn0DbaPi/WAia4LFnHGF3zWNPNB31zCTth8dUszOYB
- fDPI+1i41XqNxHTSHiX2ICegrftOAv0=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-l0wHGmGnND2MUQST8YtbRQ-1; Sun, 15 Mar 2020 17:18:34 -0400
-X-MC-Unique: l0wHGmGnND2MUQST8YtbRQ-1
-Received: by mail-qt1-f198.google.com with SMTP id l1so14974890qtp.10
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 14:18:34 -0700 (PDT)
+ bh=nUE8BS0Dbl/DM0vl4aMKKbqcb3TBNkvGujss/2g2swY=;
+ b=EF3szn++uz8e2h+J4LqWrJdpQpDbQZKhLhOJ99Mt4QdcHpW+pa8gyaa5oFl0P07+1loEec
+ mW5Koio6YBUO0Ce+Ak4wBB2UOE2pwjOgBBbSCX0UrsE6sHldHx6wNih7+WE29CYT9DkQFx
+ +jATbCtBtPWI9seIHoeRbHf4QWjtbJ8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-xz21AksEP5OkXPbTfbm9Tw-1; Sun, 15 Mar 2020 17:15:53 -0400
+X-MC-Unique: xz21AksEP5OkXPbTfbm9Tw-1
+Received: by mail-qv1-f72.google.com with SMTP id o102so3594654qvo.14
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 14:15:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=h0ZLWa4J+akCTWIhwwIIfIUSHOcDh0fyuuNzQcX4V88=;
- b=gZ93G29mqp8Nx1DVSnuxLU23bIaSxNPmZ+0r8GajGkOrg+MwiYw+vMMcmlHwb77vbv
- iP8+goVw0t5tfwCRpZTwRiJ+E/HBGZQre6f9lKkldCf2CFSsdV+q+djkqzIgq7PrkutJ
- VLvRM5GJSXtgeIPwXxU1dSxeD3qmDGHA0s3FFUvdTnevyGWNHIBvpwOxvTtPXTtAEWrK
- hYW6KPykhGJT+5Fk5QWMVoiH2+Q0JHhfyS4b71tSDrMNwOYPX9Xb0WSLertK9/CTFzsl
- uvZoTg1uUUfZ4EH6apUgdZlo82mI1WXpH73eW34ZQiasJRAWwdbMLlNWVj2gdMSsbAjJ
- 4h7Q==
-X-Gm-Message-State: ANhLgQ3DhVYsqvLXVzeh2cr5S3Z/O7l1hYNByMIYRIevhQxZynDPH3cB
- VBiK/h0Py4P6xok91l4hK77QJAvQv9mQyHCxggNTHABG4C0x/I5sG5Fvp5DJWhY6+QkxO05YSBF
- hW0RSxC9YRU1VR+E=
-X-Received: by 2002:a05:620a:1125:: with SMTP id
- p5mr17517013qkk.103.1584307114186; 
- Sun, 15 Mar 2020 14:18:34 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu2/dmuQT9B483Bjtl/WLbAKU8WtdA8dbIAWb+7XjIQzwlsWbg45lkGP0dMxvbIByAsGKFRkw==
-X-Received: by 2002:a05:620a:1125:: with SMTP id
- p5mr17516999qkk.103.1584307113984; 
- Sun, 15 Mar 2020 14:18:33 -0700 (PDT)
+ bh=FNo3TnA/ZxhfhCjSiw914wzVo0FiX0AIpTzHMDZsIUQ=;
+ b=oCs+kju27Iavowl8dg2I+AswwArm5DnLeFelpfi/ikRxYAnGtM95Bs60O9Qo6f+x61
+ CFw7ju/yQnNlI6HZFJjES6H0o1ifZrvZ9LJkEXVSAQnXZg2VQ1yt6TG29Tr+CsmrtyAb
+ jacTixUpx5cjPyzq+D/TPXPqCUYMTC5MqqsUnP2Wp5dRRgoSDwP3ZNSN86cSdBT67K9h
+ tQWTTYxu87Wc0eGsNr3SBXJBXVkIEQwdCWqFKjAA8YI6wG/7ctCJAdyCWLgKG5ERdsvz
+ 9tyyY1q+Eh/QIZMMadWvUYVTM0MNvySiCLq/GGVcrnE+EEjgMt6t2yH3AWWh80f15Nv2
+ 39Bg==
+X-Gm-Message-State: ANhLgQ2EzPKNahJUb9cRi8rHxFW0DwYkNmcGbSA2gdJZK52GbpgDijL4
+ 5bAJbuKdpE/lwFZE/yX/q4fmIhd4JNr89ujxQko2LD2MFlhW0V6CAiKWRb4l1D+OeyF1Ux2Xz0J
+ lqzRAtSIlweqq6zM=
+X-Received: by 2002:a37:5b81:: with SMTP id
+ p123mr20948717qkb.284.1584306952958; 
+ Sun, 15 Mar 2020 14:15:52 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvY0OSAo0tpx6m4Ow0UCjeOXgTV0JUAnwWCpVjVMV4NB07gJWxwGLw3CCa5DQVmC+jVIf6J5w==
+X-Received: by 2002:a37:5b81:: with SMTP id
+ p123mr20948698qkb.284.1584306952654; 
+ Sun, 15 Mar 2020 14:15:52 -0700 (PDT)
 Received: from redhat.com (bzq-79-180-7-202.red.bezeqint.net. [79.180.7.202])
  by smtp.gmail.com with ESMTPSA id
- q66sm225544qkd.47.2020.03.15.14.18.31
+ u40sm3131808qtc.62.2020.03.15.14.15.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 14:18:33 -0700 (PDT)
-Date: Sun, 15 Mar 2020 17:18:28 -0400
+ Sun, 15 Mar 2020 14:15:51 -0700 (PDT)
+Date: Sun, 15 Mar 2020 17:15:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 0/2] Fix MAP_SYNC support when host has older glibc
- version
-Message-ID: <20200315171719-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v2 2/2] mmap-alloc: Include osdep.h before checking
+ CONFIG_LINUX
+Message-ID: <20200315170229-mutt-send-email-mst@kernel.org>
 References: <20200311232342.1614944-1-ehabkost@redhat.com>
- <7a2bc684-b07e-3825-10db-5f2bf0c33edf@redhat.com>
- <20200315154604.GX1187748@habkost.net>
+ <20200311232342.1614944-3-ehabkost@redhat.com>
+ <20200315154559.GW1187748@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20200315154604.GX1187748@habkost.net>
+In-Reply-To: <20200315154559.GW1187748@habkost.net>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -92,48 +92,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
- jtomko@redhat.com, qemu-devel@nongnu.org, jingqi.liu@intel.com
+Cc: peter.maydell@linaro.org, jingqi.liu@intel.com, jtomko@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 11:46:04AM -0400, Eduardo Habkost wrote:
-> On Sat, Mar 14, 2020 at 10:39:11AM +0100, Paolo Bonzini wrote:
-> > On 12/03/20 00:23, Eduardo Habkost wrote:
-> > > Changes v1 -> v2:
-> > > * Use -isystem for $PWD/linux-headers too
-> > >   Reported-by: "Michael S. Tsirkin" <mst@redhat.com>
-> > >=20
-> > > This is an alternative to the patch submitted at:
-> > >=20
-> > >   From: Jingqi Liu <jingqi.liu@intel.com>
-> > >   Subject: [PATCH] util: fix to get configuration macros in util/mmap=
--alloc.c
-> > >   Date: Thu,  5 Mar 2020 23:41:42 +0800
-> > >   Message-Id: <20200305154142.63070-1-jingqi.liu@intel.com>
-> > >=20
-> > > Before moving the osdep.h include to the top of the file, we had
-> > > to address warnings triggered when <linux/mman.h> was included
-> > > after <sys/mman.h> (done in patch 1/2).
-> > >=20
-> > > Eduardo Habkost (2):
-> > >   Use -isystem for linux-headers dir
-> > >   mmap-alloc: Include osdep.h before checking CONFIG_LINUX
-> > >=20
-> > >  Makefile.target   | 2 +-
-> > >  configure         | 2 +-
-> > >  util/mmap-alloc.c | 7 +++----
-> > >  3 files changed, 5 insertions(+), 6 deletions(-)
-> > >=20
+On Sun, Mar 15, 2020 at 11:45:59AM -0400, Eduardo Habkost wrote:
+> On Wed, Mar 11, 2020 at 07:23:42PM -0400, Eduardo Habkost wrote:
+> > The CONFIG_LINUX check at the top of mmap-alloc.c never worked
+> > because it was done before including osdep.h.
 > >=20
-> > Queued, thanks.
+> > This means MAP_SYNC and MAP_SHARED_VALIDATE would always be set
+> > to 0 at the beginning of the file.  Luckily, this didn't break
+> > when using recent glibc versions (2.28+), because those macros
+> > were redefined by glibc headers.
+> >=20
+> > Move the CONFIG_LINUX check after the main include lines, so the
+> > CONFIG_LINUX check works and we actually include <linux/mman.h>.
+> > This will make MAP_SYNC and MAP_SHARED_VALIDATE available even if
+> > the host has an older glibc version.
+
+Wait a second, MAP_SHARED_VALIDATE is from
+linux-headers/linux/mman.h - it's available on all architectures.
+
+> >=20
+> > Reported-by: Jingqi Liu <jingqi.liu@intel.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Changes v1 -> v2:
+> > * (none)
+> > ---
+> >  util/mmap-alloc.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> > index 27dcccd8ec..7c2ce98eb0 100644
+> > --- a/util/mmap-alloc.c
+> > +++ b/util/mmap-alloc.c
+> > @@ -9,6 +9,9 @@
+> >   * This work is licensed under the terms of the GNU GPL, version 2 or
+> >   * later.  See the COPYING file in the top-level directory.
+> >   */
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/mmap-alloc.h"
+> > +#include "qemu/host-utils.h"
+> > =20
+> >  #ifdef CONFIG_LINUX
+> >  #include <linux/mman.h>
 >=20
-> Please don't queue patch 2/2.  It breaks the build on mips.
+> This breaks the build on mips, because mips doesn't have MAP_SYNC
+> defined at linux/mman.h:
+>=20
+> https://app.shippable.com/github/ehabkost/qemu-hacks/runs/9/9/console
 
 
-I don't argue that it doesn't, but MIPS pretends to support features
-such as MAP_SYNC when in fact it does nothing.
+Oops. But that in fact means it's currently building on mips but not
+working correctly there! MAP_SHARED_VALIDATE 0x0 is especially
+problematic. I'm unsure what's the right thing to do is,
+I guess as a first step we can go back and device MAP_SYNC to 0,
 
+
+
+
+
+
+>=20
+> > @@ -17,10 +20,6 @@
+> >  #define MAP_SHARED_VALIDATE   0x0
+> >  #endif /* CONFIG_LINUX */
+> > =20
+> > -#include "qemu/osdep.h"
+> > -#include "qemu/mmap-alloc.h"
+> > -#include "qemu/host-utils.h"
+> > -
+> >  #define HUGETLBFS_MAGIC       0x958458f6
+> > =20
+> >  #ifdef CONFIG_LINUX
+> > --=20
+> > 2.24.1
+> >=20
+>=20
 > --=20
 > Eduardo
 
