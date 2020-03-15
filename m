@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED375185DB1
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:58:42 +0100 (CET)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7812185DAD
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:54:09 +0100 (CET)
+Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUiv-0006MT-SV
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40262)
+	id 1jDUeW-0002V6-Os
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXd-0005Wi-GZ
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXg-0005X1-Be
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXc-0002Aw-6y
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20367
+ (envelope-from <armbru@redhat.com>) id 1jDUXd-0002IY-FM
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44454
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXb-00028g-V8
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:00 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXd-0002GJ-6c
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283619;
+ s=mimecast20190719; t=1584283620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G/K2SKoqOnDjysN1i+Hx5allTxM687zxIdK14NsSRSU=;
- b=EyUpl//BkC+Ih38XlZaxkFyUx7pt1O3D31zydum0u31f2Nrp2wFrwMbrwUhxzwg8RQhhSI
- bGNs0gZ1nqjUVnhivzDomLfx/ukynFON2o4zOEk8C6ci2e9tB9fl+cI6LVn9jlXS/6h0Y1
- R7LN3JV060wACNZ1d27A9Wr2jF6g7lI=
+ bh=rbSWSFCqRg7Dyhwyu1gGZIgG7CVGvmA7JcPtABc7N4A=;
+ b=BbDULXQdcAQ0yCGYhXVlxr2NPSUkpe6eAh4Xtq3plH2LyeBlvn86kni0Yj4hF8PbzD4qbV
+ tKWpIGDwpGNc5KHEj1NMocZihy+/sVM4bX4RCoE8KzCljxtRs19SurqCN33NyQZ5m6Mir1
+ 43TLK3MiTP9D/xMKIcIKgHJ4XhHkKfY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-qPZNLH-cOAmNE0uXjb4j5w-1; Sun, 15 Mar 2020 10:46:57 -0400
-X-MC-Unique: qPZNLH-cOAmNE0uXjb4j5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-123-QJ-6pjz_MqevZCib13yufA-1; Sun, 15 Mar 2020 10:46:59 -0400
+X-MC-Unique: QJ-6pjz_MqevZCib13yufA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1C3B800D53;
- Sun, 15 Mar 2020 14:46:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9E813F5;
+ Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A13DE2708B;
- Sun, 15 Mar 2020 14:46:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FD7960C81;
+ Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9498F11366F1; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id BC12411358C9; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/34] tests/test-qmp-event: Check event is actually emitted
-Date: Sun, 15 Mar 2020 15:46:29 +0100
-Message-Id: <20200315144653.22660-11-armbru@redhat.com>
+Subject: [PATCH v3 22/34] qapi: Simplify how qmp_dispatch() deals with
+ QCO_NO_SUCCESS_RESP
+Date: Sun, 15 Mar 2020 15:46:41 +0100
+Message-Id: <20200315144653.22660-23-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -80,64 +81,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-event.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ qapi/qmp-dispatch.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index d64066139c..7dd0053190 100644
---- a/tests/test-qmp-event.c
-+++ b/tests/test-qmp-event.c
-@@ -26,6 +26,7 @@
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index a588072523..550d1fe8d2 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -106,7 +106,7 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *requ=
+est,
+     QDict *dict =3D qobject_to(QDict, request);
+     QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
+     QObject *ret =3D NULL;
+-    QDict *rsp;
++    QDict *rsp =3D NULL;
 =20
- typedef struct TestEventData {
-     QDict *expect;
-+    bool emitted;
- } TestEventData;
-=20
- TestEventData *test_event_data;
-@@ -52,7 +53,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
-     qdict_del(d, "timestamp");
-=20
-     g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expect)=
-));
+     dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
+     if (!dict) {
+@@ -151,31 +151,32 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
+quest,
+         args =3D qdict_get_qdict(dict, "arguments");
+         qobject_ref(args);
+     }
 -
-+    test_event_data->emitted =3D true;
- }
+     cmd->fn(args, &ret, &err);
++    qobject_unref(args);
+     if (err) {
+-        ;
+-    } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
++        goto out;
++    }
++
++    if (cmd->options & QCO_NO_SUCCESS_RESP) {
+         g_assert(!ret);
++        return NULL;
+     } else if (!ret) {
+         /* TODO turn into assertion */
+         ret =3D QOBJECT(qdict_new());
+     }
 =20
- static void event_prepare(TestEventData *data,
-@@ -87,6 +88,7 @@ static void test_event_a(TestEventData *data,
- {
-     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
-     qapi_event_send_event_a();
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+-    qobject_unref(args);
++    rsp =3D qdict_new();
++    qdict_put_obj(rsp, "return", ret);
 =20
-@@ -95,6 +97,7 @@ static void test_event_b(TestEventData *data,
- {
-     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
-     qapi_event_send_event_b();
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+ out:
+     if (err) {
++        assert(!rsp);
+         rsp =3D qmp_error_response(err);
+-    } else if (ret) {
+-        rsp =3D qdict_new();
+-        qdict_put_obj(rsp, "return", ret);
+-    } else {
+-        /* Can only happen for commands with QCO_NO_SUCCESS_RESP */
+-        rsp =3D NULL;
+     }
 =20
-@@ -107,6 +110,7 @@ static void test_event_c(TestEventData *data,
-         "{ 'event': 'EVENT_C', 'data': {"
-         " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2' }=
- }");
-     qapi_event_send_event_c(true, 1, true, &b, "test2");
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
-=20
-@@ -132,6 +136,7 @@ static void test_event_d(TestEventData *data,
-         "  'string': 'test2', 'enum2': 'value2' },"
-         " 'b': 'test3', 'enum3': 'value3' } }");
-     qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VALUE=
-3);
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+-    if (rsp && id) {
++    assert(rsp);
++
++    if (id) {
+         qdict_put_obj(rsp, "id", qobject_ref(id));
+     }
 =20
 --=20
 2.21.1
