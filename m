@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1230E185CAE
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 14:33:20 +0100 (CET)
-Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2525B185CB4
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 14:36:38 +0100 (CET)
+Received: from localhost ([::1]:54026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDTOI-0002kW-VL
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 09:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50830)
+	id 1jDTRV-0005xP-4X
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 09:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50860)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJi-00087t-MH
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:36 -0400
+ id 1jDTJk-00088D-HZ
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJg-0003LS-SV
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:33 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46116)
+ id 1jDTJh-0003Pt-Uu
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:36 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43914)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJf-0003Ie-5K
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:32 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w16so1441484wrv.13
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 06:28:30 -0700 (PDT)
+ id 1jDTJg-0003Je-QI
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:33 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b2so11632303wrj.10
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 06:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cElIp5LI4R05nZljrre+VQi0ay9bW2zvw5msneFgmQA=;
- b=XNBSb2Kb73VEMVZ6qaPqa9Sn9X6D3SxSKgChkwjkTSbB8Io0cvPZuKc2ubgMb+aDTj
- 8AVQTSwp6noKKQGI4EU9DerQB8i+0daxub2k5t213KCjlbjkjXl/74iR/80OMPJxN50z
- LULBL/mEd9KZ+FxAynxa7YwDPIyxQt3ewoQt8Ngc8QPHeFY5rsCAa4qiZ1RlvjDqIoKW
- 5qEL+MhSwdzrBupU7lSDLAT54ZtCPn74tp4oSRPGlrRoOd1eK5UmX5qFJb6Kx4tdBdDp
- AGjPQ8cVRc3w11tFxYVmTmHqcw9PLv3CrcOeAq/S0byg7snW5DSSuJrN65VfIUydKoSI
- qJ+A==
+ bh=ljXAIEVRHrDp+LzUL6MHSEncF524g2j6WXSfjoxzCZE=;
+ b=N+xjrqF7nf4ewrkD+xekj2yaK34XJLS/xpB/wV01dNeseNHOxL9MjNWBJWcJ2NYgb+
+ RkwvfZ7yhyNTdVHLjln/wDUxBUWrXsieWS0rfWT/MIew4k2JoszMR+VFf9lWsXork8gi
+ L+DWuUiQluaS5uwHubQAIBymbfKBlrfv3VAWkJBwTbufh2kfKUDNiGkcA48MxekdcKhp
+ h8Y3UApWONfT7VhEZ1VwDQCljXXJNNjl0+SDu8CuIq90vXtL5UI+8XztelZKB+uBjbBj
+ 2BBQ39Fjbx+nVhux9pyZ5t7bpVin7UrjDkLGr47302DFZ6lh7D3Y7V/5iwPzH/nyGqLV
+ rL9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cElIp5LI4R05nZljrre+VQi0ay9bW2zvw5msneFgmQA=;
- b=KVhSfeNOYzkr3fx50mdmQxw0WLi0iKzC7M4jatLFo/Y66JF7l29fywmUXogRvTYUSy
- smee6uRsgrkZvFB7pIVPsje8l+/QZIxBDCmM9j4uvjgdDY14sLC1JnAXjVZZcG0qEPqF
- 84CpDsGzfDntnyXN//YELzy4lqEckIMl6+x7zFA7u+8QNN0ErC50/7khn8UxQFlM+cJO
- 7YwLHTceGxmHiKDsEC341F93vpNUlGtR14U0RyMjOUjdG5LK8EBAInYbc9QqB+GMHqO4
- oEF0USibyYBxaEmX0bGFfsiuEhSNlzIfd0fjf1XLcvNBj+w6J17gYhrQm/6t6uBFZeIM
- jXzA==
-X-Gm-Message-State: ANhLgQ3Vc2oEmfRP7MAv2HFoF0cjfhlh3GmdavUxmdej3cHycNudWC+g
- mtKza3PXJQvah6np5Qc1d+2jEWFj
-X-Google-Smtp-Source: ADFU+vuzN8pLtnk3BwoIDzcTB2FHl3odKFGS17WNoYIgzSX523P9fEecsHKdeFKa6YYqWDvvV34zpw==
-X-Received: by 2002:adf:ff89:: with SMTP id j9mr28266681wrr.281.1584278908870; 
- Sun, 15 Mar 2020 06:28:28 -0700 (PDT)
+ bh=ljXAIEVRHrDp+LzUL6MHSEncF524g2j6WXSfjoxzCZE=;
+ b=SdTn1Um4OBvOlLQUzfyRpMxAFc/pKBoQoyy4CDFsSQeZvYNsPqodzQkR81pvSGfn68
+ Wp+3IjuEJNrI4heBOgXAz/V8Lb9trM30+iNdCjZZ6V2OWYTwoYuZumamfKDrDHQUJCMC
+ IcvflqIaru3gi0cWh48HTjyXCXnuCwEEf7+ugJCnKVNZizGrxstDZYfV+4hTz5NI9SYn
+ WbeRG+yjJo/lhICjahOyDWGFpwYME4TXgGmx1ulnk3T947hqNMY7XVNBOaDKNrGmwhyd
+ 7Ly9wnuteRJbvih339vusjgQLillr1SYB4zbs/GhSa2YI5VBWMduHzgad6UJ99QNT64S
+ KT4w==
+X-Gm-Message-State: ANhLgQ0dT86f0lUyFweATzt6wPEGUnwZX1hKTk247z+CFSAhikbdX+fq
+ McZ9Y+RH53Dl3PdWNFNIL7zXRaRP
+X-Google-Smtp-Source: ADFU+vtqTUiHR4B5Hp8WtJW4XCFEteAcpBYm0LekDcU34acdx+Am4iPWVEb7ZnhiUkTsSPK36HbQIA==
+X-Received: by 2002:a5d:4d51:: with SMTP id a17mr11906907wru.285.1584278910565; 
+ Sun, 15 Mar 2020 06:28:30 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id d15sm87590503wrp.37.2020.03.15.06.28.27
+ by smtp.gmail.com with ESMTPSA id d15sm87590503wrp.37.2020.03.15.06.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:28:28 -0700 (PDT)
+ Sun, 15 Mar 2020 06:28:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/13] target/rx: Use prt_ldmi for XCHG_mr disassembly
-Date: Sun, 15 Mar 2020 14:28:05 +0100
-Message-Id: <20200315132810.7022-10-f4bug@amsat.org>
+Subject: [PATCH 10/13] target/rx: Emit all disassembly in one prt()
+Date: Sun, 15 Mar 2020 14:28:06 +0100
+Message-Id: <20200315132810.7022-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200315132810.7022-1-f4bug@amsat.org>
 References: <20200315132810.7022-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,35 +93,185 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Note that the ld == 3 case handled by prt_ldmi is decoded as
-XCHG_rr and cannot appear here.
+Many of the multi-part prints have been eliminated by previous
+patches.  Eliminate the rest of them.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190531134315.4109-21-richard.henderson@linaro.org>
+Message-Id: <20190531134315.4109-22-richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/rx/disas.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ target/rx/disas.c | 75 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 39 insertions(+), 36 deletions(-)
 
 diff --git a/target/rx/disas.c b/target/rx/disas.c
-index 0c4115669d..a0c444020c 100644
+index a0c444020c..814ef97480 100644
 --- a/target/rx/disas.c
 +++ b/target/rx/disas.c
-@@ -366,13 +366,7 @@ static bool trans_XCHG_rr(DisasContext *ctx, arg_XCHG_rr *a)
- /* xchg dsp[rs].<mi>,rd */
- static bool trans_XCHG_mr(DisasContext *ctx, arg_XCHG_mr *a)
+@@ -228,24 +228,21 @@ static bool trans_MOV_ra(DisasContext *ctx, arg_MOV_ra *a)
+ /* mov.[bwl] rs,rd */
+ static bool trans_MOV_mm(DisasContext *ctx, arg_MOV_mm *a)
  {
--    static const char msize[][4] = {
--        "b", "w", "l", "ub", "uw",
--    };
--    char dsp[8];
--
--    rx_index_addr(ctx, dsp, a->ld, a->mi);
--    prt("xchg\t%s[r%d].%s, r%d", dsp, a->rs, msize[a->mi], a->rd);
-+    prt_ldmi(ctx, "xchg", a->ld, a->mi, a->rs, a->rd);
+-    char dspd[8], dsps[8];
++    char dspd[8], dsps[8], szc = size[a->sz];
+ 
+-    prt("mov.%c\t", size[a->sz]);
+     if (a->lds == 3 && a->ldd == 3) {
+         /* mov.[bwl] rs,rd */
+-        prt("r%d, r%d", a->rs, a->rd);
+-        return true;
+-    }
+-    if (a->lds == 3) {
++        prt("mov.%c\tr%d, r%d", szc, a->rs, a->rd);
++    } else if (a->lds == 3) {
+         rx_index_addr(ctx, dspd, a->ldd, a->sz);
+-        prt("r%d, %s[r%d]", a->rs, dspd, a->rd);
++        prt("mov.%c\tr%d, %s[r%d]", szc, a->rs, dspd, a->rd);
+     } else if (a->ldd == 3) {
+         rx_index_addr(ctx, dsps, a->lds, a->sz);
+-        prt("%s[r%d], r%d", dsps, a->rs, a->rd);
++        prt("mov.%c\t%s[r%d], r%d", szc, dsps, a->rs, a->rd);
+     } else {
+         rx_index_addr(ctx, dsps, a->lds, a->sz);
+         rx_index_addr(ctx, dspd, a->ldd, a->sz);
+-        prt("%s[r%d], %s[r%d]", dsps, a->rs, dspd, a->rd);
++        prt("mov.%c\t%s[r%d], %s[r%d]", szc, dsps, a->rs, dspd, a->rd);
+     }
+     return true;
+ }
+@@ -254,8 +251,11 @@ static bool trans_MOV_mm(DisasContext *ctx, arg_MOV_mm *a)
+ /* mov.[bwl] rs,[-rd] */
+ static bool trans_MOV_rp(DisasContext *ctx, arg_MOV_rp *a)
+ {
+-    prt("mov.%c\tr%d, ", size[a->sz], a->rs);
+-    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
++    if (a->ad) {
++        prt("mov.%c\tr%d, [-r%d]", size[a->sz], a->rs, a->rd);
++    } else {
++        prt("mov.%c\tr%d, [r%d+]", size[a->sz], a->rs, a->rd);
++    }
+     return true;
+ }
+ 
+@@ -263,9 +263,11 @@ static bool trans_MOV_rp(DisasContext *ctx, arg_MOV_rp *a)
+ /* mov.[bwl] [-rd],rs */
+ static bool trans_MOV_pr(DisasContext *ctx, arg_MOV_pr *a)
+ {
+-    prt("mov.%c\t", size[a->sz]);
+-    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
+-    prt(", r%d", a->rs);
++    if (a->ad) {
++        prt("mov.%c\t[-r%d], r%d", size[a->sz], a->rd, a->rs);
++    } else {
++        prt("mov.%c\t[r%d+], r%d", size[a->sz], a->rd, a->rs);
++    }
+     return true;
+ }
+ 
+@@ -299,9 +301,11 @@ static bool trans_MOVU_ar(DisasContext *ctx, arg_MOVU_ar *a)
+ /* movu.[bw] [-rs],rd */
+ static bool trans_MOVU_pr(DisasContext *ctx, arg_MOVU_pr *a)
+ {
+-    prt("movu.%c\t", size[a->sz]);
+-    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
+-    prt(", r%d", a->rs);
++    if (a->ad) {
++        prt("movu.%c\t[-r%d], r%d", size[a->sz], a->rd, a->rs);
++    } else {
++        prt("movu.%c\t[r%d+], r%d", size[a->sz], a->rd, a->rs);
++    }
+     return true;
+ }
+ 
+@@ -478,11 +482,11 @@ static bool trans_TST_mr(DisasContext *ctx, arg_TST_mr *a)
+ /* not rs, rd */
+ static bool trans_NOT_rr(DisasContext *ctx, arg_NOT_rr *a)
+ {
+-    prt("not\t");
+     if (a->rs != a->rd) {
+-        prt("r%d, ", a->rs);
++        prt("not\tr%d, r%d", a->rs, a->rd);
++    } else {
++        prt("not\tr%d", a->rs);
+     }
+-    prt("r%d", a->rd);
+     return true;
+ }
+ 
+@@ -490,11 +494,11 @@ static bool trans_NOT_rr(DisasContext *ctx, arg_NOT_rr *a)
+ /* neg rs, rd */
+ static bool trans_NEG_rr(DisasContext *ctx, arg_NEG_rr *a)
+ {
+-    prt("neg\t");
+     if (a->rs != a->rd) {
+-        prt("r%d, ", a->rs);
++        prt("neg\tr%d, r%d", a->rs, a->rd);
++    } else {
++        prt("neg\tr%d", a->rs);
+     }
+-    prt("r%d", a->rd);
+     return true;
+ }
+ 
+@@ -606,11 +610,10 @@ static bool trans_SBB_mr(DisasContext *ctx, arg_SBB_mr *a)
+ /* abs rs, rd */
+ static bool trans_ABS_rr(DisasContext *ctx, arg_ABS_rr *a)
+ {
+-    prt("abs\t");
+-    if (a->rs == a->rd) {
+-        prt("r%d", a->rd);
++    if (a->rs != a->rd) {
++        prt("abs\tr%d, r%d", a->rs, a->rd);
+     } else {
+-        prt("r%d, r%d", a->rs, a->rd);
++        prt("abs\tr%d", a->rs);
+     }
+     return true;
+ }
+@@ -733,11 +736,11 @@ static bool trans_DIVU_mr(DisasContext *ctx, arg_DIVU_mr *a)
+ /* shll #imm:5, rs, rd */
+ static bool trans_SHLL_irr(DisasContext *ctx, arg_SHLL_irr *a)
+ {
+-    prt("shll\t#%d, ", a->imm);
+     if (a->rs2 != a->rd) {
+-        prt("r%d, ", a->rs2);
++        prt("shll\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
++    } else {
++        prt("shll\t#%d, r%d", a->imm, a->rd);
+     }
+-    prt("r%d", a->rd);
+     return true;
+ }
+ 
+@@ -752,11 +755,11 @@ static bool trans_SHLL_rr(DisasContext *ctx, arg_SHLL_rr *a)
+ /* shar #imm:5, rs, rd */
+ static bool trans_SHAR_irr(DisasContext *ctx, arg_SHAR_irr *a)
+ {
+-    prt("shar\t#%d,", a->imm);
+     if (a->rs2 != a->rd) {
+-        prt("r%d, ", a->rs2);
++        prt("shar\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
++    } else {
++        prt("shar\t#%d, r%d", a->imm, a->rd);
+     }
+-    prt("r%d", a->rd);
+     return true;
+ }
+ 
+@@ -771,11 +774,11 @@ static bool trans_SHAR_rr(DisasContext *ctx, arg_SHAR_rr *a)
+ /* shlr #imm:5, rs, rd */
+ static bool trans_SHLR_irr(DisasContext *ctx, arg_SHLR_irr *a)
+ {
+-    prt("shlr\t#%d, ", a->imm);
+     if (a->rs2 != a->rd) {
+-        prt("r%d, ", a->rs2);
++        prt("shlr\t#%d, r%d, r%d", a->imm, a->rs2, a->rd);
++    } else {
++        prt("shlr\t#%d, r%d", a->imm, a->rd);
+     }
+-    prt("r%d", a->rd);
      return true;
  }
  
