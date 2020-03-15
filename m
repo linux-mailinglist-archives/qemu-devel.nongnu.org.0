@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3DF185DA5
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:50:22 +0100 (CET)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20F2185DAE
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:58:26 +0100 (CET)
+Received: from localhost ([::1]:54832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUar-0007R3-Sm
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
+	id 1jDUif-00068A-T8
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXf-0005XD-Bl
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:06 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXk-0005Zy-Sm
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXd-0002Is-Ic
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43605
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VI-Sq
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:08 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54698
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXd-0002Gt-Au
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:01 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002OI-D0
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283620;
+ s=mimecast20190719; t=1584283624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOc7HeT+1s334JGeFcRwNRegWa0ts+HD+BGwpDGZNUc=;
- b=hpqnt1aTi8lBrYOhZsiOBrKJ1DY+siPDXqEXN76IhJLcTFPLYePgqANdmsn9+ih5tyyVwG
- JfNjnJp73i91JnVsOdJ8oVzCj/cb/laepNB8dS0rm+ojGCqoEVHwX50a35UbRLLe4WI/xk
- vxebc7e7g5ibHdBhJO+Epdtz1JQ356c=
+ bh=Z6aCsPL4uWFE1dWzC6dlBVL7Q5LaL2uq+ko0gQ6saTk=;
+ b=EZR32uxB5Xb0kLXD6VPYJ8L0w8lzJhFczWahMswZtzMDYZJYx6Kr+7X/ilqUBhADqkHkga
+ 6euI60glO0700N5Yn231fUJ/07+UaR9eGvVRXGDcgIlA3iL7fzPTu86AD1BhXD0O3a7NEQ
+ aM83fJ7M8zY+Sf1oPr6lULNKPhWfJZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-6hTS8qH5OKice4sTnWS0zg-1; Sun, 15 Mar 2020 10:46:59 -0400
-X-MC-Unique: 6hTS8qH5OKice4sTnWS0zg-1
+ us-mta-138-cN7XsCFJP1K4eVgbWjtpfQ-1; Sun, 15 Mar 2020 10:47:00 -0400
+X-MC-Unique: cN7XsCFJP1K4eVgbWjtpfQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 562D813F7;
- Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B140313F8;
+ Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26F8692D41;
- Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82AD691D8D;
+ Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C26DE1135234; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id E235811336B0; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/34] qapi: Replace qmp_dispatch()'s TODO comment by an
- explanation
-Date: Sun, 15 Mar 2020 15:46:43 +0100
-Message-Id: <20200315144653.22660-25-armbru@redhat.com>
+Subject: [PATCH v3 34/34] qapi: New -compat deprecated-input=crash
+Date: Sun, 15 Mar 2020 15:46:53 +0100
+Message-Id: <20200315144653.22660-35-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -62,8 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +77,88 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Policy "crash" calls abort() when deprecated input is received.
+
+Bugs in integration tests may mask the error from policy "reject".
+Provide a larger hammer: crash outright.  Masking that seems unlikely.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/qmp-dispatch.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ qapi/compat.json             | 3 ++-
+ qapi/qmp-dispatch.c          | 1 +
+ qapi/qobject-input-visitor.c | 1 +
+ qemu-options.hx              | 4 +++-
+ 4 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/qapi/compat.json b/qapi/compat.json
+index fd6f8e932c..ec24567639 100644
+--- a/qapi/compat.json
++++ b/qapi/compat.json
+@@ -11,11 +11,12 @@
+ #
+ # @accept: Accept silently
+ # @reject: Reject with an error
++# @crash: abort() the process
+ #
+ # Since: 5.0
+ ##
+ { 'enum': 'CompatPolicyInput',
+-  'data': [ 'accept', 'reject' ] }
++  'data': [ 'accept', 'reject', 'crash' ] }
+=20
+ ##
+ # @CompatPolicyOutput:
 diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 112d29a9ab..fb53687ce9 100644
+index 516ee9b0b7..2c8fac02cd 100644
 --- a/qapi/qmp-dispatch.c
 +++ b/qapi/qmp-dispatch.c
-@@ -164,7 +164,11 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *req=
-uest,
-         g_assert(!ret);
-         return NULL;
-     } else if (!ret) {
--        /* TODO turn into assertion */
-+        /*
-+         * When the command's schema has no 'returns', cmd->fn()
-+         * leaves @ret null.  The QMP spec calls for an the empty
-+         * object then; supply it.
-+         */
-         ret =3D QOBJECT(qdict_new());
+@@ -141,6 +141,7 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *requ=
+est,
+                       "Deprecated command %s disabled by policy",
+                       command);
+             goto out;
++        case COMPAT_POLICY_INPUT_CRASH:
+         default:
+             abort();
+         }
+diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+index 6ea93f5a7a..a74c901be9 100644
+--- a/qapi/qobject-input-visitor.c
++++ b/qapi/qobject-input-visitor.c
+@@ -654,6 +654,7 @@ static bool qobject_input_deprecated(Visitor *v, const =
+char *name,
+         error_setg(errp, "Deprecated parameter '%s' disabled by policy",
+                    name);
+         return false;
++    case COMPAT_POLICY_INPUT_CRASH:
+     default:
+         abort();
      }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5459e6c94c..7168a0cb9c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3358,7 +3358,7 @@ DEFHEADING()
+ DEFHEADING(Debug/Expert options:)
 =20
+ DEF("compat", HAS_ARG, QEMU_OPTION_compat,
+-    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Daccep=
+t|hide]\n"
++    "-compat [deprecated-input=3Daccept|reject|crash][,deprecated-output=
+=3Daccept|hide]\n"
+     "                Policy for handling deprecated management interfaces\=
+n",
+     QEMU_ARCH_ALL)
+ SRST
+@@ -3369,6 +3369,8 @@ SRST
+         Accept deprecated commands and arguments
+     ``deprecated-input=3Dreject``
+         Reject deprecated commands and arguments
++    ``deprecated-input=3Dcrash``
++        Crash on deprecated command
+     ``deprecated-output=3Daccept`` (default)
+         Emit deprecated command results and events
+     ``deprecated-output=3Dhide``
 --=20
 2.21.1
 
