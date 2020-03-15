@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79071185DB5
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:03:12 +0100 (CET)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC08185E07
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:26:36 +0100 (CET)
+Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUnH-0001N3-DF
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40342)
+	id 1jDV9v-0001Dj-Hh
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXf-0005Wz-Au
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXl-0005b9-FU
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXc-0002D5-Fw
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40760
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jDUXj-0002WZ-DN
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27393
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXc-00029z-AO
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:00 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002JH-Fi
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283619;
+ s=mimecast20190719; t=1584283621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ErHcuT4cm1oXy3g+6iik/P+K8YdI7jU/ISt5Kmux1ac=;
- b=eTgxwZTz/hKdphTYgb7FRrANLEGcttDAWQ4xnO/axGsIEog0heIJvgiqNtzggwDPdYl+3/
- ILsrldjSQVoPKi2yiux3dj/CxxeYXKCp7e2r3IDgwf9draBv1K6EthdwD49Wgvuw6dHUYC
- LSCakApyg0cUpOB1Pdq2npEKjJ5UGKw=
+ bh=n1HqyLD6rk59tvtYUaeAdJOCL9KoOmIHIAgN65bXvxM=;
+ b=IWO4zqAsAJYHpPadeNWlsjuz7KjzA8o3TKMJg9tAKO70byfmPLwtp29ciBOqLKHNA66u1S
+ UbGO6mCRBkDUDctX/XmRk9UgRGNJe62CsIJzriJFgw3LGuUoJK+k0yL8QSjsYrT70hNDV9
+ Zs+PiP0+zCjnaMx/+KHVVV5CUb4soCU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-EuEESCqtOZW68xCAP41rlw-1; Sun, 15 Mar 2020 10:46:56 -0400
-X-MC-Unique: EuEESCqtOZW68xCAP41rlw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-47-O4DP2V7EOgKfYMwgX8THRw-1; Sun, 15 Mar 2020 10:46:57 -0400
+X-MC-Unique: O4DP2V7EOgKfYMwgX8THRw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D4758017DF;
- Sun, 15 Mar 2020 14:46:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4046107ACC7;
+ Sun, 15 Mar 2020 14:46:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F200F1009ABB;
- Sun, 15 Mar 2020 14:46:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A61C68AC36;
+ Sun, 15 Mar 2020 14:46:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 81C8611366D1; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id 97BAE11366F2; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/34] docs/devel/qapi-code-gen: Document 'features'
- introspection
-Date: Sun, 15 Mar 2020 15:46:23 +0100
-Message-Id: <20200315144653.22660-5-armbru@redhat.com>
+Subject: [PATCH v3 11/34] qapi/schema: Clean up around
+ QAPISchemaEntity.connect_doc()
+Date: Sun, 15 Mar 2020 15:46:30 +0100
+Message-Id: <20200315144653.22660-12-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,109 +79,78 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 6a8c0b5102 "qapi: Add feature flags to struct types" neglected
-to update section "Client JSON Protocol introspection", and commit
-23394b4c39 "qapi: Add feature flags to commands" didn't either.  Make
-up for that.
+QAPISchemaEntity calls doc.connect_feature() in .check().  Improper
+since commit ee1e6a1f6c8 split .connect_doc() off .check().  Move the
+call.  Requires making the children call super().connect_doc() as they
+should.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 43 +++++++++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 15 deletions(-)
+ scripts/qapi/schema.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 5906602504..297a725084 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -642,13 +642,8 @@ that previously resulted in an error).  QMP clients ma=
-y still need to
- know whether the extension is available.
-=20
- For this purpose, a list of features can be specified for a command or
--struct type.  This is exposed to the client as a list of strings,
--where each string signals that this build of QEMU shows a certain
--behaviour.
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index d759308b4e..2a2b495987 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -53,13 +53,13 @@ class QAPISchemaEntity:
+         seen =3D {}
+         for f in self.features:
+             f.check_clash(self.info, seen)
+-            if self.doc:
+-                self.doc.connect_feature(f)
 -
--Each member of the 'features' array defines a feature.  It can either
--be { 'name': STRING, '*if': COND }, or STRING, which is shorthand for
--{ 'name': STRING }.
-+struct type.  Each list member can either be { 'name': STRING, '*if':
-+COND }, or STRING, which is shorthand for { 'name': STRING }.
+         self._checked =3D True
 =20
- The optional 'if' member specifies a conditional.  See "Configuring
- the schema" below for more on this.
-@@ -659,6 +654,12 @@ Example:
-   'data': { 'number': 'int' },
-   'features': [ 'allow-negative-numbers' ] }
+     def connect_doc(self, doc=3DNone):
+-        pass
++        doc =3D doc or self.doc
++        if doc:
++            for f in self.features:
++                doc.connect_feature(f)
 =20
-+The feature strings are exposed to clients in introspection, as
-+explained in section "Client JSON Protocol introspection".
-+
-+Intended use is to have each feature string signal that this build of
-+QEMU shows a certain behaviour.
-+
+     def check_doc(self):
+         if self.doc:
+@@ -250,6 +250,7 @@ class QAPISchemaEnumType(QAPISchemaType):
+             m.check_clash(self.info, seen)
 =20
- =3D=3D=3D Naming rules and reserved names =3D=3D=3D
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             for m in self.members:
+@@ -392,6 +393,7 @@ class QAPISchemaObjectType(QAPISchemaType):
+             m.check_clash(info, seen)
 =20
-@@ -965,7 +966,7 @@ schema, along with the SchemaInfo type.  This text atte=
-mpts to give an
- overview how things work.  For details you need to consult the QAPI
- schema.
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.base and self.base.is_implicit():
+@@ -667,6 +669,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
+                 types_seen[qt] =3D v.name
 =20
--SchemaInfo objects have common members "name" and "meta-type", and
-+SchemaInfo objects have common members "name", "meta-type", and
- additional variant members depending on the value of meta-type.
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             for v in self.variants.variants:
+@@ -733,6 +736,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+                         % self.ret_type.describe())
 =20
- Each SchemaInfo object describes a wire ABI entity of a certain
-@@ -985,12 +986,13 @@ references by name.
- QAPI schema definitions not reachable that way are omitted.
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
+@@ -775,6 +779,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
+                     % self.arg_type.describe())
 =20
- The SchemaInfo for a command has meta-type "command", and variant
--members "arg-type", "ret-type" and "allow-oob".  On the wire, the
--"arguments" member of a client's "execute" command must conform to the
--object type named by "arg-type".  The "return" member that the server
--passes in a success response conforms to the type named by "ret-type".
--When "allow-oob" is true, it means the command supports out-of-band
--execution.  It defaults to false.
-+members "arg-type", "ret-type", "allow-oob", and "features".  On the
-+wire, the "arguments" member of a client's "execute" command must
-+conform to the object type named by "arg-type".  The "return" member
-+that the server passes in a success response conforms to the type
-+named by "ret-type".  When "allow-oob" is true, it means the command
-+supports out-of-band execution.  It defaults to false.  "features"
-+exposes the command's feature strings as a JSON array of strings.
-=20
- If the command takes no arguments, "arg-type" names an object type
- without members.  Likewise, if the command returns nothing, "ret-type"
-@@ -1025,7 +1027,8 @@ Example: the SchemaInfo for EVENT_C from section Even=
-ts
-=20
- The SchemaInfo for struct and union types has meta-type "object".
-=20
--The SchemaInfo for a struct type has variant member "members".
-+The SchemaInfo for a struct type has variant members "members" and
-+"features".
-=20
- The SchemaInfo for a union type additionally has variant members "tag"
- and "variants".
-@@ -1047,6 +1050,16 @@ Example: the SchemaInfo for MyType from section Stru=
-ct types
-           { "name": "member2", "type": "int" },
-           { "name": "member3", "type": "str", "default": null } ] }
-=20
-+"features" exposes the command's feature strings as a JSON array of
-+strings.
-+
-+Example: the SchemaInfo for TestType from section Features:
-+
-+    { "name": "TestType", "meta-type": "object",
-+      "members": [
-+          { "name": "number", "type": "int" } ],
-+      "features": ["allow-negative-numbers"] }
-+
- "tag" is the name of the common member serving as type tag.
- "variants" is a JSON array describing the object's variant members.
- Each element is a JSON object with members "case" (the value of type
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
 --=20
 2.21.1
 
