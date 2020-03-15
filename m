@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2612C185CAD
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 14:33:14 +0100 (CET)
-Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BE6185D2F
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 14:47:20 +0100 (CET)
+Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDTOD-0002cY-2q
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 09:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50740)
+	id 1jDTbr-0004kv-5Q
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 09:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJd-00085Z-6N
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:32 -0400
+ id 1jDTJi-00087Y-8v
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJZ-00038D-F0
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:28 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39009)
+ id 1jDTJd-0003DX-36
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:33 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44531)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jDTJY-00034D-Kz
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:25 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id f7so15093413wml.4
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 06:28:23 -0700 (PDT)
+ id 1jDTJb-00038P-7w
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 09:28:27 -0400
+Received: by mail-wr1-x433.google.com with SMTP id y2so2386395wrn.11
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 06:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F/Fe7Y0hMuyO3GLFWa6hjZBXUsucIi8Io8iNwBE45pw=;
- b=B77jucL6wgmpzT2b4fAWS/QA1blvbtmKkNYhVywtnZfb8gDhnQrFts/xCVpffAIIks
- Re1hubtArHXn5WXOQ/b4dAUyzwMuB0Vdt3E74mtVBa6Tv3nV8t38uiV3taCRl/TdS/DC
- qXNZ1X4RTPfTOcEfY+hHgZR/hINIGBXdEA8WgUJFAZpnoLdXJOmDjgK1onp9m8+wq8Do
- p8mmm2G8uF5kCpx75PDRWE0LijH3qgKIsmMgrVtmYVg2O1PLhM3jbJLJvRr3pXFfdbjR
- RKPR39p9tflO7BoZcIQLpkFRbzZTdiW+a+U0ZuTIt/wOorgY9j3hyEo/J/bAD7jxXij6
- XEFg==
+ bh=kBnxTNGMqqu5prJVoFHMD5DrraM3omuTTsqTLLPxqPg=;
+ b=KwnTR6CUdmvhbnzpPxs9cyaN0NpDaMWmxIjeaNRTu2dt+G9nWhfrNOBRZlON5B/KpL
+ iNi2gfuQX9+8Cv1Rt96SxuPIamh1EEDDbu6y4GcpMrJznnw6DWU9VwJMMEPEtodMD+uW
+ Kwx9kL+wA0z+xBW1zftsrULF9kicQry7XPaCKWpi13RvwjWc4PY4smpVdmO6O6vEXjV9
+ exXpRz1g3npP35MDp1TidEzv6R7ELzaS+Stv7XMQH2wUWXfqxPEoWFe/d2E1sAy2Lgpk
+ BnrwSMkHCJR9USYbTWyMxbFKohqylFwJcY/uFW2yc0uVs8PwhrQO5HooLGN148Bw2eo6
+ YoMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=F/Fe7Y0hMuyO3GLFWa6hjZBXUsucIi8Io8iNwBE45pw=;
- b=hOhu1GOCmKlMOWfourOMr98z3dSrwi31mVQQ3nM3+gJOCfb5kl8057+qOiO7xGu9fY
- 8YiD9gEwy2T3KN/nFVW9akDv/dUvyQrH0aIZpYwNWRwRQ6KQPMSK//CdFXeb3wLiZPhA
- grJnkoV0JiuSgA+76KcGvaBUAcAJjFvYUBqx48ts5z0vpe8WVYZvsrKDHTfJE2YmZ4x4
- fJmSJgmvRkAo2rHstMeZq1bXCScGu/zgxHscwdArEASvi4YD6KKhUtlKagDgam3zN0i/
- QicN73U4ZLB6GmFiiAf1uC6NGFiKNJZG5py9RfgIRIT9ROnBMnhcxFnJdvk7OlfSQ/UN
- E5Xw==
-X-Gm-Message-State: ANhLgQ3kTPxaH5CL/ri2+CLJ3NeFahjPAGv8KQSRwOuqPrsqERbtbHhp
- RDIiTOR2kc5PG9LCwXSVUzguLRfK
-X-Google-Smtp-Source: ADFU+vuJJ/ZOkigxYhglzXz/1+OH+uPjEa0Uo280yYLiBkDqZQmpIHCWURCWi/PkHLG9xHeirnv7DQ==
-X-Received: by 2002:a7b:cd83:: with SMTP id y3mr21836961wmj.176.1584278901978; 
- Sun, 15 Mar 2020 06:28:21 -0700 (PDT)
+ bh=kBnxTNGMqqu5prJVoFHMD5DrraM3omuTTsqTLLPxqPg=;
+ b=uXGXI2cok377TfXyTR395m2b9MrrKqjmxqZsKrXehXtyRKzsiKXrfJFCUvi/n39/gr
+ mY8gRwAZrBSu3jcj8WgmppgsV1fZJbE74ZVk7g7WRxnzHs9yOPeAvi0wR6Lz7gmFKHzk
+ YMA4OMNqKIHZ1OiV9fNrHBb/4vr3rsLyynP/rRfuomnHBuLbUqRVf/0sNNb5o/YUhl/y
+ arceyRqxiSMvedlnPM/EIKyO+WfA134wXphqsVA89zNcwAF2Yj2AUw1cMtPfpnjmOcUr
+ UOR5G774CTsystZYQpT1qAprdx8D1+9k5YU8w/rs/gLGxW4SzSK4nocYzrVGxk3fwVay
+ NidQ==
+X-Gm-Message-State: ANhLgQ2NwpwC91SdPB8etZNMIDgp5sSbpmWrZcvWXo4amf8U/YfVKDlj
+ blxkR9A90uGaPzGNrIfYm9wQlWkO
+X-Google-Smtp-Source: ADFU+vt5808Ev4slEFYZzVkvbkuTufAn9E1eZwMXKWcjrHPguBMFdiIrVb7uBcXRbkEfpQN7GRCZBg==
+X-Received: by 2002:adf:97d0:: with SMTP id t16mr8906942wrb.343.1584278904271; 
+ Sun, 15 Mar 2020 06:28:24 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id d15sm87590503wrp.37.2020.03.15.06.28.20
+ by smtp.gmail.com with ESMTPSA id d15sm87590503wrp.37.2020.03.15.06.28.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 06:28:21 -0700 (PDT)
+ Sun, 15 Mar 2020 06:28:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/13] target/rx: CPU definitions
-Date: Sun, 15 Mar 2020 14:28:01 +0100
-Message-Id: <20200315132810.7022-6-f4bug@amsat.org>
+Subject: [PATCH 06/13] target/rx: RX disassembler
+Date: Sun, 15 Mar 2020 14:28:02 +0100
+Message-Id: <20200315132810.7022-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200315132810.7022-1-f4bug@amsat.org>
 References: <20200315132810.7022-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,7 +86,6 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -95,315 +94,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Use newer QOM style, split cpu-qom.h, restrict access to
- extable array, use rx_cpu_tlb_fill() extracted from patch of
- Yoshinori Sato 'Convert to CPUClass::tlb_fill', call cpu_reset
- after qemu_init_vcpu, make rx_crname a function]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200224141923.82118-7-ysato@users.sourceforge.jp>
+Message-Id: <20200224141923.82118-8-ysato@users.sourceforge.jp>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/rx/cpu-param.h   |  31 ++++++
- target/rx/cpu-qom.h     |  43 ++++++++
- target/rx/cpu.h         | 180 ++++++++++++++++++++++++++++++++
- target/rx/cpu.c         | 226 ++++++++++++++++++++++++++++++++++++++++
- target/rx/gdbstub.c     | 112 ++++++++++++++++++++
- target/rx/translate.c   |  17 ++-
- gdb-xml/rx-core.xml     |  70 +++++++++++++
- target/rx/Makefile.objs |   1 -
- 8 files changed, 674 insertions(+), 6 deletions(-)
- create mode 100644 target/rx/cpu-param.h
- create mode 100644 target/rx/cpu-qom.h
- create mode 100644 target/rx/cpu.h
- create mode 100644 target/rx/cpu.c
- create mode 100644 target/rx/gdbstub.c
- create mode 100644 gdb-xml/rx-core.xml
+ include/disas/dis-asm.h |    5 +
+ target/rx/disas.c       | 1480 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 1485 insertions(+)
+ create mode 100644 target/rx/disas.c
 
-diff --git a/target/rx/cpu-param.h b/target/rx/cpu-param.h
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index f87f468809..c5f9fa08ab 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -226,6 +226,10 @@ enum bfd_architecture
+ #define bfd_mach_nios2r2        2
+   bfd_arch_lm32,       /* Lattice Mico32 */
+ #define bfd_mach_lm32 1
++  bfd_arch_rx,       /* Renesas RX */
++#define bfd_mach_rx            0x75
++#define bfd_mach_rx_v2         0x76
++#define bfd_mach_rx_v3         0x77
+   bfd_arch_last
+   };
+ #define bfd_mach_s390_31 31
+@@ -436,6 +440,7 @@ int print_insn_little_nios2     (bfd_vma, disassemble_info*);
+ int print_insn_xtensa           (bfd_vma, disassemble_info*);
+ int print_insn_riscv32          (bfd_vma, disassemble_info*);
+ int print_insn_riscv64          (bfd_vma, disassemble_info*);
++int print_insn_rx(bfd_vma, disassemble_info *);
+ 
+ #if 0
+ /* Fetch the disassembler for a given BFD, if that support is available.  */
+diff --git a/target/rx/disas.c b/target/rx/disas.c
 new file mode 100644
-index 0000000000..5da87fbebe
+index 0000000000..04cdfdc567
 --- /dev/null
-+++ b/target/rx/cpu-param.h
-@@ -0,0 +1,31 @@
++++ b/target/rx/disas.c
+@@ -0,0 +1,1480 @@
 +/*
-+ *  RX cpu parameters
++ * Renesas RX Disassembler
 + *
-+ *  Copyright (c) 2019 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef RX_CPU_PARAM_H
-+#define RX_CPU_PARAM_H
-+
-+#define TARGET_LONG_BITS 32
-+#define TARGET_PAGE_BITS 12
-+
-+#define TARGET_PHYS_ADDR_SPACE_BITS 32
-+#define TARGET_VIRT_ADDR_SPACE_BITS 32
-+
-+#define NB_MMU_MODES 1
-+#define MMU_MODE0_SUFFIX _all
-+
-+#endif
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-new file mode 100644
-index 0000000000..df43fcf103
---- /dev/null
-+++ b/target/rx/cpu-qom.h
-@@ -0,0 +1,43 @@
-+/*
-+ * RX CPU
-+ *
-+ * Copyright (c) 2019 Yoshinori Sato
-+ * SPDX-License-Identifier: LGPL-2.0+
-+ */
-+
-+#ifndef RX_CPU_QOM_H
-+#define RX_CPU_QOM_H
-+
-+#include "hw/core/cpu.h"
-+
-+#define TYPE_RX_CPU "rx-cpu"
-+
-+#define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
-+
-+#define RXCPU_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
-+#define RXCPU(obj) \
-+    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
-+#define RXCPU_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
-+
-+/*
-+ * RXCPUClass:
-+ * @parent_realize: The parent class' realize handler.
-+ * @parent_reset: The parent class' reset handler.
-+ *
-+ * A RX CPU model.
-+ */
-+typedef struct RXCPUClass {
-+    /*< private >*/
-+    CPUClass parent_class;
-+    /*< public >*/
-+
-+    DeviceRealize parent_realize;
-+    void (*parent_reset)(CPUState *cpu);
-+
-+} RXCPUClass;
-+
-+#define CPUArchState struct CPURXState
-+
-+#endif
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-new file mode 100644
-index 0000000000..b716fc5789
---- /dev/null
-+++ b/target/rx/cpu.h
-@@ -0,0 +1,180 @@
-+/*
-+ *  RX emulation definition
-+ *
-+ *  Copyright (c) 2019 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef RX_CPU_H
-+#define RX_CPU_H
-+
-+#include "qemu/bitops.h"
-+#include "qemu-common.h"
-+#include "hw/registerfields.h"
-+#include "cpu-qom.h"
-+
-+#include "exec/cpu-defs.h"
-+
-+/* PSW define */
-+REG32(PSW, 0)
-+FIELD(PSW, C, 0, 1)
-+FIELD(PSW, Z, 1, 1)
-+FIELD(PSW, S, 2, 1)
-+FIELD(PSW, O, 3, 1)
-+FIELD(PSW, I, 16, 1)
-+FIELD(PSW, U, 17, 1)
-+FIELD(PSW, PM, 20, 1)
-+FIELD(PSW, IPL, 24, 4)
-+
-+/* FPSW define */
-+REG32(FPSW, 0)
-+FIELD(FPSW, RM, 0, 2)
-+FIELD(FPSW, CV, 2, 1)
-+FIELD(FPSW, CO, 3, 1)
-+FIELD(FPSW, CZ, 4, 1)
-+FIELD(FPSW, CU, 5, 1)
-+FIELD(FPSW, CX, 6, 1)
-+FIELD(FPSW, CE, 7, 1)
-+FIELD(FPSW, CAUSE, 2, 6)
-+FIELD(FPSW, DN, 8, 1)
-+FIELD(FPSW, EV, 10, 1)
-+FIELD(FPSW, EO, 11, 1)
-+FIELD(FPSW, EZ, 12, 1)
-+FIELD(FPSW, EU, 13, 1)
-+FIELD(FPSW, EX, 14, 1)
-+FIELD(FPSW, ENABLE, 10, 5)
-+FIELD(FPSW, FV, 26, 1)
-+FIELD(FPSW, FO, 27, 1)
-+FIELD(FPSW, FZ, 28, 1)
-+FIELD(FPSW, FU, 29, 1)
-+FIELD(FPSW, FX, 30, 1)
-+FIELD(FPSW, FLAGS, 26, 4)
-+FIELD(FPSW, FS, 31, 1)
-+
-+enum {
-+    NUM_REGS = 16,
-+};
-+
-+typedef struct CPURXState {
-+    /* CPU registers */
-+    uint32_t regs[NUM_REGS];    /* general registers */
-+    uint32_t psw_o;             /* O bit of status register */
-+    uint32_t psw_s;             /* S bit of status register */
-+    uint32_t psw_z;             /* Z bit of status register */
-+    uint32_t psw_c;             /* C bit of status register */
-+    uint32_t psw_u;
-+    uint32_t psw_i;
-+    uint32_t psw_pm;
-+    uint32_t psw_ipl;
-+    uint32_t bpsw;              /* backup status */
-+    uint32_t bpc;               /* backup pc */
-+    uint32_t isp;               /* global base register */
-+    uint32_t usp;               /* vector base register */
-+    uint32_t pc;                /* program counter */
-+    uint32_t intb;              /* interrupt vector */
-+    uint32_t fintv;
-+    uint32_t fpsw;
-+    uint64_t acc;
-+
-+    /* Fields up to this point are cleared by a CPU reset */
-+    struct {} end_reset_fields;
-+
-+    /* Internal use */
-+    uint32_t in_sleep;
-+    uint32_t req_irq;           /* Requested interrupt no (hard) */
-+    uint32_t req_ipl;           /* Requested interrupt level */
-+    uint32_t ack_irq;           /* execute irq */
-+    uint32_t ack_ipl;           /* execute ipl */
-+    float_status fp_status;
-+    qemu_irq ack;               /* Interrupt acknowledge */
-+} CPURXState;
-+
-+/*
-+ * RXCPU:
-+ * @env: #CPURXState
-+ *
-+ * A RX CPU
-+ */
-+struct RXCPU {
-+    /*< private >*/
-+    CPUState parent_obj;
-+    /*< public >*/
-+
-+    CPUNegativeOffsetState neg;
-+    CPURXState env;
-+};
-+
-+typedef struct RXCPU RXCPU;
-+typedef RXCPU ArchCPU;
-+
-+#define ENV_OFFSET offsetof(RXCPU, env)
-+
-+#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
-+#define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
-+#define CPU_RESOLVING_TYPE TYPE_RX_CPU
-+
-+const char *rx_crname(uint8_t cr);
-+void rx_cpu_do_interrupt(CPUState *cpu);
-+bool rx_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+void rx_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-+int rx_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
-+int rx_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+hwaddr rx_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-+
-+void rx_translate_init(void);
-+int cpu_rx_signal_handler(int host_signum, void *pinfo,
-+                           void *puc);
-+
-+void rx_cpu_list(void);
-+void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte);
-+
-+#define cpu_signal_handler cpu_rx_signal_handler
-+#define cpu_list rx_cpu_list
-+
-+#include "exec/cpu-all.h"
-+
-+#define CPU_INTERRUPT_SOFT CPU_INTERRUPT_TGT_INT_0
-+#define CPU_INTERRUPT_FIR  CPU_INTERRUPT_TGT_INT_1
-+
-+#define RX_CPU_IRQ 0
-+#define RX_CPU_FIR 1
-+
-+static inline void cpu_get_tb_cpu_state(CPURXState *env, target_ulong *pc,
-+                                        target_ulong *cs_base, uint32_t *flags)
-+{
-+    *pc = env->pc;
-+    *cs_base = 0;
-+    *flags = FIELD_DP32(0, PSW, PM, env->psw_pm);
-+}
-+
-+static inline int cpu_mmu_index(CPURXState *env, bool ifetch)
-+{
-+    return 0;
-+}
-+
-+static inline uint32_t rx_cpu_pack_psw(CPURXState *env)
-+{
-+    uint32_t psw = 0;
-+    psw = FIELD_DP32(psw, PSW, IPL, env->psw_ipl);
-+    psw = FIELD_DP32(psw, PSW, PM,  env->psw_pm);
-+    psw = FIELD_DP32(psw, PSW, U,   env->psw_u);
-+    psw = FIELD_DP32(psw, PSW, I,   env->psw_i);
-+    psw = FIELD_DP32(psw, PSW, O,   env->psw_o >> 31);
-+    psw = FIELD_DP32(psw, PSW, S,   env->psw_s >> 31);
-+    psw = FIELD_DP32(psw, PSW, Z,   env->psw_z == 0);
-+    psw = FIELD_DP32(psw, PSW, C,   env->psw_c);
-+    return psw;
-+}
-+
-+#endif /* RX_CPU_H */
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-new file mode 100644
-index 0000000000..9c224a273c
---- /dev/null
-+++ b/target/rx/cpu.c
-@@ -0,0 +1,226 @@
-+/*
-+ * QEMU RX CPU
-+ *
-+ * Copyright (c) 2019 Yoshinori Sato
++ * Copyright (c) 2019 Yoshinori Sato <ysato@users.sourceforge.jp>
 + *
 + * This program is free software; you can redistribute it and/or modify it
 + * under the terms and conditions of the GNU General Public License,
@@ -419,452 +153,1467 @@ index 0000000000..9c224a273c
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/qemu-print.h"
-+#include "qapi/error.h"
++#include "disas/dis-asm.h"
++#include "qemu/bitops.h"
 +#include "cpu.h"
-+#include "qemu-common.h"
-+#include "migration/vmstate.h"
-+#include "exec/exec-all.h"
-+#include "hw/loader.h"
-+#include "fpu/softfloat.h"
 +
-+static void rx_cpu_set_pc(CPUState *cs, vaddr value)
++typedef struct DisasContext {
++    disassemble_info *dis;
++    uint32_t addr;
++    uint32_t pc;
++} DisasContext;
++
++
++static uint32_t decode_load_bytes(DisasContext *ctx, uint32_t insn,
++                           int i, int n)
 +{
-+    RXCPU *cpu = RXCPU(cs);
-+
-+    cpu->env.pc = value;
-+}
-+
-+static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+{
-+    RXCPU *cpu = RXCPU(cs);
-+
-+    cpu->env.pc = tb->pc;
-+}
-+
-+static bool rx_cpu_has_work(CPUState *cs)
-+{
-+    return cs->interrupt_request &
-+        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR);
-+}
-+
-+static void rx_cpu_reset(CPUState *s)
-+{
-+    RXCPU *cpu = RXCPU(s);
-+    RXCPUClass *rcc = RXCPU_GET_CLASS(cpu);
-+    CPURXState *env = &cpu->env;
-+    uint32_t *resetvec;
-+
-+    rcc->parent_reset(s);
-+
-+    memset(env, 0, offsetof(CPURXState, end_reset_fields));
-+
-+    resetvec = rom_ptr(0xfffffffc, 4);
-+    if (resetvec) {
-+        /* In the case of kernel, it is ignored because it is not set. */
-+        env->pc = ldl_p(resetvec);
++    bfd_byte buf;
++    while (++i <= n) {
++        ctx->dis->read_memory_func(ctx->addr++, &buf, 1, ctx->dis);
++        insn |= buf << (32 - i * 8);
 +    }
-+    rx_cpu_unpack_psw(env, 0, 1);
-+    env->regs[0] = env->isp = env->usp = 0;
-+    env->fpsw = 0;
-+    set_flush_to_zero(1, &env->fp_status);
-+    set_flush_inputs_to_zero(1, &env->fp_status);
++    return insn;
 +}
 +
-+static void rx_cpu_list_entry(gpointer data, gpointer user_data)
++static int32_t li(DisasContext *ctx, int sz)
 +{
-+    ObjectClass *oc = data;
++    int32_t addr;
++    bfd_byte buf[4];
++    addr = ctx->addr;
 +
-+    qemu_printf("  %s\n", object_class_get_name(oc));
-+}
-+
-+void rx_cpu_list(void)
-+{
-+    GSList *list;
-+    list = object_class_get_list_sorted(TYPE_RX_CPU, false);
-+    qemu_printf("Available CPUs:\n");
-+    g_slist_foreach(list, rx_cpu_list_entry, NULL);
-+    g_slist_free(list);
-+}
-+
-+static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
-+{
-+    ObjectClass *oc;
-+    char *typename;
-+
-+    oc = object_class_by_name(cpu_model);
-+    if (oc != NULL && object_class_dynamic_cast(oc, TYPE_RX_CPU) != NULL &&
-+        !object_class_is_abstract(oc)) {
-+        return oc;
++    switch (sz) {
++    case 1:
++        ctx->addr += 1;
++        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
++        return (int8_t)buf[0];
++    case 2:
++        ctx->addr += 2;
++        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
++        return ldsw_le_p(buf);
++    case 3:
++        ctx->addr += 3;
++        ctx->dis->read_memory_func(addr, buf, 3, ctx->dis);
++        return (int8_t)buf[2] << 16 | lduw_le_p(buf);
++    case 0:
++        ctx->addr += 4;
++        ctx->dis->read_memory_func(addr, buf, 4, ctx->dis);
++        return ldl_le_p(buf);
++    default:
++        g_assert_not_reached();
 +    }
-+    typename = g_strdup_printf(RX_CPU_TYPE_NAME("%s"), cpu_model);
-+    oc = object_class_by_name(typename);
-+    g_free(typename);
-+    if (oc != NULL && object_class_is_abstract(oc)) {
-+        oc = NULL;
-+    }
-+
-+    return oc;
 +}
 +
-+static void rx_cpu_realize(DeviceState *dev, Error **errp)
++static int bdsp_s(DisasContext *ctx, int d)
 +{
-+    CPUState *cs = CPU(dev);
-+    RXCPUClass *rcc = RXCPU_GET_CLASS(dev);
-+    Error *local_err = NULL;
-+
-+    cpu_exec_realizefn(cs, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
++    /*
++     * 0 -> 8
++     * 1 -> 9
++     * 2 -> 10
++     * 3 -> 3
++     * :
++     * 7 -> 7
++     */
++    if (d < 3) {
++        d += 8;
 +    }
-+
-+    qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-+
-+    rcc->parent_realize(dev, errp);
++    return d;
 +}
 +
-+static void rx_cpu_set_irq(void *opaque, int no, int request)
-+{
-+    RXCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+    int irq = request & 0xff;
++/* Include the auto-generated decoder.  */
++#include "decode.inc.c"
 +
-+    static const int mask[] = {
-+        [RX_CPU_IRQ] = CPU_INTERRUPT_HARD,
-+        [RX_CPU_FIR] = CPU_INTERRUPT_FIR,
-+    };
-+    if (irq) {
-+        cpu->env.req_irq = irq;
-+        cpu->env.req_ipl = (request >> 8) & 0x0f;
-+        cpu_interrupt(cs, mask[no]);
++#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS__)
++
++#define RX_MEMORY_BYTE 0
++#define RX_MEMORY_WORD 1
++#define RX_MEMORY_LONG 2
++
++#define RX_IM_BYTE 0
++#define RX_IM_WORD 1
++#define RX_IM_LONG 2
++#define RX_IM_UWORD 3
++
++static const char size[] = {'b', 'w', 'l'};
++static const char cond[][4] = {
++    "eq", "ne", "c", "nc", "gtu", "leu", "pz", "n",
++    "ge", "lt", "gt", "le", "o", "no", "ra", "f"
++};
++static const char psw[] = {
++    'c', 'z', 's', 'o', 0, 0, 0, 0,
++    'i', 'u', 0, 0, 0, 0, 0, 0,
++};
++
++static uint32_t rx_index_addr(int ld, int size, DisasContext *ctx)
++{
++    bfd_byte buf[2];
++    switch (ld) {
++    case 0:
++        return 0;
++    case 1:
++        ctx->dis->read_memory_func(ctx->addr, buf, 1, ctx->dis);
++        ctx->addr += 1;
++        return ((uint8_t)buf[0]) << size;
++    case 2:
++        ctx->dis->read_memory_func(ctx->addr, buf, 2, ctx->dis);
++        ctx->addr += 2;
++        return lduw_le_p(buf) << size;
++    }
++    g_assert_not_reached();
++}
++
++static void operand(DisasContext *ctx, int ld, int mi, int rs, int rd)
++{
++    int dsp;
++    static const char sizes[][4] = {".b", ".w", ".l", ".uw", ".ub"};
++    if (ld < 3) {
++        switch (mi) {
++        case 4:
++            /* dsp[rs].ub */
++            dsp = rx_index_addr(ld, RX_MEMORY_BYTE, ctx);
++            break;
++        case 3:
++            /* dsp[rs].uw */
++            dsp = rx_index_addr(ld, RX_MEMORY_WORD, ctx);
++            break;
++        default:
++            /* dsp[rs].b */
++            /* dsp[rs].w */
++            /* dsp[rs].l */
++            dsp = rx_index_addr(ld, mi, ctx);
++            break;
++        }
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d]%s", rs, sizes[mi]);
 +    } else {
-+        cpu_reset_interrupt(cs, mask[no]);
++        prt("r%d", rs);
++    }
++    prt(", r%d", rd);
++}
++
++static void prt_ir(DisasContext *ctx, const char *insn, int imm, int rd)
++{
++    if (imm < 0x100) {
++        prt("%s\t#%d, r%d", insn, imm, rd);
++    } else {
++        prt("%s\t#0x%08x, r%d", insn, imm, rd);
 +    }
 +}
 +
-+static void rx_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
++/* mov.[bwl] rs,dsp:[rd] */
++static bool trans_MOV_rm(DisasContext *ctx, arg_MOV_rm *a)
 +{
-+    info->mach = bfd_mach_rx;
-+    info->print_insn = print_insn_rx;
-+}
-+
-+static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-+                            MMUAccessType access_type, int mmu_idx,
-+                            bool probe, uintptr_t retaddr)
-+{
-+    uint32_t address, physical, prot;
-+
-+    /* Linear mapping */
-+    address = physical = addr & TARGET_PAGE_MASK;
-+    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
++    if (a->dsp > 0) {
++        prt("mov.%c\tr%d,%d[r%d]",
++            size[a->sz], a->rs, a->dsp << a->sz, a->rd);
++    } else {
++        prt("mov.%c\tr%d,[r%d]",
++            size[a->sz], a->rs, a->rd);
++    }
 +    return true;
 +}
 +
-+static void rx_cpu_init(Object *obj)
++/* mov.[bwl] dsp:[rs],rd */
++static bool trans_MOV_mr(DisasContext *ctx, arg_MOV_mr *a)
 +{
-+    CPUState *cs = CPU(obj);
-+    RXCPU *cpu = RXCPU(obj);
-+    CPURXState *env = &cpu->env;
-+
-+    cpu_set_cpustate_pointers(cpu);
-+    cs->env_ptr = env;
-+    qdev_init_gpio_in(DEVICE(cpu), rx_cpu_set_irq, 2);
-+}
-+
-+static void rx_cpu_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    CPUClass *cc = CPU_CLASS(klass);
-+    RXCPUClass *rcc = RXCPU_CLASS(klass);
-+
-+    device_class_set_parent_realize(dc, rx_cpu_realize,
-+                                    &rcc->parent_realize);
-+
-+    rcc->parent_reset = cc->reset;
-+    cc->reset = rx_cpu_reset;
-+
-+    cc->class_by_name = rx_cpu_class_by_name;
-+    cc->has_work = rx_cpu_has_work;
-+    cc->do_interrupt = rx_cpu_do_interrupt;
-+    cc->cpu_exec_interrupt = rx_cpu_exec_interrupt;
-+    cc->dump_state = rx_cpu_dump_state;
-+    cc->set_pc = rx_cpu_set_pc;
-+    cc->synchronize_from_tb = rx_cpu_synchronize_from_tb;
-+    cc->gdb_read_register = rx_cpu_gdb_read_register;
-+    cc->gdb_write_register = rx_cpu_gdb_write_register;
-+    cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
-+    cc->disas_set_info = rx_cpu_disas_set_info;
-+    cc->tcg_initialize = rx_translate_init;
-+    cc->tlb_fill = rx_cpu_tlb_fill;
-+
-+    cc->gdb_num_core_regs = 26;
-+    cc->gdb_core_xml_file = "rx-core.xml";
-+}
-+
-+static const TypeInfo rx_cpu_info = {
-+    .name = TYPE_RX_CPU,
-+    .parent = TYPE_CPU,
-+    .instance_size = sizeof(RXCPU),
-+    .instance_init = rx_cpu_init,
-+    .abstract = true,
-+    .class_size = sizeof(RXCPUClass),
-+    .class_init = rx_cpu_class_init,
-+};
-+
-+static const TypeInfo rx62n_rx_cpu_info = {
-+    .name = TYPE_RX62N_CPU,
-+    .parent = TYPE_RX_CPU,
-+};
-+
-+static void rx_cpu_register_types(void)
-+{
-+    type_register_static(&rx_cpu_info);
-+    type_register_static(&rx62n_rx_cpu_info);
-+}
-+
-+type_init(rx_cpu_register_types)
-diff --git a/target/rx/gdbstub.c b/target/rx/gdbstub.c
-new file mode 100644
-index 0000000000..d76ca52e82
---- /dev/null
-+++ b/target/rx/gdbstub.c
-@@ -0,0 +1,112 @@
-+/*
-+ * RX gdb server stub
-+ *
-+ * Copyright (c) 2019 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "exec/gdbstub.h"
-+
-+int rx_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
-+{
-+    RXCPU *cpu = RXCPU(cs);
-+    CPURXState *env = &cpu->env;
-+
-+    switch (n) {
-+    case 0 ... 15:
-+        return gdb_get_regl(mem_buf, env->regs[n]);
-+    case 16:
-+        return gdb_get_regl(mem_buf, (env->psw_u) ? env->regs[0] : env->usp);
-+    case 17:
-+        return gdb_get_regl(mem_buf, (!env->psw_u) ? env->regs[0] : env->isp);
-+    case 18:
-+        return gdb_get_regl(mem_buf, rx_cpu_pack_psw(env));
-+    case 19:
-+        return gdb_get_regl(mem_buf, env->pc);
-+    case 20:
-+        return gdb_get_regl(mem_buf, env->intb);
-+    case 21:
-+        return gdb_get_regl(mem_buf, env->bpsw);
-+    case 22:
-+        return gdb_get_regl(mem_buf, env->bpc);
-+    case 23:
-+        return gdb_get_regl(mem_buf, env->fintv);
-+    case 24:
-+        return gdb_get_regl(mem_buf, env->fpsw);
-+    case 25:
-+        return 0;
++    if (a->dsp > 0) {
++        prt("mov.%c\t%d[r%d], r%d",
++            size[a->sz], a->dsp << a->sz, a->rs, a->rd);
++    } else {
++        prt("mov.%c\t[r%d], r%d",
++            size[a->sz], a->rs, a->rd);
 +    }
-+    return 0;
++    return true;
 +}
 +
-+int rx_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++/* mov.l #uimm4,rd */
++/* mov.l #uimm8,rd */
++/* mov.l #imm,rd */
++static bool trans_MOV_ir(DisasContext *ctx, arg_MOV_ir *a)
 +{
-+    RXCPU *cpu = RXCPU(cs);
-+    CPURXState *env = &cpu->env;
-+    uint32_t psw;
-+    switch (n) {
-+    case 0 ... 15:
-+        env->regs[n] = ldl_p(mem_buf);
-+        if (n == 0) {
-+            if (env->psw_u) {
-+                env->usp = env->regs[0];
-+            } else {
-+                env->isp = env->regs[0];
-+            }
-+        }
-+        break;
-+    case 16:
-+        env->usp = ldl_p(mem_buf);
-+        if (env->psw_u) {
-+            env->regs[0] = ldl_p(mem_buf);
-+        }
-+        break;
-+    case 17:
-+        env->isp = ldl_p(mem_buf);
-+        if (!env->psw_u) {
-+            env->regs[0] = ldl_p(mem_buf);
-+        }
-+        break;
-+    case 18:
-+        psw = ldl_p(mem_buf);
-+        rx_cpu_unpack_psw(env, psw, 1);
-+        break;
-+    case 19:
-+        env->pc = ldl_p(mem_buf);
-+        break;
-+    case 20:
-+        env->intb = ldl_p(mem_buf);
-+        break;
-+    case 21:
-+        env->bpsw = ldl_p(mem_buf);
-+        break;
-+    case 22:
-+        env->bpc = ldl_p(mem_buf);
-+        break;
-+    case 23:
-+        env->fintv = ldl_p(mem_buf);
-+        break;
-+    case 24:
-+        env->fpsw = ldl_p(mem_buf);
-+        break;
-+    case 25:
-+        return 8;
-+    default:
-+        return 0;
++    prt_ir(ctx, "mov.l", a->imm, a->rd);
++    return true;
++}
++
++/* mov.[bwl] #uimm8,dsp:[rd] */
++/* mov #imm, dsp:[rd] */
++static bool trans_MOV_im(DisasContext *ctx, arg_MOV_im *a)
++{
++    if (a->dsp > 0) {
++        prt("mov.%c\t#%d,%d[r%d]",
++            size[a->sz], a->imm, a->dsp << a->sz, a->rd);
++    } else {
++        prt("mov.%c\t#%d,[r%d]",
++            size[a->sz], a->imm, a->rd);
 +    }
-+
-+    return 4;
++    return true;
 +}
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index 6b52424d0f..b3d7305f23 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -41,10 +41,17 @@ typedef struct DisasCompare {
-     TCGCond cond;
- } DisasCompare;
- 
--const char rx_crname[][6] = {
--    "psw", "pc", "usp", "fpsw", "", "", "", "",
--    "bpsw", "bpc", "isp", "fintv", "intb", "", "", "",
--};
-+const char *rx_crname(uint8_t cr)
++
++/* mov.[bwl] [ri,rb],rd */
++static bool trans_MOV_ar(DisasContext *ctx, arg_MOV_ar *a)
 +{
-+    static const char *cr_names[] = {
-+        "psw", "pc", "usp", "fpsw", "", "", "", "",
-+        "bpsw", "bpc", "isp", "fintv", "intb", "", "", ""
++    prt("mov.%c\t[r%d,r%d], r%d", size[a->sz], a->ri, a->rb, a->rd);
++    return true;
++}
++
++/* mov.[bwl] rd,[ri,rb] */
++static bool trans_MOV_ra(DisasContext *ctx, arg_MOV_ra *a)
++{
++    prt("mov.%c\tr%d, [r%d, r%d]", size[a->sz], a->rs, a->ri, a->rb);
++    return true;
++}
++
++
++/* mov.[bwl] dsp:[rs],dsp:[rd] */
++/* mov.[bwl] rs,dsp:[rd] */
++/* mov.[bwl] dsp:[rs],rd */
++/* mov.[bwl] rs,rd */
++static bool trans_MOV_mm(DisasContext *ctx, arg_MOV_mm *a)
++{
++    int dsp;
++
++    prt("mov.%c\t", size[a->sz]);
++    if (a->lds == 3 && a->ldd == 3) {
++        /* mov.[bwl] rs,rd */
++        prt("r%d, r%d", a->rs, a->rd);
++        return true;
++    }
++    if (a->lds == 3) {
++        prt("r%d, ", a->rd);
++        dsp = rx_index_addr(a->ldd, a->sz, ctx);
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d]", a->rs);
++    } else if (a->ldd == 3) {
++        dsp = rx_index_addr(a->lds, a->sz, ctx);
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d], r%d", a->rs, a->rd);
++    } else {
++        dsp = rx_index_addr(a->lds, a->sz, ctx);
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d], ", a->rs);
++        dsp = rx_index_addr(a->ldd, a->sz, ctx);
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d]", a->rd);
++    }
++    return true;
++}
++
++/* mov.[bwl] rs,[rd+] */
++/* mov.[bwl] rs,[-rd] */
++static bool trans_MOV_rp(DisasContext *ctx, arg_MOV_rp *a)
++{
++    prt("mov.%c\tr%d, ", size[a->sz], a->rs);
++    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
++    return true;
++}
++
++/* mov.[bwl] [rd+],rs */
++/* mov.[bwl] [-rd],rs */
++static bool trans_MOV_pr(DisasContext *ctx, arg_MOV_pr *a)
++{
++    prt("mov.%c\t", size[a->sz]);
++    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
++    prt(", r%d", a->rs);
++    return true;
++}
++
++/* movu.[bw] dsp5:[rs],rd */
++static bool trans_MOVU_mr(DisasContext *ctx, arg_MOVU_mr *a)
++{
++    if (a->dsp > 0) {
++        prt("movu.%c\t%d[r%d], r%d", size[a->sz],
++            a->dsp << a->sz, a->rs, a->rd);
++    } else {
++        prt("movu.%c\t[r%d], r%d", size[a->sz], a->rs, a->rd);
++    }
++    return true;
++}
++
++/* movu.[bw] rs,rd */
++static bool trans_MOVU_rr(DisasContext *ctx, arg_MOVU_rr *a)
++{
++    prt("movu.%c\tr%d, r%d", size[a->sz], a->rs, a->rd);
++    return true;
++}
++
++/* movu.[bw] [ri,rb],rd */
++static bool trans_MOVU_ar(DisasContext *ctx, arg_MOVU_ar *a)
++{
++    prt("mov.%c\t[r%d,r%d], r%d", size[a->sz], a->ri, a->rb, a->rd);
++    return true;
++}
++
++/* movu.[bw] [rs+],rd */
++/* movu.[bw] [-rs],rd */
++static bool trans_MOVU_pr(DisasContext *ctx, arg_MOVU_pr *a)
++{
++    prt("movu.%c\t", size[a->sz]);
++    prt((a->ad == 0) ? "[r%d+]" : "[-r%d]", a->rd);
++    prt(", r%d", a->rs);
++    return true;
++}
++
++/* pop rd */
++static bool trans_POP(DisasContext *ctx, arg_POP *a)
++{
++    prt("pop\tr%d", a->rd);
++    return true;
++}
++
++/* popc rx */
++static bool trans_POPC(DisasContext *ctx, arg_POPC *a)
++{
++    prt("pop\tr%s", rx_crname(a->cr));
++    return true;
++}
++
++/* popm rd-rd2 */
++static bool trans_POPM(DisasContext *ctx, arg_POPM *a)
++{
++    prt("popm\tr%d-r%d", a->rd, a->rd2);
++    return true;
++}
++
++/* push rs */
++static bool trans_PUSH_r(DisasContext *ctx, arg_PUSH_r *a)
++{
++    prt("push\tr%d", a->rs);
++    return true;
++}
++
++/* push dsp[rs] */
++static bool trans_PUSH_m(DisasContext *ctx, arg_PUSH_m *a)
++{
++    prt("push\t");
++    int dsp = rx_index_addr(a->ld, a->sz, ctx);
++    if (dsp > 0) {
++        prt("%d", dsp);
++    }
++    prt("[r%d]", a->rs);
++    return true;
++}
++
++/* pushc rx */
++static bool trans_PUSHC(DisasContext *ctx, arg_PUSHC *a)
++{
++    prt("push\t%s", rx_crname(a->cr));
++    return true;
++}
++
++/* pushm rs-rs2*/
++static bool trans_PUSHM(DisasContext *ctx, arg_PUSHM *a)
++{
++    prt("pushm\tr%d-r%d", a->rs, a->rs2);
++    return true;
++}
++
++/* xchg rs,rd */
++static bool trans_XCHG_rr(DisasContext *ctx, arg_XCHG_rr *a)
++{
++    prt("xchg\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++/* xchg dsp[rs].<mi>,rd */
++static bool trans_XCHG_mr(DisasContext *ctx, arg_XCHG_mr *a)
++{
++    int dsp;
++    static const char msize[][4] = {
++        "b", "w", "l", "ub", "uw",
 +    };
-+    if (cr >= ARRAY_SIZE(cr_names)) {
-+        return "illegal";
++
++    prt("xchg\t");
++    dsp = rx_index_addr(a->ld, a->mi, ctx);
++    if (dsp > 0) {
++        prt("%d", dsp);
 +    }
-+    return cr_names[cr];
++    prt("[r%d].%s, r%d", a->rs, msize[a->mi], a->rd);
++    return true;
 +}
- 
- /* Target-specific values for dc->base.is_jmp.  */
- #define DISAS_JUMP    DISAS_TARGET_0
-@@ -365,7 +372,7 @@ static void move_to_cr(DisasContext *ctx, TCGv val, int cr)
-     if (cr >= 8 && !is_privileged(ctx, 0)) {
-         /* Some control registers can only be written in privileged mode. */
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "disallow control register write %s", rx_crname[cr]);
-+                      "disallow control register write %s", rx_crname(cr));
-         return;
-     }
-     z = tcg_const_i32(0);
-diff --git a/gdb-xml/rx-core.xml b/gdb-xml/rx-core.xml
-new file mode 100644
-index 0000000000..b5aa9ac4a8
---- /dev/null
-+++ b/gdb-xml/rx-core.xml
-@@ -0,0 +1,70 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2019 Free Software Foundation, Inc.
 +
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
++/* stz #imm,rd */
++static bool trans_STZ(DisasContext *ctx, arg_STZ *a)
++{
++    prt_ir(ctx, "stz", a->imm, a->rd);
++    return true;
++}
 +
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.rx.core">
-+  <reg name="r0" bitsize="32" type="data_ptr"/>
-+  <reg name="r1" bitsize="32" type="uint32"/>
-+  <reg name="r2" bitsize="32" type="uint32"/>
-+  <reg name="r3" bitsize="32" type="uint32"/>
-+  <reg name="r4" bitsize="32" type="uint32"/>
-+  <reg name="r5" bitsize="32" type="uint32"/>
-+  <reg name="r6" bitsize="32" type="uint32"/>
-+  <reg name="r7" bitsize="32" type="uint32"/>
-+  <reg name="r8" bitsize="32" type="uint32"/>
-+  <reg name="r9" bitsize="32" type="uint32"/>
-+  <reg name="r10" bitsize="32" type="uint32"/>
-+  <reg name="r11" bitsize="32" type="uint32"/>
-+  <reg name="r12" bitsize="32" type="uint32"/>
-+  <reg name="r13" bitsize="32" type="uint32"/>
-+  <reg name="r14" bitsize="32" type="uint32"/>
-+  <reg name="r15" bitsize="32" type="uint32"/>
++/* stnz #imm,rd */
++static bool trans_STNZ(DisasContext *ctx, arg_STNZ *a)
++{
++    prt_ir(ctx, "stnz", a->imm, a->rd);
++    return true;
++}
 +
-+  <flags id="psw_flags" size="4">
-+    <field name="C" start="0" end="0"/>
-+    <field name="Z" start="1" end="1"/>
-+    <field name="S" start="2" end="2"/>
-+    <field name="O" start="3" end="3"/>
-+    <field name="I" start="16" end="16"/>
-+    <field name="U" start="17" end="17"/>
-+    <field name="PM" start="20" end="20"/>
-+    <field name="IPL" start="24" end="27"/>
-+  </flags>
++/* rtsd #imm */
++static bool trans_RTSD_i(DisasContext *ctx, arg_RTSD_i *a)
++{
++    prt("rtsd\t#%d", a->imm << 2);
++    return true;
++}
 +
-+  <flags id="fpsw_flags" size="4">
-+    <field name="RM" start="0" end="1"/>
-+    <field name="CV" start="2" end="2"/>
-+    <field name="CO" start="3" end="3"/>
-+    <field name="CZ" start="4" end="4"/>
-+    <field name="CU" start="5" end="5"/>
-+    <field name="CX" start="6" end="6"/>
-+    <field name="CE" start="7" end="7"/>
-+    <field name="DN" start="8" end="8"/>
-+    <field name="EV" start="10" end="10"/>
-+    <field name="EO" start="11" end="11"/>
-+    <field name="EZ" start="12" end="12"/>
-+    <field name="EU" start="13" end="13"/>
-+    <field name="EX" start="14" end="14"/>
-+    <field name="FV" start="26" end="26"/>
-+    <field name="FO" start="27" end="27"/>
-+    <field name="FZ" start="28" end="28"/>
-+    <field name="FU" start="29" end="29"/>
-+    <field name="FX" start="30" end="30"/>
-+    <field name="FS" start="31" end="31"/>
-+  </flags>
++/* rtsd #imm, rd-rd2 */
++static bool trans_RTSD_irr(DisasContext *ctx, arg_RTSD_irr *a)
++{
++    prt("rtsd\t#%d, r%d - r%d", a->imm << 2, a->rd, a->rd2);
++    return true;
++}
 +
-+  <reg name="usp" bitsize="32" type="data_ptr"/>
-+  <reg name="isp" bitsize="32" type="data_ptr"/>
-+  <reg name="psw" bitsize="32" type="psw_flags"/>
-+  <reg name="pc" bitsize="32" type="code_ptr"/>
-+  <reg name="intb" bitsize="32" type="data_ptr"/>
-+  <reg name="bpsw" bitsize="32" type="psw_flags"/>
-+  <reg name="bpc" bitsize="32" type="code_ptr"/>
-+  <reg name="fintv" bitsize="32" type="code_ptr"/>
-+  <reg name="fpsw" bitsize="32" type="fpsw_flags"/>
-+  <reg name="acc" bitsize="64" type="uint64"/>
-+</feature>
-diff --git a/target/rx/Makefile.objs b/target/rx/Makefile.objs
-index aa6f2d2d6c..a0018d5bc5 100644
---- a/target/rx/Makefile.objs
-+++ b/target/rx/Makefile.objs
-@@ -1,5 +1,4 @@
- obj-y += translate.o op_helper.o helper.o cpu.o gdbstub.o disas.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
- 
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
- 
++/* and #uimm:4, rd */
++/* and #imm, rd */
++static bool trans_AND_ir(DisasContext *ctx, arg_AND_ir *a)
++{
++    prt_ir(ctx, "and", a->imm, a->rd);
++    return true;
++}
++
++/* and dsp[rs], rd */
++/* and rs,rd */
++static bool trans_AND_mr(DisasContext *ctx, arg_AND_mr *a)
++{
++    prt("and\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* and rs,rs2,rd */
++static bool trans_AND_rrr(DisasContext *ctx, arg_AND_rrr *a)
++{
++    prt("and\tr%d,r%d, r%d", a->rs, a->rs2, a->rd);
++    return true;
++}
++
++/* or #uimm:4, rd */
++/* or #imm, rd */
++static bool trans_OR_ir(DisasContext *ctx, arg_OR_ir *a)
++{
++    prt_ir(ctx, "or", a->imm, a->rd);
++    return true;
++}
++
++/* or dsp[rs], rd */
++/* or rs,rd */
++static bool trans_OR_mr(DisasContext *ctx, arg_OR_mr *a)
++{
++    prt("or\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* or rs,rs2,rd */
++static bool trans_OR_rrr(DisasContext *ctx, arg_OR_rrr *a)
++{
++    prt("or\tr%d, r%d, r%d", a->rs, a->rs2, a->rd);
++    return true;
++}
++
++/* xor #imm, rd */
++static bool trans_XOR_ir(DisasContext *ctx, arg_XOR_ir *a)
++{
++    prt_ir(ctx, "xor", a->imm, a->rd);
++    return true;
++}
++
++/* xor dsp[rs], rd */
++/* xor rs,rd */
++static bool trans_XOR_mr(DisasContext *ctx, arg_XOR_mr *a)
++{
++    prt("xor\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* tst #imm, rd */
++static bool trans_TST_ir(DisasContext *ctx, arg_TST_ir *a)
++{
++    prt_ir(ctx, "tst", a->imm, a->rd);
++    return true;
++}
++
++/* tst dsp[rs], rd */
++/* tst rs, rd */
++static bool trans_TST_mr(DisasContext *ctx, arg_TST_mr *a)
++{
++    prt("tst\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* not rd */
++/* not rs, rd */
++static bool trans_NOT_rr(DisasContext *ctx, arg_NOT_rr *a)
++{
++    prt("not\t");
++    if (a->rs != a->rd) {
++        prt("r%d, ", a->rs);
++    }
++    prt("r%d", a->rd);
++    return true;
++}
++
++/* neg rd */
++/* neg rs, rd */
++static bool trans_NEG_rr(DisasContext *ctx, arg_NEG_rr *a)
++{
++    prt("neg\t");
++    if (a->rs != a->rd) {
++        prt("r%d, ", a->rs);
++    }
++    prt("r%d", a->rd);
++    return true;
++}
++
++/* adc #imm, rd */
++static bool trans_ADC_ir(DisasContext *ctx, arg_ADC_ir *a)
++{
++    prt_ir(ctx, "adc", a->imm, a->rd);
++    return true;
++}
++
++/* adc rs, rd */
++static bool trans_ADC_rr(DisasContext *ctx, arg_ADC_rr *a)
++{
++    prt("adc\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* adc dsp[rs], rd */
++static bool trans_ADC_mr(DisasContext *ctx, arg_ADC_mr *a)
++{
++    int dsp;
++    prt("adc\t");
++    dsp = rx_index_addr(a->ld, 2, ctx);
++    if (dsp > 0) {
++        prt("%d", dsp);
++    }
++    prt("[r%d], r%d", a->rs, a->rd);
++    return true;
++}
++
++/* add #uimm4, rd */
++/* add #imm, rs, rd */
++static bool trans_ADD_irr(DisasContext *ctx, arg_ADD_irr *a)
++{
++    if (a->imm < 0x10 && a->rs2 == a->rd) {
++        prt("add\t#%d, r%d", a->imm, a->rd);
++    } else {
++        prt("add\t#0x%08x, r%d, r%d", a->imm, a->rs2, a->rd);
++    }
++    return true;
++}
++
++/* add rs, rd */
++/* add dsp[rs], rd */
++static bool trans_ADD_mr(DisasContext *ctx, arg_ADD_mr *a)
++{
++    prt("add\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* add rs, rs2, rd */
++static bool trans_ADD_rrr(DisasContext *ctx, arg_ADD_rrr *a)
++{
++    prt("add\tr%d, r%d, r%d", a->rs, a->rs2, a->rd);
++    return true;
++}
++
++/* cmp #imm4, rd */
++/* cmp #imm8, rd */
++/* cmp #imm, rs2 */
++static bool trans_CMP_ir(DisasContext *ctx, arg_CMP_ir *a)
++{
++    prt_ir(ctx, "cmp", a->imm, a->rs2);
++    return true;
++}
++
++/* cmp rs, rs2 */
++/* cmp dsp[rs], rs2 */
++static bool trans_CMP_mr(DisasContext *ctx, arg_CMP_mr *a)
++{
++    prt("cmp\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* sub #imm4, rd */
++static bool trans_SUB_ir(DisasContext *ctx, arg_SUB_ir *a)
++{
++    prt("sub\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* sub rs, rd */
++/* sub dsp[rs], rd */
++static bool trans_SUB_mr(DisasContext *ctx, arg_SUB_mr *a)
++{
++    prt("sub\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* sub rs, rs2, rd */
++static bool trans_SUB_rrr(DisasContext *ctx, arg_SUB_rrr *a)
++{
++    prt("sub\tr%d, r%d, r%d", a->rs, a->rs2, a->rd);
++    return true;
++}
++
++/* sbb rs, rd */
++static bool trans_SBB_rr(DisasContext *ctx, arg_SBB_rr *a)
++{
++    prt("sbb\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* sbb dsp[rs], rd */
++static bool trans_SBB_mr(DisasContext *ctx, arg_SBB_mr *a)
++{
++    prt("sbb\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* abs rd */
++/* abs rs, rd */
++static bool trans_ABS_rr(DisasContext *ctx, arg_ABS_rr *a)
++{
++    prt("abs\t");
++    if (a->rs == a->rd) {
++        prt("r%d", a->rd);
++    } else {
++        prt("r%d, r%d", a->rs, a->rd);
++    }
++    return true;
++}
++
++/* max #imm, rd */
++static bool trans_MAX_ir(DisasContext *ctx, arg_MAX_ir *a)
++{
++    prt_ir(ctx, "max", a->imm, a->rd);
++    return true;
++}
++
++/* max rs, rd */
++/* max dsp[rs], rd */
++static bool trans_MAX_mr(DisasContext *ctx, arg_MAX_mr *a)
++{
++    prt("max\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* min #imm, rd */
++static bool trans_MIN_ir(DisasContext *ctx, arg_MIN_ir *a)
++{
++    prt_ir(ctx, "min", a->imm, a->rd);
++    return true;
++}
++
++/* min rs, rd */
++/* min dsp[rs], rd */
++static bool trans_MIN_mr(DisasContext *ctx, arg_MIN_mr *a)
++{
++    prt("max\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* mul #uimm4, rd */
++/* mul #imm, rd */
++static bool trans_MUL_ir(DisasContext *ctx, arg_MUL_ir *a)
++{
++    prt_ir(ctx, "mul", a->imm, a->rd);
++    return true;
++}
++
++/* mul rs, rd */
++/* mul dsp[rs], rd */
++static bool trans_MUL_mr(DisasContext *ctx, arg_MUL_mr *a)
++{
++    prt("mul\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* mul rs, rs2, rd */
++static bool trans_MUL_rrr(DisasContext *ctx, arg_MUL_rrr *a)
++{
++    prt("mul\tr%d,r%d,r%d", a->rs, a->rs2, a->rd);
++    return true;
++}
++
++/* emul #imm, rd */
++static bool trans_EMUL_ir(DisasContext *ctx, arg_EMUL_ir *a)
++{
++    prt_ir(ctx, "emul", a->imm, a->rd);
++    return true;
++}
++
++/* emul rs, rd */
++/* emul dsp[rs], rd */
++static bool trans_EMUL_mr(DisasContext *ctx, arg_EMUL_mr *a)
++{
++    prt("emul\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* emulu #imm, rd */
++static bool trans_EMULU_ir(DisasContext *ctx, arg_EMULU_ir *a)
++{
++    prt_ir(ctx, "emulu", a->imm, a->rd);
++    return true;
++}
++
++/* emulu rs, rd */
++/* emulu dsp[rs], rd */
++static bool trans_EMULU_mr(DisasContext *ctx, arg_EMULU_mr *a)
++{
++    prt("emulu\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* div #imm, rd */
++static bool trans_DIV_ir(DisasContext *ctx, arg_DIV_ir *a)
++{
++    prt_ir(ctx, "div", a->imm, a->rd);
++    return true;
++}
++
++/* div rs, rd */
++/* div dsp[rs], rd */
++static bool trans_DIV_mr(DisasContext *ctx, arg_DIV_mr *a)
++{
++    prt("div\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++/* divu #imm, rd */
++static bool trans_DIVU_ir(DisasContext *ctx, arg_DIVU_ir *a)
++{
++    prt_ir(ctx, "divu", a->imm, a->rd);
++    return true;
++}
++
++/* divu rs, rd */
++/* divu dsp[rs], rd */
++static bool trans_DIVU_mr(DisasContext *ctx, arg_DIVU_mr *a)
++{
++    prt("divu\t");
++    operand(ctx, a->ld, a->mi, a->rs, a->rd);
++    return true;
++}
++
++
++/* shll #imm:5, rd */
++/* shll #imm:5, rs, rd */
++static bool trans_SHLL_irr(DisasContext *ctx, arg_SHLL_irr *a)
++{
++    prt("shll\t#%d, ", a->imm);
++    if (a->rs2 != a->rd) {
++        prt("r%d, ", a->rs2);
++    }
++    prt("r%d", a->rd);
++    return true;
++}
++
++/* shll rs, rd */
++static bool trans_SHLL_rr(DisasContext *ctx, arg_SHLL_rr *a)
++{
++    prt("shll\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* shar #imm:5, rd */
++/* shar #imm:5, rs, rd */
++static bool trans_SHAR_irr(DisasContext *ctx, arg_SHAR_irr *a)
++{
++    prt("shar\t#%d,", a->imm);
++    if (a->rs2 != a->rd) {
++        prt("r%d, ", a->rs2);
++    }
++    prt("r%d", a->rd);
++    return true;
++}
++
++/* shar rs, rd */
++static bool trans_SHAR_rr(DisasContext *ctx, arg_SHAR_rr *a)
++{
++    prt("shar\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* shlr #imm:5, rd */
++/* shlr #imm:5, rs, rd */
++static bool trans_SHLR_irr(DisasContext *ctx, arg_SHLR_irr *a)
++{
++    prt("shlr\t#%d, ", a->imm);
++    if (a->rs2 != a->rd) {
++        prt("r%d, ", a->rs2);
++    }
++    prt("r%d", a->rd);
++    return true;
++}
++
++/* shlr rs, rd */
++static bool trans_SHLR_rr(DisasContext *ctx, arg_SHLR_rr *a)
++{
++    prt("shlr\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* rolc rd */
++static bool trans_ROLC(DisasContext *ctx, arg_ROLC *a)
++{
++    prt("rorc\tr%d", a->rd);
++    return true;
++}
++
++/* rorc rd */
++static bool trans_RORC(DisasContext *ctx, arg_RORC *a)
++{
++    prt("rorc\tr%d", a->rd);
++    return true;
++}
++
++/* rotl #imm, rd */
++static bool trans_ROTL_ir(DisasContext *ctx, arg_ROTL_ir *a)
++{
++    prt("rotl\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* rotl rs, rd */
++static bool trans_ROTL_rr(DisasContext *ctx, arg_ROTL_rr *a)
++{
++    prt("rotl\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* rotr #imm, rd */
++static bool trans_ROTR_ir(DisasContext *ctx, arg_ROTR_ir *a)
++{
++    prt("rotr\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* rotr rs, rd */
++static bool trans_ROTR_rr(DisasContext *ctx, arg_ROTR_rr *a)
++{
++    prt("rotr\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* revl rs, rd */
++static bool trans_REVL(DisasContext *ctx, arg_REVL *a)
++{
++    prt("revl\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* revw rs, rd */
++static bool trans_REVW(DisasContext *ctx, arg_REVW *a)
++{
++    prt("revw\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* conditional branch helper */
++static void rx_bcnd_main(DisasContext *ctx, int cd, int len, int dst)
++{
++    static const char sz[] = {'s', 'b', 'w', 'a'};
++    prt("b%s.%c\t%08x", cond[cd], sz[len - 1], ctx->pc + dst);
++}
++
++/* beq dsp:3 / bne dsp:3 */
++/* beq dsp:8 / bne dsp:8 */
++/* bc dsp:8 / bnc dsp:8 */
++/* bgtu dsp:8 / bleu dsp:8 */
++/* bpz dsp:8 / bn dsp:8 */
++/* bge dsp:8 / blt dsp:8 */
++/* bgt dsp:8 / ble dsp:8 */
++/* bo dsp:8 / bno dsp:8 */
++/* beq dsp:16 / bne dsp:16 */
++static bool trans_BCnd(DisasContext *ctx, arg_BCnd *a)
++{
++    rx_bcnd_main(ctx, a->cd, a->sz, a->dsp);
++    return true;
++}
++
++/* bra dsp:3 */
++/* bra dsp:8 */
++/* bra dsp:16 */
++/* bra dsp:24 */
++static bool trans_BRA(DisasContext *ctx, arg_BRA *a)
++{
++    rx_bcnd_main(ctx, 14, a->sz, a->dsp);
++    return true;
++}
++
++/* bra rs */
++static bool trans_BRA_l(DisasContext *ctx, arg_BRA_l *a)
++{
++    prt("bra.l\tr%d", a->rd);
++    return true;
++}
++
++/* jmp rs */
++static bool trans_JMP(DisasContext *ctx, arg_JMP *a)
++{
++    prt("jmp\tr%d", a->rs);
++    return true;
++}
++
++/* jsr rs */
++static bool trans_JSR(DisasContext *ctx, arg_JSR *a)
++{
++    prt("jsr\tr%d", a->rs);
++    return true;
++}
++
++/* bsr dsp:16 */
++/* bsr dsp:24 */
++static bool trans_BSR(DisasContext *ctx, arg_BSR *a)
++{
++    static const char sz[] = {'w', 'a'};
++    prt("bsr.%c\t%08x", sz[a->sz - 3], ctx->pc + a->dsp);
++    return true;
++}
++
++/* bsr rs */
++static bool trans_BSR_l(DisasContext *ctx, arg_BSR_l *a)
++{
++    prt("bsr.l\tr%d", a->rd);
++    return true;
++}
++
++/* rts */
++static bool trans_RTS(DisasContext *ctx, arg_RTS *a)
++{
++    prt("rts");
++    return true;
++}
++
++/* nop */
++static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
++{
++    prt("nop");
++    return true;
++}
++
++/* scmpu */
++static bool trans_SCMPU(DisasContext *ctx, arg_SCMPU *a)
++{
++    prt("scmpu");
++    return true;
++}
++
++/* smovu */
++static bool trans_SMOVU(DisasContext *ctx, arg_SMOVU *a)
++{
++    prt("smovu");
++    return true;
++}
++
++/* smovf */
++static bool trans_SMOVF(DisasContext *ctx, arg_SMOVF *a)
++{
++    prt("smovf");
++    return true;
++}
++
++/* smovb */
++static bool trans_SMOVB(DisasContext *ctx, arg_SMOVB *a)
++{
++    prt("smovb");
++    return true;
++}
++
++/* suntile */
++static bool trans_SUNTIL(DisasContext *ctx, arg_SUNTIL *a)
++{
++    prt("suntil.%c", size[a->sz]);
++    return true;
++}
++
++/* swhile */
++static bool trans_SWHILE(DisasContext *ctx, arg_SWHILE *a)
++{
++    prt("swhile.%c", size[a->sz]);
++    return true;
++}
++/* sstr */
++static bool trans_SSTR(DisasContext *ctx, arg_SSTR *a)
++{
++    prt("sstr.%c", size[a->sz]);
++    return true;
++}
++
++/* rmpa */
++static bool trans_RMPA(DisasContext *ctx, arg_RMPA *a)
++{
++    prt("rmpa.%c", size[a->sz]);
++    return true;
++}
++
++/* mulhi rs,rs2 */
++static bool trans_MULHI(DisasContext *ctx, arg_MULHI *a)
++{
++    prt("mulhi\tr%d,r%d", a->rs, a->rs2);
++    return true;
++}
++
++/* mullo rs,rs2 */
++static bool trans_MULLO(DisasContext *ctx, arg_MULLO *a)
++{
++    prt("mullo\tr%d, r%d", a->rs, a->rs2);
++    return true;
++}
++
++/* machi rs,rs2 */
++static bool trans_MACHI(DisasContext *ctx, arg_MACHI *a)
++{
++    prt("machi\tr%d, r%d", a->rs, a->rs2);
++    return true;
++}
++
++/* maclo rs,rs2 */
++static bool trans_MACLO(DisasContext *ctx, arg_MACLO *a)
++{
++    prt("maclo\tr%d, r%d", a->rs, a->rs2);
++    return true;
++}
++
++/* mvfachi rd */
++static bool trans_MVFACHI(DisasContext *ctx, arg_MVFACHI *a)
++{
++    prt("mvfachi\tr%d", a->rd);
++    return true;
++}
++
++/* mvfacmi rd */
++static bool trans_MVFACMI(DisasContext *ctx, arg_MVFACMI *a)
++{
++    prt("mvfacmi\tr%d", a->rd);
++    return true;
++}
++
++/* mvtachi rs */
++static bool trans_MVTACHI(DisasContext *ctx, arg_MVTACHI *a)
++{
++    prt("mvtachi\tr%d", a->rs);
++    return true;
++}
++
++/* mvtaclo rs */
++static bool trans_MVTACLO(DisasContext *ctx, arg_MVTACLO *a)
++{
++    prt("mvtaclo\tr%d", a->rs);
++    return true;
++}
++
++/* racw #imm */
++static bool trans_RACW(DisasContext *ctx, arg_RACW *a)
++{
++    prt("racw\t#%d", a->imm + 1);
++    return true;
++}
++
++/* sat rd */
++static bool trans_SAT(DisasContext *ctx, arg_SAT *a)
++{
++    prt("sat\tr%d", a->rd);
++    return true;
++}
++
++/* satr */
++static bool trans_SATR(DisasContext *ctx, arg_SATR *a)
++{
++    prt("satr");
++    return true;
++}
++
++/* fadd #imm, rd */
++static bool trans_FADD_ir(DisasContext *ctx, arg_FADD_ir *a)
++{
++    prt("fadd\t#%d,r%d", li(ctx, 0), a->rd);
++    return true;
++}
++
++/* fadd dsp[rs], rd */
++/* fadd rs, rd */
++static bool trans_FADD_mr(DisasContext *ctx, arg_FADD_mr *a)
++{
++    prt("fadd\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* fcmp #imm, rd */
++static bool trans_FCMP_ir(DisasContext *ctx, arg_FCMP_ir *a)
++{
++    prt("fadd\t#%d,r%d", li(ctx, 0), a->rd);
++    return true;
++}
++
++/* fcmp dsp[rs], rd */
++/* fcmp rs, rd */
++static bool trans_FCMP_mr(DisasContext *ctx, arg_FCMP_mr *a)
++{
++    prt("fcmp\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* fsub #imm, rd */
++static bool trans_FSUB_ir(DisasContext *ctx, arg_FSUB_ir *a)
++{
++    prt("fsub\t#%d,r%d", li(ctx, 0), a->rd);
++    return true;
++}
++
++/* fsub dsp[rs], rd */
++/* fsub rs, rd */
++static bool trans_FSUB_mr(DisasContext *ctx, arg_FSUB_mr *a)
++{
++    prt("fsub\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* ftoi dsp[rs], rd */
++/* ftoi rs, rd */
++static bool trans_FTOI(DisasContext *ctx, arg_FTOI *a)
++{
++    prt("ftoi\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* fmul #imm, rd */
++static bool trans_FMUL_ir(DisasContext *ctx, arg_FMUL_ir *a)
++{
++    prt("fmul\t#%d,r%d", li(ctx, 0), a->rd);
++    return true;
++}
++
++/* fmul dsp[rs], rd */
++/* fmul rs, rd */
++static bool trans_FMUL_mr(DisasContext *ctx, arg_FMUL_mr *a)
++{
++    prt("fmul\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* fdiv #imm, rd */
++static bool trans_FDIV_ir(DisasContext *ctx, arg_FDIV_ir *a)
++{
++    prt("fdiv\t#%d,r%d", li(ctx, 0), a->rd);
++    return true;
++}
++
++/* fdiv dsp[rs], rd */
++/* fdiv rs, rd */
++static bool trans_FDIV_mr(DisasContext *ctx, arg_FDIV_mr *a)
++{
++    prt("fdiv\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* round dsp[rs], rd */
++/* round rs, rd */
++static bool trans_ROUND(DisasContext *ctx, arg_ROUND *a)
++{
++    prt("round\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++/* itof rs, rd */
++/* itof dsp[rs], rd */
++static bool trans_ITOF(DisasContext *ctx, arg_ITOF *a)
++{
++    prt("itof\t");
++    operand(ctx, a->ld, RX_IM_LONG, a->rs, a->rd);
++    return true;
++}
++
++#define BOP_IM(name, reg)                                       \
++    do {                                                        \
++        int dsp;                                                \
++        prt("b%s\t#%d, ", #name, a->imm);                       \
++        dsp = rx_index_addr(a->ld, RX_MEMORY_BYTE, ctx);        \
++        if (dsp > 0) {                                          \
++            prt("%d", dsp);                                     \
++        }                                                       \
++        prt("[r%d]", reg);                                      \
++        return true;                                            \
++    } while (0)
++
++#define BOP_RM(name)                                            \
++    do {                                                        \
++        int dsp;                                                \
++        prt("b%s\tr%d, ", #name, a->rd);                        \
++        dsp = rx_index_addr(a->ld, RX_MEMORY_BYTE, ctx);        \
++        if (dsp > 0) {                                          \
++            prt("%d", dsp);                                     \
++        }                                                       \
++        prt("[r%d]", a->rs);                                    \
++        return true;                                            \
++    } while (0)
++
++/* bset #imm, dsp[rd] */
++static bool trans_BSET_im(DisasContext *ctx, arg_BSET_im *a)
++{
++    BOP_IM(bset, a->rs);
++}
++
++/* bset rs, dsp[rd] */
++static bool trans_BSET_rm(DisasContext *ctx, arg_BSET_rm *a)
++{
++    BOP_RM(set);
++}
++
++/* bset rs, rd */
++static bool trans_BSET_rr(DisasContext *ctx, arg_BSET_rr *a)
++{
++    prt("bset\tr%d,r%d", a->rs, a->rd);
++    return true;
++}
++
++/* bset #imm, rd */
++static bool trans_BSET_ir(DisasContext *ctx, arg_BSET_ir *a)
++{
++    prt("bset\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* bclr #imm, dsp[rd] */
++static bool trans_BCLR_im(DisasContext *ctx, arg_BCLR_im *a)
++{
++    BOP_IM(clr, a->rs);
++}
++
++/* bclr rs, dsp[rd] */
++static bool trans_BCLR_rm(DisasContext *ctx, arg_BCLR_rm *a)
++{
++    BOP_RM(clr);
++}
++
++/* bclr rs, rd */
++static bool trans_BCLR_rr(DisasContext *ctx, arg_BCLR_rr *a)
++{
++    prt("bclr\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* bclr #imm, rd */
++static bool trans_BCLR_ir(DisasContext *ctx, arg_BCLR_ir *a)
++{
++    prt("bclr\t#%d,r%d", a->imm, a->rd);
++    return true;
++}
++
++/* btst #imm, dsp[rd] */
++static bool trans_BTST_im(DisasContext *ctx, arg_BTST_im *a)
++{
++    BOP_IM(tst, a->rs);
++}
++
++/* btst rs, dsp[rd] */
++static bool trans_BTST_rm(DisasContext *ctx, arg_BTST_rm *a)
++{
++    BOP_RM(tst);
++}
++
++/* btst rs, rd */
++static bool trans_BTST_rr(DisasContext *ctx, arg_BTST_rr *a)
++{
++    prt("btst\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* btst #imm, rd */
++static bool trans_BTST_ir(DisasContext *ctx, arg_BTST_ir *a)
++{
++    prt("btst\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* bnot rs, dsp[rd] */
++static bool trans_BNOT_rm(DisasContext *ctx, arg_BNOT_rm *a)
++{
++    BOP_RM(not);
++}
++
++/* bnot rs, rd */
++static bool trans_BNOT_rr(DisasContext *ctx, arg_BNOT_rr *a)
++{
++    prt("bnot\tr%d, r%d", a->rs, a->rd);
++    return true;
++}
++
++/* bnot #imm, dsp[rd] */
++static bool trans_BNOT_im(DisasContext *ctx, arg_BNOT_im *a)
++{
++    BOP_IM(not, a->rs);
++}
++
++/* bnot #imm, rd */
++static bool trans_BNOT_ir(DisasContext *ctx, arg_BNOT_ir *a)
++{
++    prt("bnot\t#%d, r%d", a->imm, a->rd);
++    return true;
++}
++
++/* bmcond #imm, dsp[rd] */
++static bool trans_BMCnd_im(DisasContext *ctx, arg_BMCnd_im *a)
++{
++    int dsp = rx_index_addr(a->ld, RX_MEMORY_BYTE, ctx);
++    prt("bm%s\t#%d, ", cond[a->cd], a->imm);
++    if (dsp > 0) {
++        prt("%d", dsp);
++    }
++    prt("[%d]", a->rd);
++    return true;
++}
++
++/* bmcond #imm, rd */
++static bool trans_BMCnd_ir(DisasContext *ctx, arg_BMCnd_ir *a)
++{
++    prt("bm%s\t#%d, r%d", cond[a->cd], a->imm, a->rd);
++    return true;
++}
++
++/* clrpsw psw */
++static bool trans_CLRPSW(DisasContext *ctx, arg_CLRPSW *a)
++{
++    prt("clrpsw\t%c", psw[a->cb]);
++    return true;
++}
++
++/* setpsw psw */
++static bool trans_SETPSW(DisasContext *ctx, arg_SETPSW *a)
++{
++    prt("setpsw\t%c", psw[a->cb]);
++    return true;
++}
++
++/* mvtipl #imm */
++static bool trans_MVTIPL(DisasContext *ctx, arg_MVTIPL *a)
++{
++    prt("movtipl\t#%d", a->imm);
++    return true;
++}
++
++/* mvtc #imm, rd */
++static bool trans_MVTC_i(DisasContext *ctx, arg_MVTC_i *a)
++{
++    prt("mvtc\t#0x%08x, %s", a->imm, rx_crname(a->cr));
++    return true;
++}
++
++/* mvtc rs, rd */
++static bool trans_MVTC_r(DisasContext *ctx, arg_MVTC_r *a)
++{
++    prt("mvtc\tr%d, %s", a->rs, rx_crname(a->cr));
++    return true;
++}
++
++/* mvfc rs, rd */
++static bool trans_MVFC(DisasContext *ctx, arg_MVFC *a)
++{
++    prt("mvfc\t%s, r%d", rx_crname(a->cr), a->rd);
++    return true;
++}
++
++/* rtfi */
++static bool trans_RTFI(DisasContext *ctx, arg_RTFI *a)
++{
++    prt("rtfi");
++    return true;
++}
++
++/* rte */
++static bool trans_RTE(DisasContext *ctx, arg_RTE *a)
++{
++    prt("rte");
++    return true;
++}
++
++/* brk */
++static bool trans_BRK(DisasContext *ctx, arg_BRK *a)
++{
++    prt("brk");
++    return true;
++}
++
++/* int #imm */
++static bool trans_INT(DisasContext *ctx, arg_INT *a)
++{
++    prt("int\t#%d", a->imm);
++    return true;
++}
++
++/* wait */
++static bool trans_WAIT(DisasContext *ctx, arg_WAIT *a)
++{
++    prt("wait");
++    return true;
++}
++
++/* sccnd.[bwl] rd */
++/* sccnd.[bwl] dsp:[rd] */
++static bool trans_SCCnd(DisasContext *ctx, arg_SCCnd *a)
++{
++    int dsp;
++    prt("sc%s.%c\t", cond[a->cd], size[a->sz]);
++    if (a->ld < 3) {
++        dsp = rx_index_addr(a->sz, a->ld, ctx);
++        if (dsp > 0) {
++            prt("%d", dsp);
++        }
++        prt("[r%d]", a->rd);
++    } else {
++        prt("r%d", a->rd);
++    }
++    return true;
++}
++
++int print_insn_rx(bfd_vma addr, disassemble_info *dis)
++{
++    DisasContext ctx;
++    uint32_t insn;
++    int i;
++    ctx.dis = dis;
++    ctx.pc = ctx.addr = addr;
++
++    insn = decode_load(&ctx);
++    if (!decode(&ctx, insn)) {
++        ctx.dis->fprintf_func(ctx.dis->stream, ".byte\t");
++        for (i = 0; i < ctx.addr - addr; i++) {
++            if (i > 0) {
++                ctx.dis->fprintf_func(ctx.dis->stream, ",");
++            }
++            ctx.dis->fprintf_func(ctx.dis->stream, "0x%02x", insn >> 24);
++            insn <<= 8;
++        }
++    }
++    return ctx.addr - addr;
++}
 -- 
 2.21.1
 
