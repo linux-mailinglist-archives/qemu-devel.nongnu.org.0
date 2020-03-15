@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6A31860D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:39:37 +0100 (CET)
-Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8471860E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:48:34 +0100 (CET)
+Received: from localhost ([::1]:60844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDdn6-0000gT-0A
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:39:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1jDdvk-0004Z4-Tk
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDd99-0003Yc-Ag
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDd9G-0003by-6v
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDd98-0001Yv-7C
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24304
+ (envelope-from <philmd@redhat.com>) id 1jDd9E-0001rc-QB
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54783
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDd98-0001XM-33
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:18 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDd9E-0001mF-MD
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 19:58:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584316697;
+ s=mimecast20190719; t=1584316703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rlwvTfWdlege7GScVPmVC823d5hwqV7V8ZFGgb3kNWU=;
- b=CPX7e0nw4luZQV3/DU88h2cVhsOhTV8jVYnHc7Gb+QnR6V6VPr7dLRWHZkVoX0nlLHot0U
- RRY0Cskx9I/kNcTEfdLuToqT4xlaF2uRZVyyna0VbtTV5MOKyv02tNzuDVM63fuolrwH0f
- Kw6gDXpwHFLxtq93B5Z879FzbKO2T4E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-FWaZqvtVNQaFWOtcLlxFlA-1; Sun, 15 Mar 2020 19:58:16 -0400
-X-MC-Unique: FWaZqvtVNQaFWOtcLlxFlA-1
-Received: by mail-wr1-f70.google.com with SMTP id o9so8139312wrw.14
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 16:58:16 -0700 (PDT)
+ bh=3JmRVORiwtSJYoBeVoEmrby0Y//1T3rIJ9u2/7gHdTQ=;
+ b=fwk83lO/KArHGu4feF0n0mX1Ygrf1lGxYD6jYvpEjWkI7xQlo7QWkO/ymB7BCQyAHS+yba
+ /cpCvzcv7tzElVsmd6l5n4a4rQ3oLBU/2fVl8h1d8nYYrySdJLZuLYAm1DtFJz9KEPYhnD
+ zq9LvfDt32u3B7z6yLp3vJV/rKwuiJ8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-YwJyPUERPmSiKtGhWkRfrQ-1; Sun, 15 Mar 2020 19:58:21 -0400
+X-MC-Unique: YwJyPUERPmSiKtGhWkRfrQ-1
+Received: by mail-wr1-f71.google.com with SMTP id t4so3827391wrr.1
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 16:58:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LM2hbE7ibTJgNB7j2Une2S4sO88fnFzm04CEg7ESeAA=;
- b=RX5mZORo47QZA4GnlwEY4K7ZKPj4aG61+Q1h4Kdbn44MivdPxML/KWessOr/4B1789
- ar9MrN7LhOwLQapHzRzWC6/8bIJof+7c0S3hm3sLkR9yjkj8+c2EbuPleISk6pH8l6Bv
- jshD7PzxbB3Vkoaq8xcUbQ78wN9EfT5Ky0Ld8j3OjP3Fe/1d+cenq+CVNzY1yI2XOr1s
- dIN0O6cax9Tlyaz7CnSwA2xFCisy2EIlbCekv37re7g2AVP3ZdRNhsLhvrS0iN4PbXCd
- mq1qd+SnfnxZC0BS81eRcGlvRVesgPnFwly2J8BmX6rSwVPQwmM50L4fFP9vEZ1h60y/
- cgow==
-X-Gm-Message-State: ANhLgQ0lwHshEiKAiMLn0jDRESxsH5XXJ5GFYHmRPpKhsxPESPDrnZya
- 5l16p5e5zqN0V6BmRcNK0sZM9B2ppmlVGhpO/ebK7YEezBF3+HT03VFb+cffHI8QNneiOqUMASs
- K6IWuLI/s4bW51Vc=
-X-Received: by 2002:a1c:9658:: with SMTP id y85mr15033361wmd.63.1584316694981; 
- Sun, 15 Mar 2020 16:58:14 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvF+IgZfR7MEY3aZqP73j5Vu/iWzP7jnsDEv7kURy9sfgCgbdaobwONGaF31LtfOgY9OJtv5Q==
-X-Received: by 2002:a1c:9658:: with SMTP id y85mr15033342wmd.63.1584316694832; 
- Sun, 15 Mar 2020 16:58:14 -0700 (PDT)
+ bh=VzAQhG80aIS2pHeqGJ8SUFQpAwQC6Y9ca6wH6S2kkG8=;
+ b=ZFpCdATelIIj8HY6cx4KQHI1fvoVePVBFNWBmQoW1RQhcOKb2TCRktPU0iS3rKfhvB
+ 0a0Ufu6JJ2v9s0dy03/xQV5TH8UG/1yHusQUThX/AhVe3BRYwFYMlkRRYxrh0FEfWfG5
+ jN/HSx/54f+SwG5PrtbHcy8sO2n/JzvRUf25kSae91icZaUtQJRWDUpIHir0C2esNHIP
+ LfuaYTkQ9E6hDU+K2o7bzEmgeP7Hl8gvm2FVc0domzHpTQfehtVeJx2HbI1LtTouW7uL
+ 4PiJVYqEawY/GsdNOUiQ6/aUrVpxDd7/MEmW9xaWvoBS7gGrqDJ3+8k0Pgv6/K48wsL9
+ yZGw==
+X-Gm-Message-State: ANhLgQ2P5eoF/Y+a17aNOTHq3MOvWWsI2tbgQ6VMwMkRDUG8WM/aVH8M
+ P9+NBKKe/nfXOU+eU3t5iALTKuqCp0ed0pwhsBIZCHHNR9Hijvrs03VNiK9+tnmw3ZbXPV8dPSu
+ Xh2mLnvTl23Sdxi4=
+X-Received: by 2002:a5d:4388:: with SMTP id i8mr5029530wrq.216.1584316700446; 
+ Sun, 15 Mar 2020 16:58:20 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtQXQGnsDnvfo8vXPLk0j7sOLWRgY/ZMyjsH25ihuzIAGUbzZQXVi5i2lHKb4KMCnPUimR/DA==
+X-Received: by 2002:a5d:4388:: with SMTP id i8mr5029512wrq.216.1584316700239; 
+ Sun, 15 Mar 2020 16:58:20 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id s7sm16458227wri.61.2020.03.15.16.58.13
+ by smtp.gmail.com with ESMTPSA id s22sm25922805wmc.16.2020.03.15.16.58.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 16:58:14 -0700 (PDT)
+ Sun, 15 Mar 2020 16:58:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/12] target/i386: Restrict CpuClass::get_crash_info() to
+Subject: [PATCH v2 11/12] target/s390x: Restrict CpuClass::get_crash_info() to
  system-mode
-Date: Mon, 16 Mar 2020 00:57:14 +0100
-Message-Id: <20200315235716.28448-11-philmd@redhat.com>
+Date: Mon, 16 Mar 2020 00:57:15 +0100
+Message-Id: <20200315235716.28448-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200315235716.28448-1-philmd@redhat.com>
 References: <20200315235716.28448-1-philmd@redhat.com>
@@ -77,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,7 +90,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>,
@@ -102,61 +104,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/i386/cpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/s390x/cpu.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 92fafa2659..a84553e50c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6778,6 +6778,7 @@ static void x86_cpu_register_feature_bit_props(X86CPU=
- *cpu,
-     x86_cpu_register_bit_prop(cpu, name, w, bitnr);
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 3dd396e870..3b1377c20a 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -237,6 +237,7 @@ out:
+     error_propagate(errp, err);
  }
 =20
 +#if !defined(CONFIG_USER_ONLY)
- static GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
+ static GuestPanicInformation *s390_cpu_get_crash_info(CPUState *cs)
  {
-     X86CPU *cpu =3D X86_CPU(cs);
-@@ -6821,6 +6822,7 @@ static void x86_cpu_get_crash_info_qom(Object *obj, V=
-isitor *v,
+     GuestPanicInformation *panic_info;
+@@ -246,11 +247,7 @@ static GuestPanicInformation *s390_cpu_get_crash_info(=
+CPUState *cs)
+     panic_info =3D g_malloc0(sizeof(GuestPanicInformation));
+=20
+     panic_info->type =3D GUEST_PANIC_INFORMATION_TYPE_S390;
+-#if !defined(CONFIG_USER_ONLY)
+     panic_info->u.s390.core =3D cpu->env.core_id;
+-#else
+-    panic_info->u.s390.core =3D 0; /* sane default for non system emulatio=
+n */
+-#endif
+     panic_info->u.s390.psw_mask =3D cpu->env.psw.mask;
+     panic_info->u.s390.psw_addr =3D cpu->env.psw.addr;
+     panic_info->u.s390.reason =3D cpu->env.crash_reason;
+@@ -276,6 +273,7 @@ static void s390_cpu_get_crash_info_qom(Object *obj, Vi=
+sitor *v,
                                       errp);
      qapi_free_GuestPanicInformation(panic_info);
  }
-+#endif /* !CONFIG_USER_ONLY */
-=20
- static void x86_cpu_initfn(Object *obj)
- {
-@@ -6866,8 +6868,10 @@ static void x86_cpu_initfn(Object *obj)
-                         x86_cpu_get_unavailable_features,
-                         NULL, NULL, NULL, &error_abort);
-=20
-+#if !defined(CONFIG_USER_ONLY)
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
-                         x86_cpu_get_crash_info_qom, NULL, NULL, NULL, NULL=
-);
 +#endif
 =20
-     for (w =3D 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
-@@ -7180,7 +7184,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc=
-, void *data)
-     cc->cpu_exec_interrupt =3D x86_cpu_exec_interrupt;
+ static void s390_cpu_initfn(Object *obj)
+ {
+@@ -285,16 +283,16 @@ static void s390_cpu_initfn(Object *obj)
+     cpu_set_cpustate_pointers(cpu);
+     cs->halted =3D 1;
+     cs->exception_index =3D EXCP_HLT;
++#if !defined(CONFIG_USER_ONLY)
+     object_property_add(obj, "crash-information", "GuestPanicInformation",
+                         s390_cpu_get_crash_info_qom, NULL, NULL, NULL, NUL=
+L);
+-    s390_cpu_model_register_props(obj);
+-#if !defined(CONFIG_USER_ONLY)
+     cpu->env.tod_timer =3D
+         timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
+     cpu->env.cpu_timer =3D
+         timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
+     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
  #endif
-     cc->dump_state =3D x86_cpu_dump_state;
--    cc->get_crash_info =3D x86_cpu_get_crash_info;
-     cc->set_pc =3D x86_cpu_set_pc;
-     cc->synchronize_from_tb =3D x86_cpu_synchronize_from_tb;
-     cc->gdb_read_register =3D x86_cpu_gdb_read_register;
-@@ -7191,6 +7194,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc=
-, void *data)
-     cc->asidx_from_attrs =3D x86_asidx_from_attrs;
-     cc->get_memory_mapping =3D x86_cpu_get_memory_mapping;
-     cc->get_phys_page_attrs_debug =3D x86_cpu_get_phys_page_attrs_debug;
-+    cc->get_crash_info =3D x86_cpu_get_crash_info;
-     cc->write_elf64_note =3D x86_cpu_write_elf64_note;
-     cc->write_elf64_qemunote =3D x86_cpu_write_elf64_qemunote;
-     cc->write_elf32_note =3D x86_cpu_write_elf32_note;
++    s390_cpu_model_register_props(obj);
+ }
+=20
+ static void s390_cpu_finalize(Object *obj)
+@@ -477,13 +475,13 @@ static void s390_cpu_class_init(ObjectClass *oc, void=
+ *data)
+     cc->do_interrupt =3D s390_cpu_do_interrupt;
+ #endif
+     cc->dump_state =3D s390_cpu_dump_state;
+-    cc->get_crash_info =3D s390_cpu_get_crash_info;
+     cc->set_pc =3D s390_cpu_set_pc;
+     cc->gdb_read_register =3D s390_cpu_gdb_read_register;
+     cc->gdb_write_register =3D s390_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug =3D s390_cpu_get_phys_page_debug;
+     cc->vmsd =3D &vmstate_s390_cpu;
++    cc->get_crash_info =3D s390_cpu_get_crash_info;
+     cc->write_elf64_note =3D s390_cpu_write_elf64_note;
+ #ifdef CONFIG_TCG
+     cc->cpu_exec_interrupt =3D s390_cpu_exec_interrupt;
 --=20
 2.21.1
 
