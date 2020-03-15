@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821DF185DC4
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:08:17 +0100 (CET)
-Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F61A185DF4
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:17:39 +0100 (CET)
+Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUsC-00050p-F3
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40464)
+	id 1jDV1G-00040A-IL
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXj-0005Yo-Cq
+ (envelope-from <armbru@redhat.com>) id 1jDUXk-0005a0-T3
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXh-0002Ps-A6
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30726
+ (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VP-Sa
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20167
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXf-0002Km-9O
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002Ko-Dq
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1584283622;
@@ -27,35 +27,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fq4EW+oFromDiIjy76Jj42Gb0RRXNiFOAif+yCT6AnU=;
- b=ZOYtUoOP9xa6knHZIPvsWbq81y+oWRKDFZyRztsXNEiNOG7HcGAe6uH+Y1YhZs/fB/tXlc
- CGTPf0P0ucX8oMKnxQNcQEeHs/YCFu11Ki7Efw/0/9+IJqtA84MxLtjEOkLXn/hwwdKyBK
- Vp+asLGdBSsigStqSfJTeM56tzHKGsQ=
+ bh=g/fuCUJfqW2I7fyTxcYHrtgUBurZMH6OM/L5KWBXPBI=;
+ b=LJPc9G2uzoBZ1JT13sdSX8/VUj1+jw5ykTGGmVDPPE8RHNTEPeZ7NMM09wdUPKXb7uZtPD
+ fAyImtjvNgcMKGE0/i0tPJgM1pcGmmxukk4laYQEand5/YcUCkZ2nt5lyL+ax2vxdHkxvu
+ dh8sUuwi5K3rMzILVZwO3E8OKmUUTUo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-Y_gSBc2NMMWl_0Js44l6iw-1; Sun, 15 Mar 2020 10:47:00 -0400
-X-MC-Unique: Y_gSBc2NMMWl_0Js44l6iw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-270-_3svbWvRMLqtRfqhrR4JGA-1; Sun, 15 Mar 2020 10:47:00 -0400
+X-MC-Unique: _3svbWvRMLqtRfqhrR4JGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACAE4189D6C0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADACF800D5E;
  Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CDFD1009ABB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D4482708B;
  Sun, 15 Mar 2020 14:46:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D26E21135246; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id D593A113525D; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/34] qapi: Implement deprecated-output=hide for QMP events
-Date: Sun, 15 Mar 2020 15:46:48 +0100
-Message-Id: <20200315144653.22660-30-armbru@redhat.com>
+Subject: [PATCH v3 30/34] qapi: Implement deprecated-output=hide for QMP event
+ data
+Date: Sun, 15 Mar 2020 15:46:49 +0100
+Message-Id: <20200315144653.22660-31-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -78,47 +79,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This policy suppresses deprecated bits in output, and thus permits
-"testing the future".  Implement it for QMP events: suppress
-deprecated ones.
+"testing the future".  Implement it for QMP event data: suppress
+deprecated members.
 
-No QMP event is deprecated right now.
+No QMP event data is deprecated right now.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-event.c | 19 +++++++++++++++++++
- scripts/qapi/events.py | 14 ++++++++++++--
- 2 files changed, 31 insertions(+), 2 deletions(-)
+ tests/test-qmp-event.c                  | 18 ++++++++++++++++++
+ scripts/qapi/events.py                  |  6 ++++--
+ tests/qapi-schema/qapi-schema-test.json |  3 +++
+ tests/qapi-schema/qapi-schema-test.out  |  2 ++
+ 4 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index 7dd0053190..ae4913ceb3 100644
+index ae4913ceb3..be5a2433d0 100644
 --- a/tests/test-qmp-event.c
 +++ b/tests/test-qmp-event.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
-=20
- #include "qemu-common.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qdict.h"
-@@ -140,6 +141,23 @@ static void test_event_d(TestEventData *data,
+@@ -158,6 +158,23 @@ static void test_event_deprecated(TestEventData *data,=
+ const void *unused)
      qobject_unref(data->expect);
  }
 =20
-+static void test_event_deprecated(TestEventData *data, const void *unused)
++static void test_event_deprecated_data(TestEventData *data, const void *un=
+used)
 +{
-+    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATU=
-RES1' }");
-+
 +    memset(&compat_policy, 0, sizeof(compat_policy));
 +
-+    qapi_event_send_test_event_features1();
++    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATU=
+RES0',"
++                                           " 'data': { 'foo': 42 } }");
++    qapi_event_send_test_event_features0(42);
 +    g_assert(data->emitted);
 +
 +    compat_policy.deprecated_output =3D COMPAT_POLICY_OUTPUT_HIDE;
-+    data->emitted =3D false;
-+    qapi_event_send_test_event_features1();
-+    g_assert(!data->emitted);
++    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATU=
+RES0' }");
++    qapi_event_send_test_event_features0(42);
++    g_assert(data->emitted);
 +
 +    qobject_unref(data->expect);
 +}
@@ -126,64 +124,68 @@ RES1' }");
  int main(int argc, char **argv)
  {
      g_test_init(&argc, &argv, NULL);
-@@ -148,6 +166,7 @@ int main(int argc, char **argv)
-     event_test_add("/event/event_b", test_event_b);
+@@ -167,6 +184,7 @@ int main(int argc, char **argv)
      event_test_add("/event/event_c", test_event_c);
      event_test_add("/event/event_d", test_event_d);
-+    event_test_add("/event/deprecated", test_event_deprecated);
+     event_test_add("/event/deprecated", test_event_deprecated);
++    event_test_add("/event/deprecated_data", test_event_deprecated_data);
      g_test_run();
 =20
      return 0;
 diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index b544af5a1c..95ca4b4753 100644
+index 95ca4b4753..78fa60aa8e 100644
 --- a/scripts/qapi/events.py
 +++ b/scripts/qapi/events.py
-@@ -61,7 +61,8 @@ def gen_param_var(typ):
-     return ret
+@@ -104,7 +104,7 @@ def gen_event_send(name, arg_type, features, boxed,
 =20
+     if have_args:
+         ret +=3D mcgen('''
+-    v =3D qobject_output_visitor_new(&obj);
++    v =3D qobject_output_visitor_new_qmp(&obj);
+ ''')
+         if not arg_type.is_implicit():
+             ret +=3D mcgen('''
+@@ -123,7 +123,9 @@ def gen_event_send(name, arg_type, features, boxed,
+         ret +=3D mcgen('''
 =20
--def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
-+def gen_event_send(name, arg_type, features, boxed,
-+                   event_enum_name, event_emit):
-     # FIXME: Our declaration of local variables (and of 'errp' in the
-     # parameter list) can collide with exploded members of the event's
-     # data type passed in as parameters.  If this collision ever hits in
-@@ -86,6 +87,14 @@ def gen_event_send(name, arg_type, boxed, event_enum_nam=
-e, event_emit):
-         if not boxed:
-             ret +=3D gen_param_var(arg_type)
-=20
-+    if 'deprecated' in [f.name for f in features]:
-+        ret +=3D mcgen('''
-+
-+    if (compat_policy.deprecated_output =3D=3D COMPAT_POLICY_OUTPUT_HIDE) =
-{
-+        return;
+     visit_complete(v, &obj);
+-    qdict_put_obj(qmp, "data", obj);
++    if (qdict_size(qobject_to(QDict, obj))) {
++        qdict_put_obj(qmp, "data", obj);
 +    }
-+''')
-+
-     ret +=3D mcgen('''
+ ''')
 =20
-     qmp =3D qmp_event_build_dict("%(name)s");
-@@ -154,6 +163,7 @@ class QAPISchemaGenEventVisitor(QAPISchemaModularCVisit=
-or):
- #include "%(prefix)sqapi-emit-events.h"
- #include "%(events)s.h"
- #include "%(visit)s.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qobject-output-visitor.h"
-@@ -192,7 +202,7 @@ void %(event_emit)s(%(event_enum)s event, QDict *qdict)=
-;
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_event_send_decl(name, arg_type, boxed))
--            self._genc.add(gen_event_send(name, arg_type, boxed,
-+            self._genc.add(gen_event_send(name, arg_type, features, boxed,
-                                           self._event_enum_name,
-                                           self._event_emit_name))
-         # Note: we generate the enum member regardless of @ifcond, to
+     ret +=3D mcgen('''
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qa=
+pi-schema-test.json
+index e4cce0d5b0..23f58b8724 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -322,5 +322,8 @@
+   'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
+                                               'defined(TEST_IF_COND_2)'] }=
+ ] }
+=20
++{ 'event': 'TEST-EVENT-FEATURES0',
++  'data': 'FeatureStruct1' }
++
+ { 'event': 'TEST-EVENT-FEATURES1',
+   'features': [ 'deprecated' ] }
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
+i-schema-test.out
+index cd53323abd..1a63d3bca7 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -438,6 +438,8 @@ command test-command-cond-features3 None -> None
+     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+     feature feature1
+         if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
++event TEST-EVENT-FEATURES0 FeatureStruct1
++    boxed=3DFalse
+ event TEST-EVENT-FEATURES1 None
+     boxed=3DFalse
+     feature deprecated
 --=20
 2.21.1
 
