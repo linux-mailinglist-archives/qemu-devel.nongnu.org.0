@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE86185E54
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:55:13 +0100 (CET)
-Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EFC185E33
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:31:47 +0100 (CET)
+Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDVbc-0000G3-8J
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:55:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
+	id 1jDVEw-00047m-1w
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXk-0005a5-Tj
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:13 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXk-0005Zu-RW
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VE-Sw
+ (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VY-SW
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53010
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52223
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002O0-G8
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002Lh-9I
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283623;
+ s=mimecast20190719; t=1584283622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q4A/AJyHeW/vuSJp9aHTHGS5Hyw0EJLtIruzM5HGBPo=;
- b=hd88Wpg3fhyRHLkjEn4BLpDK9vSSihYLYBBUkifvo1y9Ea/esbe26TMFgFJvYc48qY/EKv
- pAyXgq014zwQVM+BNDROxFmRhoaJYz94V+WizKAvbsX5nKhNLUyPkxiwDsPazUEoPusuup
- k1QNkRRFqVprMv6Mos8Ny2VT4jUCBAg=
+ bh=c7ZSBZCNo/ZgAY5gyqS52uAcS239rFzvOxIBhE8+2aY=;
+ b=If6XkH5ldXjnJZd5+HuPss49O/LjdQIv8oA2RoVPiej8DH8aYZyzMo2dPM9qctTVgdm4nC
+ YEslD0rx+R+wV+O7natKyKy5b4LIm7SM5M8SEDCulYDKJ3Z2oDSVg8coXUul78MWLsuasW
+ 5B5KVziugUS2H6lyIhH9xCPMp4NGaXs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-Lrl9JWceMouHRNAJQIZRLQ-1; Sun, 15 Mar 2020 10:46:59 -0400
-X-MC-Unique: Lrl9JWceMouHRNAJQIZRLQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-227-VgFFqBkANIGBufjdKzPY3A-1; Sun, 15 Mar 2020 10:46:59 -0400
+X-MC-Unique: VgFFqBkANIGBufjdKzPY3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44D85477;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E53189D6C5;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1D3B5DA2C;
- Sun, 15 Mar 2020 14:46:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D4A12708B;
+ Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E97D11366F7; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id C5A00113523D; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/34] qapi: Consistently put @features parameter right
- after @ifcond
-Date: Sun, 15 Mar 2020 15:46:32 +0100
-Message-Id: <20200315144653.22660-14-armbru@redhat.com>
+Subject: [PATCH v3 25/34] qapi: New special feature flag "deprecated"
+Date: Sun, 15 Mar 2020 15:46:44 +0100
+Message-Id: <20200315144653.22660-26-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,232 +78,163 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Unlike regular feature flags, the new special feature flag
+"deprecated" is recognized by the QAPI generator.  For now, it's only
+permitted with commands, events, and struct members.  It will be put
+to use shortly.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/commands.py       |  6 +++---
- scripts/qapi/doc.py            | 10 +++++-----
- scripts/qapi/introspect.py     | 10 +++++-----
- scripts/qapi/schema.py         | 36 ++++++++++++++++------------------
- scripts/qapi/types.py          |  4 ++--
- scripts/qapi/visit.py          |  4 ++--
- tests/qapi-schema/test-qapi.py | 10 +++++-----
- 7 files changed, 39 insertions(+), 41 deletions(-)
+ docs/devel/qapi-code-gen.txt                    | 6 ++++++
+ scripts/qapi/schema.py                          | 6 ++++++
+ tests/Makefile.include                          | 1 +
+ tests/qapi-schema/features-deprecated-type.err  | 2 ++
+ tests/qapi-schema/features-deprecated-type.json | 3 +++
+ tests/qapi-schema/features-deprecated-type.out  | 0
+ tests/qapi-schema/qapi-schema-test.json         | 6 +++---
+ tests/qapi-schema/qapi-schema-test.out          | 6 +++---
+ 8 files changed, 24 insertions(+), 6 deletions(-)
+ create mode 100644 tests/qapi-schema/features-deprecated-type.err
+ create mode 100644 tests/qapi-schema/features-deprecated-type.json
+ create mode 100644 tests/qapi-schema/features-deprecated-type.out
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 0e13e82989..bc30876c88 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -283,9 +283,9 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)=
-;
-                                       prefix=3Dself._prefix))
-         self._genc.add(gen_registry(self._regy.get_content(), self._prefix=
-))
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index a1ef1cfd61..823adbabda 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -683,6 +683,12 @@ Intended use is to have each feature string signal tha=
+t this build of
+ QEMU shows a certain behaviour.
 =20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         if not gen:
-             return
-         # FIXME: If T is a user-defined type, the user is responsible
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 36e823338b..92f584edcf 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -249,8 +249,8 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-                                 texi_members(doc, 'Values',
-                                              member_func=3Dtexi_enum_value=
-)))
 =20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         doc =3D self.cur_doc
-         if base and base.is_implicit():
-             base =3D None
-@@ -262,9 +262,9 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-         self._gen.add(texi_type('Alternate', doc, ifcond,
-                                 texi_members(doc, 'Members')))
++=3D=3D=3D=3D Special features =3D=3D=3D=3D
++
++Feature "deprecated" makes a command, event, or struct member as
++deprecated.  It is not supported elsewhere so far.
++
++
+ =3D=3D=3D Naming rules and reserved names =3D=3D=3D
 =20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         doc =3D self.cur_doc
-         self._gen.add(texi_msg('Command', doc, ifcond,
-                                texi_arguments(doc,
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 2e9e00aa1f..b54910510d 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -193,8 +193,8 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-         self._gen_qlit('[' + element + ']', 'array', {'element-type': elem=
-ent},
-                        ifcond, None)
-=20
--    def visit_object_type_flat(self, name, info, ifcond, members, variants=
-,
--                               features):
-+    def visit_object_type_flat(self, name, info, ifcond, features,
-+                               members, variants):
-         obj =3D {'members': [self._gen_member(m) for m in members]}
-         if variants:
-             obj.update(self._gen_variants(variants.tag_member.name,
-@@ -209,9 +209,9 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-                            for m in variants.variants]},
-                        ifcond, features)
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         arg_type =3D arg_type or self._schema.the_empty_object_type
-         ret_type =3D ret_type or self._schema.the_empty_object_type
-         obj =3D {'arg-type': self._use_type(arg_type),
+ All names must begin with a letter, and contain only ASCII letters,
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 22238005ff..958756ecd6 100644
+index 6ee3677215..78309a00f0 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -115,20 +115,20 @@ class QAPISchemaVisitor:
-     def visit_array_type(self, name, info, ifcond, element_type):
-         pass
+@@ -193,6 +193,12 @@ class QAPISchemaType(QAPISchemaEntity):
+             return None
+         return self.name
 =20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         pass
++    def check(self, schema):
++        QAPISchemaEntity.check(self, schema)
++        if 'deprecated' in [f.name for f in self.features]:
++            raise QAPISemError(
++                self.info, "feature 'deprecated' is not supported for type=
+s")
++
+     def describe(self):
+         assert self.meta
+         return "%s type '%s'" % (self.meta, self.name)
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 67e8fcddda..d1340301b2 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -242,6 +242,7 @@ qapi-schema +=3D event-case.json
+ qapi-schema +=3D event-member-invalid-dict.json
+ qapi-schema +=3D event-nest-struct.json
+ qapi-schema +=3D features-bad-type.json
++qapi-schema +=3D features-deprecated-type.json
+ qapi-schema +=3D features-duplicate-name.json
+ qapi-schema +=3D features-if-invalid.json
+ qapi-schema +=3D features-missing-name.json
+diff --git a/tests/qapi-schema/features-deprecated-type.err b/tests/qapi-sc=
+hema/features-deprecated-type.err
+new file mode 100644
+index 0000000000..af4ffe20aa
+--- /dev/null
++++ b/tests/qapi-schema/features-deprecated-type.err
+@@ -0,0 +1,2 @@
++features-deprecated-type.json: In struct 'S':
++features-deprecated-type.json:2: feature 'deprecated' is not supported for=
+ types
+diff --git a/tests/qapi-schema/features-deprecated-type.json b/tests/qapi-s=
+chema/features-deprecated-type.json
+new file mode 100644
+index 0000000000..4b5bf5b86e
+--- /dev/null
++++ b/tests/qapi-schema/features-deprecated-type.json
+@@ -0,0 +1,3 @@
++# Feature 'deprecated' is not supported for types
++{ 'struct': 'S', 'data': {},
++  'features': [ 'deprecated' ] }
+diff --git a/tests/qapi-schema/features-deprecated-type.out b/tests/qapi-sc=
+hema/features-deprecated-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qa=
+pi-schema-test.json
+index f576c337af..6b1f05afa7 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -258,7 +258,7 @@
+   'data': { 'foo': 'int' },
+   'features': [] }
+ { 'struct': 'FeatureStruct1',
+-  'data': { 'foo': { 'type': 'int', 'features': [ 'member-feature1' ] } },
++  'data': { 'foo': { 'type': 'int', 'features': [ 'deprecated' ] } },
+   'features': [ 'feature1' ] }
+ { 'struct': 'FeatureStruct2',
+   'data': { 'foo': 'int' },
+@@ -308,7 +308,7 @@
+   'features': [] }
 =20
--    def visit_object_type_flat(self, name, info, ifcond, members, variants=
-,
--                               features):
-+    def visit_object_type_flat(self, name, info, ifcond, features,
-+                               members, variants):
-         pass
+ { 'command': 'test-command-features1',
+-  'features': [ 'feature1' ] }
++  'features': [ 'deprecated' ] }
+ { 'command': 'test-command-features3',
+   'features': [ 'feature1', 'feature2' ] }
 =20
-     def visit_alternate_type(self, name, info, ifcond, features, variants)=
-:
-         pass
+@@ -322,4 +322,4 @@
+                                               'defined(TEST_IF_COND_2)'] }=
+ ] }
 =20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         pass
-=20
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-@@ -436,12 +436,12 @@ class QAPISchemaObjectType(QAPISchemaType):
-=20
-     def visit(self, visitor):
-         super().visit(visitor)
--        visitor.visit_object_type(self.name, self.info, self.ifcond,
--                                  self.base, self.local_members, self.vari=
-ants,
--                                  self.features)
--        visitor.visit_object_type_flat(self.name, self.info, self.ifcond,
--                                       self.members, self.variants,
--                                       self.features)
-+        visitor.visit_object_type(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.base, self.local_members, self.variants)
-+        visitor.visit_object_type_flat(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.members, self.variants)
-=20
-=20
- class QAPISchemaMember:
-@@ -745,12 +745,10 @@ class QAPISchemaCommand(QAPISchemaEntity):
-=20
-     def visit(self, visitor):
-         super().visit(visitor)
--        visitor.visit_command(self.name, self.info, self.ifcond,
--                              self.arg_type, self.ret_type,
--                              self.gen, self.success_response,
--                              self.boxed, self.allow_oob,
--                              self.allow_preconfig,
--                              self.features)
-+        visitor.visit_command(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.arg_type, self.ret_type, self.gen, self.success_response,
-+            self.boxed, self.allow_oob, self.allow_preconfig)
-=20
-=20
- class QAPISchemaEvent(QAPISchemaEntity):
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index d0d5c03646..3ad33af4ee 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -289,8 +289,8 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisito=
-r):
-             self._genh.add(gen_array(name, element_type))
-             self._gen_type_cleanup(name)
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         # Nothing to do for the special empty builtin
-         if name =3D=3D 'q_empty':
-             return
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 6e5ed781d7..23d9194aa4 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -326,8 +326,8 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisit=
-or):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_list(name, element_type))
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         # Nothing to do for the special empty builtin
-         if name =3D=3D 'q_empty':
-             return
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.p=
-y
-index af5b57a0b1..8e09e54edb 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -46,8 +46,8 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         print('array %s %s' % (name, element_type.name))
-         self._print_if(ifcond)
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         print('object %s' % name)
-         if base:
-             print('    base %s' % base.name)
-@@ -65,9 +65,9 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         self._print_if(ifcond)
-         self._print_features(features)
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         print('command %s %s -> %s'
-               % (name, arg_type and arg_type.name,
-                  ret_type and ret_type.name))
+ { 'event': 'TEST-EVENT-FEATURES1',
+-  'features': [ 'feature1' ] }
++  'features': [ 'deprecated' ] }
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
+i-schema-test.out
+index cd863ae966..891b4101e0 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -359,7 +359,7 @@ object FeatureStruct0
+     member foo: int optional=3DFalse
+ object FeatureStruct1
+     member foo: int optional=3DFalse
+-        feature member-feature1
++        feature deprecated
+     feature feature1
+ object FeatureStruct2
+     member foo: int optional=3DFalse
+@@ -419,7 +419,7 @@ command test-features0 q_obj_test-features0-arg -> None
+     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+ command test-command-features1 None -> None
+     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+-    feature feature1
++    feature deprecated
+ command test-command-features3 None -> None
+     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+     feature feature1
+@@ -440,7 +440,7 @@ command test-command-cond-features3 None -> None
+         if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
+ event TEST-EVENT-FEATURES1 None
+     boxed=3DFalse
+-    feature feature1
++    feature deprecated
+ module include/sub-module.json
+ include sub-sub-module.json
+ object SecondArrayRef
 --=20
 2.21.1
 
