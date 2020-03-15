@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EFC185E33
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:31:47 +0100 (CET)
-Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED75E185E47
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:50:00 +0100 (CET)
+Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDVEw-00047m-1w
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40533)
+	id 1jDVWZ-0005rE-Rg
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXk-0005Zu-RW
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXl-0005c8-Tt
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXi-0002VY-SW
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52223
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jDUXj-0002WE-Cb
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44812
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002Lh-9I
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXh-0002K4-Dh
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584283622;
+ s=mimecast20190719; t=1584283621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c7ZSBZCNo/ZgAY5gyqS52uAcS239rFzvOxIBhE8+2aY=;
- b=If6XkH5ldXjnJZd5+HuPss49O/LjdQIv8oA2RoVPiej8DH8aYZyzMo2dPM9qctTVgdm4nC
- YEslD0rx+R+wV+O7natKyKy5b4LIm7SM5M8SEDCulYDKJ3Z2oDSVg8coXUul78MWLsuasW
- 5B5KVziugUS2H6lyIhH9xCPMp4NGaXs=
+ bh=RiUu3Ec8VkyOY/9bwmYyEGwnOSMLaPO2veBJP5kK8FY=;
+ b=DZwfVMx8BDOmT9tnGbHf+HLdihHDkzK90vEfptj7xm4fbGjwCQRVyWaIpebmRGL/4V96HC
+ 4OJRFIE4G3YpEjd0bmA1eyUHN0Nv8AOr7X4Jn6IoQp0yxDgqV6p0tpPFrQexGbDsGHkck0
+ XU08k5D3J2y/NqxzulMs4imy2OV3ef0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-VgFFqBkANIGBufjdKzPY3A-1; Sun, 15 Mar 2020 10:46:59 -0400
-X-MC-Unique: VgFFqBkANIGBufjdKzPY3A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-227-pZwCmcvOOO2qIJwWKa7Mdg-1; Sun, 15 Mar 2020 10:47:00 -0400
+X-MC-Unique: pZwCmcvOOO2qIJwWKa7Mdg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E53189D6C5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F23008017DF;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D4A12708B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C5395DA2C;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C5A00113523D; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id CC1B11135243; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/34] qapi: New special feature flag "deprecated"
-Date: Sun, 15 Mar 2020 15:46:44 +0100
-Message-Id: <20200315144653.22660-26-armbru@redhat.com>
+Subject: [PATCH v3 27/34] qemu-options: New -compat to set policy for
+ deprecated interfaces
+Date: Sun, 15 Mar 2020 15:46:46 +0100
+Message-Id: <20200315144653.22660-28-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,163 +79,254 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike regular feature flags, the new special feature flag
-"deprecated" is recognized by the QAPI generator.  For now, it's only
-permitted with commands, events, and struct members.  It will be put
-to use shortly.
+Policy is separate for input and output.
+
+Input policy can be "accept" (accept silently), or "reject" (reject
+the request with an error).
+
+Output policy can be "accept" (pass on unchanged), or "hide" (filter
+out the deprecated parts).
+
+Default is "accept".  Policies other than "accept" are implemented
+later in this series.
+
+For now, -compat covers only syntactic aspects of QMP, i.e. stuff
+tagged with feature 'deprecated'.  We may want to extend it to cover
+semantic aspects, CLI, and experimental features.
+
+The option is experimental.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt                    | 6 ++++++
- scripts/qapi/schema.py                          | 6 ++++++
- tests/Makefile.include                          | 1 +
- tests/qapi-schema/features-deprecated-type.err  | 2 ++
- tests/qapi-schema/features-deprecated-type.json | 3 +++
- tests/qapi-schema/features-deprecated-type.out  | 0
- tests/qapi-schema/qapi-schema-test.json         | 6 +++---
- tests/qapi-schema/qapi-schema-test.out          | 6 +++---
- 8 files changed, 24 insertions(+), 6 deletions(-)
- create mode 100644 tests/qapi-schema/features-deprecated-type.err
- create mode 100644 tests/qapi-schema/features-deprecated-type.json
- create mode 100644 tests/qapi-schema/features-deprecated-type.out
+ qapi/compat.json             | 51 ++++++++++++++++++++++++++++++++++++
+ qapi/qapi-schema.json        |  1 +
+ include/qapi/compat-policy.h | 20 ++++++++++++++
+ qapi/qmp-dispatch.c          |  3 +++
+ softmmu/vl.c                 | 17 ++++++++++++
+ qapi/Makefile.objs           |  8 +++---
+ qemu-options.hx              | 20 ++++++++++++++
+ 7 files changed, 116 insertions(+), 4 deletions(-)
+ create mode 100644 qapi/compat.json
+ create mode 100644 include/qapi/compat-policy.h
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index a1ef1cfd61..823adbabda 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -683,6 +683,12 @@ Intended use is to have each feature string signal tha=
-t this build of
- QEMU shows a certain behaviour.
-=20
-=20
-+=3D=3D=3D=3D Special features =3D=3D=3D=3D
-+
-+Feature "deprecated" makes a command, event, or struct member as
-+deprecated.  It is not supported elsewhere so far.
-+
-+
- =3D=3D=3D Naming rules and reserved names =3D=3D=3D
-=20
- All names must begin with a letter, and contain only ASCII letters,
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 6ee3677215..78309a00f0 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -193,6 +193,12 @@ class QAPISchemaType(QAPISchemaEntity):
-             return None
-         return self.name
-=20
-+    def check(self, schema):
-+        QAPISchemaEntity.check(self, schema)
-+        if 'deprecated' in [f.name for f in self.features]:
-+            raise QAPISemError(
-+                self.info, "feature 'deprecated' is not supported for type=
-s")
-+
-     def describe(self):
-         assert self.meta
-         return "%s type '%s'" % (self.meta, self.name)
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 67e8fcddda..d1340301b2 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -242,6 +242,7 @@ qapi-schema +=3D event-case.json
- qapi-schema +=3D event-member-invalid-dict.json
- qapi-schema +=3D event-nest-struct.json
- qapi-schema +=3D features-bad-type.json
-+qapi-schema +=3D features-deprecated-type.json
- qapi-schema +=3D features-duplicate-name.json
- qapi-schema +=3D features-if-invalid.json
- qapi-schema +=3D features-missing-name.json
-diff --git a/tests/qapi-schema/features-deprecated-type.err b/tests/qapi-sc=
-hema/features-deprecated-type.err
+diff --git a/qapi/compat.json b/qapi/compat.json
 new file mode 100644
-index 0000000000..af4ffe20aa
+index 0000000000..fd6f8e932c
 --- /dev/null
-+++ b/tests/qapi-schema/features-deprecated-type.err
-@@ -0,0 +1,2 @@
-+features-deprecated-type.json: In struct 'S':
-+features-deprecated-type.json:2: feature 'deprecated' is not supported for=
- types
-diff --git a/tests/qapi-schema/features-deprecated-type.json b/tests/qapi-s=
-chema/features-deprecated-type.json
++++ b/qapi/compat.json
+@@ -0,0 +1,51 @@
++# -*- Mode: Python -*-
++
++##
++# =3D Compatibility policy
++##
++
++##
++# @CompatPolicyInput:
++#
++# Policy for handling "funny" input.
++#
++# @accept: Accept silently
++# @reject: Reject with an error
++#
++# Since: 5.0
++##
++{ 'enum': 'CompatPolicyInput',
++  'data': [ 'accept', 'reject' ] }
++
++##
++# @CompatPolicyOutput:
++#
++# Policy for handling "funny" output.
++#
++# @accept: Pass on unchanged
++# @hide: Filter out
++#
++# Since: 5.0
++##
++{ 'enum': 'CompatPolicyOutput',
++  'data': [ 'accept', 'hide' ] }
++
++##
++# @CompatPolicy:
++#
++# Policy for handling deprecated management interfaces.
++#
++# This is intended for testing users of the management interfaces.
++#
++# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
++# with feature 'deprecated'.  We may want to extend it to cover
++# semantic aspects, CLI, and experimental features.
++#
++# @deprecated-input: how to handle deprecated input (default 'accept')
++# @deprecated-output: how to handle deprecated output (default 'accept')
++#
++# Since: 5.0
++##
++{ 'struct': 'CompatPolicy',
++  'data': { '*deprecated-input': 'CompatPolicyInput',
++            '*deprecated-output': 'CompatPolicyOutput' } }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 43b0ba0dea..f575b76d81 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -75,6 +75,7 @@
+ { 'include': 'migration.json' }
+ { 'include': 'transaction.json' }
+ { 'include': 'trace.json' }
++{ 'include': 'compat.json' }
+ { 'include': 'control.json' }
+ { 'include': 'introspect.json' }
+ { 'include': 'qom.json' }
+diff --git a/include/qapi/compat-policy.h b/include/qapi/compat-policy.h
 new file mode 100644
-index 0000000000..4b5bf5b86e
+index 0000000000..8efb2c58aa
 --- /dev/null
-+++ b/tests/qapi-schema/features-deprecated-type.json
-@@ -0,0 +1,3 @@
-+# Feature 'deprecated' is not supported for types
-+{ 'struct': 'S', 'data': {},
-+  'features': [ 'deprecated' ] }
-diff --git a/tests/qapi-schema/features-deprecated-type.out b/tests/qapi-sc=
-hema/features-deprecated-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qa=
-pi-schema-test.json
-index f576c337af..6b1f05afa7 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -258,7 +258,7 @@
-   'data': { 'foo': 'int' },
-   'features': [] }
- { 'struct': 'FeatureStruct1',
--  'data': { 'foo': { 'type': 'int', 'features': [ 'member-feature1' ] } },
-+  'data': { 'foo': { 'type': 'int', 'features': [ 'deprecated' ] } },
-   'features': [ 'feature1' ] }
- { 'struct': 'FeatureStruct2',
-   'data': { 'foo': 'int' },
-@@ -308,7 +308,7 @@
-   'features': [] }
++++ b/include/qapi/compat-policy.h
+@@ -0,0 +1,20 @@
++/*
++ * Policy for handling "funny" management interfaces
++ *
++ * Copyright (C) 2019 Red Hat, Inc.
++ *
++ * Authors:
++ *  Markus Armbruster <armbru@redhat.com>,
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++
++#ifndef QAPI_COMPAT_POLICY_H
++#define QAPI_COMPAT_POLICY_H
++
++#include "qapi/qapi-types-compat.h"
++
++extern CompatPolicy compat_policy;
++
++#endif
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index fb53687ce9..80beab517f 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -12,6 +12,7 @@
+  */
 =20
- { 'command': 'test-command-features1',
--  'features': [ 'feature1' ] }
-+  'features': [ 'deprecated' ] }
- { 'command': 'test-command-features3',
-   'features': [ 'feature1', 'feature2' ] }
+ #include "qemu/osdep.h"
++#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/dispatch.h"
+ #include "qapi/qmp/qdict.h"
+@@ -19,6 +20,8 @@
+ #include "sysemu/runstate.h"
+ #include "qapi/qmp/qbool.h"
 =20
-@@ -322,4 +322,4 @@
-                                               'defined(TEST_IF_COND_2)'] }=
- ] }
++CompatPolicy compat_policy;
++
+ static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_oo=
+b,
+                                      QObject **id, Error **errp)
+ {
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ff2685dff8..74eb43d114 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -27,6 +27,7 @@
+ #include "qemu/units.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
++#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qemu-version.h"
+ #include "qemu/cutils.h"
+@@ -105,6 +106,7 @@
+ #include "sysemu/replay.h"
+ #include "qapi/qapi-events-run-state.h"
+ #include "qapi/qapi-visit-block-core.h"
++#include "qapi/qapi-visit-compat.h"
+ #include "qapi/qapi-visit-ui.h"
+ #include "qapi/qapi-commands-block-core.h"
+ #include "qapi/qapi-commands-run-state.h"
+@@ -3749,6 +3751,21 @@ void qemu_init(int argc, char **argv, char **envp)
+                     qemu_opt_get_bool(opts, "mem-lock", false);
+                 enable_cpu_pm =3D qemu_opt_get_bool(opts, "cpu-pm", false)=
+;
+                 break;
++            case QEMU_OPTION_compat:
++                {
++                    CompatPolicy *opts;
++                    Visitor *v;
++
++                    v =3D qobject_input_visitor_new_str(optarg, NULL,
++                                                      &error_fatal);
++
++                    visit_type_CompatPolicy(v, NULL, &opts, &error_fatal);
++                    QAPI_CLONE_MEMBERS(CompatPolicy, &compat_policy, opts)=
+;
++
++                    qapi_free_CompatPolicy(opts);
++                    visit_free(v);
++                    break;
++                }
+             case QEMU_OPTION_msg:
+                 opts =3D qemu_opts_parse_noisily(qemu_find_opts("msg"), op=
+targ,
+                                                false);
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 4673ab7490..a3de2e2756 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -5,10 +5,10 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
+ util-obj-y +=3D qmp-event.o
+ util-obj-y +=3D qapi-util.o
 =20
- { 'event': 'TEST-EVENT-FEATURES1',
--  'features': [ 'feature1' ] }
-+  'features': [ 'deprecated' ] }
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
-i-schema-test.out
-index cd863ae966..891b4101e0 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -359,7 +359,7 @@ object FeatureStruct0
-     member foo: int optional=3DFalse
- object FeatureStruct1
-     member foo: int optional=3DFalse
--        feature member-feature1
-+        feature deprecated
-     feature feature1
- object FeatureStruct2
-     member foo: int optional=3DFalse
-@@ -419,7 +419,7 @@ command test-features0 q_obj_test-features0-arg -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
- command test-command-features1 None -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
--    feature feature1
-+    feature deprecated
- command test-command-features3 None -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
-     feature feature1
-@@ -440,7 +440,7 @@ command test-command-cond-features3 None -> None
-         if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
- event TEST-EVENT-FEATURES1 None
-     boxed=3DFalse
--    feature feature1
-+    feature deprecated
- module include/sub-module.json
- include sub-sub-module.json
- object SecondArrayRef
+-QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
+rypto
+-QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
+-QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
+ tpm
+-QAPI_COMMON_MODULES +=3D trace transaction ui
++QAPI_COMMON_MODULES =3D audio authz block-core block char common compat
++QAPI_COMMON_MODULES +=3D control crypto dump error introspect job
++QAPI_COMMON_MODULES +=3D machine migration misc net pragma qdev qom rdma
++QAPI_COMMON_MODULES +=3D rocker run-state sockets tpm trace transaction ui
+ QAPI_TARGET_MODULES =3D machine-target misc-target
+ QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+=20
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 1d8f852d89..5459e6c94c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3357,6 +3357,26 @@ DEFHEADING()
+=20
+ DEFHEADING(Debug/Expert options:)
+=20
++DEF("compat", HAS_ARG, QEMU_OPTION_compat,
++    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Daccep=
+t|hide]\n"
++    "                Policy for handling deprecated management interfaces\=
+n",
++    QEMU_ARCH_ALL)
++SRST
++``-compat [deprecated-input=3D@var{input-policy}][,deprecated-output=3D@va=
+r{output-policy}]``
++    Set policy for handling deprecated management interfaces (experimental=
+):
++
++    ``deprecated-input=3Daccept`` (default)
++        Accept deprecated commands and arguments
++    ``deprecated-input=3Dreject``
++        Reject deprecated commands and arguments
++    ``deprecated-output=3Daccept`` (default)
++        Emit deprecated command results and events
++    ``deprecated-output=3Dhide``
++        Suppress deprecated command results and events
++
++    Limitation: covers only syntactic aspects of QMP.
++ERST
++
+ DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
+     "-fw_cfg [name=3D]<name>,file=3D<file>\n"
+     "                add named fw_cfg entry with contents from file\n"
 --=20
 2.21.1
 
