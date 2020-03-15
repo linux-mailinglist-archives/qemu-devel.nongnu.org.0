@@ -2,56 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D14918601A
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 22:48:51 +0100 (CET)
-Received: from localhost ([::1]:59262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28CA186020
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 22:55:28 +0100 (CET)
+Received: from localhost ([::1]:59310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDb7p-0003QQ-AP
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 17:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38364)
+	id 1jDbEF-0005Y0-HL
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 17:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jDb1u-0002FD-Tb
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:42:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDb2J-0002QY-IJ
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:43:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jDb1t-0001zF-CQ
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:42:42 -0400
-Resent-Date: Sun, 15 Mar 2020 17:42:42 -0400
-Resent-Message-Id: <E1jDb1t-0001zF-CQ@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21114)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jDb1s-0001rH-Ea
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:42:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1584308553; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FnqPk3rNUOcOYsv1c/2n2jQB+V21CvMy5PdEhuloXQ4K6K7tmQB5lbr/qfeQ2IV7ebkRgMI0N3Io9a8qCATF14G4Fr/nP0MphHyRD+8jAs431pxnZdu01+ZaEC/HxsNEo52F5OPC6NslbYyUnmwYlWx3OgXDmBQjFz3AggaCFD4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1584308553;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=5v/sW147Udr98GPFaHy8v5d1nhEtTaY3AKjTpBIymPg=; 
- b=jhWyHqq5Emk3SEXI0uEKzT6qJi9yqhU/HDFzoexiamAHPsRkOAkK+sMleEVAgOStI92QtLsgBlsZFgdEsm0uGxS01JTCP3Q0Dn+cepir38ObkhfN3dxpxjTRe3Wm9pmiJTn6sJxBPZ58aV3vcXegbw7wkoXEMmnZaLM3leg7oW8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1584308551985694.7807149928946;
- Sun, 15 Mar 2020 14:42:31 -0700 (PDT)
-In-Reply-To: <20200313184607.11792-1-philmd@redhat.com>
-Subject: Re: [PATCH 0/9] user-mode: Prune build dependencies (part 3)
-Message-ID: <158430855063.6054.15100755778610559786@39012742ff91>
+ (envelope-from <richard.henderson@linaro.org>) id 1jDb2I-00058I-8d
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:43:07 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45232)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jDb2H-0004sa-Ul
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 17:43:06 -0400
+Received: by mail-pg1-x544.google.com with SMTP id m15so8494345pgv.12
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 14:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gJLaGEE7zUZWZHfYiB6KWmfh/dPmWfAd8FO2l5bXGh4=;
+ b=e//BMzK7h0KzXXIKSYg/0AS94qNPUzrKMFGQeKSq6SR11dmWG7FyfUWdTTkVBHvbS/
+ AODVx2xHMjW7QMUuit0l49PdQCGT/LhxYYgfqpm02ChNDk15UVaxrHLGU2+AV6dlVLPC
+ SL8XDwXRoiRfOWbRsBiWchl6n4uX+gCFGimNZ4hPIgmHHjb2qtmDUWLlfYQ62JEChU6o
+ GhJu2RRH0sVwvjBldwm6sdL6sEu3zYSD2p5UY78NmKybDg3iKiTDOBGf7kdDmYDdxl0p
+ GBLNS/HHywjSpwZixzkn3LCBYdiWhWG1YC2SQKvjbGZaWv8fghmMTuFXkK6l7DSeyUzv
+ GtgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gJLaGEE7zUZWZHfYiB6KWmfh/dPmWfAd8FO2l5bXGh4=;
+ b=WlCNV/j22nHdji+zkses4674AHVTmzPGTiUoBaU0Qw+at94h3+mKxOPvKkFQOG5wtU
+ NRDpAGSjOr4EoFv+M8ez+d3cxWTEqMF68oDtq7cDIJMAaX/rgowyFu10SZCX6/0CBMil
+ TEgrYiOzpqHvslL1nFUYc7VakxGqyjOinRt2eO2jG3cUHOpIeBJ0x+WKzetyjpC1Jdpy
+ /dxyBcYggwC6zY7ReDHMa5L0TOl7eOI1zNz7RkTDjsfOBDD9I0vWs89sp49umN8FUsML
+ FzPcyd1TMGPrhGuim0VOJGwr1ZJF0Xp7k1gYgNGholR+Wle/gg86JGqcqwBGHdZKk+Tr
+ 8BsQ==
+X-Gm-Message-State: ANhLgQ2ZzoaoHnD+C9ExMb2ic8tkPWFBa73A5ZwfkBJU+UXX1doltmIm
+ TWZqTQpxA2fwX/VCb/9IJys+bg==
+X-Google-Smtp-Source: ADFU+vsokuRvKp8IGIEwHKA98fWLbJAUgVjRVx6Gj4Ve/d/MEmLVrwUH59iy6rrs2FPePRa7/WeW6w==
+X-Received: by 2002:a63:7e56:: with SMTP id o22mr23036465pgn.136.1584308584206; 
+ Sun, 15 Mar 2020 14:43:04 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ b22sm13508882pfi.213.2020.03.15.14.43.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 15 Mar 2020 14:43:03 -0700 (PDT)
+Subject: Re: [PATCH 2/9] hw/core/qdev-properties: Use qemu_strtoul() in
+ set_pci_host_devaddr()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200313184607.11792-1-philmd@redhat.com>
+ <20200313184607.11792-3-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1a758040-fc3e-fb2a-b49a-00fbd449daad@linaro.org>
+Date: Sun, 15 Mar 2020 14:43:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Sun, 15 Mar 2020 14:42:31 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+In-Reply-To: <20200313184607.11792-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,47 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com, armbru@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com, laurent@vivier.eu
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxMzE4NDYwNy4xMTc5
-Mi0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgTElOSyAgICB2aG9zdC11c2Vy
-LWlucHV0CnFhcGkvcWFwaS1jb21tYW5kcy1jaGFyLm86IEluIGZ1bmN0aW9uIGBxbXBfbWFyc2hh
-bF9hZGRfY2xpZW50JzoKL3RtcC9xZW11LXRlc3QvYnVpbGQvcWFwaS9xYXBpLWNvbW1hbmRzLWNo
-YXIuYzo0MDQ6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHFtcF9hZGRfY2xpZW50Jwpjb2xsZWN0
-MjogZXJyb3I6IGxkIHJldHVybmVkIDEgZXhpdCBzdGF0dXMKbWFrZTogKioqIFtxZW11LXN0b3Jh
-Z2UtZGFlbW9uXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMu
-Li4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2Rv
-Y2tlci9kb2NrZXIucHkiLCBsaW5lIDY2NCwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxs
-ZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJv
-cjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdj
-b20ucWVtdS5pbnN0YW5jZS51dWlkPTJlN2EwYTgyYzI2ZTQ5MmNiMmQ2OTg5NTU4ZTI3YTIzJywg
-Jy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0t
-cm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScs
-ICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VO
-Vj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3Bh
-dGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdics
-ICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdHU1OTF4cmwvc3JjL2RvY2tlci1zcmMuMjAy
-MC0wMy0xNS0xNy40MC4wMy4yNTgzMjovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3
-JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8g
-ZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1
-aWQ9MmU3YTBhODJjMjZlNDkyY2IyZDY5ODk1NThlMjdhMjMKbWFrZVsxXTogKioqIFtkb2NrZXIt
-cnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3
-LXRlc3Rlci10bXAtdHU1OTF4cmwvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlj
-a0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDJtMjguNTUzcwp1c2VyICAgIDBtOC41NzFzCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
-MDMxMzE4NDYwNy4xMTc5Mi0xLXBoaWxtZEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNr
-QGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
-IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
-YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 3/13/20 11:46 AM, Philippe Mathieu-Daudé wrote:
+> Replace strtoul() by qemu_strtoul() so checkpatch.pl won't complain
+> if we move this code later.
+...
+
+>      p = str;
+> -    val = strtoul(p, &e, 16);
+> -    if (e == p || *e != ':') {
+> +    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
+> +        goto inval;
+> +    }
+> +    if (*e != ':') {
+
+You can drop the e == p test.  That's done in check_strtox_error, called by
+qemu_strtoul.  Same for the other 2 instances.
+
+The range check looks wrong, as we have not yet decided if this element is
+"dom" or "bus".
+
+> -    if (dom > 0xffff || bus > 0xff || slot > 0x1f || func > 7) {
+> +    if (bus > 0xff) {
+
+I think it makes sense to leave this line unchanged.  Increase the slot and
+func local variables increased to unsigned long so that the range check isn't
+truncated.
+
+
+r~
 
