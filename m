@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7812185DAD
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:54:09 +0100 (CET)
-Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61848185DAA
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 15:54:05 +0100 (CET)
+Received: from localhost ([::1]:54790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDUeW-0002V6-Os
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
+	id 1jDUeS-0002Qz-0W
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 10:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDUXg-0005X1-Be
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:06 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDUXf-0005Wy-Cj
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDUXd-0002IY-FM
+ (envelope-from <armbru@redhat.com>) id 1jDUXd-0002HK-7y
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44454
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22970
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXd-0002GJ-6c
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDUXd-0002FE-2R
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 10:47:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1584283620;
@@ -27,43 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rbSWSFCqRg7Dyhwyu1gGZIgG7CVGvmA7JcPtABc7N4A=;
- b=BbDULXQdcAQ0yCGYhXVlxr2NPSUkpe6eAh4Xtq3plH2LyeBlvn86kni0Yj4hF8PbzD4qbV
- tKWpIGDwpGNc5KHEj1NMocZihy+/sVM4bX4RCoE8KzCljxtRs19SurqCN33NyQZ5m6Mir1
- 43TLK3MiTP9D/xMKIcIKgHJ4XhHkKfY=
+ bh=DolF0eQFcYj8TmoxPP0W7/I7b+3KWwKUpg3+CYqCpWk=;
+ b=T3wsXyzTTa1LMuThBHMuz19MV9Kp8kadxTfx38PUUm+kfmEqMRMJQYmK+zb+swYoTBPJvC
+ Y+4RpJ+hHy7KyktsMlQ8UNG6oIKoBBIE4U/RB1TCCEkP+lG9V95pwHLSyuO0jNB94UFAlq
+ 8bIrsznPLufXNkj2WZKsmghfS4gpnbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-QJ-6pjz_MqevZCib13yufA-1; Sun, 15 Mar 2020 10:46:59 -0400
-X-MC-Unique: QJ-6pjz_MqevZCib13yufA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-252-cW6aPzmtPJ-UEOfNeUVlOA-1; Sun, 15 Mar 2020 10:46:59 -0400
+X-MC-Unique: cW6aPzmtPJ-UEOfNeUVlOA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9E813F5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52E688017CC;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
  [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FD7960C81;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2371D8C091;
  Sun, 15 Mar 2020 14:46:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BC12411358C9; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
+ id BF459113522F; Sun, 15 Mar 2020 15:46:53 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/34] qapi: Simplify how qmp_dispatch() deals with
- QCO_NO_SUCCESS_RESP
-Date: Sun, 15 Mar 2020 15:46:41 +0100
-Message-Id: <20200315144653.22660-23-armbru@redhat.com>
+Subject: [PATCH v3 23/34] qapi: Simplify how qmp_dispatch() gets the request ID
+Date: Sun, 15 Mar 2020 15:46:42 +0100
+Message-Id: <20200315144653.22660-24-armbru@redhat.com>
 In-Reply-To: <20200315144653.22660-1-armbru@redhat.com>
 References: <20200315144653.22660-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,70 +77,65 @@ Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We convert the request object to a QDict twice: first in
+qmp_dispatch() to get the request ID, and then again in
+qmp_dispatch_check_obj(), which converts to QDict, then checks and
+returns it.  We can't get the request ID from the latter, because it's
+null when the qdict flunks the checks.
+
+Move getting the request ID into qmp_dispatch_check_obj().
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/qmp-dispatch.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ qapi/qmp-dispatch.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index a588072523..550d1fe8d2 100644
+index 550d1fe8d2..112d29a9ab 100644
 --- a/qapi/qmp-dispatch.c
 +++ b/qapi/qmp-dispatch.c
-@@ -106,7 +106,7 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *requ=
-est,
-     QDict *dict =3D qobject_to(QDict, request);
-     QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
-     QObject *ret =3D NULL;
--    QDict *rsp;
-+    QDict *rsp =3D NULL;
+@@ -20,7 +20,7 @@
+ #include "qapi/qmp/qbool.h"
 =20
-     dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
+ static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_oo=
+b,
+-                                     Error **errp)
++                                     QObject **id, Error **errp)
+ {
+     const char *exec_key =3D NULL;
+     const QDictEntry *ent;
+@@ -30,10 +30,13 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
+uest, bool allow_oob,
+=20
+     dict =3D qobject_to(QDict, request);
      if (!dict) {
-@@ -151,31 +151,32 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
++        *id =3D NULL;
+         error_setg(errp, "QMP input must be a JSON object");
+         return NULL;
+     }
+=20
++    *id =3D qdict_get(dict, "id");
++
+     for (ent =3D qdict_first(dict); ent;
+          ent =3D qdict_next(dict, ent)) {
+         arg_name =3D qdict_entry_key(ent);
+@@ -103,12 +106,12 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
 quest,
-         args =3D qdict_get_qdict(dict, "arguments");
-         qobject_ref(args);
-     }
--
-     cmd->fn(args, &ret, &err);
-+    qobject_unref(args);
-     if (err) {
--        ;
--    } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
-+        goto out;
-+    }
-+
-+    if (cmd->options & QCO_NO_SUCCESS_RESP) {
-         g_assert(!ret);
-+        return NULL;
-     } else if (!ret) {
-         /* TODO turn into assertion */
-         ret =3D QOBJECT(qdict_new());
-     }
+     const char *command;
+     QDict *args;
+     QmpCommand *cmd;
+-    QDict *dict =3D qobject_to(QDict, request);
+-    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
++    QDict *dict;
++    QObject *id;
+     QObject *ret =3D NULL;
+     QDict *rsp =3D NULL;
 =20
--    qobject_unref(args);
-+    rsp =3D qdict_new();
-+    qdict_put_obj(rsp, "return", ret);
-=20
- out:
-     if (err) {
-+        assert(!rsp);
-         rsp =3D qmp_error_response(err);
--    } else if (ret) {
--        rsp =3D qdict_new();
--        qdict_put_obj(rsp, "return", ret);
--    } else {
--        /* Can only happen for commands with QCO_NO_SUCCESS_RESP */
--        rsp =3D NULL;
+-    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
++    dict =3D qmp_dispatch_check_obj(request, allow_oob, &id, &err);
+     if (!dict) {
+         goto out;
      }
-=20
--    if (rsp && id) {
-+    assert(rsp);
-+
-+    if (id) {
-         qdict_put_obj(rsp, "id", qobject_ref(id));
-     }
-=20
 --=20
 2.21.1
 
