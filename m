@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FC0185F9F
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 20:45:21 +0100 (CET)
-Received: from localhost ([::1]:57612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00B3185FB3
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 21:13:58 +0100 (CET)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDZCJ-0005A9-Lx
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 15:45:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59775)
+	id 1jDZe1-0004XX-8E
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 16:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDZ7k-0004OC-9U
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 15:40:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDZXv-0002t7-2b
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 16:07:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDZ7i-0003mI-Cf
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 15:40:36 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45729)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDZXt-0002hP-Q0
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 16:07:38 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39997)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDZ7i-0003eO-1V
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 15:40:34 -0400
-Received: by mail-pl1-x644.google.com with SMTP id b22so6900391pls.12
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 12:40:33 -0700 (PDT)
+ id 1jDZXt-0002Xt-GL
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 16:07:37 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t24so8407192pgj.7
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 13:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rWBBelztWn3l+5B9ii97cqEND3HA6vz9gtBRsg/4GDk=;
- b=ac2Gpel3xEJzjwabmHZif3J9mt9XgySciaQaRRBNrLq1iaaa3p9AKh5ZySm1pAY+Wp
- 7WuKXI64uAFvtSkL5C5WMOU0SXkBEUSSjegxl9b+nKzqmfdNTORVxSH5t0+yjClmSp7W
- Tz2PrmPeQyvdCA36I6k/2Mcx3LO2c3duap5dCHTioRCJ4dKMKAO0p0dS8HHA9UJRElnF
- aT12x/VChm/7HI0GkzHeDaeyw0FiduEbnhJOq+o/FKUyuR//GmSpojfS+nWJPpDspKn8
- QxXseEw2BdchnUilkPznxWU+QuvOiusmC+9reybUUqly+PVtym2oHdmPZHHdTtvSEfdy
- OxSQ==
+ bh=AfrTK/b6k0acUn4IW674vAyc76w/gBDaEBHOCoRtH74=;
+ b=tOe3XXuB2QWgliU9Opdz9RfD1OXqF1tgipkrV9v9NFtP22NecnEdyP3zBsS9dv7uNU
+ FmTm2pnPTuXBX8RPsRtlb5hioIrWDoJKfidDtD9sGmit06pNvrEDJ8dBI+mEZte+aZjr
+ nN91N+MCX0eJEunBEonVF3g+6a5Ab9JP8NKJuS1Ep0bH0ykLDfXpuCaB1EtuLCIPIJTM
+ CLgw8Cky2PK0LYDLxZNSxEP3MqKuVyRMm9tMeMk6JEs/PoJb8TxY8rddHNSsIF4ZrdtX
+ V2n5m7Bkp7yocw7uRoYzTIu7RRsmUhh4QkFae6gIs18h55I/9EkMzxjX+3UzLgLzVhdv
+ 41Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rWBBelztWn3l+5B9ii97cqEND3HA6vz9gtBRsg/4GDk=;
- b=FbopFlMQDhGKxRRzarZXYNjTypOW+Q7pB8Uieajw4pMWj0Wra44V3/2+cXWqkTx2bK
- 9Gzp+Mx23QXrv+4O6DloMxPNgGUuIHZ6gcoeUUiP9lLRgi+Tx8cVF62Np3v0gdPI/R5r
- xDWsZdIeLrV7RCpGEg4YS0M2SuAo0NML3Ao6o5zpl9HaYIAVwVPOU8eH2fwJWFebkHVO
- pJVI0RRyNZSFSiutJVFA/SJxRzBGDWXO9VLUaikm+Dx1zqGNlqeucTX9hiJOM054/SLB
- Xx7gQcG4wSOFkc16ZJ5OjHjawASnvz9FPCDnKdQQpBs9Y37s+nZqvTPXrCOIzMnM9eq1
- e4/w==
-X-Gm-Message-State: ANhLgQ3kaQs1NvRkWfRQu8/RzJjKItV+vTobU2N1NZEdM2P+Y7RbwSEA
- pAZZ/2vUhNa+a9/c/aTj9lEYlw==
-X-Google-Smtp-Source: ADFU+vuMK7+04gVLvdHhAT2GvWb0irP3tImbd3yniMzCLD0R01olHGsz5yWjP1wd6/UMp1F5aiO4Dg==
-X-Received: by 2002:a17:90a:a385:: with SMTP id
- x5mr22056292pjp.102.1584301232723; 
- Sun, 15 Mar 2020 12:40:32 -0700 (PDT)
+ bh=AfrTK/b6k0acUn4IW674vAyc76w/gBDaEBHOCoRtH74=;
+ b=C1cFn6hsgXKETqaeuboVPYFJk4X4eBbqMm6jriaQG+4Ol3x7ZOFc913pO8ifsHoDTT
+ umdmBMlnvxfZ/vs7U5nTvyJxSrks+cSHqJSilLGscSx0KiU6UOH4SJwy0FlZGJqo0Y49
+ PfQaRpyGTZuoRBlMp2A0MVSa2dqiCumwjJiIqKEMblBaAAmqtfayuqfGqua/+LmMGHzu
+ 6N2A3YJDHF/Yu7QNtRT6bP5d6TAW3+O8pIz3oe7MtcXnH/plEK7ELbOt+1qzFkBUxvZm
+ RzMxaiXsZSD2wfGywCGJpcCdyz0bEmdYz32239jutXIS0oyMc8QnuXkVg95Ch0HOY9h9
+ dCTA==
+X-Gm-Message-State: ANhLgQ2WR2pcxO6Q+FN5HuRNgY8UrSQmsY/CaXhoAO8+WDesHppxrbPC
+ i9vhMhfBTQtwAcWlMWmeXuzjpw==
+X-Google-Smtp-Source: ADFU+vsueR85ye3lPcPONMF5ThCBFNP2R9hCqzd2OsZCP01oFAPFIc7A3zZ6pvPCcmNbjyEOYngj0Q==
+X-Received: by 2002:a05:6a00:c8:: with SMTP id
+ e8mr21563883pfj.131.1584302856321; 
+ Sun, 15 Mar 2020 13:07:36 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- m1sm13078527pjl.38.2020.03.15.12.40.30
+ s25sm4460709pgv.70.2020.03.15.13.07.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 12:40:31 -0700 (PDT)
-Subject: Re: [PATCH 01/14] Makefile: Only build virtiofsd if system-mode is
- enabled
-To: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Sun, 15 Mar 2020 13:07:35 -0700 (PDT)
+Subject: Re: [PATCH 04/14] tests/Makefile: Restrict some softmmu-only tests
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200313183652.10258-1-philmd@redhat.com>
- <20200313183652.10258-2-philmd@redhat.com>
- <8f73d608-d28e-b896-b1f0-f95d599502f0@vivier.eu>
+ <20200313183652.10258-5-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d9b29b2b-58ff-512c-c426-0ffe7bcad295@linaro.org>
-Date: Sun, 15 Mar 2020 12:40:28 -0700
+Message-ID: <942d57d6-b272-c2c6-b2df-405d81d03996@linaro.org>
+Date: Sun, 15 Mar 2020 13:07:32 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <8f73d608-d28e-b896-b1f0-f95d599502f0@vivier.eu>
+In-Reply-To: <20200313183652.10258-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,29 +91,26 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>,
  David Hildenbrand <david@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/13/20 3:28 PM, Laurent Vivier wrote:
->>  ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
->> -HELPERS-y += virtiofsd$(EXESUF)
->> -vhost-user-json-y += tools/virtiofsd/50-qemu-virtiofsd.json
->> +HELPERS-$(CONFIG_SOFTMMU) += virtiofsd$(EXESUF)
->> +vhost-user-json-$(CONFIG_SOFTMMU) += tools/virtiofsd/50-qemu-virtiofsd.json
-...
+On 3/13/20 11:36 AM, Philippe Mathieu-Daudé wrote:
+> These tests fails when configured with --disable-system.
 > 
-> Why don't you do that instead?
-> 
->   ifeq
-> ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG)$(CONFIG_SOFTMMU),yyyy)
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  tests/Makefile.include | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-Seconded.
+So... they don't currently fail check-unit.  Did you mean to say that they
+*will* fail once other files are disabled?
+
 
 r~
 
