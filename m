@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7150185E4C
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:50:49 +0100 (CET)
-Received: from localhost ([::1]:55310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850A4185E55
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 16:55:59 +0100 (CET)
+Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDVXM-0006KB-Rv
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47487)
+	id 1jDVcM-0000bI-F8
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 11:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47651)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jDVSs-0004hv-Nb
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:11 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jDVSy-0004lF-WC
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jDVSr-0004AV-K0
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21162)
+ (envelope-from <ehabkost@redhat.com>) id 1jDVSv-0004Sq-VG
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:16 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58657
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jDVSr-00047U-Cm
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:09 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jDVSv-0004Pm-QU
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 11:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584287168;
+ s=mimecast20190719; t=1584287173;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hk0V1+ErACjTYckpGdPKhaJYhVVzaFlhDUbotdzJRwE=;
- b=afW6lg1FAefYHHDvXXLdV+2+DRz0MHsul0Sk/r9T6s2JvOsemOYwXbU6DF/TUu1FQ+tlT/
- Le9XMXDp92Qf0P3oob9wAduchEg5iz8d3CUPadm7DCTjnXeWGssUJrAysy8lRiwgTfg7Ed
- RyfE1V3yqIRQv5iNNErpSWsrY69LSBY=
+ bh=os18f27xbz3j9Dd0kXTe1Jkg0vVoeMl0Fcs+sR5sYlw=;
+ b=fz7RLl6GUQ33NfeYVSA2SnRvywjF4zz5AyjFqH0QgIkx4564ZqPZpKyP8iSfJvLaHl4qjA
+ z0sd7+4IfwmQgurA1sSMNFPIZ+eorkw/16s3NgGOFvXTawzZfMzEmZx20hvOV5n6eUSSeZ
+ CikQyzeIkb8u8pdH+15YqHwA4O4GlSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-iaxq-4e-MwCyj_uFlk0nbQ-1; Sun, 15 Mar 2020 11:46:05 -0400
-X-MC-Unique: iaxq-4e-MwCyj_uFlk0nbQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-468-hUW2O1b6Mhm_k1QZbdk8aQ-1; Sun, 15 Mar 2020 11:46:09 -0400
+X-MC-Unique: hUW2O1b6Mhm_k1QZbdk8aQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0DCD8010E7;
- Sun, 15 Mar 2020 15:46:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90903800D4E;
+ Sun, 15 Mar 2020 15:46:08 +0000 (UTC)
 Received: from localhost (ovpn-121-84.rdu2.redhat.com [10.10.121.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8EFE27183;
- Sun, 15 Mar 2020 15:46:00 +0000 (UTC)
-Date: Sun, 15 Mar 2020 11:45:59 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B50CC5C1B2;
+ Sun, 15 Mar 2020 15:46:05 +0000 (UTC)
+Date: Sun, 15 Mar 2020 11:46:04 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/2] mmap-alloc: Include osdep.h before checking
- CONFIG_LINUX
-Message-ID: <20200315154559.GW1187748@habkost.net>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 0/2] Fix MAP_SYNC support when host has older glibc
+ version
+Message-ID: <20200315154604.GX1187748@habkost.net>
 References: <20200311232342.1614944-1-ehabkost@redhat.com>
- <20200311232342.1614944-3-ehabkost@redhat.com>
+ <7a2bc684-b07e-3825-10db-5f2bf0c33edf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200311232342.1614944-3-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <7a2bc684-b07e-3825-10db-5f2bf0c33edf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -72,70 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jingqi.liu@intel.com,
- Paolo Bonzini <pbonzini@redhat.com>, jtomko@redhat.com, mst@redhat.com
+Cc: peter.maydell@linaro.org, jingqi.liu@intel.com, jtomko@redhat.com,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 11, 2020 at 07:23:42PM -0400, Eduardo Habkost wrote:
-> The CONFIG_LINUX check at the top of mmap-alloc.c never worked
-> because it was done before including osdep.h.
+On Sat, Mar 14, 2020 at 10:39:11AM +0100, Paolo Bonzini wrote:
+> On 12/03/20 00:23, Eduardo Habkost wrote:
+> > Changes v1 -> v2:
+> > * Use -isystem for $PWD/linux-headers too
+> >   Reported-by: "Michael S. Tsirkin" <mst@redhat.com>
+> >=20
+> > This is an alternative to the patch submitted at:
+> >=20
+> >   From: Jingqi Liu <jingqi.liu@intel.com>
+> >   Subject: [PATCH] util: fix to get configuration macros in util/mmap-a=
+lloc.c
+> >   Date: Thu,  5 Mar 2020 23:41:42 +0800
+> >   Message-Id: <20200305154142.63070-1-jingqi.liu@intel.com>
+> >=20
+> > Before moving the osdep.h include to the top of the file, we had
+> > to address warnings triggered when <linux/mman.h> was included
+> > after <sys/mman.h> (done in patch 1/2).
+> >=20
+> > Eduardo Habkost (2):
+> >   Use -isystem for linux-headers dir
+> >   mmap-alloc: Include osdep.h before checking CONFIG_LINUX
+> >=20
+> >  Makefile.target   | 2 +-
+> >  configure         | 2 +-
+> >  util/mmap-alloc.c | 7 +++----
+> >  3 files changed, 5 insertions(+), 6 deletions(-)
+> >=20
 >=20
-> This means MAP_SYNC and MAP_SHARED_VALIDATE would always be set
-> to 0 at the beginning of the file.  Luckily, this didn't break
-> when using recent glibc versions (2.28+), because those macros
-> were redefined by glibc headers.
->=20
-> Move the CONFIG_LINUX check after the main include lines, so the
-> CONFIG_LINUX check works and we actually include <linux/mman.h>.
-> This will make MAP_SYNC and MAP_SHARED_VALIDATE available even if
-> the host has an older glibc version.
->=20
-> Reported-by: Jingqi Liu <jingqi.liu@intel.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Changes v1 -> v2:
-> * (none)
-> ---
->  util/mmap-alloc.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> index 27dcccd8ec..7c2ce98eb0 100644
-> --- a/util/mmap-alloc.c
-> +++ b/util/mmap-alloc.c
-> @@ -9,6 +9,9 @@
->   * This work is licensed under the terms of the GNU GPL, version 2 or
->   * later.  See the COPYING file in the top-level directory.
->   */
-> +#include "qemu/osdep.h"
-> +#include "qemu/mmap-alloc.h"
-> +#include "qemu/host-utils.h"
-> =20
->  #ifdef CONFIG_LINUX
->  #include <linux/mman.h>
+> Queued, thanks.
 
-This breaks the build on mips, because mips doesn't have MAP_SYNC
-defined at linux/mman.h:
-
-https://app.shippable.com/github/ehabkost/qemu-hacks/runs/9/9/console
-
-
-> @@ -17,10 +20,6 @@
->  #define MAP_SHARED_VALIDATE   0x0
->  #endif /* CONFIG_LINUX */
-> =20
-> -#include "qemu/osdep.h"
-> -#include "qemu/mmap-alloc.h"
-> -#include "qemu/host-utils.h"
-> -
->  #define HUGETLBFS_MAGIC       0x958458f6
-> =20
->  #ifdef CONFIG_LINUX
-> --=20
-> 2.24.1
->=20
+Please don't queue patch 2/2.  It breaks the build on mips.
 
 --=20
 Eduardo
