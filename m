@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D34186041
-	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 23:34:04 +0100 (CET)
-Received: from localhost ([::1]:59684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63971186048
+	for <lists+qemu-devel@lfdr.de>; Sun, 15 Mar 2020 23:41:02 +0100 (CET)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDbpb-0006rK-Ki
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 18:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43282)
+	id 1jDbwK-0001uj-TL
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 18:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDbgf-0004ft-Rp
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:24:51 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDbi2-00057z-ED
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:26:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDbgc-0006X6-Vh
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:24:48 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:34779)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDbi1-0007ku-FY
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:26:14 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46397)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDbgc-0006NW-O4
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:24:46 -0400
-Received: by mail-pg1-x543.google.com with SMTP id t3so8563896pgn.1
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 15:24:45 -0700 (PDT)
+ id 1jDbi1-0007dQ-5N
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 18:26:13 -0400
+Received: by mail-pf1-x444.google.com with SMTP id c19so8799233pfo.13
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 15:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9mjBBfe3+8zPJaHBRLiYmfQcPAPAAxt138O5VWEq76o=;
- b=KzxWcurGxhDC9gfEd/zuPmRjeGYTt0iZTAnFLaG70gCncUgZw6L7tLm4Smbuxi7wYM
- FPP5NNb+OG/mZUWTBmlQQ6QJm1/xg2THnxh1tC5SoBZ8k38GljPrwIpZYUdLzwuW+kGX
- udYckSmg7sfXLHrJjGXB9c3Wqb86SSgc0DfQY2JGVZl5PeD0o6YNeLjHt7XJmYQV05Sp
- oWIjicxHkSDmj0ZqmVxNxDW2AbCNpTjsmdGoMG2VaPmgTQHWvIgQMHaYLorS9Kfp6G24
- Y0D7r6NyHhdxl537pXW5UIMuvWIzHfvBmC4NCiN5QKmGxcZf5lopCmka0gblZfY5MhzU
- FzqQ==
+ bh=BPXxlsx2oxjN6vI36Z7TUkNqqhIU7cHyE5E356BkboQ=;
+ b=IUn8+UbDawao/8BwfBR5TnRC04DUXych+gjD7va9MjsQq0SSpqRDxv1QSfoMUfFeGn
+ qgmsujEpGyyIJd5TPwA57/yb+4GBtYeaGhAO99SRNFq0/GHfr4g1RSF65M9Uvaf+bi3b
+ gQ20oxQsxlN1AoXuyoN8tFFRNb8hqniKmBa1ZMuvQow4oYHetSHYw0aZ2zuUGbf+B1fA
+ z9sx7MUposB41/MdlDsXbKGRRSFk4HIu7p6PyON7ifFtGjk3EJGL0U077bKTjTaL/eHi
+ rF2V3qp+fi5PpUlyvtsMY0DMEzurcI8yPGtYiP7JMU8UwVy6ShRNQUTsjAjyiPW6hn2u
+ Y2ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9mjBBfe3+8zPJaHBRLiYmfQcPAPAAxt138O5VWEq76o=;
- b=Z3DlwqQC8eejCR5GdpxVnoqIF+bidB8Y1+uPR4LCN7A7aj/kS5imDOTx3Vz3lhrLOT
- 7IyofB8W/RqeLviQOVzMaGQW2WAPfkGwXF41qxkK2SVpLkkALkQWaSbYWOf9VBdcGy3y
- z5BiEc6XJccycc9uzbAbESjuYao+Sv2oc2oPYx4uv3z1V51JfGUcABEeg2CdxLNpe65I
- 8dNldH9M9U/iTTeGW+KKMkj5qfctsslpNhOV5nDCzPRZ9W4aPOrOZJU+Dtav0NkYLKNA
- r4dK2shF4XpA0C+hPbl8c8lEo8r8DPDiBNnmgRtFDGfWgKGDPNyxAv/F6en0NIRHYsfE
- npcw==
-X-Gm-Message-State: ANhLgQ2FAcs3NCYY2ySzIyEd5gzcu6/eScU/L+Wf9x3sUVGd2SBSDUU5
- C5kKnNaVaRsgdh7jR5W5o4vLRQ==
-X-Google-Smtp-Source: ADFU+vt88oFC1Up8LM6v8beQ5c7tgdPzlzoeW61S1kthVurNqvWOjZIW7WFPwTjgyhw6PIPjezMyPw==
-X-Received: by 2002:a63:2ec1:: with SMTP id u184mr8558408pgu.446.1584311084976; 
- Sun, 15 Mar 2020 15:24:44 -0700 (PDT)
+ bh=BPXxlsx2oxjN6vI36Z7TUkNqqhIU7cHyE5E356BkboQ=;
+ b=f9wwaa8T7543Q6TA0quN3k/8rQ/8LCiTlwEN6lCColmPBJO1mOd+wPOg/9+s21CRxa
+ vuISFTTgHuvIvD4mFGfQN5kJFSsqTAB2TU7LBf+mSk0V11W2Uvz1RmZfw+va6hrnm613
+ fl2QXNlqBt1acf2FiKo4EzFK64ylJ8xQJjF2ggQjl3w05juAfB/FRrmmasu08EKMjRb/
+ 4w5GZNJ89MhAgZkGscVVw+nVDBlA62MBHoZleRjrnyDCKzruHMnhir/rUrsOvrsIJuZJ
+ RNlAnQWarsOjj38JxK46TBDmgrMm+Dy1i4X0iZF1g5mFSPF/iHEMG7KIwqeKRBY9Hy+B
+ CKuQ==
+X-Gm-Message-State: ANhLgQ3a+/u3dKJmUw/iuSmDhvfAfdYzwH3KQqNWLIRXN7bzmiM3Duy8
+ NvQNrocsVlYtw953rcig02cAlg==
+X-Google-Smtp-Source: ADFU+vsCkpelvsl5Wu0M3uPOw0cXgVMdr3Vy01X6jscPnmMcdaqZVlTzz7TRRZ1xW+MqBb99bYpSyg==
+X-Received: by 2002:a63:1245:: with SMTP id 5mr23679300pgs.55.1584311172357;
+ Sun, 15 Mar 2020 15:26:12 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- mg16sm14411265pjb.12.2020.03.15.15.24.43
+ 15sm58770700pfp.125.2020.03.15.15.26.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 15:24:44 -0700 (PDT)
-Subject: Re: [PATCH 3/9] hw/core/qdev-properties: Fix code style
+ Sun, 15 Mar 2020 15:26:11 -0700 (PDT)
+Subject: Re: [PATCH 4/9] hw/core/qdev-properties: Export enum-related functions
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200313184607.11792-1-philmd@redhat.com>
- <20200313184607.11792-4-philmd@redhat.com>
+ <20200313184607.11792-5-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1c7f7bcf-fa8c-51d0-2291-dc6f3bc8be3e@linaro.org>
-Date: Sun, 15 Mar 2020 15:24:42 -0700
+Message-ID: <8e9a1d89-7a7b-0a11-0e4c-1c9aab6c093a@linaro.org>
+Date: Sun, 15 Mar 2020 15:26:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200313184607.11792-4-philmd@redhat.com>
+In-Reply-To: <20200313184607.11792-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,13 +92,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/13/20 11:46 AM, Philippe Mathieu-Daudé wrote:
-> We will soon move this code, fix its style to avoid checkpatch.pl
-> to complain.
+> We are going to split this file and reuse these static functions.
+> Add the local "qdev-prop-internal.h" header declaring them.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/core/qdev-properties.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  hw/core/qdev-prop-internal.h | 19 ++++++++++++
+>  hw/core/qdev-properties.c    | 58 +++++++++++++++++++-----------------
+>  2 files changed, 49 insertions(+), 28 deletions(-)
+>  create mode 100644 hw/core/qdev-prop-internal.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
