@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E7C187107
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:19:11 +0100 (CET)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C1818711C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:27:08 +0100 (CET)
+Received: from localhost ([::1]:44088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtOR-0002h3-0M
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53329)
+	id 1jDtVn-0007gm-Oj
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrQm-0000gk-Bd
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:30 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDrRl-00012d-Bg
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrQl-0006Ie-3X
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:28 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:47025)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDrRk-0006We-80
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:29 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35872)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDrQk-0006An-RS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:27 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w16so5277771wrv.13
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:13:26 -0700 (PDT)
+ id 1jDrRk-0006O8-0L
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:28 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g62so18513293wme.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:14:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=fYy21/Wq5VHJf5KD8Acsfl39ZYRkQMYTxTQsV0GxSJc=;
- b=dZXroUZvRSQFjPNBFpwRCjsDlEO1KvGU5ttck/bV38/TGKc1UgHWU1wgB60UUMMhlW
- BddIWFin8p8RMEDfmVWMe44eHV3LRIDCfTiDL7bLQuNh/g71LZWg6N37wq5HYLAkhxp6
- CqNxSJPqkplcz5gVuNp+KrTjarwqWv+S9U6tho4HxkzaNwCgaME/vYd7IzxHQSF1KVgw
- NxUSZ0aOjG1Xu9EAcnpMgQZUEj62NMwFe8FC8O+4TwS+1fiJNEepRzJdFvN3pEYuJpsN
- EzbU6r3UNdLVmXt0T7kwAxCVjqRV3fcPtxD7FIni2iA+ToupWPETWRuf3xJGEWoY1e08
- jXEw==
+ bh=vBOJRsRvVO3wJPXXvFhNbaVuIx9vh/F/w8uXer5AY28=;
+ b=kbfT9kzgLfzL9hsLEiG+SeRwqiNMU4iUmrCt61jWEGxCuFSQueQOdJB6G1Tegp7din
+ Et9+utysC1YQCtwwdrG5Cu4TUvbxp7JVhTfB2IvJ9llh9AqXrOHMQjlS5v2c/EcLx3PD
+ GCBer5FnTc/6IvSJ76zpocyDLJurE534ujVEukcMZ63kiY9yBppX93v06JlV5kB49Dy0
+ O94g0lTV3ixFvcJ3CqlqCPq6/TgvJut6K7XF3RXXzTSf/g9NRrgQVnJsXuUIHi83Hi6d
+ kCyjSvKsXXoRrDeapoHZfrUEk3KkMy9nnw+seHGM2M3145wAqEU8tZCU4NgB3wzIMQI7
+ KW6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=fYy21/Wq5VHJf5KD8Acsfl39ZYRkQMYTxTQsV0GxSJc=;
- b=ob85X2xo/v6BNxNKuLYZ0oSVPlZV9MceLzovlMHZp48pndWYTPMObixRxWsdNYqmqM
- FmkHg60aVkyZlmc7qgwIAh+LCFRz7tItIhHpWVrF8lt3kYdKcdlLZcQtXd46u2s+SZoy
- ZgtN1wXbNto6fMKzUuFT6VAI8oGZVkYyhEEy/E2kErSSfZoIRBY6cYxvPxB9HcYkhuTp
- AaZHYzc+d3Py9i3tXOezEU1YUhpAq2dTR8dq3TjiVJacX1HXXTYVJaVEv01YRE1vnmim
- 4p+hrqhnn5BbFczoXhA0DhQMPdxmlZeXEhVVMZlRqVlaHkv7t37XygZ9q7o/dARPtM/a
- +tyQ==
-X-Gm-Message-State: ANhLgQ1zcR9vn7A01Qpad0a6F2f4tbzgPI5xYLvOuAy/Nm8qulIyVkgd
- Nll/BOBHtJwsgJvZZ8PvSFSSu63WPk6jObr5k3s=
-X-Google-Smtp-Source: ADFU+vvJVPFGl37McKSmpL4NgSwg+0PlnP+RBgRQ2QNv1iCb7FeMMTfssyZFqPC3Y3a9uE83cUyvAoMTanQD5wLFT9M=
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr32326004wrs.96.1584371605896; 
- Mon, 16 Mar 2020 08:13:25 -0700 (PDT)
+ bh=vBOJRsRvVO3wJPXXvFhNbaVuIx9vh/F/w8uXer5AY28=;
+ b=HjZzkd4qAywCP9eC/gekD1FOTTFZNbw6M3pW1WQEaAuzp64gb/R/kmyt+77UlFHbKr
+ x8NU6n8oZXpqb911C7l+8L2yAUFN44NLsdeq+OenyY95cvjfpqd1nxCQTvd85ia7GXJX
+ 0Gi3nqVgyI/iBkdIOvuO647Ax++R8Q+viPthsnvDUoknNrHoXwlVyjvC8D0ulQJXm1vj
+ 1Cq5CjFDdH8KRUB4uLb9VJk5ZTnLsg2zFKWQ+zbkLcKu2sSVcGXcGSLpo77gQ072pk6J
+ xnUOhLCJfjVXm6yBExCAQoq8Bwvft7NXsKah19sgZHsmVM3+DB9lZunLvqlmheSCZGWK
+ AGkw==
+X-Gm-Message-State: ANhLgQ1evzwcMf3HvqYmSd6g0eW5LawGLC2TIaKBKtaQvSG9onj4vpMP
+ 5t2kqcTfPto6nXYp3s/0q4NBEmjyAijJ1MkzokA=
+X-Google-Smtp-Source: ADFU+vsqSYCUglt3wxCDTVIkOI8Y2sO4fhlXZapg017PcBUdU37NVEVwK2h4U6DK7+pPruEGDi4y6FXIn56naqpPHto=
+X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr29131782wmf.4.1584371667016; 
+ Mon, 16 Mar 2020 08:14:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-10-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-10-armbru@redhat.com>
+ <20200315144653.22660-11-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-11-armbru@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 16:13:13 +0100
-Message-ID: <CAJ+F1C+xxUmrjUaDfqD-4j+0BF=DfAomuqtu7jZqfg-p64j_Gg@mail.gmail.com>
-Subject: Re: [PATCH v3 09/34] tests/test-qmp-event: Use qobject_is_equal()
+Date: Mon, 16 Mar 2020 16:14:14 +0100
+Message-ID: <CAJ+F1CK8+O_aN-OQUxJkS2+j+ALv6vCp7rRFMAkoBAD9keibBQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/34] tests/test-qmp-event: Check event is actually
+ emitted
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,12 +79,8 @@ Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
+On Sun, Mar 15, 2020 at 3:55 PM Markus Armbruster <armbru@redhat.com> wrote=
 :
->
-> Locally defined helper qdict_cmp_simple() implements just enough of a
-> comparison to serve here.  Replace it by qobject_is_equal(), which
-> implements all of it.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
@@ -91,99 +88,64 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  tests/test-qmp-event.c | 66 +-----------------------------------------
->  1 file changed, 1 insertion(+), 65 deletions(-)
+>  tests/test-qmp-event.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >
 > diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-> index 430001e622..d64066139c 100644
+> index d64066139c..7dd0053190 100644
 > --- a/tests/test-qmp-event.c
 > +++ b/tests/test-qmp-event.c
-> @@ -28,73 +28,9 @@ typedef struct TestEventData {
+> @@ -26,6 +26,7 @@
+>
+>  typedef struct TestEventData {
 >      QDict *expect;
+> +    bool emitted;
 >  } TestEventData;
 >
-> -typedef struct QDictCmpData {
-> -    QDict *expect;
-> -    bool result;
-> -} QDictCmpData;
-> -
 >  TestEventData *test_event_data;
->  static GMutex test_event_lock;
->
-> -/* Only compares bool, int, string */
-> -static
-> -void qdict_cmp_do_simple(const char *key, QObject *obj1, void *opaque)
-> -
-> -{
-> -    QObject *obj2;
-> -    QDictCmpData d_new, *d =3D opaque;
-> -    int64_t val1, val2;
-> -
-> -    if (!d->result) {
-> -        return;
-> -    }
-> -
-> -    obj2 =3D qdict_get(d->expect, key);
-> -    if (!obj2) {
-> -        d->result =3D false;
-> -        return;
-> -    }
-> -
-> -    if (qobject_type(obj1) !=3D qobject_type(obj2)) {
-> -        d->result =3D false;
-> -        return;
-> -    }
-> -
-> -    switch (qobject_type(obj1)) {
-> -    case QTYPE_QBOOL:
-> -        d->result =3D (qbool_get_bool(qobject_to(QBool, obj1)) =3D=3D
-> -                     qbool_get_bool(qobject_to(QBool, obj2)));
-> -        return;
-> -    case QTYPE_QNUM:
-> -        g_assert(qnum_get_try_int(qobject_to(QNum, obj1), &val1));
-> -        g_assert(qnum_get_try_int(qobject_to(QNum, obj2), &val2));
-> -        d->result =3D val1 =3D=3D val2;
-> -        return;
-> -    case QTYPE_QSTRING:
-> -        d->result =3D g_strcmp0(qstring_get_str(qobject_to(QString, obj1=
-)),
-> -                              qstring_get_str(qobject_to(QString, obj2))=
-) =3D=3D 0;
-> -        return;
-> -    case QTYPE_QDICT:
-> -        d_new.expect =3D qobject_to(QDict, obj2);
-> -        d_new.result =3D true;
-> -        qdict_iter(qobject_to(QDict, obj1), qdict_cmp_do_simple, &d_new)=
-;
-> -        d->result =3D d_new.result;
-> -        return;
-> -    default:
-> -        abort();
-> -    }
-> -}
-> -
-> -static bool qdict_cmp_simple(QDict *a, QDict *b)
-> -{
-> -    QDictCmpData d;
-> -
-> -    d.expect =3D b;
-> -    d.result =3D true;
-> -    qdict_iter(a, qdict_cmp_do_simple, &d);
-> -    return d.result;
-> -}
-> -
->  void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
->  {
->      QDict *t;
-> @@ -115,7 +51,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict =
-*d)
->
+> @@ -52,7 +53,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *=
+d)
 >      qdict_del(d, "timestamp");
 >
-> -    g_assert(qdict_cmp_simple(d, test_event_data->expect));
-> +    g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expec=
+>      g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expec=
 t)));
+> -
+> +    test_event_data->emitted =3D true;
+>  }
 >
+>  static void event_prepare(TestEventData *data,
+> @@ -87,6 +88,7 @@ static void test_event_a(TestEventData *data,
+>  {
+>      data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
+>      qapi_event_send_event_a();
+> +    g_assert(data->emitted);
+>      qobject_unref(data->expect);
+>  }
+>
+> @@ -95,6 +97,7 @@ static void test_event_b(TestEventData *data,
+>  {
+>      data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
+>      qapi_event_send_event_b();
+> +    g_assert(data->emitted);
+>      qobject_unref(data->expect);
+>  }
+>
+> @@ -107,6 +110,7 @@ static void test_event_c(TestEventData *data,
+>          "{ 'event': 'EVENT_C', 'data': {"
+>          " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2'=
+ } }");
+>      qapi_event_send_event_c(true, 1, true, &b, "test2");
+> +    g_assert(data->emitted);
+>      qobject_unref(data->expect);
+>  }
+>
+> @@ -132,6 +136,7 @@ static void test_event_d(TestEventData *data,
+>          "  'string': 'test2', 'enum2': 'value2' },"
+>          " 'b': 'test3', 'enum3': 'value3' } }");
+>      qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VAL=
+UE3);
+> +    g_assert(data->emitted);
+>      qobject_unref(data->expect);
 >  }
 >
 > --
