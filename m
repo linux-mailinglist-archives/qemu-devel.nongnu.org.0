@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0591C186D4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:40:06 +0100 (CET)
-Received: from localhost ([::1]:39108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9167186DD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:52:14 +0100 (CET)
+Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDquS-0002ly-7H
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55862)
+	id 1jDr6D-0007ME-BE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jDoV8-0006K7-Co
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:05:48 -0400
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDobw-0000aC-K7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jDoV6-00080d-7Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:05:46 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:38009)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jDoV5-0007am-Sz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:05:44 -0400
-Received: by mail-lf1-x143.google.com with SMTP id n13so11986970lfh.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IlGC7B4jnHNjSqOEhEhR8gkJ98rxAyaLxAdpSwneecQ=;
- b=LVpPmvL+z1Q6J8pn3yJY+OQxH2L8qw00kTkvUIQOmYj36nhcJt4EzfkRx2muQIAJVi
- lvGymN618LDk8dfP00BAHvsAoLjN3dCCPHO/FvvOcfVoka/kJQt9QzzdqUndVZJe7cz4
- HPm0bR3IgSGq3RAyGgOuM6vqHQHzM4ApqypMHwhtgKy+xTKogYNsV4REBFOuHGtibw59
- GR4fbc+5Zolb7+Mk9DrVtwWB48iq4L3eVA9FyIxjWiD2EzE+8OW+CPUYUG34bd8jir2v
- T0AtpcLavqDwRCKkxC0/1vbI+HYR6Iw5JZWO8siG0+joNO5lzH/t06dcCru5bK9OyXuR
- pw3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IlGC7B4jnHNjSqOEhEhR8gkJ98rxAyaLxAdpSwneecQ=;
- b=MhYmVAEH4GocgDJQir39yfupJlRz2/a+bZwBAX7/MceNYeeS4XBjKcpK+Qdh90beC0
- T/ZUWthopjLINMGWbJxnjjRZqgT7kznSMI56BC09W7Vc/DevVYqhWPdUh5TalTBz+W/u
- VEIUyTKOD8NnqKfP58/chsf8w27vVn6HXOPaMKKhkoNEBuNBNoOl/460Gu55F4MGQrWV
- 2eWAwQA9liF+PI+OjQQ2Fc6HKOO1xJ+TYViI83Y8Q7iRTMsvFMJkTT/j/vff7kSWUY1s
- eWT3VZ7/sfhaECZu8JCtqUhVDf4hpP67F5+DBouJNTf6XQKHre3fJabLttFpf/YILO1e
- /sdg==
-X-Gm-Message-State: ANhLgQ2uNbyTT/SpW2Axwn98SDHeDbZTDxEU38IhXY/yT/gu0R0IqLNO
- olpjbh3hXIv4L11URmX3XZFUI/yZFeKbPDWJw+0=
-X-Google-Smtp-Source: ADFU+vv7bYPKITQKLd/iiQYPvugROIy7NxtVqtsQAhzMIGS+rcMp851LwU1PuvKUi1hlpcuBNtU+TGNInXoMG3q4MqQ=
-X-Received: by 2002:a05:6512:1116:: with SMTP id
- l22mr16784787lfg.70.1584360342008; 
- Mon, 16 Mar 2020 05:05:42 -0700 (PDT)
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDobv-0001Sm-EL
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:48 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:46008 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jDobv-0000mo-0C
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:47 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 806794127E;
+ Mon, 16 Mar 2020 12:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1584360762; x=1586175163; bh=ytQFbSVDdP48Au5ur48MS0
+ UN/nseZ5yDdS03nrHjTCg=; b=JSapOhS87rPGpYmKWv5pZLLPaLy/FbrzutsTR9
+ VIC8WbiC4Tx5CEFvASiBBzi0VBju+/8O6aveQHkRACjp3+q3TmPLADWPiYjo2P2L
+ DrrJPHOd3wc6SU/KntWZxzMDGYSmNlgoS0n5YeHO8H6CmCxyaahwjKoUVC5onMwa
+ GpRYM=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7ThpQGHoV46T; Mon, 16 Mar 2020 15:12:42 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 1B36B41259;
+ Mon, 16 Mar 2020 15:12:41 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
+ Mar 2020 15:12:41 +0300
+Date: Mon, 16 Mar 2020 15:12:41 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 04/11] MAINTAINERS: Add an entry for the HVF accelerator
+Message-ID: <20200316121241.GA4312@SPB-NB-133.local>
+References: <20200316120049.11225-1-philmd@redhat.com>
+ <20200316120049.11225-5-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20200312125524.7812-1-jandryuk@gmail.com>
- <20200312125524.7812-2-jandryuk@gmail.com>
- <20200316114007.a4aie3vszsplkttq@sirius.home.kraxel.org>
-In-Reply-To: <20200316114007.a4aie3vszsplkttq@sirius.home.kraxel.org>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 16 Mar 2020 08:05:30 -0400
-Message-ID: <CAKf6xps+Eadf+7U_XhzK9Hw-Xc87sENYcDuM_M199ftuHDFFag@mail.gmail.com>
-Subject: Re: [PATCH 1/4] usb-serial: Move USB_TOKEN_IN into a helper function
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::143
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+In-Reply-To: <20200316120049.11225-5-philmd@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 89.207.88.252
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,30 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Laurent Vivier <laurent@vivier.eu>,
+ Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
+ Patrick Colp <patrick.colp@oracle.com>, Liran Alon <liran.alon@oracle.com>,
+ "Reviewed-by : Nikita Leshenko" <nikita.leshchenko@oracle.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Heiher <r@hev.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 16, 2020 at 7:40 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > +    if (len > s->recv_used)
-> > +        len = s->recv_used;
->
-> scripts/checkpatch.pl flags a codestyle error here.
->
-> > -        if (len > s->recv_used)
-> > -            len = s->recv_used;
->
-> Which is strictly speaking not your fault as you are just moving around
-> existing code.  It's common practice though that codestyle is fixed up
-> too when touching code.  Any chance you can make sure the patches pass
-> checkpatch & resend?
+Hi Philippe,
 
-Sure.  Will do.
+I can take the ownership if nobody wants it. At the moment I'm working
+on APIC for HVF to get kvm-unit-tests fixed.
 
-Regards,
-Jason
+Next items on the list (in no particular order):
+* MMX emulation
+* SSE emulation
+* qxl display
+* gdb stub
+* virtio-gpu/virgil running on metal
+* VFIO-PCI based on macOS user-space DriverKit framework
+
+Best regards,
+Roman
+
+On Mon, Mar 16, 2020 at 01:00:42PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+> Cc: Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
+> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+> Cc: Patrick Colp <patrick.colp@oracle.com>
+> Cc: Cameron Esfahani <dirty@apple.com>
+> Cc: Liran Alon <liran.alon@oracle.com>
+> Cc: Heiher <r@hev.cc>
+> ---
+>  MAINTAINERS | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7ec42a18f7..bcf40afb85 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -420,6 +420,12 @@ F: accel/stubs/hax-stub.c
+>  F: target/i386/hax-all.c
+>  F: include/sysemu/hax.h
+> =20
+> +HVF Accelerator
+> +S: Orphan
+> +F: accel/stubs/hvf-stub.c
+> +F: target/i386/hvf/hvf.c
+> +F: include/sysemu/hvf.h
+> +
+>  WHPX CPUs
+>  M: Sunil Muthuswamy <sunilmut@microsoft.com>
+>  S: Supported
+> --=20
+> 2.21.1
+>=20
 
