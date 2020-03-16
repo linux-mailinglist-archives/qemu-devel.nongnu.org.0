@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39E51874B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:29:33 +0100 (CET)
-Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA261874B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:29:31 +0100 (CET)
+Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxIi-00047e-Q0
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41337)
+	id 1jDxIg-00042p-O3
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxGw-0002HX-QS
+ (envelope-from <pbonzini@redhat.com>) id 1jDxGw-0002H5-Ef
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxGv-0008JK-Kb
+ (envelope-from <pbonzini@redhat.com>) id 1jDxGv-0008HN-CU
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24671)
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35477)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxGv-00084b-FT
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxGv-0008C5-7O
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394059;
+ s=mimecast20190719; t=1584394060;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DfCX9xXcPSNiafrTCIlxD241Lt6uq38zwMtvTBs3n6A=;
- b=LsocLmFpGIBjboCzaiAH48FU/nO/sIumjyvhFl/QHdrwKpUi7L3O/9dXt9Rw5MBa9fGWtH
- An8VviLuXxHT1qgBPzb+toqSBikLHzgMbm3hju3NUqyQZ8sHzBmUfL9svDpLkCV1ZArU+q
- 7rSDRRRBxh33lKD5N2AzakasIiowNzs=
+ bh=SPff1aAq5h+xYYQS6oaEMbpCVwyAPpdhhSZnmMWHIeg=;
+ b=DsYS+E1CJSa1GCi3c2xFaFk2xhV2TOHClVQYQuOVVaJF3Xs1SJCQUyIgD1fKOO16HSNxS8
+ y+kG0doUl48sGb9l6zPQEEQzU/KCFnMVMN7WaOw9h+LOyLZHR1qtTKP5ZzODIVGP0ROTgU
+ gV3/AnH+9hIydm/G8rjsznyBfiCzbrg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-T9WO4QS-N-SInAq1uaFo6A-1; Mon, 16 Mar 2020 17:27:38 -0400
-X-MC-Unique: T9WO4QS-N-SInAq1uaFo6A-1
+ us-mta-430-GxPavsXNPDuXSH_mo5eF-g-1; Mon, 16 Mar 2020 17:27:38 -0400
+X-MC-Unique: GxPavsXNPDuXSH_mo5eF-g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7B631804544
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:27:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE34107ACC9;
+ Mon, 16 Mar 2020 21:27:37 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48EA419756;
- Mon, 16 Mar 2020 21:27:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C9D819756;
+ Mon, 16 Mar 2020 21:27:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/61] scsi/qemu-pr-helper: Fix out-of-bounds access to
- trnptid_list[]
-Date: Mon, 16 Mar 2020 22:26:28 +0100
-Message-Id: <1584394048-44994-2-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 02/61] optionrom/pvh: scan entire RSDP Area
+Date: Mon, 16 Mar 2020 22:26:29 +0100
+Message-Id: <1584394048-44994-3-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -70,104 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <dinechin@redhat.com>
+Cc: Joe Richey <joerichey@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christophe de Dinechin <dinechin@redhat.com>
+From: Joe Richey <joerichey@google.com>
 
-Compile error reported by gcc 10.0.1:
+Right now the PVH option rom scans for the RSDP from 0xE0000 to
+0xE1FFF. This is probobly a typo, it should scan from 0xE0000 to
+0xFFFFF.
 
-scsi/qemu-pr-helper.c: In function =E2=80=98multipath_pr_out=E2=80=99:
-scsi/qemu-pr-helper.c:523:32: error: array subscript <unknown> is outside a=
-rray bounds of =E2=80=98struct transportid *[0]=E2=80=99 [-Werror=3Darray-b=
-ounds]
-  523 |             paramp.trnptid_list[paramp.num_transportid++] =3D id;
-      |             ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from scsi/qemu-pr-helper.c:36:
-/usr/include/mpath_persist.h:168:22: note: while referencing =E2=80=98trnpt=
-id_list=E2=80=99
-  168 |  struct transportid *trnptid_list[];
-      |                      ^~~~~~~~~~~~
-scsi/qemu-pr-helper.c:424:35: note: defined here =E2=80=98paramp=E2=80=99
-  424 |     struct prout_param_descriptor paramp;
-      |                                   ^~~~~~
+This is actually an issue on some QEMU versions/machines. For example,
+when I run QEMU the RSDP is placed at 0xf5ad0 which will not be picked
+up by the current implementation.
 
-This highlights an actual implementation issue in function multipath_pr_out=
-.
-The variable paramp is declared with type `struct prout_param_descriptor`,
-which is a struct terminated by an empty array in mpath_persist.h:
+This bug still allows a Linux guest to boot (in most configurations) as
+the kernel will just scan for the RSDP if one isn't provided.
 
-        struct transportid *trnptid_list[];
-
-That empty array was filled with code that looked like that:
-
-        trnptid_list[paramp.descr.num_transportid++] =3D id;
-
-This is an actual out-of-bounds access.
-
-The fix is to malloc `paramp`.
-
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+Signed-off-by: Joe Richey <joerichey@google.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Fixes: 2785dc7b17 ("optionrom: add new PVH option rom")
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scsi/qemu-pr-helper.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ pc-bios/optionrom/pvh_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 0659cee..181ed4a 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -421,10 +421,13 @@ static int multipath_pr_out(int fd, const uint8_t *cd=
-b, uint8_t *sense,
-     int rq_servact =3D cdb[1];
-     int rq_scope =3D cdb[2] >> 4;
-     int rq_type =3D cdb[2] & 0xf;
--    struct prout_param_descriptor paramp;
-+    g_autofree struct prout_param_descriptor *paramp =3D NULL;
-     char transportids[PR_HELPER_DATA_SIZE];
-     int r;
+diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
+index a015e1b..28e79d7 100644
+--- a/pc-bios/optionrom/pvh_main.c
++++ b/pc-bios/optionrom/pvh_main.c
+@@ -29,7 +29,7 @@ asm (".code32"); /* this code will be executed in protect=
+ed mode */
 =20
-+    paramp =3D g_malloc0(sizeof(struct prout_param_descriptor)
-+                       + sizeof(struct transportid *) * MPATH_MX_TIDS);
-+
-     if (sz < PR_OUT_FIXED_PARAM_SIZE) {
-         /* Illegal request, Parameter list length error.  This isn't fatal=
-;
-          * we have read the data, send an error without closing the socket=
-.
-@@ -454,10 +457,9 @@ static int multipath_pr_out(int fd, const uint8_t *cdb=
-, uint8_t *sense,
-      * used by libmpathpersist (which, of course, will immediately
-      * do the opposite).
-      */
--    memset(&paramp, 0, sizeof(paramp));
--    memcpy(&paramp.key, &param[0], 8);
--    memcpy(&paramp.sa_key, &param[8], 8);
--    paramp.sa_flags =3D param[20];
-+    memcpy(&paramp->key, &param[0], 8);
-+    memcpy(&paramp->sa_key, &param[8], 8);
-+    paramp->sa_flags =3D param[20];
-     if (sz > PR_OUT_FIXED_PARAM_SIZE) {
-         size_t transportid_len;
-         int i, j;
-@@ -520,12 +522,13 @@ static int multipath_pr_out(int fd, const uint8_t *cd=
-b, uint8_t *sense,
-                 return CHECK_CONDITION;
-             }
+ #define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
+ #define RSDP_AREA_ADDR          0x000E0000
+-#define RSDP_AREA_SIZE          2048
++#define RSDP_AREA_SIZE          0x00020000
+ #define EBDA_BASE_ADDR          0x0000040E
+ #define EBDA_SIZE               1024
 =20
--            paramp.trnptid_list[paramp.num_transportid++] =3D id;
-+            assert(paramp->num_transportid < MPATH_MX_TIDS);
-+            paramp->trnptid_list[paramp->num_transportid++] =3D id;
-         }
-     }
-=20
-     r =3D mpath_persistent_reserve_out(fd, rq_servact, rq_scope, rq_type,
--                                     &paramp, noisy, verbose);
-+                                     paramp, noisy, verbose);
-     return mpath_reconstruct_sense(fd, r, sense);
- }
- #endif
 --=20
 1.8.3.1
 
