@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93CD187342
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:23:39 +0100 (CET)
-Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C5B187346
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:25:11 +0100 (CET)
+Received: from localhost ([::1]:47594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvKs-00081e-PH
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46788)
+	id 1jDvMM-0002DP-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuvE-000474-Jj
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:57:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDuye-000297-0J
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuvD-0003my-HL
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:57:08 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44823)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDuvC-0003d1-SZ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:57:07 -0400
-Received: by mail-pl1-x642.google.com with SMTP id d9so8406600plo.11
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j1sC+lNIFsKn3Cq5U7jHOz8e7n9eiTLX59JudzPIyOU=;
- b=Rzr1XnXjKQlpR0mhkTwKRrurdw5NhB/KiMC8gFr3f6OPwo4trkT978nXKP0rmHUvWv
- euFJv1AfdTFr5vOvg5g7bX6jX9/ZuFPCBhfuBa/9vdhQQ9D9JaeuuoY3FWFmp0QgT/qj
- SOxQxlIFptIGwSXaoc2zWxFJUCk3MKV8wYjgbT5O9CPNihs8H1Z/LhsNlGlcMKnXh3AZ
- OKybcIRTtOVTzRUX2C8BjvtLhdgsG6esDECqpy/zGAW4UiemIThOHzA0YBmtW48mWSvg
- +URARYkLH4nNITZCxlspTLQOZ03I+XvVsOM+jM6NMn8g4ITeYB3s/a6r94K0qfOeAEe0
- uv4g==
+ (envelope-from <philmd@redhat.com>) id 1jDuyc-0001Dr-7c
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:39 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26039)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuyc-00019Q-2G
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584385237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GTcwy5EcrKMKytC/WSeHnaZ/vMtgK6arLEK3I1pmChw=;
+ b=WnXLqmF7AKzvN5M97FSK4YEDuEh3dK0zx23h+yHAN8hz7nrXDrg5fKHg9O24oiNF8J0TRd
+ F3IpIjtKauW+sgAnmWQmV1oY+y6dXiBHnRWuSmbH39RJ8VTfZTrekUjl0afFxWtRSPUlGQ
+ 6FRfSGvgIMPU0dv43KPUm+20QkcoVSA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-uMdiNIahNCSf5GR7A5Ze7w-1; Mon, 16 Mar 2020 15:00:31 -0400
+X-MC-Unique: uMdiNIahNCSf5GR7A5Ze7w-1
+Received: by mail-ed1-f70.google.com with SMTP id dn10so2307368edb.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:00:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j1sC+lNIFsKn3Cq5U7jHOz8e7n9eiTLX59JudzPIyOU=;
- b=tg1Us4rRRvpDXxeHjW02Z4sjXk+CjdvQGLWKcbAlPiQKclwB+zdHehdsqWNZrqP3XM
- 7h/mPI6fk9Yijgy6Gq8C1va5k74m631EujCwuSK9yp/QtZUXn2RzTZNvGDPY8JP76Rr3
- f1FOlPrpN2EaaQ7HT7I3g3bsU9oIrWb8+BxYfau/2oy3wfXkRbQ7JhOz6k1VTFpB+2kZ
- XDsFzLddzTiDne6Dy/W5k5TlRt7Ve59UlUcLBJUGCr73xgjwcJjViC5+SJ/DR7pqePad
- vrzmEkO/4YfNZf3TbURsV6iiBQkIqzl65Eel1mboNGe1epJ+sZWo4Bftc6RqlzWXphlv
- 7Ofg==
-X-Gm-Message-State: ANhLgQ1liWJ58PKzfscLEK6VhplPFpgrKeU367Y9julmXuiBA1xhDbVw
- toc6y/gH7pc49sVvu0u9/OaJzA==
-X-Google-Smtp-Source: ADFU+vscxB5GwRBCLCk4FIKwjmo3R2TCFIKQXTPhGuFiqt0FRxLIb8FuexYRa6oaJupiOW6gdiw9xA==
-X-Received: by 2002:a17:902:7886:: with SMTP id
- q6mr536847pll.237.1584385025843; 
- Mon, 16 Mar 2020 11:57:05 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- i21sm274755pgn.5.2020.03.16.11.57.04
+ bh=SBoLIS60m/R8vVlNjtCKtaSpPA1mtOn0IkBdkHi07aA=;
+ b=eR6ggTwz3M0/ighoIVu/plUtkxrV60zLghH0XZULOzrSdUNDMU2x6YagtqNTjPedoV
+ S3FUYepAWuJj4QM1Zp//FkGn1ciHtLIDTsISMMeSzbO1z3Aq6PBw3R3OvfqckyPjvrxi
+ wrxYAaZEtxKFqeeoh2a7n851nepJ3SnVz1iQ/ihtMG5N+0cx/ZX+V3P0ft7I5wLW9z6p
+ xvLw6UpaAMtgn1bTNuuhLbuxtBVck5o3mYrWTXImgcL8FPO39mV1uWlvopfi479RUPyM
+ lA+KZ46B/IgYIkEUELz/mvS+5bX+dJxoBDHwNbDAm+0tMcz/8KYRj/1HuuUJXXxK2wZW
+ gamg==
+X-Gm-Message-State: ANhLgQ2+UmuwbxyFDD/mbPxx0Cm7hfo+vBRBG6oj+h9Xh55HTN4Vfd6H
+ JBLOW+SuRAb3FH+6tdvQXlmC0ljBfp66Q4Ym5bJk2nhiz+ijKOssgG6AK9JFwuqDO9lS4woinS0
+ 01EPMjnyO1j5Lf00=
+X-Received: by 2002:a05:6402:180a:: with SMTP id
+ g10mr1396201edy.352.1584385228635; 
+ Mon, 16 Mar 2020 12:00:28 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtBwTHbkTiIU9n1r6Qr6pyZg2hQ9rRIsQKNUEZ9lnKnt6gBUvvjzB3M5uPPCsZJF+W1RYG4Vw==
+X-Received: by 2002:a05:6402:180a:: with SMTP id
+ g10mr1396167edy.352.1584385228380; 
+ Mon, 16 Mar 2020 12:00:28 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id d9sm50792ejc.79.2020.03.16.12.00.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:57:05 -0700 (PDT)
-Subject: Re: [PATCH v2 01/12] Makefile: Only build virtiofsd if system-mode is
- enabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200315235716.28448-1-philmd@redhat.com>
- <20200315235716.28448-2-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b999f172-b616-5bec-e88f-725983057bf1@linaro.org>
-Date: Mon, 16 Mar 2020 11:57:03 -0700
+ Mon, 16 Mar 2020 12:00:27 -0700 (PDT)
+Subject: Re: [PATCH v3 18/19] hw/arm: Do not build to 'virt' machine on Xen
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200316160634.3386-1-philmd@redhat.com>
+ <20200316160634.3386-19-philmd@redhat.com>
+ <CAFEAcA_bXb_RZFxMSYJ8FAoAahAxrq3c0PBzidu+Z0iXTzZqFw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9a627400-c8bd-fcee-8cf8-9896c5b3760f@redhat.com>
+Date: Mon, 16 Mar 2020 20:00:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200315235716.28448-2-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA_bXb_RZFxMSYJ8FAoAahAxrq3c0PBzidu+Z0iXTzZqFw@mail.gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,26 +94,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, kvm-devel <kvm@vger.kernel.org>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 4:57 PM, Philippe Mathieu-Daudé wrote:
-> Do not build the virtiofsd helper when configured with
-> --disable-system.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v2: Use single line with ifeq='yyyy' (lvivier, rth)
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/16/20 6:11 PM, Peter Maydell wrote:
+> On Mon, 16 Mar 2020 at 16:08, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com> wrote:
+>>
+>> Xen on ARM does not use QEMU machines [*]. Disable the 'virt'
+>> machine there to avoid odd errors such:
+>>
+>>      CC      i386-softmmu/hw/cpu/a15mpcore.o
+>>    hw/cpu/a15mpcore.c:28:10: fatal error: kvm_arm.h: No such file or dir=
+ectory
+>>
+>> [*] https://wiki.xenproject.org/wiki/Xen_ARM_with_Virtualization_Extensi=
+ons#Use_of_qemu-system-i386_on_ARM
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>> Cc: Anthony Perard <anthony.perard@citrix.com>
+>> Cc: Paul Durrant <paul@xen.org>
+>> Cc: xen-devel@lists.xenproject.org
+>> ---
+>>   hw/arm/Kconfig | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+>> index 8e801cd15f..69a8e30125 100644
+>> --- a/hw/arm/Kconfig
+>> +++ b/hw/arm/Kconfig
+>> @@ -1,5 +1,6 @@
+>>   config ARM_VIRT
+>>       bool
+>> +    depends on !XEN
+>>       default y if KVM
+>>       imply PCI_DEVICES
+>>       imply TEST_DEVICES
+>> --
+>=20
+> This seems odd to me:
+> (1) the error message you quote is for a15mpcore.c, not virt.c
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This is the first device the virt board selects:
 
-r~
+config ARM_VIRT
+     bool
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+     imply VFIO_AMD_XGBE
+     imply VFIO_PLATFORM
+     imply VFIO_XGMAC
+     imply TPM_TIS_SYSBUS
+     select A15MPCORE
+     ...
+
+> (2) shouldn't this be prevented by something saying "don't build
+> guest architecture X boards into Y-softmmu", rather than a specific
+> flag for a specific arm board ?
+
+Yes, agreed. This surgical change was quicker for my testing, but we=20
+don't need this patch right now, so let's drop it.
+
+>=20
+> thanks
+> -- PMM
+>=20
 
 
