@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1280C1863A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:19:50 +0100 (CET)
-Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2181863FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:54:51 +0100 (CET)
+Received: from localhost ([::1]:33844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDgI8-0002Vx-Nu
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37281)
+	id 1jDgq1-0000XZ-Ni
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDgAp-00011L-32
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:16 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jDgd5-000729-Dk
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:41:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDgAm-0007NR-MW
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:34995)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jDgd4-00089w-2i
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:41:27 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39839)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDgAm-0007BP-85; Sun, 15 Mar 2020 23:12:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48ghDS5ph4z9sP7; Mon, 16 Mar 2020 14:12:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584328328;
- bh=rWp0kCwF/mgRUOryiJHj0URSWLD+4CW9MiMnqlu1W/M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IcJzuZbQGDu+xHnj177JQXN+YCrttZOahUSfAOUrLo4Ii8rt7gtAEQQEL58Rr3Pgt
- aV7Whp5prgeX347XieICvB91GLDFhfRggla6t09IQLnncpsH96FBJ2KAAq6w4LHs2l
- B43PjAFLwlh4OnWvtM8+wrHSoTEgEhEoysvMi7gQ=
-Date: Mon, 16 Mar 2020 14:06:46 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: Upstream QEMU guest support policy ? Re: [PATCH v3 0/2] spapr:
- Use vIOMMU translation for virtio by default
-Message-ID: <20200316030646.GH2013@umbus.fritz.box>
-References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
- <20200310114343.GD3234052@redhat.com>
- <20200311011247.GT660117@umbus.fritz.box>
- <20200311031202-mutt-send-email-mst@kernel.org>
- <20200312011049.GC711223@umbus.fritz.box>
- <20200312023041-mutt-send-email-mst@kernel.org>
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jDgd3-0007IW-L3; Sun, 15 Mar 2020 23:41:26 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.2153771|-1; CH=green; DM=||false|;
+ DS=CONTINUE|ham_enroll_verification|0.146117-0.000291037-0.853592;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03299; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.H06RVuP_1584330075; 
+Received: from 172.16.31.150(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.H06RVuP_1584330075)
+ by smtp.aliyun-inc.com(10.147.44.118);
+ Mon, 16 Mar 2020 11:41:16 +0800
+Subject: Re: [PATCH v5 40/60] target/riscv: vector floating-point merge
+ instructions
+To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-41-zhiwei_liu@c-sky.com>
+ <37215373-eead-9185-faf9-f2ebc0cb4193@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <ef0a9b7e-65c4-93e7-61b6-b288afa1c13a@c-sky.com>
+Date: Mon, 16 Mar 2020 11:41:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dDnEQgWzhgf+8aPe"
-Content-Disposition: inline
-In-Reply-To: <20200312023041-mutt-send-email-mst@kernel.org>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <37215373-eead-9185-faf9-f2ebc0cb4193@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------11784943C168B05E918B8879"
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,87 +58,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>, aik@ozlabs.ru,
- groug@kaod.org, qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org,
- mdroth@us.ibm.com, qemu-ppc@nongnu.org
+Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------11784943C168B05E918B8879
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---dDnEQgWzhgf+8aPe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 12, 2020 at 02:32:11AM -0400, Michael S. Tsirkin wrote:
-> On Thu, Mar 12, 2020 at 12:10:49PM +1100, David Gibson wrote:
-> > On Wed, Mar 11, 2020 at 03:33:59AM -0400, Michael S. Tsirkin wrote:
-> > > On Wed, Mar 11, 2020 at 12:12:47PM +1100, David Gibson wrote:
-> > > > I am wondering if we have to introduce an "svm=3Don" flag anyway.  =
-It's
-> > > > pretty ugly, since all it would be doing is changing defaults here =
-and
-> > > > there for compatibilty with a possible future SVM transition, but
-> > > > maybe it's the best we can do :/.
-> > >=20
-> > > Frankly I'm surprised there's no way for the hypervisor to block VM
-> > > transition to secure mode. To me an inability to disable DRM looks li=
-ke
-> > > a security problem.
-> >=20
-> > Uh.. I don't immediately see how it's a security problem, though I'm
-> > certainly convinced it's a problem in other ways.
->=20
-> Well for one it breaks introspection, allowing guests to hide
-> malicious code from hypervisors.
 
-Hm, ok.  Is that much used in practice?
+On 2020/3/15 6:47, Richard Henderson wrote:
+> On 3/12/20 7:58 AM, LIU Zhiwei wrote:
+>> +
+>> +/* Vector Floating-Point Merge Instruction */
+>> +static bool opfvf_vfmerge_check(DisasContext *s, arg_rmrr *a)
+>> +{
+>> +    return (vext_check_isa_ill(s, RVV) &&
+>> +            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+>> +            vext_check_reg(s, a->rd, false) &&
+>> +            vext_check_reg(s, a->rs2, false) &&
+>> +            ((a->vm == 0) || (a->rs2 == 0)) &&
+>> +            (s->sew != 0));
+>> +}
+>> +GEN_OPFVF_TRANS(vfmerge_vfm, opfvf_vfmerge_check)
+> Similar comments as for integer merge, using tcg_gen_gvec_dup_i64 for
+> unpredicated merges.
+>
+> In fact, there's no reason at all to define a helper function for this one.  I
+> would expect you do be able to use the exact same helpers as for the integer
+> merges.
 
-(Aside: I don't think I'd call that "introspection" since it's one
-thing examining another, not something examining itself).
+Do you mean that I should expands TCGv to TCGv_i64 for vmv.v.x in 
+translation?
+So that I can reuse it.
 
->=20
-> > > Does not the ultravisor somehow allow
-> > > enabling/disabling this functionality from the hypervisor?
-> >=20
-> > Not at present, but as mentioned on the other thread, Paul and I came
-> > up with a tentative plan to change that.
-> >=20
-> > > It would be
-> > > even better if the hypervisor could block the guest from poking at the
-> > > ultravisor completely but I guess that would be too much to hope for.
-> >=20
-> > Yeah, probably :/.
-> >=20
->=20
->=20
+void gen_helper_vmv_v_x(TCG_ptr, TCGv_i64, TCGv_env, TCGv_i32);
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Zhiwei
 
---dDnEQgWzhgf+8aPe
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> r~
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u7UUACgkQbDjKyiDZ
-s5K4lhAAsH+/+1eM/obXI6wAXaRv9WUWALHMVNzFxhHcBHdVZmgKObIS9Xduvsmn
-UypNqeaAehJZsyaI8bjUMCG0cHgEljpOpPx4Rujm9CwXBxiiJW6LbqoWjsxJLbX6
-OHdfa+cWZ9fM6t/GHPoxC7OFA/UGxqzRC4zy2ScrjN4ncTLS5Uo7JRAhwfyej2S7
-d+oYhMbEUkAdKUXAT/a6l+Se2/5L3N5icT3c0VR5BWMj9Dx0pb598WlWt24GAS6I
-vOS1Y/i36xbWUsfLeNyWlAuBRUfjH12Hp/yVujCI3P4Wm1JodakdVhAkJKYvM8Bu
-Txsun3QW/bH2R9HX8HDmzbKKuI85YYA84RiyUg9Y/S9nqTF3tQaMIkW1DxuOgI9j
-9eR7xbaagJ8oMMJEkyaOdLNLPfX7LF1qx6ahYKi0O3kWe1hzFXrv1gIyhEHhpI60
-UB+2DXD26tekTDxs6sv3jVz3tPyIhvDRNC5WP44sSDnvfVj6Lb87tgcZoKYuix3V
-8LLuFjiBd8AvCcZVnjVdBTjtZgdbFl/qzBHXsvhmAbYTttLGNYt48yO6NIgq+ere
-O4pduUuHXjqR/OtS3uyd3AD3wdKh2kz5uRClqNW+96h9GL+Yl6giBG9IO33RvhkF
-mJxMzFKVGq/PesB77FAxOL9JJrmnfkO+rYSoD+Osi34lw6gO0Vo=
-=Nalz
------END PGP SIGNATURE-----
+--------------11784943C168B05E918B8879
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---dDnEQgWzhgf+8aPe--
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/3/15 6:47, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:37215373-eead-9185-faf9-f2ebc0cb4193@linaro.org">
+      <pre class="moz-quote-pre" wrap="">On 3/12/20 7:58 AM, LIU Zhiwei wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+
++/* Vector Floating-Point Merge Instruction */
++static bool opfvf_vfmerge_check(DisasContext *s, arg_rmrr *a)
++{
++    return (vext_check_isa_ill(s, RVV) &amp;&amp;
++            vext_check_overlap_mask(s, a-&gt;rd, a-&gt;vm, false) &amp;&amp;
++            vext_check_reg(s, a-&gt;rd, false) &amp;&amp;
++            vext_check_reg(s, a-&gt;rs2, false) &amp;&amp;
++            ((a-&gt;vm == 0) || (a-&gt;rs2 == 0)) &amp;&amp;
++            (s-&gt;sew != 0));
++}
++GEN_OPFVF_TRANS(vfmerge_vfm, opfvf_vfmerge_check)
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Similar comments as for integer merge, using tcg_gen_gvec_dup_i64 for
+unpredicated merges.
+
+In fact, there's no reason at all to define a helper function for this one.  I
+would expect you do be able to use the exact same helpers as for the integer
+merges.
+</pre>
+    </blockquote>
+    <br>
+    Do you mean that I should expands TCGv to TCGv_i64 for vmv.v.x in
+    translation?<br>
+    So that I can reuse it.<br>
+    <pre>void gen_helper_vmv_v_x(TCG_ptr, TCGv_i64, TCGv_env, TCGv_i32);</pre>
+    <pre>Zhiwei
+</pre>
+    <blockquote type="cite"
+      cite="mid:37215373-eead-9185-faf9-f2ebc0cb4193@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+
+r~
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------11784943C168B05E918B8879--
 
