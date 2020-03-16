@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633F8187557
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:06:57 +0100 (CET)
-Received: from localhost ([::1]:49784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F262B18755C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:08:25 +0100 (CET)
+Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxsu-0001XD-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43510)
+	id 1jDxuL-0004SZ-1P
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIM-0004ic-S4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:11 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIO-0004n5-M2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIL-0008Gx-P3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:10 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58250)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIN-0008RF-JS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24963)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIL-0008Ep-LB
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:09 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIN-0008Oj-DF
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394149;
+ s=mimecast20190719; t=1584394151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7p3MLZ3d8LKWVb9Q2azzwfZzSAYNFpiViKoFByrCLvc=;
- b=SXCTeSmtYQEdiMZICoNd/cheZ7jViCzww1wC1JezcQ5vabcoMHEkTpVpvi8zfHisMZQRO1
- 012dlS7TEwiKe++YhLqG99RpMarUNEPWmEXBft2L62YHOuGJ4y7RBuVJDOtiwan5IH50bT
- g7oNqj09kpUHtJWLuLJ+42vin5GH3Sg=
+ bh=dw9IAA80oEFwhIPPLmt5bE5huwn4u6VjW8/3MRSDruw=;
+ b=FH5EsuA/JSOZClzkkGhEPUn8P+q/Oh4FZUzLyU8fwknbb0xUPXVi746tlNQdn2LEKRmsm/
+ QBEFJdxDoB/kWacrQWLb+mwQvFUfmcmfB5Ey5sFK7WSDJMgDQ6nXVy3s0F38c0NdRG2O6S
+ Ga1IHF/HJSInOV2EwRuRBMVxXe7r9Gk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-aqK-6ALONKeg_zhDAyjbow-1; Mon, 16 Mar 2020 17:29:07 -0400
-X-MC-Unique: aqK-6ALONKeg_zhDAyjbow-1
+ us-mta-42-94--FY7-M8aabNeQWuKbcA-1; Mon, 16 Mar 2020 17:29:09 -0400
+X-MC-Unique: 94--FY7-M8aabNeQWuKbcA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE77C801E6D
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CE81804547
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:08 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EABEE19C4F;
- Mon, 16 Mar 2020 21:29:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5417E19C4F;
+ Mon, 16 Mar 2020 21:29:07 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/61] hw/display: Let devices own the MemoryRegion they create
-Date: Mon, 16 Mar 2020 22:27:21 +0100
-Message-Id: <1584394048-44994-55-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 55/61] hw/dma: Let devices own the MemoryRegion they create
+Date: Mon, 16 Mar 2020 22:27:22 +0100
+Message-Id: <1584394048-44994-56-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,8 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,43 +83,41 @@ scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/display/g364fb.c | 3 ++-
- hw/display/macfb.c  | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ hw/dma/i8257.c  | 2 +-
+ hw/dma/rc4030.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-index 55185c9..adcba96 100644
---- a/hw/display/g364fb.c
-+++ b/hw/display/g364fb.c
-@@ -477,7 +477,8 @@ static void g364fb_init(DeviceState *dev, G364State *s)
+diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
+index bad8deb..ef15c06 100644
+--- a/hw/dma/i8257.c
++++ b/hw/dma/i8257.c
+@@ -553,7 +553,7 @@ static void i8257_realize(DeviceState *dev, Error **err=
+p)
+     I8257State *d =3D I8257(dev);
+     int i;
 =20
-     s->con =3D graphic_console_init(dev, 0, &g364fb_ops, s);
+-    memory_region_init_io(&d->channel_io, NULL, &channel_io_ops, d,
++    memory_region_init_io(&d->channel_io, OBJECT(dev), &channel_io_ops, d,
+                           "dma-chan", 8 << d->dshift);
+     memory_region_add_subregion(isa_address_space_io(isa),
+                                 d->base, &d->channel_io);
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index 21e2c36..7434d27 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
+@@ -679,9 +679,9 @@ static void rc4030_realize(DeviceState *dev, Error **er=
+rp)
+     s->periodic_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
+                                      rc4030_periodic_timer, s);
 =20
--    memory_region_init_io(&s->mem_ctrl, NULL, &g364fb_ctrl_ops, s, "ctrl",=
- 0x180000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
-+                          "ctrl", 0x180000);
-     memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
-                                s->vram_size, s->vram);
-     vmstate_register_ram(&s->mem_vram, dev);
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 8bff16d..b68faff 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -362,8 +362,8 @@ static void macfb_common_realize(DeviceState *dev, Macf=
-bState *s, Error **errp)
-         return;
-     }
+-    memory_region_init_io(&s->iomem_chipset, NULL, &rc4030_ops, s,
++    memory_region_init_io(&s->iomem_chipset, o, &rc4030_ops, s,
+                           "rc4030.chipset", 0x300);
+-    memory_region_init_io(&s->iomem_jazzio, NULL, &jazzio_ops, s,
++    memory_region_init_io(&s->iomem_jazzio, o, &jazzio_ops, s,
+                           "rc4030.jazzio", 0x00001000);
 =20
--    memory_region_init_io(&s->mem_ctrl, NULL, &macfb_ctrl_ops, s, "macfb-c=
-trl",
--                          0x1000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
-+                          "macfb-ctrl", 0x1000);
-=20
-     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram"=
-,
-                                      MACFB_VRAM_SIZE, errp);
+     memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
 --=20
 1.8.3.1
 
