@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D7F186A67
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:52:53 +0100 (CET)
-Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4FC186A76
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:57:35 +0100 (CET)
+Received: from localhost ([::1]:37532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDoId-00007O-9W
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37319)
+	id 1jDoNC-0001r5-7n
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:57:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jDnbM-0001uo-8S
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:09 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDnw3-0001i1-SQ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:29:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jDnbK-0000yw-VU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34044
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jDnw1-0000Ur-SN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:29:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49101
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDnbK-0000cO-Nc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:06 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDnw1-0000Lq-NI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:29:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584356885;
+ s=mimecast20190719; t=1584358169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oLnbFyB1eV6nEdIYefNiKAvHZQY1co2NQx+tEzEcItA=;
- b=TKHcIUbSIbzCFISA66pxmH8LxqUtl7Y6M0F78ONV8/z4FIaA/k+c2yYRjvJQ8CRGcDtjIp
- ELomm6dHOwmy9eUr3+el6cnT1LLLvmRX/PPQMuMfZWPqNzSSHIzbGoyIixvo/ZWyIFQ9sT
- yEvfQeF3n/XyUEGR0LUZPwr887A4o1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-nUx1xulgPcSEsQGuTikr8g-1; Mon, 16 Mar 2020 07:08:01 -0400
-X-MC-Unique: nUx1xulgPcSEsQGuTikr8g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6171F801E70;
- Mon, 16 Mar 2020 11:08:00 +0000 (UTC)
-Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBAA85C1B2;
- Mon, 16 Mar 2020 11:07:52 +0000 (UTC)
-Date: Mon, 16 Mar 2020 12:07:50 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jay Zhou <jianjay.zhou@huawei.com>
-Subject: Re: [PATCH] kvm: support to get/set dirty log initial-all-set
- capability
-Message-ID: <20200316120750.509149ab.cohuck@redhat.com>
-In-Reply-To: <20200304025554.2159-1-jianjay.zhou@huawei.com>
-References: <20200304025554.2159-1-jianjay.zhou@huawei.com>
-Organization: Red Hat GmbH
+ bh=fNJVvsOTx9nhr+VEztQndxE6Xse4s6X2PFMf2IBjuz8=;
+ b=Xu6za6ryudcTVCfcdpEiSHJWzzVAHhefnx2CQiDtfasYxlGXtUUJ4gD6SPmcHsSuaJDMvg
+ nhl4bXc4e7UAkD8fbjlQR13T3EsRPj6lpEdDMraYijHpy2CIKbLXuL2nWaoFzgR8K41i4F
+ opi2sEUqoSfRjTyBiCoZoFpOF/PWNu0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-enWQXXAnMSOToIvw0_oR5A-1; Mon, 16 Mar 2020 07:29:27 -0400
+X-MC-Unique: enWQXXAnMSOToIvw0_oR5A-1
+Received: by mail-wm1-f71.google.com with SMTP id f207so5666706wme.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 04:29:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fNJVvsOTx9nhr+VEztQndxE6Xse4s6X2PFMf2IBjuz8=;
+ b=ZzfR0ug7oEdSgS4x2rLxsfVmR7uZlWWq3yein2Em3z/36kR6D0GDlXKLPbI+gq0UGB
+ vcukoJ4Nt85VkeRoqSwkoWlqUaxFFEPIO+7ye+tAERnWqaaaWY2GXmrsx87+bx8yDG1C
+ LXOa1rg0RU4C8t4SLg1sTPqn34grz44MI3CdwTt9+QYRkuBu8GjjBGKJwM/9kE2Ww5gK
+ ixCWDbx/rXL43pjMGI5uJ7L7MvAP4e3nQ2WXKWq1ScuTpgr8hD/MVFz5Utlhl2/oD5md
+ v7cW64BwlDm4O9k0mJH10SauajM7GYodufE/236QeXni/v9GQWAZ5yD/6he6HSn67W4d
+ lczg==
+X-Gm-Message-State: ANhLgQ07SUSS3CGkswOf9d2f7IsF5ZBtkUIuFkhV3e4AiW+225DyISEQ
+ S838BJ1mfuYwgJ2qHGPdlGD30bhm0wBxOGZNNyT+MRD9FI8hWIT5P7xtRctdrsV+XwgyAh12PPP
+ n0EhpU166dC4n2/E=
+X-Received: by 2002:a5d:420c:: with SMTP id n12mr35514154wrq.173.1584358166448; 
+ Mon, 16 Mar 2020 04:29:26 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vugvzP2ZYK7NdO0uA63NDbru0cO3x8dndNa17oUdPU3V6yGrloafd/knxdJos2X/1r6QaHGnA==
+X-Received: by 2002:a5d:420c:: with SMTP id n12mr35514127wrq.173.1584358166157; 
+ Mon, 16 Mar 2020 04:29:26 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.82.39])
+ by smtp.gmail.com with ESMTPSA id q4sm48668881wro.56.2020.03.16.04.29.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 04:29:25 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] thread: add lock guard macros
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200316110957.449700-1-stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c0442ea6-fe5c-a246-96ad-f32c10db11b3@redhat.com>
+Date: Mon, 16 Mar 2020 12:29:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200316110957.449700-1-stefanha@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,31 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liu.jinsong@huawei.com, weidong.huang@huawei.com, kvm@vger.kernel.org,
- mst@redhat.com, wangxinxin.wang@huawei.com, qemu-devel@nongnu.org,
- peterx@redhat.com, pbonzini@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Mar 2020 10:55:54 +0800
-Jay Zhou <jianjay.zhou@huawei.com> wrote:
-
-> Since the new capability KVM_DIRTY_LOG_INITIALLY_SET of
-> KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 has been introduced in the
-> kernel, tweak the userspace side to detect and enable this
-> capability.
+On 16/03/20 12:09, Stefan Hajnoczi wrote:
+> Lock guards automatically call qemu_(rec_)mutex_unlock() when returning from a
+> function or leaving leaving a lexical scope.  This simplifies code and
+> eliminates leaks (especially in error code paths).
 > 
-> Signed-off-by: Jay Zhou <jianjay.zhou@huawei.com>
-> ---
->  accel/kvm/kvm-all.c       | 21 ++++++++++++++-------
->  linux-headers/linux/kvm.h |  3 +++
->  2 files changed, 17 insertions(+), 7 deletions(-)
+> This series adds lock guards for QemuMutex and QemuRecMutex.  It does not
+> convert the entire tree but includes example conversions.
+> 
+> Stefan Hajnoczi (2):
+>   lockable: add lock guards
+>   lockable: add QemuRecMutex support
+> 
+>  include/qemu/lockable.h | 67 +++++++++++++++++++++++++++++++++++++++++
+>  plugins/core.c          |  7 ++---
+>  plugins/loader.c        | 16 +++++-----
+>  util/qemu-timer.c       | 23 +++++++-------
+>  4 files changed, 89 insertions(+), 24 deletions(-)
+> 
 
-<standard message>
-Please do any linux-headers updates in a separate patch; that makes it
-easy to replace the manual update with a complete headers update.
-</standard message>
+Queued, thanks.
 
-:)
+Paolo
 
 
