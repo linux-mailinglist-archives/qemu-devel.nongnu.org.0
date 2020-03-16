@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A87186929
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:32:42 +0100 (CET)
-Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2092D186950
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:44:10 +0100 (CET)
+Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDn32-0004hY-8f
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50811)
+	id 1jDnE7-0000Wf-Gz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xiaoyao.li@intel.com>) id 1jDmZR-0003bq-Qu
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:02:12 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgq-00061D-7I
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xiaoyao.li@intel.com>) id 1jDmZP-0001d2-4e
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:02:05 -0400
-Received: from mga17.intel.com ([192.55.52.151]:46378)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <xiaoyao.li@intel.com>)
- id 1jDmZO-00018N-EQ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:02:02 -0400
-IronPort-SDR: RLO4Ze4FAl4ycvx5kj/TxNx3i4/NUGmkdxgHw+T4cKsa1GljZfmBZpF+UEAxMPb5z7pCGHulIp
- GFX2AFLPy7fA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2020 03:01:52 -0700
-IronPort-SDR: JgOmwo0g4HksdkWOCRIEitFm2qR1z0erOZEGSdMO4bWJx/DL0AG+nXOuoqQ7jHjnEQ22sGZpn/
- PYodh2E/qsNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,559,1574150400"; d="scan'208";a="267511272"
-Received: from lxy-dell.sh.intel.com ([10.239.13.109])
- by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2020 03:01:52 -0700
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v2] target/i386: Add ARCH_CAPABILITIES related bits into
- Icelake-Server CPU model
-Date: Mon, 16 Mar 2020 17:56:05 +0800
-Message-Id: <20200316095605.12318-1-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: e90ff880-c395-9013-6855-eaa4be7969be@redhat.com
-References: 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.151
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgo-0003Vi-Vk
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:44 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37334)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jDmgo-0003IM-Oo
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:42 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a141so17289197wme.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=O0gbhhNXKqovD8z2owZu41rSHwkPJ8sCWBwXndaIn/A=;
+ b=msL8DEQlvZ1Rs3XEr82evKNVqTPFKnKxfjkdLyy618FEHCRN0tIu/b/Frp9ATQs7bK
+ wuPfyoHKUH9hJ8tACQWogGu7K3n3g/YcCwFrgHrtqmvqEgYSKHyjRBamliBIxAdtsmlg
+ kl5gIz1qW9hB/coHFGWg5OKMImgq8P/vTObqY4ax4467wq7Wb4KPJMaabPvmZc2ZHwDu
+ S1dM0qIyQnXexBXtQhVMfKci9tx3XQX5fyzgycyFbDCiHA2/0sl8n/u2xzsZOdgCIZ7Z
+ D3a3LxOC6fRRtitZyovL8Ktvt2o2DTh11xyundsUphT0VbltXF1Ie3DKl0xRElPZK408
+ +iPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=O0gbhhNXKqovD8z2owZu41rSHwkPJ8sCWBwXndaIn/A=;
+ b=I+lUEGw5QHLYR625MMLMRzy/tZ9o87iUrUE1yQh3ecvcCdEhf/BRL6VXKOhPfut1YP
+ Gd74ZtuimHT2e6X0U/Am1jL651VPxQP8qYzI0JemT4XIh7bDMVOR+Y0pOqmn2rd/exvK
+ YTkfq1CXuDb0Z7beRwJVXVrTyGEkpkbOWmVi8DmAL7yuO1BT+7p8FmxSpXH9FeB2czha
+ OvKEIwmhj9LwX4qT1qlYltVmrPAdfiMx54qcQ/QVsLFYkY8KMPoHHBmviCBldFnBuE2p
+ bJbC1zv3GaO4Hlu1GASm6I2e49Lkkuhxti37cI/GbwKRpKQLF/IxnSbVFn+A4KS0wLnB
+ sUEw==
+X-Gm-Message-State: ANhLgQ1JafTfVGfw7NLTAs5ZIsc56701qDSFjPqi7wZhIIxF66VAM1xC
+ 4heHxDiZrgA6Sq2wWIqV7KAfQCePyVEjjA==
+X-Google-Smtp-Source: ADFU+vtgtxCGE9sI/h1KrB0e+kHzn+iNoDh8xmeBXDVpAv2xUZiCs5TAl3nyD4oQOIIIetZOqSBYUw==
+X-Received: by 2002:a1c:668a:: with SMTP id
+ a132mr18495986wmc.126.1584353381367; 
+ Mon, 16 Mar 2020 03:09:41 -0700 (PDT)
+Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
+ [79.183.43.120])
+ by smtp.gmail.com with ESMTPSA id l7sm22083171wrw.33.2020.03.16.03.09.40
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 16 Mar 2020 03:09:40 -0700 (PDT)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com,
+	jasowang@redhat.com
+Subject: [PATCH v4 1/6] virtio-net: introduce RSS and hash report features
+Date: Mon, 16 Mar 2020 12:09:28 +0200
+Message-Id: <20200316100933.11499-2-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200316100933.11499-1-yuri.benditovich@daynix.com>
+References: <20200316100933.11499-1-yuri.benditovich@daynix.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,48 +79,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current Icelake-Server CPU model lacks all the features enumerated by
-MSR_IA32_ARCH_CAPABILITIES.
-
-Add them, so that guest of "Icelake-Server" can see all of them.
-
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
-v2:
- - Add it as a new version.
----
- target/i386/cpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/net/virtio-net.c | 65 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 92fafa265914..5fba6a2ad6b3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3496,6 +3496,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                     { /* end of list */ }
-                 },
-             },
-+            {
-+                .version = 3,
-+                .props = (PropValue[]) {
-+                    { "arch-capabilities", "on" },
-+                    { "rdctl-no", "on" },
-+                    { "ibrs-all", "on" },
-+                    { "skip-l1dfl-vmentry", "on" },
-+                    { "mds-no", "on" },
-+                    { "pschange-mc-no", "on" },
-+                    { "taa-no", "on" },
-+                    { /* end of list */ }
-+                },
-+            },
-             { /* end of list */ }
-         }
-     },
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 3627bb1717..90b01221e9 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -71,6 +71,71 @@
+ #define VIRTIO_NET_IP6_ADDR_SIZE   32      /* ipv6 saddr + daddr */
+ #define VIRTIO_NET_MAX_IP6_PAYLOAD VIRTIO_NET_MAX_TCP_PAYLOAD
+ 
++/* TODO: remove after virtio-net header update */
++#if !defined(VIRTIO_NET_RSS_HASH_TYPE_IPv4)
++#define VIRTIO_NET_F_HASH_REPORT    57  /* Supports hash report */
++#define VIRTIO_NET_F_RSS            60  /* Supports RSS RX steering */
++
++/* supported/enabled hash types */
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv4          (1 << 0)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4         (1 << 1)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4         (1 << 2)
++#define VIRTIO_NET_RSS_HASH_TYPE_IPv6          (1 << 3)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6         (1 << 4)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6         (1 << 5)
++#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX         (1 << 6)
++#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX        (1 << 7)
++#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX        (1 << 8)
++
++struct virtio_net_config_with_rss {
++    struct virtio_net_config cfg;
++    /* maximum size of RSS key */
++    uint8_t rss_max_key_size;
++    /* maximum number of indirection table entries */
++    uint16_t rss_max_indirection_table_length;
++    /* bitmask of supported VIRTIO_NET_RSS_HASH_ types */
++    uint32_t supported_hash_types;
++} QEMU_PACKED;
++
++struct virtio_net_hdr_v1_hash {
++    struct virtio_net_hdr_v1 hdr;
++    uint32_t hash_value;
++#define VIRTIO_NET_HASH_REPORT_NONE            0
++#define VIRTIO_NET_HASH_REPORT_IPv4            1
++#define VIRTIO_NET_HASH_REPORT_TCPv4           2
++#define VIRTIO_NET_HASH_REPORT_UDPv4           3
++#define VIRTIO_NET_HASH_REPORT_IPv6            4
++#define VIRTIO_NET_HASH_REPORT_TCPv6           5
++#define VIRTIO_NET_HASH_REPORT_UDPv6           6
++#define VIRTIO_NET_HASH_REPORT_IPv6_EX         7
++#define VIRTIO_NET_HASH_REPORT_TCPv6_EX        8
++#define VIRTIO_NET_HASH_REPORT_UDPv6_EX        9
++    uint16_t hash_report;
++    uint16_t padding;
++};
++
++/*
++ * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as
++ * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures
++ * the receive steering to use a hash calculated for incoming packet
++ * to decide on receive virtqueue to place the packet. The command
++ * also provides parameters to calculate a hash and receive virtqueue.
++ */
++struct virtio_net_rss_config {
++    uint32_t hash_types;
++    uint16_t indirection_table_mask;
++    uint16_t unclassified_queue;
++    uint16_t indirection_table[1/* + indirection_table_mask */];
++    uint16_t max_tx_vq;
++    uint8_t hash_key_length;
++    uint8_t hash_key_data[/* hash_key_length */];
++};
++
++#define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
++#define VIRTIO_NET_CTRL_MQ_HASH_CONFIG         2
++
++#endif
++
+ /* Purge coalesced packets timer interval, This value affects the performance
+    a lot, and should be tuned carefully, '300000'(300us) is the recommended
+    value to pass the WHQL test, '50000' can gain 2x netperf throughput with
 -- 
-2.20.1
+2.17.1
 
 
