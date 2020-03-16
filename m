@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F262B18755C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:08:25 +0100 (CET)
-Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55335187552
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:05:36 +0100 (CET)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxuL-0004SZ-1P
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43583)
+	id 1jDxrb-0008PS-Cd
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIO-0004n5-M2
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:13 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIX-00053s-So
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIN-0008RF-JS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24963)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIV-0000kh-RZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIN-0008Oj-DF
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:11 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIV-0000gr-Lt
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394151;
+ s=mimecast20190719; t=1584394159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dw9IAA80oEFwhIPPLmt5bE5huwn4u6VjW8/3MRSDruw=;
- b=FH5EsuA/JSOZClzkkGhEPUn8P+q/Oh4FZUzLyU8fwknbb0xUPXVi746tlNQdn2LEKRmsm/
- QBEFJdxDoB/kWacrQWLb+mwQvFUfmcmfB5Ey5sFK7WSDJMgDQ6nXVy3s0F38c0NdRG2O6S
- Ga1IHF/HJSInOV2EwRuRBMVxXe7r9Gk=
+ bh=UyJYJwyrXVDwqB/1/5y+mISBNG34H5eUjAjosl5aA48=;
+ b=c0dp9ZBztSLCDKN2UY8pqt5oqIKtUanXMYB8HCpemnZlKogHmyIly6PC61pvPZfDTxgc9j
+ 7w2HqzlLWwTKLPQ+W3R8oAGantcLE9K94d2Qaqaj9zaVVZ7/BZrUnGQs7K8y7g+Fm8jRM6
+ c4Cz83zoEuuhJBgQ3rnJKTIHc15Tlek=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-94--FY7-M8aabNeQWuKbcA-1; Mon, 16 Mar 2020 17:29:09 -0400
-X-MC-Unique: 94--FY7-M8aabNeQWuKbcA-1
+ us-mta-319-SM5NZjoCPGOmpmskCr0jVA-1; Mon, 16 Mar 2020 17:29:16 -0400
+X-MC-Unique: SM5NZjoCPGOmpmskCr0jVA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CE81804547
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 540021005510
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:13 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5417E19C4F;
- Mon, 16 Mar 2020 21:29:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AF0A19C4F;
+ Mon, 16 Mar 2020 21:29:12 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/61] hw/dma: Let devices own the MemoryRegion they create
-Date: Mon, 16 Mar 2020 22:27:22 +0100
-Message-Id: <1584394048-44994-56-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 57/61] hw/char: Let devices own the MemoryRegion they create
+Date: Mon, 16 Mar 2020 22:27:24 +0100
+Message-Id: <1584394048-44994-58-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,41 +84,38 @@ scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/dma/i8257.c  | 2 +-
- hw/dma/rc4030.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ hw/char/serial.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
-index bad8deb..ef15c06 100644
---- a/hw/dma/i8257.c
-+++ b/hw/dma/i8257.c
-@@ -553,7 +553,7 @@ static void i8257_realize(DeviceState *dev, Error **err=
-p)
-     I8257State *d =3D I8257(dev);
-     int i;
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 9298881..2ab8b69 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -997,7 +997,7 @@ static void serial_io_realize(DeviceState *dev, Error *=
+*errp)
+         return;
+     }
 =20
--    memory_region_init_io(&d->channel_io, NULL, &channel_io_ops, d,
-+    memory_region_init_io(&d->channel_io, OBJECT(dev), &channel_io_ops, d,
-                           "dma-chan", 8 << d->dshift);
-     memory_region_add_subregion(isa_address_space_io(isa),
-                                 d->base, &d->channel_io);
-diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
-index 21e2c36..7434d27 100644
---- a/hw/dma/rc4030.c
-+++ b/hw/dma/rc4030.c
-@@ -679,9 +679,9 @@ static void rc4030_realize(DeviceState *dev, Error **er=
-rp)
-     s->periodic_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
-                                      rc4030_periodic_timer, s);
+-    memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
++    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial"=
+, 8);
+     sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
+ }
+@@ -1106,8 +1106,9 @@ static void serial_mm_realize(DeviceState *dev, Error=
+ **errp)
+         return;
+     }
 =20
--    memory_region_init_io(&s->iomem_chipset, NULL, &rc4030_ops, s,
-+    memory_region_init_io(&s->iomem_chipset, o, &rc4030_ops, s,
-                           "rc4030.chipset", 0x300);
--    memory_region_init_io(&s->iomem_jazzio, NULL, &jazzio_ops, s,
-+    memory_region_init_io(&s->iomem_jazzio, o, &jazzio_ops, s,
-                           "rc4030.jazzio", 0x00001000);
-=20
-     memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
+-    memory_region_init_io(&s->io, NULL, &serial_mm_ops[smm->endianness], s=
+mm,
+-                          "serial", 8 << smm->regshift);
++    memory_region_init_io(&s->io, OBJECT(dev),
++                          &serial_mm_ops[smm->endianness], smm, "serial",
++                          8 << smm->regshift);
+     sysbus_init_mmio(SYS_BUS_DEVICE(smm), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
+ }
 --=20
 1.8.3.1
 
