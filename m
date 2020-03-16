@@ -2,119 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC81F187237
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:22:43 +0100 (CET)
-Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D6C18720E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:14:56 +0100 (CET)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuNu-0007Ey-RI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47221)
+	id 1jDuGN-0001dc-8E
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1jDsUN-0000UT-FU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:21:17 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDspO-0006zE-VD
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:43:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1jDsUL-0004Kc-05
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:21:15 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:26743)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1jDsUJ-0003rc-5o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1584375671; x=1615911671;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=fPg+jc+IvHPUzOBB2FYYnYqnKSb1EDy3DluJkh0bCWg=;
- b=L5Y14zDdGpqCMYnqFi/mQ4+jeg7+PNH3TZP6r5c7/mCHk0pI1uEYaIZg
- UE2s8H44OxCXeRFVHzElYIapezsxjlrQyAQsDlm0x6q7y8U/B7maQFT1/
- mQQF0opGe1t7uOTV4wqzD91YlF1uzBP1FVUSx44JamKbtZXnOpKQiKO15 k=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 16 Mar 2020 09:21:07 -0700
-Received: from nasanexm01b.na.qualcomm.com ([10.85.0.82])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 16 Mar 2020 09:21:07 -0700
-Received: from eusanexr01e.eu.qualcomm.com (10.85.0.100) by
- NASANEXM01B.na.qualcomm.com (10.85.0.82) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 16 Mar 2020 09:21:06 -0700
-Received: from nasanexm03f.na.qualcomm.com (10.85.0.47) by
- eusanexr01e.eu.qualcomm.com (10.85.0.100) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 16 Mar 2020 09:21:04 -0700
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03f.na.qualcomm.com (10.85.0.47) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Mon, 16 Mar 2020 09:21:04 -0700
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB4197.namprd02.prod.outlook.com (2603:10b6:a02:ff::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.22; Mon, 16 Mar
- 2020 16:21:03 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::bde4:83e4:96ad:fe62]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::bde4:83e4:96ad:fe62%6]) with mapi id 15.20.2814.021; Mon, 16 Mar 2020
- 16:21:03 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
-Thread-Topic: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
-Thread-Index: AQHV+3DS+Ab8fmhERUaut8JIIMz4GKhLY3Uw
-Date: Mon, 16 Mar 2020 16:21:02 +0000
-Message-ID: <BYAPR02MB4886D8ECC90C0845C3BFE27FDEF90@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20200316085620.309769-1-laurent@vivier.eu>
- <20200316085620.309769-2-laurent@vivier.eu>
-In-Reply-To: <20200316085620.309769-2-laurent@vivier.eu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [70.115.140.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8a42ac6b-0793-45e1-2340-08d7c9c60592
-x-ms-traffictypediagnostic: BYAPR02MB4197:
-x-microsoft-antispam-prvs: <BYAPR02MB4197F1A226A61B201814D5E7DEF90@BYAPR02MB4197.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 03449D5DD1
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(199004)(110136005)(54906003)(86362001)(64756008)(8936002)(66476007)(66556008)(33656002)(66446008)(8676002)(498600001)(186003)(6506007)(53546011)(71200400001)(26005)(5660300002)(81166006)(81156014)(52536014)(4326008)(2906002)(7696005)(55016002)(76116006)(9686003)(66946007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB4197;
- H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: X21UOsfFv5yJEUDfLA0nnAwCPELpXMhfBMm/aer3nyRHMRvDzF0SFvPhGYcaaZjSAMePSsolpc/oOQm+DhRWPqhnkfGaC8+KnoW8W+4J1ZposWlXgbJ5NdziTVCvMvNRV5O+8DSxIpzlXX6MR/V6TE1R8J4D+mXfRTeUOQBeHnZAeey53x2mKz6yjuLyiYxuDYNFpaxuxBNEwx0+SBQ+q1oRikOg+7u9w0S+zl8VmBjs/oZPxgiijMpnQhW7VYkG7PzTRWAEJuwd4mauI2on/jDAWAX8n5U5s0vxSDehg2GSXgzhM+fWFCnutiJ2by/NilhKlh1beMl7z1NC0jUE5XOjDEVcWp/SA2HZNg6GZqNYaGTZMfLF+gEf4vBSU+8SCknwGPD/xG6xPMrQ7TZlOWSENeqt98kBW0ADjjj7sp1rxuqnOp0Er0Rxn522ghTP
-x-ms-exchange-antispam-messagedata: 8oFzRjSj37ip91X9taDhFCuRdcgrmVO64C9QvVL24YqfRQS8h+0HdtepE+4bbJDtDiMaSwSTqQIocwnb0be1pRneEt6B+oljbGm79Ox37r0yP1b9WCfmLdgQPZp+AnyENef+4p02qkouBCOebf4szg==
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SWOyjJrrchqXeDB0L6ABzGEvYZowgDt9U5AJh4We24zfbsxPN/InyeLSEaPnOZglFOwP6FMgniSqH2ddoyFOu+iMYI4Foe6sRIZdDT/K8JbzY0tXslGfVRakCgxnAnT+/FyJyRP9QrEgOmQzqJfldYPoUBHLTz8NeecugEjoVyjIgsxn+U6mQDNnkpJH8aVYBWhJU/PMF/9vvzembdtLaoOQ+aXK495ysjsZ+8+sS0CaCM+vBKixBR+5PwqAXbu6sjGF2zxoEZUjg9vh0C09IAnJ+u9PoWdCtKv8AtnJ6e+U19dr/vbJ83WwQrwRyy/af1U1//eB/g9FYGZmUKpmsA==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PcitaUP2psmXDvGNOWvQixTcty/DoPn1ZyfDLegjO3Q=;
- b=WY6tFuBnOs6KuYYxWvqUOFZDeFz9/EuvPRy0KrHkvT3sMShsyQeqqAHN1uqASmlN7l7nhgOJtlFevXYXgBQeTcECJsQ6zbm9F/fxKPLCcj00vEKgx2zX6RTAcUVNOhP67C7WNKePcULRXdcyF9ZqidT4TC1pOCQQxCD/2i8xzV8PEblEPgSof4WdKi9Tf4ZugUCS4UooIEtlioUr8lYVJi92ptSLwQX8dgjhxbLELwt0wAlisawseU0mEWzVFrRox3Bv47Ojm5iJQN5M2VL6leDZMXBkRuh6IOE8hw3CGoWOmf91OxurhRvvpjyP83c5lf4MuLCHSAnZV6nEHr+B6A==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PcitaUP2psmXDvGNOWvQixTcty/DoPn1ZyfDLegjO3Q=;
- b=aID6pQOzRYmE/GQI9SuVPP50HBcH6BFMH9aW7tge4x1i8HwUDN1eF3iFka3K/SxVb5yEGFtHhymx4YvrkTXfoH4Z8nwSm4AZJRE2yjoemBxgsd9c+sIouOEuHOzKWgta6ny32+o6Tmw7uM8436pKqDF3Gd4kY2tTCUdjpCvvOYQ=
-x-ms-exchange-crosstenant-network-message-id: 8a42ac6b-0793-45e1-2340-08d7c9c60592
-x-ms-exchange-crosstenant-originalarrivaltime: 16 Mar 2020 16:21:02.8786 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: 2wqPAe5+DddUop1WxjBL7Ojjo4obTV9UAJ2HzH1lLuXxNajZHy/WLaPEz2SqvW66dCocPIkc6+T9cGHzQMvpDQ==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4197
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDspM-0004nl-JX
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:42:58 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33086)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDspM-0004er-7n; Mon, 16 Mar 2020 12:42:56 -0400
+Received: by mail-wr1-x430.google.com with SMTP id a25so22105421wrd.0;
+ Mon, 16 Mar 2020 09:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=90ElrVne0DNWy12R3Ax/OR44n9OkwkCWxNhK6Cdk6dE=;
+ b=RqUjgJzvbzkanSvr+nTYXnjXz0z8mmQICTAy52sTrSxCKuKA4B9yLzdfqNv/+/HfMF
+ 7kpuVxuMjZj8K4oFc4PEE0+wPMdgWdrA3nRnu6OlfGwBLyZJuUbLsmOtqzIAwhu8qasI
+ YtSLN5fJHMI/Nc+2x6chsu1fvIFq2wEKC1mc6sPc6nHYNQ4iCfK6TkmrjtVJ3//u9AsZ
+ Ecijl7afq07o3/MBOiflEftKR1tlTnR2C92TRmyLvEvMAt8/vejyuxWLX77IeO2EC+xX
+ d76GXbdm3JUUxCPY5NyreRMVhasXxfugMP+aZDTXzVkKjRRnDObEr1MBPONmKTqIyXuO
+ 2Yfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=90ElrVne0DNWy12R3Ax/OR44n9OkwkCWxNhK6Cdk6dE=;
+ b=U+qd81aNCfBMwksbWaoA4FVMN+yLhzSUMKDJgrANGhXTAu/duYXo0tVGlxRkLBBgJP
+ usXom0sXMInUbWpXgVoQOgscRnp550rkVHt2X1905Jf8JKQaH3NbZmiFHIc6FqzWdQqW
+ LdtVCRrmkyTbc0cnXzgJD5taz+WE7WaKb2SHui5WRJLLJ4e16NZBUa8hb6RLdpXS6y06
+ zpQpnwcchN0fCzLJBMJkVeAGsJIc2rqqnEuADfRAKSVbJH4y41ZBnNdr8/aUtzpjSEOY
+ f7SRMYvA3s0t5IOhjSYM+ZV8BUs6MB5hIWmtnuxx4brRYbqpQ/yUYrHAp8MfrXcadgz1
+ CxIg==
+X-Gm-Message-State: ANhLgQ1lnhtY9gFy5sdvGGIM3SUjxsOvQRWvzu+iEbLiosGM3yxyIC5W
+ aCdsuh3t4+V+jjXzkTRYs/bs60FrIHeSh6jIslQ=
+X-Google-Smtp-Source: ADFU+vvfUEeJ1l60MQBEcZRaE+t2v/xlIwr6sHVYRH8Jfh2Wisv4L6YdAMVbixJxsSSTldwYrS3k2ZQPYOI/JYCaeb4=
+X-Received: by 2002:adf:fe4c:: with SMTP id m12mr265242wrs.96.1584376974367;
+ Mon, 16 Mar 2020 09:42:54 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+References: <20200222085030.1760640-1-stefanha@redhat.com>
+ <20200222085030.1760640-5-stefanha@redhat.com>
+In-Reply-To: <20200222085030.1760640-5-stefanha@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 17:42:42 +0100
+Message-ID: <CAJ+F1CLYTAsg957M3Nw8cvNSwW-JqoNTMBxWYrRTO9Mc5XkSdA@mail.gmail.com>
+Subject: Re: [PULL 04/31] util/async: make bh_aio_poll() O(1)
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -126,51 +73,533 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi
 
+On Sat, Feb 22, 2020 at 9:51 AM Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+>
+> The ctx->first_bh list contains all created BHs, including those that
+> are not scheduled.  The list is iterated by the event loop and therefore
+> has O(n) time complexity with respected to the number of created BHs.
+>
+> Rewrite BHs so that only scheduled or deleted BHs are enqueued.
+> Only BHs that actually require action will be iterated.
+>
+> One semantic change is required: qemu_bh_delete() enqueues the BH and
+> therefore invokes aio_notify().  The
+> tests/test-aio.c:test_source_bh_delete_from_cb() test case assumed that
+> g_main_context_iteration(NULL, false) returns false after
+> qemu_bh_delete() but it now returns true for one iteration.  Fix up the
+> test case.
+>
+> This patch makes aio_compute_timeout() and aio_bh_poll() drop from a CPU
+> profile reported by perf-top(1).  Previously they combined to 9% CPU
+> utilization when AioContext polling is commented out and the guest has 2
+> virtio-blk,num-queues=3D1 and 99 virtio-blk,num-queues=3D32 devices.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Message-id: 20200221093951.1414693-1-stefanha@redhat.com
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
 
-> -----Original Message-----
-> From: Laurent Vivier <laurent@vivier.eu>
-> Sent: Monday, March 16, 2020 3:56 AM
-> To: qemu-devel@nongnu.org
-> Cc: Laurent Vivier <laurent@vivier.eu>; Richard Henderson
-> <richard.henderson@linaro.org>; Riku Voipio <riku.voipio@iki.fi>; Taylor
-> Simpson <tsimpson@quicinc.com>; Alistair Francis
-> <alistair.francis@wdc.com>
-> Subject: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
+Current master migration-test fails with --enable-sanitizers. qemu
+exit 1 when 0 is expected.
+QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
+tests/qtest/migration-test  -p /x86_64/migration/postcopy/recovery
+tests/qtest/libqtest.c:140: kill_qemu() tried to terminate QEMU
+process but encountered exit status 1 (expected 0)
+
+Leak is
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=3D=3D2082571=3D=3DERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7f25971dfc58 in __interceptor_malloc (/lib64/libasan.so.5+0x10dc58=
+)
+    #1 0x7f2596d08358 in g_malloc (/lib64/libglib-2.0.so.0+0x57358)
+    #2 0x560970d006f8 in qemu_bh_new /home/elmarco/src/qemu/util/main-loop.=
+c:532
+    #3 0x5609704afa02 in migrate_fd_connect
+/home/elmarco/src/qemu/migration/migration.c:3407
+    #4 0x5609704b6b6f in migration_channel_connect
+/home/elmarco/src/qemu/migration/channel.c:92
+    #5 0x5609704b2bfb in socket_outgoing_migration
+/home/elmarco/src/qemu/migration/socket.c:108
+    #6 0x560970b9bd6c in qio_task_complete /home/elmarco/src/qemu/io/task.c=
+:196
+    #7 0x560970b9aa97 in qio_task_thread_result
+/home/elmarco/src/qemu/io/task.c:111
+    #8 0x7f2596cfee3a  (/lib64/libglib-2.0.so.0+0x4de3a)
+
+Any idea?
+
+>  include/block/aio.h |  20 +++-
+>  tests/test-aio.c    |   3 +-
+>  util/async.c        | 237 ++++++++++++++++++++++++++------------------
+>  3 files changed, 158 insertions(+), 102 deletions(-)
 >
-> This script is needed for targets based on asm-generic syscall numbers
-> generation
+> diff --git a/include/block/aio.h b/include/block/aio.h
+> index 7ba9bd7874..1a2ce9ca26 100644
+> --- a/include/block/aio.h
+> +++ b/include/block/aio.h
+> @@ -51,6 +51,19 @@ struct ThreadPool;
+>  struct LinuxAioState;
+>  struct LuringState;
 >
+> +/*
+> + * Each aio_bh_poll() call carves off a slice of the BH list, so that ne=
+wly
+> + * scheduled BHs are not processed until the next aio_bh_poll() call.  A=
+ll
+> + * active aio_bh_poll() calls chain their slices together in a list, so =
+that
+> + * nested aio_bh_poll() calls process all scheduled bottom halves.
+> + */
+> +typedef QSLIST_HEAD(, QEMUBH) BHList;
+> +typedef struct BHListSlice BHListSlice;
+> +struct BHListSlice {
+> +    BHList bh_list;
+> +    QSIMPLEQ_ENTRY(BHListSlice) next;
+> +};
 > +
-> +filter_defines()
+>  struct AioContext {
+>      GSource source;
+>
+> @@ -91,8 +104,11 @@ struct AioContext {
+>       */
+>      QemuLockCnt list_lock;
+>
+> -    /* Anchor of the list of Bottom Halves belonging to the context */
+> -    struct QEMUBH *first_bh;
+> +    /* Bottom Halves pending aio_bh_poll() processing */
+> +    BHList bh_list;
+> +
+> +    /* Chained BH list slices for each nested aio_bh_poll() call */
+> +    QSIMPLEQ_HEAD(, BHListSlice) bh_slice_list;
+>
+>      /* Used by aio_notify.
+>       *
+> diff --git a/tests/test-aio.c b/tests/test-aio.c
+> index 86fb73b3d5..8a46078463 100644
+> --- a/tests/test-aio.c
+> +++ b/tests/test-aio.c
+> @@ -615,7 +615,8 @@ static void test_source_bh_delete_from_cb(void)
+>      g_assert_cmpint(data1.n, =3D=3D, data1.max);
+>      g_assert(data1.bh =3D=3D NULL);
+>
+> -    g_assert(!g_main_context_iteration(NULL, false));
+> +    assert(g_main_context_iteration(NULL, false));
+> +    assert(!g_main_context_iteration(NULL, false));
+>  }
+>
+>  static void test_source_bh_delete_from_cb_many(void)
+> diff --git a/util/async.c b/util/async.c
+> index c192a24a61..b94518b948 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -29,6 +29,7 @@
+>  #include "block/thread-pool.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/atomic.h"
+> +#include "qemu/rcu_queue.h"
+>  #include "block/raw-aio.h"
+>  #include "qemu/coroutine_int.h"
+>  #include "trace.h"
+> @@ -36,16 +37,76 @@
+>  /***********************************************************/
+>  /* bottom halves (can be seen as timers which expire ASAP) */
+>
+> +/* QEMUBH::flags values */
+> +enum {
+> +    /* Already enqueued and waiting for aio_bh_poll() */
+> +    BH_PENDING   =3D (1 << 0),
+> +
+> +    /* Invoke the callback */
+> +    BH_SCHEDULED =3D (1 << 1),
+> +
+> +    /* Delete without invoking callback */
+> +    BH_DELETED   =3D (1 << 2),
+> +
+> +    /* Delete after invoking callback */
+> +    BH_ONESHOT   =3D (1 << 3),
+> +
+> +    /* Schedule periodically when the event loop is idle */
+> +    BH_IDLE      =3D (1 << 4),
+> +};
+> +
+>  struct QEMUBH {
+>      AioContext *ctx;
+>      QEMUBHFunc *cb;
+>      void *opaque;
+> -    QEMUBH *next;
+> -    bool scheduled;
+> -    bool idle;
+> -    bool deleted;
+> +    QSLIST_ENTRY(QEMUBH) next;
+> +    unsigned flags;
+>  };
+>
+> +/* Called concurrently from any thread */
+> +static void aio_bh_enqueue(QEMUBH *bh, unsigned new_flags)
 > +{
-> +    grep -e "#define __NR_" -e "#define __NR3264"
-
-For Hexagon, we're still running a 4.9 kernel.  When I tried out this scrip=
-t on that code base, there are a handful of these
-    #undef __NR_syscalls
-    #define __NR_syscalls 291
-This works fine with normal C preprocessing, and the last one wins.  Howeve=
-r, when the #undef's are filtered out, it lease to build errors from multip=
-le #define's of TARGET_NR_syscalls.  AFAIK, qemu doesn't use this, so it sh=
-ould be OK to filter out.  So, I changed the above line to
-    grep -e "#define __NR_" -e "#define __NR3264" | grep -v "__NR_syscalls"
-
-If you're OK incorporating that now, great!  Otherwise, I'll add it to the =
-Hexagon RFC patch series until we get to a newer kernel.
-
-Thanks,
-Taylor
-
-
+> +    AioContext *ctx =3D bh->ctx;
+> +    unsigned old_flags;
+> +
+> +    /*
+> +     * The memory barrier implicit in atomic_fetch_or makes sure that:
+> +     * 1. idle & any writes needed by the callback are done before the
+> +     *    locations are read in the aio_bh_poll.
+> +     * 2. ctx is loaded before the callback has a chance to execute and =
+bh
+> +     *    could be freed.
+> +     */
+> +    old_flags =3D atomic_fetch_or(&bh->flags, BH_PENDING | new_flags);
+> +    if (!(old_flags & BH_PENDING)) {
+> +        QSLIST_INSERT_HEAD_ATOMIC(&ctx->bh_list, bh, next);
+> +    }
+> +
+> +    aio_notify(ctx);
 > +}
 > +
+> +/* Only called from aio_bh_poll() and aio_ctx_finalize() */
+> +static QEMUBH *aio_bh_dequeue(BHList *head, unsigned *flags)
+> +{
+> +    QEMUBH *bh =3D QSLIST_FIRST_RCU(head);
+> +
+> +    if (!bh) {
+> +        return NULL;
+> +    }
+> +
+> +    QSLIST_REMOVE_HEAD(head, next);
+> +
+> +    /*
+> +     * The atomic_and is paired with aio_bh_enqueue().  The implicit mem=
+ory
+> +     * barrier ensures that the callback sees all writes done by the sch=
+eduling
+> +     * thread.  It also ensures that the scheduling thread sees the clea=
+red
+> +     * flag before bh->cb has run, and thus will call aio_notify again i=
+f
+> +     * necessary.
+> +     */
+> +    *flags =3D atomic_fetch_and(&bh->flags,
+> +                              ~(BH_PENDING | BH_SCHEDULED | BH_IDLE));
+> +    return bh;
+> +}
+> +
+>  void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaq=
+ue)
+>  {
+>      QEMUBH *bh;
+> @@ -55,15 +116,7 @@ void aio_bh_schedule_oneshot(AioContext *ctx, QEMUBHF=
+unc *cb, void *opaque)
+>          .cb =3D cb,
+>          .opaque =3D opaque,
+>      };
+> -    qemu_lockcnt_lock(&ctx->list_lock);
+> -    bh->next =3D ctx->first_bh;
+> -    bh->scheduled =3D 1;
+> -    bh->deleted =3D 1;
+> -    /* Make sure that the members are ready before putting bh into list =
+*/
+> -    smp_wmb();
+> -    ctx->first_bh =3D bh;
+> -    qemu_lockcnt_unlock(&ctx->list_lock);
+> -    aio_notify(ctx);
+> +    aio_bh_enqueue(bh, BH_SCHEDULED | BH_ONESHOT);
+>  }
+>
+>  QEMUBH *aio_bh_new(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
+> @@ -75,12 +128,6 @@ QEMUBH *aio_bh_new(AioContext *ctx, QEMUBHFunc *cb, v=
+oid *opaque)
+>          .cb =3D cb,
+>          .opaque =3D opaque,
+>      };
+> -    qemu_lockcnt_lock(&ctx->list_lock);
+> -    bh->next =3D ctx->first_bh;
+> -    /* Make sure that the members are ready before putting bh into list =
+*/
+> -    smp_wmb();
+> -    ctx->first_bh =3D bh;
+> -    qemu_lockcnt_unlock(&ctx->list_lock);
+>      return bh;
+>  }
+>
+> @@ -89,91 +136,56 @@ void aio_bh_call(QEMUBH *bh)
+>      bh->cb(bh->opaque);
+>  }
+>
+> -/* Multiple occurrences of aio_bh_poll cannot be called concurrently.
+> - * The count in ctx->list_lock is incremented before the call, and is
+> - * not affected by the call.
+> - */
+> +/* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
+>  int aio_bh_poll(AioContext *ctx)
+>  {
+> -    QEMUBH *bh, **bhp, *next;
+> -    int ret;
+> -    bool deleted =3D false;
+> -
+> -    ret =3D 0;
+> -    for (bh =3D atomic_rcu_read(&ctx->first_bh); bh; bh =3D next) {
+> -        next =3D atomic_rcu_read(&bh->next);
+> -        /* The atomic_xchg is paired with the one in qemu_bh_schedule.  =
+The
+> -         * implicit memory barrier ensures that the callback sees all wr=
+ites
+> -         * done by the scheduling thread.  It also ensures that the sche=
+duling
+> -         * thread sees the zero before bh->cb has run, and thus will cal=
+l
+> -         * aio_notify again if necessary.
+> -         */
+> -        if (atomic_xchg(&bh->scheduled, 0)) {
+> +    BHListSlice slice;
+> +    BHListSlice *s;
+> +    int ret =3D 0;
+> +
+> +    QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+> +    QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> +
+> +    while ((s =3D QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
+> +        QEMUBH *bh;
+> +        unsigned flags;
+> +
+> +        bh =3D aio_bh_dequeue(&s->bh_list, &flags);
+> +        if (!bh) {
+> +            QSIMPLEQ_REMOVE_HEAD(&ctx->bh_slice_list, next);
+> +            continue;
+> +        }
+> +
+> +        if ((flags & (BH_SCHEDULED | BH_DELETED)) =3D=3D BH_SCHEDULED) {
+>              /* Idle BHs don't count as progress */
+> -            if (!bh->idle) {
+> +            if (!(flags & BH_IDLE)) {
+>                  ret =3D 1;
+>              }
+> -            bh->idle =3D 0;
+>              aio_bh_call(bh);
+>          }
+> -        if (bh->deleted) {
+> -            deleted =3D true;
+> +        if (flags & (BH_DELETED | BH_ONESHOT)) {
+> +            g_free(bh);
+>          }
+>      }
+>
+> -    /* remove deleted bhs */
+> -    if (!deleted) {
+> -        return ret;
+> -    }
+> -
+> -    if (qemu_lockcnt_dec_if_lock(&ctx->list_lock)) {
+> -        bhp =3D &ctx->first_bh;
+> -        while (*bhp) {
+> -            bh =3D *bhp;
+> -            if (bh->deleted && !bh->scheduled) {
+> -                *bhp =3D bh->next;
+> -                g_free(bh);
+> -            } else {
+> -                bhp =3D &bh->next;
+> -            }
+> -        }
+> -        qemu_lockcnt_inc_and_unlock(&ctx->list_lock);
+> -    }
+>      return ret;
+>  }
+>
+>  void qemu_bh_schedule_idle(QEMUBH *bh)
+>  {
+> -    bh->idle =3D 1;
+> -    /* Make sure that idle & any writes needed by the callback are done
+> -     * before the locations are read in the aio_bh_poll.
+> -     */
+> -    atomic_mb_set(&bh->scheduled, 1);
+> +    aio_bh_enqueue(bh, BH_SCHEDULED | BH_IDLE);
+>  }
+>
+>  void qemu_bh_schedule(QEMUBH *bh)
+>  {
+> -    AioContext *ctx;
+> -
+> -    ctx =3D bh->ctx;
+> -    bh->idle =3D 0;
+> -    /* The memory barrier implicit in atomic_xchg makes sure that:
+> -     * 1. idle & any writes needed by the callback are done before the
+> -     *    locations are read in the aio_bh_poll.
+> -     * 2. ctx is loaded before scheduled is set and the callback has a c=
+hance
+> -     *    to execute.
+> -     */
+> -    if (atomic_xchg(&bh->scheduled, 1) =3D=3D 0) {
+> -        aio_notify(ctx);
+> -    }
+> +    aio_bh_enqueue(bh, BH_SCHEDULED);
+>  }
+>
+> -
+>  /* This func is async.
+>   */
+>  void qemu_bh_cancel(QEMUBH *bh)
+>  {
+> -    atomic_mb_set(&bh->scheduled, 0);
+> +    atomic_and(&bh->flags, ~BH_SCHEDULED);
+>  }
+>
+>  /* This func is async.The bottom half will do the delete action at the f=
+inial
+> @@ -181,21 +193,16 @@ void qemu_bh_cancel(QEMUBH *bh)
+>   */
+>  void qemu_bh_delete(QEMUBH *bh)
+>  {
+> -    bh->scheduled =3D 0;
+> -    bh->deleted =3D 1;
+> +    aio_bh_enqueue(bh, BH_DELETED);
+>  }
+>
+> -int64_t
+> -aio_compute_timeout(AioContext *ctx)
+> +static int64_t aio_compute_bh_timeout(BHList *head, int timeout)
+>  {
+> -    int64_t deadline;
+> -    int timeout =3D -1;
+>      QEMUBH *bh;
+>
+> -    for (bh =3D atomic_rcu_read(&ctx->first_bh); bh;
+> -         bh =3D atomic_rcu_read(&bh->next)) {
+> -        if (bh->scheduled) {
+> -            if (bh->idle) {
+> +    QSLIST_FOREACH_RCU(bh, head, next) {
+> +        if ((bh->flags & (BH_SCHEDULED | BH_DELETED)) =3D=3D BH_SCHEDULE=
+D) {
+> +            if (bh->flags & BH_IDLE) {
+>                  /* idle bottom halves will be polled at least
+>                   * every 10ms */
+>                  timeout =3D 10000000;
+> @@ -207,6 +214,28 @@ aio_compute_timeout(AioContext *ctx)
+>          }
+>      }
+>
+> +    return timeout;
+> +}
+> +
+> +int64_t
+> +aio_compute_timeout(AioContext *ctx)
+> +{
+> +    BHListSlice *s;
+> +    int64_t deadline;
+> +    int timeout =3D -1;
+> +
+> +    timeout =3D aio_compute_bh_timeout(&ctx->bh_list, timeout);
+> +    if (timeout =3D=3D 0) {
+> +        return 0;
+> +    }
+> +
+> +    QSIMPLEQ_FOREACH(s, &ctx->bh_slice_list, next) {
+> +        timeout =3D aio_compute_bh_timeout(&s->bh_list, timeout);
+> +        if (timeout =3D=3D 0) {
+> +            return 0;
+> +        }
+> +    }
+> +
+>      deadline =3D timerlistgroup_deadline_ns(&ctx->tlg);
+>      if (deadline =3D=3D 0) {
+>          return 0;
+> @@ -237,15 +266,24 @@ aio_ctx_check(GSource *source)
+>  {
+>      AioContext *ctx =3D (AioContext *) source;
+>      QEMUBH *bh;
+> +    BHListSlice *s;
+>
+>      atomic_and(&ctx->notify_me, ~1);
+>      aio_notify_accept(ctx);
+>
+> -    for (bh =3D ctx->first_bh; bh; bh =3D bh->next) {
+> -        if (bh->scheduled) {
+> +    QSLIST_FOREACH_RCU(bh, &ctx->bh_list, next) {
+> +        if ((bh->flags & (BH_SCHEDULED | BH_DELETED)) =3D=3D BH_SCHEDULE=
+D) {
+>              return true;
+>          }
+>      }
+> +
+> +    QSIMPLEQ_FOREACH(s, &ctx->bh_slice_list, next) {
+> +        QSLIST_FOREACH_RCU(bh, &s->bh_list, next) {
+> +            if ((bh->flags & (BH_SCHEDULED | BH_DELETED)) =3D=3D BH_SCHE=
+DULED) {
+> +                return true;
+> +            }
+> +        }
+> +    }
+>      return aio_pending(ctx) || (timerlistgroup_deadline_ns(&ctx->tlg) =
+=3D=3D 0);
+>  }
+>
+> @@ -265,6 +303,8 @@ static void
+>  aio_ctx_finalize(GSource     *source)
+>  {
+>      AioContext *ctx =3D (AioContext *) source;
+> +    QEMUBH *bh;
+> +    unsigned flags;
+>
+>      thread_pool_free(ctx->thread_pool);
+>
+> @@ -287,18 +327,15 @@ aio_ctx_finalize(GSource     *source)
+>      assert(QSLIST_EMPTY(&ctx->scheduled_coroutines));
+>      qemu_bh_delete(ctx->co_schedule_bh);
+>
+> -    qemu_lockcnt_lock(&ctx->list_lock);
+> -    assert(!qemu_lockcnt_count(&ctx->list_lock));
+> -    while (ctx->first_bh) {
+> -        QEMUBH *next =3D ctx->first_bh->next;
+> +    /* There must be no aio_bh_poll() calls going on */
+> +    assert(QSIMPLEQ_EMPTY(&ctx->bh_slice_list));
+>
+> +    while ((bh =3D aio_bh_dequeue(&ctx->bh_list, &flags))) {
+>          /* qemu_bh_delete() must have been called on BHs in this AioCont=
+ext */
+> -        assert(ctx->first_bh->deleted);
+> +        assert(flags & BH_DELETED);
+>
+> -        g_free(ctx->first_bh);
+> -        ctx->first_bh =3D next;
+> +        g_free(bh);
+>      }
+> -    qemu_lockcnt_unlock(&ctx->list_lock);
+>
+>      aio_set_event_notifier(ctx, &ctx->notifier, false, NULL, NULL);
+>      event_notifier_cleanup(&ctx->notifier);
+> @@ -445,6 +482,8 @@ AioContext *aio_context_new(Error **errp)
+>      AioContext *ctx;
+>
+>      ctx =3D (AioContext *) g_source_new(&aio_source_funcs, sizeof(AioCon=
+text));
+> +    QSLIST_INIT(&ctx->bh_list);
+> +    QSIMPLEQ_INIT(&ctx->bh_slice_list);
+>      aio_context_setup(ctx);
+>
+>      ret =3D event_notifier_init(&ctx->notifier, false);
+> --
+> 2.24.1
+>
 
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
