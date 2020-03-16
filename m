@@ -2,41 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE6A1870D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:03:52 +0100 (CET)
-Received: from localhost ([::1]:43042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8554187105
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:17:58 +0100 (CET)
+Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt9b-0008Cj-Pv
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
+	id 1jDtNF-0000YV-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqle-0000dv-Ru
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:31:00 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDquf-0004Hu-TN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlZ-00074F-Nv
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:58 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48846)
+ (envelope-from <armbru@redhat.com>) id 1jDque-0003zm-Eo
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:17 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22773
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDqlT-00045U-Tz; Mon, 16 Mar 2020 10:30:48 -0400
-Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
- [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id A498DBFAC0;
- Mon, 16 Mar 2020 14:29:56 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 42/42] nvme: make lba data size configurable
-Date: Mon, 16 Mar 2020 07:29:28 -0700
-Message-Id: <20200316142928.153431-43-its@irrelevant.dk>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
-References: <20200316142928.153431-1-its@irrelevant.dk>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDque-0003uy-8d
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584369615;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Czoi727Qg9oCZu1w42vol8KBAGSD9icfOQv3jriOJ64=;
+ b=Y6TyJkj5vcCd4YTcg1Icnh6oDjGVKVfD8Uu3lqV5tdfnCV1RNbc2CihaGmZPHjila/Xulk
+ X/6pV9QNqGY51DmpALFZtx41vSDq+K29E4o1gtnjUPH5QeWEp6/0+4IPc3kzNoAUYu8tgA
+ 2O5TyWtfK1kDDuzCcmD70IDDbSwvyuk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-U2KcF7hKM_ehlnSvpGiSeA-1; Mon, 16 Mar 2020 10:40:12 -0400
+X-MC-Unique: U2KcF7hKM_ehlnSvpGiSeA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 591B1100550D;
+ Mon, 16 Mar 2020 14:40:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
+ [10.36.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4C15DA7C;
+ Mon, 16 Mar 2020 14:40:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DD7D11138404; Mon, 16 Mar 2020 15:40:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v7 00/11] error: auto propagated local_err part I
+References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
+ <87y2shdg00.fsf@dusky.pond.sub.org>
+ <87abeabb-c8ee-ed6f-6b3a-b3fc24d07b89@virtuozzo.com>
+Date: Mon, 16 Mar 2020 15:40:02 +0100
+In-Reply-To: <87abeabb-c8ee-ed6f-6b3a-b3fc24d07b89@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 3 Mar 2020 11:12:46 +0300")
+Message-ID: <87r1xsfjnh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 128.199.63.193
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,82 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
----
- hw/block/nvme-ns.c | 7 ++++++-
- hw/block/nvme-ns.h | 4 +++-
- hw/block/nvme.c    | 1 +
- 3 files changed, 10 insertions(+), 2 deletions(-)
+> 03.03.2020 11:01, Markus Armbruster wrote:
+>> Hi Vladimir,
+>>
+>> I've come to rather like your ERRP_AUTO_PROPAGATE() idea.  What I
+>> wouldn't like is a protracted conversion.
+>>
+>> Once we're happy with PATCH 1-3, it's a matter of running Coccinelle and
+>> reviewing its output.  I'm confident we can converge on PATCH 1-3.
+>>
+>> It's two weeks until soft freeze.  We need to decide whether to pursue a
+>> partial conversion for 5.0 (basically this series plus the two patches
+>> we identified in review of PATCH 1), or delay until 5.1.  In either
+>> case, I want the conversion to be finished in 5.1.
+>>
+>> Please do not feel pressured to make the 5.0 deadline.
+>>
+>> I can queue up patches for 5.1 during the freeze.
+>>
+>> How would you like to proceed?
+>>
+>
+> Hi Markus! Funny coincidence: exactly now (less than 1 hour ago), I've
+> started working for the next version for these series. So, I'm going to
+> resend today. Of course, I'd prefer to merge something to 5.0 if at all
+> possible.
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 6d975104171d..d7e5c81c5f16 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -18,7 +18,7 @@ static int nvme_ns_init(NvmeNamespace *ns)
- {
-     NvmeIdNs *id_ns =3D &ns->id_ns;
-=20
--    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
-+    id_ns->lbaf[0].ds =3D ns->params.lbads;
-     id_ns->nsze =3D cpu_to_le64(nvme_ns_nlbas(ns));
-=20
-     /* no thin provisioning */
-@@ -78,6 +78,11 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns=
-, Error **errp)
-         return 1;
-     }
-=20
-+    if (ns->params.lbads < 9 || ns->params.lbads > 12) {
-+        error_setg(errp, "unsupported lbads (supported: 9-12)");
-+        return 1;
-+    }
-+
-     return 0;
- }
-=20
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index 3c3651d485d0..43b78f8b8d9c 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -7,10 +7,12 @@
-=20
- #define DEFINE_NVME_NS_PROPERTIES(_state, _props) \
-     DEFINE_PROP_DRIVE("drive", _state, blk), \
--    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0)
-+    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0), \
-+    DEFINE_PROP_UINT8("lbads", _state, _props.lbads, BDRV_SECTOR_BITS)
-=20
- typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-+    uint8_t  lbads;
- } NvmeNamespaceParams;
-=20
- typedef struct NvmeNamespace {
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4f1504fc00fe..61a9da970d41 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2624,6 +2624,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     if (n->namespace.blk) {
-         ns =3D &n->namespace;
-         ns->params.nsid =3D 1;
-+        ns->params.lbads =3D BDRV_SECTOR_BITS;
-=20
-         if (nvme_ns_setup(n, ns, errp)) {
-             return;
---=20
-2.25.1
+That was v8, followed by v9.  We're clearly converging.  However, the
+soft freeze is tomorrow already.
+
+You've persevered with this idea for quite a while; some impatience
+would be quite excusable now.  Still, I doubt part I making 5.0 matters.
+The hand-written part is likely to rebase easily, and the generated part
+should be regenerated instead of rebased anyway.
+
+What actually matters is *finishing* the job.  What does that take?
+
+* Consensus on the hand-written part.  I think we're basically there, we
+  just want to work in a few more tweaks.
+
+* Split the generated part into reviewable batches, regenerating patches
+  as necessary.  Solicit review.  First batch is part of this series,
+  and v9 looks ready to me.  I assume you'll prepare the remaining
+  batches.
+
+* Queue up batches as they become ready, post pull requests.  I can do
+  that.
+
+* Update the QAPI code generator to the new Error usage.  I can do that.
 
 
