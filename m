@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFAE18728A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:41:59 +0100 (CET)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8A81872BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:52:26 +0100 (CET)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDugY-0007Iw-Am
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59768)
+	id 1jDuqf-0001ig-WF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtf9-0000go-Se
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDtlY-0004eM-5I
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtf8-0005rc-SC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:27 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51655)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDtlV-0000Qo-Nz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:03 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtf8-0005bI-IQ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:26 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a132so18628309wme.1
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oDwAzBZlgB39jRCpkcihyqHHCaQGuXTIEAAajYTFEKg=;
- b=tuMigwee2moRpbGiK9cz/lTnAq6hg0iP3HlZq3hSsImUI5r4vwIplsjbcVZt1whvhv
- Iv+MysfPeTtZqIRfd9+mQNE2EDUA2Q/rxISj6Mw8T2wwHxR+FYGnB8W9OdMxjXOhp0Fa
- ud3/DGaO+ysD2hLQD7ejUemdoux+YimgIFHDm8w8QHcAmJ14NTAEVbrnhv5HX16UKcXi
- he/9LynfH7WkoluZmoVAFyMrL0+RBDgHHtyLtsLPErceFZ/o6R4o6SZ6W0e8+qXt1MA+
- LKfPSwht3kuuwuFY/+PQex4dZqL3oWWX5RyXKxvWrFeAU2NYjl7UFKcLXqQ1EH2SQqqW
- C3SA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jDtlV-0000Ha-IL
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:01 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id bo3so7667981pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zOs/8OdiftpJmPSmUYbE0no0V2XkwWZ2rsSlJaTudvc=;
+ b=B/o9Q9gHb9IdGkpjrF6nKILWlYTgxw9+h1aKok8qMXNQANl5bSNYFoR9SEyLmPEy+S
+ sSs+r+crKpyrkH/CFIpxvuc2Oc5L3PxFG1voyfOjhYXcJZvPMop7LCoTQtrH9zd/eMWF
+ R19EOoeTNHlEp0S6cXmLWx+wbnJyIWaNyZoqvpb2z1oQ3MJufWBe09rtAI2dLh7rnvgx
+ yoNK0ihBt+BPtV+JmNYU1gDGHpoSo8bQDpTLGPBVtcXZcKzBdgCR0j719s6Z/sTGrnfV
+ rmJsmDR26x8r8oK9xROFZNcHgUECzb5KeG6b8cm8pE4b/liVop8ebsZX6dwmtzsBNZJa
+ EghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oDwAzBZlgB39jRCpkcihyqHHCaQGuXTIEAAajYTFEKg=;
- b=SpIQiK+H4+bt3vCLk4j088O36cKvSu6dNb7kAyHepeNvgCfXbxUgzYKbQaYOnAcRc6
- vZJ+GzVtIC2LRB4BzeUvcx82VmUbUD/KNP3QHn3ojpx/JDDaUQAACI3e9tjKjKFHEFn1
- 1b2Ts7ovuR1j3tPhRQKwQG1A3J7PhgzX1GqLzlwNVHYcI9jTYbJLl7XGVunccEJ2tnnr
- QBrGSGb+Sm+OMM8M8/PHWV/6Hf5LtSg3e8xKp6KVmQ4btXaHaVFaUfeB83p4XF77m8mP
- 5Jx81f/DlgjORWhQSn1o9uVdhW0a9H8yzCLytZ0B3N4O08h+gaIvGuKO34KvkfEiJO1C
- bwFQ==
-X-Gm-Message-State: ANhLgQ35xx0lRdeZ111tZvS2zHyvIAB1i3l+JHxppVvRue6keey4VD8x
- mm/ML/J+sZYF+K+UpAn//7HatOCk6LvGZmLyabg=
-X-Google-Smtp-Source: ADFU+vvuty5CCRvHlwo7fjPpPuU6yaZedjGtXZamSuRJ6zyKRa4baMdUqUSmgCwBNtMr8G7jlXEtFPeuPS56J4S0CdI=
-X-Received: by 2002:a7b:c153:: with SMTP id z19mr188884wmi.37.1584380185249;
- Mon, 16 Mar 2020 10:36:25 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zOs/8OdiftpJmPSmUYbE0no0V2XkwWZ2rsSlJaTudvc=;
+ b=M4PiJGbg8p4D1bm16AWWHk0RDigO1vAp/IabLjx6Mk7QAR2sQITGavU9kWyzTybWdt
+ yadfWjTSxo8dPvMLsxNMp9lsZPdekcvTn1cBKB1Wfyx32ErakOzGBswJvpbYkYgF4cRX
+ W9iq0PUsU4AX0I+qW4T6J6/r3RFR8GQ4W92Xo+zUdm3xsSN+DpbCdqGs5HQqyFDLQ/zE
+ f40foGdlItT5Z5p4UJ0gWqz2NQZx974EycFJLLkeB6C0ykkg8sP9ZPkPCxyYkFHKXuBB
+ HxM05OH9xNXFwkxabvZWwZWMKY3pyeIg/VTkqJoAISHBP88whJT2KMr4LpF+7uolDRzp
+ jT0w==
+X-Gm-Message-State: ANhLgQ2fwFrJWbXTmddSLSV1Ed1jlSL/hvJsrotdVOh3iYANsErFkerC
+ 2IhEc4Jtthlz++G8duDoaSS1fg==
+X-Google-Smtp-Source: ADFU+vsoDPXOmPxhMQrd/cq9DEqHnR1g0lwaoFdNv0ACrg+cfg4uMaElreXINYoU+qCv/rsfNmmwWA==
+X-Received: by 2002:a17:90a:fb49:: with SMTP id
+ iq9mr637995pjb.143.1584380579244; 
+ Mon, 16 Mar 2020 10:42:59 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ jz19sm394711pjb.48.2020.03.16.10.42.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 10:42:58 -0700 (PDT)
+Subject: Re: [PATCH v5 57/60] target/riscv: vector slide instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
+ <20200312145900.2054-58-zhiwei_liu@c-sky.com>
+ <28063df7-bf38-d136-2d32-39651692c4c6@linaro.org>
+ <88b87d58-5387-9d0d-b1a0-5705171f2e83@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <76b6c079-15b2-08f1-f8e2-570efb6cfae5@linaro.org>
+Date: Mon, 16 Mar 2020 10:42:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-25-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-25-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:36:13 +0100
-Message-ID: <CAJ+F1CLGr7HYp3kAfjGXgPwxcGAyaPOmkN3+7s_oV-XHVdOVPw@mail.gmail.com>
-Subject: Re: [PATCH v3 24/34] qapi: Replace qmp_dispatch()'s TODO comment by
- an explanation
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <88b87d58-5387-9d0d-b1a0-5705171f2e83@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,49 +87,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 3/16/20 1:04 AM, LIU Zhiwei wrote:
+>> As a preference, I think you can do away with this helper.
+>> Simply use the slideup helper with argument 1, and then
+>> afterwards store the integer register into element 0.  You should be able to
+>> re-use code from vmv.s.x for that.
+> When I try it, I find it is some difficult, because  vmv.s.x will clean
+> the elements (0 < index < VLEN/SEW).
 
-On Sun, Mar 15, 2020 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/qmp-dispatch.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index 112d29a9ab..fb53687ce9 100644
-> --- a/qapi/qmp-dispatch.c
-> +++ b/qapi/qmp-dispatch.c
-> @@ -164,7 +164,11 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *r=
-equest,
->          g_assert(!ret);
->          return NULL;
->      } else if (!ret) {
-> -        /* TODO turn into assertion */
-> +        /*
-> +         * When the command's schema has no 'returns', cmd->fn()
-> +         * leaves @ret null.  The QMP spec calls for an the empty
+Well, two things about that:
 
-"for an"
+(1) The 0.8 version of vmv.s.x does *not* zero the other elements, so we'll
+want to be prepared for that.
 
-Can we assert that the command's schema has no 'returns' in this case?
+(2) We have 8 insns that, in the end come down to a direct element access,
+possibly with some other processing.
 
-> +         * object then; supply it.
-> +         */
->          ret =3D QOBJECT(qdict_new());
->      }
->
-> --
-> 2.21.1
->
->
+So we'll want basic helper functions that can locate an element by immediate
+offset and by variable offset:
+
+/* Compute the offset of vreg[idx] relative to cpu_env.
+   The index must be in range of VLMAX. */
+int vec_element_ofsi(int vreg, int idx, int sew);
+
+/* Compute a pointer to vreg[idx].
+   If need_bound is true, mask idx into VLMAX,
+   Otherwise we know a-priori that idx is already in bounds. */
+void vec_element_ofsx(DisasContext *s, TCGv_ptr base,
+                      TCGv idx, int sew, bool need_bound);
+
+/* Load idx >= VLMAX ? 0 : vreg[idx] */
+void vec_element_loadi(DisasContext *s, TCGv_i64 val,
+                       int vreg, int idx, int sew);
+void vec_element_loadx(DisasContext *s, TCGv_i64 val,
+                       int vreg, TCGv idx, int sew);
+
+/* Store vreg[imm] = val.
+   The index must be in range of VLMAX.  */
+void vec_element_storei(DisasContext *s, int vreg, int imm,
+                        TCGv_i64 val);
+void vec_element_storex(DisasContext *s, int vreg,
+                        TCGv idx, TCGv_i64 val);
+
+(3) It would be handy to have TCGv cpu_vl.
+
+Then:
+
+vext.x.v:
+    If rs1 == 0,
+        Use vec_element_loadi(s, x[rd], vs2, 0, s->sew).
+    else
+        Use vec_element_loadx(s, x[rd], vs2, x[rs1], true).
+
+vmv.s.x:
+    over = gen_new_label();
+    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+    For 0.7.1:
+        Use tcg_gen_dup8i to zero all VLMAX elements of vd.
+        If rs1 == 0, goto done.
+    Use vec_element_storei(s, vs2, 0, x[rs1]).
+ done:
+    gen_set_label(over);
+
+vfmv.f.s:
+    Use vec_element_loadi(x, f[rd], vs2, 0).
+    NaN-box f[rd] as necessary for SEW.
+
+vfmv.s.f:
+    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+    For 0.7.1:
+        Use tcg_gen_dup8i to zero all VLMAX elements of vd.
+    Let tmp = f[rs1], nan-boxed as necessary for SEW.
+    Use vec_element_storei(s, vs2, 0, tmp).
+    gen_set_label(over);
+
+vslide1up.vx:
+    Ho hum, I forgot about masking.  Some options:
+    (1) Call a helper just as you did in your original patch.
+    (2) Call a helper only for !vm, for vm as below.
+    (3) Call vslideup w/1.
+        tcg_gen_brcondi(TCG_COND_EQ, cpu_vl, 0, over);
+        If !vm,
+            // inline test for v0[0]
+            vec_element_loadi(s, tmp, 0, 0, MO_8);
+            tcg_gen_andi_i64(tmp, tmp, 1);
+            tcg_gen_brcondi(TCG_COND_EQ, tmp, 0, over);
+        Use vec_element_store(s, vd, 0, x[rs1]).
+        gen_set_label(over);
+
+vslide1down.vx:
+    For !vm, this is complicated enough for a helper.
+    If using option 3 for vslide1up, then the store becomes:
+    tcg_gen_subi_tl(tmp, cpu_vl, 1);
+    vec_element_storex(s, base, tmp, x[rs1]);
+
+vrgather.vx:
+    If !vm or !vl_eq_vlmax, use helper.
+    vec_element_loadx(s, tmp, vs2, x[rs1]);
+    Use tcg_gen_gvec_dup_i64 to store to tmp to vd.
+
+vrgather.vi:
+    If !vm or !vl_eq_vlmax, use helper.
+    If imm >= vlmax,
+        Use tcg_gen_dup8i to zero vd;
+    else,
+        ofs = vec_element_ofsi(s, vs2, imm, s->sew);
+        tcg_gen_gvec_dup_mem(sew, vreg_ofs(vd),
+                             ofs, vlmax, vlmax);
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+r~
 
