@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E6186B38
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:39:51 +0100 (CET)
-Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29335186B3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:40:26 +0100 (CET)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDp25-0000Ds-0E
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
+	id 1jDp2e-0000Rw-LD
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jDnwx-00022I-QR
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:31 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jDnwv-00021u-DZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jDnwv-0001Cv-Cb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45755
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnwv-00018P-71
+ (envelope-from <kraxel@redhat.com>) id 1jDnwt-0000u8-40
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38300
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnws-0000kN-Rd
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584358224;
+ s=mimecast20190719; t=1584358222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k2+gky+iQX2sRF3Cj4Ap1jl4jZVwiMISvIxm8ts03s8=;
- b=cEusEkXyJso773L8pDQiHsjEOR+9UyHtoyE+gft2kqDXclXO4fo/kMH+5mrvyRtWGo3Pdh
- iIKrWQgMmZVWwEEZQ88zLblGFALCSbl6FrRpH2qQuIcDk0LtN08Q7xJULRbiNbA8SqArHO
- hdhyvyujq4sQeKfPWQG88vSCe6yN9+Y=
+ bh=mE4yFR491f4j8PDDbu5efgbzaxaT645qB190m9RUtLA=;
+ b=PTRjw5Y6OMpMtrNWeaP4LwswEf36zqzNUilB/OQsYdgxR8mOIEkU7YvtMseaBqMHFMcLFf
+ PrPJ2iTS6bp26uxdDYCeZHUY2U0fVBnjT5rT06ky6axEoxviAIf1tLRWqLE5iEcpZ4LXxi
+ njbmZReYF2h/Y1daDO0m8/a4JCGDjpA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-Ze1VJ06pP0egSUsibdhZKw-1; Mon, 16 Mar 2020 07:30:20 -0400
-X-MC-Unique: Ze1VJ06pP0egSUsibdhZKw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-424-w1VAybSwOH6gU_-jpZ2bPw-1; Mon, 16 Mar 2020 07:30:20 -0400
+X-MC-Unique: w1VAybSwOH6gU_-jpZ2bPw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79BAD8017CC;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E21A800D4E;
  Mon, 16 Mar 2020 11:30:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64C165DA2C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E8638FC1E;
  Mon, 16 Mar 2020 11:30:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9D20D9D21; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
+ id A73359CA5; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/6] audio: consistency changes
-Date: Mon, 16 Mar 2020 12:30:12 +0100
-Message-Id: <20200316113015.28013-4-kraxel@redhat.com>
+Subject: [PULL 4/6] audio: change mixing engine float range to [-1.f, 1.f]
+Date: Mon, 16 Mar 2020 12:30:13 +0100
+Message-Id: <20200316113015.28013-5-kraxel@redhat.com>
 In-Reply-To: <20200316113015.28013-1-kraxel@redhat.com>
 References: <20200316113015.28013-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,32 +80,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-Change the clip_natural_float_from_mono() function in
-audio/mixeng.c to be consistent with the clip_*_from_mono()
-functions in audio/mixeng_template.h.
+Currently the internal float range of the mixing engine is
+[-.5f, .5f]. PulseAudio, SDL2 and libasound use a [-1.f, 1.f]
+range. This means with float samples the audio playback volume
+is 6dB too low and audio recording signals will be clipped in
+most cases.
+
+To avoid another scaling factor in the conv_natural_float_* and
+clip_natural_float_* functions with FLOAT_MIXENG defined this
+patch changes the mixing engine float range to [-1.f, 1.f].
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-id: 20200308193321.20668-3-vr_qemu@t-online.de
+Message-id: 20200308193321.20668-4-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/mixeng.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ audio/mixeng_template.h | 17 ++++++++---------
+ audio/mixeng.c          |  4 ++--
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
+diff --git a/audio/mixeng_template.h b/audio/mixeng_template.h
+index 77cc89b9e808..fc8e1d4d9ebf 100644
+--- a/audio/mixeng_template.h
++++ b/audio/mixeng_template.h
+@@ -41,32 +41,31 @@ static inline mixeng_real glue (conv_, ET) (IN_T v)
+=20
+ #ifdef RECIPROCAL
+ #ifdef SIGNED
+-    return nv * (1.f / (mixeng_real) (IN_MAX - IN_MIN));
++    return nv * (2.f / ((mixeng_real)IN_MAX - IN_MIN));
+ #else
+-    return (nv - HALF) * (1.f / (mixeng_real) IN_MAX);
++    return (nv - HALF) * (2.f / (mixeng_real)IN_MAX);
+ #endif
+ #else  /* !RECIPROCAL */
+ #ifdef SIGNED
+-    return nv / (mixeng_real) ((mixeng_real) IN_MAX - IN_MIN);
++    return nv / (((mixeng_real)IN_MAX - IN_MIN) / 2.f);
+ #else
+-    return (nv - HALF) / (mixeng_real) IN_MAX;
++    return (nv - HALF) / ((mixeng_real)IN_MAX / 2.f);
+ #endif
+ #endif
+ }
+=20
+ static inline IN_T glue (clip_, ET) (mixeng_real v)
+ {
+-    if (v >=3D 0.5) {
++    if (v >=3D 1.f) {
+         return IN_MAX;
+-    }
+-    else if (v < -0.5) {
++    } else if (v < -1.f) {
+         return IN_MIN;
+     }
+=20
+ #ifdef SIGNED
+-    return ENDIAN_CONVERT ((IN_T) (v * ((mixeng_real) IN_MAX - IN_MIN)));
++    return ENDIAN_CONVERT((IN_T)(v * (((mixeng_real)IN_MAX - IN_MIN) / 2.f=
+)));
+ #else
+-    return ENDIAN_CONVERT ((IN_T) ((v * IN_MAX) + HALF));
++    return ENDIAN_CONVERT((IN_T)((v * ((mixeng_real)IN_MAX / 2.f)) + HALF)=
+);
+ #endif
+ }
+=20
 diff --git a/audio/mixeng.c b/audio/mixeng.c
-index b57fad83bf3b..725b529be7da 100644
+index 725b529be7da..739a500449ce 100644
 --- a/audio/mixeng.c
 +++ b/audio/mixeng.c
-@@ -316,7 +316,7 @@ static void clip_natural_float_from_mono(void *dst, con=
-st struct st_sample *src,
-     float *out =3D (float *)dst;
+@@ -271,11 +271,11 @@ f_sample *mixeng_clip[2][2][2][3] =3D {
+ #define CONV_NATURAL_FLOAT(x) (x)
+ #define CLIP_NATURAL_FLOAT(x) (x)
+ #else
+-static const float float_scale =3D UINT_MAX;
++static const float float_scale =3D UINT_MAX / 2.f;
+ #define CONV_NATURAL_FLOAT(x) ((x) * float_scale)
 =20
-     while (samples--) {
--        *out++ =3D CLIP_NATURAL_FLOAT(src->l) + CLIP_NATURAL_FLOAT(src->r)=
-;
-+        *out++ =3D CLIP_NATURAL_FLOAT(src->l + src->r);
-         src++;
-     }
- }
+ #ifdef RECIPROCAL
+-static const float float_scale_reciprocal =3D 1.f / UINT_MAX;
++static const float float_scale_reciprocal =3D 2.f / UINT_MAX;
+ #define CLIP_NATURAL_FLOAT(x) ((x) * float_scale_reciprocal)
+ #else
+ #define CLIP_NATURAL_FLOAT(x) ((x) / float_scale)
 --=20
 2.18.2
 
