@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A5318714F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:39:00 +0100 (CET)
-Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5534187156
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:42:10 +0100 (CET)
+Received: from localhost ([::1]:44650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDthb-0004H8-3u
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40151)
+	id 1jDtkf-0001fe-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrq8-0002je-97
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:41 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsGP-00043U-AP
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrq7-000338-7T
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:40 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33193)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDrq7-00031s-2j
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:39 -0400
-Received: by mail-ot1-x343.google.com with SMTP id x26so1248514otk.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QY+2OTb9MtqR8dUS65wKid5CTkKHyVlGBNUsDgaEhho=;
- b=mQyc7ztP/hyXeViBYmkn0Bq8YywvRqacuV7dFmrekRLjD1YoWVHelUsamUdNOwbWJu
- libKIWV9wJFflpOcVxEGjuY0GgLlvWKjS+Hbohvq9veacQ3gFa2TkzGKklbDmADThxpL
- GB1g+Ug0YI0n/WdfixNVcnmPwBQYHLkw6n1B44y5l1xF78YbgDEu+gU+hJyZXa0DiNTL
- aA+2Mnl7x9p6ElyK0kNtPbyOIbtUX0wBgj6umXxSfkdZzo5zuBdvd9WgPY9hNJmdlAnz
- 8Zhn4KHdG5NZ+bycf4IbBoeF+qCSL5XovMZ+MG6vwhSpofV7lPnewdTMLLtISK5iMm1/
- UbGw==
+ (envelope-from <philmd@redhat.com>) id 1jDsGO-0006UU-2d
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:49 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24245)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGN-0006SH-Ub
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584374807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=36JPzoDFwtpu9mZ2fPnU6GKIA7vaoxIQMhsyqosn0aE=;
+ b=UmIE8y0uIJJrTiJcThtamZZ+8P5h2Lg70OZFskITG6CSLicKHTxfEjm76j5to4kPZtk6RP
+ KOt0jdwGmMNIy7imtt3RtXn3nBAh1e3n47ubIRuNfxHqDVi4Spbi1vntVIzHtOUtwhX3Ak
+ I5h390i3Bs3KrIfrB8IHLmHOzKl5Cvo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-f_fmdmO2Oj6KH5MlYH8ihg-1; Mon, 16 Mar 2020 12:06:45 -0400
+X-MC-Unique: f_fmdmO2Oj6KH5MlYH8ihg-1
+Received: by mail-wr1-f72.google.com with SMTP id 94so4576156wrr.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:06:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QY+2OTb9MtqR8dUS65wKid5CTkKHyVlGBNUsDgaEhho=;
- b=Ud02n9phcK3dc2CfrUrgHsT8cPwwpTE1Sz5OtXZNTetHfcTpec9OE4SbaoEj1sU9zg
- YmkWQ9l4g8TWiH293Np47znni6O8ADjCLZEda9IokcPSqSJWxYiP8BWse7XIDRJcRXX4
- yDoOZuKu3n5W2fwy7dtJextsqlCVhwv/Be+eQDCHtejriG3l+wjtFcxLrYW2WEUfY57U
- k//W95lfg2GmYkdtMWI1L7esuTFGNjTtzRNXdfZSQSbcNeNkHuYyJ8gvJml7uI5LeiJi
- xMYPvB6+FKOgGlYUJo8pOHE0oO/3JDdSOvAhEt9aZO2vYlWQr13JUQefsNTXCmhHd0U/
- w5tQ==
-X-Gm-Message-State: ANhLgQ3V0rGXhMLZT8hwYwEtWLpoARDqqkBGGJ6KlM23FGA9XhFhgwuP
- Q5IsTXqENTomKQ+Itogoiwk5HY+pwDCg0EJX1qJr6A==
-X-Google-Smtp-Source: ADFU+vtBhJb8IIcessTKIRqdr4NAhDnfCkrgpiP/NxD8BpYZcB1yu1e69JsmaS0vuRM+9JkvkRHnXN48pk+5hd8VHuI=
-X-Received: by 2002:a9d:1d43:: with SMTP id m61mr14088916otm.91.1584373178312; 
- Mon, 16 Mar 2020 08:39:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WUQmK3jX+ITRgjT53gJOYB77qbIWiqXEgYr8J8FbjTA=;
+ b=jI/BQtLfu792Uz4cNSkvCpMYXFLGSmkpU8YxCcWk814dhv2HfOQ3GYhnMCSdtd/ZiA
+ 520JHE55pvC9P8mV0POGFdccMJKG4d6nybIrJPg16MPURiFhyWKmTEiEbT2nE721nu/g
+ ohBFN/Z49gTKzQl4J6bskGooyWA0BfrplwOIyIQA0dpo0JBF5rv/oxKSOVQTOh92v4zM
+ tFBYtp4jKQFPvLrUpsXU6KCV405u32HQueUWsUgEDNOMEEUEjGahJXClBIyFg1RK7YhQ
+ nJ/CHtnBcnVN/azGnDeTDCXh6axBixgAS57X7VDGfEsWa63kqhC1ikBdpw4GS5cxtEa2
+ WzeA==
+X-Gm-Message-State: ANhLgQ0KbfuTagtOEcCPaZLpgMQ+JDarMqhsN3ypMu7/so7IYc4LjkeV
+ J47PRLzjZXCsqcIIfAQdoLsFoMjTomq4YKOixDIUF/25Z8jQNQ3MHh3LLQqBwm4XXY91Mut6msZ
+ KGtB1gx452XpFbnY=
+X-Received: by 2002:a1c:ab04:: with SMTP id u4mr28378906wme.88.1584374803976; 
+ Mon, 16 Mar 2020 09:06:43 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtV0XnwGOD9HZ+gDhSELi6gG1sO2wgoMuiEbFWxHuGz29Lw9cyiUjcbAj92lhznjafti4kUQw==
+X-Received: by 2002:a1c:ab04:: with SMTP id u4mr28378818wme.88.1584374802766; 
+ Mon, 16 Mar 2020 09:06:42 -0700 (PDT)
+Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id a10sm480884wrv.89.2020.03.16.09.06.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 09:06:42 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 01/19] target/arm: Rename KVM set_feature() as
+ kvm_set_feature()
+Date: Mon, 16 Mar 2020 17:06:16 +0100
+Message-Id: <20200316160634.3386-2-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
+References: <20200316160634.3386-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20200313161506.8834-1-linux@roeck-us.net>
-In-Reply-To: <20200313161506.8834-1-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 15:39:27 +0000
-Message-ID: <CAFEAcA-63OJfcnjE0V4W5a0R2tq_t0oRL7dre_WY_We0Jz9KoA@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/fsl-imx7: Instantiate apbh_dma and ocotp as
- unimplemented devices
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,64 +88,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 at 16:15, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Instantiating apbh_dma and ocotp as unimplemented devices prevents crashes
-> when booting Linux.
->
-> apbh_dma:
->
-> [   14.046518] Unhandled fault: external abort on non-linefetch (0x808) at 0xd0852008
-> [   14.047287] pgd = (ptrval)
-> [   14.047607] [d0852008] *pgd=8b028811, *pte=33000653, *ppte=33000453
-> [   14.050074] Internal error: : 808 [#1] SMP ARM
-> ...
-> [   14.077029] [<c0856530>] (stmp_clear_poll_bit) from [<c0856580>] (stmp_reset_block+0x10/0xb8)
-> [   14.077642] [<c0856580>] (stmp_reset_block) from [<c1a9655c>] (mxs_dma_probe+0x1f4/0x370)
-> [   14.078158] [<c1a9655c>] (mxs_dma_probe) from [<c0b6a7e8>] (platform_drv_probe+0x48/0x98)
-> [   14.078641] [<c0b6a7e8>] (platform_drv_probe) from [<c0b685c4>] (really_probe+0x228/0x2d0)
->
-> ocotp:
->
-> [   71.286109] Unhandled fault: external abort on non-linefetch (0x008) at 0xd0ff0000
-> [   71.287891] pgd = (ptrval)
-> [   71.288449] [d0ff0000] *pgd=8b497811, *pte=30350653, *ppte=30350453
-> [   71.291389] Internal error: : 8 [#1] SMP ARM
-> [   71.292302] Modules linked in:
-> [   71.293583] CPU: 0 PID: 112 Comm: kworker/0:3 Not tainted 5.0.0-10153-g065b6c4c913d-dirty #2
-> [   71.294148] Hardware name: Freescale i.MX7 Dual (Device Tree)
-> [   71.296728] Workqueue: events deferred_probe_work_func
-> [   71.297740] PC is at imx_ocotp_read+0x68/0x180
-> [   71.298154] LR is at mark_held_locks+0x48/0x74
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  hw/arm/fsl-imx7.c         | 11 +++++++++++
->  include/hw/arm/fsl-imx7.h |  6 ++++++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-> index 119b281a50..a17136f83c 100644
-> --- a/hw/arm/fsl-imx7.c
-> +++ b/hw/arm/fsl-imx7.c
-> @@ -459,6 +459,17 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
->       */
->      create_unimplemented_device("sdma", FSL_IMX7_SDMA_ADDR, FSL_IMX7_SDMA_SIZE);
->
-> +    /*
-> +     * OCOTP
-> +     */
-> +    create_unimplemented_device("octop", FSL_IMX7_OCOTP_ADDR,
-> +                                FSL_IMX7_OCOTP_SIZE);
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ target/arm/kvm32.c | 10 +++++-----
+ target/arm/kvm64.c | 16 ++++++++--------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-"octop" or "ocotp" ?
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index f271181ab8..0ab28b473a 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -22,7 +22,7 @@
+ #include "internals.h"
+ #include "qemu/log.h"
+=20
+-static inline void set_feature(uint64_t *features, int feature)
++static inline void kvm_set_feature(uint64_t *features, int feature)
+ {
+     *features |=3D 1ULL << feature;
+ }
+@@ -146,14 +146,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures=
+ *ahcf)
+      * timers; this in turn implies most of the other feature
+      * bits, but a few must be tested.
+      */
+-    set_feature(&features, ARM_FEATURE_V7VE);
+-    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
++    kvm_set_feature(&features, ARM_FEATURE_V7VE);
++    kvm_set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
+=20
+     if (extract32(id_pfr0, 12, 4) =3D=3D 1) {
+-        set_feature(&features, ARM_FEATURE_THUMB2EE);
++        kvm_set_feature(&features, ARM_FEATURE_THUMB2EE);
+     }
+     if (extract32(ahcf->isar.mvfr1, 12, 4) =3D=3D 1) {
+-        set_feature(&features, ARM_FEATURE_NEON);
++        kvm_set_feature(&features, ARM_FEATURE_NEON);
+     }
+=20
+     ahcf->features =3D features;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index be5b31c2b0..ad33e048e4 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -447,12 +447,12 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
+     }
+ }
+=20
+-static inline void set_feature(uint64_t *features, int feature)
++static inline void kvm_set_feature(uint64_t *features, int feature)
+ {
+     *features |=3D 1ULL << feature;
+ }
+=20
+-static inline void unset_feature(uint64_t *features, int feature)
++static inline void kvm_unset_feature(uint64_t *features, int feature)
+ {
+     *features &=3D ~(1ULL << feature);
+ }
+@@ -648,11 +648,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures=
+ *ahcf)
+      * with VFPv4+Neon; this in turn implies most of the other
+      * feature bits.
+      */
+-    set_feature(&features, ARM_FEATURE_V8);
+-    set_feature(&features, ARM_FEATURE_NEON);
+-    set_feature(&features, ARM_FEATURE_AARCH64);
+-    set_feature(&features, ARM_FEATURE_PMU);
+-    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
++    kvm_set_feature(&features, ARM_FEATURE_V8);
++    kvm_set_feature(&features, ARM_FEATURE_NEON);
++    kvm_set_feature(&features, ARM_FEATURE_AARCH64);
++    kvm_set_feature(&features, ARM_FEATURE_PMU);
++    kvm_set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
+=20
+     ahcf->features =3D features;
+=20
+@@ -802,7 +802,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     if (cpu->has_pmu) {
+         cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_PMU_V3;
+     } else {
+-        unset_feature(&env->features, ARM_FEATURE_PMU);
++        kvm_unset_feature(&env->features, ARM_FEATURE_PMU);
+     }
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+         assert(kvm_arm_sve_supported(cs));
+--=20
+2.21.1
 
-
-thanks
--- PMM
 
