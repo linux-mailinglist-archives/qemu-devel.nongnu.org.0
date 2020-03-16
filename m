@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A85C186828
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:50:06 +0100 (CET)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C05B1867F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:35:25 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmNo-0007M6-Pb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
+	id 1jDm9c-0002Eu-01
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDlJc-000091-2L
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:41 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDlY8-0005nN-Im
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDlJa-0003S6-UM
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43006
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlJa-0003GW-N6
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584348098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9vrxrm2nFPNOwJmJYXjlr6oyRPLOz9tW4pgWwronWOw=;
- b=diuq8vuDkA+3uisqPwJZxojSf+aWSnmHcfI5ZfMt7GxakmRF2ccsr/y7HVyBwE80d31UIG
- UCe+nQ3j5WfjBz+Q3vbeI65D9Aw0WcJmAXee1mWn2iQh1RxIAFpPJPSde5ZX7B/Do142Hk
- 812BgOTofXv2LtyNYbTvhvUiQY051eQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-5dfYYT_BOd-lZjR7HbPGXA-1; Mon, 16 Mar 2020 04:41:36 -0400
-X-MC-Unique: 5dfYYT_BOd-lZjR7HbPGXA-1
-Received: by mail-wm1-f70.google.com with SMTP id s20so4670273wmj.2
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:41:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9vrxrm2nFPNOwJmJYXjlr6oyRPLOz9tW4pgWwronWOw=;
- b=rttsuUu8wpU3f9LtERWlBMKABAEGQI69QAYkl5uHmh+Rf9tbF1OUKVuu4k/Sth03at
- VP14O5ZUnIBy6Fbq/ggLClLyKkmW8zONuoL8ufkrwjIRRz3oYLD3ZLUxqR+lAvLjGYh9
- BIQGsBwhcbDnMymaS+6ogqJW3YyO2nBKtaIlloaUpjTaOuy8NiVTsjzj9HJQJ8wzNdaf
- eiQ5kA9hVr8cNwCI8m38j39fssFPVv+Iynepo3BVSKh/73WtrPuC2klg8u1upZgw6QWy
- rAIPI1nUAJdAs23tmbC09rqCTuPrKmkGoGOPsxVZdmMCkYMZhb8XLqdBixfVZZSJEQ3g
- 950w==
-X-Gm-Message-State: ANhLgQ0VPPLswOp59+6rwFeygsOyzvqtPgopzK1p/3t5LgwVq8/owBbw
- ylnxYs2mrhsNKq7/jagWODwKSx45LnLCmQy6wdzdGmJCeLp7SqRnE72jd1spiI865W0MyIp/022
- UN+O22KmtgjdIDGw=
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr30481342wrs.96.1584348095169; 
- Mon, 16 Mar 2020 01:41:35 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu9nulhvqDZLtePWNRMmDXhEG7ZpUhoV3LFr7A6ePsf33BcvPsTpxJTBT0Z8qWCPTAgLJfFMQ==
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr30481322wrs.96.1584348094925; 
- Mon, 16 Mar 2020 01:41:34 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.82.39])
- by smtp.gmail.com with ESMTPSA id x17sm54970176wrt.31.2020.03.16.01.41.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 01:41:34 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: Add ARCH_CAPABILITIES related bits into
- Icelake-Server CPU model
-To: Xiaoyao Li <xiaoyao.li@intel.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20200316053314.194936-1-xiaoyao.li@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e90ff880-c395-9013-6855-eaa4be7969be@redhat.com>
-Date: Mon, 16 Mar 2020 09:41:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <laurent@vivier.eu>) id 1jDlY7-0004Yh-Bp
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:53569)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDlY7-0004NI-2Z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:39 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mt71D-1jT5TE0N1l-00tULv; Mon, 16 Mar 2020 09:56:25 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
+Date: Mon, 16 Mar 2020 09:56:17 +0100
+Message-Id: <20200316085620.309769-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200316085620.309769-1-laurent@vivier.eu>
+References: <20200316085620.309769-1-laurent@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <20200316053314.194936-1-xiaoyao.li@intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:paUhu87fai0bc55XxkcvyXlle9WCNvuQWyw4QMXOTWHbTY3Wfou
+ 2+iRqN05G1mqnkryJwv6YHcyylVw9IU8fUP/tGksL/7aReGe/yz10t+iZQvk8OwqDxE+Aqr
+ nq555bMP+onz8q0o2nSUE1gUM+dBl2gU/kfGzaNGKCOEwaika0E9x2w4qNnbxMgZDeX1YoR
+ q9wwu9eUOjSDhxM0P+wqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:O2r8lWPhCM4=:hWGagtIEwo4FE1ipiBF4DA
+ 14Sbx1LoP8KcJEeoEpKvtoJhzWtjsQEvP2jhiGXEtE1JfIVH1WSGpUcsbo7mAp/e6wQIg4fpJ
+ buWNo9QShKVg/zlusmSq4JaOq95p7CSqIgXggq2EzBH8RkmqhSJumQlAysQIGTBIfDO9Ztfh0
+ y/RLaPJnUXD+Zy0qiRVdu0AeNI3WY9mYANmC+vSyVv3afpnuQTcJj4MtZAVtWbiFKEdan2L5S
+ 5lq+g2zcObjvAYgyB3URxxTcI1bYo0yVjEzUbV64dhOAP2ciFALYNTvJmfIpKo4PFyp1dR0I+
+ VAsjvAfwmyxyQbSkCn5/tk+KXEc+zeyDrOlSXWbKxRKD5G/fig8DbDrqalkAi1btUxBUyy+i4
+ XWD0Xh5zs+bYML9v+9PJE24x54Z1MEMzl/PHhT4DhrnVv0CIHT4N31Z64S5L9usfDM3kFKBkk
+ CUoAchBOZIAP16eT/NDH+nzSMjpF4QVR/v1h4inpUjfxSC+APcKKxzsN0sFKSpb6dF+nbSuq/
+ WkocsiVoRte2Zx9YVeUCbpsJJqaLSftkA2a1/sy3A0PTFN4nwbTfGh8RLxGnbIGiMuNP+uzGc
+ uU8SrdfaHIf0N+eK0m2NqteFwOC7LoTpGbtFs7vtF+AyNxhGclMn7HOj2nEr28ScsStvRcRvP
+ 40jLU2Yen7ExQHvy/eT51d1NL5ImpxAEDIWCNDVSpl9oGd8hD/cYHl5FP9fEhC37iTdCQI5mV
+ 5SxCeVl4FpjSVpTrNQmjNNEdsJ8uyYSeBaNweFCskqmPRyB/VH6M2KEzjOQMeTsxjGdrp7upP
+ Z1VCE5x9kjHOZrrq6mxh6zVsTmrn8lDXlAmmtc1gXzU7t02fCJk47nbyw8OPGjcD5XPGXy1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,45 +63,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/20 06:33, Xiaoyao Li wrote:
-> Current Icelake-Server CPU model lacks all the features enumerated by
-> MSR_IA32_ARCH_CAPABILITIES.
-> 
-> Add them, so that guest of "Icelake-Server" can see all of them.
-> 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> ---
->  target/i386/cpu.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 92fafa265914..5f09d114e1c2 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3425,7 +3425,12 @@ static X86CPUDefinition builtin_x86_defs[] = {
->              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
->              CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57,
->          .features[FEAT_7_0_EDX] =
-> -            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-> +            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_ARCH_CAPABILITIES |
-> +            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-> +        .features[FEAT_ARCH_CAPABILITIES] =
-> +            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
-> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
-> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
->          /* Missing: XSAVES (not supported by some Linux versions,
->                  * including v4.1 to v4.12).
->                  * KVM doesn't yet expose any XSAVES state save component,
-> 
+This script is needed for targets based on asm-generic syscall numbers generation
 
-Hi Xiaoyao,
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-you need to add them as a new version of the CPU model.
+Notes:
+    v3: remove useless upper command
+    v2: add comments suggested by Taylor
 
-Paolo
+ scripts/gensyscalls.sh | 102 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
+ create mode 100755 scripts/gensyscalls.sh
+
+diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
+new file mode 100755
+index 000000000000..b7b8456f6312
+--- /dev/null
++++ b/scripts/gensyscalls.sh
+@@ -0,0 +1,102 @@
++#!/bin/sh
++#
++# Update syscall_nr.h files from linux headers asm-generic/unistd.h
++#
++# This code is licensed under the GPL version 2 or later.  See
++# the COPYING file in the top-level directory.
++#
++
++linux="$1"
++output="$2"
++
++TMP=$(mktemp -d)
++
++if [ "$linux" = "" ] ; then
++    echo "Needs path to linux source tree" 1>&2
++    exit 1
++fi
++
++if [ "$output" = "" ] ; then
++    output="$PWD"
++fi
++
++upper()
++{
++    echo "$1" | tr "[:lower:]" "[:upper:]" | tr "[:punct:]" "_"
++}
++
++qemu_arch()
++{
++    case "$1" in
++    arm64)
++        echo "aarch64"
++        ;;
++    *)
++        echo "$1"
++        ;;
++    esac
++}
++
++read_includes()
++{
++    arch=$1
++    bits=$2
++
++     cpp -P -nostdinc -fdirectives-only \
++        -D_UAPI_ASM_$(upper ${arch})_BITSPERLONG_H \
++        -D__BITS_PER_LONG=${bits} \
++        -I${linux}/arch/${arch}/include/uapi/ \
++        -I${linux}/include/uapi \
++        -I${TMP} \
++        "${linux}/arch/${arch}/include/uapi/asm/unistd.h"
++}
++
++filter_defines()
++{
++    grep -e "#define __NR_" -e "#define __NR3264"
++}
++
++rename_defines()
++{
++    sed "s/ __NR_/ TARGET_NR_/g;s/(__NR_/(TARGET_NR_/g"
++}
++
++evaluate_values()
++{
++    sed "s/#define TARGET_NR_/QEMU TARGET_NR_/" | \
++    cpp -P -nostdinc | \
++    sed "s/^QEMU /#define /"
++}
++
++generate_syscall_nr()
++{
++    arch=$1
++    bits=$2
++    file="$3"
++    guard="$(upper LINUX_USER_$(qemu_arch $arch)_$(basename "$file"))"
++
++    (echo "/*"
++    echo " * This file contains the system call numbers."
++    echo " * Do not modify."
++    echo " * This file is generated by scripts/gensyscalls.sh"
++    echo " */"
++    echo "#ifndef ${guard}"
++    echo "#define ${guard}"
++    echo
++    read_includes $arch $bits | filter_defines | rename_defines | \
++                                evaluate_values | sort -n -k 3
++    echo
++    echo "#endif /* ${guard} */"
++    echo) > "$file"
++}
++
++mkdir "$TMP/asm"
++> "$TMP/asm/bitsperlong.h"
++
++generate_syscall_nr arm64 64 "$output/linux-user/aarch64/syscall_nr.h"
++generate_syscall_nr nios2 32 "$output/linux-user/nios2/syscall_nr.h"
++generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
++
++generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
++generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
++rm -fr "$TMP"
+-- 
+2.24.1
 
 
