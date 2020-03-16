@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6143B187205
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:13:50 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4941871EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:09:57 +0100 (CET)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuFJ-0000Df-DR
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42899)
+	id 1jDuBY-0002v8-O7
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jDtpL-00038M-Bp
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:47:00 -0400
+ (envelope-from <clg@kaod.org>) id 1jDton-0002Cm-4v
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jDtpJ-0002w7-VL
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:59 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:36543)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jDtpF-0002t5-Na
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:57 -0400
-Received: by mail-qk1-x743.google.com with SMTP id u25so27753535qkk.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZWAwQTp/Gfu1n4sLpFLUYHmDggD9ePlAuETyYaPTHZA=;
- b=d2XyMgnjt8mOPqVAp4gxUl1Y362/lpkF1zYWUCQbziPYVVRT8LeHUAKo2Sffhp7nUO
- REmy0Tm+Fq3+etN5vTJmn4LXZ2kszMurhramw5MOeiXFaMLBE5jsPnpSD7PfuSsYS/6X
- AUf+0cWu+SFovSyvqCR0aDhV/5w8p2f1AN+HntkluScF2zfmvUIgn6PhHaj5/wY/yZBn
- yAvFXT5NHQLqqM/6Il4dieqsTWn/KYlr6U2DVej871pEks5K+8qBFaVFk4oeANEWy6i9
- 8Mn44DYdG4LYuQDqxdHm5cKXWOlxvg3TIdCJX0fmw5eldVKdntkeZ7iA0QCNXdOADBZz
- ZtZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZWAwQTp/Gfu1n4sLpFLUYHmDggD9ePlAuETyYaPTHZA=;
- b=X+pvTMS5r24KQPkallE9Lqkx2GwbFB/tCAReSCq3FtwSQnSTcKsXjAC35NbABbXQiv
- 9Wo90SwLwXB6p3JaUNUS34EmhV25aWXJe9xt9tUqttd9w/vla8i4MrflGu6l4KBuc8Bu
- 9Tgjj4FAq1HPp2V0ntAqg+RKA4MNnnIgvhB5fwvjTBVMC1ejudCavaRFNTt+kg54Q48O
- 0sAjDe4Lw90n1DrUblPZgeIxvkE5c9iJMVH/oPE+FNhlgsw8GKKpyddXXZ5BpbsJRa9k
- Pk1gyG2ykZo73IgFCWPMqMXittHz5n2e76ksttlLVuhOCBnDBGfr1+RBCPHP+LuNvJkG
- TJdg==
-X-Gm-Message-State: ANhLgQ2YbXu9ZJztNCYdrOddCoSYs/vgdYdP2ZktqGMbddMF3RNgJA8Q
- yAFtZsoivHz/vR3De7AyLZQ=
-X-Google-Smtp-Source: ADFU+vtTrTxd7Z8X94zj01lsbOzd2fTLwwJjzven7szZu3X2JkayDYD9BQYxAKoZ8CJG0ix5lkXVUA==
-X-Received: by 2002:a37:8ac3:: with SMTP id m186mr852334qkd.371.1584380812842; 
- Mon, 16 Mar 2020 10:46:52 -0700 (PDT)
-Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:7408:9006:8741:9ceb])
- by smtp.gmail.com with ESMTPSA id
- g7sm218422qki.64.2020.03.16.10.46.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:46:52 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Subject: [PATCH v2 3/4] usb-serial: Increase receive buffer to 496
-Date: Mon, 16 Mar 2020 13:46:09 -0400
-Message-Id: <20200316174610.115820-4-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200316174610.115820-1-jandryuk@gmail.com>
-References: <20200316174610.115820-1-jandryuk@gmail.com>
+ (envelope-from <clg@kaod.org>) id 1jDtol-0006ye-PK
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:25 -0400
+Received: from 1.mo178.mail-out.ovh.net ([178.33.251.53]:43964)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDtol-0006iG-HU
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:23 -0400
+Received: from player738.ha.ovh.net (unknown [10.108.35.240])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id 2239F94431
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:46:20 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player738.ha.ovh.net (Postfix) with ESMTPSA id 460141097E395;
+ Mon, 16 Mar 2020 17:46:13 +0000 (UTC)
+Subject: Re: [PATCH v2 3/8] ppc/spapr: Add FWNMI System Reset state
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-4-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <f1685657-31b1-b6e8-6b4f-98de0a2b01ec@kaod.org>
+Date: Mon, 16 Mar 2020 18:46:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+In-Reply-To: <20200316142613.121089-4-npiggin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 13505169382724570086
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.251.53
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,35 +58,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A FTDI USB adapter on an xHCI controller can send 512 byte USB packets.
-These are 8 * ( 2 bytes header + 62 bytes data).  A 384 byte receive
-buffer is insufficient to fill a 512 byte packet, so bump the receive
-size to 496 ( 512 - 2 * 8 ).
+On 3/16/20 3:26 PM, Nicholas Piggin wrote:
+> The FWNMI option must deliver system reset interrupts to their
+> registered address, and there are a few constraints on the handler
+> addresses specified in PAPR. Add the system reset address state and
+> checks.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
----
- hw/usb/dev-serial.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is in sync with the latest PAPR 2.9
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index ec091b6a36..77b964588b 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -29,7 +29,7 @@ do { printf("usb-serial: " fmt , ## __VA_ARGS__); } while (0)
- #define DPRINTF(fmt, ...) do {} while(0)
- #endif
- 
--#define RECV_BUF 384
-+#define RECV_BUF (512 - (2 * 8))
- 
- /* Commands */
- #define FTDI_RESET		0
--- 
-2.24.1
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  hw/ppc/spapr.c         |  2 ++
+>  hw/ppc/spapr_rtas.c    | 14 +++++++++++++-
+>  include/hw/ppc/spapr.h |  3 ++-
+>  3 files changed, 17 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index b03b26370d..5f93c49706 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1704,6 +1704,7 @@ static void spapr_machine_reset(MachineState *mac=
+hine)
+> =20
+>      spapr->cas_reboot =3D false;
+> =20
+> +    spapr->fwnmi_system_reset_addr =3D -1;
+>      spapr->fwnmi_machine_check_addr =3D -1;
+>      spapr->fwnmi_machine_check_interlock =3D -1;
+> =20
+> @@ -2023,6 +2024,7 @@ static const VMStateDescription vmstate_spapr_fwn=
+mi =3D {
+>      .needed =3D spapr_fwnmi_needed,
+>      .pre_save =3D spapr_fwnmi_pre_save,
+>      .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT64(fwnmi_system_reset_addr, SpaprMachineState),
+>          VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
+>          VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState=
+),
+>          VMSTATE_END_OF_LIST()
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 0b8c481593..521e6b0b72 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -414,6 +414,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>                                    uint32_t nret, target_ulong rets)
+>  {
+>      hwaddr rtas_addr;
+> +    target_ulong sreset_addr, mce_addr;
+> =20
+>      if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> @@ -426,7 +427,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>          return;
+>      }
+> =20
+> -    spapr->fwnmi_machine_check_addr =3D rtas_ld(args, 1);
+> +    sreset_addr =3D rtas_ld(args, 0);
+> +    mce_addr =3D rtas_ld(args, 1);
+> +
+> +    /* PAPR requires these are in the first 32M of memory and within R=
+MA */
+> +    if (sreset_addr >=3D 32 * MiB || sreset_addr >=3D spapr->rma_size =
+||
+> +           mce_addr >=3D 32 * MiB ||    mce_addr >=3D spapr->rma_size)=
+ {
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
+> +    }
+> +
+> +    spapr->fwnmi_system_reset_addr =3D sreset_addr;
+> +    spapr->fwnmi_machine_check_addr =3D mce_addr;
+> =20
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 64b83402cb..42d64a0368 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -194,9 +194,10 @@ struct SpaprMachineState {
+> =20
+>      /* State related to FWNMI option */
+> =20
+> -    /* Machine Check Notification Routine address
+> +    /* System Reset and Machine Check Notification Routine addresses
+>       * registered by "ibm,nmi-register" RTAS call.
+>       */
+> +    target_ulong fwnmi_system_reset_addr;
+>      target_ulong fwnmi_machine_check_addr;
+> =20
+>      /* Machine Check FWNMI synchronization, fwnmi_machine_check_interl=
+ock is
+>=20
 
 
