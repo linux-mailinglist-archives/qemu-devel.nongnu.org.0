@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC71874DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:40:14 +0100 (CET)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F51187512
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:47:32 +0100 (CET)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxSy-0001y4-2C
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42403)
+	id 1jDxa7-0004M2-DO
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:47:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHd-0003fv-Sz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:27 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHg-0003kf-DC
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHb-0004pg-QW
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21354)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHf-00052y-5O
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:28 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47907)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHb-0004oA-L6
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:23 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHe-00051S-Vz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394103;
+ s=mimecast20190719; t=1584394106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WK5h4P8m8J06henO1MK/mBW4W9LphSNTnmEs0tNIUNI=;
- b=OrNqDE4CI9jliLCchSG2Vy8pNghdoUFkXdaL7DUvjzkJLAWtWR5cxGdDPr7KWIWfUc5hIH
- BppLZI+3gAxLTy94wrnlNyK+k2MbYW4/1CZSURNU8m0DkOugsmPWu/67874A4Zm8QmEGgS
- 0iw92c0TxHYlnFrbuK4f5IeN9kXw1cI=
+ bh=WOnGfxVvr/2gh78JhcyB0MNCc4EfkJRvrQjMy1iHHM8=;
+ b=KlkNHDPIdWgGEZLq6U4/Wbq1LFiErRvmpPzq3oMh1nByPqh6obwTAa+eD1YoAqhQ7o8vDi
+ NFlF7z6jjh03mSDeEd02towGm0DrJRY+qo+ntTP34nknXodB9iac2ME3J+d9qRfUApnAMi
+ s9Syhcr/5KFWKyGV+WVpYxjcCx4I5mw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-4lyT3BCQMxChqMIJRu6LdA-1; Mon, 16 Mar 2020 17:28:21 -0400
-X-MC-Unique: 4lyT3BCQMxChqMIJRu6LdA-1
+ us-mta-440-tWaDFzbXPm-Uw49b0F9TkQ-1; Mon, 16 Mar 2020 17:28:24 -0400
+X-MC-Unique: tWaDFzbXPm-Uw49b0F9TkQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6FC7800D50
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71B28100726B
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:23 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B441319C4F;
- Mon, 16 Mar 2020 21:28:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C00519C4F;
+ Mon, 16 Mar 2020 21:28:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/61] hw/audio/intel-hda: Use memory region alias to reduce
- .rodata by 4.34MB
-Date: Mon, 16 Mar 2020 22:26:53 +0100
-Message-Id: <1584394048-44994-27-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 27/61] hw/usb/quirks: Use smaller types to reduce .rodata by
+ 10KiB
+Date: Mon, 16 Mar 2020 22:26:54 +0100
+Message-Id: <1584394048-44994-28-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,93 +76,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The intel-hda model uses an array of register indexed by the
-register address. This array also contains a pair of aliased
-registers at offset 0x2000. This creates a huge hole in the
-array, which ends up eating 4.6MiB of .rodata (size reported
-on x86_64 host, building with --extra-cflags=3D-Os).
-
-By using a memory region alias, we reduce this array to 132kB.
-
-Before:
-
-  (qemu) info mtree
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
-
-After:
-
-  (qemu) info mtree
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda-container
-      00000000febd4000-00000000febd5fff (prio 0, i/o): intel-hda
-      00000000febd6000-00000000febd7fff (prio 0, i/o): alias intel-hda-alia=
-s @intel-hda 0000000000000000-0000000000001fff
+The USB descriptor sizes are specified as 16-bit for idVendor /
+idProduct, and 8-bit for bInterfaceClass / bInterfaceSubClass /
+bInterfaceProtocol. Doing so we reduce the usbredir_raw_serial_ids[]
+and usbredir_ftdi_serial_ids[] arrays from 16KiB to 6KiB (size
+reported on x86_64 host, building with --extra-cflags=3D-Os).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/intel-hda.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ hw/usb/quirks.c |  4 ++--
+ hw/usb/quirks.h | 22 +++++++++++++---------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index 1bcc3e5..e8d18b7 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -181,7 +181,9 @@ struct IntelHDAState {
-     IntelHDAStream st[8];
+diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
+index 38a9c56..23ea7a2 100644
+--- a/hw/usb/quirks.c
++++ b/hw/usb/quirks.c
+@@ -22,10 +22,10 @@ static bool usb_id_match(const struct usb_device_id *id=
+s,
+                          uint8_t interface_protocol) {
+     int i;
 =20
-     /* state */
-+    MemoryRegion container;
-     MemoryRegion mmio;
-+    MemoryRegion alias;
-     uint32_t rirb_count;
-     int64_t wall_base_ns;
+-    for (i =3D 0; ids[i].vendor_id !=3D -1; i++) {
++    for (i =3D 0; ids[i].terminating_entry =3D=3D 0; i++) {
+         if (ids[i].vendor_id  =3D=3D vendor_id &&
+             ids[i].product_id =3D=3D product_id &&
+-            (ids[i].interface_class =3D=3D -1 ||
++            (ids[i].interface_protocol_used =3D=3D 0 ||
+              (ids[i].interface_class =3D=3D interface_class &&
+               ids[i].interface_subclass =3D=3D interface_subclass &&
+               ids[i].interface_protocol =3D=3D interface_protocol))) {
+diff --git a/hw/usb/quirks.h b/hw/usb/quirks.h
+index 89480be..50ef2f9 100644
+--- a/hw/usb/quirks.h
++++ b/hw/usb/quirks.h
+@@ -21,19 +21,23 @@
+ #include "quirks-pl2303-ids.h"
 =20
-@@ -670,12 +672,6 @@ static const struct IntelHDAReg regtab[] =3D {
-         .offset   =3D offsetof(IntelHDAState, wall_clk),
-         .rhandler =3D intel_hda_get_wall_clk,
-     },
--    [ ICH6_REG_WALLCLK + 0x2000 ] =3D {
--        .name     =3D "WALLCLK(alias)",
--        .size     =3D 4,
--        .offset   =3D offsetof(IntelHDAState, wall_clk),
--        .rhandler =3D intel_hda_get_wall_clk,
--    },
+ struct usb_device_id {
+-    int vendor_id;
+-    int product_id;
+-    int interface_class;
+-    int interface_subclass;
+-    int interface_protocol;
++    uint16_t vendor_id;
++    uint16_t product_id;
++    uint8_t interface_class;
++    uint8_t interface_subclass;
++    uint8_t interface_protocol;
++    uint8_t interface_protocol_used:1,
++            terminating_entry:1,
++            reserved:6;
+ };
 =20
-     /* dma engine */
-     [ ICH6_REG_CORBLBASE ] =3D {
-@@ -837,12 +833,6 @@ static const struct IntelHDAReg regtab[] =3D {
-         .size     =3D 4,                                                \
-         .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
-     },                                                                \
--    [ ST_REG(_i, ICH6_REG_SD_LPIB) + 0x2000 ] =3D {                     \
--        .stream   =3D _i,                                               \
--        .name     =3D _t stringify(_i) " LPIB(alias)",                  \
--        .size     =3D 4,                                                \
--        .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
--    },                                                                \
-     [ ST_REG(_i, ICH6_REG_SD_CBL) ] =3D {                               \
-         .stream   =3D _i,                                               \
-         .name     =3D _t stringify(_i) " CBL",                          \
-@@ -1125,9 +1115,15 @@ static void intel_hda_realize(PCIDevice *pci, Error =
-**errp)
-         error_free(err);
-     }
+ #define USB_DEVICE(vendor, product) \
+-    .vendor_id =3D vendor, .product_id =3D product, .interface_class =3D -=
+1,
++    .vendor_id =3D vendor, .product_id =3D product, .interface_protocol_us=
+ed =3D 0,
 =20
-+    memory_region_init(&d->container, OBJECT(d),
-+                       "intel-hda-container", 0x4000);
-     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
--                          "intel-hda", 0x4000);
--    pci_register_bar(&d->pci, 0, 0, &d->mmio);
-+                          "intel-hda", 0x2000);
-+    memory_region_add_subregion(&d->container, 0x0000, &d->mmio);
-+    memory_region_init_alias(&d->alias, OBJECT(d), "intel-hda-alias",
-+                             &d->mmio, 0, 0x2000);
-+    memory_region_add_subregion(&d->container, 0x2000, &d->alias);
-+    pci_register_bar(&d->pci, 0, 0, &d->container);
+ #define USB_DEVICE_AND_INTERFACE_INFO(vend, prod, iclass, isubclass, iprot=
+o) \
+     .vendor_id =3D vend, .product_id =3D prod, .interface_class =3D iclass=
+, \
+-    .interface_subclass =3D isubclass, .interface_protocol =3D iproto
++    .interface_subclass =3D isubclass, .interface_protocol =3D iproto, \
++    .interface_protocol_used =3D 1
 =20
-     hda_codec_bus_init(DEVICE(pci), &d->codecs, sizeof(d->codecs),
-                        intel_hda_response, intel_hda_xfer);
+ static const struct usb_device_id usbredir_raw_serial_ids[] =3D {
+     /*
+@@ -206,7 +210,7 @@ static const struct usb_device_id usbredir_raw_serial_i=
+ds[] =3D {
+     { USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530_PRODUCT_ID) },
+     { USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
+=20
+-    { USB_DEVICE(-1, -1) } /* Terminating Entry */
++    { .terminating_entry =3D 1 } /* Terminating Entry */
+ };
+=20
+ static const struct usb_device_id usbredir_ftdi_serial_ids[] =3D {
+@@ -906,7 +910,7 @@ static const struct usb_device_id usbredir_ftdi_serial_=
+ids[] =3D {
+     { USB_DEVICE(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID) },
+     { USB_DEVICE(FTDI_VID, FTDI_LUMEL_PD12_PID) },
+=20
+-    { USB_DEVICE(-1, -1) } /* Terminating Entry */
++    { .terminating_entry =3D 1 } /* Terminating Entry */
+ };
+=20
+ #undef USB_DEVICE
 --=20
 1.8.3.1
 
