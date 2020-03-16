@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E896187002
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:28:24 +0100 (CET)
-Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BE4186FAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:09:04 +0100 (CET)
+Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsbH-0000gZ-6T
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48545)
+	id 1jDsIZ-0003M0-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jDqhp-0007PI-5n
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:02 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jDqhy-0007Th-Rw
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jDqho-0000bP-3M
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:01 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44225)
+ (envelope-from <npiggin@gmail.com>) id 1jDqhx-0002QJ-Lf
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:10 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35160)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jDqhl-0008Qg-Cq; Mon, 16 Mar 2020 10:26:57 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b72so10017218pfb.11;
- Mon, 16 Mar 2020 07:26:57 -0700 (PDT)
+ id 1jDqhu-0001ke-Ev; Mon, 16 Mar 2020 10:27:06 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u68so10036676pfb.2;
+ Mon, 16 Mar 2020 07:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l70jAvVnYp9V72sa7a7DmNyd3hGe9AZcFFHBU2hoH0Q=;
- b=ufezYnnXNznbPxxeTZVCbSni/7kFFYJED4iNadNItvQSoVu9EEfMw6C2fbrFkMIt55
- Mjw0i/M8JdQpa5EGF/nGOMN8jBWJhXwJRF0BA+icpZRSMhaPul8m/wZz76fyTHY0Bswm
- n5PIAs4FP5AirFLKfFjsaeb305ZKuDhEqZVY+wbiOd3bSm2MEg0npz1GX/tuVTaCsT5I
- EAvi+ttQacE4sdjSQUV0kymtJNYos/3Xg/0j8HhBoHFrYICRzsHQ2ZnXvjd3HQ0jzM8s
- JVKiH1OKlEMtVA+kmh59N7/cvjpa+pfCQ6CksZ64wDMaBMojdCvp4yFWQevLpOkcIKaM
- DR5w==
+ bh=bDbE0pWdx402i6b4b97coyniPhlyf+H/P2krEymTHzo=;
+ b=bQhphno+Hlq4pjljuaxdLywBWXs/8rlmt2MBj1CLSi90+BOJHhDwHF18Y/rxXAYxej
+ w6QxaW2z0Ps3rDss0oWYkrRkzC1QHCuJ9DcWFB3CyCegef/BSG6KNtV8wZvAYfnUHZHi
+ qVkSwyqA44nILFceOPm9LHG91o2dqDCJ2Dx0KLGo57LRi+x6kj9/5jQAk6RBWD1j5iBk
+ Q01ylOTonjGbwYpZj4KtjFa1Lsbkk7XokSk65P25yAPUJz37ezhvyZ0Iq4GrTROl8jNm
+ kDGy62kwUDotsRHncOkUvLcv29AZTws5kJuaW+7xCPC21wPX2PWJLTE2LaJs3ZdUt3el
+ ou3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l70jAvVnYp9V72sa7a7DmNyd3hGe9AZcFFHBU2hoH0Q=;
- b=JGjm9GM1Y/+4D5r0yHoaJE5bl03EBwlOu7PnqaUgjOoecBFovFlZ8dhE/ABEsTnnJr
- IGx9VqNsFyrFtSxofFhjG9uM8wdtV3EI1BD9I/dSJk/uU9V+gRSge8rhrBB5iwRFdvnX
- peGflE+wIZRwDH8J+SveFK+TvS7xXTINhpUCSGu7HTluU1jHFT26zILPYQEpqkUOJOIB
- ZqO8uHON253/0mNJa5LwOWdXdxuCJN14DQxI6ItbO0WId1CCVrFPTa7+p+edGORLNgqw
- jZB+8zQ5f5Flvyq3epYFbshnZ3mH97PLbg4NfiMv/8KiQKVD8GeAtXD3qpoBcaRirIkn
- IT+A==
-X-Gm-Message-State: ANhLgQ2iFpN55HeX+DMh1GBdiglv57svhSVyZjZdadXRs+3Sa/71TN/I
- Hfa/dCsz3KmGF4F1/kIRd5gQ/Rjl2JY=
-X-Google-Smtp-Source: ADFU+vu4F1j7MgA4Rl/2uRuJnOUIJvLmlt9K9G7SImGXJHslr4pbu0VQqMT2Vu7Q9aUqbcqhu4+6+Q==
-X-Received: by 2002:a63:ee12:: with SMTP id e18mr122859pgi.33.1584368816180;
- Mon, 16 Mar 2020 07:26:56 -0700 (PDT)
+ bh=bDbE0pWdx402i6b4b97coyniPhlyf+H/P2krEymTHzo=;
+ b=QlPJEWglG/653rhZQKmajp5AFJPP3vl/Adn4n1KgLGhzZryCBSmF5VVa446exfR4/U
+ rh9U4lL8H1gJQjL3citcim3zuIP59D18PzQC23BOqIXqh9XRO0mqvztgwdAdUK8NMo29
+ A+iV5+zLxQcP1g32qdY9GIW2f6axey+iVTeY2iBnVG9jkjHJk/pEHDmpS40E3j4nD+tR
+ Z4B/g4t8X26SlMNKNPtbZRVSInxy9BwSkCBemmbjY+Y4I+JlJCLcPKEW1DPcT3eeUDTn
+ c8PvmoXrkAW0IHdrDiPqJDgF8+5gMe4vG/thlWAPdVmdq32EjGN6aUTmNN/NWTIN29xv
+ dsXg==
+X-Gm-Message-State: ANhLgQ02T86Sv4U2YXdH8NfzCi36lFDjMFcPZnwTAPp8TO1zT4Oh8s7x
+ iPl+VTWm1P/Pu3UZpgYF6FNm8Ty99zY=
+X-Google-Smtp-Source: ADFU+vt6Q3FCOIX+XkBV1/Lz8CiZKg5IzFJYn3PXeKhkU+1PwPCAjKbQcx3E5cWK/SwLZ2zRmO1aHg==
+X-Received: by 2002:a62:b604:: with SMTP id j4mr28928311pff.93.1584368825345; 
+ Mon, 16 Mar 2020 07:27:05 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com ([203.63.160.49])
- by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.26.52
+ by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.27.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 07:26:55 -0700 (PDT)
+ Mon, 16 Mar 2020 07:27:04 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/8] ppc/spapr: Fix FWNMI machine check failure handling
-Date: Tue, 17 Mar 2020 00:26:06 +1000
-Message-Id: <20200316142613.121089-2-npiggin@gmail.com>
+Subject: [PATCH v2 3/8] ppc/spapr: Add FWNMI System Reset state
+Date: Tue, 17 Mar 2020 00:26:08 +1000
+Message-Id: <20200316142613.121089-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200316142613.121089-1-npiggin@gmail.com>
 References: <20200316142613.121089-1-npiggin@gmail.com>
@@ -84,37 +84,86 @@ Cc: Aravinda Prasad <arawinda.p@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ppc_cpu_do_system_reset delivers a system rreset interrupt to the guest,
-which is certainly not what is intended here. Panic the guest like other
-failure cases here do.
+The FWNMI option must deliver system reset interrupts to their
+registered address, and there are a few constraints on the handler
+addresses specified in PAPR. Add the system reset address state and
+checks.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_events.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/ppc/spapr.c         |  2 ++
+ hw/ppc/spapr_rtas.c    | 14 +++++++++++++-
+ include/hw/ppc/spapr.h |  3 ++-
+ 3 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 2afd1844e4..11303258d4 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -785,7 +785,6 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
- static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b03b26370d..5f93c49706 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1704,6 +1704,7 @@ static void spapr_machine_reset(MachineState *machine)
+ 
+     spapr->cas_reboot = false;
+ 
++    spapr->fwnmi_system_reset_addr = -1;
+     spapr->fwnmi_machine_check_addr = -1;
+     spapr->fwnmi_machine_check_interlock = -1;
+ 
+@@ -2023,6 +2024,7 @@ static const VMStateDescription vmstate_spapr_fwnmi = {
+     .needed = spapr_fwnmi_needed,
+     .pre_save = spapr_fwnmi_pre_save,
+     .fields = (VMStateField[]) {
++        VMSTATE_UINT64(fwnmi_system_reset_addr, SpaprMachineState),
+         VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
+         VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState),
+         VMSTATE_END_OF_LIST()
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 0b8c481593..521e6b0b72 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -414,6 +414,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+                                   uint32_t nret, target_ulong rets)
  {
-     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
--    CPUState *cs = CPU(cpu);
-     uint64_t rtas_addr;
-     CPUPPCState *env = &cpu->env;
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-@@ -823,8 +822,7 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
-     /* get rtas addr from fdt */
-     rtas_addr = spapr_get_rtas_addr();
-     if (!rtas_addr) {
--        /* Unable to fetch rtas_addr. Hence reset the guest */
--        ppc_cpu_do_system_reset(cs);
-+        qemu_system_guest_panicked(NULL);
-         g_free(ext_elog);
+     hwaddr rtas_addr;
++    target_ulong sreset_addr, mce_addr;
+ 
+     if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_OFF) {
+         rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+@@ -426,7 +427,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
          return;
      }
+ 
+-    spapr->fwnmi_machine_check_addr = rtas_ld(args, 1);
++    sreset_addr = rtas_ld(args, 0);
++    mce_addr = rtas_ld(args, 1);
++
++    /* PAPR requires these are in the first 32M of memory and within RMA */
++    if (sreset_addr >= 32 * MiB || sreset_addr >= spapr->rma_size ||
++           mce_addr >= 32 * MiB ||    mce_addr >= spapr->rma_size) {
++        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
++        return;
++    }
++
++    spapr->fwnmi_system_reset_addr = sreset_addr;
++    spapr->fwnmi_machine_check_addr = mce_addr;
+ 
+     rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+ }
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 64b83402cb..42d64a0368 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -194,9 +194,10 @@ struct SpaprMachineState {
+ 
+     /* State related to FWNMI option */
+ 
+-    /* Machine Check Notification Routine address
++    /* System Reset and Machine Check Notification Routine addresses
+      * registered by "ibm,nmi-register" RTAS call.
+      */
++    target_ulong fwnmi_system_reset_addr;
+     target_ulong fwnmi_machine_check_addr;
+ 
+     /* Machine Check FWNMI synchronization, fwnmi_machine_check_interlock is
 -- 
 2.23.0
 
