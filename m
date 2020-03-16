@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A59F1874F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:43:48 +0100 (CET)
-Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAC71874DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:40:14 +0100 (CET)
+Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxWV-0007yR-8e
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42315)
+	id 1jDxSy-0001y4-2C
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHa-0003Yx-6k
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:23 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHd-0003fv-Sz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHZ-0004dC-5o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:22 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51690)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHb-0004pg-QW
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21354)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHZ-0004Wq-0O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:21 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHb-0004oA-L6
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394100;
+ s=mimecast20190719; t=1584394103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=APH5QeUNY4+QdIZjt0jLIZOSs0GF5eMKvhg6Of9TREg=;
- b=HMgGV3PU/Z9NaRaSulg5sltz9qk45BtLDlJ1ZAGou0VC2dAmKbDRM9f5luipAV1MRPltmU
- 5Gu83SppZUkvuH2zZLi/PLiyqLYwq8umcqDFtlengsVufbegbKsHBMj5KrZjzH9mKxgNhD
- nqOpCP6MsS1MafjOiIJKydAuJNQffeA=
+ bh=WK5h4P8m8J06henO1MK/mBW4W9LphSNTnmEs0tNIUNI=;
+ b=OrNqDE4CI9jliLCchSG2Vy8pNghdoUFkXdaL7DUvjzkJLAWtWR5cxGdDPr7KWIWfUc5hIH
+ BppLZI+3gAxLTy94wrnlNyK+k2MbYW4/1CZSURNU8m0DkOugsmPWu/67874A4Zm8QmEGgS
+ 0iw92c0TxHYlnFrbuK4f5IeN9kXw1cI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-GQnqhdomP5u6yrQGSzR4Og-1; Mon, 16 Mar 2020 17:28:19 -0400
-X-MC-Unique: GQnqhdomP5u6yrQGSzR4Og-1
+ us-mta-289-4lyT3BCQMxChqMIJRu6LdA-1; Mon, 16 Mar 2020 17:28:21 -0400
+X-MC-Unique: 4lyT3BCQMxChqMIJRu6LdA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AA69800D53
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6FC7800D50
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:20 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46A3F19C4F;
- Mon, 16 Mar 2020 21:28:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B441319C4F;
+ Mon, 16 Mar 2020 21:28:18 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/61] hw/audio/fmopl: Move ENV_CURVE to .heap to save 32KiB of
- .bss
-Date: Mon, 16 Mar 2020 22:26:52 +0100
-Message-Id: <1584394048-44994-26-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 26/61] hw/audio/intel-hda: Use memory region alias to reduce
+ .rodata by 4.34MB
+Date: Mon, 16 Mar 2020 22:26:53 +0100
+Message-Id: <1584394048-44994-27-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,45 +77,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This buffer is only used by the adlib audio device. Move it to
-the .heap to release 32KiB of .bss (size reported on x86_64 host).
+The intel-hda model uses an array of register indexed by the
+register address. This array also contains a pair of aliased
+registers at offset 0x2000. This creates a huge hole in the
+array, which ends up eating 4.6MiB of .rodata (size reported
+on x86_64 host, building with --extra-cflags=3D-Os).
+
+By using a memory region alias, we reduce this array to 132kB.
+
+Before:
+
+  (qemu) info mtree
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
+
+After:
+
+  (qemu) info mtree
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda-container
+      00000000febd4000-00000000febd5fff (prio 0, i/o): intel-hda
+      00000000febd6000-00000000febd7fff (prio 0, i/o): alias intel-hda-alia=
+s @intel-hda 0000000000000000-0000000000001fff
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/fmopl.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/audio/intel-hda.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
-index 173a752..356d4df 100644
---- a/hw/audio/fmopl.c
-+++ b/hw/audio/fmopl.c
-@@ -186,7 +186,7 @@ static int32_t *VIB_TABLE;
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index 1bcc3e5..e8d18b7 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -181,7 +181,9 @@ struct IntelHDAState {
+     IntelHDAStream st[8];
 =20
- /* envelope output curve table */
- /* attack + decay + OFF */
--static int32_t ENV_CURVE[2*EG_ENT+1];
-+static int32_t *ENV_CURVE;
+     /* state */
++    MemoryRegion container;
+     MemoryRegion mmio;
++    MemoryRegion alias;
+     uint32_t rirb_count;
+     int64_t wall_base_ns;
 =20
- /* multiple table */
- #define ML 2
-@@ -1090,6 +1090,7 @@ FM_OPL *OPLCreate(int clock, int rate)
- =09OPL->clock =3D clock;
- =09OPL->rate  =3D rate;
- =09OPL->max_ch =3D max_ch;
-+    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
- =09/* init grobal tables */
- =09OPL_initialize(OPL);
- =09/* reset chip */
-@@ -1127,6 +1128,7 @@ void OPLDestroy(FM_OPL *OPL)
- #endif
- =09OPL_UnLockTable();
- =09free(OPL);
-+    g_free(ENV_CURVE);
- }
+@@ -670,12 +672,6 @@ static const struct IntelHDAReg regtab[] =3D {
+         .offset   =3D offsetof(IntelHDAState, wall_clk),
+         .rhandler =3D intel_hda_get_wall_clk,
+     },
+-    [ ICH6_REG_WALLCLK + 0x2000 ] =3D {
+-        .name     =3D "WALLCLK(alias)",
+-        .size     =3D 4,
+-        .offset   =3D offsetof(IntelHDAState, wall_clk),
+-        .rhandler =3D intel_hda_get_wall_clk,
+-    },
 =20
- /* ----------  Option handlers ----------       */
+     /* dma engine */
+     [ ICH6_REG_CORBLBASE ] =3D {
+@@ -837,12 +833,6 @@ static const struct IntelHDAReg regtab[] =3D {
+         .size     =3D 4,                                                \
+         .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
+     },                                                                \
+-    [ ST_REG(_i, ICH6_REG_SD_LPIB) + 0x2000 ] =3D {                     \
+-        .stream   =3D _i,                                               \
+-        .name     =3D _t stringify(_i) " LPIB(alias)",                  \
+-        .size     =3D 4,                                                \
+-        .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
+-    },                                                                \
+     [ ST_REG(_i, ICH6_REG_SD_CBL) ] =3D {                               \
+         .stream   =3D _i,                                               \
+         .name     =3D _t stringify(_i) " CBL",                          \
+@@ -1125,9 +1115,15 @@ static void intel_hda_realize(PCIDevice *pci, Error =
+**errp)
+         error_free(err);
+     }
+=20
++    memory_region_init(&d->container, OBJECT(d),
++                       "intel-hda-container", 0x4000);
+     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
+-                          "intel-hda", 0x4000);
+-    pci_register_bar(&d->pci, 0, 0, &d->mmio);
++                          "intel-hda", 0x2000);
++    memory_region_add_subregion(&d->container, 0x0000, &d->mmio);
++    memory_region_init_alias(&d->alias, OBJECT(d), "intel-hda-alias",
++                             &d->mmio, 0, 0x2000);
++    memory_region_add_subregion(&d->container, 0x2000, &d->alias);
++    pci_register_bar(&d->pci, 0, 0, &d->container);
+=20
+     hda_codec_bus_init(DEVICE(pci), &d->codecs, sizeof(d->codecs),
+                        intel_hda_response, intel_hda_xfer);
 --=20
 1.8.3.1
 
