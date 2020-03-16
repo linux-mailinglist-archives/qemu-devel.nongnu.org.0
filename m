@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE0918763C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:34:14 +0100 (CET)
-Received: from localhost ([::1]:50374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C01187640
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:35:38 +0100 (CET)
+Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDzFN-0000pa-IH
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50372)
+	id 1jDzGj-0003kk-Ed
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dS-E4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:24 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dT-Jd
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005eH-2n
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005eA-2X
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:22 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:54483)
+Received: from ozlabs.org ([2401:3900:2:1::2]:54851)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDzDY-0004wu-7O; Mon, 16 Mar 2020 19:32:20 -0400
+ id 1jDzDY-0004xm-9I; Mon, 16 Mar 2020 19:32:20 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hCJJ2Ck0z9sR4; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
+ id 48hCJJ2WWlz9sPR; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584401536;
- bh=ahwy71KaFLrYpotUkY+WlCpG36KcTmUiBZfVKq5O+Es=;
+ bh=IDSI4xzL+lXC/mEF1E4aAmSm1bBfVS8TPh3uAqHMVbY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KpXZ6K7N0NX9HyT7L6xnSy6Ls+nyDo95QEjtxM74kM2H5uaTBfCSet4o8DuLHpTOG
- /NqcFj6pwYN9Vgn+yJeQQCl4DinlXTME7PxeyyGJ1n7aAXk//BPY8APYrtlNjEiX6r
- d2fPPV9x3MOrEg0D7w//K2OUgHp19M+qMAru+3b0=
-Date: Tue, 17 Mar 2020 10:27:00 +1100
+ b=S6N2Fp7dl3RIrAa+Py803R7gOVcbvfjvq/2zHUI2PNXCXLK24UyfZjtY9unGuMo7a
+ CHLrC4YQYgESoKW6GX4o417YWKR4fjVba4WIO0dmgpUI6zvOcam6sxhSQ7+sMPU7PB
+ 9/5gXWxr+tjsne/iKuH+HGayImV4lUo6A2vk/hEg=
+Date: Tue, 17 Mar 2020 10:28:58 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 4/8] ppc/spapr: Fix FWNMI machine check interrupt
- delivery
-Message-ID: <20200316232700.GE20264@umbus.fritz.box>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
+ an alternate vector
+Message-ID: <20200316232858.GF20264@umbus.fritz.box>
 References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-5-npiggin@gmail.com>
- <2ff9bfbf-5a6a-2a79-e14e-4b7c76aff062@kaod.org>
- <1584400226.tr4pv2h852.astroid@bobo.none>
+ <20200316142613.121089-7-npiggin@gmail.com>
+ <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TD8GDToEDw0WLGOL"
+ protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
 Content-Disposition: inline
-In-Reply-To: <1584400226.tr4pv2h852.astroid@bobo.none>
+In-Reply-To: <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -59,57 +58,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aravinda Prasad <arawinda.p@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+ Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---TD8GDToEDw0WLGOL
+--Wb5NtZlyOqqy58h0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 17, 2020 at 09:19:57AM +1000, Nicholas Piggin wrote:
-> C=E9dric Le Goater's on March 17, 2020 3:59 am:
-> > On 3/16/20 3:26 PM, Nicholas Piggin wrote:
-> >> FWNMI machine check delivery misses a few things that will make it fail
-> >> with TCG at least (which we would like to allow in future to improve
-> >> testing).
-> >=20
-> > I don't understand which issues are addressed in the patch.
+On Mon, Mar 16, 2020 at 07:15:14PM +0100, C=E9dric Le Goater wrote:
+> On 3/16/20 3:26 PM, Nicholas Piggin wrote:
+> > Provide for an alternate delivery location, -1 defaults to the
+> > architected address.
 >=20
-> The existing code does not compute hflags, at least.
->=20
-> There's a few possible other things, I didn't dig into qemu enough
-> to know if they might be a problem (e.g., reservation and TLB). I
-> figure it's better to keep these consistent.
->=20
-> Keep in mind this is a bit academic right now, because we can't
-> (AFAIKS) inject an MCE from TCG. It would be good to wire that up,
-> but I didn't get to it.
->=20
-> >> It's not nice to scatter interrupt delivery logic around the tree, so
-> >> move it to excp_helper.c and share code where possible.
-> >=20
-> > It looks correct but this is touching the ugliest routine in the QEMU=
-=20
-> > PPC universe. I would split the patch in two to introduce the helper
-> > powerpc_set_excp_state().
-> >=20
-> > It does not seem to need to be an inline also.
->=20
-> Yeah it's all pretty ugly. I didn't yet find a nice way to do
-> split things up that did not require a lot of code churn, but that
-> can come later.
->=20
-> Inline was just because powerpc_excp is inline, I didn't want to
-> change behaviour too much there (it obviously wants to do a lot of
-> constant propagation but maybe only on the case statement). Anyway
-> I just wanted to be minimal for now, it could be changed.
+> I don't know what is the best approach, to override the vector addr
+> computed by powerpc_excp() or use a machine class handler with=20
+> cpu->vhyp.
 
-Yeah, I definitely want to get this in, so despite imperfections that
-could probably be polished with time, I've applied to ppc-for-5.0.
+Again, in the interests of getting this in for the soft freeze, I've
+applied this now.  We can clean it up later.
+
+>=20
+> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > ---
+> >  hw/ppc/spapr.c           | 2 +-
+> >  target/ppc/cpu.h         | 2 +-
+> >  target/ppc/excp_helper.c | 5 ++++-
+> >  3 files changed, 6 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 5f93c49706..25221d843c 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -3400,7 +3400,7 @@ static void spapr_machine_finalizefn(Object *obj)
+> >  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+> >  {
+> >      cpu_synchronize_state(cs);
+> > -    ppc_cpu_do_system_reset(cs);
+> > +    ppc_cpu_do_system_reset(cs, -1);
+> >  }
+> > =20
+> >  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> > index 3953680534..f8c7d6f19c 100644
+> > --- a/target/ppc/cpu.h
+> > +++ b/target/ppc/cpu.h
+> > @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunct=
+ion f, CPUState *cs,
+> >  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+> >                                 int cpuid, void *opaque);
+> >  #ifndef CONFIG_USER_ONLY
+> > -void ppc_cpu_do_system_reset(CPUState *cs);
+> > +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
+> >  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
+> >  extern const VMStateDescription vmstate_ppc_cpu;
+> >  #endif
+> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> > index 7f2b5899d3..08bc885ca6 100644
+> > --- a/target/ppc/excp_helper.c
+> > +++ b/target/ppc/excp_helper.c
+> > @@ -961,12 +961,15 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+> >      }
+> >  }
+> > =20
+> > -void ppc_cpu_do_system_reset(CPUState *cs)
+> > +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
+> >  {
+> >      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> >      CPUPPCState *env =3D &cpu->env;
+> > =20
+> >      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
+> > +    if (vector !=3D -1) {
+> > +        env->nip =3D vector;
+> > +    }
+> >  }
+> > =20
+> >  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -117,25 +146,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---TD8GDToEDw0WLGOL
+--Wb5NtZlyOqqy58h0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wC0QACgkQbDjKyiDZ
-s5K1GA/+PslSnOoaK8aLvK25GLu8vYS1GM4H2+DVI3R5QMNFjK8Dw4xZO+qQt6Bd
-BW8D6SriD/oF96366ABvhzgvVAtZqljLntfuRRwH4SXMLqlBgjeuHg9qHMKiddeh
-w/OqLTp7OM4S+NikTM/xljVI9Akh9vE8zv6K57xOjoPJ1Kyvtqf2NdN7gSc2nCmp
-auIQj8DZTBEcorw7hSqHVUgfJZ7LGuNQ8XHEq6xAwK4mNDpyrD2uiMOHNbfsnpy2
-UK63WUfWOstLltbprpkGstA0/wlFJkiNdypP9UlQDKVBiPd9FHyIohAkMIStfQNQ
-7yo6kI+HtbkTFmI+B8qmcpKUz2hzLI9HVd9O4zrQBilDc4VEooYKvagS2gWOAC48
-WK4cJyizx7pBrOClpY1gu+i+IoYzDgNUnj2MEaCEMrU2Qp4FJaLhB0f2QkMx/Guv
-IvUnDO0I5c05YD+N4A3U0nZAUdqeLy9oX/Kc8gPNNv1PcIYhBEpAGSq+f91Iq8Qo
-GtHM3PfrGiNheCU4viENz+UCSYLDpTEsNbCH/a9v0vqS/vru5pJQQQOVU3h8ndls
-QwMLoCp0oRAe8NqvukHyk5uvakey2TZyAHxLu+oMupa4kd+WEgILXWEtZgbVeF+a
-WkxXCDuNjdMGfuLglP2Feg0NQCThJZJnJeE2c23B5URH8P8j4Vo=
-=SUqr
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wC7kACgkQbDjKyiDZ
+s5ICpxAAnc1rRI/6Q330XmhUq2pNrAeukoVEWZV7wDFqEKATesM7WftGWesK0lcy
+sPrbAU0A5JHkIB1PnoBZY/CY0OZVvqzhXG5BL8ybZcuepsocZ7aEzqbWhjhhvowu
+wf3/KIIUv8Sy+z8JZi5wtz1ZyEnl2+f/POCRVfCBXv0Di18TvRzwb1XD0HUsz78+
+zzPEcl5VtmmkyvJtlZnwoNcaa9QjsVoaLB78AvzTNQNM3e6nWXe7M4Js2Ca4b3Ek
+vkbqCMnbYG59n9UoLb7Hx0nCXb0Vz830nogrzK/0SxJ3kb3w+vjT5hJUH0ET0+bB
+WIwCiNJhHJfBp/L3re6gNZBB53UnZDphGLplJSZP5InbpzcXqB0VtcRFVMbH95Bc
+bntZ0HhSAqOYV9f4E77jyqbtUdAmAAKMDUEErtxrooH4uei4VbGimSc0/qmA9HUB
+TWQHe9zTg6+g2mrzMWbIPXEHdPYVbuRfeRRBCDeh76BCmwT2WPTtV67tVVk/9Ffk
+i+AfpDLR1EE/HTKytcwKfVg7XfrJ6t+KSy2VgWTotuCdqWpsHulWPdp/5cqAe2Dw
+FlD8fSQeWTOBvzPhkeo270HXl5nbqKgEBktWdWO7iwdq7PLX/IOGgpMkMj2nc7hu
+tMj/1xnNdaZB7BORo0Bgpigk3SMAl+qYdpkrCgawYk96XZBFbYc=
+=H0r5
 -----END PGP SIGNATURE-----
 
---TD8GDToEDw0WLGOL--
+--Wb5NtZlyOqqy58h0--
 
