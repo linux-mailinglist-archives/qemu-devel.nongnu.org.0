@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B4C1872B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:48:09 +0100 (CET)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59AF1872A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:45:59 +0100 (CET)
+Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDumW-0002EA-AI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53013)
+	id 1jDukQ-0006Ft-UX
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXr-0003qg-Cn
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXg-0003cL-GJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXn-0002Qk-UD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:55 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42894)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXd-0001zN-Ju
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:43 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtXn-0002Ji-HR
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:51 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v11so22320923wrm.9
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:51 -0700 (PDT)
+ id 1jDtXa-0001vS-AJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:39 -0400
+Received: by mail-wm1-x344.google.com with SMTP id n8so18592653wmc.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m8trnK4dsJcOAkqMwuDk8oN/65638+mbTVeX6RjAM68=;
- b=HBvq+Gr1rLXtJLvRVXx6L79nqcvJ2B+xPBsegPXIx70/Li1laLUTPSzyQ7N1knJBT9
- A5hB/O6zxN0U6SAyyL4of8l97vq2fOvasvtL8DId2Q9vwr1TWF0+VnP7oGFNX/h6GPXb
- K0BIJ6QsrFkChDqvYM2KEnqNVl8LvwWuQsHbfdNaDTqyhSKUvqXwJI1PSTCt6R3x0H+C
- VfPQ0WYwkE1VkYcmjGF20YNhFKw0K5vMoPlsnCnHKL4F07cU+ytdwdznYHsYtNwcUl+A
- j3aR7YnTUUSa6MNtR62gvnuBrnQuxIuWp7S9xPx7ErAwbDE2s7dfpS2KosyP4vjntqyd
- QbDQ==
+ bh=06upHfcJvurHEqRqXZxgM7CdWpLdWAWn6DtNQywwJZ8=;
+ b=rxCt8s5OoOLvHRbo/k7sI7lrYMCY235QQ56t3odLROKNvVD40SD87Iv25oeI0Yvvav
+ yOxQV/hgROD8DxYEOUS3nt0HenrKKQxE2cU0mU0xi4IjyXkQhs9l32Rbcp4sndPdD9az
+ M5+Cq4Nq47g9GL51vJUuJrbz3DLclu9OLysvOYQUm4mD4j/NQ9V+aND5up8OhLrX8grh
+ ia3JKvkeuZzyWdGNiQQs2ZTV2JKe/jvJnVCh7OcgN76gNuiK6lyJp95PSUgKNK2f0YTo
+ CFKOCSOnz+nOfoiG1gqwbp6wYopaa7wwr9MDEVXrfmVKzs0dhcKAr1VZwl5Cs4qYEnsr
+ Tjgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m8trnK4dsJcOAkqMwuDk8oN/65638+mbTVeX6RjAM68=;
- b=Y7MkFhfseBzA3eeH8heWVlGH3eSKUlXjpG/XmdzPkV7YN5xz9ETjiZH8v5oqPREwQN
- yRoJBPiW6rBhEcHuow13WofH9M8LDVpj09rWbi7s09mws/8Ovk55GAFRcg3u+AOYtP5w
- TguueUXR9Sl81/oGWvQWHcwA8zTibCkORFBjPIQDkSY8G1GcJKtUEXPtHDKGWAyPOUA7
- A+yKR8r9YS14bFvK/KWz7ASKy7ENpte7gZr7YiBZjFlOYlVQfrrDwwxpXVUdcKyc3opt
- ksOSKyRFsVbpiYLpesN57jZSxiAD/k/6ORb5m4iPacDBypP1/oJtAwMYIsTEkOnzTyLz
- tbbg==
-X-Gm-Message-State: ANhLgQ3/4MdwefmpYhewBz8vmZL4GJKrk8Q+7XFTsJm6GqMEQ0PsQzYg
- Pqasp8SqAemJ/XQBT2qq9kopew==
-X-Google-Smtp-Source: ADFU+vuZHzlkb3X9TGWbTjsEEpevcVTZ7Ke10xn8DgpeFvoA4hK1S37CzkczmHtXeNtOh4BrSUjPQA==
-X-Received: by 2002:a5d:5342:: with SMTP id t2mr456320wrv.104.1584379730464;
- Mon, 16 Mar 2020 10:28:50 -0700 (PDT)
+ bh=06upHfcJvurHEqRqXZxgM7CdWpLdWAWn6DtNQywwJZ8=;
+ b=hCXT9Ayvyw/S6KW/ECsEmKUpWgUeLQjoipWBW+T94wj/B5xi0S9nqrazfE+az3TRh1
+ Vf9EMHLGMQ5ojBogdOMzutg8oJ6dmB+HRH4S2sBN7ymk+DmyYNWVUzgijuCo4IRsqPC2
+ fNyy8UIIvhUxWSEZeosJAK7DSRJUVrq+kN6fIAOUrGv+0i1OPUhGFMnV9HI2Oe+7kF1t
+ 9KgWvUTz5+Srk0yKz/9t7PWzygybdyD0sb7mFWGE1ZCcn/oNEK5MWpqlGyCFJqJjiWEt
+ HfskwXx6uhH0e0Ozp990tDSg+L2tA8u48VdDc73rid3IuFETtG3UsODua27BtwdGReKO
+ 1KsA==
+X-Gm-Message-State: ANhLgQ0Iz8s1fcCWPorfjtJEFalCNjPNivhsLnUjNoTQcd8AI6pchUc6
+ nBpfU5btHHfEn3pGwqj+SkJfvA==
+X-Google-Smtp-Source: ADFU+vuBA3uteprROJQ5kvIqO2S/z5P3CI22HY9shQgGF7TReHRRy49ZzIPQn2TgzCfnRIBPJ2v7eA==
+X-Received: by 2002:a05:600c:214f:: with SMTP id
+ v15mr201958wml.110.1584379716962; 
+ Mon, 16 Mar 2020 10:28:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 9sm443006wmx.32.2020.03.16.10.28.42
+ by smtp.gmail.com with ESMTPSA id l12sm770079wrt.73.2020.03.16.10.28.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:28:46 -0700 (PDT)
+ Mon, 16 Mar 2020 10:28:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 815581FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id 978F41FFAF;
  Mon, 16 Mar 2020 17:21:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 23/28] tests/tcg/aarch64: add a gdbstub testcase for SVE
- registers
-Date: Mon, 16 Mar 2020 17:21:50 +0000
-Message-Id: <20200316172155.971-24-alex.bennee@linaro.org>
+Subject: [PATCH  v1 24/28] tests/tcg/aarch64: add SVE iotcl test
+Date: Mon, 16 Mar 2020 17:21:51 +0000
+Message-Id: <20200316172155.971-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
 References: <20200316172155.971-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,148 +87,120 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A very simple test case which sets and reads SVE registers while
-running a test case. We don't really need to compile a SVE binary for
-this case but we will later so keep it simple for now.
+This is a fairly bare-bones test of setting the various vector sizes
+for SVE which will only fail if the PR_SVE_SET_VL can't reduce the
+user-space vector length by powers of 2.
+
+However we will also be able to use it in a future test which
+exercises the GDB stub.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
+v3
+  - use index to fill zreg
+  - CROSS_CC_HAS_SVE
 v5
-  - properly plumb in
-  - skip if fails to connect
+  - merge conflicts
+v6
+  - drop id check
 ---
- tests/.gitignore                      |  1 +
- tests/tcg/aarch64/Makefile.target     | 15 +++++
- tests/tcg/aarch64/gdbstub/test-sve.py | 81 +++++++++++++++++++++++++++
- 3 files changed, 97 insertions(+)
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+ tests/tcg/aarch64/sve-ioctls.c    | 70 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  4 ++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 tests/tcg/aarch64/sve-ioctls.c
 
-diff --git a/tests/.gitignore b/tests/.gitignore
-index 7306866f216..d03c037d772 100644
---- a/tests/.gitignore
-+++ b/tests/.gitignore
-@@ -10,6 +10,7 @@ qht-bench
- rcutorture
- test-*
- !test-*.c
-+!test-*.py
- !docker/test-*
- test-qapi-commands.[ch]
- test-qapi-init-commands.[ch]
+diff --git a/tests/tcg/aarch64/sve-ioctls.c b/tests/tcg/aarch64/sve-ioctls.c
+new file mode 100644
+index 00000000000..9544dffa0ee
+--- /dev/null
++++ b/tests/tcg/aarch64/sve-ioctls.c
+@@ -0,0 +1,70 @@
++/*
++ * SVE ioctls tests
++ *
++ * Test the SVE width setting ioctls work and provide a base for
++ * testing the gdbstub.
++ *
++ * Copyright (c) 2019 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include <sys/prctl.h>
++#include <asm/hwcap.h>
++#include <stdio.h>
++#include <sys/auxv.h>
++#include <stdint.h>
++#include <stdlib.h>
++
++#ifndef HWCAP_CPUID
++#define HWCAP_CPUID (1 << 11)
++#endif
++
++#define SVE_MAX_QUADS  (2048 / 128)
++#define BYTES_PER_QUAD (128 / 8)
++
++#define get_cpu_reg(id) ({                                      \
++            unsigned long __val;                                \
++            asm("mrs %0, "#id : "=r" (__val));                  \
++            __val;                                              \
++        })
++
++static int do_sve_ioctl_test(void)
++{
++    int i, res, init_vq;
++
++    res = prctl(PR_SVE_GET_VL, 0, 0, 0, 0);
++    if (res < 0) {
++        printf("FAILED to PR_SVE_GET_VL (%d)", res);
++        return -1;
++    }
++    init_vq = res & PR_SVE_VL_LEN_MASK;
++
++    for (i = init_vq; i > 15; i /= 2) {
++        printf("Checking PR_SVE_SET_VL=%d\n", i);
++        res = prctl(PR_SVE_SET_VL, i, 0, 0, 0, 0);
++        if (res < 0) {
++            printf("FAILED to PR_SVE_SET_VL (%d)", res);
++            return -1;
++        }
++        asm("index z0.b, #0, #1\n"
++            ".global __sve_ld_done\n"
++            "__sve_ld_done:\n"
++            "mov z0.b, #0\n"
++            : /* no outputs kept */
++            : /* no inputs */
++            : "memory", "z0");
++    }
++    printf("PASS\n");
++    return 0;
++}
++
++int main(int argc, char **argv)
++{
++    /* we also need to probe for the ioctl support */
++    if (getauxval(AT_HWCAP) & HWCAP_SVE) {
++        return do_sve_ioctl_test();
++    } else {
++        printf("SKIP: no HWCAP_SVE on this system\n");
++        return 0;
++    }
++}
 diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index a25afc071cc..b61b53e4dd1 100644
+index b61b53e4dd1..c879932ff6c 100644
 --- a/tests/tcg/aarch64/Makefile.target
 +++ b/tests/tcg/aarch64/Makefile.target
-@@ -46,6 +46,21 @@ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
- # System Registers Tests
+@@ -47,6 +47,10 @@ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
  AARCH64_TESTS += sysregs
  sysregs: CFLAGS+=-march=armv8.1-a+sve
-+
-+ifneq ($(HAVE_GDB_BIN),)
-+GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
-+
-+AARCH64_TESTS += gdbstub-sysregs
-+
-+.PHONY: gdbstub-sysregs
-+run-gdbstub-sysregs: sysregs
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
-+	"basic gdbstub SVE support")
-+endif
-+
- endif
  
- TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
-new file mode 100644
-index 00000000000..90201d80094
---- /dev/null
-+++ b/tests/tcg/aarch64/gdbstub/test-sve.py
-@@ -0,0 +1,81 @@
-+from __future__ import print_function
-+#
-+# Test the SVE registers are visable and changeable via gdbstub
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
++# SVE ioctl test
++AARCH64_TESTS += sve-ioctls
++sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
 +
-+import gdb
-+import sys
-+
-+MAGIC = 0xDEADBEEF
-+
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    gdb.execute("info registers")
-+    report(True, "info registers")
-+
-+    gdb.execute("info registers vector")
-+    report(True, "info registers vector")
-+
-+    # Now all the zregs
-+    frame = gdb.selected_frame()
-+    for i in range(0, 32):
-+        rname = "z%d" % (i)
-+        zreg = frame.read_register(rname)
-+        report(True, "Reading %s" % rname)
-+        for j in range(0, 4):
-+            cmd = "set $%s.q.u[%d] = 0x%x" % (rname, j, MAGIC)
-+            gdb.execute(cmd)
-+            report(True, "%s" % cmd)
-+        for j in range(0, 4):
-+            reg = "$%s.q.u[%d]" % (rname, j)
-+            v = gdb.parse_and_eval(reg)
-+            report(str(v.type) == "uint128_t", "size of %s" % (reg))
-+        for j in range(0, 8):
-+            cmd = "set $%s.d.u[%d] = 0x%x" % (rname, j, MAGIC)
-+            gdb.execute(cmd)
-+            report(True, "%s" % cmd)
-+        for j in range(0, 8):
-+            reg = "$%s.d.u[%d]" % (rname, j)
-+            v = gdb.parse_and_eval(reg)
-+            report(str(v.type) == "uint64_t", "size of %s" % (reg))
-+            report(int(v) == MAGIC, "%s is 0x%x" % (reg, MAGIC))
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    report(arch.name() == "aarch64", "connected to aarch64")
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except:
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+
-+print("All tests complete: %d failures" % failcount)
-+
-+exit(failcount)
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+ 
 -- 
 2.20.1
 
