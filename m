@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55335187552
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:05:36 +0100 (CET)
-Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA2418754C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:03:44 +0100 (CET)
+Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxrb-0008PS-Cd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
+	id 1jDxpn-0006ZW-Hd
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIX-00053s-So
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIX-00053K-Ke
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIV-0000kh-RZ
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIW-0000lR-GI
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:21 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54380)
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26102)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIV-0000gr-Lt
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:19 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIW-0000lJ-Cy
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394159;
+ s=mimecast20190719; t=1584394160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UyJYJwyrXVDwqB/1/5y+mISBNG34H5eUjAjosl5aA48=;
- b=c0dp9ZBztSLCDKN2UY8pqt5oqIKtUanXMYB8HCpemnZlKogHmyIly6PC61pvPZfDTxgc9j
- 7w2HqzlLWwTKLPQ+W3R8oAGantcLE9K94d2Qaqaj9zaVVZ7/BZrUnGQs7K8y7g+Fm8jRM6
- c4Cz83zoEuuhJBgQ3rnJKTIHc15Tlek=
+ bh=7JHtBbrutJwWHlyGLweh8p4Me2Nx5oDvE7JcGrGjkHM=;
+ b=BNZ3lt4+qRUwZFWAvKX3nXYqjoKJKrlc37dJMYZKvUaP/qQMP8BC/6n4BhSwkkRXcIEFrO
+ WXk0foxiGEwQRkQzG0ofQvlIPo+2AXsW/k6irjUNTxtYsjBHajdWExnsCsVkGENU8gg2AF
+ 0pETYwCjHvoQYDqJjIg0WZR7OboqlSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-SM5NZjoCPGOmpmskCr0jVA-1; Mon, 16 Mar 2020 17:29:16 -0400
-X-MC-Unique: SM5NZjoCPGOmpmskCr0jVA-1
+ us-mta-233-jDPzx3T5NVKjzRGYcoGjZw-1; Mon, 16 Mar 2020 17:29:17 -0400
+X-MC-Unique: jDPzx3T5NVKjzRGYcoGjZw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 540021005510
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2700800EBC
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:14 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AF0A19C4F;
- Mon, 16 Mar 2020 21:29:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BCE7A19C4F;
+ Mon, 16 Mar 2020 21:29:13 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 57/61] hw/char: Let devices own the MemoryRegion they create
-Date: Mon, 16 Mar 2020 22:27:24 +0100
-Message-Id: <1584394048-44994-58-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 58/61] hw/arm/stm32: Use memory_region_init_rom() with
+ read-only regions
+Date: Mon, 16 Mar 2020 22:27:25 +0100
+Message-Id: <1584394048-44994-59-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -76,46 +77,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Avoid orphan memory regions being added in the /unattached QOM
-container.
+The scripts/coccinelle/memory-region-housekeeping.cocci reported:
+* TODO [[view:./hw/arm/stm32f205_soc.c::face=3Dovl-face1::linb=3D96::colb=
+=3D4::cole=3D26][potential use of memory_region_init_rom*() in  ./hw/arm/st=
+m32f205_soc.c::96]]
+* TODO [[view:./hw/arm/stm32f405_soc.c::face=3Dovl-face1::linb=3D98::colb=
+=3D4::cole=3D26][potential use of memory_region_init_rom*() in  ./hw/arm/st=
+m32f405_soc.c::98]]
 
-This commit was produced with the Coccinelle script
-scripts/coccinelle/memory-region-housekeeping.cocci.
+We can indeed replace the memory_region_init_ram() and
+memory_region_set_readonly() calls by memory_region_init_rom().
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/char/serial.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/arm/stm32f205_soc.c | 4 +---
+ hw/arm/stm32f405_soc.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 9298881..2ab8b69 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -997,7 +997,7 @@ static void serial_io_realize(DeviceState *dev, Error *=
-*errp)
-         return;
-     }
+diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+index 627fd44..2de5627 100644
+--- a/hw/arm/stm32f205_soc.c
++++ b/hw/arm/stm32f205_soc.c
+@@ -93,12 +93,10 @@ static void stm32f205_soc_realize(DeviceState *dev_soc,=
+ Error **errp)
+     MemoryRegion *flash =3D g_new(MemoryRegion, 1);
+     MemoryRegion *flash_alias =3D g_new(MemoryRegion, 1);
 =20
--    memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
-+    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial"=
-, 8);
-     sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
-     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
- }
-@@ -1106,8 +1106,9 @@ static void serial_mm_realize(DeviceState *dev, Error=
- **errp)
-         return;
-     }
+-    memory_region_init_ram(flash, NULL, "STM32F205.flash", FLASH_SIZE,
++    memory_region_init_rom(flash, NULL, "STM32F205.flash", FLASH_SIZE,
+                            &error_fatal);
+     memory_region_init_alias(flash_alias, NULL, "STM32F205.flash.alias",
+                              flash, 0, FLASH_SIZE);
+-
+-    memory_region_set_readonly(flash, true);
+     memory_region_set_readonly(flash_alias, true);
 =20
--    memory_region_init_io(&s->io, NULL, &serial_mm_ops[smm->endianness], s=
-mm,
--                          "serial", 8 << smm->regshift);
-+    memory_region_init_io(&s->io, OBJECT(dev),
-+                          &serial_mm_ops[smm->endianness], smm, "serial",
-+                          8 << smm->regshift);
-     sysbus_init_mmio(SYS_BUS_DEVICE(smm), &s->io);
-     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
- }
+     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
+diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+index 9bcad97..b8fca13 100644
+--- a/hw/arm/stm32f405_soc.c
++++ b/hw/arm/stm32f405_soc.c
+@@ -95,7 +95,7 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, E=
+rror **errp)
+     Error *err =3D NULL;
+     int i;
+=20
+-    memory_region_init_ram(&s->flash, NULL, "STM32F405.flash", FLASH_SIZE,
++    memory_region_init_rom(&s->flash, NULL, "STM32F405.flash", FLASH_SIZE,
+                            &err);
+     if (err !=3D NULL) {
+         error_propagate(errp, err);
+@@ -103,8 +103,6 @@ static void stm32f405_soc_realize(DeviceState *dev_soc,=
+ Error **errp)
+     }
+     memory_region_init_alias(&s->flash_alias, NULL, "STM32F405.flash.alias=
+",
+                              &s->flash, 0, FLASH_SIZE);
+-
+-    memory_region_set_readonly(&s->flash, true);
+     memory_region_set_readonly(&s->flash_alias, true);
+=20
+     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->fla=
+sh);
 --=20
 1.8.3.1
 
