@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C6E187316
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:13:01 +0100 (CET)
-Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A95187344
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:24:30 +0100 (CET)
+Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvAa-0005wQ-50
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39804)
+	id 1jDvLh-0000ut-5K
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDuq2-0001ga-DE
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDuq7-0001rd-Aj
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDuq1-0000r2-AQ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:46 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34983)
+ (envelope-from <philmd@redhat.com>) id 1jDuq6-0001Md-5T
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:51 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35400)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuq1-0000oo-65
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:45 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuq6-0001LD-0g
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584384704;
+ s=mimecast20190719; t=1584384709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1VSR9kygTTReaCRIBAeG2Orj1G8eqxnIXlzuyJCEoZ4=;
- b=QdMIAVi1ZkDXke0i876+cZQKuvndMkboH5M8tE9FknGSOO7hBfq73Nqj6Umlqt7AnusoYY
- IfnsUCdK4wfMn9TQTeuKlZ5h55AEql0igUgaVO85vdZpqQbnXnN+4+QiXKUOo9V1Vg7hzA
- MpjyFOGx4/UmhW2u4rVuyMpHSnpv0y8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-0yDrMbkiPBWBkgIHefu_0w-1; Mon, 16 Mar 2020 14:51:42 -0400
-X-MC-Unique: 0yDrMbkiPBWBkgIHefu_0w-1
-Received: by mail-wr1-f69.google.com with SMTP id w11so9465637wrp.20
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:51:42 -0700 (PDT)
+ bh=i3ghcWWXfmrp7QvFdK9qXlRLUNNDkXw1/QjRUWIVTOU=;
+ b=CzlZQFAz/JQh5e1diW4e2sX7ytkEy9dTzvpO5vy3BOdHZRzL4u4Bjm5HULlrsTB9dYkXT+
+ f+sqYp1+76EoNP64+AqnwgEhD+4LZdLTEWE/mQ92q7pR39jaovJIWmVbvREBj4rCWw1un2
+ TTNs5DJuYoPLkCf3nNjVwWc2oUD+eUo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-PNFviC6cPpyfD68pkftx3g-1; Mon, 16 Mar 2020 14:51:48 -0400
+X-MC-Unique: PNFviC6cPpyfD68pkftx3g-1
+Received: by mail-wr1-f70.google.com with SMTP id v7so10146wrp.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:51:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t3v5KkPJFqQ5Hvd8PkUF+qQTJk/z0T5Un950kyyDqAQ=;
- b=psJKQe05f0VII45BM7eUZ9ML8B7sNJrMZiUNpxbVth0yyYeiEWEJDpMzCHCde6YzPH
- XT7jmdA0JYP3nMqpAby7ieqLgN+0qd8M+TGK6Gx9y45CMNP6mfPIY40ZlHgGiMm1yGQ6
- QWM1orbgCwcyuVeW0Y+GpRdflzYy9HF/P6n2VZf6amzpHZGNHp34XTbSE/VF1PYnKUzP
- x5VGGoEAxqGRKo9bO0qDcvPmxn7ZzaSyoIBY6Ots74PKF0IpqvXmZJHlisByI4QsJdIR
- w60ysCjX32ZDryvTtSMEKJTuhCRafg1jbUq6eRVlQdj8kGz16LutZYjOyKyaX9R4HhSq
- XzHQ==
-X-Gm-Message-State: ANhLgQ2fNSMhrDfsKVnqzIkdEpArb7KjPna5Xychn/iA3bIx+kmcs6Mn
- KzCpJWOeW4L9Eb4u6S9H2t7x10lZELlSwkB5MqfZshtCF4pPha8rtM7p+L/OMdvh2ID8kQQq/xg
- YOgWGDQPLxTo3ioQ=
-X-Received: by 2002:adf:d0c1:: with SMTP id z1mr725330wrh.311.1584384701497;
- Mon, 16 Mar 2020 11:51:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtfD6HXEuELQkAUsgJzstaLWfjF3PFpCHIpTWt5s/PhF+tuPeA0D/I34QmESmCXiL0zDj2Aow==
-X-Received: by 2002:adf:d0c1:: with SMTP id z1mr725318wrh.311.1584384701328;
- Mon, 16 Mar 2020 11:51:41 -0700 (PDT)
+ bh=Tg4YT8Vv6s4Pvf6ypAvksHmessU7kCXErgARgCCgCB0=;
+ b=F+EEKFQxwOgtCuvBpEftTtWQ2Y08R3VsJSxbpU2zYt9js4rC5BdeNXYnIlc+CzLUB3
+ dKqzuWOTPeIV6EVz+6LKjR1b69WnVEe51Li7emdvulZWoKk1WcZMkrUmFp7m12mIFBWA
+ KeiF4IRUyRRaTVr26D1bOFR/QAitIVCPg18cky/dFABGZTzSXsUbjfxFGtawEd2tWgE1
+ 0AebaK6eqrOqOHQaa43XF2ayF3rc8EvYevGg2UZLp2RRnloY9iKpnpkfaldPNTk2Qp6D
+ sTJ+SQRfalcHfGO1ujtDvbytrxc0YTMz/I8tnXd6mbRqJNINfIzx6ph31oVP+7xxkdh6
+ imyg==
+X-Gm-Message-State: ANhLgQ1VQmjIM0zpqRWXXomdyWEGMvNrXjVXB7gLBGDVf8vjFxJS+aS9
+ MSAAnJeqRWlrlO2WzCrsn+oKWwx+LpeU9giPmFs7t4k9bp+mDIzRONi5sd/HU8liHA0tdNF3xEG
+ nL5hIMeCxI/FRDwk=
+X-Received: by 2002:a05:6000:10d:: with SMTP id
+ o13mr787616wrx.84.1584384706875; 
+ Mon, 16 Mar 2020 11:51:46 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvbAJ8oPKSi+7bUQa0Z5HltaI79+8Zsqm/dSQSSkH8TmcXK0iCza9kQkk+65DqJCDLlRmdwag==
+X-Received: by 2002:a05:6000:10d:: with SMTP id
+ o13mr787595wrx.84.1584384706714; 
+ Mon, 16 Mar 2020 11:51:46 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id g3sm1123154wro.93.2020.03.16.11.51.40
+ by smtp.gmail.com with ESMTPSA id x5sm1027236wrv.67.2020.03.16.11.51.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 11:51:40 -0700 (PDT)
+ Mon, 16 Mar 2020 11:51:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 18/25] hw/display: Let devices own the MemoryRegion they
- create
-Date: Mon, 16 Mar 2020 19:49:59 +0100
-Message-Id: <20200316185006.576-19-philmd@redhat.com>
+Subject: [PATCH v3 19/25] hw/dma: Let devices own the MemoryRegion they create
+Date: Mon, 16 Mar 2020 19:50:00 +0100
+Message-Id: <20200316185006.576-20-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316185006.576-1-philmd@redhat.com>
 References: <20200316185006.576-1-philmd@redhat.com>
@@ -77,7 +78,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,8 +92,10 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -103,43 +107,41 @@ scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/display/g364fb.c | 3 ++-
- hw/display/macfb.c  | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ hw/dma/i8257.c  | 2 +-
+ hw/dma/rc4030.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-index 55185c95c6..adcba96e34 100644
---- a/hw/display/g364fb.c
-+++ b/hw/display/g364fb.c
-@@ -477,7 +477,8 @@ static void g364fb_init(DeviceState *dev, G364State *s)
+diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
+index bad8debae4..ef15c06d77 100644
+--- a/hw/dma/i8257.c
++++ b/hw/dma/i8257.c
+@@ -553,7 +553,7 @@ static void i8257_realize(DeviceState *dev, Error **err=
+p)
+     I8257State *d =3D I8257(dev);
+     int i;
 =20
-     s->con =3D graphic_console_init(dev, 0, &g364fb_ops, s);
+-    memory_region_init_io(&d->channel_io, NULL, &channel_io_ops, d,
++    memory_region_init_io(&d->channel_io, OBJECT(dev), &channel_io_ops, d,
+                           "dma-chan", 8 << d->dshift);
+     memory_region_add_subregion(isa_address_space_io(isa),
+                                 d->base, &d->channel_io);
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index 21e2c360ac..7434d274aa 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
+@@ -679,9 +679,9 @@ static void rc4030_realize(DeviceState *dev, Error **er=
+rp)
+     s->periodic_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
+                                      rc4030_periodic_timer, s);
 =20
--    memory_region_init_io(&s->mem_ctrl, NULL, &g364fb_ctrl_ops, s, "ctrl",=
- 0x180000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
-+                          "ctrl", 0x180000);
-     memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
-                                s->vram_size, s->vram);
-     vmstate_register_ram(&s->mem_vram, dev);
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 8bff16d535..b68faff4bb 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -362,8 +362,8 @@ static void macfb_common_realize(DeviceState *dev, Macf=
-bState *s, Error **errp)
-         return;
-     }
+-    memory_region_init_io(&s->iomem_chipset, NULL, &rc4030_ops, s,
++    memory_region_init_io(&s->iomem_chipset, o, &rc4030_ops, s,
+                           "rc4030.chipset", 0x300);
+-    memory_region_init_io(&s->iomem_jazzio, NULL, &jazzio_ops, s,
++    memory_region_init_io(&s->iomem_jazzio, o, &jazzio_ops, s,
+                           "rc4030.jazzio", 0x00001000);
 =20
--    memory_region_init_io(&s->mem_ctrl, NULL, &macfb_ctrl_ops, s, "macfb-c=
-trl",
--                          0x1000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
-+                          "macfb-ctrl", 0x1000);
-=20
-     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram"=
-,
-                                      MACFB_VRAM_SIZE, errp);
+     memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
 --=20
 2.21.1
 
