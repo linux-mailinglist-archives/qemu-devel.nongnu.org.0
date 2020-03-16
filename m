@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E77187309
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:09:39 +0100 (CET)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535E91872EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:01:18 +0100 (CET)
+Received: from localhost ([::1]:46952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDv7K-0007mc-OK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49646)
+	id 1jDuzF-0001XX-BO
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jDuIR-0005gN-D3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:04 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jDuCd-0005gF-BF
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:11:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jDuIQ-0003zJ-6y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:03 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27859)
+ (envelope-from <cohuck@redhat.com>) id 1jDuCb-0004Iz-F0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:11:02 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:60557)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDuIQ-0003x9-0M
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:02 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDuCa-0004Ge-VV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:11:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584382621;
+ s=mimecast20190719; t=1584382260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ds8ISIFy7wdmyjh1PIcgDdjFLhq5M+HOYAZVCeuMrcY=;
- b=ao9OlDEXE1CygZaSAyKOJ+oyUrHfhvnEz5HyA7cEmzp0FghtjHAVGeWSH6bwjaVJoWquYJ
- h8qdDvkj/9eQC4B+KsAajchYdofU2EWV8iyf0od4XGMlptDz4xegM0KWOVp42rXwG5PYWH
- +wlNjoaiCn+UDrZnPC+a5pTVyoTksX0=
+ bh=M3KjyDukERh1d5BPBXiKd9VP3IiPYhebJi6stTONZAA=;
+ b=A/XRHFTnUqYkiLf1pcFzsKKNZkDqXuUZzUZk6hOWecgLi8ZhyqHeOXY+lV4mrG5/yIKd9F
+ EDq+ja3VJejFL0e+Pg/pUOuAgo9qW04L9dEOmGDByXWOJREqLYK6Vbl0v6X7oT6fVWLA1P
+ pUPMnklyc9I/3hp/o3pJaK3cKVeorcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-sJaKwabAPeiHsr_tGYKLGw-1; Mon, 16 Mar 2020 14:16:56 -0400
-X-MC-Unique: sJaKwabAPeiHsr_tGYKLGw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-341-AoxoeXZtNa-js2AwAtH10g-1; Mon, 16 Mar 2020 14:10:56 -0400
+X-MC-Unique: AoxoeXZtNa-js2AwAtH10g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA91610C4F9B;
- Mon, 16 Mar 2020 17:57:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E31CF94C1CB;
+ Mon, 16 Mar 2020 17:58:39 +0000 (UTC)
 Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0CF55D9E2;
- Mon, 16 Mar 2020 17:57:10 +0000 (UTC)
-Date: Mon, 16 Mar 2020 18:57:08 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D3FD5C1B2;
+ Mon, 16 Mar 2020 17:58:35 +0000 (UTC)
+Date: Mon, 16 Mar 2020 18:58:25 +0100
 From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Janosch Frank <frankja@linux.ibm.com>
 Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
-Message-ID: <20200316185708.30d23522.cohuck@redhat.com>
-In-Reply-To: <a39815f9-6c36-5c7e-39e0-3cd49a66c571@de.ibm.com>
+Message-ID: <20200316185825.5129e15c.cohuck@redhat.com>
+In-Reply-To: <344cf3c0-64dd-22be-e62b-448ef70dcc18@linux.ibm.com>
 References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
  <20200313095232.2392-1-frankja@linux.ibm.com>
  <20200316152738.4c1c65ee.cohuck@redhat.com>
  <bbbabbb0-2325-406d-a619-f2d03f447c8c@linux.ibm.com>
  <20200316155457.73e97d9c.cohuck@redhat.com>
- <a39815f9-6c36-5c7e-39e0-3cd49a66c571@de.ibm.com>
+ <344cf3c0-64dd-22be-e62b-448ef70dcc18@linux.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/78OVCEWBtgBbjRizafzIhHj";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,59 +75,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, david@redhat.com,
- Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 16:04:00 +0100
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+--Sig_/78OVCEWBtgBbjRizafzIhHj
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> On 16.03.20 15:54, Cornelia Huck wrote:
+On Mon, 16 Mar 2020 16:05:03 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
+
+> On 3/16/20 3:54 PM, Cornelia Huck wrote:
 > > On Mon, 16 Mar 2020 15:47:41 +0100
 > > Janosch Frank <frankja@linux.ibm.com> wrote:
-> >   
-> >> On 3/16/20 3:27 PM, Cornelia Huck wrote:  
+> >  =20
+> >> On 3/16/20 3:27 PM, Cornelia Huck wrote: =20
 > >>> On Fri, 13 Mar 2020 05:52:32 -0400
 > >>> Janosch Frank <frankja@linux.ibm.com> wrote:
-> >>>     
+> >>>    =20
 > >>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > >>>> ---
 > >>>>  hw/s390x/ipl.h      | 11 +++++++----
 > >>>>  target/s390x/diag.c |  2 +-
-> >>>>  2 files changed, 8 insertions(+), 5 deletions(-)  
-> > 
-> >   
-> >>>> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
-> >>>>  
-> >>>>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-> >>>>  
+> >>>>  2 files changed, 8 insertions(+), 5 deletions(-) =20
+> >=20
+> >  =20
+> >>>> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_=
+t r1, uint64_t r3, uintptr_t ra)
+> >>>> =20
+> >>>>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len)=
+);
+> >>>> =20
 > >>>> -        if (!iplb_valid(iplb)) {
 > >>>> +        if (!iplb_valid(iplb, subcode)) {
-> >>>>              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+> >>>>              env->regs[r1 + 1] =3D DIAG_308_RC_INVALID;
 > >>>>              goto out;
-> >>>>          }    
+> >>>>          }   =20
 > >>>
 > >>> ...because you're basically checking whether you either have a valid
-> >>> normal iplb, or a valid pv iplb, with the two being mutually exclusive,
-> >>> IIUC. So what about introducing iplb_valid_pv and calling that for the
+> >>> normal iplb, or a valid pv iplb, with the two being mutually exclusiv=
+e,
+> >>> IIUC. So what about introducing iplb_valid_pv and calling that for th=
+e
 > >>> pv case? Would be a bit nicer to read, I think, and also matches what
 > >>> you do for the STORE case.
-> >>>     
-> >>
-> >> The idea was to get rid of all of these ifs and elses and only have one
-> >> iplb_valid function. Your suggestion would defeat hiding that complexity
-> >> behind this function.  
-> > 
+> >>>    =20
+> >>S390_IPL_TYPE_CCW
+> >> The idea was to get rid of all of these ifs and elses and only have on=
+e
+> >> iplb_valid function. Your suggestion would defeat hiding that complexi=
+ty
+> >> behind this function. =20
+> >=20
 > > I'd argue that this is a complexity we should not hide; for non-pv, we
 > > can have several formats, for pv, only one, and we cannot use a pv iplb
-> > in a non-pv context and vice versa.  
-> 
-> So you suggest to split these case statements?
-> case DIAG308_STORE:
-> case DIAG308_PV_STORE:
+> > in a non-pv context and vice versa.
+> >  =20
+>=20
+> Ok, then please let me split this out into a new function within diag.c.
+> Something like:
+>=20
+> static bool diag308_pbt_subcode_validity(uint8_t pbt, uint64_t subcode)
+> {
+> =09if (subcode =3D=3D DIAG308_SET) {
+> =09=09return (pbt =3D=3D S390_IPL_TYPE_FCP || pbt =3D=3D S390_IPL_TYPE_CC=
+W)
+> =09} else if (subcode =3D=3D DIAG308_PV_SET && pbt =3D=3D S390_IPL_TYPE_P=
+V) {
+> =09return true;
+> }
+>=20
+> =09return false;
+> }
+>=20
 
-Why? Those cases are already done in the way I suggest for these here
-as well (i.e. keep common checks, just split the iplb handling.)
+Sorry, you now managed to confuse me... where is that supposed to be
+called?
+
+--Sig_/78OVCEWBtgBbjRizafzIhHj
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5vvkEACgkQ3s9rk8bw
+L6/aWQ//SFdhw8E4QQhOVawRkRadV5oliTKKyV+iR2ITa2UZs9aUR/w5z3mSjOul
+ijmz6uSsnI9IAF5wK49VqeTgY3P6xH1dWWiU/Zm/g3Ssq1ZX1R9oOm5Xjb+2f30Z
+JJx/wZXYNLhstZmKdattYqNP7kSqAIS5iqr6foLtt4XZx3My76IF6/fJnfBNxyKT
+IE5jIC9BaFQGg8qlySBLwMl67HtHTGrnAnJsdZQkoGhsrPXyQ2ZvXdTM2PwuMjwL
+kaPCN0AtGpb5wNnxy6V7wSP2DygS4EmTYeizKD/DTcKjnaoAKtUhxHhNSZ30YryY
+gsJ5hn21vvODL9dJaBeD/X40OZJLFx0eQ82Nu4jMKm07NrtvUJWH/YFYlk+ZKA+y
+rTxdHPvcqTOnkHLH1GW/PmzkVPhI3zju/2hXIpO4Du3Fi8t/r20R/QF2CF/n93aH
+MoNjB0EStK5TMVF3LXzXpYWOxl+UPV0VymgvSjKyfLyaVAsxmQ4+955cloXoXkCm
+a/4C82oo8SKcEmarK45WniUNjj6Sxd0sdHJZBJcvv5Rz0I+3TWOq+djOhmVRH+mD
+iJVh/wtZOx7sx+6UlV6EB8yFUlnuBJfJg0p8ylhIrPDRBYAKukOszWZrV7Osgbhw
+DZ++N07xOeNgrVoiNoL2e9DWhpudiHA+HimeqHLA2QCIo/r3+MM=
+=zbxO
+-----END PGP SIGNATURE-----
+
+--Sig_/78OVCEWBtgBbjRizafzIhHj--
 
 
