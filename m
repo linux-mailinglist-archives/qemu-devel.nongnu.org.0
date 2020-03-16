@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8D918615A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:34:00 +0100 (CET)
-Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D255186165
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:42:17 +0100 (CET)
+Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDedi-0005Lr-V5
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
+	id 1jDelj-0008UE-Kh
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdM7-0008KD-EW
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdMA-0008Lx-8P
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdM3-0004y5-Si
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:43 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58961
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDdM9-0005Ij-89
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51420
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdM3-0004wV-OC
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:39 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdM9-0005HA-46
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317499;
+ s=mimecast20190719; t=1584317504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ua1jkYmzCnlEiV4PtiMK/WHhXHx6VUTub5ZWx4B5YBY=;
- b=GY1hy7myzlsCHyQ95o0OI/eGFrh8sYFD440uKdSuqKbVqZnA9yyGdIoFK4sWTfYAOgL039
- acch58wEMW3s4/S4n2ZHejPtzffdcWLiwJxpGtl7U1GUamS2XZ9ORRBjFdYnpEUJOtnipg
- VztSGkzxMCwVEdD54tBsE1YXwiFwxls=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-kfGGnpaxPgaaF73tWyaevA-1; Sun, 15 Mar 2020 20:11:37 -0400
-X-MC-Unique: kfGGnpaxPgaaF73tWyaevA-1
-Received: by mail-wr1-f69.google.com with SMTP id q18so8131215wrw.5
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:37 -0700 (PDT)
+ bh=R5oHwdalGSUh9fUiAtO6F1i/o9Ne148Jqojt7pJjorc=;
+ b=hPF9dq0DgvpqMxhM0etEDsbrgevM0kLoIrgdfJwvM0ievPd/9ciDEjPNN3dYehu4vQmYFC
+ l9bBdbuNaKtTMYDlG9BY8/dyYRmTJogmUXg6RSXBwNx3SmXmhbbNXj6sbSghZzmpwzhKUG
+ Circ8SIQEDGP5NInUi/5GjZwRDg0YMc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-w3CibJ0pMbqC4Prwj8VfiA-1; Sun, 15 Mar 2020 20:11:43 -0400
+X-MC-Unique: w3CibJ0pMbqC4Prwj8VfiA-1
+Received: by mail-wr1-f71.google.com with SMTP id v6so8067762wrg.22
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s8oVuWi5Pwe/IVfF1LT+AZqvbsSLy1BWdX/KcJ8rJNU=;
- b=duEwFAB9ZyTwmi1k13lLnaPeS04XjK3Fe2zAUoCaVdB40uaWC6ON4iB7GFFwgUtfjW
- Vqa02jsRnuhCnOOKkAL25zHilRxOZglRLc74X6s4PjCZ2CWNH8TZJyVKfwvvj23zPaM0
- LNKh9XRFkylEVqVYxUPXmmrkcD2WoipyuYKqlSEAlKQLRB/C7GofiDwp0S/DVx7+kHzd
- R/OH2Z7Ajl5dyKFk2Ssyh4Wm8s1SlFyzYGtDZUiIPsriKQbXXzKeNhISHFOOvvFuI2TS
- vJNGvTrn1r/QENukO9nL0w6GFKXtJs/0yfILLW7UPWWgz6zx0NZwhzZ3xQE3MZNLBGhT
- ryaQ==
-X-Gm-Message-State: ANhLgQ1TAIhBb0+YA2AnhtOAsldvwYleRmgATR+pP6n0YUDWhqlwODx+
- q1N2NoskOxmo6IVHaItqJ3YYR9T7zF/7khKABcnthbIQz9zc9RXptJ2oLyV7d2hyN/qAi8t/Rl3
- EWFukaLz6Q6bw3qQ=
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr24067955wma.89.1584317495996;
- Sun, 15 Mar 2020 17:11:35 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsbDylGOsx0xSgCsw4cxARby8HR/p4/6MAyhl7B/m0vIX81KejWyuePWiACp3gMq/bFnwWQ8w==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr24067934wma.89.1584317495765;
- Sun, 15 Mar 2020 17:11:35 -0700 (PDT)
+ bh=D3R81IpDiBCPcJm6v/qjLXKSHFAs8r3O5+h73S1rpfw=;
+ b=OhR+Q+TxSjOt0gEn0ci3gWKfRWSvoyXHdNiZT7fa/jyoFaaro7EtljaN4ssQ4SlyPY
+ UHkIHG6kWspDIDtxgzYYzei+i14X9gCVSgGXn+n3LC1QPDqp/FAbAipNtwPBTg0/XN3y
+ eRN/p3pEEPUAqRlMYZXcSF9mM/V4nF9t7KSRh8JBQIMRxyxGhloWMus//YV2Ph/ICufY
+ dWDobdY9rnros3Jt1f5oze7Gkxi+eUQpNC4J9yIZywGlyQFht6naGiFxuLcUia1zQeeM
+ Y5P0YQbyn/fbJRK899RB01H5ngM5G0zX3P43suQVFlTQ5G8o89LAjhG7Hm7NYi6Zl0Ay
+ Ttww==
+X-Gm-Message-State: ANhLgQ1AITJR9eR+3iq+PvoMdvJ5Wf1DTMJ6Z0eQnJ4NMitv06290O99
+ 0rC2aLCRCee2tusiaVx7fQ8WIjcqu8FoDhdzqzuCI+vjR+CBm+PU/c/Fd1UDHskse5mEeYIe0+D
+ 0q1oyGDarcyYgTYE=
+X-Received: by 2002:a7b:c381:: with SMTP id s1mr22723453wmj.0.1584317501203;
+ Sun, 15 Mar 2020 17:11:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vssZmjyburU8BaWOP+arhyyQ9r5jXISw+aZfNKA/6GUbNbJR6vj5QZ/sLeZybJnLmz9saXbXA==
+X-Received: by 2002:a7b:c381:: with SMTP id s1mr22723434wmj.0.1584317500998;
+ Sun, 15 Mar 2020 17:11:40 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id b5sm20354999wrw.86.2020.03.15.17.11.34
+ by smtp.gmail.com with ESMTPSA id t124sm28387358wmg.13.2020.03.15.17.11.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:11:35 -0700 (PDT)
+ Sun, 15 Mar 2020 17:11:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/9] hw/core/qdev-properties: Export enum-related functions
-Date: Mon, 16 Mar 2020 01:11:06 +0100
-Message-Id: <20200316001111.31004-5-philmd@redhat.com>
+Subject: [PATCH v2 5/9] hw/core/qdev-properties: Export qdev_prop_enum
+Date: Mon, 16 Mar 2020 01:11:07 +0100
+Message-Id: <20200316001111.31004-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316001111.31004-1-philmd@redhat.com>
 References: <20200316001111.31004-1-philmd@redhat.com>
@@ -76,7 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,200 +97,44 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to split this file and reuse these static functions.
-Add the local "qdev-prop-internal.h" header declaring them.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/core/qdev-prop-internal.h | 19 ++++++++++++
- hw/core/qdev-properties.c    | 58 +++++++++++++++++++-----------------
- 2 files changed, 49 insertions(+), 28 deletions(-)
- create mode 100644 hw/core/qdev-prop-internal.h
+ include/hw/qdev-properties.h | 1 +
+ hw/core/qdev-properties.c    | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
-new file mode 100644
-index 0000000000..2a8c9a306a
---- /dev/null
-+++ b/hw/core/qdev-prop-internal.h
-@@ -0,0 +1,19 @@
-+/*
-+ * qdev property parsing
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HW_CORE_QDEV_PROP_INTERNAL_H
-+#define HW_CORE_QDEV_PROP_INTERNAL_H
-+
-+void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp);
-+void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp);
-+
-+void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
-+                                          const Property *prop);
-+
-+#endif
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index f161604fb6..134753d595 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -8,6 +8,7 @@
+ extern const PropertyInfo qdev_prop_bit;
+ extern const PropertyInfo qdev_prop_bit64;
+ extern const PropertyInfo qdev_prop_bool;
++extern const PropertyInfo qdev_prop_enum;
+ extern const PropertyInfo qdev_prop_uint8;
+ extern const PropertyInfo qdev_prop_uint16;
+ extern const PropertyInfo qdev_prop_uint32;
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 8ef949e3bd..3f3a008938 100644
+index 3f3a008938..7e89c11dfd 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -16,6 +16,7 @@
- #include "qapi/visitor.h"
- #include "chardev/char.h"
- #include "qemu/uuid.h"
-+#include "qdev-prop-internal.h"
-=20
- void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
-                                   Error **errp)
-@@ -51,8 +52,8 @@ void *qdev_get_prop_ptr(DeviceState *dev, Property *prop)
-     return ptr;
- }
-=20
--static void get_enum(Object *obj, Visitor *v, const char *name, void *opaq=
-ue,
--                     Error **errp)
-+void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
- {
-     DeviceState *dev =3D DEVICE(obj);
-     Property *prop =3D opaque;
-@@ -61,8 +62,8 @@ static void get_enum(Object *obj, Visitor *v, const char =
-*name, void *opaque,
-     visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
- }
-=20
--static void set_enum(Object *obj, Visitor *v, const char *name, void *opaq=
-ue,
--                     Error **errp)
-+void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
- {
-     DeviceState *dev =3D DEVICE(obj);
-     Property *prop =3D opaque;
-@@ -76,7 +77,8 @@ static void set_enum(Object *obj, Visitor *v, const char =
-*name, void *opaque,
-     visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
- }
-=20
--static void set_default_value_enum(ObjectProperty *op, const Property *pro=
-p)
-+void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
-+                                          const Property *prop)
- {
-     object_property_set_default_str(op,
+@@ -84,6 +84,13 @@ void qdev_propinfo_set_default_value_enum(ObjectProperty=
+ *op,
          qapi_enum_lookup(prop->info->enum_table, prop->defval.i));
-@@ -591,9 +593,9 @@ const PropertyInfo qdev_prop_on_off_auto =3D {
-     .name =3D "OnOffAuto",
-     .description =3D "on/off/auto",
-     .enum_table =3D &OnOffAuto_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
+ }
 =20
- /* --- lost tick policy --- */
-@@ -603,9 +605,9 @@ QEMU_BUILD_BUG_ON(sizeof(LostTickPolicy) !=3D sizeof(in=
-t));
- const PropertyInfo qdev_prop_losttickpolicy =3D {
-     .name  =3D "LostTickPolicy",
-     .enum_table  =3D &LostTickPolicy_lookup,
--    .get   =3D get_enum,
--    .set   =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
++const PropertyInfo qdev_prop_enum =3D {
++    .name  =3D "enum",
 +    .get   =3D qdev_propinfo_get_enum,
 +    .set   =3D qdev_propinfo_set_enum,
 +    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
++};
++
+ /* Bit */
 =20
- /* --- Block device error handling policy --- */
-@@ -617,9 +619,9 @@ const PropertyInfo qdev_prop_blockdev_on_error =3D {
-     .description =3D "Error handling policy, "
-                    "report/ignore/enospc/stop/auto",
-     .enum_table =3D &BlockdevOnError_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- BIOS CHS translation */
-@@ -631,9 +633,9 @@ const PropertyInfo qdev_prop_bios_chs_trans =3D {
-     .description =3D "Logical CHS translation algorithm, "
-                    "auto/none/lba/large/rechs",
-     .enum_table =3D &BiosAtaTranslation_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- FDC default drive types */
-@@ -643,9 +645,9 @@ const PropertyInfo qdev_prop_fdc_drive_type =3D {
-     .description =3D "FDC drive type, "
-                    "144/288/120/none/auto",
-     .enum_table =3D &FloppyDriveType_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- MultiFDCompression --- */
-@@ -655,9 +657,9 @@ const PropertyInfo qdev_prop_multifd_compression =3D {
-     .description =3D "multifd_compression values, "
-                    "none/zlib/zstd",
-     .enum_table =3D &MultiFDCompression_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- pci address --- */
-@@ -1281,9 +1283,9 @@ const PropertyInfo qdev_prop_off_auto_pcibar =3D {
-     .name =3D "OffAutoPCIBAR",
-     .description =3D "off/auto/bar0/bar1/bar2/bar3/bar4/bar5",
-     .enum_table =3D &OffAutoPCIBAR_lookup,
--    .get =3D get_enum,
--    .set =3D set_enum,
--    .set_default_value =3D set_default_value_enum,
-+    .get =3D qdev_propinfo_get_enum,
-+    .set =3D qdev_propinfo_set_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- PCIELinkSpeed 2_5/5/8/16 -- */
-@@ -1362,7 +1364,7 @@ const PropertyInfo qdev_prop_pcie_link_speed =3D {
-     .enum_table =3D &PCIELinkSpeed_lookup,
-     .get =3D get_prop_pcielinkspeed,
-     .set =3D set_prop_pcielinkspeed,
--    .set_default_value =3D set_default_value_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
-=20
- /* --- PCIELinkWidth 1/2/4/8/12/16/32 -- */
-@@ -1459,5 +1461,5 @@ const PropertyInfo qdev_prop_pcie_link_width =3D {
-     .enum_table =3D &PCIELinkWidth_lookup,
-     .get =3D get_prop_pcielinkwidth,
-     .set =3D set_prop_pcielinkwidth,
--    .set_default_value =3D set_default_value_enum,
-+    .set_default_value =3D qdev_propinfo_set_default_value_enum,
- };
+ static uint32_t qdev_get_prop_mask(Property *prop)
 --=20
 2.21.1
 
