@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3758C1871D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:04:48 +0100 (CET)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AA81871E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:08:28 +0100 (CET)
+Received: from localhost ([::1]:45320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDu6Z-0008G0-7y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
+	id 1jDuA7-00073E-B3
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDtYs-00062c-Fq
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:59 -0400
+ (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDte1-0006YE-AR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:35:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDtYr-0005pk-1w
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42952)
+ (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDtdz-0002uh-Gb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:35:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15892)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mahesh@linux.vnet.ibm.com>)
- id 1jDtYq-0005cI-NV
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:56 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ id 1jDtdz-0002nR-2o
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:35:15 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02GHMLgi119300
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:29:55 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yrubn2fwc-1
+ 02GHWjk1084719
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:35:12 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yrue238ex-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:29:55 -0400
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:35:11 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <mahesh@linux.vnet.ibm.com>;
- Mon, 16 Mar 2020 17:29:52 -0000
+ Mon, 16 Mar 2020 17:35:09 -0000
 Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 16 Mar 2020 17:29:49 -0000
+ Mon, 16 Mar 2020 17:35:05 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
  by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02GHSmCZ48562522
+ id 02GHY3CT49021232
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 Mar 2020 17:28:48 GMT
+ Mon, 16 Mar 2020 17:34:03 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF3B24C044;
- Mon, 16 Mar 2020 17:29:48 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 65C714C052;
+ Mon, 16 Mar 2020 17:35:04 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 79C5B4C040;
- Mon, 16 Mar 2020 17:29:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EC9584C046;
+ Mon, 16 Mar 2020 17:35:02 +0000 (GMT)
 Received: from in.ibm.com (unknown [9.199.45.53])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 16 Mar 2020 17:29:47 +0000 (GMT)
-Date: Mon, 16 Mar 2020 22:59:45 +0530
+ Mon, 16 Mar 2020 17:35:02 +0000 (GMT)
+Date: Mon, 16 Mar 2020 23:05:00 +0530
 From: Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com>
 To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 3/8] ppc/spapr: Add FWNMI System Reset state
+Subject: Re: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
 References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-4-npiggin@gmail.com>
+ <20200316142613.121089-8-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200316142613.121089-4-npiggin@gmail.com>
+In-Reply-To: <20200316142613.121089-8-npiggin@gmail.com>
 X-TM-AS-GCONF: 00
-x-cbid: 20031617-0020-0000-0000-000003B56862
+x-cbid: 20031617-0008-0000-0000-0000035E3F42
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031617-0021-0000-0000-0000220DC90D
-Message-Id: <20200316172945.fkh5cowdseomgd7g@in.ibm.com>
+x-cbparentid: 20031617-0009-0000-0000-00004A7F9342
+Message-Id: <20200316173500.576hdvush3fzvvef@in.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
  definitions=2020-03-16_07:2020-03-12,
  2020-03-16 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=1
- adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 impostorscore=0 phishscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003160076
+ bulkscore=0 impostorscore=0
+ phishscore=0 adultscore=0 mlxlogscore=835 suspectscore=1 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003160077
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
 X-Mailman-Approved-At: Mon, 16 Mar 2020 13:49:15 -0400
@@ -100,94 +100,92 @@ Cc: Aravinda Prasad <arawinda.p@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-03-17 00:26:08 Tue, Nicholas Piggin wrote:
-> The FWNMI option must deliver system reset interrupts to their
-> registered address, and there are a few constraints on the handler
-> addresses specified in PAPR. Add the system reset address state and
-> checks.
+On 2020-03-17 00:26:12 Tue, Nicholas Piggin wrote:
+> PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
+> delivers all system reset and machine check exceptions to the registered
+> addresses.
+> 
+> System Resets are delivered with registers set to the architected state,
+> and with no interlock.
 > 
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-
-Looks good to me.
-
-Reviwed-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
-
-Thanks,
--Mahesh.
 > ---
->  hw/ppc/spapr.c         |  2 ++
->  hw/ppc/spapr_rtas.c    | 14 +++++++++++++-
->  include/hw/ppc/spapr.h |  3 ++-
->  3 files changed, 17 insertions(+), 2 deletions(-)
+>  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 44 insertions(+), 2 deletions(-)
 > 
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b03b26370d..5f93c49706 100644
+> index 25221d843c..78e649f47d 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -1704,6 +1704,7 @@ static void spapr_machine_reset(MachineState *machine)
+> @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+>                       maxdomains, sizeof(maxdomains)));
 > 
->      spapr->cas_reboot = false;
+> -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
+> +    /*
+> +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
+> +     * and 16 bytes per CPU for system reset error log plus an extra 8 bytes.
+> +     *
+> +     * The system reset requirements are driven by existing Linux and PowerVM
+> +     * implementation which (contrary to PAPR) saves r3 in the error log
+> +     * structure like machine check, so Linux expects to find the saved r3
+> +     * value at the address in r3 upon FWNMI-enabled sreset interrupt (and
+> +     * does not look at the error value).
+> +     *
+> +     * System reset interrupts are not subject to interlock like machine
+> +     * check, so this memory area could be corrupted if the sreset is
+> +     * interrupted by a machine check (or vice versa) if it was shared. To
+> +     * prevent this, system reset uses per-CPU areas for the sreset save
+> +     * area. A system reset that interrupts a system reset handler could
+> +     * still overwrite this area, but Linux doesn't try to recover in that
+> +     * case anyway.
+> +     *
+> +     * The extra 8 bytes is required because Linux's FWNMI error log check
+> +     * is off-by-one.
+> +     */
+> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+> +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+
+Currently the rtas region is only of size 2048 (i.e RTAS_ERROR_LOG_MAX).
+Do we need SLOF change to increase rtas area as well ? Otherwise QEMU
+may corrupt guest memory area OR Am I wrong ?
+
+Thanks,
+-Mahesh/
+
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+>                            RTAS_ERROR_LOG_MAX));
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+> @@ -3399,8 +3421,28 @@ static void spapr_machine_finalizefn(Object *obj)
 > 
-> +    spapr->fwnmi_system_reset_addr = -1;
->      spapr->fwnmi_machine_check_addr = -1;
->      spapr->fwnmi_machine_check_interlock = -1;
-> 
-> @@ -2023,6 +2024,7 @@ static const VMStateDescription vmstate_spapr_fwnmi = {
->      .needed = spapr_fwnmi_needed,
->      .pre_save = spapr_fwnmi_pre_save,
->      .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(fwnmi_system_reset_addr, SpaprMachineState),
->          VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
->          VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState),
->          VMSTATE_END_OF_LIST()
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 0b8c481593..521e6b0b72 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -414,6 +414,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->                                    uint32_t nret, target_ulong rets)
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
 >  {
->      hwaddr rtas_addr;
-> +    target_ulong sreset_addr, mce_addr;
-> 
->      if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_OFF) {
->          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> @@ -426,7 +427,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->          return;
->      }
-> 
-> -    spapr->fwnmi_machine_check_addr = rtas_ld(args, 1);
-> +    sreset_addr = rtas_ld(args, 0);
-> +    mce_addr = rtas_ld(args, 1);
+> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
 > +
-> +    /* PAPR requires these are in the first 32M of memory and within RMA */
-> +    if (sreset_addr >= 32 * MiB || sreset_addr >= spapr->rma_size ||
-> +           mce_addr >= 32 * MiB ||    mce_addr >= spapr->rma_size) {
-> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> +        return;
+>      cpu_synchronize_state(cs);
+> -    ppc_cpu_do_system_reset(cs, -1);
+> +    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x100 */
+> +    if (spapr->fwnmi_system_reset_addr != -1) {
+> +        uint64_t rtas_addr, addr;
+> +        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> +        CPUPPCState *env = &cpu->env;
+> +
+> +        /* get rtas addr from fdt */
+> +        rtas_addr = spapr_get_rtas_addr();
+> +        if (!rtas_addr) {
+> +            qemu_system_guest_panicked(NULL);
+> +            return;
+> +        }
+> +
+> +        addr = rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof(uint64_t)*2;
+> +        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
+> +        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
+> +        env->gpr[3] = addr;
 > +    }
-> +
-> +    spapr->fwnmi_system_reset_addr = sreset_addr;
-> +    spapr->fwnmi_machine_check_addr = mce_addr;
-> 
->      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
 >  }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 64b83402cb..42d64a0368 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -194,9 +194,10 @@ struct SpaprMachineState {
 > 
->      /* State related to FWNMI option */
-> 
-> -    /* Machine Check Notification Routine address
-> +    /* System Reset and Machine Check Notification Routine addresses
->       * registered by "ibm,nmi-register" RTAS call.
->       */
-> +    target_ulong fwnmi_system_reset_addr;
->      target_ulong fwnmi_machine_check_addr;
-> 
->      /* Machine Check FWNMI synchronization, fwnmi_machine_check_interlock is
+>  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
 > -- 
 > 2.23.0
 > 
