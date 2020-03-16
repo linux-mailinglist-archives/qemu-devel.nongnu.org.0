@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B261873AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:55:12 +0100 (CET)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3F81873B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:56:31 +0100 (CET)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvpP-0006Qj-S9
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
+	id 1jDvqg-0008Aj-Gc
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDvoS-0005k3-31
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:54:12 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDvpb-0007VN-4n
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:55:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDvoR-0002yA-5M
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:54:11 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35425)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDvpa-0004Oc-5i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:55:23 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35313)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDvoQ-0002sY-UV
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:54:11 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 7so10338213pgr.2
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:54:10 -0700 (PDT)
+ id 1jDvpZ-0004F7-Uu
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:55:22 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id mq3so9260692pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J0uobKBgK4rHZ0hjWoBdZkci++dbIcJWriw2kCPQsXs=;
- b=VBoYJfmuvaGBrugdO/DrCXhiDIyTOTxyjk3+L+oRn/eFQXQK+YHtv4UMbvsiMAbZP2
- 23y3Sgp5psLOea82yutv9iU8nulEA6PIOHKyZzWf3FYu1Eq9QTNxkrAQNXA/FusCZsBQ
- pHXuv/DnAeYNEjXoLBMtdhZIIkGq/8+0WKUUxFohhFFTycwg0kDBx7N6YJtoNa591ueC
- oHTG+OSIf/8BwaspwHEnXCwd/VNNyICWMyqEKj8CWBbVQGrC+E/A1JIBT2ZEuRN2WlDj
- 548E5I0aeW/O+F0Goih6831O4k5Z12z5vrnW0pVVwihckLJPa6Z6W7huUE7ak0g3VmJz
- VCqg==
+ bh=ov5h57WO5/+zhyBMPAFbc1OhO1yQRqCkUshvDOAUP7s=;
+ b=r4ux9rXEn528yNo+tnFiuAEEcyAyUcAuWVSrlsR5KXwYPGjy9WVtwJXvMq9iSDTqhX
+ GFwsZmtH677CVkv8ibaHzvr+GbTJ6ZT0Gb2++YP906Lg66cc1K5vUdJkbY6smfNteEFp
+ U3Fi288zwkXDqzeAuc7Kvj6h5oQUBA/ppcT5f/cSWVpFzPBUkH39YqDmKypUGVVFDPQf
+ z2crm4ba6pF/Dvu/mVQfK90ayT/UxGgKMFH7vwkm1IwYM7z+THVntecWhUDTWXc54WTS
+ JvbSJMNWQ2jfm7TvUirNuKO0GNrwVbIZVa2ZlQ0Wv83aSTpY/wereBLXWd6TYHDqvT2h
+ gKzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=J0uobKBgK4rHZ0hjWoBdZkci++dbIcJWriw2kCPQsXs=;
- b=ESJX2kmqP/ToKtEymlnAHfkw6BuyBHPzm1tlP69fusxiN+USYM2yrd3gK5ldGaVq5S
- DEdrwDCIKlYdiuwl5fW7aXfYnqHpHQvaJM37FFqX+xdbg7RtYNWF5IowYp/+/vLXKMkx
- +tU5MNx4M7ugj0FZcbD/nMnmJRmN21Mrr0r9OcOGxSFygVsVzU18mFoOnWDD4hH4LloR
- /Sxs7/zHZIV5838vCBBfmW3TWJ9MXGDX3pT/VHr0CqHWJcTXmo4oYkwqwDl2gozf2lS7
- Pd578MrsRqeYjlKBvnCRto2zLAhr+FA/45LUkuPMY6jyvgUZ3yNEtpGfbJds9PcxxNeq
- C30w==
-X-Gm-Message-State: ANhLgQ0F34m09hdvtAUmcKgOMdL6hz6ho2oYxD0V3BH3IYOQbI7orELK
- ZHRckWlDGCAQHR5Ywi4B6zVo0Q==
-X-Google-Smtp-Source: ADFU+vszr2eVMxAjcMPZzWWCPhhjw6Y5KImoake42lZ76b/FAthTjOmvFTNUgtos8pANIhHmIZiLgw==
-X-Received: by 2002:a63:3547:: with SMTP id c68mr1425842pga.380.1584388450100; 
- Mon, 16 Mar 2020 12:54:10 -0700 (PDT)
+ bh=ov5h57WO5/+zhyBMPAFbc1OhO1yQRqCkUshvDOAUP7s=;
+ b=sKkNuVEQHpV1r4zBniZMU0DaoAp2S40ZA7DCwP1HGVLIBmWus17F9AXLdBZoFJHD2k
+ r93KbhtXaPcWtiiHu6NLTnB20r6mddMufsHDFDZbMzBpzNkNgjR5dRjxd41imI2+PSOU
+ rXXZnadGOaGumnJR8Ipbi4h2TOtwUvHPsBf431mVV5D7BjAgR9sPO9r77Vc051EtNFiQ
+ uAYxWWPlbLzZ3o2Ub86u2XWRJGp+nJ6yhD0nzbqka6t/vnciEjHxct2vRamU9Jynipav
+ h0OT2A8rpNFhefUvnvtfHboN/Qokr2ToI29oMXxAioAtWhFlof8jR8UUhnZfNIgDPY26
+ TdJw==
+X-Gm-Message-State: ANhLgQ1RUgUIjys/lqZhKdDkhiLfXq27srACWcT1IgrwlXY5aUzW0nuv
+ WS+7J+DJZ3iS1S+J8Tb+Dd4Idg==
+X-Google-Smtp-Source: ADFU+vvyvrLaxbAe3TneK14pPHxfqzUe+6HvE8zB/G2jcYM7gSkCqhbHZm3HzszRYNwHHWJ/fR3dug==
+X-Received: by 2002:a17:90a:f50b:: with SMTP id
+ cs11mr1202297pjb.145.1584388520824; 
+ Mon, 16 Mar 2020 12:55:20 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- p9sm538444pjo.28.2020.03.16.12.54.08
+ s98sm533513pjb.46.2020.03.16.12.55.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 12:54:09 -0700 (PDT)
-Subject: Re: [PATCH v3 12/19] target/arm: Restrict ARMv6 cpus to TCG accel
+ Mon, 16 Mar 2020 12:55:20 -0700 (PDT)
+Subject: Re: [PATCH v3 13/19] target/arm: Restrict ARMv7 R-profile cpus to TCG
+ accel
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200316160634.3386-1-philmd@redhat.com>
- <20200316160634.3386-13-philmd@redhat.com>
+ <20200316160634.3386-14-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e3728368-4c23-ac70-949e-d02ea698887a@linaro.org>
-Date: Mon, 16 Mar 2020 12:54:07 -0700
+Message-ID: <57b35f0e-cf20-14fd-7a05-82242fb84c35@linaro.org>
+Date: Mon, 16 Mar 2020 12:55:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316160634.3386-13-philmd@redhat.com>
+In-Reply-To: <20200316160634.3386-14-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,9 +94,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/16/20 9:06 AM, Philippe Mathieu-Daudé wrote:
-> +static void arm_v6_cpu_register_types(void)
+> +static void arm_v7r_cpu_register_types(void)
 > +{
-> +    const ARMCPUInfo *info = arm_v6_cpus;
+> +    const ARMCPUInfo *info = arm_v7r_cpus;
 > +
 > +    while (info->name) {
 > +        arm_cpu_register(info);
@@ -107,5 +109,4 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
-
 
