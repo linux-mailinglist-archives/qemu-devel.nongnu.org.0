@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C615A18638B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:09:30 +0100 (CET)
-Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1280C1863A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:19:50 +0100 (CET)
+Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDg89-0007tz-HG
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44834)
+	id 1jDgI8-0002Vx-Nu
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jDfwQ-0005Gl-Vh
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:57:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDgAp-00011L-32
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jDfwO-0000Re-4O
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:57:21 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:54520)
+ (envelope-from <dgibson@ozlabs.org>) id 1jDgAm-0007NR-MW
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:14 -0400
+Received: from ozlabs.org ([203.11.71.1]:34995)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jDfwN-0008Ku-Hv; Sun, 15 Mar 2020 22:57:19 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4855673|-1; CH=green; DM=||false|;
- DS=CONTINUE|ham_regular_dialog|0.00655218-0.000136855-0.993311;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03293; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=9; SR=0; TI=SMTPD_---.H04hszV_1584327430; 
-Received: from 172.16.31.150(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H04hszV_1584327430)
- by smtp.aliyun-inc.com(10.147.42.241);
- Mon, 16 Mar 2020 10:57:11 +0800
-Subject: Re: [PATCH v5 22/60] target/riscv: vector integer merge and move
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-23-zhiwei_liu@c-sky.com>
- <daeefcff-c444-b289-abcf-74301b09cce9@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <e6a94433-d524-1b5a-81a2-24987fde7de0@c-sky.com>
-Date: Mon, 16 Mar 2020 10:57:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jDgAm-0007BP-85; Sun, 15 Mar 2020 23:12:12 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48ghDS5ph4z9sP7; Mon, 16 Mar 2020 14:12:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584328328;
+ bh=rWp0kCwF/mgRUOryiJHj0URSWLD+4CW9MiMnqlu1W/M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IcJzuZbQGDu+xHnj177JQXN+YCrttZOahUSfAOUrLo4Ii8rt7gtAEQQEL58Rr3Pgt
+ aV7Whp5prgeX347XieICvB91GLDFhfRggla6t09IQLnncpsH96FBJ2KAAq6w4LHs2l
+ B43PjAFLwlh4OnWvtM8+wrHSoTEgEhEoysvMi7gQ=
+Date: Mon, 16 Mar 2020 14:06:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: Upstream QEMU guest support policy ? Re: [PATCH v3 0/2] spapr:
+ Use vIOMMU translation for virtio by default
+Message-ID: <20200316030646.GH2013@umbus.fritz.box>
+References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ <20200310114343.GD3234052@redhat.com>
+ <20200311011247.GT660117@umbus.fritz.box>
+ <20200311031202-mutt-send-email-mst@kernel.org>
+ <20200312011049.GC711223@umbus.fritz.box>
+ <20200312023041-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <daeefcff-c444-b289-abcf-74301b09cce9@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------F514DB3FA26545E31201C372"
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dDnEQgWzhgf+8aPe"
+Content-Disposition: inline
+In-Reply-To: <20200312023041-mutt-send-email-mst@kernel.org>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,249 +60,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: pair@us.ibm.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>, aik@ozlabs.ru,
+ groug@kaod.org, qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org,
+ mdroth@us.ibm.com, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------F514DB3FA26545E31201C372
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+--dDnEQgWzhgf+8aPe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Mar 12, 2020 at 02:32:11AM -0400, Michael S. Tsirkin wrote:
+> On Thu, Mar 12, 2020 at 12:10:49PM +1100, David Gibson wrote:
+> > On Wed, Mar 11, 2020 at 03:33:59AM -0400, Michael S. Tsirkin wrote:
+> > > On Wed, Mar 11, 2020 at 12:12:47PM +1100, David Gibson wrote:
+> > > > I am wondering if we have to introduce an "svm=3Don" flag anyway.  =
+It's
+> > > > pretty ugly, since all it would be doing is changing defaults here =
+and
+> > > > there for compatibilty with a possible future SVM transition, but
+> > > > maybe it's the best we can do :/.
+> > >=20
+> > > Frankly I'm surprised there's no way for the hypervisor to block VM
+> > > transition to secure mode. To me an inability to disable DRM looks li=
+ke
+> > > a security problem.
+> >=20
+> > Uh.. I don't immediately see how it's a security problem, though I'm
+> > certainly convinced it's a problem in other ways.
+>=20
+> Well for one it breaks introspection, allowing guests to hide
+> malicious code from hypervisors.
 
-On 2020/3/14 15:27, Richard Henderson wrote:
-> On 3/12/20 7:58 AM, LIU Zhiwei wrote:
->> +/* Vector Integer Merge and Move Instructions */
->> +static bool opivv_vmerge_check(DisasContext *s, arg_rmrr *a)
->> +{
->> +    return (vext_check_isa_ill(s, RVV) &&
->> +            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
->> +            vext_check_reg(s, a->rd, false) &&
->> +            vext_check_reg(s, a->rs2, false) &&
->> +            vext_check_reg(s, a->rs1, false) &&
->> +            ((a->vm == 0) || (a->rs2 == 0)));
->> +}
->> +GEN_OPIVV_TRANS(vmerge_vvm, opivv_vmerge_check)
->> +
->> +static bool opivx_vmerge_check(DisasContext *s, arg_rmrr *a)
->> +{
->> +    return (vext_check_isa_ill(s, RVV) &&
->> +            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
->> +            vext_check_reg(s, a->rd, false) &&
->> +            vext_check_reg(s, a->rs2, false) &&
->> +            ((a->vm == 0) || (a->rs2 == 0)));
->> +}
->> +GEN_OPIVX_TRANS(vmerge_vxm, opivx_vmerge_check)
->> +
->> +GEN_OPIVI_TRANS(vmerge_vim, 0, vmerge_vxm, opivx_vmerge_check)
-> I think you need to special case these.  The unmasked instructions are the
-> canonical move instructions: vmv.v.*.
->
-> You definitely want to use tcg_gen_gvec_mov (vv), tcg_gen_gvec_dup_i{32,64}
-> (vx) and tcg_gen_gvec_dup{8,16,32,64}i (vi).
-I have a question here.
+Hm, ok.  Is that much used in practice?
 
-Are these GVEC IRs  proper for any vl, or just when vl equals vlmax?
-I see there are some align assert in these GVEC IR.
+(Aside: I don't think I'd call that "introspection" since it's one
+thing examining another, not something examining itself).
 
-Now the code is like
+>=20
+> > > Does not the ultravisor somehow allow
+> > > enabling/disabling this functionality from the hypervisor?
+> >=20
+> > Not at present, but as mentioned on the other thread, Paul and I came
+> > up with a tentative plan to change that.
+> >=20
+> > > It would be
+> > > even better if the hypervisor could block the guest from poking at the
+> > > ultravisor completely but I guess that would be too much to hope for.
+> >=20
+> > Yeah, probably :/.
+> >=20
+>=20
+>=20
 
-static bool trans_vmv_v_v(DisasContext *s, arg_r *a)
-{
-     if (vext_check_isa_ill(s, RVV) &&
-         vext_check_reg(s, a->rd, false) &&
-         vext_check_reg(s, a->rs1, false)) {
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-         if (s->vl_eq_vlmax) {
-             tcg_gen_gvec_mov(s->sew, vreg_ofs(s, a->rd),
-                              vreg_ofs(s, a->rs1),
-                              MAXSZ(s), MAXSZ(s));
-         } else {
-             uint32_t data = FIELD_DP32(0, VDATA, LMUL, s->lmul);
-             static gen_helper_gvec_2_ptr * const fns[4] = {
-                 gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
-                 gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
-             };
+--dDnEQgWzhgf+8aPe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-             tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
-                                cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
-         }
-         return true;
-     }
-     return false;
-}
+-----BEGIN PGP SIGNATURE-----
 
-Is it right?
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u7UUACgkQbDjKyiDZ
+s5K4lhAAsH+/+1eM/obXI6wAXaRv9WUWALHMVNzFxhHcBHdVZmgKObIS9Xduvsmn
+UypNqeaAehJZsyaI8bjUMCG0cHgEljpOpPx4Rujm9CwXBxiiJW6LbqoWjsxJLbX6
+OHdfa+cWZ9fM6t/GHPoxC7OFA/UGxqzRC4zy2ScrjN4ncTLS5Uo7JRAhwfyej2S7
+d+oYhMbEUkAdKUXAT/a6l+Se2/5L3N5icT3c0VR5BWMj9Dx0pb598WlWt24GAS6I
+vOS1Y/i36xbWUsfLeNyWlAuBRUfjH12Hp/yVujCI3P4Wm1JodakdVhAkJKYvM8Bu
+Txsun3QW/bH2R9HX8HDmzbKKuI85YYA84RiyUg9Y/S9nqTF3tQaMIkW1DxuOgI9j
+9eR7xbaagJ8oMMJEkyaOdLNLPfX7LF1qx6ahYKi0O3kWe1hzFXrv1gIyhEHhpI60
+UB+2DXD26tekTDxs6sv3jVz3tPyIhvDRNC5WP44sSDnvfVj6Lb87tgcZoKYuix3V
+8LLuFjiBd8AvCcZVnjVdBTjtZgdbFl/qzBHXsvhmAbYTttLGNYt48yO6NIgq+ere
+O4pduUuHXjqR/OtS3uyd3AD3wdKh2kz5uRClqNW+96h9GL+Yl6giBG9IO33RvhkF
+mJxMzFKVGq/PesB77FAxOL9JJrmnfkO+rYSoD+Osi34lw6gO0Vo=
+=Nalz
+-----END PGP SIGNATURE-----
 
-Zhiwei
->
->> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
->> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
->> +            *((ETYPE *)vd + H1(i)) = s2;                             \
->> +        } else {                                                     \
->> +            ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
->> +            *((ETYPE *)vd + H(i)) = s1;                              \
->> +        }                                                            \
-> Perhaps better as
->
-> ETYPE *vt = (!vm && !vext_elem_mask(v0, mlen, i) ? vs2 : vs1);
-> *((ETYPE *)vd + H(i)) = *((ETYPE *)vt + H(i));
->
->> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
->> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
->> +            *((ETYPE *)vd + H1(i)) = s2;                             \
->> +        } else {                                                     \
->> +            *((ETYPE *)vd + H(i)) = (ETYPE)(target_long)s1;          \
->> +        }                                                            \
-> Perhaps better as
->
-> ETYPE s2 = *((ETYPE *)vs2 + H(i));
-> ETYPE d = (!vm && !vext_elem_mask(v0, mlen, i)
->             ? s2 : (ETYPE)(target_long)s1);
-> *((ETYPE *)vd + H(i)) = d;
->
-> as most host platforms have a conditional reg-reg move, but not a conditional load.
->
->
-> r~
-
-
---------------F514DB3FA26545E31201C372
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2020/3/14 15:27, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:daeefcff-c444-b289-abcf-74301b09cce9@linaro.org">
-      <pre class="moz-quote-pre" wrap="">On 3/12/20 7:58 AM, LIU Zhiwei wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+/* Vector Integer Merge and Move Instructions */
-+static bool opivv_vmerge_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s, RVV) &amp;&amp;
-+            vext_check_overlap_mask(s, a-&gt;rd, a-&gt;vm, false) &amp;&amp;
-+            vext_check_reg(s, a-&gt;rd, false) &amp;&amp;
-+            vext_check_reg(s, a-&gt;rs2, false) &amp;&amp;
-+            vext_check_reg(s, a-&gt;rs1, false) &amp;&amp;
-+            ((a-&gt;vm == 0) || (a-&gt;rs2 == 0)));
-+}
-+GEN_OPIVV_TRANS(vmerge_vvm, opivv_vmerge_check)
-+
-+static bool opivx_vmerge_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s, RVV) &amp;&amp;
-+            vext_check_overlap_mask(s, a-&gt;rd, a-&gt;vm, false) &amp;&amp;
-+            vext_check_reg(s, a-&gt;rd, false) &amp;&amp;
-+            vext_check_reg(s, a-&gt;rs2, false) &amp;&amp;
-+            ((a-&gt;vm == 0) || (a-&gt;rs2 == 0)));
-+}
-+GEN_OPIVX_TRANS(vmerge_vxm, opivx_vmerge_check)
-+
-+GEN_OPIVI_TRANS(vmerge_vim, 0, vmerge_vxm, opivx_vmerge_check)
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I think you need to special case these.  The unmasked instructions are the
-canonical move instructions: vmv.v.*.
-
-You definitely want to use tcg_gen_gvec_mov (vv), tcg_gen_gvec_dup_i{32,64}
-(vx) and tcg_gen_gvec_dup{8,16,32,64}i (vi).</pre>
-    </blockquote>
-    I have a question here.<br>
-    <br>
-    Are these GVEC IRs  proper for any vl, or just when vl equals vlmax?
-    <br>
-    I see there are some align assert in these GVEC IR.<br>
-    <br>
-    Now the code is like<br>
-    <pre>static bool trans_vmv_v_v(DisasContext *s, arg_r *a)
-{
-    if (vext_check_isa_ill(s, RVV) &amp;&amp;
-        vext_check_reg(s, a-&gt;rd, false) &amp;&amp;
-        vext_check_reg(s, a-&gt;rs1, false)) {
-
-        if (s-&gt;vl_eq_vlmax) {
-            tcg_gen_gvec_mov(s-&gt;sew, vreg_ofs(s, a-&gt;rd),
-                             vreg_ofs(s, a-&gt;rs1),
-                             MAXSZ(s), MAXSZ(s));
-        } else {
-            uint32_t data = FIELD_DP32(0, VDATA, LMUL, s-&gt;lmul);
-            static gen_helper_gvec_2_ptr * const fns[4] = {
-                gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
-                gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
-            };
-
-            tcg_gen_gvec_2_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, a-&gt;rs1),
-                               cpu_env, 0, s-&gt;vlen / 8, data, fns[s-&gt;sew]);
-        }
-        return true;
-    }
-    return false;
-}
-</pre>
-    Is it right?<br>
-    <br>
-    Zhiwei<br>
-    <blockquote type="cite"
-      cite="mid:daeefcff-c444-b289-abcf-74301b09cce9@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+        if (!vm &amp;&amp; !vext_elem_mask(v0, mlen, i)) {                   \
-+            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-+            *((ETYPE *)vd + H1(i)) = s2;                             \
-+        } else {                                                     \
-+            ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
-+            *((ETYPE *)vd + H(i)) = s1;                              \
-+        }                                                            \
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Perhaps better as
-
-ETYPE *vt = (!vm &amp;&amp; !vext_elem_mask(v0, mlen, i) ? vs2 : vs1);
-*((ETYPE *)vd + H(i)) = *((ETYPE *)vt + H(i));
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+        if (!vm &amp;&amp; !vext_elem_mask(v0, mlen, i)) {                   \
-+            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
-+            *((ETYPE *)vd + H1(i)) = s2;                             \
-+        } else {                                                     \
-+            *((ETYPE *)vd + H(i)) = (ETYPE)(target_long)s1;          \
-+        }                                                            \
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Perhaps better as
-
-ETYPE s2 = *((ETYPE *)vs2 + H(i));
-ETYPE d = (!vm &amp;&amp; !vext_elem_mask(v0, mlen, i)
-           ? s2 : (ETYPE)(target_long)s1);
-*((ETYPE *)vd + H(i)) = d;
-
-as most host platforms have a conditional reg-reg move, but not a conditional load.
-
-
-r~
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F514DB3FA26545E31201C372--
+--dDnEQgWzhgf+8aPe--
 
