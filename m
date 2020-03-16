@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0588187122
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:28:28 +0100 (CET)
-Received: from localhost ([::1]:44140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB9918710B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:21:21 +0100 (CET)
+Received: from localhost ([::1]:43586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtXP-0002Nq-Oo
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57691)
+	id 1jDtQW-0006Qk-RR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jDrT7-0001gB-1s
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrgY-00073z-Q0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:29:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jDrT4-0004O0-Vl
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:57838)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrT4-0004LB-Qz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584371750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DcVEFMK1F5lVRFY2dXry1ugaWoiV4ZCks7W+xHFEcKs=;
- b=ZOxprKsNVJtY/Cue8iPdOhPsatk50sodCQqegQPeW69UYZkcVX1QcvoEmc0aQtByTdXLVg
- 5ptQVsXecRPY4WPuTOG+WWFIXEKMhz6Vc5r8KE1pCCiCQzlTdktvm57iDCwraOMag5BuD1
- idaseZnEJwMz/HTJB28mLGPgv3YO3ks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-c3Qla84sNzCnvPv-lhYHng-1; Mon, 16 Mar 2020 11:15:48 -0400
-X-MC-Unique: c3Qla84sNzCnvPv-lhYHng-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 727108DFB08;
- Mon, 16 Mar 2020 15:15:47 +0000 (UTC)
-Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 955479081D;
- Mon, 16 Mar 2020 15:15:46 +0000 (UTC)
-Subject: Re: [PATCH v3 04/34] docs/devel/qapi-code-gen: Document 'features'
- introspection
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-5-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c41ec4f6-6294-b2cb-8fba-35cf18c39b84@redhat.com>
-Date: Mon, 16 Mar 2020 10:15:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrgX-0005hJ-8P
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:29:46 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39902)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDrgX-0005bl-1H
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:29:45 -0400
+Received: by mail-oi1-x241.google.com with SMTP id d63so18203341oig.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rsVvqa9kEBpaKYZwDI4QbsyQDuz5Bpb4wRRnlFykK3s=;
+ b=mmPKpe3n56L2g4uIGTLOtiSJQYdsR0TIeCxf+6NR+pt5GoOdUZNY7lyjJsEiKv492d
+ V7TISmbc08dRhSG52rkr0yONJiP9T9RbXz5kcb3ciGE7YFiKPav3FMDGPGIzNUscjLfQ
+ /rzpAfHeY8JQ9R+ZzIHWyP7uZjxnsiOw9xxjtoRceQR5YBN0qQRGHepm5JjspSg6jrmJ
+ pDRoXjOXY8IZioJtJo49DVY5JyTRvZ+aoC17QqQdqBaVHahfoa4dnVLcd8m4PPxXXNCC
+ Wmm78saSIZ2u45hgwzm//cpgYuejLAVYVE454ejEvcVjP557GW3QzxjVRwflEW0J5ENC
+ yvLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rsVvqa9kEBpaKYZwDI4QbsyQDuz5Bpb4wRRnlFykK3s=;
+ b=C4mTyLrAZ66YKdCXa7yNDDve9Q6QtjdNcC1FJum175mqpqtVm1wMBXVu11yr7mf2Wr
+ ExztR5dA58dxe+QN6VL7SVIzFqVGWCGF7rfOu0q2JMqDFYp328+M8FpNJOp4lxaZQOar
+ l5mYPsEHo+LcAwCFFuwwT+SiZEShw2bo3dUW8gaHJ2cBhPRquiSLNyBt2RzVRrsrGrp5
+ xOApC8MDR9Huu6IoAy5tNUmlM3jVkAw/4NM3EQLc34HoLzUO7w6N/MSrKx/KHrw9cjg+
+ ci+LsfbHQiO0jxirrpsnrZ6N1+uZkRxJHLIQdq8Cm5O2WgVENpSYaLs05JPSiTIYEGjV
+ uUWQ==
+X-Gm-Message-State: ANhLgQ3iNNCPIbz2eAGEQP+fAzE0oXd8qAxTQqDpO3HgXKNEa4T9sp6A
+ ZqmMS6R4bC4LOSpARqREzcwPfIGLR1jAn+sq6sNkTQ==
+X-Google-Smtp-Source: ADFU+vudkVK0M/uAPnYJDlOHWPraZqZ0UQWV118awdmYO6keNOvne+jOV0Dt4OnlWy/L2087t0pogRELesQOzBZBfc8=
+X-Received: by 2002:aca:c695:: with SMTP id w143mr93974oif.98.1584372583847;
+ Mon, 16 Mar 2020 08:29:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200315144653.22660-5-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200206183219.3756-1-linux@roeck-us.net>
+ <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
+ <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
+ <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
+ <a6af95d9-f95c-f9fc-eac0-60d9c8517dec@kaod.org>
+In-Reply-To: <a6af95d9-f95c-f9fc-eac0-60d9c8517dec@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 15:29:32 +0000
+Message-ID: <CAFEAcA--vBbg835-AOm1xhnz1R_ic7Xz3SjWoerkSEwq1+Hsqw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] m25p80: Convert to support tracing
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,27 +77,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 9:46 AM, Markus Armbruster wrote:
-> Commit 6a8c0b5102 "qapi: Add feature flags to struct types" neglected
-> to update section "Client JSON Protocol introspection", and commit
-> 23394b4c39 "qapi: Add feature flags to commands" didn't either.  Make
-> up for that.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   docs/devel/qapi-code-gen.txt | 43 +++++++++++++++++++++++-------------
->   1 file changed, 28 insertions(+), 15 deletions(-)
-> 
+On Mon, 16 Mar 2020 at 15:11, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> On 3/16/20 3:58 PM, Peter Maydell wrote:
+> > On Mon, 16 Mar 2020 at 14:14, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
+e:
+> >>
+> >> Hello,
+> >>
+> >> On 2/17/20 4:47 PM, C=C3=A9dric Le Goater wrote:
+> >>> Hello all,
+> >>>
+> >>> On 2/6/20 7:32 PM, Guenter Roeck wrote:
+> >>>> While at it, add some trace messages to help debug problems
+> >>>> seen when running the latest Linux kernel.
+> >>>
+> >>> Through which tree do you think it is best to merge this patchset ?
+> >>> block or arm ?
+> >>
+> >> It would be nice to have these 4 patches for 5.0. All are reviewed and
+> >> tested.
+> >
+> > Do you have a pointer to the cover letter? Not sure
+> > which platforms (and so which tree) they're aiming for...
+>
+> Not having a cover letter clearly doesn't help ...
+>
+> Here is the patchset diffstat :
+>
+>  block/m25p80.c     |   58 ++++++++++++++++++++++++++++------------------=
+-------
+>  block/trace-events |   16 ++++++++++++++
+>  ssi/aspeed_smc.c   |    2 -
+>  3 files changed, 48 insertions(+), 28 deletions(-)
+>
+> http://patchwork.ozlabs.org/patch/1234532/
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> http://patchwork.ozlabs.org/patch/1234533/
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> http://patchwork.ozlabs.org/patch/1234535/
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> http://patchwork.ozlabs.org/patch/1234536/
+> Fixes: f95c4bffdc4c ("aspeed/smc: snoop SPI transfers to fake dummy cycle=
+s")
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Thanks for rounding up the patchwork links; applied all
+4 to target-arm.next.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+-- PMM
 
