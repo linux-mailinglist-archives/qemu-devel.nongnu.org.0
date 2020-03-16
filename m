@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C112E186C6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:48:04 +0100 (CET)
-Received: from localhost ([::1]:38596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D102A186C92
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:52:47 +0100 (CET)
+Received: from localhost ([::1]:38626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDq67-0008EO-Bk
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:48:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49531)
+	id 1jDqAg-0001XW-DE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDoRS-00050K-5o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:02:00 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDobd-0000Rj-UZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDoRR-0007uE-3R
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34469
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoRQ-0007nN-Sa
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584360116;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ThCx22LN5T84wg5D9Dosi9XygA81kUt/h23r1S0DMvA=;
- b=c9TieGns74gTAbelrnTbtfL5FcMD9WFQwKd8ZDBsbTOMTrwvCZoWLpQG/qDIJkRei21c1o
- tLnV30OvCWQes3YJ1NFmhXtnW+7xzFXwoEG1ifWuMI+wdSYZNkV6+0VCem4S96dMEI8qa8
- 8T430wnl1G7E9kdstIXHL/0s6fvFuek=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-DNgTq3n6O3qhCs-83f8QsQ-1; Mon, 16 Mar 2020 08:01:55 -0400
-X-MC-Unique: DNgTq3n6O3qhCs-83f8QsQ-1
-Received: by mail-wm1-f70.google.com with SMTP id g26so4520423wmk.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:54 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDobc-0006Bo-FJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:29 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41418)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDobc-0005zq-9e
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:28 -0400
+Received: by mail-oi1-x242.google.com with SMTP id b17so2528813oic.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xA/NkwmBQS1Ovh/Xq0r0lrVPATIm9+TuTnIjrlEFY8Y=;
+ b=pL+dBtWV+hPjTE18GX3gS/DP3w1IA0EvZqVpgxznSgI0vsX8H5qW4bd/KmEGh3SFIT
+ igDOrQI0ajFrNdD9DPRTzf4aOrm8nrHfFGAlB+ZLC7tjT02b46vRl5MyMc/EdNfZlzZC
+ pr6FrRlRzGTu3SoWfe4IyejIMxio1JEXxQP3aQfIBryTLy1Ur5z1f9/WDPiNXVoFBw98
+ gWDTF97VAsWADMqwYINizkuLDRsT1hKDxTLnKjrAFxQaSHXIZpoJ2on4h32mdQ4tEc2e
+ aAmpAleBGrA2d+RG3f/U0AFFhui3bOHzqeZKvQxshe1kTopsL+9Mp6yEfwXeflM76Lsx
+ AHYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=q/TrjrHhXYfyq5bHXPlsvCOLySBTWSgrFuU3IZ4/ySM=;
- b=lTWTPDkTAgj4Lp9ALWTOcVjOVQQwHdtSqodvQ6AoH4J+me2uVsFBLYSxmcbFcm3F2p
- xQqSZtUGQu54yNn5te9Kr9PflaNqiSBTMbztrDzMIK0ZaghtTQHr4UKH9e9N1teBYll0
- UFisPYXB7HwHvS1bkDKO303supOC1Suk885aMFmwk6gEQCFtlO8Jt2nu5t0B7Z93Ouut
- jNmtyoYkcTl8N4/wuZTrB3Hr7wR561gq3HHVzNSTimFi1QdG1BFCrBgPlY463cor5lFD
- avebepwD49rDk47KszyJWcpQCiIBtsGB3EFLa1YbnRfZuTK8QuDDC/HukNCfR3D+FGiK
- vnfw==
-X-Gm-Message-State: ANhLgQ2xj1vzEL/Udap24bnAQnNpJBwZGzIzv9LScyun8VuOPWRhZxnZ
- fJmO202WC73OtseuZjF+wU5VO4pveA2lbqlMKXet0DlgOGSa3bJLe/hBmJFP/Sms7yMRmT+Wl0y
- Y4S2obDrj/6Zeyjc=
-X-Received: by 2002:a1c:9a51:: with SMTP id c78mr27725571wme.130.1584360113444; 
- Mon, 16 Mar 2020 05:01:53 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuf0WC5mZrj7bxvTqO/0wIAp06btYgnvdtf8msoh1ath1OGYW6q0QS0Fo85V6s9dqBobGjGOw==
-X-Received: by 2002:a1c:9a51:: with SMTP id c78mr27725551wme.130.1584360113237; 
- Mon, 16 Mar 2020 05:01:53 -0700 (PDT)
-Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id n6sm19073225wmn.13.2020.03.16.05.01.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:01:52 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG,
- and allow to disable it
-Date: Mon, 16 Mar 2020 13:00:49 +0100
-Message-Id: <20200316120049.11225-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316120049.11225-1-philmd@redhat.com>
-References: <20200316120049.11225-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xA/NkwmBQS1Ovh/Xq0r0lrVPATIm9+TuTnIjrlEFY8Y=;
+ b=L8vEq38Nd9EbquIBaypYKnetpDVlnMZnEOALJ+tdVym6JLqeyB8vUtT5jBJWEvky8+
+ ti1R6lP448QofvwwwxGp1DjezTWpb/6GJHvmXW349ctQUcmtCeVoKxPAzHeUqAVG/04z
+ 8RFuApPzt2oVQ703w08V0Rrmj9sSFH68FGgIRJYiMDoWgxjs5h7uyRVS4lZJMqteqv86
+ ieBBryh5AnQfnv6AGbsZg3DYLz7IVdD2s7nlpK6p2STSmtd8wjo+KFliGxY91Jd6Gv4e
+ AJBLRLOSvykmHjdMF0CpFTnsLpgdj1q7mpgTt7COLT1KrXad0Du902yoPY0EdYUbSYuJ
+ ulHw==
+X-Gm-Message-State: ANhLgQ02UHSKpDGrDgPE3++DlMfTr1064kg9seHQNAKR0CsuUrldnO62
+ APKFyGl8CIkt6LWqPoN2BHQkC55zc3q8/tI1oTpHwA==
+X-Google-Smtp-Source: ADFU+vu//EMTq90o9vQiWKqx72DkxmkAoGtZEN9JXuzbrpClRgeer3NU6+J49pc+PXOVBiR7tP6+fVEfTvddrDlzRjw=
+X-Received: by 2002:aca:190f:: with SMTP id l15mr6339972oii.48.1584360747205; 
+ Mon, 16 Mar 2020 05:12:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
+ <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
+ <CAFEAcA8=3zcffu8FYEenyNR5O=kHh8OJmMCJj6Uwh5HJw_b-WA@mail.gmail.com>
+ <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
+In-Reply-To: <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 12:12:16 +0000
+Message-ID: <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,39 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Wainer Moschetta <wmoschet@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The semihosting feature is only meaningful when using TCG.
+On Mon, 16 Mar 2020 at 12:04, Cleber Rosa <crosa@redhat.com> wrote:
+> A few possible reasons come to my mind:
+>
+> 1) It usually takes a few seconds after the push for the pipeline to
+>
+> 2) If you've pushed to a repo different than gitlab.com/qemu-project/qemu=
+,
+>    you'd have to tweak the project ID (-p|--project-id).
+>
+> 3) The local branch is not called "staging", so the script can not find t=
+he
+>    commit ID, in that case you can use -c|--commit.
 
-So far only the ARM/MIPS/LM32 provide the semihosting feature.
+Yes, the local branch is something else for the purposes of
+testing this series. But using --commit doesn't work either:
 
-Do not enable it by default, and let the few targets requiring
-it to manually select it.
+$ ./contrib/ci/scripts/gitlab-pipeline-status --verbose --commit
+81beaaab0851fe8c4db971 --wait
+ERROR: No pipeline found
+failure
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/semihosting/Kconfig | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
-index efe0a30734..06e9262af2 100644
---- a/hw/semihosting/Kconfig
-+++ b/hw/semihosting/Kconfig
-@@ -1,3 +1,5 @@
-=20
- config SEMIHOSTING
--       bool
-+    bool
-+    depends on TCG
-+    default n
---=20
-2.21.1
-
+On the web UI:
+https://gitlab.com/qemu-project/qemu/pipelines
+the pipelines are marked "stuck" (I don't know why there
+are two of them for the same commit); drilling down,
+the build part has completed but all the test parts are
+pending with "=EF=BB=BFThis job is stuck because you don't have
+any active runners online with any of these tags assigned
+to them" type messages.
+=EF=BB=BF=EF=BB=BF=EF=BB=BF
+thanks
+-- PMM
 
