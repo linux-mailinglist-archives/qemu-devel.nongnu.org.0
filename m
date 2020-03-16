@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F51187512
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:47:32 +0100 (CET)
-Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812EC187525
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:53:02 +0100 (CET)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxa7-0004M2-DO
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
+	id 1jDxfR-0004y5-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHg-0003kf-DC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:29 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHi-0003q0-NI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHf-00052y-5O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:28 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47907)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHh-0005Mi-IB
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:30 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36995)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHe-00051S-Vz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:27 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHh-0005Jb-Cz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394106;
+ s=mimecast20190719; t=1584394109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WOnGfxVvr/2gh78JhcyB0MNCc4EfkJRvrQjMy1iHHM8=;
- b=KlkNHDPIdWgGEZLq6U4/Wbq1LFiErRvmpPzq3oMh1nByPqh6obwTAa+eD1YoAqhQ7o8vDi
- NFlF7z6jjh03mSDeEd02towGm0DrJRY+qo+ntTP34nknXodB9iac2ME3J+d9qRfUApnAMi
- s9Syhcr/5KFWKyGV+WVpYxjcCx4I5mw=
+ bh=2+BOl0amfKr7UXhgG4Q7Xq9HkrFNXXEvNrFeurKand0=;
+ b=QnmsEWBWL9E9Q5v+amVr+ScmWDP4BsjifSb1VU9F24DAsNTuO3dnaTEee8BxF1hY3ARkcH
+ ColM++kMnBU3HKZOfEevliGqRTgC6EZEKC3j5khVpk8snJTY05HoESC/YxMUEm++65gBK3
+ m86+ydX3dzfPoaD/1HNlBCWMWxbOrcs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-tWaDFzbXPm-Uw49b0F9TkQ-1; Mon, 16 Mar 2020 17:28:24 -0400
-X-MC-Unique: tWaDFzbXPm-Uw49b0F9TkQ-1
+ us-mta-115-RlI9FaEZMueS5TZE10qkew-1; Mon, 16 Mar 2020 17:28:25 -0400
+X-MC-Unique: RlI9FaEZMueS5TZE10qkew-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71B28100726B
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB410149CC
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:24 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C00519C4F;
- Mon, 16 Mar 2020 21:28:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7C3B19C4F;
+ Mon, 16 Mar 2020 21:28:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/61] hw/usb/quirks: Use smaller types to reduce .rodata by
- 10KiB
-Date: Mon, 16 Mar 2020 22:26:54 +0100
-Message-Id: <1584394048-44994-28-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 28/61] ui/curses: Make control_characters[] array const
+Date: Mon, 16 Mar 2020 22:26:55 +0100
+Message-Id: <1584394048-44994-29-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,96 +76,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The USB descriptor sizes are specified as 16-bit for idVendor /
-idProduct, and 8-bit for bInterfaceClass / bInterfaceSubClass /
-bInterfaceProtocol. Doing so we reduce the usbredir_raw_serial_ids[]
-and usbredir_ftdi_serial_ids[] arrays from 16KiB to 6KiB (size
-reported on x86_64 host, building with --extra-cflags=3D-Os).
+As we only use this array as input, make it const.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/usb/quirks.c |  4 ++--
- hw/usb/quirks.h | 22 +++++++++++++---------
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ ui/curses.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
-index 38a9c56..23ea7a2 100644
---- a/hw/usb/quirks.c
-+++ b/hw/usb/quirks.c
-@@ -22,10 +22,10 @@ static bool usb_id_match(const struct usb_device_id *id=
-s,
-                          uint8_t interface_protocol) {
-     int i;
-=20
--    for (i =3D 0; ids[i].vendor_id !=3D -1; i++) {
-+    for (i =3D 0; ids[i].terminating_entry =3D=3D 0; i++) {
-         if (ids[i].vendor_id  =3D=3D vendor_id &&
-             ids[i].product_id =3D=3D product_id &&
--            (ids[i].interface_class =3D=3D -1 ||
-+            (ids[i].interface_protocol_used =3D=3D 0 ||
-              (ids[i].interface_class =3D=3D interface_class &&
-               ids[i].interface_subclass =3D=3D interface_subclass &&
-               ids[i].interface_protocol =3D=3D interface_protocol))) {
-diff --git a/hw/usb/quirks.h b/hw/usb/quirks.h
-index 89480be..50ef2f9 100644
---- a/hw/usb/quirks.h
-+++ b/hw/usb/quirks.h
-@@ -21,19 +21,23 @@
- #include "quirks-pl2303-ids.h"
-=20
- struct usb_device_id {
--    int vendor_id;
--    int product_id;
--    int interface_class;
--    int interface_subclass;
--    int interface_protocol;
-+    uint16_t vendor_id;
-+    uint16_t product_id;
-+    uint8_t interface_class;
-+    uint8_t interface_subclass;
-+    uint8_t interface_protocol;
-+    uint8_t interface_protocol_used:1,
-+            terminating_entry:1,
-+            reserved:6;
- };
-=20
- #define USB_DEVICE(vendor, product) \
--    .vendor_id =3D vendor, .product_id =3D product, .interface_class =3D -=
-1,
-+    .vendor_id =3D vendor, .product_id =3D product, .interface_protocol_us=
-ed =3D 0,
-=20
- #define USB_DEVICE_AND_INTERFACE_INFO(vend, prod, iclass, isubclass, iprot=
-o) \
-     .vendor_id =3D vend, .product_id =3D prod, .interface_class =3D iclass=
-, \
--    .interface_subclass =3D isubclass, .interface_protocol =3D iproto
-+    .interface_subclass =3D isubclass, .interface_protocol =3D iproto, \
-+    .interface_protocol_used =3D 1
-=20
- static const struct usb_device_id usbredir_raw_serial_ids[] =3D {
-     /*
-@@ -206,7 +210,7 @@ static const struct usb_device_id usbredir_raw_serial_i=
-ds[] =3D {
-     { USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530_PRODUCT_ID) },
-     { USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
-=20
--    { USB_DEVICE(-1, -1) } /* Terminating Entry */
-+    { .terminating_entry =3D 1 } /* Terminating Entry */
- };
-=20
- static const struct usb_device_id usbredir_ftdi_serial_ids[] =3D {
-@@ -906,7 +910,7 @@ static const struct usb_device_id usbredir_ftdi_serial_=
-ids[] =3D {
-     { USB_DEVICE(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID) },
-     { USB_DEVICE(FTDI_VID, FTDI_LUMEL_PD12_PID) },
-=20
--    { USB_DEVICE(-1, -1) } /* Terminating Entry */
-+    { .terminating_entry =3D 1 } /* Terminating Entry */
- };
-=20
- #undef USB_DEVICE
+diff --git a/ui/curses.c b/ui/curses.c
+index 3a1b714..3bafc10 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -529,7 +529,7 @@ static void font_setup(void)
+      * Control characters are normally non-printable, but VGA does have
+      * well-known glyphs for them.
+      */
+-    static uint16_t control_characters[0x20] =3D {
++    static const uint16_t control_characters[0x20] =3D {
+       0x0020,
+       0x263a,
+       0x263b,
 --=20
 1.8.3.1
 
