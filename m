@@ -2,90 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3AD1872B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:49:48 +0100 (CET)
-Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A574D18726B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:35:08 +0100 (CET)
+Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuo6-0004kT-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
+	id 1jDuZv-0003gt-M4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jDtay-0000cE-7J
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:09 -0400
+ (envelope-from <clg@kaod.org>) id 1jDtbL-0000xM-0u
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jDtav-0001z1-Q2
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26117)
+ (envelope-from <clg@kaod.org>) id 1jDtbJ-0003Ey-2f
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:30 -0400
+Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:49447)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jDtav-0001uF-LD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584379924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+zXe/Cypv6iQt9TRbMdAATGCxdNG99ZrItay448Obtc=;
- b=LDCoMVnD4kX7N8aJwVwhFgPflKaY73D6baaEJWQ2z+eNgAtigTWzL3Ohuu30A6947WSbVw
- HrHKhCdkhRtrx9x7XfQNg/C8KA8tnW+d+le2hTsA/yKQhiYptB9roInA3Pl9jrKjEdOGWC
- 9DtC9ucZ3kAFFWEJFNxesou2uwQQKqk=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-bxrWPdrgNNKofLLWC9os-A-1; Mon, 16 Mar 2020 13:32:02 -0400
-X-MC-Unique: bxrWPdrgNNKofLLWC9os-A-1
-Received: by mail-qt1-f197.google.com with SMTP id w3so17940033qtc.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:32:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=spPuwoYunkpmdwPPr04o6nutT9ci5GMlz/2rV3S0aG4=;
- b=ahWIveoVchH5+FiiBX74nEXx4lyfcq0Rf4f8MI8uzCFMhKndsZxh6fFwKMxckLMWwK
- 21XLfsRiXChAEPFbSz0hOiUTAK0qEOHDiANeQ/UugzlV3Tf5DwHHbskTgJV13hEoaax5
- mUJwKb932JhrSSRGwgE2OF5nBfthb8lKUk3rA8Rikxy5/rcIZgp52jNvn75j1oCuoI+3
- byidoJOjQSkPeILKALy6xH9IH7tH72+oFjm2MVfd5lU1sZSiT8FKP/eo/86OoBzCUdMG
- W7QquBOEm+dV3WwiZGRMEJMDjc8ntzH0wlGppNnqPUKGDffB4kMTMuT2uXtBQptTAUqA
- PKAA==
-X-Gm-Message-State: ANhLgQ2HoC4CuC0qEXFscIbbU5DJGSrPHzSTQCBWkQUH1w/SkwuU8vFz
- A/hSL0zrsuJ5KV3luZ/7DXlFJSSj4lPSIzYBesbf08SDQ6uH6xV3oIAdXvPi1KVXhT0YYXWsEkm
- VaJIba5bcwNoXjIM=
-X-Received: by 2002:a05:6214:188e:: with SMTP id
- cx14mr877639qvb.187.1584379921779; 
- Mon, 16 Mar 2020 10:32:01 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsWuMjJvp/Ur6iTw7+bb6SJ4PFCdvKYwHdCx0qMP/ekQ/if+1Ts89B1jhy7zrNuOObB5BIZAA==
-X-Received: by 2002:a05:6214:188e:: with SMTP id
- cx14mr877608qvb.187.1584379921454; 
- Mon, 16 Mar 2020 10:32:01 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id l18sm169395qke.132.2020.03.16.10.31.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:32:00 -0700 (PDT)
-Date: Mon, 16 Mar 2020 13:31:58 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
-Message-ID: <20200316173158.GA184827@xz-x1>
-References: <20200226142839.4263de9b.pasic@linux.ibm.com>
- <20200226083654-mutt-send-email-mst@kernel.org>
- <20200226163618.31aa86ed.pasic@linux.ibm.com>
- <20200226115009-mutt-send-email-mst@kernel.org>
- <20200227140215.2d12149c.pasic@linux.ibm.com>
- <20200227104233-mutt-send-email-mst@kernel.org>
- <20200313134446.782c5f7c.pasic@linux.ibm.com>
- <20200313112902-mutt-send-email-mst@kernel.org>
- <20200313163122.GB95517@xz-x1>
- <20200316175737.365d7b32.pasic@linux.ibm.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDtbI-00031d-IU
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:28 -0400
+Received: from player734.ha.ovh.net (unknown [10.110.115.231])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 60C8B15F3E4
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:32:26 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id D3F6E1057D1C8;
+ Mon, 16 Mar 2020 17:32:13 +0000 (UTC)
+Subject: Re: [PATCH v2 2/8] ppc/spapr: Change FWNMI names
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-3-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <85d7aed1-e7b4-fb99-fb0f-d6c129f94d61@kaod.org>
+Date: Mon, 16 Mar 2020 18:32:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316175737.365d7b32.pasic@linux.ibm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200316142613.121089-3-npiggin@gmail.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 13270419256088169446
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 178.33.251.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,124 +58,385 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, "Singh,
- Brijesh" <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 16, 2020 at 05:57:37PM +0100, Halil Pasic wrote:
-> On Fri, 13 Mar 2020 12:31:22 -0400
-> Peter Xu <peterx@redhat.com> wrote:
->=20
-> > On Fri, Mar 13, 2020 at 11:29:59AM -0400, Michael S. Tsirkin wrote:
-> > > On Fri, Mar 13, 2020 at 01:44:46PM +0100, Halil Pasic wrote:
-> > > > [..]
-> > > > > >=20
-> > > > > > CCing Tom. @Tom does vhost-vsock work for you with SEV and curr=
-ent qemu?
-> > > > > >=20
-> > > > > > Also, one can specify iommu_platform=3Don on a device that ain'=
-t a part of
-> > > > > > a secure-capable VM, just for the fun of it. And that breaks
-> > > > > > vhost-vsock. Or is setting iommu_platform=3Don only valid if
-> > > > > > qemu-system-s390x is protected virtualization capable?
-> > > > > >=20
-> > > > > > BTW, I don't have a strong opinion on the fixes tag. We current=
-ly do not
-> > > > > > recommend setting iommu_platform, and thus I don't think we car=
-e too
-> > > > > > much about past qemus having problems with it.
-> > > > > >=20
-> > > > > > Regards,
-> > > > > > Halil
-> > > > >=20
-> > > > >=20
-> > > > > Let's just say if we do have a Fixes: tag we want to set it corre=
-ctly to
-> > > > > the commit that needs this fix.
-> > > > >=20
-> > > >=20
-> > > > I finally did some digging regarding the performance degradation. F=
-or
-> > > > s390x the performance degradation on vhost-net was introduced by co=
-mmit
-> > > > 076a93d797 ("exec: simplify address_space_get_iotlb_entry"). Before
-> > > > IOMMUTLBEntry.addr_mask used to be based on plen, which in turn was
-> > > > calculated as the rest of the memory regions size (from address), a=
-nd
-> > > > covered most of the guest address space. That is we didn't have a w=
-hole
-> > > > lot of IOTLB API overhead.
-> > > >=20
-> > > > With commit 076a93d797 I see IOMMUTLBEntry.addr_mask =3D=3D 0xfff w=
-hich comes
-> > > > as ~TARGET_PAGE_MASK from flatview_do_translate(). To have things w=
-orking
-> > > > properly I applied 75e5b70e6, b021d1c044, and d542800d1e on the lev=
-el of
-> > > > 076a93d797 and 076a93d797~1.
-> > >=20
-> > > Peter, what's your take on this one?
-> >=20
-> > Commit 076a93d797 was one of the patchset where we want to provide
-> > sensible IOTLB entries and also that should start to work with huge
-> > pages.  Frankly speaking after a few years I forgot the original
-> > motivation of that whole thing, but IIRC there's a patch that was
-> > trying to speedup especially for vhost but I noticed it's not merged:
-> >=20
-> > https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg00574.html
+On 3/16/20 3:26 PM, Nicholas Piggin wrote:
+> The option is called "FWNMI", and it involves more than just machine
+> checks, also machine checks can be delivered without the FWNMI option,
+> so re-name various things to reflect that.
+=20
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-[1]
 
-> >=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+>  hw/ppc/spapr.c                    | 28 ++++++++++++++--------------
+>  hw/ppc/spapr_caps.c               | 14 +++++++-------
+>  hw/ppc/spapr_events.c             | 14 +++++++-------
+>  hw/ppc/spapr_rtas.c               | 17 +++++++++--------
+>  include/hw/ppc/spapr.h            | 27 +++++++++++++++++----------
+>  tests/qtest/libqos/libqos-spapr.h |  2 +-
+>  6 files changed, 55 insertions(+), 47 deletions(-)
 >=20
-> From the looks of it, I don't think we would have seen that big
-> performance degradation had this patch been included. I can give
-> it a spin if you like. Shall I?
->=20
-> > Regarding to the current patch, I'm not sure I understand it
-> > correctly, but is that performance issue only happens when (1) there's
-> > no intel-iommu device, and (2) there is iommu_platform=3Don specified
-> > for the vhost backend?
-> >=20
->=20
-> I can confirm, that your description covers my scenario. I didn't
-> investigate what happens when we have an intel-iommu, because s390 does
-> not do intel-iommu. I can also confirm that no performance degradation
-> is observed when the virtio-net has iommu_platform=3Doff. The property
-> iommu_platform is a virtio device (and not a backend) level property.
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index d3db3ec56e..b03b26370d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1704,11 +1704,11 @@ static void spapr_machine_reset(MachineState *m=
+achine)
 > =20
+>      spapr->cas_reboot =3D false;
+> =20
+> -    spapr->mc_status =3D -1;
+> -    spapr->guest_machine_check_addr =3D -1;
+> +    spapr->fwnmi_machine_check_addr =3D -1;
+> +    spapr->fwnmi_machine_check_interlock =3D -1;
+> =20
+>      /* Signal all vCPUs waiting on this condition */
+> -    qemu_cond_broadcast(&spapr->mc_delivery_cond);
+> +    qemu_cond_broadcast(&spapr->fwnmi_machine_check_interlock_cond);
+> =20
+>      migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+> @@ -1997,7 +1997,7 @@ static bool spapr_fwnmi_needed(void *opaque)
+>  {
+>      SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
+> =20
+> -    return spapr->guest_machine_check_addr !=3D -1;
+> +    return spapr->fwnmi_machine_check_addr !=3D -1;
+>  }
+> =20
+>  static int spapr_fwnmi_pre_save(void *opaque)
+> @@ -2008,7 +2008,7 @@ static int spapr_fwnmi_pre_save(void *opaque)
+>       * Check if machine check handling is in progress and print a
+>       * warning message.
+>       */
+> -    if (spapr->mc_status !=3D -1) {
+> +    if (spapr->fwnmi_machine_check_interlock !=3D -1) {
+>          warn_report("A machine check is being handled during migration=
+. The"
+>                  "handler may run and log hardware error on the destina=
+tion");
+>      }
+> @@ -2016,15 +2016,15 @@ static int spapr_fwnmi_pre_save(void *opaque)
+>      return 0;
+>  }
+> =20
+> -static const VMStateDescription vmstate_spapr_machine_check =3D {
+> -    .name =3D "spapr_machine_check",
+> +static const VMStateDescription vmstate_spapr_fwnmi =3D {
+> +    .name =3D "spapr_fwnmi",
+>      .version_id =3D 1,
+>      .minimum_version_id =3D 1,
+>      .needed =3D spapr_fwnmi_needed,
+>      .pre_save =3D spapr_fwnmi_pre_save,
+>      .fields =3D (VMStateField[]) {
+> -        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> -        VMSTATE_INT32(mc_status, SpaprMachineState),
+> +        VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState=
+),
+>          VMSTATE_END_OF_LIST()
+>      },
+>  };
+> @@ -2063,7 +2063,7 @@ static const VMStateDescription vmstate_spapr =3D=
+ {
+>          &vmstate_spapr_cap_large_decr,
+>          &vmstate_spapr_cap_ccf_assist,
+>          &vmstate_spapr_cap_fwnmi,
+> -        &vmstate_spapr_machine_check,
+> +        &vmstate_spapr_fwnmi,
+>          NULL
+>      }
+>  };
+> @@ -2884,7 +2884,7 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+>          spapr_create_lmb_dr_connectors(spapr);
+>      }
+> =20
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_ON)=
+ {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_ON) {
+>          /* Create the error string for live migration blocker */
+>          error_setg(&spapr->fwnmi_migration_blocker,
+>              "A machine check is being handled during migration. The ha=
+ndler"
+> @@ -3053,7 +3053,7 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+>          kvmppc_spapr_enable_inkernel_multitce();
+>      }
+> =20
+> -    qemu_cond_init(&spapr->mc_delivery_cond);
+> +    qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
+>  }
+> =20
+>  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
+> @@ -4534,7 +4534,7 @@ static void spapr_machine_class_init(ObjectClass =
+*oc, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
+>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_=
+ON;
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
+> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_ON;
+> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
+>      spapr_caps_add_properties(smc, &error_abort);
+>      smc->irq =3D &spapr_irq_dual;
+>      smc->dr_phb_enabled =3D true;
+> @@ -4612,7 +4612,7 @@ static void spapr_machine_4_2_class_options(Machi=
+neClass *mc)
+>      spapr_machine_5_0_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_le=
+n);
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
+> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
+> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_OFF;
+>      smc->rma_limit =3D 16 * GiB;
+>      mc->nvdimm_supported =3D false;
+>  }
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 8b27d3ac09..f626d769a0 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -509,7 +509,7 @@ static void cap_ccf_assist_apply(SpaprMachineState =
+*spapr, uint8_t val,
+>      }
+>  }
+> =20
+> -static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
+> +static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+>                                  Error **errp)
+>  {
+>      if (!val) {
+> @@ -626,14 +626,14 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NU=
+M] =3D {
+>          .type =3D "bool",
+>          .apply =3D cap_ccf_assist_apply,
+>      },
+> -    [SPAPR_CAP_FWNMI_MCE] =3D {
+> -        .name =3D "fwnmi-mce",
+> -        .description =3D "Handle fwnmi machine check exceptions",
+> -        .index =3D SPAPR_CAP_FWNMI_MCE,
+> +    [SPAPR_CAP_FWNMI] =3D {
+> +        .name =3D "fwnmi",
+> +        .description =3D "Implements PAPR FWNMI option",
+> +        .index =3D SPAPR_CAP_FWNMI,
+>          .get =3D spapr_cap_get_bool,
+>          .set =3D spapr_cap_set_bool,
+>          .type =3D "bool",
+> -        .apply =3D cap_fwnmi_mce_apply,
+> +        .apply =3D cap_fwnmi_apply,
+>      },
+>  };
+> =20
+> @@ -774,7 +774,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_=
+MAXPAGESIZE);
+>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+> -SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
+> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
+> =20
+>  void spapr_caps_init(SpaprMachineState *spapr)
+>  {
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 11303258d4..27ba8a2c19 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -837,7 +837,7 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu=
+, bool recovered)
+> =20
+>      env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
+>      env->msr =3D msr;
+> -    env->nip =3D spapr->guest_machine_check_addr;
+> +    env->nip =3D spapr->fwnmi_machine_check_addr;
+> =20
+>      g_free(ext_elog);
+>  }
+> @@ -849,7 +849,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
+vered)
+>      int ret;
+>      Error *local_err =3D NULL;
+> =20
+> -    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> +    if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
+>          /*
+>           * This implies that we have hit a machine check either when t=
+he
+>           * guest has not registered FWNMI (i.e., "ibm,nmi-register" no=
+t
+> @@ -861,19 +861,19 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool re=
+covered)
+>          return;
+>      }
+> =20
+> -    while (spapr->mc_status !=3D -1) {
+> +    while (spapr->fwnmi_machine_check_interlock !=3D -1) {
+>          /*
+>           * Check whether the same CPU got machine check error
+>           * while still handling the mc error (i.e., before
+>           * that CPU called "ibm,nmi-interlock")
+>           */
+> -        if (spapr->mc_status =3D=3D cpu->vcpu_id) {
+> +        if (spapr->fwnmi_machine_check_interlock =3D=3D cpu->vcpu_id) =
+{
+>              qemu_system_guest_panicked(NULL);
+>              return;
+>          }
+> -        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
+> +        qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_=
+cond);
+>          /* Meanwhile if the system is reset, then just return */
+> -        if (spapr->guest_machine_check_addr =3D=3D -1) {
+> +        if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
+>              return;
+>          }
+>      }
+> @@ -889,7 +889,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
+vered)
+>          warn_report("Received a fwnmi while migration was in progress"=
+);
+>      }
+> =20
+> -    spapr->mc_status =3D cpu->vcpu_id;
+> +    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
+>      spapr_mce_dispatch_elog(cpu, recovered);
+>  }
+> =20
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index fe83b50c66..0b8c481593 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -415,7 +415,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>  {
+>      hwaddr rtas_addr;
+> =20
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF=
+) {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>          return;
+>      }
+> @@ -426,7 +426,8 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>          return;
+>      }
+> =20
+> -    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+> +    spapr->fwnmi_machine_check_addr =3D rtas_ld(args, 1);
+> +
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+> =20
+> @@ -436,18 +437,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cp=
+u,
+>                                     target_ulong args,
+>                                     uint32_t nret, target_ulong rets)
+>  {
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF=
+) {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>          return;
+>      }
+> =20
+> -    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> +    if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
+>          /* NMI register not called */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>          return;
+>      }
+> =20
+> -    if (spapr->mc_status !=3D cpu->vcpu_id) {
+> +    if (spapr->fwnmi_machine_check_interlock !=3D cpu->vcpu_id) {
+>          /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock"=
+ */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>          return;
+> @@ -455,10 +456,10 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cp=
+u,
+> =20
+>      /*
+>       * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> -     * hence unset mc_status.
+> +     * hence unset fwnmi_machine_check_interlock.
+>       */
+> -    spapr->mc_status =3D -1;
+> -    qemu_cond_signal(&spapr->mc_delivery_cond);
+> +    spapr->fwnmi_machine_check_interlock =3D -1;
+> +    qemu_cond_signal(&spapr->fwnmi_machine_check_interlock_cond);
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>      migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 35b489a549..64b83402cb 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -79,10 +79,10 @@ typedef enum {
+>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
+>  /* Count Cache Flush Assist HW Instruction */
+>  #define SPAPR_CAP_CCF_ASSIST            0x09
+> -/* FWNMI machine check handling */
+> -#define SPAPR_CAP_FWNMI_MCE             0x0A
+> +/* Implements PAPR FWNMI option */
+> +#define SPAPR_CAP_FWNMI                 0x0A
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
+> =20
+>  /*
+>   * Capability Values
+> @@ -192,14 +192,21 @@ struct SpaprMachineState {
+>       * occurs during the unplug process. */
+>      QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
+> =20
+> -    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" cal=
+ls */
+> -    target_ulong guest_machine_check_addr;
+> -    /*
+> -     * mc_status is set to -1 if mc is not in progress, else is set to=
+ the CPU
+> -     * handling the mc.
+> +    /* State related to FWNMI option */
+> +
+> +    /* Machine Check Notification Routine address
+> +     * registered by "ibm,nmi-register" RTAS call.
+> +     */
+> +    target_ulong fwnmi_machine_check_addr;
+> +
+> +    /* Machine Check FWNMI synchronization, fwnmi_machine_check_interl=
+ock is
+> +     * set to -1 if a FWNMI machine check is not in progress, else is =
+set to
+> +     * the CPU that was delivered the machine check, and is set back t=
+o -1
+> +     * when that CPU makes an "ibm,nmi-interlock" RTAS call. The cond =
+is used
+> +     * to synchronize other CPUs.
+>       */
+> -    int mc_status;
+> -    QemuCond mc_delivery_cond;
+> +    int fwnmi_machine_check_interlock;
+> +    QemuCond fwnmi_machine_check_interlock_cond;
+> =20
+>      /*< public >*/
+>      char *kvm_type;
+> diff --git a/tests/qtest/libqos/libqos-spapr.h b/tests/qtest/libqos/lib=
+qos-spapr.h
+> index d9c4c22343..16174dbada 100644
+> --- a/tests/qtest/libqos/libqos-spapr.h
+> +++ b/tests/qtest/libqos/libqos-spapr.h
+> @@ -13,6 +13,6 @@ void qtest_spapr_shutdown(QOSState *qs);
+>      "cap-sbbc=3Dbroken,"                           \
+>      "cap-ibs=3Dbroken,"                            \
+>      "cap-ccf-assist=3Doff,"                        \
+> -    "cap-fwnmi-mce=3Doff"
+> +    "cap-fwnmi=3Doff"
+> =20
+>  #endif
 >=20
-> > If so, I'd confess I am not too surprised if this fails the boot with
-> > vhost-vsock because after all we speicified iommu_platform=3Don
-> > explicitly in the cmdline, so if we want it to work we can simply
-> > remove that iommu_platform=3Don when vhost-vsock doesn't support it
-> > yet...  I thougth iommu_platform=3Don was added for that case - when we
-> > want to force IOMMU to be enabled from host side, and it should always
-> > be used with a vIOMMU device.
-> >=20
->=20
-> The problem is that the virtio feature bit F_ACCESS_PLATFORM, which is
-> directly controlled by the iommu_platform proprerty stands for two things
-> 1) need to do IOVA translation
-> 2) the access of the device to the guests RAM is restricted.
->=20
-> There are cases where 2) does apply and 1) does not. We need to specify
-> iommu_platform=3Don to make the virtio implementation in the guest use
-> the dma api, because we need to grant access to memory as required. But
-> we don't need translation and we don't have a vIOMMU.
-
-I see the point of this patch now.  I'm still unclear on how s390
-works for DMA protection, but it seems totally different from the
-IOMMU model on x86/arm.  Considering this, please ignore above patch
-[1] because that's hackish in all cases to play with iotlb caches, and
-current patch should be much better (and easier) IMHO.
-
-Thanks,
-
---=20
-Peter Xu
 
 
