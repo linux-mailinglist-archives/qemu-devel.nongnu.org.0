@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4595A1874CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:35:39 +0100 (CET)
-Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70291874E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:42:51 +0100 (CET)
+Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxOc-0002vv-87
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:35:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41849)
+	id 1jDxVa-0005as-LE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHH-00031U-Oe
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:05 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHJ-00035M-Ex
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHG-0002gT-9p
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:03 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58838)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHI-0002tX-8V
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:32898)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHG-0002cM-4Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:02 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHI-0002rN-1r
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394081;
+ s=mimecast20190719; t=1584394083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TY9UYpkZpqX4mfvmY/RqqrdkZCQ7roAxViM/kJBm9Bg=;
- b=JKxWD8oEGfvJ2LbUI3wX4xMEfyG9lzLu64M7RiJV6rcuKnUOMwV73yOCUgPE8aqPURak+t
- eJuUXI///LPH+TFm7BuKXpgxaGeufSmFDcF8nQ8CMDcb/CiHh7CzeVx1OiU2F/eG1NgZIX
- TuI0j5hRAMDURH/CqXtD0JaeBiLo55A=
+ bh=IitM4mPKiN40CFCMH52RVRIdZAz8klQZG8CpYOPF4jk=;
+ b=B5DczBBots0WWZ1Shi7EkoOIUZsJLFbOFeF0YjdGe9xl4NhnUVDX/NrABjNMrjCu7rj3Pm
+ PZvyY11BncJUFj/fZbm6Xeol/BS6h+zTgRDymJC6FMaz5DCY5yjs/fw5MNwzQy/19QqF4/
+ r2wtWScoiPKSVn74ZCqLb01d48xX5I4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348--kjMsyyvPD-rVqF7rEju1Q-1; Mon, 16 Mar 2020 17:27:58 -0400
-X-MC-Unique: -kjMsyyvPD-rVqF7rEju1Q-1
+ us-mta-150-RcfB10rANgmUfkVAYFnVbg-1; Mon, 16 Mar 2020 17:28:01 -0400
+X-MC-Unique: RcfB10rANgmUfkVAYFnVbg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 132321804547;
- Mon, 16 Mar 2020 21:27:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393898010C7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:00 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2E1C19C4F;
- Mon, 16 Mar 2020 21:27:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DCDF19C4F;
+ Mon, 16 Mar 2020 21:27:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/61] configure: Fix building with SASL on Windows
-Date: Mon, 16 Mar 2020 22:26:41 +0100
-Message-Id: <1584394048-44994-15-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 15/61] tests/docker: Install SASL library to extend code
+ coverage on amd64
+Date: Mon, 16 Mar 2020 22:26:42 +0100
+Message-Id: <1584394048-44994-16-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -69,51 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Pavlov <alexpux@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Biswapriyo Nath <nathbappai@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The Simple Authentication and Security Layer (SASL) library
-re-defines the struct iovec on Win32 [*]. QEMU also re-defines
-it in "qemu/osdep.h". The two definitions then clash on a MinGW
-build.
-We can avoid the SASL definition by defining STRUCT_IOVEC_DEFINED.
-Since QEMU already defines 'struct iovec' if it is missing, add
-the definition to vnc_sasl_cflags to avoid SASL re-defining it.
+Install the SASL library to build the VNC SASL auth protocol code.
 
-[*] https://github.com/cyrusimap/cyrus-sasl/blob/cyrus-sasl-2.1.27/include/=
-sasl.h#L187
-
-Cc: Alexey Pavlov <alexpux@gmail.com>
-Cc: Biswapriyo Nath <nathbappai@gmail.com>
-Reported-by: Youry Metlitsky <winaes@yandex.ru>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200309122454.22551-2-philmd@redhat.com>
+Message-Id: <20200309122454.22551-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/debian-amd64.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index a7f2c3e..44a70cf 100755
---- a/configure
-+++ b/configure
-@@ -3367,7 +3367,9 @@ if test "$vnc" =3D "yes" && test "$vnc_sasl" !=3D "no=
-" ; then
- int main(void) { sasl_server_init(NULL, "qemu"); return 0; }
- EOF
-   # Assuming Cyrus-SASL installed in /usr prefix
--  vnc_sasl_cflags=3D""
-+  # QEMU defines struct iovec in "qemu/osdep.h",
-+  # we don't want libsasl to redefine it in <sasl/sasl.h>.
-+  vnc_sasl_cflags=3D"-DSTRUCT_IOVEC_DEFINED"
-   vnc_sasl_libs=3D"-lsasl2"
-   if compile_prog "$vnc_sasl_cflags" "$vnc_sasl_libs" ; then
-     vnc_sasl=3Dyes
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/do=
+ckerfiles/debian-amd64.docker
+index 3b860af..0456fc7 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
+         libbz2-dev \
+         liblzo2-dev \
+         librdmacm-dev \
++        libsasl2-dev \
+         libsnappy-dev \
+         libvte-dev
+=20
 --=20
 1.8.3.1
 
