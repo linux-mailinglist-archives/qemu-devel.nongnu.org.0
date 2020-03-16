@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4827186EA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:32:57 +0100 (CET)
-Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9870D186EE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:45:59 +0100 (CET)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrjc-0006Yx-7b
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
+	id 1jDrwD-0003R7-ML
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDpWi-0004Jn-RW
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:11:31 -0400
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDpl3-0001Sq-Gb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDpWh-0006ej-90
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:11:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46134)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDpWg-0006Ot-VS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:11:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id w16so4727739wrv.13
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=GTGbDrZWAe1kBhlQPsBLVtU3hWPPyCvRJvwhRo3puPU=;
- b=emIWZhrlfqf02XoBcGQ40O5z+7xNmxQ7ImuQghZ7tpt3MwMHPOjgvOgEQn7i7EHGUM
- vYtnjq5vUns28O97b2udgXl2OC8OmsFuMmc6Gv6si4KA0QIHvqcDDY6Hx2V4IDe6sxry
- kelsscWhB52FhVT+m8cOxlaLHwz2NHKz0Y9CoV0eqQYZDUTUMxcuCwpNM4VYyX3ULQ2m
- Xl9+WkbSXr+bqJicvOFtlYh+2Mj04AxWodWY/AAVY8lCTq24nIEki1flJblpCi1qtFLv
- Mtb3YCi/hi/t/UVvj60tsLeYu4jCRpdkj7iaa5ewJldmcvtV+EcUss6axqDRhUQ5QlN6
- Z+3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=GTGbDrZWAe1kBhlQPsBLVtU3hWPPyCvRJvwhRo3puPU=;
- b=Y9ZrFKkddHUW5GaeFgxzge6u2+Jg3ysN2GiZ2LTJoIVOPKEO0Ov3v59md74AmjVhA9
- V8EmrAtlp1XvmvBanIiy9FxV3IK3Evn4t1/SPng6EgZpVUKeOYxyc1P92/LYoUBBWmKa
- qZZDIde6+kOJrq/GudrMFqRJZamGlDqKrxBSAHVvjxBpsuwiRBWNGo0dNIUKyTlYMwhH
- rr04NnAwN6vP+S7iDyrsvCsyhqXh+ahORoI628MLuY2KW1Gwy1gS9uvcaHmJP4dl/9js
- NMK9d7+8C6T2H2HS05ys9kBZIypxceqCgyQUEcgVNq1YgzBXnrTf/F+j/GARqvWqYnoX
- 6sAw==
-X-Gm-Message-State: ANhLgQ2VGln/CjDjEijWBES+22T8K8JZ5Q+Pls4thkMnSLtzFshwUTyM
- G8zzJDJ1iw38C1FgvUmaFn3fmA==
-X-Google-Smtp-Source: ADFU+vvHKGgCXT4MoMymF61HizAgOpLiD2C5KB3kv+UCJQQeLZazjpaU2Vavmd2+z7qXlQdRl4Nfzw==
-X-Received: by 2002:adf:e581:: with SMTP id l1mr22215033wrm.395.1584364285688; 
- Mon, 16 Mar 2020 06:11:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d18sm30891278wrq.22.2020.03.16.06.11.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 06:11:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 33E391FF7E;
- Mon, 16 Mar 2020 13:11:23 +0000 (GMT)
-References: <20200312193616.438922-1-crosa@redhat.com>
- <20200316123807.GG1528804@redhat.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-In-reply-to: <20200316123807.GG1528804@redhat.com>
-Date: Mon, 16 Mar 2020 13:11:23 +0000
-Message-ID: <87zhcgjvgk.fsf@linaro.org>
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDpl2-0000MD-Du
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:17 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:50024 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jDpl2-0008Q8-51
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:16 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 9EA4A4127E;
+ Mon, 16 Mar 2020 13:26:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1584365172; x=
+ 1586179573; bh=oBkBrguLZWKRgIMwLtFrvJCh47xvuaQQlhruzcozGAg=; b=d
+ V40wdeQlrOPJLpJ9lYf7rwPC0pRhV3avq4g43KgJjyqlw8OfNok3vh8U6ocqIqMR
+ lhEB9k6fwQQwYoYuSLnq5J2yKqHEynwLifDlECdKfvWei9kNurj39/L4dgq3C/ik
+ 5efHBEYmDOHmr7y8W3OLToBCkpTcpwXWGV3azsmKyY=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ls95sNW5TDQw; Mon, 16 Mar 2020 16:26:12 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 1F6B54120D;
+ Mon, 16 Mar 2020 16:26:11 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
+ Mar 2020 16:26:11 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] MAINTAINERS: Add an entry for the HVF accelerator
+Date: Mon, 16 Mar 2020 16:22:57 +0300
+Message-ID: <20200316132254.32906-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 89.207.88.252
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,76 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Erik Skultety <eskultet@redhat.com>, Wainer Moschetta <wmoschet@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Patrick Colp <patrick.colp@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Cameron Esfahani <dirty@apple.com>,
+ Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Liran Alon <liran.alon@oracle.com>,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Heiher <r@hev.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc: Nikita Leshenko <nikita.leshchenko@oracle.com>
+Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
+Cc: Patrick Colp <patrick.colp@oracle.com>
+Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Heiher <r@hev.cc>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> On Thu, Mar 12, 2020 at 03:36:11PM -0400, Cleber Rosa wrote:
->> The idea about a public facing Gating CI for QEMU was lastly
->> summarized in an RFC[1].  Since then, it was decided that a
->> simpler version should be attempted first.
->>=20
->> Changes from the RFC patches[2] accompanying the RFC document:
->>=20
->> - Moved gating job definitions to .gitlab-ci-gating.yml
->> - Added info on "--disable-libssh" build option requirement
->>   (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs
->> - Added info on "--disable-glusterfs" build option requirement
->>   (there's no static version of those libs in distro supplied
->>   packages) to one
->> - Dropped ubuntu-18.04.3-x86_64-notools job definition, because it
->>   doesn't fall into the general scope of gating job described by PMM
->>   (and it did not run any test)
->> - Added w32 and w64 cross builds based on Fedora 30
->> - Added a FreeBSD based job that builds all targets and runs `make
->>   check`
->> - Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a
->>   simple but effective way of speeding up the builds and tests by
->>   using a number of make jobs matching the number of CPUs
->> - Because the Ansible playbooks reference the content on Dockerfiles,
->>   some fixes to some Dockerfiles caught in the process were included
->> - New patch with script to check or wait on a pipeline execution
->>=20
->> [1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.html
->> [2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.html
->>=20
->> Cleber Rosa (5):
->>   tests/docker: add CentOS 8 Dockerfile
->>   tests/docker: make "buildah bud" output similar to "docker build"
->>   GitLab CI: avoid calling before_scripts on unintended jobs
->>   GitLab Gating CI: introduce pipeline-status contrib script
->>   GitLab Gating CI: initial set of jobs, documentation and scripts
->>=20
->>  .gitlab-ci-gating.yml                         | 111 ++++++++++
->>  .gitlab-ci.yml                                |  32 ++-
->>  contrib/ci/orgs/qemu/build-environment.yml    | 208 ++++++++++++++++++
->>  contrib/ci/orgs/qemu/gitlab-runner.yml        |  65 ++++++
->>  contrib/ci/orgs/qemu/inventory                |   2 +
->>  contrib/ci/orgs/qemu/vars.yml                 |  13 ++
->>  contrib/ci/scripts/gitlab-pipeline-status     | 148 +++++++++++++
->
-> FYI, the contrib/ directory is generally a place for arbitrary / adhoc
-> but interesting user contributed files/sources that are not officially
-> supported deliverables of the project.
->
-> IOW, this is not a good home for the official CI scripts.
->
-> We already have a .gitlab-ci.d/ directory that looks like it would
-> be good for this.  Or if that's not suitable, then scripts/ci/ is
-> a second choice.
-
-I'd vote for scripts/ci/ or scripts/gitlab/ as the .gitlab-ci.d might be
-a little hidden.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 32867bc636..e544f3012e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -405,6 +405,13 @@ S: Supported
+ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
+=20
++X86 HVF CPUs
++M: Roman Bolshakov <r.bolshakov@yadro.com>
++S: Supported
++F: accel/stubs/hvf-stub.c
++F: target/i386/hvf/
++F: include/sysemu/hvf.h
++
+ WHPX CPUs
+ M: Sunil Muthuswamy <sunilmut@microsoft.com>
+ S: Supported
 --=20
-Alex Benn=C3=A9e
+2.24.1
+
 
