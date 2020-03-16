@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5F91874E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:42:47 +0100 (CET)
-Received: from localhost ([::1]:49426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5D91874FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:44:30 +0100 (CET)
+Received: from localhost ([::1]:49450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxVW-0005SE-Q6
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42805)
+	id 1jDxXB-0000na-9O
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHv-00045t-Dd
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:45 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHx-00047t-SU
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHs-0006Lt-1s
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:41 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48671)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHv-0006Rg-Rt
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:45 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54083)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHq-0006E0-6d
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:39 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHt-0006NH-SA
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394116;
+ s=mimecast20190719; t=1584394120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tag38lhnvG1hJ+kq614FsjPtBK+zW3BKx6L1S1mj9hw=;
- b=WoEEGg6af+E93BPoW0MPalrDHRnWUJgjV+jSy50SDOa/7xCsDDY4t6JIOWj0hsqQS/K82K
- 9WJOazF8E6AmufQHc7QWwY6Fr1SkttmWSw7Zx/TJzyCS/HEP99iDCMMRXrzDeGaCIHmEnX
- P809C0jynpk5Ju0ByYpdXWE0MKMLRPw=
+ bh=MKUYLYyTOhXXs5Uuzx/QroEWqaITGSQKhJNLF3Ips9U=;
+ b=KEDCtUzS5ZUidBlkAoo0d6SomGztodjYJnjtsnPibv8LsuDISx+5qWu15p9sOOUL2uFLff
+ nTEAUMyX7yEdICml7cMBSOCLq6T0oiTOBgagD4g0CiNYDtj4j8ph6I4RASwR+33ihWFQkm
+ SydinnG5ZI+eg50A8mV4QKMtDSFcNPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-AezbGN8wMjuQcjRhvaV06A-1; Mon, 16 Mar 2020 17:28:34 -0400
-X-MC-Unique: AezbGN8wMjuQcjRhvaV06A-1
+ us-mta-366-ttNj0ZWuMJi1nOUxPOGdIw-1; Mon, 16 Mar 2020 17:28:37 -0400
+X-MC-Unique: ttNj0ZWuMJi1nOUxPOGdIw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F41221085925
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B16598017CC;
+ Mon, 16 Mar 2020 21:28:36 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9FA19C4F;
- Mon, 16 Mar 2020 21:28:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6997119C4F;
+ Mon, 16 Mar 2020 21:28:34 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/61] exec/rom_reset: Free rom data during inmigrate skip
-Date: Mon, 16 Mar 2020 22:27:00 +0100
-Message-Id: <1584394048-44994-34-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 34/61] cpus: avoid pause_all_vcpus getting stuck due to race
+Date: Mon, 16 Mar 2020 22:27:01 +0100
+Message-Id: <1584394048-44994-35-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -68,75 +68,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Longpeng <longpeng2@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Longpeng <longpeng2@huawei.com>
 
-Commit 355477f8c73e9 skips rom reset when we're an incoming migration
-so as not to overwrite shared ram in the ignore-shared migration
-optimisation.
-However, it's got an unexpected side effect that because it skips
-freeing the ROM data, when rom_reset gets called later on, after
-migration (e.g. during a reboot), the ROM does get reset to the original
-file contents.  Because of seabios/x86's weird reboot process
-this confuses a reboot into hanging after a migration.
+We found an issue when repeat reboot in guest during migration, it cause th=
+e
+migration thread never be waken up again.
 
-Fixes: 355477f8c73e9 ("migration: do not rom_reset() during incoming migrat=
-ion")
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1809380
+<main loop>                        |<migration_thread>
+                                   |
+LOCK BQL                           |
+...                                |
+main_loop_should_exit              |
+ pause_all_vcpus                   |
+  1. set all cpus ->stop=3Dtrue      |
+     and then kick                 |
+  2. return if all cpus is paused  |
+     (by '->stopped =3D=3D true'), else|
+  3. qemu_cond_wait [BQL UNLOCK]   |
+                                   |LOCK BQL
+                                   |...
+                                   |do_vm_stop
+                                   | pause_all_vcpus
+                                   |  (A)set all cpus ->stop=3Dtrue
+                                   |     and then kick
+                                   |  (B)return if all cpus is paused
+                                   |     (by '->stopped =3D=3D true'), else
+                                   |  (C)qemu_cond_wait [BQL UNLOCK]
+  4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
+  5. goto 2.                       |
+ (BQL is still LOCKed)             |
+ resume_all_vcpus                  |
+  1. set all cpus ->stop=3Dfalse     |
+     and ->stopped=3Dfalse           |
+...                                |
+BQL UNLOCK                         |  (E)LOCK BQL
+                                   |  (F)goto B. [but stopped is false now!=
+]
+                                   |Finally, sleep at step 3 forever.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+resume_all_vcpus should notice this race, so we need to move the change
+of runstate before pause_all_vcpus in do_vm_stop() and ignore the resume
+request if runstate is not running.
+
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Signed-off-by: Longpeng <longpeng2@huawei.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200316083732.2010-1-longpeng2@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/loader.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ cpus.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index d1b78f6..eeef6da 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1119,19 +1119,26 @@ static void rom_reset(void *unused)
- {
-     Rom *rom;
+diff --git a/cpus.c b/cpus.c
+index b4f8b84..ef441bd 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1026,9 +1026,9 @@ static int do_vm_stop(RunState state, bool send_stop)
+     int ret =3D 0;
 =20
--    /*
--     * We don't need to fill in the RAM with ROM data because we'll fill
--     * the data in during the next incoming migration in all cases.  Note
--     * that some of those RAMs can actually be modified by the guest on AR=
-M
--     * so this is probably the only right thing to do here.
--     */
--    if (runstate_check(RUN_STATE_INMIGRATE))
--        return;
--
-     QTAILQ_FOREACH(rom, &roms, next) {
-         if (rom->fw_file) {
-             continue;
-         }
-+        /*
-+         * We don't need to fill in the RAM with ROM data because we'll fi=
-ll
-+         * the data in during the next incoming migration in all cases.  N=
-ote
-+         * that some of those RAMs can actually be modified by the guest.
-+         */
-+        if (runstate_check(RUN_STATE_INMIGRATE)) {
-+            if (rom->data && rom->isrom) {
-+                /*
-+                 * Free it so that a rom_reset after migration doesn't
-+                 * overwrite a potentially modified 'rom'.
-+                 */
-+                rom_free_data(rom);
-+            }
-+            continue;
-+        }
+     if (runstate_is_running()) {
++        runstate_set(state);
+         cpu_disable_ticks();
+         pause_all_vcpus();
+-        runstate_set(state);
+         vm_state_notify(0, state);
+         if (send_stop) {
+             qapi_event_send_stop();
+@@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
+ {
+     CPUState *cpu;
+=20
++    if (!runstate_is_running()) {
++        return;
++    }
 +
-         if (rom->data =3D=3D NULL) {
-             continue;
-         }
+     qemu_clock_enable(QEMU_CLOCK_VIRTUAL, true);
+     CPU_FOREACH(cpu) {
+         cpu_resume(cpu);
 --=20
 1.8.3.1
 
