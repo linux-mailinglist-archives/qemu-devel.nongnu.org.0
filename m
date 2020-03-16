@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB84E1872E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:00:25 +0100 (CET)
-Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F6B187288
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:40:54 +0100 (CET)
+Received: from localhost ([::1]:46298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuyO-0000Zx-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
+	id 1jDufV-0005R0-Um
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:40:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuZV-000438-KR
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDue5-0003gG-AW
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:39:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuZU-0005dY-LM
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:41 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46540)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDue4-0008IH-5a
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:39:25 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38136)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDuZU-0005Xu-FX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:40 -0400
-Received: by mail-pl1-x644.google.com with SMTP id r3so348302pls.13
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:34:40 -0700 (PDT)
+ id 1jDue3-0008AA-Up
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:39:24 -0400
+Received: by mail-pf1-x441.google.com with SMTP id z5so10437946pfn.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PC2ldSLzBIGyBSvA9ZmOPp4tVJwN/WY+kDxO7U/JLuE=;
- b=Wl1Y4XNAeLvQNwX566xDFe85W8KyJrcvDX6J10fv+m0wYL+JW25xh7K6r+h2Qheawu
- O+pklhhG9PHcOqNKXo43tPmDRS4KKZ5Hd0N2s7bIesUMj7hJFfP5Ozje7pEXsOOvqTLF
- a2abxh1+DJD3KRsWHBRvrflXIq9qu/WPmNzyZ8zYmibfZt3W8RGKqq1TQpiL3wKZORRW
- zguNcoJQVNDmIGUd5tOIokHhYnLI4J5dTfMcMDZYh/dkxv8PL6dwqJ534ftKChB+s56l
- RZIjvouWMnpo4sphNj870/f21602na7bmZk0IvdLodMI75jINl4jTo96mwW12pwyQFi2
- h03g==
+ bh=0wzF9vMw6f5nTA/Nbg/JR2KLmEi6Uo/vA08JyDqlmF4=;
+ b=tKap6BSHPxRtzWRQRyVvCdrETNrZp2ygGeaeTj6FDjUZbBgmgGMmwCsCAuXIFrbTRN
+ JvZQGtEuHrBCGXggxB2tWUanWg8Ms56qzMsNRpYi6kOAD80LFoI7Nyj0PilkSmfVsWCn
+ NTb9J7AW8P5dNW+VopS7GoO+Ki2QGvVxGIDeJpm8rJHIAD6rPG3/gSLfE9jyjsTRPS9V
+ lF2B1jhqKE3eGZ9ilSWvo2KexcqmZeZAvbKSyFUjl6ku6c/EBNrIN2Tmi1T9bI05ulU3
+ M3BDU2+iCxvG6xmNDBlHMknRAzzyJJO20pzc5Lx93Hq4/XrC0LWqF4eSZJpSPa0PmVbr
+ hEIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PC2ldSLzBIGyBSvA9ZmOPp4tVJwN/WY+kDxO7U/JLuE=;
- b=LNu29u96KjYHhIXog+Wvvwg8Eb1SOhfOdoyOlYUzoLcLhCjqeuHGNMr315ZeYpQXQ+
- 36Tjoo/ZlC0l6kTN6pe0ECQrgOvkWCNTkpruBtMVYroCzGW15nZeEih/83UxcFz+B3aw
- JaxYBkRs5x9uDku4Jl/kYqJuAzpghYtIGUFg0xJfmI5aR5hsumx8n3jevFQw9cD2gx3C
- tgKY1aFn8Uz14kwJ42Bdv3i1IUII8N2GNs2UEDL9ApwhCSTyUKwrR2alH/Q0nJxLCsp1
- QI3eguA4vfp/8xigM3BApsgBV6BuFKfJLcNiIx3ASdqV8Xb/9FCD0sKhWGpp/SZZCRK/
- DGWQ==
-X-Gm-Message-State: ANhLgQ0Pu+G8O88FZarIOg8AIwi3605inHlyCciwNu59/1Ap9IKFrSlU
- Y0FlhxvTnt+Vy2gNhWrg0sYxkA==
-X-Google-Smtp-Source: ADFU+vtnItt3QTgIwsLaiSBbZ5RZmIlwQ80uqEu2MbvD9kszgcX8iuAzeXxMIY/NHizm7WCVLwm7Rg==
-X-Received: by 2002:a17:90a:cf96:: with SMTP id
- i22mr949791pju.66.1584383679409; 
- Mon, 16 Mar 2020 11:34:39 -0700 (PDT)
+ bh=0wzF9vMw6f5nTA/Nbg/JR2KLmEi6Uo/vA08JyDqlmF4=;
+ b=cr0/uAeSSrCX8m6mWFetUvucCMygNVJA8sH4hqX9lUu6IzdGGNwtZzuyk4wvgibUb8
+ EIAU7TqyTL3VLnxaN0h5cCpVm0QBjvlcgGYnI9ILje6ZsJuCsYOvftevDX3YJhFYsuVu
+ 9YNC86Q3+Q+/BN+AyZRoIIr36tJ2qMoriaUpH2NViYKwXscgkK/dZO7FnAaq1ualasRi
+ EzU13GzqerUh0lDasYNiYLEGirmNfCMqqqsXrSTgv65XhpXSjFH1FctX2IZO822pwSL5
+ 2lXihzHx9G+MaX1blFnNkED/Y7HWsAIXdga8Bpsc0oaVDF861TsWGwdtDJViN+2ssRB0
+ o2hw==
+X-Gm-Message-State: ANhLgQ3ItygKM3WB/jBOXlPwTKdzKwNFx745mi8vZQqwqH6YCS3Qnp84
+ X5j2PjkH1L/z+SkZa0PQj9h/jA==
+X-Google-Smtp-Source: ADFU+vvI2Y6xc+RlFRfAKmwOg7f9fSD6QgJ22FPdcwwaT2J+dabkZbBsCENcoUFBy9Hks+WxK1X7hA==
+X-Received: by 2002:a63:5d04:: with SMTP id r4mr1095296pgb.241.1584383962897; 
+ Mon, 16 Mar 2020 11:39:22 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- h64sm543729pfg.191.2020.03.16.11.34.38
+ d6sm453479pjz.39.2020.03.16.11.39.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:34:38 -0700 (PDT)
-Subject: Re: [PATCH 09/11] target/mips: Always enable CONFIG_SEMIHOSTING
+ Mon, 16 Mar 2020 11:39:22 -0700 (PDT)
+Subject: Re: [PATCH v2 2/9] hw/core/qdev-properties: Use qemu_strtoul() in
+ set_pci_host_devaddr()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-10-philmd@redhat.com>
+References: <20200316001111.31004-1-philmd@redhat.com>
+ <20200316001111.31004-3-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <68624737-0447-3e19-4971-1d1bbe2fde8c@linaro.org>
-Date: Mon, 16 Mar 2020 11:34:36 -0700
+Message-ID: <862623fe-1c15-8e51-67b8-c4477e37d1ab@linaro.org>
+Date: Mon, 16 Mar 2020 11:39:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316120049.11225-10-philmd@redhat.com>
+In-Reply-To: <20200316001111.31004-3-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 5:00 AM, Philippe Mathieu-Daudé wrote:
-> On MIPS, the semihosting feature is always required on user-space.
+On 3/15/20 5:11 PM, Philippe Mathieu-Daudé wrote:
+> Replace strtoul() by qemu_strtoul() so checkpatch.pl won't
+> complain if we move this code later. Increase the slot and
+> func local variables to unsigned long so that the range check
+> isn't truncated. Remove the 'e == p' test which is done in
+> check_strtox_error(), called by qemu_strtoul().
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  default-configs/mips-linux-user-common.mak | 4 ++++
->  default-configs/mips-linux-user.mak        | 2 ++
->  default-configs/mips64-linux-user.mak      | 2 ++
->  default-configs/mips64el-linux-user.mak    | 2 ++
->  default-configs/mipsel-linux-user.mak      | 2 ++
->  default-configs/mipsn32-linux-user.mak     | 2 ++
->  default-configs/mipsn32el-linux-user.mak   | 2 ++
->  7 files changed, 16 insertions(+)
->  create mode 100644 default-configs/mips-linux-user-common.mak
+> v2: drop the e == p test, do not do modify range check (rth)
+> ---
+>  hw/core/qdev-properties.c | 25 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
