@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD4D1870CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:02:11 +0100 (CET)
-Received: from localhost ([::1]:43002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985511870D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:05:00 +0100 (CET)
+Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt7y-0004qg-7s
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53521)
+	id 1jDtAh-0001l1-Js
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqkt-0000Bd-9v
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:17 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqlE-0000Pw-Tz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqkr-0002bR-7s
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:11 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48600)
+ (envelope-from <its@irrelevant.dk>) id 1jDqlC-0004UJ-5F
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:32 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48808)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDqkn-0007tV-Gx; Mon, 16 Mar 2020 10:30:05 -0400
+ id 1jDql6-0001s8-TS; Mon, 16 Mar 2020 10:30:25 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 352A1BF6A1;
- Mon, 16 Mar 2020 14:29:44 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 39265BF963;
+ Mon, 16 Mar 2020 14:29:46 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 17/42] nvme: add log specific field to trace events
-Date: Mon, 16 Mar 2020 07:29:03 -0700
-Message-Id: <20200316142928.153431-18-its@irrelevant.dk>
+Subject: [PATCH v6 21/42] nvme: bump supported version to v1.3
+Date: Mon, 16 Mar 2020 07:29:07 -0700
+Message-Id: <20200316142928.153431-22-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,59 +58,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The LSP field is not used directly now, but include it in the trace.
-
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 3 ++-
- hw/block/trace-events | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/block/nvme.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e56142c4ea99..16de3ca1c5d5 100644
+index 74061d08fd2e..26c4b6e69f72 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -760,6 +760,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
-d, NvmeRequest *req)
-     uint32_t dw12 =3D le32_to_cpu(cmd->cdw12);
-     uint32_t dw13 =3D le32_to_cpu(cmd->cdw13);
-     uint8_t  lid =3D dw10 & 0xff;
-+    uint8_t  lsp =3D (dw10 >> 8) & 0xf;
-     uint8_t  rae =3D (dw10 >> 15) & 0x1;
-     uint32_t numdl, numdu;
-     uint64_t off, lpol, lpou;
-@@ -777,7 +778,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
-d, NvmeRequest *req)
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
+@@ -44,6 +44,7 @@
+ #include "trace.h"
+ #include "nvme.h"
 =20
--    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
-+    trace_nvme_dev_get_log(nvme_cid(req), lid, lsp, rae, len, off);
++#define NVME_SPEC_VER 0x00010300
+ #define NVME_CMB_BIR 2
+ #define NVME_TEMPERATURE 0x143
+ #define NVME_TEMPERATURE_WARNING 0x157
+@@ -1898,6 +1899,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->ieee[0] =3D 0x00;
+     id->ieee[1] =3D 0x02;
+     id->ieee[2] =3D 0xb3;
++    id->ver =3D cpu_to_le32(NVME_SPEC_VER);
+     id->oacs =3D cpu_to_le16(0);
 =20
-     switch (lid) {
-     case NVME_LOG_ERROR_INFO:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index dde1d22bc39a..13e2c71664f6 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -48,7 +48,7 @@ nvme_dev_getfeat_numq(int result) "get feature number o=
-f queues, result=3D%d"
- nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "reque=
-sted cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D=
-%d"
- nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp =3D 0x%"P=
-RIx64""
- nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp =3D 0x%"P=
-RIx64""
--nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, u=
-int64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" o=
-ff %"PRIu64""
-+nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, ui=
-nt32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" ra=
-e 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
- nvme_dev_process_aers(int queued) "queued %d"
- nvme_dev_aer(uint16_t cid) "cid %"PRIu16""
- nvme_dev_aer_aerl_exceeded(void) "aerl exceeded"
+     /*
+@@ -1942,7 +1944,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+=20
+-    n->bar.vs =3D 0x00010200;
++    n->bar.vs =3D NVME_SPEC_VER;
+     n->bar.intmc =3D n->bar.intms =3D 0;
+ }
+=20
 --=20
 2.25.1
 
