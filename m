@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8554187105
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:17:58 +0100 (CET)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3256D1870ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:10:15 +0100 (CET)
+Received: from localhost ([::1]:43182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtNF-0000YV-Qg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35691)
+	id 1jDtFm-0003QS-6X
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDquf-0004Hu-TN
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:19 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jDr3p-0007vH-6h
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:49:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDque-0003zm-Eo
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:17 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22773
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jDr3o-0008WB-A2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:49:45 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32209)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDque-0003uy-8d
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:40:16 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDr3o-0008UM-6e
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:49:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584369615;
+ s=mimecast20190719; t=1584370183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Czoi727Qg9oCZu1w42vol8KBAGSD9icfOQv3jriOJ64=;
- b=Y6TyJkj5vcCd4YTcg1Icnh6oDjGVKVfD8Uu3lqV5tdfnCV1RNbc2CihaGmZPHjila/Xulk
- X/6pV9QNqGY51DmpALFZtx41vSDq+K29E4o1gtnjUPH5QeWEp6/0+4IPc3kzNoAUYu8tgA
- 2O5TyWtfK1kDDuzCcmD70IDDbSwvyuk=
+ bh=gMWv+Yb/DMylmEO1WotO4C+a6o5mTzzi1Ij1272/Zgs=;
+ b=f0Zz096eiDKvGrgea/6PKxw+BRwLSA28RNNuatR/4ymZivI+NKAzDpD/z5xI9cCdqtOgHp
+ UzowkX6RsA75C+jckfk/DGE0+RtSL8fr9UaP+5Nvypw+3PmW5//i+thIRqUEWV1zZEVfte
+ o+Sa9wEtkUXPNYnzKFR1aNaH+4vgVOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-U2KcF7hKM_ehlnSvpGiSeA-1; Mon, 16 Mar 2020 10:40:12 -0400
-X-MC-Unique: U2KcF7hKM_ehlnSvpGiSeA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-347-D95hhSfJOzKkTkI3tzr3Lg-1; Mon, 16 Mar 2020 10:49:40 -0400
+X-MC-Unique: D95hhSfJOzKkTkI3tzr3Lg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 591B1100550D;
- Mon, 16 Mar 2020 14:40:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
- [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4C15DA7C;
- Mon, 16 Mar 2020 14:40:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DD7D11138404; Mon, 16 Mar 2020 15:40:02 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 00/11] error: auto propagated local_err part I
-References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
- <87y2shdg00.fsf@dusky.pond.sub.org>
- <87abeabb-c8ee-ed6f-6b3a-b3fc24d07b89@virtuozzo.com>
-Date: Mon, 16 Mar 2020 15:40:02 +0100
-In-Reply-To: <87abeabb-c8ee-ed6f-6b3a-b3fc24d07b89@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 3 Mar 2020 11:12:46 +0300")
-Message-ID: <87r1xsfjnh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E17B38E072D;
+ Mon, 16 Mar 2020 14:49:38 +0000 (UTC)
+Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1828D8AC30;
+ Mon, 16 Mar 2020 14:49:34 +0000 (UTC)
+Date: Mon, 16 Mar 2020 15:49:32 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 03/15] s390x: protvirt: Add migration blocker
+Message-ID: <20200316154932.7c2c4d49.cohuck@redhat.com>
+In-Reply-To: <20200311132151.172389-4-frankja@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-4-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,67 +72,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On Wed, 11 Mar 2020 09:21:39 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-> 03.03.2020 11:01, Markus Armbruster wrote:
->> Hi Vladimir,
->>
->> I've come to rather like your ERRP_AUTO_PROPAGATE() idea.  What I
->> wouldn't like is a protracted conversion.
->>
->> Once we're happy with PATCH 1-3, it's a matter of running Coccinelle and
->> reviewing its output.  I'm confident we can converge on PATCH 1-3.
->>
->> It's two weeks until soft freeze.  We need to decide whether to pursue a
->> partial conversion for 5.0 (basically this series plus the two patches
->> we identified in review of PATCH 1), or delay until 5.1.  In either
->> case, I want the conversion to be finished in 5.1.
->>
->> Please do not feel pressured to make the 5.0 deadline.
->>
->> I can queue up patches for 5.1 during the freeze.
->>
->> How would you like to proceed?
->>
->
-> Hi Markus! Funny coincidence: exactly now (less than 1 hour ago), I've
-> started working for the next version for these series. So, I'm going to
-> resend today. Of course, I'd prefer to merge something to 5.0 if at all
-> possible.
+> Migration is not yet supported.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
-That was v8, followed by v9.  We're clearly converging.  However, the
-soft freeze is tomorrow already.
-
-You've persevered with this idea for quite a while; some impatience
-would be quite excusable now.  Still, I doubt part I making 5.0 matters.
-The hand-written part is likely to rebase easily, and the generated part
-should be regenerated instead of rebased anyway.
-
-What actually matters is *finishing* the job.  What does that take?
-
-* Consensus on the hand-written part.  I think we're basically there, we
-  just want to work in a few more tweaks.
-
-* Split the generated part into reviewable batches, regenerating patches
-  as necessary.  Solicit review.  First batch is part of this series,
-  and v9 looks ready to me.  I assume you'll prepare the remaining
-  batches.
-
-* Queue up batches as they become ready, post pull requests.  I can do
-  that.
-
-* Update the QAPI code generator to the new Error usage.  I can do that.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
