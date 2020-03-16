@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C2A1864B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 06:41:12 +0100 (CET)
-Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA7F1864D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 06:58:20 +0100 (CET)
+Received: from localhost ([::1]:34596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDiUx-0002oB-EI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 01:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58647)
+	id 1jDilX-0005fh-At
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 01:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDiN4-0001gA-08
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:33:03 -0400
+ (envelope-from <xiaoyao.li@intel.com>) id 1jDieP-00055O-Tj
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:51:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDiN3-0004sJ-37
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:33:01 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:52446)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDiN2-0004RP-OR
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:33:00 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id ng8so672982pjb.2
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 22:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OMzCIbqnVYXKoEgAV8Pg/I51LVB8LvWcELPTM/QvtMU=;
- b=Iv9PCvIopxBCivTr+0+Da1C6hhJheb2ayfKAIzf6MNM8jjoHB/mxghwqRvq+yQ9oFS
- U+6Q8vbhSjFog+5uk3sjhTgff3MYoW3pwdHH1/nr8JzMPdUctrOZvRH5n9ziYxLiTHJn
- y+XZUqPYPbjcLoXMgiKPndjRdkvhsrxao8JdivWE9WzR+r6RQNv4mUFUTCHRimNpG5dz
- MX4vWofTzIugrPUsYWLr0U8xxFUr2chkdfBeR5Kxv9aByXbtpGeA+g/7URyNZbNjgIyQ
- UUzcdEuEL9Ax13SvQAiG8VGecaXQX5bT2e/EUpd9SoqcqmN9BWFzckc+8HKUlBEgz2bo
- XGVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OMzCIbqnVYXKoEgAV8Pg/I51LVB8LvWcELPTM/QvtMU=;
- b=qzbW3UWq7JSx/Mny4hydQF1eFx1uleLiRGeoSqgRBaOOX9kbtXNDa0zP3tXWUSmi1Y
- qL1KCH54WEl5XO8mYnvc+0De3npdMJNafZA86T0FAd25h0qXE8+Qy5+KYxPu09MPB4iI
- lM77RypWrvUBuf8KpBNOojU62PXS45M9Ifjs3sFlzueRNdE7q+AC/pxX7ckQSle/letA
- jyK4cm957r/3C+F5xbKfOT5YYeXacFafQkIjz6BzhWOHxt2P6yIQzQ11ZlrEnCxnBXnl
- x1dU7sUWj4O/N/5wQiIwgdQsY5k1P3G6gkEaEOz3M+y/9Sq1MtuzRw6iosLHysYeIfin
- cp5Q==
-X-Gm-Message-State: ANhLgQ2rwJQjJhan/fFQqk0tWJmNEIpjMWXRtAL71bawKJZNWpVBOzz8
- rOkGcYa2atP/ZV/Cc6QJrKYRZA==
-X-Google-Smtp-Source: ADFU+vuSbqUfxKhYoISZQjUq67bPGMWhvjeM7uZMQyeastX0/4XVUUnyZtld8IlZ9lAUXl7OxC3orQ==
-X-Received: by 2002:a17:902:a603:: with SMTP id
- u3mr25483868plq.105.1584336775815; 
- Sun, 15 Mar 2020 22:32:55 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- s15sm16443485pfd.164.2020.03.15.22.32.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Mar 2020 22:32:55 -0700 (PDT)
-Subject: Re: [PATCH v5 22/60] target/riscv: vector integer merge and move
- instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-23-zhiwei_liu@c-sky.com>
- <daeefcff-c444-b289-abcf-74301b09cce9@linaro.org>
- <e6a94433-d524-1b5a-81a2-24987fde7de0@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2230e193-e56a-ef3a-0f32-dcae8d0cecdd@linaro.org>
-Date: Sun, 15 Mar 2020 22:32:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <xiaoyao.li@intel.com>) id 1jDieM-0003W0-T7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:50:56 -0400
+Received: from mga05.intel.com ([192.55.52.43]:52610)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <xiaoyao.li@intel.com>)
+ id 1jDieL-0003Ei-UT
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 01:50:54 -0400
+IronPort-SDR: vpwDwmgLm+6WmmKlSt4J8ATaUrbM3pBeHGndtoCiwZGGEgpycpM7BLJObKUvrDINUxPS5lvOaV
+ tQZCCLjyfVBg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2020 22:50:48 -0700
+IronPort-SDR: XL7KBpifAMGGfphLHZ9kkZILPxT9yuQClEebaUQUCvARM8n9U5y+f9rW51v+UED3IGS4/HaGLH
+ YD458mSo3KgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,559,1574150400"; d="scan'208";a="417026982"
+Received: from lxy-clx-4s.sh.intel.com ([10.239.43.160])
+ by orsmga005.jf.intel.com with ESMTP; 15 Mar 2020 22:50:46 -0700
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH] target/i386: Add ARCH_CAPABILITIES related bits into
+ Icelake-Server CPU model
+Date: Mon, 16 Mar 2020 13:33:14 +0800
+Message-Id: <20200316053314.194936-1-xiaoyao.li@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <e6a94433-d524-1b5a-81a2-24987fde7de0@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,54 +57,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 7:57 PM, LIU Zhiwei wrote:
->> You definitely want to use tcg_gen_gvec_mov (vv), tcg_gen_gvec_dup_i{32,64}
->> (vx) and tcg_gen_gvec_dup{8,16,32,64}i (vi).
-> I have a question here.
-> 
-> Are these GVEC IRs  proper for any vl, or just when vl equals vlmax?
-> I see there are some align assert in these GVEC IR.
+Current Icelake-Server CPU model lacks all the features enumerated by
+MSR_IA32_ARCH_CAPABILITIES.
 
-Only vl_eq_vlmax.  I should have been more precise.
-But I expect this boolean to be true quite often.
+Add them, so that guest of "Icelake-Server" can see all of them.
 
-> 
-> Now the code is like
-> 
-> static bool trans_vmv_v_v(DisasContext *s, arg_r *a)
-> {
->     if (vext_check_isa_ill(s, RVV) &&
->         vext_check_reg(s, a->rd, false) &&
->         vext_check_reg(s, a->rs1, false)) {
-> 
->         if (s->vl_eq_vlmax) {
->             tcg_gen_gvec_mov(s->sew, vreg_ofs(s, a->rd),
->                              vreg_ofs(s, a->rs1),
->                              MAXSZ(s), MAXSZ(s));
->         } else {
->             uint32_t data = FIELD_DP32(0, VDATA, LMUL, s->lmul);
->             static gen_helper_gvec_2_ptr * const fns[4] = {
->                 gen_helper_vmv_v_v_b, gen_helper_vmv_v_v_h,
->                 gen_helper_vmv_v_v_w, gen_helper_vmv_v_v_d,
->             };
-> 
->             tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
->                                cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
->         }
->         return true;
->     }
->     return false;
-> }
-> 
-> Is it right?
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+---
+ target/i386/cpu.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Yes, that looks fine.
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 92fafa265914..5f09d114e1c2 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3425,7 +3425,12 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
+             CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57,
+         .features[FEAT_7_0_EDX] =
+-            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
++            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_ARCH_CAPABILITIES |
++            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
++        .features[FEAT_ARCH_CAPABILITIES] =
++            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
++            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
++            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
+         /* Missing: XSAVES (not supported by some Linux versions,
+                 * including v4.1 to v4.12).
+                 * KVM doesn't yet expose any XSAVES state save component,
+-- 
+2.20.1
 
-
-r~
 
