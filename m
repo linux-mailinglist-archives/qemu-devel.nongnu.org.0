@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AE7187517
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:48:26 +0100 (CET)
-Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4E2187530
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:56:07 +0100 (CET)
+Received: from localhost ([::1]:49616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxaz-0006gs-D6
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42952)
+	id 1jDxiQ-0002DM-42
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxI3-0004As-Hq
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:52 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxI4-0004C4-B9
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxI2-0006cE-Fb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:51 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43638)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxI3-0006dG-22
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:20689)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHz-0006YR-Pe
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:48 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxI1-0006b7-Ji
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394127;
+ s=mimecast20190719; t=1584394128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c1gqwyrhhUDlVOZSvXf5i//uCOtTQ1q3OAyZCXsNszo=;
- b=GUhV6IhnUqAqHC7wKK1muq/zNFBUR2IYTUbw04/4eCSIkDVODMihv36bc4pDsPYmkp8MuH
- TpxKOmrRcdaOSlVcQoXtlrejypa7nGB1N/2hVy/b/9ecOERkj5VjSRQznnn9Fc6s4nXb2n
- Fj4W2fDi0fRs+QtAC5HF448a3RzQwQs=
+ bh=anav/LjQ1m13mmdq5/IzM5jXbq6Z9U2/QX5HlDThZP4=;
+ b=Mhh3XlKOCgiWugm95B5W4aUbSuyzuGgGF/NrFJ4wKd/7/2fdytUDh4HIyiOUNfdrfzoZkP
+ LOKHGc71Tr2djBEJOKMNkGY0e64DrNGFiYOoBXS8+JTYmTwP1TnJa/T4enTU6i8VNbY9Bw
+ Bah1y7oh9LBHRzmmJxm7LWraPhz2Wzk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-ngfRpbgxO0OWlQUqwn92wQ-1; Mon, 16 Mar 2020 17:28:45 -0400
-X-MC-Unique: ngfRpbgxO0OWlQUqwn92wQ-1
+ us-mta-13-uyVd_ruZOaCWH-kuWwQLVA-1; Mon, 16 Mar 2020 17:28:47 -0400
+X-MC-Unique: uyVd_ruZOaCWH-kuWwQLVA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5530800D50
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C2498017DF
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:46 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFF7219C4F;
- Mon, 16 Mar 2020 21:28:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A94519C4F;
+ Mon, 16 Mar 2020 21:28:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/61] memory: Simplify memory_region_init_rom_nomigrate() to
- ease review
-Date: Mon, 16 Mar 2020 22:27:05 +0100
-Message-Id: <1584394048-44994-39-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 39/61] scripts/cocci: Rename memory-region-{init-ram ->
+ housekeeping}
+Date: Mon, 16 Mar 2020 22:27:06 +0100
+Message-Id: <1584394048-44994-40-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,44 +77,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-memory_region_init_rom_nomigrate() has the same content than
-memory_region_init_ram_shared_nomigrate(), with setting the
-readonly mode. The code is easier to review as creating a
-readonly ram/shared/nomigrate region.
+As we are going to add various semantic changes related to the memory
+region API, rename this script to be more generic.
+Add a 'usage' header, and an entry in MAINTAINERS to avoid checkpatch
+warning.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- memory.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ MAINTAINERS                                                 |  1 +
+ ...gion-init-ram.cocci =3D> memory-region-housekeeping.cocci} | 13 +++++++=
+++++++
+ 2 files changed, 14 insertions(+)
+ rename scripts/coccinelle/{memory-region-init-ram.cocci =3D> memory-region=
+-housekeeping.cocci} (84%)
 
-diff --git a/memory.c b/memory.c
-index fc99e7f..601b749 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1660,19 +1660,8 @@ void memory_region_init_rom_nomigrate(MemoryRegion *=
-mr,
-                                       uint64_t size,
-                                       Error **errp)
- {
--    Error *err =3D NULL;
--    memory_region_init(mr, owner, name, size);
--    mr->ram =3D true;
-+    memory_region_init_ram_shared_nomigrate(mr, owner, name, size, false, =
-errp);
-     mr->readonly =3D true;
--    mr->terminates =3D true;
--    mr->destructor =3D memory_region_destructor_ram;
--    mr->ram_block =3D qemu_ram_alloc(size, false, mr, &err);
--    mr->dirty_log_mask =3D tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
--    if (err) {
--        mr->size =3D int128_zero();
--        object_unparent(OBJECT(mr));
--        error_propagate(errp, err);
--    }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a88bc28..770126f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2047,6 +2047,7 @@ F: include/exec/ramblock.h
+ F: memory.c
+ F: include/exec/memory-internal.h
+ F: exec.c
++F: scripts/coccinelle/memory-region-housekeeping.cocci
 =20
- void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+ SPICE
+ M: Gerd Hoffmann <kraxel@redhat.com>
+diff --git a/scripts/coccinelle/memory-region-init-ram.cocci b/scripts/cocc=
+inelle/memory-region-housekeeping.cocci
+similarity index 84%
+rename from scripts/coccinelle/memory-region-init-ram.cocci
+rename to scripts/coccinelle/memory-region-housekeeping.cocci
+index d290150..3699c10 100644
+--- a/scripts/coccinelle/memory-region-init-ram.cocci
++++ b/scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -1,3 +1,16 @@
++/*
++  Usage:
++
++    spatch \
++        --macro-file scripts/cocci-macro-file.h \
++        --sp-file scripts/coccinelle/memory-region-housekeeping.cocci \
++        --keep-comments \
++        --in-place \
++        --dir .
++
++*/
++
++
+ // Replace by-hand memory_region_init_ram_nomigrate/vmstate_register_ram
+ // code sequences with use of the new memory_region_init_ram function.
+ // Similarly for the _rom and _rom_device functions.
 --=20
 1.8.3.1
 
