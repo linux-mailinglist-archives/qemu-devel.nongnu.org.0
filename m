@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A94187115
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:24:59 +0100 (CET)
-Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE5D187100
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:17:01 +0100 (CET)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtU2-0004DJ-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:24:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50913)
+	id 1jDtMK-0007gJ-Lb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrPG-0008TX-U9
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDrPZ-00007n-RZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrPF-0003V0-GG
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:54 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54133)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDrPF-0003MO-8R
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:53 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 25so18081371wmk.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9IVBUdikDm11L9fCTpSgxrTnLXOrniaS4l7ApCDWwiM=;
- b=QagQRrJTXf13LOdzwMvP23vXAKqb0Yaxtq14QnMR1CfE2LIOTwwDAzmK5C3apJC3Q+
- 41Y0UZrqQaU0squaFrwrCIQUAbKa+QLoBenisCa5IzCVlKMuapXw0tNnQfsWTAN7FuCC
- UO5FKVaAEMmqdCS3lCXUzIbOMpPNS563DyNtTzHZ3BsolY5dnhPf4rKjNLJulaPM0xAz
- IY3aUm8/VAJ1rCxGaHD73422PC3UUx6iNNYGnInMO1FQlixbnnRrlWnvmIhb2m2yQxjn
- +xmjbrMJXPKD91ExuRlxMtC4PsgOiRemJsCEqGqF76U3iZqReoXzZlBg8pNxwnFuanyJ
- aBmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9IVBUdikDm11L9fCTpSgxrTnLXOrniaS4l7ApCDWwiM=;
- b=IWsXaAwS0qOD0eu+HOHV5/MzpC9Ue2eOva6bWsUfn8wOb2s7gm+0/3SwG0u6ydsuBg
- Gft7QMdzwHWjHHgLIVQBBHd0Dq5jPY4pdh/Xtz6h0X8Pey/Nv5yV9wKhGb9dXjNqQ2mb
- 0IQ/WCuSniAnzRA7FoSMvyvHzayw1gOb161YZdEOiWlU9djbSXCPCJcyXBhokIBAqH0h
- x0r9den3QPrKJ7z0zoQnKZD6odfr8TZmixH3CAkO15gjQRzzEtEnPhrJaXD53C7VUPZw
- HG8UTSZ9z8/5lUEdR3F1Gb7VfVg0PX4z67tVYPDkcEbYWzVtGPd6FLkCniejrDMezWPP
- 2D8A==
-X-Gm-Message-State: ANhLgQ2LbSeEPSNRb2t1qXFiRrFMPwc+YlUDh60zV6JNytxkTo3JGlgD
- +BYdfz+gP6CYHGxGUWlBuGiwFZj0Gs1hMF3kgivdaUodT7Y=
-X-Google-Smtp-Source: ADFU+vtNyG3llodxrAJAENFuYCGIfP1ScmpIWlntoIuJfZHLr9W/4s4Wa90PuN8Sy316MIdg8FsIHkgntkfB7I0Uxf0=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr29121339wmf.4.1584371512102; 
- Mon, 16 Mar 2020 08:11:52 -0700 (PDT)
-MIME-Version: 1.0
+ (envelope-from <eblake@redhat.com>) id 1jDrPY-0005wK-Of
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:13 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59828)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrPY-0005rt-Id
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584371532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uIWA3mHYdWsduqEBakmGNZd3s9YlFiSpSAJaP0cYABE=;
+ b=H5zw/xAIqwm8/PmSxuSb9xVAS+u4z7Z0GXCj6Bz9hExu8A/eQg/pSqNXj1uaLPAqtCMlYA
+ MSLSOQjgKk/WK/SFv4ZdemHiPhXtOmFZOyP6v+V+ipcIEEIJex0uMrEhERXHi5WBgVd4lF
+ swfC23BPDsCEfjVhhzycfCTEkaex2l8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-GEIfcMk9M9SkMlVO2CzgRQ-1; Mon, 16 Mar 2020 11:12:10 -0400
+X-MC-Unique: GEIfcMk9M9SkMlVO2CzgRQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D372835B4E;
+ Mon, 16 Mar 2020 15:12:09 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C43692706B;
+ Mon, 16 Mar 2020 15:12:08 +0000 (UTC)
+Subject: Re: [PATCH v3 03/34] docs/devel/qapi-code-gen: Clarify allow-oob
+ introspection
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-9-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-9-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 16:11:39 +0100
-Message-ID: <CAJ+F1C+CPtk+f58kLbOoWGWR6+_5EqzdS_Bv4hLj5eARdR2y0A@mail.gmail.com>
-Subject: Re: [PATCH v3 08/34] tests/test-qmp-event: Simplify test data setup
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+ <20200315144653.22660-4-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0279449b-b6b4-6aaa-c0e3-6eb61e806fac@redhat.com>
+Date: Mon, 16 Mar 2020 10:12:08 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200315144653.22660-4-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,186 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:55 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Building expected data with qdict_put() & friends is tedious to write
-> and hard to read.  Parse them from string literals with
-> qdict_from_jsonf_nofail() instead.
->
-> While there, use initializers instead of assignments for initializing
-> aggregate event arguments.
->
+On 3/15/20 9:46 AM, Markus Armbruster wrote:
+> Mention SchemaInfo variant member "allow-oob" defaults to false.
+> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
 > ---
->  tests/test-qmp-event.c | 93 ++++++++++++------------------------------
->  1 file changed, 27 insertions(+), 66 deletions(-)
->
-> diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-> index eee7e08ab6..430001e622 100644
-> --- a/tests/test-qmp-event.c
-> +++ b/tests/test-qmp-event.c
-> @@ -17,6 +17,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qmp/qbool.h"
->  #include "qapi/qmp/qdict.h"
-> +#include "qapi/qmp/qjson.h"
->  #include "qapi/qmp/qnum.h"
->  #include "qapi/qmp/qstring.h"
->  #include "qapi/qmp-event.h"
-> @@ -124,17 +125,13 @@ static void event_prepare(TestEventData *data,
->      /* Global variable test_event_data was used to pass the expectation,=
- so
->         test cases can't be executed at same time. */
->      g_mutex_lock(&test_event_lock);
-> -
-> -    data->expect =3D qdict_new();
->      test_event_data =3D data;
->  }
->
->  static void event_teardown(TestEventData *data,
->                             const void *unused)
->  {
-> -    qobject_unref(data->expect);
->      test_event_data =3D NULL;
-> -
->      g_mutex_unlock(&test_event_lock);
->  }
->
-> @@ -152,90 +149,54 @@ static void event_test_add(const char *testpath,
->  static void test_event_a(TestEventData *data,
->                           const void *unused)
->  {
-> -    QDict *d;
-> -    d =3D data->expect;
-> -    qdict_put_str(d, "event", "EVENT_A");
-> +    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
->      qapi_event_send_event_a();
-> +    qobject_unref(data->expect);
->  }
->
->  static void test_event_b(TestEventData *data,
->                           const void *unused)
->  {
-> -    QDict *d;
-> -    d =3D data->expect;
-> -    qdict_put_str(d, "event", "EVENT_B");
-> +    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
->      qapi_event_send_event_b();
-> +    qobject_unref(data->expect);
->  }
->
->  static void test_event_c(TestEventData *data,
->                           const void *unused)
->  {
-> -    QDict *d, *d_data, *d_b;
-> -
-> -    UserDefOne b;
-> -    b.integer =3D 2;
-> -    b.string =3D g_strdup("test1");
-> -    b.has_enum1 =3D false;
-> -
-> -    d_b =3D qdict_new();
-> -    qdict_put_int(d_b, "integer", 2);
-> -    qdict_put_str(d_b, "string", "test1");
-> -
-> -    d_data =3D qdict_new();
-> -    qdict_put_int(d_data, "a", 1);
-> -    qdict_put(d_data, "b", d_b);
-> -    qdict_put_str(d_data, "c", "test2");
-> -
-> -    d =3D data->expect;
-> -    qdict_put_str(d, "event", "EVENT_C");
-> -    qdict_put(d, "data", d_data);
-> +    UserDefOne b =3D { .integer =3D 2, .string =3D (char *)"test1" };
->
-> +    data->expect =3D qdict_from_jsonf_nofail(
-> +        "{ 'event': 'EVENT_C', 'data': {"
-> +        " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2'=
- } }");
->      qapi_event_send_event_c(true, 1, true, &b, "test2");
-> -
-> -    g_free(b.string);
-> +    qobject_unref(data->expect);
->  }
->
->  /* Complex type */
->  static void test_event_d(TestEventData *data,
->                           const void *unused)
->  {
-> -    UserDefOne struct1;
-> -    EventStructOne a;
-> -    QDict *d, *d_data, *d_a, *d_struct1;
-> -
-> -    struct1.integer =3D 2;
-> -    struct1.string =3D g_strdup("test1");
-> -    struct1.has_enum1 =3D true;
-> -    struct1.enum1 =3D ENUM_ONE_VALUE1;
-> -
-> -    a.struct1 =3D &struct1;
-> -    a.string =3D g_strdup("test2");
-> -    a.has_enum2 =3D true;
-> -    a.enum2 =3D ENUM_ONE_VALUE2;
-> -
-> -    d_struct1 =3D qdict_new();
-> -    qdict_put_int(d_struct1, "integer", 2);
-> -    qdict_put_str(d_struct1, "string", "test1");
-> -    qdict_put_str(d_struct1, "enum1", "value1");
-> -
-> -    d_a =3D qdict_new();
-> -    qdict_put(d_a, "struct1", d_struct1);
-> -    qdict_put_str(d_a, "string", "test2");
-> -    qdict_put_str(d_a, "enum2", "value2");
-> -
-> -    d_data =3D qdict_new();
-> -    qdict_put(d_data, "a", d_a);
-> -    qdict_put_str(d_data, "b", "test3");
-> -    qdict_put_str(d_data, "enum3", "value3");
-> -
-> -    d =3D data->expect;
-> -    qdict_put_str(d, "event", "EVENT_D");
-> -    qdict_put(d, "data", d_data);
-> +    UserDefOne struct1 =3D {
-> +        .integer =3D 2, .string =3D (char *)"test1",
-> +        .has_enum1 =3D true, .enum1 =3D ENUM_ONE_VALUE1,
-> +    };
-> +    EventStructOne a =3D {
-> +        .struct1 =3D &struct1,
-> +        .string =3D (char *)"test2",
-> +        .has_enum2 =3D true,
-> +        .enum2 =3D ENUM_ONE_VALUE2,
-> +    };
->
-> +    data->expect =3D qdict_from_jsonf_nofail(
-> +        "{ 'event': 'EVENT_D', 'data': {"
-> +        " 'a': {"
-> +        "  'struct1': { 'integer': 2, 'string': 'test1', 'enum1': 'value=
-1' },"
-> +        "  'string': 'test2', 'enum2': 'value2' },"
-> +        " 'b': 'test3', 'enum3': 'value3' } }");
->      qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VAL=
-UE3);
-> -
-> -    g_free(struct1.string);
-> -    g_free(a.string);
-> +    qobject_unref(data->expect);
->  }
->
->  int main(int argc, char **argv)
-> --
-> 2.21.1
->
->
+>   docs/devel/qapi-code-gen.txt | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---=20
-Marc-Andr=C3=A9 Lureau
+> 
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index 59d6973e1e..5906602504 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -988,9 +988,9 @@ The SchemaInfo for a command has meta-type "command", and variant
+>   members "arg-type", "ret-type" and "allow-oob".  On the wire, the
+>   "arguments" member of a client's "execute" command must conform to the
+>   object type named by "arg-type".  The "return" member that the server
+> -passes in a success response conforms to the type named by
+> -"ret-type".  When "allow-oob" is set, it means the command supports
+> -out-of-band execution.
+> +passes in a success response conforms to the type named by "ret-type".
+> +When "allow-oob" is true, it means the command supports out-of-band
+> +execution.  It defaults to false.
+>   
+>   If the command takes no arguments, "arg-type" names an object type
+>   without members.  Likewise, if the command returns nothing, "ret-type"
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
