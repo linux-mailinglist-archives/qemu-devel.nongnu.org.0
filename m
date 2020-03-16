@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC5A187323
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:14:16 +0100 (CET)
-Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDE4187340
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:23:03 +0100 (CET)
+Received: from localhost ([::1]:47536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvBn-000802-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38791)
+	id 1jDvKI-0006Mq-2L
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDupZ-0000gu-Qo
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDuph-0000t0-By
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDupY-00062o-P8
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55798)
+ (envelope-from <philmd@redhat.com>) id 1jDupg-000754-5C
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52157)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDupY-0005wz-J4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:16 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDupg-0006mS-0o
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:51:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584384676;
+ s=mimecast20190719; t=1584384681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sW3gH7UL9MrbkxAJw9PX37bnGNS1gH34ZmW3oFfVoTo=;
- b=BZEYh1nq1xocdSZzUUeOWtC2fzID8hXqoFJaWxbXrduX93VVJqVgaBSXhk+xgszkj0RzVu
- sp91z4Pg0Czlzs1an9e6/91FnPJrMy0cn9N6LC0za+kXd7Xpsecqk5OXVden1AKikGOaxW
- Jnr/SbBStr+xQAakVNjst9B0xZz/3Pw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-Aa-Jack0PWWNT3eVWz9Ccg-1; Mon, 16 Mar 2020 14:51:12 -0400
-X-MC-Unique: Aa-Jack0PWWNT3eVWz9Ccg-1
-Received: by mail-wr1-f72.google.com with SMTP id t10so3162580wrp.15
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:51:11 -0700 (PDT)
+ bh=bTuM1yhPSP5ySruBCJxSW6noud9pHrZGrwBgDgMq278=;
+ b=g0X82ww1NkuMK1gwyeWGJvkDulhLayCd/Ya3lfHseNfGSuUEcKW0+goMxKtq/k7H3qJooU
+ cq+j4qBWt9cmSbnoAe1yvQy02Y5dqmWgqxvnde/qsbO+H+JyHdNcCgPfa7QWeMUsv35B+w
+ H05DJAeUsoSw4Rza4FIbtBGvSQgVH4M=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-8RY_omIMNRavhwS1PD0myg-1; Mon, 16 Mar 2020 14:51:17 -0400
+X-MC-Unique: 8RY_omIMNRavhwS1PD0myg-1
+Received: by mail-wr1-f69.google.com with SMTP id f13so3265862wro.23
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:51:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hNWi7LQpKVg6rdUUQBdGPXi6j/9C/ADRCO+rxBA6Etw=;
- b=sSVHUt3Cu1Ly3e1ducHxlsVL3/tgWF2So9Hz1Cykd4DMUwZUdNRf4TMI2io9RNGP72
- h3KFC+n1TJbXnhuW/xm/ZU79RSypxq1SnB9qLSZFvlf09ZByhEeOrRQmikxwoI0R+v1a
- 6lzZBWUBw9WiLmAhQNG1dD/98UHcfsT0DPJJLbXOSuRYeVC8WlKykkVeze2rdb9TcvBl
- RnHs1drz7awINo2tOdu1ldT9caTHS0U3asQHLH0F99fUP3HxBfn89Mq+YPmHlpq+uVuO
- vLhWxf5GeLjqkNqXZqAR6XKF4IMeMp2rRWCZXHtAE6SoCZCClKw9lqb3I/ZfNvma66bi
- /xPQ==
-X-Gm-Message-State: ANhLgQ1mLEd860qS5Gt8pXUHCK/GcTlWzWT+8Vd+qaIr+LNEbtXDgiUe
- 2slBTJ4ElYNmv0e7GT+DGiR30BqWEjeGaBEBpy74S7AANPUqV32An7DaYofzplnjQ6sk8fH2wjP
- 5WsNsOWB7LGighO8=
-X-Received: by 2002:a7b:c950:: with SMTP id i16mr471308wml.97.1584384670959;
- Mon, 16 Mar 2020 11:51:10 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtM5WSWHcF1VIUqKXaCmF6ES2SzpH9PSOkRMzdXOffYUcUCXu53beeGadWeMQfEbxHh65RI+g==
-X-Received: by 2002:a7b:c950:: with SMTP id i16mr471294wml.97.1584384670732;
- Mon, 16 Mar 2020 11:51:10 -0700 (PDT)
+ bh=2B/8CWN/FyAeBStmkGrCPLIrt/TAmqFu9+C8I7tRrxA=;
+ b=Y97GA7bZkpAkOi17iHGXKugqkuYY8BkzGfB8ACtlcIPAlBqHV0DuBlFSuKY+Cy+6eh
+ YrgosB7oghaipF1EgTbmhsHu1tp7slT6+cDZs7duafRuIgI4v8P0dM9c+YepuVNWF1K9
+ kboW4inTBDWyaQJMP4+Tfd11o6LzGBco6kIkiVV1ZID00Q/oPCf2Pm5WiGM+M2OsU4Kd
+ wo8xh7LiNmUO8KTvuXZFXaLxo3zfYJG56LxnK7xY75AFUH1mRt/aDkCQz1gRJet4x5V7
+ WunCtwr7gFtSaEDlV0Bf+PS6dbQ/FnluXQK/I1TrojW+2ZdsvSuJRetzvSde2L45moGR
+ vpgw==
+X-Gm-Message-State: ANhLgQ1Ww2vhB2ld1uLfME4iVAqsi44+tFTT7qWmYMBNYCx40336G2TK
+ lDYkoK4IcW22ocw3+d+xlKAAth7nBdEzzmHibfPZStsKJjsECqA29qhlrKyeQO7hRsyiKeYUTEp
+ aV5k1MVbSsrzsgbI=
+X-Received: by 2002:a5d:6910:: with SMTP id t16mr722548wru.209.1584384676472; 
+ Mon, 16 Mar 2020 11:51:16 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvBnXDAus51I8a8xSHRFv5byerQBu4zdjvJtF9Gjgy7GzQkS7v5UpU5DfU2gyAprWpZI+Juwg==
+X-Received: by 2002:a5d:6910:: with SMTP id t16mr722533wru.209.1584384676298; 
+ Mon, 16 Mar 2020 11:51:16 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id u7sm672496wme.43.2020.03.16.11.51.09
+ by smtp.gmail.com with ESMTPSA id g127sm781950wmf.10.2020.03.16.11.51.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 11:51:10 -0700 (PDT)
+ Mon, 16 Mar 2020 11:51:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 12/25] hw/sh4: Use memory_region_init_rom() with read-only
- regions
-Date: Mon, 16 Mar 2020 19:49:53 +0100
-Message-Id: <20200316185006.576-13-philmd@redhat.com>
+Subject: [PATCH v3 13/25] hw/sparc: Use memory_region_init_rom() with
+ read-only regions
+Date: Mon, 16 Mar 2020 19:49:54 +0100
+Message-Id: <20200316185006.576-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316185006.576-1-philmd@redhat.com>
 References: <20200316185006.576-1-philmd@redhat.com>
@@ -77,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +91,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/sh4/shix.c | 3 +--
+ hw/sparc/leon3.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/sh4/shix.c b/hw/sh4/shix.c
-index 68b14ee5e7..f410c08883 100644
---- a/hw/sh4/shix.c
-+++ b/hw/sh4/shix.c
-@@ -53,8 +53,7 @@ static void shix_init(MachineState *machine)
-     cpu =3D SUPERH_CPU(cpu_create(machine->cpu_type));
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 5fa58aa55f..8f024dab7b 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -255,8 +255,7 @@ static void leon3_generic_hw_init(MachineState *machine=
+)
 =20
-     /* Allocate memory space */
--    memory_region_init_ram(rom, NULL, "shix.rom", 0x4000, &error_fatal);
--    memory_region_set_readonly(rom, true);
-+    memory_region_init_rom(rom, NULL, "shix.rom", 0x4000, &error_fatal);
-     memory_region_add_subregion(sysmem, 0x00000000, rom);
-     memory_region_init_ram(&sdram[0], NULL, "shix.sdram1", 0x01000000,
-                            &error_fatal);
+     /* Allocate BIOS */
+     prom_size =3D 8 * MiB;
+-    memory_region_init_ram(prom, NULL, "Leon3.bios", prom_size, &error_fat=
+al);
+-    memory_region_set_readonly(prom, true);
++    memory_region_init_rom(prom, NULL, "Leon3.bios", prom_size, &error_fat=
+al);
+     memory_region_add_subregion(address_space_mem, LEON3_PROM_OFFSET, prom=
+);
+=20
+     /* Load boot prom */
 --=20
 2.21.1
 
