@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E83F1874CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:35:47 +0100 (CET)
-Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B483C1874D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:37:52 +0100 (CET)
+Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxOk-00034z-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41525)
+	id 1jDxQl-0006u7-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:37:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxH4-0002Wu-7A
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:51 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH4-0002Wr-5y
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxH2-0000lE-ED
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH1-0000gg-TK
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:50 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50817)
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:21833)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxH2-0000iK-7u
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:48 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxH1-0000bp-Mf
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394068;
+ s=mimecast20190719; t=1584394067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yKYvUhjSJklIbG3VyhaS4xUOvCy4nVZady6qtVInulQ=;
- b=Owy3iBlO3Rux+GmDdAsoFbrpYDooyEodlZ3KZI74j+lzTMiXeU8Da596hafWOTza1JOqGs
- U3/X+hjmIfzcleB4IKyQS5Zm+Mg71uZRbZXNKByRN/1tCmNt2L2biycOjBe2toM4cweMlC
- Yh4runk49y1X/oD31M/kALDVofUVg+0=
+ bh=j62ivAGq+cHjzdhXhOseUOUWPMi7FTi7mgcgLS+k3MI=;
+ b=LFaioZp/WHDe7ywxp52GVnTnwhv7wmOnaqkByZHeuGqQMV2eh3oiQub4ccqa00QFgpObyS
+ oT+k3ajchasBJcjQG6DWtJ1H2D4AonmQwh/Pbkr/toMCmi2zWYBJbhn2yvC2ZTUkcC2t4V
+ f/KzUF5sl6P/nPGE98tMd+W6f3y6rWY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-UvtGVBEfMRK_wlCmBZhjAA-1; Mon, 16 Mar 2020 17:27:43 -0400
-X-MC-Unique: UvtGVBEfMRK_wlCmBZhjAA-1
+ us-mta-44-h3q9Uo5gNKSFspFxJ23Tiw-1; Mon, 16 Mar 2020 17:27:44 -0400
+X-MC-Unique: h3q9Uo5gNKSFspFxJ23Tiw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979AC107ACCD;
- Mon, 16 Mar 2020 21:27:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01880800D5B;
+ Mon, 16 Mar 2020 21:27:44 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A463919C4F;
- Mon, 16 Mar 2020 21:27:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DF6719C4F;
+ Mon, 16 Mar 2020 21:27:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/61] util: add util function buffer_zero_avx512()
-Date: Mon, 16 Mar 2020 22:26:33 +0100
-Message-Id: <1584394048-44994-7-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 07/61] WHPX: TSC get and set should be dependent on VM state
+Date: Mon, 16 Mar 2020 22:26:34 +0100
+Message-Id: <1584394048-44994-8-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -56,8 +56,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,198 +68,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Robert Hoo <robert.hu@linux.intel.com>
+Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Hoo <robert.hu@linux.intel.com>
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
 
-And intialize buffer_is_zero() with it, when Intel AVX512F is
-available on host.
+Currently, TSC is set as part of the VM runtime state. Setting TSC at
+runtime is heavy and additionally can have side effects on the guest,
+which are not very resilient to variances in the TSC. This patch uses
+the VM state to determine whether to set TSC or not. Some minor
+enhancements for getting TSC values as well that considers the VM state.
 
-This function utilizes Intel AVX512 fundamental instructions which
-is faster than its implementation with AVX2 (in my unit test, with
-4K buffer, on CascadeLake SP, ~36% faster, buffer_zero_avx512() V.S.
-buffer_zero_avx2()).
+Additionally, while setting the TSC, the partition is suspended to
+reduce the variance in the TSC value across vCPUs.
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Message-Id: <SN4PR2101MB08804D23439166E81FF151F7C0EA0@SN4PR2101MB0880.nampr=
+d21.prod.outlook.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 74 +++++++++++++++++++++++++++++++++++++++++++++---=
+ include/sysemu/whpx.h      |   7 +++
+ target/i386/whp-dispatch.h |   9 ++++
+ target/i386/whpx-all.c     | 103 +++++++++++++++++++++++++++++++++++++++++=
 ----
- 2 files changed, 67 insertions(+), 10 deletions(-)
+ 3 files changed, 110 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 6930170..09fc245 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -45,6 +45,9 @@
- #ifndef bit_AVX2
- #define bit_AVX2        (1 << 5)
- #endif
-+#ifndef bit_AVX512F
-+#define bit_AVX512F        (1 << 16)
-+#endif
- #ifndef bit_BMI2
- #define bit_BMI2        (1 << 8)
- #endif
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index bfb2605..b6eab0c 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -63,11 +63,11 @@ buffer_zero_int(const void *buf, size_t len)
-     }
- }
+diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+index 4794e8e..a84b49e 100644
+--- a/include/sysemu/whpx.h
++++ b/include/sysemu/whpx.h
+@@ -35,4 +35,11 @@ int whpx_enabled(void);
 =20
--#if defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT) || defined(__S=
-SE2__)
- /* Do not use push_options pragmas unnecessarily, because clang
-  * does not support them.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC push_options
- #pragma GCC target("sse2")
- #endif
-@@ -104,7 +104,7 @@ buffer_zero_sse2(const void *buf, size_t len)
+ #endif /* CONFIG_WHPX */
 =20
-     return _mm_movemask_epi8(_mm_cmpeq_epi8(t, zero)) =3D=3D 0xFFFF;
- }
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC pop_options
- #endif
-=20
-@@ -187,18 +187,54 @@ buffer_zero_avx2(const void *buf, size_t len)
- #pragma GCC pop_options
- #endif /* CONFIG_AVX2_OPT */
-=20
-+#ifdef CONFIG_AVX512F_OPT
-+#pragma GCC push_options
-+#pragma GCC target("avx512f")
-+#include <immintrin.h>
++/* state subset only touched by the VCPU itself during runtime */
++#define WHPX_SET_RUNTIME_STATE   1
++/* state subset modified during VCPU reset */
++#define WHPX_SET_RESET_STATE     2
++/* full state set, modified during initialization or on vmload */
++#define WHPX_SET_FULL_STATE      3
 +
-+static bool
-+buffer_zero_avx512(const void *buf, size_t len)
+ #endif /* QEMU_WHPX_H */
+diff --git a/target/i386/whp-dispatch.h b/target/i386/whp-dispatch.h
+index 87d049c..e4695c3 100644
+--- a/target/i386/whp-dispatch.h
++++ b/target/i386/whp-dispatch.h
+@@ -23,6 +23,12 @@
+   X(HRESULT, WHvGetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE Partit=
+ion, UINT32 VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32 Registe=
+rCount, WHV_REGISTER_VALUE* RegisterValues)) \
+   X(HRESULT, WHvSetVirtualProcessorRegisters, (WHV_PARTITION_HANDLE Partit=
+ion, UINT32 VpIndex, const WHV_REGISTER_NAME* RegisterNames, UINT32 Registe=
+rCount, const WHV_REGISTER_VALUE* RegisterValues)) \
+=20
++/*
++ * These are supplemental functions that may not be present
++ * on all versions and are not critical for basic functionality.
++ */
++#define LIST_WINHVPLATFORM_FUNCTIONS_SUPPLEMENTAL(X) \
++  X(HRESULT, WHvSuspendPartitionTime, (WHV_PARTITION_HANDLE Partition)) \
+=20
+ #define LIST_WINHVEMULATION_FUNCTIONS(X) \
+   X(HRESULT, WHvEmulatorCreateEmulator, (const WHV_EMULATOR_CALLBACKS* Cal=
+lbacks, WHV_EMULATOR_HANDLE* Emulator)) \
+@@ -40,10 +46,12 @@
+ /* Define function typedef */
+ LIST_WINHVPLATFORM_FUNCTIONS(WHP_DEFINE_TYPE)
+ LIST_WINHVEMULATION_FUNCTIONS(WHP_DEFINE_TYPE)
++LIST_WINHVPLATFORM_FUNCTIONS_SUPPLEMENTAL(WHP_DEFINE_TYPE)
+=20
+ struct WHPDispatch {
+     LIST_WINHVPLATFORM_FUNCTIONS(WHP_DECLARE_MEMBER)
+     LIST_WINHVEMULATION_FUNCTIONS(WHP_DECLARE_MEMBER)
++    LIST_WINHVPLATFORM_FUNCTIONS_SUPPLEMENTAL(WHP_DECLARE_MEMBER)
+ };
+=20
+ extern struct WHPDispatch whp_dispatch;
+@@ -53,6 +61,7 @@ bool init_whp_dispatch(void);
+ typedef enum WHPFunctionList {
+     WINHV_PLATFORM_FNS_DEFAULT,
+     WINHV_EMULATION_FNS_DEFAULT,
++    WINHV_PLATFORM_FNS_SUPPLEMENTAL
+ } WHPFunctionList;
+=20
+ #endif /* WHP_DISPATCH_H */
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index 683d49d..b947eb1 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -114,7 +114,6 @@ static const WHV_REGISTER_NAME whpx_register_names[] =
+=3D {
+     WHvX64RegisterXmmControlStatus,
+=20
+     /* X64 MSRs */
+-    WHvX64RegisterTsc,
+     WHvX64RegisterEfer,
+ #ifdef TARGET_X86_64
+     WHvX64RegisterKernelGsBase,
+@@ -215,7 +214,44 @@ static SegmentCache whpx_seg_h2q(const WHV_X64_SEGMENT=
+_REGISTER *hs)
+     return qs;
+ }
+=20
+-static void whpx_set_registers(CPUState *cpu)
++static int whpx_set_tsc(CPUState *cpu)
 +{
-+    /* Begin with an unaligned head of 64 bytes.  */
-+    __m512i t =3D _mm512_loadu_si512(buf);
-+    __m512i *p =3D (__m512i *)(((uintptr_t)buf + 5 * 64) & -64);
-+    __m512i *e =3D (__m512i *)(((uintptr_t)buf + len) & -64);
++    struct CPUX86State *env =3D (CPUArchState *)(cpu->env_ptr);
++    WHV_REGISTER_NAME tsc_reg =3D WHvX64RegisterTsc;
++    WHV_REGISTER_VALUE tsc_val;
++    HRESULT hr;
++    struct whpx_state *whpx =3D &whpx_global;
 +
-+    /* Loop over 64-byte aligned blocks of 256.  */
-+    while (p <=3D e) {
-+        __builtin_prefetch(p);
-+        if (unlikely(_mm512_test_epi64_mask(t, t))) {
-+            return false;
++    /*
++     * Suspend the partition prior to setting the TSC to reduce the varian=
+ce
++     * in TSC across vCPUs. When the first vCPU runs post suspend, the
++     * partition is automatically resumed.
++     */
++    if (whp_dispatch.WHvSuspendPartitionTime) {
++
++        /*
++         * Unable to suspend partition while setting TSC is not a fatal
++         * error. It just increases the likelihood of TSC variance between
++         * vCPUs and some guest OS are able to handle that just fine.
++         */
++        hr =3D whp_dispatch.WHvSuspendPartitionTime(whpx->partition);
++        if (FAILED(hr)) {
++            warn_report("WHPX: Failed to suspend partition, hr=3D%08lx", h=
+r);
 +        }
-+        t =3D p[-4] | p[-3] | p[-2] | p[-1];
-+        p +=3D 4;
 +    }
 +
-+    t |=3D _mm512_loadu_si512(buf + len - 4 * 64);
-+    t |=3D _mm512_loadu_si512(buf + len - 3 * 64);
-+    t |=3D _mm512_loadu_si512(buf + len - 2 * 64);
-+    t |=3D _mm512_loadu_si512(buf + len - 1 * 64);
++    tsc_val.Reg64 =3D env->tsc;
++    hr =3D whp_dispatch.WHvSetVirtualProcessorRegisters(
++        whpx->partition, cpu->cpu_index, &tsc_reg, 1, &tsc_val);
++    if (FAILED(hr)) {
++        error_report("WHPX: Failed to set TSC, hr=3D%08lx", hr);
++        return -1;
++    }
 +
-+    return !_mm512_test_epi64_mask(t, t);
-+
++    return 0;
 +}
-+#pragma GCC pop_options
-+#endif
 +
-+
- /* Note that for test_buffer_is_zero_next_accel, the most preferred
-  * ISA must have the least significant bit.
-  */
--#define CACHE_AVX2    1
--#define CACHE_SSE4    2
--#define CACHE_SSE2    4
-+#define CACHE_AVX512F 1
-+#define CACHE_AVX2    2
-+#define CACHE_SSE4    4
-+#define CACHE_SSE2    8
-=20
- /* Make sure that these variables are appropriately initialized when
-  * SSE2 is enabled on the compiler command-line, but the compiler is
-  * too old to support CONFIG_AVX2_OPT.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- # define INIT_CACHE 0
- # define INIT_ACCEL buffer_zero_int
- #else
-@@ -211,25 +247,35 @@ buffer_zero_avx2(const void *buf, size_t len)
-=20
- static unsigned cpuid_cache =3D INIT_CACHE;
- static bool (*buffer_accel)(const void *, size_t) =3D INIT_ACCEL;
-+static int length_to_accel;
-=20
- static void init_accel(unsigned cache)
++static void whpx_set_registers(CPUState *cpu, int level)
  {
-     bool (*fn)(const void *, size_t) =3D buffer_zero_int;
-     if (cache & CACHE_SSE2) {
-         fn =3D buffer_zero_sse2;
-+        length_to_accel =3D 64;
-     }
- #ifdef CONFIG_AVX2_OPT
-     if (cache & CACHE_SSE4) {
-         fn =3D buffer_zero_sse4;
-+        length_to_accel =3D 64;
-     }
-     if (cache & CACHE_AVX2) {
-         fn =3D buffer_zero_avx2;
-+        length_to_accel =3D 64;
+     struct whpx_state *whpx =3D &whpx_global;
+     struct whpx_vcpu *vcpu =3D get_whpx_vcpu(cpu);
+@@ -230,6 +266,14 @@ static void whpx_set_registers(CPUState *cpu)
+=20
+     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
+=20
++    /*
++     * Following MSRs have side effects on the guest or are too heavy for
++     * runtime. Limit them to full state update.
++     */
++    if (level >=3D WHPX_SET_RESET_STATE) {
++        whpx_set_tsc(cpu);
 +    }
-+#endif
-+#ifdef CONFIG_AVX512F_OPT
-+    if (cache & CACHE_AVX512F) {
-+        fn =3D buffer_zero_avx512;
-+        length_to_accel =3D 256;
-     }
- #endif
-     buffer_accel =3D fn;
++
+     memset(&vcxt, 0, sizeof(struct whpx_register_set));
+=20
+     v86 =3D (env->eflags & VM_MASK);
+@@ -330,8 +374,6 @@ static void whpx_set_registers(CPUState *cpu)
+     idx +=3D 1;
+=20
+     /* MSRs */
+-    assert(whpx_register_names[idx] =3D=3D WHvX64RegisterTsc);
+-    vcxt.values[idx++].Reg64 =3D env->tsc;
+     assert(whpx_register_names[idx] =3D=3D WHvX64RegisterEfer);
+     vcxt.values[idx++].Reg64 =3D env->efer;
+ #ifdef TARGET_X86_64
+@@ -379,6 +421,25 @@ static void whpx_set_registers(CPUState *cpu)
+     return;
  }
 =20
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #include "qemu/cpuid.h"
-=20
- static void __attribute__((constructor)) init_cpuid_cache(void)
-@@ -252,9 +298,17 @@ static void __attribute__((constructor)) init_cpuid_ca=
-che(void)
-             int bv;
-             __asm("xgetbv" : "=3Da"(bv), "=3Dd"(d) : "c"(0));
-             __cpuid_count(7, 0, a, b, c, d);
--            if ((bv & 6) =3D=3D 6 && (b & bit_AVX2)) {
-+            if ((bv & 0x6) =3D=3D 0x6 && (b & bit_AVX2)) {
-                 cache |=3D CACHE_AVX2;
-             }
-+            /* 0xe6:
-+            *  XCR0[7:5] =3D 111b (OPMASK state, upper 256-bit of ZMM0-ZMM=
-15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] =3D 11b (XMM state and YMM state are enabled by O=
-S)
-+            */
-+            if ((bv & 0xe6) =3D=3D 0xe6 && (b & bit_AVX512F)) {
-+                cache |=3D CACHE_AVX512F;
-+            }
-         }
-     }
-     cpuid_cache =3D cache;
-@@ -277,7 +331,7 @@ bool test_buffer_is_zero_next_accel(void)
-=20
- static bool select_accel_fn(const void *buf, size_t len)
++static int whpx_get_tsc(CPUState *cpu)
++{
++    struct CPUX86State *env =3D (CPUArchState *)(cpu->env_ptr);
++    WHV_REGISTER_NAME tsc_reg =3D WHvX64RegisterTsc;
++    WHV_REGISTER_VALUE tsc_val;
++    HRESULT hr;
++    struct whpx_state *whpx =3D &whpx_global;
++
++    hr =3D whp_dispatch.WHvGetVirtualProcessorRegisters(
++        whpx->partition, cpu->cpu_index, &tsc_reg, 1, &tsc_val);
++    if (FAILED(hr)) {
++        error_report("WHPX: Failed to get TSC, hr=3D%08lx", hr);
++        return -1;
++    }
++
++    env->tsc =3D tsc_val.Reg64;
++    return 0;
++}
++
+ static void whpx_get_registers(CPUState *cpu)
  {
--    if (likely(len >=3D 64)) {
-+    if (likely(len >=3D length_to_accel)) {
-         return buffer_accel(buf, len);
+     struct whpx_state *whpx =3D &whpx_global;
+@@ -394,6 +455,11 @@ static void whpx_get_registers(CPUState *cpu)
+=20
+     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
+=20
++    if (!env->tsc_valid) {
++        whpx_get_tsc(cpu);
++        env->tsc_valid =3D !runstate_is_running();
++    }
++
+     hr =3D whp_dispatch.WHvGetVirtualProcessorRegisters(
+         whpx->partition, cpu->cpu_index,
+         whpx_register_names,
+@@ -492,8 +558,6 @@ static void whpx_get_registers(CPUState *cpu)
+     idx +=3D 1;
+=20
+     /* MSRs */
+-    assert(whpx_register_names[idx] =3D=3D WHvX64RegisterTsc);
+-    env->tsc =3D vcxt.values[idx++].Reg64;
+     assert(whpx_register_names[idx] =3D=3D WHvX64RegisterEfer);
+     env->efer =3D vcxt.values[idx++].Reg64;
+ #ifdef TARGET_X86_64
+@@ -896,7 +960,7 @@ static int whpx_vcpu_run(CPUState *cpu)
+=20
+     do {
+         if (cpu->vcpu_dirty) {
+-            whpx_set_registers(cpu);
++            whpx_set_registers(cpu, WHPX_SET_RUNTIME_STATE);
+             cpu->vcpu_dirty =3D false;
+         }
+=20
+@@ -1074,14 +1138,14 @@ static void do_whpx_cpu_synchronize_state(CPUState =
+*cpu, run_on_cpu_data arg)
+ static void do_whpx_cpu_synchronize_post_reset(CPUState *cpu,
+                                                run_on_cpu_data arg)
+ {
+-    whpx_set_registers(cpu);
++    whpx_set_registers(cpu, WHPX_SET_RESET_STATE);
+     cpu->vcpu_dirty =3D false;
+ }
+=20
+ static void do_whpx_cpu_synchronize_post_init(CPUState *cpu,
+                                               run_on_cpu_data arg)
+ {
+-    whpx_set_registers(cpu);
++    whpx_set_registers(cpu, WHPX_SET_FULL_STATE);
+     cpu->vcpu_dirty =3D false;
+ }
+=20
+@@ -1123,6 +1187,15 @@ void whpx_cpu_synchronize_pre_loadvm(CPUState *cpu)
+=20
+ static Error *whpx_migration_blocker;
+=20
++static void whpx_cpu_update_state(void *opaque, int running, RunState stat=
+e)
++{
++    CPUX86State *env =3D opaque;
++
++    if (running) {
++        env->tsc_valid =3D false;
++    }
++}
++
+ int whpx_init_vcpu(CPUState *cpu)
+ {
+     HRESULT hr;
+@@ -1178,6 +1251,7 @@ int whpx_init_vcpu(CPUState *cpu)
+=20
+     cpu->vcpu_dirty =3D true;
+     cpu->hax_vcpu =3D (struct hax_vcpu_state *)vcpu;
++    qemu_add_vm_change_state_handler(whpx_cpu_update_state, cpu->env_ptr);
+=20
+     return 0;
+ }
+@@ -1367,6 +1441,10 @@ static bool load_whp_dispatch_fns(HMODULE *handle,
+=20
+     #define WINHV_PLATFORM_DLL "WinHvPlatform.dll"
+     #define WINHV_EMULATION_DLL "WinHvEmulation.dll"
++    #define WHP_LOAD_FIELD_OPTIONAL(return_type, function_name, signature)=
+ \
++        whp_dispatch.function_name =3D \
++            (function_name ## _t)GetProcAddress(hLib, #function_name); \
++
+     #define WHP_LOAD_FIELD(return_type, function_name, signature) \
+         whp_dispatch.function_name =3D \
+             (function_name ## _t)GetProcAddress(hLib, #function_name); \
+@@ -1394,6 +1472,11 @@ static bool load_whp_dispatch_fns(HMODULE *handle,
+         WHP_LOAD_LIB(WINHV_EMULATION_DLL, hLib)
+         LIST_WINHVEMULATION_FUNCTIONS(WHP_LOAD_FIELD)
+         break;
++
++    case WINHV_PLATFORM_FNS_SUPPLEMENTAL:
++        WHP_LOAD_LIB(WINHV_PLATFORM_DLL, hLib)
++        LIST_WINHVPLATFORM_FUNCTIONS_SUPPLEMENTAL(WHP_LOAD_FIELD_OPTIONAL)
++        break;
      }
-     return buffer_zero_int(buf, len);
+=20
+     *handle =3D hLib;
+@@ -1554,6 +1637,8 @@ bool init_whp_dispatch(void)
+         goto error;
+     }
+=20
++    assert(load_whp_dispatch_fns(&hWinHvPlatform,
++        WINHV_PLATFORM_FNS_SUPPLEMENTAL));
+     whp_dispatch_initialized =3D true;
+=20
+     return true;
 --=20
 1.8.3.1
 
