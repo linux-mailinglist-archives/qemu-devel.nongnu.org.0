@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE5D187100
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:17:01 +0100 (CET)
-Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E7C187107
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:19:11 +0100 (CET)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtMK-0007gJ-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
+	id 1jDtOR-0002h3-0M
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:19:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jDrPZ-00007n-RZ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:15 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDrQm-0000gk-Bd
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jDrPY-0005wK-Of
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:13 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59828)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrPY-0005rt-Id
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:12:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584371532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uIWA3mHYdWsduqEBakmGNZd3s9YlFiSpSAJaP0cYABE=;
- b=H5zw/xAIqwm8/PmSxuSb9xVAS+u4z7Z0GXCj6Bz9hExu8A/eQg/pSqNXj1uaLPAqtCMlYA
- MSLSOQjgKk/WK/SFv4ZdemHiPhXtOmFZOyP6v+V+ipcIEEIJex0uMrEhERXHi5WBgVd4lF
- swfC23BPDsCEfjVhhzycfCTEkaex2l8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-GEIfcMk9M9SkMlVO2CzgRQ-1; Mon, 16 Mar 2020 11:12:10 -0400
-X-MC-Unique: GEIfcMk9M9SkMlVO2CzgRQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D372835B4E;
- Mon, 16 Mar 2020 15:12:09 +0000 (UTC)
-Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C43692706B;
- Mon, 16 Mar 2020 15:12:08 +0000 (UTC)
-Subject: Re: [PATCH v3 03/34] docs/devel/qapi-code-gen: Clarify allow-oob
- introspection
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-4-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0279449b-b6b4-6aaa-c0e3-6eb61e806fac@redhat.com>
-Date: Mon, 16 Mar 2020 10:12:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDrQl-0006Ie-3X
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:28 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:47025)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDrQk-0006An-RS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:13:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w16so5277771wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fYy21/Wq5VHJf5KD8Acsfl39ZYRkQMYTxTQsV0GxSJc=;
+ b=dZXroUZvRSQFjPNBFpwRCjsDlEO1KvGU5ttck/bV38/TGKc1UgHWU1wgB60UUMMhlW
+ BddIWFin8p8RMEDfmVWMe44eHV3LRIDCfTiDL7bLQuNh/g71LZWg6N37wq5HYLAkhxp6
+ CqNxSJPqkplcz5gVuNp+KrTjarwqWv+S9U6tho4HxkzaNwCgaME/vYd7IzxHQSF1KVgw
+ NxUSZ0aOjG1Xu9EAcnpMgQZUEj62NMwFe8FC8O+4TwS+1fiJNEepRzJdFvN3pEYuJpsN
+ EzbU6r3UNdLVmXt0T7kwAxCVjqRV3fcPtxD7FIni2iA+ToupWPETWRuf3xJGEWoY1e08
+ jXEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fYy21/Wq5VHJf5KD8Acsfl39ZYRkQMYTxTQsV0GxSJc=;
+ b=ob85X2xo/v6BNxNKuLYZ0oSVPlZV9MceLzovlMHZp48pndWYTPMObixRxWsdNYqmqM
+ FmkHg60aVkyZlmc7qgwIAh+LCFRz7tItIhHpWVrF8lt3kYdKcdlLZcQtXd46u2s+SZoy
+ ZgtN1wXbNto6fMKzUuFT6VAI8oGZVkYyhEEy/E2kErSSfZoIRBY6cYxvPxB9HcYkhuTp
+ AaZHYzc+d3Py9i3tXOezEU1YUhpAq2dTR8dq3TjiVJacX1HXXTYVJaVEv01YRE1vnmim
+ 4p+hrqhnn5BbFczoXhA0DhQMPdxmlZeXEhVVMZlRqVlaHkv7t37XygZ9q7o/dARPtM/a
+ +tyQ==
+X-Gm-Message-State: ANhLgQ1zcR9vn7A01Qpad0a6F2f4tbzgPI5xYLvOuAy/Nm8qulIyVkgd
+ Nll/BOBHtJwsgJvZZ8PvSFSSu63WPk6jObr5k3s=
+X-Google-Smtp-Source: ADFU+vvJVPFGl37McKSmpL4NgSwg+0PlnP+RBgRQ2QNv1iCb7FeMMTfssyZFqPC3Y3a9uE83cUyvAoMTanQD5wLFT9M=
+X-Received: by 2002:adf:fe4c:: with SMTP id m12mr32326004wrs.96.1584371605896; 
+ Mon, 16 Mar 2020 08:13:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200315144653.22660-4-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-10-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-10-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 16:13:13 +0100
+Message-ID: <CAJ+F1C+xxUmrjUaDfqD-4j+0BF=DfAomuqtu7jZqfg-p64j_Gg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/34] tests/test-qmp-event: Use qobject_is_equal()
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +74,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 9:46 AM, Markus Armbruster wrote:
-> Mention SchemaInfo variant member "allow-oob" defaults to false.
-> 
+On Sun, Mar 15, 2020 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Locally defined helper qdict_cmp_simple() implements just enough of a
+> comparison to serve here.  Replace it by qobject_is_equal(), which
+> implements all of it.
+>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->   docs/devel/qapi-code-gen.txt | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>  tests/test-qmp-event.c | 66 +-----------------------------------------
+>  1 file changed, 1 insertion(+), 65 deletions(-)
+>
+> diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
+> index 430001e622..d64066139c 100644
+> --- a/tests/test-qmp-event.c
+> +++ b/tests/test-qmp-event.c
+> @@ -28,73 +28,9 @@ typedef struct TestEventData {
+>      QDict *expect;
+>  } TestEventData;
+>
+> -typedef struct QDictCmpData {
+> -    QDict *expect;
+> -    bool result;
+> -} QDictCmpData;
+> -
+>  TestEventData *test_event_data;
+>  static GMutex test_event_lock;
+>
+> -/* Only compares bool, int, string */
+> -static
+> -void qdict_cmp_do_simple(const char *key, QObject *obj1, void *opaque)
+> -
+> -{
+> -    QObject *obj2;
+> -    QDictCmpData d_new, *d =3D opaque;
+> -    int64_t val1, val2;
+> -
+> -    if (!d->result) {
+> -        return;
+> -    }
+> -
+> -    obj2 =3D qdict_get(d->expect, key);
+> -    if (!obj2) {
+> -        d->result =3D false;
+> -        return;
+> -    }
+> -
+> -    if (qobject_type(obj1) !=3D qobject_type(obj2)) {
+> -        d->result =3D false;
+> -        return;
+> -    }
+> -
+> -    switch (qobject_type(obj1)) {
+> -    case QTYPE_QBOOL:
+> -        d->result =3D (qbool_get_bool(qobject_to(QBool, obj1)) =3D=3D
+> -                     qbool_get_bool(qobject_to(QBool, obj2)));
+> -        return;
+> -    case QTYPE_QNUM:
+> -        g_assert(qnum_get_try_int(qobject_to(QNum, obj1), &val1));
+> -        g_assert(qnum_get_try_int(qobject_to(QNum, obj2), &val2));
+> -        d->result =3D val1 =3D=3D val2;
+> -        return;
+> -    case QTYPE_QSTRING:
+> -        d->result =3D g_strcmp0(qstring_get_str(qobject_to(QString, obj1=
+)),
+> -                              qstring_get_str(qobject_to(QString, obj2))=
+) =3D=3D 0;
+> -        return;
+> -    case QTYPE_QDICT:
+> -        d_new.expect =3D qobject_to(QDict, obj2);
+> -        d_new.result =3D true;
+> -        qdict_iter(qobject_to(QDict, obj1), qdict_cmp_do_simple, &d_new)=
+;
+> -        d->result =3D d_new.result;
+> -        return;
+> -    default:
+> -        abort();
+> -    }
+> -}
+> -
+> -static bool qdict_cmp_simple(QDict *a, QDict *b)
+> -{
+> -    QDictCmpData d;
+> -
+> -    d.expect =3D b;
+> -    d.result =3D true;
+> -    qdict_iter(a, qdict_cmp_do_simple, &d);
+> -    return d.result;
+> -}
+> -
+>  void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
+>  {
+>      QDict *t;
+> @@ -115,7 +51,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict =
+*d)
+>
+>      qdict_del(d, "timestamp");
+>
+> -    g_assert(qdict_cmp_simple(d, test_event_data->expect));
+> +    g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expec=
+t)));
+>
+>  }
+>
+> --
+> 2.21.1
+>
+>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> 
-> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> index 59d6973e1e..5906602504 100644
-> --- a/docs/devel/qapi-code-gen.txt
-> +++ b/docs/devel/qapi-code-gen.txt
-> @@ -988,9 +988,9 @@ The SchemaInfo for a command has meta-type "command", and variant
->   members "arg-type", "ret-type" and "allow-oob".  On the wire, the
->   "arguments" member of a client's "execute" command must conform to the
->   object type named by "arg-type".  The "return" member that the server
-> -passes in a success response conforms to the type named by
-> -"ret-type".  When "allow-oob" is set, it means the command supports
-> -out-of-band execution.
-> +passes in a success response conforms to the type named by "ret-type".
-> +When "allow-oob" is true, it means the command supports out-of-band
-> +execution.  It defaults to false.
->   
->   If the command takes no arguments, "arg-type" names an object type
->   without members.  Likewise, if the command returns nothing, "ret-type"
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
