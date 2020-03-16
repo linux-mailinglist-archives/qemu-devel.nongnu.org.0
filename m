@@ -2,45 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A068E186800
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:39:23 +0100 (CET)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A85C186828
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:50:06 +0100 (CET)
+Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmDR-0003eC-U9
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40639)
+	id 1jDmNo-0007M6-Pb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <longpeng2@huawei.com>) id 1jDlGZ-0007Dt-Jx
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:38:33 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDlJc-000091-2L
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <longpeng2@huawei.com>) id 1jDlGY-0003to-GC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:38:31 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:43088 helo=huawei.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jDlJa-0003S6-UM
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:39 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43006
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
- id 1jDlGX-0002XN-Ns
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:38:30 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 8CD24C56B6550B5CA07B;
- Mon, 16 Mar 2020 16:38:22 +0800 (CST)
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.173.228.124) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 16 Mar 2020 16:38:16 +0800
-From: "Longpeng(Mike)" <longpeng2@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] cpus: avoid stucking in pause_all_vcpus due to race
-Date: Mon, 16 Mar 2020 16:37:32 +0800
-Message-ID: <20200316083732.2010-1-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlJa-0003GW-N6
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584348098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9vrxrm2nFPNOwJmJYXjlr6oyRPLOz9tW4pgWwronWOw=;
+ b=diuq8vuDkA+3uisqPwJZxojSf+aWSnmHcfI5ZfMt7GxakmRF2ccsr/y7HVyBwE80d31UIG
+ UCe+nQ3j5WfjBz+Q3vbeI65D9Aw0WcJmAXee1mWn2iQh1RxIAFpPJPSde5ZX7B/Do142Hk
+ 812BgOTofXv2LtyNYbTvhvUiQY051eQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-5dfYYT_BOd-lZjR7HbPGXA-1; Mon, 16 Mar 2020 04:41:36 -0400
+X-MC-Unique: 5dfYYT_BOd-lZjR7HbPGXA-1
+Received: by mail-wm1-f70.google.com with SMTP id s20so4670273wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:41:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9vrxrm2nFPNOwJmJYXjlr6oyRPLOz9tW4pgWwronWOw=;
+ b=rttsuUu8wpU3f9LtERWlBMKABAEGQI69QAYkl5uHmh+Rf9tbF1OUKVuu4k/Sth03at
+ VP14O5ZUnIBy6Fbq/ggLClLyKkmW8zONuoL8ufkrwjIRRz3oYLD3ZLUxqR+lAvLjGYh9
+ BIQGsBwhcbDnMymaS+6ogqJW3YyO2nBKtaIlloaUpjTaOuy8NiVTsjzj9HJQJ8wzNdaf
+ eiQ5kA9hVr8cNwCI8m38j39fssFPVv+Iynepo3BVSKh/73WtrPuC2klg8u1upZgw6QWy
+ rAIPI1nUAJdAs23tmbC09rqCTuPrKmkGoGOPsxVZdmMCkYMZhb8XLqdBixfVZZSJEQ3g
+ 950w==
+X-Gm-Message-State: ANhLgQ0VPPLswOp59+6rwFeygsOyzvqtPgopzK1p/3t5LgwVq8/owBbw
+ ylnxYs2mrhsNKq7/jagWODwKSx45LnLCmQy6wdzdGmJCeLp7SqRnE72jd1spiI865W0MyIp/022
+ UN+O22KmtgjdIDGw=
+X-Received: by 2002:adf:fe4c:: with SMTP id m12mr30481342wrs.96.1584348095169; 
+ Mon, 16 Mar 2020 01:41:35 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu9nulhvqDZLtePWNRMmDXhEG7ZpUhoV3LFr7A6ePsf33BcvPsTpxJTBT0Z8qWCPTAgLJfFMQ==
+X-Received: by 2002:adf:fe4c:: with SMTP id m12mr30481322wrs.96.1584348094925; 
+ Mon, 16 Mar 2020 01:41:34 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.82.39])
+ by smtp.gmail.com with ESMTPSA id x17sm54970176wrt.31.2020.03.16.01.41.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 01:41:34 -0700 (PDT)
+Subject: Re: [PATCH] target/i386: Add ARCH_CAPABILITIES related bits into
+ Icelake-Server CPU model
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20200316053314.194936-1-xiaoyao.li@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e90ff880-c395-9013-6855-eaa4be7969be@redhat.com>
+Date: Mon, 16 Mar 2020 09:41:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.173.228.124]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200316053314.194936-1-xiaoyao.li@intel.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,92 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Longpeng <longpeng2@huawei.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Longpeng <longpeng2@huawei.com>
+On 16/03/20 06:33, Xiaoyao Li wrote:
+> Current Icelake-Server CPU model lacks all the features enumerated by
+> MSR_IA32_ARCH_CAPABILITIES.
+> 
+> Add them, so that guest of "Icelake-Server" can see all of them.
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+>  target/i386/cpu.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 92fafa265914..5f09d114e1c2 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -3425,7 +3425,12 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
+>              CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57,
+>          .features[FEAT_7_0_EDX] =
+> -            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
+> +            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_ARCH_CAPABILITIES |
+> +            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
+> +        .features[FEAT_ARCH_CAPABILITIES] =
+> +            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
+> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
+> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
+>          /* Missing: XSAVES (not supported by some Linux versions,
+>                  * including v4.1 to v4.12).
+>                  * KVM doesn't yet expose any XSAVES state save component,
+> 
 
-We found an issue when repeat reboot in guest during migration, it cause =
-the
-migration thread never be waken up again.
+Hi Xiaoyao,
 
-<main loop>                        |<migration_thread>
-                                   |
-LOCK BQL                           |
-...                                |
-main_loop_should_exit              |
- pause_all_vcpus                   |
-  1. set all cpus ->stop=3Dtrue      |
-     and then kick                 |
-  2. return if all cpus is paused  |
-     (by '->stopped =3D=3D true'), else|
-  3. qemu_cond_wait [BQL UNLOCK]   |
-                                   |LOCK BQL
-                                   |...
-                                   |do_vm_stop
-                                   | pause_all_vcpus
-                                   |  (A)set all cpus ->stop=3Dtrue
-                                   |     and then kick
-                                   |  (B)return if all cpus is paused
-                                   |     (by '->stopped =3D=3D true'), el=
-se
-                                   |  (C)qemu_cond_wait [BQL UNLOCK]
-  4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
-  5. goto 2.                       |
- (BQL is still LOCKed)             |
- resume_all_vcpus                  |
-  1. set all cpus ->stop=3Dfalse     |
-     and ->stopped=3Dfalse           |
-...                                |
-BQL UNLOCK                         |  (E)LOCK BQL
-                                   |  (F)goto B. [but stopped is false no=
-w!]
-                                   |Finally, sleep at step 3 forever.
+you need to add them as a new version of the CPU model.
 
-As suggested by Paolo, resume_all_vcpus should notice this race, so we ne=
-ed
-to move the change of runstate before pause_all_vcpus in do_vm_stop() and
-ignore the resume request if runstate is not running.
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Dr . David Alan Gilbert <dgilbert@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- cpus.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/cpus.c b/cpus.c
-index b4f8b84..ef441bd 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1026,9 +1026,9 @@ static int do_vm_stop(RunState state, bool send_sto=
-p)
-     int ret =3D 0;
-=20
-     if (runstate_is_running()) {
-+        runstate_set(state);
-         cpu_disable_ticks();
-         pause_all_vcpus();
--        runstate_set(state);
-         vm_state_notify(0, state);
-         if (send_stop) {
-             qapi_event_send_stop();
-@@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
- {
-     CPUState *cpu;
-=20
-+    if (!runstate_is_running()) {
-+        return;
-+    }
-+
-     qemu_clock_enable(QEMU_CLOCK_VIRTUAL, true);
-     CPU_FOREACH(cpu) {
-         cpu_resume(cpu);
---=20
-1.8.3.1
+Paolo
 
 
