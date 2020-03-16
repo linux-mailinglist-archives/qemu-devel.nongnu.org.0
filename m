@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD381187088
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:51:47 +0100 (CET)
-Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F67187065
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:49:39 +0100 (CET)
+Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsxu-0003N7-T1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53915)
+	id 1jDsvq-0007v0-FA
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlB-0000MY-Kx
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:37 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqlB-0000M9-1O
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlA-0004Cj-0Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:29 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48804)
+ (envelope-from <its@irrelevant.dk>) id 1jDql9-0004BM-R2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:28 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDql5-0001np-KS; Mon, 16 Mar 2020 10:30:24 -0400
+ id 1jDql5-0001nl-KK; Mon, 16 Mar 2020 10:30:24 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 271D2BF94A;
+ by charlie.dont.surf (Postfix) with ESMTPSA id A788FBF95B;
  Mon, 16 Mar 2020 14:29:45 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 19/42] nvme: enforce valid queue creation sequence
-Date: Mon, 16 Mar 2020 07:29:05 -0700
-Message-Id: <20200316142928.153431-20-its@irrelevant.dk>
+Subject: [PATCH v6 20/42] nvme: provide the mandatory subnqn field
+Date: Mon, 16 Mar 2020 07:29:06 -0700
+Message-Id: <20200316142928.153431-21-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,62 +58,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Support returning Command Sequence Error if Set Features on Number of
-Queues is called after queues have been created.
-
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 7 +++++++
- hw/block/nvme.h | 1 +
- 2 files changed, 8 insertions(+)
+ hw/block/nvme.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 007f8817f101..b40d27cddc46 100644
+index b40d27cddc46..74061d08fd2e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -881,6 +881,8 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *=
-cmd)
-     cq =3D g_malloc0(sizeof(*cq));
-     nvme_init_cq(cq, n, prp1, cqid, vector, qsize + 1,
-         NVME_CQ_FLAGS_IEN(qflags));
+@@ -1925,6 +1925,9 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->nn =3D cpu_to_le32(n->num_namespaces);
+     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
+);
+=20
++    pstrcpy((char *) id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qe=
+mu:");
++    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
 +
-+    n->qs_created =3D true;
-     return NVME_SUCCESS;
- }
-=20
-@@ -1194,6 +1196,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvme=
-Cmd *cmd, NvmeRequest *req)
-         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
-         break;
-     case NVME_NUMBER_OF_QUEUES:
-+        if (n->qs_created) {
-+            return NVME_CMD_SEQ_ERROR | NVME_DNR;
-+        }
-+
-         /*
-          * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value f=
-or NCQR
-          * and NSQR.
-@@ -1332,6 +1338,7 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
-=20
-     n->aer_queued =3D 0;
-     n->outstanding_aers =3D 0;
-+    n->qs_created =3D false;
-=20
-     blk_flush(n->conf.blk);
-     n->bar.cc =3D 0;
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index b709a8bb8d40..b4d1738a3d0a 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -99,6 +99,7 @@ typedef struct NvmeCtrl {
-     BlockConf    conf;
-     NvmeParams   params;
-=20
-+    bool        qs_created;
-     uint32_t    page_size;
-     uint16_t    page_bits;
-     uint16_t    max_prp_ents;
+     id->psd[0].mp =3D cpu_to_le16(0x9c4);
+     id->psd[0].enlat =3D cpu_to_le32(0x10);
+     id->psd[0].exlat =3D cpu_to_le32(0x4);
 --=20
 2.25.1
 
