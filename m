@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C1818711C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:27:08 +0100 (CET)
-Received: from localhost ([::1]:44088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0588187122
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:28:28 +0100 (CET)
+Received: from localhost ([::1]:44140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtVn-0007gm-Oj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1jDtXP-0002Nq-Oo
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrRl-00012d-Bg
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:30 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDrT7-0001gB-1s
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrRk-0006We-80
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDrRk-0006O8-0L
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:14:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g62so18513293wme.1
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vBOJRsRvVO3wJPXXvFhNbaVuIx9vh/F/w8uXer5AY28=;
- b=kbfT9kzgLfzL9hsLEiG+SeRwqiNMU4iUmrCt61jWEGxCuFSQueQOdJB6G1Tegp7din
- Et9+utysC1YQCtwwdrG5Cu4TUvbxp7JVhTfB2IvJ9llh9AqXrOHMQjlS5v2c/EcLx3PD
- GCBer5FnTc/6IvSJ76zpocyDLJurE534ujVEukcMZ63kiY9yBppX93v06JlV5kB49Dy0
- O94g0lTV3ixFvcJ3CqlqCPq6/TgvJut6K7XF3RXXzTSf/g9NRrgQVnJsXuUIHi83Hi6d
- kCyjSvKsXXoRrDeapoHZfrUEk3KkMy9nnw+seHGM2M3145wAqEU8tZCU4NgB3wzIMQI7
- KW6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vBOJRsRvVO3wJPXXvFhNbaVuIx9vh/F/w8uXer5AY28=;
- b=HjZzkd4qAywCP9eC/gekD1FOTTFZNbw6M3pW1WQEaAuzp64gb/R/kmyt+77UlFHbKr
- x8NU6n8oZXpqb911C7l+8L2yAUFN44NLsdeq+OenyY95cvjfpqd1nxCQTvd85ia7GXJX
- 0Gi3nqVgyI/iBkdIOvuO647Ax++R8Q+viPthsnvDUoknNrHoXwlVyjvC8D0ulQJXm1vj
- 1Cq5CjFDdH8KRUB4uLb9VJk5ZTnLsg2zFKWQ+zbkLcKu2sSVcGXcGSLpo77gQ072pk6J
- xnUOhLCJfjVXm6yBExCAQoq8Bwvft7NXsKah19sgZHsmVM3+DB9lZunLvqlmheSCZGWK
- AGkw==
-X-Gm-Message-State: ANhLgQ1evzwcMf3HvqYmSd6g0eW5LawGLC2TIaKBKtaQvSG9onj4vpMP
- 5t2kqcTfPto6nXYp3s/0q4NBEmjyAijJ1MkzokA=
-X-Google-Smtp-Source: ADFU+vsqSYCUglt3wxCDTVIkOI8Y2sO4fhlXZapg017PcBUdU37NVEVwK2h4U6DK7+pPruEGDi4y6FXIn56naqpPHto=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr29131782wmf.4.1584371667016; 
- Mon, 16 Mar 2020 08:14:27 -0700 (PDT)
-MIME-Version: 1.0
+ (envelope-from <eblake@redhat.com>) id 1jDrT4-0004O0-Vl
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:57838)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrT4-0004LB-Qz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:15:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584371750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DcVEFMK1F5lVRFY2dXry1ugaWoiV4ZCks7W+xHFEcKs=;
+ b=ZOxprKsNVJtY/Cue8iPdOhPsatk50sodCQqegQPeW69UYZkcVX1QcvoEmc0aQtByTdXLVg
+ 5ptQVsXecRPY4WPuTOG+WWFIXEKMhz6Vc5r8KE1pCCiCQzlTdktvm57iDCwraOMag5BuD1
+ idaseZnEJwMz/HTJB28mLGPgv3YO3ks=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-c3Qla84sNzCnvPv-lhYHng-1; Mon, 16 Mar 2020 11:15:48 -0400
+X-MC-Unique: c3Qla84sNzCnvPv-lhYHng-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 727108DFB08;
+ Mon, 16 Mar 2020 15:15:47 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 955479081D;
+ Mon, 16 Mar 2020 15:15:46 +0000 (UTC)
+Subject: Re: [PATCH v3 04/34] docs/devel/qapi-code-gen: Document 'features'
+ introspection
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-11-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-11-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 16:14:14 +0100
-Message-ID: <CAJ+F1CK8+O_aN-OQUxJkS2+j+ALv6vCp7rRFMAkoBAD9keibBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 10/34] tests/test-qmp-event: Check event is actually
- emitted
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+ <20200315144653.22660-5-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c41ec4f6-6294-b2cb-8fba-35cf18c39b84@redhat.com>
+Date: Mon, 16 Mar 2020 10:15:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200315144653.22660-5-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,85 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:55 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
+On 3/15/20 9:46 AM, Markus Armbruster wrote:
+> Commit 6a8c0b5102 "qapi: Add feature flags to struct types" neglected
+> to update section "Client JSON Protocol introspection", and commit
+> 23394b4c39 "qapi: Add feature flags to commands" didn't either.  Make
+> up for that.
+> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
 > ---
->  tests/test-qmp-event.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-> index d64066139c..7dd0053190 100644
-> --- a/tests/test-qmp-event.c
-> +++ b/tests/test-qmp-event.c
-> @@ -26,6 +26,7 @@
->
->  typedef struct TestEventData {
->      QDict *expect;
-> +    bool emitted;
->  } TestEventData;
->
->  TestEventData *test_event_data;
-> @@ -52,7 +53,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *=
-d)
->      qdict_del(d, "timestamp");
->
->      g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expec=
-t)));
-> -
-> +    test_event_data->emitted =3D true;
->  }
->
->  static void event_prepare(TestEventData *data,
-> @@ -87,6 +88,7 @@ static void test_event_a(TestEventData *data,
->  {
->      data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
->      qapi_event_send_event_a();
-> +    g_assert(data->emitted);
->      qobject_unref(data->expect);
->  }
->
-> @@ -95,6 +97,7 @@ static void test_event_b(TestEventData *data,
->  {
->      data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
->      qapi_event_send_event_b();
-> +    g_assert(data->emitted);
->      qobject_unref(data->expect);
->  }
->
-> @@ -107,6 +110,7 @@ static void test_event_c(TestEventData *data,
->          "{ 'event': 'EVENT_C', 'data': {"
->          " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2'=
- } }");
->      qapi_event_send_event_c(true, 1, true, &b, "test2");
-> +    g_assert(data->emitted);
->      qobject_unref(data->expect);
->  }
->
-> @@ -132,6 +136,7 @@ static void test_event_d(TestEventData *data,
->          "  'string': 'test2', 'enum2': 'value2' },"
->          " 'b': 'test3', 'enum3': 'value3' } }");
->      qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VAL=
-UE3);
-> +    g_assert(data->emitted);
->      qobject_unref(data->expect);
->  }
->
-> --
-> 2.21.1
->
->
+>   docs/devel/qapi-code-gen.txt | 43 +++++++++++++++++++++++-------------
+>   1 file changed, 28 insertions(+), 15 deletions(-)
+> 
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---=20
-Marc-Andr=C3=A9 Lureau
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
