@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F931872FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:06:19 +0100 (CET)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDDB1872F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:03:13 +0100 (CET)
+Received: from localhost ([::1]:47026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDv46-0001zo-Jc
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40653)
+	id 1jDv16-0004kW-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDuBK-0003Su-K2
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:43 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDuHK-0004ca-Go
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDuBJ-0004uI-ED
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:56267)
+ (envelope-from <eblake@redhat.com>) id 1jDuHI-0006Qy-5J
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:54 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40111)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuBJ-0004sM-9H
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:41 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDuHH-0006Ly-WE
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584382181;
+ s=mimecast20190719; t=1584382551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kpxvY3ThyZqztPfmjG1WgZp2s8Gh0pJx/1+caEnmG58=;
- b=XcqGD5NgFoPrydfycPef79b9CUGGpWQ9wXUYEH6ITt+A/7qnf3WnENX6uCIqvjW+JIxg2j
- 9gnjR7HfFxO5+uyuHa4ezHWJNqh/vtDsoN43oUpMDM6SHlTAhVUDXn6yWjkPkvXH4MYIQP
- rXva68X+zxWPZBz5q8iAJLa1ElTV1gg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-v9HXn0sdMEW5X1-dznxNjA-1; Mon, 16 Mar 2020 14:09:36 -0400
-X-MC-Unique: v9HXn0sdMEW5X1-dznxNjA-1
-Received: by mail-ed1-f72.google.com with SMTP id o13so15679288edt.7
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:09:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TQv8d8ScNKK9NUVYi/BoZzj0hMagcBF2yzDXzKLkbdY=;
- b=JzmCFVn3nYDckSOMmyn7KdOsIjUtz8cDPsHlgyHW17xr13Wo3g260SVBO1kKkCd43k
- ADIZLVnK1Hbl0tflHX2KikdApkO4kAF9lk28qAopmB+GpNgX80CAVv4pwQGUaGBgNJAS
- swE5P8MJ3uw2U3vIRG4l0IOXhVet/eNmCZ2tqiZcmMmOvW08bo4oR3TLTzDzuYMoQpis
- uR1a6VlEWjzftMJOeuYu5fo43Lp2hzT4uNHCfxRhpNngICVtzVBEaBJDSAlH0Vn03k7K
- hE4QYlVmDPib1u8KShxHRZbUV+K0DmASoqDhVgFVLxDlyiq7AC6z0F7/dxowgRA7TxmH
- rxOQ==
-X-Gm-Message-State: ANhLgQ2+G6hJ+LUEf0+jJbS2vzN5lmblXsJpfKDYIaMw6pZi4tbi9cFw
- iWmxOOfBo2qQXxVmcGmeJWMMF85lU+i2ggjGpweuiXR+auLWgh/aAkxl7mJCVCERDDY74ILkVJm
- kmz4VtwjVon2Hk8E=
-X-Received: by 2002:a05:6402:22ba:: with SMTP id
- cx26mr1355409edb.24.1584382175739; 
- Mon, 16 Mar 2020 11:09:35 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs4+matKifEPFFAH5rFh3B6UDGDa0Oksh5UyTIDc8TztLhrIpJcoyoe6eazQtgqbprai47ijg==
-X-Received: by 2002:a05:6402:22ba:: with SMTP id
- cx26mr1355376edb.24.1584382175492; 
- Mon, 16 Mar 2020 11:09:35 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id g19sm40917ejr.65.2020.03.16.11.09.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:09:34 -0700 (PDT)
+ bh=wZ5gqEEj5mv41TOfu0h/zgYu/cE4DSNhk06IWwCQB+g=;
+ b=jIXRKxgNrq+qvVgeW7cWgPJgYeatWwAU0K/Z1ESSnBiWhA3p6OTjWxao0iT88JlKr4r5Fx
+ F5Do4SsbHNEcUX15K5DGTSt8A5c3LHU+kBUaZ++AvCc9rP9oet6QYWmAHTEUPZVHRlvUnR
+ V3t4c7YPDRN6dagcmtpH6HDG3Yk1bdU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-7P-45U1NNiWd-2tnOHv24g-1; Mon, 16 Mar 2020 14:15:45 -0400
+X-MC-Unique: 7P-45U1NNiWd-2tnOHv24g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19A388E444B;
+ Mon, 16 Mar 2020 18:15:44 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D680A9352B;
+ Mon, 16 Mar 2020 18:15:35 +0000 (UTC)
 Subject: Re: [PATCH 1/2] migration: avoid suspicious strncpy() use
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20200316160702.478964-1-stefanha@redhat.com>
  <20200316160702.478964-2-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <24d36e90-5880-02ad-fa24-761eb3d9074f@redhat.com>
-Date: Mon, 16 Mar 2020 19:09:33 +0100
+ <24d36e90-5880-02ad-fa24-761eb3d9074f@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <62dbe165-8311-71f0-fcf6-d020d7e93fd8@redhat.com>
+Date: Mon, 16 Mar 2020 13:15:35 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316160702.478964-2-stefanha@redhat.com>
+In-Reply-To: <24d36e90-5880-02ad-fa24-761eb3d9074f@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,7 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Yuval Shaia <yuval.shaia.ml@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -101,54 +84,80 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 5:07 PM, Stefan Hajnoczi wrote:
-> gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled
-> reports the following error:
+On 3/16/20 1:09 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/16/20 5:07 PM, Stefan Hajnoczi wrote:
+>> gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled
+>> reports the following error:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 migration/glob=
+al_state.o
+>> =C2=A0=C2=A0 In file included from /usr/include/string.h:495,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from /home/stefanha/qemu/include=
+/qemu/osdep.h:101,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from migration/global_state.c:13=
+:
+>> =C2=A0=C2=A0 In function =E2=80=98strncpy=E2=80=99,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inlined from =E2=80=98global_state_=
+store_running=E2=80=99 at=20
+>> migration/global_state.c:47:5:
+>> =C2=A0=C2=A0 /usr/include/bits/string_fortified.h:106:10: error:=20
+>> =E2=80=98__builtin_strncpy=E2=80=99 specified bound 100 equals destinati=
+on size=20
+>> [-Werror=3Dstringop-truncation]
+>> =C2=A0=C2=A0=C2=A0=C2=A0 106 |=C2=A0=C2=A0 return __builtin___strncpy_ch=
+k (__dest, __src, __len,=20
+>> __bos (__dest));
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |         =20
+>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>
+>> Use pstrcpy() instead of strncpy().=C2=A0 It is guaranteed to NUL-termin=
+ate
+>> strings.
 >=20
->      CC      migration/global_state.o
->    In file included from /usr/include/string.h:495,
->                     from /home/stefanha/qemu/include/qemu/osdep.h:101,
->                     from migration/global_state.c:13:
->    In function =E2=80=98strncpy=E2=80=99,
->        inlined from =E2=80=98global_state_store_running=E2=80=99 at migra=
-tion/global_state.c:47:5:
->    /usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin=
-_strncpy=E2=80=99 specified bound 100 equals destination size [-Werror=3Dst=
-ringop-truncation]
->      106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos =
-(__dest));
->          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
->=20
-> Use pstrcpy() instead of strncpy().  It is guaranteed to NUL-terminate
-> strings.
+> There was a long discussion 1 year ago with it, and Eric suggested to=20
+> use strpadcpy after the assert() and I sent this patch:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg44925.html
+> Not sure what's best.
 
-There was a long discussion 1 year ago with it, and Eric suggested to=20
-use strpadcpy after the assert() and I sent this patch:
-https://www.mail-archive.com/qemu-block@nongnu.org/msg44925.html
-Not sure what's best.
+strncpy() pads the tail, guaranteeing that for our fixed-size buffer, we=20
+guarantee the contents of all bytes in the buffer.  pstrcpy() does not=20
+(but pstrcpy() can be followed up with a memset() to emulate the=20
+remaining effects of strncpy() - at which point you have reimplemented=20
+strpadcpy).
 
 >=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   migration/global_state.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/migration/global_state.c b/migration/global_state.c
-> index 25311479a4..cbe07f21a8 100644
-> --- a/migration/global_state.c
-> +++ b/migration/global_state.c
-> @@ -44,8 +44,8 @@ void global_state_store_running(void)
->   {
->       const char *state =3D RunState_str(RUN_STATE_RUNNING);
->       assert(strlen(state) < sizeof(global_state.runstate));
-> -    strncpy((char *)global_state.runstate,
-> -           state, sizeof(global_state.runstate));
-> +    pstrcpy((char *)global_state.runstate,
-> +            sizeof(global_state.runstate), state);
->   }
->  =20
->   bool global_state_received(void)
->=20
+>>
+>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>> =C2=A0 migration/global_state.c | 4 ++--
+>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/migration/global_state.c b/migration/global_state.c
+>> index 25311479a4..cbe07f21a8 100644
+>> --- a/migration/global_state.c
+>> +++ b/migration/global_state.c
+>> @@ -44,8 +44,8 @@ void global_state_store_running(void)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *state =3D RunState_str(RUN_ST=
+ATE_RUNNING);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(strlen(state) < sizeof(global_stat=
+e.runstate));
+>> -=C2=A0=C2=A0=C2=A0 strncpy((char *)global_state.runstate,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 state, siz=
+eof(global_state.runstate));
+>> +=C2=A0=C2=A0=C2=A0 pstrcpy((char *)global_state.runstate,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size=
+of(global_state.runstate), state);
+
+Can we guarantee that the padding bytes have been previously set to 0,=20
+or do we need to go the extra mile with a memset() or strpadcpy() to=20
+guarantee that we have set the entire buffer?
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
