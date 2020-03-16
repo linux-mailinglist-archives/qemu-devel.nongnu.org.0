@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53C0186BC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:07:06 +0100 (CET)
-Received: from localhost ([::1]:38226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFEC186BCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:08:22 +0100 (CET)
+Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpST-0000zM-BZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54101)
+	id 1jDpTg-0001Oa-TQ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jDnyr-0002iX-T9
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:32:27 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jDo6R-0005WU-6P
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:40:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jDnyq-0008PE-Aq
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:32:25 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44468)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1jDnym-0007nW-Bc; Mon, 16 Mar 2020 07:32:20 -0400
-Received: by mail-wr1-x444.google.com with SMTP id y2so5255956wrn.11;
- Mon, 16 Mar 2020 04:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0B1+ctOJUlMj+e2dM5JEA0+BJKMby+bYJP0UlJ7Qstk=;
- b=QwFTzRg0oHAO/fEBVhSQwciA3qOmDMr829eC5UKNTt9V0gQi04iDx/ySVl/0lrIyhv
- BjvL0pa51za/WfOeGtpHv+n7OTmnTy872J5UxgGpXLe/l6ZHysjTfNAwGYrBXc/HwR02
- paEL0EkGvzgYjQlX+49gqFEjC8TtLtljm+KGSPXjLd/jspgtl7oeh936GMuIdzABPjUG
- qN2ccs2hr8GGVnTBXLan3tSG6TrUmeGEwRoFxiQZcslIC3wu1fKjM+NYz6mUmsUAp0zw
- PRY67OJutNsbMlDslZV1YPRdFE+EpKRVjbEcsrSykmgtCMWg6563dsHsMgZ2StMqegNf
- sxxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0B1+ctOJUlMj+e2dM5JEA0+BJKMby+bYJP0UlJ7Qstk=;
- b=oNUYXn4Km7FhUVnruAm+UrdZDxZNZqq+89+6NOUd4p4qgzKqkvd2mscA2Yf3NaSFkw
- O7jEv7pcmwHKG1rOnZrFzAB/Du2zUkq6ON4T1TulddR+WQ5F/MOdKt1D63+gAC3Rbc7p
- MsAZy57B21RyYSkq242+kjA7iF7oFQSf/ftZvIxMSCZ1D3M55MaS7zDgu2Fd6krZbdql
- qNZSIHfBDb3tBZIXBdAm4ThipbV5rStKWcLPpQRzqMbC0vKbYu/zpb7kq/UqwgeFCn49
- 3p/Stc0o+JpwgO2oJFkyGmf3hIMcuIAmdIvdbgLErOV1c44oD72uDbVjWLy5wLkHjkq3
- 6+XQ==
-X-Gm-Message-State: ANhLgQ13SlhY73Z8TXx1CfXO71uhR8wLusrs7ms2sXIWNsTkDq5f5V5Y
- IOgTP445UScrUl+ht7SqaxM=
-X-Google-Smtp-Source: ADFU+vsscvatyrzuZll9UwYXJANZYc/UPG2ECGDmIMh622bfYAlsmNRcsOEZEyCdOSZexG61EwPy3w==
-X-Received: by 2002:a5d:5290:: with SMTP id c16mr33944303wrv.235.1584358338965; 
- Mon, 16 Mar 2020 04:32:18 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id g12sm19187742wrm.87.2020.03.16.04.32.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 04:32:17 -0700 (PDT)
-Date: Mon, 16 Mar 2020 11:32:16 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Klaus Birkelund Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH RESEND v2] block/nvme: introduce PMR support from NVMe
- 1.4 spec
-Message-ID: <20200316113216.GB449975@stefanha-x1.localdomain>
-References: <20200306223853.37958-1-andrzej.jakowski@linux.intel.com>
- <20200310095147.GC140737@stefanha-x1.localdomain>
- <15b8a77d-50de-2228-a0e6-a461b82f1873@linux.intel.com>
- <CAJSP0QXatOWgicLo5sGt9KA2QupC2qXD2LCdHWKgHFdzgt9pEg@mail.gmail.com>
- <12576914-0ef4-efd2-355a-cff3f4eeae69@linux.intel.com>
- <20200312060827.gjddwgmevyptsmpl@apples.localdomain>
+ (envelope-from <kraxel@redhat.com>) id 1jDo6Q-0004x3-18
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:40:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29796
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDo6O-0004kV-QL
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:40:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584358812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VwRmbCExmYCNVMWyVPJ4VZXF7rudjH6YT+M5qS1APn0=;
+ b=KyJJHyInCrmTgj/YgJ6TXX126pk4N5ceWvn69dp7dRKq0DjHurhQEXWzh8WL5MsCPeeJ3D
+ C94BWaaWTjzOK93pHLtB2g9zXL5H18QOK5nup1ndG9EQdyUXq+5h9DkwtMq+DRNciZAehM
+ AEfbxg+473hhwNAdRUgv/AXdIEY/Ob8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-A759pUnKNkSOWtUsyrC9RA-1; Mon, 16 Mar 2020 07:40:10 -0400
+X-MC-Unique: A759pUnKNkSOWtUsyrC9RA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E63A1005509;
+ Mon, 16 Mar 2020 11:40:09 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
+ [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3B6A92D50;
+ Mon, 16 Mar 2020 11:40:08 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C4B309AF5; Mon, 16 Mar 2020 12:40:07 +0100 (CET)
+Date: Mon, 16 Mar 2020 12:40:07 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jason Andryuk <jandryuk@gmail.com>
+Subject: Re: [PATCH 1/4] usb-serial: Move USB_TOKEN_IN into a helper function
+Message-ID: <20200316114007.a4aie3vszsplkttq@sirius.home.kraxel.org>
+References: <20200312125524.7812-1-jandryuk@gmail.com>
+ <20200312125524.7812-2-jandryuk@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+In-Reply-To: <20200312125524.7812-2-jandryuk@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20200312060827.gjddwgmevyptsmpl@apples.localdomain>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,92 +75,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Haozhong Zhang <haozhong.zhang@intel.com>,
- qemu block <qemu-block@nongnu.org>, Dave Gilbert <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Zhang Yi <yi.z.zhang@linux.intel.com>,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, kbusch@kernel.org,
- Max Reitz <mreitz@redhat.com>, "He, Junyan" <junyan.he@intel.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---Bn2rw/3z4jIqBvZU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +    if (len > s->recv_used)
+> +        len =3D s->recv_used;
 
-On Wed, Mar 11, 2020 at 11:08:27PM -0700, Klaus Birkelund Jensen wrote:
-> On Mar 11 15:54, Andrzej Jakowski wrote:
-> > On 3/11/20 2:20 AM, Stefan Hajnoczi wrote:
-> > > Please try:
-> > >=20
-> > >   $ git grep pmem
-> > >=20
-> > > backends/hostmem-file.c is the backend that can be used and the
-> > > pmem_persist() API can be used to flush writes.
-> >=20
-> > I've reworked this patch into hostmem-file type of backend.
-> > From simple tests in virtual machine: writing to PMR region
-> > and then reading from it after VM power cycle I have observed that
-> > there is no persistency.
+scripts/checkpatch.pl flags a codestyle error here.
 
-Sounds like an integration bug.  QEMU's NVDIMM emulation uses
-HostMemoryBackend and file contents survive guest reboot.
+> -        if (len > s->recv_used)
+> -            len =3D s->recv_used;
 
-If you would like help debugging this, please post a link to the code
-and the command-line that you are using.
+Which is strictly speaking not your fault as you are just moving around
+existing code.  It's common practice though that codestyle is fixed up
+too when touching code.  Any chance you can make sure the patches pass
+checkpatch & resend?
 
-> > I guess that persistent behavior can be achieved if memory backend file
-> > resides on actual persistent memory in VMM. I haven't found mechanism to
-> > persist memory backend file when it resides in the file system on block
-> > storage. My original mmap + msync based solution worked well there.
-> > I believe that main problem with mmap was with "ifdef _WIN32" that made=
- it=20
-> > platform specific and w/o it patchew CI complained.=20
-> > Is there a way that I could rework mmap + msync solution so it would fit
-> > into qemu design?
-> >=20
->=20
-> Hi Andrzej,
->=20
-> Thanks for working on this!
->=20
-> FWIW, I have implemented other stuff for the NVMe device that requires
-> persistent storage (e.g. LBA allocation tracking for DULBE support). I
-> used the approach of adding an additional blockdev and simply use the
-> qemu block layer. This would also make it work on WIN32. And if we just
-> set bit 0 in PMRWBM and disable the write cache on the blockdev we
-> should be good on the durability requirements.
->
-> Unfortunately, I do not see (or know, maybe Stefan has an idea?) an easy
-> way of using the MemoryRegionOps nicely with async block backend i/o. so
-> we either have to use blocking I/O or fire and forget aio. Or, we can
-> maybe keep bit 1 set in PMRWBM and force a blocking blk_flush on PMRSTS
-> read.
+thanks,
+  Gerd
 
-QEMU's block layer does not support persistent memory semantics and
-doesn't support mmap.  It's fine for storing state from device emulation
-code, but if the guest itself requires memory load/store access to the
-data then the QEMU block layer does not provide that.
-
-For PMR I think HostMemoryBackend is the best fit.
-
-Stefan
-
---Bn2rw/3z4jIqBvZU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vY8AACgkQnKSrs4Gr
-c8iqYQf/bmO+fr0LpsWgbwF3qkanc/Pw0OChZLTV634K4gsmtnb2uAbRWEM+CCvS
-0nMT+mpEGs6hkyb0R+5grr3hk1c8C2gWvaJakUZD13F+HXyWyOny3TwU8NySSs6X
-BbzV4r61CiPmOyC2TEhk/POx8OQ+mxNlHLz3ixD7tdLiCrNit9aq0AtPmsJRloq4
-YHQQCILgB+YOQfE9ox7yn/IIy2aeq7nnj4mSuISex0A+98BbFdq1I0y6AEAQlwt8
-gn+Gtcwm4hWV2xKOM87Px987Kb6aQJxHGwKiQZYgl5GTv4IyBHvdNpMaqZAW/G6r
-eHks8RSiFQ1v1ULWY1Cz467CPoQ8Sg==
-=8cKK
------END PGP SIGNATURE-----
-
---Bn2rw/3z4jIqBvZU--
 
