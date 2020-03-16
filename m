@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8A81872BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:52:26 +0100 (CET)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB0E1872C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:54:01 +0100 (CET)
+Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuqf-0001ig-WF
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39101)
+	id 1jDusC-0004xi-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDtlY-0004eM-5I
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:05 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtmS-0006YN-Qa
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:44:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDtlV-0000Qo-Nz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:03 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40232)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtmQ-00030F-Id
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:44:00 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35635)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDtlV-0000Ha-IL
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:01 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id bo3so7667981pjb.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zOs/8OdiftpJmPSmUYbE0no0V2XkwWZ2rsSlJaTudvc=;
- b=B/o9Q9gHb9IdGkpjrF6nKILWlYTgxw9+h1aKok8qMXNQANl5bSNYFoR9SEyLmPEy+S
- sSs+r+crKpyrkH/CFIpxvuc2Oc5L3PxFG1voyfOjhYXcJZvPMop7LCoTQtrH9zd/eMWF
- R19EOoeTNHlEp0S6cXmLWx+wbnJyIWaNyZoqvpb2z1oQ3MJufWBe09rtAI2dLh7rnvgx
- yoNK0ihBt+BPtV+JmNYU1gDGHpoSo8bQDpTLGPBVtcXZcKzBdgCR0j719s6Z/sTGrnfV
- rmJsmDR26x8r8oK9xROFZNcHgUECzb5KeG6b8cm8pE4b/liVop8ebsZX6dwmtzsBNZJa
- EghA==
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDtmQ-0002xZ-B5
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:58 -0400
+Received: by mail-wm1-x341.google.com with SMTP id m3so19061924wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gnrEwKmph2O8Xa5Sk8h8RucKLWSdRoTBZXZXHqiZGYA=;
+ b=a7bLA4Htaul4fAExMJB2CEOA8v6TZEHMiFIlRmL6LrTg5uPuaBVx0Ow45CnqRRRVuw
+ pjv0U5SuXmDXCYNj48jCt5PpiR1s8pPgcGz/5Qi0Lz2JVSLA0VVw++QX31ZGs0OPYEnu
+ wlucVjDUHM2AiY+ZfxGGV59roudongLKzhmGaiP3FgyQfVy1XAg6NbsEXem3KdCXk0Bf
+ 3P8AlExkjR35XvvHB1BMKZSo1ffd0Zi2fVw/cwtTlRCwAmDKMPlLlTbxat2JOnh2QKTT
+ 3aJvuoGoRQGa9YSFyfY948bX3ctv/2jwzGVqnQNT3Ol+Ku11G3haBVmbEByAIldugfGG
+ I/qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zOs/8OdiftpJmPSmUYbE0no0V2XkwWZ2rsSlJaTudvc=;
- b=M4PiJGbg8p4D1bm16AWWHk0RDigO1vAp/IabLjx6Mk7QAR2sQITGavU9kWyzTybWdt
- yadfWjTSxo8dPvMLsxNMp9lsZPdekcvTn1cBKB1Wfyx32ErakOzGBswJvpbYkYgF4cRX
- W9iq0PUsU4AX0I+qW4T6J6/r3RFR8GQ4W92Xo+zUdm3xsSN+DpbCdqGs5HQqyFDLQ/zE
- f40foGdlItT5Z5p4UJ0gWqz2NQZx974EycFJLLkeB6C0ykkg8sP9ZPkPCxyYkFHKXuBB
- HxM05OH9xNXFwkxabvZWwZWMKY3pyeIg/VTkqJoAISHBP88whJT2KMr4LpF+7uolDRzp
- jT0w==
-X-Gm-Message-State: ANhLgQ2fwFrJWbXTmddSLSV1Ed1jlSL/hvJsrotdVOh3iYANsErFkerC
- 2IhEc4Jtthlz++G8duDoaSS1fg==
-X-Google-Smtp-Source: ADFU+vsoDPXOmPxhMQrd/cq9DEqHnR1g0lwaoFdNv0ACrg+cfg4uMaElreXINYoU+qCv/rsfNmmwWA==
-X-Received: by 2002:a17:90a:fb49:: with SMTP id
- iq9mr637995pjb.143.1584380579244; 
- Mon, 16 Mar 2020 10:42:59 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- jz19sm394711pjb.48.2020.03.16.10.42.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 10:42:58 -0700 (PDT)
-Subject: Re: [PATCH v5 57/60] target/riscv: vector slide instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-58-zhiwei_liu@c-sky.com>
- <28063df7-bf38-d136-2d32-39651692c4c6@linaro.org>
- <88b87d58-5387-9d0d-b1a0-5705171f2e83@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <76b6c079-15b2-08f1-f8e2-570efb6cfae5@linaro.org>
-Date: Mon, 16 Mar 2020 10:42:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gnrEwKmph2O8Xa5Sk8h8RucKLWSdRoTBZXZXHqiZGYA=;
+ b=t/fG0yvxU0Y/sHEDOV5eiL/4qGfZigkfMtn05jq621v8LJty4Pecfp6SjRsOQxspk9
+ dDGLqK+A3IgEBmNBXbziwyrUd2+m/zebXakeiMEAM0jdLBP+UO+AbQrhnN+DcgHdb1eS
+ tS6Rq0NTFr7Fr/st7T7uX57RwX3iJAr1JNlYzUtMzRAlFcQ5LQ+xpeppvrkvSp1LtmID
+ koZoLigPUPadfEWQehFNK4KqhfoMlOar5V2P8HfT1U/oQLWMmvaw45i3H9oziXs8R8T+
+ WwLhcqjSTQlemXzmWSFj/g5rGxn1NzdhSzNsE90U04BxbUqGGor/x+r87Qg//IniPKFF
+ 7upA==
+X-Gm-Message-State: ANhLgQ21J+kcpQXZ+uWLysup5Pi9V2gppQ+Q1m1KHWcoBCU4QFUO8PYP
+ VRt2bR4BzLru+i6FKBRDgXRhzk3/jo6jd23Nm7Y=
+X-Google-Smtp-Source: ADFU+vvOieXnM/bejz5Lw7QnKYvaoW053C+5U3a/Wfv1ixLZeFbK3yhHJFVbZIX4B4/XDpNuKGdnzcYrZur/FydlfQo=
+X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr283121wma.26.1584380636925;
+ Mon, 16 Mar 2020 10:43:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <88b87d58-5387-9d0d-b1a0-5705171f2e83@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-28-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-28-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 18:43:45 +0100
+Message-ID: <CAJ+F1CJa_LKpnadL80ah4r+RGztKCKbQ7Hs=3AusM4adJOi_8g@mail.gmail.com>
+Subject: Re: [PATCH v3 27/34] qemu-options: New -compat to set policy for
+ deprecated interfaces
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,119 +75,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 1:04 AM, LIU Zhiwei wrote:
->> As a preference, I think you can do away with this helper.
->> Simply use the slideup helper with argument 1, and then
->> afterwards store the integer register into element 0.  You should be able to
->> re-use code from vmv.s.x for that.
-> When I try it, I find it is some difficult, because  vmv.s.x will clean
-> the elements (0 < index < VLEN/SEW).
+Hi
 
-Well, two things about that:
+On Sun, Mar 15, 2020 at 4:46 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Policy is separate for input and output.
+>
+> Input policy can be "accept" (accept silently), or "reject" (reject
+> the request with an error).
+>
+> Output policy can be "accept" (pass on unchanged), or "hide" (filter
+> out the deprecated parts).
+>
+> Default is "accept".  Policies other than "accept" are implemented
+> later in this series.
+>
+> For now, -compat covers only syntactic aspects of QMP, i.e. stuff
+> tagged with feature 'deprecated'.  We may want to extend it to cover
+> semantic aspects, CLI, and experimental features.
+>
+> The option is experimental.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  qapi/compat.json             | 51 ++++++++++++++++++++++++++++++++++++
+>  qapi/qapi-schema.json        |  1 +
+>  include/qapi/compat-policy.h | 20 ++++++++++++++
+>  qapi/qmp-dispatch.c          |  3 +++
+>  softmmu/vl.c                 | 17 ++++++++++++
+>  qapi/Makefile.objs           |  8 +++---
+>  qemu-options.hx              | 20 ++++++++++++++
+>  7 files changed, 116 insertions(+), 4 deletions(-)
+>  create mode 100644 qapi/compat.json
+>  create mode 100644 include/qapi/compat-policy.h
+>
+> diff --git a/qapi/compat.json b/qapi/compat.json
+> new file mode 100644
+> index 0000000000..fd6f8e932c
+> --- /dev/null
+> +++ b/qapi/compat.json
+> @@ -0,0 +1,51 @@
+> +# -*- Mode: Python -*-
+> +
+> +##
+> +# =3D Compatibility policy
+> +##
+> +
+> +##
+> +# @CompatPolicyInput:
+> +#
+> +# Policy for handling "funny" input.
+> +#
+> +# @accept: Accept silently
+> +# @reject: Reject with an error
+> +#
+> +# Since: 5.0
+> +##
+> +{ 'enum': 'CompatPolicyInput',
+> +  'data': [ 'accept', 'reject' ] }
+> +
+> +##
+> +# @CompatPolicyOutput:
+> +#
+> +# Policy for handling "funny" output.
+> +#
+> +# @accept: Pass on unchanged
+> +# @hide: Filter out
+> +#
+> +# Since: 5.0
+> +##
+> +{ 'enum': 'CompatPolicyOutput',
+> +  'data': [ 'accept', 'hide' ] }
+> +
+> +##
+> +# @CompatPolicy:
+> +#
+> +# Policy for handling deprecated management interfaces.
+> +#
+> +# This is intended for testing users of the management interfaces.
+> +#
+> +# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
+> +# with feature 'deprecated'.  We may want to extend it to cover
+> +# semantic aspects, CLI, and experimental features.
+> +#
+> +# @deprecated-input: how to handle deprecated input (default 'accept')
+> +# @deprecated-output: how to handle deprecated output (default 'accept')
 
-(1) The 0.8 version of vmv.s.x does *not* zero the other elements, so we'll
-want to be prepared for that.
+If this is going to cover something else than qmp, then perhaps it
+should use a "qmp" prefix.
 
-(2) We have 8 insns that, in the end come down to a direct element access,
-possibly with some other processing.
-
-So we'll want basic helper functions that can locate an element by immediate
-offset and by variable offset:
-
-/* Compute the offset of vreg[idx] relative to cpu_env.
-   The index must be in range of VLMAX. */
-int vec_element_ofsi(int vreg, int idx, int sew);
-
-/* Compute a pointer to vreg[idx].
-   If need_bound is true, mask idx into VLMAX,
-   Otherwise we know a-priori that idx is already in bounds. */
-void vec_element_ofsx(DisasContext *s, TCGv_ptr base,
-                      TCGv idx, int sew, bool need_bound);
-
-/* Load idx >= VLMAX ? 0 : vreg[idx] */
-void vec_element_loadi(DisasContext *s, TCGv_i64 val,
-                       int vreg, int idx, int sew);
-void vec_element_loadx(DisasContext *s, TCGv_i64 val,
-                       int vreg, TCGv idx, int sew);
-
-/* Store vreg[imm] = val.
-   The index must be in range of VLMAX.  */
-void vec_element_storei(DisasContext *s, int vreg, int imm,
-                        TCGv_i64 val);
-void vec_element_storex(DisasContext *s, int vreg,
-                        TCGv idx, TCGv_i64 val);
-
-(3) It would be handy to have TCGv cpu_vl.
-
-Then:
-
-vext.x.v:
-    If rs1 == 0,
-        Use vec_element_loadi(s, x[rd], vs2, 0, s->sew).
-    else
-        Use vec_element_loadx(s, x[rd], vs2, x[rs1], true).
-
-vmv.s.x:
-    over = gen_new_label();
-    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-    For 0.7.1:
-        Use tcg_gen_dup8i to zero all VLMAX elements of vd.
-        If rs1 == 0, goto done.
-    Use vec_element_storei(s, vs2, 0, x[rs1]).
- done:
-    gen_set_label(over);
-
-vfmv.f.s:
-    Use vec_element_loadi(x, f[rd], vs2, 0).
-    NaN-box f[rd] as necessary for SEW.
-
-vfmv.s.f:
-    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-    For 0.7.1:
-        Use tcg_gen_dup8i to zero all VLMAX elements of vd.
-    Let tmp = f[rs1], nan-boxed as necessary for SEW.
-    Use vec_element_storei(s, vs2, 0, tmp).
-    gen_set_label(over);
-
-vslide1up.vx:
-    Ho hum, I forgot about masking.  Some options:
-    (1) Call a helper just as you did in your original patch.
-    (2) Call a helper only for !vm, for vm as below.
-    (3) Call vslideup w/1.
-        tcg_gen_brcondi(TCG_COND_EQ, cpu_vl, 0, over);
-        If !vm,
-            // inline test for v0[0]
-            vec_element_loadi(s, tmp, 0, 0, MO_8);
-            tcg_gen_andi_i64(tmp, tmp, 1);
-            tcg_gen_brcondi(TCG_COND_EQ, tmp, 0, over);
-        Use vec_element_store(s, vd, 0, x[rs1]).
-        gen_set_label(over);
-
-vslide1down.vx:
-    For !vm, this is complicated enough for a helper.
-    If using option 3 for vslide1up, then the store becomes:
-    tcg_gen_subi_tl(tmp, cpu_vl, 1);
-    vec_element_storex(s, base, tmp, x[rs1]);
-
-vrgather.vx:
-    If !vm or !vl_eq_vlmax, use helper.
-    vec_element_loadx(s, tmp, vs2, x[rs1]);
-    Use tcg_gen_gvec_dup_i64 to store to tmp to vd.
-
-vrgather.vi:
-    If !vm or !vl_eq_vlmax, use helper.
-    If imm >= vlmax,
-        Use tcg_gen_dup8i to zero vd;
-    else,
-        ofs = vec_element_ofsi(s, vs2, imm, s->sew);
-        tcg_gen_gvec_dup_mem(sew, vreg_ofs(vd),
-                             ofs, vlmax, vlmax);
+If not, then the CLI should probably be -qmp-compat.
 
 
-r~
+> +#
+> +# Since: 5.0
+> +##
+> +{ 'struct': 'CompatPolicy',
+> +  'data': { '*deprecated-input': 'CompatPolicyInput',
+> +            '*deprecated-output': 'CompatPolicyOutput' } }
+> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> index 43b0ba0dea..f575b76d81 100644
+> --- a/qapi/qapi-schema.json
+> +++ b/qapi/qapi-schema.json
+> @@ -75,6 +75,7 @@
+>  { 'include': 'migration.json' }
+>  { 'include': 'transaction.json' }
+>  { 'include': 'trace.json' }
+> +{ 'include': 'compat.json' }
+>  { 'include': 'control.json' }
+>  { 'include': 'introspect.json' }
+>  { 'include': 'qom.json' }
+> diff --git a/include/qapi/compat-policy.h b/include/qapi/compat-policy.h
+> new file mode 100644
+> index 0000000000..8efb2c58aa
+> --- /dev/null
+> +++ b/include/qapi/compat-policy.h
+> @@ -0,0 +1,20 @@
+> +/*
+> + * Policy for handling "funny" management interfaces
+> + *
+> + * Copyright (C) 2019 Red Hat, Inc.
+> + *
+> + * Authors:
+> + *  Markus Armbruster <armbru@redhat.com>,
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> + * later.  See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QAPI_COMPAT_POLICY_H
+> +#define QAPI_COMPAT_POLICY_H
+> +
+> +#include "qapi/qapi-types-compat.h"
+> +
+> +extern CompatPolicy compat_policy;
+> +
+> +#endif
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index fb53687ce9..80beab517f 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -12,6 +12,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qapi/compat-policy.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/dispatch.h"
+>  #include "qapi/qmp/qdict.h"
+> @@ -19,6 +20,8 @@
+>  #include "sysemu/runstate.h"
+>  #include "qapi/qmp/qbool.h"
+>
+> +CompatPolicy compat_policy;
+> +
+>  static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_=
+oob,
+>                                       QObject **id, Error **errp)
+>  {
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff2685dff8..74eb43d114 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -27,6 +27,7 @@
+>  #include "qemu/units.h"
+>  #include "hw/boards.h"
+>  #include "hw/qdev-properties.h"
+> +#include "qapi/compat-policy.h"
+>  #include "qapi/error.h"
+>  #include "qemu-version.h"
+>  #include "qemu/cutils.h"
+> @@ -105,6 +106,7 @@
+>  #include "sysemu/replay.h"
+>  #include "qapi/qapi-events-run-state.h"
+>  #include "qapi/qapi-visit-block-core.h"
+> +#include "qapi/qapi-visit-compat.h"
+>  #include "qapi/qapi-visit-ui.h"
+>  #include "qapi/qapi-commands-block-core.h"
+>  #include "qapi/qapi-commands-run-state.h"
+> @@ -3749,6 +3751,21 @@ void qemu_init(int argc, char **argv, char **envp)
+>                      qemu_opt_get_bool(opts, "mem-lock", false);
+>                  enable_cpu_pm =3D qemu_opt_get_bool(opts, "cpu-pm", fals=
+e);
+>                  break;
+> +            case QEMU_OPTION_compat:
+> +                {
+> +                    CompatPolicy *opts;
+> +                    Visitor *v;
+> +
+> +                    v =3D qobject_input_visitor_new_str(optarg, NULL,
+> +                                                      &error_fatal);
+> +
+> +                    visit_type_CompatPolicy(v, NULL, &opts, &error_fatal=
+);
+> +                    QAPI_CLONE_MEMBERS(CompatPolicy, &compat_policy, opt=
+s);
+> +
+> +                    qapi_free_CompatPolicy(opts);
+> +                    visit_free(v);
+> +                    break;
+> +                }
+>              case QEMU_OPTION_msg:
+>                  opts =3D qemu_opts_parse_noisily(qemu_find_opts("msg"), =
+optarg,
+>                                                 false);
+> diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+> index 4673ab7490..a3de2e2756 100644
+> --- a/qapi/Makefile.objs
+> +++ b/qapi/Makefile.objs
+> @@ -5,10 +5,10 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
+>  util-obj-y +=3D qmp-event.o
+>  util-obj-y +=3D qapi-util.o
+>
+> -QAPI_COMMON_MODULES =3D audio authz block-core block char common control=
+ crypto
+> -QAPI_COMMON_MODULES +=3D dump error introspect job machine migration mis=
+c
+> -QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state socke=
+ts tpm
+> -QAPI_COMMON_MODULES +=3D trace transaction ui
+> +QAPI_COMMON_MODULES =3D audio authz block-core block char common compat
+> +QAPI_COMMON_MODULES +=3D control crypto dump error introspect job
+> +QAPI_COMMON_MODULES +=3D machine migration misc net pragma qdev qom rdma
+> +QAPI_COMMON_MODULES +=3D rocker run-state sockets tpm trace transaction =
+ui
+>  QAPI_TARGET_MODULES =3D machine-target misc-target
+>  QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 1d8f852d89..5459e6c94c 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -3357,6 +3357,26 @@ DEFHEADING()
+>
+>  DEFHEADING(Debug/Expert options:)
+>
+> +DEF("compat", HAS_ARG, QEMU_OPTION_compat,
+> +    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Dacc=
+ept|hide]\n"
+> +    "                Policy for handling deprecated management interface=
+s\n",
+> +    QEMU_ARCH_ALL)
+> +SRST
+> +``-compat [deprecated-input=3D@var{input-policy}][,deprecated-output=3D@=
+var{output-policy}]``
+> +    Set policy for handling deprecated management interfaces (experiment=
+al):
+> +
+> +    ``deprecated-input=3Daccept`` (default)
+> +        Accept deprecated commands and arguments
+> +    ``deprecated-input=3Dreject``
+> +        Reject deprecated commands and arguments
+> +    ``deprecated-output=3Daccept`` (default)
+> +        Emit deprecated command results and events
+> +    ``deprecated-output=3Dhide``
+> +        Suppress deprecated command results and events
+> +
+> +    Limitation: covers only syntactic aspects of QMP.
+> +ERST
+> +
+>  DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
+>      "-fw_cfg [name=3D]<name>,file=3D<file>\n"
+>      "                add named fw_cfg entry with contents from file\n"
+> --
+> 2.21.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
