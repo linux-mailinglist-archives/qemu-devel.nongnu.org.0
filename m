@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525A0187180
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:47:48 +0100 (CET)
-Received: from localhost ([::1]:44775 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDDA1871BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:58:00 +0100 (CET)
+Received: from localhost ([::1]:45056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtq7-0003FT-Ak
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
+	id 1jDtzz-00069g-A7
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtRM-0000dT-9K
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:13 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXo-0003lR-J7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtRJ-0008Hm-3f
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38045)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXn-0002Jo-1A
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38476)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtRI-0008Af-PD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s1so537139wrv.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:22:08 -0700 (PDT)
+ id 1jDtXm-0002A3-MZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:50 -0400
+Received: by mail-wm1-x344.google.com with SMTP id t13so12654169wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KcowZQvidWsL6K9vNr5PA0mK1ZdxCgzSQNRXFm9TCF8=;
- b=O65mI6S1wghhbDmZGb4kMT2DANfOqEHorC4qwoQPHMJCzjoMPAkjP4jqfPM/05mU/U
- spKNsYXasfvwGbMI0VTaWHGB8cVg+hDrHJSSoXHgBp+7Kj2uCKhGgxjIA6w2EkPlT+Qy
- ZqkDGgJspqo7mRjDTuFoDaNXkO6ORIxVABgd9iJVlUyKf+JuH+p+K0l9zRF5iwP+Gj+K
- MwQT2CittElXYO7F4qppuCGAMtpbp6A1ESzR8dkJ+M7nOviS94PS0DzJ77VY8UlgnQMj
- EE0CtM5aQieW01lY80gxxTzVH6N3om9IOUmlqqddFIRf10OSMkXbII9ZkS+zWeh3RaFe
- A1Gg==
+ bh=rvaiifYyk1RViqBZpnA3TLxfK5zQc95A6+zRBD5/52M=;
+ b=FPos7bLbtVGgbCB5ORjcjH1hMavXhVb44sAoP/fHBoS2tEKejLToGziqcOqnhKYWdn
+ 47cA+PK2PMnN9QR8ojn0Hs4OrpO3HSceXk/aBU79ACfwljwAhav0FAAGu0myjrmVLIW2
+ kCDR+DdkMnSmMBaYzRkhBWmRw9bJDjp9M98DpV9gmbP9a859RWBFA8Z/vcVCrMVIJTyu
+ sY+U5iXTYbMpkIp4PkEgpPl74up/3eAUVEvpqL1eJqi6DzmHRc7NYNwHRrmtACDaKSee
+ q/xJgYbeJXr7ZbSfgH7a4epo+ts2fQXDCjPVNNpqmxCSNCA01sS5lGH6b6hQ7XBmqG8P
+ begA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KcowZQvidWsL6K9vNr5PA0mK1ZdxCgzSQNRXFm9TCF8=;
- b=uEJNCYsBp8gCxy/Cj6tY6NhZDD9U2Mf/1ruNcSJFKeBn1rTBRKwPh9k1+Ri6ZI9gmo
- IiQaZx9BYiMKrfbJRzDCzIDsO/Mqu5FZcUHyyeeY3lQzk69sU7GXwr6Jm07kwDC9rByk
- S/30/jMDoZ+Y2KAHOpxUTkRwTeetXTrwxeTXLTk3FLNEfVLQY0f1FQoqGccDqiA72ltf
- DFfUUhsGYrjLbnrb98TvfWFIqJPBURmtarNznCsnQ5gH8/DT3FuhfXBmzx8qkh5jTWZx
- W1PF87FliHYOZzFto/jnZZd3LSKvU8VDhsbDGXWolXakdkCD/aycJIdUlR40UX8x/p1l
- SKoA==
-X-Gm-Message-State: ANhLgQ3esbOQbpt919/gQIg+ikOAadaxBz4BkwoaI1L3mdN1Zxlm6E9a
- msYrkDvlK6JpoMNT376/bhxOvQ==
-X-Google-Smtp-Source: ADFU+vtqfxNnNe9C4oS0NYzhtcXzWASHHXW36WvL0X0M1eTUondQrZmNah97qVvcfm9lCI4LFc4RWQ==
-X-Received: by 2002:adf:e50d:: with SMTP id j13mr431884wrm.34.1584379327687;
- Mon, 16 Mar 2020 10:22:07 -0700 (PDT)
+ bh=rvaiifYyk1RViqBZpnA3TLxfK5zQc95A6+zRBD5/52M=;
+ b=CB60BIatgXog1f6hQHrvCevh07v/4VHCrcG2IKDB/ogKW8TjwZS5EeYgJSz0DUStcv
+ 91X0MxJLAU8iwsXw2sPKp2Ry2vnnigRTdbN2Sh7ob7LbfkPlTUkBgbMsPo+usLiVVsb3
+ yB168uERuGbYcLAPAdW8TBgGwC3R1hoOuTsBJk4K0w4014i9K+vixVZfFb7zNOGAOjR+
+ AS3yOJQw6fAHi3VRr6c026TLMQSYowDWuwROAsKBkMrncSJiRZiuLSp0iRV9du1hk+1d
+ Hz+6L2MviK00hPj0n15870vRUOWWyFd/cYI20SUDw63xuuo3xM2YMFdWPpLRj6HzoHSy
+ 3OQw==
+X-Gm-Message-State: ANhLgQ2YB7WV1C5z4QCOAvU6IuiOSV79jI8D6VZSuUYh3y2AMWMbJdbO
+ jK/NSukg9bHDmx39qj5/8ejH9Q==
+X-Google-Smtp-Source: ADFU+vsoILpgjQ4Ub1NvESZwH0gNTN69XRh69vh8mikRXMAhTz2ctFJi0b5swPmodo7e5M9/Lo/L4w==
+X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr206700wmk.104.1584379728017; 
+ Mon, 16 Mar 2020 10:28:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n6sm460988wmn.13.2020.03.16.10.22.03
+ by smtp.gmail.com with ESMTPSA id 19sm497839wma.3.2020.03.16.10.28.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:22:04 -0700 (PDT)
+ Mon, 16 Mar 2020 10:28:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 11E4B1FF99;
- Mon, 16 Mar 2020 17:21:56 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 2C17A1FFA9;
+ Mon, 16 Mar 2020 17:21:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 10/28] gdbstub: add helper for 128 bit registers
-Date: Mon, 16 Mar 2020 17:21:37 +0000
-Message-Id: <20200316172155.971-11-alex.bennee@linaro.org>
+Subject: [PATCH v1 19/28] target/arm: don't bother with id_aa64pfr0_read for
+ USER_ONLY
+Date: Mon, 16 Mar 2020 17:21:46 +0000
+Message-Id: <20200316172155.971-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
 References: <20200316172155.971-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For system emulation we need to check the state of the GIC before we
+report the value. However this isn't relevant to exporting of the
+value to linux-user and indeed breaks the exported value as set by
+modify_arm_cp_regs.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 ---
 v2
-  - take care of endianess of the whole 128 bit word
+  - extend the ifdef and make type CONST with no accessfn
 ---
- include/exec/gdbstub.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ target/arm/helper.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 08363969c14..59e366ba3af 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -102,6 +102,19 @@ static inline int gdb_get_reg64(uint8_t *mem_buf, uint64_t val)
-     return 8;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7e560ea7db6..d2ec2c53510 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6697,6 +6697,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     return pfr1;
  }
  
-+static inline int gdb_get_reg128(uint8_t *mem_buf, uint64_t val_hi,
-+                                 uint64_t val_lo)
-+{
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    stq_p(mem_buf, val_hi);
-+    stq_p(mem_buf + 8, val_lo);
-+#else
-+    stq_p(mem_buf, val_lo);
-+    stq_p(mem_buf + 8, val_hi);
++#ifndef CONFIG_USER_ONLY
+ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -6707,6 +6708,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     }
+     return pfr0;
+ }
 +#endif
-+    return 16;
-+}
-+
- #if TARGET_LONG_BITS == 64
- #define gdb_get_regl(buf, val) gdb_get_reg64(buf, val)
- #define ldtul_p(addr) ldq_p(addr)
+ 
+ /* Shared logic between LORID and the rest of the LOR* registers.
+  * Secure state has already been delt with.
+@@ -7280,16 +7282,24 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+          * define new registers here.
+          */
+         ARMCPRegInfo v8_idregs[] = {
+-            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we don't
+-             * know the right value for the GIC field until after we
+-             * define these regs.
++            /*
++             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
++             * emulation because we don't know the right value for the
++             * GIC field until after we define these regs.
+              */
+             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
+-              .access = PL1_R, .type = ARM_CP_NO_RAW,
++              .access = PL1_R,
++#ifdef CONFIG_USER_ONLY
++              .type = ARM_CP_CONST,
++              .resetvalue = cpu->isar.id_aa64pfr0
++#else
++              .type = ARM_CP_NO_RAW,
+               .accessfn = access_aa64_tid3,
+               .readfn = id_aa64pfr0_read,
+-              .writefn = arm_cp_write_ignore },
++              .writefn = arm_cp_write_ignore
++#endif
++            },
+             { .name = "ID_AA64PFR1_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
+               .access = PL1_R, .type = ARM_CP_CONST,
 -- 
 2.20.1
 
