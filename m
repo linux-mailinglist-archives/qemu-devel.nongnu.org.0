@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7E9186B6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:52:35 +0100 (CET)
-Received: from localhost ([::1]:38082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53C0186BC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:07:06 +0100 (CET)
+Received: from localhost ([::1]:38226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpEP-0004Iu-5p
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
+	id 1jDpST-0000zM-BZ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDoR1-0004oo-3H
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:32 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jDnyr-0002iX-T9
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:32:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDoQz-0001B8-VN
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:30 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20562
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoQz-00010q-NJ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584360089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cfpaJ5Wss4aHzGmNHTua/cMpD1oC/uXgC8diSHVBL7Y=;
- b=X6aBA58BL91KReBExiT+oZyMX7z+qfWe+iRcXkmy6exvtKycB8NFpTwDD9+OixDgmFWqyw
- 6gN6M9WKiEAZi/WJQ1RydTSWo01TmvEc40DmuArVlUI9knZDcKbaP38YfdFHVG84Yg3PhA
- aP4T7WVj8qIgyXsgiptAwjD0m8qk0qQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-5FkrKCdiPViipX57j5W0-w-1; Mon, 16 Mar 2020 08:01:27 -0400
-X-MC-Unique: 5FkrKCdiPViipX57j5W0-w-1
-Received: by mail-wm1-f69.google.com with SMTP id z26so4820734wmk.1
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:27 -0700 (PDT)
+ (envelope-from <stefanha@gmail.com>) id 1jDnyq-0008PE-Aq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:32:25 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44468)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1jDnym-0007nW-Bc; Mon, 16 Mar 2020 07:32:20 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y2so5255956wrn.11;
+ Mon, 16 Mar 2020 04:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0B1+ctOJUlMj+e2dM5JEA0+BJKMby+bYJP0UlJ7Qstk=;
+ b=QwFTzRg0oHAO/fEBVhSQwciA3qOmDMr829eC5UKNTt9V0gQi04iDx/ySVl/0lrIyhv
+ BjvL0pa51za/WfOeGtpHv+n7OTmnTy872J5UxgGpXLe/l6ZHysjTfNAwGYrBXc/HwR02
+ paEL0EkGvzgYjQlX+49gqFEjC8TtLtljm+KGSPXjLd/jspgtl7oeh936GMuIdzABPjUG
+ qN2ccs2hr8GGVnTBXLan3tSG6TrUmeGEwRoFxiQZcslIC3wu1fKjM+NYz6mUmsUAp0zw
+ PRY67OJutNsbMlDslZV1YPRdFE+EpKRVjbEcsrSykmgtCMWg6563dsHsMgZ2StMqegNf
+ sxxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dHYBOvMZhp1yGgRvopFKO+/8EMIkCFlQoodx2YbRmac=;
- b=JjpoISIksDRhqAC+ZHiLV43vtWqH5yf8mtJCtwj2jxs7GWfr4QhL+1/pA+4g9Ft/FK
- 3CS1W96wXO1UfS+29CfNvdsOszBZg1s0NePPLuN+gsV1fmfPUiOyd3a6wE7Isyhf5+ql
- NW6tZGMhokVXObpq1301ahcKeiNaWGUVqOXZNukJN9AMod9ZcipAXU/2e2v2RZ/dAuHn
- ARrIkDCdG7J0aSunGVmoSFo4LDoPNV6uPORc2cK8DuSn83lM6LFejNlwybspoJfuYbzP
- SPaOo1SjxYDIzMapLF1ZEzzd5WGEEEKKY4LCFRVeDGQ+KRj9uqmxKXv5Uoi7ChEQOsYJ
- 3qKw==
-X-Gm-Message-State: ANhLgQ3PHNz2NqE+EWRJxPbBFbNz1m6zPfp7jh6qboXD9uEoMvgRitMr
- Zbf2jdXUJ3vV9nUS+u6R2KFa031JDoFMUEfrv7iPaNeByl7YGrmKk8EvMDti3XSfQPg0AHK7qC8
- Tcp1BAV5z++Qn0Do=
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr28321363wmj.170.1584360086074; 
- Mon, 16 Mar 2020 05:01:26 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs7gTIKJUtuP0gnWLV5S19Srnqr1Leagw9X2YDVmolUK0tMyzlDHibU2ovJj5AeklAYaoNDvA==
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr28321342wmj.170.1584360085845; 
- Mon, 16 Mar 2020 05:01:25 -0700 (PDT)
-Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id c5sm25935142wma.3.2020.03.16.05.01.24
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0B1+ctOJUlMj+e2dM5JEA0+BJKMby+bYJP0UlJ7Qstk=;
+ b=oNUYXn4Km7FhUVnruAm+UrdZDxZNZqq+89+6NOUd4p4qgzKqkvd2mscA2Yf3NaSFkw
+ O7jEv7pcmwHKG1rOnZrFzAB/Du2zUkq6ON4T1TulddR+WQ5F/MOdKt1D63+gAC3Rbc7p
+ MsAZy57B21RyYSkq242+kjA7iF7oFQSf/ftZvIxMSCZ1D3M55MaS7zDgu2Fd6krZbdql
+ qNZSIHfBDb3tBZIXBdAm4ThipbV5rStKWcLPpQRzqMbC0vKbYu/zpb7kq/UqwgeFCn49
+ 3p/Stc0o+JpwgO2oJFkyGmf3hIMcuIAmdIvdbgLErOV1c44oD72uDbVjWLy5wLkHjkq3
+ 6+XQ==
+X-Gm-Message-State: ANhLgQ13SlhY73Z8TXx1CfXO71uhR8wLusrs7ms2sXIWNsTkDq5f5V5Y
+ IOgTP445UScrUl+ht7SqaxM=
+X-Google-Smtp-Source: ADFU+vsscvatyrzuZll9UwYXJANZYc/UPG2ECGDmIMh622bfYAlsmNRcsOEZEyCdOSZexG61EwPy3w==
+X-Received: by 2002:a5d:5290:: with SMTP id c16mr33944303wrv.235.1584358338965; 
+ Mon, 16 Mar 2020 04:32:18 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id g12sm19187742wrm.87.2020.03.16.04.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:01:25 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 06/11] accel/Kconfig: Extract accel selectors into their own
- config
-Date: Mon, 16 Mar 2020 13:00:44 +0100
-Message-Id: <20200316120049.11225-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316120049.11225-1-philmd@redhat.com>
-References: <20200316120049.11225-1-philmd@redhat.com>
+ Mon, 16 Mar 2020 04:32:17 -0700 (PDT)
+Date: Mon, 16 Mar 2020 11:32:16 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Klaus Birkelund Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH RESEND v2] block/nvme: introduce PMR support from NVMe
+ 1.4 spec
+Message-ID: <20200316113216.GB449975@stefanha-x1.localdomain>
+References: <20200306223853.37958-1-andrzej.jakowski@linux.intel.com>
+ <20200310095147.GC140737@stefanha-x1.localdomain>
+ <15b8a77d-50de-2228-a0e6-a461b82f1873@linux.intel.com>
+ <CAJSP0QXatOWgicLo5sGt9KA2QupC2qXD2LCdHWKgHFdzgt9pEg@mail.gmail.com>
+ <12576914-0ef4-efd2-355a-cff3f4eeae69@linux.intel.com>
+ <20200312060827.gjddwgmevyptsmpl@apples.localdomain>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+Content-Disposition: inline
+In-Reply-To: <20200312060827.gjddwgmevyptsmpl@apples.localdomain>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,76 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Haozhong Zhang <haozhong.zhang@intel.com>,
+ qemu block <qemu-block@nongnu.org>, Dave Gilbert <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Zhang Yi <yi.z.zhang@linux.intel.com>,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, kbusch@kernel.org,
+ Max Reitz <mreitz@redhat.com>, "He, Junyan" <junyan.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the accel selectors from the global Kconfig.host to their
-own Kconfig file.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- Makefile      | 1 +
- Kconfig.host  | 7 -------
- accel/Kconfig | 6 ++++++
- 3 files changed, 7 insertions(+), 7 deletions(-)
- create mode 100644 accel/Kconfig
+--Bn2rw/3z4jIqBvZU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Makefile b/Makefile
-index d83a94bc53..d1e2ec10e7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -419,6 +419,7 @@ MINIKCONF_ARGS =3D \
-     CONFIG_PVRDMA=3D$(CONFIG_PVRDMA)
-=20
- MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host \
-+                   $(SRC_PATH)/accel/Kconfig \
-                    $(SRC_PATH)/hw/Kconfig
- MINIKCONF_DEPS =3D $(MINIKCONF_INPUTS) \
-                  $(wildcard $(SRC_PATH)/hw/*/Kconfig)
-diff --git a/Kconfig.host b/Kconfig.host
-index 55136e037d..a6d871c399 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -2,9 +2,6 @@
- # down to Kconfig.  See also MINIKCONF_ARGS in the Makefile:
- # these two need to be kept in sync.
-=20
--config KVM
--    bool
--
- config LINUX
-     bool
-=20
-@@ -31,10 +28,6 @@ config VHOST_KERNEL
-     bool
-     select VHOST
-=20
--config XEN
--    bool
--    select FSDEV_9P if VIRTFS
--
- config VIRTFS
-     bool
-=20
-diff --git a/accel/Kconfig b/accel/Kconfig
-new file mode 100644
-index 0000000000..c21802bb49
---- /dev/null
-+++ b/accel/Kconfig
-@@ -0,0 +1,6 @@
-+config KVM
-+    bool
-+
-+config XEN
-+    bool
-+    select FSDEV_9P if VIRTFS
---=20
-2.21.1
+On Wed, Mar 11, 2020 at 11:08:27PM -0700, Klaus Birkelund Jensen wrote:
+> On Mar 11 15:54, Andrzej Jakowski wrote:
+> > On 3/11/20 2:20 AM, Stefan Hajnoczi wrote:
+> > > Please try:
+> > >=20
+> > >   $ git grep pmem
+> > >=20
+> > > backends/hostmem-file.c is the backend that can be used and the
+> > > pmem_persist() API can be used to flush writes.
+> >=20
+> > I've reworked this patch into hostmem-file type of backend.
+> > From simple tests in virtual machine: writing to PMR region
+> > and then reading from it after VM power cycle I have observed that
+> > there is no persistency.
 
+Sounds like an integration bug.  QEMU's NVDIMM emulation uses
+HostMemoryBackend and file contents survive guest reboot.
+
+If you would like help debugging this, please post a link to the code
+and the command-line that you are using.
+
+> > I guess that persistent behavior can be achieved if memory backend file
+> > resides on actual persistent memory in VMM. I haven't found mechanism to
+> > persist memory backend file when it resides in the file system on block
+> > storage. My original mmap + msync based solution worked well there.
+> > I believe that main problem with mmap was with "ifdef _WIN32" that made=
+ it=20
+> > platform specific and w/o it patchew CI complained.=20
+> > Is there a way that I could rework mmap + msync solution so it would fit
+> > into qemu design?
+> >=20
+>=20
+> Hi Andrzej,
+>=20
+> Thanks for working on this!
+>=20
+> FWIW, I have implemented other stuff for the NVMe device that requires
+> persistent storage (e.g. LBA allocation tracking for DULBE support). I
+> used the approach of adding an additional blockdev and simply use the
+> qemu block layer. This would also make it work on WIN32. And if we just
+> set bit 0 in PMRWBM and disable the write cache on the blockdev we
+> should be good on the durability requirements.
+>
+> Unfortunately, I do not see (or know, maybe Stefan has an idea?) an easy
+> way of using the MemoryRegionOps nicely with async block backend i/o. so
+> we either have to use blocking I/O or fire and forget aio. Or, we can
+> maybe keep bit 1 set in PMRWBM and force a blocking blk_flush on PMRSTS
+> read.
+
+QEMU's block layer does not support persistent memory semantics and
+doesn't support mmap.  It's fine for storing state from device emulation
+code, but if the guest itself requires memory load/store access to the
+data then the QEMU block layer does not provide that.
+
+For PMR I think HostMemoryBackend is the best fit.
+
+Stefan
+
+--Bn2rw/3z4jIqBvZU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vY8AACgkQnKSrs4Gr
+c8iqYQf/bmO+fr0LpsWgbwF3qkanc/Pw0OChZLTV634K4gsmtnb2uAbRWEM+CCvS
+0nMT+mpEGs6hkyb0R+5grr3hk1c8C2gWvaJakUZD13F+HXyWyOny3TwU8NySSs6X
+BbzV4r61CiPmOyC2TEhk/POx8OQ+mxNlHLz3ixD7tdLiCrNit9aq0AtPmsJRloq4
+YHQQCILgB+YOQfE9ox7yn/IIy2aeq7nnj4mSuISex0A+98BbFdq1I0y6AEAQlwt8
+gn+Gtcwm4hWV2xKOM87Px987Kb6aQJxHGwKiQZYgl5GTv4IyBHvdNpMaqZAW/G6r
+eHks8RSiFQ1v1ULWY1Cz467CPoQ8Sg==
+=8cKK
+-----END PGP SIGNATURE-----
+
+--Bn2rw/3z4jIqBvZU--
 
