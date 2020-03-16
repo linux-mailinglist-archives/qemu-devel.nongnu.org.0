@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5184187241
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:26:27 +0100 (CET)
-Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB629187255
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:28:43 +0100 (CET)
+Received: from localhost ([::1]:45830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuRW-0005oC-Og
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51693)
+	id 1jDuTi-0001SV-N5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:28:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54317)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jDuJu-0007zi-Vk
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:18:36 -0400
+ (envelope-from <bounces@canonical.com>) id 1jDuM5-0003k8-KY
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:20:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jDuJt-0006Gt-S9
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:18:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24536)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDuJt-0006B5-K0
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:18:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584382713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NNW2mvQQkx2AOv4TIxOE0CGexGHdA45NiB0xl6FdDSE=;
- b=VFf7J2rz+54D4LsGa1as/IRjdzJVvpqTgSlAXraNIvzY/rB/mxUz3yxpG62AVUga9Ncx2h
- 746CSv/ng4Wfq4h54uPAvJ7LOLA3wlbX4LKNr9kr824OeyOZ/MDeuj/fiZhpM1nmTHN+hq
- cUDc53f4DDL3or2T4QC/4UZyul3AidY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-uSBKaO_bPVKkQg0bCkh-Rg-1; Mon, 16 Mar 2020 14:18:31 -0400
-X-MC-Unique: uSBKaO_bPVKkQg0bCkh-Rg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B44E9194FE3E;
- Mon, 16 Mar 2020 17:58:00 +0000 (UTC)
-Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EAE019756;
- Mon, 16 Mar 2020 17:58:00 +0000 (UTC)
-Subject: Re: [PATCH v3 13/34] qapi: Consistently put @features parameter right
- after @ifcond
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-14-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <a3bd5f47-e7e3-ec5d-3ebb-82640b8669ae@redhat.com>
-Date: Mon, 16 Mar 2020 12:57:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jDuM3-0007wr-RF
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:20:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33958)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jDuM3-0007fl-IV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:20:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jDuM1-0001Zb-PB
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:20:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B49D92E80C7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:20:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200315144653.22660-14-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Mar 2020 18:06:15 -0000
+From: Andreas Hasenack <andreas@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: Andreas Hasenack (ahasenack)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158438197597.19913.115394614221837394.malone@chaenomeles.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6508a9cc4ddbde78cd096c10f61a253c6d88f36c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,28 +66,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 9:46 AM, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   scripts/qapi/commands.py       |  6 +++---
->   scripts/qapi/doc.py            | 10 +++++-----
->   scripts/qapi/introspect.py     | 10 +++++-----
->   scripts/qapi/schema.py         | 36 ++++++++++++++++------------------
->   scripts/qapi/types.py          |  4 ++--
->   scripts/qapi/visit.py          |  4 ++--
->   tests/qapi-schema/test-qapi.py | 10 +++++-----
->   7 files changed, 39 insertions(+), 41 deletions(-)
-> 
+Ok, upstream tag v4.2.0 and these configure options reproduced the
+crash:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+export LDFLAGS=3D"-Wl,--warn-common -Wl,-z,relro -Wl,-z,now -pie -m64 -g  -=
+Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed"
+export CFLAGS=3D"-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g"
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Full configure output: https://paste.ubuntu.com/p/Tzq6pDWD9R/
 
+$ ./x86_64-softmmu/qemu-system-x86_64 --enable-kvm -cpu Penryn,vmx=3Don -m =
+512 --nodefaults --nographic
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
+01H:ECX.sse4.1 [bit 19]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+EH).vmx-vnmi-pending [bit 22]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+EH).vmx-secondary-ctls [bit 31]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+BH).vmx-apicv-xapic [bit 0]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+BH).vmx-wbinvd-exit [bit 6]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+DH).vmx-vnmi [bit 5]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+FH).vmx-exit-load-perf-global-ctrl [bit 12]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(49=
+0H).vmx-entry-load-perf-global-ctrl [bit 13]
+qemu-system-x86_64: warning: host doesn't support requested feature: MSR(48=
+0H).vmx-ins-outs [bit 54]
+KVM internal error. Suberror: 1
+emulation failure
+EAX=3D00000000 EBX=3D00000000 ECX=3D000086d4 EDX=3D00000000
+ESI=3D00000000 EDI=3D00000000 EBP=3D000086d4 ESP=3D00006d7c
+EIP=3D00007acf EFL=3D00000002 [-------] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HLT=
+=3D0
+ES =3D0000 00000000 ffffffff 00809300
+CS =3Df000 000f0000 ffffffff 00809b00
+SS =3D0000 00000000 ffffffff 00809300
+DS =3D0000 00000000 ffffffff 00809300
+FS =3D0000 00000000 ffffffff 00809300
+GS =3D0000 00000000 ffffffff 00809300
+LDT=3D0000 00000000 0000ffff 00008200
+TR =3D0000 00000000 0000ffff 00008b00
+GDT=3D     000f6200 00000037
+IDT=3D     00000000 000003ff
+CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
+0000000000000000 =
+
+DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+EFER=3D0000000000000000
+Code=3Db8 90 d9 00 00 66 e8 6b f7 ff ff 66 b8 0a 00 00 00 e9 61 f2 <f3> 0f =
+1e fb 66 57 66 56 66 53 66 53 66 89 c7 67 66 89 14 24 66 89 ce 66 e8 15 f8 =
+ff ff 88
+^Cqemu-system-x86_64: terminating on signal 2
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
