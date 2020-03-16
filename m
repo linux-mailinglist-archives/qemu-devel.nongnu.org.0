@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0791870D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:03:17 +0100 (CET)
-Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBDB1870DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:05:36 +0100 (CET)
+Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt92-0006yB-RI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55261)
+	id 1jDtBH-0002dA-AT
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsHS-0004YR-ML
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsHo-0004hp-Rw
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsHQ-0004MW-Sm
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:54 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45528)
+ (envelope-from <philmd@redhat.com>) id 1jDsHn-0007em-Up
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:52773)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsHQ-0004LB-P3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:52 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsHn-0007Yf-Ql
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374872;
+ s=mimecast20190719; t=1584374895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x0ZyIeVBAofuqhcgRt+fU6Yvdf8+u5Qk+4HNNCwjbvc=;
- b=Pld/OcLA5s/WReK1Vy782jEtty3WCM4FxSyowyXF/e89gtNQtCEcuzXW+seq4q0PZ1wk7s
- l+unScBAC3CoyBLG2iNRSF0f28dmqrJXIqLnQ6xnMPObhDPUOmqnEEdEwriUUm1PYZrTH2
- O40Jv9es/V+NGUDg7hQhHSrilCYTSmg=
+ bh=TnhwsKKx2kZHqqWBEaWLP72fKQXGq24cvJF0rKa3l1k=;
+ b=fZxFlwkpZ3Ny+FFNTuEj6W18Ym4xznZ3B8eCYs4IuPH6ZXyK1KAPvHHD6kD80XzWvVwY32
+ Ic2Wu7a8aDUP80csblJd9iOxyboVpS47pT3/vD6C6ZuxhRNljAmZy3KVqCyibrgieejKgH
+ R1wJCdmtWjA84D5D/FvbBR0JzpPhCfw=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-EyY_75xvMzmits6HaBNj3A-1; Mon, 16 Mar 2020 12:07:50 -0400
-X-MC-Unique: EyY_75xvMzmits6HaBNj3A-1
-Received: by mail-wm1-f69.google.com with SMTP id g26so4804654wmk.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:50 -0700 (PDT)
+ us-mta-280-jt4vyjXIPZaR540rWGHjZw-1; Mon, 16 Mar 2020 12:08:12 -0400
+X-MC-Unique: jt4vyjXIPZaR540rWGHjZw-1
+Received: by mail-wm1-f69.google.com with SMTP id a13so6012483wme.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:08:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ruq5flSyrIJQ0ARl8BHVFpMVJrCuW/pkqeZBiZJSNHg=;
- b=OghQSfNwaqTBETvS6qaoadskNMNCV5q1MdglUBlmONWAOtaFpgUV5uaazsNgV3D2fM
- 8XWa8b0sy1VFdEeo/+gpnDuFpMXM5evwR4cSuF8dz19XHWrelCblEZawpcn0dgwof1Jw
- TXy8habVTSGS4JvFvUEFPL1kE5oPF3oJZhsUfwB+i+zoCxuhwlJt4ZlVbrCrXm0bOUDk
- dAZV7n5ncNy+nxhi/juw5AFH4Jen4jZjO5FA1frsmExaILwOanQguYuvE+I5swJyx39M
- vfGbO0REsHROnuMb538u07vU43aDLppeY+HqmOYX2jiM6/ZfmziztBSsyuqjIwOaXZ2Y
- BSMw==
-X-Gm-Message-State: ANhLgQ07J8BZ0ATaaMrX4Rk6voa/svspUW0NHQhbsztgYpA4ZSyasNgv
- 3BruclEMIZh4ow0XwVCxkFZgPnYFkzLpV3tFi5NI23j2t9q2hLs6aPT09tKFFTSwqCyQdMTTQmv
- 63i1e6Qse/gpBf9I=
-X-Received: by 2002:a5d:5089:: with SMTP id a9mr63915wrt.187.1584374869132;
- Mon, 16 Mar 2020 09:07:49 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsH9erD+/AzduZt6/2G1VOVoVwqiEnP7oEPNYJjE5gdXKGGdo2hHizz2wb54XtGoBPo2ebMbQ==
-X-Received: by 2002:a5d:5089:: with SMTP id a9mr63883wrt.187.1584374868815;
- Mon, 16 Mar 2020 09:07:48 -0700 (PDT)
+ bh=kMtlamo7Zl3wCiVgcr8iciiwh4khJI79F07LAInMKRc=;
+ b=nZEHWfpgWPeErpCgZ0FDRsOjrImvTFxThmzsl8OawYX29YLDb8y5Yqdj7Xr43sThOu
+ n9dgGSfXvSXtMdqFn0X8D6u4U6Oah42d6MP/DdlAtTlwZ17n5HfWDQIpqC4ooVbaQ4RY
+ DeOwDNiy5Y6zDZ2S1pwla/t8A27lu0/nUaemIamki2kWkN6Rm3nnuEcscZCAETWR1qDi
+ TdxHVycVZywrzI0gLSNDttSDx7H+5nlUIf5awJakhpqohfE3Rk3Yly6NbmBDnhtmG2co
+ 3Iug0pRVBXs5JGuuolf9/rJlWh6zR8adyzBH7vcFpowK4bCjUXASJlvu51s6sXEqYAw2
+ KIkA==
+X-Gm-Message-State: ANhLgQ2JxTCdGYMYeDz5V1rDKiFq7notONJklFPkTMmXNoEkHaKElIH4
+ w0T/dO29akn62oOalW7sAHXGn6uilF5qB00tLOGnn9/oLHTF2GFnn7ycGI5bwOdj2uOL77uGZM/
+ K9KbWaZWkvyI55to=
+X-Received: by 2002:a1c:3241:: with SMTP id y62mr29793847wmy.66.1584374890987; 
+ Mon, 16 Mar 2020 09:08:10 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuQxAMoxg+u/+lPk/pzDgAO3wAjX2ARHQMgEZz41ANJhw8Gpk7UQYNDXjdjZkbYOg+VPhVfcg==
+X-Received: by 2002:a1c:3241:: with SMTP id y62mr29793824wmy.66.1584374890780; 
+ Mon, 16 Mar 2020 09:08:10 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id k9sm494508wrd.74.2020.03.16.09.07.47
+ by smtp.gmail.com with ESMTPSA id 127sm70683wmd.38.2020.03.16.09.08.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:07:48 -0700 (PDT)
+ Mon, 16 Mar 2020 09:08:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/19] target/arm: Restrict ARMv7 R-profile cpus to TCG
- accel
-Date: Mon, 16 Mar 2020 17:06:28 +0100
-Message-Id: <20200316160634.3386-14-philmd@redhat.com>
+Subject: [PATCH v3 17/19] hw/arm: Automatically select the 'virt' machine on
+ KVM
+Date: Mon, 16 Mar 2020 17:06:32 +0100
+Message-Id: <20200316160634.3386-18-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
 References: <20200316160634.3386-1-philmd@redhat.com>
@@ -76,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,240 +97,25 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A KVM-only build won't be able to run R-profile cpus.
-
-Only enable the following ARMv7 R-Profile CPUs when TCG is available:
-
-  - Cortex-R5
-  - Cortex-R5F
+When building a KVM-only QEMU, the 'virt' machine is a good
+default :)
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- default-configs/aarch64-softmmu.mak |  1 -
- target/arm/cpu.c                    | 51 ------------------
- target/arm/cpu_v7r.c                | 83 +++++++++++++++++++++++++++++
- hw/arm/Kconfig                      |  1 +
- target/arm/Kconfig                  |  4 ++
- target/arm/Makefile.objs            |  1 +
- 6 files changed, 89 insertions(+), 52 deletions(-)
- create mode 100644 target/arm/cpu_v7r.c
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/default-configs/aarch64-softmmu.mak b/default-configs/aarch64-=
-softmmu.mak
-index 958b1e08e4..a4202f5681 100644
---- a/default-configs/aarch64-softmmu.mak
-+++ b/default-configs/aarch64-softmmu.mak
-@@ -3,6 +3,5 @@
- # We support all the 32 bit boards so need all their config
- include arm-softmmu.mak
-=20
--CONFIG_XLNX_ZYNQMP_ARM=3Dy
- CONFIG_XLNX_VERSAL=3Dy
- CONFIG_SBSA_REF=3Dy
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 34908828a0..84be8792f6 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1975,55 +1975,6 @@ static void arm_v7m_class_init(ObjectClass *oc, void=
- *data)
-     cc->cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt;
- }
-=20
--static const ARMCPRegInfo cortexr5_cp_reginfo[] =3D {
--    /* Dummy the TCM region regs for the moment */
--    { .name =3D "ATCM", .cp =3D 15, .opc1 =3D 0, .crn =3D 9, .crm =3D 1, .=
-opc2 =3D 0,
--      .access =3D PL1_RW, .type =3D ARM_CP_CONST },
--    { .name =3D "BTCM", .cp =3D 15, .opc1 =3D 0, .crn =3D 9, .crm =3D 1, .=
-opc2 =3D 1,
--      .access =3D PL1_RW, .type =3D ARM_CP_CONST },
--    { .name =3D "DCACHE_INVAL", .cp =3D 15, .opc1 =3D 0, .crn =3D 15, .crm=
- =3D 5,
--      .opc2 =3D 0, .access =3D PL1_W, .type =3D ARM_CP_NOP },
--    REGINFO_SENTINEL
--};
--
--static void cortex_r5_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_V7MP);
--    set_feature(&cpu->env, ARM_FEATURE_PMSA);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->midr =3D 0x411fc153; /* r1p3 */
--    cpu->id_pfr0 =3D 0x0131;
--    cpu->id_pfr1 =3D 0x001;
--    cpu->isar.id_dfr0 =3D 0x010400;
--    cpu->id_afr0 =3D 0x0;
--    cpu->isar.id_mmfr0 =3D 0x0210030;
--    cpu->isar.id_mmfr1 =3D 0x00000000;
--    cpu->isar.id_mmfr2 =3D 0x01200000;
--    cpu->isar.id_mmfr3 =3D 0x0211;
--    cpu->isar.id_isar0 =3D 0x02101111;
--    cpu->isar.id_isar1 =3D 0x13112111;
--    cpu->isar.id_isar2 =3D 0x21232141;
--    cpu->isar.id_isar3 =3D 0x01112131;
--    cpu->isar.id_isar4 =3D 0x0010142;
--    cpu->isar.id_isar5 =3D 0x0;
--    cpu->isar.id_isar6 =3D 0x0;
--    cpu->mp_is_up =3D true;
--    cpu->pmsav7_dregion =3D 16;
--    define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
--}
--
--static void cortex_r5f_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--
--    cortex_r5_initfn(obj);
--    cpu->isar.mvfr0 =3D 0x10110221;
--    cpu->isar.mvfr1 =3D 0x00000011;
--}
--
- static const ARMCPRegInfo cortexa8_cp_reginfo[] =3D {
-     { .name =3D "L2LOCKDOWN", .cp =3D 15, .crn =3D 9, .crm =3D 0, .opc1 =
-=3D 1, .opc2 =3D 0,
-       .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-@@ -2333,8 +2284,6 @@ static const ARMCPUInfo arm_cpus[] =3D {
-                              .class_init =3D arm_v7m_class_init },
-     { .name =3D "cortex-m33",  .initfn =3D cortex_m33_initfn,
-                              .class_init =3D arm_v7m_class_init },
--    { .name =3D "cortex-r5",   .initfn =3D cortex_r5_initfn },
--    { .name =3D "cortex-r5f",  .initfn =3D cortex_r5f_initfn },
-     { .name =3D "cortex-a7",   .initfn =3D cortex_a7_initfn },
-     { .name =3D "cortex-a8",   .initfn =3D cortex_a8_initfn },
-     { .name =3D "cortex-a9",   .initfn =3D cortex_a9_initfn },
-diff --git a/target/arm/cpu_v7r.c b/target/arm/cpu_v7r.c
-new file mode 100644
-index 0000000000..9576844b5c
---- /dev/null
-+++ b/target/arm/cpu_v7r.c
-@@ -0,0 +1,83 @@
-+/*
-+ * ARM generic helpers.
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+
-+/* CPU models. These are not needed for the AArch64 linux-user build. */
-+#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+
-+static const ARMCPRegInfo cortexr5_cp_reginfo[] =3D {
-+    /* Dummy the TCM region regs for the moment */
-+    { .name =3D "ATCM", .cp =3D 15, .opc1 =3D 0, .crn =3D 9, .crm =3D 1, .=
-opc2 =3D 0,
-+      .access =3D PL1_RW, .type =3D ARM_CP_CONST },
-+    { .name =3D "BTCM", .cp =3D 15, .opc1 =3D 0, .crn =3D 9, .crm =3D 1, .=
-opc2 =3D 1,
-+      .access =3D PL1_RW, .type =3D ARM_CP_CONST },
-+    { .name =3D "DCACHE_INVAL", .cp =3D 15, .opc1 =3D 0, .crn =3D 15, .crm=
- =3D 5,
-+      .opc2 =3D 0, .access =3D PL1_W, .type =3D ARM_CP_NOP },
-+    REGINFO_SENTINEL
-+};
-+
-+static void cortex_r5_initfn(Object *obj)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_V7MP);
-+    set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->midr =3D 0x411fc153; /* r1p3 */
-+    cpu->id_pfr0 =3D 0x0131;
-+    cpu->id_pfr1 =3D 0x001;
-+    cpu->isar.id_dfr0 =3D 0x010400;
-+    cpu->id_afr0 =3D 0x0;
-+    cpu->isar.id_mmfr0 =3D 0x0210030;
-+    cpu->isar.id_mmfr1 =3D 0x00000000;
-+    cpu->isar.id_mmfr2 =3D 0x01200000;
-+    cpu->isar.id_mmfr3 =3D 0x0211;
-+    cpu->isar.id_isar0 =3D 0x02101111;
-+    cpu->isar.id_isar1 =3D 0x13112111;
-+    cpu->isar.id_isar2 =3D 0x21232141;
-+    cpu->isar.id_isar3 =3D 0x01112131;
-+    cpu->isar.id_isar4 =3D 0x0010142;
-+    cpu->isar.id_isar5 =3D 0x0;
-+    cpu->isar.id_isar6 =3D 0x0;
-+    cpu->mp_is_up =3D true;
-+    cpu->pmsav7_dregion =3D 16;
-+    define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
-+}
-+
-+static void cortex_r5f_initfn(Object *obj)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+
-+    cortex_r5_initfn(obj);
-+    cpu->isar.mvfr0 =3D 0x10110221;
-+    cpu->isar.mvfr1 =3D 0x00000011;
-+}
-+
-+static const ARMCPUInfo arm_v7r_cpus[] =3D {
-+    { .name =3D "cortex-r5",   .initfn =3D cortex_r5_initfn },
-+    { .name =3D "cortex-r5f",  .initfn =3D cortex_r5f_initfn },
-+    { .name =3D NULL }
-+};
-+
-+static void arm_v7r_cpu_register_types(void)
-+{
-+    const ARMCPUInfo *info =3D arm_v7r_cpus;
-+
-+    while (info->name) {
-+        arm_cpu_register(info);
-+        info++;
-+    }
-+}
-+
-+type_init(arm_v7r_cpu_register_types)
-+
-+#endif
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index e87dd611f2..d0903d8544 100644
+index d0903d8544..8e801cd15f 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -340,6 +340,7 @@ config XLNX_ZYNQMP_ARM
+@@ -1,5 +1,6 @@
+ config ARM_VIRT
      bool
-     select AHCI
-     select ARM_GIC
-+    select ARM_V7R
-     select CADENCE
-     select DDC
-     select DPCD
-diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-index df5f8dff42..9768f9180f 100644
---- a/target/arm/Kconfig
-+++ b/target/arm/Kconfig
-@@ -10,5 +10,9 @@ config ARM_V6
-     depends on TCG
-     bool
-=20
-+config ARM_V7R
-+    depends on TCG
-+    bool
-+
- config ARM_V7M
-     bool
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 0473c559c6..a2508f0655 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -71,6 +71,7 @@ obj-y +=3D m_helper.o
- obj-$(CONFIG_ARM_V4) +=3D cpu_v4.o
- obj-$(CONFIG_ARM_V5) +=3D cpu_v5.o
- obj-$(CONFIG_ARM_V6) +=3D cpu_v6.o
-+obj-$(CONFIG_ARM_V7R) +=3D cpu_v7r.o
-=20
- obj-$(CONFIG_SOFTMMU) +=3D psci.o
-=20
++    default y if KVM
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+     imply VFIO_AMD_XGBE
 --=20
 2.21.1
 
