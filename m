@@ -2,88 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA57186FFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:27:34 +0100 (CET)
-Received: from localhost ([::1]:42208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371A2187005
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:29:19 +0100 (CET)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsaT-0007H4-Dd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40565)
+	id 1jDscA-0002A0-7p
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDqIz-0006Oi-RE
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:23 -0400
+ (envelope-from <clg@kaod.org>) id 1jDqVY-0002cU-BZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:14:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDqIy-000330-HC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26270
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jDqVW-0005Pq-IZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:14:20 -0400
+Received: from 5.mo173.mail-out.ovh.net ([46.105.40.148]:45949)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqIy-0002wk-AW
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584367279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TQ7dZwtJRHWr0ppwGHuRtSpECSj8PWFSLN0ojtxEM5M=;
- b=TejipG6/vIj7OXgE7wkRBENwU52uoS4RGr2osrZQn7BjepRgbxDWeUnlTwDW4Ujx6yQmNv
- encEZABOhI9hLlKwR9kclP+9DPMyvGaXfAacFi7bAtiMl0PwmNFNN+3LWwHYWK7V0p9e2F
- iblCMRhQu2j+TJOPZP3ow8xt/96xKNQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-ZKOeWPMIPi2aRfak0aAIhA-1; Mon, 16 Mar 2020 10:01:18 -0400
-X-MC-Unique: ZKOeWPMIPi2aRfak0aAIhA-1
-Received: by mail-ed1-f72.google.com with SMTP id i25so15289697edx.12
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:01:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D8+MyFj2dVLBMt/lZhSsIiYpmSpY6oum5eCHUAIHa+o=;
- b=URGZZQmjNew1EhI+MaHFQX0o2VK2wiUYECQuFYo0vRXQFCWKREgieuPUzO0pYGRrRI
- z34CHmiUxhYpTmKQMHnAlVZTpGkP/nKGwCZxjphDIYCpHU9K65SJ8psxjx/hUvibRsPR
- 9IdImDCIA8U/L0+FWjDND3Zwyg15ezk4tJaYNLjZosh7DO1gnEybsgEeNOaVJ/I1hYwM
- ZFFDUglhqEyxhdDwQQSQ4LEnP596iuLCziZpDxzNz52++IdpH6TA+EYbIeTBB+OXIMuQ
- M52BeZhJc151RN3PdtBWYRYWxkgX+sV3w9L24jygka9cj0ySuY4ISwKz1X5R2Y35msWT
- VUpg==
-X-Gm-Message-State: ANhLgQ1yFFEdOnTWcHmblxV3a4d4V62sO9ADgy7XLJaToQM2rTuceSmt
- v2dSW7rikvt/oWbCc77m49iKAApE3DBqjSCuZEPA7hBAVFQ7jzc8+0xNONuIhm0z1FLccuaaP5z
- mWua2cRcIWTK6jNk=
-X-Received: by 2002:a05:6402:228a:: with SMTP id
- cw10mr20019edb.107.1584367276904; 
- Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtNAP+1dxDLWYMCS8BE7op5z3Xacs9LPKoDtYKyZ4/pRd4HgFcV2LUjRIZL+OQ3U1KJRgvtUw==
-X-Received: by 2002:a05:6402:228a:: with SMTP id
- cw10mr19997edb.107.1584367276712; 
- Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id c15sm169361edu.4.2020.03.16.07.01.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
-Subject: Re: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG, and
- allow to disable it
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-12-philmd@redhat.com>
- <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <169683cf-5784-b956-cf07-14fe287b6ee6@redhat.com>
-Date: Mon, 16 Mar 2020 15:01:14 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDqVW-0004k1-8D
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:14:18 -0400
+Received: from player731.ha.ovh.net (unknown [10.110.115.215])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4B2AE12ED3F
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 15:14:14 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player731.ha.ovh.net (Postfix) with ESMTPSA id CEDA41045A831;
+ Mon, 16 Mar 2020 14:13:58 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] m25p80: Convert to support tracing
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Guenter Roeck <linux@roeck-us.net>,
+ Alistair Francis <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>
+References: <20200206183219.3756-1-linux@roeck-us.net>
+ <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
+Message-ID: <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
+Date: Mon, 16 Mar 2020 15:13:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
+In-Reply-To: <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Ovh-Tracer-Id: 9923118832136915888
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffhvfhfkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 46.105.40.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,67 +59,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 2:49 PM, Peter Maydell wrote:
-> On Mon, 16 Mar 2020 at 13:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> The semihosting feature is only meaningful when using TCG.
->>
->> So far only the ARM/MIPS/LM32 provide the semihosting feature.
+Hello,
+
+On 2/17/20 4:47 PM, C=C3=A9dric Le Goater wrote:
+> Hello all,=20
 >=20
-> Also m68k, nios2, xtensa. riscv eventually but not yet upstream.
+> On 2/6/20 7:32 PM, Guenter Roeck wrote:
+>> While at it, add some trace messages to help debug problems
+>> seen when running the latest Linux kernel.
 >=20
->>
->> Do not enable it by default, and let the few targets requiring
->> it to manually select it.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Through which tree do you think it is best to merge this patchset ?=20
+> block or arm ?=20
+
+It would be nice to have these 4 patches for 5.0. All are reviewed and
+tested.
+
+Thanks,
+
+C.
+
+=20
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 >> ---
->>   hw/semihosting/Kconfig | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
+>> v2: Print pointer to Flash data structure as flash ID with each trace
+>>     message to support systems with more than one instantiated flash.
 >>
->> diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
->> index efe0a30734..06e9262af2 100644
->> --- a/hw/semihosting/Kconfig
->> +++ b/hw/semihosting/Kconfig
->> @@ -1,3 +1,5 @@
+>>  hw/block/m25p80.c     | 48 ++++++++++++++++++++----------------------=
+-
+>>  hw/block/trace-events | 16 +++++++++++++++
+>>  2 files changed, 38 insertions(+), 26 deletions(-)
 >>
->>   config SEMIHOSTING
->> -       bool
->> +    bool
->> +    depends on TCG
->> +    default n
->=20
-> OK, this is the "do not enable by default" -- where is
-> the "but do enable by default for the targets that use it"
-> part of the config change ?
-
-This is already the default for these targets, see:
-
-commit 16932bb761e52c2ca9397b57af5bdc5bdc5ae6a4
-Author: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Date:   Mon May 13 15:25:27 2019 +0100
-
-     semihosting: introduce CONFIG_SEMIHOSTING
-
-     There isn't much point building semihosting for platforms that don't
-     support it. Introduce a new symbol and enable it only for the
-     softmmu targets that need it.
-
-I'll add that information in the description.
-
->=20
-> thanks
-> -- PMM
+>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+>> index 61f2fb8f8f..5ff8d270c4 100644
+>> --- a/hw/block/m25p80.c
+>> +++ b/hw/block/m25p80.c
+>> @@ -32,17 +32,7 @@
+>>  #include "qemu/module.h"
+>>  #include "qemu/error-report.h"
+>>  #include "qapi/error.h"
+>> -
+>> -#ifndef M25P80_ERR_DEBUG
+>> -#define M25P80_ERR_DEBUG 0
+>> -#endif
+>> -
+>> -#define DB_PRINT_L(level, ...) do { \
+>> -    if (M25P80_ERR_DEBUG > (level)) { \
+>> -        fprintf(stderr,  ": %s: ", __func__); \
+>> -        fprintf(stderr, ## __VA_ARGS__); \
+>> -    } \
+>> -} while (0)
+>> +#include "trace.h"
+>> =20
+>>  /* Fields for FlashPartInfo->flags */
+>> =20
+>> @@ -574,7 +564,8 @@ static void flash_erase(Flash *s, int offset, Flas=
+hCMD cmd)
+>>          abort();
+>>      }
+>> =20
+>> -    DB_PRINT_L(0, "offset =3D %#x, len =3D %d\n", offset, len);
+>> +    trace_m25p80_flash_erase(s, offset, len);
+>> +
+>>      if ((s->pi->flags & capa_to_assert) !=3D capa_to_assert) {
+>>          qemu_log_mask(LOG_GUEST_ERROR, "M25P80: %d erase size not sup=
+ported by"
+>>                        " device\n", len);
+>> @@ -607,8 +598,7 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t=
+ data)
+>>      }
+>> =20
+>>      if ((prev ^ data) & data) {
+>> -        DB_PRINT_L(1, "programming zero to one! addr=3D%" PRIx32 "  %=
+" PRIx8
+>> -                   " -> %" PRIx8 "\n", addr, prev, data);
+>> +        trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+>>      }
+>> =20
+>>      if (s->pi->flags & EEPROM) {
+>> @@ -662,6 +652,9 @@ static void complete_collecting_data(Flash *s)
+>> =20
+>>      s->state =3D STATE_IDLE;
+>> =20
+>> +    trace_m25p80_complete_collecting(s, s->cmd_in_progress, n, s->ear=
+,
+>> +                                     s->cur_addr);
+>> +
+>>      switch (s->cmd_in_progress) {
+>>      case DPP:
+>>      case QPP:
+>> @@ -825,7 +818,7 @@ static void reset_memory(Flash *s)
+>>          break;
+>>      }
+>> =20
+>> -    DB_PRINT_L(0, "Reset done.\n");
+>> +    trace_m25p80_reset_done(s);
+>>  }
+>> =20
+>>  static void decode_fast_read_cmd(Flash *s)
+>> @@ -941,9 +934,10 @@ static void decode_qio_read_cmd(Flash *s)
+>> =20
+>>  static void decode_new_cmd(Flash *s, uint32_t value)
+>>  {
+>> -    s->cmd_in_progress =3D value;
+>>      int i;
+>> -    DB_PRINT_L(0, "decoded new command:%x\n", value);
+>> +
+>> +    s->cmd_in_progress =3D value;
+>> +    trace_m25p80_command_decoded(s, value);
+>> =20
+>>      if (value !=3D RESET_MEMORY) {
+>>          s->reset_enable =3D false;
+>> @@ -1042,7 +1036,7 @@ static void decode_new_cmd(Flash *s, uint32_t va=
+lue)
+>>          break;
+>> =20
+>>      case JEDEC_READ:
+>> -        DB_PRINT_L(0, "populated jedec code\n");
+>> +        trace_m25p80_populated_jedec(s);
+>>          for (i =3D 0; i < s->pi->id_len; i++) {
+>>              s->data[i] =3D s->pi->id[i];
+>>          }
+>> @@ -1063,7 +1057,7 @@ static void decode_new_cmd(Flash *s, uint32_t va=
+lue)
+>>      case BULK_ERASE_60:
+>>      case BULK_ERASE:
+>>          if (s->write_enable) {
+>> -            DB_PRINT_L(0, "chip erase\n");
+>> +            trace_m25p80_chip_erase(s);
+>>              flash_erase(s, 0, BULK_ERASE);
+>>          } else {
+>>              qemu_log_mask(LOG_GUEST_ERROR, "M25P80: chip erase with w=
+rite "
+>> @@ -1184,7 +1178,7 @@ static int m25p80_cs(SSISlave *ss, bool select)
+>>          s->data_read_loop =3D false;
+>>      }
+>> =20
+>> -    DB_PRINT_L(0, "%sselect\n", select ? "de" : "");
+>> +    trace_m25p80_select(s, select ? "de" : "");
+>> =20
+>>      return 0;
+>>  }
+>> @@ -1194,19 +1188,20 @@ static uint32_t m25p80_transfer8(SSISlave *ss,=
+ uint32_t tx)
+>>      Flash *s =3D M25P80(ss);
+>>      uint32_t r =3D 0;
+>> =20
+>> +    trace_m25p80_transfer(s, s->state, s->len, s->needed_bytes, s->po=
+s,
+>> +                          s->cur_addr, (uint8_t)tx);
+>> +
+>>      switch (s->state) {
+>> =20
+>>      case STATE_PAGE_PROGRAM:
+>> -        DB_PRINT_L(1, "page program cur_addr=3D%#" PRIx32 " data=3D%"=
+ PRIx8 "\n",
+>> -                   s->cur_addr, (uint8_t)tx);
+>> +        trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
+>>          flash_write8(s, s->cur_addr, (uint8_t)tx);
+>>          s->cur_addr =3D (s->cur_addr + 1) & (s->size - 1);
+>>          break;
+>> =20
+>>      case STATE_READ:
+>>          r =3D s->storage[s->cur_addr];
+>> -        DB_PRINT_L(1, "READ 0x%" PRIx32 "=3D%" PRIx8 "\n", s->cur_add=
+r,
+>> -                   (uint8_t)r);
+>> +        trace_m25p80_read_byte(s, s->cur_addr, (uint8_t)r);
+>>          s->cur_addr =3D (s->cur_addr + 1) & (s->size - 1);
+>>          break;
+>> =20
+>> @@ -1244,6 +1239,7 @@ static uint32_t m25p80_transfer8(SSISlave *ss, u=
+int32_t tx)
+>>          }
+>> =20
+>>          r =3D s->data[s->pos];
+>> +        trace_m25p80_read_data(s, s->pos, (uint8_t)r);
+>>          s->pos++;
+>>          if (s->pos =3D=3D s->len) {
+>>              s->pos =3D 0;
+>> @@ -1281,7 +1277,7 @@ static void m25p80_realize(SSISlave *ss, Error *=
+*errp)
+>>              return;
+>>          }
+>> =20
+>> -        DB_PRINT_L(0, "Binding to IF_MTD drive\n");
+>> +        trace_m25p80_binding(s);
+>>          s->storage =3D blk_blockalign(s->blk, s->size);
+>> =20
+>>          if (blk_pread(s->blk, 0, s->storage, s->size) !=3D s->size) {
+>> @@ -1289,7 +1285,7 @@ static void m25p80_realize(SSISlave *ss, Error *=
+*errp)
+>>              return;
+>>          }
+>>      } else {
+>> -        DB_PRINT_L(0, "No BDRV - binding to RAM\n");
+>> +        trace_m25p80_binding_no_bdrv(s);
+>>          s->storage =3D blk_blockalign(NULL, s->size);
+>>          memset(s->storage, 0xFF, s->size);
+>>      }
+>> diff --git a/hw/block/trace-events b/hw/block/trace-events
+>> index c03e80c2c9..f78939fa9d 100644
+>> --- a/hw/block/trace-events
+>> +++ b/hw/block/trace-events
+>> @@ -134,3 +134,19 @@ xen_block_blockdev_add(char *str) "%s"
+>>  xen_block_blockdev_del(const char *node_name) "%s"
+>>  xen_block_device_create(unsigned int number) "%u"
+>>  xen_block_device_destroy(unsigned int number) "%u"
+>> +
+>> +# m25p80.c
+>> +m25p80_flash_erase(void *s, int offset, uint32_t len) "[%p] offset =3D=
+ 0x%"PRIx32", len =3D %u"
+>> +m25p80_programming_zero_to_one(void *s, uint32_t addr, uint8_t prev, =
+uint8_t data) "[%p] programming zero to one! addr=3D0x%"PRIx32"  0x%"PRIx=
+8" -> 0x%"PRIx8
+>> +m25p80_reset_done(void *s) "[%p] Reset done."
+>> +m25p80_command_decoded(void *s, uint32_t cmd) "[%p] new command:0x%"P=
+RIx32
+>> +m25p80_complete_collecting(void *s, uint32_t cmd, int n, uint8_t ear,=
+ uint32_t cur_addr) "[%p] decode cmd: 0x%"PRIx32" len %d ear 0x%"PRIx8" a=
+ddr 0x%"PRIx32
+>> +m25p80_populated_jedec(void *s) "[%p] populated jedec code"
+>> +m25p80_chip_erase(void *s) "[%p] chip erase"
+>> +m25p80_select(void *s, const char *what) "[%p] %sselect"
+>> +m25p80_page_program(void *s, uint32_t addr, uint8_t tx) "[%p] page pr=
+ogram cur_addr=3D0x%"PRIx32" data=3D0x%"PRIx8
+>> +m25p80_transfer(void *s, uint8_t state, uint32_t len, uint8_t needed,=
+ uint32_t pos, uint32_t cur_addr, uint8_t t) "[%p] Transfer state 0x%"PRI=
+x8" len 0x%"PRIx32" needed 0x%"PRIx8" pos 0x%"PRIx32" addr 0x%"PRIx32" tx=
+ 0x%"PRIx8
+>> +m25p80_read_byte(void *s, uint32_t addr, uint8_t v) "[%p] Read byte 0=
+x%"PRIx32"=3D0x%"PRIx8
+>> +m25p80_read_data(void *s, uint32_t pos, uint8_t v) "[%p] Read data 0x=
+%"PRIx32"=3D0x%"PRIx8
+>> +m25p80_binding(void *s) "[%p] Binding to IF_MTD drive"
+>> +m25p80_binding_no_bdrv(void *s) "[%p] No BDRV - binding to RAM"
+>>
 >=20
 
 
