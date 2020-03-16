@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE342187036
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:39:02 +0100 (CET)
-Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B34E187044
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:41:53 +0100 (CET)
+Received: from localhost ([::1]:42522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDslZ-0004y5-N1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
+	id 1jDsoK-0003PL-Kz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <michael@walle.cc>) id 1jDq4M-0000gf-1q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:46:15 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDqFq-0005A0-7g
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <michael@walle.cc>) id 1jDq4K-0002Cx-8i
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:46:13 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:42289)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <michael@walle.cc>) id 1jDq4K-00028g-0c
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:46:12 -0400
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id AF54523EB7;
- Mon, 16 Mar 2020 14:36:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1584365801;
+ (envelope-from <philmd@redhat.com>) id 1jDqFo-0003kt-0Q
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59201
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqFn-0003hi-RS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584367083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hugZAMwipZ3Tx3BM02PnuRzV16Jd/CsPcCPrLsQCKMw=;
- b=dpupufnNxCb3CKljOHniZlYhCXC7zUJbz8j5D32pIvgPHolXmDSqh9P0wNnJ+0LA7BK0bJ
- ApK39LfWH1gzj8Mb4lLMeO2uGK06PXImwG3vrzWv3AtRSfezPkSLgdxqDf3tvFCiY1q1bs
- 5/4jAPI5ajYFF/E6ht1x+JPmmxhaabM=
+ bh=7/d8+MuJKar+88rBazaw6wz7CaJpDOFtJRxT1cE/Wx4=;
+ b=ITFcRtyjYL5V9REx+dxglw1lgAv4EwuYfqyG0o3TR4Lyj+OUMgHJyuXefrB8WDofvaLJnC
+ 3AWswunpPeHa1sWwQEUAlrCbdspGKI4SVpLNk8N1TfmgXeDTMZTkvLycgyI6bhJsi2M/6g
+ Cymt+qAjwdxLtRMt/am42ETRwHQS8hg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131-ga847J6LN7O0u0njFDRTnA-1; Mon, 16 Mar 2020 09:58:01 -0400
+X-MC-Unique: ga847J6LN7O0u0njFDRTnA-1
+Received: by mail-ed1-f70.google.com with SMTP id x93so6252129ede.19
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:58:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XR4EhODMFHBMam95GhaFU+5NIlJsFFVhcpKtZPC62dk=;
+ b=RqsB8aJzVrMcbGKj22DtJBRFeXBcpcQ1kWpUIwECwsJWZssdOsV5nQhJNgBbFaZ1ln
+ 9m0XhqGe5K6sRhi57h3i43+BO/+o2Yg1u8GHdgh9ayzH8cWCNGs+xQ35hWHyXPsn0n6s
+ K9vEWaGI3KH3nwZ+K2Kzg1DKsEQUONZHciiuDNnRA//j5yTBsZdnF8ZAj+mttfNLKoNY
+ 1swuGpatf3xpP3FGeQ3+R7X63bThNh5tGdLc6dNlExUBqp1pRJKB/rLt0PG3P0dgBR0x
+ wHYIi4SArULiIu486C0l686EuX6HFJgo56qye+O/TN+j5DXt1BFTneYkGqY3KE8w47+W
+ 7gWA==
+X-Gm-Message-State: ANhLgQ2rYkdZdBX3bpU8rA89Bj9LLMshvOJm/WFozn1Pn5eKZeYzGwUp
+ rmG1z64nxN8lCk/NO9fNLHMM4mMMmSclAR14V2loeixdM7qQd5ks86fm1eCOM+/+hbQpS5uHfnk
+ Tz//1c/G6rPVXYLc=
+X-Received: by 2002:a17:906:1396:: with SMTP id
+ f22mr23955945ejc.147.1584367080440; 
+ Mon, 16 Mar 2020 06:58:00 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvh0DjC7FiEaK1fzS6oR3bSj7+gQ/okaTovVdxneihGa7oN1YWQDt+rAWiu31H1kWHPd90W+Q==
+X-Received: by 2002:a17:906:1396:: with SMTP id
+ f22mr23955926ejc.147.1584367080090; 
+ Mon, 16 Mar 2020 06:58:00 -0700 (PDT)
+Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.191])
+ by smtp.gmail.com with ESMTPSA id e15sm2625169eds.2.2020.03.16.06.57.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 06:57:59 -0700 (PDT)
+Subject: Re: [PATCH v2 4/8] qapi/misc: Move query-uuid command with block code
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20200316000348.29692-1-philmd@redhat.com>
+ <20200316000348.29692-5-philmd@redhat.com>
+ <20200316134317.4d40d16b@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d51b48dd-4c4b-8bd0-558f-5b88a75f51f4@redhat.com>
+Date: Mon, 16 Mar 2020 14:57:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date: Mon, 16 Mar 2020 14:36:41 +0100
-From: Michael Walle <michael@walle.cc>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: Mark the LatticeMico32 target as orphan
-In-Reply-To: <20200316122641.14017-1-philmd@redhat.com>
-References: <20200316122641.14017-1-philmd@redhat.com>
-Message-ID: <5f276a9c7037f16af71bef31131d7ffb@walle.cc>
-X-Sender: michael@walle.cc
-User-Agent: Roundcube Webmail/1.3.10
-X-Spamd-Bar: /
-X-Rspamd-Server: web
-X-Rspamd-Queue-Id: AF54523EB7
-X-Spamd-Result: default: False [-0.10 / 15.00]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- DKIM_SIGNED(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
- NEURAL_HAM(-0.00)[-0.736]; RCVD_COUNT_ZERO(0.00)[0];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[gmx.com,nongnu.org,linaro.org,redhat.com,mail.parknet.co.jp,twiddle.net,braap.org];
- MID_RHS_MATCH_FROM(0.00)[]
+In-Reply-To: <20200316134317.4d40d16b@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 176.9.125.105
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,59 +95,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?=C3=81kos_Kov=C3=A1cs?= <akoskovacs@gmx.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, "Emilio
- G . Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 2020-03-16 13:26, schrieb Philippe Mathieu-Daud=C3=A9:
-> Michael Walle expressed his desire to orphan the lm32 target [*]:
+On 3/16/20 2:09 PM, Igor Mammedov wrote:
+> On Mon, 16 Mar 2020 01:03:44 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 >=20
->   I guess it is time to pull the plug. Mainly, because I have
->   no time for this anymore. I've always worked on this on my
->   spare time and life changed. And secondly, I guess RISC-V is
->   taking over ;) It has a far better ecosystem. Also, to my
->   knowledge the only (public) user of LM32 is milkymist and this
->   project is dead for years now..
->=20
->   So time to say goodbye. It was fun and I've learned a lot -
->   technically and also how a huge open source project works.
->   Thank you everyone for that :)
->=20
->   Basically everything still works and there are even TCG test
->   cases which covers all instructions the processor has.
->=20
-> Many thanks to Michael for his substantial contributions to QEMU,
-> and for maintaining the LM32 target for various years!
->=20
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
->=20
-> Cc: Michael Walle <michael@walle.cc>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> here should be why
 
-Acked-by: Michael Walle <michael@walle.cc>
+Indeed.
 
-> ---
-> Michael: Do you want to keep your M: entry, switch it to R: or remove?
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Daniel explained on IRC the GUID structure is "standardized by microsoft=20
+as a way to detect when a guest has certain operations applied" to a=20
+saved snapshot.
+https://docs.microsoft.com/en-us/windows/win32/hyperv_v2/virtual-machine-ge=
+neration-identifier
+
 >=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 32867bc636..5376c59581 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -184,7 +184,7 @@ F: include/hw/net/lasi_82596.h
+> PS:
+>   I don't see a reason to move it to block code at all
+> if this command is moved then it should be machine code
+I guess I mixed GUID with UUID (classic identifier shown in SMBIOS)...
+
+The one I wanted to move to qapi/block-core.json is:
+
+##
+# @GuidInfo:
+#
+# GUID information.
+#
+# @guid: the globally unique identifier
+#
+# Since: 2.9
+##
+{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
+
+##
+# @query-vm-generation-id:
+#
+# Show Virtual Machine Generation ID
+#
+# Since: 2.9
+##
+{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+
+So this one goes to qapi/machine.json... Thanks Igor!
+
 >=20
->  LM32 TCG CPUs
->  M: Michael Walle <michael@walle.cc>
-> -S: Maintained
-> +S: Orphan
->  F: target/lm32/
->  F: disas/lm32.c
->  F: hw/lm32/
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   qapi/block-core.json | 30 ++++++++++++++++++++++++++++++
+>>   qapi/misc.json       | 30 ------------------------------
+>>   block/iscsi.c        |  2 +-
+>>   stubs/uuid.c         |  2 +-
+>>   4 files changed, 32 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index 91586fb1fb..5c3fa6c5d0 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -5415,3 +5415,33 @@
+>>   { 'command': 'blockdev-snapshot-delete-internal-sync',
+>>     'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
+>>     'returns': 'SnapshotInfo' }
+>> +
+>> +##
+>> +# @UuidInfo:
+>> +#
+>> +# Guest UUID information (Universally Unique Identifier).
+>> +#
+>> +# @UUID: the UUID of the guest
+>> +#
+>> +# Since: 0.14.0
+>> +#
+>> +# Notes: If no UUID was specified for the guest, a null UUID is returne=
+d.
+>> +##
+>> +{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
+>> +
+>> +##
+>> +# @query-uuid:
+>> +#
+>> +# Query the guest UUID information.
+>> +#
+>> +# Returns: The @UuidInfo for the guest
+>> +#
+>> +# Since: 0.14.0
+>> +#
+>> +# Example:
+>> +#
+>> +# -> { "execute": "query-uuid" }
+>> +# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
+>> +#
+>> +##
+>> +{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tr=
+ue }
+>> diff --git a/qapi/misc.json b/qapi/misc.json
+>> index ed28e41229..f70025f34c 100644
+>> --- a/qapi/misc.json
+>> +++ b/qapi/misc.json
+>> @@ -97,36 +97,6 @@
+>>   ##
+>>   { 'command': 'query-kvm', 'returns': 'KvmInfo' }
+>>  =20
+>> -##
+>> -# @UuidInfo:
+>> -#
+>> -# Guest UUID information (Universally Unique Identifier).
+>> -#
+>> -# @UUID: the UUID of the guest
+>> -#
+>> -# Since: 0.14.0
+>> -#
+>> -# Notes: If no UUID was specified for the guest, a null UUID is returne=
+d.
+>> -##
+>> -{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
+>> -
+>> -##
+>> -# @query-uuid:
+>> -#
+>> -# Query the guest UUID information.
+>> -#
+>> -# Returns: The @UuidInfo for the guest
+>> -#
+>> -# Since: 0.14.0
+>> -#
+>> -# Example:
+>> -#
+>> -# -> { "execute": "query-uuid" }
+>> -# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
+>> -#
+>> -##
+>> -{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tr=
+ue }
+>> -
+>>   ##
+>>   # @IOThreadInfo:
+>>   #
+>> diff --git a/block/iscsi.c b/block/iscsi.c
+>> index 682abd8e09..68ed5cf3f8 100644
+>> --- a/block/iscsi.c
+>> +++ b/block/iscsi.c
+>> @@ -42,7 +42,7 @@
+>>   #include "qemu/uuid.h"
+>>   #include "sysemu/replay.h"
+>>   #include "qapi/error.h"
+>> -#include "qapi/qapi-commands-misc.h"
+>> +#include "qapi/qapi-commands-block-core.h"
+>>   #include "qapi/qmp/qdict.h"
+>>   #include "qapi/qmp/qstring.h"
+>>   #include "crypto/secret.h"
+>> diff --git a/stubs/uuid.c b/stubs/uuid.c
+>> index 67f182fa3a..9ef75fdae4 100644
+>> --- a/stubs/uuid.c
+>> +++ b/stubs/uuid.c
+>> @@ -1,5 +1,5 @@
+>>   #include "qemu/osdep.h"
+>> -#include "qapi/qapi-commands-misc.h"
+>> +#include "qapi/qapi-commands-block-core.h"
+>>   #include "qemu/uuid.h"
+>>  =20
+>>   UuidInfo *qmp_query_uuid(Error **errp)
+>=20
+
 
