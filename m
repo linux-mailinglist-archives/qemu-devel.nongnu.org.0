@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604B8187324
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:14:30 +0100 (CET)
-Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A2E1872F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:04:08 +0100 (CET)
+Received: from localhost ([::1]:47050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvC1-0008Qx-Dr
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45743)
+	id 1jDv1y-0006MY-2c
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuaL-0005bD-9E
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDucR-0000XG-2f
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:37:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuaK-0003LL-23
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:33 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37674)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDucQ-00014l-24
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:37:42 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42254)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDuaJ-0003Ey-Rg
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:31 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id ca13so9160943pjb.2
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:35:31 -0700 (PDT)
+ id 1jDucP-0000ry-QI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:37:41 -0400
+Received: by mail-pg1-x541.google.com with SMTP id h8so10222219pgs.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=w5sQjorFuVomVm2LDzmTqpG8kws2SJE8A/zp/CLyggs=;
- b=T1RUERIwtJ6S22w5e4synIHyYh7z3z0cv0mjTD+gBRoEdbnfjtdpGAUX1Yco1AGnnU
- m5d7VpH7OHuyIF4OHO1B+CBUw12yKe4q9WFiv+54HA4Pi38gFcauhtIqMC6zxRBHDTcv
- UDb38XOCUpC2NjOFZ8s0PkUOlSaC99aI3Pwos8dVDgNYz3fM/zAQnZn8ZPXKb+EBCEa8
- D1Z6SgsI1AhweZ7evsy51i0MurR94NuQuaLc9XwUjNBbIXYM+HZRUQf0zDJMBsv2EEqk
- McSWxGAA9JUhz7rZulh46fSoFi5AjqMNf1EtMHJovLSAcxLrL6FHpaOP7vHCU5y802Xe
- TTnQ==
+ bh=rukeMZTO3ItYYWVVNrji9T+F8BdIejhicAp//mKPMIg=;
+ b=N+26InJnd8RLBPMVqL2LJB6roBeYuXsJGWTZiAzoheZQMs8tTkyZyDTphbapyIAI7R
+ 0WfhSb6m1AiOr/eqjG6zx45wvzPqZubXPHpEpveds3Mip+omBg5aPhhUA+/NNMsqx85E
+ RdoOJuqUQrfTSpEG+HUSwtNy4/Sp5k3a/L6whrK0yEhSoDcjJNstcuFX+ZHaKONBYi3h
+ LmYLTz1Z0krctBPPd9o6Ns2/euIFck0hkpAB/8STkwioE9nlLDp6hrqyv9QNZ3P6iS1I
+ gjafC6Gw2W083KX/cDNB7LwoWBZ2oHW+kzjmJeGxF66gj/AkYzKBtI5hTYbPKJCXIbzd
+ /93g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=w5sQjorFuVomVm2LDzmTqpG8kws2SJE8A/zp/CLyggs=;
- b=WirCBuEp78sie3RhZ0T4v4KQ9SQEzgHumRjEFHe9QFWM5WPXfWOFwtr0RoNL5uwYgs
- roMaQbOjJ5L6bk2y2vKCVJU5on1VJBOi2CMrYAIqH+b1sScNv3obT+r6C0rFtO/WeTHb
- o8OKhQknUIrvflPhf7WPjkfJ5al25Tv2BKrGOKjoRR2CVGxfH4lzFJ8+Mf7dpm0ZmV9m
- j6D7h3Jc/iRHwCNBQeRKJZAg2YjxqeERgJb4WzfBhRMno5zueOh8o5WFsLrXNNoU92Hb
- SSVo7+eTtU8sB5bpbHkZMMf7dvJnfWC/Dmfv7wsUMfFY0QA6YlW55DVA/p5PeV4Pp9bc
- AqBA==
-X-Gm-Message-State: ANhLgQ1pFY8YclWgj2xLz8gd2IGY87oGLnHfHjaL2ya8rRiYc5Y5sOWF
- 4jHXdF7FivnrfEXt5NulV7QxnA==
-X-Google-Smtp-Source: ADFU+vscsDVE5KlM1Z2cgrOJmYCBBZI+tTToeWEeGN2Qa3SMeJ8wdjI97PGt5707Q5xz9pQkwxP+kQ==
-X-Received: by 2002:a17:902:7244:: with SMTP id c4mr528225pll.88.1584383730700; 
- Mon, 16 Mar 2020 11:35:30 -0700 (PDT)
+ bh=rukeMZTO3ItYYWVVNrji9T+F8BdIejhicAp//mKPMIg=;
+ b=i+qibnwwZTMzdM3n2MBD4GQUgm2qe5C9Vf5vvJLzgM1Soz+zKTjnMEg4aIHp5jUmjx
+ t3hTgc/OyME3Oy0alk+WoXn83sVoqCV+auJpUoO3IRyI1O3DJheYIALSsNIVzNjpbmZz
+ CmHtXG4zbHjLzWKMTHkz9frDEhPNeKPQVCiRWxT4Eppnttxn/nCAGV5FlmK3iRXrnu+L
+ nZZSpW98c54o1t9O/0CiOU6qFAhb1qG72vIqp41WD+eAThjGrpH9ZC4kJkRRSIHxivA9
+ fAQdw3M5nP2dOZCn8bzupTHGrICJxcELOTg62iaiMrcn3SbRC+YRGfJJ4Lr9xqvwmWBG
+ nCyQ==
+X-Gm-Message-State: ANhLgQ0SMLgnF/d+euAxgThEcPrjcuFfWocT049wVE+BuUMZ867nnTKf
+ baLtOWrU8oIZ5Yxwhn32AQW/BQ==
+X-Google-Smtp-Source: ADFU+vvjfJrWrrkRfgZmScambylSFixowRoyMCZOkLBug/XeApOXgRumgC+XKX/dKLYd3CttcgHniQ==
+X-Received: by 2002:aa7:8d82:: with SMTP id i2mr993474pfr.179.1584383860512;
+ Mon, 16 Mar 2020 11:37:40 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- y207sm584834pfb.189.2020.03.16.11.35.29
+ c128sm605845pfa.11.2020.03.16.11.37.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:35:30 -0700 (PDT)
-Subject: Re: [PATCH 10/11] target/arm: Always enable CONFIG_SEMIHOSTING
+ Mon, 16 Mar 2020 11:37:39 -0700 (PDT)
+Subject: Re: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG, and
+ allow to disable it
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-11-philmd@redhat.com>
+ <20200316120049.11225-12-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <79a88157-f3d4-5c69-fec0-bff6d2ba34a2@linaro.org>
-Date: Mon, 16 Mar 2020 11:35:28 -0700
+Message-ID: <7b1325f2-38ee-4ea5-ceaf-838f764f678b@linaro.org>
+Date: Mon, 16 Mar 2020 11:37:38 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316120049.11225-11-philmd@redhat.com>
+In-Reply-To: <20200316120049.11225-12-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,21 +94,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/16/20 5:00 AM, Philippe Mathieu-Daudé wrote:
-> On ARM, the semihosting feature is always required on user-space,
-> and is also used by system emulation.
+> The semihosting feature is only meaningful when using TCG.
+> 
+> So far only the ARM/MIPS/LM32 provide the semihosting feature.
+> 
+> Do not enable it by default, and let the few targets requiring
+> it to manually select it.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  default-configs/aarch64-linux-user-common.mak | 4 ++++
->  default-configs/aarch64-linux-user.mak        | 2 ++
->  default-configs/aarch64_be-linux-user.mak     | 2 ++
->  default-configs/arm-linux-user-common.mak     | 4 ++++
->  default-configs/arm-linux-user.mak            | 2 ++
->  default-configs/arm-softmmu.mak               | 4 +++-
->  default-configs/armeb-linux-user.mak          | 2 ++
->  7 files changed, 19 insertions(+), 1 deletion(-)
->  create mode 100644 default-configs/aarch64-linux-user-common.mak
->  create mode 100644 default-configs/arm-linux-user-common.mak
+>  hw/semihosting/Kconfig | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
