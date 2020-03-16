@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC58187245
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:27:54 +0100 (CET)
-Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F9E187225
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:20:33 +0100 (CET)
+Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuSv-0007wS-P8
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34842)
+	id 1jDuLo-0001lK-NL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDszG-0007SW-FC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:12 -0400
+ (envelope-from <pasic@linux.ibm.com>) id 1jDt3l-0007d7-VG
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDszE-0000hU-Ab
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:10 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDszE-0000VE-0l
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 25so18484539wmk.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VI4mbd3B2oWxXYLAt8oWmbegrxmq0MeKs/7FeQkOLFk=;
- b=ggxM5D/jQonjVvRf4hOhz1t+bjLab9L1sTPpAcdrjwNw1imJsM7G6up4114FB858JM
- 0rREoVyXFjNkUnkHJtokxL0hpM4pM/rM2XMpCZqvFbeLzVjn/dpVhsrji4ylRbwr34Ou
- Aywdjvz+kasA+LS86S3CiMlPshthAWoD7qvRLdHhKcZzHSLryxVczetoG4KbQgztlIQM
- k3OdTceYh4g+/5QIq8/gUqIDrhwXEIls+rHNWLE56If++0ORgzuxTN9PQrgHzaVZyeIF
- KaAIY/U6pLtSKeRD86cc8Clp7GH4cp6LfnE6mu1heMgDO/i9rzMh9F9OrQNiM6nAZCk0
- 2Y8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VI4mbd3B2oWxXYLAt8oWmbegrxmq0MeKs/7FeQkOLFk=;
- b=L7osFfEchptNphD3imH+GauY/AEPf2qJNFVaqAqSY8wHf8vBQr2aPDG6dHzfzdPaxE
- KBN8xuq1barZ1lQPvl3FxId15pDyHW1Vd8z2L0ckdDMdHvw0xgd1RmS/NWEekomYvxGt
- TumupFlq8dHfNF/K82jm8V6qi9f7jcG5C7l7yTBrKnc7RWm1n1OPze5ozWtvhpzBqsCj
- coFn0fYr2Xb4cJkhLlFcfgdFU6Vn06mz5XURtfmg4ZCP32u/HH4eISoTxBk3SQ2MQeTC
- aPW2TLHp1Y1VHzllegTbIZjo/FHktXEca35sJ9pJ6LT5AgrdqUwLSZ2cMDrBItRXF688
- bp8A==
-X-Gm-Message-State: ANhLgQ1ASt8UGPwcrNfAIexmvKXknQxGff43rqxrrD6hYsWU1UlXa/Qp
- vZGmFOhPr5UW1zyVaXcqpt0aHnG0LEZJV5pny6MUrIr9bQ8=
-X-Google-Smtp-Source: ADFU+vtl98cITYu2RUnfTdVXSlelw5FeBg/yEc59bqCzwdVnL8zHqKB2lxRVgLonq18ONuVHly0lWqBfhGDHB8Y/2mY=
-X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr88416wma.26.1584377586765;
- Mon, 16 Mar 2020 09:53:06 -0700 (PDT)
+ (envelope-from <pasic@linux.ibm.com>) id 1jDt3k-0007nK-Aa
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:57:49 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48020
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1jDt3k-0007Qa-2U
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:57:48 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02GGpa0j103853
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:57:46 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ytb3ndgvh-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:57:46 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
+ Mon, 16 Mar 2020 16:57:44 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 16 Mar 2020 16:57:41 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02GGve3g48889874
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Mar 2020 16:57:40 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88F024C062;
+ Mon, 16 Mar 2020 16:57:40 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C874E4C059;
+ Mon, 16 Mar 2020 16:57:39 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.172.163])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Mar 2020 16:57:39 +0000 (GMT)
+Date: Mon, 16 Mar 2020 17:57:37 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
+In-Reply-To: <20200313163122.GB95517@xz-x1>
+References: <20200226094357.25061-1-jasowang@redhat.com>
+ <20200226142839.4263de9b.pasic@linux.ibm.com>
+ <20200226083654-mutt-send-email-mst@kernel.org>
+ <20200226163618.31aa86ed.pasic@linux.ibm.com>
+ <20200226115009-mutt-send-email-mst@kernel.org>
+ <20200227140215.2d12149c.pasic@linux.ibm.com>
+ <20200227104233-mutt-send-email-mst@kernel.org>
+ <20200313134446.782c5f7c.pasic@linux.ibm.com>
+ <20200313112902-mutt-send-email-mst@kernel.org>
+ <20200313163122.GB95517@xz-x1>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-14-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-14-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 17:52:53 +0100
-Message-ID: <CAJ+F1C+GQjA1do86sCroCu=gLB=m=VO2297i8Be2uA0oTu9p+A@mail.gmail.com>
-Subject: Re: [PATCH v3 13/34] qapi: Consistently put @features parameter right
- after @ifcond
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-TM-AS-GCONF: 00
+x-cbid: 20031616-0020-0000-0000-000003B564DE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031616-0021-0000-0000-0000220DC563
+Message-Id: <20200316175737.365d7b32.pasic@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-16_07:2020-03-12,
+ 2020-03-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ spamscore=0 adultscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003160075
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,257 +101,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, "Singh,
+ Brijesh" <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 4:51 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Fri, 13 Mar 2020 12:31:22 -0400
+Peter Xu <peterx@redhat.com> wrote:
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> On Fri, Mar 13, 2020 at 11:29:59AM -0400, Michael S. Tsirkin wrote:
+> > On Fri, Mar 13, 2020 at 01:44:46PM +0100, Halil Pasic wrote:
+> > > [..]
+> > > > >=20
+> > > > > CCing Tom. @Tom does vhost-vsock work for you with SEV and curren=
+t qemu?
+> > > > >=20
+> > > > > Also, one can specify iommu_platform=3Don on a device that ain't =
+a part of
+> > > > > a secure-capable VM, just for the fun of it. And that breaks
+> > > > > vhost-vsock. Or is setting iommu_platform=3Don only valid if
+> > > > > qemu-system-s390x is protected virtualization capable?
+> > > > >=20
+> > > > > BTW, I don't have a strong opinion on the fixes tag. We currently=
+ do not
+> > > > > recommend setting iommu_platform, and thus I don't think we care =
+too
+> > > > > much about past qemus having problems with it.
+> > > > >=20
+> > > > > Regards,
+> > > > > Halil
+> > > >=20
+> > > >=20
+> > > > Let's just say if we do have a Fixes: tag we want to set it correct=
+ly to
+> > > > the commit that needs this fix.
+> > > >=20
+> > >=20
+> > > I finally did some digging regarding the performance degradation. For
+> > > s390x the performance degradation on vhost-net was introduced by comm=
+it
+> > > 076a93d797 ("exec: simplify address_space_get_iotlb_entry"). Before
+> > > IOMMUTLBEntry.addr_mask used to be based on plen, which in turn was
+> > > calculated as the rest of the memory regions size (from address), and
+> > > covered most of the guest address space. That is we didn't have a who=
+le
+> > > lot of IOTLB API overhead.
+> > >=20
+> > > With commit 076a93d797 I see IOMMUTLBEntry.addr_mask =3D=3D 0xfff whi=
+ch comes
+> > > as ~TARGET_PAGE_MASK from flatview_do_translate(). To have things wor=
+king
+> > > properly I applied 75e5b70e6, b021d1c044, and d542800d1e on the level=
+ of
+> > > 076a93d797 and 076a93d797~1.
+> >=20
+> > Peter, what's your take on this one?
+>=20
+> Commit 076a93d797 was one of the patchset where we want to provide
+> sensible IOTLB entries and also that should start to work with huge
+> pages.  Frankly speaking after a few years I forgot the original
+> motivation of that whole thing, but IIRC there's a patch that was
+> trying to speedup especially for vhost but I noticed it's not merged:
+>=20
+> https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg00574.html
+>=20
 
+=46rom the looks of it, I don't think we would have seen that big
+performance degradation had this patch been included. I can give
+it a spin if you like. Shall I?
 
-> ---
->  scripts/qapi/commands.py       |  6 +++---
->  scripts/qapi/doc.py            | 10 +++++-----
->  scripts/qapi/introspect.py     | 10 +++++-----
->  scripts/qapi/schema.py         | 36 ++++++++++++++++------------------
->  scripts/qapi/types.py          |  4 ++--
->  scripts/qapi/visit.py          |  4 ++--
->  tests/qapi-schema/test-qapi.py | 10 +++++-----
->  7 files changed, 39 insertions(+), 41 deletions(-)
->
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 0e13e82989..bc30876c88 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -283,9 +283,9 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmd=
-s);
->                                        prefix=3Dself._prefix))
->          self._genc.add(gen_registry(self._regy.get_content(), self._pref=
-ix))
->
-> -    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-> -                      success_response, boxed, allow_oob, allow_preconfi=
-g,
-> -                      features):
-> +    def visit_command(self, name, info, ifcond, features,
-> +                      arg_type, ret_type, gen, success_response, boxed,
-> +                      allow_oob, allow_preconfig):
->          if not gen:
->              return
->          # FIXME: If T is a user-defined type, the user is responsible
-> diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-> index 36e823338b..92f584edcf 100644
-> --- a/scripts/qapi/doc.py
-> +++ b/scripts/qapi/doc.py
-> @@ -249,8 +249,8 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
->                                  texi_members(doc, 'Values',
->                                               member_func=3Dtexi_enum_val=
-ue)))
->
-> -    def visit_object_type(self, name, info, ifcond, base, members, varia=
-nts,
-> -                          features):
-> +    def visit_object_type(self, name, info, ifcond, features,
-> +                          base, members, variants):
->          doc =3D self.cur_doc
->          if base and base.is_implicit():
->              base =3D None
-> @@ -262,9 +262,9 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
->          self._gen.add(texi_type('Alternate', doc, ifcond,
->                                  texi_members(doc, 'Members')))
->
-> -    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-> -                      success_response, boxed, allow_oob, allow_preconfi=
-g,
-> -                      features):
-> +    def visit_command(self, name, info, ifcond, features,
-> +                      arg_type, ret_type, gen, success_response, boxed,
-> +                      allow_oob, allow_preconfig):
->          doc =3D self.cur_doc
->          self._gen.add(texi_msg('Command', doc, ifcond,
->                                 texi_arguments(doc,
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index 2e9e00aa1f..b54910510d 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -193,8 +193,8 @@ const QLitObject %(c_name)s =3D %(c_string)s;
->          self._gen_qlit('[' + element + ']', 'array', {'element-type': el=
-ement},
->                         ifcond, None)
->
-> -    def visit_object_type_flat(self, name, info, ifcond, members, varian=
-ts,
-> -                               features):
-> +    def visit_object_type_flat(self, name, info, ifcond, features,
-> +                               members, variants):
->          obj =3D {'members': [self._gen_member(m) for m in members]}
->          if variants:
->              obj.update(self._gen_variants(variants.tag_member.name,
-> @@ -209,9 +209,9 @@ const QLitObject %(c_name)s =3D %(c_string)s;
->                             for m in variants.variants]},
->                         ifcond, features)
->
-> -    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-> -                      success_response, boxed, allow_oob, allow_preconfi=
-g,
-> -                      features):
-> +    def visit_command(self, name, info, ifcond, features,
-> +                      arg_type, ret_type, gen, success_response, boxed,
-> +                      allow_oob, allow_preconfig):
->          arg_type =3D arg_type or self._schema.the_empty_object_type
->          ret_type =3D ret_type or self._schema.the_empty_object_type
->          obj =3D {'arg-type': self._use_type(arg_type),
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 22238005ff..958756ecd6 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -115,20 +115,20 @@ class QAPISchemaVisitor:
->      def visit_array_type(self, name, info, ifcond, element_type):
->          pass
->
-> -    def visit_object_type(self, name, info, ifcond, base, members, varia=
-nts,
-> -                          features):
-> +    def visit_object_type(self, name, info, ifcond, features,
-> +                          base, members, variants):
->          pass
->
-> -    def visit_object_type_flat(self, name, info, ifcond, members, varian=
-ts,
-> -                               features):
-> +    def visit_object_type_flat(self, name, info, ifcond, features,
-> +                               members, variants):
->          pass
->
->      def visit_alternate_type(self, name, info, ifcond, features, variant=
-s):
->          pass
->
-> -    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-> -                      success_response, boxed, allow_oob, allow_preconfi=
-g,
-> -                      features):
-> +    def visit_command(self, name, info, ifcond, features,
-> +                      arg_type, ret_type, gen, success_response, boxed,
-> +                      allow_oob, allow_preconfig):
->          pass
->
->      def visit_event(self, name, info, ifcond, features, arg_type, boxed)=
-:
-> @@ -436,12 +436,12 @@ class QAPISchemaObjectType(QAPISchemaType):
->
->      def visit(self, visitor):
->          super().visit(visitor)
-> -        visitor.visit_object_type(self.name, self.info, self.ifcond,
-> -                                  self.base, self.local_members, self.va=
-riants,
-> -                                  self.features)
-> -        visitor.visit_object_type_flat(self.name, self.info, self.ifcond=
-,
-> -                                       self.members, self.variants,
-> -                                       self.features)
-> +        visitor.visit_object_type(
-> +            self.name, self.info, self.ifcond, self.features,
-> +            self.base, self.local_members, self.variants)
-> +        visitor.visit_object_type_flat(
-> +            self.name, self.info, self.ifcond, self.features,
-> +            self.members, self.variants)
->
->
->  class QAPISchemaMember:
-> @@ -745,12 +745,10 @@ class QAPISchemaCommand(QAPISchemaEntity):
->
->      def visit(self, visitor):
->          super().visit(visitor)
-> -        visitor.visit_command(self.name, self.info, self.ifcond,
-> -                              self.arg_type, self.ret_type,
-> -                              self.gen, self.success_response,
-> -                              self.boxed, self.allow_oob,
-> -                              self.allow_preconfig,
-> -                              self.features)
-> +        visitor.visit_command(
-> +            self.name, self.info, self.ifcond, self.features,
-> +            self.arg_type, self.ret_type, self.gen, self.success_respons=
-e,
-> +            self.boxed, self.allow_oob, self.allow_preconfig)
->
->
->  class QAPISchemaEvent(QAPISchemaEntity):
-> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-> index d0d5c03646..3ad33af4ee 100644
-> --- a/scripts/qapi/types.py
-> +++ b/scripts/qapi/types.py
-> @@ -289,8 +289,8 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisi=
-tor):
->              self._genh.add(gen_array(name, element_type))
->              self._gen_type_cleanup(name)
->
-> -    def visit_object_type(self, name, info, ifcond, base, members, varia=
-nts,
-> -                          features):
-> +    def visit_object_type(self, name, info, ifcond, features,
-> +                          base, members, variants):
->          # Nothing to do for the special empty builtin
->          if name =3D=3D 'q_empty':
->              return
-> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-> index 6e5ed781d7..23d9194aa4 100644
-> --- a/scripts/qapi/visit.py
-> +++ b/scripts/qapi/visit.py
-> @@ -326,8 +326,8 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVis=
-itor):
->              self._genh.add(gen_visit_decl(name))
->              self._genc.add(gen_visit_list(name, element_type))
->
-> -    def visit_object_type(self, name, info, ifcond, base, members, varia=
-nts,
-> -                          features):
-> +    def visit_object_type(self, name, info, ifcond, features,
-> +                          base, members, variants):
->          # Nothing to do for the special empty builtin
->          if name =3D=3D 'q_empty':
->              return
-> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
-.py
-> index af5b57a0b1..8e09e54edb 100755
-> --- a/tests/qapi-schema/test-qapi.py
-> +++ b/tests/qapi-schema/test-qapi.py
-> @@ -46,8 +46,8 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
->          print('array %s %s' % (name, element_type.name))
->          self._print_if(ifcond)
->
-> -    def visit_object_type(self, name, info, ifcond, base, members, varia=
-nts,
-> -                          features):
-> +    def visit_object_type(self, name, info, ifcond, features,
-> +                          base, members, variants):
->          print('object %s' % name)
->          if base:
->              print('    base %s' % base.name)
-> @@ -65,9 +65,9 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
->          self._print_if(ifcond)
->          self._print_features(features)
->
-> -    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-> -                      success_response, boxed, allow_oob, allow_preconfi=
-g,
-> -                      features):
-> +    def visit_command(self, name, info, ifcond, features,
-> +                      arg_type, ret_type, gen, success_response, boxed,
-> +                      allow_oob, allow_preconfig):
->          print('command %s %s -> %s'
->                % (name, arg_type and arg_type.name,
->                   ret_type and ret_type.name))
-> --
-> 2.21.1
->
->
+> Regarding to the current patch, I'm not sure I understand it
+> correctly, but is that performance issue only happens when (1) there's
+> no intel-iommu device, and (2) there is iommu_platform=3Don specified
+> for the vhost backend?
+>=20
+
+I can confirm, that your description covers my scenario. I didn't
+investigate what happens when we have an intel-iommu, because s390 does
+not do intel-iommu. I can also confirm that no performance degradation
+is observed when the virtio-net has iommu_platform=3Doff. The property
+iommu_platform is a virtio device (and not a backend) level property.
+=20
+
+> If so, I'd confess I am not too surprised if this fails the boot with
+> vhost-vsock because after all we speicified iommu_platform=3Don
+> explicitly in the cmdline, so if we want it to work we can simply
+> remove that iommu_platform=3Don when vhost-vsock doesn't support it
+> yet...  I thougth iommu_platform=3Don was added for that case - when we
+> want to force IOMMU to be enabled from host side, and it should always
+> be used with a vIOMMU device.
+>=20
+
+The problem is that the virtio feature bit F_ACCESS_PLATFORM, which is
+directly controlled by the iommu_platform proprerty stands for two things
+1) need to do IOVA translation
+2) the access of the device to the guests RAM is restricted.
+
+There are cases where 2) does apply and 1) does not. We need to specify
+iommu_platform=3Don to make the virtio implementation in the guest use
+the dma api, because we need to grant access to memory as required. But
+we don't need translation and we don't have a vIOMMU.
+
+Regards,
+Halil
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+> However I also agree that from performance POV this patch helps for
+> this quite special case.
+>=20
+> Thanks,
+>=20
+
 
