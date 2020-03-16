@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEA318704D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:43:48 +0100 (CET)
-Received: from localhost ([::1]:42552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A057187057
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:46:34 +0100 (CET)
+Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsqB-0007HU-MJ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40739)
+	id 1jDssr-0002XD-1I
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jDqJ8-0006Rw-8p
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1jDqgY-0006xC-C8
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jDqJ6-0004cg-9T
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22172
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDqJ6-0004Mg-1I
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584367286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JtynQXw1h72AaSdoWkMQ3V0Qgfio3ZIRtIZgrvW0mao=;
- b=GFkMDpRaV9CC5cTG2xJZP4fvhJkIpHgYp9uavU9/Lv5Q/2VnfNUJqdQ0+BcH4qG5dN9uRw
- MsIuLYAqpJc57GbYJuVlel3d5XsqWJ9f1qV8UTLF3ZeTeffqZz0EPsECvX/tU0HIHI5yDL
- oKkGyfA/AoODzs0SZdU6VkkpWjsMyLA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-Ce6RG78CPwCw2_o7zgR-Vw-1; Mon, 16 Mar 2020 10:01:22 -0400
-X-MC-Unique: Ce6RG78CPwCw2_o7zgR-Vw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3B6612F178;
- Mon, 16 Mar 2020 14:01:18 +0000 (UTC)
-Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F96A5C1B5;
- Mon, 16 Mar 2020 14:01:12 +0000 (UTC)
-Subject: Re: [PATCH v6 3/4] qcow2: add zstd cluster compression
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200312092242.5536-1-dplotnikov@virtuozzo.com>
- <20200312092242.5536-4-dplotnikov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6dd9966e-e22a-b0d0-80a1-7e2c9cc9671f@redhat.com>
-Date: Mon, 16 Mar 2020 09:01:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jDqgW-0005ow-Tw
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57754)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jDqgW-0005ce-N1
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jDqgU-0002JR-SR
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 14:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BB8BE2E80D3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 14:25:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200312092242.5536-4-dplotnikov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Mar 2020 14:20:22 -0000
+From: Andreas Hasenack <andreas@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: Andreas Hasenack (ahasenack)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158436842225.11736.2918985588472857115.malone@soybean.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 99c216ee5a6345a92279a609a67302c7949b8672
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,219 +66,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/12/20 4:22 AM, Denis Plotnikov wrote:
-> zstd significantly reduces cluster compression time.
-> It provides better compression performance maintaining
-> the same level of the compression ratio in comparison with
-> zlib, which, at the moment, is the only compression
-> method available.
-> 
+The package from the PPA failed the same way for me:
 
-> +++ b/docs/interop/qcow2.txt
-> @@ -208,6 +208,7 @@ version 2.
->   
->                       Available compression type values:
->                           0: zlib <https://www.zlib.net/>
-> +                        1: zstd <http://github.com/facebook/zstd>
->   
->   
->   === Header padding ===
-> @@ -575,11 +576,30 @@ Compressed Clusters Descriptor (x = 62 - (cluster_bits - 8)):
->                       Another compressed cluster may map to the tail of the final
->                       sector used by this compressed cluster.
->   
-> +                    The layout of the compressed data depends on the compression
-> +                    type used for the image (see compressed cluster layout).
-> +
->   If a cluster is unallocated, read requests shall read the data from the backing
->   file (except if bit 0 in the Standard Cluster Descriptor is set). If there is
->   no backing file or the backing file is smaller than the image, they shall read
->   zeros for all parts that are not covered by the backing file.
->   
-> +=== Compressed Cluster Layout ===
-> +
-> +The compressed cluster data has a layout depending on the compression
-> +type used for the image, as follows:
-> +
-> +Compressed data layout for the available compression types:
-> +data_space_lenght - data chunk length available to store a compressed cluster.
+ubuntu@f1:~$ qemu-system-x86_64 --enable-kvm -cpu Penryn,vmx=3Don -m 512 --=
+nodefaults --nographic
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
+01H:ECX.sse4.1 [bit 19]
+KVM internal error. Suberror: 1
+emulation failure
+EAX=3D00000000 EBX=3D00000000 ECX=3D000086d4 EDX=3D00000000
+ESI=3D00000000 EDI=3D00000000 EBP=3D000086d4 ESP=3D00006d7c
+EIP=3D00007acf EFL=3D00000002 [-------] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HLT=
+=3D0
+ES =3D0000 00000000 ffffffff 00809300
+CS =3Df000 000f0000 ffffffff 00809b00
+SS =3D0000 00000000 ffffffff 00809300
+DS =3D0000 00000000 ffffffff 00809300
+FS =3D0000 00000000 ffffffff 00809300
+GS =3D0000 00000000 ffffffff 00809300
+LDT=3D0000 00000000 0000ffff 00008200
+TR =3D0000 00000000 0000ffff 00008b00
+GDT=3D     000f6200 00000037
+IDT=3D     00000000 000003ff
+CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
+0000000000000000 =
 
-length
+DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+EFER=3D0000000000000000
+Code=3Db8 90 d9 00 00 66 e8 6b f7 ff ff 66 b8 0a 00 00 00 e9 61 f2 <f3> 0f =
+1e fb 66 57 66 56 66 53 66 53 66 89 c7 67 66 89 14 24 66 89 ce 66 e8 15 f8 =
+ff ff 88
+^Cqemu-system-x86_64: terminating on signal 2
 
-> +(for more details see "Compressed Clusters Descriptor")
-> +x = data_space_length - 1
+ubuntu@f1:~$ qemu-system-x86_64 --help 2>&1|head -n 1
+QEMU emulator version 4.2.0 (Debian 1:4.2-3ubuntu3~ppa1)
+ubuntu@f1:~$
 
-If I understand correctly, data_space_length is really an upper bounds 
-on the length available, because it is computed by rounding UP to the 
-next 512-byte boundary (that is, the L2 descriptor lists the number of 
-additional sectors used in storing the compressed data).  Which really 
-means that we have the following, where + is cluster boundaries, S and E 
-are the start and end of the compressed data, and D is the offset 
-determined by data_space_length:
+-- =
 
-+-------+-------+------+
-       S============E...D
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
 
-> +
-> +    0:  (default)  zlib <http://zlib.net/>:
-> +            Byte  0 -  x:     the compressed data content
-> +                              all the space provided used for compressed data
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
 
-For zlib, we have byte 0-E are compressed data, and bytes (E+1)-D (if 
-any) are ignored.  There is no way to tell how many bytes between E and 
-D exist, because zlib doesn't care (the compression stream itself 
-ensures that decompression stops when input reaches E because the output 
-reached a cluster boundary at that point).
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
 
-> +    1:  zstd <http://github.com/facebook/zstd>:
-> +            Byte  0 -  3:     the length of compressed data in bytes
-> +                  4 -  x:     the compressed data content
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
 
-Whereas for zstd, the decompression MUST know the actual location of E, 
-rather than passing in the slop between E and D; bytes 0-3 give us that 
-information.
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
 
-But your description is not very accurate:  if 'x' is point E, then it 
-is NOT data_space_length - 1, but rather data_space_length - slop, where 
-slop can be up to 511 bytes (the number of bytes from (E+1) to D).  And 
-if 'x' is point E, then the real layout for zlib is:
+  =
 
-byte 0 - E: the compressed data content
-byte E+1 - x: ignored slop (E is implied solely by the compressed data)
+  ---
 
-and for zstd is:
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
 
-byte 0 - 3: the length of the compressed data
-byte 4 - E: the compressed data (E computed from byte 0-3)
-byte E+1 - x: ignored
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
 
-I'm not sure what the best way is to document this.
+  These Guests are not nested.
 
-> +++ b/block/qcow2-threads.c
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
 
-> +static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
-> +                                   const void *src, size_t src_size)
-> +{
-> +    size_t ret;
-> +
-> +    /*
-> +     * steal ZSTD_LEN_BUF bytes in the very beginning of the buffer
-> +     * to store compressed chunk size
-> +     */
-> +    char *d_buf = ((char *) dest) + ZSTD_LEN_BUF;
-> +
-> +    /*
-> +     * sanity check that we can store the compressed data length,
-> +     * and there is some space left for the compressor buffer
-> +     */
-> +    if (dest_size <= ZSTD_LEN_BUF) {
-> +        return -ENOMEM;
-> +    }
-> +
-> +    dest_size -= ZSTD_LEN_BUF;
-> +
-> +    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
-
-Where does the magic number 5 come from?
-
-> +
-> +    if (ZSTD_isError(ret)) {
-> +        if (ZSTD_getErrorCode(ret) == ZSTD_error_dstSize_tooSmall) {
-> +            return -ENOMEM;
-> +        } else {
-> +            return -EIO;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * paranoid sanity check that we can store
-> +     * the compressed size in the first 4 bytes
-> +     */
-> +    if (ret > UINT32_MAX) {
-> +        return -ENOMEM;
-> +    }
-
-The if is awkward.  I'd prefer to change this to:
-
-     /*
-      * Our largest cluster is 2M, and we insist that compression
-      * actually compressed things.
-      */
-     assert(ret < UINT32_MAX);
-
-or even tighten to assert(ret <= dest_size)
-
-> +
-> +    /* store the compressed chunk size in the very beginning of the buffer */
-> +    stl_be_p(dest, ret);
-> +
-> +    return ret + ZSTD_LEN_BUF;
-> +}
-> +
-> +/*
-> + * qcow2_zstd_decompress()
-> + *
-> + * Decompress some data (not more than @src_size bytes) to produce exactly
-> + * @dest_size bytes using zstd compression method
-> + *
-> + * @dest - destination buffer, @dest_size bytes
-> + * @src - source buffer, @src_size bytes
-> + *
-> + * Returns: 0 on success
-> + *          -EIO on any error
-> + */
-> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
-> +                                     const void *src, size_t src_size)
-> +{
-> +    /*
-> +     * zstd decompress wants to know the exact length of the data.
-> +     * For that purpose, on compression, the length is stored in
-> +     * the very beginning of the compressed buffer
-> +     */
-> +    size_t s_size;
-> +    const char *s_buf = ((const char *) src) + ZSTD_LEN_BUF;
-> +
-> +    /*
-> +     * sanity check that we can read 4 byte the content length and
-> +     * and there is some content to decompress
-> +     */
-> +    if (src_size <= ZSTD_LEN_BUF) {
-> +        return -EIO;
-> +    }
-> +
-> +    s_size = ldl_be_p(src);
-> +
-> +    /* sanity check that the buffer is big enough to read the content from */
-> +    if (src_size - ZSTD_LEN_BUF < s_size) {
-> +        return -EIO;
-> +    }
-> +
-> +    if (ZSTD_isError(
-> +            ZSTD_decompress(dest, dest_size, s_buf, s_size))) {
-
-You are correct that ZSTD_decompress() is picky that it must be given 
-the exact size of the compressed buffer it is decompressing.  But the 
-ZSTD manual mentions that if an exact size is not known in advance, that 
-the streaming API can be used instead:
-
-https://facebook.github.io/zstd/zstd_manual.html#Chapter9
-
-In other words, would it be possible to NOT have to prepend four bytes 
-of exact size information, by instead setting up decompression via the 
-streaming API where the input is (usually) oversized, but the output 
-buffer limited to exactly one cluster is sufficient to consume the exact 
-compressed data and ignore the slop, just as we do in zlib?
-
-The rest of this patch looks okay.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
