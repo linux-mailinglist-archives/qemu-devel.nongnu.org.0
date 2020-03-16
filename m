@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2271E187198
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:51:45 +0100 (CET)
-Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E6A187183
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:47:59 +0100 (CET)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDttw-00037R-5F
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
+	id 1jDtqI-0003ml-Nd
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:47:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDsPc-0007tf-6q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:21 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDsPW-0007s0-SC
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDsPb-00081i-5V
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:58519)
+ (envelope-from <laurent@vivier.eu>) id 1jDsPV-0007A5-Rb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:33739)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPa-0007qv-SE
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:19 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPV-0006zr-7Y
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:13 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWR6x-1ioucO0HkJ-00Xvoy; Mon, 16 Mar 2020 17:16:07 +0100
+ id 1M8k65-1jI1HP0mQ5-004gec; Mon, 16 Mar 2020 17:16:10 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/38] linux-user: Add x86_64 vsyscall page to /proc/self/maps
-Date: Mon, 16 Mar 2020 17:15:16 +0100
-Message-Id: <20200316161550.336150-5-laurent@vivier.eu>
+Subject: [PULL 06/38] linux-user: Add AT_EXECFN auxval
+Date: Mon, 16 Mar 2020 17:15:18 +0100
+Message-Id: <20200316161550.336150-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200316161550.336150-1-laurent@vivier.eu>
 References: <20200316161550.336150-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aZJhjr1SrOnsZQ0Eh7GbOh1xCz4COGGOOTZHp4QlnihexQ9KgAx
- OEI24kevWu/iirqAk5ty1OFeu53UcviEnp1PfguCVZp+MB/s8PSC8wHz4R1BYYRqn5+1NbE
- PDvMR40ZCB4qy58arwxydxR9er0qeCs3KOKOBim+wTOHAURPP58oGFH/IBx4nUnJbNC3ZKL
- nnCdQC5AIxJJjxKzMpJSA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ksttNYJ3YiM=:RaSS9gfOnXm7Obg/KdtIYh
- /o2X0KsGwG+fnmVMVoTjd1cjpGfg97JaJ/Tei93aaKDhA+9quhMkOk5yqTavhnQLxiBYgcuVY
- SoT5X0lQKx0SaFzRxkLvWUfl7RUputVt7OqY9RefGOHnLA4UAZqdIZzG3hLIvpUV6NN21bR5S
- qH+ge423gqHd1tQ/KQ/iTih/1GK7Aq957Ls7NkXgauTtC4h8cXbaV+BJkKEGKlOe4FRsujaUv
- Ekxv2VT71kfLd0nRZIDHEJaQIAdtDQBNjaGziEoZshcFLUDpuy5NHrGZn8fnXEcKZiBf9PD+H
- 8PcnNe8Cop38psjdLXynSLSn0yEIVsCz5dpmAkSKOfBMMk0whOn19jPQ7zH/GPClb5cXurpY0
- DUV6BbEkbq4Uf59WdYlOc1CQBRUsIsDp+8kFZyFbf4MyFl2nldER/CkTkQ80KebzVvi5bd2IM
- SiVbjm+2J+ufAEz8+AMn0cMMLwBZ4ytQv6jYKJXd17fbodoIhIQV9f0+k/6SNDiU+UcpNI6wY
- 0p8M8B9vfB3hA4bUctTrHzjnlg+DSUIlyLM6I6YmjSCRh/3GE6n3YE6iarGnU4ycEzrnFaIHN
- DwmtKpHMN8BhzN5AMB0Cb2J0rlvNdlEFvYd6cLpuUVPFGdRhXcPiGutlBq6SbKEKE9IPuGwGK
- nSiZKtwjbnKWNurQZ0YTpaIRbCiAIcBz9zzI6NNQa+gjt5PAnIS+mv9kivhI4x+6QqpcZ/kMx
- JJk3zmYTIV73WSDutgellKeoK7IX44VD7MgjN+oE9QJhwvptUU+i+C8lTIKn2cfZC+4Ro96iI
- y75aRBDf0z7so6mPrISjNhDBrNhOSGRbX3sFRNUtzuE84ZdJ01AT/GEeOs+0ggmqNzYXkNW
+X-Provags-ID: V03:K1:5R+rosIIZqp4x+AWEBJhCWkTQnritmsp1GCrgjdkNp0r9j7M2qd
+ Fpe5OxSdENan4w1x+6Je3h9DAu8lrSl6cWpuelUSAdDChMmDETB/UEXWQdCPBIr22ViG1V0
+ lDPNi+3G6vmxHI08oCn8aHZiY1GGB0MrmE7czPb2Q50IDbHkLZv0YJ6aJMOr8PxlSpk+l4p
+ KOP3HOWAY5nbR7TARsXgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nykbyp/CenE=:lndPYVXu8QLgV+0fNHOVZa
+ aQORoa0iWOho71WoOmiTaal7shXg9g5Vl1QmF4r0HbdudU88I0b0ZVxvgT2OAfnjHCOHzGlpD
+ jmgNyKrBCZuSjzdylgne413u2qmUiuYl+V213vKRuSFwhbZoAlj7ZKb1FDxak+kwcrZ2dcLhU
+ NmTQ5R4s9GZoyeEcgkPMxh9tK8dfe4R+CgryxwtOHasIcCYnBx1adqlvwswAMgYw9YyrUIfnk
+ ZHwBharQGj4bELOKsdd4JFwBmupsDgCizPw/wPGaP8Oskx4PrSwFXfabMFEFwqs3P1qpP9ZzW
+ uIfuxr6lGbRttiZV01RR0k0EAihl+sYhDUUuwXIDIEscp270LqIhuHIciLsr+kR+8S1bREsSP
+ TBGWfNlqsTELX4+vAlbJ270mY6ci3eOL8FlWGo0wm+NeT+keksBjejPkntKLIf22f0+PbJt6H
+ 22WidEmLi7JctGN7USLs/QZYrOavVE27hQWvqD6YTMSLSCKT616SdwFiC8uzqBecwEviYn8Lz
+ lpEINyz8IXxGk1THu27vuyOQexJWMD6auvdjaSDzN681O0sH8PVoS//uE1ovgK1Gs/5QnRwfs
+ 6Affz16Z/M/bZsTyDj//9cnnadEdxzOvWOTYKsg1fCUVIO+Arnx2EDYJ+P0jnzEaEaxjVYtUY
+ XjvctbqfjSj7U9Vnq79GkBoVC/NWkckgMypAuIgWZNxoFk6vF9LbvJnzgV9NO4caOtRaF8SW8
+ Cc1gGtFNoxrxSs4iUh7bsAyDSbBHzNvGq6n4XR1obvPSOSL2tEd4WupCjDlTjAopGRcKTqlk+
+ DmFZwRJ1WLwMZkfHXvzbEIAOluLyFXs/pnBC2jNJA1lbq6EkkM36CO3FoMnmhTmjEWAF4Nb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,50 +63,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Lirong Yuan <yuanzi@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Lirong Yuan <yuanzi@google.com>
 
-The page isn't (necessarily) present in the host /proc/self/maps,
-and even if it might be it isn't present in page_flags, and even
-if it was it might not have the same set of page permissions.
+This change adds the support for AT_EXECFN auxval.
 
-The easiest thing to do, particularly when it comes to the
-"[vsyscall]" note at the end of line, is to special case it.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200213032223.14643-5-richard.henderson@linaro.org>
-[lv: remove trailing whitespace]
+Signed-off-by: Lirong Yuan <yuanzi@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200302193153.66415-1-yuanzi@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ linux-user/elfload.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8d27d1080752..5479d67a10be 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7079,6 +7079,16 @@ static int open_self_maps(void *cpu_env, int fd)
-         }
-     }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index db748c58775f..8198be044604 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1573,7 +1573,7 @@ struct exec
+                                  ~(abi_ulong)(TARGET_ELF_EXEC_PAGESIZE-1))
+ #define TARGET_ELF_PAGEOFFSET(_v) ((_v) & (TARGET_ELF_EXEC_PAGESIZE-1))
  
-+#ifdef TARGET_VSYSCALL_PAGE
-+    /*
-+     * We only support execution from the vsyscall page.
-+     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=y from v5.3.
-+     */
-+    dprintf(fd, TARGET_FMT_lx "-" TARGET_FMT_lx
-+            " --xp 00000000 00:00 0 [vsyscall]\n",
-+            TARGET_VSYSCALL_PAGE, TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE);
-+#endif
-+
-     free(line);
-     fclose(fp);
+-#define DLINFO_ITEMS 15
++#define DLINFO_ITEMS 16
  
+ static inline void memcpy_fromfs(void * to, const void * from, unsigned long n)
+ {
+@@ -2037,6 +2037,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+     NEW_AUX_ENT(AT_CLKTCK, (abi_ulong) sysconf(_SC_CLK_TCK));
+     NEW_AUX_ENT(AT_RANDOM, (abi_ulong) u_rand_bytes);
+     NEW_AUX_ENT(AT_SECURE, (abi_ulong) qemu_getauxval(AT_SECURE));
++    NEW_AUX_ENT(AT_EXECFN, info->file_string);
+ 
+ #ifdef ELF_HWCAP2
+     NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
 -- 
 2.24.1
 
