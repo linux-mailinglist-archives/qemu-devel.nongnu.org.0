@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A8618715F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:43:53 +0100 (CET)
-Received: from localhost ([::1]:44697 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41FF18712C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:31:47 +0100 (CET)
+Received: from localhost ([::1]:44326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtmK-0005A2-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:43:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
+	id 1jDtac-00079K-TK
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsGT-00045J-CD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsGp-0004GV-3w
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsGS-000791-2u
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43045)
+ (envelope-from <philmd@redhat.com>) id 1jDsGn-0000vQ-Uu
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:14 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52441)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGR-00074p-Tj
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:52 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGn-0000tR-R0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374811;
+ s=mimecast20190719; t=1584374833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ecct8qM9CQq9wafb4H/DdqFCaIbWp3zdOza4EOqH9I4=;
- b=c95YFYMkfCRaVN+sBlJNYP59oneTP5J978NZXe6kzWU3HRPrA/P3U4zustSTbGdWNutv5b
- sgYuvGmUSLdYOiFirMRDqrhWZXDMwMco8kL9PNTjZRJHwhgf/nKflkvQUDySM3o0D3C9Qi
- tfIVR2tThEqfzXrE/P9RffEtaOvRnqc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-rzMu8fKaP4yUuOEYnCjtqg-1; Mon, 16 Mar 2020 12:06:50 -0400
-X-MC-Unique: rzMu8fKaP4yUuOEYnCjtqg-1
-Received: by mail-wm1-f70.google.com with SMTP id f185so1010320wmf.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:06:49 -0700 (PDT)
+ bh=Qw8ssmMAy8/C4B18gVc/ltfDqHgs0GK3VzA8PNnWZBA=;
+ b=NiluiQQRhy4IsibDxDeQRpgGakY/VfVxrjGRCUpxCkHthbJc/hEf+L8czJIXB+4EXQYyDK
+ oO/u4VbYXvk/xpYn+n6/RnAz7/sutYKANSd2E+HFEi3qYMFTg3RX8LTMgXHrdTsv1yNiHl
+ im8iRCfT2c5GVxfCiCLpDWnbYqNfPqI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-D_eaYjCJN3eWzZyezs1ITQ-1; Mon, 16 Mar 2020 12:07:10 -0400
+X-MC-Unique: D_eaYjCJN3eWzZyezs1ITQ-1
+Received: by mail-ed1-f71.google.com with SMTP id y10so15625718edw.23
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZypQ8Ym2m02m1znfiemKRznaDVP8zp+ewV5H3Kv12cs=;
- b=Pu+1WT24zTyLapclgmNBderSbNeukXFqL28mgw5s0v+joY3cHZ3DI02FtZSX4kJzvq
- 26efF8EOjXuBb06OTgyr2mlOhQSe6xb1Qw+ge1Q1ytmHsGQ06aZJHIDi96gt6DHTIcVg
- VEdFqZqeimvwAKn63OmA9ypfH6bkQpDhPVTaPftc5WOA48qa/Rf5lNP0iUd8WiFvlWdd
- gKRws6nIstMIWJQ4dMTs7/ZwcYOqOx3LUrwIl7kAIIvmDQ5j2blvOoRvc0xwSBSsfK8/
- w1NFgX75cNGe0Asv/xktsHpv+dl4lHEqjNi42caS+BxpXX8KOLJk1cg+SWrauLjPdqSx
- 477Q==
-X-Gm-Message-State: ANhLgQ1jTHCD/haRe/vahwrjubZXt3RbwdTtFV16NbK1A4KTBdWzR5AP
- d/fzICShVXPJLVG6V8qPMKOuChEB1/n1bo4flf1Jq2qNaDu69EDnocaof1ELgsO4ukV7mIHw+Qg
- cmxoXpKX0OwpaJ9Y=
-X-Received: by 2002:a5d:6287:: with SMTP id k7mr52980wru.195.1584374808596;
- Mon, 16 Mar 2020 09:06:48 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvIxEdXRN1Eb4UdNMtDRQaogZc63ozPayx+X/+0N08mn+FZQszGY+8INmM9VEIFVn95PP+ZPA==
-X-Received: by 2002:a5d:6287:: with SMTP id k7mr52955wru.195.1584374808384;
- Mon, 16 Mar 2020 09:06:48 -0700 (PDT)
+ bh=ro+HCuhG/U1g3lYErsu/yY3mato6cTL6YgdKcF/Jx28=;
+ b=daztEUmy8pwYFdMpN5r+2Qk22MfXuwTzzArr+rVJlBeQ4W9tlOI364E2E4jb62pLz1
+ UqRNDpQ5AKT9YBtNfIGROSHXAuaqex0dB+59KHCAgxLaRUukLKGlKSQ6FgFJZTJt1bMT
+ 8f0fAsduT8q6u8WQUfJGLrgI+l0GyfIq07GTfbQ+mjVqK1Sp14pBK0CkaYv+vpWokaW2
+ Uerhbi7rDBOnodhNkZ4bbdJvGJHU8nkQht9Wyq3AuMGQPSjuC5UvzaJvJp7d7p+LqaQ6
+ mwJw6wGovZ9Qr0MOxAsgWHrPYAwR6jNrMrS0szmn0JnQVOiLaTLIqJrdb2eqED3Ft3ny
+ hd1Q==
+X-Gm-Message-State: ANhLgQ1KBsr2VU9Hq33SYZjkuSf8V3mgLjAHuvTV/iICqPQWur0+bY/6
+ +dvFiIR+/9JJNlK1gohQGmARUdeyGEfmfmAVkS/tdbDXppnVZ9ouApq1lFw/mTD0K+/L/45B/Rg
+ 41eGhzSRP8JMgDdI=
+X-Received: by 2002:a17:906:33d0:: with SMTP id
+ w16mr19391061eja.257.1584374825528; 
+ Mon, 16 Mar 2020 09:07:05 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtV7veg30cCQ3j3SAt9xjtSLJOa94Pxt9UeVCoRu/dTyjd6KIDS5xdnx353O9uNorBrl6JTdw==
+X-Received: by 2002:a17:906:33d0:: with SMTP id
+ w16mr19391034eja.257.1584374825290; 
+ Mon, 16 Mar 2020 09:07:05 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id b15sm498970wru.70.2020.03.16.09.06.46
+ by smtp.gmail.com with ESMTPSA id 31sm14913edc.26.2020.03.16.09.07.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:06:47 -0700 (PDT)
+ Mon, 16 Mar 2020 09:07:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/19] target/arm: Make set_feature() available for other
- files
-Date: Mon, 16 Mar 2020 17:06:17 +0100
-Message-Id: <20200316160634.3386-3-philmd@redhat.com>
+Subject: [PATCH v3 05/19] target/arm: Restrict Virtualization Host Extensions
+ instructions to TCG
+Date: Mon, 16 Mar 2020 17:06:20 +0100
+Message-Id: <20200316160634.3386-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
 References: <20200316160634.3386-1-philmd@redhat.com>
@@ -92,101 +94,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Under KVM the ARMv8.1-VHE instruction will trap.
 
-Move the common set_feature() and unset_feature() functions
-from cpu.c and cpu64.c to internals.h.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-ID: <20190921150420.30743-2-thuth@redhat.com>
-[PMD: Split Thomas's patch in two: set_feature, cpu_register (later)]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/internals.h | 10 ++++++++++
- target/arm/cpu.c       | 10 ----------
- target/arm/cpu64.c     | 11 +----------
- 3 files changed, 11 insertions(+), 20 deletions(-)
+ target/arm/helper.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index e633aff36e..7341848e1d 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -27,6 +27,16 @@
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a5280c091b..ce6778283d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2897,16 +2897,6 @@ static void gt_virt_ctl_write(CPUARMState *env, cons=
+t ARMCPRegInfo *ri,
+     gt_ctl_write(env, ri, GTIMER_VIRT, value);
+ }
 =20
- #include "hw/registerfields.h"
-=20
-+static inline void set_feature(CPUARMState *env, int feature)
-+{
-+    env->features |=3D 1ULL << feature;
-+}
-+
-+static inline void unset_feature(CPUARMState *env, int feature)
-+{
-+    env->features &=3D ~(1ULL << feature);
-+}
-+
- /* register banks for CPU modes */
- #define BANK_USRSYS 0
- #define BANK_SVC    1
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 3623ecefbd..c074364542 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -723,16 +723,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
-=20
- #endif
-=20
--static inline void set_feature(CPUARMState *env, int feature)
+-static void gt_cntvoff_write(CPUARMState *env, const ARMCPRegInfo *ri,
+-                              uint64_t value)
 -{
--    env->features |=3D 1ULL << feature;
+-    ARMCPU *cpu =3D env_archcpu(env);
+-
+-    trace_arm_gt_cntvoff_write(value);
+-    raw_write(env, ri, value);
+-    gt_recalc_timer(cpu, GTIMER_VIRT);
 -}
 -
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &=3D ~(1ULL << feature);
--}
--
- static int
- print_insn_thumb1(bfd_vma pc, disassemble_info *info)
+ static uint64_t gt_virt_redir_cval_read(CPUARMState *env,
+                                         const ARMCPRegInfo *ri)
  {
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 62d36f9e8d..622082eae2 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
-+#include "internals.h"
- #include "qemu/module.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
-@@ -29,16 +30,6 @@
- #include "kvm_arm.h"
- #include "qapi/visitor.h"
+@@ -2949,6 +2939,17 @@ static void gt_virt_redir_ctl_write(CPUARMState *env=
+, const ARMCPRegInfo *ri,
+     gt_ctl_write(env, ri, timeridx, value);
+ }
 =20
--static inline void set_feature(CPUARMState *env, int feature)
--{
--    env->features |=3D 1ULL << feature;
--}
--
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &=3D ~(1ULL << feature);
--}
--
- #ifndef CONFIG_USER_ONLY
- static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *=
-ri)
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
++static void gt_cntvoff_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                              uint64_t value)
++{
++    ARMCPU *cpu =3D env_archcpu(env);
++
++    trace_arm_gt_cntvoff_write(value);
++    raw_write(env, ri, value);
++    gt_recalc_timer(cpu, GTIMER_VIRT);
++}
++
+ static void gt_hyp_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     gt_timer_reset(env, ri, GTIMER_HYP);
+@@ -2976,6 +2977,7 @@ static void gt_hyp_ctl_write(CPUARMState *env, const =
+ARMCPRegInfo *ri,
+ {
+     gt_ctl_write(env, ri, GTIMER_HYP, value);
+ }
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+=20
+ static void gt_sec_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
  {
 --=20
 2.21.1
