@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFC31869DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:19:20 +0100 (CET)
-Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8D31869C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:10:55 +0100 (CET)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDnmB-0004Rs-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:19:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1jDne2-0001gv-5U
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51781)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cathy.zhang@intel.com>) id 1jDmq9-0001Ih-6J
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:19:23 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jDn01-00058g-5o
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:29:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cathy.zhang@intel.com>) id 1jDmq7-0000x8-B5
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:19:20 -0400
-Received: from mga12.intel.com ([192.55.52.136]:24376)
+ (envelope-from <imammedo@redhat.com>) id 1jDmzz-0003qM-G1
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:29:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30687
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cathy.zhang@intel.com>)
- id 1jDmq6-0008Jw-V0
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:19:19 -0400
-IronPort-SDR: dBi42AFRBpJfXjIkEy3H5q++QIqbBU4AgUv7tU0YfkDwyI5PmcNHqU+jMk5zSZPiUJPcFD1KpT
- FMrvAerja3Xg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2020 03:19:13 -0700
-IronPort-SDR: jpXuBtVK5PKJM1HKuSD6v0/zo0Gx5jJiVz7NRKhxklNpsOtj/ZqGZsEixQdRlPtG3hLXM4E2Gk
- nZ0uGRZUdKUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,560,1574150400"; d="scan'208";a="247410356"
-Received: from zhangj4-mobl1.ccr.corp.intel.com (HELO [10.249.174.94])
- ([10.249.174.94])
- by orsmga006.jf.intel.com with ESMTP; 16 Mar 2020 03:19:11 -0700
-Subject: Re: [PATCH 0/2] Fix Cooperlake CPU model
-To: Paolo Bonzini <pbonzini@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20191225063018.20038-1-xiaoyao.li@intel.com>
- <93c9cc8c-09ec-d13f-f012-edf86fd945ab@redhat.com>
- <759b848d-8261-5997-2e2b-531246bcdf92@intel.com>
- <a972442e-2d29-674b-7ad6-2f056330ed84@redhat.com>
-From: "Zhang, Cathy" <cathy.zhang@intel.com>
-Message-ID: <d86b7681-8d99-523b-ebb5-d7d388ef4ca5@intel.com>
-Date: Mon, 16 Mar 2020 18:19:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jDmzz-0003YE-3X
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:29:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584354570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=deak2Xp6mgo1TjUDBmG8J75sQIF5ztls/Y6iCuBOxwk=;
+ b=CDVwpkgyRQ07gfF2KZeAnxJCvzwqEC+bWijqe2EszWWCc83yveH85Y2S5EX+eKhDhEtTTg
+ dc7OHkK6r55pJGCV2jPMVv3HE6wOZja/3/g5xsgwspiuJKtlFE2z2W/E0VC0DVlDyCMWIR
+ +YbqXKztSWHVf0i6cX/q9PDSCmGYynQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-PkaTN1NoOY6T19z0k8Blww-1; Mon, 16 Mar 2020 06:29:01 -0400
+X-MC-Unique: PkaTN1NoOY6T19z0k8Blww-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5BB3149D6;
+ Mon, 16 Mar 2020 10:29:00 +0000 (UTC)
+Received: from localhost (ovpn-200-42.brq.redhat.com [10.40.200.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD69F90806;
+ Mon, 16 Mar 2020 10:28:53 +0000 (UTC)
+Date: Mon, 16 Mar 2020 11:28:51 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH v2 2/3] acpi: Add Windows ACPI Emulated Device Table (WAET)
+Message-ID: <20200316112851.2364eb46@redhat.com>
+In-Reply-To: <20200313145009.144820-3-liran.alon@oracle.com>
+References: <20200313145009.144820-1-liran.alon@oracle.com>
+ <20200313145009.144820-3-liran.alon@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <a972442e-2d29-674b-7ad6-2f056330ed84@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.136
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,53 +71,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ Elad Gabay <elad.gabay@oracle.com>, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/2020 4:41 PM, Paolo Bonzini wrote:
-> On 16/03/20 02:39, Zhang, Cathy wrote:
->> On 1/7/2020 9:31 PM, Paolo Bonzini wrote:
->>> On 25/12/19 07:30, Xiaoyao Li wrote:
->>>> Current Cooperlake CPU model lacks VMX features which are introduced
->>>> by Paolo
->>>> several months ago, and it also lacks 2 security features in
->>>> MSR_IA32_ARCH_CAPABILITIES disclosed recently.
->>>>
->>>> Xiaoyao Li (2):
->>>>     target/i386: Add new bit definitions of MSR_IA32_ARCH_CAPABILITIES
->>>>     target/i386: Add missed features to Cooperlake CPU model
->>>>
->>>>    target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++-
->>>>    target/i386/cpu.h | 13 +++++++-----
->>>>    2 files changed, 58 insertions(+), 6 deletions(-)
->>>>
->>> Queued, thanks.
->>>
->>> Paolo
->> Hi Paolo,
->>
->> Can I ask one question that will you put all the patches for Cooper Lake
->> Cpu model into QEMU v5.0-rc0?
-> These are included already:
->
-> commit b952544fe8a061f0c0cccfd50a58220bc6ac94da
-> Merge: dc65a5bdc9 083b266f69
-> Author: Peter Maydell <peter.maydell@linaro.org>
-> Date:   Fri Jan 10 17:16:49 2020 +0000
->
->      Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging
->      
->      * Compat machines fix (Denis)
->      * Command line parsing fixes (Michal, Peter, Xiaoyao)
->      * Cooperlake CPU model fixes (Xiaoyao)
->      * i386 gdb fix (mkdolata)
->      * IOEventHandler cleanup (Philippe)
->      * icount fix (Pavel)
->      * RR support for random number sources (Pavel)
->      * Kconfig fixes (Philippe)
->      
-> Paolo
-Yes, I see they are already in master, but not in v4.2 yet, so will they 
-be in the next release v5.0?
+On Fri, 13 Mar 2020 16:50:08 +0200
+Liran Alon <liran.alon@oracle.com> wrote:
+
+> Microsoft introduced this ACPI table to avoid Windows guests performing
+> various workarounds for device erratas. As the virtual device emulated
+> by VMM may not have the errata.
+> 
+> Currently, WAET allows hypervisor to inform guest about two
+> specific behaviors: One for RTC and the other for ACPI PM timer.
+> 
+> Support for WAET have been introduced since Windows Vista. This ACPI
+> table is also exposed by other common hypervisors by default, including:
+> VMware, GCP and AWS.
+> 
+> This patch adds WAET ACPI Table to QEMU.
+> 
+> We set "ACPI PM timer good" bit in "Emualted Device Flags" field to
+> indicate that the ACPI PM timer has been enhanced to not require
+> multiple reads to obtain a reliable value.
+> This results in improving the performance of Windows guests that use
+> ACPI PM timer by avoiding unnecessary VMExits caused by these multiple
+> reads.
+> 
+> Co-developed-by: Elad Gabay <elad.gabay@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/i386/acpi-build.c | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 9c4e46fa7466..1c3a2e8fcb3c 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2512,6 +2512,34 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker)
+>      build_header(linker, table_data, (void *)(table_data->data + dmar_start),
+>                   "DMAR", table_data->len - dmar_start, 1, NULL, NULL);
+>  }
+> +
+> +/*
+> + * Windows ACPI Emulated Devices Table
+> + * (Version 1.0 - April 6, 2009)
+> + * Spec: http://download.microsoft.com/download/7/E/7/7E7662CF-CBEA-470B-A97E-CE7CE0D98DC2/WAET.docx
+> + *
+> + * Helpful to speedup Windows guests and ignored by others.
+> + */
+> +static void
+> +build_waet(GArray *table_data, BIOSLinker *linker)
+> +{
+> +    int waet_start = table_data->len;
+> +
+> +    /* WAET header */
+> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +    /*
+> +     * Set "ACPI PM timer good" flag.
+> +     *
+> +     * Tells Windows guests that our ACPI PM timer is reliable in the
+> +     * sense that guest can read it only once to obtain a reliable value.
+> +     * Which avoids costly VMExits caused by guest re-reading it unnecessarily.
+> +     */
+> +    build_append_int_noprefix(table_data, 1 << 1 /* ACPI PM timer good */, 4);
+this should work but, I'd use (1UL << 1) if you'll need to respin
+
+
+> +
+> +    build_header(linker, table_data, (void *)(table_data->data + waet_start),
+> +                 "WAET", table_data->len - waet_start, 1, NULL, NULL);
+> +}
+> +
+>  /*
+>   *   IVRS table as specified in AMD IOMMU Specification v2.62, Section 5.2
+>   *   accessible here http://support.amd.com/TechDocs/48882_IOMMU.pdf
+> @@ -2859,6 +2887,9 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>                            machine->nvdimms_state, machine->ram_slots);
+>      }
+>  
+> +    acpi_add_table(table_offsets, tables_blob);
+> +    build_waet(tables_blob, tables->linker);
+> +
+>      /* Add tables supplied by user (if any) */
+>      for (u = acpi_table_first(); u; u = acpi_table_next(u)) {
+>          unsigned len = acpi_table_len(u);
+
 
