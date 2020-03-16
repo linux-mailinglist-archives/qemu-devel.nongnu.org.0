@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C821187124
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:29:30 +0100 (CET)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A768418711B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:27:06 +0100 (CET)
+Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtYP-0003z4-Dz
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:29:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52854)
+	id 1jDtVl-0007YP-Aa
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsGL-00041E-5G
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsGe-0004Ap-Ag
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsGJ-00062u-Jb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:45 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46208)
+ (envelope-from <philmd@redhat.com>) id 1jDsGd-0008DL-1G
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:04 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:39869)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGJ-00060C-GF
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:43 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGc-0008CR-T8
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374803;
+ s=mimecast20190719; t=1584374822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3mVXcxmK2HMmKZLt5GH7gLyONl4hlaRDhaSU8yeP/yU=;
- b=Osl14Dfy1u9+1eQH+2C37vwny3Vdf7rBehmebyc5fNRlJdz3PTGg6mlz+CdXhocz1BFyM9
- aRF5B1uXQUMpvxyFN4fN+T8bePRts1zuRAb4AciT0Jfi5LrwBn15xWkTDxV2ge7rJDRpU7
- 9dUU3YdQ20Eh/JmGeF+yNXJGu2dE/FU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-Nv3wdlnGNTqNkaTwSMFfbw-1; Mon, 16 Mar 2020 12:06:39 -0400
-X-MC-Unique: Nv3wdlnGNTqNkaTwSMFfbw-1
-Received: by mail-wr1-f69.google.com with SMTP id 94so4575995wrr.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:06:38 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j2NQUGK1oGWALaGzXfEtj8AM5490glkq1or09z6B8W8=;
+ b=Zf0DNZHiVI4eFg98LAkhJz0J9cbICvHiZpIgeiQ5fXtSrrichYZ+Lcyzg1fRnNtlk7QRdS
+ 8Dt9TK/Sn0RkecrD1tTwHNf/rLpZybQ4Q8RSOQCJncrGDnDjIJ2FkI6Zmn9EybnAcIky65
+ uAPpaqoDm5uZvQGAv3vPJDY0AVn517I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-iZVhGtFkMxiy6byJlrL-qg-1; Mon, 16 Mar 2020 12:07:01 -0400
+X-MC-Unique: iZVhGtFkMxiy6byJlrL-qg-1
+Received: by mail-wr1-f72.google.com with SMTP id v6so9173910wrg.22
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P5yP2gI3jZwVa/ROqUBqAiUPezN5j8lwPUWA/Pi42tY=;
- b=MXfE/buU5aAEwpBqL8god2TLiiH6PWCgWa4h3vhqaYu4ds8pZHO0ODVbue6VA9gvUz
- nKvqekw/yGu9gJUTeBASWzn3KpmX6CQYzQ3tkPKUtbsHPk1m16VklHM7nylsVYPomTcv
- 4xEXqNylhFi7D0Uot6M2StM1iZmP9phlsxhlSF3i34F4B1wtQEGTiT7s6lLWH4ZV+GUh
- /ryc7vD5YsZKFb2fS6CWqCmSruBxwLZOyNJhtLP7o3SAH66T50z4hT0UX7SDPf5dIwZG
- H86u9nN+AEsIsNm6DncfxT/Lgx8QZL4lemuWXjevZ1sthdUVi2AeK+Bky3m4+y+eIbv4
- xi0A==
-X-Gm-Message-State: ANhLgQ1hd8rPMsh5M8gnZD5Kw2ALH3yJEuaoqxzxccbAPB2swl0Lgyw8
- yfX23h8chtmTpElAdkgDGtroboDOr6Nt8GfQTQfX29VnH1ko3Vwkpex2OtBKUEerd1AkNSAk1nY
- BUFGV6RhCWiFmgxs=
-X-Received: by 2002:adf:a343:: with SMTP id d3mr105748wrb.50.1584374797770;
- Mon, 16 Mar 2020 09:06:37 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt2iuZ7H3FhJLGjMjjY+SMihUpUN452/lUvxyCtpgGQsOh0snwxYqeNt3N03YZvD05ipB9yBA==
-X-Received: by 2002:adf:a343:: with SMTP id d3mr105710wrb.50.1584374797395;
- Mon, 16 Mar 2020 09:06:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=x1weIqYNF3Fo5tV0WZvC7V944GYiMwvqowZHCwqs/e8=;
+ b=rXzFifaKD0RQWuCwEmemOHWYgq8aQOmn/tlatIwMzKTNYa4dqoDggH1OUdJJs3tquB
+ 02g5kO1fX7E7Edid19wha/SK43PJE320k/qO/iborihh2az1yrpRccdC5orqGKqEWn8l
+ 704/azvHKZAtTuSVnMT8jKWOwvif2+NrjCCBzsFMIHdIEkfdupF/PA578hBYDldErPIi
+ 1Ef4VjT2ZjxnIDMi74JOfmBFr+2+YONI32hIbVFFBo3Rh0NoJ54+2Mt88W3VKdRgxCGQ
+ zTiw1y5QMuZ2WRlS9em/HJOgw6pg7vv9qK4hkhaHEks2+ocGIeModriCaEpLBslMoyka
+ Zjzg==
+X-Gm-Message-State: ANhLgQ129fPiIgcAFGnC9yat1db4yeoeLhHHCbgojgcMXaxGEFOeUxp4
+ dfG8+JHZpgBUvvgwud56CJCL+rc++gJ8RgpjWoFtj1ymvLuC7YzumaKAeo2nTV1LSCG66CudeJQ
+ j0dyaljUTthotmLk=
+X-Received: by 2002:a1c:6385:: with SMTP id
+ x127mr28120927wmb.141.1584374819495; 
+ Mon, 16 Mar 2020 09:06:59 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsfX0n8OJNrHnrM7slMemare5ZJPKg4uT9S5KNvko7zVE1qXAD/IK5hEDswewh2HAjGFyl3Zg==
+X-Received: by 2002:a1c:6385:: with SMTP id
+ x127mr28120897wmb.141.1584374819229; 
+ Mon, 16 Mar 2020 09:06:59 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id s7sm478457wri.61.2020.03.16.09.06.35
+ by smtp.gmail.com with ESMTPSA id y5sm166058wmi.34.2020.03.16.09.06.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:06:36 -0700 (PDT)
+ Mon, 16 Mar 2020 09:06:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/19] Support disabling TCG on ARM (part 2)
-Date: Mon, 16 Mar 2020 17:06:15 +0100
-Message-Id: <20200316160634.3386-1-philmd@redhat.com>
+Subject: [PATCH v3 04/19] target/arm: Restric the Address Translate operations
+ to TCG accel
+Date: Mon, 16 Mar 2020 17:06:19 +0100
+Message-Id: <20200316160634.3386-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
+References: <20200316160634.3386-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -94,94 +100,106 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cover from Samuel Ortiz from (part 1) [1]:
+Under KVM the ATS instruction will trap.
 
-  This patchset allows for building and running ARM targets with TCG
-  disabled. [...]
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ target/arm/helper.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-  The rationale behind this work comes from the NEMU project where we're
-  trying to only support x86 and ARM 64-bit architectures, without
-  including the TCG code base. We can only do so if we can build and run
-  ARM binaries with TCG disabled.
-
-v3 almost 18 months later:
-- Rebased
-- Addressed Thomas review comments
-- Added Travis-CI job to keep building --disable-tcg on ARM
-
-v2 [2]:
-- Addressed review comments from Richard and Thomas from v1 [3]
-
-Regards,
-
-Phil.
-
-[1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
-[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg641796.html
-[3]: https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05003.html
-
-Based-on: <20200316120049.11225-1-philmd@redhat.com>
-"accel: Allow targets to use Kconfig, disable semihosting by default"
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg04653.html
-
-Philippe Mathieu-Daud=C3=A9 (15):
-  target/arm: Rename KVM set_feature() as kvm_set_feature()
-  target/arm: Restrict DC-CVAP instruction to TCG accel
-  target/arm: Restric the Address Translate operations to TCG accel
-  target/arm: Restrict Virtualization Host Extensions instructions to
-    TCG
-  target/arm: Move Makefile variable restricted to CONFIG_TCG
-  target/arm: Add semihosting stub to allow building without TCG
-  target/arm: Move ARM_V7M Kconfig from hw/ to target/
-  target/arm: Restrict ARMv4 cpus to TCG accel
-  target/arm: Restrict ARMv5 cpus to TCG accel
-  target/arm: Restrict ARMv6 cpus to TCG accel
-  target/arm: Restrict ARMv7 R-profile cpus to TCG accel
-  target/arm: Restrict ARMv7 M-profile cpus to TCG accel
-  hw/arm: Automatically select the 'virt' machine on KVM
-  hw/arm: Do not build to 'virt' machine on Xen
-  .travis.yml: Add a KVM-only Aarch64 job
-
-Samuel Ortiz (1):
-  target/arm: Do not build TCG objects when TCG is off
-
-Thomas Huth (3):
-  target/arm: Make set_feature() available for other files
-  target/arm: Make cpu_register() available for other files
-  target/arm: Make m_helper.c optional via CONFIG_ARM_V7M
-
- default-configs/aarch64-softmmu.mak |   1 -
- default-configs/arm-softmmu.mak     |  30 --
- target/arm/cpu-qom.h                |   9 +-
- target/arm/cpu.h                    |   7 +
- target/arm/internals.h              |  10 +
- target/arm/arm-semi-stub.c          |  13 +
- target/arm/cpu.c                    | 651 +---------------------------
- target/arm/cpu64.c                  |  19 +-
- target/arm/cpu_v4.c                 |  65 +++
- target/arm/cpu_v5.c                 | 266 ++++++++++++
- target/arm/cpu_v6.c                 | 171 ++++++++
- target/arm/cpu_v7m.c                | 207 +++++++++
- target/arm/cpu_v7r.c                |  83 ++++
- target/arm/helper.c                 |  54 +--
- target/arm/kvm32.c                  |  10 +-
- target/arm/kvm64.c                  |  16 +-
- target/arm/m_helper-stub.c          |  59 +++
- .travis.yml                         |  32 ++
- hw/arm/Kconfig                      |  17 +-
- target/Kconfig                      |   2 +-
- target/arm/Kconfig                  |  19 +
- target/arm/Makefile.objs            |  17 +-
- 22 files changed, 1016 insertions(+), 742 deletions(-)
- create mode 100644 target/arm/arm-semi-stub.c
- create mode 100644 target/arm/cpu_v4.c
- create mode 100644 target/arm/cpu_v5.c
- create mode 100644 target/arm/cpu_v6.c
- create mode 100644 target/arm/cpu_v7m.c
- create mode 100644 target/arm/cpu_v7r.c
- create mode 100644 target/arm/m_helper-stub.c
- create mode 100644 target/arm/Kconfig
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 924deffd65..a5280c091b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3322,7 +3322,7 @@ static void par_write(CPUARMState *env, const ARMCPRe=
+gInfo *ri, uint64_t value)
+     }
+ }
+=20
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ /* get_phys_addr() isn't present for user-mode-only targets */
+=20
+ static CPAccessResult ats_access(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -3631,7 +3631,7 @@ static void ats_write64(CPUARMState *env, const ARMCP=
+RegInfo *ri,
+=20
+     env->cp15.par_el[1] =3D do_ats_write(env, value, access_type, mmu_idx)=
+;
+ }
+-#endif
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+=20
+ static const ARMCPRegInfo vapa_cp_reginfo[] =3D {
+     { .name =3D "PAR", .cp =3D 15, .crn =3D 7, .crm =3D 4, .opc1 =3D 0, .o=
+pc2 =3D 0,
+@@ -3639,7 +3639,7 @@ static const ARMCPRegInfo vapa_cp_reginfo[] =3D {
+       .bank_fieldoffsets =3D { offsetoflow32(CPUARMState, cp15.par_s),
+                              offsetoflow32(CPUARMState, cp15.par_ns) },
+       .writefn =3D par_write },
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+     /* This underdecoding is safe because the reginfo is NO_RAW. */
+     { .name =3D "ATS", .cp =3D 15, .crn =3D 7, .crm =3D 8, .opc1 =3D 0, .o=
+pc2 =3D CP_ANY,
+       .access =3D PL1_W, .accessfn =3D ats_access,
+@@ -4880,7 +4880,8 @@ static const ARMCPRegInfo v8_cp_reginfo[] =3D {
+       .opc0 =3D 1, .opc1 =3D 4, .crn =3D 8, .crm =3D 7, .opc2 =3D 6,
+       .access =3D PL2_W, .type =3D ARM_CP_NO_RAW,
+       .writefn =3D tlbi_aa64_alle1is_write },
+-#ifndef CONFIG_USER_ONLY
++
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+     /* 64 bit address translation operations */
+     { .name =3D "AT_S1E1R", .state =3D ARM_CP_STATE_AA64,
+       .opc0 =3D 1, .opc1 =3D 0, .crn =3D 7, .crm =3D 8, .opc2 =3D 0,
+@@ -4929,7 +4930,8 @@ static const ARMCPRegInfo v8_cp_reginfo[] =3D {
+       .access =3D PL1_RW, .resetvalue =3D 0,
+       .fieldoffset =3D offsetof(CPUARMState, cp15.par_el[1]),
+       .writefn =3D par_write },
+-#endif
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
++
+     /* TLB invalidate last level of translation table walk */
+     { .name =3D "TLBIMVALIS", .cp =3D 15, .opc1 =3D 0, .crn =3D 8, .crm =
+=3D 3, .opc2 =3D 5,
+       .type =3D ARM_CP_NO_RAW, .access =3D PL1_W, .accessfn =3D access_ttl=
+b,
+@@ -5536,7 +5538,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] =3D {
+       .opc0 =3D 1, .opc1 =3D 4, .crn =3D 8, .crm =3D 3, .opc2 =3D 5,
+       .access =3D PL2_W, .type =3D ARM_CP_NO_RAW,
+       .writefn =3D tlbi_aa64_vae2is_write },
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+     /* Unlike the other EL2-related AT operations, these must
+      * UNDEF from EL3 if EL2 is not implemented, which is why we
+      * define them here rather than with the rest of the AT ops.
+@@ -6992,7 +6994,7 @@ static const ARMCPRegInfo vhe_reginfo[] =3D {
+     REGINFO_SENTINEL
+ };
+=20
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ static const ARMCPRegInfo ats1e1_reginfo[] =3D {
+     { .name =3D "AT_S1E1R", .state =3D ARM_CP_STATE_AA64,
+       .opc0 =3D 1, .opc1 =3D 0, .crn =3D 7, .crm =3D 9, .opc2 =3D 0,
+@@ -7894,14 +7896,14 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (cpu_isar_feature(aa64_pan, cpu)) {
+         define_one_arm_cp_reg(cpu, &pan_reginfo);
+     }
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+     if (cpu_isar_feature(aa64_ats1e1, cpu)) {
+         define_arm_cp_regs(cpu, ats1e1_reginfo);
+     }
+     if (cpu_isar_feature(aa32_ats1e1, cpu)) {
+         define_arm_cp_regs(cpu, ats1cp_reginfo);
+     }
+-#endif
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+     if (cpu_isar_feature(aa64_uao, cpu)) {
+         define_one_arm_cp_reg(cpu, &uao_reginfo);
+     }
 --=20
 2.21.1
 
