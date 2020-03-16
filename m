@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B661870DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:06:12 +0100 (CET)
-Received: from localhost ([::1]:43086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152201870D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:04:15 +0100 (CET)
+Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtBr-0003qm-VB
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54271)
+	id 1jDt9y-0000PG-0y
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlK-0000TV-Ll
+ (envelope-from <its@irrelevant.dk>) id 1jDqlM-0000Uy-4k
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlH-0005C5-I4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:38 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48830)
+ (envelope-from <its@irrelevant.dk>) id 1jDqlI-0005M6-TR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:39 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48832)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDql9-0002BA-8L; Mon, 16 Mar 2020 10:30:27 -0400
+ id 1jDqlA-0002Qd-LN; Mon, 16 Mar 2020 10:30:28 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 431D2BFA0B;
- Mon, 16 Mar 2020 14:29:51 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 335C2BFA2B;
+ Mon, 16 Mar 2020 14:29:52 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 31/42] nvme: add check for prinfo
-Date: Mon, 16 Mar 2020 07:29:17 -0700
-Message-Id: <20200316142928.153431-32-its@irrelevant.dk>
+Subject: [PATCH v6 33/42] nvme: use preallocated qsg/iov in nvme_dma_prp
+Date: Mon, 16 Mar 2020 07:29:19 -0700
+Message-Id: <20200316142928.153431-34-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,159 +58,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Check the validity of the PRINFO field.
+Since clean up of the request qsg/iov has been moved to the common
+nvme_enqueue_req_completion function, there is no need to use a stack
+allocated qsg/iov in nvme_dma_prp.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Acked-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c       | 50 ++++++++++++++++++++++++++++++++++++-------
- hw/block/trace-events |  1 +
- include/block/nvme.h  |  1 +
- 3 files changed, 44 insertions(+), 8 deletions(-)
+ hw/block/nvme.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7d5340c272c6..0d2b5b45b0c5 100644
+index 817384e3b1a9..15ca2417af04 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -505,6 +505,17 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, =
-size_t len,
-     return NVME_SUCCESS;
- }
+@@ -321,45 +321,39 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *=
+ptr, uint32_t len,
+                              uint64_t prp1, uint64_t prp2, DMADirection =
+dir,
+                              NvmeRequest *req)
+ {
+-    QEMUSGList qsg;
+-    QEMUIOVector iov;
+     uint16_t status =3D NVME_SUCCESS;
 =20
-+static inline uint16_t nvme_check_prinfo(NvmeCtrl *n, NvmeNamespace *ns,
-+                                         uint16_t ctrl, NvmeRequest *req=
-)
-+{
-+    if ((ctrl & NVME_RW_PRINFO_PRACT) && !(ns->id_ns.dps & DPS_TYPE_MASK=
-)) {
-+        trace_nvme_dev_err_prinfo(nvme_cid(req), ctrl);
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    return NVME_SUCCESS;
-+}
-+
- static inline uint16_t nvme_check_bounds(NvmeCtrl *n, NvmeNamespace *ns,
-                                          uint64_t slba, uint32_t nlb,
-                                          NvmeRequest *req)
-@@ -564,11 +575,22 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeN=
-amespace *ns, NvmeCmd *cmd,
-     uint32_t nlb  =3D le16_to_cpu(rw->nlb) + 1;
-     uint64_t offset =3D slba << data_shift;
-     uint32_t count =3D nlb << data_shift;
-+    uint16_t ctrl =3D le16_to_cpu(rw->control);
-     uint16_t status;
-=20
-+    status =3D nvme_check_prinfo(n, ns, ctrl, req);
-+    if (status) {
-+        goto invalid;
-+    }
-+
-+    if (ctrl & NVME_RW_PRINFO_PRCHK_MASK) {
-+        status =3D NVME_INVALID_PROT_INFO | NVME_DNR;
-+        goto invalid;
-+    }
-+
-     status =3D nvme_check_bounds(n, ns, slba, nlb, req);
+-    status =3D nvme_map_prp(n, &qsg, &iov, prp1, prp2, len, req);
++    status =3D nvme_map_prp(n, &req->qsg, &req->iov, prp1, prp2, len, re=
+q);
      if (status) {
--        return status;
-+        goto invalid;
+         return status;
      }
 =20
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-@@ -576,6 +598,10 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNa=
-mespace *ns, NvmeCmd *cmd,
-     req->aiocb =3D blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-                                         BDRV_REQ_MAY_UNMAP, nvme_rw_cb, =
-req);
-     return NVME_NO_COMPLETE;
-+
-+invalid:
-+    block_acct_invalid(blk_get_stats(n->conf.blk), BLOCK_ACCT_WRITE);
-+    return status;
- }
+-    if (qsg.nsg > 0) {
++    if (req->qsg.nsg > 0) {
+         uint64_t residual;
 =20
- static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-@@ -584,6 +610,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *n=
-s, NvmeCmd *cmd,
-     NvmeRwCmd *rw =3D (NvmeRwCmd *)cmd;
-     uint32_t nlb  =3D le32_to_cpu(rw->nlb) + 1;
-     uint64_t slba =3D le64_to_cpu(rw->slba);
-+    uint16_t ctrl =3D le16_to_cpu(rw->control);
+         if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
+-            residual =3D dma_buf_write(ptr, len, &qsg);
++            residual =3D dma_buf_write(ptr, len, &req->qsg);
+         } else {
+-            residual =3D dma_buf_read(ptr, len, &qsg);
++            residual =3D dma_buf_read(ptr, len, &req->qsg);
+         }
 =20
-     uint8_t lba_index  =3D NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-     uint8_t data_shift =3D ns->id_ns.lbaf[lba_index].ds;
-@@ -597,19 +624,22 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace =
-*ns, NvmeCmd *cmd,
+         if (unlikely(residual)) {
+             trace_nvme_dev_err_invalid_dma();
+             status =3D NVME_INVALID_FIELD | NVME_DNR;
+         }
+-
+-        qemu_sglist_destroy(&qsg);
+     } else {
+         size_t bytes;
 =20
-     status =3D nvme_check_mdts(n, data_size, req);
-     if (status) {
--        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
--        return status;
-+        goto invalid;
-+    }
-+
-+    status =3D nvme_check_prinfo(n, ns, ctrl, req);
-+    if (status) {
-+        goto invalid;
+         if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
+-            bytes =3D qemu_iovec_to_buf(&iov, 0, ptr, len);
++            bytes =3D qemu_iovec_to_buf(&req->iov, 0, ptr, len);
+         } else {
+-            bytes =3D qemu_iovec_from_buf(&iov, 0, ptr, len);
++            bytes =3D qemu_iovec_from_buf(&req->iov, 0, ptr, len);
+         }
+=20
+         if (unlikely(bytes !=3D len)) {
+             trace_nvme_dev_err_invalid_dma();
+             status =3D NVME_INVALID_FIELD | NVME_DNR;
+         }
+-
+-        qemu_iovec_destroy(&iov);
      }
 =20
-     status =3D nvme_check_bounds(n, ns, slba, nlb, req);
-     if (status) {
--        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
--        return status;
-+        goto invalid;
-     }
-=20
--    if (nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req)) {
--        block_acct_invalid(blk_get_stats(n->conf.blk), acct);
--        return NVME_INVALID_FIELD | NVME_DNR;
-+    status =3D nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req);
-+    if (status) {
-+        goto invalid;
-     }
-=20
-     if (req->qsg.nsg > 0) {
-@@ -633,6 +663,10 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *=
-ns, NvmeCmd *cmd,
-     }
-=20
-     return NVME_NO_COMPLETE;
-+
-+invalid:
-+    block_acct_invalid(blk_get_stats(n->conf.blk), acct);
-+    return status;
- }
-=20
- static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 2df6aa38df1b..2aceb0537e05 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -80,6 +80,7 @@ nvme_dev_mmio_doorbell_sq(uint16_t sqid, uint16_t new_t=
-ail) "cqid %"PRIu16" new_
-=20
- # nvme traces for error conditions
- nvme_dev_err_mdts(uint16_t cid, size_t mdts, size_t len) "cid %"PRIu16" =
-mdts %"PRIu64" len %"PRIu64""
-+nvme_dev_err_prinfo(uint16_t cid, uint16_t ctrl) "cid %"PRIu16" ctrl %"P=
-RIu16""
- nvme_dev_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
- nvme_dev_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is nu=
-ll or not page aligned: 0x%"PRIx64""
- nvme_dev_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned=
-: 0x%"PRIx64""
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index ecc02fbe8bb8..293d68553538 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -394,6 +394,7 @@ enum {
-     NVME_RW_PRINFO_PRCHK_GUARD  =3D 1 << 12,
-     NVME_RW_PRINFO_PRCHK_APP    =3D 1 << 11,
-     NVME_RW_PRINFO_PRCHK_REF    =3D 1 << 10,
-+    NVME_RW_PRINFO_PRCHK_MASK   =3D 7 << 10,
- };
-=20
- typedef struct NvmeDsmCmd {
+     return status;
 --=20
 2.25.1
 
