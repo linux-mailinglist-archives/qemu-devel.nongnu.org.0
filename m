@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F51872CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:54:55 +0100 (CET)
-Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683CE1872D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:57:16 +0100 (CET)
+Received: from localhost ([::1]:46832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDut4-00072q-4M
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1jDuvL-0003Dq-EC
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jDtpL-00038J-Bs
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:47:00 -0400
+ (envelope-from <groug@kaod.org>) id 1jDtvS-0007RI-Vq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:53:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jDtpK-0002xd-4S
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:59 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:46846)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jDtpJ-0002vc-Ub
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:58 -0400
-Received: by mail-qk1-x741.google.com with SMTP id f28so27692461qkk.13
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:46:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vXpqImZ9HhTVPRFT9YH5x3h0Eo+XU4wDDNqk/6QRGAQ=;
- b=iEMq1ke87oNoziyEUmggvse/h/xHauvq+vOWMRidX/eys/GfmrOk9f79q+A1Hx9tRM
- M+jgDXyz/iAuBGGYh8RUh9051jkY348AJj2pmlhvq2LdJ60VGX84F7cQVBNb2d8vZas2
- ZD+1WgwqTHS4RXUFo6ttQ61Hzz7x9bKBAKap3mLk1cokQ7akQw3jOZ0QNbOMQlLthoan
- ByMcGHdyTYrY3WFrJNH4+QFkC50478h3LSOzirWEQypiILkG03cKBSMuKj/9nCcPCfHj
- UfyI5x88JoQ2vtDsT11K/qL/TRlsBl/C362TPYRcnzswAK4UCEoWfV780BKO15HTISiC
- yH+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vXpqImZ9HhTVPRFT9YH5x3h0Eo+XU4wDDNqk/6QRGAQ=;
- b=XElN0WnaiNcEMI8dHUc6sYGcHGPbkQ+QXla/cPZF4/Pgp9Re77w8K7DhICrAdsL/nO
- O7xDc4H9ut3AOhIXL/P5AA+YeR5wD38qGrzH6WejbHcphnsjJ1FfhPZTjh69y4kKJ+zW
- 9B5mtWiruHMCi4VND3qjF+0cSmlOLXMnETzs/RqJ+Bh7cS/jjQQydsowhxI+h3rGFcPI
- LyCECutvE71gJt7hIlWGLCmsPBc4rh38HLjBA26b5cCayVxmuYMrAHdAzB5YtBT7vKy1
- JxzMMGuAETwpSpjAVLTHBydsrHQyEcyD9hV51Hz+x2n2NdX3Eny0tjMFIubcuK0mnR2j
- ofzA==
-X-Gm-Message-State: ANhLgQ3xpJcZuC8Ym3NrkSCfxyu8h5gjza/NlnzynLUa+hInZO9LrKFy
- U8xF/J9BaZVgjSPci08SwudbvoHC
-X-Google-Smtp-Source: ADFU+vt4CySAYCuz16d0L5wFeLo+2GcNFJT83nnpBbczZjgPvODSO7oFLevudnqv9c5fRxRJ45yQUg==
-X-Received: by 2002:a05:620a:1125:: with SMTP id
- p5mr787196qkk.425.1584380816561; 
- Mon, 16 Mar 2020 10:46:56 -0700 (PDT)
-Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:7408:9006:8741:9ceb])
- by smtp.gmail.com with ESMTPSA id
- g7sm218422qki.64.2020.03.16.10.46.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:46:55 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Subject: [PATCH v2 4/4] usb-serial: Fix timeout closing the device
-Date: Mon, 16 Mar 2020 13:46:10 -0400
-Message-Id: <20200316174610.115820-5-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200316174610.115820-1-jandryuk@gmail.com>
-References: <20200316174610.115820-1-jandryuk@gmail.com>
+ (envelope-from <groug@kaod.org>) id 1jDtvL-0001kD-0f
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:53:15 -0400
+Received: from 8.mo177.mail-out.ovh.net ([46.105.61.98]:50605)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jDtvK-0001TQ-OV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:53:10 -0400
+Received: from player731.ha.ovh.net (unknown [10.110.208.183])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 580E8127A70
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:53:08 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player731.ha.ovh.net (Postfix) with ESMTPSA id 0F6131048987D;
+ Mon, 16 Mar 2020 17:52:55 +0000 (UTC)
+Date: Mon, 16 Mar 2020 18:52:54 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
+Message-ID: <20200316185254.1aca6e20@bahia.lan>
+In-Reply-To: <20200316173500.576hdvush3fzvvef@in.ibm.com>
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-8-npiggin@gmail.com>
+ <20200316173500.576hdvush3fzvvef@in.ibm.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13620011176660343204
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.61.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +57,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux guests wait ~30 seconds when closing the emulated /dev/ttyUSB0.
-During that time, the kernel driver is sending many control URBs
-requesting GetModemStat (5).  Real hardware returns a status with
-FTDI_THRE (Transmitter Holding Register) and FTDI_TEMT (Transmitter
-Empty) set.  QEMU leaves them clear, and it seems Linux is waiting for
-FTDI_TEMT to be set to indicate the tx queue is empty before closing.
+On Mon, 16 Mar 2020 23:05:00 +0530
+Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com> wrote:
 
-Set the bits when responding to a GetModemStat query and avoid the
-shutdown delay.
+> On 2020-03-17 00:26:12 Tue, Nicholas Piggin wrote:
+> > PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
+> > delivers all system reset and machine check exceptions to the registered
+> > addresses.
+> > 
+> > System Resets are delivered with registers set to the architected state,
+> > and with no interlock.
+> > 
+> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > ---
+> >  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 44 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 25221d843c..78e649f47d 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+> >      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+> >                       maxdomains, sizeof(maxdomains)));
+> > 
+> > -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
+> > +    /*
+> > +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
+> > +     * and 16 bytes per CPU for system reset error log plus an extra 8 bytes.
+> > +     *
+> > +     * The system reset requirements are driven by existing Linux and PowerVM
+> > +     * implementation which (contrary to PAPR) saves r3 in the error log
+> > +     * structure like machine check, so Linux expects to find the saved r3
+> > +     * value at the address in r3 upon FWNMI-enabled sreset interrupt (and
+> > +     * does not look at the error value).
+> > +     *
+> > +     * System reset interrupts are not subject to interlock like machine
+> > +     * check, so this memory area could be corrupted if the sreset is
+> > +     * interrupted by a machine check (or vice versa) if it was shared. To
+> > +     * prevent this, system reset uses per-CPU areas for the sreset save
+> > +     * area. A system reset that interrupts a system reset handler could
+> > +     * still overwrite this area, but Linux doesn't try to recover in that
+> > +     * case anyway.
+> > +     *
+> > +     * The extra 8 bytes is required because Linux's FWNMI error log check
+> > +     * is off-by-one.
+> > +     */
+> > +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+> > +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+> 
+> Currently the rtas region is only of size 2048 (i.e RTAS_ERROR_LOG_MAX).
+> Do we need SLOF change to increase rtas area as well ? Otherwise QEMU
+> may corrupt guest memory area OR Am I wrong ?
+> 
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+A change is pending for SLOF to use the "rtas-size" property
+provided by QEMU:
 
----
-Looking at a USB dump for a real FTDI USB adapter, I see these bits set
-in all the bulk URBs where QEMU currently has them clear.
----
- hw/usb/dev-serial.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://patchwork.ozlabs.org/patch/1255264/
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 77b964588b..d2c03681b7 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -332,7 +332,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         break;
-     case DeviceInVendor | FTDI_GET_MDM_ST:
-         data[0] = usb_get_modem_lines(s) | 1;
--        data[1] = 0;
-+        data[1] = FTDI_THRE | FTDI_TEMT;
-         p->actual_length = 2;
-         break;
-     case DeviceOutVendor | FTDI_SET_EVENT_CHR:
--- 
-2.24.1
+> Thanks,
+> -Mahesh/
+> 
+> >      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+> >                            RTAS_ERROR_LOG_MAX));
+> >      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+> > @@ -3399,8 +3421,28 @@ static void spapr_machine_finalizefn(Object *obj)
+> > 
+> >  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+> >  {
+> > +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> > +
+> >      cpu_synchronize_state(cs);
+> > -    ppc_cpu_do_system_reset(cs, -1);
+> > +    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x100 */
+> > +    if (spapr->fwnmi_system_reset_addr != -1) {
+> > +        uint64_t rtas_addr, addr;
+> > +        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> > +        CPUPPCState *env = &cpu->env;
+> > +
+> > +        /* get rtas addr from fdt */
+> > +        rtas_addr = spapr_get_rtas_addr();
+> > +        if (!rtas_addr) {
+> > +            qemu_system_guest_panicked(NULL);
+> > +            return;
+> > +        }
+> > +
+> > +        addr = rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof(uint64_t)*2;
+> > +        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
+> > +        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
+> > +        env->gpr[3] = addr;
+> > +    }
+> > +    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
+> >  }
+> > 
+> >  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+> > -- 
+> > 2.23.0
+> > 
+> > 
+> 
 
 
