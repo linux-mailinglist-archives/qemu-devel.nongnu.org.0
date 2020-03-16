@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE4E187165
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:45:44 +0100 (CET)
-Received: from localhost ([::1]:44724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004B31871C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:59:58 +0100 (CET)
+Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDto7-0007xY-Cn
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
+	id 1jDu1s-0001bU-Vx
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtRI-0000Xa-Rs
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:12 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRI-0000XH-Mo
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtRF-0007tf-KA
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRF-0007uA-Op
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:08 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43653)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55825)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtRF-0007io-6K
+ id 1jDtRF-0007lt-83
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b2so16025929wrj.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:22:01 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 6so18580789wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q+OUDDPHwOQka6zNvKnp9HDN8/R0WLXE1LB7BAeLwnM=;
- b=K+7nCIcCzrCrSwm6IZZU7SvkILfnyetgFiwhaMjIs2VjB1zU3szHuzlpvFnQQwDxks
- Vol5alyK5jBtsFnSbLS79m4a9TrdlMsgfkjmuYRIreK+opXrLiKRCd6rYYCyY5RkS0bQ
- z/OaBM5X0hr/Zs67vjfkyGs0s6wlQgz1kD8lOQmqeqJn6GrJZ7N2YuVQRVCKlf2scStI
- cva1tSgz/jU36IhS/wwAj5rYTyfSlFPAKmpDMLPWPKKPgL7EY5lxA2aHcNT6sCGXEryC
- GIL5wCNeOw7bJXCh1V5QqBnRI5emYz6r7dT0SE6Akg4nBIhhOYAGJObrABIJsJHx0E07
- 8HqQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=opP09aUpVqbLeEIEW2//0Q0JIWRT0FGPjndrXn93n2Y=;
+ b=RLfnecc9q9W9f/t6YLGjgLi8IE2c+N90x3XNg2h3ASHSWWmq3CA4ldNH//P3LhMywr
+ tjvlZwdS8ZRRwDe40QWpm+2/OcqevIm6Nyq8r0BLCBDISHh1QXeYJIKFOdQirWiEipfp
+ J16SJ4e5bhrv7fbmOOkGpExN/ufO8J9Llit07o9QzRE2tslkhTLg7jlXzdK3SuHsphYs
+ EZ4gGhHo7RmVER0EhJO+uD2kiAplbQWHji/S0KAtBWsYyq0gQtaqt2iDboGCuNS3npvI
+ 4rmpsp0UWmp/EQtJmJI/vM7YEDyxHxugFPqiKn1QnOQroICuvVkymZ4vmIYOyDXhHAXl
+ B+bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q+OUDDPHwOQka6zNvKnp9HDN8/R0WLXE1LB7BAeLwnM=;
- b=nPqZY11IFqZBkrL86FKi4YWECzziS9+9YwMZtrHc++BmyqAAyePLl0pifyx4jBjESd
- jvnsHFvr5vLnPHlBEPdSR6xusj1kKMWd3XJM6zpRvWJjgFFXnsVdFThYWLhHevLjh3Vd
- +UylaZRpNqisLxSzWfLxAg065T6zrifhf1t9yqSoopQAvRXRy1IVE6O3bHnbjKQ8r/hX
- Z4FN+NnqJo5N1pbKrC6NLyJGjbcLFemJxy1EVCgg7CVr380zXdAEA/UGMQdeM4ICTaEZ
- 63fEQC0AsxR0ZfGhQNklH6nzrGqM0M1zgcTPuPkSVVUVpievF5wnHKWTPXFsMD3UsoHI
- o8KA==
-X-Gm-Message-State: ANhLgQ0VY86QfoiXGwxzkPVeug2PB+WoCUyALJk5ANNrP/dJ/TGGSvYk
- ZoC8A1uH6Fj552qA6H0L0biaOA==
-X-Google-Smtp-Source: ADFU+vuPtgVn1/6GjVtt85EO/iugNIzpyS2SyY4hCM65cOA6kkrRp+LvAtTsAN9Sq/FuWK6MaJUfTw==
-X-Received: by 2002:adf:ea42:: with SMTP id j2mr384959wrn.3.1584379320483;
- Mon, 16 Mar 2020 10:22:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=opP09aUpVqbLeEIEW2//0Q0JIWRT0FGPjndrXn93n2Y=;
+ b=nrZiD8WvC3i0ans8LnOirjE2b91OzQWdxTb1nDTKHQtUrEoOO5OzJjH4vmTousktLc
+ 8OI3uPaNtlNMH+NspX6jxPRqUaKQvOXmkNLwW/EhWkbggApZeytODzpZyNO03pkQHXqQ
+ wv5IaTQ+nT+qNBle0xkRDh6U8fUe+1yiBxffhC12ar/lXGXQVTS2zOgRerqLVoOD1Hm5
+ dY5zLuhJPhjm7/MKEnpvrigNY7gUMbovBuAfAEeSah6jGGStZacts8QWJXy4CWv0rYdP
+ A81HfQFWt57Hh+XIbwmr3cvaOeCQqL1RWq7er+BjJbLFydBK+Oovytxj/Ks7jOi3slxa
+ o/Xg==
+X-Gm-Message-State: ANhLgQ1pqpGL9KZsPWIAIFjs/ioR64J5UTekF7tY/EomV6kl8IjchcKj
+ PGRaMomifEQZt6w8SN5n6qMlyw==
+X-Google-Smtp-Source: ADFU+vuDjDWa+Pbc84MzS/Zdv4r7Q+WA0L6WS1s5qmn7AVlx+9TKlwh7h7ll81SlydcAj9O02Pzurw==
+X-Received: by 2002:a1c:7d88:: with SMTP id y130mr163415wmc.5.1584379321751;
+ Mon, 16 Mar 2020 10:22:01 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z11sm446523wmc.30.2020.03.16.10.21.57
+ by smtp.gmail.com with ESMTPSA id h10sm799676wrb.24.2020.03.16.10.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Mar 2020 10:21:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 271861FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 3CBFE1FF87;
  Mon, 16 Mar 2020 17:21:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/28 for 5.0] testing and gdbstub
-Date: Mon, 16 Mar 2020 17:21:27 +0000
-Message-Id: <20200316172155.971-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 01/28] tests/docker: Install tools to cross-debug and build
+ Linux kernels
+Date: Mon, 16 Mar 2020 17:21:28 +0000
+Message-Id: <20200316172155.971-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
+References: <20200316172155.971-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,124 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This is the last chance to get any reviews in before I send a pull
-request later today. To avoid having multiple PRs I've combined both
-the testing changes and the gdbstub updates. In the end I had to drop
-Gerd's vm updates as it cause problems with the acceptance testing.
+We often run Linux kernels to test QEMU. We sometimes need
+to build them manually to use non-default features. We only
+miss the tiny 'bc' tool.
 
-The following patches still need review:
- - tests/tcg/aarch64: add test-sve-ioctl guest-debug test
- - tests/tcg/aarch64: add SVE iotcl test
- - tests/tcg/aarch64: add a gdbstub testcase for SVE registers
- - target/arm: generate xml description of our SVE registers
- - target/arm: prepare for multiple dynamic XMLs
- - target/i386: use gdb_get_reg helpers
+The ncurses library is helpful to run 'make menuconfig'.
 
-Alex Bennée (20):
-  gdbstub: make GDBState static and have common init function
-  gdbstub: stop passing GDBState * around and use global
-  gdbstub: move str_buf to GDBState and use GString
-  gdbstub: move mem_buf to GDBState and use GByteArray
-  gdbstub: add helper for 128 bit registers
-  target/arm: use gdb_get_reg helpers
-  target/m68k: use gdb_get_reg helpers
-  target/i386: use gdb_get_reg helpers
-  gdbstub: extend GByteArray to read register helpers
-  target/arm: prepare for multiple dynamic XMLs
-  target/arm: explicitly encode regnum in our XML
-  target/arm: default SVE length to 64 bytes for linux-user
-  target/arm: generate xml description of our SVE registers
-  target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
-  tests/tcg/aarch64: userspace system register test
-  configure: allow user to specify what gdb to use
-  tests/guest-debug: add a simple test runner
-  tests/tcg/aarch64: add a gdbstub testcase for SVE registers
-  tests/tcg/aarch64: add SVE iotcl test
-  tests/tcg/aarch64: add test-sve-ioctl guest-debug test
+Finally, gdb-multiarch allow us to debug a TCG guest when its
+architecture is different than the host.
 
-Changbin Du (1):
-  gdbstub: Fix single-step issue by confirming 'vContSupported+' feature
-    to gdb
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200212202738.12986-1-philmd@redhat.com>
+---
+ tests/docker/dockerfiles/debian10.docker | 3 +++
+ tests/docker/dockerfiles/debian9.docker  | 3 +++
+ 2 files changed, 6 insertions(+)
 
-Damien Hedde (2):
-  gdbstub: change GDBState.last_packet to GByteArray
-  gdbstub: do not split gdb_monitor_write payload
-
-Philippe Mathieu-Daudé (5):
-  tests/docker: Install tools to cross-debug and build Linux kernels
-  tests/docker: Update VirGL git repository URL
-  tests/docker: Remove obsolete VirGL --with-glx configure option
-  tests/docker: Update VirGL to v0.8.0
-  travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
-
- configure                                    |   9 +
- include/exec/gdbstub.h                       |  62 +-
- include/hw/core/cpu.h                        |   2 +-
- target/alpha/cpu.h                           |   2 +-
- target/arm/cpu.h                             |  31 +-
- target/cris/cpu.h                            |   4 +-
- target/hppa/cpu.h                            |   2 +-
- target/i386/cpu.h                            |   2 +-
- target/lm32/cpu.h                            |   2 +-
- target/m68k/cpu.h                            |   2 +-
- target/microblaze/cpu.h                      |   2 +-
- target/mips/internal.h                       |   2 +-
- target/openrisc/cpu.h                        |   2 +-
- target/ppc/cpu.h                             |   4 +-
- target/riscv/cpu.h                           |   2 +-
- target/s390x/internal.h                      |   2 +-
- target/sh4/cpu.h                             |   2 +-
- target/sparc/cpu.h                           |   2 +-
- target/xtensa/cpu.h                          |   2 +-
- gdbstub.c                                    | 936 +++++++++----------
- hw/core/cpu.c                                |   2 +-
- target/alpha/gdbstub.c                       |   2 +-
- target/arm/cpu.c                             |   7 +-
- target/arm/gdbstub.c                         | 173 +++-
- target/arm/gdbstub64.c                       |   2 +-
- target/arm/helper.c                          | 186 +++-
- target/cris/gdbstub.c                        |   4 +-
- target/hppa/gdbstub.c                        |   2 +-
- target/i386/gdbstub.c                        |  29 +-
- target/lm32/gdbstub.c                        |   2 +-
- target/m68k/gdbstub.c                        |   2 +-
- target/m68k/helper.c                         |  33 +-
- target/microblaze/gdbstub.c                  |   2 +-
- target/mips/gdbstub.c                        |   2 +-
- target/nios2/cpu.c                           |   2 +-
- target/openrisc/gdbstub.c                    |   2 +-
- target/ppc/gdbstub.c                         |  48 +-
- target/ppc/translate_init.inc.c              |  54 +-
- target/riscv/gdbstub.c                       |  20 +-
- target/s390x/gdbstub.c                       |  30 +-
- target/sh4/gdbstub.c                         |   2 +-
- target/sparc/gdbstub.c                       |   2 +-
- target/xtensa/gdbstub.c                      |   2 +-
- tests/tcg/aarch64/sve-ioctls.c               |  70 ++
- tests/tcg/aarch64/sysregs.c                  | 172 ++++
- .travis.yml                                  |   1 +
- tests/.gitignore                             |   1 +
- tests/docker/dockerfiles/debian-amd64.docker |   6 +-
- tests/docker/dockerfiles/debian10.docker     |   3 +
- tests/docker/dockerfiles/debian9.docker      |   3 +
- tests/guest-debug/run-test.py                |  57 ++
- tests/tcg/aarch64/Makefile.target            |  32 +
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py  |  82 ++
- tests/tcg/aarch64/gdbstub/test-sve.py        |  81 ++
- 54 files changed, 1491 insertions(+), 701 deletions(-)
- create mode 100644 tests/tcg/aarch64/sve-ioctls.c
- create mode 100644 tests/tcg/aarch64/sysregs.c
- create mode 100755 tests/guest-debug/run-test.py
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
-
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 5de79ae5527..2fcdc406e83 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -17,14 +17,17 @@ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bc \
+         bison \
+         build-essential \
+         ca-certificates \
+         clang \
+         dbus \
+         flex \
++        gdb-multiarch \
+         gettext \
+         git \
++        libncurses5-dev \
+         pkg-config \
+         psmisc \
+         python3 \
+diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
+index 8cbd742bb5f..92edbbf0f48 100644
+--- a/tests/docker/dockerfiles/debian9.docker
++++ b/tests/docker/dockerfiles/debian9.docker
+@@ -17,13 +17,16 @@ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bc \
+         bison \
+         build-essential \
+         ca-certificates \
+         clang \
+         flex \
++        gdb-multiarch \
+         gettext \
+         git \
++        libncurses5-dev \
+         pkg-config \
+         psmisc \
+         python3 \
 -- 
 2.20.1
 
