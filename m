@@ -2,38 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01498186693
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:33:42 +0100 (CET)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A214F1866E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:49:05 +0100 (CET)
+Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDlBs-0003xS-Il
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58701)
+	id 1jDlQl-0001Vb-N3
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jDl01-0000b7-5m
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDl9N-0004fV-67
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:31:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jDkzy-0005BY-TW
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:53718)
+ (envelope-from <philmd@redhat.com>) id 1jDl9L-0008LW-TC
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:31:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56864
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jDkzy-0004k8-HJ; Mon, 16 Mar 2020 04:21:22 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jDkzn-00053V-LA; Mon, 16 Mar 2020 11:21:11 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 4/4] iotests: 287: add qcow2 compression type test
-Date: Mon, 16 Mar 2020 11:20:56 +0300
-Message-Id: <20200316082056.8839-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
-References: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDl9L-0008ET-LH
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:31:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584347458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Is5aEc3iBUZMFBGz3Kx0fFO8HEbNJjBR9P8gQXDScSM=;
+ b=C33SZ7JZheyQ6GDuFd8DifkJx9jvjsVVoAtxWTO0ywbvh+JQbHwFj1udliVzCDWapwIJJw
+ TaaXBxMhels9Z9PuhJ7K/vXFwAu25Gs4Iv0CUSNdwHIFedyFP5wDqPpbUHHc2CvgGppt2S
+ NQ1LWbc5EDs3m16sxdIHtebQ/Nrn0Ow=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-G6m6aVh8NqyNdhWL9IUrww-1; Mon, 16 Mar 2020 04:30:56 -0400
+X-MC-Unique: G6m6aVh8NqyNdhWL9IUrww-1
+Received: by mail-wm1-f70.google.com with SMTP id p18so1450766wmk.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:30:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h1AitmqAjojbZNzm/eWPNIhjh5Q17jT6zDR+1HunmIk=;
+ b=gRkAXdpaO85fn1hGVCLSUjnGjkNuZmiBXSTHgAo3oO8K5hVr1Lh9qPr7cq1nJ7Lm1s
+ zQnLXF2Ri9f/1BE0aQ3Pa8ro1SLKAff6UGOdjSXWSVFWP3I8PlHt0gG8Qa3ehv9fXWSf
+ ta/Ik/EM0QXm9BpDrY9kAEOVBoJ1MAQBq/tqP6G3Km054Jt1GgK3FECYLgp6W43M/Otr
+ KIusRw0F4Di20hseUXZIK7xuo5GRTFGFKOyJkfkz+1rzMGfHwTLcTU2CRPA/3GDEk3f/
+ XGeB/eTcLHU2AomYiGa7YObSz4rM+424BrfCi48EUmgiUB2RKo80O0RvrPsqbQt2SyPb
+ KzYg==
+X-Gm-Message-State: ANhLgQ0zDC0FrCVNVPPpQBQD1m4IT2l9NL0nKR+Ad5+9a/nttJpvfXRz
+ 0wOBBT84gf5bgR70g3JaE5+YOf9wmgcVze2N7mrCWnEu6bV8Iow2Rf+kT8/iBIOkFswF4rH/nfv
+ Ax75BtPzKcVBLk7w=
+X-Received: by 2002:a1c:196:: with SMTP id 144mr27196857wmb.100.1584347455465; 
+ Mon, 16 Mar 2020 01:30:55 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtrpR4TnI59CWfDoU1kc7Bfm2MNexQSE9z0ov8iLheUawhLCJruzwl/4s5bT2PcVgRryUh/xA==
+X-Received: by 2002:a1c:196:: with SMTP id 144mr27196815wmb.100.1584347455131; 
+ Mon, 16 Mar 2020 01:30:55 -0700 (PDT)
+Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.191])
+ by smtp.gmail.com with ESMTPSA id a1sm52170954wru.75.2020.03.16.01.30.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 01:30:54 -0700 (PDT)
+Subject: Re: [PATCH 6/8] hw/ide: Do ide_drive_get() within
+ pci_ide_create_devs()
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <cover.1584134074.git.balaton@eik.bme.hu>
+ <49bf646a9419c3b20125187a26f8a4fd5f35f399.1584134074.git.balaton@eik.bme.hu>
+ <alpine.BSF.2.22.395.2003132307280.85181@zero.eik.bme.hu>
+ <cb660aa6-6bb6-b75e-ebe3-8fc0e59fb1da@redhat.com>
+ <87d09c3jjj.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f3aa3c0d-0786-18aa-0c75-e195910b7a77@redhat.com>
+Date: Mon, 16 Mar 2020 09:30:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <87d09c3jjj.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,217 +96,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ John Snow <jsnow@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
+On 3/16/20 7:23 AM, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>=20
+>> On 13/03/20 23:16, BALATON Zoltan wrote:
+>>>>
+>>>> +=C2=A0=C2=A0=C2=A0 pci_dev =3D pci_create_simple(pci_bus, -1, "cmd646=
+-ide");
+>>>> +=C2=A0=C2=A0=C2=A0 pci_ide_create_devs(pci_dev);
+>>>
+>>> Additionally, I think it may also make sense to move pci_ide_create_dev=
+s
+>>> call into the realize methods of these IDE controllers so boards do not
+>>> need to do it explicitely. These calls always follow the creation of th=
+e
+>>> device immediately so could just be done internally in IDE device and
+>>> simplify it further. I can attempt to prepare additional patches for
+>>> that but first I'd like to hear if anyone has anything against that to
+>>> avoid doing useless work.
+>>
+>> No, it's better to do it separately.  I think that otherwise you could
+>> add another IDE controller with -device, and both controllers would try
+>> to add the drives.
+>=20
+> Correct.
+>=20
+> Creating device frontends for -drive if=3Dide is the board's job.  Boards
+> may delegate to suitable helpers.  I'd very much prefer these helpers
+> not to live with device model code.  Board and device model code should
+> be cleanly separated to to reduce the temptation to muddle their
+> responsibilities.  It's separation of concerns.
+>=20
+> I actually wish we had separate sub-trees for boards and devices instead
+> of keeping both in hw/.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 128 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 172 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+Never too late!
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..49d15b3d43
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..5edbadef40 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
--- 
-2.17.0
+To be clear, you suggest:
+
+- one dir with machines, boards, system-on-module
+- one dir with devices, cpu, system-on-chips
+
+Correct?
+
+>=20
+>> Basically, separating the call means that only automatically added
+>> controllers obey "if=3Dide".
+>=20
 
 
