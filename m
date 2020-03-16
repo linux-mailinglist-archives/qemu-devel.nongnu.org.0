@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3301872EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:01:27 +0100 (CET)
-Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C436C1872FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:04:53 +0100 (CET)
+Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuzO-0001uh-Tc
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58805)
+	id 1jDv2i-0007pV-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jDu2w-0004HJ-UZ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:01:03 -0400
+ (envelope-from <ppandit@redhat.com>) id 1jDuKb-0000w9-8N
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:19:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jDu2v-00077p-P4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:01:02 -0400
-Received: from 5.mo1.mail-out.ovh.net ([178.33.45.107]:58864)
+ (envelope-from <ppandit@redhat.com>) id 1jDuKZ-0003wp-T6
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:19:17 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47465)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDu2v-0006zV-H4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:01:01 -0400
-Received: from player716.ha.ovh.net (unknown [10.110.208.183])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id BB8CD1B564F
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 19:00:59 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player716.ha.ovh.net (Postfix) with ESMTPSA id 2C48B1069AEFC;
- Mon, 16 Mar 2020 18:00:47 +0000 (UTC)
-Subject: Re: [PATCH v2 5/8] ppc/spapr: Allow FWNMI on TCG
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-6-npiggin@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <531bdcf7-e54a-4fe4-ff78-7d8bc5ef1e7c@kaod.org>
-Date: Mon, 16 Mar 2020 19:00:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1jDuKZ-0003Uy-By
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:19:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584382693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RkH1Ghs3O6XH2FgG3vKfkdJYcVY5/H1lOoCj2gpoWGI=;
+ b=KxhNKfhdecjzZos0xHG7lwJSZ6+D4S7zklhbZp+u8FwdWDkSJRrhUNc+dFkrrAQGydQ04M
+ IUZJ3KdyfWAXdf677AdC8pfEYlyf5fFUZQibUk5Av4IoStrW7kADxNKxeSoYgwZ8frmJ81
+ EvSOGCDlcswN2jT53lk7zrTgD2m64wY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-OF21HhA-MQKS2I0KbVaAsg-1; Mon, 16 Mar 2020 14:18:09 -0400
+X-MC-Unique: OF21HhA-MQKS2I0KbVaAsg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A39310FAF35;
+ Mon, 16 Mar 2020 18:01:22 +0000 (UTC)
+Received: from kaapi (unknown [10.74.10.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6B0E7E300;
+ Mon, 16 Mar 2020 18:01:15 +0000 (UTC)
+Date: Mon, 16 Mar 2020 23:31:08 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH v3 2/2] net: tulip: add .can_recieve routine
+In-Reply-To: <20200306130853.GM1335569@stefanha-x1.localdomain>
+Message-ID: <nycvar.YSQ.7.76.2003162325500.5086@xnncv>
+References: <20200303104724.233375-1-ppandit@redhat.com>
+ <20200303104724.233375-3-ppandit@redhat.com>
+ <20200306130853.GM1335569@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200316142613.121089-6-npiggin@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 13752585887778507750
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduiedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.45.107
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,47 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: Li Qiang <pangpei.lq@antfin.com>, Jason Wang <jasowang@redhat.com>,
+ Sven Schnelle <svens@stackframe.org>, Qemu Developers <qemu-devel@nongnu.org>,
+ Ziming Zhang <ezrakiez@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 3:26 PM, Nicholas Piggin wrote:
-> There should no longer be a reason to prevent TCG providing FWNMI.
-> System Reset interrupts are generated to the guest with nmi monitor
-> command and H_SIGNAL_SYS_RESET. Machine Checks can not be injected
-> currently, but this could be implemented with the mce monitor cmd
-> similarly to i386.
->=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+  Hello Stefan, Jason,
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
++-- On Fri, 6 Mar 2020, Stefan Hajnoczi wrote --+
+| > +static int
+| > +tulip_can_receive(NetClientState *nc)
+| > +{
+| > +    TULIPState *s =3D qemu_get_nic_opaque(nc);
+| > +
+| > +    if (s->rx_frame_len || tulip_rx_stopped(s)) {
+| > +        return false;
+| > +    }
+| > +
+| > +    return true;
+| > +}
+|=20
+| Are the required qemu_flush_queued_packets() calls in place so that
+| packet transfer wakes up again when .can_receive() transitions from
+| false to true?
 
-> ---
->  hw/ppc/spapr_caps.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index f626d769a0..679ae7959f 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -516,10 +516,7 @@ static void cap_fwnmi_apply(SpaprMachineState *spa=
-pr, uint8_t val,
->          return; /* Disabled by default */
->      }
-> =20
-> -    if (tcg_enabled()) {
-> -        warn_report("Firmware Assisted Non-Maskable Interrupts(FWNMI) =
-not "
-> -                    "supported in TCG");
-> -    } else if (kvm_enabled()) {
-> +    if (kvm_enabled()) {
->          if (kvmppc_set_fwnmi() < 0) {
->              error_setg(errp, "Firmware Assisted Non-Maskable Interrupt=
-s(FWNMI) "
->                               "not supported by KVM");
->=20
+  Yes, qemu_flush_queued_packets() calls are in tulip_write(). Do we need t=
+o=20
+call tulip_can_receive() before each call?
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
