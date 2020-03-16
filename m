@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A9818763B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:34:13 +0100 (CET)
-Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728AF18763D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:34:17 +0100 (CET)
+Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDzFM-0000nx-Rb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50380)
+	id 1jDzFQ-0000x1-FK
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dU-E9
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:23 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dW-Nb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005dz-2Y
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005fj-77
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:22 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44157 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:55155)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDzDY-0004ya-7R; Mon, 16 Mar 2020 19:32:20 -0400
+ id 1jDzDY-00050P-9e; Mon, 16 Mar 2020 19:32:21 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hCJJ30Fwz9sRR; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
+ id 48hCJJ3hCdz9sRY; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584401536;
- bh=DNyPYA+nO4b3fa8B0bkXyh8dNit8KveOaim+6PvxVpc=;
+ bh=9e5ApgCXvMxcdcANt5BvHOIJ1GwEe2q7CwyDoxato00=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OIFVdv1X3zIG9YZjuG6zfHrv/FzHoiKnf6ip1g9ECABe1KOrLK23SGQinZF3oyObZ
- ikwRGLojoNdHzMitOxUFfXBweR66xtLrt3RsDU8Fovll8u+Q5bQwTUmsEul3ULFkXF
- bi19W6b01I1vr2sMfEQt/HI92gncs5/hrOLgl8i4=
-Date: Tue, 17 Mar 2020 10:30:29 +1100
+ b=eZNcYdO0B6Oo98vWu0an7XiFFdQSqUI6xZYi+5hM7KFqHShl0DPMoi0RO50Gcvuas
+ UrUJjRvWUBCW1yTmwP+2vXG+EK4B+5wlMp5xtyALVlqxywyGyxH5F88xfgG+ylJXmc
+ cIyvVNObHqVaaYKEtEOJOryA6brhVFUgFhvoBS5M=
+Date: Tue, 17 Mar 2020 10:31:35 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
+To: Greg Kurz <groug@kaod.org>
 Subject: Re: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
-Message-ID: <20200316233029.GG20264@umbus.fritz.box>
+Message-ID: <20200316233135.GH20264@umbus.fritz.box>
 References: <20200316142613.121089-1-npiggin@gmail.com>
  <20200316142613.121089-8-npiggin@gmail.com>
+ <20200316173500.576hdvush3fzvvef@in.ibm.com>
+ <20200316185254.1aca6e20@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WkfBGePaEyrk4zXB"
+ protocol="application/pgp-signature"; boundary="Yia77v5a8fyVHJSl"
 Content-Disposition: inline
-In-Reply-To: <20200316142613.121089-8-npiggin@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <20200316185254.1aca6e20@bahia.lan>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,108 +59,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aravinda Prasad <arawinda.p@gmail.com>,
  Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
- qemu-ppc@nongnu.org
+ Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WkfBGePaEyrk4zXB
+--Yia77v5a8fyVHJSl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 17, 2020 at 12:26:12AM +1000, Nicholas Piggin wrote:
-> PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
-> delivers all system reset and machine check exceptions to the registered
-> addresses.
+On Mon, Mar 16, 2020 at 06:52:54PM +0100, Greg Kurz wrote:
+> On Mon, 16 Mar 2020 23:05:00 +0530
+> Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com> wrote:
 >=20
-> System Resets are delivered with registers set to the architected state,
-> and with no interlock.
+> > On 2020-03-17 00:26:12 Tue, Nicholas Piggin wrote:
+> > > PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
+> > > delivers all system reset and machine check exceptions to the registe=
+red
+> > > addresses.
+> > >=20
+> > > System Resets are delivered with registers set to the architected sta=
+te,
+> > > and with no interlock.
+> > >=20
+> > > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > > ---
+> > >  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 44 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > index 25221d843c..78e649f47d 100644
+> > > --- a/hw/ppc/spapr.c
+> > > +++ b/hw/ppc/spapr.c
+> > > @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spa=
+pr, void *fdt)
+> > >      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+> > >                       maxdomains, sizeof(maxdomains)));
+> > >=20
+> > > -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
+> > > +    /*
+> > > +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error=
+ log,
+> > > +     * and 16 bytes per CPU for system reset error log plus an extra=
+ 8 bytes.
+> > > +     *
+> > > +     * The system reset requirements are driven by existing Linux an=
+d PowerVM
+> > > +     * implementation which (contrary to PAPR) saves r3 in the error=
+ log
+> > > +     * structure like machine check, so Linux expects to find the sa=
+ved r3
+> > > +     * value at the address in r3 upon FWNMI-enabled sreset interrup=
+t (and
+> > > +     * does not look at the error value).
+> > > +     *
+> > > +     * System reset interrupts are not subject to interlock like mac=
+hine
+> > > +     * check, so this memory area could be corrupted if the sreset is
+> > > +     * interrupted by a machine check (or vice versa) if it was shar=
+ed. To
+> > > +     * prevent this, system reset uses per-CPU areas for the sreset =
+save
+> > > +     * area. A system reset that interrupts a system reset handler c=
+ould
+> > > +     * still overwrite this area, but Linux doesn't try to recover i=
+n that
+> > > +     * case anyway.
+> > > +     *
+> > > +     * The extra 8 bytes is required because Linux's FWNMI error log=
+ check
+> > > +     * is off-by-one.
+> > > +     */
+> > > +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX=
+ +
+> > > +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+> >=20
+> > Currently the rtas region is only of size 2048 (i.e RTAS_ERROR_LOG_MAX).
+> > Do we need SLOF change to increase rtas area as well ? Otherwise QEMU
+> > may corrupt guest memory area OR Am I wrong ?
+> >=20
 >=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> A change is pending for SLOF to use the "rtas-size" property
+> provided by QEMU:
+>=20
+> https://patchwork.ozlabs.org/patch/1255264/
 
-Applied to ppc-for-5.0.
-
-> ---
->  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 44 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 25221d843c..78e649f47d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
->      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
->                       maxdomains, sizeof(maxdomains)));
-> =20
-> -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
-> +    /*
-> +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
-> +     * and 16 bytes per CPU for system reset error log plus an extra 8 b=
-ytes.
-> +     *
-> +     * The system reset requirements are driven by existing Linux and Po=
-werVM
-> +     * implementation which (contrary to PAPR) saves r3 in the error log
-> +     * structure like machine check, so Linux expects to find the saved =
-r3
-> +     * value at the address in r3 upon FWNMI-enabled sreset interrupt (a=
-nd
-> +     * does not look at the error value).
-> +     *
-> +     * System reset interrupts are not subject to interlock like machine
-> +     * check, so this memory area could be corrupted if the sreset is
-> +     * interrupted by a machine check (or vice versa) if it was shared. =
-To
-> +     * prevent this, system reset uses per-CPU areas for the sreset save
-> +     * area. A system reset that interrupts a system reset handler could
-> +     * still overwrite this area, but Linux doesn't try to recover in th=
-at
-> +     * case anyway.
-> +     *
-> +     * The extra 8 bytes is required because Linux's FWNMI error log che=
-ck
-> +     * is off-by-one.
-> +     */
-> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
-> +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
->      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
->                            RTAS_ERROR_LOG_MAX));
->      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
-> @@ -3399,8 +3421,28 @@ static void spapr_machine_finalizefn(Object *obj)
-> =20
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
->  {
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> +
->      cpu_synchronize_state(cs);
-> -    ppc_cpu_do_system_reset(cs, -1);
-> +    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x10=
-0 */
-> +    if (spapr->fwnmi_system_reset_addr !=3D -1) {
-> +        uint64_t rtas_addr, addr;
-> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +        CPUPPCState *env =3D &cpu->env;
-> +
-> +        /* get rtas addr from fdt */
-> +        rtas_addr =3D spapr_get_rtas_addr();
-> +        if (!rtas_addr) {
-> +            qemu_system_guest_panicked(NULL);
-> +            return;
-> +        }
-> +
-> +        addr =3D rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof=
-(uint64_t)*2;
-> +        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
-> +        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
-> +        env->gpr[3] =3D addr;
-> +    }
-> +    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
->  }
-> =20
->  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+In the meantime, this is still correct.  Because we rebuild the device
+tree at CAS time, the qemu supplied value will be the one the guest
+sees in the end.  We obviously want that qemu update to avoid
+confusion, but we don't need it for things to work.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -166,25 +157,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---WkfBGePaEyrk4zXB
+--Yia77v5a8fyVHJSl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wDBUACgkQbDjKyiDZ
-s5IQthAA2USi1wwSuK9dRkSCHFUR1b88SKA0Rm7+/7b9JfFMMUjYRJt6wbWKXC22
-FUDU8l2gR9Ii8oslvFw7e2b9vVOGFA/aYcZ2EV5FSLhBTF7uPXJRqt0OQVUJEUtD
-G1X9vSpVhnfVa15IDsTs8P5wya03a++gQNo4aVnEnDZjdRgb0OhEjgLwu0Kvgair
-Bf35MpkczTtxjRVfBPtPzM+pomv3o9OfbYCkPnAhUxzHhH8DVDaYQ5feDyNkU7Yq
-eLhVTIXEp0XzST25/hRP2DXERtkKamf9ryCKu7cukpXAu9EkbHkx5WefvykQAeCQ
-ujIl8XX/+bmH9/WJSmBz4rYEOycsGTY8jKEz+y847UaSSvQGKYI0H7jO9HAOY/gL
-g6o33Qu1bnJfAn8WHlNiZSWIn+AINdPl+Wgc9zUZQnQPFe9vI9b9yqnPNtfcprrZ
-zkhFDQLaRFukXqCevpqJMQP6hED3NIB0UsEUiMriI6vQvY6cpCOba8NMdOEc/ZRi
-W8GknNOjdYh2qpVCriImNMWPXYjfvHqvctFAohgFOdEh+qCYni0g4SnfqzDABNAt
-ihAhb8RyNG9TmpjzUeXBZvbW3zZX5OBVnd2147O9biuL1a4mEV7w3lsaBtze/QBu
-BVpqHbcSPT8F1hZFgKl1V1pv4/u3oGCD66Na8hT+falB+aYsQV4=
-=FvRR
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wDFcACgkQbDjKyiDZ
+s5KDkg//at0M2IWgaP6aICdPwyQr+2iUpD7PMG5h4EoBhr7OjU9UWEDMj15popkR
+6gXeaHG7qmNOrgJXXehpUcLIPbOJZV7wAv0PxJ5myqGMeISKMOQH94xgEF1PM56V
+Ej7SgKC7fRyLaZTnZMNFx/FGjVXqOmGxPxqL7pu1d28MVBBebkjywp4iRXvseajm
+AgmwAvif/kmIJigu2/J5sMIeYex9T18wAhn2uzm/gXR7u8cNhTuzhAi6nF5IiIyg
+1EwI6s92faCflk4b6vDpm+4knsEFsXNdAo9mngu6BnC0l7rLQEnOMn2i2dfDyPf8
+0kIfaoMdybuMhLi+YkOYW9tiKLzz+bfYFPGeZveXnQN8hkar/W18Cs2Dq6lhSzNt
+iYGbP8cwg4Gs/ZcpmLx0nQ/pXRjWruErxK0Ovqz/ho+NULNNMPyKFeuD1XwqiLnv
+C8fp5JtFy4xJhnAb7a1acRynuXmHoz3MAj6hY66WZdLgUtBx7KL98ky49RJZpUSR
+N7gHSZoO+QiSdW80+cjRX8N/m7rnaQZI2xvm0frNvNUDluQbjWLv7MHPuWR729sE
+/BD5djO9qV4KfUDLOcX9qRw3IJxLtMOHYTesLBRw39ZEa6DuZ/TyVJnSMNIgUIRX
+hwGxqkhu+Zm6Hg8Mzc+DTLtmlB+rBegSr8iu0+AwNGZoy2eZgjw=
+=2UZy
 -----END PGP SIGNATURE-----
 
---WkfBGePaEyrk4zXB--
+--Yia77v5a8fyVHJSl--
 
