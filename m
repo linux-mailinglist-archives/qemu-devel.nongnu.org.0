@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D27A186EAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:35:14 +0100 (CET)
-Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DEE186F5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:52:53 +0100 (CET)
+Received: from localhost ([::1]:39930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrlo-0007PZ-ME
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59269)
+	id 1jDs2u-00066V-D2
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:52:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vfazio@gmail.com>) id 1jDddQ-0006OP-5R
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:29:39 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jDp9v-0004Lo-GH
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:47:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vfazio@gmail.com>) id 1jDddN-0007jD-6X
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:29:34 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42605)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <vfazio@gmail.com>)
- id 1jDddM-0007XN-VH; Sun, 15 Mar 2020 20:29:33 -0400
-Received: by mail-ed1-x543.google.com with SMTP id b21so9584702edy.9;
- Sun, 15 Mar 2020 17:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4ZbYphjZfXVF1533ZbXdDhT49U8OBqjrcyxFroiuUP4=;
- b=MYRRn6TbDSpZ1NQgqZeIqblEChgzIYRKCUxccmTv/nua4iXs8IkzCCHKqpP7mF7lIE
- 94i0DCZlazCc7IoT7SvnxKacxVGIeBk8FALHZ8mgl/kV6UfLC9e2dMxqhUzP3GSuy+MQ
- J+wypkMXvrbM/jjUPJQk52NFXuZIaeV/je0y3WjmnglVM61t1rapsViyMauWdoIkg6Sh
- 5wRU0Dkeew19kwycLZT6qX/LKbYnkE8qDWxxHl/BbjNwOuCpzJlLy/wfb3cx1ffbV49+
- oFIuOastKI9R/iOPGQ5BmtMHAZwkOuTBmtjsu5t7NgMr2IVeEhADqBpy7eMjcmv+0fuC
- c47w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4ZbYphjZfXVF1533ZbXdDhT49U8OBqjrcyxFroiuUP4=;
- b=Pt7fi6pAMnigXEewxmfRDfH6iejIuhVVfCW+AKi0M9qqsBmtGFcUJFqCVjdyn3DOI8
- 0mEh6jxcvqLo7aAyivNw3fCH6zGtLX4DWgBd3j8jkeRg8dg5dRkk3YK2dxfPRPF0BCVm
- 2R3kP9y/G6/5h0Nv0uJzirdlvA58S38gPc+/uJENISxw5hm53LjOCLgsiXrhPTtdEve4
- +SyN6RzSAhecOtzuGJIHKXuhlzdlo5882aBQ9fClqgMQUOxy0XkWtcuqHtYt+Su8iT+o
- SzjIgi16BnR6ClwL6sk0z0e8CNbYUv/wDaz4HrqRq2IuFhu8vab6kB5Z9fAcg9cCX1/q
- h7Ag==
-X-Gm-Message-State: ANhLgQ1ePUPxY6/vPWcuAVJgZ9toGMuEDg8KsRR/H/XIb8iQaIgHO4C7
- SrhXqDkfwz7ntsys82mH5iE1IBfbUDw+ZssPWVw=
-X-Google-Smtp-Source: ADFU+vs8YnXrfDGn7kN+b0+iaJozhJhjQyFw0z6nurbBjwbK/ZmtXkZVqdpiqttluhy2cXSTOcxEPXOFX15/fdn688I=
-X-Received: by 2002:a05:6402:b8c:: with SMTP id
- cf12mr14741807edb.322.1584318567485; 
- Sun, 15 Mar 2020 17:29:27 -0700 (PDT)
+ (envelope-from <imammedo@redhat.com>) id 1jDp9t-00082R-6P
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:47:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49009
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jDp9t-0007pr-06
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:47:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584362871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m/6bWbGa8sgzNaFHfvahGF/ebuBl1/AGxKwgGAI6FxE=;
+ b=boWq/Q9IeGtAuAB6GV3LVE3P4TYvGMzvgK09DrSQDNJ9ghW+0eiFVrcYyBNr80a1aOZty9
+ xWKxhNc+AsqKtbXw3SF4/pZcqSe/a9QkH2h7pHYAbFX/mrYRa9tCLTZZwSXCyx4gjN+KS8
+ BSykdAQ9T5MWgnUSHgsNjW5Q5/NA44c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-666UOE7XPN6VZpBRQLJSyA-1; Mon, 16 Mar 2020 08:47:48 -0400
+X-MC-Unique: 666UOE7XPN6VZpBRQLJSyA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A5B918FF661;
+ Mon, 16 Mar 2020 12:47:46 +0000 (UTC)
+Received: from localhost (ovpn-200-42.brq.redhat.com [10.40.200.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BB0C19C70;
+ Mon, 16 Mar 2020 12:47:38 +0000 (UTC)
+Date: Mon, 16 Mar 2020 13:47:36 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 6/8] qapi/misc: Restrict ACPI commands to machine code
+Message-ID: <20200316134736.2a8f5abe@redhat.com>
+In-Reply-To: <20200316000348.29692-7-philmd@redhat.com>
+References: <20200316000348.29692-1-philmd@redhat.com>
+ <20200316000348.29692-7-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20200315155202.13107-1-vfazio@xes-inc.com>
- <346e47c8-4a80-860c-ec55-e38d2021d63d@vivier.eu>
-In-Reply-To: <346e47c8-4a80-860c-ec55-e38d2021d63d@vivier.eu>
-From: Vincent Fazio <vfazio@gmail.com>
-Date: Sun, 15 Mar 2020 19:29:04 -0500
-Message-ID: <CAOrEah5Fq7Kp9wF_4Vtb4Qfcdm0gtwin_5b_ft7h7my+RnTOWA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] target/ppc: fix ELFv2 signal handler endianness
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::543
-X-Mailman-Approved-At: Mon, 16 Mar 2020 10:26:18 -0400
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,104 +72,449 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Fazio <vfazio@xes-inc.com>, qemu-trivial@nongnu.org,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Peter Lieven <pl@kamp.de>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent,
+On Mon, 16 Mar 2020 01:03:46 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-On Sun, Mar 15, 2020 at 1:10 PM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 15/03/2020 =C3=A0 16:52, Vincent Fazio a =C3=A9crit :
-> > From: Vincent Fazio <vfazio@gmail.com>
-> >
-> > In ELFv2, function pointers are entry points and are in host endianness=
-.
->
-> "host endianness" is misleading here. "target endianness" is better.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-I do want to clarify here. In a mixed endian scenario (my test case
-was an x86 host and e5500 PPC BE target), the function pointers are in
-host endianness (little endian) so that the virtual address can be
-dereferenced by the host for the target instructions to be translated.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
->
-> >
-> > Previously, the signal handler would be swapped if the target CPU was a
-> > different endianness than the host. This would cause a SIGSEGV when
-> > attempting to translate the opcode pointed to by the swapped address.
->
-> This is correct.
->
-> >  Thread 1 "qemu-ppc64" received signal SIGSEGV, Segmentation fault.
-> >  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/incl=
-ude/qemu/bswap.h:351
-> >  351        __builtin_memcpy(&r, ptr, sizeof(r));
-> >
-> >  #0  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/=
-include/qemu/bswap.h:351
-> >  #1  0x00000000600a92fe in ldl_be_p (ptr=3D0x4c2c061000000000) at qemu/=
-include/qemu/bswap.h:449
-> >  #2  0x00000000600c0790 in translator_ldl_swap at qemu/include/exec/tra=
-nslator.h:201
-> >  #3  0x000000006011c1ab in ppc_tr_translate_insn at qemu/target/ppc/tra=
-nslate.c:7856
-> >  #4  0x000000006005ae70 in translator_loop at qemu/accel/tcg/translator=
-.c:102
-> >
-> > Now, no swap is performed and execution continues properly.
-> >
-> > Signed-off-by: Vincent Fazio <vfazio@gmail.com>
-> > ---
-> >  linux-user/ppc/signal.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-> > index 5b82af6cb6..c7f6455170 100644
-> > --- a/linux-user/ppc/signal.c
-> > +++ b/linux-user/ppc/signal.c
-> > @@ -567,9 +567,13 @@ void setup_rt_frame(int sig, struct target_sigacti=
-on *ka,
-> >          env->nip =3D tswapl(handler->entry);
-> >          env->gpr[2] =3D tswapl(handler->toc);
-> >      } else {
-> > -        /* ELFv2 PPC64 function pointers are entry points, but R12
-> > -         * must also be set */
-> > -        env->nip =3D tswapl((target_ulong) ka->_sa_handler);
-> > +        /*
-> > +         * ELFv2 PPC64 function pointers are entry points and are in h=
-ost
-> > +         * endianness so should not to be swapped.
->
-> "target endianness"
->
-> > +         *
-> > +         * Note: R12 must also be set.
-> > +         */
-> > +        env->nip =3D (target_ulong) ka->_sa_handler;
->
-> The cast is not needed: nip and _sa_handler are abi_ulong.
+> ---
+>  qapi/machine.json                    | 154 +++++++++++++++++++++++++++
+>  qapi/misc.json                       | 154 ---------------------------
+>  include/hw/acpi/acpi_dev_interface.h |   2 +-
+>  hw/acpi/core.c                       |   2 +-
+>  hw/acpi/cpu.c                        |   2 +-
+>  hw/acpi/memory_hotplug.c             |   2 +-
+>  6 files changed, 158 insertions(+), 158 deletions(-)
+>=20
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 1a2a4b0d48..f77ee63730 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1018,3 +1018,157 @@
+>  ##
+>  { 'event': 'BALLOON_CHANGE',
+>    'data': { 'actual': 'int' } }
+> +
+> +##
+> +# @AcpiTableOptions:
+> +#
+> +# Specify an ACPI table on the command line to load.
+> +#
+> +# At most one of @file and @data can be specified. The list of files spe=
+cified
+> +# by any one of them is loaded and concatenated in order. If both are om=
+itted,
+> +# @data is implied.
+> +#
+> +# Other fields / optargs can be used to override fields of the generic A=
+CPI
+> +# table header; refer to the ACPI specification 5.0, section 5.2.6 Syste=
+m
+> +# Description Table Header. If a header field is not overridden, then th=
+e
+> +# corresponding value from the concatenated blob is used (in case of @fi=
+le), or
+> +# it is filled in with a hard-coded value (in case of @data).
+> +#
+> +# String fields are copied into the matching ACPI member from lowest add=
+ress
+> +# upwards, and silently truncated / NUL-padded to length.
+> +#
+> +# @sig: table signature / identifier (4 bytes)
+> +#
+> +# @rev: table revision number (dependent on signature, 1 byte)
+> +#
+> +# @oem_id: OEM identifier (6 bytes)
+> +#
+> +# @oem_table_id: OEM table identifier (8 bytes)
+> +#
+> +# @oem_rev: OEM-supplied revision number (4 bytes)
+> +#
+> +# @asl_compiler_id: identifier of the utility that created the table
+> +#                   (4 bytes)
+> +#
+> +# @asl_compiler_rev: revision number of the utility that created the
+> +#                    table (4 bytes)
+> +#
+> +# @file: colon (:) separated list of pathnames to load and
+> +#        concatenate as table data. The resultant binary blob is expecte=
+d to
+> +#        have an ACPI table header. At least one file is required. This =
+field
+> +#        excludes @data.
+> +#
+> +# @data: colon (:) separated list of pathnames to load and
+> +#        concatenate as table data. The resultant binary blob must not h=
+ave an
+> +#        ACPI table header. At least one file is required. This field ex=
+cludes
+> +#        @file.
+> +#
+> +# Since: 1.5
+> +##
+> +{ 'struct': 'AcpiTableOptions',
+> +  'data': {
+> +    '*sig':               'str',
+> +    '*rev':               'uint8',
+> +    '*oem_id':            'str',
+> +    '*oem_table_id':      'str',
+> +    '*oem_rev':           'uint32',
+> +    '*asl_compiler_id':   'str',
+> +    '*asl_compiler_rev':  'uint32',
+> +    '*file':              'str',
+> +    '*data':              'str' }}
+> +
+> +##
+> +# @MEM_UNPLUG_ERROR:
+> +#
+> +# Emitted when memory hot unplug error occurs.
+> +#
+> +# @device: device name
+> +#
+> +# @msg: Informative message
+> +#
+> +# Since: 2.4
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "MEM_UNPLUG_ERROR"
+> +#      "data": { "device": "dimm1",
+> +#                "msg": "acpi: device unplug for unsupported device"
+> +#      },
+> +#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+> +#
+> +##
+> +{ 'event': 'MEM_UNPLUG_ERROR',
+> +  'data': { 'device': 'str', 'msg': 'str' } }
+> +
+> +##
+> +# @ACPISlotType:
+> +#
+> +# @DIMM: memory slot
+> +# @CPU: logical CPU slot (since 2.7)
+> +##
+> +{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
+> +
+> +##
+> +# @ACPIOSTInfo:
+> +#
+> +# OSPM Status Indication for a device
+> +# For description of possible values of @source and @status fields
+> +# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
+> +#
+> +# @device: device ID associated with slot
+> +#
+> +# @slot: slot ID, unique per slot of a given @slot-type
+> +#
+> +# @slot-type: type of the slot
+> +#
+> +# @source: an integer containing the source event
+> +#
+> +# @status: an integer containing the status code
+> +#
+> +# Since: 2.1
+> +##
+> +{ 'struct': 'ACPIOSTInfo',
+> +  'data'  : { '*device': 'str',
+> +              'slot': 'str',
+> +              'slot-type': 'ACPISlotType',
+> +              'source': 'int',
+> +              'status': 'int' } }
+> +
+> +##
+> +# @query-acpi-ospm-status:
+> +#
+> +# Return a list of ACPIOSTInfo for devices that support status
+> +# reporting via ACPI _OST method.
+> +#
+> +# Since: 2.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-acpi-ospm-status" }
+> +# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "=
+source": 1, "status": 0},
+> +#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0},
+> +#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0},
+> +#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0}
+> +#    ]}
+> +#
+> +##
+> +{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
+> +
+> +##
+> +# @ACPI_DEVICE_OST:
+> +#
+> +# Emitted when guest executes ACPI _OST method.
+> +#
+> +# @info: OSPM Status Indication
+> +#
+> +# Since: 2.1
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "ACPI_DEVICE_OST",
+> +#      "data": { "device": "d1", "slot": "0",
+> +#                "slot-type": "DIMM", "source": 1, "status": 0 } }
+> +#
+> +##
+> +{ 'event': 'ACPI_DEVICE_OST',
+> +     'data': { 'info': 'ACPIOSTInfo' } }
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 8c02870227..3d9d7327fe 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -999,64 +999,6 @@
+>  ##
+>  { 'command': 'query-fdsets', 'returns': ['FdsetInfo'] }
+> =20
+> -##
+> -# @AcpiTableOptions:
+> -#
+> -# Specify an ACPI table on the command line to load.
+> -#
+> -# At most one of @file and @data can be specified. The list of files spe=
+cified
+> -# by any one of them is loaded and concatenated in order. If both are om=
+itted,
+> -# @data is implied.
+> -#
+> -# Other fields / optargs can be used to override fields of the generic A=
+CPI
+> -# table header; refer to the ACPI specification 5.0, section 5.2.6 Syste=
+m
+> -# Description Table Header. If a header field is not overridden, then th=
+e
+> -# corresponding value from the concatenated blob is used (in case of @fi=
+le), or
+> -# it is filled in with a hard-coded value (in case of @data).
+> -#
+> -# String fields are copied into the matching ACPI member from lowest add=
+ress
+> -# upwards, and silently truncated / NUL-padded to length.
+> -#
+> -# @sig: table signature / identifier (4 bytes)
+> -#
+> -# @rev: table revision number (dependent on signature, 1 byte)
+> -#
+> -# @oem_id: OEM identifier (6 bytes)
+> -#
+> -# @oem_table_id: OEM table identifier (8 bytes)
+> -#
+> -# @oem_rev: OEM-supplied revision number (4 bytes)
+> -#
+> -# @asl_compiler_id: identifier of the utility that created the table
+> -#                   (4 bytes)
+> -#
+> -# @asl_compiler_rev: revision number of the utility that created the
+> -#                    table (4 bytes)
+> -#
+> -# @file: colon (:) separated list of pathnames to load and
+> -#        concatenate as table data. The resultant binary blob is expecte=
+d to
+> -#        have an ACPI table header. At least one file is required. This =
+field
+> -#        excludes @data.
+> -#
+> -# @data: colon (:) separated list of pathnames to load and
+> -#        concatenate as table data. The resultant binary blob must not h=
+ave an
+> -#        ACPI table header. At least one file is required. This field ex=
+cludes
+> -#        @file.
+> -#
+> -# Since: 1.5
+> -##
+> -{ 'struct': 'AcpiTableOptions',
+> -  'data': {
+> -    '*sig':               'str',
+> -    '*rev':               'uint8',
+> -    '*oem_id':            'str',
+> -    '*oem_table_id':      'str',
+> -    '*oem_rev':           'uint32',
+> -    '*asl_compiler_id':   'str',
+> -    '*asl_compiler_rev':  'uint32',
+> -    '*file':              'str',
+> -    '*data':              'str' }}
+> -
+>  ##
+>  # @CommandLineParameterType:
+>  #
+> @@ -1249,102 +1191,6 @@
+>  ##
+>  { 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
+> =20
+> -##
+> -# @MEM_UNPLUG_ERROR:
+> -#
+> -# Emitted when memory hot unplug error occurs.
+> -#
+> -# @device: device name
+> -#
+> -# @msg: Informative message
+> -#
+> -# Since: 2.4
+> -#
+> -# Example:
+> -#
+> -# <- { "event": "MEM_UNPLUG_ERROR"
+> -#      "data": { "device": "dimm1",
+> -#                "msg": "acpi: device unplug for unsupported device"
+> -#      },
+> -#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+> -#
+> -##
+> -{ 'event': 'MEM_UNPLUG_ERROR',
+> -  'data': { 'device': 'str', 'msg': 'str' } }
+> -
+> -##
+> -# @ACPISlotType:
+> -#
+> -# @DIMM: memory slot
+> -# @CPU: logical CPU slot (since 2.7)
+> -##
+> -{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
+> -
+> -##
+> -# @ACPIOSTInfo:
+> -#
+> -# OSPM Status Indication for a device
+> -# For description of possible values of @source and @status fields
+> -# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
+> -#
+> -# @device: device ID associated with slot
+> -#
+> -# @slot: slot ID, unique per slot of a given @slot-type
+> -#
+> -# @slot-type: type of the slot
+> -#
+> -# @source: an integer containing the source event
+> -#
+> -# @status: an integer containing the status code
+> -#
+> -# Since: 2.1
+> -##
+> -{ 'struct': 'ACPIOSTInfo',
+> -  'data'  : { '*device': 'str',
+> -              'slot': 'str',
+> -              'slot-type': 'ACPISlotType',
+> -              'source': 'int',
+> -              'status': 'int' } }
+> -
+> -##
+> -# @query-acpi-ospm-status:
+> -#
+> -# Return a list of ACPIOSTInfo for devices that support status
+> -# reporting via ACPI _OST method.
+> -#
+> -# Since: 2.1
+> -#
+> -# Example:
+> -#
+> -# -> { "execute": "query-acpi-ospm-status" }
+> -# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "=
+source": 1, "status": 0},
+> -#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0},
+> -#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0},
+> -#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "sta=
+tus": 0}
+> -#    ]}
+> -#
+> -##
+> -{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
+> -
+> -##
+> -# @ACPI_DEVICE_OST:
+> -#
+> -# Emitted when guest executes ACPI _OST method.
+> -#
+> -# @info: OSPM Status Indication
+> -#
+> -# Since: 2.1
+> -#
+> -# Example:
+> -#
+> -# <- { "event": "ACPI_DEVICE_OST",
+> -#      "data": { "device": "d1", "slot": "0",
+> -#                "slot-type": "DIMM", "source": 1, "status": 0 } }
+> -#
+> -##
+> -{ 'event': 'ACPI_DEVICE_OST',
+> -     'data': { 'info': 'ACPIOSTInfo' } }
+> -
+>  ##
+>  # @ReplayMode:
+>  #
+> diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_=
+dev_interface.h
+> index a2a12af9b9..a1b63d51db 100644
+> --- a/include/hw/acpi/acpi_dev_interface.h
+> +++ b/include/hw/acpi/acpi_dev_interface.h
+> @@ -1,7 +1,7 @@
+>  #ifndef ACPI_DEV_INTERFACE_H
+>  #define ACPI_DEV_INTERFACE_H
+> =20
+> -#include "qapi/qapi-types-misc.h"
+> +#include "qapi/qapi-types-machine.h"
+>  #include "qom/object.h"
+>  #include "hw/boards.h"
+>  #include "hw/qdev-core.h"
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 45cbed49ab..4f8d90f50b 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -27,7 +27,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/opts-visitor.h"
+>  #include "qapi/qapi-events-run-state.h"
+> -#include "qapi/qapi-visit-misc.h"
+> +#include "qapi/qapi-visit-machine.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/module.h"
+>  #include "qemu/option.h"
+> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> index e2c957ce00..8be15db96d 100644
+> --- a/hw/acpi/cpu.c
+> +++ b/hw/acpi/cpu.c
+> @@ -3,7 +3,7 @@
+>  #include "migration/vmstate.h"
+>  #include "hw/acpi/cpu.h"
+>  #include "qapi/error.h"
+> -#include "qapi/qapi-events-misc.h"
+> +#include "qapi/qapi-events-machine.h"
+>  #include "trace.h"
+>  #include "sysemu/numa.h"
+> =20
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index 8d2e82240f..aa454f5cb2 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -7,7 +7,7 @@
+>  #include "migration/vmstate.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> -#include "qapi/qapi-events-misc.h"
+> +#include "qapi/qapi-events-machine.h"
+> =20
+>  #define MEMORY_SLOTS_NUMBER          "MDNR"
+>  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
 
-I'll drop this in v2
-
->
-> >          env->gpr[12] =3D env->nip;
-> >      }
-> >  #else
-> >
->
-> If you repost with the fix I've reported above you can add my:
->
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->
-
-I'll hold off on reposting until the endianness wording is figured out.
-
-> Thanks,
-> Laurent
-
-Thanks,
--Vincent
 
