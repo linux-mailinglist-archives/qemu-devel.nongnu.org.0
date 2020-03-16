@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4EC187149
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:37:11 +0100 (CET)
-Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A5318714F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:39:00 +0100 (CET)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtfq-0000xV-PI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
+	id 1jDthb-0004H8-3u
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDrpJ-00028p-Mz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:51 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrq8-0002je-97
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDrpI-00019y-9m
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:49 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43985)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrq7-000338-7T
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:40 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33193)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jDrpI-00019G-4g
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:48 -0400
-Received: by mail-ot1-x342.google.com with SMTP id a6so18213632otb.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDrq7-00031s-2j
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:39:39 -0400
+Received: by mail-ot1-x343.google.com with SMTP id x26so1248514otk.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6F4Qr3MbWDscYfKuCC/nA4le9wVF6pd3Ywp1mmcZqJ8=;
- b=SVc1uREFg/f9oVVQUCh5yDQuBZphcou8PHbrj/paizH0H73wzIr6Y5eiYc/Pw+Rygd
- yZHAKiniJgpbG0t/rsqiD7FZSEHOoTnRGhNDFns+UCcTe/0M7a6uBMH+pGMapJD/iUGf
- Kf74eiSuoGAYdL70wbiURXYV9iA4X+frjOQ6CGstkHOPIEn8EP/Y1uc7NhVZuSJ/xjbS
- KMMehqlIsIuMpYDMyPTxMDcQe/TR7m1lGf6ywH4sf8CLBzdxxr9AMUq/2eUYb+NHTYoR
- rO6enRkXllvccM20eOsCUr3ZPjjiK1SCNWJ7bur2mNq11lfiWVBCUOipI8cCKxXpbGUC
- VwVQ==
+ :cc; bh=QY+2OTb9MtqR8dUS65wKid5CTkKHyVlGBNUsDgaEhho=;
+ b=mQyc7ztP/hyXeViBYmkn0Bq8YywvRqacuV7dFmrekRLjD1YoWVHelUsamUdNOwbWJu
+ libKIWV9wJFflpOcVxEGjuY0GgLlvWKjS+Hbohvq9veacQ3gFa2TkzGKklbDmADThxpL
+ GB1g+Ug0YI0n/WdfixNVcnmPwBQYHLkw6n1B44y5l1xF78YbgDEu+gU+hJyZXa0DiNTL
+ aA+2Mnl7x9p6ElyK0kNtPbyOIbtUX0wBgj6umXxSfkdZzo5zuBdvd9WgPY9hNJmdlAnz
+ 8Zhn4KHdG5NZ+bycf4IbBoeF+qCSL5XovMZ+MG6vwhSpofV7lPnewdTMLLtISK5iMm1/
+ UbGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6F4Qr3MbWDscYfKuCC/nA4le9wVF6pd3Ywp1mmcZqJ8=;
- b=Zjw9Vo5UIbzEGPG3+WPyD02GDEXrC/pVoVFdH6bfuGAwNdKZ4jYPI24cWJ53WZ+Ia2
- q/gy5KF3x30mnmNFeLrPCuxsKfNYEN1G1ngscqdS1PubEKPlSo9woTKfraik9plFAvyB
- xMUBgO7vykgVcYNQ757BTPnj+r1XI7QBuG8XjYh8ftbuYzjiPbZiqfWuMUum5WY5aFgE
- IpYWq1c2au+LJPaMV+2rurFR/5TBF0iudp6HYXeOWIbd1lshzcqfc9ikFtvjNGsdKr34
- aLp+4Ui9HOCumZhRW2YHc7CwjXbWLfhkRkNtZez5n9asLlmADf4KqYjONAP88GpLjZa9
- C+dA==
-X-Gm-Message-State: ANhLgQ1BZ/ANoDlWhCrKvL5bBOFZW4ixdol2A58GsW1wMWTP15a5327G
- C8kI3W3ZNjzl/byRTH+4AjlxSHZyyCyDkWSKl28=
-X-Google-Smtp-Source: ADFU+vsjRb8wqD3gE2mPAL6QuUvBQWbCAt0jTJAQNyDz8L8CVcsg/986MwKbS5uZ88LngY6qoGxjZ7s8VKVVrPFFwhE=
-X-Received: by 2002:a9d:2074:: with SMTP id
- n107mr13260316ota.306.1584373127432; 
- Mon, 16 Mar 2020 08:38:47 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=QY+2OTb9MtqR8dUS65wKid5CTkKHyVlGBNUsDgaEhho=;
+ b=Ud02n9phcK3dc2CfrUrgHsT8cPwwpTE1Sz5OtXZNTetHfcTpec9OE4SbaoEj1sU9zg
+ YmkWQ9l4g8TWiH293Np47znni6O8ADjCLZEda9IokcPSqSJWxYiP8BWse7XIDRJcRXX4
+ yDoOZuKu3n5W2fwy7dtJextsqlCVhwv/Be+eQDCHtejriG3l+wjtFcxLrYW2WEUfY57U
+ k//W95lfg2GmYkdtMWI1L7esuTFGNjTtzRNXdfZSQSbcNeNkHuYyJ8gvJml7uI5LeiJi
+ xMYPvB6+FKOgGlYUJo8pOHE0oO/3JDdSOvAhEt9aZO2vYlWQr13JUQefsNTXCmhHd0U/
+ w5tQ==
+X-Gm-Message-State: ANhLgQ3V0rGXhMLZT8hwYwEtWLpoARDqqkBGGJ6KlM23FGA9XhFhgwuP
+ Q5IsTXqENTomKQ+Itogoiwk5HY+pwDCg0EJX1qJr6A==
+X-Google-Smtp-Source: ADFU+vtBhJb8IIcessTKIRqdr4NAhDnfCkrgpiP/NxD8BpYZcB1yu1e69JsmaS0vuRM+9JkvkRHnXN48pk+5hd8VHuI=
+X-Received: by 2002:a9d:1d43:: with SMTP id m61mr14088916otm.91.1584373178312; 
+ Mon, 16 Mar 2020 08:39:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200312193616.438922-1-crosa@redhat.com>
- <20200316123807.GG1528804@redhat.com> <87zhcgjvgk.fsf@linaro.org>
-In-Reply-To: <87zhcgjvgk.fsf@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 16 Mar 2020 16:38:36 +0100
-Message-ID: <CAL1e-=jFtkXFhsu1BmBp4GWdXivV4_tzeRFvkt0hmT1JdufScQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20200313161506.8834-1-linux@roeck-us.net>
+In-Reply-To: <20200313161506.8834-1-linux@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 15:39:27 +0000
+Message-ID: <CAFEAcA-63OJfcnjE0V4W5a0R2tq_t0oRL7dre_WY_We0Jz9KoA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/fsl-imx7: Instantiate apbh_dma and ocotp as
+ unimplemented devices
+To: Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,92 +72,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Wainer Moschetta <wmoschet@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 16, 2020 at 4:24 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Fri, 13 Mar 2020 at 16:15, Guenter Roeck <linux@roeck-us.net> wrote:
 >
+> Instantiating apbh_dma and ocotp as unimplemented devices prevents crashes
+> when booting Linux.
 >
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+> apbh_dma:
 >
-> > On Thu, Mar 12, 2020 at 03:36:11PM -0400, Cleber Rosa wrote:
-> >> The idea about a public facing Gating CI for QEMU was lastly
-> >> summarized in an RFC[1].  Since then, it was decided that a
-> >> simpler version should be attempted first.
-> >>
-> >> Changes from the RFC patches[2] accompanying the RFC document:
-> >>
-> >> - Moved gating job definitions to .gitlab-ci-gating.yml
-> >> - Added info on "--disable-libssh" build option requirement
-> >>   (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs
-> >> - Added info on "--disable-glusterfs" build option requirement
-> >>   (there's no static version of those libs in distro supplied
-> >>   packages) to one
-> >> - Dropped ubuntu-18.04.3-x86_64-notools job definition, because it
-> >>   doesn't fall into the general scope of gating job described by PMM
-> >>   (and it did not run any test)
-> >> - Added w32 and w64 cross builds based on Fedora 30
-> >> - Added a FreeBSD based job that builds all targets and runs `make
-> >>   check`
-> >> - Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a
-> >>   simple but effective way of speeding up the builds and tests by
-> >>   using a number of make jobs matching the number of CPUs
-> >> - Because the Ansible playbooks reference the content on Dockerfiles,
-> >>   some fixes to some Dockerfiles caught in the process were included
-> >> - New patch with script to check or wait on a pipeline execution
-> >>
-> >> [1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.h=
-tml
-> >> [2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.h=
-tml
-> >>
-> >> Cleber Rosa (5):
-> >>   tests/docker: add CentOS 8 Dockerfile
-> >>   tests/docker: make "buildah bud" output similar to "docker build"
-> >>   GitLab CI: avoid calling before_scripts on unintended jobs
-> >>   GitLab Gating CI: introduce pipeline-status contrib script
-> >>   GitLab Gating CI: initial set of jobs, documentation and scripts
-> >>
-> >>  .gitlab-ci-gating.yml                         | 111 ++++++++++
-> >>  .gitlab-ci.yml                                |  32 ++-
-> >>  contrib/ci/orgs/qemu/build-environment.yml    | 208 +++++++++++++++++=
-+
-> >>  contrib/ci/orgs/qemu/gitlab-runner.yml        |  65 ++++++
-> >>  contrib/ci/orgs/qemu/inventory                |   2 +
-> >>  contrib/ci/orgs/qemu/vars.yml                 |  13 ++
-> >>  contrib/ci/scripts/gitlab-pipeline-status     | 148 +++++++++++++
-> >
-> > FYI, the contrib/ directory is generally a place for arbitrary / adhoc
-> > but interesting user contributed files/sources that are not officially
-> > supported deliverables of the project.
-> >
-> > IOW, this is not a good home for the official CI scripts.
-> >
-> > We already have a .gitlab-ci.d/ directory that looks like it would
-> > be good for this.  Or if that's not suitable, then scripts/ci/ is
-> > a second choice.
+> [   14.046518] Unhandled fault: external abort on non-linefetch (0x808) at 0xd0852008
+> [   14.047287] pgd = (ptrval)
+> [   14.047607] [d0852008] *pgd=8b028811, *pte=33000653, *ppte=33000453
+> [   14.050074] Internal error: : 808 [#1] SMP ARM
+> ...
+> [   14.077029] [<c0856530>] (stmp_clear_poll_bit) from [<c0856580>] (stmp_reset_block+0x10/0xb8)
+> [   14.077642] [<c0856580>] (stmp_reset_block) from [<c1a9655c>] (mxs_dma_probe+0x1f4/0x370)
+> [   14.078158] [<c1a9655c>] (mxs_dma_probe) from [<c0b6a7e8>] (platform_drv_probe+0x48/0x98)
+> [   14.078641] [<c0b6a7e8>] (platform_drv_probe) from [<c0b685c4>] (really_probe+0x228/0x2d0)
 >
-> I'd vote for scripts/ci/ or scripts/gitlab/ as the .gitlab-ci.d might be
-> a little hidden.
+> ocotp:
 >
+> [   71.286109] Unhandled fault: external abort on non-linefetch (0x008) at 0xd0ff0000
+> [   71.287891] pgd = (ptrval)
+> [   71.288449] [d0ff0000] *pgd=8b497811, *pte=30350653, *ppte=30350453
+> [   71.291389] Internal error: : 8 [#1] SMP ARM
+> [   71.292302] Modules linked in:
+> [   71.293583] CPU: 0 PID: 112 Comm: kworker/0:3 Not tainted 5.0.0-10153-g065b6c4c913d-dirty #2
+> [   71.294148] Hardware name: Freescale i.MX7 Dual (Device Tree)
+> [   71.296728] Workqueue: events deferred_probe_work_func
+> [   71.297740] PC is at imx_ocotp_read+0x68/0x180
+> [   71.298154] LR is at mark_held_locks+0x48/0x74
+>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  hw/arm/fsl-imx7.c         | 11 +++++++++++
+>  include/hw/arm/fsl-imx7.h |  6 ++++++
+>  2 files changed, 17 insertions(+)
+>
+> diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+> index 119b281a50..a17136f83c 100644
+> --- a/hw/arm/fsl-imx7.c
+> +++ b/hw/arm/fsl-imx7.c
+> @@ -459,6 +459,17 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+>       */
+>      create_unimplemented_device("sdma", FSL_IMX7_SDMA_ADDR, FSL_IMX7_SDMA_SIZE);
+>
+> +    /*
+> +     * OCOTP
+> +     */
+> +    create_unimplemented_device("octop", FSL_IMX7_OCOTP_ADDR,
+> +                                FSL_IMX7_OCOTP_SIZE);
 
-I vote for scripts/ci/ or scripts/gitlab/ too. With a little
-preference to scripts/ci/.
+"octop" or "ocotp" ?
 
-Aleksandar
 
-> --
-> Alex Benn=C3=A9e
->
+thanks
+-- PMM
 
