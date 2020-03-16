@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23CA18729A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:44:17 +0100 (CET)
-Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B4C1872B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:48:09 +0100 (CET)
+Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuin-0003UB-0f
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52736)
+	id 1jDumW-0002EA-AI
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXl-0003fj-0l
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXr-0003qg-Cn
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXj-00024K-Kp
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:48 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45394)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXn-0002Qk-UD
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:55 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42894)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtXg-0001yA-6y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:44 -0400
-Received: by mail-wr1-x434.google.com with SMTP id t2so12232285wrx.12
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:40 -0700 (PDT)
+ id 1jDtXn-0002Ji-HR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:51 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v11so22320923wrm.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f5dTlYsFtNp/wmtrOeuFSuNIyqa263n2dovazYjJJJU=;
- b=Py5JM8aePmg8I++6NhioriUf53N9eGZQXcXpJmnaxSYWoBvzwoQphPMQVJ48kUq3zL
- h4u9xeJEWRDlnCwGGKWZViQRhiv9QZUoT//2jWO7zI6SxgD2JkgVQ1icT02/HwhBWtZ/
- tbTK5lh8ia7NcFwTXj6tgy02Cbu8HG32bsjmiUOuf4B6ePK00KKo2V8WWmp488cBnGuM
- GPrUeFLLerY1SDE/OMy1KL9ZhrcKwehfp4LHgWyeJMlGzgFaH9/htEFpwItq9lY8GpBV
- EN7JKkYbXHpIUvZhpJzRO4ekQ54EySvszZm8r2HjloO8dgsIRdk9sglSSaRDz8vP7Hcu
- UQWQ==
+ bh=m8trnK4dsJcOAkqMwuDk8oN/65638+mbTVeX6RjAM68=;
+ b=HBvq+Gr1rLXtJLvRVXx6L79nqcvJ2B+xPBsegPXIx70/Li1laLUTPSzyQ7N1knJBT9
+ A5hB/O6zxN0U6SAyyL4of8l97vq2fOvasvtL8DId2Q9vwr1TWF0+VnP7oGFNX/h6GPXb
+ K0BIJ6QsrFkChDqvYM2KEnqNVl8LvwWuQsHbfdNaDTqyhSKUvqXwJI1PSTCt6R3x0H+C
+ VfPQ0WYwkE1VkYcmjGF20YNhFKw0K5vMoPlsnCnHKL4F07cU+ytdwdznYHsYtNwcUl+A
+ j3aR7YnTUUSa6MNtR62gvnuBrnQuxIuWp7S9xPx7ErAwbDE2s7dfpS2KosyP4vjntqyd
+ QbDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f5dTlYsFtNp/wmtrOeuFSuNIyqa263n2dovazYjJJJU=;
- b=HFatLPBvKEbYxXT3f1OnvAeWsVzuC7VXyb7ZBYJqu131ZM9EuDEFSZ2WVbXgQKG0KO
- pBtr6M7wIm0K8uciiLEKc7SNZ5a4XOucvQJVdgV8Ww3fZ7evxawvIs+7kz0fUef7w6yV
- GVz5h6yLAWOb2l7l5frQ27W5eBADBdSyVYtiJSB9gMBw/426Kzr5Er3nI5uJUfx5WYQK
- WeCyDN4QvXQ3wZx5Gbr1Go+Mxsu5uP3ZrelWrIZzTrqO+9Fc9Vop6qpaaUKeDe2Gfq4D
- /cI1NtZbeVOqn7mOIlpGcIO/tOHkjIFT2vLcknmpgxF9SOTrOZNxJu9465tJwStLqEHK
- sz1g==
-X-Gm-Message-State: ANhLgQ1anCAGNzrDFmypbJxYWiqUzuuavr43uedrONBZTBoVwQG0lavK
- tm6cLAcLyNDn8fi2jdWyo4vduw==
-X-Google-Smtp-Source: ADFU+vs0f131Tm1liahJHdO5Vf0/PT/a2k/tUY43ud9kNiyoL2usKa6JZaR8SGjt4JsCrROKiIAYRg==
-X-Received: by 2002:a05:6000:41:: with SMTP id k1mr440549wrx.53.1584379719457; 
- Mon, 16 Mar 2020 10:28:39 -0700 (PDT)
+ bh=m8trnK4dsJcOAkqMwuDk8oN/65638+mbTVeX6RjAM68=;
+ b=Y7MkFhfseBzA3eeH8heWVlGH3eSKUlXjpG/XmdzPkV7YN5xz9ETjiZH8v5oqPREwQN
+ yRoJBPiW6rBhEcHuow13WofH9M8LDVpj09rWbi7s09mws/8Ovk55GAFRcg3u+AOYtP5w
+ TguueUXR9Sl81/oGWvQWHcwA8zTibCkORFBjPIQDkSY8G1GcJKtUEXPtHDKGWAyPOUA7
+ A+yKR8r9YS14bFvK/KWz7ASKy7ENpte7gZr7YiBZjFlOYlVQfrrDwwxpXVUdcKyc3opt
+ ksOSKyRFsVbpiYLpesN57jZSxiAD/k/6ORb5m4iPacDBypP1/oJtAwMYIsTEkOnzTyLz
+ tbbg==
+X-Gm-Message-State: ANhLgQ3/4MdwefmpYhewBz8vmZL4GJKrk8Q+7XFTsJm6GqMEQ0PsQzYg
+ Pqasp8SqAemJ/XQBT2qq9kopew==
+X-Google-Smtp-Source: ADFU+vuZHzlkb3X9TGWbTjsEEpevcVTZ7Ke10xn8DgpeFvoA4hK1S37CzkczmHtXeNtOh4BrSUjPQA==
+X-Received: by 2002:a5d:5342:: with SMTP id t2mr456320wrv.104.1584379730464;
+ Mon, 16 Mar 2020 10:28:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y12sm404883wmi.48.2020.03.16.10.28.35
+ by smtp.gmail.com with ESMTPSA id 9sm443006wmx.32.2020.03.16.10.28.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:28:35 -0700 (PDT)
+ Mon, 16 Mar 2020 10:28:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 692801FFAC;
+ by zen.linaroharston (Postfix) with ESMTP id 815581FFAE;
  Mon, 16 Mar 2020 17:21:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 22/28] tests/guest-debug: add a simple test runner
-Date: Mon, 16 Mar 2020 17:21:49 +0000
-Message-Id: <20200316172155.971-23-alex.bennee@linaro.org>
+Subject: [PATCH v1 23/28] tests/tcg/aarch64: add a gdbstub testcase for SVE
+ registers
+Date: Mon, 16 Mar 2020 17:21:50 +0000
+Message-Id: <20200316172155.971-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
 References: <20200316172155.971-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,85 +82,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test runners job is to start QEMU with guest debug enabled and
-then spawn a gdb process running a test script that exercises the
-functionality it wants to test.
+A very simple test case which sets and reads SVE registers while
+running a test case. We don't really need to compile a SVE binary for
+this case but we will later so keep it simple for now.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/guest-debug/run-test.py | 57 +++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100755 tests/guest-debug/run-test.py
 
-diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
-new file mode 100755
-index 00000000000..8c49ee2f225
+---
+v5
+  - properly plumb in
+  - skip if fails to connect
+---
+ tests/.gitignore                      |  1 +
+ tests/tcg/aarch64/Makefile.target     | 15 +++++
+ tests/tcg/aarch64/gdbstub/test-sve.py | 81 +++++++++++++++++++++++++++
+ 3 files changed, 97 insertions(+)
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+
+diff --git a/tests/.gitignore b/tests/.gitignore
+index 7306866f216..d03c037d772 100644
+--- a/tests/.gitignore
++++ b/tests/.gitignore
+@@ -10,6 +10,7 @@ qht-bench
+ rcutorture
+ test-*
+ !test-*.c
++!test-*.py
+ !docker/test-*
+ test-qapi-commands.[ch]
+ test-qapi-init-commands.[ch]
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index a25afc071cc..b61b53e4dd1 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -46,6 +46,21 @@ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
+ # System Registers Tests
+ AARCH64_TESTS += sysregs
+ sysregs: CFLAGS+=-march=armv8.1-a+sve
++
++ifneq ($(HAVE_GDB_BIN),)
++GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
++
++AARCH64_TESTS += gdbstub-sysregs
++
++.PHONY: gdbstub-sysregs
++run-gdbstub-sysregs: sysregs
++	$(call run-test, $@, $(GDB_SCRIPT) \
++		--gdb $(HAVE_GDB_BIN) \
++		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
++		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
++	"basic gdbstub SVE support")
++endif
++
+ endif
+ 
+ TESTS += $(AARCH64_TESTS)
+diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
+new file mode 100644
+index 00000000000..90201d80094
 --- /dev/null
-+++ b/tests/guest-debug/run-test.py
-@@ -0,0 +1,57 @@
-+#!/usr/bin/env python3
++++ b/tests/tcg/aarch64/gdbstub/test-sve.py
+@@ -0,0 +1,81 @@
++from __future__ import print_function
 +#
-+# Run a gdbstub test case
++# Test the SVE registers are visable and changeable via gdbstub
 +#
-+# Copyright (c) 2019 Linaro
++# This is launched via tests/guest-debug/run-test.py
 +#
-+# Author: Alex Bennée <alex.bennee@linaro.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
 +
-+import argparse
-+import subprocess
-+import shutil
-+import shlex
++import gdb
++import sys
 +
-+def get_args():
-+    parser = argparse.ArgumentParser(description="A gdbstub test runner")
-+    parser.add_argument("--qemu", help="Qemu binary for test",
-+                        required=True)
-+    parser.add_argument("--qargs", help="Qemu arguments for test")
-+    parser.add_argument("--binary", help="Binary to debug",
-+                        required=True)
-+    parser.add_argument("--test", help="GDB test script",
-+                        required=True)
-+    parser.add_argument("--gdb", help="The gdb binary to use", default=None)
++MAGIC = 0xDEADBEEF
 +
-+    return parser.parse_args()
++failcount = 0
 +
-+if __name__ == '__main__':
-+    args = get_args()
-+
-+    # Search for a gdb we can use
-+    if not args.gdb:
-+        args.gdb = shutil.which("gdb-multiarch")
-+    if not args.gdb:
-+        args.gdb = shutil.which("gdb")
-+    if not args.gdb:
-+        print("We need gdb to run the test")
-+        exit(-1)
-+
-+    # Launch QEMU with binary
-+    if "system" in args.qemu:
-+        cmd = "%s %s %s -s -S" % (args.qemu, args.qargs, args.binary)
++def report(cond, msg):
++    "Report success/fail of test"
++    if cond:
++        print ("PASS: %s" % (msg))
 +    else:
-+        cmd = "%s %s -g 1234 %s" % (args.qemu, args.qargs, args.binary)
++        print ("FAIL: %s" % (msg))
++        global failcount
++        failcount += 1
 +
-+    inferior = subprocess.Popen(shlex.split(cmd))
++def run_test():
++    "Run through the tests one by one"
 +
-+    # Now launch gdb with our test and collect the result
-+    gdb_cmd = "%s %s -ex 'target remote localhost:1234' -x %s" % (args.gdb, args.binary, args.test)
++    gdb.execute("info registers")
++    report(True, "info registers")
 +
-+    result = subprocess.call(gdb_cmd, shell=True);
++    gdb.execute("info registers vector")
++    report(True, "info registers vector")
 +
-+    exit(result)
++    # Now all the zregs
++    frame = gdb.selected_frame()
++    for i in range(0, 32):
++        rname = "z%d" % (i)
++        zreg = frame.read_register(rname)
++        report(True, "Reading %s" % rname)
++        for j in range(0, 4):
++            cmd = "set $%s.q.u[%d] = 0x%x" % (rname, j, MAGIC)
++            gdb.execute(cmd)
++            report(True, "%s" % cmd)
++        for j in range(0, 4):
++            reg = "$%s.q.u[%d]" % (rname, j)
++            v = gdb.parse_and_eval(reg)
++            report(str(v.type) == "uint128_t", "size of %s" % (reg))
++        for j in range(0, 8):
++            cmd = "set $%s.d.u[%d] = 0x%x" % (rname, j, MAGIC)
++            gdb.execute(cmd)
++            report(True, "%s" % cmd)
++        for j in range(0, 8):
++            reg = "$%s.d.u[%d]" % (rname, j)
++            v = gdb.parse_and_eval(reg)
++            report(str(v.type) == "uint64_t", "size of %s" % (reg))
++            report(int(v) == MAGIC, "%s is 0x%x" % (reg, MAGIC))
++
++#
++# This runs as the script it sourced (via -x, via run-test.py)
++#
++try:
++    inferior = gdb.selected_inferior()
++    arch = inferior.architecture()
++    report(arch.name() == "aarch64", "connected to aarch64")
++except (gdb.error, AttributeError):
++    print("SKIPPING (not connected)", file=sys.stderr)
++    exit(0)
++
++try:
++    # These are not very useful in scripts
++    gdb.execute("set pagination off")
++    gdb.execute("set confirm off")
++
++    # Run the actual tests
++    run_test()
++except:
++    print ("GDB Exception: %s" % (sys.exc_info()[0]))
++    failcount += 1
++
++print("All tests complete: %d failures" % failcount)
++
++exit(failcount)
 -- 
 2.20.1
 
