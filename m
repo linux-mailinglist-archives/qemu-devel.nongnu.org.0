@@ -2,80 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70652187478
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:07:30 +0100 (CET)
-Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E81874B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:29:31 +0100 (CET)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDwxN-0004qt-1n
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40795)
+	id 1jDxIg-00041M-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDwwB-0004ML-8c
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:06:16 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxGu-0002EP-ST
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDwwA-00088v-2c
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:06:15 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34336)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxGr-0007pT-7M
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:39 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47549)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDww9-00084u-Uq
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:06:14 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxGq-0007fx-Tx
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584392773;
+ s=mimecast20190719; t=1584394056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PHlTEizcnE9IkJ9bbnijF+nrMqDQa3fqSVdtO2OU7tc=;
- b=aIYCzTDie+6TOUn3ciJHQyhIEXeLkEVBLJNDsZzDIYaEQ/EOT0RjkgSGLpb44l+nebiM1+
- RQrd9wiA9hQRAH9fz4zXCXJlW8nH2uUhRVpRGTIbokbPU4OwnpWmvsJw0LLU84ttl9xv9Z
- 1kVRELt1b4K4hKQ8bL2R86KPtbP2Ri8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-rqPsgrF4N_KgQTUBq8BnLg-1; Mon, 16 Mar 2020 17:06:09 -0400
-X-MC-Unique: rqPsgrF4N_KgQTUBq8BnLg-1
-Received: by mail-wm1-f69.google.com with SMTP id f9so3542472wme.7
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 14:06:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BHhSp/olAeHu8RyDYl0CqwzIJcTAlMVsxZUqpaBDCeA=;
- b=g4mf2JSqlord7eignDp2h8DBANkvbmWus7lut0xbSChGjawv+FDRHk1bwtlP0Hm9R0
- g719IL2YkWuFYYdHboorPT3+RZZn7meAPjOzDKyTXGfkDZPZDaa8KjObaCnvd152vCtb
- hUkIe3PAxinR3MEY12JVXEWORwO3iYzG0jAVDCna4c4ODasMZl+hOaMGtDRAc5ktk+VS
- Ej36MzJ/Rr/0ok4Xjzvur9b4hLiqDKXn7dA30r6AIh8aezcTpgjpH8ykcojBcZnvYFs4
- AqyiJVLziYztG6RtMmTZRneeS7t89+sioDuh7UUqDazGyIThK7Cw5b0XfAO8cMv4kSCW
- JG5g==
-X-Gm-Message-State: ANhLgQ0XyAUu7x6FhrUI33iRft/1Ga5UrqBJH8G7hLae1VesPA/ufaWW
- sLVAINQ4Cw8Y9yMD5IYrmCgmxdRRH2ktV9fCq5So7+xmpZPT+rXGP3gpdkoo9tn4PIdBJENNxKC
- rvfUbZDrEC4vlOds=
-X-Received: by 2002:a1c:cc03:: with SMTP id h3mr1035944wmb.20.1584392767963;
- Mon, 16 Mar 2020 14:06:07 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuScut9+SN0K0zy4cqscaY3eaQZI/53AH/8zke1Z0THydVJLFCP/KSdKkP5I77dq7Z7j17wYg==
-X-Received: by 2002:a1c:cc03:: with SMTP id h3mr1035919wmb.20.1584392767617;
- Mon, 16 Mar 2020 14:06:07 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7de8:5d90:2370:d1ac?
- ([2001:b07:6468:f312:7de8:5d90:2370:d1ac])
- by smtp.gmail.com with ESMTPSA id f12sm1105241wmh.4.2020.03.16.14.06.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 14:06:07 -0700 (PDT)
-Subject: Re: [PATCH] scsi/qemu-pr-helper: Fix out-of-bounds access to
- trnptid_list[]
-To: Christophe de Dinechin <dinechin@redhat.com>, qemu-devel@nongnu.org
-References: <20200228150059.2644362-1-dinechin@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DAsv952zsRAlmDNKCPamtCtAZXXKOYQ7UdMTW4lAyPg=;
+ b=B7LWnLXdDuBmSpUMIl67UrdT5oTUFZp6+sHfVOMwnbM2hvdHuEETJgL2sha+wMqpuZS66m
+ 7MT91mQkM8NbpL+eT1fgM/2EXViRizu1bpS9PUJbRBLPNzzOczPdikMRPPfrYPSs9K//6c
+ B4Ft3pDAnYD2gZuNBH+bFjbpfXrv4BQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-GS_ZWUInOpWbty56fIjp7A-1; Mon, 16 Mar 2020 17:27:32 -0400
+X-MC-Unique: GS_ZWUInOpWbty56fIjp7A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2478801A00
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:27:31 +0000 (UTC)
+Received: from 640k.localdomain.com (unknown [10.36.110.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0997319756
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:27:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <af3ed677-90ca-4499-5c23-b869d38ae75a@redhat.com>
-Date: Mon, 16 Mar 2020 22:06:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/61] Misc patches for soft freeze
+Date: Mon, 16 Mar 2020 22:26:27 +0100
+Message-Id: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200228150059.2644362-1-dinechin@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -90,105 +66,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/02/20 16:00, Christophe de Dinechin wrote:
-> Compile error reported by gcc 10.0.1:
->=20
-> scsi/qemu-pr-helper.c: In function =E2=80=98multipath_pr_out=E2=80=99:
-> scsi/qemu-pr-helper.c:523:32: error: array subscript <unknown> is outside=
- array bounds of =E2=80=98struct transportid *[0]=E2=80=99 [-Werror=3Darray=
--bounds]
->   523 |             paramp.trnptid_list[paramp.num_transportid++] =3D id;
->       |             ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from scsi/qemu-pr-helper.c:36:
-> /usr/include/mpath_persist.h:168:22: note: while referencing =E2=80=98trn=
-ptid_list=E2=80=99
->   168 |  struct transportid *trnptid_list[];
->       |                      ^~~~~~~~~~~~
-> scsi/qemu-pr-helper.c:424:35: note: defined here =E2=80=98paramp=E2=80=99
->   424 |     struct prout_param_descriptor paramp;
->       |                                   ^~~~~~
->=20
-> This highlights an actual implementation issue in function multipath_pr_o=
-ut.
-> The variable paramp is declared with type `struct prout_param_descriptor`=
-,
-> which is a struct terminated by an empty array in mpath_persist.h:
->=20
->         struct transportid *trnptid_list[];
->=20
-> That empty array was filled with code that looked like that:
->=20
->         trnptid_list[paramp.descr.num_transportid++] =3D id;
->=20
-> This is an actual out-of-bounds access.
+The following changes since commit a98135f727595382e200d04c2996e868b7925a01=
+:
 
-The fix unfortunately causes a compilation warning-turned-error because=20
-of a flexible array member in the middle of a struct.  The simplest fix=20
-is just to malloc the struct:
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200316-pull-reque=
+st' into staging (2020-03-16 14:55:59 +0000)
 
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 0101322..65a8261 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -421,15 +421,13 @@ static int multipath_pr_out(int fd, const uint8_t *cd=
-b, uint8_t *sense,
-     int rq_servact =3D cdb[1];
-     int rq_scope =3D cdb[2] >> 4;
-     int rq_type =3D cdb[2] & 0xf;
--    struct
--    {
--        struct prout_param_descriptor descr;
--        struct transportid *trnptid_list_storage[MPATH_MX_TIDS];
--    } paramp;
--    struct transportid **trnptid_list =3D paramp.descr.trnptid_list;
-+    g_autofree struct prout_param_descriptor *paramp =3D NULL;
-     char transportids[PR_HELPER_DATA_SIZE];
-     int r;
-=20
-+    paramp =3D g_malloc0(sizeof(struct prout_param_descriptor)
-+=09=09       + sizeof(struct transportid *) * MPATH_MX_TIDS);
-+
-     if (sz < PR_OUT_FIXED_PARAM_SIZE) {
-         /* Illegal request, Parameter list length error.  This isn't fatal=
-;
-          * we have read the data, send an error without closing the socket=
-.
-@@ -459,10 +457,9 @@ static int multipath_pr_out(int fd, const uint8_t *cdb=
-, uint8_t *sense,
-      * used by libmpathpersist (which, of course, will immediately
-      * do the opposite).
-      */
--    memset(&paramp, 0, sizeof(paramp));
--    memcpy(&paramp.descr.key, &param[0], 8);
--    memcpy(&paramp.descr.sa_key, &param[8], 8);
--    paramp.descr.sa_flags =3D param[20];
-+    memcpy(&paramp->key, &param[0], 8);
-+    memcpy(&paramp->sa_key, &param[8], 8);
-+    paramp->sa_flags =3D param[20];
-     if (sz > PR_OUT_FIXED_PARAM_SIZE) {
-         size_t transportid_len;
-         int i, j;
-@@ -525,13 +522,13 @@ static int multipath_pr_out(int fd, const uint8_t *cd=
-b, uint8_t *sense,
-                 return CHECK_CONDITION;
-             }
-=20
--            assert(paramp.descr.num_transportid < MPATH_MX_TIDS);
--            trnptid_list[paramp.descr.num_transportid++] =3D id;
-+            assert(paramp->num_transportid < MPATH_MX_TIDS);
-+            paramp->trnptid_list[paramp->num_transportid++] =3D id;
-         }
-     }
-=20
-     r =3D mpath_persistent_reserve_out(fd, rq_servact, rq_scope, rq_type,
--                                     &paramp.descr, noisy, verbose);
-+                                     paramp, noisy, verbose);
-     return mpath_reconstruct_sense(fd, r, sense);
- }
- #endif
+are available in the git repository at:
+
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 39633510cca6dee4129258c3ba8fb4a677cc65fd:
+
+  hw/arm: Let devices own the MemoryRegion they create (2020-03-16 22:07:52=
+ +0100)
+
+----------------------------------------------------------------
+* Bugfixes all over the place
+* get/set_uint cleanups (Felipe)
+* Lock guard support (Stefan)
+* MemoryRegion ownership cleanup (Philippe)
+
+----------------------------------------------------------------
+Christian Ehrhardt (1):
+      modules: load modules from versioned /var/run dir
+
+Christophe de Dinechin (1):
+      scsi/qemu-pr-helper: Fix out-of-bounds access to trnptid_list[]
+
+Colin Xu (1):
+      MAINTAINERS: Add entry for Guest X86 HAXM CPUs
+
+Dr. David Alan Gilbert (1):
+      exec/rom_reset: Free rom data during inmigrate skip
+
+Eduardo Habkost (1):
+      Use -isystem for linux-headers dir
+
+Felipe Franciosi (4):
+      qom/object: enable setter for uint types
+      ich9: fix getter type for sci_int property
+      ich9: Simplify ich9_lpc_initfn
+      qom/object: Use common get/set uint helpers
+
+Jan Kiszka (1):
+      hw/i386/intel_iommu: Fix out-of-bounds access on guest IRT
+
+Joe Richey (1):
+      optionrom/pvh: scan entire RSDP Area
+
+Julio Faracco (1):
+      i386: Fix GCC warning with snprintf when HAX is enabled
+
+Kashyap Chamarthy (1):
+      qemu-cpu-models.rst: Document -noTSX, mds-no, taa-no, and tsx-ctrl
+
+Longpeng (Mike) (1):
+      cpus: avoid pause_all_vcpus getting stuck due to race
+
+Marc-Andr=C3=A9 Lureau (1):
+      build-sys: do not make qemu-ga link with pixman
+
+Matt Borgerson (1):
+      memory: Fix start offset for bitmap log_clear hook
+
+Paolo Bonzini (1):
+      oslib-posix: initialize mutex and condition variable
+
+Peter Maydell (1):
+      softmmu/vl.c: Handle '-cpu help' and '-device help' before 'no defaul=
+t machine'
+
+Philippe Mathieu-Daud=C3=A9 (36):
+      misc: Replace zero-length arrays with flexible array member (automati=
+c)
+      misc: Replace zero-length arrays with flexible array member (manual)
+      configure: Fix building with SASL on Windows
+      tests/docker: Install SASL library to extend code coverage on amd64
+      Makefile: Align 'help' target output
+      Makefile: Let the 'help' target list the tools targets
+      hw/audio/fmopl: Move ENV_CURVE to .heap to save 32KiB of .bss
+      hw/audio/intel-hda: Use memory region alias to reduce .rodata by 4.34=
+MB
+      hw/usb/quirks: Use smaller types to reduce .rodata by 10KiB
+      ui/curses: Make control_characters[] array const
+      ui/curses: Move arrays to .heap to save 74KiB of .bss
+      memory: Correctly return alias region type
+      memory: Simplify memory_region_init_rom_nomigrate() to ease review
+      scripts/cocci: Rename memory-region-{init-ram -> housekeeping}
+      scripts/cocci: Patch to replace memory_region_init_{ram,readonly -> r=
+om}
+      hw/arm: Use memory_region_init_rom() with read-only regions
+      hw/display: Use memory_region_init_rom() with read-only regions
+      hw/m68k: Use memory_region_init_rom() with read-only regions
+      hw/net: Use memory_region_init_rom() with read-only regions
+      hw/pci-host: Use memory_region_init_rom() with read-only regions
+      hw/ppc: Use memory_region_init_rom() with read-only regions
+      hw/riscv: Use memory_region_init_rom() with read-only regions
+      hw/sh4: Use memory_region_init_rom() with read-only regions
+      hw/sparc: Use memory_region_init_rom() with read-only regions
+      scripts/cocci: Patch to detect potential use of memory_region_init_ro=
+m
+      scripts/cocci: Patch to remove unnecessary memory_region_set_readonly=
+()
+      scripts/cocci: Patch to let devices own their MemoryRegions
+      hw/core: Let devices own the MemoryRegion they create
+      hw/display: Let devices own the MemoryRegion they create
+      hw/dma: Let devices own the MemoryRegion they create
+      hw/riscv: Let devices own the MemoryRegion they create
+      hw/char: Let devices own the MemoryRegion they create
+      hw/arm/stm32: Use memory_region_init_rom() with read-only regions
+      hw/ppc/ppc405: Use memory_region_init_rom() with read-only regions
+      hw/arm: Remove unnecessary memory_region_set_readonly() on ROM alias
+      hw/arm: Let devices own the MemoryRegion they create
+
+Robert Hoo (2):
+      configure: add configure option avx512f_opt
+      util: add util function buffer_zero_avx512()
+
+Stefan Hajnoczi (2):
+      lockable: add lock guards
+      lockable: add QemuRecMutex support
+
+Sunil Muthuswamy (3):
+      WHPX: TSC get and set should be dependent on VM state
+      WHPX: Use QEMU values for trapped CPUID
+      WHPX: Use proper synchronization primitives while processing
+
+ MAINTAINERS                                        |  12 ++
+ Makefile                                           |  49 +++--
+ Makefile.target                                    |   2 +-
+ block/linux-aio.c                                  |   2 +-
+ block/vmdk.c                                       |   2 +-
+ bsd-user/qemu.h                                    |   2 +-
+ configure                                          |  62 +++++-
+ contrib/libvhost-user/libvhost-user.h              |   2 +-
+ contrib/vhost-user-gpu/Makefile.objs               |   6 +-
+ .../vhost-user-gpu/{main.c =3D> vhost-user-gpu.c}    |   0
+ cpus.c                                             |   6 +-
+ docs/interop/vhost-user.rst                        |   4 +-
+ docs/system/cpu-models-x86.rst.inc                 |  57 +++++-
+ exec.c                                             |   9 +-
+ hw/acpi/ich9.c                                     |  99 +---------
+ hw/acpi/nvdimm.c                                   |   6 +-
+ hw/acpi/pcihp.c                                    |   7 +-
+ hw/acpi/piix4.c                                    |  12 +-
+ hw/arm/exynos4210.c                                |  14 +-
+ hw/arm/fsl-imx25.c                                 |  10 +-
+ hw/arm/fsl-imx31.c                                 |   6 +-
+ hw/arm/fsl-imx6.c                                  |   6 +-
+ hw/arm/fsl-imx6ul.c                                |   9 +-
+ hw/arm/mainstone.c                                 |   3 +-
+ hw/arm/msf2-soc.c                                  |   6 +-
+ hw/arm/nrf51_soc.c                                 |   2 +-
+ hw/arm/omap_sx1.c                                  |   6 +-
+ hw/arm/palm.c                                      |   3 +-
+ hw/arm/spitz.c                                     |   3 +-
+ hw/arm/stellaris.c                                 |   3 +-
+ hw/arm/stm32f205_soc.c                             |  11 +-
+ hw/arm/stm32f405_soc.c                             |  12 +-
+ hw/arm/tosa.c                                      |   3 +-
+ hw/arm/xlnx-zynqmp.c                               |  11 +-
+ hw/audio/fmopl.c                                   |   4 +-
+ hw/audio/intel-hda.c                               |  24 +--
+ hw/char/sclpconsole-lm.c                           |   2 +-
+ hw/char/sclpconsole.c                              |   2 +-
+ hw/char/serial.c                                   |   7 +-
+ hw/core/loader.c                                   |  25 ++-
+ hw/core/platform-bus.c                             |   3 +-
+ hw/display/cg3.c                                   |   5 +-
+ hw/display/g364fb.c                                |   3 +-
+ hw/display/macfb.c                                 |   4 +-
+ hw/display/tcx.c                                   |   5 +-
+ hw/dma/i8257.c                                     |   2 +-
+ hw/dma/rc4030.c                                    |   4 +-
+ hw/dma/soc_dma.c                                   |   2 +-
+ hw/i386/intel_iommu.c                              |   6 +
+ hw/i386/x86.c                                      |   2 +-
+ hw/isa/lpc_ich9.c                                  |  27 +--
+ hw/m68k/bootinfo.h                                 |   2 +-
+ hw/m68k/q800.c                                     |   3 +-
+ hw/misc/edu.c                                      |  13 +-
+ hw/misc/omap_l4.c                                  |   2 +-
+ hw/net/dp8393x.c                                   |   5 +-
+ hw/nvram/eeprom93xx.c                              |   2 +-
+ hw/pci-host/prep.c                                 |   5 +-
+ hw/pci-host/q35.c                                  |  14 +-
+ hw/ppc/mac_newworld.c                              |   3 +-
+ hw/ppc/mac_oldworld.c                              |   3 +-
+ hw/ppc/ppc405_boards.c                             |   6 +-
+ hw/ppc/spapr.c                                     |  36 +---
+ hw/ppc/spapr_drc.c                                 |   3 +-
+ hw/rdma/vmw/pvrdma_qp_ops.c                        |   4 +-
+ hw/riscv/sifive_e.c                                |   9 +-
+ hw/riscv/sifive_u.c                                |   2 +-
+ hw/s390x/virtio-ccw.c                              |   2 +-
+ hw/sh4/shix.c                                      |   3 +-
+ hw/sparc/leon3.c                                   |   3 +-
+ hw/usb/dev-network.c                               |   2 +-
+ hw/usb/dev-smartcard-reader.c                      |   4 +-
+ hw/usb/quirks.c                                    |   4 +-
+ hw/usb/quirks.h                                    |  22 ++-
+ hw/virtio/virtio.c                                 |   4 +-
+ hw/xen/xen_pt.h                                    |   2 +-
+ include/hw/acpi/acpi-defs.h                        |  16 +-
+ include/hw/arm/smmu-common.h                       |   2 +-
+ include/hw/boards.h                                |   2 +-
+ include/hw/i386/intel_iommu.h                      |   3 +-
+ include/hw/s390x/event-facility.h                  |   2 +-
+ include/hw/s390x/sclp.h                            |   8 +-
+ include/hw/virtio/virtio-iommu.h                   |   2 +-
+ include/qemu/cpuid.h                               |   3 +
+ include/qemu/lockable.h                            |  67 +++++++
+ include/qom/object.h                               |  48 ++++-
+ include/sysemu/cryptodev.h                         |   2 +-
+ include/sysemu/whpx.h                              |   7 +
+ include/tcg/tcg.h                                  |   2 +-
+ memory.c                                           |  31 +--
+ net/queue.c                                        |   2 +-
+ pc-bios/optionrom/pvh_main.c                       |   2 +-
+ pc-bios/s390-ccw/bootmap.h                         |   2 +-
+ pc-bios/s390-ccw/sclp.h                            |   2 +-
+ plugins/core.c                                     |   7 +-
+ plugins/loader.c                                   |  16 +-
+ qom/object.c                                       | 212 +++++++++++++++++=
++---
+ .../coccinelle/memory-region-housekeeping.cocci    | 159 ++++++++++++++++
+ scripts/coccinelle/memory-region-init-ram.cocci    |  38 ----
+ scsi/qemu-pr-helper.c                              |  17 +-
+ softmmu/vl.c                                       |  26 ++-
+ target/arm/cpu.c                                   |  22 +--
+ target/i386/hax-posix.c                            |  33 +---
+ target/i386/hax-windows.c                          |  33 +---
+ target/i386/sev.c                                  | 106 +----------
+ target/i386/whp-dispatch.h                         |   9 +
+ target/i386/whpx-all.c                             | 162 +++++++++++-----
+ target/s390x/ioinst.c                              |   2 +-
+ tests/docker/dockerfiles/debian-amd64.docker       |   1 +
+ tests/qtest/libqos/ahci.h                          |   2 +-
+ ui/console.c                                       |   4 +-
+ ui/curses.c                                        |  10 +-
+ util/bufferiszero.c                                |  74 ++++++-
+ util/module.c                                      |  14 ++
+ util/oslib-posix.c                                 |   7 +
+ util/qemu-timer.c                                  |  23 ++-
+ 116 files changed, 1148 insertions(+), 764 deletions(-)
+ rename contrib/vhost-user-gpu/{main.c =3D> vhost-user-gpu.c} (100%)
+ create mode 100644 scripts/coccinelle/memory-region-housekeeping.cocci
+ delete mode 100644 scripts/coccinelle/memory-region-init-ram.cocci
+--=20
+1.8.3.1
 
 
