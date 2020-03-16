@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB9A187315
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:12:58 +0100 (CET)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E8D1872EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:02:36 +0100 (CET)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvAX-0005sg-9e
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43129)
+	id 1jDv0V-0003l2-5B
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuY2-0001AM-RP
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:33:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDuZZ-0004B6-Sk
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuY1-0006bo-Ur
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:33:10 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39612)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDuY1-0006Z7-NX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:33:09 -0400
-Received: by mail-pf1-x444.google.com with SMTP id d25so2418351pfn.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lVV/K8lHgtqmkaF3S5M0Wwc0dmga/0wizbIoLACeuYg=;
- b=Io1GNKVjwk/ZZdWBR+MBeDhK6NqpvEWpoyK++F/PBtLGFvfZl8r+HwPViHq7rMqVLg
- LHsvqNG70W5ovQAg4OHSZJVYHrNlXTAWy6OTGiB1mQmelXZppbC02M5otuTgMXDFnbCp
- SHSLuw16BJVgqgCQMdVAAWe4i9hq22NJwHoOSPbpFtw3f3Ve1yKHX8mFZlrqYMhpHgJq
- C7DoRHs5dbj0ICePGrvhevWG180Qx5rtKLgJHjAIJVwvfc3PVJgME/RqkBUuzA1L2z8Z
- 6PA6IXok4hYkmdH8nenFwNPshDkt6BiaTur5+N+clwu1J4xFB37AZrwy1PxWhXR4ApeU
- PjTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lVV/K8lHgtqmkaF3S5M0Wwc0dmga/0wizbIoLACeuYg=;
- b=JZCGEJkzVMomttEOys34+v6kd3AsKznOAqp4PQJSKKsr4xcsDpY6MD7yw3I8o19miH
- ibTRR1ZWstCnBvAbAU0fbPOihdyhGlD+Sm3ATBB374ffdhtPu6DFuXlYfExcMkgU9060
- mlDFaQRS/rdShTSdSZz/7CEHyrCd3tbxif+ZUQ071B7DKfxBpAddWuUqYyHk98bfpS7b
- sscCojJPxmWToAD3AXO/wRzHlemeOz89TYKnvSj/F2AsjGQsuZTIl7/vVB80OuthRde/
- EATPd+O/0nhyZ+pcAYDtnU0L44tckhb1skaEa/6njr92MJ558jg7wGphZI/8P7NpMdsI
- Nb3Q==
-X-Gm-Message-State: ANhLgQ3B5xQd6xvULz+uffxLXirfMOpa1oFQkxYftlc4F3ftM0fYQVWg
- Js98boybv/tMdkp/RgXQY3oR2w==
-X-Google-Smtp-Source: ADFU+vu1HZJ8/xJbLlq3PMLvCI3QPrHJwNlmTr3xmEHRCMcHLS5hOGZaD8VkKpnbAMQgpGpVg2FFpA==
-X-Received: by 2002:aa7:8392:: with SMTP id u18mr932733pfm.41.1584383586593;
- Mon, 16 Mar 2020 11:33:06 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- i13sm581150pfd.180.2020.03.16.11.33.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:33:05 -0700 (PDT)
-Subject: Re: [PATCH 08/11] target/Kconfig: Allow targets to use Kconfig
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-9-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <28b0e1a2-95ff-af2d-914e-a9f9ca9b73ab@linaro.org>
-Date: Mon, 16 Mar 2020 11:33:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <armbru@redhat.com>) id 1jDuZX-00062E-Ti
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:44 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46340)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDuZX-0005rG-P7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584383682;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HEcY6cL30ap/GlNtA0PLagV8dLpDs0nxmXzFdVBA4OM=;
+ b=JZheKvw60bboBwlwOn+5f+vk5v189Edz/C4j7GIng9MTAcM7fTj8zdA/iAMk6bfFDk42EP
+ +PcGYZCEeWGlL2TScodZn/TAjhUQ2jVp1aR2dAPVzXQZSQWMjPfMPNK1fLyuNCMatV3UIY
+ 8qeSX6g665S759cxwZ0L/ZGDHENqkoQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-B0-X1-wPP8a17_TbYF3Zew-1; Mon, 16 Mar 2020 14:34:40 -0400
+X-MC-Unique: B0-X1-wPP8a17_TbYF3Zew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6962C8E91A3;
+ Mon, 16 Mar 2020 18:34:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
+ [10.36.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BC328AC30;
+ Mon, 16 Mar 2020 18:34:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BF5071138404; Mon, 16 Mar 2020 19:34:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 01/34] qemu-doc: Belatedly document QMP command arg &
+ result deprecation
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-2-armbru@redhat.com>
+ <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com>
+Date: Mon, 16 Mar 2020 19:34:37 +0100
+In-Reply-To: <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com> (Eric Blake's
+ message of "Mon, 16 Mar 2020 10:10:09 -0500")
+Message-ID: <87v9n4w3lu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200316120049.11225-9-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,31 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 5:00 AM, Philippe Mathieu-Daudé wrote:
-> diff --git a/target/Kconfig b/target/Kconfig
-> new file mode 100644
-> index 0000000000..8b13789179
-> --- /dev/null
-> +++ b/target/Kconfig
-> @@ -0,0 +1 @@
-> +
+Eric Blake <eblake@redhat.com> writes:
 
-Does this want a
+> On 3/15/20 9:46 AM, Markus Armbruster wrote:
+>> A number of deprecated QMP arguments and results were missed in commit
+>> eb22aeca65 "docs: document deprecation policy & deprecated features in
+>> appendix" (v2.10.0):
+>>
+>
+>>
+>> Since then, we missed a few more:
+>>
+>> * Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
+>>    deprecated block-commit arguments @base and @top.
+>>
+>> * Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
+>>    properties" (v4.0.0) deprecated query-named-block-nodes result
+>>    @dirty-bitmaps member @status, not just query-block.
+>>
+>> Make up for all that.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
+>>   1 file changed, 44 insertions(+), 4 deletions(-)
+>
+> Should we remove any of these features that have been deprecated long
+> enough?  But that can be separate, having this patch just add mention
+> that was previously forgotten is fine.
 
-# This file intentionally left blank.
+Up to the subsystem maintainers, I'd say.
 
-?
+I think we should sweep deprecated.rst on every release.  Early in the
+development cycle seems best.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+Thanks!
+
 
