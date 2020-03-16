@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A56186142
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:20:04 +0100 (CET)
-Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D7618614C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:28:45 +0100 (CET)
+Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDeQF-0000UV-CE
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1jDeYd-0003YP-FZ
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdMW-0008Vw-MD
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:12:10 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDdfU-00072A-BC
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:31:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdMU-00076q-Kp
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:12:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49759
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdMU-00073q-Gl
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:12:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317526;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AG7xT/wVAX7aViJSX1jQiw6M2Yh1RcrmKc+SLXD1328=;
- b=P2XonldYISNMWioJkBdeB+uwjigkyE5hryZXFXKp1E50qV7X88elEfLVB7KrQMWmTEKm4o
- dsLxYruBpj8X78U1UxOQ6JjSKWvjtisfrRmSP8E3S4TDlieMcLqlB+66mtUlPbhW4Qf32n
- vH2MlHRD4wV2em52h64wFwnI8hcgvRY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-nXHkbFu1Nt-6kvTdH7f6PA-1; Sun, 15 Mar 2020 20:12:04 -0400
-X-MC-Unique: nXHkbFu1Nt-6kvTdH7f6PA-1
-Received: by mail-wr1-f69.google.com with SMTP id 94so3461764wrr.3
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:12:04 -0700 (PDT)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDdfS-0008Tx-37
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:31:44 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34785)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jDdfQ-00080m-6L; Sun, 15 Mar 2020 20:31:40 -0400
+Received: by mail-oi1-x242.google.com with SMTP id g6so15977708oiy.1;
+ Sun, 15 Mar 2020 17:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=I6Nj2y3FxESwIcrZRt8R5otWYdEPJTeU6/ivLhvs6k8=;
+ b=Kich0Ix+9fskW/bjUvqcBlvwDYvuLdKgWd+ObljcdlLoDVsgD+j7UaicIYjObs6n/N
+ ZmJst9dgX+96IxEt4B0by7o/LsSy23m+KB7TIDua6wIOTlGd6wOs/xs2QE/VDTtGlVIV
+ eKaZ8vWkUcFHD4b1H6tGI8iAEp3/2EEJ3u9h489b2Vuhu5yYgH6+qbfS9MWBKfYwrxj0
+ AMl7dFkEM37Sf/yYIaOeSEL3tA0U4vwzdyd+s5v8XGVGoTtZTzggRCt8hdV9EFoutzxD
+ Nu/r/1qBubZILI7ZYkwfcyOFWCHe0mkeGqp8J2K1ntvbLrBmP4C60d+1RT9HuR6S7eNQ
+ goIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/ikMSJm+InHRPdirtpMpOowiTQs5ep3wPdoGDAQJ/Ms=;
- b=NsAbWyBkHhth4dIDhV8lLl59H8NmI/8Q7RKWOEp+SL5CSdEDUTr0jLG0ikfzvAxWXS
- RjsKk0vKUspzDADGxqhON+EPtFBB68uNiLJesg+dWolHjvMtapWSWI+cxNBteCKg+FWK
- TGN2iaUq3RNcV7i7CQwuBRJxL7GpRMger+WX3azNm05EZBGzAJHRfSa0Mx6agRf7iKX0
- +TZ/o89WgMEOYRFiP8isKhJxX4Hla5WNbk4ICwrzZpGqLM5tFnsIJQ0Q5jErlgWghw6C
- kBjUA64bJPxzNmyo0J8KLFsfJqTpDcQaLo6w8/5SEaNssW/0V09DsR6/OjGgUZ8wedwK
- BOQA==
-X-Gm-Message-State: ANhLgQ1HSjemyvFyTve/bns71r+1KTx2a0YI8//NUn7UCRcf1WBZI+Tb
- r02e1Y4tWWMTAt6fK3w7vJz19WQRcVwIDN8yJLUwi3JMt7Rn0O82YyXwcBnKHdGqj7d+wNtpMqw
- UmONd3CjLFV2M0Ic=
-X-Received: by 2002:a7b:c770:: with SMTP id x16mr23458687wmk.159.1584317522952; 
- Sun, 15 Mar 2020 17:12:02 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvnj6xW6vb6brKPhIa8AlrJj2sqhezWiHrANLxLe5QFJH/2/zBhrD0wJnuBae7rbxCOigC7gA==
-X-Received: by 2002:a7b:c770:: with SMTP id x16mr23458669wmk.159.1584317522784; 
- Sun, 15 Mar 2020 17:12:02 -0700 (PDT)
-Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id y11sm5812733wrd.65.2020.03.15.17.12.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:12:02 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] qapi: Restrict code generated for user-mode
-Date: Mon, 16 Mar 2020 01:11:11 +0100
-Message-Id: <20200316001111.31004-10-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316001111.31004-1-philmd@redhat.com>
-References: <20200316001111.31004-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=I6Nj2y3FxESwIcrZRt8R5otWYdEPJTeU6/ivLhvs6k8=;
+ b=KBuCM1XC4vx8dx0+pV5QHzR6FVKJLOe8Cqv6rkvRMpawJ6LLrgsyMKkR0nMm9xiy0v
+ G8aYo6MXfjBvmmS0OC8LHiNthxhXC64IEDwvBwUVXox2+YK2WpONl5orgMtWOTK7OkWc
+ xzCKQcU1i/EguvRY4G2SKqr3r2Jps3P6T3mcX/2Do7aFoUNovrnrQFJhZ+SR2GxQM8G0
+ 59jBpaeYNPV1MGrpHMGBY8YLIf0e4v9aADtCiXz+v5/OTGP7FMDmSa+gRJgnDDauN9Ut
+ 5knNhVy71SmqUoE9vowZvHQDUkIigFaLaOYhTw7ZcprUhiiz/1dM5OWeRuu6zAaWeiv0
+ jzjw==
+X-Gm-Message-State: ANhLgQ0uFB3dsIJrDC53hYG9hKyjM7O0DeqAsi6jgXECZt0ryTyXVAIh
+ QYKer3gvMTH8FJis1vs9HoxxlFEoNr28bXFlB+Q=
+X-Google-Smtp-Source: ADFU+vtb9lSbHKUJB5XCTSKJYBvLgJ56shuxzM6CaepFUisYR66c8YWJGg+EUIvaS5sp8RWRic7AAG94K640o/hpblQ=
+X-Received: by 2002:aca:c596:: with SMTP id
+ v144mr15731245oif.136.1584318694870; 
+ Sun, 15 Mar 2020 17:31:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received: by 2002:a9d:4044:0:0:0:0:0 with HTTP; Sun, 15 Mar 2020 17:31:34
+ -0700 (PDT)
+In-Reply-To: <CAL1e-=gWOZzFKd9OdkTRJj19NX56BcpQBz6r9RY3orsrgf9mMg@mail.gmail.com>
+References: <20200316000348.29692-1-philmd@redhat.com>
+ <20200316000348.29692-2-philmd@redhat.com>
+ <CAL1e-=gWOZzFKd9OdkTRJj19NX56BcpQBz6r9RY3orsrgf9mMg@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 16 Mar 2020 01:31:34 +0100
+Message-ID: <CAL1e-=idkHcnt=UtKbAL3FerQFdW4vK93i3eA=r5s3SfJy1+Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] target/i386: Restrict X86CPUFeatureWord to X86
+ targets
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000004d23405a0edf1ec"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,81 +76,476 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Lieven <pl@kamp.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A lot of QAPI generated code is never used by user-mode.
+--00000000000004d23405a0edf1ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rewrite the QAPI_COMMON_MODULES variable one entry per line,
-and split it in 3 groups:
-- always used
-- use by system-mode or tools
-- only used by system-mode
+On Monday, March 16, 2020, Aleksandar Markovic <aleksandar.m.mail@gmail.com=
+>
+wrote:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- qapi/Makefile.objs | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+>
+>
+> On Monday, March 16, 2020, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+>
+> wrote:
+>
+>> Move out x86-specific structures from generic machine code.
+>>
+>>
+> Philippe,
+>
+> I a kind of have hard time understanding what is achieved with this patch=
+.
+> Is this pure code moving/reorganization? What is the logical connection
+> between this patch and the whole series (that is about removing unneeded
+> building for user mode)? How does this patch affect build time for user
+> mode?
+>
+> Sincerely,
+> Aleksandar
+>
+>
+Ugh, I think I mixed up your two series. You write too much code. :) ;)
 
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index 4673ab7490..18435db426 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -5,11 +5,40 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
- util-obj-y +=3D qmp-event.o
- util-obj-y +=3D qapi-util.o
-=20
--QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
-rypto
--QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
--QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
- tpm
--QAPI_COMMON_MODULES +=3D trace transaction ui
-+QAPI_COMMON_MODULES =3D common
-+QAPI_COMMON_MODULES +=3D introspect
-+QAPI_COMMON_MODULES +=3D misc
-+
-+ifeq ($(CONFIG_SOFTMMU),y)
-+QAPI_COMMON_MODULES +=3D audio
-+QAPI_COMMON_MODULES +=3D dump
-+QAPI_COMMON_MODULES +=3D machine
-+QAPI_COMMON_MODULES +=3D migration
-+QAPI_COMMON_MODULES +=3D net rocker
-+QAPI_COMMON_MODULES +=3D qdev
-+QAPI_COMMON_MODULES +=3D rdma
-+QAPI_COMMON_MODULES +=3D tpm
-+QAPI_COMMON_MODULES +=3D trace
-+QAPI_COMMON_MODULES +=3D ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
-+endif # CONFIG_SOFTMMU
-+
-+ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
-+QAPI_COMMON_MODULES +=3D authz
-+QAPI_COMMON_MODULES +=3D block
-+QAPI_COMMON_MODULES +=3D block-core
-+QAPI_COMMON_MODULES +=3D char
-+QAPI_COMMON_MODULES +=3D control
-+QAPI_COMMON_MODULES +=3D crypto
-+QAPI_COMMON_MODULES +=3D error
-+QAPI_COMMON_MODULES +=3D job
-+QAPI_COMMON_MODULES +=3D pragma
-+QAPI_COMMON_MODULES +=3D qom
-+QAPI_COMMON_MODULES +=3D run-state
-+QAPI_COMMON_MODULES +=3D sockets
-+QAPI_COMMON_MODULES +=3D transaction
-+endif # CONFIG_SOFTMMU || CONFIG_TOOLS
-+
- QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
-=20
- util-obj-y +=3D qapi-builtin-types.o
---=20
-2.21.1
 
+>
+>
+>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  qapi/machine-target.json   | 45 ++++++++++++++++++++++++++++++++++++++
+>>  qapi/machine.json          | 42 -----------------------------------
+>>  target/i386/cpu.c          |  2 +-
+>>  target/i386/machine-stub.c | 22 +++++++++++++++++++
+>>  target/i386/Makefile.objs  |  3 ++-
+>>  5 files changed, 70 insertions(+), 44 deletions(-)
+>>  create mode 100644 target/i386/machine-stub.c
+>>
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index f2c82949d8..fb7a4b7850 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -3,6 +3,51 @@
+>>  # This work is licensed under the terms of the GNU GPL, version 2 or
+>> later.
+>>  # See the COPYING file in the top-level directory.
+>>
+>> +##
+>> +# @X86CPURegister32:
+>> +#
+>> +# A X86 32-bit register
+>> +#
+>> +# Since: 1.5
+>> +##
+>> +{ 'enum': 'X86CPURegister32',
+>> +  'data': [ 'EAX', 'EBX', 'ECX', 'EDX', 'ESP', 'EBP', 'ESI', 'EDI' ],
+>> +  'if': 'defined(TARGET_I386)' }
+>> +
+>> +##
+>> +# @X86CPUFeatureWordInfo:
+>> +#
+>> +# Information about a X86 CPU feature word
+>> +#
+>> +# @cpuid-input-eax: Input EAX value for CPUID instruction for that
+>> feature word
+>> +#
+>> +# @cpuid-input-ecx: Input ECX value for CPUID instruction for that
+>> +#                   feature word
+>> +#
+>> +# @cpuid-register: Output register containing the feature bits
+>> +#
+>> +# @features: value of output register, containing the feature bits
+>> +#
+>> +# Since: 1.5
+>> +##
+>> +{ 'struct': 'X86CPUFeatureWordInfo',
+>> +  'data': { 'cpuid-input-eax': 'int',
+>> +            '*cpuid-input-ecx': 'int',
+>> +            'cpuid-register': 'X86CPURegister32',
+>> +            'features': 'int' },
+>> +  'if': 'defined(TARGET_I386)' }
+>> +
+>> +##
+>> +# @DummyForceArrays:
+>> +#
+>> +# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList
+>> internally
+>> +#
+>> +# Since: 2.5
+>> +##
+>> +{ 'struct': 'DummyForceArrays',
+>> +  'data': { 'unused': ['X86CPUFeatureWordInfo'] },
+>> +  'if': 'defined(TARGET_I386)' }
+>> +
+>>  ##
+>>  # @CpuModelInfo:
+>>  #
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 6c11e3cf3a..de05730704 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -505,48 +505,6 @@
+>>     'dst': 'uint16',
+>>     'val': 'uint8' }}
+>>
+>> -##
+>> -# @X86CPURegister32:
+>> -#
+>> -# A X86 32-bit register
+>> -#
+>> -# Since: 1.5
+>> -##
+>> -{ 'enum': 'X86CPURegister32',
+>> -  'data': [ 'EAX', 'EBX', 'ECX', 'EDX', 'ESP', 'EBP', 'ESI', 'EDI' ] }
+>> -
+>> -##
+>> -# @X86CPUFeatureWordInfo:
+>> -#
+>> -# Information about a X86 CPU feature word
+>> -#
+>> -# @cpuid-input-eax: Input EAX value for CPUID instruction for that
+>> feature word
+>> -#
+>> -# @cpuid-input-ecx: Input ECX value for CPUID instruction for that
+>> -#                   feature word
+>> -#
+>> -# @cpuid-register: Output register containing the feature bits
+>> -#
+>> -# @features: value of output register, containing the feature bits
+>> -#
+>> -# Since: 1.5
+>> -##
+>> -{ 'struct': 'X86CPUFeatureWordInfo',
+>> -  'data': { 'cpuid-input-eax': 'int',
+>> -            '*cpuid-input-ecx': 'int',
+>> -            'cpuid-register': 'X86CPURegister32',
+>> -            'features': 'int' } }
+>> -
+>> -##
+>> -# @DummyForceArrays:
+>> -#
+>> -# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList
+>> internally
+>> -#
+>> -# Since: 2.5
+>> -##
+>> -{ 'struct': 'DummyForceArrays',
+>> -  'data': { 'unused': ['X86CPUFeatureWordInfo'] } }
+>> -
+>>  ##
+>>  # @NumaCpuOptions:
+>>  #
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index a84553e50c..0753fe4935 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -37,7 +37,7 @@
+>>  #include "qemu/option.h"
+>>  #include "qemu/config-file.h"
+>>  #include "qapi/error.h"
+>> -#include "qapi/qapi-visit-machine.h"
+>> +#include "qapi/qapi-visit-machine-target.h"
+>>  #include "qapi/qapi-visit-run-state.h"
+>>  #include "qapi/qmp/qdict.h"
+>>  #include "qapi/qmp/qerror.h"
+>> diff --git a/target/i386/machine-stub.c b/target/i386/machine-stub.c
+>> new file mode 100644
+>> index 0000000000..cb301af057
+>> --- /dev/null
+>> +++ b/target/i386/machine-stub.c
+>> @@ -0,0 +1,22 @@
+>> +/*
+>> + * QAPI x86 CPU features stub
+>> + *
+>> + * Copyright (c) 2020 Red Hat, Inc.
+>> + *
+>> + * Author:
+>> + *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or
+>> later.
+>> + * See the COPYING file in the top-level directory.
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qapi/qapi-visit-machine-target.h"
+>> +
+>> +void visit_type_X86CPUFeatureWordInfoList(Visitor *v, const char *name,
+>> +                                      X86CPUFeatureWordInfoList **obj,
+>> +                                      Error **errp)
+>> +{
+>> +}
+>> diff --git a/target/i386/Makefile.objs b/target/i386/Makefile.objs
+>> index 48e0c28434..1cdfc9f50c 100644
+>> --- a/target/i386/Makefile.objs
+>> +++ b/target/i386/Makefile.objs
+>> @@ -17,6 +17,7 @@ obj-$(CONFIG_HAX) +=3D hax-all.o hax-mem.o hax-posix.o
+>>  endif
+>>  obj-$(CONFIG_HVF) +=3D hvf/
+>>  obj-$(CONFIG_WHPX) +=3D whpx-all.o
+>> -endif
+>> +endif # CONFIG_SOFTMMU
+>>  obj-$(CONFIG_SEV) +=3D sev.o
+>>  obj-$(call lnot,$(CONFIG_SEV)) +=3D sev-stub.o
+>> +obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D machine-stub.o
+>> --
+>> 2.21.1
+>>
+>>
+>>
+
+--00000000000004d23405a0edf1ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Monday, March 16, 2020, Aleksandar Markovic &lt;<a href=3D"mailt=
+o:aleksandar.m.mail@gmail.com">aleksandar.m.mail@gmail.com</a>&gt; wrote:<b=
+r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex"><br><br>On Monday, March 16, 2020, Philipp=
+e Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_bl=
+ank">philmd@redhat.com</a>&gt; wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Mov=
+e out x86-specific structures from generic machine code.<br>
+<br></blockquote><div><br></div><div>Philippe,</div><div><br></div><div>I a=
+ kind of have hard time understanding what is achieved with this patch. Is =
+this pure code moving/reorganization? What is the logical connection betwee=
+n this patch and the whole series (that is about removing unneeded building=
+ for user mode)? How does this patch affect build time for user mode?</div>=
+<div><br></div><div>Sincerely,</div><div>Aleksandar</div><div><br></div></b=
+lockquote><div><br></div><div>Ugh, I think I mixed up your two series. You =
+write too much code. :) ;)</div><div><br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.=
+org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qapi/machine-target.json=C2=A0 =C2=A0| 45 +++++++++++++++++++++++++++=
++++<wbr>++++++++<br>
+=C2=A0qapi/machine.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 42 ------------=
+------------------<wbr>-----<br>
+=C2=A0target/i386/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0target/i386/machine-stub.c | 22 +++++++++++++++++++<br>
+=C2=A0target/i386/Makefile.objs=C2=A0 |=C2=A0 3 ++-<br>
+=C2=A05 files changed, 70 insertions(+), 44 deletions(-)<br>
+=C2=A0create mode 100644 target/i386/machine-stub.c<br>
+<br>
+diff --git a/qapi/machine-target.json b/qapi/machine-target.json<br>
+index f2c82949d8..fb7a4b7850 100644<br>
+--- a/qapi/machine-target.json<br>
++++ b/qapi/machine-target.json<br>
+@@ -3,6 +3,51 @@<br>
+=C2=A0# This work is licensed under the terms of the GNU GPL, version 2 or =
+later.<br>
+=C2=A0# See the COPYING file in the top-level directory.<br>
+<br>
++##<br>
++# @X86CPURegister32:<br>
++#<br>
++# A X86 32-bit register<br>
++#<br>
++# Since: 1.5<br>
++##<br>
++{ &#39;enum&#39;: &#39;X86CPURegister32&#39;,<br>
++=C2=A0 &#39;data&#39;: [ &#39;EAX&#39;, &#39;EBX&#39;, &#39;ECX&#39;, &#39=
+;EDX&#39;, &#39;ESP&#39;, &#39;EBP&#39;, &#39;ESI&#39;, &#39;EDI&#39; ],<br=
+>
++=C2=A0 &#39;if&#39;: &#39;defined(TARGET_I386)&#39; }<br>
++<br>
++##<br>
++# @X86CPUFeatureWordInfo:<br>
++#<br>
++# Information about a X86 CPU feature word<br>
++#<br>
++# @cpuid-input-eax: Input EAX value for CPUID instruction for that feature=
+ word<br>
++#<br>
++# @cpuid-input-ecx: Input ECX value for CPUID instruction for that<br>
++#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0feat=
+ure word<br>
++#<br>
++# @cpuid-register: Output register containing the feature bits<br>
++#<br>
++# @features: value of output register, containing the feature bits<br>
++#<br>
++# Since: 1.5<br>
++##<br>
++{ &#39;struct&#39;: &#39;X86CPUFeatureWordInfo&#39;,<br>
++=C2=A0 &#39;data&#39;: { &#39;cpuid-input-eax&#39;: &#39;int&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*cpuid-input-ecx&#39;: &#39=
+;int&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;cpuid-register&#39;: &#39;X=
+86CPURegister32&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;features&#39;: &#39;int&#39=
+; },<br>
++=C2=A0 &#39;if&#39;: &#39;defined(TARGET_I386)&#39; }<br>
++<br>
++##<br>
++# @DummyForceArrays:<br>
++#<br>
++# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList internally=
+<br>
++#<br>
++# Since: 2.5<br>
++##<br>
++{ &#39;struct&#39;: &#39;DummyForceArrays&#39;,<br>
++=C2=A0 &#39;data&#39;: { &#39;unused&#39;: [&#39;X86CPUFeatureWordInfo&#39=
+;] },<br>
++=C2=A0 &#39;if&#39;: &#39;defined(TARGET_I386)&#39; }<br>
++<br>
+=C2=A0##<br>
+=C2=A0# @CpuModelInfo:<br>
+=C2=A0#<br>
+diff --git a/qapi/machine.json b/qapi/machine.json<br>
+index 6c11e3cf3a..de05730704 100644<br>
+--- a/qapi/machine.json<br>
++++ b/qapi/machine.json<br>
+@@ -505,48 +505,6 @@<br>
+=C2=A0 =C2=A0 &#39;dst&#39;: &#39;uint16&#39;,<br>
+=C2=A0 =C2=A0 &#39;val&#39;: &#39;uint8&#39; }}<br>
+<br>
+-##<br>
+-# @X86CPURegister32:<br>
+-#<br>
+-# A X86 32-bit register<br>
+-#<br>
+-# Since: 1.5<br>
+-##<br>
+-{ &#39;enum&#39;: &#39;X86CPURegister32&#39;,<br>
+-=C2=A0 &#39;data&#39;: [ &#39;EAX&#39;, &#39;EBX&#39;, &#39;ECX&#39;, &#39=
+;EDX&#39;, &#39;ESP&#39;, &#39;EBP&#39;, &#39;ESI&#39;, &#39;EDI&#39; ] }<b=
+r>
+-<br>
+-##<br>
+-# @X86CPUFeatureWordInfo:<br>
+-#<br>
+-# Information about a X86 CPU feature word<br>
+-#<br>
+-# @cpuid-input-eax: Input EAX value for CPUID instruction for that feature=
+ word<br>
+-#<br>
+-# @cpuid-input-ecx: Input ECX value for CPUID instruction for that<br>
+-#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0feat=
+ure word<br>
+-#<br>
+-# @cpuid-register: Output register containing the feature bits<br>
+-#<br>
+-# @features: value of output register, containing the feature bits<br>
+-#<br>
+-# Since: 1.5<br>
+-##<br>
+-{ &#39;struct&#39;: &#39;X86CPUFeatureWordInfo&#39;,<br>
+-=C2=A0 &#39;data&#39;: { &#39;cpuid-input-eax&#39;: &#39;int&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*cpuid-input-ecx&#39;: &#39=
+;int&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;cpuid-register&#39;: &#39;X=
+86CPURegister32&#39;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;features&#39;: &#39;int&#39=
+; } }<br>
+-<br>
+-##<br>
+-# @DummyForceArrays:<br>
+-#<br>
+-# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList internally=
+<br>
+-#<br>
+-# Since: 2.5<br>
+-##<br>
+-{ &#39;struct&#39;: &#39;DummyForceArrays&#39;,<br>
+-=C2=A0 &#39;data&#39;: { &#39;unused&#39;: [&#39;X86CPUFeatureWordInfo&#39=
+;] } }<br>
+-<br>
+=C2=A0##<br>
+=C2=A0# @NumaCpuOptions:<br>
+=C2=A0#<br>
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c<br>
+index a84553e50c..0753fe4935 100644<br>
+--- a/target/i386/cpu.c<br>
++++ b/target/i386/cpu.c<br>
+@@ -37,7 +37,7 @@<br>
+=C2=A0#include &quot;qemu/option.h&quot;<br>
+=C2=A0#include &quot;qemu/config-file.h&quot;<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+-#include &quot;qapi/qapi-visit-machine.h&quot;<br>
++#include &quot;qapi/qapi-visit-machine-targe<wbr>t.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-visit-run-state.h&quot;<br>
+=C2=A0#include &quot;qapi/qmp/qdict.h&quot;<br>
+=C2=A0#include &quot;qapi/qmp/qerror.h&quot;<br>
+diff --git a/target/i386/machine-stub.c b/target/i386/machine-stub.c<br>
+new file mode 100644<br>
+index 0000000000..cb301af057<br>
+--- /dev/null<br>
++++ b/target/i386/machine-stub.c<br>
+@@ -0,0 +1,22 @@<br>
++/*<br>
++ * QAPI x86 CPU features stub<br>
++ *<br>
++ * Copyright (c) 2020 Red Hat, Inc.<br>
++ *<br>
++ * Author:<br>
++ *=C2=A0 =C2=A0Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@re=
+dhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.<br>
++ * See the COPYING file in the top-level directory.<br>
++ * SPDX-License-Identifier: GPL-2.0-or-later<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;qapi/qapi-visit-machine-targe<wbr>t.h&quot;<br>
++<br>
++void visit_type_X86CPUFeatureWordIn<wbr>foList(Visitor *v, const char *nam=
+e,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 X86CPUFeatureWo=
+rdInfoList **obj,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<b=
+r>
++{<br>
++}<br>
+diff --git a/target/i386/Makefile.objs b/target/i386/Makefile.objs<br>
+index 48e0c28434..1cdfc9f50c 100644<br>
+--- a/target/i386/Makefile.objs<br>
++++ b/target/i386/Makefile.objs<br>
+@@ -17,6 +17,7 @@ obj-$(CONFIG_HAX) +=3D hax-all.o hax-mem.o hax-posix.o<br=
+>
+=C2=A0endif<br>
+=C2=A0obj-$(CONFIG_HVF) +=3D hvf/<br>
+=C2=A0obj-$(CONFIG_WHPX) +=3D whpx-all.o<br>
+-endif<br>
++endif # CONFIG_SOFTMMU<br>
+=C2=A0obj-$(CONFIG_SEV) +=3D sev.o<br>
+=C2=A0obj-$(call lnot,$(CONFIG_SEV)) +=3D sev-stub.o<br>
++obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D machine-stub.o<br>
+-- <br>
+2.21.1<br>
+<br>
+<br>
+</blockquote>
+</blockquote>
+
+--00000000000004d23405a0edf1ec--
 
