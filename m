@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE09186883
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:04:02 +0100 (CET)
-Received: from localhost ([::1]:36420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9531C1868DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:20:55 +0100 (CET)
+Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmbI-0002uK-NF
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52267)
+	id 1jDmre-0000NV-6y
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDmLr-00082P-Ak
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:04 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jDmSG-0001Xu-MS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:54:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDmLp-0005Yw-7H
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:03 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35029)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDmLo-0005NM-Uc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:01 -0400
-Received: by mail-ot1-x342.google.com with SMTP id k26so17223851otr.2
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 02:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=t+WFlt0ezqgTB4mKPhyjViAQcajdgombL4lkcC71VL0=;
- b=n+fO9zK7Myp76OYx9XR8wYXmn7TD5q5Yp9Dzsa/mQVzM5AEeyApm7/amcSozL6+xuy
- fB+TM18N2QlWZsZYTVBn9pWeoTWI4K6bcsk/2TRT6aiCKvJc2iaY7FMV+gCGeYh6uxeq
- TT5T1au2xCQpbJRcHsQFVLRBhaLLxNHF1wuPclTySaXg0YbegnZetjMS8ChLHa7jNPtg
- 58R6SPlleCAzK1Ctk8woET1qoM0nhqF0VFUy+fDfHbfKRgRH7UFMlxqE9/MYb4UKs154
- 4Pr/9Zn4+l52z2DV0LS4ZyfrSLaqM05d0Z5DCd0zxze5l9IsVwgKMUQ5FipQryzmmY2n
- uRrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t+WFlt0ezqgTB4mKPhyjViAQcajdgombL4lkcC71VL0=;
- b=MBl3Ia33vuuHMWCWGongfT/XxO1niwx8a0ykQcu3RF+oZRNswLbaZIvwn3xF3dSHcM
- FlQQTA/9SPTPVtvV9GGKvzLZBLAb9P08cmxMClXXAmC3JT5d12ZU+gb85k6tAXx2z/pR
- ZctasnNQm+RQ1roX/smQulxRyVts/LlcwGbiSfQxHaInFqUR/Mm5rF0DxDwX+zbQYnQw
- a0RrpLQ/F4pTssP4GobCeZqrsI9liZ1DQJphMntFtzfsbJn0ZAlCM2Z6zKKS0pTwkpS5
- pS1L6bk7gCPROeX8KGyBI3Yw6cP6p7kDEpHniyNfGNxlcO1T//qeRkmwIgdYbCLGh0Y3
- XyWw==
-X-Gm-Message-State: ANhLgQ1eaMpRpC64xESvuKQI/7C8ZM3ynpMdbISTf7UKU9vjnXoN9+4B
- 83l3oakmbGqKN7TPMU2fIjrCNClc7XYTdSrX4OezOQ==
-X-Google-Smtp-Source: ADFU+vsj7zCvnl9g6TEk7mae7tNLRFlXEw/bZEq5N02ZBGe09Jy9gPcJWLJZqw+GsnezzHJaUoJ5DO8/tqOxi9otmTc=
-X-Received: by 2002:a05:6830:19e2:: with SMTP id
- t2mr20512644ott.97.1584352079961; 
- Mon, 16 Mar 2020 02:47:59 -0700 (PDT)
+ (envelope-from <stefanha@redhat.com>) id 1jDmSE-0000DS-E7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:54:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52843
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jDmSD-0008IL-8Z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:54:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584352474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EjG8CvKoeUPFuZmxhgWZvsc7yDDr/GMkjBJsuMwsZNQ=;
+ b=e/1Jd/SrWFHfxwQ7veTSxgkXQ4/sjKc4SNPAH7eFLeSQrxY7XI8+IH8OCdTJTVZ3XbpULU
+ ev6pwuvg+X8ZZ9KVDk4esV3N4PCrK9rfe/LnEzZSuy3cSy74ykLErG2ZRHfYlj8mo9Rtfy
+ 9kPAzqk3napA3Maip9nu7TGK4PJYcas=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-heA0sUrNNjGvnMzCGK4NdA-1; Mon, 16 Mar 2020 05:54:32 -0400
+X-MC-Unique: heA0sUrNNjGvnMzCGK4NdA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B82C1137843;
+ Mon, 16 Mar 2020 09:54:31 +0000 (UTC)
+Received: from localhost (unknown [10.36.119.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1272A907F7;
+ Mon, 16 Mar 2020 09:54:28 +0000 (UTC)
+Date: Mon, 16 Mar 2020 09:54:27 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] checkpatch: enforce process for expected files
+Message-ID: <20200316095427.GA340615@stefanha-x1.localdomain>
+References: <20200315113323.526984-1-mst@redhat.com>
 MIME-Version: 1.0
-References: <20200315134859.9547-1-f4bug@amsat.org>
-In-Reply-To: <20200315134859.9547-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 09:47:48 +0000
-Message-ID: <CAFEAcA9_hn8-Lmr9m9QkdDhMD2a1=CkGoJ-ox-9EpdmPHRubFg@mail.gmail.com>
-Subject: Re: [PATCH] target/rx/cpu: Use address_space_ldl() to read reset
- vector address
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+In-Reply-To: <20200315113323.526984-1-mst@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +71,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Alistair Francis <alistair@alistair23.me>,
- Stephanos Ioannidis <root@stephanos.io>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ imammedo@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 15 Mar 2020 at 13:49, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> The RX code flash is not a Masked ROM but a EEPROM (electrically
-> erasable programmable flash memory).
-> When implementing the flash hardware, the rom_ptr() returns NULL
-> and the reset vector is not set.
-> Instead, use the address_space ld/st API to fetch the reset vector
-> address from the code flash.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Mar 15, 2020 at 07:35:46AM -0400, Michael S. Tsirkin wrote:
+> If the process documented in tests/qtest/bios-tables-test.c
+> is followed, then same patch never touches both expected
+> files and code. Teach checkpatch to enforce this rule.
+>=20
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
-> Based-on: <20200315132810.7022-1-f4bug@amsat.org>
->
-> Same issue might occurs in Cortex-M arm_cpu_reset()
+>=20
+> Peter, Igor what do you think?
 
-rom_ptr() does not mean "I'm trying to get this from ROM",
-it means "I'm trying to get this from a user-supplied ELF
-file or similar which hasn't been loaded into guest memory
-yet". (This is a workaround for a reset ordering issue where
-CPU reset happens before rom_reset() runs.)
+Minor comments below:
 
-Removing the usage of rom_ptr() altogether here doesn't
-look right -- have you tested the case where the initial
-reset vector contents are provided via -kernel or
--device loader,... ?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-thanks
--- PMM
+>=20
+>  scripts/checkpatch.pl | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>=20
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index b27e4ff5e9..96583e3fff 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -35,6 +35,8 @@ my $summary_file =3D 0;
+>  my $root;
+>  my %debug;
+>  my $help =3D 0;
+> +my $testexpected;
+> +my $nontestexpected;
+
+If you respin, please add acpi to these variable names since they are
+specific to acpi.
+
+> =20
+>  sub help {
+>  =09my ($exitcode) =3D @_;
+> @@ -1256,6 +1258,26 @@ sub WARN {
+>  =09}
+>  }
+> =20
+> +# According to tests/qtest/bios-tables-test.c: do not
+> +# change expected file in the same commit with adding test
+> +sub checkfilename {
+> +=09my ($name) =3D @_;
+
+There is a tab instead of spaces here that could be fixed if you decide
+to respin.
+
+> +        if ($name =3D~ m#^tests/data/acpi/# and
+> +            # make exception for a shell script that rebuilds the files
+> +            not $name =3D~ m#^\.sh$# or
+> +            $name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#)=
+ {
+> +            $testexpected =3D $name;
+> +        } else {
+> +            $nontestexpected =3D $name;
+> +        }
+> +        if (defined $testexpected and defined $nontestexpected) {
+> +            ERROR("Do not add expected files together with tests, " .
+> +                  "follow instructions in " .
+> +                  "tests/qtest/bios-tables-test.c: both " .
+> +                  $testexpected . " and " . $nontestexpected . " found\n=
+");
+> +        }
+> +}
+> +
+>  sub process {
+>  =09my $filename =3D shift;
+> =20
+> @@ -1431,9 +1453,11 @@ sub process {
+>  =09=09if ($line =3D~ /^diff --git.*?(\S+)$/) {
+>  =09=09=09$realfile =3D $1;
+>  =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+> +                        checkfilename($realfile);
+>  =09=09} elsif ($line =3D~ /^\+\+\+\s+(\S+)/) {
+>  =09=09=09$realfile =3D $1;
+>  =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+> +                        checkfilename($realfile);
+
+The surrounding lines in this hunk use tab indentation, not spaces.
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vTNMACgkQnKSrs4Gr
+c8ivTggAlcNrLuL0ddPvu/uWpx5eVTT6heqqZQm3ZsCYByZwXDSHx2zzy/h6xfiW
+SpE6DmY/QxNnza1CfT4JTTEq3yNwsEqyeGPITdF9sDrdxxC+hWrdJf3kdKjuY0hG
+NRd1pVc5oR3U5k33pFLpD4qaiTjTfhBienztelFDRCt6kSnxqcCd/7Qu3oKc9Gc8
+jeiswRLfMpU74HJAeCyfBZdTEJgKXlQ5xyeaIZDyJC/fFfT4v7CyBklPcpgm5Ymg
+0njq3uMUuxAe/XHPyzu1Poob45LZCd44T/EFjir5ZRjHTdHKoVneX/I/LQwLT9hF
+AJwrQD7tVn2YZH7KK0EdA1UiCzkwjQ==
+=lze3
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
+
 
