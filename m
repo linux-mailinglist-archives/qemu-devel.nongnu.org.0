@@ -2,52 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC62E1872D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:56:20 +0100 (CET)
-Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CC91872DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:58:18 +0100 (CET)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuuR-0001nU-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47863)
+	id 1jDuwL-0004qw-PW
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jDuGu-0003oi-NF
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDuIO-0005eL-F4
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jDuGt-0002t3-9C
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:28 -0400
-Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:56835)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDuGs-0002dT-W0
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:27 -0400
-Received: from player687.ha.ovh.net (unknown [10.108.42.239])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id B24691CDFBE
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 19:15:24 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player687.ha.ovh.net (Postfix) with ESMTPSA id 13EB21070DDFC;
- Mon, 16 Mar 2020 18:15:17 +0000 (UTC)
-Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
- an alternate vector
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-7-npiggin@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
-Date: Mon, 16 Mar 2020 19:15:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jDuIM-0003kz-CU
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:00 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:36229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDuIK-0003gy-Ii
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:16:56 -0400
+Received: by mail-ot1-x334.google.com with SMTP id 39so3445341otu.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PDKfkt/7GNWfIxzYViVpwmsnx9I9g5wa+HyMTwUIL9A=;
+ b=hbvLgK9ovh35wFr7fxloKHfSslpOq3wlPLwyTEs+NM+DOfm08wN82XujGINDWHW0Fa
+ mJnlvwcIPEU1R82qFzReLXtv7g2youcFguxV3w6ZeZD+0WQ1yh/HYntpKGlO0WnFNcZH
+ 8iy1Wr4lqaONTx+AZiz7FOm1sQQBsjiz3W1neEGGH4rCmFisYNGorBsbdIDHLXMo2yHW
+ NZeY683fBOaNhPjg+8tJTi6d8nx1Ed5WeRWcBeBY1em+Bco6YPHa5yDyqsXNhThN7laX
+ oSHjJrIDUp/mOht13+vuo0P563aSmsd+3rpSuCuUHelCusBoHDx/Vel8U9mujyUk3AvM
+ v/tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PDKfkt/7GNWfIxzYViVpwmsnx9I9g5wa+HyMTwUIL9A=;
+ b=NT4JbLWfJhmt84QGuXmeyzC/QuRg0ItrlW3e+um40IA4UeiDWwQntTrN4u3zuYqqcF
+ JX6+suG9fBgk4p2bLYeSsGIUT4BxA+JrrJIXhojyFyuMx46Lh3+da9Hj+CPWns0wNtjO
+ bm3ClRPevd7VUNgaeaedchxgmYvZsy12UvhQZYpg/yhdy3PAik+PqvDeAY06c/pU+5qi
+ kmAVdanigKGbsIVq2y8wCkPoGHVhkA3LAkL5lbpj6HpnZJQAPIYs8S8eCgzSR4QINF6Z
+ AwY16uyuZAMHFN12DbSUpHnaHyyaTlkFgxtEV2JdaC0CL1Qdmh+m2RT04zomeGmkv19s
+ Er/w==
+X-Gm-Message-State: ANhLgQ0iWzAVC0TANEP2fOXDxchbyMfQI3nxdujFijDvhpf5gz7t3fQB
+ Q8Wg1VZJ+CDMVDyXeldvzApC3xuW0ZrtgvNZG0vXdg==
+X-Google-Smtp-Source: ADFU+vt9MlWkl0700BvRRFfiSW5OY0t76jXROlgdE/BQ9MAYKjjTAoA6w0xHMEC65Ht97Lues+OYHWmYP1yiTUfCX64=
+X-Received: by 2002:a9d:19ca:: with SMTP id k68mr456718otk.232.1584382615404; 
+ Mon, 16 Mar 2020 11:16:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200316142613.121089-7-npiggin@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13996061746096409574
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieekjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.48.182
+References: <20200316124820.22063-1-kraxel@redhat.com>
+In-Reply-To: <20200316124820.22063-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 18:16:44 +0000
+Message-ID: <CAFEAcA_BNH3vj0STUN-_BoCUfDczsvn_zLiXx-jqsyJV22K3HA@mail.gmail.com>
+Subject: Re: [PULL 0/1] Vga 20200316 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,75 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 3:26 PM, Nicholas Piggin wrote:
-> Provide for an alternate delivery location, -1 defaults to the
-> architected address.
+On Mon, 16 Mar 2020 at 14:26, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 61c265f0660ee476985808c8aa7915617c44fd53:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20200313a' into staging (2020-03-13 10:33:04 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/vga-20200316-pull-request
+>
+> for you to fetch changes up to f872c76296b991fde4db5fb87a1cfbd8d4c22c88:
+>
+>   stdvga+bochs-display: add dummy mmio handler (2020-03-16 12:40:47 +0100)
+>
+> ----------------------------------------------------------------
+> vga: stdvga/bochs mmio fix.
+>
+> ----------------------------------------------------------------
+>
 
-I don't know what is the best approach, to override the vector addr
-computed by powerpc_excp() or use a machine class handler with 
-cpu->vhyp.
 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->  hw/ppc/spapr.c           | 2 +-
->  target/ppc/cpu.h         | 2 +-
->  target/ppc/excp_helper.c | 5 ++++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 5f93c49706..25221d843c 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3400,7 +3400,7 @@ static void spapr_machine_finalizefn(Object *obj)
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
->  {
->      cpu_synchronize_state(cs);
-> -    ppc_cpu_do_system_reset(cs);
-> +    ppc_cpu_do_system_reset(cs, -1);
->  }
->  
->  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 3953680534..f8c7d6f19c 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
->  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
->                                 int cpuid, void *opaque);
->  #ifndef CONFIG_USER_ONLY
-> -void ppc_cpu_do_system_reset(CPUState *cs);
-> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
->  extern const VMStateDescription vmstate_ppc_cpu;
->  #endif
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 7f2b5899d3..08bc885ca6 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -961,12 +961,15 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->      }
->  }
->  
-> -void ppc_cpu_do_system_reset(CPUState *cs)
-> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
->  {
->      PowerPCCPU *cpu = POWERPC_CPU(cs);
->      CPUPPCState *env = &cpu->env;
->  
->      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
-> +    if (vector != -1) {
-> +        env->nip = vector;
-> +    }
->  }
->  
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
-> 
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
