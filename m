@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEEB186380
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:00:06 +0100 (CET)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0601F18637C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 03:59:15 +0100 (CET)
+Received: from localhost ([::1]:33496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDfz2-0004yz-JN
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52433)
+	id 1jDfyD-0004gD-AU
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 22:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDfqP-000379-C7
+ (envelope-from <dgibson@ozlabs.org>) id 1jDfqP-00037B-Az
  for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:51:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDfqN-00041O-SC
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:51:08 -0400
-Received: from ozlabs.org ([203.11.71.1]:54107)
+ (envelope-from <dgibson@ozlabs.org>) id 1jDfqO-00043Y-2w
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:51:09 -0400
+Received: from ozlabs.org ([203.11.71.1]:47751)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDfqN-0003Wj-2g; Sun, 15 Mar 2020 22:51:07 -0400
+ id 1jDfqN-0003Wo-73; Sun, 15 Mar 2020 22:51:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48ggm5227kz9sPk; Mon, 16 Mar 2020 13:51:01 +1100 (AEDT)
+ id 48ggm53mHwz9sQx; Mon, 16 Mar 2020 13:51:01 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584327061;
- bh=DrRKg/Sne2SaQ+FwDmVcjNTwlhH6vd1jYtTeE7l1Slg=;
+ bh=QUiuKWsf+iHqX412R07IjOGicNpwSw9a7YbkzZjv/tA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gZ4Y6ACAn4NAMm66r1hQSjELYMhF3nddw9wZOfDsSZ72aCvE9PD6MHgJBxOCOpF05
- cM73VjXF9tq/sjM5vT5RDVRyThSQS70JOiqRzF2MK+LSCMCDB2wGSN5SBEDjAjWbhj
- JNCfbjaEL869Z5btcCdwD8zpp0Dft1M/SnLfik2E=
-Date: Mon, 16 Mar 2020 13:42:04 +1100
+ b=SDzCF4ggI3XLqgSSRjI/W9dHGsoU0+496/dLIQ3p+hnVxf5r0y5sB3Q4VlVbvs12p
+ xcFJ95TtC4ctfe3QGC1uMVqC9ci8QmEUrS3zhtYD6Uu4v0Asy5997+lPR0kBJlB4HY
+ MVNo8Le/VDQyxEmtE+qn1+8Nl3fDzwE30NPZbp80=
+Date: Mon, 16 Mar 2020 13:42:31 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 1/4] spapr: Move creation of ibm,
- dynamic-reconfiguration-memory dt node
-Message-ID: <20200316024204.GC2013@umbus.fritz.box>
+Subject: Re: [PATCH 2/4] spapr: Move creation of ibm,architecture-vec-5
+ property
+Message-ID: <20200316024231.GD2013@umbus.fritz.box>
 References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
- <20200313040539.819138-2-david@gibson.dropbear.id.au>
- <20200313123051.7ebe1eca@bahia.home>
+ <20200313040539.819138-3-david@gibson.dropbear.id.au>
+ <20200313124003.63b87232@bahia.home>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JWEK1jqKZ6MHAcjA"
+ protocol="application/pgp-signature"; boundary="pZs/OQEoSSbxGlYw"
 Content-Disposition: inline
-In-Reply-To: <20200313123051.7ebe1eca@bahia.home>
+In-Reply-To: <20200313124003.63b87232@bahia.home>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -62,39 +62,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---JWEK1jqKZ6MHAcjA
+--pZs/OQEoSSbxGlYw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 13, 2020 at 12:30:51PM +0100, Greg Kurz wrote:
-> On Fri, 13 Mar 2020 15:05:36 +1100
+On Fri, Mar 13, 2020 at 12:40:03PM +0100, Greg Kurz wrote:
+> On Fri, 13 Mar 2020 15:05:37 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > Currently this node with information about hotpluggable memory is creat=
-ed
-> > from spapr_dt_cas_updates().  But that's just a hangover from when we
-> > created it only as a diff to the device tree at CAS time.  Now that we
-> > fully rebuild the DT as CAS time, it makes more sense to create this al=
-ong
-> > with the rest of the memory information in the device tree.
-> >=20
-> > So, move it to spapr_populate_memory().  The patch is huge, but it's ne=
-arly
-> > all just code motion.
-> >=20
+> > This is currently called from spapr_dt_cas_updates() which is a hang ov=
+er
+> > from when we created this only as a diff to the DT at CAS time.  Now th=
+at
+> > we fully rebuild the DT at CAS time, just create it alon with the rest
 >=20
-> The change looks good but it may be possible to improve the diffstat,
-> see some comments below.
+> s/alon/along
 
-[snip]
+Corrected, thanks.
+
+>=20
+> > of the properties in /chosen.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr.c | 26 +++-----------------------
+> >  1 file changed, 3 insertions(+), 23 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 66289ffef5..fc28d9df25 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -889,22 +889,6 @@ static int spapr_rng_populate_dt(void *fdt)
+> >      return ret ? -1 : 0;
+> >  }
+> > =20
+> > -static int spapr_dt_cas_updates(SpaprMachineState *spapr, void *fdt,
+> > -                                SpaprOptionVector *ov5_updates)
+>=20
+> Heh I should have looked at patch 2 before commenting on patch 1 :)
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> > -{
+> > -    int offset;
 > > -
-> > -static int spapr_rng_populate_dt(void *fdt)
+> > -    offset =3D fdt_path_offset(fdt, "/chosen");
+> > -    if (offset < 0) {
+> > -        offset =3D fdt_add_subnode(fdt, 0, "chosen");
+> > -        if (offset < 0) {
+> > -            return offset;
+> > -        }
+> > -    }
+> > -    return spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> > -                                  "ibm,architecture-vec-5");
+> > -}
+> > -
+> >  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+> >  {
+> >      MachineState *ms =3D MACHINE(spapr);
+> > @@ -1115,6 +1099,9 @@ static void spapr_dt_chosen(SpaprMachineState *sp=
+apr, void *fdt)
+> > =20
+> >      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+> > =20
+> > +    _FDT(spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> > +                                "ibm,architecture-vec-5"));
+> > +
+> >      g_free(stdout_path);
+> >      g_free(bootlist);
+> >  }
+> > @@ -1263,13 +1250,6 @@ void *spapr_build_fdt(SpaprMachineState *spapr, =
+bool reset, size_t space)
+> >          }
+> >      }
+> > =20
+> > -    /* ibm,client-architecture-support updates */
+> > -    ret =3D spapr_dt_cas_updates(spapr, fdt, spapr->ov5_cas);
+> > -    if (ret < 0) {
+> > -        error_report("couldn't setup CAS properties fdt");
+> > -        exit(1);
+> > -    }
+> > -
+> >      if (smc->dr_phb_enabled) {
+> >          ret =3D spapr_dt_drc(fdt, 0, NULL, SPAPR_DR_CONNECTOR_TYPE_PHB=
+);
+> >          if (ret < 0) {
 >=20
-> I'm not quite sure why this function needs to move...
-
-Eh, I guess it didn't.  I'm disinclined to change it now though, so I
-can get this in for tomorrows last-PR-before-soft-freeze.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -102,25 +156,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---JWEK1jqKZ6MHAcjA
+--pZs/OQEoSSbxGlYw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u53wACgkQbDjKyiDZ
-s5KAzw/6Avr/jOvbjxOlOtvnxxeuU8ZoL5KEVkwzy1f1Oo3j28ch6HSJBrK32EN+
-d4y70wKx8FfWvJHc0ceIDd7fx6Xp5jg/2w5uDLdnmb7iYK9BGmamyiaiAWBuvhvf
-pbJ9VaLWLAcznQomMqXY3sjCFoOSg5EW0iopqS6D8tvfnRLuua6ggogTpIOu8NRa
-xrrekTs2lrvM8haoDEqkqrHUuC0r4AljiFoU9ET6eHnjbIKjWzq73ugVG/DOoLr+
-2lTyOzkjcYgS3a4xEsawJcDpwHotopbz/cI1ReavkQWmQDsv1fdyFjb8J1IFLTPr
-rQV0+VrIwscciMW7qyUTVPn4VqW38ABykCk5wKNd6VGvfCjPTlzGf0IXHNWEHci7
-UgZMjG/XrfVPnbe6dnOCe9538rQaqvbzsJXcltzGxPIJ6TK8TyQKwK7NTAK/hoWx
-ARZ9QehpG3s2WfFLw7YKC61DdNfBjE5D1/ErnEeXMG9hRCJoEHDEUcK0Citu7DjV
-IgfL48DXHgS8N+uscdqUPVYoNsicC1w46n6bonUMpEwWiyoEiXklzgT0odkSJiPO
-5eyAUOmYb8QL3bMt64K9YAVwInyKPYKZQQCxDKcktt3ZAHlwoAA+2xSzu6Ji6NeH
-7wtab8nA2uh8CORQKTlwus1q8hTnVsKYkLmLHzGVc0k4aaAEDmM=
-=qsji
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u55YACgkQbDjKyiDZ
+s5LaKA/9FfVb5uDxTqnj+AQlJKJbsQcK8pYLHy+Kh4IFg0zZKHRlCaslvGMquD2d
+zeJI5xu60qcW9NZYIse2hv8SQIUwZr7jCeuIxxDsUuIgjm6ON6x9WhUhCQXHUYeZ
+zJjkiCmJywsmjppccdAzLa7taaHS1zLKQfmjQUVwrp8xUaLu3nZWRg6lkyQIENIV
+vewKduTmtY9mmriZh9bnIc93XSDCCSHGUZ6vRS77xfCyhYq1tZAPaCWizWRahNjK
+J2YgUjjUJphcJREDKE0GeYVyTZaZ5xCEcWjdz3WidmvIG0zg4bumpBl1+EaUL7Rl
+DuuwUbvD1UNUKw+z/WJE21cxSguKwhoGtP5cBzc55F9GALnwNxuxmZubOmNgs+J/
+ZqBEJD2blk4tkF+MWL/g+/hkXvxcXggtzB83Y4TtkJaiiP8bTl3WgZr6IE8A8PIG
+I5HFRza4BNO1bt037zW2yIhTNxtiAjTJQRMRfOX/wYgY1G+rc9Idj43JjBYlorp9
+xaHtNyvfchTtZzG4u41vdhK9a7RYnUrmukLm0VG/WIC6ttcPFCyv8+fPEAPZ6SRY
+9ZXDAuPNZAOG0ht5MqPhxv0+ip+EpG65J+31Dhcj0dFv49YimCDc2Bg0VxeZg2Ee
+AnTDaPYImXQ+JLeui0iwp1zG/78tN7QWL39lvZVk89k5LRmAlUY=
+=OwcO
 -----END PGP SIGNATURE-----
 
---JWEK1jqKZ6MHAcjA--
+--pZs/OQEoSSbxGlYw--
 
