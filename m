@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C90C186111
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:56:46 +0100 (CET)
-Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E3D1860D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:34:03 +0100 (CET)
+Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDe3h-000076-Bq
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50449)
+	id 1jDdhh-0006LH-Ih
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdFH-0005gP-TJ
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:42 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdMF-0008OS-FB
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdFC-0002iY-QM
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56840
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDdMD-0005ii-Va
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24096
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdFC-0002a1-LN
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:34 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdMD-0005fV-Ql
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317073;
+ s=mimecast20190719; t=1584317509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aUztEG8VJUK8KWRteiatLwJDnt0GxjjutgLn6qrxOy8=;
- b=gp60lUOFm1XeUlBLIhXlMynO24EzB0ODlcT09Qk+IQerbIMikiQ9jUozboaskqqg0ScY1b
- AkFg5xx1ps13Thq8htJoFuPmTCTeTkFYNNd4gmNFc/aUzYYGnpbRirxM+7winc/AOtGEdm
- DYjQknmzoKNL0vBrXtWAbNVAzoEAUsw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-eHmG2mCRNpqC61gyVFkbng-1; Sun, 15 Mar 2020 20:04:30 -0400
-X-MC-Unique: eHmG2mCRNpqC61gyVFkbng-1
-Received: by mail-wr1-f69.google.com with SMTP id l16so7416812wrr.6
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:04:30 -0700 (PDT)
+ bh=NQV7CZtJKHKQQmLYV48Ov4NqdR9xK+iLmNVfD84uGjo=;
+ b=Nt2Mogq73Guqtekt67rQlMX9faTPgjGxp2gw73XeWG8AW9Qzh+H4AurqxgUUD5OJuYxtlg
+ jYlWDwKu8vlZGoP5RJze4YYjuT6+qR8v8+ty1tmP9CqDmlK82FQy8tQoaN8GiY2AuJUj4g
+ pnGT4MStBps/JOaPZ5uOLRL4QMAei4Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241--5x4IbVhOrW6Yr9mhnVXCQ-1; Sun, 15 Mar 2020 20:11:48 -0400
+X-MC-Unique: -5x4IbVhOrW6Yr9mhnVXCQ-1
+Received: by mail-wm1-f71.google.com with SMTP id a23so5028416wmm.8
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wzIoCKZqybQh2QBuwEmmWMnz4Gia6mWJaIuM3SrKfJk=;
- b=S9/QdPd1gVSz1Pd0KBI5lnypURMHzOXyYCXv9+LPCwoSlrfeIbniGTVOtUH8PXm+vy
- 6qGlcyz03XSWJFmOuTmdwAgPpETnel037JXnWZLbOB80ihA8DmH4L74gnTBYR9/EFEVh
- voxQX93j47pYXANX0Dj8K0/jrU6dirwyHRCwv9tPcsRwN0VsTVpj+panSQghvjykMUig
- cHLFN+PsWeZscJiywCgX3PSmXDfGLIbJT8iE1Av59vy4AaI917BL9hYT21Odnsc2wW2q
- tE+YnG56vzw3jEoJUDavZ12v91CbBCRqtPUcIs97db7rCJa62I8Lk6oQ/mXLgWRczD/5
- aSZw==
-X-Gm-Message-State: ANhLgQ2t6uNHzcdW+WbNgdJjqLmXgj/5Ktn1aEVbs83DxKZBIuCVxRWr
- 3uRhTGsHHwC9XMbbKIYUYu698CmSAxsG8+WIiu6NXUvHZJM/xZhkRlIMyPdofsf7BWRPzJufHtE
- UV/uzzsQOmt8wILc=
-X-Received: by 2002:a5d:698c:: with SMTP id g12mr24837168wru.382.1584317069365; 
- Sun, 15 Mar 2020 17:04:29 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuwwoy4MA2ji05p6h7mlXLGYYea5kdEt5m2lDqqCkvHW/L3Dj7lqqZs/YB962cYN1C7R2fgew==
-X-Received: by 2002:a5d:698c:: with SMTP id g12mr24837133wru.382.1584317068967; 
- Sun, 15 Mar 2020 17:04:28 -0700 (PDT)
+ bh=sul4SsJ9fMf6B2B0bf7J71c3twXqtltEHRq/Q0EYyuw=;
+ b=AiyBNPyWW4DS7SP0/6AB8TofupuSbN7/DzZ/3nBrxk26Uw66fZZx7jhBHlC6GftpJB
+ 4j/tPXLGyVhF6UmhIKXrA0lZXjyqf1rJlANlUUvIi038iUVqL+PBk1tq7C76RzJZgcOQ
+ iIcOhd2RKeb2lLwXJ+cgT9dU/avx4LYr6UYgabbGfi/64uT9o3T5hkQ8W53DkweqG/bZ
+ lh64ES99ucZhurRYTLFeCHEwl93llJpYrCPcxIWH6ydzTiFFaVMkXkxGnGplVzZzvxC/
+ Wq/SW6i6mUDSlncrFvwB9Veu4K6olwVgzy+jagFm1bwIakWs5Zs6jf3MM2gU6M5q4RLd
+ 3AGw==
+X-Gm-Message-State: ANhLgQ2IQHc03BsxDSIlx088dba+hhIhjk6elDkNJbXPG8fuW3WtSj/s
+ e87JXbpZ26PYNTScwjjSx1p2P+e3HYv48+CQgqNx+a3OvIe7CAM3wE3uz4h9GKlhuSoSjE5kl2g
+ Wia48kun0dk2tv5w=
+X-Received: by 2002:adf:82f4:: with SMTP id 107mr22300459wrc.126.1584317506570; 
+ Sun, 15 Mar 2020 17:11:46 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuKXqlnbz8NPhewbFRkMJmaE6Y7q7lsNJV6XPkQxc/EXMwltlySq0Lqs1CkRkLoroaqxdHkqQ==
+X-Received: by 2002:adf:82f4:: with SMTP id 107mr22300442wrc.126.1584317506388; 
+ Sun, 15 Mar 2020 17:11:46 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id w16sm58132908wrp.8.2020.03.15.17.04.27
+ by smtp.gmail.com with ESMTPSA id w19sm26685804wmc.22.2020.03.15.17.11.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:04:28 -0700 (PDT)
+ Sun, 15 Mar 2020 17:11:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/8] qapi/misc: Restrict ACPI commands to machine code
-Date: Mon, 16 Mar 2020 01:03:46 +0100
-Message-Id: <20200316000348.29692-7-philmd@redhat.com>
+Subject: [PATCH v2 6/9] hw/core/qdev-properties: Export some integer-related
+ functions
+Date: Mon, 16 Mar 2020 01:11:08 +0100
+Message-Id: <20200316001111.31004-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316000348.29692-1-philmd@redhat.com>
-References: <20200316000348.29692-1-philmd@redhat.com>
+In-Reply-To: <20200316001111.31004-1-philmd@redhat.com>
+References: <20200316001111.31004-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -77,7 +78,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,442 +90,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We are going to split this file and reuse these static functions.
+Declare them in the local "qdev-prop-internal.h" header.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qapi/machine.json                    | 154 +++++++++++++++++++++++++++
- qapi/misc.json                       | 154 ---------------------------
- include/hw/acpi/acpi_dev_interface.h |   2 +-
- hw/acpi/core.c                       |   2 +-
- hw/acpi/cpu.c                        |   2 +-
- hw/acpi/memory_hotplug.c             |   2 +-
- 6 files changed, 158 insertions(+), 158 deletions(-)
+ hw/core/qdev-prop-internal.h |  9 ++++++++
+ hw/core/qdev-properties.c    | 42 +++++++++++++++++++-----------------
+ 2 files changed, 31 insertions(+), 20 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 1a2a4b0d48..f77ee63730 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1018,3 +1018,157 @@
- ##
- { 'event': 'BALLOON_CHANGE',
-   'data': { 'actual': 'int' } }
-+
-+##
-+# @AcpiTableOptions:
-+#
-+# Specify an ACPI table on the command line to load.
-+#
-+# At most one of @file and @data can be specified. The list of files speci=
-fied
-+# by any one of them is loaded and concatenated in order. If both are omit=
-ted,
-+# @data is implied.
-+#
-+# Other fields / optargs can be used to override fields of the generic ACP=
-I
-+# table header; refer to the ACPI specification 5.0, section 5.2.6 System
-+# Description Table Header. If a header field is not overridden, then the
-+# corresponding value from the concatenated blob is used (in case of @file=
-), or
-+# it is filled in with a hard-coded value (in case of @data).
-+#
-+# String fields are copied into the matching ACPI member from lowest addre=
-ss
-+# upwards, and silently truncated / NUL-padded to length.
-+#
-+# @sig: table signature / identifier (4 bytes)
-+#
-+# @rev: table revision number (dependent on signature, 1 byte)
-+#
-+# @oem_id: OEM identifier (6 bytes)
-+#
-+# @oem_table_id: OEM table identifier (8 bytes)
-+#
-+# @oem_rev: OEM-supplied revision number (4 bytes)
-+#
-+# @asl_compiler_id: identifier of the utility that created the table
-+#                   (4 bytes)
-+#
-+# @asl_compiler_rev: revision number of the utility that created the
-+#                    table (4 bytes)
-+#
-+# @file: colon (:) separated list of pathnames to load and
-+#        concatenate as table data. The resultant binary blob is expected =
-to
-+#        have an ACPI table header. At least one file is required. This fi=
-eld
-+#        excludes @data.
-+#
-+# @data: colon (:) separated list of pathnames to load and
-+#        concatenate as table data. The resultant binary blob must not hav=
-e an
-+#        ACPI table header. At least one file is required. This field excl=
-udes
-+#        @file.
-+#
-+# Since: 1.5
-+##
-+{ 'struct': 'AcpiTableOptions',
-+  'data': {
-+    '*sig':               'str',
-+    '*rev':               'uint8',
-+    '*oem_id':            'str',
-+    '*oem_table_id':      'str',
-+    '*oem_rev':           'uint32',
-+    '*asl_compiler_id':   'str',
-+    '*asl_compiler_rev':  'uint32',
-+    '*file':              'str',
-+    '*data':              'str' }}
-+
-+##
-+# @MEM_UNPLUG_ERROR:
-+#
-+# Emitted when memory hot unplug error occurs.
-+#
-+# @device: device name
-+#
-+# @msg: Informative message
-+#
-+# Since: 2.4
-+#
-+# Example:
-+#
-+# <- { "event": "MEM_UNPLUG_ERROR"
-+#      "data": { "device": "dimm1",
-+#                "msg": "acpi: device unplug for unsupported device"
-+#      },
-+#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
-+#
-+##
-+{ 'event': 'MEM_UNPLUG_ERROR',
-+  'data': { 'device': 'str', 'msg': 'str' } }
-+
-+##
-+# @ACPISlotType:
-+#
-+# @DIMM: memory slot
-+# @CPU: logical CPU slot (since 2.7)
-+##
-+{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
-+
-+##
-+# @ACPIOSTInfo:
-+#
-+# OSPM Status Indication for a device
-+# For description of possible values of @source and @status fields
-+# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
-+#
-+# @device: device ID associated with slot
-+#
-+# @slot: slot ID, unique per slot of a given @slot-type
-+#
-+# @slot-type: type of the slot
-+#
-+# @source: an integer containing the source event
-+#
-+# @status: an integer containing the status code
-+#
-+# Since: 2.1
-+##
-+{ 'struct': 'ACPIOSTInfo',
-+  'data'  : { '*device': 'str',
-+              'slot': 'str',
-+              'slot-type': 'ACPISlotType',
-+              'source': 'int',
-+              'status': 'int' } }
-+
-+##
-+# @query-acpi-ospm-status:
-+#
-+# Return a list of ACPIOSTInfo for devices that support status
-+# reporting via ACPI _OST method.
-+#
-+# Since: 2.1
-+#
-+# Example:
-+#
-+# -> { "execute": "query-acpi-ospm-status" }
-+# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "so=
-urce": 1, "status": 0},
-+#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "statu=
-s": 0},
-+#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "statu=
-s": 0},
-+#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "statu=
-s": 0}
-+#    ]}
-+#
-+##
-+{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
-+
-+##
-+# @ACPI_DEVICE_OST:
-+#
-+# Emitted when guest executes ACPI _OST method.
-+#
-+# @info: OSPM Status Indication
-+#
-+# Since: 2.1
-+#
-+# Example:
-+#
-+# <- { "event": "ACPI_DEVICE_OST",
-+#      "data": { "device": "d1", "slot": "0",
-+#                "slot-type": "DIMM", "source": 1, "status": 0 } }
-+#
-+##
-+{ 'event': 'ACPI_DEVICE_OST',
-+     'data': { 'info': 'ACPIOSTInfo' } }
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 8c02870227..3d9d7327fe 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -999,64 +999,6 @@
- ##
- { 'command': 'query-fdsets', 'returns': ['FdsetInfo'] }
+diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
+index 2a8c9a306a..dd2f215f1c 100644
+--- a/hw/core/qdev-prop-internal.h
++++ b/hw/core/qdev-prop-internal.h
+@@ -15,5 +15,14 @@ void qdev_propinfo_set_enum(Object *obj, Visitor *v, con=
+st char *name,
 =20
--##
--# @AcpiTableOptions:
--#
--# Specify an ACPI table on the command line to load.
--#
--# At most one of @file and @data can be specified. The list of files speci=
-fied
--# by any one of them is loaded and concatenated in order. If both are omit=
-ted,
--# @data is implied.
--#
--# Other fields / optargs can be used to override fields of the generic ACP=
-I
--# table header; refer to the ACPI specification 5.0, section 5.2.6 System
--# Description Table Header. If a header field is not overridden, then the
--# corresponding value from the concatenated blob is used (in case of @file=
-), or
--# it is filled in with a hard-coded value (in case of @data).
--#
--# String fields are copied into the matching ACPI member from lowest addre=
-ss
--# upwards, and silently truncated / NUL-padded to length.
--#
--# @sig: table signature / identifier (4 bytes)
--#
--# @rev: table revision number (dependent on signature, 1 byte)
--#
--# @oem_id: OEM identifier (6 bytes)
--#
--# @oem_table_id: OEM table identifier (8 bytes)
--#
--# @oem_rev: OEM-supplied revision number (4 bytes)
--#
--# @asl_compiler_id: identifier of the utility that created the table
--#                   (4 bytes)
--#
--# @asl_compiler_rev: revision number of the utility that created the
--#                    table (4 bytes)
--#
--# @file: colon (:) separated list of pathnames to load and
--#        concatenate as table data. The resultant binary blob is expected =
-to
--#        have an ACPI table header. At least one file is required. This fi=
-eld
--#        excludes @data.
--#
--# @data: colon (:) separated list of pathnames to load and
--#        concatenate as table data. The resultant binary blob must not hav=
-e an
--#        ACPI table header. At least one file is required. This field excl=
-udes
--#        @file.
--#
--# Since: 1.5
--##
--{ 'struct': 'AcpiTableOptions',
--  'data': {
--    '*sig':               'str',
--    '*rev':               'uint8',
--    '*oem_id':            'str',
--    '*oem_table_id':      'str',
--    '*oem_rev':           'uint32',
--    '*asl_compiler_id':   'str',
--    '*asl_compiler_rev':  'uint32',
--    '*file':              'str',
--    '*data':              'str' }}
--
- ##
- # @CommandLineParameterType:
- #
-@@ -1249,102 +1191,6 @@
- ##
- { 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
+ void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
+                                           const Property *prop);
++void qdev_propinfo_set_default_value_int(ObjectProperty *op,
++                                         const Property *prop);
++void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
++                                          const Property *prop);
++
++void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
++                              void *opaque, Error **errp);
++void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
++                             void *opaque, Error **errp);
 =20
--##
--# @MEM_UNPLUG_ERROR:
--#
--# Emitted when memory hot unplug error occurs.
--#
--# @device: device name
--#
--# @msg: Informative message
--#
--# Since: 2.4
--#
--# Example:
--#
--# <- { "event": "MEM_UNPLUG_ERROR"
--#      "data": { "device": "dimm1",
--#                "msg": "acpi: device unplug for unsupported device"
--#      },
--#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
--#
--##
--{ 'event': 'MEM_UNPLUG_ERROR',
--  'data': { 'device': 'str', 'msg': 'str' } }
--
--##
--# @ACPISlotType:
--#
--# @DIMM: memory slot
--# @CPU: logical CPU slot (since 2.7)
--##
--{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
--
--##
--# @ACPIOSTInfo:
--#
--# OSPM Status Indication for a device
--# For description of possible values of @source and @status fields
--# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
--#
--# @device: device ID associated with slot
--#
--# @slot: slot ID, unique per slot of a given @slot-type
--#
--# @slot-type: type of the slot
--#
--# @source: an integer containing the source event
--#
--# @status: an integer containing the status code
--#
--# Since: 2.1
--##
--{ 'struct': 'ACPIOSTInfo',
--  'data'  : { '*device': 'str',
--              'slot': 'str',
--              'slot-type': 'ACPISlotType',
--              'source': 'int',
--              'status': 'int' } }
--
--##
--# @query-acpi-ospm-status:
--#
--# Return a list of ACPIOSTInfo for devices that support status
--# reporting via ACPI _OST method.
--#
--# Since: 2.1
--#
--# Example:
--#
--# -> { "execute": "query-acpi-ospm-status" }
--# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "so=
-urce": 1, "status": 0},
--#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "statu=
-s": 0},
--#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "statu=
-s": 0},
--#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "statu=
-s": 0}
--#    ]}
--#
--##
--{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
--
--##
--# @ACPI_DEVICE_OST:
--#
--# Emitted when guest executes ACPI _OST method.
--#
--# @info: OSPM Status Indication
--#
--# Since: 2.1
--#
--# Example:
--#
--# <- { "event": "ACPI_DEVICE_OST",
--#      "data": { "device": "d1", "slot": "0",
--#                "slot-type": "DIMM", "source": 1, "status": 0 } }
--#
--##
--{ 'event': 'ACPI_DEVICE_OST',
--     'data': { 'info': 'ACPIOSTInfo' } }
--
- ##
- # @ReplayMode:
- #
-diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_de=
-v_interface.h
-index a2a12af9b9..a1b63d51db 100644
---- a/include/hw/acpi/acpi_dev_interface.h
-+++ b/include/hw/acpi/acpi_dev_interface.h
-@@ -1,7 +1,7 @@
- #ifndef ACPI_DEV_INTERFACE_H
- #define ACPI_DEV_INTERFACE_H
+ #endif
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 7e89c11dfd..8c85e0b648 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -275,12 +275,14 @@ static void set_uint8(Object *obj, Visitor *v, const =
+char *name, void *opaque,
+     visit_type_uint8(v, name, ptr, errp);
+ }
 =20
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qom/object.h"
- #include "hw/boards.h"
- #include "hw/qdev-core.h"
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 45cbed49ab..4f8d90f50b 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -27,7 +27,7 @@
- #include "qapi/error.h"
- #include "qapi/opts-visitor.h"
- #include "qapi/qapi-events-run-state.h"
--#include "qapi/qapi-visit-misc.h"
-+#include "qapi/qapi-visit-machine.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index e2c957ce00..8be15db96d 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -3,7 +3,7 @@
- #include "migration/vmstate.h"
- #include "hw/acpi/cpu.h"
- #include "qapi/error.h"
--#include "qapi/qapi-events-misc.h"
-+#include "qapi/qapi-events-machine.h"
- #include "trace.h"
- #include "sysemu/numa.h"
+-static void set_default_value_int(ObjectProperty *op, const Property *prop=
+)
++void qdev_propinfo_set_default_value_int(ObjectProperty *op,
++                                         const Property *prop)
+ {
+     object_property_set_default_int(op, prop->defval.i);
+ }
 =20
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index 8d2e82240f..aa454f5cb2 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -7,7 +7,7 @@
- #include "migration/vmstate.h"
- #include "trace.h"
- #include "qapi/error.h"
--#include "qapi/qapi-events-misc.h"
-+#include "qapi/qapi-events-machine.h"
+-static void set_default_value_uint(ObjectProperty *op, const Property *pro=
+p)
++void qdev_propinfo_set_default_value_uint(ObjectProperty *op,
++                                          const Property *prop)
+ {
+     object_property_set_default_uint(op, prop->defval.u);
+ }
+@@ -289,13 +291,13 @@ const PropertyInfo qdev_prop_uint8 =3D {
+     .name  =3D "uint8",
+     .get   =3D get_uint8,
+     .set   =3D set_uint8,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
 =20
- #define MEMORY_SLOTS_NUMBER          "MDNR"
- #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+ /* --- 16bit integer --- */
+=20
+-static void get_uint16(Object *obj, Visitor *v, const char *name,
+-                       void *opaque, Error **errp)
++void qdev_propinfo_get_uint16(Object *obj, Visitor *v, const char *name,
++                              void *opaque, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+     Property *prop =3D opaque;
+@@ -321,9 +323,9 @@ static void set_uint16(Object *obj, Visitor *v, const c=
+har *name,
+=20
+ const PropertyInfo qdev_prop_uint16 =3D {
+     .name  =3D "uint16",
+-    .get   =3D get_uint16,
++    .get   =3D qdev_propinfo_get_uint16,
+     .set   =3D set_uint16,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- 32bit integer --- */
+@@ -353,8 +355,8 @@ static void set_uint32(Object *obj, Visitor *v, const c=
+har *name,
+     visit_type_uint32(v, name, ptr, errp);
+ }
+=20
+-static void get_int32(Object *obj, Visitor *v, const char *name, void *opa=
+que,
+-                      Error **errp)
++void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
++                             void *opaque, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+     Property *prop =3D opaque;
+@@ -382,14 +384,14 @@ const PropertyInfo qdev_prop_uint32 =3D {
+     .name  =3D "uint32",
+     .get   =3D get_uint32,
+     .set   =3D set_uint32,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ const PropertyInfo qdev_prop_int32 =3D {
+     .name  =3D "int32",
+-    .get   =3D get_int32,
++    .get   =3D qdev_propinfo_get_int32,
+     .set   =3D set_int32,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_int,
+ };
+=20
+ /* --- 64bit integer --- */
+@@ -448,14 +450,14 @@ const PropertyInfo qdev_prop_uint64 =3D {
+     .name  =3D "uint64",
+     .get   =3D get_uint64,
+     .set   =3D set_uint64,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ const PropertyInfo qdev_prop_int64 =3D {
+     .name  =3D "int64",
+     .get   =3D get_int64,
+     .set   =3D set_int64,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_int,
+ };
+=20
+ /* --- string --- */
+@@ -739,9 +741,9 @@ const PropertyInfo qdev_prop_pci_devfn =3D {
+     .name  =3D "int32",
+     .description =3D "Slot and optional function number, example: 06.0 or =
+06",
+     .print =3D print_pci_devfn,
+-    .get   =3D get_int32,
++    .get   =3D qdev_propinfo_get_int32,
+     .set   =3D set_pci_devfn,
+-    .set_default_value =3D set_default_value_int,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- blocksize --- */
+@@ -787,9 +789,9 @@ static void set_blocksize(Object *obj, Visitor *v, cons=
+t char *name,
+ const PropertyInfo qdev_prop_blocksize =3D {
+     .name  =3D "uint16",
+     .description =3D "A power of two between 512 and 32768",
+-    .get   =3D get_uint16,
++    .get   =3D qdev_propinfo_get_uint16,
+     .set   =3D set_blocksize,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- pci host address --- */
+@@ -1071,7 +1073,7 @@ const PropertyInfo qdev_prop_arraylen =3D {
+     .name =3D "uint32",
+     .get =3D get_uint32,
+     .set =3D set_prop_arraylen,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- public helpers --- */
+@@ -1265,7 +1267,7 @@ const PropertyInfo qdev_prop_size =3D {
+     .name  =3D "size",
+     .get =3D get_size,
+     .set =3D set_size,
+-    .set_default_value =3D set_default_value_uint,
++    .set_default_value =3D qdev_propinfo_set_default_value_uint,
+ };
+=20
+ /* --- object link property --- */
 --=20
 2.21.1
 
