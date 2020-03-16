@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB3818700E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:32:25 +0100 (CET)
-Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8652E18701A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:35:40 +0100 (CET)
+Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsfA-0005ae-3S
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42541)
+	id 1jDsiJ-0001Dc-IU
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDqdH-0005bi-I0
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:22 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jDqhm-0007Nw-9H
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:26:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDqdB-0003y8-K1
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47703
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqdB-0003v3-Fy
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584368533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KwcMGbu7t7ONr8JUuRhyhEIBgdDZlOZDihLGevxfioA=;
- b=FJrcJ/z6Kb4yVqEc0gTChaspzXgh6biNXoucgnXkpRQD0vLUWLsJk8HxG3ms1NR0m8UTl1
- 58iNcX+3e0dGhdZT+CIoUS3Es6EIfc/zeL6VQey5ySTveE+hLSOQX91eGbUugQZ+iE7Ip9
- TjVGtXESQfeZKx06ZN7V27Soy79Yf+g=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-Xqy_etl8NoS-If4ADDqY3Q-1; Mon, 16 Mar 2020 10:22:11 -0400
-X-MC-Unique: Xqy_etl8NoS-If4ADDqY3Q-1
-Received: by mail-ed1-f72.google.com with SMTP id y23so15296839edt.2
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:22:11 -0700 (PDT)
+ (envelope-from <npiggin@gmail.com>) id 1jDqhl-00005A-AR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:26:58 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36326)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <npiggin@gmail.com>)
+ id 1jDqhh-00082R-SZ; Mon, 16 Mar 2020 10:26:54 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id nu11so5546603pjb.1;
+ Mon, 16 Mar 2020 07:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i5D0yWQL9Fea9nHxAcnwd4Pw7HLyVMj68QCZAf63FYA=;
+ b=e5OeceMGPC6F5sYOBXp2yqPDd8sVtEEkb0D/70PQx0/AxzH6t7k0FkvRBfLIAdXxv5
+ 974S6/eUm25qFMExIWf3uW9HGAZa9a28+C9RyCoXE+tJE3pbuIBSZ/Ndwft3ICWG4iaT
+ CrtUwnP6ZCbtA8bJ47tZBsLjXNfzhkZ6UxJ2qoXnUxW8JWebsd7gImiDvmLp0L8yxeQM
+ M9SxVqABIomzRP4hx1L4JL18VEblfkDjdRmKAc56LWzOblCl+KhhT0iYeuZfnH/aZ0MC
+ rcz2vZwybU5O5mp3rz9bAObtGQ/9AeYFegXf1L6PvVcszl/xIJV8D1lFtkVO5HUR5drJ
+ Wh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Nj40mOwmbOU2SLSTB9dqVS5zqZslCHWqMXMoCmBytNw=;
- b=t4XZ846iV76rRGlp9CKyqkTWiulhcpVvUnXXAl4ILo6LUQh3Y/G6AJOfEGZDrmfmAP
- sZh8CGAwdTvet5QhLNelxEF7j1TleSzuKx2xxifINQAfiw054znqu1ybSYSgkGvfKVZD
- H59PvG3ZU3nExUMddlPrAJRU6IFiFQM6E1oQau/LSBRYScMVzFLzFKED3Rj7blFFVYOp
- vNND/TcnR+5oDo6/WWnpxIk7HWorXwqBgyMl9L9e8IPRPBKFeEurn8eAy3lpumhwlWOT
- Y7Eokz5jF1be26+DzXiPJoPXafGx3iYzn27hvcu4/Fu49F2vHT51JsAaXViopuIq/Z2o
- bTPg==
-X-Gm-Message-State: ANhLgQ0R2iM6Ebylr+tR3rsgdwjBJI39OxkE5teY0Fkv2rdW+KlCJWyy
- 4ak3GVxNURRhg2iWppa7T6ita4V59xC1VVs/QVtfXgwfBR3Xm15doLjxFvzj/v6DHIYNjmCyg3U
- 1R9xRCIfvS/L2m/o=
-X-Received: by 2002:a50:9998:: with SMTP id m24mr166457edb.98.1584368529727;
- Mon, 16 Mar 2020 07:22:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuLo5/tnrx87KFuAvaHdYiJYV1D1CmA385B+oQvTkoyufhRYJnmC1QR0KB7HOJz1ooUumjf8A==
-X-Received: by 2002:a50:9998:: with SMTP id m24mr166437edb.98.1584368529458;
- Mon, 16 Mar 2020 07:22:09 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id 91sm3149996edq.78.2020.03.16.07.22.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 07:22:08 -0700 (PDT)
-Subject: Re: [PATCH 1/4] tests/vm: write raw console log
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20200310083218.26355-1-kraxel@redhat.com>
- <20200310083218.26355-2-kraxel@redhat.com> <87wo7kjsfp.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <80b6dd22-aae9-268f-21a9-7add0dd3fa51@redhat.com>
-Date: Mon, 16 Mar 2020 15:22:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=i5D0yWQL9Fea9nHxAcnwd4Pw7HLyVMj68QCZAf63FYA=;
+ b=O/WttuuqdTjGJIeL/IBnu/0cHbwAHvG5bHob5u9ly+sicMcP799ScL/dOQKVTP6Kfb
+ YYWRZ1MINursJnCkXzJb3YCy5zlAxGDhzdbUZeoCeZsvnPV8h7QryDrlZzGWSSFIp/ab
+ wcHoBCZ5R243170HpLZ5uKlT//zXzmD9BYQPsjL/Mr+6QRYOtjHvvAeYC+RbwO6IlESl
+ cKet+/BrEv11S77+5RWvzMljKxJKX6Eval6XcaPxbs35cNkLQ+jy/2BURh5bd1+Nd7Xi
+ PQeU4zbsK0befAoEKoW1ft2Xh+mYQZPuzpoUW9gM84fBR3hi9Br3pyym5VIw/66CRXUs
+ B24A==
+X-Gm-Message-State: ANhLgQ2ZAwGcokbgi0GlukJW5yUVa8eEEWhKWXvv/k/HEHAuzv6vBHAX
+ L6TvslFWpfN3P/yCbQdBQkSl7fLr
+X-Google-Smtp-Source: ADFU+vvF8PBfhOCqdJxtRSDuQsLB4LMWKdtsU0WLMN27Q3lMNCmYWUFgGVNyy6yrIew/R9AlL/rDMQ==
+X-Received: by 2002:a17:902:b582:: with SMTP id
+ a2mr6018199pls.176.1584368811804; 
+ Mon, 16 Mar 2020 07:26:51 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com ([203.63.160.49])
+ by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.26.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 07:26:51 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v2 0/8] FWNMI fixes / changes
+Date: Tue, 17 Mar 2020 00:26:05 +1000
+Message-Id: <20200316142613.121089-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <87wo7kjsfp.fsf@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,121 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Cleber Rosa <crosa@redhat.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 3:16 PM, Alex Benn=C3=A9e wrote:
->=20
-> Gerd Hoffmann <kraxel@redhat.com> writes:
->=20
->> Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
->> to watch the install console.
->>
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->=20
-> I suspect this is what's breaking "make check-acceptance" so I've
-> dropped the series from testing/next for now.
->=20
->    2020-03-11 12:12:30,546 stacktrace       L0039 ERROR|
->    2020-03-11 12:12:30,546 stacktrace       L0042 ERROR| Reproduced trace=
-back from: /home/alex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python=
-3.6/site-packages/avocado/c\
->    ore/test.py:860
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| Traceback (most =
-recent call last):
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
-ex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python3.6/site-packages/a=
-vocado/core/test.py", line \
->    1456, in test
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     self.error(s=
-elf.exception)
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
-ex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python3.6/site-packages/a=
-vocado/core/test.py", line \
->    1064, in error
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     raise except=
-ions.TestError(message)
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| avocado.core.exc=
-eptions.TestError: Traceback (most recent call last):
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/usr/lib=
-/python3.6/imp.py", line 235, in load_module
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     return load_=
-source(name, filename, file)
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/usr/lib=
-/python3.6/imp.py", line 172, in load_source
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     module =3D _=
-load(spec)
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
-importlib._bootstrap>", line 684, in _load
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
-importlib._bootstrap>", line 665, in _load_unlocked
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
-importlib._bootstrap_external>", line 678, in exec_module
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
-importlib._bootstrap>", line 219, in _call_with_frames_removed
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
-ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/machine_mips_malta.py",=
- line 15, in <module>
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from avocado=
-_qemu import Test
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
-ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/__init__.p=
-y", line 22, in <module>
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from qemu.ma=
-chine import QEMUMachine
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
-ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/../../../p=
-ython/qemu/machine.py", lin\
->    e 27, in <module>
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from qemu.co=
-nsole_socket import ConsoleSocket
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| ModuleNotFoundEr=
-ror: No module named 'qemu.console_socket'
+Hi,
 
-Cc'ing Wainer/Cleber in case...
+Since v1, I fixed the intermediate compile error spotted by Greg, and
+rediffed the series on top of ppc-for-5.0, plus Alexey's patch
+("spapr/rtas: Reserve space for RTAS blob and log").
 
->    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|
->    2020-03-11 12:12:30,547 stacktrace       L0046 ERROR|
->    2020-03-11 12:12:30,548 test             L0865 DEBUG| Local variables:
->    2020-03-11 12:12:30,561 test             L0868 DEBUG|  -> self <class =
-'avocado.core.test.TestError'>: 1-./tests/acceptance/machine_mips_malta.py:=
-MaltaMachineFramebuffer.tes\
->    t_mips_malta_i6400_framebuffer_logo_1core
->=20
->=20
->> ---
->>   tests/vm/basevm.py | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
->> index 8400b0e07f65..c53fd354d955 100644
->> --- a/tests/vm/basevm.py
->> +++ b/tests/vm/basevm.py
->> @@ -213,6 +213,9 @@ class BaseVM(object):
->>       def console_init(self, timeout =3D 120):
->>           vm =3D self._guest
->>           vm.console_socket.settimeout(timeout)
->> +        self.console_raw_path =3D os.path.join(vm._temp_dir,
->> +                                             vm._name + "-console.raw")
->> +        self.console_raw_file =3D open(self.console_raw_path, 'wb')
->>  =20
->>       def console_log(self, text):
->>           for line in re.split("[\r\n]", text):
->> @@ -234,6 +237,9 @@ class BaseVM(object):
->>           while True:
->>               try:
->>                   chars =3D vm.console_socket.recv(1)
->> +                if self.console_raw_file:
->> +                    self.console_raw_file.write(chars)
->> +                    self.console_raw_file.flush()
->>               except socket.timeout:
->>                   sys.stderr.write("console: *** read timeout ***\n")
->>                   sys.stderr.write("console: waiting for: '%s'\n" % expe=
-ct)
->=20
->=20
+The first 6 patches are otherwise unchanged since last posting.
+
+Patch 7 implements fwnim sreset interrupts now in a way that's
+compatible with existing Linux guests (which doesn't necessarily quite
+match PAPR, but does match PowerVM behaviour).
+
+Patch 8 isn't required but it papers over Linux warning messages caused
+by another quirk.
+
+Thanks,
+Nick
+
+Nicholas Piggin (8):
+  ppc/spapr: Fix FWNMI machine check failure handling
+  ppc/spapr: Change FWNMI names
+  ppc/spapr: Add FWNMI System Reset state
+  ppc/spapr: Fix FWNMI machine check interrupt delivery
+  ppc/spapr: Allow FWNMI on TCG
+  target/ppc: Allow ppc_cpu_do_system_reset to take an alternate vector
+  ppc/spapr: Implement FWNMI System Reset delivery
+  ppc/spapr: Ignore common "ibm,nmi-interlock" Linux bug
+
+ hw/ppc/spapr.c                    | 76 ++++++++++++++++++++++-------
+ hw/ppc/spapr_caps.c               | 19 ++++----
+ hw/ppc/spapr_events.c             | 38 ++++-----------
+ hw/ppc/spapr_rtas.c               | 43 +++++++++++++----
+ include/hw/ppc/spapr.h            | 28 +++++++----
+ target/ppc/cpu.h                  |  3 +-
+ target/ppc/excp_helper.c          | 79 ++++++++++++++++++++++---------
+ tests/qtest/libqos/libqos-spapr.h |  2 +-
+ 8 files changed, 188 insertions(+), 100 deletions(-)
+
+-- 
+2.23.0
 
 
