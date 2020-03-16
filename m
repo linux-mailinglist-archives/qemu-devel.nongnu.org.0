@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118F81869CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:15:33 +0100 (CET)
-Received: from localhost ([::1]:37090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5926F1869BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:07:28 +0100 (CET)
+Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDniV-0003Jf-LL
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58390)
+	id 1jDnag-0000Tt-VH
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jDmOJ-0000OM-Sn
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:50:38 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgx-00064H-Us
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jDmOI-00060E-Mt
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:50:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49608)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgw-0004ld-PM
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jDmOI-0005hG-Er
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:50:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jDmOG-0002hO-NG
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:50:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE0802E80C0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:50:32 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Mar 2020 09:43:48 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1867601@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <158435182879.11338.3192996907536554019.malonedeb@soybean.canonical.com>
-Subject: [Bug 1867601] [NEW] test-char not concurrent with unix socket
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 650e21459755d15fbd1101ec00d75e5d4782f9a6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jDmgw-0004ME-IM
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id s5so20437694wrg.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=0PD+9CT/Xt0zgE5b0vEiJJ+90ECqaJXhO+EHUt2RRT8=;
+ b=hXenj+NNyw/BK0hLhzXx4lInYXCPHi9x5fN3yg0SZClVTFrOa61AK8iSyg87/ieZWJ
+ 6eLxAjZcNVQAjxhv9Dmc54kuMFjAns30uGTFYX5W2PVIvqf0xqOwIUnaiQ0sq07oQBag
+ EpvwA64wnrK47eYbKXGVlzNighUkonzK7lr3a0L/5Se6bKAIs/VRjle2AD+DPv+H6v2A
+ m/hXGapxisfyeT8S/FPXHJQ8bVX8d3sKaPBiw7T4O/kpJUMinz1jZBdf9eWIAUB4Lyoj
+ Z055Mj3pKalLdzUhrAiRiZjP04p0vr/j/eUvaj9CCakDe1bnGT3uIZuqJxn7ssZmKOQ+
+ skmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=0PD+9CT/Xt0zgE5b0vEiJJ+90ECqaJXhO+EHUt2RRT8=;
+ b=YQutqsdOxJYVHcmHePACl4v7SXicmq+fEPzfERtW0auIIHpCv7M6zLeXsEJSL1rPus
+ Lg9fq0KjpKKgtno8LgKLv7V/Pp7uiczNjRbOOSiQG4UPte+yN9XEc1PLyOflO2TYI9MF
+ 00hG+mIqxqmGzcODmxHxxpqw1o10L0JvqFx6GvTziFpSyrp4F64Hf3Y979fKlNfxSg4e
+ kElILjZpQn5l2uM/hua1tCyj4UGytA3T/tq7Iskktqv6VTtZYEx9IJ6p1MVmJZ8NGTJK
+ xkCC2vE7UVP8bC19kuVmkPtRgciNpaLJvh+ZDlGXc489xv3FqXRcZBJQGUTXlP5M4Ac4
+ Urcw==
+X-Gm-Message-State: ANhLgQ3hneV1Q3dUSMSRR5aVh1pRD3HJeW+eAmg9DjFNA2Kll/O+9vC9
+ 0vII0PRldDvZbXlMGwCuRtFU1vbBa+L77g==
+X-Google-Smtp-Source: ADFU+vsJc9u0CKcm6DtRSRUN+Dgj2TMNVLPf3NncsVKC0NGZhRrZquVhNdCZifihON349Os8pyF4CA==
+X-Received: by 2002:a5d:67ca:: with SMTP id n10mr28633972wrw.268.1584353387743; 
+ Mon, 16 Mar 2020 03:09:47 -0700 (PDT)
+Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
+ [79.183.43.120])
+ by smtp.gmail.com with ESMTPSA id l7sm22083171wrw.33.2020.03.16.03.09.46
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 16 Mar 2020 03:09:47 -0700 (PDT)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com,
+	jasowang@redhat.com
+Subject: [PATCH v4 6/6] virtio-net: add migration support for RSS and hash
+ report
+Date: Mon, 16 Mar 2020 12:09:33 +0200
+Message-Id: <20200316100933.11499-7-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200316100933.11499-1-yuri.benditovich@daynix.com>
+References: <20200316100933.11499-1-yuri.benditovich@daynix.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,57 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867601 <1867601@bugs.launchpad.net>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Save and restore RSS/hash report configuration.
 
-'make check-unit' might fail when running multiple tests in parallel.
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+---
+ hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Apparently occurred on OSX CI:
-https://travis-ci.org/github/philmd/qemu/jobs/662357430
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a0614ad4e6..f343762a0f 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+         }
+     }
+ 
++    if (n->rss_data.enabled) {
++        trace_virtio_net_rss_enable(n->rss_data.hash_types,
++                                    n->rss_data.indirections_len,
++                                    sizeof(n->rss_data.key));
++    } else {
++        trace_virtio_net_rss_disable();
++    }
+     return 0;
+ }
+ 
+@@ -3019,6 +3026,24 @@ static const VMStateDescription vmstate_virtio_net_has_vnet = {
+     },
+ };
+ 
++static const VMStateDescription vmstate_rss = {
++    .name      = "vmstate_rss",
++    .fields = (VMStateField[]) {
++        VMSTATE_BOOL(enabled, VirtioNetRssData),
++        VMSTATE_BOOL(redirect, VirtioNetRssData),
++        VMSTATE_BOOL(populate_hash, VirtioNetRssData),
++        VMSTATE_UINT32(hash_types, VirtioNetRssData),
++        VMSTATE_UINT32(indirections_len, VirtioNetRssData),
++        VMSTATE_UINT16(default_queue, VirtioNetRssData),
++        VMSTATE_UINT8_ARRAY(key, VirtioNetRssData,
++                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
++        VMSTATE_VARRAY_UINT32_ALLOC(indirections_table, VirtioNetRssData,
++                                    indirections_len, 0,
++                                    vmstate_info_uint16, uint16_t),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static const VMStateDescription vmstate_virtio_net_device = {
+     .name = "virtio-net-device",
+     .version_id = VIRTIO_NET_VM_VERSION,
+@@ -3067,6 +3092,7 @@ static const VMStateDescription vmstate_virtio_net_device = {
+                          vmstate_virtio_net_tx_waiting),
+         VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
+                             has_ctrl_guest_offloads),
++        VMSTATE_STRUCT(rss_data, VirtIONet, 1, vmstate_rss, VirtioNetRssData),
+         VMSTATE_END_OF_LIST()
+    },
+ };
+-- 
+2.17.1
 
-Guess is same unix path used:
-
-static SocketAddress unixaddr =3D {
-    .type =3D SOCKET_ADDRESS_TYPE_UNIX,
-    .u.q_unix.path =3D (char *)"test-char.sock",
-};
-
-Note, other tests in this file use g_dir_make_tmp().
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867601
-
-Title:
-  test-char not concurrent with unix socket
-
-Status in QEMU:
-  New
-
-Bug description:
-  'make check-unit' might fail when running multiple tests in parallel.
-
-  Apparently occurred on OSX CI:
-  https://travis-ci.org/github/philmd/qemu/jobs/662357430
-
-  Guess is same unix path used:
-
-  static SocketAddress unixaddr =3D {
-      .type =3D SOCKET_ADDRESS_TYPE_UNIX,
-      .u.q_unix.path =3D (char *)"test-char.sock",
-  };
-
-  Note, other tests in this file use g_dir_make_tmp().
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867601/+subscriptions
 
