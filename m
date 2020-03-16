@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DA7186944
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:39:49 +0100 (CET)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECAE18699B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:58:10 +0100 (CET)
+Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDn9v-0007K8-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
+	id 1jDnRg-0005TI-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDmmp-000086-8v
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:15:56 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDmvU-0003JD-DJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDmmk-0000o0-UD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:15:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28033
+ (envelope-from <pbonzini@redhat.com>) id 1jDmvS-0003dL-AA
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:24:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60978
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDmmk-0000cX-OQ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:15:50 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDmvS-0003Yf-3g
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:24:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584353749;
+ s=mimecast20190719; t=1584354289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qPkXttmnLVUhaeL0m996xgDsH8uTC2wGhHHWk9ZUFIQ=;
- b=jMA9Nn2ROQ8zESGugkQKj8xJs1FSB2Mo1r3zHZNvbNe5rR9E1wX7S6TdTBCvn3WrLVoBSF
- ft/FXd6hM+LNPdG5kY29PKBuTKOa+xc93PE1aZiTA1EvmbF9a3Sc9JL4O8Tnqz0/FEQ8Ao
- XscItq3hB+PiXtI9x8utDuSoaJ1XvEk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-r4eosaLVOkyce3anBLsdTQ-1; Mon, 16 Mar 2020 06:15:48 -0400
-X-MC-Unique: r4eosaLVOkyce3anBLsdTQ-1
-Received: by mail-wr1-f71.google.com with SMTP id b12so8858141wro.4
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:15:48 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zPfOgLH6MLMUFxcwuNkNOlujXUv7XTGrS1wuf6wGQGs=;
+ b=ZIYS3nQhPSyK5df8F2yzMNApESOEyU/5MXciqkCNN9lelC4NqMoNkSdFIvXUI+xp6pEWmH
+ LXNrkpqX7APn/AfpkT5WDE4GJDns43ctjo/Tv0RTvQwJ+0opb0IzGs9aeAHa2DobuwPLk8
+ 798qGIcF0ytyO6WGo69B9yaeWunFOL8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-xc2vUWP-N7WZegqPpjRgpA-1; Mon, 16 Mar 2020 06:24:48 -0400
+X-MC-Unique: xc2vUWP-N7WZegqPpjRgpA-1
+Received: by mail-wm1-f72.google.com with SMTP id z16so530404wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:24:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KU6QOX3JYccstszDRolan9OtS2SN+RYWmF0Jr4mTH0c=;
- b=rqyCk154o2RAXDipwtVASbna0NoXUzDiSHcFADuXfKDIN/7ESuD08GickDgYcofrKa
- nzd2sa5Ty+8CGHRmDDAquJNOLXsdcBy3notpwpOZI9s+zvKdmtZDVZBmjFWoi4lFfFAB
- e4woKjbpHm1giGVDg/r3xI5xbkl0sf+YBIr2UaqprCsne5gQpcp+kwMwBLePA/v3RvjL
- x37VpMpXsnuxev25hH2tuUIusYixfOLTkIMxY1/vyRa3r208xWa+D1GFZIOClBE0O53v
- E4dxVn8CYrSMvJL8edgrvmjFct2c8NwNR91fIuwnAmrReyoS0/GQysK2IxcZRhl617qK
- nd5A==
-X-Gm-Message-State: ANhLgQ2FtJZQAe3B5DhA3o/zF0Kgk+0lkSB2l5TgdUABb+M5TwHTm9XC
- QcWqDKgHSDGH2CihKEeqzQdAYMEUwbCriuQW8J6HaRekWkB5E9kKLyOxmoee9YCSeRmhXsVpiDT
- 3MdXiv9NWA1vSJys=
-X-Received: by 2002:a1c:5452:: with SMTP id p18mr27932528wmi.102.1584353746750; 
- Mon, 16 Mar 2020 03:15:46 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vseyqLF14ewgpWgobssO2QruJGQELvCQOLV9YAeodZ1HdIyd8LZwLia8rvjwazEVXQ42XaoMg==
-X-Received: by 2002:a1c:5452:: with SMTP id p18mr27932497wmi.102.1584353746507; 
- Mon, 16 Mar 2020 03:15:46 -0700 (PDT)
-Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id k3sm16738845wro.59.2020.03.16.03.15.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 03:15:45 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
-Date: Mon, 16 Mar 2020 11:15:44 +0100
-Message-Id: <20200316101544.22361-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
+ bh=zPfOgLH6MLMUFxcwuNkNOlujXUv7XTGrS1wuf6wGQGs=;
+ b=DBemMYu+02MDUb3Dh3CRi8V672iL/yKm1qSAMr2mZfJ/TxxwuUbQm3i5o8wLvv51pE
+ E/iFRwAv7PbryFz83e9CPhLebB7M4Eu1DN6q1PcsSl+yN4eEPu76Q9MO08trC4VFHJFt
+ ZpQdX6AnfZcWwF+PlR+KgCSdu6gXeM7mrf/GqJJxAk2hmv3FN3KMuGl7Zp06XLIJW42I
+ dncPYfZjUi8p4/hZfhhYzRrFaorQgc8TrApkp/bzwaj/dGbTSZ4abIldXOSxZURFHPUz
+ Y3Q69whUhG0oSEAssoh4O5HyOYpC8yg1w9Eju0UsCL9qvJyZHeH0Sw3gKS7mpilY7NZ1
+ tPEg==
+X-Gm-Message-State: ANhLgQ1sAm4gF2CY035wBLDVDwzNYQEXXlVvtU2AappvtWpBstjFsfNK
+ Z7TzKcjufqPDnUbPTM1WJH9PM5EdxGPahYhXpGIhEXlNPlBe9j30yB7yNmwPh0knjapSnmbBHby
+ E4IvjDbIkoGd36nY=
+X-Received: by 2002:adf:90cd:: with SMTP id i71mr34642634wri.63.1584354286638; 
+ Mon, 16 Mar 2020 03:24:46 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu6H7yaagdAx18dlx6lgzyKbUZ9B88bB12h2h7umAbmyZaSElILhDLtZ5okaNAA7TuYqq3COw==
+X-Received: by 2002:adf:90cd:: with SMTP id i71mr34642616wri.63.1584354286454; 
+ Mon, 16 Mar 2020 03:24:46 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.82.39])
+ by smtp.gmail.com with ESMTPSA id y69sm30473492wmd.46.2020.03.16.03.24.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 03:24:45 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Fix Cooperlake CPU model
+To: "Zhang, Cathy" <cathy.zhang@intel.com>, Xiaoyao Li
+ <xiaoyao.li@intel.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20191225063018.20038-1-xiaoyao.li@intel.com>
+ <93c9cc8c-09ec-d13f-f012-edf86fd945ab@redhat.com>
+ <759b848d-8261-5997-2e2b-531246bcdf92@intel.com>
+ <a972442e-2d29-674b-7ad6-2f056330ed84@redhat.com>
+ <d86b7681-8d99-523b-ebb5-d7d388ef4ca5@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4ef3f6f0-564b-c28e-a783-15af3ba4c927@redhat.com>
+Date: Mon, 16 Mar 2020 11:24:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <d86b7681-8d99-523b-ebb5-d7d388ef4ca5@intel.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,37 +96,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit f5852efa293 we can display GLib errors with the QEMU
-error reporting API. Set it to the 'error' level, as this helps
-understanding failures from QEMU calls to GLib on Travis-CI.
+On 16/03/20 11:19, Zhang, Cathy wrote:
+> Yes, I see they are already in master, but not in v4.2 yet, so will they
+> be in the next release v5.0?
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+Yes, that's what master will become.
 
-diff --git a/.travis.yml b/.travis.yml
-index b92798ac3b..ccf68aa9ab 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -79,6 +79,7 @@ env:
-     - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,mips64-softmmu,ppc64-softmmu=
-,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-     - CCACHE_SLOPPINESS=3D"include_file_ctime,include_file_mtime"
-     - CCACHE_MAXSIZE=3D1G
-+    - G_MESSAGES_DEBUG=3Derror
-=20
-=20
- git:
---=20
-2.21.1
+Paolo
 
 
