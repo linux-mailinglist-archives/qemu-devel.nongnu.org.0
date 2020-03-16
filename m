@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8061870B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:56:05 +0100 (CET)
-Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB0C1870B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:58:39 +0100 (CET)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt24-0003DT-UI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
+	id 1jDt4Y-0007ny-7b
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsGa-00048r-2O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsGp-0004Gm-RV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsGX-0007nz-T1
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:59 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22709)
+ (envelope-from <philmd@redhat.com>) id 1jDsGo-00012G-PZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46771)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGX-0007mA-Ok
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:57 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGo-0000y2-Kc
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374817;
+ s=mimecast20190719; t=1584374834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dGhG21x/brBabH+9g/T50LsdW2AZT9lQa/ZmuQmYRQ4=;
- b=AXqD2tugI4Tsn2zG9QneSgw7jcj09LZbkgwZARX9KXNzAbPg7yPm8HdroyKmeCJ4WGbTgP
- yNbfFrd9+4E215dnxu0DUB2DVdicBZQxbeFEj9BVv9kjflYGHUfL0DkX/285ZokZnv7kJJ
- j7DFc9JcFlmqNXBAxSuL5Jwu506bmzg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-o5XWOx81NjCCbkZtuNet4Q-1; Mon, 16 Mar 2020 12:06:55 -0400
-X-MC-Unique: o5XWOx81NjCCbkZtuNet4Q-1
-Received: by mail-wr1-f69.google.com with SMTP id c6so9182040wrm.18
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:06:55 -0700 (PDT)
+ bh=Yx+2IyWJnz1cKAJOo8cGVs9d/ga02LGh5bedgLQz1Rc=;
+ b=fCFe26G5ukrvsFodtoKddSJi0ijLxfDTdthG7C3jXHgasHc+jyhk8csgPb7lCoyA6yqt+h
+ wLjNmDx1/IzYD+j2pCVFOOfKv4TOt0DxIOtdmrUDIuV2rmgXb8iYcwXrqdx82S7Ukoq/BH
+ cIFqPiTbUIIFWq6khNefda0ihGx8Ddk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-imvQ3ASVMAKZBsYHPJjGrw-1; Mon, 16 Mar 2020 12:07:12 -0400
+X-MC-Unique: imvQ3ASVMAKZBsYHPJjGrw-1
+Received: by mail-wr1-f70.google.com with SMTP id p2so6715001wrw.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=va3NBmW9VPeLqbh+njzNv2dIJgLWDq461h5IT9vGT6A=;
- b=B4IXl4fK0V0DkW5jI/uUDJ2f3zd6K7LsKvMUyUgTaVzcech9axy4wcqlwYlFXA28mf
- 8JBsBUVx4YOzO+fcrP9sJS1PJsYQv/A/msif0IT+0+Hfx5p8ZvjT7enMiDEGwYKpdmSr
- wC/UyFBfaW8zAvGdR761W2COYWeauLpmvi973qRU5XfZMC2s49r+wfM2OaMmqDw/iFfD
- gXSxRctaFMaJlfjKEZnTwLHaTxJ1brHLNWlWO/3TKgj/6fy2LhIvSmv6KUVJ9+wuHKEt
- avXExhnREoq5/D+PUtXUEVsYmdmNRabh001WIYPY1m0jVBFWMHkQBo5WiQFmD34wg6U7
- qNTg==
-X-Gm-Message-State: ANhLgQ0ZCKCYnBXGsvHqI8PFSgwPGP6mqE9HC8h5lBtYjAjyrIZX1JDi
- Qh9+25BIIY4zcUbB7ZFeoq/oVLLPOdLmVZq9HKyCreWKLZx85LfJfYdxcFSwwItQB+lJcjwITAQ
- WZiSHclEP/FPKunY=
-X-Received: by 2002:adf:e28b:: with SMTP id v11mr59301wri.229.1584374813953;
- Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsw+1a9QL9jAQlQpFFxDwzh9qiZwTfMeMpXHBQWjLbwXCSV+9K1X0BxvHZoZJuaTV1SZQZCVA==
-X-Received: by 2002:adf:e28b:: with SMTP id v11mr59285wri.229.1584374813809;
- Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
+ bh=yxNTHu0Y9BXexKmUFsNlCCh8LSzlOCW9yO82fm58I4s=;
+ b=Gpn1fIzmNKu5EQPn2A2OR4KPACCU1fC+uV+n86BDoOzcyuFjR4UCxHnOxLxYThBQtC
+ TVxj4keYWLWFraCriz8nGSik/mlz2kxvg/1ZEahoIavpYwkuxP+oVR4rtIhaOK27JF4A
+ qm/SV85zAWL7n8UgX30jwkyGZG+CMwMICUpfYQrTXH0q56o6m9kSablV+fKRre2lUecS
+ qsb0WvSTJFnG7+3tLU9mHB+GErivLep61Svr8ETubMOFowaWVTcckB8nLbWIuWwuWQZx
+ pYCvu+UAAw0MfOrdFfe7Ayh6wsaJ7Uuli8YlQbTjCdKsVnCO/3BIGzUV1rOv7qT007ie
+ l5Gg==
+X-Gm-Message-State: ANhLgQ3eCyhV/xYFgrk6cuAsQJFYi8OlXaRpV+E5IqO2OF8aCOG+Zqq4
+ d/P85H2L9gHFgpTn2oFrvOzwxxXmrlt3poQJ/A44YmPEzzeUyID2HIL1qCRsLZaVjAhqa8ba3X6
+ /03oRtgQ15GR7xo4=
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr28456591wmk.172.1584374830945; 
+ Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vs7IJfPb/lnQB6VsT1fXs4khiy3iYFUFjrhDCacWI//Wr03P/OMBnlYg0XoQf+8TAXToOGQKQ==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr28456569wmk.172.1584374830787; 
+ Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id b12sm483914wro.66.2020.03.16.09.06.52
+ by smtp.gmail.com with ESMTPSA id p8sm552349wrw.19.2020.03.16.09.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
+ Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/19] target/arm: Restrict DC-CVAP instruction to TCG accel
-Date: Mon, 16 Mar 2020 17:06:18 +0100
-Message-Id: <20200316160634.3386-4-philmd@redhat.com>
+Subject: [PATCH v3 06/19] target/arm: Move Makefile variable restricted to
+ CONFIG_TCG
+Date: Mon, 16 Mar 2020 17:06:21 +0100
+Message-Id: <20200316160634.3386-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
 References: <20200316160634.3386-1-philmd@redhat.com>
@@ -96,62 +97,36 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Under KVM the 'Data or unified Cache line Clean by VA to PoP'
-instruction will trap.
+Simple code movement which simplifies next commits.
 
-Fixes: 0d57b4999 ("Add support for DC CVAP & DC CVADP ins")
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/arm/Makefile.objs | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b61ee73d18..924deffd65 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6777,7 +6777,7 @@ static const ARMCPRegInfo rndr_reginfo[] =3D {
-     REGINFO_SENTINEL
- };
+diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+index cf26c16f5f..0c6f8c248d 100644
+--- a/target/arm/Makefile.objs
++++ b/target/arm/Makefile.objs
+@@ -1,4 +1,3 @@
+-obj-$(CONFIG_TCG) +=3D arm-semi.o
+ obj-y +=3D helper.o vfp_helper.o
+ obj-y +=3D cpu.o gdbstub.o
+ obj-$(TARGET_AARCH64) +=3D cpu64.o gdbstub64.o
+@@ -56,6 +55,12 @@ target/arm/translate.o: target/arm/decode-a32-uncond.inc=
+.c
+ target/arm/translate.o: target/arm/decode-t32.inc.c
+ target/arm/translate.o: target/arm/decode-t16.inc.c
 =20
--#ifndef CONFIG_USER_ONLY
-+#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
- static void dccvap_writefn(CPUARMState *env, const ARMCPRegInfo *opaque,
-                           uint64_t value)
- {
-@@ -6820,9 +6820,9 @@ static const ARMCPRegInfo dcpodp_reg[] =3D {
-       .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn }=
-,
-     REGINFO_SENTINEL
- };
--#endif /*CONFIG_USER_ONLY*/
-+#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
-=20
--#endif
-+#endif /* TARGET_AARCH64 */
-=20
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo =
-*ri,
-                                      bool isread)
-@@ -7929,7 +7929,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-     if (cpu_isar_feature(aa64_rndr, cpu)) {
-         define_arm_cp_regs(cpu, rndr_reginfo);
-     }
--#ifndef CONFIG_USER_ONLY
-+#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
-     /* Data Cache clean instructions up to PoP */
-     if (cpu_isar_feature(aa64_dcpop, cpu)) {
-         define_one_arm_cp_reg(cpu, dcpop_reg);
-@@ -7938,8 +7938,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             define_one_arm_cp_reg(cpu, dcpodp_reg);
-         }
-     }
--#endif /*CONFIG_USER_ONLY*/
--#endif
-+#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
-+#endif /* TARGET_AARCH64 */
-=20
-     if (cpu_isar_feature(any_predinv, cpu)) {
-         define_arm_cp_regs(cpu, predinv_reginfo);
++ifeq ($(CONFIG_TCG),y)
++
++obj-y +=3D arm-semi.o
++
++endif # CONFIG_TCG
++
+ obj-y +=3D tlb_helper.o debug_helper.o
+ obj-y +=3D translate.o op_helper.o
+ obj-y +=3D crypto_helper.o
 --=20
 2.21.1
 
