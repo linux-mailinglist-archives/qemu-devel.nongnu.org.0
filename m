@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62E81871AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:56:55 +0100 (CET)
-Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F7418714A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:37:28 +0100 (CET)
+Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtyw-0004qB-TW
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58675)
+	id 1jDtg7-0001Y3-Fl
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jDtFz-00054R-Tg
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:10:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDtHQ-0000Ws-Gw
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:11:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jDtFy-0005dn-0K
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:10:27 -0400
-Received: from mga18.intel.com ([134.134.136.126]:50526)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jDtFx-0005JZ-Mb; Mon, 16 Mar 2020 13:10:25 -0400
-IronPort-SDR: hp3m2bFfjv92uWZF4q6prC3UUaGe2lv/Kp4YFv7tF8wAxdNKrEYJitI2UA4e09ijMIRqRcJkJk
- TKhk1/LyhgFQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2020 10:10:18 -0700
-IronPort-SDR: IzrfkbEgizgpCDO9UBbXRz7KNaYtNqhPX3Vo+bwzpNan0QSqz4eSAw2QVvpS1Z+1miiJDVTJmu
- N25jqJQx7KdQ==
-X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="417222311"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.251.138.8])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2020 10:10:17 -0700
-Subject: Re: [PATCH RESEND v2] block/nvme: introduce PMR support from NVMe 1.4
- spec
-To: Stefan Hajnoczi <stefanha@gmail.com>,
- Klaus Birkelund Jensen <its@irrelevant.dk>
-References: <20200306223853.37958-1-andrzej.jakowski@linux.intel.com>
- <20200310095147.GC140737@stefanha-x1.localdomain>
- <15b8a77d-50de-2228-a0e6-a461b82f1873@linux.intel.com>
- <CAJSP0QXatOWgicLo5sGt9KA2QupC2qXD2LCdHWKgHFdzgt9pEg@mail.gmail.com>
- <12576914-0ef4-efd2-355a-cff3f4eeae69@linux.intel.com>
- <20200312060827.gjddwgmevyptsmpl@apples.localdomain>
- <20200316113216.GB449975@stefanha-x1.localdomain>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <cf3833cc-fbd1-9930-fee1-ed9b26647f1c@linux.intel.com>
-Date: Mon, 16 Mar 2020 10:10:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jDtHP-0007JA-5r
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:11:56 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38705)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDtHO-0007Cc-W5
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:11:55 -0400
+Received: by mail-ot1-x341.google.com with SMTP id t28so15977959ott.5
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jGqYMRdq+LB8A/GFfRTKfqhbPMZ1y7l+2Nofeb6biR4=;
+ b=YgKbCK4v/DosAcCr/gjPFUczjd0OmJ6Veyb2qjAruXqGF0EJ02OTVJzlie+LQ4hVRz
+ PcDTuEcM9JGw0OH6X88OF/7/08IgrgIoBSyEqJNBcHGkedrd/XCo6ZfD/6DLSgv0LHLH
+ ExwvxF5F0Yh1n31FAGH8drqhnJ/ULGamjlBRsJF6KJc0WaKZoDhriC0e+sSNex2TqYi9
+ 5gDBQgPTFLTDkndw5EiVuHRmwH1LHd7W3E5PP+ChyixvqS1KtqN1r6j2Uq0JiycTup5i
+ TgpHYGMOxC0BB+bJl3IsVqsqtRjVLppyFw2N+w4y9Eb+2n0Ct75Q3H2bk+88FA87Sdh0
+ Wdog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jGqYMRdq+LB8A/GFfRTKfqhbPMZ1y7l+2Nofeb6biR4=;
+ b=dLSf+ifJOSMoFXQUWW93WFdg0qM378fQolj04Ww35jqC3uZVB7954zlPnQ2kPWYk21
+ JxhyKOodJ4UKESGZIdZcheWOmvsbr+KQWmopHy0g1Q92nGnnlEa2TYOvxE0+0KyRu57w
+ WFo4vDp/yAzBjfrQSiARENNq2NXl8L7tBRrmtyqW4sLvTM0qj/XgOcEGzigSqS3/in0d
+ aHTTws0n62Lx62XbWFKoyoBSycIzsAbU1TF9qI9yhj27Sto0C9Kf5RzzqpG3m1ak9bQv
+ KTv6qxIQB1wjOUI23F5j3GhmnTaB8azZ/sMZHcmjA2zNQAD/AHJiJDSN8tzeNX1+o8Fr
+ 1s0A==
+X-Gm-Message-State: ANhLgQ3QnjfOMdH8XF4HbfXD21SMjRmjk0uQHbxnloNB6LmYERlbWmY2
+ 2bBUXglao2jJjRtfEkzp4SgqBs6hCicWtbmqgMWGyg==
+X-Google-Smtp-Source: ADFU+vvoWGysq3r5lRnRM5NKLd1UWK0pjHyrPiNZU34PNJZFCmSxBRDw8Ugb5d9gZs9dpVzqX8nq0ix0va8GcoCMtHM=
+X-Received: by 2002:a9d:1d43:: with SMTP id m61mr213922otm.91.1584378713933;
+ Mon, 16 Mar 2020 10:11:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200316113216.GB449975@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.126
+References: <20200316160634.3386-1-philmd@redhat.com>
+ <20200316160634.3386-19-philmd@redhat.com>
+In-Reply-To: <20200316160634.3386-19-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 17:11:42 +0000
+Message-ID: <CAFEAcA_bXb_RZFxMSYJ8FAoAahAxrq3c0PBzidu+Z0iXTzZqFw@mail.gmail.com>
+Subject: Re: [PATCH v3 18/19] hw/arm: Do not build to 'virt' machine on Xen
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,86 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Haozhong Zhang <haozhong.zhang@intel.com>,
- qemu block <qemu-block@nongnu.org>, Dave Gilbert <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Zhang Yi <yi.z.zhang@linux.intel.com>, "He,
- Junyan" <junyan.he@intel.com>, kbusch@kernel.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, kvm-devel <kvm@vger.kernel.org>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 4:32 AM, Stefan Hajnoczi wrote:
-> On Wed, Mar 11, 2020 at 11:08:27PM -0700, Klaus Birkelund Jensen wrote:
->> On Mar 11 15:54, Andrzej Jakowski wrote:
->>> On 3/11/20 2:20 AM, Stefan Hajnoczi wrote:
->>>> Please try:
->>>>
->>>>   $ git grep pmem
->>>>
->>>> backends/hostmem-file.c is the backend that can be used and the
->>>> pmem_persist() API can be used to flush writes.
->>> I've reworked this patch into hostmem-file type of backend.
->>> From simple tests in virtual machine: writing to PMR region
->>> and then reading from it after VM power cycle I have observed that
->>> there is no persistency.
-> Sounds like an integration bug.  QEMU's NVDIMM emulation uses
-> HostMemoryBackend and file contents survive guest reboot.
-> 
-> If you would like help debugging this, please post a link to the code
-> and the command-line that you are using.
-> 
+On Mon, 16 Mar 2020 at 16:08, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Xen on ARM does not use QEMU machines [*]. Disable the 'virt'
+> machine there to avoid odd errors such:
+>
+>     CC      i386-softmmu/hw/cpu/a15mpcore.o
+>   hw/cpu/a15mpcore.c:28:10: fatal error: kvm_arm.h: No such file or direc=
+tory
+>
+> [*] https://wiki.xenproject.org/wiki/Xen_ARM_with_Virtualization_Extensio=
+ns#Use_of_qemu-system-i386_on_ARM
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: xen-devel@lists.xenproject.org
+> ---
+>  hw/arm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 8e801cd15f..69a8e30125 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -1,5 +1,6 @@
+>  config ARM_VIRT
+>      bool
+> +    depends on !XEN
+>      default y if KVM
+>      imply PCI_DEVICES
+>      imply TEST_DEVICES
+> --
 
-Code is posted here
-https://github.com/AndrzejJakowski/qemu/commit/3a7762a1d13ff1543d1da430748eb24e38faab6f
+This seems odd to me:
+(1) the error message you quote is for a15mpcore.c, not virt.c
+(2) shouldn't this be prevented by something saying "don't build
+guest architecture X boards into Y-softmmu", rather than a specific
+flag for a specific arm board ?
 
-QEMU command line:
-
-# below are just relevant pieces of configuration, other stuff omitted
-# tried different setting (e.g. pmem=on and pmem=off)
-
-./x86_64-softmmu/qemu-system-x86_64 ... \
--object memory-backend-file,id=mem1,share=off,pmem=on,mem-path=../nvme_pmr.bin,size=$((1*1024*1024)) \
--drive file=../nvme.bin,format=raw,if=none,id=nvme_emulated \
--device nvme,drive=nvme_emulated,serial="test serial",pmrdev=mem1 
-
-In VM:
-My persisent memory region is exposed PCI BAR
-Region 2: Memory at fe000000 (64-bit, prefetchable) [size=1M]
-
-So I perform reads/writes from/to following adress 0xfe000000 (decimal 4261412864)
-
-dd if=test.bin of=/dev/mem bs=1 count=30 seek=4261412864
-dd if=/dev/mem of=test1.bin bs=1 count=30 skip=4261412864
-
-On VMM I didn't observe that backing file has been updated and after power cycling VM 
-I see old junk when reading PMR region.
-
-Also from include/qemu/pmem.h it looks like pmem_persist() will cause qemu to exit 
-if libpmem is not installed:
-
-#ifndef QEMU_PMEM_H
-#define QEMU_PMEM_H
-
-#ifdef CONFIG_LIBPMEM
-#include <libpmem.h>
-#else  /* !CONFIG_LIBPMEM */
-
-static inline void *
-pmem_memcpy_persist(void *pmemdest, const void *src, size_t len)
-{
-    /* If 'pmem' option is 'on', we should always have libpmem support,
-       or qemu will report a error and exit, never come here. */
-    g_assert_not_reached();
-    return NULL;
-}
-
-static inline void
-pmem_persist(const void *addr, size_t len)
-{
-    g_assert_not_reached();
-}
-
-#endif /* CONFIG_LIBPMEM */
-
-#endif /* QEMU_PMEM_H */ 
+thanks
+-- PMM
 
