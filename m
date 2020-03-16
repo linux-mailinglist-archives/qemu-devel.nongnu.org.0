@@ -2,86 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046F81865F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 08:53:22 +0100 (CET)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99392186605
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:03:19 +0100 (CET)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDkYq-0006Cg-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 03:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55852)
+	id 1jDkiU-0001EX-3w
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDkR7-0004XI-5A
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 03:45:23 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDkRF-0004bM-W2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 03:45:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDkR5-0007sv-9D
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 03:45:20 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36346
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <its@irrelevant.dk>) id 1jDkRD-000132-Pm
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 03:45:29 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47670)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDkR5-0007cD-2G
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 03:45:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584344718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+z3MlsYNvktNwDTOan27MSMSj5NZcllFVjbXeVXmzBc=;
- b=Y7Zh9Xrywbip/hbA1StsJXfEjQXxLiIle+7SbvEkrdpUjomt1HANU8MeKUjMUki1RUJzQ4
- 4YWLwrtOcgvT4yhhZ/1Lg2TcQ8OggqVVHsMUJPBlzd9gfRW9+XkDi3H2V7QeHiVRx5/ZD8
- Yg0oLIweWX7f8yql0pnZdKLhMshgOmk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-zxdQaktVOk21uYm361p9ig-1; Mon, 16 Mar 2020 03:45:14 -0400
-X-MC-Unique: zxdQaktVOk21uYm361p9ig-1
-Received: by mail-ed1-f71.google.com with SMTP id f13so14315698edy.21
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 00:45:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v/kyZRR4IuHrdwz59Q2K72I7e6kkprFrmYD4ffbw0ds=;
- b=YRR9F6GrXCpcQuVS86N7uW8llaUiIAyW7bNzZreyeWc3pd486Yx3dPEcqbjD3ZASCu
- 8RxepDQUCwTitb/ibeoJCzJMvUTF8BG7cYaHjUb9yZif1NdxrZsmwH0MR0vVbi9rYu30
- O+qHtaC1/yhH/8ggmuYJEBq3mcntuklXeVlWYVey7SKEQZQIy/XXxN9+7YNAoxVdCwNs
- k9JxM9ESN8kscHIujlT69KsmKk5UTMbdZ+XOD6IJnoSxxgu0ediymxzBiy+8W9CQVRrn
- Ub6S/+ttCXxYgafPELGIjyZGKJgAoANOmg/MSfOFG11/4G13KwoQMP33DvHhsqUYEygf
- NsOA==
-X-Gm-Message-State: ANhLgQ1hY5C8bCgS73ZACYxKjm4OuXo4Slr5PxSOJM+HAJOWEsjrUyx+
- Zmpp3xsFDLs9NM35kaEpiQwN1LiXQ2dr4XrRbUjOkRUHjrFtHC/UtqJcJRS5IbmOgqvvkKvjy0e
- 7ihrtYxAiI5fApaI=
-X-Received: by 2002:a17:906:d046:: with SMTP id
- bo6mr1768648ejb.169.1584344713484; 
- Mon, 16 Mar 2020 00:45:13 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtWVX3TzY/PCamu8sFcH2Ruk/9fT2FOP9IWM7DWYLzejh3GylI9+VlJudEepV33SheoTC06pg==
-X-Received: by 2002:a17:906:d046:: with SMTP id
- bo6mr1768622ejb.169.1584344713076; 
- Mon, 16 Mar 2020 00:45:13 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id g5sm4366459edn.9.2020.03.16.00.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 00:45:12 -0700 (PDT)
-Subject: Re: [PATCH v2 00/12] user-mode: Prune build dependencies (part 1)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20200315235716.28448-1-philmd@redhat.com>
- <CAL1e-=jBg6OVe+Qgg5SOoJ+S4x70vQF_rttE2_VTddhR4O5n0w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d73a1e52-06d4-e57e-43b9-30c5c03d71d0@redhat.com>
-Date: Mon, 16 Mar 2020 08:45:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1jDkR8-0008MA-Fo; Mon, 16 Mar 2020 03:45:22 -0400
+Received: from apples.localdomain (80-62-117-52-mobile.dk.customer.tdc.net
+ [80.62.117.52])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 2EA6CBF5E1;
+ Mon, 16 Mar 2020 07:45:21 +0000 (UTC)
+Date: Mon, 16 Mar 2020 00:45:17 -0700
+From: Klaus Birkelund Jensen <its@irrelevant.dk>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v5 10/26] nvme: add support for the get log page command
+Message-ID: <20200316074517.wvbz2psaienlx3iq@apples.localdomain>
+References: <20200204095208.269131-1-k.jensen@samsung.com>
+ <CGME20200204095221eucas1p216ca2452c4184eb06bff85cff3c6a82b@eucas1p2.samsung.com>
+ <20200204095208.269131-11-k.jensen@samsung.com>
+ <58d27132d98667f1e177505c3f87795c953051a7.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jBg6OVe+Qgg5SOoJ+S4x70vQF_rttE2_VTddhR4O5n0w@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <58d27132d98667f1e177505c3f87795c953051a7.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,113 +51,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 1:16 AM, Aleksandar Markovic wrote:
->=20
->=20
-> On Monday, March 16, 2020, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-=20
-> <mailto:philmd@redhat.com>> wrote:
->=20
->     This is the first part of a series reducing user-mode
->     dependencies. By stripping out unused code, the build
->     and testing time is reduced (as is space used by objects).
->=20
->     Part 1:
->     - reduce user-mode object list
->     - remove some migration code from user-mode
->     - remove cpu_get_crash_info()
->=20
->=20
-> What is the purpose of dividing into parts? What is the content of other=
-=20
-> parts, and when do you plan to submit those? A series is usually a=20
-> stand-alone and a complete logical unit - why did you decide to submit=20
-> "parts" separately (just curious)?
+On Feb 12 11:35, Maxim Levitsky wrote:
+> On Tue, 2020-02-04 at 10:51 +0100, Klaus Jensen wrote:
+> > Add support for the Get Log Page command and basic implementations of
+> > the mandatory Error Information, SMART / Health Information and Firmware
+> > Slot Information log pages.
+> > 
+> > In violation of the specification, the SMART / Health Information log
+> > page does not persist information over the lifetime of the controller
+> > because the device has no place to store such persistent state.
+> Yea, not the end of the world.
+> > 
+> > Note that the LPA field in the Identify Controller data structure
+> > intentionally has bit 0 cleared because there is no namespace specific
+> > information in the SMART / Health information log page.
+> Makes sense.
+> > 
+> > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> > Section 5.10 ("Get Log Page command").
+> > 
+> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> > ---
+> >  hw/block/nvme.c       | 122 +++++++++++++++++++++++++++++++++++++++++-
+> >  hw/block/nvme.h       |  10 ++++
+> >  hw/block/trace-events |   2 +
+> >  include/block/nvme.h  |   2 +-
+> >  4 files changed, 134 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index f72348344832..468c36918042 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -569,6 +569,123 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeCmd *cmd)
+> >      return NVME_SUCCESS;
+> >  }
+> >  
+> > +static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> > +    uint64_t off, NvmeRequest *req)
+> > +{
+> > +    uint64_t prp1 = le64_to_cpu(cmd->prp1);
+> > +    uint64_t prp2 = le64_to_cpu(cmd->prp2);
+> > +    uint32_t nsid = le32_to_cpu(cmd->nsid);
+> > +
+> > +    uint32_t trans_len;
+> > +    time_t current_ms;
+> > +    uint64_t units_read = 0, units_written = 0, read_commands = 0,
+> > +        write_commands = 0;
+> > +    NvmeSmartLog smart;
+> > +    BlockAcctStats *s;
+> > +
+> > +    if (nsid && nsid != 0xffffffff) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    s = blk_get_stats(n->conf.blk);
+> > +
+> > +    units_read = s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+> > +    units_written = s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
+> > +    read_commands = s->nr_ops[BLOCK_ACCT_READ];
+> > +    write_commands = s->nr_ops[BLOCK_ACCT_WRITE];
+> > +
+> > +    if (off > sizeof(smart)) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    trans_len = MIN(sizeof(smart) - off, buf_len);
+> > +
+> > +    memset(&smart, 0x0, sizeof(smart));
+> > +
+> > +    smart.data_units_read[0] = cpu_to_le64(units_read / 1000);
+> > +    smart.data_units_written[0] = cpu_to_le64(units_written / 1000);
+> > +    smart.host_read_commands[0] = cpu_to_le64(read_commands);
+> > +    smart.host_write_commands[0] = cpu_to_le64(write_commands);
+> > +
+> > +    smart.temperature[0] = n->temperature & 0xff;
+> > +    smart.temperature[1] = (n->temperature >> 8) & 0xff;
+> > +
+> > +    if ((n->temperature > n->features.temp_thresh_hi) ||
+> > +        (n->temperature < n->features.temp_thresh_low)) {
+> > +        smart.critical_warning |= NVME_SMART_TEMPERATURE;
+> > +    }
+> > +
+> > +    current_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+> > +    smart.power_on_hours[0] = cpu_to_le64(
+> > +        (((current_ms - n->starttime_ms) / 1000) / 60) / 60);
+> > +
+> > +    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
+> > +        prp2);
+> > +}
+> Looks OK.
+> > +
+> > +static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> > +    uint64_t off, NvmeRequest *req)
+> > +{
+> > +    uint32_t trans_len;
+> > +    uint64_t prp1 = le64_to_cpu(cmd->prp1);
+> > +    uint64_t prp2 = le64_to_cpu(cmd->prp2);
+> > +    NvmeFwSlotInfoLog fw_log;
+> > +
+> > +    if (off > sizeof(fw_log)) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    memset(&fw_log, 0, sizeof(NvmeFwSlotInfoLog));
+> > +
+> > +    trans_len = MIN(sizeof(fw_log) - off, buf_len);
+> > +
+> > +    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1,
+> > +        prp2);
+> > +}
+> Looks OK
+> > +
+> > +static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> > +{
+> > +    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+> > +    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+> > +    uint32_t dw12 = le32_to_cpu(cmd->cdw12);
+> > +    uint32_t dw13 = le32_to_cpu(cmd->cdw13);
+> > +    uint8_t  lid = dw10 & 0xff;
+> > +    uint8_t  rae = (dw10 >> 15) & 0x1;
+> > +    uint32_t numdl, numdu;
+> > +    uint64_t off, lpol, lpou;
+> > +    size_t   len;
+> > +
+> > +    numdl = (dw10 >> 16);
+> > +    numdu = (dw11 & 0xffff);
+> > +    lpol = dw12;
+> > +    lpou = dw13;
+> > +
+> > +    len = (((numdu << 16) | numdl) + 1) << 2;
+> > +    off = (lpou << 32ULL) | lpol;
+> > +
+> > +    if (off & 0x3) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> 
+> Good. 
+> Note that there are plenty of other places in the driver that don't honor
+> such tiny formal bits of the spec, like for instance checking for the reserved
+> bits in commands.
 
-Big series are hard to digest and scare reviewers. Peter told me twice=20
-his rule of thumb is to split a series if it gets bigger than 20 patches=20
-(and a patch if it modify more than 200 lines). He also recently said he=20
-skipped review of a ~32 patches series of mine which was too big. I=20
-don't want other reviewers to do that neither, so I try to split <=3D20.
+Yeah. I know. You think its fair we leave that for subsequent patches?
+It's not like its breaking the device, but compliance is not complete.
 
-Each series could be applied apart, except the last patch from the 3rd=20
-part (qapi: Restrict code generated for user-mode) which is the one=20
-really cutting down user-mode code by avoiding pulling in system-mode=20
-symbols.
+> > +
+> > +    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
+> > +
+> > +    switch (lid) {
+> > +    case NVME_LOG_ERROR_INFO:
+> > +        if (off) {
+> > +            return NVME_INVALID_FIELD | NVME_DNR;
+> > +        }
+> 
+> I think you might want to memset the user given buffer to zero:
+> 
+> "This is a 64-bit incrementing error count, indicating a unique identifier for this error.
+> The error count starts at 1h, is incremented for each unique error log entry, and is retained across
+> power off conditions. A value of 0h indicates an invalid entry; this value is used when there are
+> lost entries or when there are fewer errors than the maximum number of entries the controller
+> supports."
 
-First part is generic, second part is QAPI-related, and third part=20
-concerns hw/core/qdev-properties.c. Each part is covered by different=20
-maintainers.
+Good catch. Fixed!
 
->=20
-> Does this series affect executables' size, or cut build times only?
+> > +
+> > +        return NVME_SUCCESS;
+> > +    case NVME_LOG_SMART_INFO:
+> > +        return nvme_smart_info(n, cmd, len, off, req);
+> > +    case NVME_LOG_FW_SLOT_INFO:
+> > +        return nvme_fw_log_info(n, cmd, len, off, req);
+> > +    default:
+> > +        trace_nvme_dev_err_invalid_log_page(nvme_cid(req), lid);
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +}
+> 
+> 
+> > +
+> >  static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+> >  {
+> >      n->cq[cq->cqid] = NULL;
+> > @@ -914,6 +1031,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> >          return nvme_del_sq(n, cmd);
+> >      case NVME_ADM_CMD_CREATE_SQ:
+> >          return nvme_create_sq(n, cmd);
+> > +    case NVME_ADM_CMD_GET_LOG_PAGE:
+> > +        return nvme_get_log(n, cmd, req);
+> >      case NVME_ADM_CMD_DELETE_CQ:
+> >          return nvme_del_cq(n, cmd);
+> >      case NVME_ADM_CMD_CREATE_CQ:
+> > @@ -1411,6 +1530,7 @@ static void nvme_init_state(NvmeCtrl *n)
+> >  
+> >      n->temperature = NVME_TEMPERATURE;
+> >      n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
+> > +    n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+> >  }
+> >  
+> >  static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+> > @@ -1491,7 +1611,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+> >       */
+> >      id->acl = 3;
+> >      id->frmw = 7 << 1;
+> > -    id->lpa = 1 << 0;
+> > +    id->lpa = 1 << 2;
+> >  
+> >      /* recommended default value (~70 C) */
+> >      id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> > index 1518f32557a3..89b0aafa02a2 100644
+> > --- a/hw/block/nvme.h
+> > +++ b/hw/block/nvme.h
+> > @@ -109,6 +109,7 @@ typedef struct NvmeCtrl {
+> >      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+> >      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+> >      uint16_t    temperature;
+> > +    uint64_t    starttime_ms;
+> >  
+> >      NvmeNamespace   *namespaces;
+> >      NvmeSQueue      **sq;
+> > @@ -124,4 +125,13 @@ static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+> >      return n->ns_size >> nvme_ns_lbads(ns);
+> >  }
+> >  
+> > +static inline uint16_t nvme_cid(NvmeRequest *req)
+> > +{
+> > +    if (req) {
+> > +        return le16_to_cpu(req->cqe.cid);
+> > +    }
+> > +
+> > +    return 0xffff;
+> > +}
+> 
+> I see that you added command ID reporting to trace events you added,
+> which makes sense.
+> I think it would be nice later to add it to existing trace events where it makes sense.
+> 
 
-Both. It will saves us CI testing time, save time to distributions=20
-packaging linux-user-only builds, produce smaller binaries.
+Exactly. I'm doing that as I encounter it and it makes sense to have it
+in the patch.
 
->=20
-> Thanks,
-> Aleksandar
->=20
->     Since v1:
->     - Addressed Laurent/Richard review comments
->     - Removed 'exec: Drop redundant #ifdeffery'
->     - Removed 'target: Restrict write_elfXX_note() handlers to system-mod=
-e'
->=20
->     v1:
->     https://www.mail-archive.com/qemu-devel@nongnu.org/msg688456.html
->     <https://www.mail-archive.com/qemu-devel@nongnu.org/msg688456.html>
->=20
->     Philippe Mathieu-Daud=C3=A9 (12):
->      =C2=A0 Makefile: Only build virtiofsd if system-mode is enabled
->      =C2=A0 configure: Avoid building TCG when not needed
->      =C2=A0 tests/Makefile: Only display TCG-related tests when TCG is av=
-ailable
->      =C2=A0 tests/Makefile: Restrict some softmmu-only tests
->      =C2=A0 util/Makefile: Reduce the user-mode object list
->      =C2=A0 stubs/Makefile: Reduce the user-mode object list
->      =C2=A0 target/riscv/cpu: Restrict CPU migration to system-mode
->      =C2=A0 exec: Assert CPU migration is not used on user-only build
->      =C2=A0 arch_init: Remove unused 'qapi-commands-misc.h' include
->      =C2=A0 target/i386: Restrict CpuClass::get_crash_info() to system-mo=
-de
->      =C2=A0 target/s390x: Restrict CpuClass::get_crash_info() to system-m=
-ode
->      =C2=A0 hw/core: Restrict CpuClass::get_crash_info() to system-mode
->=20
->      =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 4 +++
->      =C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 2 +-
->      =C2=A0include/hw/core/cpu.h=C2=A0 |=C2=A0 7 ++++-
->      =C2=A0arch_init.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1=
- -
->      =C2=A0exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 4 ++-
->      =C2=A0hw/core/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++
->      =C2=A0target/i386/cpu.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 ++++-
->      =C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++--
->      =C2=A0target/s390x/cpu.c=C2=A0 =C2=A0 =C2=A0| 12 ++++-----
->      =C2=A0stubs/Makefile.objs=C2=A0 =C2=A0 | 52 +++++++++++++++++++++---=
--------------
->      =C2=A0tests/Makefile.include | 18 +++++++------
->      =C2=A0util/Makefile.objs=C2=A0 =C2=A0 =C2=A0| 59 +++++++++++++++++++=
-++++++++---------------
->      =C2=A012 files changed, 108 insertions(+), 65 deletions(-)
->=20
->     --=20
->     2.21.1
->=20
->=20
-
+> 
+> > +
+> >  #endif /* HW_NVME_H */
+> > diff --git a/hw/block/trace-events b/hw/block/trace-events
+> > index ade506ea2bb2..7da088479f39 100644
+> > --- a/hw/block/trace-events
+> > +++ b/hw/block/trace-events
+> > @@ -46,6 +46,7 @@ nvme_dev_getfeat_numq(int result) "get feature number of queues, result=%d"
+> >  nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+> >  nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp = 0x%"PRIx64""
+> >  nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp = 0x%"PRIx64""
+> > +nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+> >  nvme_dev_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+> >  nvme_dev_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+> >  nvme_dev_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+> > @@ -85,6 +86,7 @@ nvme_dev_err_invalid_create_cq_qflags(uint16_t qflags) "failed creating completi
+> >  nvme_dev_err_invalid_identify_cns(uint16_t cns) "identify, invalid cns=0x%"PRIx16""
+> >  nvme_dev_err_invalid_getfeat(int dw10) "invalid get features, dw10=0x%"PRIx32""
+> >  nvme_dev_err_invalid_setfeat(uint32_t dw10) "invalid set features, dw10=0x%"PRIx32""
+> > +nvme_dev_err_invalid_log_page(uint16_t cid, uint16_t lid) "cid %"PRIu16" lid 0x%"PRIx16""
+> >  nvme_dev_err_startfail_cq(void) "nvme_start_ctrl failed because there are non-admin completion queues"
+> >  nvme_dev_err_startfail_sq(void) "nvme_start_ctrl failed because there are non-admin submission queues"
+> >  nvme_dev_err_startfail_nbarasq(void) "nvme_start_ctrl failed because the admin submission queue address is null"
+> > diff --git a/include/block/nvme.h b/include/block/nvme.h
+> > index ff31cb32117c..9a6055adeb61 100644
+> > --- a/include/block/nvme.h
+> > +++ b/include/block/nvme.h
+> > @@ -515,7 +515,7 @@ enum NvmeSmartWarn {
+> >      NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
+> >  };
+> >  
+> > -enum LogIdentifier {
+> > +enum NvmeLogIdentifier {
+> >      NVME_LOG_ERROR_INFO     = 0x01,
+> >      NVME_LOG_SMART_INFO     = 0x02,
+> >      NVME_LOG_FW_SLOT_INFO   = 0x03,
+> 
+> Best regards,
+> 	Maxim Levitsky
+> 
 
