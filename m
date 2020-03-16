@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB0E1872C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:54:01 +0100 (CET)
-Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C47A1872AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:46:26 +0100 (CET)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDusC-0004xi-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40246)
+	id 1jDukr-00071Z-H8
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtmS-0006YN-Qa
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:44:04 -0400
+ (envelope-from <jandryuk@gmail.com>) id 1jDtp9-0002uZ-Qm
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtmQ-00030F-Id
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:44:00 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35635)
+ (envelope-from <jandryuk@gmail.com>) id 1jDtp8-0001sk-JT
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:47 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:44798)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtmQ-0002xZ-B5
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:43:58 -0400
-Received: by mail-wm1-x341.google.com with SMTP id m3so19061924wmi.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:43:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jDtp8-0001nG-C4
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:46:46 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id w5so9314087qvp.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gnrEwKmph2O8Xa5Sk8h8RucKLWSdRoTBZXZXHqiZGYA=;
- b=a7bLA4Htaul4fAExMJB2CEOA8v6TZEHMiFIlRmL6LrTg5uPuaBVx0Ow45CnqRRRVuw
- pjv0U5SuXmDXCYNj48jCt5PpiR1s8pPgcGz/5Qi0Lz2JVSLA0VVw++QX31ZGs0OPYEnu
- wlucVjDUHM2AiY+ZfxGGV59roudongLKzhmGaiP3FgyQfVy1XAg6NbsEXem3KdCXk0Bf
- 3P8AlExkjR35XvvHB1BMKZSo1ffd0Zi2fVw/cwtTlRCwAmDKMPlLlTbxat2JOnh2QKTT
- 3aJvuoGoRQGa9YSFyfY948bX3ctv/2jwzGVqnQNT3Ol+Ku11G3haBVmbEByAIldugfGG
- I/qA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6huCwRcLnrRmQGGZQ5LTMmE1f5Gb39vHnRRdbzeE9oQ=;
+ b=riJ5KKx/n6cd1x54GENcAF7aQNNiVgjydeEQZNAHeFiosmD7yakWh9dJeuKVXRpZ2c
+ kbjUBlZbUunPMs4xgs63cWG9Ua3Fc9i2wE2LvNhG+hZ4RgNOtnDRMb/JxpPHYY9/IdQX
+ lk02+ZNEr1CJ3u7Mo7di+Y/3U1ww8KUp2YIgmFZqUy3gE2u907olHLJrmK8ikqhM1h9F
+ D9+TCV3f/29h2BqKxyLKyEXhfC2U9WrBqjMHKISe5yvMKZN6DzpjvDULJlI43Bx9En5h
+ YQYGPYnKmCn9VuiwXYyXjDgSUM3X5k442vHYu753gMdzmVjsPLRciGJP+X740TFROs0W
+ Zo7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gnrEwKmph2O8Xa5Sk8h8RucKLWSdRoTBZXZXHqiZGYA=;
- b=t/fG0yvxU0Y/sHEDOV5eiL/4qGfZigkfMtn05jq621v8LJty4Pecfp6SjRsOQxspk9
- dDGLqK+A3IgEBmNBXbziwyrUd2+m/zebXakeiMEAM0jdLBP+UO+AbQrhnN+DcgHdb1eS
- tS6Rq0NTFr7Fr/st7T7uX57RwX3iJAr1JNlYzUtMzRAlFcQ5LQ+xpeppvrkvSp1LtmID
- koZoLigPUPadfEWQehFNK4KqhfoMlOar5V2P8HfT1U/oQLWMmvaw45i3H9oziXs8R8T+
- WwLhcqjSTQlemXzmWSFj/g5rGxn1NzdhSzNsE90U04BxbUqGGor/x+r87Qg//IniPKFF
- 7upA==
-X-Gm-Message-State: ANhLgQ21J+kcpQXZ+uWLysup5Pi9V2gppQ+Q1m1KHWcoBCU4QFUO8PYP
- VRt2bR4BzLru+i6FKBRDgXRhzk3/jo6jd23Nm7Y=
-X-Google-Smtp-Source: ADFU+vvOieXnM/bejz5Lw7QnKYvaoW053C+5U3a/Wfv1ixLZeFbK3yhHJFVbZIX4B4/XDpNuKGdnzcYrZur/FydlfQo=
-X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr283121wma.26.1584380636925;
- Mon, 16 Mar 2020 10:43:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6huCwRcLnrRmQGGZQ5LTMmE1f5Gb39vHnRRdbzeE9oQ=;
+ b=umL4Hu9pAH+kYliwgS5EhMZvqF/M0guKYMjgzolPeiYqqS69yp0Jdj7QdcUvesAdH8
+ Il5frmylHquzt3R7d0XfSfOsgI0cyPQgnLWFbS7HSGrgblzdPOg7cvU5NAdCsd/aVJG6
+ 3h1a7+r7mQvnDFwFTtySTqC0bAOIIPBU+AKscCAp8753wm8UT49ZtDK1MEkANp5wgs0s
+ NuvW2miuHJQbDeTlngf2BSHwbYofOJ8zGjtA3iS2M2990T9HzXK4BgXilzfMQvMnIRhz
+ KVJoTi9D1uJrwCG/oSXMXVpLX6NKPrj69xmMAQ5mjRyCZR0jFh8VaFuJm4oSLucDm/4Z
+ 9Pbg==
+X-Gm-Message-State: ANhLgQ2DDbs34PU5vFu1Q0yrc52GmM5AavkaZiDj2rUyJFKUThUS4zGD
+ 4NsFGY5eZo/eP3INjzgE140=
+X-Google-Smtp-Source: ADFU+vtN9nk2QWpxiagC7U9vH719Qyp0iS5F2Zllla44w+9M/Geou7UIRG5cALvADIyg2kykZdUW3A==
+X-Received: by 2002:ad4:45e9:: with SMTP id q9mr910584qvu.199.1584380805774;
+ Mon, 16 Mar 2020 10:46:45 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:7408:9006:8741:9ceb])
+ by smtp.gmail.com with ESMTPSA id
+ g7sm218422qki.64.2020.03.16.10.46.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 10:46:45 -0700 (PDT)
+From: Jason Andryuk <jandryuk@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Subject: [PATCH v2 1/4] usb-serial: Move USB_TOKEN_IN into a helper function
+Date: Mon, 16 Mar 2020 13:46:07 -0400
+Message-Id: <20200316174610.115820-2-jandryuk@gmail.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200316174610.115820-1-jandryuk@gmail.com>
+References: <20200316174610.115820-1-jandryuk@gmail.com>
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-28-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-28-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:43:45 +0100
-Message-ID: <CAJ+F1CJa_LKpnadL80ah4r+RGztKCKbQ7Hs=3AusM4adJOi_8g@mail.gmail.com>
-Subject: Re: [PATCH v3 27/34] qemu-options: New -compat to set policy for
- deprecated interfaces
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,279 +78,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+We'll be adding a loop, so move the code into a helper function.  breaks
+are replaced with returns.  While making this change, add braces to
+single line if statements to comply with coding style and keep
+checkpatch happy.
 
-On Sun, Mar 15, 2020 at 4:46 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Policy is separate for input and output.
->
-> Input policy can be "accept" (accept silently), or "reject" (reject
-> the request with an error).
->
-> Output policy can be "accept" (pass on unchanged), or "hide" (filter
-> out the deprecated parts).
->
-> Default is "accept".  Policies other than "accept" are implemented
-> later in this series.
->
-> For now, -compat covers only syntactic aspects of QMP, i.e. stuff
-> tagged with feature 'deprecated'.  We may want to extend it to cover
-> semantic aspects, CLI, and experimental features.
->
-> The option is experimental.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/compat.json             | 51 ++++++++++++++++++++++++++++++++++++
->  qapi/qapi-schema.json        |  1 +
->  include/qapi/compat-policy.h | 20 ++++++++++++++
->  qapi/qmp-dispatch.c          |  3 +++
->  softmmu/vl.c                 | 17 ++++++++++++
->  qapi/Makefile.objs           |  8 +++---
->  qemu-options.hx              | 20 ++++++++++++++
->  7 files changed, 116 insertions(+), 4 deletions(-)
->  create mode 100644 qapi/compat.json
->  create mode 100644 include/qapi/compat-policy.h
->
-> diff --git a/qapi/compat.json b/qapi/compat.json
-> new file mode 100644
-> index 0000000000..fd6f8e932c
-> --- /dev/null
-> +++ b/qapi/compat.json
-> @@ -0,0 +1,51 @@
-> +# -*- Mode: Python -*-
-> +
-> +##
-> +# =3D Compatibility policy
-> +##
-> +
-> +##
-> +# @CompatPolicyInput:
-> +#
-> +# Policy for handling "funny" input.
-> +#
-> +# @accept: Accept silently
-> +# @reject: Reject with an error
-> +#
-> +# Since: 5.0
-> +##
-> +{ 'enum': 'CompatPolicyInput',
-> +  'data': [ 'accept', 'reject' ] }
-> +
-> +##
-> +# @CompatPolicyOutput:
-> +#
-> +# Policy for handling "funny" output.
-> +#
-> +# @accept: Pass on unchanged
-> +# @hide: Filter out
-> +#
-> +# Since: 5.0
-> +##
-> +{ 'enum': 'CompatPolicyOutput',
-> +  'data': [ 'accept', 'hide' ] }
-> +
-> +##
-> +# @CompatPolicy:
-> +#
-> +# Policy for handling deprecated management interfaces.
-> +#
-> +# This is intended for testing users of the management interfaces.
-> +#
-> +# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
-> +# with feature 'deprecated'.  We may want to extend it to cover
-> +# semantic aspects, CLI, and experimental features.
-> +#
-> +# @deprecated-input: how to handle deprecated input (default 'accept')
-> +# @deprecated-output: how to handle deprecated output (default 'accept')
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+---
+v2: Add braces to single line if statements to comply with coding style.
 
-If this is going to cover something else than qmp, then perhaps it
-should use a "qmp" prefix.
+ hw/usb/dev-serial.c | 80 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 46 insertions(+), 34 deletions(-)
 
-If not, then the CLI should probably be -qmp-compat.
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index daac75b7ae..d807ce5771 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -358,13 +358,56 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+     }
+ }
+ 
++static void usb_serial_token_in(USBSerialState *s, USBPacket *p)
++{
++    int first_len, len;
++    uint8_t header[2];
++
++    first_len = RECV_BUF - s->recv_ptr;
++    len = p->iov.size;
++    if (len <= 2) {
++        p->status = USB_RET_NAK;
++        return;
++    }
++    header[0] = usb_get_modem_lines(s) | 1;
++    /* We do not have the uart details */
++    /* handle serial break */
++    if (s->event_trigger && s->event_trigger & FTDI_BI) {
++        s->event_trigger &= ~FTDI_BI;
++        header[1] = FTDI_BI;
++        usb_packet_copy(p, header, 2);
++        return;
++    } else {
++        header[1] = 0;
++    }
++    len -= 2;
++    if (len > s->recv_used) {
++        len = s->recv_used;
++    }
++    if (!len) {
++        p->status = USB_RET_NAK;
++        return;
++    }
++    if (first_len > len) {
++        first_len = len;
++    }
++    usb_packet_copy(p, header, 2);
++    usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
++    if (len > first_len) {
++        usb_packet_copy(p, s->recv_buf, len - first_len);
++    }
++    s->recv_used -= len;
++    s->recv_ptr = (s->recv_ptr + len) % RECV_BUF;
++
++    return;
++}
++
+ static void usb_serial_handle_data(USBDevice *dev, USBPacket *p)
+ {
+     USBSerialState *s = (USBSerialState *)dev;
+     uint8_t devep = p->ep->nr;
+     struct iovec *iov;
+-    uint8_t header[2];
+-    int i, first_len, len;
++    int i;
+ 
+     switch (p->pid) {
+     case USB_TOKEN_OUT:
+@@ -382,38 +425,7 @@ static void usb_serial_handle_data(USBDevice *dev, USBPacket *p)
+     case USB_TOKEN_IN:
+         if (devep != 1)
+             goto fail;
+-        first_len = RECV_BUF - s->recv_ptr;
+-        len = p->iov.size;
+-        if (len <= 2) {
+-            p->status = USB_RET_NAK;
+-            break;
+-        }
+-        header[0] = usb_get_modem_lines(s) | 1;
+-        /* We do not have the uart details */
+-        /* handle serial break */
+-        if (s->event_trigger && s->event_trigger & FTDI_BI) {
+-            s->event_trigger &= ~FTDI_BI;
+-            header[1] = FTDI_BI;
+-            usb_packet_copy(p, header, 2);
+-            break;
+-        } else {
+-            header[1] = 0;
+-        }
+-        len -= 2;
+-        if (len > s->recv_used)
+-            len = s->recv_used;
+-        if (!len) {
+-            p->status = USB_RET_NAK;
+-            break;
+-        }
+-        if (first_len > len)
+-            first_len = len;
+-        usb_packet_copy(p, header, 2);
+-        usb_packet_copy(p, s->recv_buf + s->recv_ptr, first_len);
+-        if (len > first_len)
+-            usb_packet_copy(p, s->recv_buf, len - first_len);
+-        s->recv_used -= len;
+-        s->recv_ptr = (s->recv_ptr + len) % RECV_BUF;
++        usb_serial_token_in(s, p);
+         break;
+ 
+     default:
+-- 
+2.24.1
 
-
-> +#
-> +# Since: 5.0
-> +##
-> +{ 'struct': 'CompatPolicy',
-> +  'data': { '*deprecated-input': 'CompatPolicyInput',
-> +            '*deprecated-output': 'CompatPolicyOutput' } }
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 43b0ba0dea..f575b76d81 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -75,6 +75,7 @@
->  { 'include': 'migration.json' }
->  { 'include': 'transaction.json' }
->  { 'include': 'trace.json' }
-> +{ 'include': 'compat.json' }
->  { 'include': 'control.json' }
->  { 'include': 'introspect.json' }
->  { 'include': 'qom.json' }
-> diff --git a/include/qapi/compat-policy.h b/include/qapi/compat-policy.h
-> new file mode 100644
-> index 0000000000..8efb2c58aa
-> --- /dev/null
-> +++ b/include/qapi/compat-policy.h
-> @@ -0,0 +1,20 @@
-> +/*
-> + * Policy for handling "funny" management interfaces
-> + *
-> + * Copyright (C) 2019 Red Hat, Inc.
-> + *
-> + * Authors:
-> + *  Markus Armbruster <armbru@redhat.com>,
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef QAPI_COMPAT_POLICY_H
-> +#define QAPI_COMPAT_POLICY_H
-> +
-> +#include "qapi/qapi-types-compat.h"
-> +
-> +extern CompatPolicy compat_policy;
-> +
-> +#endif
-> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index fb53687ce9..80beab517f 100644
-> --- a/qapi/qmp-dispatch.c
-> +++ b/qapi/qmp-dispatch.c
-> @@ -12,6 +12,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include "qapi/compat-policy.h"
->  #include "qapi/error.h"
->  #include "qapi/qmp/dispatch.h"
->  #include "qapi/qmp/qdict.h"
-> @@ -19,6 +20,8 @@
->  #include "sysemu/runstate.h"
->  #include "qapi/qmp/qbool.h"
->
-> +CompatPolicy compat_policy;
-> +
->  static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_=
-oob,
->                                       QObject **id, Error **errp)
->  {
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ff2685dff8..74eb43d114 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -27,6 +27,7 @@
->  #include "qemu/units.h"
->  #include "hw/boards.h"
->  #include "hw/qdev-properties.h"
-> +#include "qapi/compat-policy.h"
->  #include "qapi/error.h"
->  #include "qemu-version.h"
->  #include "qemu/cutils.h"
-> @@ -105,6 +106,7 @@
->  #include "sysemu/replay.h"
->  #include "qapi/qapi-events-run-state.h"
->  #include "qapi/qapi-visit-block-core.h"
-> +#include "qapi/qapi-visit-compat.h"
->  #include "qapi/qapi-visit-ui.h"
->  #include "qapi/qapi-commands-block-core.h"
->  #include "qapi/qapi-commands-run-state.h"
-> @@ -3749,6 +3751,21 @@ void qemu_init(int argc, char **argv, char **envp)
->                      qemu_opt_get_bool(opts, "mem-lock", false);
->                  enable_cpu_pm =3D qemu_opt_get_bool(opts, "cpu-pm", fals=
-e);
->                  break;
-> +            case QEMU_OPTION_compat:
-> +                {
-> +                    CompatPolicy *opts;
-> +                    Visitor *v;
-> +
-> +                    v =3D qobject_input_visitor_new_str(optarg, NULL,
-> +                                                      &error_fatal);
-> +
-> +                    visit_type_CompatPolicy(v, NULL, &opts, &error_fatal=
-);
-> +                    QAPI_CLONE_MEMBERS(CompatPolicy, &compat_policy, opt=
-s);
-> +
-> +                    qapi_free_CompatPolicy(opts);
-> +                    visit_free(v);
-> +                    break;
-> +                }
->              case QEMU_OPTION_msg:
->                  opts =3D qemu_opts_parse_noisily(qemu_find_opts("msg"), =
-optarg,
->                                                 false);
-> diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-> index 4673ab7490..a3de2e2756 100644
-> --- a/qapi/Makefile.objs
-> +++ b/qapi/Makefile.objs
-> @@ -5,10 +5,10 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
->  util-obj-y +=3D qmp-event.o
->  util-obj-y +=3D qapi-util.o
->
-> -QAPI_COMMON_MODULES =3D audio authz block-core block char common control=
- crypto
-> -QAPI_COMMON_MODULES +=3D dump error introspect job machine migration mis=
-c
-> -QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state socke=
-ts tpm
-> -QAPI_COMMON_MODULES +=3D trace transaction ui
-> +QAPI_COMMON_MODULES =3D audio authz block-core block char common compat
-> +QAPI_COMMON_MODULES +=3D control crypto dump error introspect job
-> +QAPI_COMMON_MODULES +=3D machine migration misc net pragma qdev qom rdma
-> +QAPI_COMMON_MODULES +=3D rocker run-state sockets tpm trace transaction =
-ui
->  QAPI_TARGET_MODULES =3D machine-target misc-target
->  QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 1d8f852d89..5459e6c94c 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -3357,6 +3357,26 @@ DEFHEADING()
->
->  DEFHEADING(Debug/Expert options:)
->
-> +DEF("compat", HAS_ARG, QEMU_OPTION_compat,
-> +    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Dacc=
-ept|hide]\n"
-> +    "                Policy for handling deprecated management interface=
-s\n",
-> +    QEMU_ARCH_ALL)
-> +SRST
-> +``-compat [deprecated-input=3D@var{input-policy}][,deprecated-output=3D@=
-var{output-policy}]``
-> +    Set policy for handling deprecated management interfaces (experiment=
-al):
-> +
-> +    ``deprecated-input=3Daccept`` (default)
-> +        Accept deprecated commands and arguments
-> +    ``deprecated-input=3Dreject``
-> +        Reject deprecated commands and arguments
-> +    ``deprecated-output=3Daccept`` (default)
-> +        Emit deprecated command results and events
-> +    ``deprecated-output=3Dhide``
-> +        Suppress deprecated command results and events
-> +
-> +    Limitation: covers only syntactic aspects of QMP.
-> +ERST
-> +
->  DEF("fw_cfg", HAS_ARG, QEMU_OPTION_fwcfg,
->      "-fw_cfg [name=3D]<name>,file=3D<file>\n"
->      "                add named fw_cfg entry with contents from file\n"
-> --
-> 2.21.1
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
