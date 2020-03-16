@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E564186A38
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:41:09 +0100 (CET)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D7F186A67
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:52:53 +0100 (CET)
+Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDo7H-0004Fx-Rd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55089)
+	id 1jDoId-00007O-9W
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37319)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1jDnUf-000873-4I
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:01:14 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jDnbM-0001uo-8S
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1jDnUT-0000gH-27
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:01:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57078
+ (envelope-from <cohuck@redhat.com>) id 1jDnbK-0000yw-VU
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:07 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34044
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1jDnUP-0000CZ-GJ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:00:57 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDnbK-0000cO-Nc
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:08:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584356450;
+ s=mimecast20190719; t=1584356885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dg6Z/zM68y6egVxjTIxJNihvnmhssR0VTz+eymxL59Y=;
- b=bA7/aw/lp5fWg19tNMkChvsyNSGBffRekC3daLAe5be0XTT32aEtZ6FILSsV6bahRLNRMH
- arXbS+00sP1DYMcdvhufigDnjYoVxrukf4njZy2j1P8yFZNxDHkePotfbGCQ0hZ5oIYwBb
- p+sGtOYxtIhA012MxeyoSfNJeI8D/kM=
+ bh=oLnbFyB1eV6nEdIYefNiKAvHZQY1co2NQx+tEzEcItA=;
+ b=TKHcIUbSIbzCFISA66pxmH8LxqUtl7Y6M0F78ONV8/z4FIaA/k+c2yYRjvJQ8CRGcDtjIp
+ ELomm6dHOwmy9eUr3+el6cnT1LLLvmRX/PPQMuMfZWPqNzSSHIzbGoyIixvo/ZWyIFQ9sT
+ yEvfQeF3n/XyUEGR0LUZPwr887A4o1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-BFVJiV76NR-2JZ9X_6LFDQ-1; Mon, 16 Mar 2020 07:00:48 -0400
-X-MC-Unique: BFVJiV76NR-2JZ9X_6LFDQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-261-nUx1xulgPcSEsQGuTikr8g-1; Mon, 16 Mar 2020 07:08:01 -0400
+X-MC-Unique: nUx1xulgPcSEsQGuTikr8g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11EF6105253F;
- Mon, 16 Mar 2020 11:00:47 +0000 (UTC)
-Received: from paraplu.localdomain (unknown [10.36.119.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 140248B756;
- Mon, 16 Mar 2020 11:00:46 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id 9FDF23E048A; Mon, 16 Mar 2020 12:00:43 +0100 (CET)
-Date: Mon, 16 Mar 2020 12:00:43 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] softmmu/vl.c: Handle '-cpu help' and '-device help'
- before 'no default machine'
-Message-ID: <20200316110043.GN22884@paraplu>
-References: <20200313172447.15471-1-peter.maydell@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6171F801E70;
+ Mon, 16 Mar 2020 11:08:00 +0000 (UTC)
+Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBAA85C1B2;
+ Mon, 16 Mar 2020 11:07:52 +0000 (UTC)
+Date: Mon, 16 Mar 2020 12:07:50 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jay Zhou <jianjay.zhou@huawei.com>
+Subject: Re: [PATCH] kvm: support to get/set dirty log initial-all-set
+ capability
+Message-ID: <20200316120750.509149ab.cohuck@redhat.com>
+In-Reply-To: <20200304025554.2159-1-jianjay.zhou@huawei.com>
+References: <20200304025554.2159-1-jianjay.zhou@huawei.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200313172447.15471-1-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,81 +71,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: liu.jinsong@huawei.com, weidong.huang@huawei.com, kvm@vger.kernel.org,
+ mst@redhat.com, wangxinxin.wang@huawei.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Cc: Markus; he'd be pleasantly surprised with this, if he already
-hadn't noticed this, as he was also mildly annoyed about this the other
-day.]
+On Wed, 4 Mar 2020 10:55:54 +0800
+Jay Zhou <jianjay.zhou@huawei.com> wrote:
 
-On Fri, Mar 13, 2020 at 05:24:47PM +0000, Peter Maydell wrote:
-> Currently if you try to ask for the list of CPUs for a target
-> architecture which does not specify a default machine type
-> you just get an error:
->=20
->   $ qemu-system-arm -cpu help
->   qemu-system-arm: No machine specified, and there is no default
->   Use -machine help to list supported machines
-
-I just applied the patch and built on QEMU.
-
-With `qemu-system-arm`:
-
-    $> ./arm-softmmu/qemu-system-arm -cpu help | head -5
-    Available CPUs:
-      arm1026
-      arm1136
-      arm1136-r2
-      arm1176
-
-    $> ./arm-softmmu/qemu-system-arm -device help | head -5
-    Controller/Bridge/Hub devices:
-    name "i82801b11-bridge", bus PCI
-    name "ioh3420", bus PCI, desc "Intel IOH device id 3420 PCIE Root Port"
-    name "pci-bridge", bus PCI, desc "Standard PCI Bridge"
-    name "pci-bridge-seat", bus PCI, desc "Standard PCI Bridge (multiseat)"
-
-With `qemu-system-aarch64`:
-
-    $> ./aarch64-softmmu/qemu-system-aarch64 -cpu help | head -5
-    Available CPUs:
-      arm1026
-      arm1136
-      arm1136-r2
-      arm1176
-
-    $> ./aarch64-softmmu/qemu-system-aarch64 -device help | head -5
-    Controller/Bridge/Hub devices:
-    name "i82801b11-bridge", bus PCI
-    name "ioh3420", bus PCI, desc "Intel IOH device id 3420 PCIE Root Port"
-    name "pci-bridge", bus PCI, desc "Standard PCI Bridge"
-    name "pci-bridge-seat", bus PCI, desc "Standard PCI Bridge (multiseat)"
-
-> Since the list of CPUs doesn't depend on the machine, this is
-> unnecessarily unhelpful. "-device help" has a similar problem.
->=20
-> Move the checks for "did the user ask for -cpu help or -device help"
-> up so they precede the select_machine() call which checks that the
-> user specified a valid machine type.
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Tested-by: Kashyap Chamarthy <kchamart@redhat.com>
-
+> Since the new capability KVM_DIRTY_LOG_INITIALLY_SET of
+> KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 has been introduced in the
+> kernel, tweak the userspace side to detect and enable this
+> capability.
+> 
+> Signed-off-by: Jay Zhou <jianjay.zhou@huawei.com>
 > ---
-> This has been on-and-off irritating me for years, and it's
-> embarrassing how simple the fix turns out to be...
-> ---
->  softmmu/vl.c | 26 ++++++++++++++++----------
->  1 file changed, 16 insertions(+), 10 deletions(-)
+>  accel/kvm/kvm-all.c       | 21 ++++++++++++++-------
+>  linux-headers/linux/kvm.h |  3 +++
+>  2 files changed, 17 insertions(+), 7 deletions(-)
 
-[...]=20
+<standard message>
+Please do any linux-headers updates in a separate patch; that makes it
+easy to replace the manual update with a complete headers update.
+</standard message>
 
-Thanks. :)
-
---=20
-/kashyap
+:)
 
 
