@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038F6187135
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:34:14 +0100 (CET)
-Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4EC187149
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:37:11 +0100 (CET)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtcz-00036a-1B
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
+	id 1jDtfq-0000xV-PI
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrmF-0000sn-RS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:35:44 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDrpJ-00028p-Mz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrmE-00083j-Tb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:35:39 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36809)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jDrpI-00019y-9m
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:49 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43985)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDrmE-00081I-P0
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:35:38 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 39so2858821otu.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jDrpI-00019G-4g
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:38:48 -0400
+Received: by mail-ot1-x342.google.com with SMTP id a6so18213632otb.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ulsEnALMcD0ysXus3/RMO287XVA+9Ung44pDMgmtgDg=;
- b=l6Ctfqzk+z+2b3c0vADY3E6pku9HwyyhnJTLghmdbaxJDvAaORncdR2/xGJgMkfwD2
- rLUdz/H33Y5u64N2ukppY9n5680rcV1jnzzgOEeL+yJRZ9lSJQjKqxfN+b4qE0kvoQNX
- SgO2zPpsxTSr9MfPyRryH9QGxBxiprs2ZIRm+Eby5/PY/ng01/mWLj5Ciz8jz66b1oEF
- 2aZE/byUddo6k94LIsfwwbzfGD9nl0+V5aHHW+MqN18PruPk37Fu3mwWKtASl7fKulvA
- ZoAR92Rr9hryCaUl2P7FB+4KoU/PSNfxTunalUuw5irQKVltELfFRGtzP4KBo6ZVJn1T
- juhA==
+ :cc:content-transfer-encoding;
+ bh=6F4Qr3MbWDscYfKuCC/nA4le9wVF6pd3Ywp1mmcZqJ8=;
+ b=SVc1uREFg/f9oVVQUCh5yDQuBZphcou8PHbrj/paizH0H73wzIr6Y5eiYc/Pw+Rygd
+ yZHAKiniJgpbG0t/rsqiD7FZSEHOoTnRGhNDFns+UCcTe/0M7a6uBMH+pGMapJD/iUGf
+ Kf74eiSuoGAYdL70wbiURXYV9iA4X+frjOQ6CGstkHOPIEn8EP/Y1uc7NhVZuSJ/xjbS
+ KMMehqlIsIuMpYDMyPTxMDcQe/TR7m1lGf6ywH4sf8CLBzdxxr9AMUq/2eUYb+NHTYoR
+ rO6enRkXllvccM20eOsCUr3ZPjjiK1SCNWJ7bur2mNq11lfiWVBCUOipI8cCKxXpbGUC
+ VwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ulsEnALMcD0ysXus3/RMO287XVA+9Ung44pDMgmtgDg=;
- b=XGz3FXf92NkqZYcjwMawRGVm8NqJCqBs9faj7jxl6iM/hLQKs4GRylEjsUb0e0E9O+
- 8OX20cM/2ZW1AkrVIVpgSnYTdCtQTyWQwoftQMV3De2sOppOazmP1EGtANPg3XtzNFEE
- RU+O6sH8kPylclgpnkpqvCZUJaxheIuYTg0zWJZf5d6l1H+x5QASjsIpfcYO1bPNMsXL
- vIdkpncr4zuq7PE6pX+XXYM3Kn6M8FwlU5uYyAudApYHS+rPWB39uhjV9sGuG00IAMSI
- HO/GzlcLOf2OONCgoaUJvAQoFMQgOyS+IcZrzGxRyC1k+5Ivf7wFRAIbHmTmRd7ulZ2s
- LxTg==
-X-Gm-Message-State: ANhLgQ3aZ4WljElPpFukiokfxvykboOlt5Bw7Hofqr2yqNB3rfawd81G
- RB/GsxQKwhjX7TKCNNhE4ZbSYKw7GCOynMgYUKAK2A==
-X-Google-Smtp-Source: ADFU+vszBB52Gut7K3HLexl/RKBGmdTJfthMNKdK8LSqddArO2yPkKu6dfMijV2B87DTQGuxN3A2WCZytuPTAFcL6Cc=
-X-Received: by 2002:a9d:1920:: with SMTP id j32mr21824947ota.221.1584372937456; 
- Mon, 16 Mar 2020 08:35:37 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6F4Qr3MbWDscYfKuCC/nA4le9wVF6pd3Ywp1mmcZqJ8=;
+ b=Zjw9Vo5UIbzEGPG3+WPyD02GDEXrC/pVoVFdH6bfuGAwNdKZ4jYPI24cWJ53WZ+Ia2
+ q/gy5KF3x30mnmNFeLrPCuxsKfNYEN1G1ngscqdS1PubEKPlSo9woTKfraik9plFAvyB
+ xMUBgO7vykgVcYNQ757BTPnj+r1XI7QBuG8XjYh8ftbuYzjiPbZiqfWuMUum5WY5aFgE
+ IpYWq1c2au+LJPaMV+2rurFR/5TBF0iudp6HYXeOWIbd1lshzcqfc9ikFtvjNGsdKr34
+ aLp+4Ui9HOCumZhRW2YHc7CwjXbWLfhkRkNtZez5n9asLlmADf4KqYjONAP88GpLjZa9
+ C+dA==
+X-Gm-Message-State: ANhLgQ1BZ/ANoDlWhCrKvL5bBOFZW4ixdol2A58GsW1wMWTP15a5327G
+ C8kI3W3ZNjzl/byRTH+4AjlxSHZyyCyDkWSKl28=
+X-Google-Smtp-Source: ADFU+vsjRb8wqD3gE2mPAL6QuUvBQWbCAt0jTJAQNyDz8L8CVcsg/986MwKbS5uZ88LngY6qoGxjZ7s8VKVVrPFFwhE=
+X-Received: by 2002:a9d:2074:: with SMTP id
+ n107mr13260316ota.306.1584373127432; 
+ Mon, 16 Mar 2020 08:38:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200313160215.28155-1-linux@roeck-us.net>
-In-Reply-To: <20200313160215.28155-1-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 15:35:26 +0000
-Message-ID: <CAFEAcA-rJCGZC+0G8L=Qbp602SF_=t58bP6v5adQCsDXjtetOg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/pxa2xx: Do not wire up OHCI for PXA255
-To: Guenter Roeck <linux@roeck-us.net>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <20200316123807.GG1528804@redhat.com> <87zhcgjvgk.fsf@linaro.org>
+In-Reply-To: <87zhcgjvgk.fsf@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 16 Mar 2020 16:38:36 +0100
+Message-ID: <CAL1e-=jFtkXFhsu1BmBp4GWdXivV4_tzeRFvkt0hmT1JdufScQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::342
@@ -71,36 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Wainer Moschetta <wmoschet@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 at 16:02, Guenter Roeck <linux@roeck-us.net> wrote:
+On Mon, Mar 16, 2020 at 4:24 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> PXA255 does not support a USB OHCI controller, so don't wire it up.
 >
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  hw/arm/pxa2xx.c | 3 ---
->  1 file changed, 3 deletions(-)
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 >
-> diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-> index 56a36202d7..336c9bad4a 100644
-> --- a/hw/arm/pxa2xx.c
-> +++ b/hw/arm/pxa2xx.c
-> @@ -2290,9 +2290,6 @@ PXA2xxState *pxa255_init(MemoryRegion *address_space, unsigned int sdram_size)
->          s->ssp[i] = (SSIBus *)qdev_get_child_bus(dev, "ssi");
->      }
+> > On Thu, Mar 12, 2020 at 03:36:11PM -0400, Cleber Rosa wrote:
+> >> The idea about a public facing Gating CI for QEMU was lastly
+> >> summarized in an RFC[1].  Since then, it was decided that a
+> >> simpler version should be attempted first.
+> >>
+> >> Changes from the RFC patches[2] accompanying the RFC document:
+> >>
+> >> - Moved gating job definitions to .gitlab-ci-gating.yml
+> >> - Added info on "--disable-libssh" build option requirement
+> >>   (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs
+> >> - Added info on "--disable-glusterfs" build option requirement
+> >>   (there's no static version of those libs in distro supplied
+> >>   packages) to one
+> >> - Dropped ubuntu-18.04.3-x86_64-notools job definition, because it
+> >>   doesn't fall into the general scope of gating job described by PMM
+> >>   (and it did not run any test)
+> >> - Added w32 and w64 cross builds based on Fedora 30
+> >> - Added a FreeBSD based job that builds all targets and runs `make
+> >>   check`
+> >> - Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a
+> >>   simple but effective way of speeding up the builds and tests by
+> >>   using a number of make jobs matching the number of CPUs
+> >> - Because the Ansible playbooks reference the content on Dockerfiles,
+> >>   some fixes to some Dockerfiles caught in the process were included
+> >> - New patch with script to check or wait on a pipeline execution
+> >>
+> >> [1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.h=
+tml
+> >> [2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.h=
+tml
+> >>
+> >> Cleber Rosa (5):
+> >>   tests/docker: add CentOS 8 Dockerfile
+> >>   tests/docker: make "buildah bud" output similar to "docker build"
+> >>   GitLab CI: avoid calling before_scripts on unintended jobs
+> >>   GitLab Gating CI: introduce pipeline-status contrib script
+> >>   GitLab Gating CI: initial set of jobs, documentation and scripts
+> >>
+> >>  .gitlab-ci-gating.yml                         | 111 ++++++++++
+> >>  .gitlab-ci.yml                                |  32 ++-
+> >>  contrib/ci/orgs/qemu/build-environment.yml    | 208 +++++++++++++++++=
++
+> >>  contrib/ci/orgs/qemu/gitlab-runner.yml        |  65 ++++++
+> >>  contrib/ci/orgs/qemu/inventory                |   2 +
+> >>  contrib/ci/orgs/qemu/vars.yml                 |  13 ++
+> >>  contrib/ci/scripts/gitlab-pipeline-status     | 148 +++++++++++++
+> >
+> > FYI, the contrib/ directory is generally a place for arbitrary / adhoc
+> > but interesting user contributed files/sources that are not officially
+> > supported deliverables of the project.
+> >
+> > IOW, this is not a good home for the official CI scripts.
+> >
+> > We already have a .gitlab-ci.d/ directory that looks like it would
+> > be good for this.  Or if that's not suitable, then scripts/ci/ is
+> > a second choice.
 >
-> -    sysbus_create_simple("sysbus-ohci", 0x4c000000,
-> -                         qdev_get_gpio_in(s->pic, PXA2XX_PIC_USBH1));
-> -
->      s->pcmcia[0] = pxa2xx_pcmcia_init(address_space, 0x20000000);
->      s->pcmcia[1] = pxa2xx_pcmcia_init(address_space, 0x30000000);
+> I'd vote for scripts/ci/ or scripts/gitlab/ as the .gitlab-ci.d might be
+> a little hidden.
 >
 
-How did you notice this bug? Was it just reading the code?
+I vote for scripts/ci/ or scripts/gitlab/ too. With a little
+preference to scripts/ci/.
 
-thanks
--- PMM
+Aleksandar
+
+> --
+> Alex Benn=C3=A9e
+>
 
