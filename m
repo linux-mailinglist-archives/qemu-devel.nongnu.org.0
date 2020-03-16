@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121461871C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:59:59 +0100 (CET)
-Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC0B1871AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:55:53 +0100 (CET)
+Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDu1u-0001fa-3f
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52872)
+	id 1jDtxw-0002ey-3g
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:55:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXo-0003jw-0F
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:55 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXm-0003hw-VN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXm-0002GG-3m
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:51 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39437)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtXl-0002Ep-AK
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43740)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtXk-00020M-Pm
+ id 1jDtXk-00023S-OX
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:48 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f7so18999895wml.4
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:44 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id b2so16053339wrj.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MAHQhCP1EsmDE6wKXYKQ2zDHbwGxedIVpJYdWHpls/o=;
- b=ww+aZF5OpnWN5e2C6qHOIqmZLHQtZ/WjQ9gNDlJN6ZyLGJQvihBhJzt+1zwEazRh8p
- r7tDOpd8UDrNO5y9aZr3+LpewTVUztHfSqtPBxbSSIJIHwaGYoepg/DLpeIZbRLh+lNR
- MUF/bf3YKfk2ONZphBbgNm+ey7E1ejYFzF3UXrf65Dk+F/qKxTup0VsFr+M2CJlxfine
- ekWJq3oRVcs8sfCiZf9CWTXQWmd1NHMFOAHfzudiZL+bAkgE6XzmVRGom4vwFX7+0txb
- 9I21iGbPicaklv1ynaccdJd5ZE7LIoOKP87+5c7KGk3U68CXHek9WnZtpNiuP60JINoD
- 3/kw==
+ bh=b9yQeDMo6CQGzL1Yr1rFXA4YMGbWAVcmyiV4TWBxgDU=;
+ b=UzGVJA38FrgRXPYqRd9qFU5QN+JVNIH4Rk1dz1ECkR5tSFk4F51dtJUpARKHA7oOQB
+ urX8wYBDH2EWqbpJyCs5DlnBivTE/kKxeCZT7pAFWsJttILgMwizSdi5muE2+aoLBUQ1
+ PyNE7y/Ejz0qoQrWlDcFbr4dIv2s4P5r0NSeOBgTgeuhJDmRY4AXzvGmGawPwr2g9v/j
+ NN4N3yrQLJK8ca1QaXpjuOHf69xgIewllJELxv1lyi9df0XoG8nRHMLkRAVYHWW+f27V
+ K8xKqFSziI/uXZXdBKOhpR11eRmmGd5q2QKEcw+R4lPg5e2s4ZbhteLCcTh9h/gHeJqs
+ rjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MAHQhCP1EsmDE6wKXYKQ2zDHbwGxedIVpJYdWHpls/o=;
- b=EH9u3/3RaS7/eSzTSHSblYxZsRXhVci42u2TR8ewsE1Dio4RZ08DpNP1+OAIFOGE11
- 49sqxChHvnHw8AfYVc1wSf/BA96XsDXetfqecCT3ZvaX/VkMcFtqgWoJ2n5ElFFSZ3nr
- 1JGCuVGAvxuXxRidhRdbb51tjQ5CAhn778+QPsTg9pvxYECws9AbVpmC9Roo+wF0gyKO
- RIFfV25VnOQhZDtW9rVIvuklcC3dnyXJfpIehYbvKmsI3Vl9RNdiw6WUUh5R/jsQhPVc
- DB9B1Bg0Z24AYCzZm21sQn63JZw9jx69/0LOrRMaHcjTC18Cb56vxqvLrWDOx3+Tu6XD
- jTkQ==
-X-Gm-Message-State: ANhLgQ0sgvQ75jHcbdQIPo3ULSTEpdOOqZlJRODLbjGRKkr6K5kAOXW4
- WPuyPYL40WIEPfI1DX2cY2392Q==
-X-Google-Smtp-Source: ADFU+vvimbDUmZ5ULfnXKeABWmJ5G5n/o51aolPJk+z6auQ+u5hZbNkHtum4VgZV/o9S929KmS8iFg==
-X-Received: by 2002:a1c:750e:: with SMTP id o14mr178869wmc.156.1584379723271; 
- Mon, 16 Mar 2020 10:28:43 -0700 (PDT)
+ bh=b9yQeDMo6CQGzL1Yr1rFXA4YMGbWAVcmyiV4TWBxgDU=;
+ b=m9DIm7WDKVJBjtIDEo7xrPq+zadNAji5mj4/8zE+tV6w0GnXy46JBmkAOKYEaXRQvE
+ 4NvBa8Ay+GBLNVdJSg/MGDkzDQWPiOUQuSlNwqQtWSOfZMDeFtqd5DkEhOa4cs3AaGKw
+ PZEElyR1lqz8F4lc8ou18/6x2JuF/sQcAyDTqi8TtO0kmFiVbwrj+rSMYgUh2Yxj8ij6
+ SuowbpAY+DBn4BX2ietR8RFFkM3PpwvqNFkdZ6WwPRZ7jgRINZk0QU9cL+2GV3WLg+Ae
+ BrDRelqRIsMe6nz5IQlS1913QxsnpKrZqggrAXCs4DyQudkq5V4Q0IWahbZ2AG+gIqKq
+ +DKw==
+X-Gm-Message-State: ANhLgQ1Noj4AdKx/Pz0qhGBQcMhU5MLPNQWtUSsiY77Q94H1r8k8PIUY
+ R/oYXhA/R8FDha4QVN5+7hZoHg==
+X-Google-Smtp-Source: ADFU+vvAsvbtGMl640m8WOF53HNVI2Bai+tIuV6IVMRsQdmswlyMNZ6bq9Qh9ETC1C4LwlSIuXe0lA==
+X-Received: by 2002:a5d:4a10:: with SMTP id m16mr370895wrq.333.1584379726370; 
+ Mon, 16 Mar 2020 10:28:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a186sm446743wmh.33.2020.03.16.10.28.38
+ by smtp.gmail.com with ESMTPSA id c4sm475531wml.7.2020.03.16.10.28.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Mar 2020 10:28:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 422431FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id AD1B21FFB1;
  Mon, 16 Mar 2020 17:21:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 20/28] tests/tcg/aarch64: userspace system register test
-Date: Mon, 16 Mar 2020 17:21:47 +0000
-Message-Id: <20200316172155.971-21-alex.bennee@linaro.org>
+Subject: [PATCH v1 25/28] tests/tcg/aarch64: add test-sve-ioctl guest-debug
+ test
+Date: Mon, 16 Mar 2020 17:21:52 +0000
+Message-Id: <20200316172155.971-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
 References: <20200316172155.971-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,222 +82,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests a bunch of registers that the kernel allows userspace to
-read including the CPUID registers. We need a SVE aware compiler as we
-are testing the id_aa64zfr0_el1 register in the set.
+This test exercises the gdbstub while runing the sve-iotcl test. I
+haven't plubmed it into make system as we need a way of verifying if
+gdb has the right support for SVE.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190205190224.2198-7-alex.bennee@linaro.org>
 
 ---
-vgdbstub
-  - don't build unless using docker or CROSS_CC_HAS_SVE
+v4
+  - interrogate ZCR_EL1 directly as no longer have vg
+v5
+  - plumb in
+  - skip if fails to connect
+v6
+  - fix for vg
+v7
+  - change to vg size, also better trap failure in zreg access
 ---
- tests/tcg/aarch64/sysregs.c       | 172 ++++++++++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target |   6 ++
- 2 files changed, 178 insertions(+)
- create mode 100644 tests/tcg/aarch64/sysregs.c
+ tests/tcg/aarch64/Makefile.target           | 11 ++-
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 82 +++++++++++++++++++++
+ 2 files changed, 91 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
 
-diff --git a/tests/tcg/aarch64/sysregs.c b/tests/tcg/aarch64/sysregs.c
-new file mode 100644
-index 00000000000..40cf8d2877e
---- /dev/null
-+++ b/tests/tcg/aarch64/sysregs.c
-@@ -0,0 +1,172 @@
-+/*
-+ * Check emulated system register access for linux-user mode.
-+ *
-+ * See: https://www.kernel.org/doc/Documentation/arm64/cpu-feature-registers.txt
-+ *
-+ * Copyright (c) 2019 Linaro
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <asm/hwcap.h>
-+#include <stdio.h>
-+#include <sys/auxv.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <stdbool.h>
-+
-+#ifndef HWCAP_CPUID
-+#define HWCAP_CPUID (1 << 11)
-+#endif
-+
-+int failed_bit_count;
-+
-+/* Read and print system register `id' value */
-+#define get_cpu_reg(id) ({                                      \
-+            unsigned long __val = 0xdeadbeef;                   \
-+            asm("mrs %0, "#id : "=r" (__val));                  \
-+            printf("%-20s: 0x%016lx\n", #id, __val);            \
-+            __val;                                               \
-+        })
-+
-+/* As above but also check no bits outside of `mask' are set*/
-+#define get_cpu_reg_check_mask(id, mask) ({                     \
-+            unsigned long __cval = get_cpu_reg(id);             \
-+            unsigned long __extra = __cval & ~mask;             \
-+            if (__extra) {                                      \
-+                printf("%-20s: 0x%016lx\n", "  !!extra bits!!", __extra);   \
-+                failed_bit_count++;                            \
-+            }                                                   \
-+})
-+
-+/* As above but check RAZ */
-+#define get_cpu_reg_check_zero(id) ({                           \
-+            unsigned long __val = 0xdeadbeef;                   \
-+            asm("mrs %0, "#id : "=r" (__val));                  \
-+            if (__val) {                                        \
-+                printf("%-20s: 0x%016lx (not RAZ!)\n", #id, __val);        \
-+                failed_bit_count++;                            \
-+            }                                                   \
-+})
-+
-+/* Chunk up mask into 63:48, 47:32, 31:16, 15:0 to ease counting */
-+#define _m(a, b, c, d) (0x ## a ## b ## c ## d ##ULL)
-+
-+bool should_fail;
-+int should_fail_count;
-+int should_not_fail_count;
-+uintptr_t failed_pc[10];
-+
-+void sigill_handler(int signo, siginfo_t *si, void *data)
-+{
-+    ucontext_t *uc = (ucontext_t *)data;
-+
-+    if (should_fail) {
-+        should_fail_count++;
-+    } else {
-+        uintptr_t pc = (uintptr_t) uc->uc_mcontext.pc;
-+        failed_pc[should_not_fail_count++] =  pc;
-+    }
-+    uc->uc_mcontext.pc += 4;
-+}
-+
-+int main(void)
-+{
-+    struct sigaction sa;
-+
-+    /* Hook in a SIGILL handler */
-+    memset(&sa, 0, sizeof(struct sigaction));
-+    sa.sa_flags = SA_SIGINFO;
-+    sa.sa_sigaction = &sigill_handler;
-+    sigemptyset(&sa.sa_mask);
-+
-+    if (sigaction(SIGILL, &sa, 0) != 0) {
-+        perror("sigaction");
-+        return 1;
-+    }
-+
-+    /* Counter values have been exposed since Linux 4.12 */
-+    printf("Checking Counter registers\n");
-+
-+    get_cpu_reg(ctr_el0);
-+    get_cpu_reg(cntvct_el0);
-+    get_cpu_reg(cntfrq_el0);
-+
-+    /* HWCAP_CPUID indicates we can read feature registers, since Linux 4.11 */
-+    if (!(getauxval(AT_HWCAP) & HWCAP_CPUID)) {
-+        printf("CPUID registers unavailable\n");
-+        return 1;
-+    } else {
-+        printf("Checking CPUID registers\n");
-+    }
-+
-+    /*
-+     * Some registers only expose some bits to user-space. Anything
-+     * that is IMPDEF is exported as 0 to user-space. The _mask checks
-+     * assert no extra bits are set.
-+     *
-+     * This check is *not* comprehensive as some fields are set to
-+     * minimum valid fields - for the purposes of this check allowed
-+     * to have non-zero values.
-+     */
-+    get_cpu_reg_check_mask(id_aa64isar0_el1, _m(00ff,ffff,f0ff,fff0));
-+    get_cpu_reg_check_mask(id_aa64isar1_el1, _m(0000,00f0,ffff,ffff));
-+    /* TGran4 & TGran64 as pegged to -1 */
-+    get_cpu_reg_check_mask(id_aa64mmfr0_el1, _m(0000,0000,ff00,0000));
-+    get_cpu_reg_check_zero(id_aa64mmfr1_el1);
-+    /* EL1/EL0 reported as AA64 only */
-+    get_cpu_reg_check_mask(id_aa64pfr0_el1,  _m(000f,000f,00ff,0011));
-+    get_cpu_reg_check_mask(id_aa64pfr1_el1,  _m(0000,0000,0000,00f0));
-+    /* all hidden, DebugVer fixed to 0x6 (ARMv8 debug architecture) */
-+    get_cpu_reg_check_mask(id_aa64dfr0_el1,  _m(0000,0000,0000,0006));
-+    get_cpu_reg_check_zero(id_aa64dfr1_el1);
-+    get_cpu_reg_check_zero(id_aa64zfr0_el1);
-+
-+    get_cpu_reg_check_zero(id_aa64afr0_el1);
-+    get_cpu_reg_check_zero(id_aa64afr1_el1);
-+
-+    get_cpu_reg_check_mask(midr_el1,         _m(0000,0000,ffff,ffff));
-+    /* mpidr sets bit 31, everything else hidden */
-+    get_cpu_reg_check_mask(mpidr_el1,        _m(0000,0000,8000,0000));
-+    /* REVIDR is all IMPDEF so should be all zeros to user-space */
-+    get_cpu_reg_check_zero(revidr_el1);
-+
-+    /*
-+     * There are a block of more registers that are RAZ in the rest of
-+     * the Op0=3, Op1=0, CRn=0, CRm=0,4,5,6,7 space. However for
-+     * brevity we don't check stuff that is currently un-allocated
-+     * here. Feel free to add them ;-)
-+     */
-+
-+    printf("Remaining registers should fail\n");
-+    should_fail = true;
-+
-+    /* Unexposed register access causes SIGILL */
-+    get_cpu_reg(id_mmfr0_el1);
-+    get_cpu_reg(id_mmfr1_el1);
-+    get_cpu_reg(id_mmfr2_el1);
-+    get_cpu_reg(id_mmfr3_el1);
-+
-+    get_cpu_reg(mvfr0_el1);
-+    get_cpu_reg(mvfr1_el1);
-+
-+    if (should_not_fail_count > 0) {
-+        int i;
-+        for (i = 0; i < should_not_fail_count; i++) {
-+            uintptr_t pc = failed_pc[i];
-+            uint32_t insn = *(uint32_t *) pc;
-+            printf("insn %#x @ %#lx unexpected FAIL\n", insn, pc);
-+        }
-+        return 1;
-+    }
-+
-+    if (failed_bit_count > 0) {
-+        printf("Extra information leaked to user-space!\n");
-+        return 1;
-+    }
-+
-+    return should_fail_count == 6 ? 0 : 1;
-+}
 diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 8ed477d0d51..a25afc071cc 100644
+index c879932ff6c..d99b2a9eced 100644
 --- a/tests/tcg/aarch64/Makefile.target
 +++ b/tests/tcg/aarch64/Makefile.target
-@@ -42,4 +42,10 @@ run-semiconsole: semiconsole
- run-plugin-semiconsole-with-%:
- 	$(call skip-test, $<, "MANUAL ONLY")
+@@ -54,15 +54,22 @@ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
  
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
-+# System Registers Tests
-+AARCH64_TESTS += sysregs
-+sysregs: CFLAGS+=-march=armv8.1-a+sve
-+endif
+-AARCH64_TESTS += gdbstub-sysregs
++AARCH64_TESTS += gdbstub-sysregs gdbstub-sve-ioctls
+ 
+-.PHONY: gdbstub-sysregs
++.PHONY: gdbstub-sysregs gdbstub-sve-ioctls
+ run-gdbstub-sysregs: sysregs
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
+ 	"basic gdbstub SVE support")
 +
- TESTS += $(AARCH64_TESTS)
++run-gdbstub-sve-ioctls: sve-ioctls
++	$(call run-test, $@, $(GDB_SCRIPT) \
++		--gdb $(HAVE_GDB_BIN) \
++		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
++		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
++	"basic gdbstub SVE ZLEN support")
+ endif
+ 
+ endif
+diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+new file mode 100644
+index 00000000000..5824abe09ac
+--- /dev/null
++++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+@@ -0,0 +1,82 @@
++from __future__ import print_function
++#
++# Test the SVE ZReg reports the right amount of data. It uses the
++# sve-ioctl test and examines the register data each time the
++# __sve_ld_done breakpoint is hit.
++#
++# This is launched via tests/guest-debug/run-test.py
++#
++
++import gdb
++import sys
++
++initial_vlen = 0
++failcount = 0
++
++def report(cond, msg):
++    "Report success/fail of test"
++    if cond:
++        print ("PASS: %s" % (msg))
++    else:
++        print ("FAIL: %s" % (msg))
++        global failcount
++        failcount += 1
++
++class TestBreakpoint(gdb.Breakpoint):
++    def __init__(self, sym_name="__sve_ld_done"):
++        super(TestBreakpoint, self).__init__(sym_name)
++        # self.sym, ok = gdb.lookup_symbol(sym_name)
++
++    def stop(self):
++        val_i = gdb.parse_and_eval('i')
++        global initial_vlen
++        try:
++            for i in range(0, int(val_i)):
++                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
++                report(int(val_z) == i, "z0.b.u[%d] == %d" % (i, i))
++            for i in range(i + 1, initial_vlen):
++                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
++                report(int(val_z) == 0, "z0.b.u[%d] == 0" % (i))
++        except gdb.error:
++            report(False, "checking zregs (out of range)")
++
++
++def run_test():
++    "Run through the tests one by one"
++
++    print ("Setup breakpoint")
++    bp = TestBreakpoint()
++
++    global initial_vlen
++    vg = gdb.parse_and_eval("$vg")
++    initial_vlen = int(vg) * 8
++
++    gdb.execute("c")
++
++#
++# This runs as the script it sourced (via -x, via run-test.py)
++#
++try:
++    inferior = gdb.selected_inferior()
++    arch = inferior.architecture()
++    report(arch.name() == "aarch64", "connected to aarch64")
++except (gdb.error, AttributeError):
++    print("SKIPPING (not connected)", file=sys.stderr)
++    exit(0)
++
++try:
++    # These are not very useful in scripts
++    gdb.execute("set pagination off")
++    gdb.execute("set confirm off")
++
++    # Run the actual tests
++    run_test()
++except:
++    print ("GDB Exception: %s" % (sys.exc_info()[0]))
++    failcount += 1
++    import code
++    code.InteractiveConsole(locals=globals()).interact()
++    raise
++
++print("All tests complete: %d failures" % failcount)
++exit(failcount)
 -- 
 2.20.1
 
