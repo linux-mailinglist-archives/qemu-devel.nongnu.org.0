@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF9C1860ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:50:30 +0100 (CET)
-Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B36D186115
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:59:11 +0100 (CET)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDdxc-0005Sb-RB
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50201)
+	id 1jDe62-00018i-93
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdF0-0005ZS-81
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:24 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdF9-0005em-1a
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdEt-0001Rn-WC
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46703
+ (envelope-from <philmd@redhat.com>) id 1jDdF5-0002F0-TI
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42326
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdEt-0001Oi-Qs
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:15 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdF5-0002Du-Oi
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317053;
+ s=mimecast20190719; t=1584317067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ddEZPCXoZ/JJwclVnylPamC5y16AdeWmnXaUuY275K4=;
- b=LMgCKsd9Pati0OtPKdPKq/EZhKSElZDbjpFVurYiRbfELnzArdAY/+9KNOU1PJK8iRdcef
- 4Fy+gWVTUvaf58fpdOjzQH+oliSMxWxNlIevotkX3+ahx1d6GiRRAjT5/PrgVtg4/XvbYK
- SCwc4QutszXE6KOOtWBkTJWd7jHwZaw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-bUplY67hOcWQtT9cZA6ruQ-1; Sun, 15 Mar 2020 20:04:12 -0400
-X-MC-Unique: bUplY67hOcWQtT9cZA6ruQ-1
-Received: by mail-wm1-f69.google.com with SMTP id y7so5030297wmd.4
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:04:11 -0700 (PDT)
+ bh=5c3AP4dCqr/JYmuW7VACTlM9zAn3OSBe4Qe02woopcU=;
+ b=ddvGLv8d5g7gUHE5i0U+y7+9nzWwgmOhP6sOyoPNIDgYjJYg0WzoPIvao//5RZHAM3mEm7
+ HNpeQFE2QF6rIYp2sTXYPJdOdmeHlt4sZh0A5szagjUDHS+eo+IS7T6Kf936REbSU0tabf
+ rTRKjltxHnQcnQermL42UJN0PGrvBzs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-T1XuSAnXM3KCIwejvaVLGw-1; Sun, 15 Mar 2020 20:04:25 -0400
+X-MC-Unique: T1XuSAnXM3KCIwejvaVLGw-1
+Received: by mail-wr1-f71.google.com with SMTP id b11so8114713wru.21
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:04:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u3sG3DGW9hNabk2FFKm+3ce53WBbirexmD/101s1zcw=;
- b=q52oVSdUv4f9mFIIh8xUTjbmz+kZym1PcdJ2hvnFcAh3DVz6amrDmY5CZ5m3awsjgT
- wCgNA+F9j/GcDSLw9KUoaoPmtbyi06P6qLaP632wR3cLBYu6dd7FfUV12FUGoPEG/yCq
- Mvc/kTfOmo5Hply+JWztio30h620SbQ7CSbJo0YBsTSLaghnlesbHjvBFEmRQDBrhTbA
- u4OMIXUABOxLBTpP35ZAdq14w137MD9UYygL4ZRJjyD9++EPlZCPiJ1oa1qjCyx1MypE
- 1j6pTfqVLvZvzaZ/w5ACK/VZyuAWJ9NfqiYXo5eazq/sNNYdvvlYcxdjF2WnW5l9270i
- GZJw==
-X-Gm-Message-State: ANhLgQ36uUyNabEj1TFZUdU6LPlOCr/fUueTMx3zHXjwEn4yGmUpNgv1
- wCUa8rCsI418Z6YbtlDtpuHdFYoYxcsVtF6AGxV/CMzQAcOySkLLOBLvXQQYaJCZqNDhpLNgpqf
- BT1X8nsNUpquVnJE=
-X-Received: by 2002:a1c:f21a:: with SMTP id s26mr24064644wmc.39.1584317050608; 
- Sun, 15 Mar 2020 17:04:10 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtQZLB6MP+S7/5gnyZNa3D57/+K7FrKQ9lMWEQIEr+7YBs6WQo2VJi5RL2DNqPAYbxqe0LEoQ==
-X-Received: by 2002:a1c:f21a:: with SMTP id s26mr24064596wmc.39.1584317050293; 
- Sun, 15 Mar 2020 17:04:10 -0700 (PDT)
+ bh=As7NmJnDnIsu20eII7dWc1UjdLn2Uy7aENYZvKmI5xw=;
+ b=D2YCO2wc/aeAZ2wJB43m3XDXSZK6ZYvTN2z5z6mb1FMKlgbp70ii9deMIJvF83YqMm
+ D7ZKmnkGNRFdL+4u2DN4lAVkRdiRyujFROMEoJflBaB9wlpKnxROId864N1E0huCgTLl
+ eogGtJ5FYBRt1TeoDWTp0fDw6ZXPPPFcRGDahec5bzeH7h2zr8PTiK9PB0R0PlAIRFsF
+ HvcPPBf3a+UKOKUDmUPLVhQ7aU++z4/p6gIVXoqbQmRNe3zuMUqiuiMvFQQSPQ8n2h6I
+ ZtRa84dN2TqhI+za/ObhdL4LuQi2s7xbYSkhQ6ilEYUtWWyG6MirCsA8Su2DreLNCF8+
+ udmQ==
+X-Gm-Message-State: ANhLgQ3csy/5n/XCtlLOhJB2If6bqJ3VtEmFSrzzOqu+GTX/pZG7IKk3
+ Vekqh0wT+kXRKpC8xHMYP1U6eDmgH6Z8XT3Yc7RBLQ39TTneXAHTP7x3Bc262zVk9DP7bbI0XcT
+ iPVemlDfDgYSp2Bw=
+X-Received: by 2002:a7b:c62a:: with SMTP id p10mr22230589wmk.46.1584317062935; 
+ Sun, 15 Mar 2020 17:04:22 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vttvp5kRhN9QfKl14vBeBOqKErrdHavGr80+m6zOl/+lfkEiMTtgrSQO19sW/NdCLzx3/kFTQ==
+X-Received: by 2002:a7b:c62a:: with SMTP id p10mr22230559wmk.46.1584317062758; 
+ Sun, 15 Mar 2020 17:04:22 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id c85sm28373383wmd.48.2020.03.15.17.04.08
+ by smtp.gmail.com with ESMTPSA id j15sm52742816wrp.85.2020.03.15.17.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:04:09 -0700 (PDT)
+ Sun, 15 Mar 2020 17:04:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] qapi/misc: Restrict balloon-related commands to
+Subject: [PATCH v2 5/8] qapi/misc: Restrict query-vm-generation-id command to
  machine code
-Date: Mon, 16 Mar 2020 01:03:43 +0100
-Message-Id: <20200316000348.29692-4-philmd@redhat.com>
+Date: Mon, 16 Mar 2020 01:03:45 +0100
+Message-Id: <20200316000348.29692-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316000348.29692-1-philmd@redhat.com>
 References: <20200316000348.29692-1-philmd@redhat.com>
@@ -77,8 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,265 +104,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qapi/machine.json          | 83 ++++++++++++++++++++++++++++++++++++++
- qapi/misc.json             | 83 --------------------------------------
- include/sysemu/balloon.h   |  2 +-
- balloon.c                  |  2 +-
- hw/virtio/virtio-balloon.c |  2 +-
- monitor/hmp-cmds.c         |  1 +
- 6 files changed, 87 insertions(+), 86 deletions(-)
+ qapi/machine.json | 20 ++++++++++++++++++++
+ qapi/misc.json    | 21 ---------------------
+ hw/acpi/vmgenid.c |  2 +-
+ stubs/vmgenid.c   |  2 +-
+ 4 files changed, 22 insertions(+), 23 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 07ffc07ba2..c096efbea3 100644
+index c096efbea3..1a2a4b0d48 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -915,3 +915,86 @@
-   'data': 'NumaOptions',
-   'allow-preconfig': true
- }
+@@ -415,6 +415,26 @@
+ ##
+ { 'command': 'query-target', 'returns': 'TargetInfo' }
+=20
++##
++# @GuidInfo:
++#
++# GUID information.
++#
++# @guid: the globally unique identifier
++#
++# Since: 2.9
++##
++{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
 +
 +##
-+# @balloon:
++# @query-vm-generation-id:
 +#
-+# Request the balloon driver to change its balloon size.
++# Show Virtual Machine Generation ID
 +#
-+# @value: the target size of the balloon in bytes
-+#
-+# Returns: - Nothing on success
-+#          - If the balloon driver is enabled but not functional because t=
-he KVM
-+#            kernel module cannot support it, KvmMissingCap
-+#          - If no balloon device is present, DeviceNotActive
-+#
-+# Notes: This command just issues a request to the guest.  When it returns=
-,
-+#        the balloon size may not have changed.  A guest can change the ba=
-lloon
-+#        size independent of this command.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "balloon", "arguments": { "value": 536870912 } }
-+# <- { "return": {} }
-+#
++# Since: 2.9
 +##
-+{ 'command': 'balloon', 'data': {'value': 'int'} }
++{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
 +
-+##
-+# @BalloonInfo:
-+#
-+# Information about the guest balloon device.
-+#
-+# @actual: the number of bytes the balloon currently contains
-+#
-+# Since: 0.14.0
-+#
-+##
-+{ 'struct': 'BalloonInfo', 'data': {'actual': 'int' } }
-+
-+##
-+# @query-balloon:
-+#
-+# Return information about the balloon device.
-+#
-+# Returns: - @BalloonInfo on success
-+#          - If the balloon driver is enabled but not functional because t=
-he KVM
-+#            kernel module cannot support it, KvmMissingCap
-+#          - If no balloon device is present, DeviceNotActive
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-balloon" }
-+# <- { "return": {
-+#          "actual": 1073741824,
-+#       }
-+#    }
-+#
-+##
-+{ 'command': 'query-balloon', 'returns': 'BalloonInfo' }
-+
-+##
-+# @BALLOON_CHANGE:
-+#
-+# Emitted when the guest changes the actual BALLOON level. This value is
-+# equivalent to the @actual field return by the 'query-balloon' command
-+#
-+# @actual: actual level of the guest memory balloon in bytes
-+#
-+# Note: this event is rate-limited.
-+#
-+# Since: 1.2
-+#
-+# Example:
-+#
-+# <- { "event": "BALLOON_CHANGE",
-+#      "data": { "actual": 944766976 },
-+#      "timestamp": { "seconds": 1267020223, "microseconds": 435656 } }
-+#
-+##
-+{ 'event': 'BALLOON_CHANGE',
-+  'data': { 'actual': 'int' } }
+ ##
+ # @LostTickPolicy:
+ #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 2725d835ad..ed28e41229 100644
+index f70025f34c..8c02870227 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -186,63 +186,6 @@
- { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
-   'allow-preconfig': true }
-=20
--##
--# @BalloonInfo:
--#
--# Information about the guest balloon device.
--#
--# @actual: the number of bytes the balloon currently contains
--#
--# Since: 0.14.0
--#
--##
--{ 'struct': 'BalloonInfo', 'data': {'actual': 'int' } }
--
--##
--# @query-balloon:
--#
--# Return information about the balloon device.
--#
--# Returns: - @BalloonInfo on success
--#          - If the balloon driver is enabled but not functional because t=
-he KVM
--#            kernel module cannot support it, KvmMissingCap
--#          - If no balloon device is present, DeviceNotActive
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-balloon" }
--# <- { "return": {
--#          "actual": 1073741824,
--#       }
--#    }
--#
--##
--{ 'command': 'query-balloon', 'returns': 'BalloonInfo' }
--
--##
--# @BALLOON_CHANGE:
--#
--# Emitted when the guest changes the actual BALLOON level. This value is
--# equivalent to the @actual field return by the 'query-balloon' command
--#
--# @actual: actual level of the guest memory balloon in bytes
--#
--# Note: this event is rate-limited.
--#
--# Since: 1.2
--#
--# Example:
--#
--# <- { "event": "BALLOON_CHANGE",
--#      "data": { "actual": 944766976 },
--#      "timestamp": { "seconds": 1267020223, "microseconds": 435656 } }
--#
--##
--{ 'event': 'BALLOON_CHANGE',
--  'data': { 'actual': 'int' } }
--
- ##
- # @PciMemoryRange:
+@@ -1383,24 +1383,3 @@
  #
-@@ -751,32 +694,6 @@
  ##
- { 'command': 'inject-nmi' }
-=20
--##
--# @balloon:
--#
--# Request the balloon driver to change its balloon size.
--#
--# @value: the target size of the balloon in bytes
--#
--# Returns: - Nothing on success
--#          - If the balloon driver is enabled but not functional because t=
-he KVM
--#            kernel module cannot support it, KvmMissingCap
--#          - If no balloon device is present, DeviceNotActive
--#
--# Notes: This command just issues a request to the guest.  When it returns=
-,
--#        the balloon size may not have changed.  A guest can change the ba=
-lloon
--#        size independent of this command.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "balloon", "arguments": { "value": 536870912 } }
--# <- { "return": {} }
--#
--##
--{ 'command': 'balloon', 'data': {'value': 'int'} }
+ { 'command': 'xen-load-devices-state', 'data': {'filename': 'str'} }
 -
- ##
- # @human-monitor-command:
- #
-diff --git a/include/sysemu/balloon.h b/include/sysemu/balloon.h
-index aea0c44985..b3de4b92b9 100644
---- a/include/sysemu/balloon.h
-+++ b/include/sysemu/balloon.h
-@@ -15,7 +15,7 @@
- #define QEMU_BALLOON_H
+-##
+-# @GuidInfo:
+-#
+-# GUID information.
+-#
+-# @guid: the globally unique identifier
+-#
+-# Since: 2.9
+-##
+-{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
+-
+-##
+-# @query-vm-generation-id:
+-#
+-# Show Virtual Machine Generation ID
+-#
+-# Since: 2.9
+-##
+-{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+-
+diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+index 2df7623d74..2b26bacaf8 100644
+--- a/hw/acpi/vmgenid.c
++++ b/hw/acpi/vmgenid.c
+@@ -12,7 +12,7 @@
 =20
- #include "exec/cpu-common.h"
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
-=20
- typedef void (QEMUBalloonEvent)(void *opaque, ram_addr_t target);
- typedef void (QEMUBalloonStatus)(void *opaque, BalloonInfo *info);
-diff --git a/balloon.c b/balloon.c
-index f104b42961..ee9c59252d 100644
---- a/balloon.c
-+++ b/balloon.c
-@@ -30,7 +30,7 @@
- #include "sysemu/balloon.h"
- #include "trace-root.h"
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-misc.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "qemu/module.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/aml-build.h"
+diff --git a/stubs/vmgenid.c b/stubs/vmgenid.c
+index 568e42b064..bfad656c6c 100644
+--- a/stubs/vmgenid.c
++++ b/stubs/vmgenid.c
+@@ -1,6 +1,6 @@
+ #include "qemu/osdep.h"
  #include "qapi/error.h"
 -#include "qapi/qapi-commands-misc.h"
 +#include "qapi/qapi-commands-machine.h"
  #include "qapi/qmp/qerror.h"
 =20
- static QEMUBalloonEvent *balloon_event_fn;
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index a4729f7fc9..07ad36b143 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -24,7 +24,7 @@
- #include "hw/virtio/virtio-balloon.h"
- #include "exec/address-spaces.h"
- #include "qapi/error.h"
--#include "qapi/qapi-events-misc.h"
-+#include "qapi/qapi-events-machine.h"
- #include "qapi/visitor.h"
- #include "trace.h"
- #include "qemu/error-report.h"
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 58724031ea..97cd340b2e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -32,6 +32,7 @@
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
+ GuidInfo *qmp_query_vm_generation_id(Error **errp)
 --=20
 2.21.1
 
