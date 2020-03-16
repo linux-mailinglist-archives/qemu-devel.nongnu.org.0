@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812EC187525
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:53:02 +0100 (CET)
-Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495EA187522
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:51:50 +0100 (CET)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxfR-0004y5-Bm
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
+	id 1jDxeH-0003Hw-B0
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHi-0003q0-NI
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:31 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHs-00044E-1F
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHh-0005Mi-IB
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36995)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHo-0006EL-Uk
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:39 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45770)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHh-0005Jb-Cz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:29 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHo-0006BT-Ps
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394109;
+ s=mimecast20190719; t=1584394116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2+BOl0amfKr7UXhgG4Q7Xq9HkrFNXXEvNrFeurKand0=;
- b=QnmsEWBWL9E9Q5v+amVr+ScmWDP4BsjifSb1VU9F24DAsNTuO3dnaTEee8BxF1hY3ARkcH
- ColM++kMnBU3HKZOfEevliGqRTgC6EZEKC3j5khVpk8snJTY05HoESC/YxMUEm++65gBK3
- m86+ydX3dzfPoaD/1HNlBCWMWxbOrcs=
+ bh=h648SmwpCvwN1dBwySehpb4Gdc3DelTHBZmWsV2C42c=;
+ b=HiRkIFr81c3n4yx03zVrJ2tex/oOIBZTgNMZ0dpgQ+kDXHS5QLYcnO5yKPyiqRM+siWwFI
+ WVsp1G89Y30mfYhvnuQi9X20xVHQhKdtefU/hqj3d2mmrpyIvRF7pEnnCUDm2pWKX5oXci
+ RnucTxvTCAABdHjnfQQImIwNBe1nMd8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-RlI9FaEZMueS5TZE10qkew-1; Mon, 16 Mar 2020 17:28:25 -0400
-X-MC-Unique: RlI9FaEZMueS5TZE10qkew-1
+ us-mta-201-vnpjGgGQOvugPX1o4xtHvw-1; Mon, 16 Mar 2020 17:28:27 -0400
+X-MC-Unique: vnpjGgGQOvugPX1o4xtHvw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB410149CC
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3437C1085936
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:26 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7C3B19C4F;
- Mon, 16 Mar 2020 21:28:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 405AA19C4F;
+ Mon, 16 Mar 2020 21:28:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/61] ui/curses: Make control_characters[] array const
-Date: Mon, 16 Mar 2020 22:26:55 +0100
-Message-Id: <1584394048-44994-29-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 29/61] ui/curses: Move arrays to .heap to save 74KiB of .bss
+Date: Mon, 16 Mar 2020 22:26:56 +0100
+Message-Id: <1584394048-44994-30-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -76,28 +76,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-As we only use this array as input, make it const.
+We only need these arrays when using the curses display.
+Move them from the .bss to the .heap (sizes reported on
+x86_64 host: screen[] is 64KiB, vga_to_curses 7KiB).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/curses.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/curses.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/ui/curses.c b/ui/curses.c
-index 3a1b714..3bafc10 100644
+index 3bafc10..a59b23a 100644
 --- a/ui/curses.c
 +++ b/ui/curses.c
-@@ -529,7 +529,7 @@ static void font_setup(void)
-      * Control characters are normally non-printable, but VGA does have
-      * well-known glyphs for them.
-      */
--    static uint16_t control_characters[0x20] =3D {
-+    static const uint16_t control_characters[0x20] =3D {
-       0x0020,
-       0x263a,
-       0x263b,
+@@ -54,13 +54,13 @@ enum maybe_keycode {
+ };
+=20
+ static DisplayChangeListener *dcl;
+-static console_ch_t screen[160 * 100];
++static console_ch_t *screen;
+ static WINDOW *screenpad =3D NULL;
+ static int width, height, gwidth, gheight, invalidate;
+ static int px, py, sminx, sminy, smaxx, smaxy;
+=20
+ static const char *font_charset =3D "CP437";
+-static cchar_t vga_to_curses[256];
++static cchar_t *vga_to_curses;
+=20
+ static void curses_update(DisplayChangeListener *dcl,
+                           int x, int y, int w, int h)
+@@ -405,6 +405,8 @@ static void curses_refresh(DisplayChangeListener *dcl)
+ static void curses_atexit(void)
+ {
+     endwin();
++    g_free(vga_to_curses);
++    g_free(screen);
+ }
+=20
+ /*
+@@ -783,6 +785,8 @@ static void curses_display_init(DisplayState *ds, Displ=
+ayOptions *opts)
+     if (opts->u.curses.charset) {
+         font_charset =3D opts->u.curses.charset;
+     }
++    screen =3D g_new0(console_ch_t, 160 * 100);
++    vga_to_curses =3D g_new0(cchar_t, 256);
+     curses_setup();
+     curses_keyboard_setup();
+     atexit(curses_atexit);
 --=20
 1.8.3.1
 
