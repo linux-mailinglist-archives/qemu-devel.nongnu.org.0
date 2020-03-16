@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349EF18638A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:08:51 +0100 (CET)
-Received: from localhost ([::1]:33580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B881863AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 04:29:39 +0100 (CET)
+Received: from localhost ([::1]:33684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDg7V-0007iN-L6
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:08:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40529)
+	id 1jDgRe-0004RN-8S
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 23:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDfvD-0004rL-Ux
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:56:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDgAp-00011M-4J
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDfvB-0002d6-MK
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 22:56:07 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38949 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jDgAm-0007NE-M9
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 23:12:14 -0400
+Received: from ozlabs.org ([203.11.71.1]:48559)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDfvA-0002YJ-SK; Sun, 15 Mar 2020 22:56:05 -0400
+ id 1jDgAm-0007Ap-8B; Sun, 15 Mar 2020 23:12:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48ggss6ZLHz9sPJ; Mon, 16 Mar 2020 13:56:01 +1100 (AEDT)
+ id 48ghDS5Kq2z9sPJ; Mon, 16 Mar 2020 14:12:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584327361;
- bh=qKVZ6RzExzfB8jkpmR2NI6uWxaNh3JZ2ksqTTTrmkqo=;
+ d=gibson.dropbear.id.au; s=201602; t=1584328328;
+ bh=QRM+IirhiZ861gBYjVcwxKd6OTKPrvhzpdyPSNheM0Q=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nCKzVmLKSayN+zEyKA0Wo78S/oPHyR9YZAedZJ1ut5FqbHPjcIjBc6G4QQt0ftx8A
- WYvMxhQQwK5AUt3pt+iMBqW7AGM8pLDL+wQhgdsYybeJcWKvdd3KK28LHHCDCOzK53
- GXD2S0J+mYc1MNFVcUI3/bWjwCytluE8j3I9G0CE=
-Date: Mon, 16 Mar 2020 13:55:56 +1100
+ b=cIw7C2dBYAbqg0hsywQaBcEENsRWYC2bxltIAbmDLyXlO3gw/KqYUBMBdCQKh21k/
+ z+CBjAAOMILgWmsoLAZc8AfBMh2zad3D+gH/a8supvdD8V/NWn0aMqSKuE+c9a/j/M
+ eHzCcSQLJ95cW3sz6UTqDUlV0glm3fu6TuEmdRV8=
+Date: Mon, 16 Mar 2020 13:57:04 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 4/4] spapr: Fold spapr_node0_size() into its only caller
-Message-ID: <20200316025556.GF2013@umbus.fritz.box>
-References: <20200313040539.819138-1-david@gibson.dropbear.id.au>
- <20200313040539.819138-5-david@gibson.dropbear.id.au>
- <20200313103330.125530ee@bahia.home>
+To: Vitaly Chikunov <vt@altlinux.org>
+Subject: Re: [PATCH] target/ppc: Fix rlwinm on ppc64
+Message-ID: <20200316025704.GG2013@umbus.fritz.box>
+References: <20200309204557.14836-1-vt@altlinux.org>
+ <20200310231503.GR660117@umbus.fritz.box>
+ <20200311130022.sswvce3wx3dii4mf@altlinux.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="b8GWCKCLzrXbuNet"
+ protocol="application/pgp-signature"; boundary="bFsKbPszpzYNtEU6"
 Content-Disposition: inline
-In-Reply-To: <20200313103330.125530ee@bahia.home>
+In-Reply-To: <20200311130022.sswvce3wx3dii4mf@altlinux.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -56,142 +56,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, philmd@redhat.com, clg@kaod.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, mdroth@us.ibm.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---b8GWCKCLzrXbuNet
+--bFsKbPszpzYNtEU6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 13, 2020 at 10:33:30AM +0100, Greg Kurz wrote:
-> On Fri, 13 Mar 2020 15:05:39 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
+On Wed, Mar 11, 2020 at 04:00:22PM +0300, Vitaly Chikunov wrote:
+> David,
 >=20
-> > The Real Mode Area (RMA) needs to fit within the NUMA node owning memory
-> > at address 0.  That's usually node 0, but can be a later one if there a=
-re
-> > some nodes which have no memory (only CPUs).
+> On Wed, Mar 11, 2020 at 10:15:03AM +1100, David Gibson wrote:
+> > On Mon, Mar 09, 2020 at 11:45:57PM +0300, Vitaly Chikunov wrote:
+> > > rlwinm cannot just AND with Mask if shift value is zero on ppc64 when
+> > > Mask Begin is greater than Mask End and high bits are set to 1.
+> > >=20
+> > > Note that PowerISA 3.0B says that for `rlwinm' ROTL32 is used, and
+> > > ROTL32 is defined (in 3.3.14) so that rotated value should have two
+> > > copies of lower word of the source value.
+> > >=20
+> > > This seems to be another incarnation of the fix from 820724d170
+> > > ("target-ppc: Fix rlwimi, rlwinm, rlwnm again"), except I leave
+> > > optimization when Mask value is less than 32 bits.
+> > >=20
+> > > Fixes: 7b4d326f47 ("target-ppc: Use the new deposit and extract ops")
+> > > Cc: qemu-stable@nongnu.org
+> > > Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
 > >=20
-> > This is currently handled by the spapr_node0_size() helper.  It has only
-> > one caller, so there's not a lot of point splitting it out.  It's also
-> > extremely easy to misread the code as clamping to the size of the small=
-est
-> > node rather than the first node with any memory.
-> >=20
-> > So, fold it into the caller, and add some commentary to make it a bit
-> > clearer exactly what it's doing.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/ppc/spapr.c | 37 +++++++++++++++++++++----------------
-> >  1 file changed, 21 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 6c32ec3c0a..6a42c0f1c9 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -295,20 +295,6 @@ static void spapr_dt_pa_features(SpaprMachineState=
- *spapr,
-> >      _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_=
-size)));
-> >  }
-> > =20
-> > -static hwaddr spapr_node0_size(MachineState *machine)
-> > -{
-> > -    if (machine->numa_state->num_nodes) {
-> > -        int i;
-> > -        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-> > -            if (machine->numa_state->nodes[i].node_mem) {
-> > -                return MIN(pow2floor(machine->numa_state->nodes[i].nod=
-e_mem),
-> > -                           machine->ram_size);
-> > -            }
-> > -        }
-> > -    }
-> > -    return machine->ram_size;
-> > -}
-> > -
-> >  static void add_str(GString *s, const gchar *s1)
-> >  {
-> >      g_string_append_len(s, s1, strlen(s1) + 1);
-> > @@ -2631,10 +2617,24 @@ static hwaddr spapr_rma_size(SpaprMachineState =
-*spapr, Error **errp)
-> >      MachineState *machine =3D MACHINE(spapr);
-> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> >      hwaddr rma_size =3D machine->ram_size;
-> > -    hwaddr node0_size =3D spapr_node0_size(machine);
-> > =20
-> >      /* RMA has to fit in the first NUMA node */
-> > -    rma_size =3D MIN(rma_size, node0_size);
-> > +    if (machine->numa_state->num_nodes) {
-> > +        /*
-> > +         * It's possible for there to be some zero-memory nodes first
-> > +         * in the list.  We need the RMA to fit inside the memory of
-> > +         * the first node which actually has some memory.
-> > +         */
-> > +        int i;
-> > +
-> > +        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-> > +            if (machine->numa_state->nodes[i].node_mem !=3D 0) {
-> > +                hwaddr node_size =3D machine->numa_state->nodes[i].nod=
-e_mem;
-> > +                rma_size =3D MIN(rma_size, pow2floor(node_size));
-> > +                break;
-> > +            }
-> > +        }
-> > +    }
-> > =20
-> >      /*
-> >       * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-> > @@ -2651,6 +2651,11 @@ static hwaddr spapr_rma_size(SpaprMachineState *=
-spapr, Error **errp)
-> >          rma_size =3D MIN(rma_size, smc->rma_limit);
-> >      }
-> > =20
-> > +    /*
-> > +     * RMA size must be a power of 2
-> > +     */
-> > +    rma_size =3D pow2floor(rma_size);
-> > +
+> > Applied to ppc-for-5.0.
 >=20
-> The patch is identical to the last spin, for which I had
-> a comment already:
+> Thanks! FYI, there is at least one real case of this bug:
+>   https://github.com/iovisor/bcc/issues/2771
+> so this is not theoretical, and, probably, should go to the stable
+> too.
 
-Ah, dangit.  It's actually not identical.  I put the pow2floor() back
-in the node loop, but forgot to remove it from the bottom here.  I'll
-put this one off for now.
+Adding CC to Mike Roth who looks after the stable branch.
 
-> -----------------------------------------------------------------------
-> On Wed, 4 Mar 2020 12:25:55 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
-> > On Tue, Mar 03, 2020 at 11:32:49AM +0100, Greg Kurz wrote:
+Can you include this one, please.
+
 >=20
-> [...]
+> Thanks,
 >=20
-> > > In any case, it would probably help to mention somewhere
-> > > why the rounding is introduced by this patch.
+>=20
 > >=20
-> > Drat.  I meant to sort out your comment on the last spin better than
-> > this, but got part way through and forgot what I was doing.
-> >
-> -----------------------------------------------------------------------
+> > > ---
+> > >  target/ppc/translate.c | 20 +++++++++++---------
+> > >  1 file changed, 11 insertions(+), 9 deletions(-)
+> > >=20
+> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > > index 36fa27367c..127c82a24e 100644
+> > > --- a/target/ppc/translate.c
+> > > +++ b/target/ppc/translate.c
+> > > @@ -1938,15 +1938,17 @@ static void gen_rlwinm(DisasContext *ctx)
+> > >          me +=3D 32;
+> > >  #endif
+> > >          mask =3D MASK(mb, me);
+> > > -        if (sh =3D=3D 0) {
+> > > -            tcg_gen_andi_tl(t_ra, t_rs, mask);
+> > > -        } else if (mask <=3D 0xffffffffu) {
+> > > -            TCGv_i32 t0 =3D tcg_temp_new_i32();
+> > > -            tcg_gen_trunc_tl_i32(t0, t_rs);
+> > > -            tcg_gen_rotli_i32(t0, t0, sh);
+> > > -            tcg_gen_andi_i32(t0, t0, mask);
+> > > -            tcg_gen_extu_i32_tl(t_ra, t0);
+> > > -            tcg_temp_free_i32(t0);
+> > > +        if (mask <=3D 0xffffffffu) {
+> > > +            if (sh =3D=3D 0) {
+> > > +                tcg_gen_andi_tl(t_ra, t_rs, mask);
+> > > +            } else {
+> > > +                TCGv_i32 t0 =3D tcg_temp_new_i32();
+> > > +                tcg_gen_trunc_tl_i32(t0, t_rs);
+> > > +                tcg_gen_rotli_i32(t0, t0, sh);
+> > > +                tcg_gen_andi_i32(t0, t0, mask);
+> > > +                tcg_gen_extu_i32_tl(t_ra, t0);
+> > > +                tcg_temp_free_i32(t0);
+> > > +            }
+> > >          } else {
+> > >  #if defined(TARGET_PPC64)
+> > >              tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
+> >=20
 >=20
-> I still think that the rounding introduced by this patch deserves
-> some explanations in the changelog...
-
-Yeah.. turns out this is more complicated than you'd think.  It is
-indeed related to that block splitting you noticed.  Except that
-AFAICT that block splitting is irrelevant in most cases, and broken
-for most of the remaining cases.  It seems to have been based on a
-misunderstanding of how the kernel's early memory block handling
-works.
-
-My intention had been to make this patch do just the cleanup without
-the rounding change, then address the rounding change another day.
-Except I messed up the first part.
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -199,25 +148,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---b8GWCKCLzrXbuNet
+--bFsKbPszpzYNtEU6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u6rwACgkQbDjKyiDZ
-s5InSw/+K2fBXIheNt5Vr7AN72keVn+br+5THzkeUN+QY//YHQoYVx9O6fcpeOWz
-V0WEbC2AWh8ddX5FPsxVeb0B40h6Bb9b3cn/wcUNtWN6R2Ept8WVqjbwJFyj10RW
-RAEEBV81mk3R/iR3OO0aHavDMNkKEs6CnfKMK8f70krYN+xnijRX5ojC0y4nMres
-tVr2R9QLDeGb47fvKm4i9YyVf0EQMu3ZDg70GmRjSMSJCUiGHh8edP2VYat3ROiR
-aXr2DwrqOInAznwHSS1XSgd2g73kuRXaR+At4DOHk3c/kMt5sl1qBtTyXq+xKdLM
-EoA5VsdZvunJLs1phEYt3IM6i8ec8mc8sQBSuHwSsXjgROIWtvU6Pz8ezAQF0tP/
-X30gUqdmMle1tYliOpetMGnM7xgtmK+NuUL1exj6qMDPM6EBT+mDIu9OqeE3vHbE
-suF02R2rr/AV2mEwypaUSi6UeAZXRtKITe5X287cs3obHF6pba2S9q82cirj7j3V
-lrTBZ/iAsGwtDdwGoX4JqZ1jQ5R+YEaxvAoK/Ix+j67JudtRYmq44n33oWto/kdo
-826rxDychZhGHqz6VR9fCdZ1fpRCCOGLXCgc06IeEhKC3UcwW1oPf0IUKRGjIgGe
-L/V3UR2LShqCOiE4luVi2h1+HJhqt4nIa9SlnW6rnOz7DVXg0B0=
-=NoIc
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5u6wAACgkQbDjKyiDZ
+s5JSQxAAsRh6FvlOquv+vAwgK1D1wZvoCmlBBesmpjj0emDJHRUb5uVQPImgW6Lo
+gtc2ZyKOopzv9z4MnjQgvJGyZ2GBzdt1UZ01g4quVUQVMgHDh4U4BIc5Uf01wkVU
+3Uvpyol01Vv2Us6nKuUJeCLFJIeqV9bgdYRro8HlXifgOaKCFJ2gvlb/dM5EJSmD
+RVmhUarn0sDuOouTMpnWHwRjM8QNVm5tu7SL5/bKnvZpv3dfft6AYLrWQKSi3Dxe
+8x2CNorWGmdn0jRShLnzOASirkbU92PXYHxc2JSr24kCcwxaG+ZuwhskU+neypzc
+MFfBW1WgD9upYGvVloVBzPGA4xVoDXILRXiuDHkouJusFTKph2fMJTS8ohjCTic+
+ewIBSgM4hmM7K/UDdDP8Tg7e8ahVFYzidTQC5IU6YAsq+xRQvxYEu+XAYBnPBPvy
+Cc06jA5lTXXHjXc4Qz5mj80qPNKDcxItLGzb2zVr+7rzV2EzSeNscWOOOigbtadD
+jyNPKiyA6KioIvI/D1CgcYQ4li+rVPdNXhzaKWA0//0HeG8+IJm9UMxpuARGl1Jl
+dOaSGRSZpBPwQ1Y/sRUDQUDknzC/9W8aHXXzGXR3/BCluvt8kvsNfHepBTHx/eHC
+1VsQu8Z+J2JMrZuA+qgmL3qQqVrYJMlATIF54GS1TQ1cPgtVGTE=
+=8pUu
 -----END PGP SIGNATURE-----
 
---b8GWCKCLzrXbuNet--
+--bFsKbPszpzYNtEU6--
 
