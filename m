@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2E51870BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:59:17 +0100 (CET)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26161870A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:53:41 +0100 (CET)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt5A-0000iP-1K
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1jDszk-000727-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlO-0000W9-Ne
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:45 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqlM-0000V7-Dq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlM-0005iA-3m
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:42 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48816)
+ (envelope-from <its@irrelevant.dk>) id 1jDqlI-0005EF-07
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:40 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDql8-00022F-Mm; Mon, 16 Mar 2020 10:30:27 -0400
+ id 1jDql9-00022L-Aa; Mon, 16 Mar 2020 10:30:27 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 484CBBF974;
+ by charlie.dont.surf (Postfix) with ESMTPSA id C3BF6BF97E;
  Mon, 16 Mar 2020 14:29:48 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 25/42] nvme: refactor dma read/write
-Date: Mon, 16 Mar 2020 07:29:11 -0700
-Message-Id: <20200316142928.153431-26-its@irrelevant.dk>
+Subject: [PATCH v6 26/42] nvme: pass request along for tracing
+Date: Mon, 16 Mar 2020 07:29:12 -0700
+Message-Id: <20200316142928.153431-27-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,223 +58,302 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Refactor the nvme_dma_{read,write}_prp functions into a common function
-taking a DMADirection parameter.
-
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 89 ++++++++++++++++++++++++-------------------------
- 1 file changed, 43 insertions(+), 46 deletions(-)
+ hw/block/nvme.c       | 67 +++++++++++++++++++++++++------------------
+ hw/block/trace-events |  2 +-
+ 2 files changed, 40 insertions(+), 29 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e40c080c3b48..809d00443369 100644
+index 809d00443369..3e9c2ed434c2 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -299,55 +299,50 @@ unmap:
-     return status;
+@@ -202,14 +202,18 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, QEMUSGLi=
+st *qsg, QEMUIOVector *iov,
+     return NVME_SUCCESS;
  }
 =20
--static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t l=
-en,
--                                   uint64_t prp1, uint64_t prp2)
-+static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-+                             uint64_t prp1, uint64_t prp2, DMADirection =
+-static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_=
+t prp1,
+-                             uint64_t prp2, uint32_t len, NvmeCtrl *n)
++static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector =
+*iov,
++                             uint64_t prp1, uint64_t prp2, uint32_t len,
++                             NvmeRequest *req)
+ {
+     hwaddr trans_len =3D n->page_size - (prp1 % n->page_size);
+     trans_len =3D MIN(len, trans_len);
+     int num_prps =3D (len >> n->page_bits) + 1;
+     uint16_t status;
+=20
++    trace_nvme_dev_map_prp(nvme_cid(req), trans_len, len, prp1, prp2,
++                           num_prps);
++
+     if (unlikely(!prp1)) {
+         trace_nvme_dev_err_invalid_prp();
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -300,13 +304,14 @@ unmap:
+ }
+=20
+ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+-                             uint64_t prp1, uint64_t prp2, DMADirection =
 dir)
++                             uint64_t prp1, uint64_t prp2, DMADirection =
+dir,
++                             NvmeRequest *req)
  {
      QEMUSGList qsg;
      QEMUIOVector iov;
      uint16_t status =3D NVME_SUCCESS;
 =20
--    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
--        return NVME_INVALID_FIELD | NVME_DNR;
-+    status =3D nvme_map_prp(&qsg, &iov, prp1, prp2, len, n);
-+    if (status) {
-+        return status;
+-    status =3D nvme_map_prp(&qsg, &iov, prp1, prp2, len, n);
++    status =3D nvme_map_prp(n, &qsg, &iov, prp1, prp2, len, req);
+     if (status) {
+         return status;
      }
--    if (qsg.nsg > 0) {
--        if (dma_buf_write(ptr, len, &qsg)) {
--            status =3D NVME_INVALID_FIELD | NVME_DNR;
--        }
--        qemu_sglist_destroy(&qsg);
--    } else {
--        if (qemu_iovec_to_buf(&iov, 0, ptr, len) !=3D len) {
--            status =3D NVME_INVALID_FIELD | NVME_DNR;
--        }
--        qemu_iovec_destroy(&iov);
--    }
--    return status;
--}
-=20
--static uint16_t nvme_dma_read_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t le=
-n,
--    uint64_t prp1, uint64_t prp2)
--{
--    QEMUSGList qsg;
--    QEMUIOVector iov;
--    uint16_t status =3D NVME_SUCCESS;
-+    if (qsg.nsg > 0) {
-+        uint64_t residual;
-=20
--    trace_nvme_dev_dma_read(prp1, prp2);
-+        if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
-+            residual =3D dma_buf_write(ptr, len, &qsg);
-+        } else {
-+            residual =3D dma_buf_read(ptr, len, &qsg);
-+        }
-=20
--    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
--        return NVME_INVALID_FIELD | NVME_DNR;
--    }
--    if (qsg.nsg > 0) {
--        if (unlikely(dma_buf_read(ptr, len, &qsg))) {
-+        if (unlikely(residual)) {
-             trace_nvme_dev_err_invalid_dma();
-             status =3D NVME_INVALID_FIELD | NVME_DNR;
-         }
-+
-         qemu_sglist_destroy(&qsg);
-     } else {
--        if (unlikely(qemu_iovec_from_buf(&iov, 0, ptr, len) !=3D len)) {
-+        size_t bytes;
-+
-+        if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
-+            bytes =3D qemu_iovec_to_buf(&iov, 0, ptr, len);
-+        } else {
-+            bytes =3D qemu_iovec_from_buf(&iov, 0, ptr, len);
-+        }
-+
-+        if (unlikely(bytes !=3D len)) {
-             trace_nvme_dev_err_invalid_dma();
-             status =3D NVME_INVALID_FIELD | NVME_DNR;
-         }
-+
-         qemu_iovec_destroy(&iov);
+@@ -547,7 +552,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *n=
+s, NvmeCmd *cmd,
+         return NVME_LBA_RANGE | NVME_DNR;
      }
-+
-     return status;
- }
 =20
-@@ -775,8 +770,8 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd =
+-    if (nvme_map_prp(&req->qsg, &req->iov, prp1, prp2, data_size, n)) {
++    if (nvme_map_prp(n, &req->qsg, &req->iov, prp1, prp2, data_size, req=
+)) {
+         block_acct_invalid(blk_get_stats(n->conf.blk), acct);
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
+@@ -771,7 +776,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd =
 *cmd, uint8_t rae,
-         nvme_clear_events(n, NVME_AER_TYPE_SMART);
      }
 =20
--    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp=
-1,
--                             prp2);
-+    return nvme_dma_prp(n, (uint8_t *) &smart + off, trans_len, prp1, pr=
+     return nvme_dma_prp(n, (uint8_t *) &smart + off, trans_len, prp1, pr=
 p2,
-+                        DMA_DIRECTION_FROM_DEVICE);
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
  static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf=
 _len,
-@@ -795,8 +790,8 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd=
+@@ -791,7 +796,7 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd=
  *cmd, uint32_t buf_len,
-=20
      trans_len =3D MIN(sizeof(fw_log) - off, buf_len);
 =20
--    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, pr=
-p1,
--                             prp2);
-+    return nvme_dma_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1, p=
+     return nvme_dma_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1, p=
 rp2,
-+                        DMA_DIRECTION_FROM_DEVICE);
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
  static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
-@@ -820,7 +815,8 @@ static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd =
+@@ -816,7 +821,7 @@ static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd =
 *cmd, uint8_t rae,
-=20
      trans_len =3D MIN(sizeof(errlog) - off, buf_len);
 =20
--    return nvme_dma_read_prp(n, errlog, trans_len, prp1, prp2);
-+    return nvme_dma_prp(n, errlog, trans_len, prp1, prp2,
-+                        DMA_DIRECTION_FROM_DEVICE);
+     return nvme_dma_prp(n, errlog, trans_len, prp1, prp2,
+-                        DMA_DIRECTION_FROM_DEVICE);
++                        DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
  static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req=
 )
-@@ -963,8 +959,8 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeI=
-dentify *c)
+@@ -952,7 +957,8 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *=
+cmd)
+     return NVME_SUCCESS;
+ }
 =20
+-static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeIdentify *c)
++static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeIdentify *c,
++                                   NvmeRequest *req)
+ {
+     uint64_t prp1 =3D le64_to_cpu(c->prp1);
+     uint64_t prp2 =3D le64_to_cpu(c->prp2);
+@@ -960,10 +966,11 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, Nvm=
+eIdentify *c)
      trace_nvme_dev_identify_ctrl();
 =20
--    return nvme_dma_read_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctr=
-l),
--        prp1, prp2);
-+    return nvme_dma_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl), p=
+     return nvme_dma_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl), p=
 rp1,
-+                        prp2, DMA_DIRECTION_FROM_DEVICE);
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
- static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
-@@ -983,8 +979,8 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIde=
-ntify *c)
-=20
+-static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
++static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c,
++                                 NvmeRequest *req)
+ {
+     NvmeNamespace *ns;
+     uint32_t nsid =3D le32_to_cpu(c->nsid);
+@@ -980,10 +987,11 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeI=
+dentify *c)
      ns =3D &n->namespaces[nsid - 1];
 =20
--    return nvme_dma_read_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns)=
-,
--        prp1, prp2);
-+    return nvme_dma_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns), prp=
+     return nvme_dma_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns), prp=
 1,
-+                        prp2, DMA_DIRECTION_FROM_DEVICE);
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
- static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
-@@ -1009,7 +1005,8 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, N=
-vmeIdentify *c)
-             break;
+-static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
++static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c,
++                                     NvmeRequest *req)
+ {
+     static const int data_len =3D NVME_IDENTIFY_DATA_SIZE;
+     uint32_t min_nsid =3D le32_to_cpu(c->nsid);
+@@ -1006,12 +1014,13 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n,=
+ NvmeIdentify *c)
          }
      }
--    ret =3D nvme_dma_read_prp(n, (uint8_t *)list, data_len, prp1, prp2);
-+    ret =3D nvme_dma_prp(n, (uint8_t *)list, data_len, prp1, prp2,
-+                       DMA_DIRECTION_FROM_DEVICE);
+     ret =3D nvme_dma_prp(n, (uint8_t *)list, data_len, prp1, prp2,
+-                       DMA_DIRECTION_FROM_DEVICE);
++                       DMA_DIRECTION_FROM_DEVICE, req);
      g_free(list);
      return ret;
  }
-@@ -1044,8 +1041,8 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtr=
-l *n, NvmeIdentify *c)
-     ns_descr->nidl =3D NVME_NIDT_UUID_LEN;
+=20
+-static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c=
+)
++static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c=
+,
++                                            NvmeRequest *req)
+ {
+     uint32_t nsid =3D le32_to_cpu(c->nsid);
+     uint64_t prp1 =3D le64_to_cpu(c->prp1);
+@@ -1042,24 +1051,24 @@ static uint16_t nvme_identify_ns_descr_list(NvmeC=
+trl *n, NvmeIdentify *c)
      stl_be_p(ns_descr + sizeof(*ns_descr), nsid);
 =20
--    ret =3D nvme_dma_read_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SI=
-ZE, prp1,
--                            prp2);
-+    ret =3D nvme_dma_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SIZE, p=
+     ret =3D nvme_dma_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SIZE, p=
 rp1,
-+                       prp2, DMA_DIRECTION_FROM_DEVICE);
+-                       prp2, DMA_DIRECTION_FROM_DEVICE);
++                       prp2, DMA_DIRECTION_FROM_DEVICE, req);
      g_free(list);
      return ret;
  }
-@@ -1128,8 +1125,8 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl=
- *n, NvmeCmd *cmd)
 =20
+-static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
++static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *re=
+q)
+ {
+     NvmeIdentify *c =3D (NvmeIdentify *)cmd;
+=20
+     switch (le32_to_cpu(c->cns)) {
+     case NVME_ID_CNS_NS:
+-        return nvme_identify_ns(n, c);
++        return nvme_identify_ns(n, c, req);
+     case NVME_ID_CNS_CTRL:
+-        return nvme_identify_ctrl(n, c);
++        return nvme_identify_ctrl(n, c, req);
+     case NVME_ID_CNS_NS_ACTIVE_LIST:
+-        return nvme_identify_nslist(n, c);
++        return nvme_identify_nslist(n, c, req);
+     case NVME_ID_CNS_NS_DESCR_LIST:
+-        return nvme_identify_ns_descr_list(n, c);
++        return nvme_identify_ns_descr_list(n, c, req);
+     default:
+         trace_nvme_dev_err_invalid_identify_cns(le32_to_cpu(c->cns));
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1118,7 +1127,8 @@ static inline uint64_t nvme_get_timestamp(const Nvm=
+eCtrl *n)
+     return cpu_to_le64(ts.all);
+ }
+=20
+-static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
++static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd,
++                                           NvmeRequest *req)
+ {
+     uint64_t prp1 =3D le64_to_cpu(cmd->dptr.prp1);
+     uint64_t prp2 =3D le64_to_cpu(cmd->dptr.prp2);
+@@ -1126,7 +1136,7 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl=
+ *n, NvmeCmd *cmd)
      uint64_t timestamp =3D nvme_get_timestamp(n);
 =20
--    return nvme_dma_read_prp(n, (uint8_t *)&timestamp,
--                                 sizeof(timestamp), prp1, prp2);
-+    return nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp=
+     return nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp=
 1,
-+                        prp2, DMA_DIRECTION_FROM_DEVICE);
+-                        prp2, DMA_DIRECTION_FROM_DEVICE);
++                        prp2, DMA_DIRECTION_FROM_DEVICE, req);
  }
 =20
  static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest =
 *req)
-@@ -1214,8 +1211,8 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl=
+@@ -1178,7 +1188,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeC=
+md *cmd, NvmeRequest *req)
+         trace_nvme_dev_getfeat_numq(result);
+         break;
+     case NVME_TIMESTAMP:
+-        return nvme_get_feature_timestamp(n, cmd);
++        return nvme_get_feature_timestamp(n, cmd, req);
+     case NVME_INTERRUPT_COALESCING:
+         result =3D cpu_to_le32(n->features.int_coalescing);
+         break;
+@@ -1204,7 +1214,8 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeC=
+md *cmd, NvmeRequest *req)
+     return NVME_SUCCESS;
+ }
+=20
+-static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
++static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd,
++                                           NvmeRequest *req)
+ {
+     uint16_t ret;
+     uint64_t timestamp;
+@@ -1212,7 +1223,7 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl=
  *n, NvmeCmd *cmd)
-     uint64_t prp1 =3D le64_to_cpu(cmd->dptr.prp1);
      uint64_t prp2 =3D le64_to_cpu(cmd->dptr.prp2);
 =20
--    ret =3D nvme_dma_write_prp(n, (uint8_t *)&timestamp,
--                                sizeof(timestamp), prp1, prp2);
-+    ret =3D nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), pr=
+     ret =3D nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), pr=
 p1,
-+                       prp2, DMA_DIRECTION_TO_DEVICE);
+-                       prp2, DMA_DIRECTION_TO_DEVICE);
++                       prp2, DMA_DIRECTION_TO_DEVICE, req);
      if (ret !=3D NVME_SUCCESS) {
          return ret;
      }
+@@ -1283,7 +1294,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeC=
+md *cmd, NvmeRequest *req)
+                                       ((n->params.max_ioqpairs - 1) << 1=
+6));
+         break;
+     case NVME_TIMESTAMP:
+-        return nvme_set_feature_timestamp(n, cmd);
++        return nvme_set_feature_timestamp(n, cmd, req);
+     case NVME_ASYNCHRONOUS_EVENT_CONF:
+         n->features.async_config =3D dw11;
+         break;
+@@ -1334,7 +1345,7 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd=
+ *cmd, NvmeRequest *req)
+     case NVME_ADM_CMD_CREATE_CQ:
+         return nvme_create_cq(n, cmd);
+     case NVME_ADM_CMD_IDENTIFY:
+-        return nvme_identify(n, cmd);
++        return nvme_identify(n, cmd, req);
+     case NVME_ADM_CMD_ABORT:
+         return nvme_abort(n, cmd, req);
+     case NVME_ADM_CMD_SET_FEATURES:
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index adf11313f956..e31e652fa04e 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -33,7 +33,7 @@ nvme_dev_irq_msix(uint32_t vector) "raising MSI-X IRQ v=
+ector %u"
+ nvme_dev_irq_pin(void) "pulsing IRQ pin"
+ nvme_dev_irq_masked(void) "IRQ is masked"
+ nvme_dev_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=3D0x%"PR=
+Ix64" prp2=3D0x%"PRIx64""
+-nvme_dev_map_prp(uint16_t cid, uint8_t opc, uint64_t trans_len, uint32_t=
+ len, uint64_t prp1, uint64_t prp2, int num_prps) "cid %"PRIu16" opc 0x%"=
+PRIx8" trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64=
+" num_prps %d"
++nvme_dev_map_prp(uint16_t cid, uint64_t trans_len, uint32_t len, uint64_=
+t prp1, uint64_t prp2, int num_prps) "cid %"PRIu16" trans_len %"PRIu64" l=
+en %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
+ nvme_dev_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, u=
+int64_t lba) "%s %"PRIu32" blocks (%"PRIu64" bytes) from LBA %"PRIu64""
+ nvme_dev_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t=
+ qsize, uint16_t qflags) "create submission queue, addr=3D0x%"PRIx64", sq=
+id=3D%"PRIu16", cqid=3D%"PRIu16", qsize=3D%"PRIu16", qflags=3D%"PRIu16""
+ nvme_dev_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16=
+_t size, uint16_t qflags, int ien) "create completion queue, addr=3D0x%"P=
+RIx64", cqid=3D%"PRIu16", vector=3D%"PRIu16", qsize=3D%"PRIu16", qflags=3D=
+%"PRIu16", ien=3D%d"
 --=20
 2.25.1
 
