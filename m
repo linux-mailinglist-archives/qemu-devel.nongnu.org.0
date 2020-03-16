@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECDA186CCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:08:52 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2F3186CE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:17:45 +0100 (CET)
+Received: from localhost ([::1]:38878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDqQF-0007Ph-1A
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50561)
+	id 1jDqYp-0002MW-M5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDp0P-0001Cv-5i
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:06 -0400
+ (envelope-from <berrange@redhat.com>) id 1jDp0p-0001KH-Mi
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDp0O-0003Et-0j
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52672
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jDp0n-0006oC-8c
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43950
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDp0N-00038q-SP
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:03 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jDp0n-0006Zt-38
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584362283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1584362307;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X8s1pbMd8HiFdjP0FyxZTLEw+ccXxxpvBh8ui/fgRtc=;
- b=U6o43tBET/rNDe8frZqNUubrr7WMnO818C4uBLnqbe+rpCgwGJS1ZC5F7I5i275NB0fKca
- no3rn2f979H4mdHSPBoCMmqg/drMp52W1s4qDsCTNWPbA1H0E/PCd6Si7NEza6CvJkCyiu
- 05HIz0ukPcbVtN4c+ywx9brqngIFi6o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-raHmH3HuOMKikvbd8j9NqA-1; Mon, 16 Mar 2020 08:38:01 -0400
-X-MC-Unique: raHmH3HuOMKikvbd8j9NqA-1
-Received: by mail-wr1-f72.google.com with SMTP id 94so4288409wrr.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:38:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=74Ivas21HF4MoE96e8hQMSlPbRf3Nzcooh5m6Iuis2I=;
- b=bKjEDe2cfBBMFIc8X22Wu2ub6fI1/Yf8ogpRi8mb9pXrTAwI88MWQUjSfBafmNLrsI
- 7s/aF0cTqLgPGTgJ8S6Cm2F42kLEA9XMEtpum2sJ3GbYA432Dgao+CMNydfpNnnXqRZX
- S11sboB+xkjU3D95tLcoPeh8hw8EdsJdV1fa8H97ANZCi/xqv+6j7dqHylDrQjOS/P9h
- f328IzBExD6A5X0/dSkicMylXqDEIedl7W8ozN6zwfeaxA/9FLc7GkZFCsNQPpWhjmTN
- if2eRKproFUb/QP6SkFfQuOyVBFVgEeDH1e61PPmlKCxEI5tRVsk7ibNXv5Ym1IQ+vlx
- q6Iw==
-X-Gm-Message-State: ANhLgQ1+QYx7dHqQT/aZsuRABRa+1/g2hHSBY/HnQA2KUqVZeQMGihde
- W6jbgPdEYwEEOJcuRAVzT+SNb/orhJrfXgFpnRvpaypsvmpEAzLPpgDtLuuiz9qTNoCvPO2nmAe
- nR3gHD7CSjROO1/k=
-X-Received: by 2002:adf:f18a:: with SMTP id h10mr12780718wro.255.1584362280329; 
- Mon, 16 Mar 2020 05:38:00 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vttllZIVd7rfj2P3jTwFi9aXCPgkpbu9vI1mAOa6elnistYO5w6CJRc6xKANCZ/RXsdh2i4QQ==
-X-Received: by 2002:adf:f18a:: with SMTP id h10mr12780704wro.255.1584362280120; 
- Mon, 16 Mar 2020 05:38:00 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.82.39])
- by smtp.gmail.com with ESMTPSA id v2sm6948546wrt.58.2020.03.16.05.37.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 05:37:59 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: Mark the LatticeMico32 target as orphan
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?B?w4Frb3MgS292w6Fjcw==?= <akoskovacs@gmx.com>,
- qemu-devel@nongnu.org, Michael Walle <michael@walle.cc>
-References: <20200316122641.14017-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ca8fb038-43e4-d702-5ebc-bcc78b99445b@redhat.com>
-Date: Mon, 16 Mar 2020 13:37:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=eWvomnxaUXY+4089nhzBiG0Xxg7JaSqP2Yu8nO1j6zw=;
+ b=VQLWfo49OW+gWvTmtN2mBxVJEq6bfhbIQO93it2w4upOSCrB6PzKapmhcG+dqrUFljaa/D
+ vXZEMGCyaMA2cIDjx7zy4XPIQcekhiz5e98wOYfoUgqOsbsYluAjCpUhymWkjGAr6E2jfJ
+ zMYVmHl8ZxSgCAjTZvHcqXpu+Sd3ZtM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-vVM6EV70PS20qbNWbXejww-1; Mon, 16 Mar 2020 08:38:18 -0400
+X-MC-Unique: vVM6EV70PS20qbNWbXejww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E30AE13F8;
+ Mon, 16 Mar 2020 12:38:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0EF291D7D;
+ Mon, 16 Mar 2020 12:38:10 +0000 (UTC)
+Date: Mon, 16 Mar 2020 12:38:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
+Message-ID: <20200316123807.GG1528804@redhat.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200316122641.14017-1-philmd@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200312193616.438922-1-crosa@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,59 +74,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer Moschetta <wmoschet@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/20 13:26, Philippe Mathieu-Daud=C3=A9 wrote:
-> Michael Walle expressed his desire to orphan the lm32 target [*]:
+On Thu, Mar 12, 2020 at 03:36:11PM -0400, Cleber Rosa wrote:
+> The idea about a public facing Gating CI for QEMU was lastly
+> summarized in an RFC[1].  Since then, it was decided that a
+> simpler version should be attempted first.
 >=20
->   I guess it is time to pull the plug. Mainly, because I have
->   no time for this anymore. I've always worked on this on my
->   spare time and life changed. And secondly, I guess RISC-V is
->   taking over ;) It has a far better ecosystem. Also, to my
->   knowledge the only (public) user of LM32 is milkymist and this
->   project is dead for years now..
+> Changes from the RFC patches[2] accompanying the RFC document:
 >=20
->   So time to say goodbye. It was fun and I've learned a lot -
->   technically and also how a huge open source project works.
->   Thank you everyone for that :)
+> - Moved gating job definitions to .gitlab-ci-gating.yml
+> - Added info on "--disable-libssh" build option requirement
+>   (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs
+> - Added info on "--disable-glusterfs" build option requirement
+>   (there's no static version of those libs in distro supplied
+>   packages) to one
+> - Dropped ubuntu-18.04.3-x86_64-notools job definition, because it
+>   doesn't fall into the general scope of gating job described by PMM
+>   (and it did not run any test)
+> - Added w32 and w64 cross builds based on Fedora 30
+> - Added a FreeBSD based job that builds all targets and runs `make
+>   check`
+> - Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a
+>   simple but effective way of speeding up the builds and tests by
+>   using a number of make jobs matching the number of CPUs
+> - Because the Ansible playbooks reference the content on Dockerfiles,
+>   some fixes to some Dockerfiles caught in the process were included
+> - New patch with script to check or wait on a pipeline execution
 >=20
->   Basically everything still works and there are even TCG test
->   cases which covers all instructions the processor has.
+> [1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.html
+> [2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.html
 >=20
-> Many thanks to Michael for his substantial contributions to QEMU,
-> and for maintaining the LM32 target for various years!
+> Cleber Rosa (5):
+>   tests/docker: add CentOS 8 Dockerfile
+>   tests/docker: make "buildah bud" output similar to "docker build"
+>   GitLab CI: avoid calling before_scripts on unintended jobs
+>   GitLab Gating CI: introduce pipeline-status contrib script
+>   GitLab Gating CI: initial set of jobs, documentation and scripts
 >=20
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
->=20
-> Cc: Michael Walle <michael@walle.cc>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Michael: Do you want to keep your M: entry, switch it to R: or remove?
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 32867bc636..5376c59581 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -184,7 +184,7 @@ F: include/hw/net/lasi_82596.h
-> =20
->  LM32 TCG CPUs
->  M: Michael Walle <michael@walle.cc>
-> -S: Maintained
-> +S: Orphan
->  F: target/lm32/
->  F: disas/lm32.c
->  F: hw/lm32/
->=20
+>  .gitlab-ci-gating.yml                         | 111 ++++++++++
+>  .gitlab-ci.yml                                |  32 ++-
+>  contrib/ci/orgs/qemu/build-environment.yml    | 208 ++++++++++++++++++
+>  contrib/ci/orgs/qemu/gitlab-runner.yml        |  65 ++++++
+>  contrib/ci/orgs/qemu/inventory                |   2 +
+>  contrib/ci/orgs/qemu/vars.yml                 |  13 ++
+>  contrib/ci/scripts/gitlab-pipeline-status     | 148 +++++++++++++
 
-Cc: qemu-trivial@nongnu.org
+FYI, the contrib/ directory is generally a place for arbitrary / adhoc
+but interesting user contributed files/sources that are not officially
+supported deliverables of the project.
+
+IOW, this is not a good home for the official CI scripts.
+
+We already have a .gitlab-ci.d/ directory that looks like it would
+be good for this.  Or if that's not suitable, then scripts/ci/ is
+a second choice.
+
+>  docs/devel/testing.rst                        | 142 ++++++++++++
+>  tests/docker/dockerfiles/centos8.docker       |  32 +++
+>  .../dockerfiles/debian-win32-cross.docker     |   2 +-
+>  10 files changed, 751 insertions(+), 4 deletions(-)
+>  create mode 100644 .gitlab-ci-gating.yml
+>  create mode 100644 contrib/ci/orgs/qemu/build-environment.yml
+>  create mode 100644 contrib/ci/orgs/qemu/gitlab-runner.yml
+>  create mode 100644 contrib/ci/orgs/qemu/inventory
+>  create mode 100644 contrib/ci/orgs/qemu/vars.yml
+>  create mode 100755 contrib/ci/scripts/gitlab-pipeline-status
+>  create mode 100644 tests/docker/dockerfiles/centos8.docker
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
