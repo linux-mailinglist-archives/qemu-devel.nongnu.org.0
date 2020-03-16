@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF6D186AD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:26:54 +0100 (CET)
-Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D77186A9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:09:38 +0100 (CET)
+Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDopZ-0004LV-DR
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46766)
+	id 1jDoYq-0006GK-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jDnth-0000sJ-An
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:27:07 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jDnwu-00021R-9q
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jDntg-0005QH-1p
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:27:05 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55553)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jDntf-00056a-Nc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:27:03 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 6so17213623wmi.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 04:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5MUvwtubsSuljVSwOrfcQ8rfBzcgm1BJcBFMBORmFX4=;
- b=j1M/XKzqf+TE/B3c/71iMsRJh7cm3G5l5GgSxE3OWEa4ULcEZLI+G1SY3Q+8YtpTDo
- kaYP077oDwMyCXYpbPyg1xQwlMQLMzQPTK7ni9oMMUzElyZ9iKOvNNAl1kJAX2Prb8tN
- vrAhpU9MfT4v6geWPOGgCKYjTC5wrguc4ADsxWbvNjLR5Zrz8rXv/yNxEehTziVS10n9
- n/43ESgn8xQam0EvLTAd0y4U48B317pvAjzG4kKjm7hCTNXbtyH0nHt+K3qjz1p4wBI9
- vja9W+zEIoTi66yrGC6WFjUqlG0lLI9efZzithRTKHYfIV/eV9V9HC666h1yGB51wgbV
- ZuAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5MUvwtubsSuljVSwOrfcQ8rfBzcgm1BJcBFMBORmFX4=;
- b=sp5Lw/R4UU6hbEJcSGdzMBJ7SfxTPDItauWKTY+Ccfx3NowlxgO4ocZ6gHY7O63ptg
- XJTNwktVMJj7fmWD2N3eq0CQSy6H8iKHQetCYNoDF6Y5Ou1a5dRfBt+DhMXiv6kYZSgf
- MuYGyA6bcZbBWwtJbFmUeQ+28vsG/0HmIMlLu6Q62a9oVHZiy5BeIxxbmWW39SfTjm5A
- mmbVYKzdx/4LDK2wz8wcR+4CWQBRKnBCyREvVEK9u/l4jRMKMj17Xod1XtiorZsUiNXM
- IfBhEaivMMB4l6lt86W+OuQzeIkJfM6MGZ/r8spOc5empgXspBLtlIjq3aX1evkPjnN9
- RRBA==
-X-Gm-Message-State: ANhLgQ2ebV+VhvuvL4IhGZN27HMzTr6g34AqqHaURUJ9MYyzFEOhMjre
- Cn/cmbwWYTDkHXhktIRCt74=
-X-Google-Smtp-Source: ADFU+vvcRHNbk5h8A1seNpZmpCnmX9RdzKeBCo0Du/5C0MdlwTptXTZNneHvIs3TRA7RIBYs0LtUlA==
-X-Received: by 2002:a05:600c:21d1:: with SMTP id
- x17mr23354995wmj.94.1584358022273; 
- Mon, 16 Mar 2020 04:27:02 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id b187sm14591448wmc.14.2020.03.16.04.27.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 04:27:00 -0700 (PDT)
-Date: Mon, 16 Mar 2020 11:26:59 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH v5 07/50] multi-process: define mpqemu-link object
-Message-ID: <20200316112659.GA449851@stefanha-x1.localdomain>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <20ec6f6666cc8adb211642156f5230e478143b81.1582576372.git.jag.raman@oracle.com>
- <20200310160941.GK140737@stefanha-x1.localdomain>
- <20200310182623.GA6543@flaka>
+ (envelope-from <kraxel@redhat.com>) id 1jDnwt-0000uM-2y
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45309
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnws-0000og-Rc
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584358222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cHmFc0/OXCCi+NT1SDYJ51HQ8KXTFUSMmYS3mQHZnoU=;
+ b=IW99lAy/pzHkdRhwql/YbPjX0bRATYjFB5N7UfGB71qznLdJq6TTBxNIXPlzFBZRmIl57W
+ GcnlzPLg+AWv48TwOagqt6l4ZpR4yIT1qKykFoxudUqwHAql2gxIVlb9Xul7O9ew/tNg9s
+ AEEc0ail1nsnv8C8wWcsF+cKraXWSXY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-vbl2EKiCNC6HlDaGBsdDFQ-1; Mon, 16 Mar 2020 07:30:20 -0400
+X-MC-Unique: vbl2EKiCNC6HlDaGBsdDFQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68AA2100550D;
+ Mon, 16 Mar 2020 11:30:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
+ [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7154B5C1B2;
+ Mon, 16 Mar 2020 11:30:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8C21E9D13; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/6] qapi/audio: add documentation for AudioFormat
+Date: Mon, 16 Mar 2020 12:30:10 +0100
+Message-Id: <20200316113015.28013-2-kraxel@redhat.com>
+In-Reply-To: <20200316113015.28013-1-kraxel@redhat.com>
+References: <20200316113015.28013-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
-In-Reply-To: <20200310182623.GA6543@flaka>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,77 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, liran.alon@oracle.com,
- Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The review for patch ed2a4a7941 "audio: proper support for
+float samples in mixeng" suggested this would be a good idea.
 
-On Tue, Mar 10, 2020 at 11:26:23AM -0700, Elena Ufimtseva wrote:
-> On Tue, Mar 10, 2020 at 04:09:41PM +0000, Stefan Hajnoczi wrote:
-> > On Mon, Feb 24, 2020 at 03:54:58PM -0500, Jagannathan Raman wrote:
-> > > +    msg->num_fds =3D 0;
-> > > +    for (chdr =3D CMSG_FIRSTHDR(&hdr); chdr !=3D NULL;
-> > > +         chdr =3D CMSG_NXTHDR(&hdr, chdr)) {
-> > > +        if ((chdr->cmsg_level =3D=3D SOL_SOCKET) &&
-> > > +            (chdr->cmsg_type =3D=3D SCM_RIGHTS)) {
-> > > +            fdsize =3D chdr->cmsg_len - CMSG_LEN(0);
-> > > +            msg->num_fds =3D fdsize / sizeof(int);
-> > > +            if (msg->num_fds > REMOTE_MAX_FDS) {
-> > > +                /*
-> > > +                 * TODO: Security issue detected. Sender never sends=
- more
-> > > +                 * than REMOTE_MAX_FDS. This condition should be sig=
-naled to
-> > > +                 * the admin
-> > > +                 */
-> >=20
-> > This TODO doesn't seem actionable.  The error is already handled.
-> >=20
-> > > +                qemu_log_mask(LOG_REMOTE_DEBUG,
-> > > +                              "%s: Max FDs exceeded\n", __func__);
-> > > +                return -ERANGE;
-> >=20
-> > The mutex must be released.
->=20
-> Thank you! Will fix this and above.
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+Tested-by: John Arbuckle <programmingkidx@gmail.com>
+Message-id: 20200308193321.20668-1-vr_qemu@t-online.de
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ qapi/audio.json | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-I have posted a patch series that adds lock guards (automatic unlocking)
-to prevent cases like this in the future:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg04628.html
+diff --git a/qapi/audio.json b/qapi/audio.json
+index d8c507ccedae..c31251f45b57 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -273,6 +273,20 @@
+ #
+ # An enumeration of possible audio formats.
+ #
++# @u8: unsigned 8 bit integer
++#
++# @s8: signed 8 bit integer
++#
++# @u16: unsigned 16 bit integer
++#
++# @s16: signed 16 bit integer
++#
++# @u32: unsigned 32 bit integer
++#
++# @s32: signed 32 bit integer
++#
++# @f32: single precision floating-point (since 5.0)
++#
+ # Since: 4.0
+ ##
+ { 'enum': 'AudioFormat',
+--=20
+2.18.2
 
-You can use the QEMU_LOCK_GUARD() and/or WITH_QEMU_LOCK_GUARD() macros
-to avoid the need for manual qemu_mutex_unlock() calls.
-
-Stefan
-
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vYoMACgkQnKSrs4Gr
-c8gcJggAnJI2D5ozFNi1rsllFqgOatfdf9xL7XporiCWpqxJGBZT28QC/mLY7dw5
-vmIuxzJpG0P0AFK98GF3nqeLhftOkU7FcuTdycRBt6VRFBFiAANHKpKYTjWL3J/W
-ClAsVerXKj+JzmIm23oW7yKfW6P+gHKGRf6Dy96lX8bfJMg48PBXQXeZ9OJG09QQ
-EFPMcLTB19QTq+h6GgZO6a+kULY7FvHBBcmld0sF2ZC6nuBnoP6zJKrFTUQROcKq
-sZ9m/BYOGtoOXLXJd5uiqUiQj7fQ5LvG4pyZ4muc6t8Ju8f1HernUdLmOak7sU6D
-Z/YpO0L1im2vbVibE4wBkyB8x8SbDQ==
-=KJ1x
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
 
