@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E306E186BF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:25:00 +0100 (CET)
-Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC19A186BCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:07:24 +0100 (CET)
+Received: from localhost ([::1]:38228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpjn-0007vB-A1
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:24:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48149)
+	id 1jDpSl-00012N-8B
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDoQm-0004jF-0G
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDoQp-0004k3-LV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDoQf-0006kj-5O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26361
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDoQl-0007Tn-4J
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49354
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoQe-0006Sa-Vi
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:09 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoQj-0007Kd-S2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584360067;
+ s=mimecast20190719; t=1584360072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CNdjDlt0eHUHq6lIkC6ThZH13eQCGbkKP8jPgUh0FmI=;
- b=iwwSXjzyvH9N9rwk+dWol3/w5lQ7CQh6+JZBZVVFD2vLt/b3vwwDNHcZ2aGe1rR+CfHkZl
- re83gp/kL9pnEldja72vdI+Lc3cudBFxXVlv/+fYFvMwZ1tv9NVqBtHSVtb1ChDO6dbwOv
- 1Hlo+cRco+lp2e54vx40z1IFQ/Y+cmE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-EIfBnAexPs29MbG808HLmw-1; Mon, 16 Mar 2020 08:01:05 -0400
-X-MC-Unique: EIfBnAexPs29MbG808HLmw-1
-Received: by mail-wr1-f71.google.com with SMTP id l16so8204606wrr.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:04 -0700 (PDT)
+ bh=hGB0w0+AWtPU6SqFVhC9+mkd/ega3R3KD3mHlnW2xE8=;
+ b=GZlp7FvxecHVvcX7UAAqxhlNju+vumbQqpla7QcBuHuRoG7/lssg3mKWWFLfd+HSwbA1uQ
+ 7CACjl/42rLmU+cjfNsG/0ss4XPgy8uum2IXmTjYg5lRpubRVUAZG4F136iVZRT9xpAdIo
+ GYQAkSZ+bvsCOGsQ+mSp3h2BSvahis0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-atCDE3dXNz6dflEHS0CiRg-1; Mon, 16 Mar 2020 08:01:10 -0400
+X-MC-Unique: atCDE3dXNz6dflEHS0CiRg-1
+Received: by mail-wr1-f69.google.com with SMTP id v6so8841743wrg.22
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Iflwkf/3HAKpvXRIEINiZerUEj5X1ktJtfvGmSgXiYA=;
- b=dFMetzvXPV+VI05YArYkhWieHfg2cH36Y6aF3SH1B5BNZ2K8SGx1AANYIA+QpI8YXs
- s72mrCgsgh4Ky8ILascBDYZ3MmpH4R1JjmrR+nsmn+0sutYCfLgMObgv21DvXbBhgE0Z
- yD7kp9MnuS5SKwIGIycwgDKtyQxh1/KO4i+CS0hRJ52ud52nsY/fLl0vfn8Nsg/lbnF8
- ms8lfOlDBdm7cZF/7isXz2r0xnXK3IQF5xLgJVH3c1ey8d1LwZ6YsLujTI78Tdzgwaof
- NsKxySR5C9T5vC4jyQnhpm1iYQ4l6vepH9BUOuIW/R0D1ILddRbmqs52h2igNy8gNsW7
- IXEg==
-X-Gm-Message-State: ANhLgQ2kidM2AOaPBXJHey0detR/8FIGTk0JtROV4dYSNQs1o9e70X6f
- 2D0dLqBtrnNiNL+id5eEdNZpHNP0hgX9DFUzGgrRXL0KQ/flqaHX4ke+MwGJYQQfhcnCn8DZmfC
- +xxHgMrbfum94wg8=
-X-Received: by 2002:a7b:c758:: with SMTP id w24mr28561281wmk.155.1584360063650; 
- Mon, 16 Mar 2020 05:01:03 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvdKCoPGKQgGYi0w6vNmKX+oBK955Isn2B9Au6xNmypl996obsvejGEWhNb6hVdGXqEW4F9fQ==
-X-Received: by 2002:a7b:c758:: with SMTP id w24mr28561260wmk.155.1584360063491; 
- Mon, 16 Mar 2020 05:01:03 -0700 (PDT)
+ bh=XSBUjC7Gy69HU6BGzBeIyFgwGf/p+AZ0Uc+PDLHUf1o=;
+ b=iNT1wrY62YSfrgJQiHq0wWOo+koJSnr8pwbFhALhom88VWp7BoOBJOW78KAyriWpZL
+ nu92sLbdTuGcYUSGQ2OqFHsfuGvxJh3sz9is5HMTzzKIbBEwIMsnJylN/6D7NLiIUkFI
+ jnSy84EA7hfripA96s8dhh5iOIdxrk91fPhTLdSpNuJJAq/IE6fq6FOT439+6jLRfjGU
+ 9KoLTYtHRekLx4ZJeOJMiazc4u+aAr5yJb5jqR11IUGQWaxMguqRVUJfK+qwBZpbemXN
+ vHqDT6Q1qJR9FeLhqOBqvKDYXVywWZ/buyqf9w3RZsNqjGYR4Y0qhCmYq2TWBkO98I+T
+ 9JHw==
+X-Gm-Message-State: ANhLgQ1nivYIdkhLQw7y+MFqS4tPuEov5KXLcnl47EXdvzAkbS9QmBIa
+ CR/tEzQOAMAjhuhfW4YKStpyRHUwW9oQhlKYvPAUyZVqRDPaAkHh1k2mWft1LRVlAjUuPbdMcIj
+ I/DS+D2mYWPZTVls=
+X-Received: by 2002:a5d:43d0:: with SMTP id v16mr9412004wrr.279.1584360069557; 
+ Mon, 16 Mar 2020 05:01:09 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtg/lnAAKkyAiGUsuDPuhLImL32CuSWe9L388s0qooyZatUFAEL1tHqtdjl32yRQY6qvCvTcQ==
+X-Received: by 2002:a5d:43d0:: with SMTP id v16mr9411976wrr.279.1584360069350; 
+ Mon, 16 Mar 2020 05:01:09 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id z19sm30983710wma.41.2020.03.16.05.01.02
+ by smtp.gmail.com with ESMTPSA id i8sm13407605wrw.55.2020.03.16.05.01.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:01:03 -0700 (PDT)
+ Mon, 16 Mar 2020 05:01:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] MAINTAINERS: Add an 'overall' entry for accelerators
-Date: Mon, 16 Mar 2020 13:00:40 +0100
-Message-Id: <20200316120049.11225-3-philmd@redhat.com>
+Subject: [PATCH 03/11] MAINTAINERS: Add an entry for the HAX accelerator
+Date: Mon, 16 Mar 2020 13:00:41 +0100
+Message-Id: <20200316120049.11225-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316120049.11225-1-philmd@redhat.com>
 References: <20200316120049.11225-1-philmd@redhat.com>
@@ -76,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,40 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Vincent Palatin <vpalatin@chromium.org>, Yu Ning <yu.ning@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Hang Yuan <hang.yuan@intel.com>,
+ Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
+ David Chou <david.j.chou@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Tao Wu <lepton@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
+Cc: Vincent Palatin <vpalatin@chromium.org>
+Cc: Yu Ning <yu.ning@intel.com>
+Cc: Tao Wu <lepton@google.com>
+Cc: haxm-team@intel.com
+Cc: Colin Xu <colin.xu@intel.com>
+Cc: Hang Yuan <hang.yuan@intel.com>
+Cc: David Chou <david.j.chou@intel.com>
+Cc: Wenchao Wang <wenchao.wang@intel.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7898e338f6..08d9556ab2 100644
+index 08d9556ab2..7ec42a18f7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -405,6 +405,15 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
+@@ -414,6 +414,12 @@ S: Maintained
+ F: include/sysemu/accel.h
+ F: accel/stubs/Makefile.objs
 =20
-+Guest CPU Cores (other accelerators)
-+------------------------------------
-+Overall
-+M: Richard Henderson <rth@twiddle.net>
-+R: Paolo Bonzini <pbonzini@redhat.com>
-+S: Maintained
-+F: include/sysemu/accel.h
-+F: accel/stubs/Makefile.objs
++HAX Accelerator
++S: Orphan
++F: accel/stubs/hax-stub.c
++F: target/i386/hax-all.c
++F: include/sysemu/hax.h
 +
  WHPX CPUs
  M: Sunil Muthuswamy <sunilmut@microsoft.com>
