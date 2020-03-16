@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51E1187127
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:30:26 +0100 (CET)
-Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC93218712A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:31:11 +0100 (CET)
+Received: from localhost ([::1]:44310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtZJ-0003QJ-LF
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:30:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
+	id 1jDta2-0006LN-F6
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aurelien@aurel32.net>) id 1jDszJ-0007Zl-K1
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:14 -0400
+ (envelope-from <groug@kaod.org>) id 1jDres-0006O1-A5
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:28:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aurelien@aurel32.net>) id 1jDszH-0001P9-VH
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:13 -0400
-Received: from hall.aurel32.net ([2001:bc8:30d7:100::1]:38202)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aurelien@aurel32.net>)
- id 1jDszH-0006ID-MX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:53:11 -0400
-Received: from aurel32 by hall.aurel32.net with local (Exim 4.92)
- (envelope-from <aurelien@aurel32.net>)
- id 1jDsyx-0001e3-F7; Mon, 16 Mar 2020 17:52:51 +0100
-Date: Mon, 16 Mar 2020 17:52:51 +0100
-From: Aurelien Jarno <aurelien@aurel32.net>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Adjust maintainer's status for some
- MIPS items
-Message-ID: <20200316165251.GA30703@aurel32.net>
-References: <1584061252-16635-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1584061252-16635-2-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <groug@kaod.org>) id 1jDreq-0005JD-TS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:28:01 -0400
+Received: from 6.mo69.mail-out.ovh.net ([46.105.50.107]:40759)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jDreq-00046X-JT
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:28:00 -0400
+Received: from player687.ha.ovh.net (unknown [10.110.171.50])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 66E9A86968
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 16:27:52 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player687.ha.ovh.net (Postfix) with ESMTPSA id BC461106EF578;
+ Mon, 16 Mar 2020 15:27:44 +0000 (UTC)
+Date: Mon, 16 Mar 2020 16:27:37 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 1/8] ppc/spapr: Fix FWNMI machine check failure handling
+Message-ID: <20200316162737.40a78537@bahia.lan>
+In-Reply-To: <20200316142613.121089-2-npiggin@gmail.com>
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-2-npiggin@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1584061252-16635-2-git-send-email-aleksandar.markovic@rt-rk.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:bc8:30d7:100::1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 11166675278096013763
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgjeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.50.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,69 +56,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- aleksandar.m.mail@gmail.com
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-03-13 02:00, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+On Tue, 17 Mar 2020 00:26:06 +1000
+Nicholas Piggin <npiggin@gmail.com> wrote:
+
+> ppc_cpu_do_system_reset delivers a system rreset interrupt to the guest,
+> which is certainly not what is intended here. Panic the guest like other
+> failure cases here do.
 > 
-> Aurelien has been and will forever remain an idol in QEMU for
-> MIPS world. However, since he decided to move on to other projects,
-> acknowledge the reality, and formally releive him from maintainer's
-> duties for QEMU for MIPS items. Aurelien is though welcome to come
-> back at any time. Some empty spots caused by this are filled in by
-> Aleksandar.
-> 
-> CC: Aurelien Jarno <aurelien@aurel32.net>
-> Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
->  MAINTAINERS | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
 
-Acked-by: Aurelien Jarno <aurelien@aurel32.net>
+Makes sense.
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 32867bc..4fba8b8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -209,8 +209,8 @@ F: hw/microblaze/
->  F: disas/microblaze.c
->  
->  MIPS TCG CPUs
-> -M: Aurelien Jarno <aurelien@aurel32.net>
->  M: Aleksandar Markovic <amarkovic@wavecomp.com>
-> +R: Aurelien Jarno <aurelien@aurel32.net>
->  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
->  S: Maintained
->  F: target/mips/
-> @@ -1036,7 +1036,8 @@ F: hw/mips/mips_mipssim.c
->  F: hw/net/mipsnet.c
->  
->  R4000
-> -M: Aurelien Jarno <aurelien@aurel32.net>
-> +M: Aleksandar Markovic <amarkovic@wavecomp.com>
-> +R: Aurelien Jarno <aurelien@aurel32.net>
->  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
->  S: Obsolete
->  F: hw/mips/mips_r4k.c
-> @@ -2507,7 +2508,8 @@ F: tcg/i386/
->  F: disas/i386.c
->  
->  MIPS TCG target
-> -M: Aurelien Jarno <aurelien@aurel32.net>
-> +M: Aleksandar Markovic <amarkovic@wavecomp.com>
-> +R: Aurelien Jarno <aurelien@aurel32.net>
->  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
->  S: Maintained
->  F: tcg/mips/
-> -- 
-> 2.7.4
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/ppc/spapr_events.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> 
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 2afd1844e4..11303258d4 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -785,7 +785,6 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+>  static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> -    CPUState *cs = CPU(cpu);
+>      uint64_t rtas_addr;
+>      CPUPPCState *env = &cpu->env;
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+> @@ -823,8 +822,7 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>      /* get rtas addr from fdt */
+>      rtas_addr = spapr_get_rtas_addr();
+>      if (!rtas_addr) {
+> -        /* Unable to fetch rtas_addr. Hence reset the guest */
+> -        ppc_cpu_do_system_reset(cs);
+> +        qemu_system_guest_panicked(NULL);
+>          g_free(ext_elog);
+>          return;
+>      }
 
--- 
-Aurelien Jarno                          GPG: 4096R/1DDD8C9B
-aurelien@aurel32.net                 http://www.aurel32.net
 
