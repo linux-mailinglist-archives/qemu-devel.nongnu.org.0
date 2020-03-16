@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D77186A9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:09:38 +0100 (CET)
-Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F3D186A89
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:05:26 +0100 (CET)
+Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDoYq-0006GK-Ab
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
+	id 1jDoUn-0004Xt-1w
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jDnwu-00021R-9q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:25 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jDnx1-00023G-7x
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jDnwt-0000uM-2y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45309
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1jDnwz-0001i5-Sd
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:31 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51121)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnws-0000og-Rc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:22 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnwz-0001bm-Ni
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584358222;
+ s=mimecast20190719; t=1584358228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cHmFc0/OXCCi+NT1SDYJ51HQ8KXTFUSMmYS3mQHZnoU=;
- b=IW99lAy/pzHkdRhwql/YbPjX0bRATYjFB5N7UfGB71qznLdJq6TTBxNIXPlzFBZRmIl57W
- GcnlzPLg+AWv48TwOagqt6l4ZpR4yIT1qKykFoxudUqwHAql2gxIVlb9Xul7O9ew/tNg9s
- AEEc0ail1nsnv8C8wWcsF+cKraXWSXY=
+ bh=iI7EvAcPsxErgC/GJdfEIFJRdfocYN4FRixDOCOaMns=;
+ b=T8SDcMLReJf7TO+dlBVT3GCyCxtsenVm5gsTzbwrUrUOiL00IryYrO4sOq9IkSbgL6QtQU
+ rihzOHMmrzx17FNKFh3IZIKkXtHskpxsFeMNb7TE1LDcv6O5MAWUpEtYI0Xb9/n/DCWhXt
+ ybTKx0iZ28UdNg/gkTh92in/92Aj6AQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-vbl2EKiCNC6HlDaGBsdDFQ-1; Mon, 16 Mar 2020 07:30:20 -0400
-X-MC-Unique: vbl2EKiCNC6HlDaGBsdDFQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-8-_QrWc6D2O86WAG2vHHlH-Q-1; Mon, 16 Mar 2020 07:30:26 -0400
+X-MC-Unique: _QrWc6D2O86WAG2vHHlH-Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68AA2100550D;
- Mon, 16 Mar 2020 11:30:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 570A4DB21;
+ Mon, 16 Mar 2020 11:30:25 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7154B5C1B2;
- Mon, 16 Mar 2020 11:30:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AC1060BE2;
+ Mon, 16 Mar 2020 11:30:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8C21E9D13; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
+ id AFB4E9B0C; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] qapi/audio: add documentation for AudioFormat
-Date: Mon, 16 Mar 2020 12:30:10 +0100
-Message-Id: <20200316113015.28013-2-kraxel@redhat.com>
+Subject: [PULL 5/6] audio: fix saturation nonlinearity in clip_* functions
+Date: Mon, 16 Mar 2020 12:30:14 +0100
+Message-Id: <20200316113015.28013-6-kraxel@redhat.com>
 In-Reply-To: <20200316113015.28013-1-kraxel@redhat.com>
 References: <20200316113015.28013-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +79,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-The review for patch ed2a4a7941 "audio: proper support for
-float samples in mixeng" suggested this would be a good idea.
+The current positive limit for the saturation nonlinearity is
+only correct if the type of the result has 8 bits or less.
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Tested-by: John Arbuckle <programmingkidx@gmail.com>
-Message-id: 20200308193321.20668-1-vr_qemu@t-online.de
+Message-id: 20200308193321.20668-5-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- qapi/audio.json | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ audio/mixeng_template.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index d8c507ccedae..c31251f45b57 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -273,6 +273,20 @@
- #
- # An enumeration of possible audio formats.
- #
-+# @u8: unsigned 8 bit integer
-+#
-+# @s8: signed 8 bit integer
-+#
-+# @u16: unsigned 16 bit integer
-+#
-+# @s16: signed 16 bit integer
-+#
-+# @u32: unsigned 32 bit integer
-+#
-+# @s32: signed 32 bit integer
-+#
-+# @f32: single precision floating-point (since 5.0)
-+#
- # Since: 4.0
- ##
- { 'enum': 'AudioFormat',
+diff --git a/audio/mixeng_template.h b/audio/mixeng_template.h
+index fc8e1d4d9ebf..bc8509e423f6 100644
+--- a/audio/mixeng_template.h
++++ b/audio/mixeng_template.h
+@@ -83,10 +83,9 @@ static inline int64_t glue (conv_, ET) (IN_T v)
+=20
+ static inline IN_T glue (clip_, ET) (int64_t v)
+ {
+-    if (v >=3D 0x7f000000) {
++    if (v >=3D 0x7fffffffLL) {
+         return IN_MAX;
+-    }
+-    else if (v < -2147483648LL) {
++    } else if (v < -2147483648LL) {
+         return IN_MIN;
+     }
+=20
 --=20
 2.18.2
 
