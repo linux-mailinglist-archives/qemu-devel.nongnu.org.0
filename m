@@ -2,53 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8ED187081
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:51:44 +0100 (CET)
-Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8061870B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:56:05 +0100 (CET)
+Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsxr-0003Ef-3A
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50067)
+	id 1jDt24-0003DT-UI
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jDrOl-0008H9-Ml
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsGa-00048r-2O
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jDrOk-0006tY-6i
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:23 -0400
-Received: from 8.mo6.mail-out.ovh.net ([178.33.42.204]:53762)
+ (envelope-from <philmd@redhat.com>) id 1jDsGX-0007nz-T1
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:59 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22709)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDrOj-0006bB-Tp
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:22 -0400
-Received: from player158.ha.ovh.net (unknown [10.108.54.108])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id D3624204F47
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 16:11:19 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player158.ha.ovh.net (Postfix) with ESMTPSA id AF6E410729FFD;
- Mon, 16 Mar 2020 15:11:03 +0000 (UTC)
-Subject: Re: [PATCH v2 1/4] m25p80: Convert to support tracing
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200206183219.3756-1-linux@roeck-us.net>
- <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
- <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
- <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a6af95d9-f95c-f9fc-eac0-60d9c8517dec@kaod.org>
-Date: Mon, 16 Mar 2020 16:11:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGX-0007mA-Ok
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:06:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584374817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dGhG21x/brBabH+9g/T50LsdW2AZT9lQa/ZmuQmYRQ4=;
+ b=AXqD2tugI4Tsn2zG9QneSgw7jcj09LZbkgwZARX9KXNzAbPg7yPm8HdroyKmeCJ4WGbTgP
+ yNbfFrd9+4E215dnxu0DUB2DVdicBZQxbeFEj9BVv9kjflYGHUfL0DkX/285ZokZnv7kJJ
+ j7DFc9JcFlmqNXBAxSuL5Jwu506bmzg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-o5XWOx81NjCCbkZtuNet4Q-1; Mon, 16 Mar 2020 12:06:55 -0400
+X-MC-Unique: o5XWOx81NjCCbkZtuNet4Q-1
+Received: by mail-wr1-f69.google.com with SMTP id c6so9182040wrm.18
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:06:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=va3NBmW9VPeLqbh+njzNv2dIJgLWDq461h5IT9vGT6A=;
+ b=B4IXl4fK0V0DkW5jI/uUDJ2f3zd6K7LsKvMUyUgTaVzcech9axy4wcqlwYlFXA28mf
+ 8JBsBUVx4YOzO+fcrP9sJS1PJsYQv/A/msif0IT+0+Hfx5p8ZvjT7enMiDEGwYKpdmSr
+ wC/UyFBfaW8zAvGdR761W2COYWeauLpmvi973qRU5XfZMC2s49r+wfM2OaMmqDw/iFfD
+ gXSxRctaFMaJlfjKEZnTwLHaTxJ1brHLNWlWO/3TKgj/6fy2LhIvSmv6KUVJ9+wuHKEt
+ avXExhnREoq5/D+PUtXUEVsYmdmNRabh001WIYPY1m0jVBFWMHkQBo5WiQFmD34wg6U7
+ qNTg==
+X-Gm-Message-State: ANhLgQ0ZCKCYnBXGsvHqI8PFSgwPGP6mqE9HC8h5lBtYjAjyrIZX1JDi
+ Qh9+25BIIY4zcUbB7ZFeoq/oVLLPOdLmVZq9HKyCreWKLZx85LfJfYdxcFSwwItQB+lJcjwITAQ
+ WZiSHclEP/FPKunY=
+X-Received: by 2002:adf:e28b:: with SMTP id v11mr59301wri.229.1584374813953;
+ Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsw+1a9QL9jAQlQpFFxDwzh9qiZwTfMeMpXHBQWjLbwXCSV+9K1X0BxvHZoZJuaTV1SZQZCVA==
+X-Received: by 2002:adf:e28b:: with SMTP id v11mr59285wri.229.1584374813809;
+ Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
+Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id b12sm483914wro.66.2020.03.16.09.06.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 09:06:53 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 03/19] target/arm: Restrict DC-CVAP instruction to TCG accel
+Date: Mon, 16 Mar 2020 17:06:18 +0100
+Message-Id: <20200316160634.3386-4-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
+References: <20200316160634.3386-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 10887170627504671664
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.42.204
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,71 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 3:58 PM, Peter Maydell wrote:
-> On Mon, 16 Mar 2020 at 14:14, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
->>
->> Hello,
->>
->> On 2/17/20 4:47 PM, C=C3=A9dric Le Goater wrote:
->>> Hello all,
->>>
->>> On 2/6/20 7:32 PM, Guenter Roeck wrote:
->>>> While at it, add some trace messages to help debug problems
->>>> seen when running the latest Linux kernel.
->>>
->>> Through which tree do you think it is best to merge this patchset ?
->>> block or arm ?
->>
->> It would be nice to have these 4 patches for 5.0. All are reviewed and
->> tested.
->=20
-> Do you have a pointer to the cover letter? Not sure
-> which platforms (and so which tree) they're aiming for...
+Under KVM the 'Data or unified Cache line Clean by VA to PoP'
+instruction will trap.
 
-Not having a cover letter clearly doesn't help ...
+Fixes: 0d57b4999 ("Add support for DC CVAP & DC CVADP ins")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ target/arm/helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Here is the patchset diffstat :
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b61ee73d18..924deffd65 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6777,7 +6777,7 @@ static const ARMCPRegInfo rndr_reginfo[] =3D {
+     REGINFO_SENTINEL
+ };
+=20
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+ static void dccvap_writefn(CPUARMState *env, const ARMCPRegInfo *opaque,
+                           uint64_t value)
+ {
+@@ -6820,9 +6820,9 @@ static const ARMCPRegInfo dcpodp_reg[] =3D {
+       .accessfn =3D aa64_cacheop_poc_access, .writefn =3D dccvap_writefn }=
+,
+     REGINFO_SENTINEL
+ };
+-#endif /*CONFIG_USER_ONLY*/
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+=20
+-#endif
++#endif /* TARGET_AARCH64 */
+=20
+ static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo =
+*ri,
+                                      bool isread)
+@@ -7929,7 +7929,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (cpu_isar_feature(aa64_rndr, cpu)) {
+         define_arm_cp_regs(cpu, rndr_reginfo);
+     }
+-#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+     /* Data Cache clean instructions up to PoP */
+     if (cpu_isar_feature(aa64_dcpop, cpu)) {
+         define_one_arm_cp_reg(cpu, dcpop_reg);
+@@ -7938,8 +7938,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             define_one_arm_cp_reg(cpu, dcpodp_reg);
+         }
+     }
+-#endif /*CONFIG_USER_ONLY*/
+-#endif
++#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
++#endif /* TARGET_AARCH64 */
+=20
+     if (cpu_isar_feature(any_predinv, cpu)) {
+         define_arm_cp_regs(cpu, predinv_reginfo);
+--=20
+2.21.1
 
- block/m25p80.c     |   58 ++++++++++++++++++++++++++++------------------=
--------
- block/trace-events |   16 ++++++++++++++
- ssi/aspeed_smc.c   |    2 -
- 3 files changed, 48 insertions(+), 28 deletions(-)
-
-http://patchwork.ozlabs.org/patch/1234532/
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-http://patchwork.ozlabs.org/patch/1234533/
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-http://patchwork.ozlabs.org/patch/1234535/
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-http://patchwork.ozlabs.org/patch/1234536/
-Fixes: f95c4bffdc4c ("aspeed/smc: snoop SPI transfers to fake dummy cycle=
-s")
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Thanks,
-
-C.=20
 
