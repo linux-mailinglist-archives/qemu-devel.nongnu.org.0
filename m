@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152201870D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:04:15 +0100 (CET)
-Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2011870E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:08:39 +0100 (CET)
+Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt9y-0000PG-0y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54329)
+	id 1jDtEE-0000KE-2o
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlM-0000Uy-4k
+ (envelope-from <its@irrelevant.dk>) id 1jDqlL-0000Uc-KU
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlI-0005M6-TR
+ (envelope-from <its@irrelevant.dk>) id 1jDqlI-0005G7-6i
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:39 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48832)
+Received: from charlie.dont.surf ([128.199.63.193]:48834)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDqlA-0002Qd-LN; Mon, 16 Mar 2020 10:30:28 -0400
+ id 1jDqlA-0002Qr-Kq; Mon, 16 Mar 2020 10:30:28 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 335C2BFA2B;
+ by charlie.dont.surf (Postfix) with ESMTPSA id AF657BFA60;
  Mon, 16 Mar 2020 14:29:52 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 33/42] nvme: use preallocated qsg/iov in nvme_dma_prp
-Date: Mon, 16 Mar 2020 07:29:19 -0700
-Message-Id: <20200316142928.153431-34-its@irrelevant.dk>
+Subject: [PATCH v6 34/42] pci: pass along the return value of dma_memory_rw
+Date: Mon, 16 Mar 2020 07:29:20 -0700
+Message-Id: <20200316142928.153431-35-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,76 +59,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Since clean up of the request qsg/iov has been moved to the common
-nvme_enqueue_req_completion function, there is no need to use a stack
-allocated qsg/iov in nvme_dma_prp.
+The nvme device needs to know the return value of dma_memory_rw to pass
+block/011 from blktests. So pass it along instead of ignoring it.
+
+There are no existing users of the return value, so this patch should be
+safe.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 817384e3b1a9..15ca2417af04 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -321,45 +321,39 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *=
-ptr, uint32_t len,
-                              uint64_t prp1, uint64_t prp2, DMADirection =
-dir,
-                              NvmeRequest *req)
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index cfedf5a995d7..da9057b8db97 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -784,8 +784,7 @@ static inline AddressSpace *pci_get_address_space(PCI=
+Device *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir=
+)
  {
--    QEMUSGList qsg;
--    QEMUIOVector iov;
-     uint16_t status =3D NVME_SUCCESS;
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir=
+);
+ }
 =20
--    status =3D nvme_map_prp(n, &qsg, &iov, prp1, prp2, len, req);
-+    status =3D nvme_map_prp(n, &req->qsg, &req->iov, prp1, prp2, len, re=
-q);
-     if (status) {
-         return status;
-     }
-=20
--    if (qsg.nsg > 0) {
-+    if (req->qsg.nsg > 0) {
-         uint64_t residual;
-=20
-         if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
--            residual =3D dma_buf_write(ptr, len, &qsg);
-+            residual =3D dma_buf_write(ptr, len, &req->qsg);
-         } else {
--            residual =3D dma_buf_read(ptr, len, &qsg);
-+            residual =3D dma_buf_read(ptr, len, &req->qsg);
-         }
-=20
-         if (unlikely(residual)) {
-             trace_nvme_dev_err_invalid_dma();
-             status =3D NVME_INVALID_FIELD | NVME_DNR;
-         }
--
--        qemu_sglist_destroy(&qsg);
-     } else {
-         size_t bytes;
-=20
-         if (dir =3D=3D DMA_DIRECTION_TO_DEVICE) {
--            bytes =3D qemu_iovec_to_buf(&iov, 0, ptr, len);
-+            bytes =3D qemu_iovec_to_buf(&req->iov, 0, ptr, len);
-         } else {
--            bytes =3D qemu_iovec_from_buf(&iov, 0, ptr, len);
-+            bytes =3D qemu_iovec_from_buf(&req->iov, 0, ptr, len);
-         }
-=20
-         if (unlikely(bytes !=3D len)) {
-             trace_nvme_dev_err_invalid_dma();
-             status =3D NVME_INVALID_FIELD | NVME_DNR;
-         }
--
--        qemu_iovec_destroy(&iov);
-     }
-=20
-     return status;
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 --=20
 2.25.1
 
