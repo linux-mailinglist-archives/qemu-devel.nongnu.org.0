@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A14186738
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:00:17 +0100 (CET)
-Received: from localhost ([::1]:35886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E1118671A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:55:23 +0100 (CET)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDlba-0005q3-MG
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:00:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48159)
+	id 1jDlWs-0003VG-IN
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDlJA-0008SH-Sv
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:14 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDlNH-0001ey-Ph
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:45:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDlJ9-0000GT-DO
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20386
+ (envelope-from <pbonzini@redhat.com>) id 1jDlNG-0006Wx-Iq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:45:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26988
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlJ9-0008Ri-6w
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:41:11 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlNG-0006Sg-BO
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:45:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584348070;
+ s=mimecast20190719; t=1584348326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UcPbyZEj5Y8W1NaPHyB7IQq8BPQdn4tOEKQLgVBRDaw=;
- b=RVbYje0jDjFjIayyGpit/mYsHV9mw6YYIMJtmb5O81oukJCk0ZhNOVJ3BbfHIIakT1oaHE
- ehiv3vKsKwRPR5AyvVDyFVvQtNRMEIPWNb9kPd/K9scr1F33o54Y3YYSYwdasOLrjJ1iRY
- 1NM+HyaYiEUgGswms9ZqBknr75B6kFw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-5eI3eFs5M0uJYh-QT3Djcg-1; Mon, 16 Mar 2020 04:41:08 -0400
-X-MC-Unique: 5eI3eFs5M0uJYh-QT3Djcg-1
-Received: by mail-wm1-f72.google.com with SMTP id x7so4332084wmi.4
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:41:08 -0700 (PDT)
+ bh=AMQ0GpiVc2TjYc/UD0hxWGBZTAgb2SSPbJXlELU65cs=;
+ b=DDVyblEXRad9wN+r0g86meRimqOcN/XW2fh4PB3TwHcypKPm3UiklA0JNl00nY7rBqj/5l
+ DyKAaqH1wvgbcL1RKGl/aOs8vN2x7btfexNlzftGUBWKrUL7D8JRTwuHSkv3DZI5wkXECd
+ bUJcTt37/dorIrOuhhc/AzzQMNBVmHw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-RQn_lAz8MqiVsreEUTwSZw-1; Mon, 16 Mar 2020 04:45:22 -0400
+X-MC-Unique: RQn_lAz8MqiVsreEUTwSZw-1
+Received: by mail-wr1-f69.google.com with SMTP id w11so8676267wrp.20
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:45:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=f6r5tI5g6hVVgUnD8hSCZPkOTgjOEG4+iRA+h2GbNnU=;
- b=cpc7kTrvdKdJQDoYqrbRKbMf2RpTZ7f7nQj2B4h3ireSIFc2tqmStngLqVcFUqKvdf
- GjBYVXSvm473Jj66NxbIWXQwRyXk5x0YhObXBJv2qmGtt7TalqPrFS42aHAfd/33ELEc
- W4r/X6DLWoH17ZKgJVF0tJpnNfUKW2AjIPgb4ilQU5Ju7k78IMUZi/IHzhzreqBgQc7f
- 8BtETzX4sVfJyeAKN2gWK2npT2RHph2awecNvJGJ2bf08IjMHUe5unqwtfvCMqY1pNMR
- fhUxJT9axdGxwUj31DH1j8vhYu1EEryORZU9jEJWa3+qWPmtRpf9M5sqT0i8MeLN6cbk
- QyMA==
-X-Gm-Message-State: ANhLgQ26eOVC3Ioxhshk8hkxUYvcmoE+s1H13sc0sEgSE2OMSLX+6j/H
- hHvbCGDvnIsG4fsaBUECVIcUHl9M/JR6u3Pf4yy1zOTtZdeYDuaHYT1ivXTQi8IaSk11JzGd7xU
- ZpkMSP/ZePorKxlc=
-X-Received: by 2002:a1c:1d4d:: with SMTP id d74mr26215822wmd.123.1584348067243; 
- Mon, 16 Mar 2020 01:41:07 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuupDN1VpjLFDPv6tRNWtMdxc/g/cTfsPKJM/g1tZZW+9eY+6l/2DxxQrkjE+E/4R6uTg63XQ==
-X-Received: by 2002:a1c:1d4d:: with SMTP id d74mr26215793wmd.123.1584348066981; 
- Mon, 16 Mar 2020 01:41:06 -0700 (PDT)
+ bh=AMQ0GpiVc2TjYc/UD0hxWGBZTAgb2SSPbJXlELU65cs=;
+ b=Ia7TOgGJrK/FMMv57oIUdrMCzI5Z6GXHkp+v0sWgln1nQalyogtccQS7CiN7foBJv2
+ FxfRwxmRjCZ/hJ8CChBLWBXj/D9qjJ3YtUxLuSHK3QacFX5uovJ+0f9FofAuMiCxJylx
+ N4uaWnftLM5dvLyEkTcxbp7whp8Qg+1DRSSinJosR9XA9H+gpJaSEvA3wNT25IStp+fm
+ rFN3ZMooZIkbDsZR3ii+o/9tpAB+e69Y8VLvAVs10EMUBWRwE09bGDpjpBPRgWUNtHLG
+ TDPCZ5N014hJylo3fXxGRM+Pq+LqbhhwRfSHxnwz05i50eAZYD7Jr1P2sG8o4DTtF1/s
+ EoaA==
+X-Gm-Message-State: ANhLgQ0j1+c/R7fsv7dp+OvdCIOTz8NN+0dUDr4ITQTlPS4nL3Hrt+ln
+ 3HAKaQKxZnXUxWv+EVJAfDeAFOxxPdManuDAH2ZsFPSnxTRwwX8rW1Lj7ZKS+FpJRbytUGZaGC9
+ UhHHHTE0gQJ7rSCI=
+X-Received: by 2002:a7b:c4d6:: with SMTP id g22mr21899635wmk.79.1584348320982; 
+ Mon, 16 Mar 2020 01:45:20 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsEex+1++UbzA17s6B2qTGo5gt7DEcOHSQmtKdRxhNFyN4LGBLzsK/XYm/EajmkdgkA5pmasA==
+X-Received: by 2002:a7b:c4d6:: with SMTP id g22mr21899608wmk.79.1584348320783; 
+ Mon, 16 Mar 2020 01:45:20 -0700 (PDT)
 Received: from [192.168.178.58] ([151.30.82.39])
- by smtp.gmail.com with ESMTPSA id f12sm5239710wmh.4.2020.03.16.01.41.06
+ by smtp.gmail.com with ESMTPSA id l8sm29803697wmj.2.2020.03.16.01.45.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 01:41:06 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Fix Cooperlake CPU model
-To: "Zhang, Cathy" <cathy.zhang@intel.com>, Xiaoyao Li
- <xiaoyao.li@intel.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20191225063018.20038-1-xiaoyao.li@intel.com>
- <93c9cc8c-09ec-d13f-f012-edf86fd945ab@redhat.com>
- <759b848d-8261-5997-2e2b-531246bcdf92@intel.com>
+ Mon, 16 Mar 2020 01:45:20 -0700 (PDT)
+Subject: Re: [PATCH] cpus: avoid stucking in pause_all_vcpus due to race
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, qemu-devel@nongnu.org
+References: <20200316083732.2010-1-longpeng2@huawei.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a972442e-2d29-674b-7ad6-2f056330ed84@redhat.com>
-Date: Mon, 16 Mar 2020 09:41:05 +0100
+Message-ID: <2ce34c43-b8ea-d34a-60fe-ba72f0b0172b@redhat.com>
+Date: Mon, 16 Mar 2020 09:45:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <759b848d-8261-5997-2e2b-531246bcdf92@intel.com>
+In-Reply-To: <20200316083732.2010-1-longpeng2@huawei.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -94,56 +90,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: arei.gonglei@huawei.com, huangzhichao@huawei.com,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/20 02:39, Zhang, Cathy wrote:
-> On 1/7/2020 9:31 PM, Paolo Bonzini wrote:
->> On 25/12/19 07:30, Xiaoyao Li wrote:
->>> Current Cooperlake CPU model lacks VMX features which are introduced
->>> by Paolo
->>> several months ago, and it also lacks 2 security features in
->>> MSR_IA32_ARCH_CAPABILITIES disclosed recently.
->>>
->>> Xiaoyao Li (2):
->>> =A0=A0 target/i386: Add new bit definitions of MSR_IA32_ARCH_CAPABILITI=
-ES
->>> =A0=A0 target/i386: Add missed features to Cooperlake CPU model
->>>
->>> =A0 target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++=
-++-
->>> =A0 target/i386/cpu.h | 13 +++++++-----
->>> =A0 2 files changed, 58 insertions(+), 6 deletions(-)
->>>
->> Queued, thanks.
->>
->> Paolo
->=20
-> Hi Paolo,
->=20
-> Can I ask one question that will you put all the patches for Cooper Lake
-> Cpu model into QEMU v5.0-rc0?
+On 16/03/20 09:37, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+> 
+> We found an issue when repeat reboot in guest during migration, it cause the
+> migration thread never be waken up again.
+> 
+> <main loop>                        |<migration_thread>
+>                                    |
+> LOCK BQL                           |
+> ...                                |
+> main_loop_should_exit              |
+>  pause_all_vcpus                   |
+>   1. set all cpus ->stop=true      |
+>      and then kick                 |
+>   2. return if all cpus is paused  |
+>      (by '->stopped == true'), else|
+>   3. qemu_cond_wait [BQL UNLOCK]   |
+>                                    |LOCK BQL
+>                                    |...
+>                                    |do_vm_stop
+>                                    | pause_all_vcpus
+>                                    |  (A)set all cpus ->stop=true
+>                                    |     and then kick
+>                                    |  (B)return if all cpus is paused
+>                                    |     (by '->stopped == true'), else
+>                                    |  (C)qemu_cond_wait [BQL UNLOCK]
+>   4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
+>   5. goto 2.                       |
+>  (BQL is still LOCKed)             |
+>  resume_all_vcpus                  |
+>   1. set all cpus ->stop=false     |
+>      and ->stopped=false           |
+> ...                                |
+> BQL UNLOCK                         |  (E)LOCK BQL
+>                                    |  (F)goto B. [but stopped is false now!]
+>                                    |Finally, sleep at step 3 forever.
+> 
+> As suggested by Paolo, resume_all_vcpus should notice this race, so we need
+> to move the change of runstate before pause_all_vcpus in do_vm_stop() and
+> ignore the resume request if runstate is not running.
+> 
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Dr . David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 
-These are included already:
+Queued, thanks!
 
-commit b952544fe8a061f0c0cccfd50a58220bc6ac94da
-Merge: dc65a5bdc9 083b266f69
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Fri Jan 10 17:16:49 2020 +0000
-
-    Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
-taging
-   =20
-    * Compat machines fix (Denis)
-    * Command line parsing fixes (Michal, Peter, Xiaoyao)
-    * Cooperlake CPU model fixes (Xiaoyao)
-    * i386 gdb fix (mkdolata)
-    * IOEventHandler cleanup (Philippe)
-    * icount fix (Pavel)
-    * RR support for random number sources (Pavel)
-    * Kconfig fixes (Philippe)
-   =20
 Paolo
+
+> ---
+>  cpus.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/cpus.c b/cpus.c
+> index b4f8b84..ef441bd 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -1026,9 +1026,9 @@ static int do_vm_stop(RunState state, bool send_stop)
+>      int ret = 0;
+>  
+>      if (runstate_is_running()) {
+> +        runstate_set(state);
+>          cpu_disable_ticks();
+>          pause_all_vcpus();
+> -        runstate_set(state);
+>          vm_state_notify(0, state);
+>          if (send_stop) {
+>              qapi_event_send_stop();
+> @@ -1899,6 +1899,10 @@ void resume_all_vcpus(void)
+>  {
+>      CPUState *cpu;
+>  
+> +    if (!runstate_is_running()) {
+> +        return;
+> +    }
+> +
+>      qemu_clock_enable(QEMU_CLOCK_VIRTUAL, true);
+>      CPU_FOREACH(cpu) {
+>          cpu_resume(cpu);
+> 
 
 
