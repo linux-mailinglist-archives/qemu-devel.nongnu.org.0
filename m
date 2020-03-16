@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E810918754B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:03:36 +0100 (CET)
-Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620FD187551
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:05:24 +0100 (CET)
+Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxpg-0006Hd-0k
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43209)
+	id 1jDxrP-0008BF-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIE-0004P7-7z
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:03 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIF-0004Ry-JJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIA-0007KK-PS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:00 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58068)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIE-0007VQ-D5
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:03 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51965)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIA-0007Fk-Hs
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:58 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIE-0007RV-6T
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394138;
+ s=mimecast20190719; t=1584394139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EvL+epyjx14mS3CSa5iUUMcni6haMQqXfvwAPwfhro8=;
- b=ckQzuIAVtNeFfzjzWM69b9iCWneVDqm1ZKo+45GMuO+ciLSaAnuOSO/0adM1Qu4l7xpjsz
- C5TWfbqlWkkYUhBBTybqrw2fH+TmObm2dvm9M10KO1Tks0zhV3ma/o09ZgorntmutK9fjZ
- VVZyUp9gl/wAu3NCq5ApY7j/0hctMic=
+ bh=0ZS5rxCyLh178NtxVdzWqFLY1vdgdp8r2Q2Vnz+rOz4=;
+ b=L0hDCGF7YmqA6RAywOP56Jzv9UY7PyTPl2hjZ8CvaatT2vxur4JVe6pGk+0gejDqneTBSZ
+ D5GjNOVairHQbVd/dbCFaZMoX5nlNHuWBaUspGyhtS74CO1fX/s0V3cBr4ziy+qCqjzz2h
+ IRzJgDiDV2H2FqKVZmqeItzHK8zBPcA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-jJIN9LaINwmrugErZar4ng-1; Mon, 16 Mar 2020 17:28:56 -0400
-X-MC-Unique: jJIN9LaINwmrugErZar4ng-1
+ us-mta-244-SrZ2oj8bPK60Ji_FM7B7-w-1; Mon, 16 Mar 2020 17:28:58 -0400
+X-MC-Unique: SrZ2oj8bPK60Ji_FM7B7-w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0BC3800D53
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A211107ACC7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:57 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE1BF19C4F;
- Mon, 16 Mar 2020 21:28:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46B3119C4F;
+ Mon, 16 Mar 2020 21:28:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/61] hw/ppc: Use memory_region_init_rom() with read-only
+Subject: [PULL 47/61] hw/riscv: Use memory_region_init_rom() with read-only
  regions
-Date: Mon, 16 Mar 2020 22:27:13 +0100
-Message-Id: <1584394048-44994-47-git-send-email-pbonzini@redhat.com>
+Date: Mon, 16 Mar 2020 22:27:14 +0100
+Message-Id: <1584394048-44994-48-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,51 +79,28 @@ From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/mac_newworld.c | 3 +--
- hw/ppc/mac_oldworld.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ hw/riscv/sifive_e.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index b8189bf..b2ec372 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -155,13 +155,12 @@ static void ppc_core99_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index a254cad..a1974ef 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -208,9 +208,8 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev=
+, Error **errp)
+         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
 =20
-     /* allocate and load BIOS */
--    memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-                            &error_fatal);
-=20
-     if (bios_name =3D=3D NULL)
-         bios_name =3D PROM_FILENAME;
-     filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_set_readonly(bios, true);
-     memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
-=20
-     /* Load OpenBIOS (ELF) */
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 440c406..faaa165 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -129,13 +129,12 @@ static void ppc_heathrow_init(MachineState *machine)
-     memory_region_add_subregion(sysmem, 0, machine->ram);
-=20
-     /* allocate and load BIOS */
--    memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-                            &error_fatal);
-=20
-     if (bios_name =3D=3D NULL)
-         bios_name =3D PROM_FILENAME;
-     filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_set_readonly(bios, true);
-     memory_region_add_subregion(sysmem, PROM_ADDR, bios);
-=20
-     /* Load OpenBIOS (ELF) */
+     /* Flash memory */
+-    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
+-        memmap[SIFIVE_E_XIP].size, &error_fatal);
+-    memory_region_set_readonly(&s->xip_mem, true);
++    memory_region_init_rom(&s->xip_mem, NULL, "riscv.sifive.e.xip",
++                           memmap[SIFIVE_E_XIP].size, &error_fatal);
+     memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base,
+         &s->xip_mem);
+ }
 --=20
 1.8.3.1
 
