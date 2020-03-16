@@ -2,39 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75F2186FBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:13:15 +0100 (CET)
-Received: from localhost ([::1]:40176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC55186FFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:26:37 +0100 (CET)
+Received: from localhost ([::1]:42152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsMc-0004zL-1h
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
+	id 1jDsZX-0005FE-SE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpyH-0006dj-JA
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:39:59 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDpuL-00053v-No
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpyF-00011y-Nz
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:39:57 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:33301)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jDpy8-0000Bq-Ms; Mon, 16 Mar 2020 09:39:51 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BFF4E747DF5;
- Mon, 16 Mar 2020 14:39:46 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8D9D17461AE; Mon, 16 Mar 2020 14:39:46 +0100 (CET)
-In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
-References: <cover.1584134074.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2] hw/ide: Do ide_drive_get() within pci_ide_create_devs()
-Date: Mon, 16 Mar 2020 14:35:15 +0100
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
-Message-Id: <20200316133946.8D9D17461AE@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDpuK-0002HD-Bb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:53 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51069)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1jDpuK-00029Z-4J
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:52 -0400
+Received: by mail-wm1-x343.google.com with SMTP id z13so1638819wml.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=9v/YZE8B93L63rDeOT39XFw3gBUTDfP+YPVFz1gdnk4=;
+ b=Hm6qtesvXx2YPZKsjktWLqgZQb3keRWHoPTRSeUfZd8EhslIb7d0BwIZBKdosBMLxv
+ VF/mn4Py37F3d/zEjlJtdKI2YFz99rq2+wLFN2MWFGqqAVdB3hO424WBqUFduwmPrr1Q
+ oRKSPyRK+I1ghjtlg6IufUKTBTA3QzPLrFewFTjdYpVVanmBn7QiCJDVp5OaiBX9de3L
+ K/SN1Qknr5SAfy2osbrTVm5ccMP4FkwsdqDSwYvErE1mbyjSF873pbBaU2LsT1tFWab7
+ 1BvYYntG5AXR9HXRvHRaNyJG1XmUON0YwRPBht7QIC2iKZeSJ0+OtfhM5KifRuEfN0kg
+ voYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=9v/YZE8B93L63rDeOT39XFw3gBUTDfP+YPVFz1gdnk4=;
+ b=XgcpRn+6Rq4ouKAJkIXbr3iaS38hhJ9IspN7slLiYvoHvV7V3QL1TfO+vHpPZ/qub4
+ EubCwcwGdQzFKmbd4AxQVYL5XExHY+pBQaE1ZkUQ+T9h4m1CkMnzd1TKrUeACFHNCX1T
+ AD3OBzvUqpZkZPpCqNl2cDtpErLu0fNj3KlTiUvB406xu9Fhps0u9r38i+mLdFkHtRfP
+ VXIxQIJe1b6KsmRkrbV9Uo9ZvIPiRUezHjWEr+OchT0Qm0hoGfqE5CRdEjopOSJYYkjh
+ /O74LfZS+K8VLBwLpwIRnBqyRU0SMmx4TRMf2XEFX067NY48yhd1Y8TisKMJagNzWR3E
+ xlSQ==
+X-Gm-Message-State: ANhLgQ0EWkE8jdg76WV5eWhOxOiF4UHeY6USyq7BSSgf5FB5soBYicz/
+ umuEjsDgZjwKvDaROb+3jiQgBz5z
+X-Google-Smtp-Source: ADFU+vvbxIkcpUCE8pKGXsSGDMECqrZkR8QTV9oxFe4QwM+31mh0PV6KD5p+/3b+bWRO0diB+gp0Vg==
+X-Received: by 2002:a05:600c:2252:: with SMTP id
+ a18mr29081693wmm.51.1584365750358; 
+ Mon, 16 Mar 2020 06:35:50 -0700 (PDT)
+Received: from [192.168.86.224] ([37.142.144.12])
+ by smtp.gmail.com with ESMTPSA id c5sm26240291wma.3.2020.03.16.06.35.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 06:35:49 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/rdma: Skip data-path mr_id translation
+To: Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org
+References: <20200307125608.2476-1-yuval.shaia.ml@gmail.com>
+ <20200307125608.2476-3-yuval.shaia.ml@gmail.com>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <d24e9eda-7c7f-e605-5895-75dc75c99fcc@gmail.com>
+Date: Mon, 16 Mar 2020 15:37:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200307125608.2476-3-yuval.shaia.ml@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,258 +83,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pci_ide_create_devs() function takes a hd_table parameter but all
-callers just pass what ide_drive_get() returns so we can do it locally
-simplifying callers and removing hd_table parameter.
+Hi Yuval,
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
-v2: Alternative version that applies without [PATCH 4/8] hw/ide: Move
-    MAX_IDE_BUS define to one header
+On 3/7/20 2:56 PM, Yuval Shaia wrote:
+> With the change made in commit 68b89aee71 ("Utilize ibv_reg_mr_iova for
+> memory registration") the MR emulation is no longer needed in order to
+> translate the guest addresses into host addresses.
+> With that, the next obvious step is to skip entirely the processing in
+> data-path.
+> To accomplish this, return the backend's lkey to driver so we will not
+> need to do the emulated mr_id to backend mr_id translation in data-path.
+>
+> The function build_host_sge_array is still called in data-path but only
+> for backward computability with statistics collection.
+>
+> While there, as a cosmetic change to make the code cleaner - make one
+> copy of the function rdma_backend_create_mr and leave the redundant
+> guest_start argument in the legacy code.
+>
+> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+> ---
+>   hw/rdma/rdma_backend.c | 23 ++++++++++++++---------
+>   hw/rdma/rdma_backend.h |  5 -----
+>   hw/rdma/rdma_rm.c      | 13 ++++++-------
+>   3 files changed, 20 insertions(+), 21 deletions(-)
+>
+> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+> index 79b9cfb487..3dd39fe1a7 100644
+> --- a/hw/rdma/rdma_backend.c
+> +++ b/hw/rdma/rdma_backend.c
+> @@ -377,6 +377,7 @@ static void ah_cache_init(void)
+>                                       destroy_ah_hash_key, destroy_ah_hast_data);
+>   }
+>   
+> +#ifdef LEGACY_RDMA_REG_MR
+>   static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
+>                                   struct ibv_sge *sge, uint8_t num_sge,
+>                                   uint64_t *total_length)
+> @@ -391,11 +392,7 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
+>               return VENDOR_ERR_INVLKEY | sge[idx].lkey;
+>           }
+>   
+> -#ifdef LEGACY_RDMA_REG_MR
+>           sge[idx].addr = (uintptr_t)mr->virt + sge[idx].addr - mr->start;
+> -#else
+> -        sge[idx].addr = sge[idx].addr;
+> -#endif
+>           sge[idx].lkey = rdma_backend_mr_lkey(&mr->backend_mr);
+>   
+>           *total_length += sge[idx].length;
+> @@ -403,6 +400,19 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
+>   
+>       return 0;
+>   }
+> +#else
+> +static inline int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
+> +                                       struct ibv_sge *sge, uint8_t num_sge,
+> +                                       uint64_t *total_length)
+> +{
+> +    int idx;
+> +
+> +    for (idx = 0; idx < num_sge; idx++) {
+> +        *total_length += sge[idx].length;
+> +    }
+> +    return 0;
+> +}
+> +#endif
+>   
+>   static void trace_mad_message(const char *title, char *buf, int len)
+>   {
+> @@ -733,13 +743,8 @@ void rdma_backend_destroy_pd(RdmaBackendPD *pd)
+>       }
+>   }
+>   
+> -#ifdef LEGACY_RDMA_REG_MR
+> -int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
+> -                           size_t length, int access)
+> -#else
+>   int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
+>                              size_t length, uint64_t guest_start, int access)
+> -#endif
+>   {
+>   #ifdef LEGACY_RDMA_REG_MR
+>       mr->ibmr = ibv_reg_mr(pd->ibpd, addr, length, access);
+> diff --git a/hw/rdma/rdma_backend.h b/hw/rdma/rdma_backend.h
+> index 127f96e2d5..225af481e0 100644
+> --- a/hw/rdma/rdma_backend.h
+> +++ b/hw/rdma/rdma_backend.h
+> @@ -78,13 +78,8 @@ int rdma_backend_query_port(RdmaBackendDev *backend_dev,
+>   int rdma_backend_create_pd(RdmaBackendDev *backend_dev, RdmaBackendPD *pd);
+>   void rdma_backend_destroy_pd(RdmaBackendPD *pd);
+>   
+> -#ifdef LEGACY_RDMA_REG_MR
+> -int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
+> -                           size_t length, int access);
+> -#else
+>   int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
+>                              size_t length, uint64_t guest_start, int access);
+> -#endif
+>   void rdma_backend_destroy_mr(RdmaBackendMR *mr);
+>   
+>   int rdma_backend_create_cq(RdmaBackendDev *backend_dev, RdmaBackendCQ *cq,
+> diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
+> index 1524dfaeaa..7e9ea283c9 100644
+> --- a/hw/rdma/rdma_rm.c
+> +++ b/hw/rdma/rdma_rm.c
+> @@ -227,21 +227,20 @@ int rdma_rm_alloc_mr(RdmaDeviceResources *dev_res, uint32_t pd_handle,
+>           mr->length = guest_length;
+>           mr->virt += (mr->start & (TARGET_PAGE_SIZE - 1));
+>   
+> -#ifdef LEGACY_RDMA_REG_MR
+> -        ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
+> -                                     mr->length, access_flags);
+> -#else
+>           ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
+>                                        mr->length, guest_start, access_flags);
+> -#endif
+>           if (ret) {
+>               ret = -EIO;
+>               goto out_dealloc_mr;
+>           }
+> +#ifdef LEGACY_RDMA_REG_MR
+> +        /* We keep mr_handle in lkey so send and recv get get mr ptr */
+> +        *lkey = *mr_handle;
+> +#else
+> +        *lkey = rdma_backend_mr_lkey(&mr->backend_mr);
+> +#endif
+>       }
+>   
+> -    /* We keep mr_handle in lkey so send and recv get get mr ptr */
+> -    *lkey = *mr_handle;
+>       *rkey = -1;
+>   
+>       mr->pd_handle = pd_handle;
 
- hw/alpha/dp264.c              | 13 +++----------
- hw/i386/pc_piix.c             |  9 +++++----
- hw/ide/pci.c                  |  4 +++-
- hw/isa/piix4.c                | 10 ++--------
- hw/mips/mips_fulong2e.c       |  4 +---
- hw/mips/mips_malta.c          |  2 +-
- hw/sparc64/sun4u.c            |  6 +-----
- include/hw/ide/pci.h          |  2 +-
- include/hw/southbridge/piix.h |  3 +--
- 9 files changed, 18 insertions(+), 35 deletions(-)
+Reviewed-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 27595767e5..f7751b18f6 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -15,7 +15,6 @@
- #include "qemu/error-report.h"
- #include "sysemu/sysemu.h"
- #include "hw/rtc/mc146818rtc.h"
--#include "hw/ide.h"
- #include "hw/ide/pci.h"
- #include "hw/timer/i8254.h"
- #include "hw/isa/superio.h"
-@@ -58,6 +57,7 @@ static void clipper_init(MachineState *machine)
-     const char *initrd_filename = machine->initrd_filename;
-     AlphaCPU *cpus[4];
-     PCIBus *pci_bus;
-+    PCIDevice *pci_dev;
-     ISABus *isa_bus;
-     qemu_irq rtc_irq;
-     long size, i;
-@@ -100,15 +100,8 @@ static void clipper_init(MachineState *machine)
-     isa_create_simple(isa_bus, TYPE_SMC37C669_SUPERIO);
- 
-     /* IDE disk setup.  */
--    {
--        DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
--        PCIDevice *pci_dev;
--
--        ide_drive_get(hd, ARRAY_SIZE(hd));
--
--        pci_dev = pci_create_simple(pci_bus, -1, "cmd646-ide");
--        pci_ide_create_devs(pci_dev, hd);
--    }
-+    pci_dev = pci_create_simple(pci_bus, -1, "cmd646-ide");
-+    pci_ide_create_devs(pci_dev);
- 
-     /* Load PALcode.  Given that this is not "real" cpu palcode,
-        but one explicitly written for the emulation, we might as
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c399398739..9216596ec6 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -86,7 +86,6 @@ static void pc_init1(MachineState *machine,
-     int piix3_devfn = -1;
-     qemu_irq smi_irq;
-     GSIState *gsi_state;
--    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     BusState *idebus[MAX_IDE_BUS];
-     ISADevice *rtc_state;
-     MemoryRegion *ram_memory;
-@@ -240,20 +239,22 @@ static void pc_init1(MachineState *machine,
- 
-     pc_nic_init(pcmc, isa_bus, pci_bus);
- 
--    ide_drive_get(hd, ARRAY_SIZE(hd));
-     if (pcmc->pci_enabled) {
-         PCIDevice *dev;
- 
-         dev = pci_create_simple(pci_bus, piix3_devfn + 1,
-                                 xen_enabled() ? "piix3-ide-xen" : "piix3-ide");
--        pci_ide_create_devs(dev, hd);
-+        pci_ide_create_devs(dev);
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
-         pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-     }
- #ifdef CONFIG_IDE_ISA
--else {
-+    else {
-+        DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-         int i;
-+
-+        ide_drive_get(hd, ARRAY_SIZE(hd));
-         for (i = 0; i < MAX_IDE_BUS; i++) {
-             ISADevice *dev;
-             char busname[] = "ide.0";
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index e0c84392e2..97347f07f1 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -477,13 +477,15 @@ const VMStateDescription vmstate_ide_pci = {
- };
- 
- /* hd_table must contain 4 block drivers */
--void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd_table)
-+void pci_ide_create_devs(PCIDevice *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-+    DriveInfo *hd_table[2 * MAX_IDE_DEVS];
-     static const int bus[4]  = { 0, 0, 1, 1 };
-     static const int unit[4] = { 0, 1, 0, 1 };
-     int i;
- 
-+    ide_drive_get(hd_table, ARRAY_SIZE(hd_table));
-     for (i = 0; i < 4; i++) {
-         if (hd_table[i]) {
-             ide_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 0ab4787658..13fa1660c3 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -241,11 +241,8 @@ static void piix4_register_types(void)
- 
- type_init(piix4_register_types)
- 
--DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
--                          I2CBus **smbus, size_t ide_buses)
-+DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
- {
--    size_t ide_drives = ide_buses * MAX_IDE_DEVS;
--    DriveInfo **hd;
-     PCIDevice *pci;
-     DeviceState *dev;
- 
-@@ -257,10 +254,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
-     }
- 
-     pci = pci_create_simple(pci_bus, pci->devfn + 1, "piix4-ide");
--    hd = g_new(DriveInfo *, ide_drives);
--    ide_drive_get(hd, ide_drives);
--    pci_ide_create_devs(pci, hd);
--    g_free(hd);
-+    pci_ide_create_devs(pci);
- 
-     pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 639ba2a091..0f312b5a35 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -239,7 +239,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
- {
-     qemu_irq *i8259;
-     ISABus *isa_bus;
--    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     PCIDevice *dev;
- 
-     isa_bus = vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
-@@ -259,8 +258,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
- 
-     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
--    ide_drive_get(hd, ARRAY_SIZE(hd));
--    pci_ide_create_devs(dev, hd);
-+    pci_ide_create_devs(dev);
- 
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index d380f73d7b..e4c4de1b4e 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1403,7 +1403,7 @@ void mips_malta_init(MachineState *machine)
-     pci_bus = gt64120_register(s->i8259);
- 
-     /* Southbridge */
--    dev = piix4_create(pci_bus, &isa_bus, &smbus, MAX_IDE_BUS);
-+    dev = piix4_create(pci_bus, &isa_bus, &smbus);
- 
-     /* Interrupt controller */
-     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index d33e84f831..6abfcb30f8 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -50,7 +50,6 @@
- #include "hw/sparc/sparc64.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/sysbus.h"
--#include "hw/ide.h"
- #include "hw/ide/pci.h"
- #include "hw/loader.h"
- #include "hw/fw-path-provider.h"
-@@ -563,7 +562,6 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     PCIBus *pci_bus, *pci_busA, *pci_busB;
-     PCIDevice *ebus, *pci_dev;
-     SysBusDevice *s;
--    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     DeviceState *iommu, *dev;
-     FWCfgState *fw_cfg;
-     NICInfo *nd;
-@@ -663,12 +661,10 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-         qemu_macaddr_default_if_unset(&macaddr);
-     }
- 
--    ide_drive_get(hd, ARRAY_SIZE(hd));
--
-     pci_dev = pci_create(pci_busA, PCI_DEVFN(3, 0), "cmd646-ide");
-     qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
-     qdev_init_nofail(&pci_dev->qdev);
--    pci_ide_create_devs(pci_dev, hd);
-+    pci_ide_create_devs(pci_dev);
- 
-     /* Map NVRAM into I/O (ebus) space */
-     nvram = m48t59_init(NULL, 0, 0, NVRAM_SIZE, 1968, 59);
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index 98ffa7dfcd..dd504e5a0b 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -63,7 +63,7 @@ static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
- void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
- void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
- extern MemoryRegionOps bmdma_addr_ioport_ops;
--void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd_table);
-+void pci_ide_create_devs(PCIDevice *dev);
- 
- extern const VMStateDescription vmstate_ide_pci;
- extern const MemoryRegionOps pci_ide_cmd_le_ops;
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 152628c6d9..02bd741209 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -68,7 +68,6 @@ extern PCIDevice *piix4_dev;
- 
- PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
- 
--DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
--                          I2CBus **smbus, size_t ide_buses);
-+DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
- 
- #endif
--- 
-2.21.1
+Thanks,
+Marcel
 
 
