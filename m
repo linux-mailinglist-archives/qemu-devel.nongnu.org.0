@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0951868BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:12:55 +0100 (CET)
-Received: from localhost ([::1]:36514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2641868ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:26:18 +0100 (CET)
+Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmjt-0005q0-3N
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60467)
+	id 1jDmwr-0002Dc-3o
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDlNp-0001rI-69
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:46:02 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDlY2-0005lB-T7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDlNl-0003XM-Ly
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:46:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31833
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlNl-0003UA-Bi
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:45:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584348356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UBsw5Iijsprd4KpGuzrwbLsk4kGeiF/wJmWbgU3tRYs=;
- b=PBLYYG3wUQF1nh0fpAfzX7mZBJk5l4Y0fLVGbDC95ptPtbPjhdimDBpGknHhxioenAgDyM
- 5wwF25MuGNZaQpk1uTwkJt5xsI2TGqCSrFxyoWsctvFvYLkFd/nRiosrIcHyMJr2IYMmf0
- Jhu0Tr2a16w9jTDXDtu5h1pgQGEV0HU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-eeNVMUxLM2WGMMsYspaSag-1; Mon, 16 Mar 2020 04:45:52 -0400
-X-MC-Unique: eeNVMUxLM2WGMMsYspaSag-1
-Received: by mail-wm1-f72.google.com with SMTP id a13so5510053wme.7
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:45:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UBsw5Iijsprd4KpGuzrwbLsk4kGeiF/wJmWbgU3tRYs=;
- b=U1920gu1tlA4I9iNQdI83UhcQWVz/FYOhbwTQ78EFndUVGh2vvjwrSJhoAMkNRpQ57
- 73qWsz6W09c8Nlm0PHOxtGpFVYceNi8ieshnQYiOl3Hq79bQR75lSNPJ9FrT6YqwOvZ/
- lzZ+GMYjaZRCxW4BUXVb3hfLLtNiETE48TvigFD2SJbPyp7Njca5JyVZVc+0w9kfWEaL
- tvZpcLHFehY94S3M8kkuGirz/zhWInSB3tP1zLNYlNOA57yiuXjEJaO0p0ClLIsFyaSr
- Ujit49J6SAMFQGaE1tkPuDlTxqJvUXN2wPgIlwxsoeIPo1wjfycRY5eUnnWS9Io/Fyki
- T7MQ==
-X-Gm-Message-State: ANhLgQ0Gi/B7oEl8xEG1p8jM0rHM48iJgqQM/MZcICwWMipK2Bom326t
- qvqaErLcZJ8sWKzpHQ7PRqitlDae4BxOS6n8K/rsaJ68qmppdxf1GFLTaDzdCuvz7xX4Tag2VMq
- +erqwcqrlNq3npso=
-X-Received: by 2002:a1c:6385:: with SMTP id
- x127mr26264312wmb.141.1584348351315; 
- Mon, 16 Mar 2020 01:45:51 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vupwyxa6fHWL0AAs226seV5xMuG7MHX6M9RYL9hbe/saoI1rj8Dh/QgAq7iJ3wQ7G0xiH0iOQ==
-X-Received: by 2002:a1c:6385:: with SMTP id
- x127mr26264249wmb.141.1584348350545; 
- Mon, 16 Mar 2020 01:45:50 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.82.39])
- by smtp.gmail.com with ESMTPSA id g7sm93547836wrq.21.2020.03.16.01.45.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 01:45:50 -0700 (PDT)
-Subject: Re: [PULL 132/136] mem-prealloc: optimize large guest startup
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
- <1582632454-16491-30-git-send-email-pbonzini@redhat.com>
- <7dc67896-eb79-c25c-6be6-a6b7012c9649@vivier.eu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1e16b543-b939-e962-4d15-5ad094dcdd6e@redhat.com>
-Date: Mon, 16 Mar 2020 09:45:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <laurent@vivier.eu>) id 1jDlY1-0003fX-Ke
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:34 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:42327)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDlY1-0003IV-9u
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:33 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1M730b-1jE0Wd1nMF-008YVF; Mon, 16 Mar 2020 09:56:24 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] linux-user: generate syscall_nr.h from linux unistd.h
+Date: Mon, 16 Mar 2020 09:56:16 +0100
+Message-Id: <20200316085620.309769-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <7dc67896-eb79-c25c-6be6-a6b7012c9649@vivier.eu>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GOZ4C5AVBeyNueFbXnRc+0t8mumemR/aijjymyYfYLXqd7RnupJ
+ AWctDb28LchxFjTYFGQiU6TU8rLZRkpGODBm65l/td8uBHo6ECtuaOkXTO2AckQoXnZNnVm
+ fSBSRapS2FqN9eeZzm21391Z8CZE0D8FizjWY6xSWHq3NOzvU/AU0LUZpj1tTadBj7AGwie
+ g95P4WSwdtmKGl8Mti9vQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dJY4cKYwXTQ=:RiIbKqFJlVMnXrJYEKwG6H
+ fWpEAnAUvYZO1u5oJ7Hd7p6m8ibLR8CMIYRMMw9YMaueKsAdFDw5iRiseuyh4gs9i2XqnZZsD
+ AQNiTKqkWKcm16J++LAqmACWlcnFbd04RaF0ncaXsyrHUjfc1fGffSlk/z1n7i8K6u/8HfrRs
+ 59lP+MQYryEG/g3Da33i/AlXbBKgyrlj4TkZy1mqrXHYUa/y+jrRJIJsAidqDfqDAsSPwPtgP
+ 7mqROuj/xJRiPAlitOlFCA5XCpCVERqFQCD6cEcsd3NTNG9bml8xHulYFQtL09gIvfVZ6MM8p
+ tO8LtubOLEpkDJFKLgxSB4nrr+V+5fWsnnEZitp3tjeE4t7XSRKjXCZHGsvNkgwyCP/qCz7Pl
+ LdrALX5kRcwafeTZfLJp6oLGheP/qa+w76NqHcG7vrb7Yv2GW5Jc5nm48wFjPyI6zQLpxB76f
+ EqwbrVSba1GtFZcrtfCeyVsHfKeVgjSb5T8WDi6KzHKdHDjAtF3eRu0/T8BSkeOPif8XO/+1p
+ diIFRv9vzUq1LVxRkPKZJKenc8m2R2aweWNWTsJGVCatQrNoiCEQK3LK5Ichm/Uhy20IJ3NKD
+ 30UM/q2VViBukFnZQVjWD6vo3D3RkE5rgwgbJJPXuPb+s4WK5oeFB5Hd6YEddVihqnqq06H+I
+ OWFIxcDwM/7LyfJFoYQ2uTvf1T+QC5sXHHuZ4Qd4YvtwIIZvTkV/L7A+Q/69BzKoHdoCzpubD
+ MxY1QiXmnKhmUz2kl0AIDA14mwVCoLlRTKDYWP0rtB4DVpI2tX5t8USMj3nGFpZkN9HlD79SP
+ 5TUImQTrJ+zrVrGjHx2r+QFmV+UG3z5qY6I0j5RHyrGKwneR6G2VASe5pqBl9d3BfOlmBQV
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,22 +61,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bauerchen <bauerchen@tencent.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/20 09:42, Laurent Vivier wrote:
-> Hi,
-> 
-> a bug has been reported in launchpad for this patch:
-> 
-> [Regression]Powerpc kvm guest unable to start with hugepage backed
->             memory
-> https://bugs.launchpad.net/qemu/+bug/1866962
+This series adds a script to generate syscall_nr.h for
+architectures that don't use syscall.tbl but asm-generic/unistd.h
 
-Indeed, I'm sending the pull request with the fix today.  Sorry for the
-breakage.
+The script uses several cpp passes and filters result with a grep/sed/tr sequence.
+The result must be checked before being used, so it's why the script is not
+automatically run.
 
-Paolo
+I have run the script, checked and added new files for arm64, nios2, openrisc.
+
+I don't include result for riscv as Alistair is already working on a series
+for this architecture and it needs some changes in syscall.c as some
+syscalls are not defined.
+
+We also need to add the _time64 variant of syscalls added by the update of the
+syscall_nr.h.
+
+Based-on: <20200310103403.3284090-1-laurent@vivier.eu>
+
+v3: remove useless upper command
+v2: add comments suggested by Taylor
+
+Laurent Vivier (4):
+  scripts: add a script to generate syscall_nr.h
+  linux-user, aarch64: sync syscall numbers with kernel v5.5
+  linux-user,nios2: sync syscall numbers with kernel v5.5
+  linux-user, openrisc: sync syscall numbers with kernel v5.5
+
+ linux-user/aarch64/syscall_nr.h  |  34 +-
+ linux-user/nios2/syscall_nr.h    | 650 +++++++++++++++----------------
+ linux-user/openrisc/syscall_nr.h | 309 +++------------
+ scripts/gensyscalls.sh           | 102 +++++
+ 4 files changed, 513 insertions(+), 582 deletions(-)
+ create mode 100755 scripts/gensyscalls.sh
+
+-- 
+2.24.1
 
 
