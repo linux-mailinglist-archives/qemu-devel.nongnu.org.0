@@ -2,68 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96808187268
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:34:07 +0100 (CET)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495F9187299
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:44:12 +0100 (CET)
+Received: from localhost ([::1]:46407 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuYw-0001bW-Kt
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59448)
+	id 1jDuih-0003Gu-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:44:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtGU-00068i-3y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:11:00 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jDtSo-0003N4-II
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtGS-0007Ho-4b
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:10:58 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39530)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtGR-0007E9-SY
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:10:56 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h6so1887306wrs.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ftKu+V9cm+BUGJzIYqmav6sjdRsT4fHhxpYIdjfzXi8=;
- b=s6rbEXGoQ+4sGg3mj9OgnU7l/KRoIqhQlT+8LwKTDYZRMRZxlPcvHSSK02UqNGha3Z
- 7iDB5CcgVVWMnGTQfoi+Fwl2uUhm3VxxqKeiQgcsrK3MUHapGxczwsS02pokubwndX/P
- P6NE/XIgyTZwam67OwJDHgIclASWnj0ZVKinK93AEOFx1pqdCEEfoDZgOlZR28LKPI1m
- P+39qQEQRsdFYQgajfffLWyZHbC/gqQ7wryrWW5hEbSfy2HNZN6b7NkLUcQUG7oDenBT
- nRir7Be6O05tiYRZkMRIr1F779znJJnjTKdm066hGq3t4zpH4rFeBgvygKtzWO5jmiuP
- uOEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ftKu+V9cm+BUGJzIYqmav6sjdRsT4fHhxpYIdjfzXi8=;
- b=JCzDQmRJkDvhU/uJtkyWyvuhEvB5NjoOm/K8dPVDhrECGn5mjSQLG5As3H9oqT7xBJ
- adB71Zp/QG43mlBHvUz4VXopy/pnKaJbWevAU1D0e/AZS5CER3tppzXbx1+cuiVn+lsM
- rW+eim+NiApnP9WaS7JRfxZ6yA8QDHtlod6pcQOYrZKGwh+XG7S8pzi+Z5Fix7D+YAd8
- LHxSAjEGE5y+/yvi0pCrUO0fovjx5Yt6Hlmo12EREH05tv4XY15AyVvmKbpDYB2L9dPQ
- 1laKtnXH7q+BuDimKJotVpza16vHLO3QrJnMv6H128w2BqHrqTmNgYu9BnVUdXQFRieE
- ILMw==
-X-Gm-Message-State: ANhLgQ0Sfu1Mp4SSQ7kk5URdDDW5YNYu8ija/y3q6uJWK55m3ZycUt6R
- SxZvW3mfwbB47EEOBKVZJ+fDMKw+IHoHnLJKpTk=
-X-Google-Smtp-Source: ADFU+vuz+rS5NVcPEOHkv1ngfJVkPfTMyn1+rjKy4D2UgBKTnHFTSJHtblvDUDMgsS2TsUjk8GNYrYN7U4/Z+VV5smo=
-X-Received: by 2002:a05:6000:4a:: with SMTP id
- k10mr297498wrx.381.1584378654678; 
- Mon, 16 Mar 2020 10:10:54 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1jDtSn-0005O0-6D
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37598)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jDtSm-00058b-Us
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584379419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XyWJio/1Evw23dXKe4cmAPo0KgIGrlR+mkQPsqszrDQ=;
+ b=VESY259S4oUdmRljU1yLgoCvqdgGet9BN96gNEaRl4vCnNXcNrmclZr9n/O7AtCSXdBiHz
+ N8LieMud5h/ceEm5l8Fkp4M5YzymSvr4PHa+D7tEih5w+YhusfLP8KYRzN+J7wcXC6DnLO
+ TPkfLK6+HQokcwrG3ZwplCO0CibaOkQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-ikTBv5TMOHucwDgEgC4rjg-1; Mon, 16 Mar 2020 13:23:38 -0400
+X-MC-Unique: ikTBv5TMOHucwDgEgC4rjg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31599EAD74
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 17:11:29 +0000 (UTC)
+Received: from [10.10.125.118] (ovpn-125-118.rdu2.redhat.com [10.10.125.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C31410027A3;
+ Mon, 16 Mar 2020 17:11:25 +0000 (UTC)
+Subject: Re: [PATCH v4] python/qemu/qmp.py: QMP debug with VM label
+To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
+References: <20200316103203.10046-1-ovoshcha@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <c69f6789-3553-2a16-688b-4d9f766bdb1a@redhat.com>
+Date: Mon, 16 Mar 2020 13:11:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-21-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-21-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:10:42 +0100
-Message-ID: <CAJ+F1C+vTVbho-K38tiPC0FYx3KadZDy7L8hNn6iBydWuKFo8g@mail.gmail.com>
-Subject: Re: [PATCH v3 20/34] qapi: Add feature flags to struct members
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+In-Reply-To: <20200316103203.10046-1-ovoshcha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,294 +146,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: ehabkost@redhat.com, wainersm@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 4:23 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+On 3/16/20 6:32 AM, Oksana Vohchana wrote:
+> QEMUMachine writes some messages to the default logger.
+> But it sometimes hard to read the output if we have requests to
+> more than one VM.
+> This patch adds a label to the logger in the debug mode.
+> 
+> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
 > ---
->  docs/devel/qapi-code-gen.txt            |  4 +++-
->  tests/qapi-schema/doc-good.texi         |  2 ++
->  qapi/introspect.json                    |  6 +++++-
->  scripts/qapi/expr.py                    |  3 ++-
->  scripts/qapi/introspect.py              |  2 +-
->  scripts/qapi/schema.py                  | 25 ++++++++++++++++++++-----
->  tests/qapi-schema/doc-good.json         |  5 ++++-
->  tests/qapi-schema/doc-good.out          |  3 +++
->  tests/qapi-schema/qapi-schema-test.json |  2 +-
->  tests/qapi-schema/qapi-schema-test.out  |  1 +
->  tests/qapi-schema/test-qapi.py          |  7 ++++---
->  11 files changed, 46 insertions(+), 14 deletions(-)
->
-> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> index 9fce78dcad..a1ef1cfd61 100644
-> --- a/docs/devel/qapi-code-gen.txt
-> +++ b/docs/devel/qapi-code-gen.txt
-> @@ -234,7 +234,9 @@ Syntax:
->                 '*features': FEATURES }
->      MEMBERS =3D { MEMBER, ... }
->      MEMBER =3D STRING : TYPE-REF
-> -           | STRING : { 'type': TYPE-REF, '*if': COND }
-> +           | STRING : { 'type': TYPE-REF,
-> +                        '*if': COND,
-> +                        '*features': FEATURES }
->
->  Member 'struct' names the struct type.
->
-> diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good=
-.texi
-> index 76b396dae6..7f28fb7a0f 100644
-> --- a/tests/qapi-schema/doc-good.texi
-> +++ b/tests/qapi-schema/doc-good.texi
-> @@ -132,6 +132,8 @@ Not documented
->  @table @asis
->  @item @code{variant1-feat}
->  a feature
-> +@item @code{member-feat}
-> +a member feature
->  @end table
->
->  @end deftp
-> diff --git a/qapi/introspect.json b/qapi/introspect.json
-> index da3e176899..b1aabd4cfd 100644
-> --- a/qapi/introspect.json
-> +++ b/qapi/introspect.json
-> @@ -206,11 +206,15 @@
->  #           Future extension: if present and non-null, the parameter
->  #           is optional, and defaults to this value.
->  #
-> +# @features: names of features associated with the member, in no
-> +#            particular order.  (since 5.0)
-> +#
->  # Since: 2.5
->  ##
->  { 'struct': 'SchemaInfoObjectMember',
-> -  'data': { 'name': 'str', 'type': 'str', '*default': 'any' } }
-> +  'data': { 'name': 'str', 'type': 'str', '*default': 'any',
->  # @default's type must be null or match @type
-> +            '*features': [ 'str' ] } }
->
->  ##
->  # @SchemaInfoObjectVariant:
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index f9c4448980..2942520399 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -167,8 +167,9 @@ def check_type(value, info, source,
->                         allow_optional=3DTrue, permit_upper=3Dpermit_uppe=
-r)
->          if c_name(key, False) =3D=3D 'u' or c_name(key, False).startswit=
-h('has_'):
->              raise QAPISemError(info, "%s uses reserved name" % key_sourc=
-e)
-> -        check_keys(arg, info, key_source, ['type'], ['if'])
-> +        check_keys(arg, info, key_source, ['type'], ['if', 'features'])
->          check_if(arg, info, key_source)
-> +        check_features(arg.get('features'), info)
->          check_type(arg['type'], info, key_source, allow_array=3DTrue)
->
->
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index a3fa9865db..23652be810 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -173,7 +173,7 @@ const QLitObject %(c_name)s =3D %(c_string)s;
->          obj =3D {'name': member.name, 'type': self._use_type(member.type=
-)}
->          if member.optional:
->              obj['default'] =3D None
-> -        return _make_tree(obj, member.ifcond, None)
-> +        return _make_tree(obj, member.ifcond, member.features)
->
->      def _gen_variants(self, tag_name, variants):
->          return {'tag': tag_name,
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 59e1f5a395..6ee3677215 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -668,18 +668,31 @@ class QAPISchemaFeature(QAPISchemaMember):
->
->
->  class QAPISchemaObjectTypeMember(QAPISchemaMember):
-> -    def __init__(self, name, info, typ, optional, ifcond=3DNone):
-> +    def __init__(self, name, info, typ, optional, ifcond=3DNone, feature=
-s=3DNone):
->          super().__init__(name, info, ifcond)
->          assert isinstance(typ, str)
->          assert isinstance(optional, bool)
-> +        for f in features or []:
-> +            assert isinstance(f, QAPISchemaFeature)
-> +            f.set_defined_in(name)
->          self._type_name =3D typ
->          self.type =3D None
->          self.optional =3D optional
-> +        self.features =3D features or []
->
->      def check(self, schema):
->          assert self.defined_in
->          self.type =3D schema.resolve_type(self._type_name, self.info,
->                                          self.describe)
-> +        seen =3D {}
-> +        for f in self.features:
-> +            f.check_clash(self.info, seen)
-> +
-> +    def connect_doc(self, doc):
-> +        super().connect_doc(doc)
-> +        if doc:
-> +            for f in self.features:
-> +                doc.connect_feature(f)
->
->
->  class QAPISchemaVariant(QAPISchemaObjectTypeMember):
-> @@ -962,7 +975,7 @@ class QAPISchema:
->              name, info, doc, ifcond, features,
->              self._make_enum_members(data, info), prefix))
->
-> -    def _make_member(self, name, typ, ifcond, info):
-> +    def _make_member(self, name, typ, ifcond, features, info):
->          optional =3D False
->          if name.startswith('*'):
->              name =3D name[1:]
-> @@ -970,10 +983,12 @@ class QAPISchema:
->          if isinstance(typ, list):
->              assert len(typ) =3D=3D 1
->              typ =3D self._make_array_type(typ[0], info)
-> -        return QAPISchemaObjectTypeMember(name, info, typ, optional, ifc=
-ond)
-> +        return QAPISchemaObjectTypeMember(name, info, typ, optional, ifc=
-ond,
-> +                                          self._make_features(features, =
-info))
->
->      def _make_members(self, data, info):
-> -        return [self._make_member(key, value['type'], value.get('if'), i=
-nfo)
-> +        return [self._make_member(key, value['type'], value.get('if'),
-> +                                  value.get('features'), info)
->                  for (key, value) in data.items()]
->
->      def _def_struct_type(self, expr, info, doc):
-> @@ -996,7 +1011,7 @@ class QAPISchema:
->              typ =3D self._make_array_type(typ[0], info)
->          typ =3D self._make_implicit_object_type(
->              typ, info, self.lookup_type(typ),
-> -            'wrapper', [self._make_member('data', typ, None, info)])
-> +            'wrapper', [self._make_member('data', typ, None, None, info)=
-])
->          return QAPISchemaVariant(case, info, typ, ifcond)
->
->      def _def_union_type(self, expr, info, doc):
-> diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good=
-.json
-> index 457b8b2cdf..ddd89d1233 100644
-> --- a/tests/qapi-schema/doc-good.json
-> +++ b/tests/qapi-schema/doc-good.json
-> @@ -78,10 +78,13 @@
->  #
->  # Features:
->  # @variant1-feat: a feature
-> +# @member-feat: a member feature
->  ##
->  { 'struct': 'Variant1',
->    'features': [ 'variant1-feat' ],
-> -  'data': { 'var1': { 'type': 'str', 'if': 'defined(IFSTR)' } } }
-> +  'data': { 'var1': { 'type': 'str',
-> +                      'features': [ 'member-feat' ],
-> +                      'if': 'defined(IFSTR)' } } }
->
->  ##
->  # @Variant2:
-> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
-out
-> index 9bcb2b3e91..6757dd26a2 100644
-> --- a/tests/qapi-schema/doc-good.out
-> +++ b/tests/qapi-schema/doc-good.out
-> @@ -21,6 +21,7 @@ object Base
->  object Variant1
->      member var1: str optional=3DFalse
->          if ['defined(IFSTR)']
-> +        feature member-feat
->      feature variant1-feat
->  object Variant2
->  object Object
-> @@ -135,6 +136,8 @@ Another paragraph (but no @var: line)
->
->      feature=3Dvariant1-feat
->  a feature
-> +    feature=3Dmember-feat
-> +a member feature
->  doc symbol=3DVariant2
->      body=3D
->
-> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
-qapi-schema-test.json
-> index fa4f3a15da..f576c337af 100644
-> --- a/tests/qapi-schema/qapi-schema-test.json
-> +++ b/tests/qapi-schema/qapi-schema-test.json
-> @@ -258,7 +258,7 @@
->    'data': { 'foo': 'int' },
->    'features': [] }
->  { 'struct': 'FeatureStruct1',
-> -  'data': { 'foo': 'int' },
-> +  'data': { 'foo': { 'type': 'int', 'features': [ 'member-feature1' ] } =
-},
->    'features': [ 'feature1' ] }
->  { 'struct': 'FeatureStruct2',
->    'data': { 'foo': 'int' },
-> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
-api-schema-test.out
-> index 1cbd0802b3..cd863ae966 100644
-> --- a/tests/qapi-schema/qapi-schema-test.out
-> +++ b/tests/qapi-schema/qapi-schema-test.out
-> @@ -359,6 +359,7 @@ object FeatureStruct0
->      member foo: int optional=3DFalse
->  object FeatureStruct1
->      member foo: int optional=3DFalse
-> +        feature member-feature1
->      feature feature1
->  object FeatureStruct2
->      member foo: int optional=3DFalse
-> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
-.py
-> index 8e09e54edb..f396b471eb 100755
-> --- a/tests/qapi-schema/test-qapi.py
-> +++ b/tests/qapi-schema/test-qapi.py
-> @@ -55,6 +55,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
->              print('    member %s: %s optional=3D%s'
->                    % (m.name, m.type.name, m.optional))
->              self._print_if(m.ifcond, 8)
-> +            self._print_features(m.features, indent=3D8)
->          self._print_variants(variants)
->          self._print_if(ifcond)
->          self._print_features(features)
-> @@ -96,11 +97,11 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
->              print('%sif %s' % (' ' * indent, ifcond))
->
->      @classmethod
-> -    def _print_features(cls, features):
-> +    def _print_features(cls, features, indent=3D4):
->          if features:
->              for f in features:
-> -                print('    feature %s' % f.name)
-> -                cls._print_if(f.ifcond, 8)
-> +                print('%sfeature %s' % (' ' * indent, f.name))
-> +                cls._print_if(f.ifcond, indent + 4)
->
->
->  def test_frontend(fname):
-> --
-> 2.21.1
->
->
+> v2:
+>  - Instead of shown the label in the message it provides the label
+>    only in the debug logger information.
+> v3:
+>  - Fixes coding style problems.
+> v4:
+>  - Use a suffix method to get a children's logger process from the parent.
+> ---
+>  python/qemu/machine.py | 3 ++-
+>  python/qemu/qmp.py     | 5 ++++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 183d8f3d38..f53abfa492 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -270,7 +270,8 @@ class QEMUMachine(object):
+>                  self._vm_monitor = os.path.join(self._sock_dir,
+>                                                  self._name + "-monitor.sock")
+>                  self._remove_files.append(self._vm_monitor)
+> -            self._qmp = qmp.QEMUMonitorProtocol(self._vm_monitor, server=True)
+> +            self._qmp = qmp.QEMUMonitorProtocol(self._vm_monitor, server=True,
+> +                                                nickname=self._name)
+>  
+>      def _post_launch(self):
+>          if self._qmp:
+> diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+> index f40586eedd..d6c9b2f4b1 100644
+> --- a/python/qemu/qmp.py
+> +++ b/python/qemu/qmp.py
+> @@ -46,7 +46,7 @@ class QEMUMonitorProtocol:
+>      #: Logger object for debugging messages
+>      logger = logging.getLogger('QMP')
+>  
+> -    def __init__(self, address, server=False):
+> +    def __init__(self, address, server=False, nickname=None):
+>          """
+>          Create a QEMUMonitorProtocol class.
+>  
+> @@ -62,6 +62,9 @@ class QEMUMonitorProtocol:
+>          self.__address = address
+>          self.__sock = self.__get_sock()
+>          self.__sockfile = None
+> +        self._nickname = nickname
+> +        if self._nickname:
+> +            self.logger = logging.getLogger('QMP').getChild(self._nickname)
+>          if server:
+>              self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+>              self.__sock.bind(self.__address)
+> 
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+Looks right to me. Thank you for taking the time to get this cleaned up.
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
 
