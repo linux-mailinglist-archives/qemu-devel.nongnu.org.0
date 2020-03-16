@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACE1187546
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:01:48 +0100 (CET)
-Received: from localhost ([::1]:49702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633F8187557
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:06:57 +0100 (CET)
+Received: from localhost ([::1]:49784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxnv-00033Q-Bs
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
+	id 1jDxsu-0001XD-Ch
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxIJ-0004Zo-HY
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:08 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIM-0004ic-S4
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxII-0007sM-DM
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22761)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxIL-0008Gx-P3
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:10 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58250)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxII-0007pT-7F
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:06 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxIL-0008Ep-LB
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:29:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394145;
+ s=mimecast20190719; t=1584394149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9r5ZCGJbAAnGpKj9o114KTcLohOklv7xK1En4W7wjp0=;
- b=WL66LtQM/P21nPMsnLxNhvKlPEM1bA3KqPD6W+xa0Hp1B8ap3z8WUBxBfey5hagf04VUFQ
- gPW0EuSbRmRa+9UDvdasOX5ED/opys1BuQPYbROa4/eC3igJORx8nMrGtatbSjj4FD098N
- 4KUJV85xTOGamQXIqJFRbHZtvwsOX8A=
+ bh=7p3MLZ3d8LKWVb9Q2azzwfZzSAYNFpiViKoFByrCLvc=;
+ b=SXCTeSmtYQEdiMZICoNd/cheZ7jViCzww1wC1JezcQ5vabcoMHEkTpVpvi8zfHisMZQRO1
+ 012dlS7TEwiKe++YhLqG99RpMarUNEPWmEXBft2L62YHOuGJ4y7RBuVJDOtiwan5IH50bT
+ g7oNqj09kpUHtJWLuLJ+42vin5GH3Sg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-pR6YfVZFN-O7crJi5HxxXA-1; Mon, 16 Mar 2020 17:29:03 -0400
-X-MC-Unique: pR6YfVZFN-O7crJi5HxxXA-1
+ us-mta-371-aqK-6ALONKeg_zhDAyjbow-1; Mon, 16 Mar 2020 17:29:07 -0400
+X-MC-Unique: aqK-6ALONKeg_zhDAyjbow-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC946800D5E
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE77C801E6D
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:29:06 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C816D19C4F;
- Mon, 16 Mar 2020 21:29:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EABEE19C4F;
+ Mon, 16 Mar 2020 21:29:05 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/61] scripts/cocci: Patch to remove unnecessary
- memory_region_set_readonly()
-Date: Mon, 16 Mar 2020 22:27:18 +0100
-Message-Id: <1584394048-44994-52-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 54/61] hw/display: Let devices own the MemoryRegion they create
+Date: Mon, 16 Mar 2020 22:27:21 +0100
+Message-Id: <1584394048-44994-55-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,41 +76,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Add a semantic patch to remove memory_region_set_readonly() calls
-on ROM memory regions.
+Avoid orphan memory regions being added in the /unattached QOM
+container.
+
+This commit was produced with the Coccinelle script
+scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- scripts/coccinelle/memory-region-housekeeping.cocci | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/display/g364fb.c | 3 ++-
+ hw/display/macfb.c  | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/=
-coccinelle/memory-region-housekeeping.cocci
-index 9cdde71..5e6b31d 100644
---- a/scripts/coccinelle/memory-region-housekeeping.cocci
-+++ b/scripts/coccinelle/memory-region-housekeeping.cocci
-@@ -48,6 +48,21 @@ p << possible_memory_region_init_rom.p;
- cocci.print_main("potential use of memory_region_init_rom*() in ", p)
+diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
+index 55185c9..adcba96 100644
+--- a/hw/display/g364fb.c
++++ b/hw/display/g364fb.c
+@@ -477,7 +477,8 @@ static void g364fb_init(DeviceState *dev, G364State *s)
 =20
+     s->con =3D graphic_console_init(dev, 0, &g364fb_ops, s);
 =20
-+// Do not call memory_region_set_readonly() on ROM alias
-+@@
-+expression ROM, E1, E2, E3, E4;
-+expression ALIAS, E5, E6, E7, E8;
-+@@
-+(
-+  memory_region_init_rom(ROM, E1, E2, E3, E4);
-+|
-+  memory_region_init_rom_nomigrate(ROM, E1, E2, E3, E4);
-+)
-+  ...
-+   memory_region_init_alias(ALIAS, E5, E6, ROM, E7, E8);
-+-  memory_region_set_readonly(ALIAS, true);
-+
-+
- // Replace by-hand memory_region_init_ram_nomigrate/vmstate_register_ram
- // code sequences with use of the new memory_region_init_ram function.
- // Similarly for the _rom and _rom_device functions.
+-    memory_region_init_io(&s->mem_ctrl, NULL, &g364fb_ctrl_ops, s, "ctrl",=
+ 0x180000);
++    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
++                          "ctrl", 0x180000);
+     memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
+                                s->vram_size, s->vram);
+     vmstate_register_ram(&s->mem_vram, dev);
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index 8bff16d..b68faff 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -362,8 +362,8 @@ static void macfb_common_realize(DeviceState *dev, Macf=
+bState *s, Error **errp)
+         return;
+     }
+=20
+-    memory_region_init_io(&s->mem_ctrl, NULL, &macfb_ctrl_ops, s, "macfb-c=
+trl",
+-                          0x1000);
++    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
++                          "macfb-ctrl", 0x1000);
+=20
+     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram"=
+,
+                                      MACFB_VRAM_SIZE, errp);
 --=20
 1.8.3.1
 
