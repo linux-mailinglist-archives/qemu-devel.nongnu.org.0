@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2641868ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:26:18 +0100 (CET)
-Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE09186883
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:04:02 +0100 (CET)
+Received: from localhost ([::1]:36420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmwr-0002Dc-3o
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58127)
+	id 1jDmbI-0002uK-NF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:04:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDlY2-0005lB-T7
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDmLr-00082P-Ak
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDlY1-0003fX-Ke
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:34 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:42327)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDlY1-0003IV-9u
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:56:33 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M730b-1jE0Wd1nMF-008YVF; Mon, 16 Mar 2020 09:56:24 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] linux-user: generate syscall_nr.h from linux unistd.h
-Date: Mon, 16 Mar 2020 09:56:16 +0100
-Message-Id: <20200316085620.309769-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <peter.maydell@linaro.org>) id 1jDmLp-0005Yw-7H
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:03 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35029)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDmLo-0005NM-Uc
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 05:48:01 -0400
+Received: by mail-ot1-x342.google.com with SMTP id k26so17223851otr.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 02:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t+WFlt0ezqgTB4mKPhyjViAQcajdgombL4lkcC71VL0=;
+ b=n+fO9zK7Myp76OYx9XR8wYXmn7TD5q5Yp9Dzsa/mQVzM5AEeyApm7/amcSozL6+xuy
+ fB+TM18N2QlWZsZYTVBn9pWeoTWI4K6bcsk/2TRT6aiCKvJc2iaY7FMV+gCGeYh6uxeq
+ TT5T1au2xCQpbJRcHsQFVLRBhaLLxNHF1wuPclTySaXg0YbegnZetjMS8ChLHa7jNPtg
+ 58R6SPlleCAzK1Ctk8woET1qoM0nhqF0VFUy+fDfHbfKRgRH7UFMlxqE9/MYb4UKs154
+ 4Pr/9Zn4+l52z2DV0LS4ZyfrSLaqM05d0Z5DCd0zxze5l9IsVwgKMUQ5FipQryzmmY2n
+ uRrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t+WFlt0ezqgTB4mKPhyjViAQcajdgombL4lkcC71VL0=;
+ b=MBl3Ia33vuuHMWCWGongfT/XxO1niwx8a0ykQcu3RF+oZRNswLbaZIvwn3xF3dSHcM
+ FlQQTA/9SPTPVtvV9GGKvzLZBLAb9P08cmxMClXXAmC3JT5d12ZU+gb85k6tAXx2z/pR
+ ZctasnNQm+RQ1roX/smQulxRyVts/LlcwGbiSfQxHaInFqUR/Mm5rF0DxDwX+zbQYnQw
+ a0RrpLQ/F4pTssP4GobCeZqrsI9liZ1DQJphMntFtzfsbJn0ZAlCM2Z6zKKS0pTwkpS5
+ pS1L6bk7gCPROeX8KGyBI3Yw6cP6p7kDEpHniyNfGNxlcO1T//qeRkmwIgdYbCLGh0Y3
+ XyWw==
+X-Gm-Message-State: ANhLgQ1eaMpRpC64xESvuKQI/7C8ZM3ynpMdbISTf7UKU9vjnXoN9+4B
+ 83l3oakmbGqKN7TPMU2fIjrCNClc7XYTdSrX4OezOQ==
+X-Google-Smtp-Source: ADFU+vsj7zCvnl9g6TEk7mae7tNLRFlXEw/bZEq5N02ZBGe09Jy9gPcJWLJZqw+GsnezzHJaUoJ5DO8/tqOxi9otmTc=
+X-Received: by 2002:a05:6830:19e2:: with SMTP id
+ t2mr20512644ott.97.1584352079961; 
+ Mon, 16 Mar 2020 02:47:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GOZ4C5AVBeyNueFbXnRc+0t8mumemR/aijjymyYfYLXqd7RnupJ
- AWctDb28LchxFjTYFGQiU6TU8rLZRkpGODBm65l/td8uBHo6ECtuaOkXTO2AckQoXnZNnVm
- fSBSRapS2FqN9eeZzm21391Z8CZE0D8FizjWY6xSWHq3NOzvU/AU0LUZpj1tTadBj7AGwie
- g95P4WSwdtmKGl8Mti9vQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dJY4cKYwXTQ=:RiIbKqFJlVMnXrJYEKwG6H
- fWpEAnAUvYZO1u5oJ7Hd7p6m8ibLR8CMIYRMMw9YMaueKsAdFDw5iRiseuyh4gs9i2XqnZZsD
- AQNiTKqkWKcm16J++LAqmACWlcnFbd04RaF0ncaXsyrHUjfc1fGffSlk/z1n7i8K6u/8HfrRs
- 59lP+MQYryEG/g3Da33i/AlXbBKgyrlj4TkZy1mqrXHYUa/y+jrRJIJsAidqDfqDAsSPwPtgP
- 7mqROuj/xJRiPAlitOlFCA5XCpCVERqFQCD6cEcsd3NTNG9bml8xHulYFQtL09gIvfVZ6MM8p
- tO8LtubOLEpkDJFKLgxSB4nrr+V+5fWsnnEZitp3tjeE4t7XSRKjXCZHGsvNkgwyCP/qCz7Pl
- LdrALX5kRcwafeTZfLJp6oLGheP/qa+w76NqHcG7vrb7Yv2GW5Jc5nm48wFjPyI6zQLpxB76f
- EqwbrVSba1GtFZcrtfCeyVsHfKeVgjSb5T8WDi6KzHKdHDjAtF3eRu0/T8BSkeOPif8XO/+1p
- diIFRv9vzUq1LVxRkPKZJKenc8m2R2aweWNWTsJGVCatQrNoiCEQK3LK5Ichm/Uhy20IJ3NKD
- 30UM/q2VViBukFnZQVjWD6vo3D3RkE5rgwgbJJPXuPb+s4WK5oeFB5Hd6YEddVihqnqq06H+I
- OWFIxcDwM/7LyfJFoYQ2uTvf1T+QC5sXHHuZ4Qd4YvtwIIZvTkV/L7A+Q/69BzKoHdoCzpubD
- MxY1QiXmnKhmUz2kl0AIDA14mwVCoLlRTKDYWP0rtB4DVpI2tX5t8USMj3nGFpZkN9HlD79SP
- 5TUImQTrJ+zrVrGjHx2r+QFmV+UG3z5qY6I0j5RHyrGKwneR6G2VASe5pqBl9d3BfOlmBQV
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+References: <20200315134859.9547-1-f4bug@amsat.org>
+In-Reply-To: <20200315134859.9547-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 09:47:48 +0000
+Message-ID: <CAFEAcA9_hn8-Lmr9m9QkdDhMD2a1=CkGoJ-ox-9EpdmPHRubFg@mail.gmail.com>
+Subject: Re: [PATCH] target/rx/cpu: Use address_space_ldl() to read reset
+ vector address
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,48 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Qemu-block <qemu-block@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Alistair Francis <alistair@alistair23.me>,
+ Stephanos Ioannidis <root@stephanos.io>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds a script to generate syscall_nr.h for
-architectures that don't use syscall.tbl but asm-generic/unistd.h
+On Sun, 15 Mar 2020 at 13:49, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> The RX code flash is not a Masked ROM but a EEPROM (electrically
+> erasable programmable flash memory).
+> When implementing the flash hardware, the rom_ptr() returns NULL
+> and the reset vector is not set.
+> Instead, use the address_space ld/st API to fetch the reset vector
+> address from the code flash.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Based-on: <20200315132810.7022-1-f4bug@amsat.org>
+>
+> Same issue might occurs in Cortex-M arm_cpu_reset()
 
-The script uses several cpp passes and filters result with a grep/sed/tr sequence.
-The result must be checked before being used, so it's why the script is not
-automatically run.
+rom_ptr() does not mean "I'm trying to get this from ROM",
+it means "I'm trying to get this from a user-supplied ELF
+file or similar which hasn't been loaded into guest memory
+yet". (This is a workaround for a reset ordering issue where
+CPU reset happens before rom_reset() runs.)
 
-I have run the script, checked and added new files for arm64, nios2, openrisc.
+Removing the usage of rom_ptr() altogether here doesn't
+look right -- have you tested the case where the initial
+reset vector contents are provided via -kernel or
+-device loader,... ?
 
-I don't include result for riscv as Alistair is already working on a series
-for this architecture and it needs some changes in syscall.c as some
-syscalls are not defined.
-
-We also need to add the _time64 variant of syscalls added by the update of the
-syscall_nr.h.
-
-Based-on: <20200310103403.3284090-1-laurent@vivier.eu>
-
-v3: remove useless upper command
-v2: add comments suggested by Taylor
-
-Laurent Vivier (4):
-  scripts: add a script to generate syscall_nr.h
-  linux-user, aarch64: sync syscall numbers with kernel v5.5
-  linux-user,nios2: sync syscall numbers with kernel v5.5
-  linux-user, openrisc: sync syscall numbers with kernel v5.5
-
- linux-user/aarch64/syscall_nr.h  |  34 +-
- linux-user/nios2/syscall_nr.h    | 650 +++++++++++++++----------------
- linux-user/openrisc/syscall_nr.h | 309 +++------------
- scripts/gensyscalls.sh           | 102 +++++
- 4 files changed, 513 insertions(+), 582 deletions(-)
- create mode 100755 scripts/gensyscalls.sh
-
--- 
-2.24.1
-
+thanks
+-- PMM
 
