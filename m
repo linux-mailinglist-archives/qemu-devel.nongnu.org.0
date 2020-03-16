@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C1A1860E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:48:23 +0100 (CET)
-Received: from localhost ([::1]:60842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AF918610F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 01:56:31 +0100 (CET)
+Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDdva-0004Uj-9U
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
+	id 1jDe3R-0008Q8-Fl
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 20:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdEf-0005TS-Gk
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdEr-0005Y9-Ex
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdEd-0000Ry-B3
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29915
+ (envelope-from <philmd@redhat.com>) id 1jDdEp-0001Et-2X
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27394
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdEd-0000DH-7L
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:03:59 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdEo-00018M-TJ
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:04:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317036;
+ s=mimecast20190719; t=1584317047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DEx1DBsAUoNULRC5d5g69zDoidZfdJm/4hPW7FcSvm0=;
- b=FqS2wNuq8NjhohNB6KiB55/Y0w8ZJd21wAPT6tatBbi1MSe9jmc+Q6/4xqHAsxLaU/QYML
- Ok/k49Ihvc3SFRHLkELrs3g+4fkdazEVc4v1LCal+5eHntoxN+ap3LvD+ySWf077yPh7qe
- OCNI1qns2hZFQBJOsdAPJbHGP16lRq8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-a-caHGIrOq-ewv0urf2fmg-1; Sun, 15 Mar 2020 20:03:53 -0400
-X-MC-Unique: a-caHGIrOq-ewv0urf2fmg-1
-Received: by mail-wm1-f71.google.com with SMTP id i24so3059253wml.1
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:03:53 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JhEb4Fw98Hx85uciQ4N5nkgUEmDVM0SFls1vrHfkKXw=;
+ b=DxMH+o87xsJJW09LVIosbNUb6/hWlOx9toPg6dEyuqbIVaD6YecptkSjPii76vhgrYeg6L
+ ruWHqXW3c1wti5uZiqhdY6QDSPYX8rlTptA9nqIesDj7SlLIlEONpvZkBzBTBIdXZmRZA0
+ CcDrR2E543dQ9grh3IqOgVVSlWWRM6g=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4--HfcXVt8PRWe6Ut2AXIEGg-1; Sun, 15 Mar 2020 20:04:05 -0400
+X-MC-Unique: -HfcXVt8PRWe6Ut2AXIEGg-1
+Received: by mail-wr1-f71.google.com with SMTP id 94so3452794wrr.3
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:04:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p3U6+/FO9XXtk26KgyHPnHFo878eVON0VEI6XyYlJKc=;
- b=pH41VFmeNIRAbURpZ71/xb21oRQ1gOjWjL9FDtYfQtZjiIS3IhFVEr3BKimM889SHe
- Xny5tI40MmF77dVT5Q5Kv9FlOnAqOXEDbS/PxQh+sh+l+MU5XFSoc0rN5trGYNBcTGML
- G1p6PQXkkTWxDIJoFy9fARB9L4tqcRTUbLhtqzxyP3iNzc3IZJAqLz1jRWeL6hz+jrsH
- XYKE9Xhu5lINkPY/MPUXoO13Xn1Pqdoo0QKPleZ633/AAO9FMkIbmUcO6RZZhmE+CmBX
- mIPaicB0TKeVtl5xARQFpwvNypwVluUMCwMx/KPVOZZ9rFIe8e2QLqm5Tuu0NdwfZD37
- vwcA==
-X-Gm-Message-State: ANhLgQ2zxOlqYLtwtCbV6YDSWu6WqZ20UqFIf/Bo39IJCojtcYkSDkcX
- eNlSCqi4ueLEWLWz/snYCK8zCsUhHEQRZzYk2GrQHY8NiPGRZCdivgPSazgusZ02fwSXiJM4lgi
- qagRyeB82ucdzxf8=
-X-Received: by 2002:adf:ce12:: with SMTP id p18mr30641280wrn.88.1584317032135; 
- Sun, 15 Mar 2020 17:03:52 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuTmu0zTz1TQ9HCY7uymerom7g90h3XVP9GyCle39u1kugpqGCO9Ps/l6jlmOLfSD0b2lrOBA==
-X-Received: by 2002:adf:ce12:: with SMTP id p18mr30641250wrn.88.1584317031908; 
- Sun, 15 Mar 2020 17:03:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/2Hixt+DAyk9U4012uc1/q9PdUELc/grv+MCT0aAnGc=;
+ b=EDeVIGRzKIdJgSKB6u6+1XkeTt8ULlIox+INbHILCMeHe47VGkEb/6K/6SLHk6OUnU
+ hBBIFv/IyQflr/Chf0pI5xSohYdg1753asmTaXYuslfveCV0ipkImRPA9jfImgYdWJFr
+ vMIVk/JSVhtf7GB7insjwIyOfkakMRHexI9nPGcCmNB8PeRj2+dlJVR70shjwnUsAtuX
+ oeLtDEQ8pPTjQ1hvgCxKr9/WtiIHhnjBQeZWTo90WTAY9VtbpMs4XeP8mwVbU/QTNmha
+ XfpElAqB/ryAy4xuxFlazhOsIncNAS2Lymij0L4QHRLOK5yMle1pl4OIooAvegWi9k3f
+ +6qw==
+X-Gm-Message-State: ANhLgQ2tcGXAPYzBcKGHazwCT4FVi0Y6UF0cB4RaxIzx6gUDdazIhsoo
+ atlVzON9nbPJfd1WttAouZNB6UJiCNUo+NOkyhdhrqDDtcQJ+7LL7o/MrHd5pG7Ma9oQwMS9ok3
+ pgfgz276iu4AtILM=
+X-Received: by 2002:a7b:c3cb:: with SMTP id t11mr25535069wmj.154.1584317044284; 
+ Sun, 15 Mar 2020 17:04:04 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuOAHaRJoRQHYm0owc0Ej2+MNRAQ3gm/TG9MCh7hR4HAEyCwJVpvNADjk83wAdsJO0cCG7Ubg==
+X-Received: by 2002:a7b:c3cb:: with SMTP id t11mr25535033wmj.154.1584317044034; 
+ Sun, 15 Mar 2020 17:04:04 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id r18sm4620088wro.13.2020.03.15.17.03.49
+ by smtp.gmail.com with ESMTPSA id f15sm27533041wmj.25.2020.03.15.17.04.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:03:51 -0700 (PDT)
+ Sun, 15 Mar 2020 17:04:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] user-mode: Prune build dependencies (part 2)
-Date: Mon, 16 Mar 2020 01:03:40 +0100
-Message-Id: <20200316000348.29692-1-philmd@redhat.com>
+Subject: [PATCH v2 2/8] qapi/misc: Restrict LostTickPolicy enum to machine code
+Date: Mon, 16 Mar 2020 01:03:42 +0100
+Message-Id: <20200316000348.29692-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316000348.29692-1-philmd@redhat.com>
+References: <20200316000348.29692-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -73,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,59 +101,149 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the second part of a series reducing user-mode
-dependencies. By stripping out unused code, the build
-and testing time is reduced (as is space used by objects).
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ qapi/machine.json            | 32 ++++++++++++++++++++++++++++++++
+ qapi/misc.json               | 32 --------------------------------
+ include/hw/rtc/mc146818rtc.h |  2 +-
+ hw/core/qdev-properties.c    |  1 +
+ hw/i386/kvm/i8254.c          |  2 +-
+ 5 files changed, 35 insertions(+), 34 deletions(-)
 
-Part 2:
-- Extract code not related to user-mode from qapi/misc.json
-
-Since v1:
-- Do not extract the 'add_client' command (elmarco)
-
-v1: https://www.mail-archive.com/qemu-block@nongnu.org/msg63284.html
-
-Based-on: <i20200315235716.28448-1-philmd@redhat.com>
-
-Philippe Mathieu-Daud=C3=A9 (8):
-  target/i386: Restrict X86CPUFeatureWord to X86 targets
-  qapi/misc: Restrict LostTickPolicy enum to machine code
-  qapi/misc: Restrict balloon-related commands to machine code
-  qapi/misc: Move query-uuid command with block code
-  qapi/misc: Restrict query-vm-generation-id command to machine code
-  qapi/misc: Restrict ACPI commands to machine code
-  qapi/misc: Restrict PCI commands to machine code
-  qapi/misc: Restrict device memory commands to machine code
-
- qapi/block-core.json                 |  30 ++
- qapi/machine-target.json             |  45 ++
- qapi/machine.json                    | 766 +++++++++++++++++++++++++--
- qapi/misc.json                       | 756 --------------------------
- include/hw/acpi/acpi_dev_interface.h |   2 +-
- include/hw/mem/memory-device.h       |   1 +
- include/hw/rtc/mc146818rtc.h         |   2 +-
- include/hw/virtio/virtio-pmem.h      |   2 +-
- include/sysemu/balloon.h             |   2 +-
- balloon.c                            |   2 +-
- block/iscsi.c                        |   2 +-
- hw/acpi/core.c                       |   2 +-
- hw/acpi/cpu.c                        |   2 +-
- hw/acpi/memory_hotplug.c             |   2 +-
- hw/acpi/vmgenid.c                    |   2 +-
- hw/core/qdev-properties.c            |   1 +
- hw/i386/kvm/i8254.c                  |   2 +-
- hw/pci/pci-stub.c                    |   2 +-
- hw/pci/pci.c                         |   2 +-
- hw/virtio/virtio-balloon.c           |   2 +-
- monitor/hmp-cmds.c                   |   1 +
- stubs/uuid.c                         |   2 +-
- stubs/vmgenid.c                      |   2 +-
- target/i386/cpu.c                    |   2 +-
- target/i386/machine-stub.c           |  22 +
- target/i386/Makefile.objs            |   3 +-
- 26 files changed, 843 insertions(+), 816 deletions(-)
- create mode 100644 target/i386/machine-stub.c
-
+diff --git a/qapi/machine.json b/qapi/machine.json
+index de05730704..07ffc07ba2 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -415,6 +415,38 @@
+ ##
+ { 'command': 'query-target', 'returns': 'TargetInfo' }
+=20
++##
++# @LostTickPolicy:
++#
++# Policy for handling lost ticks in timer devices.  Ticks end up getting
++# lost when, for example, the guest is paused.
++#
++# @discard: throw away the missed ticks and continue with future injection
++#           normally.  The guest OS will see the timer jump ahead by a
++#           potentially quite significant amount all at once, as if the
++#           intervening chunk of time had simply not existed; needless to
++#           say, such a sudden jump can easily confuse a guest OS which is
++#           not specifically prepared to deal with it.  Assuming the guest
++#           OS can deal correctly with the time jump, the time in the gues=
+t
++#           and in the host should now match.
++#
++# @delay: continue to deliver ticks at the normal rate.  The guest OS will
++#         not notice anything is amiss, as from its point of view time wil=
+l
++#         have continued to flow normally.  The time in the guest should n=
+ow
++#         be behind the time in the host by exactly the amount of time dur=
+ing
++#         which ticks have been missed.
++#
++# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
++#        The guest OS will not notice anything is amiss, as from its point
++#        of view time will have continued to flow normally.  Once the time=
+r
++#        has managed to catch up with all the missing ticks, the time in
++#        the guest and in the host should match.
++#
++# Since: 2.0
++##
++{ 'enum': 'LostTickPolicy',
++  'data': ['discard', 'delay', 'slew' ] }
++
+ ##
+ # @NumaOptionsType:
+ #
+diff --git a/qapi/misc.json b/qapi/misc.json
+index c18fe681fb..2725d835ad 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -7,38 +7,6 @@
+=20
+ { 'include': 'common.json' }
+=20
+-##
+-# @LostTickPolicy:
+-#
+-# Policy for handling lost ticks in timer devices.  Ticks end up getting
+-# lost when, for example, the guest is paused.
+-#
+-# @discard: throw away the missed ticks and continue with future injection
+-#           normally.  The guest OS will see the timer jump ahead by a
+-#           potentially quite significant amount all at once, as if the
+-#           intervening chunk of time had simply not existed; needless to
+-#           say, such a sudden jump can easily confuse a guest OS which is
+-#           not specifically prepared to deal with it.  Assuming the guest
+-#           OS can deal correctly with the time jump, the time in the gues=
+t
+-#           and in the host should now match.
+-#
+-# @delay: continue to deliver ticks at the normal rate.  The guest OS will
+-#         not notice anything is amiss, as from its point of view time wil=
+l
+-#         have continued to flow normally.  The time in the guest should n=
+ow
+-#         be behind the time in the host by exactly the amount of time dur=
+ing
+-#         which ticks have been missed.
+-#
+-# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
+-#        The guest OS will not notice anything is amiss, as from its point
+-#        of view time will have continued to flow normally.  Once the time=
+r
+-#        has managed to catch up with all the missing ticks, the time in
+-#        the guest and in the host should match.
+-#
+-# Since: 2.0
+-##
+-{ 'enum': 'LostTickPolicy',
+-  'data': ['discard', 'delay', 'slew' ] }
+-
+ ##
+ # @add_client:
+ #
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 10c93a096a..58a7748c66 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -9,7 +9,7 @@
+ #ifndef HW_RTC_MC146818RTC_H
+ #define HW_RTC_MC146818RTC_H
+=20
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qemu/queue.h"
+ #include "qemu/timer.h"
+ #include "hw/isa/isa.h"
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 2047114fca..59380ed761 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -4,6 +4,7 @@
+ #include "qapi/error.h"
+ #include "hw/pci/pci.h"
+ #include "qapi/qapi-types-block.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ctype.h"
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index 876f5aa6fa..22ba6149b5 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -25,7 +25,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include <linux/kvm.h>
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
 --=20
 2.21.1
 
