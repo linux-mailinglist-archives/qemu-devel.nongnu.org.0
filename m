@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BAB187039
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:39:14 +0100 (CET)
-Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB470187041
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:41:15 +0100 (CET)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsll-0007OV-NM
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49441)
+	id 1jDsni-00023s-NW
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jDqiK-0007dL-3p
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:34 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jDqim-0007oH-L4
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jDqiJ-0005Vy-4F
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:32 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35316)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jDqiG-0005AD-9b; Mon, 16 Mar 2020 10:27:28 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id mq3so8801312pjb.0;
- Mon, 16 Mar 2020 07:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8p47syJONdd8/zj3ZHq151z5Oq8HeNZBxFWwhkRlYos=;
- b=YdpGXKpA+0VYhg51FcX4vAq+oOr5b/DeAXbKc2wCNWV2lDbn6yAGotm2pUQe4gS8Cf
- PBS4+SZvLS9mK3mRTFUhRqLk9fK4MwdPpCu+mBhRgIi4Hl+AYZdcEZhMcH2zycFzL3mU
- VTB+VLIUPBywqgylfovnlLwTcCmstyFN+7WeOL827XEq623E9KUh3v83ihZ6bGc3sce0
- NfYuRghm4OIu1jJwjXeDyPU2P0qEWzDnKUbv7OtdNP1Vjt7J3b4T89JjcmRC6nlJ5vOH
- L0YZTFu3tu0KM2wrtYrI203wDU6HHhlTFBGvOv1Md6xslRSeTXdADMaENzNpVqJy1Sjx
- qxpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8p47syJONdd8/zj3ZHq151z5Oq8HeNZBxFWwhkRlYos=;
- b=umiEVTHVCoHmS9KfE3346JQhLfL6yB7NWttwIL4Ezvn5wvwYCyJBqpqldSTU2CWk1n
- viAlGinSbq61X7Eca+ZzZE1AJj2yGeK1AgKJ0mvwo4/CF5YuWq5i/8GDOw4abUYh1R4e
- RLLDyd1Ucxpw+u5HFc4ZDVH6TD7ouwZH/1a8Pp4OuEsHI0a9DejEtm3W2nYPiFsE0U9n
- eTTteQV3Vbo/H/U5RP2/7H+SPwCVjfW4sd7Gu2qmzU8bQgteE3VAXr4MqWvjiL30CUSu
- TXBhWYNpxLpXNELmTrrSrqehlyp09m4bjVnBdVUkx90SyOjxTaqJE38xUS2JoemhYqJJ
- fSSg==
-X-Gm-Message-State: ANhLgQ1RYmzDON0ZD4B1ThG6BLuP5P3YO0edCHCVqewsBXnjk4xEDIqx
- wKvlfvUSvEjtCLDpzDtNu8oNRwp7+nA=
-X-Google-Smtp-Source: ADFU+vsNOsvEcg8XN6hd4REZRuCcn6hqW5WYnKD3laHhrTv/laLcuwweN+wtx9+h6YnnseEpNVUmCQ==
-X-Received: by 2002:a17:902:a588:: with SMTP id
- az8mr2163506plb.163.1584368847300; 
- Mon, 16 Mar 2020 07:27:27 -0700 (PDT)
-Received: from bobo.ozlabs.ibm.com ([203.63.160.49])
- by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.27.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 07:27:26 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 8/8] ppc/spapr: Ignore common "ibm, nmi-interlock" Linux bug
-Date: Tue, 17 Mar 2020 00:26:13 +1000
-Message-Id: <20200316142613.121089-9-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200316142613.121089-1-npiggin@gmail.com>
-References: <20200316142613.121089-1-npiggin@gmail.com>
+ (envelope-from <cohuck@redhat.com>) id 1jDqil-0000Dm-GH
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36043
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDqil-0000BI-AK
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584368879;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CoppFsbbvyA7kK0N+2AWfM9tZdwTTZmszHuy1FLWWSM=;
+ b=Qv2n2CHBseZgbUIK4PhVS1isviBu4znaN7pzP8Uk5tqMrivVXMtrHLuaNS3dO4gbxCABak
+ t4EbsBulIXdnCoZikWF7v96k9yOCVT8GpWY8ouX5luraODtDRlKw1WjgCwDdR6S16ZOXbe
+ JNfKZbW4lTqS+q9wMx/jOwwTV6eCR/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-SB-_A9JANSyPGec6i0HLJQ-1; Mon, 16 Mar 2020 10:27:57 -0400
+X-MC-Unique: SB-_A9JANSyPGec6i0HLJQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29C86800D50;
+ Mon, 16 Mar 2020 14:27:56 +0000 (UTC)
+Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2251910027B9;
+ Mon, 16 Mar 2020 14:27:40 +0000 (UTC)
+Date: Mon, 16 Mar 2020 15:27:38 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
+Message-ID: <20200316152738.4c1c65ee.cohuck@redhat.com>
+In-Reply-To: <20200313095232.2392-1-frankja@linux.ibm.com>
+References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
+ <20200313095232.2392-1-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux kernels call "ibm,nmi-interlock" in their system reset handlers
-contrary to PAPR. Returning an error because the CPU does not hold the
-interlock here causes Linux to print warning messages. PowerVM returns
-success in this case, so do the same for now.
+On Fri, 13 Mar 2020 05:52:32 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- hw/ppc/spapr_rtas.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  hw/s390x/ipl.h      | 11 +++++++----
+>  target/s390x/diag.c |  2 +-
+>  2 files changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+> index 95e3183c9cccf8b6..f799f7cfcf4763b1 100644
+> --- a/hw/s390x/ipl.h
+> +++ b/hw/s390x/ipl.h
+> @@ -261,15 +261,18 @@ static inline bool ipl_valid_pv_header(IplParameterBlock *iplb)
+>          return true;
+>  }
+>  
+> -static inline bool iplb_valid(IplParameterBlock *iplb)
+> +static inline bool iplb_valid(IplParameterBlock *iplb, uint64_t subcode)
+>  {
+>      switch (iplb->pbt) {
+>      case S390_IPL_TYPE_FCP:
+> -        return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN;
+> +        return (subcode == DIAG308_SET &&
+> +                be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN);
+>      case S390_IPL_TYPE_CCW:
+> -        return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN;
+> +        return (subcode == DIAG308_SET &&
+> +                be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN);
+>      case S390_IPL_TYPE_PV:
+> -        if (be32_to_cpu(iplb->len) < S390_IPLB_MIN_PV_LEN) {
+> +        if (subcode != DIAG308_PV_SET ||
+> +            be32_to_cpu(iplb->len) < S390_IPLB_MIN_PV_LEN) {
+>              return false;
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 521e6b0b72..9fb8c8632a 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -461,8 +461,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-     }
- 
-     if (spapr->fwnmi_machine_check_interlock != cpu->vcpu_id) {
--        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
--        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-+        /*
-+	 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
-+         * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interlock"
-+	 * for system reset interrupts, despite them not being interlocked.
-+	 * PowerVM silently ignores this and returns success here. Returning
-+	 * failure causes Linux to print the error "FWNMI: nmi-interlock
-+	 * failed: -3", although no other apparent ill effects, this is a
-+	 * regression for the user when enabling FWNMI. So for now, match
-+	 * PowerVM. When most Linux clients are fixed, this could be
-+	 * changed.
-+	 */
-+        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-         return;
-     }
- 
--- 
-2.23.0
+I'm not sure I like passing the subcode here...
+
+>          }
+>          if (!ipl_valid_pv_header(iplb)) {
+> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+> index b1ca81633b83bbdc..d4f33db5c23c818d 100644
+> --- a/target/s390x/diag.c
+> +++ b/target/s390x/diag.c
+> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+>  
+>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+>  
+> -        if (!iplb_valid(iplb)) {
+> +        if (!iplb_valid(iplb, subcode)) {
+>              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+>              goto out;
+>          }
+
+...because you're basically checking whether you either have a valid
+normal iplb, or a valid pv iplb, with the two being mutually exclusive,
+IIUC. So what about introducing iplb_valid_pv and calling that for the
+pv case? Would be a bit nicer to read, I think, and also matches what
+you do for the STORE case.
 
 
