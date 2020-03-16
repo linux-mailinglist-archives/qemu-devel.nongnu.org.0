@@ -2,81 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB0C1870B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:58:39 +0100 (CET)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD4D1870CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:02:11 +0100 (CET)
+Received: from localhost ([::1]:43002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDt4Y-0007ny-7b
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1jDt7y-0004qg-7s
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsGp-0004Gm-RV
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:17 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqkt-0000Bd-9v
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsGo-00012G-PZ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:15 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46771)
+ (envelope-from <its@irrelevant.dk>) id 1jDqkr-0002bR-7s
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:11 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48600)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsGo-0000y2-Kc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:07:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yx+2IyWJnz1cKAJOo8cGVs9d/ga02LGh5bedgLQz1Rc=;
- b=fCFe26G5ukrvsFodtoKddSJi0ijLxfDTdthG7C3jXHgasHc+jyhk8csgPb7lCoyA6yqt+h
- wLjNmDx1/IzYD+j2pCVFOOfKv4TOt0DxIOtdmrUDIuV2rmgXb8iYcwXrqdx82S7Ukoq/BH
- cIFqPiTbUIIFWq6khNefda0ihGx8Ddk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-imvQ3ASVMAKZBsYHPJjGrw-1; Mon, 16 Mar 2020 12:07:12 -0400
-X-MC-Unique: imvQ3ASVMAKZBsYHPJjGrw-1
-Received: by mail-wr1-f70.google.com with SMTP id p2so6715001wrw.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yxNTHu0Y9BXexKmUFsNlCCh8LSzlOCW9yO82fm58I4s=;
- b=Gpn1fIzmNKu5EQPn2A2OR4KPACCU1fC+uV+n86BDoOzcyuFjR4UCxHnOxLxYThBQtC
- TVxj4keYWLWFraCriz8nGSik/mlz2kxvg/1ZEahoIavpYwkuxP+oVR4rtIhaOK27JF4A
- qm/SV85zAWL7n8UgX30jwkyGZG+CMwMICUpfYQrTXH0q56o6m9kSablV+fKRre2lUecS
- qsb0WvSTJFnG7+3tLU9mHB+GErivLep61Svr8ETubMOFowaWVTcckB8nLbWIuWwuWQZx
- pYCvu+UAAw0MfOrdFfe7Ayh6wsaJ7Uuli8YlQbTjCdKsVnCO/3BIGzUV1rOv7qT007ie
- l5Gg==
-X-Gm-Message-State: ANhLgQ3eCyhV/xYFgrk6cuAsQJFYi8OlXaRpV+E5IqO2OF8aCOG+Zqq4
- d/P85H2L9gHFgpTn2oFrvOzwxxXmrlt3poQJ/A44YmPEzzeUyID2HIL1qCRsLZaVjAhqa8ba3X6
- /03oRtgQ15GR7xo4=
-X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr28456591wmk.172.1584374830945; 
- Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs7IJfPb/lnQB6VsT1fXs4khiy3iYFUFjrhDCacWI//Wr03P/OMBnlYg0XoQf+8TAXToOGQKQ==
-X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr28456569wmk.172.1584374830787; 
- Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
-Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id p8sm552349wrw.19.2020.03.16.09.07.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:07:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/19] target/arm: Move Makefile variable restricted to
- CONFIG_TCG
-Date: Mon, 16 Mar 2020 17:06:21 +0100
-Message-Id: <20200316160634.3386-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
-References: <20200316160634.3386-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1jDqkn-0007tV-Gx; Mon, 16 Mar 2020 10:30:05 -0400
+Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
+ [80.62.117.52])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 352A1BF6A1;
+ Mon, 16 Mar 2020 14:29:44 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH v6 17/42] nvme: add log specific field to trace events
+Date: Mon, 16 Mar 2020 07:29:03 -0700
+Message-Id: <20200316142928.153431-18-its@irrelevant.dk>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
+References: <20200316142928.153431-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,46 +48,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple code movement which simplifies next commits.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+The LSP field is not used directly now, but include it in the trace.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- target/arm/Makefile.objs | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/block/nvme.c       | 3 ++-
+ hw/block/trace-events | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index cf26c16f5f..0c6f8c248d 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -1,4 +1,3 @@
--obj-$(CONFIG_TCG) +=3D arm-semi.o
- obj-y +=3D helper.o vfp_helper.o
- obj-y +=3D cpu.o gdbstub.o
- obj-$(TARGET_AARCH64) +=3D cpu64.o gdbstub64.o
-@@ -56,6 +55,12 @@ target/arm/translate.o: target/arm/decode-a32-uncond.inc=
-.c
- target/arm/translate.o: target/arm/decode-t32.inc.c
- target/arm/translate.o: target/arm/decode-t16.inc.c
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index e56142c4ea99..16de3ca1c5d5 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -760,6 +760,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
+d, NvmeRequest *req)
+     uint32_t dw12 =3D le32_to_cpu(cmd->cdw12);
+     uint32_t dw13 =3D le32_to_cpu(cmd->cdw13);
+     uint8_t  lid =3D dw10 & 0xff;
++    uint8_t  lsp =3D (dw10 >> 8) & 0xf;
+     uint8_t  rae =3D (dw10 >> 15) & 0x1;
+     uint32_t numdl, numdu;
+     uint64_t off, lpol, lpou;
+@@ -777,7 +778,7 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cm=
+d, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
 =20
-+ifeq ($(CONFIG_TCG),y)
-+
-+obj-y +=3D arm-semi.o
-+
-+endif # CONFIG_TCG
-+
- obj-y +=3D tlb_helper.o debug_helper.o
- obj-y +=3D translate.o op_helper.o
- obj-y +=3D crypto_helper.o
+-    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
++    trace_nvme_dev_get_log(nvme_cid(req), lid, lsp, rae, len, off);
+=20
+     switch (lid) {
+     case NVME_LOG_ERROR_INFO:
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index dde1d22bc39a..13e2c71664f6 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -48,7 +48,7 @@ nvme_dev_getfeat_numq(int result) "get feature number o=
+f queues, result=3D%d"
+ nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "reque=
+sted cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D=
+%d"
+ nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp =3D 0x%"P=
+RIx64""
+ nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp =3D 0x%"P=
+RIx64""
+-nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, u=
+int64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" o=
+ff %"PRIu64""
++nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, ui=
+nt32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" ra=
+e 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+ nvme_dev_process_aers(int queued) "queued %d"
+ nvme_dev_aer(uint16_t cid) "cid %"PRIu16""
+ nvme_dev_aer_aerl_exceeded(void) "aerl exceeded"
 --=20
-2.21.1
+2.25.1
 
 
