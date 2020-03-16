@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0292618733E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:21:42 +0100 (CET)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643331872E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:00:34 +0100 (CET)
+Received: from localhost ([::1]:46942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvIz-0003au-2S
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48277)
+	id 1jDuyX-0000mE-BN
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46112)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jDuwj-0006kC-7V
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:58:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuuR-0002j7-2h
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:56:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jDuwh-0000oe-W3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:58:41 -0400
-Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:44920)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuuP-0007MM-Rm
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:56:18 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:34975)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jDuwh-0000cn-QE; Mon, 16 Mar 2020 14:58:39 -0400
-Received: by mail-vk1-xa43.google.com with SMTP id s194so5208348vkb.11;
- Mon, 16 Mar 2020 11:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YCj2j2QLvThI/7yEyvEGkibNCO6HQSKc0dHTHfIKDcY=;
- b=bGlLYjqhuOBElLMaKSsrdR8mC6CRaROa6KBnTAsCpws2wpve3LntDOB0Q+oE4R0Idb
- Xn8nHKI2IbSTmNeMjeJaO01UwKNzHkrYG0rUasis1zkIRxIFq+MHhDkGW0kaP8z7tL4+
- iaknz1bsSRKSh7+Vlf2okzdk88wPqJ7WUyTLsJ7+fzuwPU36xVjshHKmoEkAD0kYysw/
- pJMJ1vjHXVogndtc2iF1sCN/OJloYUef8O8PWKDcAWByEIM4Fzu86oBH3FSV/qFgheEF
- XVjA5AJP9vcnuTaX0eDATnVVr8Uf3IGtnWTGqPKKdTF9/ObXE60DbfFDe+xrXTP9c+v2
- F+UA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jDuuP-0007HJ-KV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:56:17 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id mq3so9186941pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Z0Mfj9/7R94RJlMQNj7AyIsYbkmBW+29a4buXrrjXRQ=;
+ b=aw6b4Wf+WOuyRybaz8Hbq2MR422NhF1FqI2l4OrqRWVOgfbTgeWZntjk5QX5g8XFCx
+ avkZ+87xHV/KtazV9ciWYgx2/9nmk23sbjojb4GhO2v6OYOcv6XUDhLmHenTBf1HJrY1
+ HRu+vCwmkl0biMDlztTplbAJuxymqA+j+84OQ1CpkZ79OM1LxIzUHKKjawpZ2yAW7pvb
+ Yna6NPKDgim64Ww39IHx8w0F/uGswM9KeOZyel8eZYowanXbzjn3MkEtFL3yhAIVCmmh
+ WNpSeH8tOQ8zGj/tsc3vmjJTFdF2S3GP8N6ViSHWIhbvDBj3Q2De3Mr/tblg6IIbiXSr
+ 6i7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YCj2j2QLvThI/7yEyvEGkibNCO6HQSKc0dHTHfIKDcY=;
- b=foMvV5V+DqfAOuNrzqIVzqdBg+YmZvP5/AuCc9upG5WkJUu6RpjB4gLd3aOx7gALF1
- n4CNtgpN0Je6NRF1wyCW4CYzdLw5v13erqdYPZiieveprQvEpLVttw2i9KDqrGUaYjOS
- Bob47OiTLJYKn9y7uBPTBmzB1r/cx+V+CYLDdg7H6+KTNthyaFJWGTP+L2I/A3VEfdiz
- tkbngeIO8yW9JIsblCL0916KD2gQNq1b/wXRO6SFj21V5AELyCV2RkuLsT3bJ+5OUSWL
- hzQgcYL8vji6s2B5cDZy+CPc7TkbQQLQ00UFHIxIw1y6GH8w7GG7quH+b8CJUuAwZEHD
- QObQ==
-X-Gm-Message-State: ANhLgQ395Su2RAOCovfdEqmkWI4cltdvH38Q55UcSYSamBq0ZztnxQx4
- MjAe0gZyXdkY31Eyyt9LZleAm80fliqCCws0dC8=
-X-Google-Smtp-Source: ADFU+vt1UQZbBobBOZUFnYrin4HNu6UUV4fvJ3h+wNQic8DypOo+3LRiFcH2okRqlturOlaEhHGMiHec9oeAD65CExg=
-X-Received: by 2002:a1f:9d16:: with SMTP id g22mr1216404vke.22.1584385118812; 
- Mon, 16 Mar 2020 11:58:38 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z0Mfj9/7R94RJlMQNj7AyIsYbkmBW+29a4buXrrjXRQ=;
+ b=ij9+oy3krdZqTdO5smCWsUI5vJG8qe3bH9TALdD9kP/byJE04WRW61mVSf7Cf7VkMk
+ CrTeIWSEhfATi8/xvAV0zLIaPGj/iEeayLd5yPZN0jXOgDjqbq03YgtmqChlYjGHlCis
+ GfXCN4WKE/hBjW1KmcyZ6ziB0wa4r80iruo1HYxceidx4l/tAC2SrGdsFuwXCIY5O/xA
+ 3jy0WysYq1+QwJiY62G/KTY0L4hIM925rGIQZqYA6Rw6aB860pgUfkXZLq8u2fhk0xxB
+ yDkvUYnTa7pbCFWesz8i18B0gh1Lv6OlyKFLLDLx6SHWKZu6LmNMFlCBrH1c7mnd6jOV
+ YR/A==
+X-Gm-Message-State: ANhLgQ0QSUk7+/HrZPuFpIwAgqFPBDrLXLclMdJXjQJizZ/Iti4mJXCy
+ ulAB8OuSDQLdcQCHrdy8CkIrdQ==
+X-Google-Smtp-Source: ADFU+vvjaXKa/eXbYjRAvM+YMD6OhcaaxIUCBTuFZf9ybv6H0sMV6f2YVMMQkboS24hx2B7i5lUKOw==
+X-Received: by 2002:a17:902:d909:: with SMTP id
+ c9mr534859plz.228.1584384976278; 
+ Mon, 16 Mar 2020 11:56:16 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ gc16sm514163pjb.8.2020.03.16.11.56.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 11:56:15 -0700 (PDT)
+Subject: Re: [PATCH v2 8/9] hw/core: Add qdev stub for user-mode
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200316001111.31004-1-philmd@redhat.com>
+ <20200316001111.31004-9-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fc93f85a-6f55-a793-a311-04e00afac65f@linaro.org>
+Date: Mon, 16 Mar 2020 11:56:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200316185006.576-1-philmd@redhat.com>
- <20200316185006.576-21-philmd@redhat.com>
-In-Reply-To: <20200316185006.576-21-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 16 Mar 2020 11:50:46 -0700
-Message-ID: <CAKmqyKNOkFcO3hzELJ49LR9XBfGnRaBu1Uw+1iuyoj8kU4Sp4Q@mail.gmail.com>
-Subject: Re: [PATCH v3 20/25] hw/riscv: Let devices own the MemoryRegion they
- create
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200316001111.31004-9-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a43
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,81 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 16, 2020 at 11:54 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Avoid orphan memory regions being added in the /unattached QOM
-> container.
->
-> This commit was produced with the Coccinelle script
-> scripts/coccinelle/memory-region-housekeeping.cocci.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 3/15/20 5:11 PM, Philippe Mathieu-Daudé wrote:
+> While user-mode does not use peripherals (devices), it uses a
+> CPU which is a device.
+> In the next commit we will reduce the QAPI generated code for
+> user-mode. Since qdev.c calls qapi_event_send_device_deleted(),
+> let's add a stub for it.
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/riscv/sifive_e.c | 6 +++---
->  hw/riscv/sifive_u.c | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index a1974ef7be..646553a7c3 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -145,8 +145,8 @@ static void riscv_sifive_e_soc_realize(DeviceState *d=
-ev, Error **errp)
->                              &error_abort);
->
->      /* Mask ROM */
-> -    memory_region_init_rom(&s->mask_rom, NULL, "riscv.sifive.e.mrom",
-> -        memmap[SIFIVE_E_MROM].size, &error_fatal);
-> +    memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mr=
-om",
-> +                           memmap[SIFIVE_E_MROM].size, &error_fatal);
->      memory_region_add_subregion(sys_mem,
->          memmap[SIFIVE_E_MROM].base, &s->mask_rom);
->
-> @@ -208,7 +208,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *d=
-ev, Error **errp)
->          memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
->
->      /* Flash memory */
-> -    memory_region_init_rom(&s->xip_mem, NULL, "riscv.sifive.e.xip",
-> +    memory_region_init_rom(&s->xip_mem, OBJECT(dev), "riscv.sifive.e.xip=
-",
->                             memmap[SIFIVE_E_XIP].size, &error_fatal);
->      memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base,
->          &s->xip_mem);
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 156a003642..662d42a5a7 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -497,7 +497,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *d=
-ev, Error **errp)
->                               &error_abort);
->
->      /* boot rom */
-> -    memory_region_init_rom(mask_rom, NULL, "riscv.sifive.u.mrom",
-> +    memory_region_init_rom(mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
->                             memmap[SIFIVE_U_MROM].size, &error_fatal);
->      memory_region_add_subregion(system_memory, memmap[SIFIVE_U_MROM].bas=
-e,
->                                  mask_rom);
-> --
-> 2.21.1
->
->
+> v2: use common-obj-$(CONFIG_ALL) (Paolo)
+> ---
+>  hw/core/qdev-stubs.c  | 20 ++++++++++++++++++++
+>  hw/core/Makefile.objs |  3 +++
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 hw/core/qdev-stubs.c
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
+
 
