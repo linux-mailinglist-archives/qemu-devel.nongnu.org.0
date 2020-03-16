@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CC91872DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:58:18 +0100 (CET)
-Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254FE18725A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:31:12 +0100 (CET)
+Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuwL-0004qw-PW
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49576)
+	id 1jDuW5-0005Cq-WF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDuIO-0005eL-F4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDuSk-0000ip-Jo
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:27:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDuIM-0003kz-CU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:17:00 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:36229)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDuSj-0001DM-97
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:27:42 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46479)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDuIK-0003gy-Ii
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:16:56 -0400
-Received: by mail-ot1-x334.google.com with SMTP id 39so3445341otu.3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:16:56 -0700 (PDT)
+ id 1jDuSj-00017H-32
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:27:41 -0400
+Received: by mail-ot1-x342.google.com with SMTP id 111so18830725oth.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PDKfkt/7GNWfIxzYViVpwmsnx9I9g5wa+HyMTwUIL9A=;
- b=hbvLgK9ovh35wFr7fxloKHfSslpOq3wlPLwyTEs+NM+DOfm08wN82XujGINDWHW0Fa
- mJnlvwcIPEU1R82qFzReLXtv7g2youcFguxV3w6ZeZD+0WQ1yh/HYntpKGlO0WnFNcZH
- 8iy1Wr4lqaONTx+AZiz7FOm1sQQBsjiz3W1neEGGH4rCmFisYNGorBsbdIDHLXMo2yHW
- NZeY683fBOaNhPjg+8tJTi6d8nx1Ed5WeRWcBeBY1em+Bco6YPHa5yDyqsXNhThN7laX
- oSHjJrIDUp/mOht13+vuo0P563aSmsd+3rpSuCuUHelCusBoHDx/Vel8U9mujyUk3AvM
- v/tQ==
+ :cc:content-transfer-encoding;
+ bh=HoFnRy9roedPxz55B+3k96w9hR7fgmKlmGGI8u+V/Mg=;
+ b=gfzKk+Nlk3vNbJII3LFGAwJqvKBxBKNpj3ZcWNQq0Po6zLYKGaSb7bbX+DGgn7U5g6
+ cGCbpXRE4eWlKXA7C7temqGSONteu/wL6SnGvvbgG9Z6N9zzwq9zJ8Uc8z2RwS+gyWvl
+ grzQws62zM/AiYueO4wrL7HhejGUqnXb7LB2razZETZgwyLMB7mvaGYIHSwWGL796M/V
+ eD3VBGFl6YkYR7YM3/gF0CpZB/xezCxNnm1iX8j3QbYNTTDcDrX2G1FFGv9pE+WrSyq/
+ BHCcvv0zfNlAWP/kj7+iRkbAYSW+a21wCF1i0Acjp7MLR53T909wFanDVhlhjsgKMJAY
+ 7p0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PDKfkt/7GNWfIxzYViVpwmsnx9I9g5wa+HyMTwUIL9A=;
- b=NT4JbLWfJhmt84QGuXmeyzC/QuRg0ItrlW3e+um40IA4UeiDWwQntTrN4u3zuYqqcF
- JX6+suG9fBgk4p2bLYeSsGIUT4BxA+JrrJIXhojyFyuMx46Lh3+da9Hj+CPWns0wNtjO
- bm3ClRPevd7VUNgaeaedchxgmYvZsy12UvhQZYpg/yhdy3PAik+PqvDeAY06c/pU+5qi
- kmAVdanigKGbsIVq2y8wCkPoGHVhkA3LAkL5lbpj6HpnZJQAPIYs8S8eCgzSR4QINF6Z
- AwY16uyuZAMHFN12DbSUpHnaHyyaTlkFgxtEV2JdaC0CL1Qdmh+m2RT04zomeGmkv19s
- Er/w==
-X-Gm-Message-State: ANhLgQ0iWzAVC0TANEP2fOXDxchbyMfQI3nxdujFijDvhpf5gz7t3fQB
- Q8Wg1VZJ+CDMVDyXeldvzApC3xuW0ZrtgvNZG0vXdg==
-X-Google-Smtp-Source: ADFU+vt9MlWkl0700BvRRFfiSW5OY0t76jXROlgdE/BQ9MAYKjjTAoA6w0xHMEC65Ht97Lues+OYHWmYP1yiTUfCX64=
-X-Received: by 2002:a9d:19ca:: with SMTP id k68mr456718otk.232.1584382615404; 
- Mon, 16 Mar 2020 11:16:55 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HoFnRy9roedPxz55B+3k96w9hR7fgmKlmGGI8u+V/Mg=;
+ b=bJQTKoawlmakaANzRx5OHO5dFyNEAlWMo8gNuVMNTygTAoypToIzu8aMVMhvCjgn9x
+ YS9Wfr4f8MH/XKj45kcJB0/plA4thDMyYHQ/2sRYpG8Y00PE8MMhq/WduL0WWAW1oBfC
+ ql7SyS0YTgwbYdOk6vekEWMLPGA1tKxmZ+oSjswKS9Pnuxr27iD+U3/KmGCA5k9J29RT
+ wcP5eo4ot4suw4B0DEGg/jWDeWkOpBDtP1QLdJbn1p3Y+SZ/qO1WHI625bgZ0iwRaZ84
+ vOgWG61Fu54avSnyEX9kVxW6obCABGvwfxJgva6lzmTy8RNchiOO/Epcjhh4uV9kpYmG
+ HdAQ==
+X-Gm-Message-State: ANhLgQ06QOlf5mG2ow1z65BEH8Ss5G+G34F72EdRYcCRYCaTLV5O02tQ
+ npjY9sy+SDN+8SQwM75Zep7V145BsuWBUfFCgOiXUw==
+X-Google-Smtp-Source: ADFU+vs7ixmWJKiAozAXRbEwBZDJ4GTmwwBPmYDbS0EQbenfiPhFUN7uMrNq0aBTlIR/KWhriAbRtY/7WN1GPl5WDk0=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr421424ota.221.1584383259723; 
+ Mon, 16 Mar 2020 11:27:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200316124820.22063-1-kraxel@redhat.com>
-In-Reply-To: <20200316124820.22063-1-kraxel@redhat.com>
+References: <20200316172155.971-1-alex.bennee@linaro.org>
+ <20200316172155.971-22-alex.bennee@linaro.org>
+In-Reply-To: <20200316172155.971-22-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 18:16:44 +0000
-Message-ID: <CAFEAcA_BNH3vj0STUN-_BoCUfDczsvn_zLiXx-jqsyJV22K3HA@mail.gmail.com>
-Subject: Re: [PULL 0/1] Vga 20200316 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Mon, 16 Mar 2020 18:27:28 +0000
+Message-ID: <CAFEAcA-x5L8=csd5tYYEwTaE2wb-8d9qcbaF3A9G2bC0vOOhhg@mail.gmail.com>
+Subject: Re: [PATCH v1 21/28] configure: allow user to specify what gdb to use
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +74,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 at 14:26, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Mon, 16 Mar 2020 at 18:22, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> The following changes since commit 61c265f0660ee476985808c8aa7915617c44fd53:
+> This is useful, especially when testing relatively new gdbstub
+> features that might not be in distro packages yet.
 >
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20200313a' into staging (2020-03-13 10:33:04 +0000)
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  configure | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> are available in the Git repository at:
+> diff --git a/configure b/configure
+> index eb49bb6680c..6724158fde1 100755
+> --- a/configure
+> +++ b/configure
+> @@ -303,6 +303,7 @@ libs_qga=3D""
+>  debug_info=3D"yes"
+>  stack_protector=3D""
+>  use_containers=3D"yes"
+> +gdb_bin=3D$(command -v "gdb")
 >
->   git://git.kraxel.org/qemu tags/vga-20200316-pull-request
->
-> for you to fetch changes up to f872c76296b991fde4db5fb87a1cfbd8d4c22c88:
->
->   stdvga+bochs-display: add dummy mmio handler (2020-03-16 12:40:47 +0100)
->
-> ----------------------------------------------------------------
-> vga: stdvga/bochs mmio fix.
->
-> ----------------------------------------------------------------
->
+>  if test -e "$source_path/.git"
+>  then
+> @@ -1588,6 +1589,8 @@ for opt do
+>    ;;
+>    --disable-fuzzing) fuzzing=3Dno
+>    ;;
+> +  --with-gdb=3D*) gdb_bin=3D"$optarg"
+> +  ;;
+>    *)
+>        echo "ERROR: unknown option $opt"
+>        echo "Try '$0 --help' for more information"
+> @@ -1773,6 +1776,7 @@ Advanced options (experts only):
+>    --enable-plugins
+>                             enable plugins via shared library loading
+>    --disable-containers     don't use containers for cross-building
+> +  --with-gdb=3DGBB-path      gdb to use for gdbstub tests [$gdb_bin]
 
+s/GBB/GDB/. (Also, the only other program we pass to configure
+with "--with-foo=3D" is git; for make, install, python, sphinx-build,
+smbd, iasl, cc, gcov we just use "--foo=3D".)
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
