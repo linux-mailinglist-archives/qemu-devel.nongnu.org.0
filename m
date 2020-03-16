@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F58F186BE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:18:52 +0100 (CET)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73978186C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:29:17 +0100 (CET)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpdp-0005Hq-G6
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48310)
+	id 1jDpnw-0001GG-1J
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jDoQu-0004lU-U5
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:28 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jDoD9-0007yQ-Jh
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:47:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jDoQr-00080T-9M
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48984)
+ (envelope-from <stefanha@gmail.com>) id 1jDoD8-0005A8-IE
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:47:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33284)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jDoQq-0007sR-UJ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:21 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jDoQp-0006kd-CL
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:01:19 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4BF622E80CE
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:01:19 +0000 (UTC)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1jDoCr-000307-Jg; Mon, 16 Mar 2020 07:46:55 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a25so20807041wrd.0;
+ Mon, 16 Mar 2020 04:46:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RBlFJuJzHGohbhvVENfE6ErBp1OQg6/SjUIrT3L/RyQ=;
+ b=ezW0PZ/yVLXrrJBRIuMKqlI9yg5hTYHhela5YPc6VXD3AWyHNaQm4rm+1V4EuTM2ow
+ RkYJgelQDivtbmtMGXFMfn9rg9lJ9tCKMSHZW4qrr87YEXjOx8R49xc4xb2Powjh9583
+ zkZ+Jfb4khqsCdNEcgL/JRoN/h6p29LKmLWdHlYLzPmncf5OooNzsKsPAhvEkUIQqKz0
+ TRtRNV8vNN6LXtpJ4fpILjXYMnkyWQxH7iD4vsivjmOCGEf9BIQXH9L66tp+VZUhHUAn
+ 99fsAhdGQYs6f4Jh9nZzCm+9CBjgKSWsOLkucSKENx7daKl52CP68rKQTHKnxaXh4cNN
+ Jmfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RBlFJuJzHGohbhvVENfE6ErBp1OQg6/SjUIrT3L/RyQ=;
+ b=UeXXcWgAQoL9WsizU72chWkBl1a8lPfp+vYYk5JHEs9K8otFZAEWWtso/wZKsRLFaU
+ fTKeggAEEuk7Dx88FB/T7e2Dlp4qP2+dgYCXlQl9lcRrXv7WcK6WnM7YqIdyi/5eQXwT
+ ERKYXJ/vNior7AEpPUeSOWvRmfAyHvVVWVc5FY/jgquOqL+NKLPgxOrIgvmA8FHT5Ig4
+ ez5z8BiaVVkX44f4mfQbhk8wiKABc2YmvVzF2u96RoaQGzcY1EOPKJaRvpbnO7oeQ92f
+ 4PS18xOfD2WAj4HtGSHUUdWcn35nZcKtqWhIlCAYriafqjU2ER1PBP8ZUa90PS/b687X
+ vmuQ==
+X-Gm-Message-State: ANhLgQ2616garXUDsoL6ubK7R0aKhcZQSbV2mt90rvke0OoDNewfzk8h
+ umF7DKWCNToM7ZMfCIAox0Q=
+X-Google-Smtp-Source: ADFU+vsyxro1MudvyS1i7k9SvjiNe4AJF64gPJMQtPLK4uFYkei/b6t00eY5Uhy9xFtAQXeIzYbamQ==
+X-Received: by 2002:a5d:4b0b:: with SMTP id v11mr3132157wrq.23.1584359209342; 
+ Mon, 16 Mar 2020 04:46:49 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id x16sm28719961wrg.44.2020.03.16.04.46.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 04:46:47 -0700 (PDT)
+Date: Mon, 16 Mar 2020 11:46:46 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] block/io: fix bdrv_co_do_copy_on_readv
+Message-ID: <20200316114646.GC449975@stefanha-x1.localdomain>
+References: <20200312081949.5350-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Mar 2020 11:45:23 -0000
-From: Boris  Derzhavets <1866870@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
-X-Launchpad-Bug-Reporter: tstrike (tstrike34)
-X-Launchpad-Bug-Modifier: Boris  Derzhavets (dbaxps0220)
-References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158435912403.20526.12059354095317391657.malone@wampee.canonical.com>
-Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7fb5476ab2cc43fc494ddb2333cfd64685b2f6e8
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
+Content-Disposition: inline
+In-Reply-To: <20200312081949.5350-1-vsementsov@virtuozzo.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,74 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Log file for f31wks guest
 
-** Attachment added: "Log file for f31wks guest"
-   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5337553/+files/=
-fedora31wks.log
+--5G06lTa6Jq83wMTw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-** Attachment removed: "PPA packages installed"
-   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5337552/+files/=
-report.install.ppa
+On Thu, Mar 12, 2020 at 11:19:49AM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Prior to 1143ec5ebf4 it was OK to qemu_iovec_from_buf() from aligned-up
+> buffer to original qiov, as qemu_iovec_from_buf() will stop at qiov end
+> anyway.
+>=20
+> But after 1143ec5ebf4 we assume that bdrv_co_do_copy_on_readv works on
+> part of original qiov, defined by qiov_offset and bytes. So we must not
+> touch qiov behind qiov_offset+bytes bound. Fix it.
+>=20
+> Cc: qemu-stable@nongnu.org # v4.2
+> Fixes: 1143ec5ebf4
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/io.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
--- =
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866870
+Stefan
 
-Title:
-  KVM Guest pauses after upgrade to Ubuntu 20.04
+--5G06lTa6Jq83wMTw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
+-----BEGIN PGP SIGNATURE-----
 
-Bug description:
-  Symptom:
-  Error unpausing domain: internal error: unable to execute QEMU command 'c=
-ont': Resetting the Virtual Machine is required
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vZyYACgkQnKSrs4Gr
+c8gz5AgAmCXCya0W8KsLTGk09CxT/8gda/iNMrKdpFu8Ea5y+wlzqn5pJSx/qgz5
+8RSM3Tu9SPd9S9g9WGz7MtqOt+dKgEOc7lJQ+rhhaAZ0YvOlm2DEmyv6buwALXJS
+gQdtGeeTppd14r1eDH2W5A4oebaNEs199wXLcK94HYzlt5GhLPb8jTt0+SatQZ/T
+MctwJV75nH6IX+EjajyX1zG/jjhrkx4TSvG4N6fOIe/TqK3lKdVnfP7U/bnAWXCe
+l+PZ1h8KGi33c4+rauVopwZJOZfcMOysmXEW11iocxe1b4b+ysePdpiNhQlDO4Ij
+FZQxrdcjMpl9c5MzpDHz+68t7V74Gg==
+=S3k6
+-----END PGP SIGNATURE-----
 
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
- in resume
-      self._backend.resume()
-    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
-      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
-t': Resetting the Virtual Machine is required
-
-  =
-
-  ---
-
-  As outlined here:
-  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
-
-  After upgrade, all KVM guests are in a default pause state. Even after
-  forcing them off via virsh, and restarting them the guests are paused.
-
-  These Guests are not nested.
-
-  A lot of diganostic information are outlined in the previous bug
-  report link provided. The solution mentioned in previous report had
-  been allegedly integrated into the downstream updates.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
+--5G06lTa6Jq83wMTw--
 
