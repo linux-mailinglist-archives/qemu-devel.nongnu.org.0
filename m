@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B34E187044
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:41:53 +0100 (CET)
-Received: from localhost ([::1]:42522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEA318704D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:43:48 +0100 (CET)
+Received: from localhost ([::1]:42552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsoK-0003PL-Kz
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
+	id 1jDsqB-0007HU-MJ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDqFq-0005A0-7g
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDqJ8-0006Rw-8p
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDqFo-0003kt-0Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59201
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jDqJ6-0004cg-9T
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22172
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqFn-0003hi-RS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:58:03 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDqJ6-0004Mg-1I
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584367083;
+ s=mimecast20190719; t=1584367286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7/d8+MuJKar+88rBazaw6wz7CaJpDOFtJRxT1cE/Wx4=;
- b=ITFcRtyjYL5V9REx+dxglw1lgAv4EwuYfqyG0o3TR4Lyj+OUMgHJyuXefrB8WDofvaLJnC
- 3AWswunpPeHa1sWwQEUAlrCbdspGKI4SVpLNk8N1TfmgXeDTMZTkvLycgyI6bhJsi2M/6g
- Cymt+qAjwdxLtRMt/am42ETRwHQS8hg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-ga847J6LN7O0u0njFDRTnA-1; Mon, 16 Mar 2020 09:58:01 -0400
-X-MC-Unique: ga847J6LN7O0u0njFDRTnA-1
-Received: by mail-ed1-f70.google.com with SMTP id x93so6252129ede.19
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:58:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XR4EhODMFHBMam95GhaFU+5NIlJsFFVhcpKtZPC62dk=;
- b=RqsB8aJzVrMcbGKj22DtJBRFeXBcpcQ1kWpUIwECwsJWZssdOsV5nQhJNgBbFaZ1ln
- 9m0XhqGe5K6sRhi57h3i43+BO/+o2Yg1u8GHdgh9ayzH8cWCNGs+xQ35hWHyXPsn0n6s
- K9vEWaGI3KH3nwZ+K2Kzg1DKsEQUONZHciiuDNnRA//j5yTBsZdnF8ZAj+mttfNLKoNY
- 1swuGpatf3xpP3FGeQ3+R7X63bThNh5tGdLc6dNlExUBqp1pRJKB/rLt0PG3P0dgBR0x
- wHYIi4SArULiIu486C0l686EuX6HFJgo56qye+O/TN+j5DXt1BFTneYkGqY3KE8w47+W
- 7gWA==
-X-Gm-Message-State: ANhLgQ2rYkdZdBX3bpU8rA89Bj9LLMshvOJm/WFozn1Pn5eKZeYzGwUp
- rmG1z64nxN8lCk/NO9fNLHMM4mMMmSclAR14V2loeixdM7qQd5ks86fm1eCOM+/+hbQpS5uHfnk
- Tz//1c/G6rPVXYLc=
-X-Received: by 2002:a17:906:1396:: with SMTP id
- f22mr23955945ejc.147.1584367080440; 
- Mon, 16 Mar 2020 06:58:00 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvh0DjC7FiEaK1fzS6oR3bSj7+gQ/okaTovVdxneihGa7oN1YWQDt+rAWiu31H1kWHPd90W+Q==
-X-Received: by 2002:a17:906:1396:: with SMTP id
- f22mr23955926ejc.147.1584367080090; 
- Mon, 16 Mar 2020 06:58:00 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id e15sm2625169eds.2.2020.03.16.06.57.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 06:57:59 -0700 (PDT)
-Subject: Re: [PATCH v2 4/8] qapi/misc: Move query-uuid command with block code
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200316000348.29692-1-philmd@redhat.com>
- <20200316000348.29692-5-philmd@redhat.com>
- <20200316134317.4d40d16b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d51b48dd-4c4b-8bd0-558f-5b88a75f51f4@redhat.com>
-Date: Mon, 16 Mar 2020 14:57:57 +0100
+ bh=JtynQXw1h72AaSdoWkMQ3V0Qgfio3ZIRtIZgrvW0mao=;
+ b=GFkMDpRaV9CC5cTG2xJZP4fvhJkIpHgYp9uavU9/Lv5Q/2VnfNUJqdQ0+BcH4qG5dN9uRw
+ MsIuLYAqpJc57GbYJuVlel3d5XsqWJ9f1qV8UTLF3ZeTeffqZz0EPsECvX/tU0HIHI5yDL
+ oKkGyfA/AoODzs0SZdU6VkkpWjsMyLA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-Ce6RG78CPwCw2_o7zgR-Vw-1; Mon, 16 Mar 2020 10:01:22 -0400
+X-MC-Unique: Ce6RG78CPwCw2_o7zgR-Vw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3B6612F178;
+ Mon, 16 Mar 2020 14:01:18 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F96A5C1B5;
+ Mon, 16 Mar 2020 14:01:12 +0000 (UTC)
+Subject: Re: [PATCH v6 3/4] qcow2: add zstd cluster compression
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200312092242.5536-1-dplotnikov@virtuozzo.com>
+ <20200312092242.5536-4-dplotnikov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <6dd9966e-e22a-b0d0-80a1-7e2c9cc9671f@redhat.com>
+Date: Mon, 16 Mar 2020 09:01:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316134317.4d40d16b@redhat.com>
+In-Reply-To: <20200312092242.5536-4-dplotnikov@virtuozzo.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,178 +76,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 2:09 PM, Igor Mammedov wrote:
-> On Mon, 16 Mar 2020 01:03:44 +0100
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
->=20
-> here should be why
+On 3/12/20 4:22 AM, Denis Plotnikov wrote:
+> zstd significantly reduces cluster compression time.
+> It provides better compression performance maintaining
+> the same level of the compression ratio in comparison with
+> zlib, which, at the moment, is the only compression
+> method available.
+> 
 
-Indeed.
+> +++ b/docs/interop/qcow2.txt
+> @@ -208,6 +208,7 @@ version 2.
+>   
+>                       Available compression type values:
+>                           0: zlib <https://www.zlib.net/>
+> +                        1: zstd <http://github.com/facebook/zstd>
+>   
+>   
+>   === Header padding ===
+> @@ -575,11 +576,30 @@ Compressed Clusters Descriptor (x = 62 - (cluster_bits - 8)):
+>                       Another compressed cluster may map to the tail of the final
+>                       sector used by this compressed cluster.
+>   
+> +                    The layout of the compressed data depends on the compression
+> +                    type used for the image (see compressed cluster layout).
+> +
+>   If a cluster is unallocated, read requests shall read the data from the backing
+>   file (except if bit 0 in the Standard Cluster Descriptor is set). If there is
+>   no backing file or the backing file is smaller than the image, they shall read
+>   zeros for all parts that are not covered by the backing file.
+>   
+> +=== Compressed Cluster Layout ===
+> +
+> +The compressed cluster data has a layout depending on the compression
+> +type used for the image, as follows:
+> +
+> +Compressed data layout for the available compression types:
+> +data_space_lenght - data chunk length available to store a compressed cluster.
 
-Daniel explained on IRC the GUID structure is "standardized by microsoft=20
-as a way to detect when a guest has certain operations applied" to a=20
-saved snapshot.
-https://docs.microsoft.com/en-us/windows/win32/hyperv_v2/virtual-machine-ge=
-neration-identifier
+length
 
->=20
-> PS:
->   I don't see a reason to move it to block code at all
-> if this command is moved then it should be machine code
-I guess I mixed GUID with UUID (classic identifier shown in SMBIOS)...
+> +(for more details see "Compressed Clusters Descriptor")
+> +x = data_space_length - 1
 
-The one I wanted to move to qapi/block-core.json is:
+If I understand correctly, data_space_length is really an upper bounds 
+on the length available, because it is computed by rounding UP to the 
+next 512-byte boundary (that is, the L2 descriptor lists the number of 
+additional sectors used in storing the compressed data).  Which really 
+means that we have the following, where + is cluster boundaries, S and E 
+are the start and end of the compressed data, and D is the offset 
+determined by data_space_length:
 
-##
-# @GuidInfo:
-#
-# GUID information.
-#
-# @guid: the globally unique identifier
-#
-# Since: 2.9
-##
-{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
++-------+-------+------+
+       S============E...D
 
-##
-# @query-vm-generation-id:
-#
-# Show Virtual Machine Generation ID
-#
-# Since: 2.9
-##
-{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+> +
+> +    0:  (default)  zlib <http://zlib.net/>:
+> +            Byte  0 -  x:     the compressed data content
+> +                              all the space provided used for compressed data
 
-So this one goes to qapi/machine.json... Thanks Igor!
+For zlib, we have byte 0-E are compressed data, and bytes (E+1)-D (if 
+any) are ignored.  There is no way to tell how many bytes between E and 
+D exist, because zlib doesn't care (the compression stream itself 
+ensures that decompression stops when input reaches E because the output 
+reached a cluster boundary at that point).
 
->=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   qapi/block-core.json | 30 ++++++++++++++++++++++++++++++
->>   qapi/misc.json       | 30 ------------------------------
->>   block/iscsi.c        |  2 +-
->>   stubs/uuid.c         |  2 +-
->>   4 files changed, 32 insertions(+), 32 deletions(-)
->>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index 91586fb1fb..5c3fa6c5d0 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -5415,3 +5415,33 @@
->>   { 'command': 'blockdev-snapshot-delete-internal-sync',
->>     'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
->>     'returns': 'SnapshotInfo' }
->> +
->> +##
->> +# @UuidInfo:
->> +#
->> +# Guest UUID information (Universally Unique Identifier).
->> +#
->> +# @UUID: the UUID of the guest
->> +#
->> +# Since: 0.14.0
->> +#
->> +# Notes: If no UUID was specified for the guest, a null UUID is returne=
-d.
->> +##
->> +{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
->> +
->> +##
->> +# @query-uuid:
->> +#
->> +# Query the guest UUID information.
->> +#
->> +# Returns: The @UuidInfo for the guest
->> +#
->> +# Since: 0.14.0
->> +#
->> +# Example:
->> +#
->> +# -> { "execute": "query-uuid" }
->> +# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
->> +#
->> +##
->> +{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tr=
-ue }
->> diff --git a/qapi/misc.json b/qapi/misc.json
->> index ed28e41229..f70025f34c 100644
->> --- a/qapi/misc.json
->> +++ b/qapi/misc.json
->> @@ -97,36 +97,6 @@
->>   ##
->>   { 'command': 'query-kvm', 'returns': 'KvmInfo' }
->>  =20
->> -##
->> -# @UuidInfo:
->> -#
->> -# Guest UUID information (Universally Unique Identifier).
->> -#
->> -# @UUID: the UUID of the guest
->> -#
->> -# Since: 0.14.0
->> -#
->> -# Notes: If no UUID was specified for the guest, a null UUID is returne=
-d.
->> -##
->> -{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
->> -
->> -##
->> -# @query-uuid:
->> -#
->> -# Query the guest UUID information.
->> -#
->> -# Returns: The @UuidInfo for the guest
->> -#
->> -# Since: 0.14.0
->> -#
->> -# Example:
->> -#
->> -# -> { "execute": "query-uuid" }
->> -# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
->> -#
->> -##
->> -{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tr=
-ue }
->> -
->>   ##
->>   # @IOThreadInfo:
->>   #
->> diff --git a/block/iscsi.c b/block/iscsi.c
->> index 682abd8e09..68ed5cf3f8 100644
->> --- a/block/iscsi.c
->> +++ b/block/iscsi.c
->> @@ -42,7 +42,7 @@
->>   #include "qemu/uuid.h"
->>   #include "sysemu/replay.h"
->>   #include "qapi/error.h"
->> -#include "qapi/qapi-commands-misc.h"
->> +#include "qapi/qapi-commands-block-core.h"
->>   #include "qapi/qmp/qdict.h"
->>   #include "qapi/qmp/qstring.h"
->>   #include "crypto/secret.h"
->> diff --git a/stubs/uuid.c b/stubs/uuid.c
->> index 67f182fa3a..9ef75fdae4 100644
->> --- a/stubs/uuid.c
->> +++ b/stubs/uuid.c
->> @@ -1,5 +1,5 @@
->>   #include "qemu/osdep.h"
->> -#include "qapi/qapi-commands-misc.h"
->> +#include "qapi/qapi-commands-block-core.h"
->>   #include "qemu/uuid.h"
->>  =20
->>   UuidInfo *qmp_query_uuid(Error **errp)
->=20
+> +    1:  zstd <http://github.com/facebook/zstd>:
+> +            Byte  0 -  3:     the length of compressed data in bytes
+> +                  4 -  x:     the compressed data content
+
+Whereas for zstd, the decompression MUST know the actual location of E, 
+rather than passing in the slop between E and D; bytes 0-3 give us that 
+information.
+
+But your description is not very accurate:  if 'x' is point E, then it 
+is NOT data_space_length - 1, but rather data_space_length - slop, where 
+slop can be up to 511 bytes (the number of bytes from (E+1) to D).  And 
+if 'x' is point E, then the real layout for zlib is:
+
+byte 0 - E: the compressed data content
+byte E+1 - x: ignored slop (E is implied solely by the compressed data)
+
+and for zstd is:
+
+byte 0 - 3: the length of the compressed data
+byte 4 - E: the compressed data (E computed from byte 0-3)
+byte E+1 - x: ignored
+
+I'm not sure what the best way is to document this.
+
+> +++ b/block/qcow2-threads.c
+
+> +static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
+> +                                   const void *src, size_t src_size)
+> +{
+> +    size_t ret;
+> +
+> +    /*
+> +     * steal ZSTD_LEN_BUF bytes in the very beginning of the buffer
+> +     * to store compressed chunk size
+> +     */
+> +    char *d_buf = ((char *) dest) + ZSTD_LEN_BUF;
+> +
+> +    /*
+> +     * sanity check that we can store the compressed data length,
+> +     * and there is some space left for the compressor buffer
+> +     */
+> +    if (dest_size <= ZSTD_LEN_BUF) {
+> +        return -ENOMEM;
+> +    }
+> +
+> +    dest_size -= ZSTD_LEN_BUF;
+> +
+> +    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
+
+Where does the magic number 5 come from?
+
+> +
+> +    if (ZSTD_isError(ret)) {
+> +        if (ZSTD_getErrorCode(ret) == ZSTD_error_dstSize_tooSmall) {
+> +            return -ENOMEM;
+> +        } else {
+> +            return -EIO;
+> +        }
+> +    }
+> +
+> +    /*
+> +     * paranoid sanity check that we can store
+> +     * the compressed size in the first 4 bytes
+> +     */
+> +    if (ret > UINT32_MAX) {
+> +        return -ENOMEM;
+> +    }
+
+The if is awkward.  I'd prefer to change this to:
+
+     /*
+      * Our largest cluster is 2M, and we insist that compression
+      * actually compressed things.
+      */
+     assert(ret < UINT32_MAX);
+
+or even tighten to assert(ret <= dest_size)
+
+> +
+> +    /* store the compressed chunk size in the very beginning of the buffer */
+> +    stl_be_p(dest, ret);
+> +
+> +    return ret + ZSTD_LEN_BUF;
+> +}
+> +
+> +/*
+> + * qcow2_zstd_decompress()
+> + *
+> + * Decompress some data (not more than @src_size bytes) to produce exactly
+> + * @dest_size bytes using zstd compression method
+> + *
+> + * @dest - destination buffer, @dest_size bytes
+> + * @src - source buffer, @src_size bytes
+> + *
+> + * Returns: 0 on success
+> + *          -EIO on any error
+> + */
+> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
+> +                                     const void *src, size_t src_size)
+> +{
+> +    /*
+> +     * zstd decompress wants to know the exact length of the data.
+> +     * For that purpose, on compression, the length is stored in
+> +     * the very beginning of the compressed buffer
+> +     */
+> +    size_t s_size;
+> +    const char *s_buf = ((const char *) src) + ZSTD_LEN_BUF;
+> +
+> +    /*
+> +     * sanity check that we can read 4 byte the content length and
+> +     * and there is some content to decompress
+> +     */
+> +    if (src_size <= ZSTD_LEN_BUF) {
+> +        return -EIO;
+> +    }
+> +
+> +    s_size = ldl_be_p(src);
+> +
+> +    /* sanity check that the buffer is big enough to read the content from */
+> +    if (src_size - ZSTD_LEN_BUF < s_size) {
+> +        return -EIO;
+> +    }
+> +
+> +    if (ZSTD_isError(
+> +            ZSTD_decompress(dest, dest_size, s_buf, s_size))) {
+
+You are correct that ZSTD_decompress() is picky that it must be given 
+the exact size of the compressed buffer it is decompressing.  But the 
+ZSTD manual mentions that if an exact size is not known in advance, that 
+the streaming API can be used instead:
+
+https://facebook.github.io/zstd/zstd_manual.html#Chapter9
+
+In other words, would it be possible to NOT have to prepend four bytes 
+of exact size information, by instead setting up decompression via the 
+streaming API where the input is (usually) oversized, but the output 
+buffer limited to exactly one cluster is sufficient to consume the exact 
+compressed data and ignore the slop, just as we do in zlib?
+
+The rest of this patch looks okay.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
