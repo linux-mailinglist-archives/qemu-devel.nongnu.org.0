@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA261874B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:29:31 +0100 (CET)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447001874BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:30:20 +0100 (CET)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxIg-00042p-O3
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41324)
+	id 1jDxJT-0004za-6i
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxGw-0002H5-Ef
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:43 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH4-0002Xy-NS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxGv-0008HN-CU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35477)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH3-0000qM-2q
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:50 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:23862)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxGv-0008C5-7O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:41 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxH2-0000lv-Rr
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394060;
+ s=mimecast20190719; t=1584394068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SPff1aAq5h+xYYQS6oaEMbpCVwyAPpdhhSZnmMWHIeg=;
- b=DsYS+E1CJSa1GCi3c2xFaFk2xhV2TOHClVQYQuOVVaJF3Xs1SJCQUyIgD1fKOO16HSNxS8
- y+kG0doUl48sGb9l6zPQEEQzU/KCFnMVMN7WaOw9h+LOyLZHR1qtTKP5ZzODIVGP0ROTgU
- gV3/AnH+9hIydm/G8rjsznyBfiCzbrg=
+ bh=CuM6HjQBtuKhH+tgQISPrj7uZw8Cf0Ok4K0Lu3+tI5Y=;
+ b=QUGyoiidgVuHRLBG4NNRRF5SMs3JKUyv/j76KZzS2kZeLZashgfoDnMb/49jtZ6Ef9VCak
+ NISUsvMkEegmOlYLWbm5qnFcuca3K0yXk45ddI0x886Y9rh+qMZvoLwnO06BUpO25L9VcG
+ XlnL8PL0zAfx9QrOMZQ/M/FTmpeORSQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-GxPavsXNPDuXSH_mo5eF-g-1; Mon, 16 Mar 2020 17:27:38 -0400
-X-MC-Unique: GxPavsXNPDuXSH_mo5eF-g-1
+ us-mta-484-xQO1e_9ePBGz64qBxz7oLg-1; Mon, 16 Mar 2020 17:27:46 -0400
+X-MC-Unique: xQO1e_9ePBGz64qBxz7oLg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE34107ACC9;
- Mon, 16 Mar 2020 21:27:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FF57107ACC7;
+ Mon, 16 Mar 2020 21:27:45 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C9D819756;
- Mon, 16 Mar 2020 21:27:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B9EE19C4F;
+ Mon, 16 Mar 2020 21:27:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/61] optionrom/pvh: scan entire RSDP Area
-Date: Mon, 16 Mar 2020 22:26:29 +0100
-Message-Id: <1584394048-44994-3-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 08/61] WHPX: Use QEMU values for trapped CPUID
+Date: Mon, 16 Mar 2020 22:26:35 +0100
+Message-Id: <1584394048-44994-9-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -68,45 +68,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joe Richey <joerichey@google.com>
+Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joe Richey <joerichey@google.com>
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
 
-Right now the PVH option rom scans for the RSDP from 0xE0000 to
-0xE1FFF. This is probobly a typo, it should scan from 0xE0000 to
-0xFFFFF.
+Currently, WHPX is using some default values for the trapped CPUID
+functions. These were not in sync with the QEMU values because the
+CPUID values were never set with WHPX during VCPU initialization.
+Additionally, at the moment, WHPX doesn't support setting CPUID
+values in the hypervisor at runtime (i.e. after the partition has
+been setup). That is needed to be able to set the CPUID values in
+the hypervisor during VCPU init.
+Until that support comes, use the QEMU values for the trapped CPUIDs.
 
-This is actually an issue on some QEMU versions/machines. For example,
-when I run QEMU the RSDP is placed at 0xf5ad0 which will not be picked
-up by the current implementation.
-
-This bug still allows a Linux guest to boot (in most configurations) as
-the kernel will just scan for the RSDP if one isn't provided.
-
-Signed-off-by: Joe Richey <joerichey@google.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Fixes: 2785dc7b17 ("optionrom: add new PVH option rom")
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Message-Id: <SN4PR2101MB0880A8323EAD0CD0E8E2F423C0EB0@SN4PR2101MB0880.nampr=
+d21.prod.outlook.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/optionrom/pvh_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/whpx-all.c | 42 ++++++++++++++++++------------------------
+ 1 file changed, 18 insertions(+), 24 deletions(-)
 
-diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
-index a015e1b..28e79d7 100644
---- a/pc-bios/optionrom/pvh_main.c
-+++ b/pc-bios/optionrom/pvh_main.c
-@@ -29,7 +29,7 @@ asm (".code32"); /* this code will be executed in protect=
-ed mode */
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index b947eb1..cb863b7 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -1044,38 +1044,32 @@ static int whpx_vcpu_run(CPUState *cpu)
+             WHV_REGISTER_VALUE reg_values[5];
+             WHV_REGISTER_NAME reg_names[5];
+             UINT32 reg_count =3D 5;
+-            UINT64 rip, rax, rcx, rdx, rbx;
++            UINT64 cpuid_fn, rip =3D 0, rax =3D 0, rcx =3D 0, rdx =3D 0, r=
+bx =3D 0;
++            X86CPU *x86_cpu =3D X86_CPU(cpu);
++            CPUX86State *env =3D &x86_cpu->env;
 =20
- #define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
- #define RSDP_AREA_ADDR          0x000E0000
--#define RSDP_AREA_SIZE          2048
-+#define RSDP_AREA_SIZE          0x00020000
- #define EBDA_BASE_ADDR          0x0000040E
- #define EBDA_SIZE               1024
+             memset(reg_values, 0, sizeof(reg_values));
 =20
+             rip =3D vcpu->exit_ctx.VpContext.Rip +
+                   vcpu->exit_ctx.VpContext.InstructionLength;
+-            switch (vcpu->exit_ctx.CpuidAccess.Rax) {
+-            case 1:
+-                rax =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRax;
+-                /* Advertise that we are running on a hypervisor */
+-                rcx =3D
+-                    vcpu->exit_ctx.CpuidAccess.DefaultResultRcx |
+-                    CPUID_EXT_HYPERVISOR;
+-
+-                rdx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRdx;
+-                rbx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRbx;
+-                break;
++            cpuid_fn =3D vcpu->exit_ctx.CpuidAccess.Rax;
++
++            /*
++             * Ideally, these should be supplied to the hypervisor during =
+VCPU
++             * initialization and it should be able to satisfy this reques=
+t.
++             * But, currently, WHPX doesn't support setting CPUID values i=
+n the
++             * hypervisor once the partition has been setup, which is too =
+late
++             * since VCPUs are realized later. For now, use the values fro=
+m
++             * QEMU to satisfy these requests, until WHPX adds support for
++             * being able to set these values in the hypervisor at runtime=
+.
++             */
++            cpu_x86_cpuid(env, cpuid_fn, 0, (UINT32 *)&rax, (UINT32 *)&rbx=
+,
++                (UINT32 *)&rcx, (UINT32 *)&rdx);
++            switch (cpuid_fn) {
+             case 0x80000001:
+-                rax =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRax;
+                 /* Remove any support of OSVW */
+-                rcx =3D
+-                    vcpu->exit_ctx.CpuidAccess.DefaultResultRcx &
+-                    ~CPUID_EXT3_OSVW;
+-
+-                rdx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRdx;
+-                rbx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRbx;
++                rcx &=3D ~CPUID_EXT3_OSVW;
+                 break;
+-            default:
+-                rax =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRax;
+-                rcx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRcx;
+-                rdx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRdx;
+-                rbx =3D vcpu->exit_ctx.CpuidAccess.DefaultResultRbx;
+             }
+=20
+             reg_names[0] =3D WHvX64RegisterRip;
 --=20
 1.8.3.1
 
