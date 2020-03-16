@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC55186FFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:26:37 +0100 (CET)
-Received: from localhost ([::1]:42152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D34186FB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:10:41 +0100 (CET)
+Received: from localhost ([::1]:40088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsZX-0005FE-SE
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
+	id 1jDsK7-0003wa-CP
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDpuL-00053v-No
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:55 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jDpzt-0007Jb-40
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:41:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDpuK-0002HD-Bb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:53 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51069)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jDpuK-00029Z-4J
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:35:52 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z13so1638819wml.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=9v/YZE8B93L63rDeOT39XFw3gBUTDfP+YPVFz1gdnk4=;
- b=Hm6qtesvXx2YPZKsjktWLqgZQb3keRWHoPTRSeUfZd8EhslIb7d0BwIZBKdosBMLxv
- VF/mn4Py37F3d/zEjlJtdKI2YFz99rq2+wLFN2MWFGqqAVdB3hO424WBqUFduwmPrr1Q
- oRKSPyRK+I1ghjtlg6IufUKTBTA3QzPLrFewFTjdYpVVanmBn7QiCJDVp5OaiBX9de3L
- K/SN1Qknr5SAfy2osbrTVm5ccMP4FkwsdqDSwYvErE1mbyjSF873pbBaU2LsT1tFWab7
- 1BvYYntG5AXR9HXRvHRaNyJG1XmUON0YwRPBht7QIC2iKZeSJ0+OtfhM5KifRuEfN0kg
- voYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=9v/YZE8B93L63rDeOT39XFw3gBUTDfP+YPVFz1gdnk4=;
- b=XgcpRn+6Rq4ouKAJkIXbr3iaS38hhJ9IspN7slLiYvoHvV7V3QL1TfO+vHpPZ/qub4
- EubCwcwGdQzFKmbd4AxQVYL5XExHY+pBQaE1ZkUQ+T9h4m1CkMnzd1TKrUeACFHNCX1T
- AD3OBzvUqpZkZPpCqNl2cDtpErLu0fNj3KlTiUvB406xu9Fhps0u9r38i+mLdFkHtRfP
- VXIxQIJe1b6KsmRkrbV9Uo9ZvIPiRUezHjWEr+OchT0Qm0hoGfqE5CRdEjopOSJYYkjh
- /O74LfZS+K8VLBwLpwIRnBqyRU0SMmx4TRMf2XEFX067NY48yhd1Y8TisKMJagNzWR3E
- xlSQ==
-X-Gm-Message-State: ANhLgQ0EWkE8jdg76WV5eWhOxOiF4UHeY6USyq7BSSgf5FB5soBYicz/
- umuEjsDgZjwKvDaROb+3jiQgBz5z
-X-Google-Smtp-Source: ADFU+vvbxIkcpUCE8pKGXsSGDMECqrZkR8QTV9oxFe4QwM+31mh0PV6KD5p+/3b+bWRO0diB+gp0Vg==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr29081693wmm.51.1584365750358; 
- Mon, 16 Mar 2020 06:35:50 -0700 (PDT)
-Received: from [192.168.86.224] ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id c5sm26240291wma.3.2020.03.16.06.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 06:35:49 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hw/rdma: Skip data-path mr_id translation
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org
-References: <20200307125608.2476-1-yuval.shaia.ml@gmail.com>
- <20200307125608.2476-3-yuval.shaia.ml@gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <d24e9eda-7c7f-e605-5895-75dc75c99fcc@gmail.com>
-Date: Mon, 16 Mar 2020 15:37:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <balaton@eik.bme.hu>) id 1jDpzs-0000rB-3i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:41:37 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:50210)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jDpzp-0008UX-7V; Mon, 16 Mar 2020 09:41:33 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0AEB4747DFF;
+ Mon, 16 Mar 2020 14:41:29 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E2332747DFD; Mon, 16 Mar 2020 14:41:28 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E07A0747DF7;
+ Mon, 16 Mar 2020 14:41:28 +0100 (CET)
+Date: Mon, 16 Mar 2020 14:41:28 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 0/8] Misc hw/ide legacy clean up
+In-Reply-To: <alpine.BSF.2.22.395.2003161401100.70254@zero.eik.bme.hu>
+Message-ID: <alpine.BSF.2.22.395.2003161440060.12641@zero.eik.bme.hu>
+References: <cover.1584134074.git.balaton@eik.bme.hu>
+ <87lfo0lr9t.fsf@dusky.pond.sub.org>
+ <alpine.BSF.2.22.395.2003161401100.70254@zero.eik.bme.hu>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20200307125608.2476-3-yuval.shaia.ml@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,146 +54,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, philmd@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yuval,
-
-On 3/7/20 2:56 PM, Yuval Shaia wrote:
-> With the change made in commit 68b89aee71 ("Utilize ibv_reg_mr_iova for
-> memory registration") the MR emulation is no longer needed in order to
-> translate the guest addresses into host addresses.
-> With that, the next obvious step is to skip entirely the processing in
-> data-path.
-> To accomplish this, return the backend's lkey to driver so we will not
-> need to do the emulated mr_id to backend mr_id translation in data-path.
+On Mon, 16 Mar 2020, BALATON Zoltan wrote:
+> On Mon, 16 Mar 2020, Markus Armbruster wrote:
+>> BALATON Zoltan <balaton@eik.bme.hu> writes:
+>>> These are some clean ups to remove more legacy init functions and
+>>> lessen dependence on include/hw/ide.h with some simplifications in
+>>> board code. There should be no functional change.
+>> 
+>> PATCH 1 could quote precedence more clearly in the commit message, but
+>> that's detail.
+>> 
+>> I don't like PATCH 4.
 >
-> The function build_host_sge_array is still called in data-path but only
-> for backward computability with statistics collection.
->
-> While there, as a cosmetic change to make the code cleaner - make one
-> copy of the function rdma_backend_create_mr and leave the redundant
-> guest_start argument in the legacy code.
->
-> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> ---
->   hw/rdma/rdma_backend.c | 23 ++++++++++++++---------
->   hw/rdma/rdma_backend.h |  5 -----
->   hw/rdma/rdma_rm.c      | 13 ++++++-------
->   3 files changed, 20 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-> index 79b9cfb487..3dd39fe1a7 100644
-> --- a/hw/rdma/rdma_backend.c
-> +++ b/hw/rdma/rdma_backend.c
-> @@ -377,6 +377,7 @@ static void ah_cache_init(void)
->                                       destroy_ah_hash_key, destroy_ah_hast_data);
->   }
->   
-> +#ifdef LEGACY_RDMA_REG_MR
->   static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
->                                   struct ibv_sge *sge, uint8_t num_sge,
->                                   uint64_t *total_length)
-> @@ -391,11 +392,7 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
->               return VENDOR_ERR_INVLKEY | sge[idx].lkey;
->           }
->   
-> -#ifdef LEGACY_RDMA_REG_MR
->           sge[idx].addr = (uintptr_t)mr->virt + sge[idx].addr - mr->start;
-> -#else
-> -        sge[idx].addr = sge[idx].addr;
-> -#endif
->           sge[idx].lkey = rdma_backend_mr_lkey(&mr->backend_mr);
->   
->           *total_length += sge[idx].length;
-> @@ -403,6 +400,19 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
->   
->       return 0;
->   }
-> +#else
-> +static inline int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-> +                                       struct ibv_sge *sge, uint8_t num_sge,
-> +                                       uint64_t *total_length)
-> +{
-> +    int idx;
-> +
-> +    for (idx = 0; idx < num_sge; idx++) {
-> +        *total_length += sge[idx].length;
-> +    }
-> +    return 0;
-> +}
-> +#endif
->   
->   static void trace_mad_message(const char *title, char *buf, int len)
->   {
-> @@ -733,13 +743,8 @@ void rdma_backend_destroy_pd(RdmaBackendPD *pd)
->       }
->   }
->   
-> -#ifdef LEGACY_RDMA_REG_MR
-> -int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-> -                           size_t length, int access)
-> -#else
->   int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
->                              size_t length, uint64_t guest_start, int access)
-> -#endif
->   {
->   #ifdef LEGACY_RDMA_REG_MR
->       mr->ibmr = ibv_reg_mr(pd->ibpd, addr, length, access);
-> diff --git a/hw/rdma/rdma_backend.h b/hw/rdma/rdma_backend.h
-> index 127f96e2d5..225af481e0 100644
-> --- a/hw/rdma/rdma_backend.h
-> +++ b/hw/rdma/rdma_backend.h
-> @@ -78,13 +78,8 @@ int rdma_backend_query_port(RdmaBackendDev *backend_dev,
->   int rdma_backend_create_pd(RdmaBackendDev *backend_dev, RdmaBackendPD *pd);
->   void rdma_backend_destroy_pd(RdmaBackendPD *pd);
->   
-> -#ifdef LEGACY_RDMA_REG_MR
-> -int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-> -                           size_t length, int access);
-> -#else
->   int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
->                              size_t length, uint64_t guest_start, int access);
-> -#endif
->   void rdma_backend_destroy_mr(RdmaBackendMR *mr);
->   
->   int rdma_backend_create_cq(RdmaBackendDev *backend_dev, RdmaBackendCQ *cq,
-> diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
-> index 1524dfaeaa..7e9ea283c9 100644
-> --- a/hw/rdma/rdma_rm.c
-> +++ b/hw/rdma/rdma_rm.c
-> @@ -227,21 +227,20 @@ int rdma_rm_alloc_mr(RdmaDeviceResources *dev_res, uint32_t pd_handle,
->           mr->length = guest_length;
->           mr->virt += (mr->start & (TARGET_PAGE_SIZE - 1));
->   
-> -#ifdef LEGACY_RDMA_REG_MR
-> -        ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
-> -                                     mr->length, access_flags);
-> -#else
->           ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
->                                        mr->length, guest_start, access_flags);
-> -#endif
->           if (ret) {
->               ret = -EIO;
->               goto out_dealloc_mr;
->           }
-> +#ifdef LEGACY_RDMA_REG_MR
-> +        /* We keep mr_handle in lkey so send and recv get get mr ptr */
-> +        *lkey = *mr_handle;
-> +#else
-> +        *lkey = rdma_backend_mr_lkey(&mr->backend_mr);
-> +#endif
->       }
->   
-> -    /* We keep mr_handle in lkey so send and recv get get mr ptr */
-> -    *lkey = *mr_handle;
->       *rkey = -1;
->   
->       mr->pd_handle = pd_handle;
+> Sent alternative v2 version of patch 7 so you can drop patch 4 if you like,
 
-Reviewed-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
+and patch 6 v2 also sent that is affected as well if you drop patch 4.
 
-Thanks,
-Marcel
-
+> the rest of the series should apply unchanged. Note that there might be some 
+> places where MAX_IDE_BUS is defined but not used and current code probably 
+> has assumption about this being 2 elsewhere and would break with any other 
+> value so other than philosophical there should be no reason to keep this 
+> defined everywhere.
+>
+>> PATCH 1-3,5-8:
+>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>
+> Thanks.
+>
+> Regards,
+> BALATON Zoltan
+>
 
