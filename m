@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5000A1874D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:37:53 +0100 (CET)
-Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC8D1874C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:33:00 +0100 (CET)
+Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxQm-0006w6-BC
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41620)
+	id 1jDxM3-00083c-BG
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxH7-0002eE-PX
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH7-0002dG-Au
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxH6-0001K3-Lh
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH6-0001Io-95
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:47723)
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55623)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxH6-0001J0-HU
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxH6-0001EX-3f
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394072;
+ s=mimecast20190719; t=1584394071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gii0zFCkcbzpyNXdbmeol5gPqR3ynMa+1Vb+XoSHx5A=;
- b=PAG+O/333amLOis6OJmM4jCEnF7srYH15WiM1Omys4fmpzwDA0loXuwwAEMiXvFKqAAxvg
- gnVV0ArE0EE0ww5Id9Ylh1gH0eGuf9Jspp7yWiazdD1TrrxYXgpwwKSD1ydpwd8kaVHAC3
- fpkG/p2F4laEQEY6MZHbmC1HN9Zw1ns=
+ bh=OpyLmBYXbHHno355Cd3qs+A0HW7Dz+VqgNCky54LzlY=;
+ b=LoePp8UD5C1j+y8QImUF409E1UQL2C3cNqE7TA8sqleX45+O8PglI+R1BiuuZJtGq9IcCi
+ KOp7pl0RbyGyxBPjj6yUgwu7+yqVMlsLDXuKHo98quKv+zmfUDD3yr/IqbLR2abt9Og6WR
+ MQD4bGqEUfzk4smseyLYUvHcyIMKOwg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-XTY4btvkNwOZlUfviokn5w-1; Mon, 16 Mar 2020 17:27:48 -0400
-X-MC-Unique: XTY4btvkNwOZlUfviokn5w-1
+ us-mta-476-WUsJ2d4FP6q6JSS1iG2SjA-1; Mon, 16 Mar 2020 17:27:49 -0400
+X-MC-Unique: WUsJ2d4FP6q6JSS1iG2SjA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357AD100550E;
- Mon, 16 Mar 2020 21:27:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91BC61804540;
+ Mon, 16 Mar 2020 21:27:48 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7E5419C4F;
- Mon, 16 Mar 2020 21:27:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A081C19C4F;
+ Mon, 16 Mar 2020 21:27:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/61] MAINTAINERS: Add entry for Guest X86 HAXM CPUs
-Date: Mon, 16 Mar 2020 22:26:36 +0100
-Message-Id: <1584394048-44994-10-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 10/61] hw/i386/intel_iommu: Fix out-of-bounds access on guest
+ IRT
+Date: Mon, 16 Mar 2020 22:26:37 +0100
+Message-Id: <1584394048-44994-11-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -56,8 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,51 +69,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hang Yuan <hang.yuan@intel.com>, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Colin Xu <colin.xu@intel.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-HAXM covers below files:
-include/sysemu/hax.h
-target/i386/hax-*
+vtd_irte_get failed to check the index against the configured table
+size, causing an out-of-bounds access on guest memory and potentially
+misinterpreting the result.
 
-V2: Add HAXM github page for wiki and issue tracking.
-
-Cc: Wenchao Wang <wenchao.wang@intel.com>
-Cc: Hang Yuan <hang.yuan@intel.com>
-Reviewed-by: Hang Yuan <hang.yuan@intel.com>
-Signed-off-by: Colin Xu <colin.xu@intel.com>
-Message-Id: <20200228012046.6629-1-colin.xu@intel.com>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Message-Id: <4b15b728-bdfe-3bbe-3a5c-ca3baeef3c5c@siemens.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ hw/i386/intel_iommu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 32867bc..a88bc28 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -436,6 +436,17 @@ F: include/hw/block/dataplane/xen*
- F: include/hw/xen/
- F: include/sysemu/xen-mapcache.h
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 204b684..df7ad25 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3094,6 +3094,12 @@ static int vtd_irte_get(IntelIOMMUState *iommu, uint=
+16_t index,
+     uint16_t mask, source_id;
+     uint8_t bus, bus_max, bus_min;
 =20
-+Guest CPU Cores (HAXM)
-+---------------------
-+X86 HAXM CPUs
-+M: Wenchao Wang <wenchao.wang@intel.com>
-+M: Colin Xu <colin.xu@intel.com>
-+L: haxm-team@intel.com
-+W: https://github.com/intel/haxm/issues
-+S: Maintained
-+F: include/sysemu/hax.h
-+F: target/i386/hax-*
++    if (index >=3D iommu->intr_size) {
++        error_report_once("%s: index too large: ind=3D0x%x",
++                          __func__, index);
++        return -VTD_FR_IR_INDEX_OVER;
++    }
 +
- Hosts
- -----
- LINUX
+     addr =3D iommu->intr_root + index * sizeof(*entry);
+     if (dma_memory_read(&address_space_memory, addr, entry,
+                         sizeof(*entry))) {
 --=20
 1.8.3.1
 
