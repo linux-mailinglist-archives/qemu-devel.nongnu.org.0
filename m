@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495EA187522
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:51:50 +0100 (CET)
-Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA67187533
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:57:03 +0100 (CET)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxeH-0003Hw-B0
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42761)
+	id 1jDxjK-0003p9-6d
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHs-00044E-1F
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:41 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHu-00045P-VR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHo-0006EL-Uk
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:39 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45770)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHs-0006Mu-4s
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:41 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24882)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHo-0006BT-Ps
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:36 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHr-0006Gv-V9
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394116;
+ s=mimecast20190719; t=1584394117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h648SmwpCvwN1dBwySehpb4Gdc3DelTHBZmWsV2C42c=;
- b=HiRkIFr81c3n4yx03zVrJ2tex/oOIBZTgNMZ0dpgQ+kDXHS5QLYcnO5yKPyiqRM+siWwFI
- WVsp1G89Y30mfYhvnuQi9X20xVHQhKdtefU/hqj3d2mmrpyIvRF7pEnnCUDm2pWKX5oXci
- RnucTxvTCAABdHjnfQQImIwNBe1nMd8=
+ bh=KqxX7RV+tk2/7J3Xr0yT/Gwt34XZbIeFvDkXq7c9x5U=;
+ b=RbhdHToVy5MND+NkvyN/oc9cJJprOZHXAZH9VjgcpLhrWx4/Z5e1/X6YTS76OC3GLi+jbP
+ 4TtezJ2xjRjRUr/j+CGP9gvEkU6faeFAI5TphvVla6HIpuUvTmRU6ZfkGqegPeiJTEi797
+ qAv418Il/U9tcdfiOogrigHxLFf322U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-vnpjGgGQOvugPX1o4xtHvw-1; Mon, 16 Mar 2020 17:28:27 -0400
-X-MC-Unique: vnpjGgGQOvugPX1o4xtHvw-1
+ us-mta-466-gUk2UZ3DOSOtSaptpi3BEw-1; Mon, 16 Mar 2020 17:28:30 -0400
+X-MC-Unique: gUk2UZ3DOSOtSaptpi3BEw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3437C1085936
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D223D149C3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:29 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 405AA19C4F;
- Mon, 16 Mar 2020 21:28:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CED519C4F;
+ Mon, 16 Mar 2020 21:28:26 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/61] ui/curses: Move arrays to .heap to save 74KiB of .bss
-Date: Mon, 16 Mar 2020 22:26:56 +0100
-Message-Id: <1584394048-44994-30-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 30/61] qemu-cpu-models.rst: Document -noTSX, mds-no, taa-no,
+ and tsx-ctrl
+Date: Mon, 16 Mar 2020 22:26:57 +0100
+Message-Id: <1584394048-44994-31-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,61 +69,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Kashyap Chamarthy <kchamart@redhat.com>
 
-We only need these arrays when using the curses display.
-Move them from the .bss to the .heap (sizes reported on
-x86_64 host: screen[] is 64KiB, vga_to_curses 7KiB).
+- Add the '-noTSX' variants for CascadeLake and SkyLake.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+- Document the three MSR bits: 'mds-no', 'taa-no', and 'tsx-ctrl'
+
+  Two confusing things about 'mds-no' (and the first point applies to
+  the other two MSRs too):
+
+  (1) The 'mds-no' bit will _not_ show up in the guest's /proc/cpuinfo.
+      Rather it is used to fill in the guest's sysfs:
+
+        /sys/devices/system/cpu/vulnerabilities/mds:Not affected
+
+      Paolo confirmed on IRC as such.
+
+  (2) There are _three_ variants[+] of CascadeLake CPUs, with different
+      stepping levels: 5, 6, and 7.  To quote wikichip.org[*]:
+
+        "note that while steppings 6 & 7 are fully mitigated, earlier
+        stepping 5 is not protected against MSBDS, MLPDS, nor MDSUM"
+
+      The above is also indicated in the Intel's document[+], as
+      indicated by "No" under the three columns of MFBDS, MSBDS, and
+      MLPDS.
+
+  I've expressed this in the docs without belabouring the details.
+
+      [+] https://software.intel.com/security-software-guidance/insights/pr=
+ocessors-affected-microarchitectural-data-sampling
+      [*] https://en.wikichip.org/wiki/intel/microarchitectures/cascade_lak=
+e#Key_changes_from_Skylake
+
+Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+Message-Id: <20200225165618.6571-3-kchamart@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/curses.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ docs/system/cpu-models-x86.rst.inc | 57 ++++++++++++++++++++++++++++++++++=
+++--
+ 1 file changed, 55 insertions(+), 2 deletions(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 3bafc10..a59b23a 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -54,13 +54,13 @@ enum maybe_keycode {
- };
+diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x8=
+6.rst.inc
+index cbad930..9a23278 100644
+--- a/docs/system/cpu-models-x86.rst.inc
++++ b/docs/system/cpu-models-x86.rst.inc
+@@ -49,10 +49,15 @@ mixture of host CPU models between machines, if live mi=
+gration
+ compatibility is required, use the newest CPU model that is compatible
+ across all desired hosts.
 =20
- static DisplayChangeListener *dcl;
--static console_ch_t screen[160 * 100];
-+static console_ch_t *screen;
- static WINDOW *screenpad =3D NULL;
- static int width, height, gwidth, gheight, invalidate;
- static int px, py, sminx, sminy, smaxx, smaxy;
+-``Skylake-Server``, ``Skylake-Server-IBRS``
++``Cascadelake-Server``, ``Cascadelake-Server-noTSX``
++    Intel Xeon Processor (Cascade Lake, 2019), with "stepping" levels 6
++    or 7 only.  (The Cascade Lake Xeon processor with *stepping 5 is
++    vulnerable to MDS variants*.)
++
++``Skylake-Server``, ``Skylake-Server-IBRS``, ``Skylake-Server-IBRS-noTSX``
+     Intel Xeon Processor (Skylake, 2016)
 =20
- static const char *font_charset =3D "CP437";
--static cchar_t vga_to_curses[256];
-+static cchar_t *vga_to_curses;
+-``Skylake-Client``, ``Skylake-Client-IBRS``
++``Skylake-Client``, ``Skylake-Client-IBRS``, ``Skylake-Client-noTSX-IBRS}`=
+`
+     Intel Core Processor (Skylake, 2015)
 =20
- static void curses_update(DisplayChangeListener *dcl,
-                           int x, int y, int w, int h)
-@@ -405,6 +405,8 @@ static void curses_refresh(DisplayChangeListener *dcl)
- static void curses_atexit(void)
- {
-     endwin();
-+    g_free(vga_to_curses);
-+    g_free(screen);
- }
+ ``Broadwell``, ``Broadwell-IBRS``, ``Broadwell-noTSX``, ``Broadwell-noTSX-=
+IBRS``
+@@ -148,6 +153,54 @@ features are included if using "Host passthrough" or "=
+Host model".
+   Requires the host CPU microcode to support this feature before it
+   can be used for guest CPUs.
 =20
- /*
-@@ -783,6 +785,8 @@ static void curses_display_init(DisplayState *ds, Displ=
-ayOptions *opts)
-     if (opts->u.curses.charset) {
-         font_charset =3D opts->u.curses.charset;
-     }
-+    screen =3D g_new0(console_ch_t, 160 * 100);
-+    vga_to_curses =3D g_new0(cchar_t, 256);
-     curses_setup();
-     curses_keyboard_setup();
-     atexit(curses_atexit);
++``mds-no``
++  Recommended to inform the guest OS that the host is *not* vulnerable
++  to any of the MDS variants ([MFBDS] CVE-2018-12130, [MLPDS]
++  CVE-2018-12127, [MSBDS] CVE-2018-12126).
++
++  This is an MSR (Model-Specific Register) feature rather than a CPUID fea=
+ture,
++  so it will not appear in the Linux ``/proc/cpuinfo`` in the host or
++  guest.  Instead, the host kernel uses it to populate the MDS
++  vulnerability file in ``sysfs``.
++
++  So it should only be enabled for VMs if the host reports @code{Not
++  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
++
++``taa-no``
++  Recommended to inform that the guest that the host is ``not``
++  vulnerable to CVE-2019-11135, TSX Asynchronous Abort (TAA).
++
++  This too is an MSR feature, so it does not show up in the Linux
++  ``/proc/cpuinfo`` in the host or guest.
++
++  It should only be enabled for VMs if the host reports ``Not affected``
++  in the ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort``
++  file.
++
++``tsx-ctrl``
++  Recommended to inform the guest that it can disable the Intel TSX
++  (Transactional Synchronization Extensions) feature; or, if the
++  processor is vulnerable, use the Intel VERW instruction (a
++  processor-level instruction that performs checks on memory access) as
++  a mitigation for the TAA vulnerability.  (For details, refer to
++  Intel's `deep dive into MDS
++  <https://software.intel.com/security-software-guidance/insights/deep-div=
+e-intel-analysis-microarchitectural-data-sampling>`_.)
++
++  Expose this to the guest OS if and only if: (a) the host has TSX
++  enabled; *and* (b) the guest has ``rtm`` CPU flag enabled.
++
++  By disabling TSX, KVM-based guests can avoid paying the price of
++  mitigating TSX-based attacks.
++
++  Note that ``tsx-ctrl`` too is an MSR feature, so it does not show
++  up in the Linux ``/proc/cpuinfo`` in the host or guest.
++
++  To validate that Intel TSX is indeed disabled for the guest, there are
++  two ways: (a) check for the *absence* of ``rtm`` in the guest's
++  ``/proc/cpuinfo``; or (b) the
++  ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort`` file in
++  the guest should report ``Mitigation: TSX disabled``.
++
+=20
+ Preferred CPU models for AMD x86 hosts
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 --=20
 1.8.3.1
 
