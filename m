@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C784318699A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:56:18 +0100 (CET)
-Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C302F186918
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:30:56 +0100 (CET)
+Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDnPt-0004oA-9R
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:56:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38383)
+	id 1jDn1J-0003zW-Rt
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38347)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgx-00063x-4x
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgw-00063b-Gb
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgq-0003lM-Df
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:51 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39281)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jDmgu-0004Nh-GN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:50 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39280)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jDmgq-0003bb-4n
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:44 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f7so17287835wml.4
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:09:44 -0700 (PDT)
+ id 1jDmgu-0004FG-6z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:09:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f7so17288097wml.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RpM1DhZ1gVnEqcgBO/wdPaWAEvwvm2ojMM129mDvGAU=;
- b=eFp1/D+Zf3czFCfm921iKGjXmntTba4iQvdZ+qeBCjsMYt/xqMJ0SRh1Z1lwbEKwW6
- qBeA7VhrfouApXFKvClx4xnakuX2dnoaWHaunsAeaVh1QCuewMFe51BaH5kTMoap0M+0
- JjP+ECQK1G9IPCUqbYlSzGS83WCLJTNSB2lyAqFhPv13gmkFE5zAukB3T43PxSffpfOU
- 22mEPT9d3/icr5+6c+UqCObRj/HTc+2UfxKce0TikeRtT6Ng7m1V5VNeH1OQtkSwHDas
- 3MmFL2oOSTxcyKFSM3ffc6WjnBb3wjnL9WxnsL/T3GNTLKM6Ikur8/hIfJ4YbWIjqalv
- mpVg==
+ bh=c1wTfXu/2hbExbmLg7C4XuLU62RQFo9tK0K81KxmXHM=;
+ b=MUUD3KIPu5J28Ne7jIrSrZKZ6YDPuL1UyCJhzp/vPG3gJU0DVRkDlzIWP/RX3BpvpH
+ g28cscDZ3VtyfB7hFfzmMTikoWKL5GxD1w9chtOS6BAPFtdA0JFNv8/dz+8e3W51mvI7
+ QUEMDNjrujbLU7l9glqsBvQSJVYyQd5qJB92ggVAm6NNPtk8btVXmw4jTWp5InzL5F1x
+ 8ntjvmmwuz9ZnfSfeaPkGatLAeeCBmALC2C4C7yDoJTsGQe+/nOekUHRkPMbvp/zUxRc
+ UeRTcq8cJjjO/w1mF6+nct8dHaZViqVUodZ+p55l8SxMz3h4dBnNAzOp4+LnF+aOaNLE
+ RAcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RpM1DhZ1gVnEqcgBO/wdPaWAEvwvm2ojMM129mDvGAU=;
- b=fKBZyY4JFVEAvZ7iayjf3Eub6QRJCVTRIVbSXUe6q6w9xRLjMZy2PslGdIOlYR6iHp
- kriBxOar2eJRzDZYkMtQAeFDRkHuZQXiYQH8Vqu0w8oXVeTLlpjMa7BAJvFq9sRFRM8r
- z/gxFp4uaX2B1wp28tjsKOgflMqyU0XJPlVOlAFDbJzqVfZ2cskoPMaZSqhc7dEk/bOz
- NAyMvsyzA0bltUEKgdehFtAJBeLrGaVi68lac8VwCUmYlddQEki9m8QXvqIcLLzhq1AN
- pDZBGuUya3LEoyIzT8gs5UH8jvkZnpPLhaA04NcXyds3FbnFdStkbuLphWR9XjxzczSw
- XYDw==
-X-Gm-Message-State: ANhLgQ0yk92i3tz3QaCGEP10Vm6tqHvbHq4qU7nnKYs0zyBAKDPl6Nxm
- iKzFK4iuftqmAWSxmjwsG+EMdwVVXGUhJA==
-X-Google-Smtp-Source: ADFU+vv/K7IGpFkJyEQiaeD6HaUNz7M5XL7sw7BZWB+OPe3CXBG0Rotj8LWbZ8uNdArRnNL2+bJeYg==
-X-Received: by 2002:a7b:cc04:: with SMTP id f4mr26636639wmh.134.1584353382645; 
- Mon, 16 Mar 2020 03:09:42 -0700 (PDT)
+ bh=c1wTfXu/2hbExbmLg7C4XuLU62RQFo9tK0K81KxmXHM=;
+ b=iLm9fpcFHK+6Gx13QovVhKstOnGO6Ek4WB5s8khCCAGyOlgt8Bm4AGquBXpUTneOMK
+ HFIjYyujTRKeJw6My+sLYx0ZpoqagVJ5FPBQ7IYJADUI6pEvmFDNxkMugqiyy2v+ex1H
+ uTpu/Ehtvpbc1vT7xzZ+/RV0Mht58UCg0chnPO28jONKUm3HKBmFDlrZQ4Szi+Nd6KCq
+ ZqgedookX1LJhQL/spFVFOxPr3Ph7GNfyCP7KfrRClw2yOesje6NYtHGpyYpHcuUh9JY
+ qHUi3S1g//6wJRLY+IqfBM3fhq+7S49gk25+oYrYwQJLFqqOt1jC1NsLqbhoRNDNO7bs
+ hV0g==
+X-Gm-Message-State: ANhLgQ2pynbXiBB7OYGNA0rY1PlrV0fqEg3WwMZF+sKgPMEG0X8hSwU5
+ rzSFkeWB1fo4y8hsBy6I16p5/rREq1qmzA==
+X-Google-Smtp-Source: ADFU+vs2dErK4xDpNUS1FuEgUI02mz0eThomvm/jO/PHRFcOH1LfezyUFdlWeQsxLoMPJNQN8IqUgw==
+X-Received: by 2002:a7b:ce94:: with SMTP id q20mr26050931wmj.157.1584353386666; 
+ Mon, 16 Mar 2020 03:09:46 -0700 (PDT)
 Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
  [79.183.43.120])
- by smtp.gmail.com with ESMTPSA id l7sm22083171wrw.33.2020.03.16.03.09.41
+ by smtp.gmail.com with ESMTPSA id l7sm22083171wrw.33.2020.03.16.03.09.45
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Mar 2020 03:09:42 -0700 (PDT)
+ Mon, 16 Mar 2020 03:09:45 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH v4 2/6] virtio-net: implement RSS configuration command
-Date: Mon, 16 Mar 2020 12:09:29 +0200
-Message-Id: <20200316100933.11499-3-yuri.benditovich@daynix.com>
+Subject: [PATCH v4 5/6] virtio-net: reference implementation of hash report
+Date: Mon, 16 Mar 2020 12:09:32 +0200
+Message-Id: <20200316100933.11499-6-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200316100933.11499-1-yuri.benditovich@daynix.com>
 References: <20200316100933.11499-1-yuri.benditovich@daynix.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,332 +82,298 @@ Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Optionally report RSS feature.
-Handle RSS configuration command and keep RSS parameters
-in virtio-net device context.
+Suggest VIRTIO_NET_F_HASH_REPORT if specified in device
+parameters.
+If the VIRTIO_NET_F_HASH_REPORT is set,
+the device extends configuration space. If the feature
+is negotiated, the packet layout is extended to
+accomodate the hash information. In this case deliver
+packet's hash value and report type in virtio header
+extension.
+Use for configuration the same procedure as already
+used for RSS. We add two fields in rss_data that
+controls what the device does with the calculated hash
+if rss_data.enabled is set. If field 'populate' is set
+the hash is set in the packet, if field 'redirect' is
+set the hash is used to decide the queue to place the
+packet to.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
- hw/net/trace-events            |   3 +
- hw/net/virtio-net.c            | 189 +++++++++++++++++++++++++++++----
- include/hw/virtio/virtio-net.h |  13 +++
- 3 files changed, 185 insertions(+), 20 deletions(-)
+ hw/net/virtio-net.c            | 99 +++++++++++++++++++++++++++-------
+ include/hw/virtio/virtio-net.h |  2 +
+ 2 files changed, 81 insertions(+), 20 deletions(-)
 
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index a1da98a643..a84b9c3d9f 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -371,6 +371,9 @@ virtio_net_announce_notify(void) ""
- virtio_net_announce_timer(int round) "%d"
- virtio_net_handle_announce(int round) "%d"
- virtio_net_post_load_device(void)
-+virtio_net_rss_disable(void)
-+virtio_net_rss_error(const char *msg, uint32_t value) "%s, value 0x%08x"
-+virtio_net_rss_enable(uint32_t p1, uint16_t p2, uint8_t p3) "hashes 0x%x, table of %d, key of %d"
- 
- # tulip.c
- tulip_reg_write(uint64_t addr, const char *name, int size, uint64_t val) "addr 0x%02"PRIx64" (%s) size %d value 0x%08"PRIx64
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 90b01221e9..6d21922746 100644
+index de2d68d4ca..a0614ad4e6 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -142,6 +142,16 @@ struct virtio_net_rss_config {
-    tso/gso/gro 'off'. */
- #define VIRTIO_NET_RSC_DEFAULT_INTERVAL 300000
- 
-+#define VIRTIO_NET_RSS_SUPPORTED_HASHES (VIRTIO_NET_RSS_HASH_TYPE_IPv4 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_TCPv4 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_UDPv4 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_IPv6 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_TCPv6 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_UDPv6 | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_IP_EX | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
-+                                         VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
-+
- /* temporary until standard header include it */
- #if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
- 
-@@ -173,6 +183,8 @@ static VirtIOFeature feature_sizes[] = {
+@@ -184,7 +184,7 @@ static VirtIOFeature feature_sizes[] = {
       .end = endof(struct virtio_net_config, mtu)},
      {.flags = 1ULL << VIRTIO_NET_F_SPEED_DUPLEX,
       .end = endof(struct virtio_net_config, duplex)},
-+    {.flags = 1ULL << VIRTIO_NET_F_RSS,
-+     .end = endof(struct virtio_net_config_with_rss, supported_hash_types)},
+-    {.flags = 1ULL << VIRTIO_NET_F_RSS,
++    {.flags = (1ULL << VIRTIO_NET_F_RSS) | (1ULL << VIRTIO_NET_F_HASH_REPORT),
+      .end = endof(struct virtio_net_config_with_rss, supported_hash_types)},
      {}
  };
- 
-@@ -195,28 +207,33 @@ static int vq2q(int queue_index)
- static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
--    struct virtio_net_config netcfg;
--
--    virtio_stw_p(vdev, &netcfg.status, n->status);
--    virtio_stw_p(vdev, &netcfg.max_virtqueue_pairs, n->max_queues);
--    virtio_stw_p(vdev, &netcfg.mtu, n->net_conf.mtu);
--    memcpy(netcfg.mac, n->mac, ETH_ALEN);
--    virtio_stl_p(vdev, &netcfg.speed, n->net_conf.speed);
--    netcfg.duplex = n->net_conf.duplex;
-+    struct virtio_net_config_with_rss netcfg;
-+
-+    virtio_stw_p(vdev, &netcfg.cfg.status, n->status);
-+    virtio_stw_p(vdev, &netcfg.cfg.max_virtqueue_pairs, n->max_queues);
-+    virtio_stw_p(vdev, &netcfg.cfg.mtu, n->net_conf.mtu);
-+    memcpy(netcfg.cfg.mac, n->mac, ETH_ALEN);
-+    virtio_stl_p(vdev, &netcfg.cfg.speed, n->net_conf.speed);
-+    netcfg.cfg.duplex = n->net_conf.duplex;
-+    netcfg.rss_max_key_size = VIRTIO_NET_RSS_MAX_KEY_SIZE;
-+    virtio_stw_p(vdev, &netcfg.rss_max_indirection_table_length,
-+                 VIRTIO_NET_RSS_MAX_TABLE_LEN);
-+    virtio_stl_p(vdev, &netcfg.supported_hash_types,
-+                 VIRTIO_NET_RSS_SUPPORTED_HASHES);
+@@ -218,7 +218,8 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+     netcfg.cfg.duplex = n->net_conf.duplex;
+     netcfg.rss_max_key_size = VIRTIO_NET_RSS_MAX_KEY_SIZE;
+     virtio_stw_p(vdev, &netcfg.rss_max_indirection_table_length,
+-                 VIRTIO_NET_RSS_MAX_TABLE_LEN);
++                 virtio_host_has_feature(vdev, VIRTIO_NET_F_RSS) ?
++                 VIRTIO_NET_RSS_MAX_TABLE_LEN : 1);
+     virtio_stl_p(vdev, &netcfg.supported_hash_types,
+                  VIRTIO_NET_RSS_SUPPORTED_HASHES);
      memcpy(config, &netcfg, n->config_size);
+@@ -644,7 +645,7 @@ static int peer_has_ufo(VirtIONet *n)
  }
  
- static void virtio_net_set_config(VirtIODevice *vdev, const uint8_t *config)
+ static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
+-                                       int version_1)
++                                       int version_1, int hash_report)
  {
-     VirtIONet *n = VIRTIO_NET(vdev);
--    struct virtio_net_config netcfg = {};
-+    struct virtio_net_config_with_rss netcfg = {};
+     int i;
+     NetClientState *nc;
+@@ -652,7 +653,10 @@ static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
+     n->mergeable_rx_bufs = mergeable_rx_bufs;
  
-     memcpy(&netcfg, config, n->config_size);
- 
-     if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_MAC_ADDR) &&
-         !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1) &&
--        memcmp(netcfg.mac, n->mac, ETH_ALEN)) {
--        memcpy(n->mac, netcfg.mac, ETH_ALEN);
-+        memcmp(netcfg.cfg.mac, n->mac, ETH_ALEN)) {
-+        memcpy(n->mac, netcfg.cfg.mac, ETH_ALEN);
-         qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
+     if (version_1) {
+-        n->guest_hdr_len = sizeof(struct virtio_net_hdr_mrg_rxbuf);
++        n->guest_hdr_len = hash_report ?
++            sizeof(struct virtio_net_hdr_v1_hash) :
++            sizeof(struct virtio_net_hdr_mrg_rxbuf);
++        n->rss_data.populate_hash = true;
+     } else {
+         n->guest_hdr_len = n->mergeable_rx_bufs ?
+             sizeof(struct virtio_net_hdr_mrg_rxbuf) :
+@@ -773,6 +777,8 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+         virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_TSO4);
+         virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_TSO6);
+         virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_ECN);
++
++        virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
      }
- }
-@@ -766,6 +783,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-         return features;
+ 
+     if (!peer_has_vnet_hdr(n) || !peer_has_ufo(n)) {
+@@ -785,6 +791,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
      }
  
-+    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+     virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
++    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
      features = vhost_net_get_features(get_vhost_net(nc->peer), features);
      vdev->backend_features = features;
  
-@@ -925,6 +943,7 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
-     }
+@@ -951,12 +958,15 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+                                virtio_has_feature(features,
+                                                   VIRTIO_NET_F_MRG_RXBUF),
+                                virtio_has_feature(features,
+-                                                  VIRTIO_F_VERSION_1));
++                                                  VIRTIO_F_VERSION_1),
++                               virtio_has_feature(features,
++                                                  VIRTIO_NET_F_HASH_REPORT));
  
-     virtio_net_set_multiqueue(n,
-+                              virtio_has_feature(features, VIRTIO_NET_F_RSS) ||
-                               virtio_has_feature(features, VIRTIO_NET_F_MQ));
+     n->rsc4_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
+         virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO4);
+     n->rsc6_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
+         virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
++    n->rss_data.redirect = virtio_has_feature(features, VIRTIO_NET_F_RSS);
  
-     virtio_net_set_mrg_rx_bufs(n,
-@@ -1201,25 +1220,152 @@ static int virtio_net_handle_announce(VirtIONet *n, uint8_t cmd,
-     }
+     if (n->has_vnet_hdr) {
+         n->curr_guest_offloads =
+@@ -1230,7 +1240,9 @@ static void virtio_net_disable_rss(VirtIONet *n)
  }
  
-+static void virtio_net_disable_rss(VirtIONet *n)
-+{
-+    if (n->rss_data.enabled) {
-+        trace_virtio_net_rss_disable();
-+    }
-+    n->rss_data.enabled = false;
-+}
-+
-+static uint16_t virtio_net_handle_rss(VirtIONet *n,
-+                                      struct iovec *iov, unsigned int iov_cnt)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(n);
-+    struct virtio_net_rss_config cfg;
-+    size_t s, offset = 0, size_get;
-+    uint16_t queues, i;
-+    struct {
-+        uint16_t us;
-+        uint8_t b;
-+    } QEMU_PACKED temp;
-+    const char *err_msg = "";
-+    uint32_t err_value = 0;
-+
-+    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_RSS)) {
-+        err_msg = "RSS is not negotiated";
-+        goto error;
-+    }
-+    size_get = offsetof(struct virtio_net_rss_config, indirection_table);
-+    s = iov_to_buf(iov, iov_cnt, offset, &cfg, size_get);
-+    if (s != size_get) {
-+        err_msg = "Short command buffer";
-+        err_value = (uint32_t)s;
-+        goto error;
-+    }
-+    n->rss_data.hash_types = virtio_ldl_p(vdev, &cfg.hash_types);
-+    n->rss_data.indirections_len =
-+        virtio_lduw_p(vdev, &cfg.indirection_table_mask);
-+    n->rss_data.indirections_len++;
-+    if (!is_power_of_2(n->rss_data.indirections_len)) {
-+        err_msg = "Invalid size of indirection table";
-+        err_value = n->rss_data.indirections_len;
-+        goto error;
-+    }
-+    if (n->rss_data.indirections_len > VIRTIO_NET_RSS_MAX_TABLE_LEN) {
-+        err_msg = "Too large indirection table";
-+        err_value = n->rss_data.indirections_len;
-+        goto error;
-+    }
-+    n->rss_data.default_queue =
-+        virtio_lduw_p(vdev, &cfg.unclassified_queue);
-+    if (n->rss_data.default_queue >= n->max_queues) {
-+        err_msg = "Invalid default queue";
-+        err_value = n->rss_data.default_queue;
-+        goto error;
-+    }
-+    offset += size_get;
-+    size_get = sizeof(uint16_t) * n->rss_data.indirections_len;
-+    g_free(n->rss_data.indirections_table);
-+    n->rss_data.indirections_table = g_malloc(size_get);
-+    if (!n->rss_data.indirections_table) {
-+        err_msg = "Can't allocate indirections table";
-+        err_value = n->rss_data.indirections_len;
-+        goto error;
-+    }
-+    s = iov_to_buf(iov, iov_cnt, offset,
-+                   n->rss_data.indirections_table, size_get);
-+    if (s != size_get) {
-+        err_msg = "Short indirection table buffer";
-+        err_value = (uint32_t)s;
-+        goto error;
-+    }
-+    for (i = 0; i < n->rss_data.indirections_len; ++i) {
-+        uint16_t val = n->rss_data.indirections_table[i];
-+        n->rss_data.indirections_table[i] = virtio_lduw_p(vdev, &val);
-+    }
-+    offset += size_get;
-+    size_get = sizeof(temp);
-+    s = iov_to_buf(iov, iov_cnt, offset, &temp, size_get);
-+    if (s != size_get) {
-+        err_msg = "Can't get queues";
-+        err_value = (uint32_t)s;
-+        goto error;
-+    }
-+    queues = virtio_lduw_p(vdev, &temp.us);
-+    if (queues == 0 || queues > n->max_queues) {
-+        err_msg = "Invalid number of queues";
-+        err_value = queues;
-+        goto error;
-+    }
-+    if (temp.b > VIRTIO_NET_RSS_MAX_KEY_SIZE) {
-+        err_msg = "Invalid key size";
-+        err_value = temp.b;
-+        goto error;
-+    }
-+    if (!temp.b && n->rss_data.hash_types) {
-+        err_msg = "No key provided";
-+        err_value = 0;
-+        goto error;
-+    }
-+    if (!temp.b && !n->rss_data.hash_types) {
-+        virtio_net_disable_rss(n);
-+        return queues;
-+    }
-+    offset += size_get;
-+    size_get = temp.b;
-+    s = iov_to_buf(iov, iov_cnt, offset, n->rss_data.key, size_get);
-+    if (s != size_get) {
-+        err_msg = "Can get key buffer";
-+        err_value = (uint32_t)s;
-+        goto error;
-+    }
-+    n->rss_data.enabled = true;
-+    trace_virtio_net_rss_enable(n->rss_data.hash_types,
-+                                n->rss_data.indirections_len,
-+                                temp.b);
-+    return queues;
-+error:
-+    trace_virtio_net_rss_error(err_msg, err_value);
-+    virtio_net_disable_rss(n);
-+    return 0;
-+}
-+
- static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
-                                 struct iovec *iov, unsigned int iov_cnt)
+ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+-                                      struct iovec *iov, unsigned int iov_cnt)
++                                      struct iovec *iov,
++                                      unsigned int iov_cnt,
++                                      bool do_rss)
  {
      VirtIODevice *vdev = VIRTIO_DEVICE(n);
--    struct virtio_net_ctrl_mq mq;
--    size_t s;
+     struct virtio_net_rss_config cfg;
+@@ -1243,10 +1255,14 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+     const char *err_msg = "";
+     uint32_t err_value = 0;
+ 
+-    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_RSS)) {
++    if (do_rss && !virtio_vdev_has_feature(vdev, VIRTIO_NET_F_RSS)) {
+         err_msg = "RSS is not negotiated";
+         goto error;
+     }
++    if (!do_rss && !virtio_vdev_has_feature(vdev, VIRTIO_NET_F_HASH_REPORT)) {
++        err_msg = "Hash report is not negotiated";
++        goto error;
++    }
+     size_get = offsetof(struct virtio_net_rss_config, indirection_table);
+     s = iov_to_buf(iov, iov_cnt, offset, &cfg, size_get);
+     if (s != size_get) {
+@@ -1258,6 +1274,9 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+     n->rss_data.indirections_len =
+         virtio_lduw_p(vdev, &cfg.indirection_table_mask);
+     n->rss_data.indirections_len++;
++    if (!do_rss) {
++        n->rss_data.indirections_len = 1;
++    }
+     if (!is_power_of_2(n->rss_data.indirections_len)) {
+         err_msg = "Invalid size of indirection table";
+         err_value = n->rss_data.indirections_len;
+@@ -1268,8 +1287,8 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+         err_value = n->rss_data.indirections_len;
+         goto error;
+     }
+-    n->rss_data.default_queue =
+-        virtio_lduw_p(vdev, &cfg.unclassified_queue);
++    n->rss_data.default_queue = do_rss ?
++        virtio_lduw_p(vdev, &cfg.unclassified_queue) : 0;
+     if (n->rss_data.default_queue >= n->max_queues) {
+         err_msg = "Invalid default queue";
+         err_value = n->rss_data.default_queue;
+@@ -1303,7 +1322,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+         err_value = (uint32_t)s;
+         goto error;
+     }
+-    queues = virtio_lduw_p(vdev, &temp.us);
++    queues = do_rss ? virtio_lduw_p(vdev, &temp.us) : n->curr_queues;
+     if (queues == 0 || queues > n->max_queues) {
+         err_msg = "Invalid number of queues";
+         err_value = queues;
+@@ -1349,8 +1368,12 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
      uint16_t queues;
  
--    s = iov_to_buf(iov, iov_cnt, 0, &mq, sizeof(mq));
--    if (s != sizeof(mq)) {
--        return VIRTIO_NET_ERR;
--    }
-+    virtio_net_disable_rss(n);
-+    if (cmd == VIRTIO_NET_CTRL_MQ_RSS_CONFIG) {
-+        queues = virtio_net_handle_rss(n, iov, iov_cnt);
-+    } else if (cmd == VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET) {
-+        struct virtio_net_ctrl_mq mq;
-+        size_t s;
-+        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ)) {
-+            return VIRTIO_NET_ERR;
-+        }
-+        s = iov_to_buf(iov, iov_cnt, 0, &mq, sizeof(mq));
-+        if (s != sizeof(mq)) {
-+            return VIRTIO_NET_ERR;
-+        }
-+        queues = virtio_lduw_p(vdev, &mq.virtqueue_pairs);
- 
--    if (cmd != VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET) {
-+    } else {
-         return VIRTIO_NET_ERR;
-     }
- 
--    queues = virtio_lduw_p(vdev, &mq.virtqueue_pairs);
--
-     if (queues < VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN ||
-         queues > VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX ||
-         queues > n->max_queues ||
-@@ -3173,6 +3319,7 @@ static void virtio_net_device_unrealize(DeviceState *dev, Error **errp)
-     g_free(n->vqs);
-     qemu_del_nic(n->nic);
-     virtio_net_rsc_cleanup(n);
-+    g_free(n->rss_data.indirections_table);
-     virtio_cleanup(vdev);
+     virtio_net_disable_rss(n);
++    if (cmd == VIRTIO_NET_CTRL_MQ_HASH_CONFIG) {
++        queues = virtio_net_handle_rss(n, iov, iov_cnt, false);
++        return queues ? VIRTIO_NET_OK : VIRTIO_NET_ERR;
++    }
+     if (cmd == VIRTIO_NET_CTRL_MQ_RSS_CONFIG) {
+-        queues = virtio_net_handle_rss(n, iov, iov_cnt);
++        queues = virtio_net_handle_rss(n, iov, iov_cnt, true);
+     } else if (cmd == VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET) {
+         struct virtio_net_ctrl_mq mq;
+         size_t s;
+@@ -1637,15 +1660,34 @@ static uint8_t virtio_net_get_hash_type(bool isip4,
+     return 0xff;
  }
  
-@@ -3274,6 +3421,8 @@ static Property virtio_net_properties[] = {
-     DEFINE_PROP_BIT64("ctrl_guest_offloads", VirtIONet, host_features,
-                     VIRTIO_NET_F_CTRL_GUEST_OFFLOADS, true),
++static void virtio_set_packet_hash(const uint8_t *buf, uint8_t report,
++                                   uint32_t hash)
++{
++    struct virtio_net_hdr_v1_hash *hdr = (void *)buf;
++    hdr->hash_value = hash;
++    hdr->hash_report = report;
++}
++
+ static int virtio_net_process_rss(NetClientState *nc, const uint8_t *buf,
+                                   size_t size)
+ {
+     VirtIONet *n = qemu_get_nic_opaque(nc);
+-    unsigned int index = nc->queue_index, new_index;
++    unsigned int index = nc->queue_index, new_index = index;
+     struct NetRxPkt *pkt = n->rx_pkt;
+     uint8_t net_hash_type;
+     uint32_t hash;
+     bool isip4, isip6, isudp, istcp;
++    static const uint8_t reports[NetPktRssIpV6UdpEx + 1] = {
++        VIRTIO_NET_HASH_REPORT_IPv4,
++        VIRTIO_NET_HASH_REPORT_TCPv4,
++        VIRTIO_NET_HASH_REPORT_TCPv6,
++        VIRTIO_NET_HASH_REPORT_IPv6,
++        VIRTIO_NET_HASH_REPORT_IPv6_EX,
++        VIRTIO_NET_HASH_REPORT_TCPv6_EX,
++        VIRTIO_NET_HASH_REPORT_UDPv4,
++        VIRTIO_NET_HASH_REPORT_UDPv6,
++        VIRTIO_NET_HASH_REPORT_UDPv6_EX
++    };
+ 
+     net_rx_pkt_set_protocols(pkt, buf + n->host_hdr_len,
+                              size - n->host_hdr_len);
+@@ -1659,16 +1701,24 @@ static int virtio_net_process_rss(NetClientState *nc, const uint8_t *buf,
+     net_hash_type = virtio_net_get_hash_type(isip4, isip6, isudp, istcp,
+                                              n->rss_data.hash_types);
+     if (net_hash_type > NetPktRssIpV6UdpEx) {
+-        return n->rss_data.default_queue;
++        if (n->rss_data.populate_hash) {
++            virtio_set_packet_hash(buf, VIRTIO_NET_HASH_REPORT_NONE, 0);
++        }
++        return n->rss_data.redirect ? n->rss_data.default_queue : -1;
+     }
+ 
+     hash = net_rx_pkt_calc_rss_hash(pkt, net_hash_type, n->rss_data.key);
+-    new_index = hash & (n->rss_data.indirections_len - 1);
+-    new_index = n->rss_data.indirections_table[new_index];
+-    if (index == new_index) {
+-        return -1;
++
++    if (n->rss_data.populate_hash) {
++        virtio_set_packet_hash(buf, reports[net_hash_type], hash);
+     }
+-    return new_index;
++
++    if (n->rss_data.redirect) {
++        new_index = hash & (n->rss_data.indirections_len - 1);
++        new_index = n->rss_data.indirections_table[new_index];
++    }
++
++    return (index == new_index) ? -1 : new_index;
+ }
+ 
+ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+@@ -1744,6 +1794,11 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+             }
+ 
+             receive_header(n, sg, elem->in_num, buf, size);
++            if (n->rss_data.populate_hash) {
++                offset = sizeof(mhdr);
++                iov_from_buf(sg, elem->in_num, offset,
++                             buf + offset, n->host_hdr_len - sizeof(mhdr));
++            }
+             offset = n->host_hdr_len;
+             total += n->guest_hdr_len;
+             guest_offset = n->guest_hdr_len;
+@@ -2736,7 +2791,9 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+     trace_virtio_net_post_load_device();
+     virtio_net_set_mrg_rx_bufs(n, n->mergeable_rx_bufs,
+                                virtio_vdev_has_feature(vdev,
+-                                                       VIRTIO_F_VERSION_1));
++                                                       VIRTIO_F_VERSION_1),
++                               virtio_vdev_has_feature(vdev,
++                                                       VIRTIO_NET_F_HASH_REPORT));
+ 
+     /* MAC_TABLE_ENTRIES may be different from the saved image */
+     if (n->mac_table.in_use > MAC_TABLE_ENTRIES) {
+@@ -3352,7 +3409,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+ 
+     n->vqs[0].tx_waiting = 0;
+     n->tx_burst = n->net_conf.txburst;
+-    virtio_net_set_mrg_rx_bufs(n, 0, 0);
++    virtio_net_set_mrg_rx_bufs(n, 0, 0, 0);
+     n->promisc = 1; /* for compatibility */
+ 
+     n->mac_table.macs = g_malloc0(MAC_TABLE_ENTRIES * ETH_ALEN);
+@@ -3507,6 +3564,8 @@ static Property virtio_net_properties[] = {
      DEFINE_PROP_BIT64("mq", VirtIONet, host_features, VIRTIO_NET_F_MQ, false),
-+    DEFINE_PROP_BIT64("rss", VirtIONet, host_features,
-+                    VIRTIO_NET_F_RSS, false),
+     DEFINE_PROP_BIT64("rss", VirtIONet, host_features,
+                     VIRTIO_NET_F_RSS, false),
++    DEFINE_PROP_BIT64("hash", VirtIONet, host_features,
++                    VIRTIO_NET_F_HASH_REPORT, false),
      DEFINE_PROP_BIT64("guest_rsc_ext", VirtIONet, host_features,
                      VIRTIO_NET_F_RSC_EXT, false),
      DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
 diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index 96c68d4a92..a4d3cda2ef 100644
+index c92697bfd5..a5b99167b1 100644
 --- a/include/hw/virtio/virtio-net.h
 +++ b/include/hw/virtio/virtio-net.h
-@@ -126,6 +126,18 @@ typedef struct VirtioNetRscChain {
- /* Maximum packet size we can receive from tap device: header + 64k */
- #define VIRTIO_NET_MAX_BUFSIZE (sizeof(struct virtio_net_hdr) + (64 * KiB))
+@@ -131,6 +131,8 @@ typedef struct VirtioNetRscChain {
  
-+#define VIRTIO_NET_RSS_MAX_KEY_SIZE     40
-+#define VIRTIO_NET_RSS_MAX_TABLE_LEN    128
-+
-+typedef struct VirtioNetRssData {
-+    bool    enabled;
-+    uint32_t hash_types;
-+    uint8_t key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
-+    uint32_t indirections_len;
-+    uint16_t *indirections_table;
-+    uint16_t default_queue;
-+} VirtioNetRssData;
-+
- typedef struct VirtIONetQueue {
-     VirtQueue *rx_vq;
-     VirtQueue *tx_vq;
-@@ -199,6 +211,7 @@ struct VirtIONet {
-     bool failover;
-     DeviceListener primary_listener;
-     Notifier migration_state;
-+    VirtioNetRssData rss_data;
- };
- 
- void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+ typedef struct VirtioNetRssData {
+     bool    enabled;
++    bool    redirect;
++    bool    populate_hash;
+     uint32_t hash_types;
+     uint8_t key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
+     uint32_t indirections_len;
 -- 
 2.17.1
 
