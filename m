@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59FA187337
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:20:15 +0100 (CET)
-Received: from localhost ([::1]:47428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A16187308
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:09:28 +0100 (CET)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvHa-0000aB-Va
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45793)
+	id 1jDv79-0007Vv-Pu
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDuu7-0002As-Sd
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:56:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDup9-0007r7-Ib
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDuu6-0005W3-Jt
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:55:59 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45194)
+ (envelope-from <philmd@redhat.com>) id 1jDup8-00027f-J5
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:51 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuu6-0005Ta-FU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:55:58 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDup8-00023E-E9
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584384958;
+ s=mimecast20190719; t=1584384650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DAKyL7Tqa+fBdxrFOnKvFsx39GH2EjqIV6ZKoapzE/Q=;
- b=GjSL3PLrj9fAmuW+nx2MGrmE32jaQgDv9dojpDR6vLOlBAJ0U3Td7LSNDDhdNm0lDO4Uly
- SOjbXuZTmFJO6DIWEE/PSclvyECOHxGxA1zhd0Zuh3neICxUW2Q0QKTn+TCBWQDLmIMM8h
- pnCy3RvsakUeU7pADFCLa1cE5bUCpOE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-_6iVTF7mM-KFfMqd3opASg-1; Mon, 16 Mar 2020 14:55:56 -0400
-X-MC-Unique: _6iVTF7mM-KFfMqd3opASg-1
-Received: by mail-wm1-f71.google.com with SMTP id n25so4985680wmi.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:55:56 -0700 (PDT)
+ bh=QVXGSPxot8hczQz2J5IHTqJPn4YWY3H/+Nf8/tep/GA=;
+ b=fsI0I7FYHxuNmYyj16gckFJebc/2pIqOyaWu1BglUyaKiCPt/wbomSwhS0P9eQfuQIbqML
+ JJ/v0WdzH1QX3jkgRvDZk++ABzrpmHKSTlxURVnaATVbYiFfhxYn7AR3C7FRmkctzLen32
+ f0ANEXBcm1QLzpjy0OT70EyIJRq2hVE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-NrWvU37BOH21cJSQmtDrxQ-1; Mon, 16 Mar 2020 14:50:46 -0400
+X-MC-Unique: NrWvU37BOH21cJSQmtDrxQ-1
+Received: by mail-wr1-f71.google.com with SMTP id l16so8749408wrr.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:50:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kHrh7HRUxq+j6HbASfjSpjwX0NBi+3mUfkSXhbTFwJw=;
- b=KUCXkNWhFFloUjiSw7rNJGnd7VsGA5iBBFFUfqCPxZyfuwS4m6M4yaElMKSILtPnY0
- kkwThhSB2VqQuLnt+paDadf8EDJwnJLhGc1ij9AkfeFaqPOh9QEkqqYk5RTrhzFePP5b
- LqXOQuSqGnEfNzmHhlgfypRYCVPG2t0f9rIehQdUiKRyQcUw3DZsozpv4qxwA5dRxd1k
- lSg1mepNpVnp3v9U4rsgE67GCZPsWwG+PrkgBWuZ/XHe26z+zKMKwLvJf4+dUW4D0U7Q
- DiBzqrA18HQr6i7jbw0egI9rUNAzzcZzPmabwi9OZd2O2wC3Vj8P+L62qN7ShfOuxRpu
- hN/g==
-X-Gm-Message-State: ANhLgQ1VPRLuWNtwZLoni4PF0VfWIPwA0uiuySDJJQwfBtMkRphRjCwm
- P0S68sJ3koh05abTMQttbBOgI2hNvvnY3oqhYM02zNqJljICmL0gshgsd8E5da+5mz4HJ9bADzx
- heWl8mJkPZ42DRco=
-X-Received: by 2002:a5d:5090:: with SMTP id a16mr771486wrt.191.1584384639541; 
- Mon, 16 Mar 2020 11:50:39 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsnjqSjZ0/ioyXpDCNFGMeNZtB/AcCe7pOm2OH3Lx5oF5X62lXQNhyzJTltZ/cUHzDv3+1buw==
-X-Received: by 2002:a5d:5090:: with SMTP id a16mr771474wrt.191.1584384639375; 
- Mon, 16 Mar 2020 11:50:39 -0700 (PDT)
+ bh=n5kS6EiiI2CJmBCx9jFtPHKM4BcDVAnb98D+QFJyFl4=;
+ b=PAhj9IHqkqKt/epC9CF2bes1e6TUjNkVfBDwgal0q0j8ptienCsYTaV7eB9gb6r0pe
+ lJvmiQ3Vw0mMzq28jrfndT51bFApTaFG9Zhjfe3sRxqQ0yjIgf6gfCQ1eDhkq0mHwImi
+ aQyqKXs0MGuefixwMnbkjFNCNHqEmWTGqE6R/UuGER8oNuroEA9/NZxMxdhlzzEjTO0A
+ Yzo4knOzTeumWLWc0RdD55GGOZsOdAYaYRoxG5k9a22WnJDJPlpKTF3UgxVae1pNzIng
+ rWGTXuYyT9Ix1cnNH3G/obzzp7cME6wj21JcBTINUnbUgIaMxjx9Gwgb8izOxkY9xtEh
+ ncgg==
+X-Gm-Message-State: ANhLgQ3WcQI0Y1HgGZvGqqBD/Kx0vbolUvpevUeQi7HTBJycOgE9lUBx
+ yEyhXLMBGYtlvNYZ1A/WXiR5FSP35SFiJpYuRBOy6QGQh0FOtgPOfUdZLK+QOexeHlquv6jnWfC
+ bqrvLrT7ULO04qF8=
+X-Received: by 2002:adf:eed2:: with SMTP id a18mr761697wrp.59.1584384644868;
+ Mon, 16 Mar 2020 11:50:44 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vujUgKKQsz8YH3FWEJO9HVduH1cIw0ZQ6bqlikQYm/FweiEVy96zoMzg8SD0wXEjW51QSWRSw==
+X-Received: by 2002:adf:eed2:: with SMTP id a18mr761679wrp.59.1584384644664;
+ Mon, 16 Mar 2020 11:50:44 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id b10sm1100611wrm.30.2020.03.16.11.50.38
+ by smtp.gmail.com with ESMTPSA id f203sm722111wmf.18.2020.03.16.11.50.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 11:50:38 -0700 (PDT)
+ Mon, 16 Mar 2020 11:50:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 06/25] hw/display: Use memory_region_init_rom() with
- read-only regions
-Date: Mon, 16 Mar 2020 19:49:47 +0100
-Message-Id: <20200316185006.576-7-philmd@redhat.com>
+Subject: [PATCH v3 07/25] hw/m68k: Use memory_region_init_rom() with read-only
+ regions
+Date: Mon, 16 Mar 2020 19:49:48 +0100
+Message-Id: <20200316185006.576-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316185006.576-1-philmd@redhat.com>
 References: <20200316185006.576-1-philmd@redhat.com>
@@ -77,8 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,8 +90,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -101,44 +100,29 @@ scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/display/cg3.c | 5 ++---
- hw/display/tcx.c | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ hw/m68k/q800.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/display/cg3.c b/hw/display/cg3.c
-index 4fb67c6b1c..a1ede10394 100644
---- a/hw/display/cg3.c
-+++ b/hw/display/cg3.c
-@@ -287,9 +287,8 @@ static void cg3_initfn(Object *obj)
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-     CG3State *s =3D CG3(obj);
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index c5699f6f3e..81749e7ec6 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -399,13 +399,12 @@ static void q800_init(MachineState *machine)
+         uint8_t *ptr;
+         /* allocate and load BIOS */
+         rom =3D g_malloc(sizeof(*rom));
+-        memory_region_init_ram(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
++        memory_region_init_rom(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
+                                &error_abort);
+         if (bios_name =3D=3D NULL) {
+             bios_name =3D MACROM_FILENAME;
+         }
+         filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-        memory_region_set_readonly(rom, true);
+         memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom)=
+;
 =20
--    memory_region_init_ram_nomigrate(&s->rom, obj, "cg3.prom", FCODE_MAX_R=
-OM_SIZE,
--                           &error_fatal);
--    memory_region_set_readonly(&s->rom, true);
-+    memory_region_init_rom_nomigrate(&s->rom, obj, "cg3.prom",
-+                                     FCODE_MAX_ROM_SIZE, &error_fatal);
-     sysbus_init_mmio(sbd, &s->rom);
-=20
-     memory_region_init_io(&s->reg, obj, &cg3_reg_ops, s, "cg3.reg",
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index ca458f94fe..76de16e8ea 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -755,9 +755,8 @@ static void tcx_initfn(Object *obj)
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-     TCXState *s =3D TCX(obj);
-=20
--    memory_region_init_ram_nomigrate(&s->rom, obj, "tcx.prom", FCODE_MAX_R=
-OM_SIZE,
--                           &error_fatal);
--    memory_region_set_readonly(&s->rom, true);
-+    memory_region_init_rom_nomigrate(&s->rom, obj, "tcx.prom",
-+                                     FCODE_MAX_ROM_SIZE, &error_fatal);
-     sysbus_init_mmio(sbd, &s->rom);
-=20
-     /* 2/STIP : Stippler */
+         /* Load MacROM binary */
 --=20
 2.21.1
 
