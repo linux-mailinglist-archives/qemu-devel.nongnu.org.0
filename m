@@ -2,64 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D01E187037
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:39:07 +0100 (CET)
-Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A7A187042
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:41:16 +0100 (CET)
+Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsle-0007CR-8F
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55679)
+	id 1jDsnj-00024x-6w
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39427)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDr9i-0001n2-Jk
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:52 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jDrHo-0005Lz-P7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:04:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDr9h-00088P-9E
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:50 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:33168)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDr9h-000847-44
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:49 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id x26so1082401otk.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QPe523lZS9svgzUUFlwEJ+J5PNFdfPSruVpJVH9Hasw=;
- b=XVBC6GooN9JWRYEJiNgTp+dexS75d3bFLvbE0IE7wGmMPaIavvjdrEXyji952I0mgu
- SbZN3TK4kukGTGmIBid3FpYgVIEZu+YIjLMhz4tQ9gNdaO6q48RQKV6GiKDpPB8j9mA+
- C2yqnohSFkDfkPEHNHbHsOAe5bzFyHoqV4oE24k62eZH3nPCSriPnp+DgDWSYObCNRAR
- xrf3kFuTk/7YsgoeA2X42sybi152RSz/SqXygQxuSvEgT5hDR7ecDEvRoqj3KeV3fH4F
- AUP7ZrW7GxDLv7vH4YPOnO9oxIsnHCEnCzC/UVaD9bg0VWt4jtOgp5TsNq5bOE6nC+Iw
- IHng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QPe523lZS9svgzUUFlwEJ+J5PNFdfPSruVpJVH9Hasw=;
- b=UUcPBb475o7L/kf/bUl2rktlf4cl2CfCquASb8m8j1TGVwzWZPeV8RTkGyzVt+b/uI
- Mx351rdYg4I0UR5d+4adgu4rUW30B1AwcwYs4WBMfI3cG3bRDE1QAqN+WlHOwEV+i4w9
- FcpQDsahY38sJ6BYUehKMTUfM82mmHw78xRb3uGZ/RSNKxFT8tBnrPso+9Pcih+NNvde
- uyU1Yc9gDius0Hgv1PQh5Y2fiShhxuy0Xo5gnM+9mRU44xUnO1rWA/82UajebVIqoJSZ
- RqswwLTdmFo7lTeNTXAHwCYVTLQrEwaMu/iZzs3iVEiRtjJqjHiHiYEIbRgeZ9WtmpDD
- q1wQ==
-X-Gm-Message-State: ANhLgQ25ygapYKBDkzZEhica/oj2vlY/1IiIc8ZbhaFBlQJFM4goWjdI
- Eo4srtTsNv/U9JJH2btRnTDEol0FM7w7ki360Ye4BQ==
-X-Google-Smtp-Source: ADFU+vtHSmvZWMD1LjtVGBEBp2PD3+uM4IZC+aav5afP0t+RpASzWpx6K7k9Fr5XQjzDHtdUswWwcSMGhpwphvGha5k=
-X-Received: by 2002:a9d:1920:: with SMTP id j32mr21676503ota.221.1584370548211; 
- Mon, 16 Mar 2020 07:55:48 -0700 (PDT)
+ (envelope-from <borntraeger@de.ibm.com>) id 1jDrHn-0003db-EB
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:04:12 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47414)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jDrHn-0003Xr-8c
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:04:11 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02GEsqlA163287
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:04:10 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yrt341efn-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:04:10 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Mon, 16 Mar 2020 15:04:05 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 16 Mar 2020 15:04:02 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02GF41Jo60227706
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Mar 2020 15:04:01 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24B7EA4062;
+ Mon, 16 Mar 2020 15:04:01 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C56C9A405B;
+ Mon, 16 Mar 2020 15:04:00 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.88.10])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 16 Mar 2020 15:04:00 +0000 (GMT)
+Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
+To: Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
+References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
+ <20200313095232.2392-1-frankja@linux.ibm.com>
+ <20200316152738.4c1c65ee.cohuck@redhat.com>
+ <bbbabbb0-2325-406d-a619-f2d03f447c8c@linux.ibm.com>
+ <20200316155457.73e97d9c.cohuck@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Mon, 16 Mar 2020 16:04:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200316113015.28013-1-kraxel@redhat.com>
-In-Reply-To: <20200316113015.28013-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 14:55:36 +0000
-Message-ID: <CAFEAcA8mv1WoL-Jr1Kkc0yPm83ooSVX=e_0uS0K-Gce9oEy3Ww@mail.gmail.com>
-Subject: Re: [PULL 0/6] Audio 20200316 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32c
+In-Reply-To: <20200316155457.73e97d9c.cohuck@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031615-0008-0000-0000-0000035E2DD8
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031615-0009-0000-0000-00004A7F816F
+Message-Id: <a39815f9-6c36-5c7e-39e0-3cd49a66c571@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-16_03:2020-03-12,
+ 2020-03-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=999 mlxscore=0 spamscore=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2003020000 definitions=main-2003160068
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +140,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 at 11:39, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 61c265f0660ee476985808c8aa7915617c44fd53:
->
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20200313a' into staging (2020-03-13 10:33:04 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/audio-20200316-pull-request
->
-> for you to fetch changes up to 49f77e6faf36cddd84417f9080462413acdbcc27:
->
->   audio: add audiodev format=f32 option documentation (2020-03-16 10:18:07 +0100)
->
-> ----------------------------------------------------------------
-> audio: float fixes
->
-> ----------------------------------------------------------------
 
 
-Applied, thanks.
+On 16.03.20 15:54, Cornelia Huck wrote:
+> On Mon, 16 Mar 2020 15:47:41 +0100
+> Janosch Frank <frankja@linux.ibm.com> wrote:
+> 
+>> On 3/16/20 3:27 PM, Cornelia Huck wrote:
+>>> On Fri, 13 Mar 2020 05:52:32 -0400
+>>> Janosch Frank <frankja@linux.ibm.com> wrote:
+>>>   
+>>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>>> ---
+>>>>  hw/s390x/ipl.h      | 11 +++++++----
+>>>>  target/s390x/diag.c |  2 +-
+>>>>  2 files changed, 8 insertions(+), 5 deletions(-)
+> 
+> 
+>>>> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+>>>>  
+>>>>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+>>>>  
+>>>> -        if (!iplb_valid(iplb)) {
+>>>> +        if (!iplb_valid(iplb, subcode)) {
+>>>>              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+>>>>              goto out;
+>>>>          }  
+>>>
+>>> ...because you're basically checking whether you either have a valid
+>>> normal iplb, or a valid pv iplb, with the two being mutually exclusive,
+>>> IIUC. So what about introducing iplb_valid_pv and calling that for the
+>>> pv case? Would be a bit nicer to read, I think, and also matches what
+>>> you do for the STORE case.
+>>>   
+>>
+>> The idea was to get rid of all of these ifs and elses and only have one
+>> iplb_valid function. Your suggestion would defeat hiding that complexity
+>> behind this function.
+> 
+> I'd argue that this is a complexity we should not hide; for non-pv, we
+> can have several formats, for pv, only one, and we cannot use a pv iplb
+> in a non-pv context and vice versa.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+So you suggest to split these case statements?
+case DIAG308_STORE:
+case DIAG308_PV_STORE:
 
--- PMM
+
 
