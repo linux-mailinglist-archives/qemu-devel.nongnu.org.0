@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2C4186C36
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:36:58 +0100 (CET)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C112E186C6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 14:48:04 +0100 (CET)
+Received: from localhost ([::1]:38596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpvN-0003mE-4Y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48411)
+	id 1jDq67-0008EO-Bk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 09:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDoQx-0004mJ-26
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:28 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDoRS-00050K-5o
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:02:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDoQv-00009G-Os
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:26 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33268
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDoRR-0007uE-3R
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34469
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoQv-0008Th-FU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:25 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoRQ-0007nN-Sa
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584360085;
+ s=mimecast20190719; t=1584360116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8cN7xrQbUXKOPTKMenh4LFrfI67X2hH+2BFr+BT/2qE=;
- b=RaSn9KgcNfyK8L9M6c4XzhYir7hRV9NTA2A16osYfWalBwakpoUnKQTXAPE0LH3Wl73H3h
- dEvCks9rtvuDX06rM4b4ggVJ2yoeLcQPtutg3IzdVTuqe7L+MoFGqVJ5HaD051nGbvyhdc
- wvxL/BGR3s5DXIucCn4447jqXahH/MU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-q1krT07NMQCZ1VYsBdYdzA-1; Mon, 16 Mar 2020 08:01:21 -0400
-X-MC-Unique: q1krT07NMQCZ1VYsBdYdzA-1
-Received: by mail-wr1-f72.google.com with SMTP id p2so6380787wrw.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:21 -0700 (PDT)
+ bh=ThCx22LN5T84wg5D9Dosi9XygA81kUt/h23r1S0DMvA=;
+ b=c9TieGns74gTAbelrnTbtfL5FcMD9WFQwKd8ZDBsbTOMTrwvCZoWLpQG/qDIJkRei21c1o
+ tLnV30OvCWQes3YJ1NFmhXtnW+7xzFXwoEG1ifWuMI+wdSYZNkV6+0VCem4S96dMEI8qa8
+ 8T430wnl1G7E9kdstIXHL/0s6fvFuek=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-DNgTq3n6O3qhCs-83f8QsQ-1; Mon, 16 Mar 2020 08:01:55 -0400
+X-MC-Unique: DNgTq3n6O3qhCs-83f8QsQ-1
+Received: by mail-wm1-f70.google.com with SMTP id g26so4520423wmk.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ylQbiBJV0bTCaWbZjZzWsWQ007xgGC4LERV9nP8xmDY=;
- b=tHo70r43CdRIrfwoqAtGNOqabEAJkIQDaSBBr6OSuIac34Wf+wMnIpUfActyR9KohR
- yiLByvhQMs+nF7obYBFfwk4hgLY/NM6LQnE1RlVtqkieL8v41poddemacu4GwkYmwxy9
- HS32ljVhbQTQ+YZw/+OAiT4mTHFoRJOib5OhKoYzzaE18GLtsXp20tgPsKAju98UZPGl
- DbHcpnAkLMlq93K6N2B6u2YIVdT+GNzrg4QtiEWW9I5uYukXsMDPsS3/NznIw2LQxJ3C
- 0YAz7sGKjEYeYmG2T9pwQXxydvlhIlRQkYk5a4OKNRqwwBsF0Jfbx7G3Vcfasz8D0uFP
- yztA==
-X-Gm-Message-State: ANhLgQ13374V1BZFYkvaVo2tUbQjX/+q1FyZfiNDbtQX7VhGZoadDXgV
- PC5vEDPhR2JrTIjigfIOrFOfzjwQp0lgmPtdTu2xO3GJPSs4DuD5fsC7jkJdxiELpwYnkvd/Vs4
- +BDno5xPCexH/CIM=
-X-Received: by 2002:a5d:5290:: with SMTP id c16mr34063664wrv.235.1584360080459; 
- Mon, 16 Mar 2020 05:01:20 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuxoYzjuK/W23tT7l1V9Rq2i8X28GEkStlQOjxsHGubN0CmfNM22zQoTHDW0GrF1nX7h79jxQ==
-X-Received: by 2002:a5d:5290:: with SMTP id c16mr34063642wrv.235.1584360080306; 
- Mon, 16 Mar 2020 05:01:20 -0700 (PDT)
+ bh=q/TrjrHhXYfyq5bHXPlsvCOLySBTWSgrFuU3IZ4/ySM=;
+ b=lTWTPDkTAgj4Lp9ALWTOcVjOVQQwHdtSqodvQ6AoH4J+me2uVsFBLYSxmcbFcm3F2p
+ xQqSZtUGQu54yNn5te9Kr9PflaNqiSBTMbztrDzMIK0ZaghtTQHr4UKH9e9N1teBYll0
+ UFisPYXB7HwHvS1bkDKO303supOC1Suk885aMFmwk6gEQCFtlO8Jt2nu5t0B7Z93Ouut
+ jNmtyoYkcTl8N4/wuZTrB3Hr7wR561gq3HHVzNSTimFi1QdG1BFCrBgPlY463cor5lFD
+ avebepwD49rDk47KszyJWcpQCiIBtsGB3EFLa1YbnRfZuTK8QuDDC/HukNCfR3D+FGiK
+ vnfw==
+X-Gm-Message-State: ANhLgQ2xj1vzEL/Udap24bnAQnNpJBwZGzIzv9LScyun8VuOPWRhZxnZ
+ fJmO202WC73OtseuZjF+wU5VO4pveA2lbqlMKXet0DlgOGSa3bJLe/hBmJFP/Sms7yMRmT+Wl0y
+ Y4S2obDrj/6Zeyjc=
+X-Received: by 2002:a1c:9a51:: with SMTP id c78mr27725571wme.130.1584360113444; 
+ Mon, 16 Mar 2020 05:01:53 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuf0WC5mZrj7bxvTqO/0wIAp06btYgnvdtf8msoh1ath1OGYW6q0QS0Fo85V6s9dqBobGjGOw==
+X-Received: by 2002:a1c:9a51:: with SMTP id c78mr27725551wme.130.1584360113237; 
+ Mon, 16 Mar 2020 05:01:53 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id y200sm28532934wmc.20.2020.03.16.05.01.19
+ by smtp.gmail.com with ESMTPSA id n6sm19073225wmn.13.2020.03.16.05.01.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:01:19 -0700 (PDT)
+ Mon, 16 Mar 2020 05:01:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] Makefile: Write MINIKCONF variables as one entry per
- line
-Date: Mon, 16 Mar 2020 13:00:43 +0100
-Message-Id: <20200316120049.11225-6-philmd@redhat.com>
+Subject: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG,
+ and allow to disable it
+Date: Mon, 16 Mar 2020 13:00:49 +0100
+Message-Id: <20200316120049.11225-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316120049.11225-1-philmd@redhat.com>
 References: <20200316120049.11225-1-philmd@redhat.com>
@@ -78,7 +78,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,34 +99,29 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Having one entry per line helps reviews/refactors. As we are
-going to modify the MINIKCONF variables, split them now to
-ease further review.
+The semihosting feature is only meaningful when using TCG.
+
+So far only the ARM/MIPS/LM32 provide the semihosting feature.
+
+Do not enable it by default, and let the few targets requiring
+it to manually select it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- Makefile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/semihosting/Kconfig | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 7df22fcc5d..d83a94bc53 100644
---- a/Makefile
-+++ b/Makefile
-@@ -418,8 +418,10 @@ MINIKCONF_ARGS =3D \
-     CONFIG_LINUX=3D$(CONFIG_LINUX) \
-     CONFIG_PVRDMA=3D$(CONFIG_PVRDMA)
+diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
+index efe0a30734..06e9262af2 100644
+--- a/hw/semihosting/Kconfig
++++ b/hw/semihosting/Kconfig
+@@ -1,3 +1,5 @@
 =20
--MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
--MINIKCONF_DEPS =3D $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig=
-)
-+MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host \
-+                   $(SRC_PATH)/hw/Kconfig
-+MINIKCONF_DEPS =3D $(MINIKCONF_INPUTS) \
-+                 $(wildcard $(SRC_PATH)/hw/*/Kconfig)
- MINIKCONF =3D $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
-=20
- $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIK=
-CONF_DEPS) $(BUILD_DIR)/config-host.mak
+ config SEMIHOSTING
+-       bool
++    bool
++    depends on TCG
++    default n
 --=20
 2.21.1
 
