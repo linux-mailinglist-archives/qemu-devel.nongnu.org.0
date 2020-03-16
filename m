@@ -2,50 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C8C1872F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:03:11 +0100 (CET)
-Received: from localhost ([::1]:47025 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F931872FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:06:19 +0100 (CET)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDv14-0004fg-8G
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34429)
+	id 1jDv46-0001zo-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jDu6M-0000dO-HK
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:04:35 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDuBK-0003Su-K2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jDu6K-0000fb-Ai
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:04:34 -0400
-Received: from 10.mo3.mail-out.ovh.net ([87.98.165.232]:50981)
+ (envelope-from <philmd@redhat.com>) id 1jDuBJ-0004uI-ED
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:56267)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jDu6K-0000VH-4o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:04:32 -0400
-Received: from player798.ha.ovh.net (unknown [10.108.57.245])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id B203A246082
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 19:04:30 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player798.ha.ovh.net (Postfix) with ESMTPSA id 5CFDA10973D02;
- Mon, 16 Mar 2020 18:04:23 +0000 (UTC)
-Date: Mon, 16 Mar 2020 19:04:20 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to
- take an alternate vector
-Message-ID: <20200316190420.5e2f7f23@bahia.lan>
-In-Reply-To: <20200316142613.121089-7-npiggin@gmail.com>
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-7-npiggin@gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuBJ-0004sM-9H
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584382181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kpxvY3ThyZqztPfmjG1WgZp2s8Gh0pJx/1+caEnmG58=;
+ b=XcqGD5NgFoPrydfycPef79b9CUGGpWQ9wXUYEH6ITt+A/7qnf3WnENX6uCIqvjW+JIxg2j
+ 9gnjR7HfFxO5+uyuHa4ezHWJNqh/vtDsoN43oUpMDM6SHlTAhVUDXn6yWjkPkvXH4MYIQP
+ rXva68X+zxWPZBz5q8iAJLa1ElTV1gg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-v9HXn0sdMEW5X1-dznxNjA-1; Mon, 16 Mar 2020 14:09:36 -0400
+X-MC-Unique: v9HXn0sdMEW5X1-dznxNjA-1
+Received: by mail-ed1-f72.google.com with SMTP id o13so15679288edt.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:09:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TQv8d8ScNKK9NUVYi/BoZzj0hMagcBF2yzDXzKLkbdY=;
+ b=JzmCFVn3nYDckSOMmyn7KdOsIjUtz8cDPsHlgyHW17xr13Wo3g260SVBO1kKkCd43k
+ ADIZLVnK1Hbl0tflHX2KikdApkO4kAF9lk28qAopmB+GpNgX80CAVv4pwQGUaGBgNJAS
+ swE5P8MJ3uw2U3vIRG4l0IOXhVet/eNmCZ2tqiZcmMmOvW08bo4oR3TLTzDzuYMoQpis
+ uR1a6VlEWjzftMJOeuYu5fo43Lp2hzT4uNHCfxRhpNngICVtzVBEaBJDSAlH0Vn03k7K
+ hE4QYlVmDPib1u8KShxHRZbUV+K0DmASoqDhVgFVLxDlyiq7AC6z0F7/dxowgRA7TxmH
+ rxOQ==
+X-Gm-Message-State: ANhLgQ2+G6hJ+LUEf0+jJbS2vzN5lmblXsJpfKDYIaMw6pZi4tbi9cFw
+ iWmxOOfBo2qQXxVmcGmeJWMMF85lU+i2ggjGpweuiXR+auLWgh/aAkxl7mJCVCERDDY74ILkVJm
+ kmz4VtwjVon2Hk8E=
+X-Received: by 2002:a05:6402:22ba:: with SMTP id
+ cx26mr1355409edb.24.1584382175739; 
+ Mon, 16 Mar 2020 11:09:35 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vs4+matKifEPFFAH5rFh3B6UDGDa0Oksh5UyTIDc8TztLhrIpJcoyoe6eazQtgqbprai47ijg==
+X-Received: by 2002:a05:6402:22ba:: with SMTP id
+ cx26mr1355376edb.24.1584382175492; 
+ Mon, 16 Mar 2020 11:09:35 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id g19sm40917ejr.65.2020.03.16.11.09.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 11:09:34 -0700 (PDT)
+Subject: Re: [PATCH 1/2] migration: avoid suspicious strncpy() use
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200316160702.478964-1-stefanha@redhat.com>
+ <20200316160702.478964-2-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <24d36e90-5880-02ad-fa24-761eb3d9074f@redhat.com>
+Date: Mon, 16 Mar 2020 19:09:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13811977108233361859
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+In-Reply-To: <20200316160702.478964-2-stefanha@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.165.232
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,75 +93,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 00:26:11 +1000
-Nicholas Piggin <npiggin@gmail.com> wrote:
+On 3/16/20 5:07 PM, Stefan Hajnoczi wrote:
+> gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled
+> reports the following error:
+>=20
+>      CC      migration/global_state.o
+>    In file included from /usr/include/string.h:495,
+>                     from /home/stefanha/qemu/include/qemu/osdep.h:101,
+>                     from migration/global_state.c:13:
+>    In function =E2=80=98strncpy=E2=80=99,
+>        inlined from =E2=80=98global_state_store_running=E2=80=99 at migra=
+tion/global_state.c:47:5:
+>    /usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin=
+_strncpy=E2=80=99 specified bound 100 equals destination size [-Werror=3Dst=
+ringop-truncation]
+>      106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos =
+(__dest));
+>          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+>=20
+> Use pstrcpy() instead of strncpy().  It is guaranteed to NUL-terminate
+> strings.
 
-> Provide for an alternate delivery location, -1 defaults to the
-> architected address.
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+There was a long discussion 1 year ago with it, and Eric suggested to=20
+use strpadcpy after the assert() and I sent this patch:
+https://www.mail-archive.com/qemu-block@nongnu.org/msg44925.html
+Not sure what's best.
+
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/ppc/spapr.c           | 2 +-
->  target/ppc/cpu.h         | 2 +-
->  target/ppc/excp_helper.c | 5 ++++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 5f93c49706..25221d843c 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3400,7 +3400,7 @@ static void spapr_machine_finalizefn(Object *obj)
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
->  {
->      cpu_synchronize_state(cs);
-> -    ppc_cpu_do_system_reset(cs);
-> +    ppc_cpu_do_system_reset(cs, -1);
->  }
->  
->  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 3953680534..f8c7d6f19c 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
->  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
->                                 int cpuid, void *opaque);
->  #ifndef CONFIG_USER_ONLY
-> -void ppc_cpu_do_system_reset(CPUState *cs);
-> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
->  extern const VMStateDescription vmstate_ppc_cpu;
->  #endif
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 7f2b5899d3..08bc885ca6 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -961,12 +961,15 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->      }
->  }
->  
-> -void ppc_cpu_do_system_reset(CPUState *cs)
-> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
->  {
->      PowerPCCPU *cpu = POWERPC_CPU(cs);
->      CPUPPCState *env = &cpu->env;
->  
->      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
-> +    if (vector != -1) {
-> +        env->nip = vector;
-> +    }
->  }
->  
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+>   migration/global_state.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/migration/global_state.c b/migration/global_state.c
+> index 25311479a4..cbe07f21a8 100644
+> --- a/migration/global_state.c
+> +++ b/migration/global_state.c
+> @@ -44,8 +44,8 @@ void global_state_store_running(void)
+>   {
+>       const char *state =3D RunState_str(RUN_STATE_RUNNING);
+>       assert(strlen(state) < sizeof(global_state.runstate));
+> -    strncpy((char *)global_state.runstate,
+> -           state, sizeof(global_state.runstate));
+> +    pstrcpy((char *)global_state.runstate,
+> +            sizeof(global_state.runstate), state);
+>   }
+>  =20
+>   bool global_state_received(void)
+>=20
 
 
