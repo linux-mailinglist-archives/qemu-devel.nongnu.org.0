@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6B1871D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:06:42 +0100 (CET)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE9A1871D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:04:51 +0100 (CET)
+Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDu8P-0003RA-MI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40314)
+	id 1jDu6d-0008Nf-25
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDsPe-0007uS-E5
+ (envelope-from <laurent@vivier.eu>) id 1jDsPe-0007uR-DK
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDsPd-0008Jz-7p
+ (envelope-from <laurent@vivier.eu>) id 1jDsPd-0008KB-8K
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:44111)
+Received: from mout.kundenserver.de ([212.227.126.134]:49873)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPc-00089c-Sw
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPc-0008AT-V9
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:21 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MJWgK-1iu9fF0v5k-00JtBP; Mon, 16 Mar 2020 17:16:09 +0100
+ id 1MfL5v-1joKxH1kap-00glYi; Mon, 16 Mar 2020 17:16:16 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/38] linux-user: Flush out implementation of gettimeofday
-Date: Mon, 16 Mar 2020 17:15:17 +0100
-Message-Id: <20200316161550.336150-6-laurent@vivier.eu>
+Subject: [PULL 11/38] linux-user/syscall: Add support for
+ clock_gettime64/clock_settime64
+Date: Mon, 16 Mar 2020 17:15:23 +0100
+Message-Id: <20200316161550.336150-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200316161550.336150-1-laurent@vivier.eu>
 References: <20200316161550.336150-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2+OnKEYWuZtt3LxPwxgWv2MmMh5zFI/qbCEo/Y0vnYsZo1wgRYE
- XNrFQkaN5nIM6oooTEeFIYSAFrRg38LDumZGna+54GdMhnqhq/41MZ5xndr3aCitIgC+T7Z
- yrztQN6I19hQXnoOz+hQLkfBEEiYILpfXEl8nJx1+xkVzYqm+lRJ3riYujlsC7jHygr28fP
- Fl8LsgikLMxCRAqgVWZvw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1lgY4n/pUaE=:1ivdzdwoXUHX6ENjH6hC9+
- 2ByfVFANsSd27UMZmS4JEQw0ZJu/hqzsAJvOCmNaNPZmwWwdb79/LQbng227raBS2r+my/K2L
- DrWjuJ7BQtBy4H8XU4p7cfDVfeajz1b2pRIcRpvc03lLqEYTRdrXXdMYfZ+oBROa8gnNHoITj
- gJJ4koCHS93o9lI6sVO11j2Egjl6ar8bFKtMv7Wn6xF6pgXS7Dd2NGhqA9Gzw1xc8yl4rv283
- zvt1JPS+NWCp29Pd8+bMtMkmrWsElboxajHPZYwOsLAjRKV+YGQrKKwZyUcz1cea78r7/Wwun
- rlRxyRNfq6P157K/0GpKMDxH2mxlbtNTolhwfwmbokn3a901hww5Gk5yg1bzaToMp3mm0ntXg
- A3Oci06rf12zs2HHwav58gYG4uwmuyLCkUqi3X6nowP93qr1iF/QcTXxas1jz5Bqj2uSqmSZF
- g8mUkREfORnPM4TIMWfc9zb7/uKzZWWDF4Nc01WZqwiKGlWmakad6aKZY96p1rMrbnU+ZPE0Q
- 4KkyWxR3E/H/6BhKcz+2U7g3COtxmmNZivjOzGEjlaMDAczItcT6TGEDEaORxn81fTDhEat9B
- KeyDNCqAeg6rY7yNHHvmLbljWNsqTUj6q2dIl3z5lywbV4cKKBC2V4M3clvFeowz4Z+KyMb6G
- z7pcCYPnD+x3sD8gXiXyQSGUGuATWGcdrI+lq7i+aKPzsV4U4iMusKem84EyPp+CKvjHJEoh+
- qkElwRxUZ11ebBIioxOzXueQ9LS2b72RPN68D65gyG0nqbDsCXff1EAdWSFkf/ZsFzsqujYAn
- VtHcXm65RV03EA0WigD/eVxeO3RsZVTbUqAkC00bVwR6+MdsyOn3cipSyWnvJkcTLM36Kn7
+X-Provags-ID: V03:K1:E5zxhOXJJ3t7m3Z20tOxSleG9nVmiKdnpH+eTyNTpG7FgbczEw6
+ 0UNAIHImIYojHqyqJULjz8klSh0a7q5EmzwDpMCfm3SdCVVfSsC5lw/GC5q5HU53zIVgwcX
+ jvbkJWmrITFp3FllJd5Oe43l6vJ8pNnQZ7C26Hv9ryAQVcV48Dm9NZvHaA9O3MqeJ82QSFT
+ fmpYaVDZVKIf70C88s9/w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PPljKfhmlKA=:xlxSBG02YJsoahLq4LaOkY
+ PRWVtPR1mvumRAu+hDpQ3zhVNRlsc4npal+fbWMn19qvkjlUSlGGFakVkGTlZGJ/1vR+Owept
+ r8RYyCHKdm6Ndc5SrzvP5+zWIa6+7+uN8+jCo21jMDXGFRAjrqHXxJcrSos0ihPDbvLQJKH/2
+ JH9qT42Xwv/i6kz3Yt7a/+PSG2X6pgPlyUGA1aL+j4wmgtI1ShFNY46956s64XLn5QEoLvs7T
+ M2XRZc9v/h/CO9scSZoxjEqhz7LkFhCLcoGkANLMuzXI93wqC1I5qnaIqYzGTb5VV0RTQemzB
+ EUTEF8THcXnCNxH6+8GKXK1FXjZQrdtoeO2Z2aX+0l6/VPsnYxnr69JgO9p39ErTUioawar8h
+ hSo+c2wtIZyTTHGsTJD0eUi8VjfXXaUMQYLH2c5GF4fBa1PCamFwGIl/ilOkes2kNFBbHIuvB
+ oNsp9O6q9VpaP8XJWbhJwxo1P0H8HZilXGw1NUIdWtUE0vxihQ1CZCb0R1/2IM0OVQFAo9vK8
+ yJlQOIJNE+44sD0y7lx2CzmADA3wsmIYOWgQ1lzjiCoMqJn2cXSq9OKk6Cnwmk9B9EGxH+Olf
+ JDDFjDB4QciokxnUTN9svegcvWLF3uV5GBcf+smjNqygkI7SPfFHkoDsdjUEtyFcnXUyh72Y8
+ i2wtI2l3oAZk6uc1kAShHFZDrgJWl6fBFeuUxF0RbuX49OSjKVpKzWVeu6ag1qScFfC1M3vFy
+ Gx8+LBZvCzBvD21Zk8qACTfLRexo+9rIbpD3fDmrHpN2H9CBEcsJNvjpzmWrPx4CNtb/hVPsf
+ WLZweNRxV+yn15O3mRaQN9i6x3eJDGGagYsc6/Y2aRxDcFKajgVNcrOlf8WTWsyPVcrjI7+
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,77 +64,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-The first argument, timeval, is allowed to be NULL.
+Add support for the clock_gettime64/clock_settime64 syscalls.
 
-The second argument, timezone, was missing.  While its use is
-deprecated, it is still present in the syscall.
+If your host is 64-bit or is 32-bit with the *_time64 syscall then the
+timespec will correctly be a 64-bit time_t. Otherwise the host will
+return a 32-bit time_t which will be rounded to 64-bits. This will be
+incorrect after y2038.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200213032223.14643-6-richard.henderson@linaro.org>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <4a7fd05532400d10aa0f684c9043e2ac7b34d91c.1584051142.git.alistair.francis@wdc.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5479d67a10be..811495c3a0bc 100644
+index 479db1940ee9..aaf62d48992a 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1228,6 +1228,23 @@ static inline abi_long host_to_target_timespec64(abi_ulong target_addr,
-     return 0;
+@@ -1229,6 +1229,22 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
  }
+ #endif
  
-+static inline abi_long copy_to_user_timezone(abi_ulong target_tz_addr,
-+                                             struct timezone *tz)
++#if defined(TARGET_NR_clock_settime64)
++static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
++                                                 abi_ulong target_addr)
 +{
-+    struct target_timezone *target_tz;
++    struct target__kernel_timespec *target_ts;
 +
-+    if (!lock_user_struct(VERIFY_WRITE, target_tz, target_tz_addr, 1)) {
++    if (!lock_user_struct(VERIFY_READ, target_ts, target_addr, 1)) {
 +        return -TARGET_EFAULT;
 +    }
-+
-+    __put_user(tz->tz_minuteswest, &target_tz->tz_minuteswest);
-+    __put_user(tz->tz_dsttime, &target_tz->tz_dsttime);
-+
-+    unlock_user_struct(target_tz, target_tz_addr, 1);
-+
++    __get_user(host_ts->tv_sec, &target_ts->tv_sec);
++    __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    unlock_user_struct(target_ts, target_addr, 0);
 +    return 0;
 +}
++#endif
 +
- static inline abi_long copy_from_user_timezone(struct timezone *tz,
-                                                abi_ulong target_tz_addr)
+ static inline abi_long host_to_target_timespec(abi_ulong target_addr,
+                                                struct timespec *host_ts)
  {
-@@ -8642,10 +8659,16 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_gettimeofday:
-         {
-             struct timeval tv;
--            ret = get_errno(gettimeofday(&tv, NULL));
-+            struct timezone tz;
-+
-+            ret = get_errno(gettimeofday(&tv, &tz));
-             if (!is_error(ret)) {
--                if (copy_to_user_timeval(arg1, &tv))
-+                if (arg1 && copy_to_user_timeval(arg1, &tv)) {
-                     return -TARGET_EFAULT;
-+                }
-+                if (arg2 && copy_to_user_timezone(arg2, &tz)) {
-+                    return -TARGET_EFAULT;
-+                }
-             }
-         }
+@@ -11491,6 +11507,18 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
          return ret;
+     }
+ #endif
++#ifdef TARGET_NR_clock_settime64
++    case TARGET_NR_clock_settime64:
++    {
++        struct timespec ts;
++
++        ret = target_to_host_timespec64(&ts, arg2);
++        if (!is_error(ret)) {
++            ret = get_errno(clock_settime(arg1, &ts));
++        }
++        return ret;
++    }
++#endif
+ #ifdef TARGET_NR_clock_gettime
+     case TARGET_NR_clock_gettime:
+     {
+@@ -11502,6 +11530,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     }
+ #endif
++#ifdef TARGET_NR_clock_gettime64
++    case TARGET_NR_clock_gettime64:
++    {
++        struct timespec ts;
++        ret = get_errno(clock_gettime(arg1, &ts));
++        if (!is_error(ret)) {
++            ret = host_to_target_timespec64(arg2, &ts);
++        }
++        return ret;
++    }
++#endif
+ #ifdef TARGET_NR_clock_getres
+     case TARGET_NR_clock_getres:
+     {
 -- 
 2.24.1
 
