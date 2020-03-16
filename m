@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054551874B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:27:54 +0100 (CET)
-Received: from localhost ([::1]:49114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE511874CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:35:42 +0100 (CET)
+Received: from localhost ([::1]:49326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxH6-00023U-Kp
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40277)
+	id 1jDxOf-0002zz-C4
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jDxGD-0001Cp-Fs
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:00 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxH2-0002T7-Er
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jDxGA-0001qx-J3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:26:57 -0400
-Resent-Date: Mon, 16 Mar 2020 17:26:57 -0400
-Resent-Message-Id: <E1jDxGA-0001qx-J3@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21123)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jDxGA-0001dy-AE; Mon, 16 Mar 2020 17:26:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1584394008; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=OVOXSpWvJcq3etdOkyZzTYlvscaGhM3HTZWengXO3d8FPBTKe/FR22guU612SWJh2XB7iisZNxfzqcXuw4GEd4RpXdPncPxRNhjz3jcMMYgS/y3ldTmaOIYuKsRkMQjal+bMShDlCA7kCqHXqbECc64h1T/Vk+vUu7QKseq7BCU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1584394008;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=OczYrBIOLaJ8Q6JYlI9u0KMbwSBOjbAVxaHFLii2jbE=; 
- b=jxmYWOilLETQwXGxsX0Kz6yoyM+7N0F3EiQU0Owm8Zc1SfOuOT4/r4KbI7lLRe4+GXH+fyz8bWOFXZAPpAEX6/BOcCY4UP9dcI3xnhOslRo+sXYJipsXU1IPVW16O9oxXlC2oIKJzDmZMlcZB2yuz82rs22GL9fk9sE9aVfFLyk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1584394006570519.7168239468257;
- Mon, 16 Mar 2020 14:26:46 -0700 (PDT)
-In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 00/28 for 5.0] testing and gdbstub
-Message-ID: <158439400534.17104.10903675973155568584@39012742ff91>
+ (envelope-from <pbonzini@redhat.com>) id 1jDxGz-0000MW-Sn
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:48 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32480)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxGz-0000Fl-Ls
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:27:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584394064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dm/EuTkxE9RqTe8WAQAMKzeZ4YbmePbXoehbDlbCm2s=;
+ b=VvSXoLGmY+KUnwYfpL5S3VRb6RZEVl8r5rMg7YyIXKeEnieqLP7NeRgFDdgfxGYAkLrIFe
+ TEWVGd82Pro0+QJSEuzEnKlRKqe5s4oV7NIo+KCDpG/kBEwJTsuBXdF5P4fgR/AK8HKdYp
+ wW2a1aNNBO8GEiBq27ZPc4s4vgMBHvU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-BZV9f3uZO_SCSHHcizkwYw-1; Mon, 16 Mar 2020 17:27:39 -0400
+X-MC-Unique: BZV9f3uZO_SCSHHcizkwYw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BC41107ACC7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:27:38 +0000 (UTC)
+Received: from 640k.localdomain.com (unknown [10.36.110.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B33E19756;
+ Mon, 16 Mar 2020 21:27:37 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 03/61] misc: Replace zero-length arrays with flexible array
+ member (automatic)
+Date: Mon, 16 Mar 2020 22:26:30 +0100
+Message-Id: <1584394048-44994-4-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
+References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Mon, 16 Mar 2020 14:26:46 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,324 +71,518 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxNjE3MjE1NS45NzEt
-MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggIHYxIDAwLzI4IGZvciA1LjBdIHRlc3Rpbmcg
-YW5kIGdkYnN0dWIKTWVzc2FnZS1pZDogMjAyMDAzMTYxNzIxNTUuOTcxLTEtYWxleC5iZW5uZWVA
-bGluYXJvLm9yZwpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
-L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
-aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
-PT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmUwNTI0YWYgZ2Ric3R1YjogRml4
-IHNpbmdsZS1zdGVwIGlzc3VlIGJ5IGNvbmZpcm1pbmcgJ3ZDb250U3VwcG9ydGVkKycgZmVhdHVy
-ZSB0byBnZGIKZTY1NjE2MyBnZGJzdHViOiBkbyBub3Qgc3BsaXQgZ2RiX21vbml0b3Jfd3JpdGUg
-cGF5bG9hZApkZjhmZDZmIGdkYnN0dWI6IGNoYW5nZSBHREJTdGF0ZS5sYXN0X3BhY2tldCB0byBH
-Qnl0ZUFycmF5Cjk1YjY2MDMgdGVzdHMvdGNnL2FhcmNoNjQ6IGFkZCB0ZXN0LXN2ZS1pb2N0bCBn
-dWVzdC1kZWJ1ZyB0ZXN0CmM4NTFmZmUgdGVzdHMvdGNnL2FhcmNoNjQ6IGFkZCBTVkUgaW90Y2wg
-dGVzdAphZGMwNGVjIHRlc3RzL3RjZy9hYXJjaDY0OiBhZGQgYSBnZGJzdHViIHRlc3RjYXNlIGZv
-ciBTVkUgcmVnaXN0ZXJzCjk2MDFhYTIgdGVzdHMvZ3Vlc3QtZGVidWc6IGFkZCBhIHNpbXBsZSB0
-ZXN0IHJ1bm5lcgo3YTJkZThmIGNvbmZpZ3VyZTogYWxsb3cgdXNlciB0byBzcGVjaWZ5IHdoYXQg
-Z2RiIHRvIHVzZQpkNzJkOWI5IHRlc3RzL3RjZy9hYXJjaDY0OiB1c2Vyc3BhY2Ugc3lzdGVtIHJl
-Z2lzdGVyIHRlc3QKZDk3NmZjNyB0YXJnZXQvYXJtOiBkb24ndCBib3RoZXIgd2l0aCBpZF9hYTY0
-cGZyMF9yZWFkIGZvciBVU0VSX09OTFkKNDkzMDMzYyB0YXJnZXQvYXJtOiBnZW5lcmF0ZSB4bWwg
-ZGVzY3JpcHRpb24gb2Ygb3VyIFNWRSByZWdpc3RlcnMKODE0YTg5YiB0YXJnZXQvYXJtOiBkZWZh
-dWx0IFNWRSBsZW5ndGggdG8gNjQgYnl0ZXMgZm9yIGxpbnV4LXVzZXIKYjlmNzIxNiB0YXJnZXQv
-YXJtOiBleHBsaWNpdGx5IGVuY29kZSByZWdudW0gaW4gb3VyIFhNTAoyMmQwZTY2IHRhcmdldC9h
-cm06IHByZXBhcmUgZm9yIG11bHRpcGxlIGR5bmFtaWMgWE1Mcwo2MzU1OGJhIGdkYnN0dWI6IGV4
-dGVuZCBHQnl0ZUFycmF5IHRvIHJlYWQgcmVnaXN0ZXIgaGVscGVycwpmOTMwNGY4IHRhcmdldC9p
-Mzg2OiB1c2UgZ2RiX2dldF9yZWcgaGVscGVycwphZGMwM2JkIHRhcmdldC9tNjhrOiB1c2UgZ2Ri
-X2dldF9yZWcgaGVscGVycwplNjk5YzUxIHRhcmdldC9hcm06IHVzZSBnZGJfZ2V0X3JlZyBoZWxw
-ZXJzCmExNGM3YjEgZ2Ric3R1YjogYWRkIGhlbHBlciBmb3IgMTI4IGJpdCByZWdpc3RlcnMKMTk3
-MDVhNSBnZGJzdHViOiBtb3ZlIG1lbV9idWYgdG8gR0RCU3RhdGUgYW5kIHVzZSBHQnl0ZUFycmF5
-CjYzNjM3MzIgZ2Ric3R1YjogbW92ZSBzdHJfYnVmIHRvIEdEQlN0YXRlIGFuZCB1c2UgR1N0cmlu
-Zwo4YTM3ZjY4IGdkYnN0dWI6IHN0b3AgcGFzc2luZyBHREJTdGF0ZSAqIGFyb3VuZCBhbmQgdXNl
-IGdsb2JhbAo0YzlhZmMwIGdkYnN0dWI6IG1ha2UgR0RCU3RhdGUgc3RhdGljIGFuZCBoYXZlIGNv
-bW1vbiBpbml0IGZ1bmN0aW9uCjhmZTFiN2QgdHJhdmlzLnltbDogU2V0IEdfTUVTU0FHRVNfREVC
-VUcgZG8gcmVwb3J0IEdMaWIgZXJyb3JzCjRiYjllZWUgdGVzdHMvZG9ja2VyOiBVcGRhdGUgVmly
-R0wgdG8gdjAuOC4wCmE0MTY5ODkgdGVzdHMvZG9ja2VyOiBSZW1vdmUgb2Jzb2xldGUgVmlyR0wg
-LS13aXRoLWdseCBjb25maWd1cmUgb3B0aW9uCjNkYTY0NzAgdGVzdHMvZG9ja2VyOiBVcGRhdGUg
-VmlyR0wgZ2l0IHJlcG9zaXRvcnkgVVJMCmVmYjQzNzcgdGVzdHMvZG9ja2VyOiBJbnN0YWxsIHRv
-b2xzIHRvIGNyb3NzLWRlYnVnIGFuZCBidWlsZCBMaW51eCBrZXJuZWxzCgo9PT0gT1VUUFVUIEJF
-R0lOID09PQoxLzI4IENoZWNraW5nIGNvbW1pdCBlZmI0Mzc3ZGNlOTcgKHRlc3RzL2RvY2tlcjog
-SW5zdGFsbCB0b29scyB0byBjcm9zcy1kZWJ1ZyBhbmQgYnVpbGQgTGludXgga2VybmVscykKMi8y
-OCBDaGVja2luZyBjb21taXQgM2RhNjQ3MDBjYjgwICh0ZXN0cy9kb2NrZXI6IFVwZGF0ZSBWaXJH
-TCBnaXQgcmVwb3NpdG9yeSBVUkwpCjMvMjggQ2hlY2tpbmcgY29tbWl0IGE0MTY5ODkxZTk3MCAo
-dGVzdHMvZG9ja2VyOiBSZW1vdmUgb2Jzb2xldGUgVmlyR0wgLS13aXRoLWdseCBjb25maWd1cmUg
-b3B0aW9uKQo0LzI4IENoZWNraW5nIGNvbW1pdCA0YmI5ZWVlODI3ZTYgKHRlc3RzL2RvY2tlcjog
-VXBkYXRlIFZpckdMIHRvIHYwLjguMCkKNS8yOCBDaGVja2luZyBjb21taXQgOGZlMWI3ZDNmOWEy
-ICh0cmF2aXMueW1sOiBTZXQgR19NRVNTQUdFU19ERUJVRyBkbyByZXBvcnQgR0xpYiBlcnJvcnMp
-CjYvMjggQ2hlY2tpbmcgY29tbWl0IDRjOWFmYzBjNzE4MCAoZ2Ric3R1YjogbWFrZSBHREJTdGF0
-ZSBzdGF0aWMgYW5kIGhhdmUgY29tbW9uIGluaXQgZnVuY3Rpb24pCkVSUk9SOiBicmFjZXMge30g
-YXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzEyODogRklMRTog
-Z2Ric3R1Yi5jOjI3NDM6CisgICAgaWYgKCFnZGJzZXJ2ZXJfc3RhdGUuaW5pdCkKWy4uLl0KCkVS
-Uk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICgyLCA2
-KQojMTc4OiBGSUxFOiBnZGJzdHViLmM6Mjk2MjoKKyAgaWYgKCFnZGJzZXJ2ZXJfc3RhdGUuaW5p
-dCkgewogICAgICAgcmV0dXJuOwoKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRp
-dGlvbmFsIHN0YXRlbWVudHMgKDIsIDYpCiMxODM6IEZJTEU6IGdkYnN0dWIuYzoyOTY2OgorICBp
-ZiAoZ2Ric2VydmVyX2ZkIDwgMCB8fCBnZGJzZXJ2ZXJfc3RhdGUuZmQgPCAwKSB7CiAgICAgICBy
-ZXR1cm47Cgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDM4NCBsaW5lcyBjaGVja2VkCgpQ
-YXRjaCA2LzI4IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
-aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
-aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo3LzI4IENoZWNraW5nIGNvbW1p
-dCA4YTM3ZjY4YmJmOGEgKGdkYnN0dWI6IHN0b3AgcGFzc2luZyBHREJTdGF0ZSAqIGFyb3VuZCBh
-bmQgdXNlIGdsb2JhbCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzc1NjogRklM
-RTogZ2Ric3R1Yi5jOjE3NjI6CisgICAgaWYgKHRhcmdldF9tZW1vcnlfcndfZGVidWcoZ2Ric2Vy
-dmVyX3N0YXRlLmdfY3B1LCBnZGJfY3R4LT5wYXJhbXNbMF0udmFsX3VsbCwKCldBUk5JTkc6IGxp
-bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM3ODQ6IEZJTEU6IGdkYnN0dWIuYzoxNzg1OgorICAgIGlm
-ICh0YXJnZXRfbWVtb3J5X3J3X2RlYnVnKGdkYnNlcnZlcl9zdGF0ZS5nX2NwdSwgZ2RiX2N0eC0+
-cGFyYW1zWzBdLnZhbF91bGwsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTAx
-MTogRklMRTogZ2Ric3R1Yi5jOjIwMjI6CisgICAgZ2Ric2VydmVyX3N0YXRlLnF1ZXJ5X2NwdSA9
-IGdkYl9uZXh0X2F0dGFjaGVkX2NwdShnZGJzZXJ2ZXJfc3RhdGUucXVlcnlfY3B1KTsKCkVSUk9S
-OiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTM3MjogRklMRTogZ2Ric3R1Yi5jOjI4MTc6Cisg
-ICAgICAgICAgICBwdXRfYnVmZmVyKCh1aW50OF90ICopZ2Ric2VydmVyX3N0YXRlLmxhc3RfcGFj
-a2V0LCBnZGJzZXJ2ZXJfc3RhdGUubGFzdF9wYWNrZXRfbGVuKTsKCkVSUk9SOiBzcGFjZSByZXF1
-aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiMxMzkwOiBGSUxFOiBnZGJzdHVi
-LmM6MjgzNjoKKyAgICAgICAgc3dpdGNoKGdkYnNlcnZlcl9zdGF0ZS5zdGF0ZSkgewoKRVJST1I6
-IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxNDIyOiBGSUxFOiBnZGJzdHViLmM6Mjg1OToKKyAg
-ICAgICAgICAgIH0gZWxzZSBpZiAoZ2Ric2VydmVyX3N0YXRlLmxpbmVfYnVmX2luZGV4ID49IHNp
-emVvZihnZGJzZXJ2ZXJfc3RhdGUubGluZV9idWYpIC0gMSkgewoKRVJST1I6IGxpbmUgb3ZlciA5
-MCBjaGFyYWN0ZXJzCiMxNDQwOiBGSUxFOiBnZGJzdHViLmM6Mjg3MjoKKyAgICAgICAgICAgIH0g
-ZWxzZSBpZiAoZ2Ric2VydmVyX3N0YXRlLmxpbmVfYnVmX2luZGV4ID49IHNpemVvZihnZGJzZXJ2
-ZXJfc3RhdGUubGluZV9idWYpIC0gMSkgewoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzE0NTA6IEZJTEU6IGdkYnN0dWIuYzoyODc4OgorICAgICAgICAgICAgICAgIGdkYnNlcnZl
-cl9zdGF0ZS5saW5lX2J1ZltnZGJzZXJ2ZXJfc3RhdGUubGluZV9idWZfaW5kZXgrK10gPSBjaCBe
-IDB4MjA7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzE0NjY6IEZJTEU6IGdkYnN0
-dWIuYzoyODk1OgorICAgICAgICAgICAgICAgIGlmIChnZGJzZXJ2ZXJfc3RhdGUubGluZV9idWZf
-aW5kZXggKyByZXBlYXQgPj0gc2l6ZW9mKGdkYnNlcnZlcl9zdGF0ZS5saW5lX2J1ZikgLSAxKSB7
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTQ4NDogRklMRTogZ2Ric3R1Yi5j
-OjI5MDU6CisgICAgICAgICAgICAgICAgICAgIG1lbXNldChnZGJzZXJ2ZXJfc3RhdGUubGluZV9i
-dWYgKyBnZGJzZXJ2ZXJfc3RhdGUubGluZV9idWZfaW5kZXgsCgpFUlJPUjogbGluZSBvdmVyIDkw
-IGNoYXJhY3RlcnMKIzE0ODU6IEZJTEU6IGdkYnN0dWIuYzoyOTA2OgorICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgZ2Ric2VydmVyX3N0YXRlLmxpbmVfYnVmW2dkYnNlcnZlcl9zdGF0ZS5saW5l
-X2J1Zl9pbmRleCAtIDFdLCByZXBlYXQpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzE1MjA6IEZJTEU6IGdkYnN0dWIuYzoyOTMzOgorICAgICAgICAgICAgaWYgKGdkYnNlcnZl
-cl9zdGF0ZS5saW5lX2NzdW0gIT0gKGdkYnNlcnZlcl9zdGF0ZS5saW5lX3N1bSAmIDB4ZmYpKSB7
-CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzE1MjE6IEZJTEU6IGdkYnN0dWIuYzoy
-OTM0OgorICAgICAgICAgICAgICAgIHRyYWNlX2dkYnN0dWJfZXJyX2NoZWNrc3VtX2luY29ycmVj
-dChnZGJzZXJ2ZXJfc3RhdGUubGluZV9zdW0sIGdkYnNlcnZlcl9zdGF0ZS5saW5lX2NzdW0pOwoK
-V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE1MzQ6IEZJTEU6IGdkYnN0dWIuYzoy
-OTQzOgorICAgICAgICAgICAgICAgIGdkYnNlcnZlcl9zdGF0ZS5zdGF0ZSA9IGdkYl9oYW5kbGVf
-cGFja2V0KGdkYnNlcnZlcl9zdGF0ZS5saW5lX2J1Zik7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNo
-YXJhY3RlcnMKIzE2NDk6IEZJTEU6IGdkYnN0dWIuYzozMzA1OgorICAgICAgICBxc29ydChnZGJz
-ZXJ2ZXJfc3RhdGUucHJvY2Vzc2VzLCBnZGJzZXJ2ZXJfc3RhdGUucHJvY2Vzc19udW0sIHNpemVv
-ZihnZGJzZXJ2ZXJfc3RhdGUucHJvY2Vzc2VzWzBdKSwgcGlkX29yZGVyKTsKCnRvdGFsOiA4IGVy
-cm9ycywgNyB3YXJuaW5ncywgMTU1MyBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzI4IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCgo4LzI4IENoZWNraW5nIGNvbW1pdCA2MzYzNzMyZGM1YzggKGdk
-YnN0dWI6IG1vdmUgc3RyX2J1ZiB0byBHREJTdGF0ZSBhbmQgdXNlIEdTdHJpbmcpCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNTA6IEZJTEU6IGdkYnN0dWIuYzoxNzk0OgorICAg
-IG1lbXRvaGV4KGdkYnNlcnZlcl9zdGF0ZS5zdHJfYnVmLCBnZGJfY3R4LT5tZW1fYnVmLCBnZGJf
-Y3R4LT5wYXJhbXNbMV0udmFsX3VsbCk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojMzIzOiBGSUxFOiBnZGJzdHViLmM6MjEwNzoKKyAgICBnX3N0cmluZ19wcmludGYoZ2Ric2Vy
-dmVyX3N0YXRlLnN0cl9idWYsICJQYWNrZXRTaXplPSV4IiwgTUFYX1BBQ0tFVF9MRU5HVEgpOwoK
-dG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCA0MjIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8y
-OCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzI4IENoZWNraW5nIGNvbW1pdCAxOTcwNWE1
-MjNkZTQgKGdkYnN0dWI6IG1vdmUgbWVtX2J1ZiB0byBHREJTdGF0ZSBhbmQgdXNlIEdCeXRlQXJy
-YXkpCjEwLzI4IENoZWNraW5nIGNvbW1pdCBhMTRjN2IxZWU3NGMgKGdkYnN0dWI6IGFkZCBoZWxw
-ZXIgZm9yIDEyOCBiaXQgcmVnaXN0ZXJzKQoxMS8yOCBDaGVja2luZyBjb21taXQgZTY5OWM1MTI4
-OWM3ICh0YXJnZXQvYXJtOiB1c2UgZ2RiX2dldF9yZWcgaGVscGVycykKRVJST1I6IHNwYWNlIHJl
-cXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojNDU6IEZJTEU6IHRhcmdldC9hcm0vaGVs
-cGVyLmM6MTE5OgorICAgICAgICByZXR1cm4gZ2RiX2dldF9yZWczMihidWYsdmZwX2dldF9mcGNy
-KGVudikpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMSBlcnJv
-cnMsIDAgd2FybmluZ3MsIDI4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDExLzI4IGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCgoxMi8yOCBDaGVja2luZyBjb21taXQgYWRjMDNiZDU5ZGVkICh0YXJn
-ZXQvbTY4azogdXNlIGdkYl9nZXRfcmVnIGhlbHBlcnMpCjEzLzI4IENoZWNraW5nIGNvbW1pdCBm
-OTMwNGY4ZTJkMWUgKHRhcmdldC9pMzg2OiB1c2UgZ2RiX2dldF9yZWcgaGVscGVycykKRVJST1I6
-IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnKicgKGN0eDpCeFcpCiM2MjogRklMRTogdGFy
-Z2V0L2kzODYvZ2Ric3R1Yi5jOjI5MDoKKyAgICAgICAgZnAtPmxvdyA9IGxlNjRfdG9fY3B1KCog
-KHVpbnQ2NF90ICopIG1lbV9idWYpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhhdCAnKicgKGN0eDpCeFcpCiM2MzogRklM
-RTogdGFyZ2V0L2kzODYvZ2Ric3R1Yi5jOjI5MToKKyAgICAgICAgZnAtPmhpZ2ggPSBsZTE2X3Rv
-X2NwdSgqICh1aW50MTZfdCAqKSAobWVtX2J1ZiArIDgpKTsKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDQ3IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDEzLzI4IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
-eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
-bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNC8yOCBDaGVja2lu
-ZyBjb21taXQgNjM1NThiYWUyMjI3IChnZGJzdHViOiBleHRlbmQgR0J5dGVBcnJheSB0byByZWFk
-IHJlZ2lzdGVyIGhlbHBlcnMpCkVSUk9SOiAiZm9vICogYmFyIiBzaG91bGQgYmUgImZvbyAqYmFy
-IgojMTk4OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZ2Ric3R1Yi5oOjEzNjoKK3N0YXRpYyBpbmxpbmUg
-dWludDhfdCAqIGdkYl9nZXRfcmVnX3B0cihHQnl0ZUFycmF5ICpidWYsIGludCBsZW4pCgp0b3Rh
-bDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDkxOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNC8yOCBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTUvMjggQ2hlY2tpbmcgY29tbWl0IDIyZDBlNjZm
-NTc4ZSAodGFyZ2V0L2FybTogcHJlcGFyZSBmb3IgbXVsdGlwbGUgZHluYW1pYyBYTUxzKQpFUlJP
-UjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzEyODogRklMRTogdGFyZ2V0L2FybS9nZGJzdHVi
-LmM6MTU5OgorICAgIGNwdS0+ZHluX3N5c3JlZ194bWwuZGF0YS5jcHJlZ3Mua2V5cyA9IGdfbmV3
-KHVpbnQzMl90LCBnX2hhc2hfdGFibGVfc2l6ZShjcHUtPmNwX3JlZ3MpKTsKCnRvdGFsOiAxIGVy
-cm9ycywgMCB3YXJuaW5ncywgMTM2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE1LzI4IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCgoxNi8yOCBDaGVja2luZyBjb21taXQgYjlmNzIxNjNhYjkwICh0
-YXJnZXQvYXJtOiBleHBsaWNpdGx5IGVuY29kZSByZWdudW0gaW4gb3VyIFhNTCkKMTcvMjggQ2hl
-Y2tpbmcgY29tbWl0IDgxNGE4OWIzYTYwYyAodGFyZ2V0L2FybTogZGVmYXVsdCBTVkUgbGVuZ3Ro
-IHRvIDY0IGJ5dGVzIGZvciBsaW51eC11c2VyKQoxOC8yOCBDaGVja2luZyBjb21taXQgNDkzMDMz
-Y2VmNzBhICh0YXJnZXQvYXJtOiBnZW5lcmF0ZSB4bWwgZGVzY3JpcHRpb24gb2Ygb3VyIFNWRSBy
-ZWdpc3RlcnMpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMDg6IEZJTEU6IHRh
-cmdldC9hcm0vZ2Ric3R1Yi5jOjIzMzoKKyAgICAgICAgICAgICAgICBnX3N0cmluZ19hcHBlbmRf
-cHJpbnRmKHMsICI8ZmllbGQgbmFtZT1cIiVjXCIgdHlwZT1cInZxJWQlYyVjXCIvPiIsCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzI5OiBGSUxFOiB0YXJnZXQvYXJtL2hlbHBl
-ci5jOjgwNzQ6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYXJtX2dlbl9k
-eW5hbWljX3N2ZXJlZ194bWwoY3MsIGNzLT5nZGJfbnVtX3JlZ3MpLAoKdG90YWw6IDAgZXJyb3Jz
-LCAyIHdhcm5pbmdzLCAzMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTgvMjggaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KMTkvMjggQ2hlY2tpbmcgY29tbWl0IGQ5NzZmYzczNzhiZiAodGFyZ2V0
-L2FybTogZG9uJ3QgYm90aGVyIHdpdGggaWRfYWE2NHBmcjBfcmVhZCBmb3IgVVNFUl9PTkxZKQoy
-MC8yOCBDaGVja2luZyBjb21taXQgZDcyZDliOWE0ZjIxICh0ZXN0cy90Y2cvYWFyY2g2NDogdXNl
-cnNwYWNlIHN5c3RlbSByZWdpc3RlciB0ZXN0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzMzogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0
-eDpWeFYpCiMxNTI6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3MuYzoxMTU6CisgICAg
-Z2V0X2NwdV9yZWdfY2hlY2tfbWFzayhpZF9hYTY0aXNhcjBfZWwxLCBfbSgwMGZmLGZmZmYsZjBm
-ZixmZmYwKSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQoj
-MTUyOiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTE1OgorICAgIGdldF9jcHVf
-cmVnX2NoZWNrX21hc2soaWRfYWE2NGlzYXIwX2VsMSwgX20oMDBmZixmZmZmLGYwZmYsZmZmMCkp
-OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTUy
-OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTE1OgorICAgIGdldF9jcHVfcmVn
-X2NoZWNrX21hc2soaWRfYWE2NGlzYXIwX2VsMSwgX20oMDBmZixmZmZmLGYwZmYsZmZmMCkpOwog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiMx
-NTM6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3MuYzoxMTY6CisgICAgZ2V0X2NwdV9y
-ZWdfY2hlY2tfbWFzayhpZF9hYTY0aXNhcjFfZWwxLCBfbSgwMDAwLDAwZjAsZmZmZixmZmZmKSk7
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTUzOiBGSUxF
-OiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTE2OgorICAgIGdldF9jcHVfcmVnX2NoZWNr
-X21hc2soaWRfYWE2NGlzYXIxX2VsMSwgX20oMDAwMCwwMGYwLGZmZmYsZmZmZikpOwogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
-T1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTUzOiBGSUxFOiB0
-ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTE2OgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21h
-c2soaWRfYWE2NGlzYXIxX2VsMSwgX20oMDAwMCwwMGYwLGZmZmYsZmZmZikpOwogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiMxNTU6IEZJTEU6
-IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3MuYzoxMTg6CisgICAgZ2V0X2NwdV9yZWdfY2hlY2tf
-bWFzayhpZF9hYTY0bW1mcjBfZWwxLCBfbSgwMDAwLDAwMDAsZmYwMCwwMDAwKSk7CiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
-YWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTU1OiBGSUxFOiB0ZXN0cy90
-Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTE4OgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRf
-YWE2NG1tZnIwX2VsMSwgX20oMDAwMCwwMDAwLGZmMDAsMDAwMCkpOwogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
-IHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTU1OiBGSUxFOiB0ZXN0cy90Y2cv
-YWFyY2g2NC9zeXNyZWdzLmM6MTE4OgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2
-NG1tZnIwX2VsMSwgX20oMDAwMCwwMDAwLGZmMDAsMDAwMCkpOwogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiMxNTg6IEZJTEU6IHRlc3RzL3Rj
-Zy9hYXJjaDY0L3N5c3JlZ3MuYzoxMjE6CisgICAgZ2V0X2NwdV9yZWdfY2hlY2tfbWFzayhpZF9h
-YTY0cGZyMF9lbDEsICBfbSgwMDBmLDAwMGYsMDBmZiwwMDExKSk7CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVp
-cmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTU4OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2
-NC9zeXNyZWdzLmM6MTIxOgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NHBmcjBf
-ZWwxLCAgX20oMDAwZiwwMDBmLDAwZmYsMDAxMSkpOwogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVk
-IGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTU4OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9z
-eXNyZWdzLmM6MTIxOgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NHBmcjBfZWwx
-LCAgX20oMDAwZiwwMDBmLDAwZmYsMDAxMSkpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWly
-ZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiMxNTk6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0
-L3N5c3JlZ3MuYzoxMjI6CisgICAgZ2V0X2NwdV9yZWdfY2hlY2tfbWFzayhpZF9hYTY0cGZyMV9l
-bDEsICBfbSgwMDAwLDAwMDAsMDAwMCwwMGYwKSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVy
-IHRoYXQgJywnIChjdHg6VnhWKQojMTU5OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdz
-LmM6MTIyOgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NHBmcjFfZWwxLCAgX20o
-MDAwMCwwMDAwLDAwMDAsMDBmMCkpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRo
-YXQgJywnIChjdHg6VnhWKQojMTU5OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6
-MTIyOgorICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NHBmcjFfZWwxLCAgX20oMDAw
-MCwwMDAwLDAwMDAsMDBmMCkpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIg
-dGhhdCAnLCcgKGN0eDpWeFYpCiMxNjE6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3Mu
-YzoxMjQ6CisgICAgZ2V0X2NwdV9yZWdfY2hlY2tfbWFzayhpZF9hYTY0ZGZyMF9lbDEsICBfbSgw
-MDAwLDAwMDAsMDAwMCwwMDA2KSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywn
-IChjdHg6VnhWKQojMTYxOiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTI0Ogor
-ICAgIGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NGRmcjBfZWwxLCAgX20oMDAwMCwwMDAw
-LDAwMDAsMDAwNikpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChj
-dHg6VnhWKQojMTYxOiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTI0OgorICAg
-IGdldF9jcHVfcmVnX2NoZWNrX21hc2soaWRfYWE2NGRmcjBfZWwxLCAgX20oMDAwMCwwMDAwLDAw
-MDAsMDAwNikpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcg
-KGN0eDpWeFYpCiMxNjg6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3MuYzoxMzE6Cisg
-ICAgZ2V0X2NwdV9yZWdfY2hlY2tfbWFzayhtaWRyX2VsMSwgICAgICAgICBfbSgwMDAwLDAwMDAs
-ZmZmZixmZmZmKSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhW
-KQojMTY4OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTMxOgorICAgIGdldF9j
-cHVfcmVnX2NoZWNrX21hc2sobWlkcl9lbDEsICAgICAgICAgX20oMDAwMCwwMDAwLGZmZmYsZmZm
-ZikpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQoj
-MTY4OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTMxOgorICAgIGdldF9jcHVf
-cmVnX2NoZWNrX21hc2sobWlkcl9lbDEsICAgICAgICAgX20oMDAwMCwwMDAwLGZmZmYsZmZmZikp
-OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYp
-CiMxNzA6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L3N5c3JlZ3MuYzoxMzM6CisgICAgZ2V0X2Nw
-dV9yZWdfY2hlY2tfbWFzayhtcGlkcl9lbDEsICAgICAgICBfbSgwMDAwLDAwMDAsODAwMCwwMDAw
-KSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-XgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTcwOiBG
-SUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTMzOgorICAgIGdldF9jcHVfcmVnX2No
-ZWNrX21hc2sobXBpZHJfZWwxLCAgICAgICAgX20oMDAwMCwwMDAwLDgwMDAsMDAwMCkpOwogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTcwOiBGSUxF
-OiB0ZXN0cy90Y2cvYWFyY2g2NC9zeXNyZWdzLmM6MTMzOgorICAgIGdldF9jcHVfcmVnX2NoZWNr
-X21hc2sobXBpZHJfZWwxLCAgICAgICAgX20oMDAwMCwwMDAwLDgwMDAsMDAwMCkpOwogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
-Cgp0b3RhbDogMjQgZXJyb3JzLCAxIHdhcm5pbmdzLCAxODIgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-MjAvMjggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIxLzI4IENoZWNraW5nIGNvbW1pdCA3
-YTJkZThmYjVmMmQgKGNvbmZpZ3VyZTogYWxsb3cgdXNlciB0byBzcGVjaWZ5IHdoYXQgZ2RiIHRv
-IHVzZSkKMjIvMjggQ2hlY2tpbmcgY29tbWl0IDk2MDFhYTI3Y2U5NCAodGVzdHMvZ3Vlc3QtZGVi
-dWc6IGFkZCBhIHNpbXBsZSB0ZXN0IHJ1bm5lcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
-bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTY6IApuZXcg
-ZmlsZSBtb2RlIDEwMDc1NQoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM3MzogRklM
-RTogdGVzdHMvZ3Vlc3QtZGVidWcvcnVuLXRlc3QucHk6NTM6CisgICAgZ2RiX2NtZCA9ICIlcyAl
-cyAtZXggJ3RhcmdldCByZW1vdGUgbG9jYWxob3N0OjEyMzQnIC14ICVzIiAlIChhcmdzLmdkYiwg
-YXJncy5iaW5hcnksIGFyZ3MudGVzdCkKCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgNTcg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIz
-LzI4IENoZWNraW5nIGNvbW1pdCBhZGMwNGVjZDJhZWMgKHRlc3RzL3RjZy9hYXJjaDY0OiBhZGQg
-YSBnZGJzdHViIHRlc3RjYXNlIGZvciBTVkUgcmVnaXN0ZXJzKQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1
-NDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEw
-OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMy8yOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoy
-NC8yOCBDaGVja2luZyBjb21taXQgYzg1MWZmZTRiMjk0ICh0ZXN0cy90Y2cvYWFyY2g2NDogYWRk
-IFNWRSBpb3RjbCB0ZXN0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMp
-LCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNDogCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDI0LzI4IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI1LzI4IENoZWNraW5nIGNvbW1pdCA5
-NWI2NjAzYTRiYTIgKHRlc3RzL3RjZy9hYXJjaDY0OiBhZGQgdGVzdC1zdmUtaW9jdGwgZ3Vlc3Qt
-ZGVidWcgdGVzdCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9l
-cyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoK
-dG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMDYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjUv
-MjggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMjYvMjggQ2hlY2tpbmcgY29tbWl0IGRmOGZk
-NmZkYmQ0MiAoZ2Ric3R1YjogY2hhbmdlIEdEQlN0YXRlLmxhc3RfcGFja2V0IHRvIEdCeXRlQXJy
-YXkpCjI3LzI4IENoZWNraW5nIGNvbW1pdCBlNjU2MTYzNjIyY2IgKGdkYnN0dWI6IGRvIG5vdCBz
-cGxpdCBnZGJfbW9uaXRvcl93cml0ZSBwYXlsb2FkKQoyOC8yOCBDaGVja2luZyBjb21taXQgZTA1
-MjRhZjJiYjVhIChnZGJzdHViOiBGaXggc2luZ2xlLXN0ZXAgaXNzdWUgYnkgY29uZmlybWluZyAn
-dkNvbnRTdXBwb3J0ZWQrJyBmZWF0dXJlIHRvIGdkYikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0
-IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
-YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMTYxNzIxNTUuOTcxLTEtYWxleC5iZW5u
-ZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Description copied from Linux kernel commit from Gustavo A. R. Silva
+(see [3]):
+
+--v-- description start --v--
+
+  The current codebase makes use of the zero-length array language
+  extension to the C90 standard, but the preferred mechanism to
+  declare variable-length types such as these ones is a flexible
+  array member [1], introduced in C99:
+
+  struct foo {
+      int stuff;
+      struct boo array[];
+  };
+
+  By making use of the mechanism above, we will get a compiler
+  warning in case the flexible array does not occur last in the
+  structure, which will help us prevent some kind of undefined
+  behavior bugs from being unadvertenly introduced [2] to the
+  Linux codebase from now on.
+
+--^-- description end --^--
+
+Do the similar housekeeping in the QEMU codebase (which uses
+C99 since commit 7be41675f7cb).
+
+All these instances of code were found with the help of the
+following Coccinelle script:
+
+  @@
+  identifier s, m, a;
+  type t, T;
+  @@
+   struct s {
+      ...
+      t m;
+  -   T a[0];
+  +   T a[];
+  };
+  @@
+  identifier s, m, a;
+  type t, T;
+  @@
+   struct s {
+      ...
+      t m;
+  -   T a[0];
+  +   T a[];
+   } QEMU_PACKED;
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3D76497732932f
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/co=
+mmit/?id=3D17642a2fbd2c1
+
+Inspired-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/linux-aio.c                     |  2 +-
+ bsd-user/qemu.h                       |  2 +-
+ contrib/libvhost-user/libvhost-user.h |  2 +-
+ hw/acpi/nvdimm.c                      |  6 +++---
+ hw/dma/soc_dma.c                      |  2 +-
+ hw/i386/x86.c                         |  2 +-
+ hw/m68k/bootinfo.h                    |  2 +-
+ hw/misc/omap_l4.c                     |  2 +-
+ hw/nvram/eeprom93xx.c                 |  2 +-
+ hw/rdma/vmw/pvrdma_qp_ops.c           |  4 ++--
+ hw/usb/dev-network.c                  |  2 +-
+ hw/usb/dev-smartcard-reader.c         |  4 ++--
+ hw/virtio/virtio.c                    |  4 ++--
+ hw/xen/xen_pt.h                       |  2 +-
+ include/hw/acpi/acpi-defs.h           | 12 ++++++------
+ include/hw/arm/smmu-common.h          |  2 +-
+ include/hw/i386/intel_iommu.h         |  3 ++-
+ include/hw/virtio/virtio-iommu.h      |  2 +-
+ include/sysemu/cryptodev.h            |  2 +-
+ include/tcg/tcg.h                     |  2 +-
+ net/queue.c                           |  2 +-
+ pc-bios/s390-ccw/bootmap.h            |  2 +-
+ pc-bios/s390-ccw/sclp.h               |  2 +-
+ tests/qtest/libqos/ahci.h             |  2 +-
+ 24 files changed, 35 insertions(+), 34 deletions(-)
+
+diff --git a/block/linux-aio.c b/block/linux-aio.c
+index 91204a2..3c0527c 100644
+--- a/block/linux-aio.c
++++ b/block/linux-aio.c
+@@ -121,7 +121,7 @@ struct aio_ring {
+     unsigned    incompat_features;
+     unsigned    header_length;  /* size of aio_ring */
+=20
+-    struct io_event io_events[0];
++    struct io_event io_events[];
+ };
+=20
+ /**
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 09e8aed..f8bb1e5 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -95,7 +95,7 @@ typedef struct TaskState {
+     struct sigqueue *first_free; /* first free siginfo queue entry */
+     int signal_pending; /* non zero if a signal may be pending */
+=20
+-    uint8_t stack[0];
++    uint8_t stack[];
+ } __attribute__((aligned(16))) TaskState;
+=20
+ void init_task_state(TaskState *ts);
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/=
+libvhost-user.h
+index 6fc8000..f30394f 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -286,7 +286,7 @@ typedef struct VuVirtqInflight {
+     uint16_t used_idx;
+=20
+     /* Used to track the state of each descriptor in descriptor table */
+-    VuDescStateSplit desc[0];
++    VuDescStateSplit desc[];
+ } VuVirtqInflight;
+=20
+ typedef struct VuVirtqInflightDesc {
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 5219dd0..eb6a37b 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -485,7 +485,7 @@ struct NvdimmFuncGetLabelDataOut {
+     /* the size of buffer filled by QEMU. */
+     uint32_t len;
+     uint32_t func_ret_status; /* return status code. */
+-    uint8_t out_buf[0]; /* the data got via Get Namesapce Label function. =
+*/
++    uint8_t out_buf[]; /* the data got via Get Namesapce Label function. *=
+/
+ } QEMU_PACKED;
+ typedef struct NvdimmFuncGetLabelDataOut NvdimmFuncGetLabelDataOut;
+ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > NVDIMM_DSM_MEMORY_SI=
+ZE);
+@@ -493,7 +493,7 @@ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > N=
+VDIMM_DSM_MEMORY_SIZE);
+ struct NvdimmFuncSetLabelDataIn {
+     uint32_t offset; /* the offset in the namespace label data area. */
+     uint32_t length; /* the size of data is to be written via the function=
+. */
+-    uint8_t in_buf[0]; /* the data written to label data area. */
++    uint8_t in_buf[]; /* the data written to label data area. */
+ } QEMU_PACKED;
+ typedef struct NvdimmFuncSetLabelDataIn NvdimmFuncSetLabelDataIn;
+ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncSetLabelDataIn) +
+@@ -510,7 +510,7 @@ struct NvdimmFuncReadFITOut {
+     /* the size of buffer filled by QEMU. */
+     uint32_t len;
+     uint32_t func_ret_status; /* return status code. */
+-    uint8_t fit[0]; /* the FIT data. */
++    uint8_t fit[]; /* the FIT data. */
+ } QEMU_PACKED;
+ typedef struct NvdimmFuncReadFITOut NvdimmFuncReadFITOut;
+ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncReadFITOut) > NVDIMM_DSM_MEMORY_SIZE);
+diff --git a/hw/dma/soc_dma.c b/hw/dma/soc_dma.c
+index c3e4158..3a43005 100644
+--- a/hw/dma/soc_dma.c
++++ b/hw/dma/soc_dma.c
+@@ -80,7 +80,7 @@ struct dma_s {
+     } *memmap;
+     int memmap_size;
+=20
+-    struct soc_dma_ch_s ch[0];
++    struct soc_dma_ch_s ch[];
+ };
+=20
+ static void soc_dma_ch_schedule(struct soc_dma_ch_s *ch, int delay_bytes)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 7f38e6b..0824652 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -328,7 +328,7 @@ struct setup_data {
+     uint64_t next;
+     uint32_t type;
+     uint32_t len;
+-    uint8_t data[0];
++    uint8_t data[];
+ } __attribute__((packed));
+=20
+=20
+diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+index 5f8ded2..c954270 100644
+--- a/hw/m68k/bootinfo.h
++++ b/hw/m68k/bootinfo.h
+@@ -14,7 +14,7 @@
+ struct bi_record {
+     uint16_t tag;        /* tag ID */
+     uint16_t size;       /* size of record */
+-    uint32_t data[0];    /* data */
++    uint32_t data[];     /* data */
+ };
+=20
+ /* machine independent tags */
+diff --git a/hw/misc/omap_l4.c b/hw/misc/omap_l4.c
+index 61b6df5..54aeaec 100644
+--- a/hw/misc/omap_l4.c
++++ b/hw/misc/omap_l4.c
+@@ -24,7 +24,7 @@ struct omap_l4_s {
+     MemoryRegion *address_space;
+     hwaddr base;
+     int ta_num;
+-    struct omap_target_agent_s ta[0];
++    struct omap_target_agent_s ta[];
+ };
+=20
+ struct omap_l4_s *omap_l4_init(MemoryRegion *address_space,
+diff --git a/hw/nvram/eeprom93xx.c b/hw/nvram/eeprom93xx.c
+index 07f0954..ca6f591 100644
+--- a/hw/nvram/eeprom93xx.c
++++ b/hw/nvram/eeprom93xx.c
+@@ -86,7 +86,7 @@ struct _eeprom_t {
+     uint8_t  addrbits;
+     uint16_t size;
+     uint16_t data;
+-    uint16_t contents[0];
++    uint16_t contents[];
+ };
+=20
+ /* Code for saving and restoring of EEPROM state. */
+diff --git a/hw/rdma/vmw/pvrdma_qp_ops.c b/hw/rdma/vmw/pvrdma_qp_ops.c
+index bd6db85..8050287 100644
+--- a/hw/rdma/vmw/pvrdma_qp_ops.c
++++ b/hw/rdma/vmw/pvrdma_qp_ops.c
+@@ -34,13 +34,13 @@ typedef struct CompHandlerCtx {
+ /* Send Queue WQE */
+ typedef struct PvrdmaSqWqe {
+     struct pvrdma_sq_wqe_hdr hdr;
+-    struct pvrdma_sge sge[0];
++    struct pvrdma_sge sge[];
+ } PvrdmaSqWqe;
+=20
+ /* Recv Queue WQE */
+ typedef struct PvrdmaRqWqe {
+     struct pvrdma_rq_wqe_hdr hdr;
+-    struct pvrdma_sge sge[0];
++    struct pvrdma_sge sge[];
+ } PvrdmaRqWqe;
+=20
+ /*
+diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
+index 9a78ad9..6210427 100644
+--- a/hw/usb/dev-network.c
++++ b/hw/usb/dev-network.c
+@@ -626,7 +626,7 @@ static const uint32_t oid_supported_list[] =3D
+ struct rndis_response {
+     QTAILQ_ENTRY(rndis_response) entries;
+     uint32_t length;
+-    uint8_t buf[0];
++    uint8_t buf[];
+ };
+=20
+ typedef struct USBNetState {
+diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
+index 02693a2..ef72738 100644
+--- a/hw/usb/dev-smartcard-reader.c
++++ b/hw/usb/dev-smartcard-reader.c
+@@ -227,7 +227,7 @@ typedef struct QEMU_PACKED CCID_Parameter {
+ typedef struct QEMU_PACKED CCID_DataBlock {
+     CCID_BULK_IN b;
+     uint8_t      bChainParameter;
+-    uint8_t      abData[0];
++    uint8_t      abData[];
+ } CCID_DataBlock;
+=20
+ /* 6.1.4 PC_to_RDR_XfrBlock */
+@@ -235,7 +235,7 @@ typedef struct QEMU_PACKED CCID_XferBlock {
+     CCID_Header  hdr;
+     uint8_t      bBWI; /* Block Waiting Timeout */
+     uint16_t     wLevelParameter; /* XXX currently unused */
+-    uint8_t      abData[0];
++    uint8_t      abData[];
+ } CCID_XferBlock;
+=20
+ typedef struct QEMU_PACKED CCID_IccPowerOn {
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b2d415e..b6c8ef5 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -54,7 +54,7 @@ typedef struct VRingAvail
+ {
+     uint16_t flags;
+     uint16_t idx;
+-    uint16_t ring[0];
++    uint16_t ring[];
+ } VRingAvail;
+=20
+ typedef struct VRingUsedElem
+@@ -67,7 +67,7 @@ typedef struct VRingUsed
+ {
+     uint16_t flags;
+     uint16_t idx;
+-    VRingUsedElem ring[0];
++    VRingUsedElem ring[];
+ } VRingUsed;
+=20
+ typedef struct VRingMemoryRegionCaches {
+diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+index 9167bba..179775d 100644
+--- a/hw/xen/xen_pt.h
++++ b/hw/xen/xen_pt.h
+@@ -203,7 +203,7 @@ typedef struct XenPTMSIX {
+     uint64_t mmio_base_addr;
+     MemoryRegion mmio;
+     void *phys_iomem_base;
+-    XenPTMSIXEntry msix_entry[0];
++    XenPTMSIXEntry msix_entry[];
+ } XenPTMSIX;
+=20
+ struct XenPCIPassthroughState {
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index 57a3f58..19f7ba7 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -518,7 +518,7 @@ struct AcpiDmarDeviceScope {
+     struct {
+         uint8_t device;
+         uint8_t function;
+-    } path[0];
++    } path[];
+ } QEMU_PACKED;
+ typedef struct AcpiDmarDeviceScope AcpiDmarDeviceScope;
+=20
+@@ -530,7 +530,7 @@ struct AcpiDmarHardwareUnit {
+     uint8_t reserved;
+     uint16_t pci_segment;   /* The PCI Segment associated with this unit *=
+/
+     uint64_t address;   /* Base address of remapping hardware register-set=
+ */
+-    AcpiDmarDeviceScope scope[0];
++    AcpiDmarDeviceScope scope[];
+ } QEMU_PACKED;
+ typedef struct AcpiDmarHardwareUnit AcpiDmarHardwareUnit;
+=20
+@@ -541,7 +541,7 @@ struct AcpiDmarRootPortATS {
+     uint8_t flags;
+     uint8_t reserved;
+     uint16_t pci_segment;
+-    AcpiDmarDeviceScope scope[0];
++    AcpiDmarDeviceScope scope[];
+ } QEMU_PACKED;
+ typedef struct AcpiDmarRootPortATS AcpiDmarRootPortATS;
+=20
+@@ -604,7 +604,7 @@ typedef struct AcpiIortMemoryAccess AcpiIortMemoryAcces=
+s;
+ struct AcpiIortItsGroup {
+     ACPI_IORT_NODE_HEADER_DEF
+     uint32_t its_count;
+-    uint32_t identifiers[0];
++    uint32_t identifiers[];
+ } QEMU_PACKED;
+ typedef struct AcpiIortItsGroup AcpiIortItsGroup;
+=20
+@@ -621,7 +621,7 @@ struct AcpiIortSmmu3 {
+     uint32_t pri_gsiv;
+     uint32_t gerr_gsiv;
+     uint32_t sync_gsiv;
+-    AcpiIortIdMapping id_mapping_array[0];
++    AcpiIortIdMapping id_mapping_array[];
+ } QEMU_PACKED;
+ typedef struct AcpiIortSmmu3 AcpiIortSmmu3;
+=20
+@@ -630,7 +630,7 @@ struct AcpiIortRC {
+     AcpiIortMemoryAccess memory_properties;
+     uint32_t ats_attribute;
+     uint32_t pci_segment_number;
+-    AcpiIortIdMapping id_mapping_array[0];
++    AcpiIortIdMapping id_mapping_array[];
+ } QEMU_PACKED;
+ typedef struct AcpiIortRC AcpiIortRC;
+=20
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index 1f37844..ca4a4b1 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -85,7 +85,7 @@ typedef struct SMMUDevice {
+=20
+ typedef struct SMMUPciBus {
+     PCIBus       *bus;
+-    SMMUDevice   *pbdev[0]; /* Parent array is sparse, so dynamically allo=
+c */
++    SMMUDevice   *pbdev[]; /* Parent array is sparse, so dynamically alloc=
+ */
+ } SMMUPciBus;
+=20
+ typedef struct SMMUIOTLBKey {
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index a1c4afc..3870052 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -114,7 +114,8 @@ struct VTDAddressSpace {
+=20
+ struct VTDBus {
+     PCIBus* bus;=09=09/* A reference to the bus to provide translation for=
+ */
+-    VTDAddressSpace *dev_as[0];=09/* A table of VTDAddressSpace objects in=
+dexed by devfn */
++    /* A table of VTDAddressSpace objects indexed by devfn */
++    VTDAddressSpace *dev_as[];
+ };
+=20
+ struct VTDIOTLBEntry {
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-io=
+mmu.h
+index 6f67f10..e653004 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -41,7 +41,7 @@ typedef struct IOMMUDevice {
+=20
+ typedef struct IOMMUPciBus {
+     PCIBus       *bus;
+-    IOMMUDevice  *pbdev[0]; /* Parent array is sparse, so dynamically allo=
+c */
++    IOMMUDevice  *pbdev[]; /* Parent array is sparse, so dynamically alloc=
+ */
+ } IOMMUPciBus;
+=20
+ typedef struct VirtIOIOMMU {
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index a9afb7e..35eab06 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -143,7 +143,7 @@ typedef struct CryptoDevBackendSymOpInfo {
+     uint8_t *dst;
+     uint8_t *aad_data;
+     uint8_t *digest_result;
+-    uint8_t data[0];
++    uint8_t data[];
+ } CryptoDevBackendSymOpInfo;
+=20
+ typedef struct CryptoDevBackendClass {
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 54e5446..c48bd76 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -267,7 +267,7 @@ struct TCGLabel {
+ typedef struct TCGPool {
+     struct TCGPool *next;
+     int size;
+-    uint8_t data[0] __attribute__ ((aligned));
++    uint8_t data[] __attribute__ ((aligned));
+ } TCGPool;
+=20
+ #define TCG_POOL_CHUNK_SIZE 32768
+diff --git a/net/queue.c b/net/queue.c
+index 61276ca..0164727 100644
+--- a/net/queue.c
++++ b/net/queue.c
+@@ -46,7 +46,7 @@ struct NetPacket {
+     unsigned flags;
+     int size;
+     NetPacketSent *sent_cb;
+-    uint8_t data[0];
++    uint8_t data[];
+ };
+=20
+ struct NetQueue {
+diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
+index 94f53a5..12a0166 100644
+--- a/pc-bios/s390-ccw/bootmap.h
++++ b/pc-bios/s390-ccw/bootmap.h
+@@ -136,7 +136,7 @@ typedef struct BootMapScriptHeader {
+=20
+ typedef struct BootMapScript {
+     BootMapScriptHeader header;
+-    BootMapScriptEntry  entry[0];
++    BootMapScriptEntry  entry[];
+ } __attribute__ ((packed)) BootMapScript;
+=20
+ /*
+diff --git a/pc-bios/s390-ccw/sclp.h b/pc-bios/s390-ccw/sclp.h
+index 8450161..64b53ca 100644
+--- a/pc-bios/s390-ccw/sclp.h
++++ b/pc-bios/s390-ccw/sclp.h
+@@ -95,7 +95,7 @@ typedef struct EventBufferHeader {
+ typedef struct WriteEventData {
+     SCCBHeader h;
+     EventBufferHeader ebh;
+-    char data[0];
++    char data[];
+ } __attribute__((packed)) WriteEventData;
+=20
+ typedef struct ReadEventData {
+diff --git a/tests/qtest/libqos/ahci.h b/tests/qtest/libqos/ahci.h
+index f05b3e5..44ab110 100644
+--- a/tests/qtest/libqos/ahci.h
++++ b/tests/qtest/libqos/ahci.h
+@@ -351,7 +351,7 @@ typedef struct AHCIQState {
+ typedef struct FIS {
+     uint8_t fis_type;
+     uint8_t flags;
+-    char data[0];
++    char data[];
+ } __attribute__((__packed__)) FIS;
+=20
+ /**
+--=20
+1.8.3.1
+
+
 
