@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CE618732D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:16:44 +0100 (CET)
-Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3306D187332
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:18:21 +0100 (CET)
+Received: from localhost ([::1]:47390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvEB-0002oG-3c
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37073)
+	id 1jDvFk-0005T7-7y
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDuoc-0006hC-Fa
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDuod-0006jx-BS
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDuoa-0005A1-4x
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:48715)
+ (envelope-from <philmd@redhat.com>) id 1jDuoc-0005Ld-97
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:19 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38826)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuoa-000542-0Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:16 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuoc-0005JT-3z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:50:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584384615;
+ s=mimecast20190719; t=1584384617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l9x7QGG+sGPKiIwQz5wzank0pVYVupToCnuCHL1GZz0=;
- b=NG5Jr+aUMzquRxn9iW1bz4/AMG2EsMxo49wRKfLgyb5ty8MC46O4vxLxZYervEMFvki3zM
- 0ii0JlcCNZynPjGIafIR79Pey3Irct8FZSrleDu0bFCZXAar4v01Dm3yd5wER6YZo7dR8M
- 7HjldW3bedp0bXcO1tdiOjlrQzyRugQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-PPz7wE9jPzeUNQ3K83LIwg-1; Mon, 16 Mar 2020 14:50:10 -0400
-X-MC-Unique: PPz7wE9jPzeUNQ3K83LIwg-1
-Received: by mail-wr1-f71.google.com with SMTP id g4so1808873wrv.12
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:50:10 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ToHM1bRcSu3o42IHguqQBrZI8fvHPvcqixZhQVzTz6E=;
+ b=dswHuwkp/soGaKzAvCFQs0qfpLSSrFvINcLEV2QgeIePdCV79VzUzSJdFZJEFGPVpwirdP
+ bm0nf2FCv7iqPPfD08swIiY0k6qfE895vQ2vzj+AMpXZxpkp+fVHW66fP0a+/xyG+JynR2
+ Uy0Mt1fNRhl3CoPlegEZZq5LAyl4+ac=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-1eibFGHpPlGov-kvsdwdCw-1; Mon, 16 Mar 2020 14:50:15 -0400
+X-MC-Unique: 1eibFGHpPlGov-kvsdwdCw-1
+Received: by mail-wr1-f72.google.com with SMTP id v7so8264wrp.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:50:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p0B1qB6W1+B6V/iAfeHWgG1DaUKi1Fu7Es9TZCP9/cg=;
- b=VabSkRNXCfCDunG+ts1ph2xOZrZkZybrDlcxr4CmrBwcBh3iknbaYoPcXhlJhFvJ3S
- Ai+2hoxeIaC5DHCsFfG+N4JiFsZBX1qd9qRnPHDcRiDiwyweusrF0NBY57JnCjSMzYss
- cTqNph9DCsCKf25PdOpX8Qb4RIfqtTRzxwGEUOcyQ//WFDaBRzDHw9YcJoel+Yo4UyE/
- 6zMb40LCmzVlUAczv3bS/+0VLmADTNBeQoPpZ1i+PbODzeeTFbhHOSt4BuYK8U5QaTZM
- FwutIl+47KkuPNqADth65k/dBAQL59yV72qHZER+MVPkoxZXR4tqL4qyyM4WLpiIw7as
- wwWw==
-X-Gm-Message-State: ANhLgQ3ZC30xPgSpMSZApfpWlglb4g0MbgGxGAvfX/Lsb8cqltx3z5RX
- B1x3ykaGl+vT+OH0Bd/ep3xrGyxmTm3clcJLmWqd5nc6DnkqkcMBrdFx8veOpTFK9RmhBQarFkX
- j2596GvvHzEt3Pjg=
-X-Received: by 2002:adf:eec7:: with SMTP id a7mr717104wrp.405.1584384609184;
- Mon, 16 Mar 2020 11:50:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs5ST1g6I/BhwwkZF+PG09+7nVl7kYB70MZQ7zEhEV6GLnTseA268whufZSvqjbOvHWoosKBw==
-X-Received: by 2002:adf:eec7:: with SMTP id a7mr717081wrp.405.1584384608973;
- Mon, 16 Mar 2020 11:50:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dnVDi3pCdMDNavjfPIsCqusO2Yp3WpdN6v4oPIcWzd4=;
+ b=ZVl5RtbGMoUKrD+ozn0yHPDhRr0MPpV3T/BIejJpUnHleevWvnKmeg041po4I0ZA+2
+ 2/riSQu+Q2is7qneVKjzLe2hFH+8RmH2Wl+YwNmgeIqVIxtS9u1ZNyIq7kzeIsVSTcV3
+ /evKjjhLh1CtcxRIbeMxX0xhC9ONDqHOERRqLf8TvW0rwpONcbDsvevD0TgTutGiuIvK
+ qpt1260rn/2nhV929Vv/of+XXrNp0TEO1J0INwc9wg9ga9OI15hywqd5O7wHxypgkUPs
+ vYJa/Bs0uVJzKcAj+HGsFqmP38cMBPT/2oHimXMWkMG6EpKSZ6KwcjxZoymc05RmBRXK
+ OvLA==
+X-Gm-Message-State: ANhLgQ29kCD16T+SFE88ghQLYV6w65Se8XQpK8MpOw4uCIXnDxhxIPhz
+ M1tbx/zB94Ke/ZUbof7IsOqtPef9v2+JJm70iI73dqIIW2/wtMGc/X/ek9oA9ik3qDkgnFxofvV
+ v+NqX+NnpJX4Sbm0=
+X-Received: by 2002:a5d:694e:: with SMTP id r14mr761147wrw.312.1584384614279; 
+ Mon, 16 Mar 2020 11:50:14 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vumt0/zyQegs7BCttH3meap4BjY3y8njKNdvv230mwaaJmL4cZHHdg7RC6AUxKvB+enCsS0Uw==
+X-Received: by 2002:a5d:694e:: with SMTP id r14mr761126wrw.312.1584384614058; 
+ Mon, 16 Mar 2020 11:50:14 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id a13sm1066318wrh.80.2020.03.16.11.50.07
+ by smtp.gmail.com with ESMTPSA id v10sm763990wmh.17.2020.03.16.11.50.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 11:50:08 -0700 (PDT)
+ Mon, 16 Mar 2020 11:50:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 00/25] hw: Sanitize various MemoryRegion calls
-Date: Mon, 16 Mar 2020 19:49:41 +0100
-Message-Id: <20200316185006.576-1-philmd@redhat.com>
+Subject: [PATCH v3 01/25] memory: Correctly return alias region type
+Date: Mon, 16 Mar 2020 19:49:42 +0100
+Message-Id: <20200316185006.576-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316185006.576-1-philmd@redhat.com>
+References: <20200316185006.576-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -90,96 +94,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series simplifies various memory API calls when creating
-memory regions.
+Since memory region aliases are neither rom nor ram, they are
+described as i/o, which is often incorrect. Return instead the
+type of the original region we are aliasing.
 
-Most of the patches are generated with Coccinelle semantic
-patches (provided).
-Few more cleanups added while writting the patches have been
-added.
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ memory.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-v1 was 'Let devices own the MemoryRegion they create':
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg681960.html
-
-Since v2:
-- only keep generated/automatic patches
-- add reviewers tags
-
-Since v1:
-- understood a bit more Peter Maydell comments regarding
-  how memory devices are migrated.
-
-Philippe Mathieu-Daud=C3=A9 (25):
-  memory: Correctly return alias region type
-  memory: Simplify memory_region_init_rom_nomigrate() to ease review
-  scripts/cocci: Rename memory-region-{init-ram -> housekeeping}
-  scripts/cocci: Patch to replace memory_region_init_{ram,readonly ->
-    rom}
-  hw/arm: Use memory_region_init_rom() with read-only regions
-  hw/display: Use memory_region_init_rom() with read-only regions
-  hw/m68k: Use memory_region_init_rom() with read-only regions
-  hw/net: Use memory_region_init_rom() with read-only regions
-  hw/pci-host: Use memory_region_init_rom() with read-only regions
-  hw/ppc: Use memory_region_init_rom() with read-only regions
-  hw/riscv: Use memory_region_init_rom() with read-only regions
-  hw/sh4: Use memory_region_init_rom() with read-only regions
-  hw/sparc: Use memory_region_init_rom() with read-only regions
-  scripts/cocci: Patch to detect potential use of memory_region_init_rom
-  scripts/cocci: Patch to remove unnecessary
-    memory_region_set_readonly()
-  scripts/cocci: Patch to let devices own their MemoryRegions
-  hw/core: Let devices own the MemoryRegion they create
-  hw/display: Let devices own the MemoryRegion they create
-  hw/dma: Let devices own the MemoryRegion they create
-  hw/riscv: Let devices own the MemoryRegion they create
-  hw/char: Let devices own the MemoryRegion they create
-  hw/arm/stm32: Use memory_region_init_rom() with read-only regions
-  hw/ppc/ppc405: Use memory_region_init_rom() with read-only regions
-  hw/arm: Remove unnecessary memory_region_set_readonly() on ROM alias
-  hw/arm: Let devices own the MemoryRegion they create
-
- .../memory-region-housekeeping.cocci          | 159 ++++++++++++++++++
- .../coccinelle/memory-region-init-ram.cocci   |  38 -----
- hw/arm/exynos4210.c                           |  14 +-
- hw/arm/fsl-imx25.c                            |  10 +-
- hw/arm/fsl-imx31.c                            |   6 +-
- hw/arm/fsl-imx6.c                             |   6 +-
- hw/arm/fsl-imx6ul.c                           |   9 +-
- hw/arm/mainstone.c                            |   3 +-
- hw/arm/msf2-soc.c                             |   6 +-
- hw/arm/nrf51_soc.c                            |   2 +-
- hw/arm/omap_sx1.c                             |   6 +-
- hw/arm/palm.c                                 |   3 +-
- hw/arm/spitz.c                                |   3 +-
- hw/arm/stellaris.c                            |   3 +-
- hw/arm/stm32f205_soc.c                        |  11 +-
- hw/arm/stm32f405_soc.c                        |  12 +-
- hw/arm/tosa.c                                 |   3 +-
- hw/arm/xlnx-zynqmp.c                          |  11 +-
- hw/char/serial.c                              |   7 +-
- hw/core/platform-bus.c                        |   3 +-
- hw/display/cg3.c                              |   5 +-
- hw/display/g364fb.c                           |   3 +-
- hw/display/macfb.c                            |   4 +-
- hw/display/tcx.c                              |   5 +-
- hw/dma/i8257.c                                |   2 +-
- hw/dma/rc4030.c                               |   4 +-
- hw/m68k/q800.c                                |   3 +-
- hw/net/dp8393x.c                              |   5 +-
- hw/pci-host/prep.c                            |   5 +-
- hw/ppc/mac_newworld.c                         |   3 +-
- hw/ppc/mac_oldworld.c                         |   3 +-
- hw/ppc/ppc405_boards.c                        |   6 +-
- hw/riscv/sifive_e.c                           |   9 +-
- hw/riscv/sifive_u.c                           |   2 +-
- hw/sh4/shix.c                                 |   3 +-
- hw/sparc/leon3.c                              |   3 +-
- memory.c                                      |  16 +-
- MAINTAINERS                                   |   1 +
- 38 files changed, 244 insertions(+), 153 deletions(-)
- create mode 100644 scripts/coccinelle/memory-region-housekeeping.cocci
- delete mode 100644 scripts/coccinelle/memory-region-init-ram.cocci
-
+diff --git a/memory.c b/memory.c
+index 09be40edd2..3ea0afada9 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2830,6 +2830,9 @@ void address_space_destroy(AddressSpace *as)
+=20
+ static const char *memory_region_type(MemoryRegion *mr)
+ {
++    if (mr->alias) {
++        return memory_region_type(mr->alias);
++    }
+     if (memory_region_is_ram_device(mr)) {
+         return "ramd";
+     } else if (memory_region_is_romd(mr)) {
 --=20
 2.21.1
 
