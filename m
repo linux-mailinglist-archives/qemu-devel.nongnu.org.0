@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FCD186A55
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:47:26 +0100 (CET)
-Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42267186A1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:32:45 +0100 (CET)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDoDM-0006L6-5W
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:47:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42625)
+	id 1jDnz9-0001Jl-OY
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1jDmid-0006pO-P5
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:11:37 -0400
+ (envelope-from <ovoshcha@redhat.com>) id 1jDn2j-00069Z-Ch
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1jDmic-0004bM-8c
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:11:35 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35307)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1jDmib-0004H8-Ss
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:11:34 -0400
-Received: by mail-wm1-x343.google.com with SMTP id m3so17304636wmi.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 03:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BU/ZwEwcB5nZlqTst3L0l7esGc+qpviZb36MSldnOCM=;
- b=VkNFxLgoMWyM+DkzSSXTHrky2hFNhpBOcJ7CZGW93w8fyFtsuD9bgfixDd6zCWQ07m
- U17asqNYxTpDHTJw8TrdmyBUDKPNvf1f9nMVLE0Rdy7VczlD/KtKA45gbZxaRMha8Pf3
- Pjjy1qXccZc5SkxV8fuaqLfVDecmmSGb4GWd4I0FYU2KrWGescEAennoWnA3k56WpR2T
- cKt5MYr4CS2ZrvE10L5t4tCXR5yVvaUrxVrKx8d1MMFuSdBQBdRSnIzXX7chEvh/gSrq
- pvkOwPouOfBpA3a8RwnP547GNjahUUkD472BXBkZa91OjfcoEAt2NvgHGBcrQ41TrpV4
- rUyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BU/ZwEwcB5nZlqTst3L0l7esGc+qpviZb36MSldnOCM=;
- b=YbcuSmmtIj6HdHseCsrZpGE1CTsOrCfxYZ+c2H+vFj80Vs4D26qaYr1aBQSxfxjeH0
- 5BjsIzcvVETGAVgWDXKeemaj/I8aRxrJJ2MnqKjBZmrThXaB/s0GNLzTMwSNnRmnIYSf
- QJBqyKCfy745axAGeYXTr6CypwdUiBA7EoW7c5UZOmQQ/w+XrjXgj3oSbwf+6EHXoZmV
- PgmLsybBDpW+Lv9MQEOzw4GClJvjzNmsTjt7PdZ6AeOUR9oCDdexmz4zpTaTOhjH+4p0
- 4HbgaOJejKj2t/WTBpF0OKUnyYC6Y6gNzyG2EZCEdGsNUGwUJ70Hs4gO2YsXQdrgCW/G
- 2dCw==
-X-Gm-Message-State: ANhLgQ2PX7vpIYOUz1Fdx0ubCetbk34TfBgogA+F7XJBhcT9yQtWOT0y
- 2S9A8OykiLPMvJBuFtV2jkHsFA==
-X-Google-Smtp-Source: ADFU+vt8VudP8vxKT0FheGjpdz2ByYSTcejYK2XBnb8Hs3g755v7ZYiJoY47oogC7MPcqOFlEmhLgw==
-X-Received: by 2002:a1c:2048:: with SMTP id g69mr27767216wmg.187.1584353492386; 
- Mon, 16 Mar 2020 03:11:32 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id x24sm29248934wmc.36.2020.03.16.03.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 03:11:31 -0700 (PDT)
-Date: Mon, 16 Mar 2020 11:11:24 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Bharat Bhushan <bharatb.linux@gmail.com>
-Subject: Re: [PATCH v7 3/5] virtio-iommu: Call iommu notifier for attach/detach
-Message-ID: <20200316101124.GA304669@myrica>
-References: <20200313074811.27175-1-bbhushan2@marvell.com>
- <20200313074811.27175-4-bbhushan2@marvell.com>
- <da0a4d7b-c27d-839d-56b6-da67c94adeb7@redhat.com>
- <CAAeCc_m=PKV0T8DmaE06F9NMYfU792f9TDdoyKkaPaEN3597ag@mail.gmail.com>
- <9b4ab5e8-8848-50ba-17c8-652567483126@redhat.com>
- <CAAeCc_ksAdoNJcFWkoB4YcySAb5Hw7D+kLyHx-Nt0hZJY17AXA@mail.gmail.com>
- <CAAeCc_nnM-DGCyXjFJuk-6L8F+Oetq076SEjeV8kUAGxfJVQTw@mail.gmail.com>
- <cc447790-d1c5-784b-9706-fbcd76f0c94b@redhat.com>
- <CAAeCc_mSobL4oGcK-J3WJJq8BCS6M_oyPTrzJ9bk8yFgsUDBUw@mail.gmail.com>
+ (envelope-from <ovoshcha@redhat.com>) id 1jDn2i-0006Fv-2b
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49356
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jDn2h-0006AZ-TO
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584354739;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=I5e9z/RYaSlKBVT20zqlkjBIyMqasVu9eIlMIo6qUiM=;
+ b=HXBnqNUQu5mpxp7QwOC0yKM3erkdEzsEKj4siLzNA/3tjwgx+SBDzNDr58EcRXhVKa4lJI
+ +EZYICtIqlEeBzpaiCovk6UAvmTXgT318fDtqs3n17Qd5F3r0z7ePb8CM2D6bbsaTnXsHF
+ 0YDFcZf2RDL26z+1fnW67L0JjHXOrRs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-PsGAWBcPPaS9br-dJMBVrg-1; Mon, 16 Mar 2020 06:32:18 -0400
+X-MC-Unique: PsGAWBcPPaS9br-dJMBVrg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26DB98E1D0D
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:32:17 +0000 (UTC)
+Received: from kh066.redhat.com (ovpn-205-24.brq.redhat.com [10.40.205.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 561BE1C2;
+ Mon, 16 Mar 2020 10:32:05 +0000 (UTC)
+From: Oksana Vohchana <ovoshcha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4] python/qemu/qmp.py: QMP debug with VM label
+Date: Mon, 16 Mar 2020 12:32:03 +0200
+Message-Id: <20200316103203.10046-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeCc_mSobL4oGcK-J3WJJq8BCS6M_oyPTrzJ9bk8yFgsUDBUw@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,64 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- mst@redhat.com, drjones@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org,
- Auger Eric <eric.auger@redhat.com>, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, Bharat Bhushan <bbhushan2@marvell.com>,
- linuc.decode@gmail.com, eric.auger.pro@gmail.com
+Cc: ovoshcha@redhat.com, ehabkost@redhat.com, wainersm@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bharat,
+QEMUMachine writes some messages to the default logger.
+But it sometimes hard to read the output if we have requests to
+more than one VM.
+This patch adds a label to the logger in the debug mode.
 
-Could you Cc me on your next posting?  Unfortunately I don't have much
-hardware for testing this at the moment, but I might be able to help a
-little on the review.
+Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+---
+v2:
+ - Instead of shown the label in the message it provides the label
+   only in the debug logger information.
+v3:
+ - Fixes coding style problems.
+v4:
+ - Use a suffix method to get a children's logger process from the parent.
+---
+ python/qemu/machine.py | 3 ++-
+ python/qemu/qmp.py     | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-On Mon, Mar 16, 2020 at 02:40:00PM +0530, Bharat Bhushan wrote:
-> > >>> First issue is: your guest can use 4K page and your host can use 64KB
-> > >>> pages. In that case VFIO_DMA_MAP will fail with -EINVAL. We must devise
-> > >>> a way to pass the host settings to the VIRTIO-IOMMU device.
-> > >>>
-> > >>> Even with 64KB pages, it did not work for me. I have obviously not the
-> > >>> storm of VFIO_DMA_MAP failures but I have some, most probably due to
-> > >>> some wrong notifications somewhere. I will try to investigate on my side.
-> > >>>
-> > >>> Did you test with VFIO on your side?
-> > >>
-> > >> I did not tried with different page sizes, only tested with 4K page size.
-> > >>
-> > >> Yes it works, I tested with two n/w device assigned to VM, both interfaces works
-> > >>
-> > >> First I will try with 64k page size.
-> > >
-> > > 64K page size does not work for me as well,
-> > >
-> > > I think we are not passing correct page_size_mask here
-> > > (config.page_size_mask is set to TARGET_PAGE_MASK ( which is
-> > > 0xfffffffffffff000))
-> > I guess you mean with guest using 4K and host using 64K.
-> > >
-> > > We need to set this correctly as per host page size, correct?
-> > Yes that's correct. We need to put in place a control path to retrieve
-> > the page settings on host through VFIO to inform the virtio-iommu device.
-> >
-> > Besides this issue, did you try with 64kB on host and guest?
-> 
-> I tried Followings
->   - 4k host and 4k guest  - it works with v7 version
->   - 64k host and 64k guest - it does not work with v7
->     hard-coded config.page_size_mask to 0xffffffffffff0000 and it works
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 183d8f3d38..f53abfa492 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -270,7 +270,8 @@ class QEMUMachine(object):
+                 self._vm_monitor =3D os.path.join(self._sock_dir,
+                                                 self._name + "-monitor.soc=
+k")
+                 self._remove_files.append(self._vm_monitor)
+-            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, server=
+=3DTrue)
++            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, server=
+=3DTrue,
++                                                nickname=3Dself._name)
+=20
+     def _post_launch(self):
+         if self._qmp:
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index f40586eedd..d6c9b2f4b1 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -46,7 +46,7 @@ class QEMUMonitorProtocol:
+     #: Logger object for debugging messages
+     logger =3D logging.getLogger('QMP')
+=20
+-    def __init__(self, address, server=3DFalse):
++    def __init__(self, address, server=3DFalse, nickname=3DNone):
+         """
+         Create a QEMUMonitorProtocol class.
+=20
+@@ -62,6 +62,9 @@ class QEMUMonitorProtocol:
+         self.__address =3D address
+         self.__sock =3D self.__get_sock()
+         self.__sockfile =3D None
++        self._nickname =3D nickname
++        if self._nickname:
++            self.logger =3D logging.getLogger('QMP').getChild(self._nickna=
+me)
+         if server:
+             self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,=
+ 1)
+             self.__sock.bind(self.__address)
+--=20
+2.21.1
 
-You might get this from the iova_pgsize bitmap returned by
-VFIO_IOMMU_GET_INFO. The virtio config.page_size_mask is global so there
-is the usual problem of aggregating consistent properties, but I'm
-guessing using the host page size as a granule here is safe enough. 
-
-If it is a problem, we can add a PROBE property for page size mask,
-allowing to define per-endpoint page masks. I have kernel patches
-somewhere to do just that.
-
-Thanks,
-Jean
 
