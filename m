@@ -2,39 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AF8186E3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:07:14 +0100 (CET)
-Received: from localhost ([::1]:39370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2015C186E67
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:19:20 +0100 (CET)
+Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrKj-0004fS-2Y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55776)
+	id 1jDrWO-0001L8-RN
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpMI-0000GE-As
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:00:44 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jDpSO-0002TW-1h
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:07:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpMG-0001c6-2b
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:00:42 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:52079)
+ (envelope-from <balaton@eik.bme.hu>) id 1jDpSN-0002Sq-1Z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:06:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32988)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jDpMB-0000Y2-61; Mon, 16 Mar 2020 09:00:35 -0400
+ id 1jDpSK-0001RJ-8h; Mon, 16 Mar 2020 09:06:56 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 119AC747DF5;
- Mon, 16 Mar 2020 14:00:33 +0100 (CET)
+ by localhost (Postfix) with SMTP id 14BA3747E07;
+ Mon, 16 Mar 2020 14:06:53 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E572D747DFF; Mon, 16 Mar 2020 14:00:32 +0100 (CET)
-In-Reply-To: <cover.1584134074.git.balaton@eik.bme.hu>
-References: <cover.1584134074.git.balaton@eik.bme.hu>
+ id E8F9E747E06; Mon, 16 Mar 2020 14:06:52 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E6CC6747E00;
+ Mon, 16 Mar 2020 14:06:52 +0100 (CET)
+Date: Mon, 16 Mar 2020 14:06:52 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2] hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
-Date: Mon, 16 Mar 2020 13:55:05 +0100
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
-Message-Id: <20200316130032.E572D747DFF@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 0/8] Misc hw/ide legacy clean up
+In-Reply-To: <87lfo0lr9t.fsf@dusky.pond.sub.org>
+Message-ID: <alpine.BSF.2.22.395.2003161401100.70254@zero.eik.bme.hu>
+References: <cover.1584134074.git.balaton@eik.bme.hu>
+ <87lfo0lr9t.fsf@dusky.pond.sub.org>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,55 +53,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, philmd@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can move this define now that less files use it to internal.h to
-further reduce dependency on hw/ide.h.
+On Mon, 16 Mar 2020, Markus Armbruster wrote:
+> BALATON Zoltan <balaton@eik.bme.hu> writes:
+>> These are some clean ups to remove more legacy init functions and
+>> lessen dependence on include/hw/ide.h with some simplifications in
+>> board code. There should be no functional change.
+>
+> PATCH 1 could quote precedence more clearly in the commit message, but
+> that's detail.
+>
+> I don't like PATCH 4.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
-v2: Alternative version of patch 7 that applies without
-    [PATCH 4/8] hw/ide: Move MAX_IDE_BUS define to one header
+Sent alternative v2 version of patch 7 so you can drop patch 4 if you 
+like, the rest of the series should apply unchanged. Note that there might 
+be some places where MAX_IDE_BUS is defined but not used and current code 
+probably has assumption about this being 2 elsewhere and would break with 
+any other value so other than philosophical there should be no reason to 
+keep this defined everywhere.
 
- include/hw/ide.h          | 2 --
- include/hw/ide/internal.h | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> PATCH 1-3,5-8:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index d52c211f32..c5ce5da4f4 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -4,8 +4,6 @@
- #include "hw/isa/isa.h"
- #include "exec/memory.h"
- 
--#define MAX_IDE_DEVS	2
--
- /* ide-isa.c */
- ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 1bc1fc73e5..55da35d768 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
- #define TYPE_IDE_BUS "IDE"
- #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
- 
-+#define MAX_IDE_DEVS 2
-+
- /* Bits of HD_STATUS */
- #define ERR_STAT		0x01
- #define INDEX_STAT		0x02
--- 
-2.21.1
+Thanks.
 
+Regards,
+BALATON Zoltan
 
