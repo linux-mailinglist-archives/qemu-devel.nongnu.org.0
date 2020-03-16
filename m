@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0E4186AD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:27:52 +0100 (CET)
-Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FBE186AB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:16:43 +0100 (CET)
+Received: from localhost ([::1]:37734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDoqU-0004ii-SU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42047)
+	id 1jDofg-0000Us-Lt
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiangyifei@huawei.com>) id 1jDo7j-00060C-BA
+ (envelope-from <jiangyifei@huawei.com>) id 1jDo7i-0005zy-R5
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:41:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiangyifei@huawei.com>) id 1jDo7i-0002Dr-E3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:41:35 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3206 helo=huawei.com)
+ (envelope-from <jiangyifei@huawei.com>) id 1jDo7h-00021L-M3
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:41:34 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3204 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
- id 1jDo7h-00015V-Vj
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:41:34 -0400
+ id 1jDo7h-00015R-7p
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:41:33 -0400
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 06690DC951B9B385B6C7;
+ by Forcepoint Email with ESMTP id 0F1E3771176EB3E7AF93;
  Mon, 16 Mar 2020 19:41:26 +0800 (CST)
 Received: from huawei.com (10.133.201.158) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Mon, 16 Mar 2020
- 19:41:17 +0800
+ 19:41:19 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 0/2] avoid integer overflow
-Date: Mon, 16 Mar 2020 19:40:48 +0800
-Message-ID: <20200316114050.3167-1-jiangyifei@huawei.com>
+Subject: [PATCH 2/2] accel/tcg: avoid integer overflow
+Date: Mon, 16 Mar 2020 19:40:50 +0800
+Message-ID: <20200316114050.3167-3-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.23.0.windows.1
+In-Reply-To: <20200316114050.3167-1-jiangyifei@huawei.com>
+References: <20200316114050.3167-1-jiangyifei@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.133.201.158]
@@ -54,25 +56,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: zhang.zhanghailiang@huawei.com, limingwang@huawei.com,
  victor.zhangxiaofeng@huawei.com, Yifei Jiang <jiangyifei@huawei.com>,
- pbonzini@redhat.com, rth@twiddle.net, dengkai1@huawei.com
+ Euler Robot <euler.robot@huawei.com>, pbonzini@redhat.com, rth@twiddle.net,
+ dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the constant default type is "int", when the constant is shifted to the l=
-eft,
-it may exceed 32 bits, resulting in integer overflowing. So constant type=
- need
-change to "long"
+This fixes coverity issues 75235919, etc.,
+    1524    /* Handle CPU specific unaligned behaviour */
+CID 75235919: (OVERFLOW_BEFORE_WIDEN)
+    1525. overflow_before_widen: Potentially overflowing expression "1 <<=
+ a_bits" with type "int" (32 bits, signed) is evaluated using 32-bit arit=
+hmetic, and then used in a context that expects an expression of type "ta=
+rget_ulong" (64 bits, unsigned).
+    1525    if (addr & ((1 << a_bits) - 1)) {
 
-Yifei Jiang (2):
-  tcg: avoid integer overflow
-  accel/tcg: avoid integer overflow
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+Signed-off-by: Mingwang Li <limingwang@huawei.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+---
+ accel/tcg/cputlb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- accel/tcg/cputlb.c |  6 +++---
- tcg/tcg-op-gvec.c  | 18 +++++++++---------
- tcg/tcg-op-vec.c   |  4 ++--
- 3 files changed, 14 insertions(+), 14 deletions(-)
-
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e3b5750c3b..73b5e680be 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1412,7 +1412,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
+arget_ulong addr,
+     retaddr -=3D GETPC_ADJ;
+=20
+     /* Enforce guest required alignment.  */
+-    if (unlikely(a_bits > 0 && (addr & ((1 << a_bits) - 1)))) {
++    if (unlikely(a_bits > 0 && (addr & (((target_ulong)1 << a_bits) - 1)=
+))) {
+         /* ??? Maybe indicate atomic op to cpu_unaligned_access */
+         cpu_unaligned_access(env_cpu(env), addr, MMU_DATA_STORE,
+                              mmu_idx, retaddr);
+@@ -1522,7 +1522,7 @@ load_helper(CPUArchState *env, target_ulong addr, T=
+CGMemOpIdx oi,
+     size_t size =3D memop_size(op);
+=20
+     /* Handle CPU specific unaligned behaviour */
+-    if (addr & ((1 << a_bits) - 1)) {
++    if (addr & (((target_ulong)1 << a_bits) - 1)) {
+         cpu_unaligned_access(env_cpu(env), addr, access_type,
+                              mmu_idx, retaddr);
+     }
+@@ -1911,7 +1911,7 @@ store_helper(CPUArchState *env, target_ulong addr, =
+uint64_t val,
+     size_t size =3D memop_size(op);
+=20
+     /* Handle CPU specific unaligned behaviour */
+-    if (addr & ((1 << a_bits) - 1)) {
++    if (addr & (((target_ulong)1 << a_bits) - 1)) {
+         cpu_unaligned_access(env_cpu(env), addr, MMU_DATA_STORE,
+                              mmu_idx, retaddr);
+     }
 --=20
 2.19.1
 
