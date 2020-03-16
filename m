@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B32E1872BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:51:12 +0100 (CET)
-Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFAE18728A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:41:59 +0100 (CET)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDupT-0007Lp-76
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56889)
+	id 1jDugY-0007Iw-Am
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtcC-0002n2-IX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:25 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtf9-0000go-Se
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtcB-0001el-9j
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:24 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45156)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtf8-0005rc-SC
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:27 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51655)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtcB-0001UI-0S
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:23 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t2so12251270wrx.12
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:33:22 -0700 (PDT)
+ id 1jDtf8-0005bI-IQ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:36:26 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a132so18628309wme.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=6cJb6Luk4ML8CBF5q+P44f9KLf8qXp+OI4lIie4NGpI=;
- b=sEU0vjj/X54gVIO+y6gWM+bBuacNDrwxo16aeO/L33fBfoANLwx4J47jhCV9DJsGVw
- j7vSNhhqu4Ea631QDhkFt5h+FIXzTJlzRJo6yuXZ+8cBhYfpKZMhLbmap4cUTghZNN+G
- PpIFbft8eYuZwxNAQgPXvZKo8FwIxQDtDG/G1+DHrOZuZSdDuNjYVVmaZMxk9LpPcoOo
- XuVQXSPBVM5aS2IHEL61x7hP1mu7t5ODc93AwGzup4xdmskFj86xI8EiIZhxZvHt4dp+
- 3w592CLtk1NRBB2EX+gKw8yBspA0Ge1Kv+J0MeAgJjPvvz9Pd1NpZifTsVA/5vNXIcDc
- l1aw==
+ bh=oDwAzBZlgB39jRCpkcihyqHHCaQGuXTIEAAajYTFEKg=;
+ b=tuMigwee2moRpbGiK9cz/lTnAq6hg0iP3HlZq3hSsImUI5r4vwIplsjbcVZt1whvhv
+ Iv+MysfPeTtZqIRfd9+mQNE2EDUA2Q/rxISj6Mw8T2wwHxR+FYGnB8W9OdMxjXOhp0Fa
+ ud3/DGaO+ysD2hLQD7ejUemdoux+YimgIFHDm8w8QHcAmJ14NTAEVbrnhv5HX16UKcXi
+ he/9LynfH7WkoluZmoVAFyMrL0+RBDgHHtyLtsLPErceFZ/o6R4o6SZ6W0e8+qXt1MA+
+ LKfPSwht3kuuwuFY/+PQex4dZqL3oWWX5RyXKxvWrFeAU2NYjl7UFKcLXqQ1EH2SQqqW
+ C3SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6cJb6Luk4ML8CBF5q+P44f9KLf8qXp+OI4lIie4NGpI=;
- b=bSSaIGMrM0XXCJ4G+h/XIto+Hw8HuGrlrhy4Ah1KGcPnbwom7vlc/aquFhp2z+Y1SX
- AA3RKb9btjMjtVZSEoMAznhwbWA5E5e1CSzQ4ZkRdxrbhQhtkSx/yOqq1alvZ5A3qJVj
- kSCwgGc2qzMQyQF8weNydMu8TXVtQbg7O0dBV0VqMgv7zERbJ+SMTFBZ6UjDGI50sthd
- qH+21tAY3ItvuOo5yFBQ0S+lxpHzs8ZlKp1yGDXuKM7Gh8kLHtVo0DfU5g7Ji2+Qxlu8
- t2YuyfNJPxDsOpZBPTOpbCTrfuXqYvSwxLJxWd7taPkEpcodwIwVWgERC/WeEM+f7pO6
- 5EQA==
-X-Gm-Message-State: ANhLgQ3hjnJvKbJNozGZEXfkWOH7KZ5AgciZymF3Iq/j5/dh13SnIRTY
- hP3ImwLVwrYLF4rbdBHCRZkXxFqjjykRUVUYDkPkcPVBylo=
-X-Google-Smtp-Source: ADFU+vvfQ1sFBpkM3802gVjLD2RLHHDAr6V6zvxj66lsezuvxMhQEVxa2SxW0bx1vzzXnLhflbNFTDO+wqO4Eg+lWQM=
-X-Received: by 2002:a05:6000:4a:: with SMTP id
- k10mr383772wrx.381.1584380002043; 
- Mon, 16 Mar 2020 10:33:22 -0700 (PDT)
+ bh=oDwAzBZlgB39jRCpkcihyqHHCaQGuXTIEAAajYTFEKg=;
+ b=SpIQiK+H4+bt3vCLk4j088O36cKvSu6dNb7kAyHepeNvgCfXbxUgzYKbQaYOnAcRc6
+ vZJ+GzVtIC2LRB4BzeUvcx82VmUbUD/KNP3QHn3ojpx/JDDaUQAACI3e9tjKjKFHEFn1
+ 1b2Ts7ovuR1j3tPhRQKwQG1A3J7PhgzX1GqLzlwNVHYcI9jTYbJLl7XGVunccEJ2tnnr
+ QBrGSGb+Sm+OMM8M8/PHWV/6Hf5LtSg3e8xKp6KVmQ4btXaHaVFaUfeB83p4XF77m8mP
+ 5Jx81f/DlgjORWhQSn1o9uVdhW0a9H8yzCLytZ0B3N4O08h+gaIvGuKO34KvkfEiJO1C
+ bwFQ==
+X-Gm-Message-State: ANhLgQ35xx0lRdeZ111tZvS2zHyvIAB1i3l+JHxppVvRue6keey4VD8x
+ mm/ML/J+sZYF+K+UpAn//7HatOCk6LvGZmLyabg=
+X-Google-Smtp-Source: ADFU+vvuty5CCRvHlwo7fjPpPuU6yaZedjGtXZamSuRJ6zyKRa4baMdUqUSmgCwBNtMr8G7jlXEtFPeuPS56J4S0CdI=
+X-Received: by 2002:a7b:c153:: with SMTP id z19mr188884wmi.37.1584380185249;
+ Mon, 16 Mar 2020 10:36:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-24-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-24-armbru@redhat.com>
+ <20200315144653.22660-25-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-25-armbru@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:33:09 +0100
-Message-ID: <CAJ+F1CLUikxRN2nH8h_9zGXLLpsxz4H-cMxxLbctAzavWjAcWw@mail.gmail.com>
-Subject: Re: [PATCH v3 23/34] qapi: Simplify how qmp_dispatch() gets the
- request ID
+Date: Mon, 16 Mar 2020 18:36:13 +0100
+Message-ID: <CAJ+F1CLGr7HYp3kAfjGXgPwxcGAyaPOmkN3+7s_oV-XHVdOVPw@mail.gmail.com>
+Subject: Re: [PATCH v3 24/34] qapi: Replace qmp_dispatch()'s TODO comment by
+ an explanation
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,79 +79,39 @@ Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:51 PM Markus Armbruster <armbru@redhat.com> wrote=
+Hi
+
+On Sun, Mar 15, 2020 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
 :
 >
-> We convert the request object to a QDict twice: first in
-> qmp_dispatch() to get the request ID, and then again in
-> qmp_dispatch_check_obj(), which converts to QDict, then checks and
-> returns it.  We can't get the request ID from the latter, because it's
-> null when the qdict flunks the checks.
->
-> Move getting the request ID into qmp_dispatch_check_obj().
->
-
-I don't see this is a an improvement. qmp_dispatch_check_obj() doesn't
-care about id.
-
-And it doesn't look like it is saving cycles either.
-
-Is that worth it?
-
-
-Code change is ok otherwise,
-
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  qapi/qmp-dispatch.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  qapi/qmp-dispatch.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index 550d1fe8d2..112d29a9ab 100644
+> index 112d29a9ab..fb53687ce9 100644
 > --- a/qapi/qmp-dispatch.c
 > +++ b/qapi/qmp-dispatch.c
-> @@ -20,7 +20,7 @@
->  #include "qapi/qmp/qbool.h"
->
->  static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_=
-oob,
-> -                                     Error **errp)
-> +                                     QObject **id, Error **errp)
->  {
->      const char *exec_key =3D NULL;
->      const QDictEntry *ent;
-> @@ -30,10 +30,13 @@ static QDict *qmp_dispatch_check_obj(const QObject *r=
-equest, bool allow_oob,
->
->      dict =3D qobject_to(QDict, request);
->      if (!dict) {
-> +        *id =3D NULL;
->          error_setg(errp, "QMP input must be a JSON object");
+> @@ -164,7 +164,11 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *r=
+equest,
+>          g_assert(!ret);
 >          return NULL;
+>      } else if (!ret) {
+> -        /* TODO turn into assertion */
+> +        /*
+> +         * When the command's schema has no 'returns', cmd->fn()
+> +         * leaves @ret null.  The QMP spec calls for an the empty
+
+"for an"
+
+Can we assert that the command's schema has no 'returns' in this case?
+
+> +         * object then; supply it.
+> +         */
+>          ret =3D QOBJECT(qdict_new());
 >      }
 >
-> +    *id =3D qdict_get(dict, "id");
-> +
->      for (ent =3D qdict_first(dict); ent;
->           ent =3D qdict_next(dict, ent)) {
->          arg_name =3D qdict_entry_key(ent);
-> @@ -103,12 +106,12 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *=
-request,
->      const char *command;
->      QDict *args;
->      QmpCommand *cmd;
-> -    QDict *dict =3D qobject_to(QDict, request);
-> -    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
-> +    QDict *dict;
-> +    QObject *id;
->      QObject *ret =3D NULL;
->      QDict *rsp =3D NULL;
->
-> -    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
-> +    dict =3D qmp_dispatch_check_obj(request, allow_oob, &id, &err);
->      if (!dict) {
->          goto out;
->      }
 > --
 > 2.21.1
 >
