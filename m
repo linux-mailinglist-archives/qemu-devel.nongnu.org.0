@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E8D1872EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:02:36 +0100 (CET)
-Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604B8187324
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:14:30 +0100 (CET)
+Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDv0V-0003l2-5B
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44925)
+	id 1jDvC1-0008Qx-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDuZZ-0004B6-Sk
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:46 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuaL-0005bD-9E
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDuZX-00062E-Ti
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:44 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46340)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDuZX-0005rG-P7
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584383682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HEcY6cL30ap/GlNtA0PLagV8dLpDs0nxmXzFdVBA4OM=;
- b=JZheKvw60bboBwlwOn+5f+vk5v189Edz/C4j7GIng9MTAcM7fTj8zdA/iAMk6bfFDk42EP
- +PcGYZCEeWGlL2TScodZn/TAjhUQ2jVp1aR2dAPVzXQZSQWMjPfMPNK1fLyuNCMatV3UIY
- 8qeSX6g665S759cxwZ0L/ZGDHENqkoQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-B0-X1-wPP8a17_TbYF3Zew-1; Mon, 16 Mar 2020 14:34:40 -0400
-X-MC-Unique: B0-X1-wPP8a17_TbYF3Zew-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6962C8E91A3;
- Mon, 16 Mar 2020 18:34:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
- [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BC328AC30;
- Mon, 16 Mar 2020 18:34:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BF5071138404; Mon, 16 Mar 2020 19:34:37 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 01/34] qemu-doc: Belatedly document QMP command arg &
- result deprecation
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-2-armbru@redhat.com>
- <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com>
-Date: Mon, 16 Mar 2020 19:34:37 +0100
-In-Reply-To: <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com> (Eric Blake's
- message of "Mon, 16 Mar 2020 10:10:09 -0500")
-Message-ID: <87v9n4w3lu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuaK-0003LL-23
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:33 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37674)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jDuaJ-0003Ey-Rg
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:35:31 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id ca13so9160943pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=w5sQjorFuVomVm2LDzmTqpG8kws2SJE8A/zp/CLyggs=;
+ b=T1RUERIwtJ6S22w5e4synIHyYh7z3z0cv0mjTD+gBRoEdbnfjtdpGAUX1Yco1AGnnU
+ m5d7VpH7OHuyIF4OHO1B+CBUw12yKe4q9WFiv+54HA4Pi38gFcauhtIqMC6zxRBHDTcv
+ UDb38XOCUpC2NjOFZ8s0PkUOlSaC99aI3Pwos8dVDgNYz3fM/zAQnZn8ZPXKb+EBCEa8
+ D1Z6SgsI1AhweZ7evsy51i0MurR94NuQuaLc9XwUjNBbIXYM+HZRUQf0zDJMBsv2EEqk
+ McSWxGAA9JUhz7rZulh46fSoFi5AjqMNf1EtMHJovLSAcxLrL6FHpaOP7vHCU5y802Xe
+ TTnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w5sQjorFuVomVm2LDzmTqpG8kws2SJE8A/zp/CLyggs=;
+ b=WirCBuEp78sie3RhZ0T4v4KQ9SQEzgHumRjEFHe9QFWM5WPXfWOFwtr0RoNL5uwYgs
+ roMaQbOjJ5L6bk2y2vKCVJU5on1VJBOi2CMrYAIqH+b1sScNv3obT+r6C0rFtO/WeTHb
+ o8OKhQknUIrvflPhf7WPjkfJ5al25Tv2BKrGOKjoRR2CVGxfH4lzFJ8+Mf7dpm0ZmV9m
+ j6D7h3Jc/iRHwCNBQeRKJZAg2YjxqeERgJb4WzfBhRMno5zueOh8o5WFsLrXNNoU92Hb
+ SSVo7+eTtU8sB5bpbHkZMMf7dvJnfWC/Dmfv7wsUMfFY0QA6YlW55DVA/p5PeV4Pp9bc
+ AqBA==
+X-Gm-Message-State: ANhLgQ1pFY8YclWgj2xLz8gd2IGY87oGLnHfHjaL2ya8rRiYc5Y5sOWF
+ 4jHXdF7FivnrfEXt5NulV7QxnA==
+X-Google-Smtp-Source: ADFU+vscsDVE5KlM1Z2cgrOJmYCBBZI+tTToeWEeGN2Qa3SMeJ8wdjI97PGt5707Q5xz9pQkwxP+kQ==
+X-Received: by 2002:a17:902:7244:: with SMTP id c4mr528225pll.88.1584383730700; 
+ Mon, 16 Mar 2020 11:35:30 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ y207sm584834pfb.189.2020.03.16.11.35.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 11:35:30 -0700 (PDT)
+Subject: Re: [PATCH 10/11] target/arm: Always enable CONFIG_SEMIHOSTING
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200316120049.11225-1-philmd@redhat.com>
+ <20200316120049.11225-11-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <79a88157-f3d4-5c69-fec0-bff6d2ba34a2@linaro.org>
+Date: Mon, 16 Mar 2020 11:35:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+In-Reply-To: <20200316120049.11225-11-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 3/16/20 5:00 AM, Philippe Mathieu-Daudé wrote:
+> On ARM, the semihosting feature is always required on user-space,
+> and is also used by system emulation.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  default-configs/aarch64-linux-user-common.mak | 4 ++++
+>  default-configs/aarch64-linux-user.mak        | 2 ++
+>  default-configs/aarch64_be-linux-user.mak     | 2 ++
+>  default-configs/arm-linux-user-common.mak     | 4 ++++
+>  default-configs/arm-linux-user.mak            | 2 ++
+>  default-configs/arm-softmmu.mak               | 4 +++-
+>  default-configs/armeb-linux-user.mak          | 2 ++
+>  7 files changed, 19 insertions(+), 1 deletion(-)
+>  create mode 100644 default-configs/aarch64-linux-user-common.mak
+>  create mode 100644 default-configs/arm-linux-user-common.mak
 
-> On 3/15/20 9:46 AM, Markus Armbruster wrote:
->> A number of deprecated QMP arguments and results were missed in commit
->> eb22aeca65 "docs: document deprecation policy & deprecated features in
->> appendix" (v2.10.0):
->>
->
->>
->> Since then, we missed a few more:
->>
->> * Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
->>    deprecated block-commit arguments @base and @top.
->>
->> * Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
->>    properties" (v4.0.0) deprecated query-named-block-nodes result
->>    @dirty-bitmaps member @status, not just query-block.
->>
->> Make up for all that.
->>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
->>   1 file changed, 44 insertions(+), 4 deletions(-)
->
-> Should we remove any of these features that have been deprecated long
-> enough?  But that can be separate, having this patch just add mention
-> that was previously forgotten is fine.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Up to the subsystem maintainers, I'd say.
-
-I think we should sweep deprecated.rst on every release.  Early in the
-development cycle seems best.
-
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
-
+r~
 
