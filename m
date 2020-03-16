@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E4F18722E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:22:00 +0100 (CET)
-Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9991B1871D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:06:42 +0100 (CET)
+Received: from localhost ([::1]:45268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuND-0005QR-29
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1jDu8P-0003QT-Js
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <r.bolshakov@yadro.com>) id 1jDtVB-0007gp-68
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:10 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDtdG-0004q7-Jt
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:34:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <r.bolshakov@yadro.com>) id 1jDtV9-0000DK-SG
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:08 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:34122 helo=mta-01.yadro.com)
+ (envelope-from <eblake@redhat.com>) id 1jDtdF-0003yO-I9
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:34:30 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39448)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
- id 1jDtV9-0008RS-Is
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:07 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id BED8540418;
- Mon, 16 Mar 2020 17:26:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1584379563; x=
- 1586193964; bh=aTNGDJuYHGco724gdsuQJNuglR994JG7/z8mTvTwqcY=; b=X
- J0ZG7jItwpp8XMQMho745ro1lqGBXNSw8cUte9JOF3Y/c3e0BpYsztmlkzGEXMyE
- a1KzijMS4BwMLp+Bv9ScxJUPzYG8iM8Rg9IAwAAhzNp0OguKSDpP4CdPYMud98OA
- PSb/wGDHcPvOC1nCOK4b3XiRazEffsemNEK3LUIr7Q=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K4CIFJfK45QP; Mon, 16 Mar 2020 20:26:03 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDtdF-0003nR-Ca
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:34:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584380068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UKoRC0FoWda/aLff2z5S2mOd3qHa6tcIlZ0wW+dCcTA=;
+ b=L0q2PuGQfhCKfTCabkF8fBk5xuAEi8LcmXRyQgsLX6/PnhceycvFC7VtjEFrc4LN1g/1ih
+ cuImyUNQKcEgf1gx/bhX9rV/UCc508q213aDMSHpSf7nGBBlu7GM88N2On0qvOFRdEq1Up
+ B59v/f60F2bmnQNix4zFTNOsZI67NZU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-HHgk4NnGObCyLYqUJ6q3rQ-1; Mon, 16 Mar 2020 13:34:09 -0400
+X-MC-Unique: HHgk4NnGObCyLYqUJ6q3rQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 72F0740416;
- Mon, 16 Mar 2020 20:26:01 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
- Mar 2020 20:26:01 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2] MAINTAINERS: Add an entry for the HVF accelerator
-Date: Mon, 16 Mar 2020 20:18:27 +0300
-Message-ID: <20200316171825.42544-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.24.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 250611D9D5E;
+ Mon, 16 Mar 2020 17:18:57 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF97393537;
+ Mon, 16 Mar 2020 17:18:56 +0000 (UTC)
+Subject: Re: [PATCH v3 06/34] tests/test-qmp-cmds: Check responses more
+ thoroughly
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-7-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <2cc67b3e-49ee-e949-e1c6-4fe1d87ecc59@redhat.com>
+Date: Mon, 16 Mar 2020 12:18:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200315144653.22660-7-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 89.207.88.252
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,56 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Colp <patrick.colp@oracle.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Cameron Esfahani <dirty@apple.com>,
- Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Liran Alon <liran.alon@oracle.com>,
- Nikita Leshenko <nikita.leshchenko@oracle.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Heiher <r@hev.cc>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Nikita Leshenko <nikita.leshchenko@oracle.com>
-Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
-Cc: Patrick Colp <patrick.colp@oracle.com>
-Cc: Cameron Esfahani <dirty@apple.com>
-Cc: Liran Alon <liran.alon@oracle.com>
-Cc: Heiher <r@hev.cc>
+On 3/15/20 9:46 AM, Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   tests/test-qmp-cmds.c | 23 +++++++++++++++++------
+>   1 file changed, 17 insertions(+), 6 deletions(-)
+> 
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
+> @@ -163,9 +164,17 @@ static QObject *do_qmp_dispatch(QDict *req, bool allow_oob)
+>   static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass cls)
+>   {
+>       QDict *resp;
+> +    QDict *error;
+>   
+>       resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
+> -    g_assert(resp && qdict_haskey(resp, "error"));
+> +    g_assert(resp);
+> +    error = qdict_get_qdict(resp, "error");
+> +    g_assert(error);
+> +    g_assert_cmpstr(qdict_get_try_str(error, "class"),
+> +                    ==, QapiErrorClass_str(cls));
 
-Changes since v1:
-  Status is changed to Maintained instead of Supported.
+Yep, this answers my question from 5/34.
 
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +    g_assert(qdict_get_try_str(error, "desc"));
+> +    g_assert(qdict_size(error) == 2);
+> +    g_assert(qdict_size(resp) == 1);
+>   
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 32867bc636..8649ff9cda 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -405,6 +405,13 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
-=20
-+X86 HVF CPUs
-+M: Roman Bolshakov <r.bolshakov@yadro.com>
-+S: Maintained
-+F: accel/stubs/hvf-stub.c
-+F: target/i386/hvf/
-+F: include/sysemu/hvf.h
-+
- WHPX CPUs
- M: Sunil Muthuswamy <sunilmut@microsoft.com>
- S: Supported
---=20
-2.24.1
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
