@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2103B186E2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:04:49 +0100 (CET)
-Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CC7186E63
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:16:07 +0100 (CET)
+Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrIN-0003Gp-22
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42135)
+	id 1jDrTJ-000062-Vg
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDodI-00015D-IM
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:13 -0400
+ (envelope-from <crosa@redhat.com>) id 1jDopa-0005w5-IZ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:26:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDodD-00066o-N7
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:12 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41402)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDodD-0005uz-FN
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:07 -0400
-Received: by mail-wr1-x444.google.com with SMTP id f11so4127308wrp.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=StU4zDv+Lb9NiYdv8+hnIiKqX8SBCEaFj/IXTof6NBQ=;
- b=UCyr17z1McBaJFsnG5GkBtzWexvLgeGyMGyoKb8dU9MJDUjdsHfhhh7AgnTcqjPuD5
- PzwtAS4ZsR5G5bIAA3uEISkoWaYSdv0vIOG9xI2CtxcokIFvy4kFJdYv9ETbvj4VRphp
- mmVvwPM1VF/JwACLVn1dPJDGl8uLcAX8zEnz6HIEjjwZar7AqQY0panhbRKGOfunyu72
- LGfZfmgmDWMMCMTopL44DhVRDOgdm3bm5/2zR8V4fOTGbVFy9CAL1CkbdHK3pGd7HXpl
- cRO+XpxVr+xzfkMNXOAeb3JnwttZnbcPt6ougoCxwdo8d0h2lxfWJSSK2L3Dj9KJGvZ0
- rJ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=StU4zDv+Lb9NiYdv8+hnIiKqX8SBCEaFj/IXTof6NBQ=;
- b=PrhjoBgD0QNXESDMLM7PNcPMih+OF8llocioNAhfHe5I3obfYn/vnOo2JAZgnmZ/vc
- nW7Y56n7P3hLfgF/0nC5N8k9cm43orGLUgFGW/JUVrnxSmBhZQoecfbv/2/Vl5XSTX8v
- YDKL+5t2bgHHOgZ8od5xzAdnA4egM+B0PCUeMpasXrg4kqi4G4fKbUksDXUMa2lb0vR+
- 9TmK/OzwmQdSJDUiJjRmaPEBpm0yjbA4EbF5vZ+G4S5pQIsteu/7C7zms+cZIxg1hvgL
- /fcLNWIbFWXHBNjIogh/IVqNyNgS+viveqjn8uzzEKxSwCMrPwDs2ZFvpjUvZS6O3K6/
- 8INg==
-X-Gm-Message-State: ANhLgQ0Wn9TuvHQnGrb3FYQopgXAZDUh84o1ZRH/WUfvpJx19PC8ez5k
- JgBd24GAHWvMz+/pSpGR6BrU7w==
-X-Google-Smtp-Source: ADFU+vvvNC7btcpPK2KKw7zUt1XgNuTGZf2xGB+D3Jste4Y9av5ou2NDWMyJTgNgBg7hTY7xeKujxQ==
-X-Received: by 2002:a5d:5089:: with SMTP id a9mr36349714wrt.187.1584360845952; 
- Mon, 16 Mar 2020 05:14:05 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t5sm15116497wmi.34.2020.03.16.05.14.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:14:04 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B5C391FF7E;
- Mon, 16 Mar 2020 12:14:03 +0000 (GMT)
-References: <20200316101544.22361-1-philmd@redhat.com>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
-In-reply-to: <20200316101544.22361-1-philmd@redhat.com>
-Date: Mon, 16 Mar 2020 12:14:03 +0000
-Message-ID: <875zf4lcok.fsf@linaro.org>
+ (envelope-from <crosa@redhat.com>) id 1jDopW-00089l-W3
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:26:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60694
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1jDopW-00082Z-QI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:26:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584361610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=00/FzbXRzM8EaNVB0xDrOpxIDmqJp0r3Ane5foPtI1Y=;
+ b=Q1Y+8KzOPTlqThYNuPCd7NeHtWQNMnDoYNLSd3qTmNh2j+cbpCUWOz2rJRA270kIqlXqC2
+ ti3IKXV4/kd/wOHN8lTnM8UiylHgn4vYrEJ6ZeQI4nSqaFfjTxKVWNwCdQxDy5Agd0nWKL
+ 8YPez/58VhwbhAETM2E6x/dtNQFV6Z4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-N7qnVuyIO8ST7ZjEn_Ed9Q-1; Mon, 16 Mar 2020 08:26:48 -0400
+X-MC-Unique: N7qnVuyIO8ST7ZjEn_Ed9Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4EEF1137859;
+ Mon, 16 Mar 2020 12:26:47 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A8E69128E;
+ Mon, 16 Mar 2020 12:26:47 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4814618089C8;
+ Mon, 16 Mar 2020 12:26:47 +0000 (UTC)
+Date: Mon, 16 Mar 2020 08:26:46 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <849930679.1334346.1584361606961.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
+ <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
+ <CAFEAcA8=3zcffu8FYEenyNR5O=kHh8OJmMCJj6Uwh5HJw_b-WA@mail.gmail.com>
+ <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
+ <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
 MIME-Version: 1.0
+X-Originating-IP: [10.10.127.103, 10.4.195.17]
+Thread-Topic: QEMU Gating CI
+Thread-Index: I30Y2ItVG2dbtw/y/ob42UizpWRYmg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer Moschetta <wmoschet@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> Since commit f5852efa293 we can display GLib errors with the QEMU
-> error reporting API. Set it to the 'error' level, as this helps
-> understanding failures from QEMU calls to GLib on Travis-CI.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+----- Original Message -----
+> From: "Peter Maydell" <peter.maydell@linaro.org>
+> To: "Cleber Rosa" <crosa@redhat.com>
+> Cc: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>, "QEMU Developers" <qemu-=
+devel@nongnu.org>, "Fam Zheng" <fam@euphon.net>,
+> "Eduardo Habkost" <ehabkost@redhat.com>, "Beraldo Leal" <bleal@redhat.com=
+>, "Philippe Mathieu-Daud=C3=A9"
+> <philmd@redhat.com>, "Thomas Huth" <thuth@redhat.com>, "Wainer dos Santos=
+ Moschetta" <wainersm@redhat.com>, "Erik
+> Skultety" <eskultet@redhat.com>, "Willian Rampazzo" <wrampazz@redhat.com>=
+, "Wainer Moschetta" <wmoschet@redhat.com>
+> Sent: Monday, March 16, 2020 8:12:16 AM
+> Subject: Re: [PATCH 0/5] QEMU Gating CI
+>=20
+> On Mon, 16 Mar 2020 at 12:04, Cleber Rosa <crosa@redhat.com> wrote:
+> > A few possible reasons come to my mind:
+> >
+> > 1) It usually takes a few seconds after the push for the pipeline to
+> >
+> > 2) If you've pushed to a repo different than gitlab.com/qemu-project/qe=
+mu,
+> >    you'd have to tweak the project ID (-p|--project-id).
+> >
+> > 3) The local branch is not called "staging", so the script can not find=
+ the
+> >    commit ID, in that case you can use -c|--commit.
+>=20
+> Yes, the local branch is something else for the purposes of
+> testing this series. But using --commit doesn't work either:
+>=20
+> $ ./contrib/ci/scripts/gitlab-pipeline-status --verbose --commit
+> 81beaaab0851fe8c4db971 --wait
+> ERROR: No pipeline found
+> failure
+>=20
 
-Queued to testing/next, thanks.
+This may be a bug in the script because I was not expecting two
+pipelines for the same commit. Checking...
 
-> ---
->  .travis.yml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index b92798ac3b..ccf68aa9ab 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -79,6 +79,7 @@ env:
->      - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,mips64-softmmu,ppc64-softm=
-mu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
->      - CCACHE_SLOPPINESS=3D"include_file_ctime,include_file_mtime"
->      - CCACHE_MAXSIZE=3D1G
-> +    - G_MESSAGES_DEBUG=3Derror
->=20=20
->=20=20
->  git:
+> On the web UI:
+> https://gitlab.com/qemu-project/qemu/pipelines
+> the pipelines are marked "stuck" (I don't know why there
+> are two of them for the same commit); drilling down,
+> the build part has completed but all the test parts are
+> pending with "=EF=BB=BFThis job is stuck because you don't have
+> any active runners online with any of these tags assigned
+> to them" type messages.
+> =EF=BB=BF=EF=BB=BF=EF=BB=BF
 
+I had also not come across the duplicate pipelines, so I'm trying
+to understand what's that about.
 
---=20
-Alex Benn=C3=A9e
+About the runners and the fact that the job is stuck without them,
+the message seems straightforward enough, but I can't get to the
+project configuration to look at the registered runners with my
+current permissions (set as "developer").
+
+> thanks
+> -- PMM
+>=20
+>=20
+
+Thanks,
+- Cleber.
+
 
