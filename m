@@ -2,67 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40751187567
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 23:12:10 +0100 (CET)
-Received: from localhost ([::1]:49906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF20187618
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:11:56 +0100 (CET)
+Received: from localhost ([::1]:50206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxxx-00016Q-BU
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 18:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
+	id 1jDytm-0006P4-Qy
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1jDxsM-0001Tp-Vj
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 18:06:24 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDys6-0004c3-7w
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:10:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1jDxsL-00023U-Cw
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 18:06:22 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42826)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1jDxsL-0001pd-47
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 18:06:21 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v11so23241279wrm.9
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 15:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yHenNl+eoCHqySp7TFHGIkZXlfOPZh2pvlPhF62G69M=;
- b=YxaMQ02WosHLTgreqm6/t9zgsp1IB2Pe5ZRbyK6ql2PlFAsnEZxa20l1NuZhKSZh1A
- xF/R1FlTaROLpl+oMlUwZCJCbvD2fBz7rH2B7/vWwyCSB9uwP7VpAk8K6ESwsfHq5DUv
- uKiPZQoPPeO2ngKpPcibY1aftUGgt4vzo7JyNkU8f0mfWjHnnl58Qd/P/7vNP+ElQidw
- ET0awzI38F6qNaG9NyfwjiUWYa9Js0a5H8jiVvI9IftMsuhoUTnH53NBTPcdUP6DPG2I
- H/eG26PbHDtGfmjEpuroXbfC+ORnqTGO53KN0ELlhuQGXLHa4CD7ENXuk2EB5+FfsoSV
- /LfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=yHenNl+eoCHqySp7TFHGIkZXlfOPZh2pvlPhF62G69M=;
- b=PisY/Xo1YR9V4E9RR4FNzREQRpWfilxTWFK9Of5Qp1v7yZoycL4B6Qjil/1e3jFh3m
- xC1dYzFj2tXvBLXyw7vT3cghhtqWJMuKIceJ18yHfbXlOx7w0/Q7KqZckBVlV3BI6p2Y
- dlctjRFsoptf0qxxGJ8aOxBVDE2zIZikuoTfdfuNSRz6+AC6mMWR4JjmpbWwbCS+R81I
- hGdNATWLdH9qDd+VZSeKgXJ9k4BvHZFjCZWepuUL1rv1lK2u95gQTg8STBMPWI5+CWKb
- Gv6mMcSHINXl4yZM1AaPPUQlgngOsmTk+SvWY6B1edIjj8bsRPcTS6M8Pc0d36V8065m
- liUA==
-X-Gm-Message-State: ANhLgQ3G4WhrjyZvONjAJbtYJ/y6X9WDKtN6kjyZHH0RNme8Rnf4TaWq
- NlrCsxxlzCIna1LZ6+AbTMjJNhBp
-X-Google-Smtp-Source: ADFU+vupbL0u/gcN55t2Mhd1GUPvG+PkD4Rwv2ImnqgyjiF0E0DhPBmTX/gzX9eyJ415Fc9f7MceeQ==
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr1466946wru.253.1584396378493; 
- Mon, 16 Mar 2020 15:06:18 -0700 (PDT)
-Received: from 640k.lan ([93.56.174.5])
- by smtp.gmail.com with ESMTPSA id v10sm1369392wmh.17.2020.03.16.15.06.17
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Mar 2020 15:06:17 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 06/61] util: add util function buffer_zero_avx512()
-Date: Mon, 16 Mar 2020 23:06:15 +0100
-Message-Id: <1584396375-31278-2-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1584396375-31278-1-git-send-email-pbonzini@redhat.com>
-References: <1584396375-31278-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::435
+ (envelope-from <dgibson@ozlabs.org>) id 1jDys4-0003y7-N8
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:10:10 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49207 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jDys3-0003Tu-Qf; Mon, 16 Mar 2020 19:10:08 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48hBph5qBmz9sPR; Tue, 17 Mar 2020 10:10:04 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584400204;
+ bh=mKyrRkGmD5er8pxeIUVrebzFtL6es3/pf0OAc8+6f9g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gcl8Xa8wh9dAmd7OoysHmc/sRyAkBUAWz+3FppifPQ3VwhvDzHfiDIZdUTsc3whBP
+ wkbKR4qRPLJGkT+j4tC0QOwH/F46Fbr5w0rvFAXKP7AjLdopxQDX3BGDm9f9avMsXW
+ 8c5692ftvbJiBrSBE91SZON94jOzNaV7XOhLQS7M=
+Date: Tue, 17 Mar 2020 09:41:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH qemu] spapr/rtas: Reserve space for RTAS blob and log
+Message-ID: <20200316224150.GN2013@umbus.fritz.box>
+References: <20200316011841.99970-1-aik@ozlabs.ru>
+ <20200316171056.0389b72c@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FX+Db2fp7WJhXKrW"
+Content-Disposition: inline
+In-Reply-To: <20200316171056.0389b72c@bahia.lan>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,182 +55,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Robert Hoo <robert.hu@linux.intel.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Hoo <robert.hu@linux.intel.com>
 
-And intialize buffer_is_zero() with it, when Intel AVX512F is
-available on host.
+--FX+Db2fp7WJhXKrW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This function utilizes Intel AVX512 fundamental instructions which
-is faster than its implementation with AVX2 (in my unit test, with
-4K buffer, on CascadeLake SP, ~36% faster, buffer_zero_avx512() V.S.
-buffer_zero_avx2()).
+On Mon, Mar 16, 2020 at 05:10:56PM +0100, Greg Kurz wrote:
+> On Mon, 16 Mar 2020 12:18:41 +1100
+> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>=20
+> > At the moment SLOF reserves space for RTAS and instantiates the RTAS bl=
+ob
+> > which is 20 bytes binary blob calling an hypercall. The rest of the RTAS
+> > area is a log which SLOF has no idea about but QEMU does.
+> >=20
+> > This moves RTAS sizing to QEMU and this overrides the size from SLOF.
+> > The only remaining problem is that SLOF copies the number of bytes it
+> > reserved (2KB for now) so QEMU needs to reserve at least this much;
+> > SLOF will be fixed separately to check that rtas-size from QEMU is
+> > enough for those 20 bytes the H_RTAS hcall.
+>=20
+> 20 bytes >for< the H_RTAS hcall ?
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 71 ++++++++++++++++++++++++++++++++++++++++++++--------
- 2 files changed, 64 insertions(+), 10 deletions(-)
+Adjusted in my tree, thanks.
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 6930170..09fc245 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -45,6 +45,9 @@
- #ifndef bit_AVX2
- #define bit_AVX2        (1 << 5)
- #endif
-+#ifndef bit_AVX512F
-+#define bit_AVX512F        (1 << 16)
-+#endif
- #ifndef bit_BMI2
- #define bit_BMI2        (1 << 8)
- #endif
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index bfb2605..6639035 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -63,11 +63,11 @@ buffer_zero_int(const void *buf, size_t len)
-     }
- }
- 
--#if defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
- /* Do not use push_options pragmas unnecessarily, because clang
-  * does not support them.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC push_options
- #pragma GCC target("sse2")
- #endif
-@@ -104,7 +104,7 @@ buffer_zero_sse2(const void *buf, size_t len)
- 
-     return _mm_movemask_epi8(_mm_cmpeq_epi8(t, zero)) == 0xFFFF;
- }
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC pop_options
- #endif
- 
-@@ -187,18 +187,54 @@ buffer_zero_avx2(const void *buf, size_t len)
- #pragma GCC pop_options
- #endif /* CONFIG_AVX2_OPT */
- 
-+#ifdef CONFIG_AVX512F_OPT
-+#pragma GCC push_options
-+#pragma GCC target("avx512f")
-+#include <immintrin.h>
-+
-+static bool
-+buffer_zero_avx512(const void *buf, size_t len)
-+{
-+    /* Begin with an unaligned head of 64 bytes.  */
-+    __m512i t = _mm512_loadu_si512(buf);
-+    __m512i *p = (__m512i *)(((uintptr_t)buf + 5 * 64) & -64);
-+    __m512i *e = (__m512i *)(((uintptr_t)buf + len) & -64);
-+
-+    /* Loop over 64-byte aligned blocks of 256.  */
-+    while (p <= e) {
-+        __builtin_prefetch(p);
-+        if (unlikely(_mm512_test_epi64_mask(t, t))) {
-+            return false;
-+        }
-+        t = p[-4] | p[-3] | p[-2] | p[-1];
-+        p += 4;
-+    }
-+
-+    t |= _mm512_loadu_si512(buf + len - 4 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 3 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 2 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 1 * 64);
-+
-+    return !_mm512_test_epi64_mask(t, t);
-+
-+}
-+#pragma GCC pop_options
-+#endif
-+
-+
- /* Note that for test_buffer_is_zero_next_accel, the most preferred
-  * ISA must have the least significant bit.
-  */
--#define CACHE_AVX2    1
--#define CACHE_SSE4    2
--#define CACHE_SSE2    4
-+#define CACHE_AVX512F 1
-+#define CACHE_AVX2    2
-+#define CACHE_SSE4    4
-+#define CACHE_SSE2    8
- 
- /* Make sure that these variables are appropriately initialized when
-  * SSE2 is enabled on the compiler command-line, but the compiler is
-  * too old to support CONFIG_AVX2_OPT.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- # define INIT_CACHE 0
- # define INIT_ACCEL buffer_zero_int
- #else
-@@ -211,6 +247,7 @@ buffer_zero_avx2(const void *buf, size_t len)
- 
- static unsigned cpuid_cache = INIT_CACHE;
- static bool (*buffer_accel)(const void *, size_t) = INIT_ACCEL;
-+static int length_to_accel = 64;
- 
- static void init_accel(unsigned cache)
- {
-@@ -226,10 +263,16 @@ static void init_accel(unsigned cache)
-         fn = buffer_zero_avx2;
-     }
- #endif
-+#ifdef CONFIG_AVX512F_OPT
-+    if (cache & CACHE_AVX512F) {
-+        fn = buffer_zero_avx512;
-+        length_to_accel = 256;
-+    }
-+#endif
-     buffer_accel = fn;
- }
- 
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #include "qemu/cpuid.h"
- 
- static void __attribute__((constructor)) init_cpuid_cache(void)
-@@ -252,9 +295,17 @@ static void __attribute__((constructor)) init_cpuid_cache(void)
-             int bv;
-             __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-             __cpuid_count(7, 0, a, b, c, d);
--            if ((bv & 6) == 6 && (b & bit_AVX2)) {
-+            if ((bv & 0x6) == 0x6 && (b & bit_AVX2)) {
-                 cache |= CACHE_AVX2;
-             }
-+            /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512F)) {
-+                cache |= CACHE_AVX512F;
-+            }
-         }
-     }
-     cpuid_cache = cache;
-@@ -277,7 +328,7 @@ bool test_buffer_is_zero_next_accel(void)
- 
- static bool select_accel_fn(const void *buf, size_t len)
- {
--    if (likely(len >= 64)) {
-+    if (likely(len >= length_to_accel)) {
-         return buffer_accel(buf, len);
-     }
-     return buffer_zero_int(buf, len);
--- 
-1.8.3.1
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> >=20
+> > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> > ---
+> >  include/hw/ppc/spapr.h | 1 +
+> >  hw/ppc/spapr.c         | 1 +
+> >  2 files changed, 2 insertions(+)
+> >=20
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index 2015e37ac5c8..35b489a54929 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -736,6 +736,7 @@ void spapr_load_rtas(SpaprMachineState *spapr, void=
+ *fdt, hwaddr addr);
+> >  #define SPAPR_IS_PCI_LIOBN(liobn)   (!!((liobn) & 0x80000000))
+> >  #define SPAPR_PCI_DMA_WINDOW_NUM(liobn) ((liobn) & 0xff)
+> > =20
+> > +#define RTAS_SIZE               2048
+> >  #define RTAS_ERROR_LOG_MAX      2048
+> > =20
+> >  /* Offset from rtas-base where error log is placed */
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 64bc8b83e91e..d3db3ec56e9c 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -967,6 +967,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr,=
+ void *fdt)
+> >      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+> >                       maxdomains, sizeof(maxdomains)));
+> > =20
+> > +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
+> >      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+> >                            RTAS_ERROR_LOG_MAX));
+> >      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--FX+Db2fp7WJhXKrW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wAK4ACgkQbDjKyiDZ
+s5K0ig//W6+CmDElq/v65Eup018XWpqdGoSlJfpC9qYkODQ41BNkJczt08oxlz/3
+grsshmh1eKZarSJRZ5m9QUkABf13TvIUUdbTirRAwlSZY/H0fYJazsAOUuaiUWJn
+ZMGZXvIbttc2+gYc8v7V/2Ge5PDBiNZWauIK4RwAnifH+x7rLnQx84oH5KoLqvv1
+I2BmCuRanljxDT3pRD+PAkkwLsQpyTvCLOfDgc9gAUWkmpNHJI9kreIUMlVBxchS
+VUJto5C8cv2/R5yjzEzL8jX1AE63RnRdigDJl/PItvpN+QsJYtM6cRZ5Lgp3A1wl
+gbfbxRtDyvAvvjB8Ql9SyoT7e54nvgzd2CLY3K99i7Tn/JEUSDAviSb70tg2Ioi1
+DlzLse1gCYZIHsEeUCOf469wOyQ7wUXok/5ZXWnBwfQ9yG+cemQDq39oLQ3cQqPd
+EWE9Vq1k1yMhLpitQ4DOcqgmJBH/w4hS7kotkU0mqkozL3CBlYgLyVuHLqM07nmv
+thanvYnA3/9c+uTIiFhC/CAXdXGiv9m1izgS5neiMFv2EPvb/W4s20xKvfQLE43P
+q9uUuFiRXTP6Qtl2WAu+fBGN2Pmzp4P43JVsp3BLk0ff2qs7XubFLrgIkhKknAqJ
+DYK/aljRIMd9hG9QMA3nqJ9T4o4f/HxSKDoo+iC8PaiE98Bw8sQ=
+=JBFf
+-----END PGP SIGNATURE-----
+
+--FX+Db2fp7WJhXKrW--
 
