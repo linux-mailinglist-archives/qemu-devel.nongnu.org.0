@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FA218686E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:02:13 +0100 (CET)
-Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0951868BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 11:12:55 +0100 (CET)
+Received: from localhost ([::1]:36514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDmZV-0002M8-3G
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53934)
+	id 1jDmjt-0005q0-3N
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 06:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDlLY-00014a-K6
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:41 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDlNp-0001rI-69
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDlLW-0000KG-Fr
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59107
+ (envelope-from <pbonzini@redhat.com>) id 1jDlNl-0003XM-Ly
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:46:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31833
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlLW-0000B1-9S
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:38 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDlNl-0003UA-Bi
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:45:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584348217;
+ s=mimecast20190719; t=1584348356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3zPvIA+2J8s7ebTzWw+fggxLmYO38801mD0qGZYq4pY=;
- b=VBpgknPMLSAZ46bnXkjBM7v6mmTZoceksumGTV78mpNuZxdWDKp87xRf7KisxplvtJdwn7
- BStul8/M1xcUBqx8xWAbqZEtj+Fqf/2a62pHWvxvnSWoHdtavQ/Aue4eLBkARZUpipHyFj
- dwoYPO1qovlc9T1rGJFSWRugJH7wSO4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-tD2SVBwdN5-uSODa3jJRVA-1; Mon, 16 Mar 2020 04:43:36 -0400
-X-MC-Unique: tD2SVBwdN5-uSODa3jJRVA-1
-Received: by mail-wr1-f69.google.com with SMTP id t10so2380723wrp.15
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:43:36 -0700 (PDT)
+ bh=UBsw5Iijsprd4KpGuzrwbLsk4kGeiF/wJmWbgU3tRYs=;
+ b=PBLYYG3wUQF1nh0fpAfzX7mZBJk5l4Y0fLVGbDC95ptPtbPjhdimDBpGknHhxioenAgDyM
+ 5wwF25MuGNZaQpk1uTwkJt5xsI2TGqCSrFxyoWsctvFvYLkFd/nRiosrIcHyMJr2IYMmf0
+ Jhu0Tr2a16w9jTDXDtu5h1pgQGEV0HU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-281-eeNVMUxLM2WGMMsYspaSag-1; Mon, 16 Mar 2020 04:45:52 -0400
+X-MC-Unique: eeNVMUxLM2WGMMsYspaSag-1
+Received: by mail-wm1-f72.google.com with SMTP id a13so5510053wme.7
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:45:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3zPvIA+2J8s7ebTzWw+fggxLmYO38801mD0qGZYq4pY=;
- b=kwMm67KD2TMGvhH6SWoUjgRZX8oCs+zl8dBvdcB8dfkH7dtuVRYUUVKADzUCoHULw9
- bJ6TLSENQfUQfKrhd3buqkXHgJCm1g02cumpYOtpsCEL2RGc0rkqYGUxWqCKv9r1DLpw
- VkkR834JJi7VSE018kvU+sjGAjxvD059u5BfEXPgXc8TD3Lo+Pmf6DZfL4NnAQrYm2+/
- KxDQIYUX17CI4rl1T13FS6SsLMtRS7kE11WOCZ+sFS+AfgCU0/0w3tscsIol6Te7LDWb
- 43AR4yojQZO6HZlLYuTVZEOdfEl5yQIcOrxdHLIf6YT85Ud6UALmaitvABYs3CeBrdKU
- 2aXg==
-X-Gm-Message-State: ANhLgQ0KFNiQnsItUmR6tMP8a0P5M+36lYAafxV2b7x2+MYgGNviI5T1
- WA+h+U5Z6OPGNRSwXAuafJHC/2lylSay1IQfYH398Zqd4WGN5yYRvrNLfmByLXT9n00l3wZAL3J
- HPuK66oND8yeG5s4=
-X-Received: by 2002:adf:f2cf:: with SMTP id d15mr34199563wrp.397.1584348215313; 
- Mon, 16 Mar 2020 01:43:35 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuY6yPqVwVGX9jniE0pudgrt28voaxYXQFX0MDHyPjhTByxjtfj0okfoEYUcqKyeExUo0KBPw==
-X-Received: by 2002:adf:f2cf:: with SMTP id d15mr34199528wrp.397.1584348215063; 
- Mon, 16 Mar 2020 01:43:35 -0700 (PDT)
+ bh=UBsw5Iijsprd4KpGuzrwbLsk4kGeiF/wJmWbgU3tRYs=;
+ b=U1920gu1tlA4I9iNQdI83UhcQWVz/FYOhbwTQ78EFndUVGh2vvjwrSJhoAMkNRpQ57
+ 73qWsz6W09c8Nlm0PHOxtGpFVYceNi8ieshnQYiOl3Hq79bQR75lSNPJ9FrT6YqwOvZ/
+ lzZ+GMYjaZRCxW4BUXVb3hfLLtNiETE48TvigFD2SJbPyp7Njca5JyVZVc+0w9kfWEaL
+ tvZpcLHFehY94S3M8kkuGirz/zhWInSB3tP1zLNYlNOA57yiuXjEJaO0p0ClLIsFyaSr
+ Ujit49J6SAMFQGaE1tkPuDlTxqJvUXN2wPgIlwxsoeIPo1wjfycRY5eUnnWS9Io/Fyki
+ T7MQ==
+X-Gm-Message-State: ANhLgQ0Gi/B7oEl8xEG1p8jM0rHM48iJgqQM/MZcICwWMipK2Bom326t
+ qvqaErLcZJ8sWKzpHQ7PRqitlDae4BxOS6n8K/rsaJ68qmppdxf1GFLTaDzdCuvz7xX4Tag2VMq
+ +erqwcqrlNq3npso=
+X-Received: by 2002:a1c:6385:: with SMTP id
+ x127mr26264312wmb.141.1584348351315; 
+ Mon, 16 Mar 2020 01:45:51 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vupwyxa6fHWL0AAs226seV5xMuG7MHX6M9RYL9hbe/saoI1rj8Dh/QgAq7iJ3wQ7G0xiH0iOQ==
+X-Received: by 2002:a1c:6385:: with SMTP id
+ x127mr26264249wmb.141.1584348350545; 
+ Mon, 16 Mar 2020 01:45:50 -0700 (PDT)
 Received: from [192.168.178.58] ([151.30.82.39])
- by smtp.gmail.com with ESMTPSA id q11sm551599wrp.53.2020.03.16.01.43.34
+ by smtp.gmail.com with ESMTPSA id g7sm93547836wrq.21.2020.03.16.01.45.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 01:43:34 -0700 (PDT)
-Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
- in mac_via
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <20200305065422.12707-3-pannengyuan@huawei.com>
- <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
- <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
- <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
- <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
- <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
- <871rq08tn9.fsf@dusky.pond.sub.org>
- <eca27715-554d-2c2e-5e58-ffd01abb654c@ilande.co.uk>
- <e1ae65dd-f9cd-b0ee-0ea6-f3c2b010fdab@redhat.com>
- <87tv2p8y5j.fsf@dusky.pond.sub.org>
- <3f512e33-5875-eee4-bbe8-61e7b313743d@redhat.com>
- <87mu8g3kgj.fsf@dusky.pond.sub.org>
+ Mon, 16 Mar 2020 01:45:50 -0700 (PDT)
+Subject: Re: [PULL 132/136] mem-prealloc: optimize large guest startup
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+ <1582632454-16491-30-git-send-email-pbonzini@redhat.com>
+ <7dc67896-eb79-c25c-6be6-a6b7012c9649@vivier.eu>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bd83fe53-6541-b04d-04d9-76ddd29e2b99@redhat.com>
-Date: Mon, 16 Mar 2020 09:43:33 +0100
+Message-ID: <1e16b543-b939-e962-4d15-5ad094dcdd6e@redhat.com>
+Date: Mon, 16 Mar 2020 09:45:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <87mu8g3kgj.fsf@dusky.pond.sub.org>
+In-Reply-To: <7dc67896-eb79-c25c-6be6-a6b7012c9649@vivier.eu>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -103,47 +94,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pan Nengyuan <pannengyuan@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: bauerchen <bauerchen@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/03/20 07:03, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
+On 16/03/20 09:42, Laurent Vivier wrote:
+> Hi,
 > 
->> On 15/03/20 15:56, Markus Armbruster wrote:
->>>>
->>>> The question is why they are not, i.e. where does the above reasoning break.
->>> I don't know.  But let's for the sake of the argument assume this
->>> actually worked.  Asking for help in the monitor then *still* has side
->>> effects visible in the time span between .instance_init() and
->>> finalization.
->>>
->>> Why is that harmless?
->>
->> I don't really have an answer, but if that is a problem we could change
->> "info qtree" to skip non-realized devices.
+> a bug has been reported in launchpad for this patch:
 > 
-> Can we convince ourselves that "info qtree" is the *only* way to observe
-> these side effects?
+> [Regression]Powerpc kvm guest unable to start with hugepage backed
+>             memory
+> https://bugs.launchpad.net/qemu/+bug/1866962
 
-There is of course qom-get/qom-set, but those _should_ show this side
-effect.
-
-If we decide that "info qtree" should only show devices visible to the
-guest (as opposed to all objects that have been created), then "show
-only realized devices" is not even a hack but the correct implementation
-of the concept.
+Indeed, I'm sending the pull request with the fix today.  Sorry for the
+breakage.
 
 Paolo
-
-> If yes, a hack to ignore unrealized devices "fixes" the problem.
-> 
-> If no, it sweeps it under the rug.
 
 
