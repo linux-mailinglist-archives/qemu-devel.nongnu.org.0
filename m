@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A574D18726B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:35:08 +0100 (CET)
-Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B32E1872BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:51:12 +0100 (CET)
+Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuZv-0003gt-M4
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56080)
+	id 1jDupT-0007Lp-76
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jDtbL-0000xM-0u
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:33 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtcC-0002n2-IX
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jDtbJ-0003Ey-2f
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:30 -0400
-Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:49447)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDtbI-00031d-IU
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:32:28 -0400
-Received: from player734.ha.ovh.net (unknown [10.110.115.231])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 60C8B15F3E4
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:32:26 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id D3F6E1057D1C8;
- Mon, 16 Mar 2020 17:32:13 +0000 (UTC)
-Subject: Re: [PATCH v2 2/8] ppc/spapr: Change FWNMI names
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-3-npiggin@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <85d7aed1-e7b4-fb99-fb0f-d6c129f94d61@kaod.org>
-Date: Mon, 16 Mar 2020 18:32:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtcB-0001el-9j
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45156)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDtcB-0001UI-0S
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:33:23 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t2so12251270wrx.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6cJb6Luk4ML8CBF5q+P44f9KLf8qXp+OI4lIie4NGpI=;
+ b=sEU0vjj/X54gVIO+y6gWM+bBuacNDrwxo16aeO/L33fBfoANLwx4J47jhCV9DJsGVw
+ j7vSNhhqu4Ea631QDhkFt5h+FIXzTJlzRJo6yuXZ+8cBhYfpKZMhLbmap4cUTghZNN+G
+ PpIFbft8eYuZwxNAQgPXvZKo8FwIxQDtDG/G1+DHrOZuZSdDuNjYVVmaZMxk9LpPcoOo
+ XuVQXSPBVM5aS2IHEL61x7hP1mu7t5ODc93AwGzup4xdmskFj86xI8EiIZhxZvHt4dp+
+ 3w592CLtk1NRBB2EX+gKw8yBspA0Ge1Kv+J0MeAgJjPvvz9Pd1NpZifTsVA/5vNXIcDc
+ l1aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6cJb6Luk4ML8CBF5q+P44f9KLf8qXp+OI4lIie4NGpI=;
+ b=bSSaIGMrM0XXCJ4G+h/XIto+Hw8HuGrlrhy4Ah1KGcPnbwom7vlc/aquFhp2z+Y1SX
+ AA3RKb9btjMjtVZSEoMAznhwbWA5E5e1CSzQ4ZkRdxrbhQhtkSx/yOqq1alvZ5A3qJVj
+ kSCwgGc2qzMQyQF8weNydMu8TXVtQbg7O0dBV0VqMgv7zERbJ+SMTFBZ6UjDGI50sthd
+ qH+21tAY3ItvuOo5yFBQ0S+lxpHzs8ZlKp1yGDXuKM7Gh8kLHtVo0DfU5g7Ji2+Qxlu8
+ t2YuyfNJPxDsOpZBPTOpbCTrfuXqYvSwxLJxWd7taPkEpcodwIwVWgERC/WeEM+f7pO6
+ 5EQA==
+X-Gm-Message-State: ANhLgQ3hjnJvKbJNozGZEXfkWOH7KZ5AgciZymF3Iq/j5/dh13SnIRTY
+ hP3ImwLVwrYLF4rbdBHCRZkXxFqjjykRUVUYDkPkcPVBylo=
+X-Google-Smtp-Source: ADFU+vvfQ1sFBpkM3802gVjLD2RLHHDAr6V6zvxj66lsezuvxMhQEVxa2SxW0bx1vzzXnLhflbNFTDO+wqO4Eg+lWQM=
+X-Received: by 2002:a05:6000:4a:: with SMTP id
+ k10mr383772wrx.381.1584380002043; 
+ Mon, 16 Mar 2020 10:33:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200316142613.121089-3-npiggin@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 13270419256088169446
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-24-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-24-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 18:33:09 +0100
+Message-ID: <CAJ+F1CLUikxRN2nH8h_9zGXLLpsxz4H-cMxxLbctAzavWjAcWw@mail.gmail.com>
+Subject: Re: [PATCH v3 23/34] qapi: Simplify how qmp_dispatch() gets the
+ request ID
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.175
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,385 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 3:26 PM, Nicholas Piggin wrote:
-> The option is called "FWNMI", and it involves more than just machine
-> checks, also machine checks can be delivered without the FWNMI option,
-> so re-name various things to reflect that.
-=20
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On Sun, Mar 15, 2020 at 3:51 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> We convert the request object to a QDict twice: first in
+> qmp_dispatch() to get the request ID, and then again in
+> qmp_dispatch_check_obj(), which converts to QDict, then checks and
+> returns it.  We can't get the request ID from the latter, because it's
+> null when the qdict flunks the checks.
+>
+> Move getting the request ID into qmp_dispatch_check_obj().
+>
+
+I don't see this is a an improvement. qmp_dispatch_check_obj() doesn't
+care about id.
+
+And it doesn't look like it is saving cycles either.
+
+Is that worth it?
 
 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Code change is ok otherwise,
+
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  hw/ppc/spapr.c                    | 28 ++++++++++++++--------------
->  hw/ppc/spapr_caps.c               | 14 +++++++-------
->  hw/ppc/spapr_events.c             | 14 +++++++-------
->  hw/ppc/spapr_rtas.c               | 17 +++++++++--------
->  include/hw/ppc/spapr.h            | 27 +++++++++++++++++----------
->  tests/qtest/libqos/libqos-spapr.h |  2 +-
->  6 files changed, 55 insertions(+), 47 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index d3db3ec56e..b03b26370d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1704,11 +1704,11 @@ static void spapr_machine_reset(MachineState *m=
-achine)
-> =20
->      spapr->cas_reboot =3D false;
-> =20
-> -    spapr->mc_status =3D -1;
-> -    spapr->guest_machine_check_addr =3D -1;
-> +    spapr->fwnmi_machine_check_addr =3D -1;
-> +    spapr->fwnmi_machine_check_interlock =3D -1;
-> =20
->      /* Signal all vCPUs waiting on this condition */
-> -    qemu_cond_broadcast(&spapr->mc_delivery_cond);
-> +    qemu_cond_broadcast(&spapr->fwnmi_machine_check_interlock_cond);
-> =20
->      migrate_del_blocker(spapr->fwnmi_migration_blocker);
->  }
-> @@ -1997,7 +1997,7 @@ static bool spapr_fwnmi_needed(void *opaque)
+>  qapi/qmp-dispatch.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index 550d1fe8d2..112d29a9ab 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -20,7 +20,7 @@
+>  #include "qapi/qmp/qbool.h"
+>
+>  static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_=
+oob,
+> -                                     Error **errp)
+> +                                     QObject **id, Error **errp)
 >  {
->      SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
-> =20
-> -    return spapr->guest_machine_check_addr !=3D -1;
-> +    return spapr->fwnmi_machine_check_addr !=3D -1;
->  }
-> =20
->  static int spapr_fwnmi_pre_save(void *opaque)
-> @@ -2008,7 +2008,7 @@ static int spapr_fwnmi_pre_save(void *opaque)
->       * Check if machine check handling is in progress and print a
->       * warning message.
->       */
-> -    if (spapr->mc_status !=3D -1) {
-> +    if (spapr->fwnmi_machine_check_interlock !=3D -1) {
->          warn_report("A machine check is being handled during migration=
-. The"
->                  "handler may run and log hardware error on the destina=
-tion");
+>      const char *exec_key =3D NULL;
+>      const QDictEntry *ent;
+> @@ -30,10 +30,13 @@ static QDict *qmp_dispatch_check_obj(const QObject *r=
+equest, bool allow_oob,
+>
+>      dict =3D qobject_to(QDict, request);
+>      if (!dict) {
+> +        *id =3D NULL;
+>          error_setg(errp, "QMP input must be a JSON object");
+>          return NULL;
 >      }
-> @@ -2016,15 +2016,15 @@ static int spapr_fwnmi_pre_save(void *opaque)
->      return 0;
->  }
-> =20
-> -static const VMStateDescription vmstate_spapr_machine_check =3D {
-> -    .name =3D "spapr_machine_check",
-> +static const VMStateDescription vmstate_spapr_fwnmi =3D {
-> +    .name =3D "spapr_fwnmi",
->      .version_id =3D 1,
->      .minimum_version_id =3D 1,
->      .needed =3D spapr_fwnmi_needed,
->      .pre_save =3D spapr_fwnmi_pre_save,
->      .fields =3D (VMStateField[]) {
-> -        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
-> -        VMSTATE_INT32(mc_status, SpaprMachineState),
-> +        VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
-> +        VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState=
-),
->          VMSTATE_END_OF_LIST()
->      },
->  };
-> @@ -2063,7 +2063,7 @@ static const VMStateDescription vmstate_spapr =3D=
- {
->          &vmstate_spapr_cap_large_decr,
->          &vmstate_spapr_cap_ccf_assist,
->          &vmstate_spapr_cap_fwnmi,
-> -        &vmstate_spapr_machine_check,
-> +        &vmstate_spapr_fwnmi,
->          NULL
->      }
->  };
-> @@ -2884,7 +2884,7 @@ static void spapr_machine_init(MachineState *mach=
-ine)
->          spapr_create_lmb_dr_connectors(spapr);
->      }
-> =20
-> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_ON)=
- {
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_ON) {
->          /* Create the error string for live migration blocker */
->          error_setg(&spapr->fwnmi_migration_blocker,
->              "A machine check is being handled during migration. The ha=
-ndler"
-> @@ -3053,7 +3053,7 @@ static void spapr_machine_init(MachineState *mach=
-ine)
->          kvmppc_spapr_enable_inkernel_multitce();
->      }
-> =20
-> -    qemu_cond_init(&spapr->mc_delivery_cond);
-> +    qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
->  }
-> =20
->  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
-> @@ -4534,7 +4534,7 @@ static void spapr_machine_class_init(ObjectClass =
-*oc, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_=
-ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
-> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_ON;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq =3D &spapr_irq_dual;
->      smc->dr_phb_enabled =3D true;
-> @@ -4612,7 +4612,7 @@ static void spapr_machine_4_2_class_options(Machi=
-neClass *mc)
->      spapr_machine_5_0_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_le=
-n);
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_OFF;
->      smc->rma_limit =3D 16 * GiB;
->      mc->nvdimm_supported =3D false;
->  }
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 8b27d3ac09..f626d769a0 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -509,7 +509,7 @@ static void cap_ccf_assist_apply(SpaprMachineState =
-*spapr, uint8_t val,
->      }
->  }
-> =20
-> -static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> +static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
->                                  Error **errp)
->  {
->      if (!val) {
-> @@ -626,14 +626,14 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NU=
-M] =3D {
->          .type =3D "bool",
->          .apply =3D cap_ccf_assist_apply,
->      },
-> -    [SPAPR_CAP_FWNMI_MCE] =3D {
-> -        .name =3D "fwnmi-mce",
-> -        .description =3D "Handle fwnmi machine check exceptions",
-> -        .index =3D SPAPR_CAP_FWNMI_MCE,
-> +    [SPAPR_CAP_FWNMI] =3D {
-> +        .name =3D "fwnmi",
-> +        .description =3D "Implements PAPR FWNMI option",
-> +        .index =3D SPAPR_CAP_FWNMI,
->          .get =3D spapr_cap_get_bool,
->          .set =3D spapr_cap_set_bool,
->          .type =3D "bool",
-> -        .apply =3D cap_fwnmi_mce_apply,
-> +        .apply =3D cap_fwnmi_apply,
->      },
->  };
-> =20
-> @@ -774,7 +774,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_=
-MAXPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> -SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
-> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
-> =20
->  void spapr_caps_init(SpaprMachineState *spapr)
->  {
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index 11303258d4..27ba8a2c19 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -837,7 +837,7 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu=
-, bool recovered)
-> =20
->      env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
->      env->msr =3D msr;
-> -    env->nip =3D spapr->guest_machine_check_addr;
-> +    env->nip =3D spapr->fwnmi_machine_check_addr;
-> =20
->      g_free(ext_elog);
->  }
-> @@ -849,7 +849,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
-vered)
->      int ret;
->      Error *local_err =3D NULL;
-> =20
-> -    if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +    if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
->          /*
->           * This implies that we have hit a machine check either when t=
-he
->           * guest has not registered FWNMI (i.e., "ibm,nmi-register" no=
-t
-> @@ -861,19 +861,19 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool re=
-covered)
->          return;
->      }
-> =20
-> -    while (spapr->mc_status !=3D -1) {
-> +    while (spapr->fwnmi_machine_check_interlock !=3D -1) {
->          /*
->           * Check whether the same CPU got machine check error
->           * while still handling the mc error (i.e., before
->           * that CPU called "ibm,nmi-interlock")
->           */
-> -        if (spapr->mc_status =3D=3D cpu->vcpu_id) {
-> +        if (spapr->fwnmi_machine_check_interlock =3D=3D cpu->vcpu_id) =
-{
->              qemu_system_guest_panicked(NULL);
->              return;
->          }
-> -        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-> +        qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_=
-cond);
->          /* Meanwhile if the system is reset, then just return */
-> -        if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +        if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
->              return;
->          }
->      }
-> @@ -889,7 +889,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
-vered)
->          warn_report("Received a fwnmi while migration was in progress"=
-);
->      }
-> =20
-> -    spapr->mc_status =3D cpu->vcpu_id;
-> +    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
->      spapr_mce_dispatch_elog(cpu, recovered);
->  }
-> =20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index fe83b50c66..0b8c481593 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -415,7 +415,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->  {
->      hwaddr rtas_addr;
-> =20
-> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF=
-) {
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_OFF) {
->          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
->          return;
->      }
-> @@ -426,7 +426,8 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->          return;
->      }
-> =20
-> -    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> +    spapr->fwnmi_machine_check_addr =3D rtas_ld(args, 1);
+>
+> +    *id =3D qdict_get(dict, "id");
 > +
->      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->  }
-> =20
-> @@ -436,18 +437,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cp=
-u,
->                                     target_ulong args,
->                                     uint32_t nret, target_ulong rets)
->  {
-> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF=
-) {
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_OFF) {
->          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
->          return;
+>      for (ent =3D qdict_first(dict); ent;
+>           ent =3D qdict_next(dict, ent)) {
+>          arg_name =3D qdict_entry_key(ent);
+> @@ -103,12 +106,12 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *=
+request,
+>      const char *command;
+>      QDict *args;
+>      QmpCommand *cmd;
+> -    QDict *dict =3D qobject_to(QDict, request);
+> -    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
+> +    QDict *dict;
+> +    QObject *id;
+>      QObject *ret =3D NULL;
+>      QDict *rsp =3D NULL;
+>
+> -    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
+> +    dict =3D qmp_dispatch_check_obj(request, allow_oob, &id, &err);
+>      if (!dict) {
+>          goto out;
 >      }
-> =20
-> -    if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +    if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
->          /* NMI register not called */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->          return;
->      }
-> =20
-> -    if (spapr->mc_status !=3D cpu->vcpu_id) {
-> +    if (spapr->fwnmi_machine_check_interlock !=3D cpu->vcpu_id) {
->          /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock"=
- */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->          return;
-> @@ -455,10 +456,10 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cp=
-u,
-> =20
->      /*
->       * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> -     * hence unset mc_status.
-> +     * hence unset fwnmi_machine_check_interlock.
->       */
-> -    spapr->mc_status =3D -1;
-> -    qemu_cond_signal(&spapr->mc_delivery_cond);
-> +    spapr->fwnmi_machine_check_interlock =3D -1;
-> +    qemu_cond_signal(&spapr->fwnmi_machine_check_interlock_cond);
->      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->      migrate_del_blocker(spapr->fwnmi_migration_blocker);
->  }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 35b489a549..64b83402cb 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -79,10 +79,10 @@ typedef enum {
->  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->  /* Count Cache Flush Assist HW Instruction */
->  #define SPAPR_CAP_CCF_ASSIST            0x09
-> -/* FWNMI machine check handling */
-> -#define SPAPR_CAP_FWNMI_MCE             0x0A
-> +/* Implements PAPR FWNMI option */
-> +#define SPAPR_CAP_FWNMI                 0x0A
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
-> =20
->  /*
->   * Capability Values
-> @@ -192,14 +192,21 @@ struct SpaprMachineState {
->       * occurs during the unplug process. */
->      QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
-> =20
-> -    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" cal=
-ls */
-> -    target_ulong guest_machine_check_addr;
-> -    /*
-> -     * mc_status is set to -1 if mc is not in progress, else is set to=
- the CPU
-> -     * handling the mc.
-> +    /* State related to FWNMI option */
-> +
-> +    /* Machine Check Notification Routine address
-> +     * registered by "ibm,nmi-register" RTAS call.
-> +     */
-> +    target_ulong fwnmi_machine_check_addr;
-> +
-> +    /* Machine Check FWNMI synchronization, fwnmi_machine_check_interl=
-ock is
-> +     * set to -1 if a FWNMI machine check is not in progress, else is =
-set to
-> +     * the CPU that was delivered the machine check, and is set back t=
-o -1
-> +     * when that CPU makes an "ibm,nmi-interlock" RTAS call. The cond =
-is used
-> +     * to synchronize other CPUs.
->       */
-> -    int mc_status;
-> -    QemuCond mc_delivery_cond;
-> +    int fwnmi_machine_check_interlock;
-> +    QemuCond fwnmi_machine_check_interlock_cond;
-> =20
->      /*< public >*/
->      char *kvm_type;
-> diff --git a/tests/qtest/libqos/libqos-spapr.h b/tests/qtest/libqos/lib=
-qos-spapr.h
-> index d9c4c22343..16174dbada 100644
-> --- a/tests/qtest/libqos/libqos-spapr.h
-> +++ b/tests/qtest/libqos/libqos-spapr.h
-> @@ -13,6 +13,6 @@ void qtest_spapr_shutdown(QOSState *qs);
->      "cap-sbbc=3Dbroken,"                           \
->      "cap-ibs=3Dbroken,"                            \
->      "cap-ccf-assist=3Doff,"                        \
-> -    "cap-fwnmi-mce=3Doff"
-> +    "cap-fwnmi=3Doff"
-> =20
->  #endif
->=20
+> --
+> 2.21.1
+>
+>
 
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
