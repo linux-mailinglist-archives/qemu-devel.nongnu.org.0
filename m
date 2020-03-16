@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E6A187183
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:47:59 +0100 (CET)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DB5187145
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:35:56 +0100 (CET)
+Received: from localhost ([::1]:44419 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtqI-0003ml-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40045)
+	id 1jDted-0006K6-PP
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDsPW-0007s0-SC
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:15 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDsPb-0007tM-Bw
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDsPV-0007A5-Rb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:33739)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPV-0006zr-7Y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:13 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDsPa-0007s4-7t
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:33411)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPZ-0007h1-Ux
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:18 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M8k65-1jI1HP0mQ5-004gec; Mon, 16 Mar 2020 17:16:10 +0100
+ id 1MFsAJ-1j5L2S47DT-00HMNE; Mon, 16 Mar 2020 17:16:12 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/38] linux-user: Add AT_EXECFN auxval
-Date: Mon, 16 Mar 2020 17:15:18 +0100
-Message-Id: <20200316161550.336150-7-laurent@vivier.eu>
+Subject: [PULL 07/38] linux-user: do prlimit selectively
+Date: Mon, 16 Mar 2020 17:15:19 +0100
+Message-Id: <20200316161550.336150-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200316161550.336150-1-laurent@vivier.eu>
 References: <20200316161550.336150-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5R+rosIIZqp4x+AWEBJhCWkTQnritmsp1GCrgjdkNp0r9j7M2qd
- Fpe5OxSdENan4w1x+6Je3h9DAu8lrSl6cWpuelUSAdDChMmDETB/UEXWQdCPBIr22ViG1V0
- lDPNi+3G6vmxHI08oCn8aHZiY1GGB0MrmE7czPb2Q50IDbHkLZv0YJ6aJMOr8PxlSpk+l4p
- KOP3HOWAY5nbR7TARsXgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nykbyp/CenE=:lndPYVXu8QLgV+0fNHOVZa
- aQORoa0iWOho71WoOmiTaal7shXg9g5Vl1QmF4r0HbdudU88I0b0ZVxvgT2OAfnjHCOHzGlpD
- jmgNyKrBCZuSjzdylgne413u2qmUiuYl+V213vKRuSFwhbZoAlj7ZKb1FDxak+kwcrZ2dcLhU
- NmTQ5R4s9GZoyeEcgkPMxh9tK8dfe4R+CgryxwtOHasIcCYnBx1adqlvwswAMgYw9YyrUIfnk
- ZHwBharQGj4bELOKsdd4JFwBmupsDgCizPw/wPGaP8Oskx4PrSwFXfabMFEFwqs3P1qpP9ZzW
- uIfuxr6lGbRttiZV01RR0k0EAihl+sYhDUUuwXIDIEscp270LqIhuHIciLsr+kR+8S1bREsSP
- TBGWfNlqsTELX4+vAlbJ270mY6ci3eOL8FlWGo0wm+NeT+keksBjejPkntKLIf22f0+PbJt6H
- 22WidEmLi7JctGN7USLs/QZYrOavVE27hQWvqD6YTMSLSCKT616SdwFiC8uzqBecwEviYn8Lz
- lpEINyz8IXxGk1THu27vuyOQexJWMD6auvdjaSDzN681O0sH8PVoS//uE1ovgK1Gs/5QnRwfs
- 6Affz16Z/M/bZsTyDj//9cnnadEdxzOvWOTYKsg1fCUVIO+Arnx2EDYJ+P0jnzEaEaxjVYtUY
- XjvctbqfjSj7U9Vnq79GkBoVC/NWkckgMypAuIgWZNxoFk6vF9LbvJnzgV9NO4caOtRaF8SW8
- Cc1gGtFNoxrxSs4iUh7bsAyDSbBHzNvGq6n4XR1obvPSOSL2tEd4WupCjDlTjAopGRcKTqlk+
- DmFZwRJ1WLwMZkfHXvzbEIAOluLyFXs/pnBC2jNJA1lbq6EkkM36CO3FoMnmhTmjEWAF4Nb
+X-Provags-ID: V03:K1:PBvRvwT8h/gVXiyEcQJBP5qz+jzTQEtBS5Fi6ReNXn+45syBlAj
+ LxsfdQruf8t3dzaOlLpXeIhOWBrtOAenFSBx6fHETRPPjDFzq5BSfxBLwlf8qb3mjWMYDPt
+ t6Yod1auUmYteNv/2e/gaV/ipEBsxHcjwV8uMrEAyssRIz+rVzs534C6eGfsWpU9ih07qag
+ c9Eln2yhWhMPjO3y/3UPg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vnsAgJ3LydU=:PXeKqieMVLroyuytlHb04G
+ J4cn9QB+6d10XqeEebvAvtl8OgrhsvnfjKS82RGecIh1xbfGusQKyAVLhtrH2y1/x04REDHY1
+ zZXdOut1II6B2iYgMM1oeKpCUVzHCQzb6zYwiibTLo3kNgOPHKFrVdhNKsJG1WrjFXVxuFlYl
+ mjHVnjo7t80P6me7XdX178qKCdOOVKc1yJqdLaC203MlBrVPPs8ETQ6A+qGss3Yo1U+r9bbOS
+ nKLt5Sn4Xt3KF3oQjkkCxO4vOs9AqU1Uze7GpqICjZY6bPcITsi4yu6huiR8AulM6E8fEAEin
+ BQBx4qHte3JTB/7NXPfN8AdDdhvYbF2UmEaAFaUdLgD2N7Q17QZ/cOu9iLnZQKPi63cn0Ti1Y
+ n4nsnyCVS0/qmO5QDlWdVKGjkAw9u10ipWSI7ooSMy/1KDOEQVbrYsr7GfG815beC23DWjoKx
+ TNs3Ej4ye04ertqxkv0Jtw1Mi8V7bDmeugNZTA2DTp9oZdGCUq+0CFCqUDMI9agJYmLkS5EFr
+ CTHEmSymWHQcdInDW6s+HD/tLIisPD5aCH3YbFmF2HX579iNWMQ3USFvcSJrrJIQUEFAN/M6x
+ B9OuL+60zqxMJLAzYyglDuhfTppLysxRkbIN8qa9WkQqaH5ioIMolng/AVevsX+hlS8sVa2ZT
+ bg9SeUUsjK5x6DWS6/10tFiZnJgUwpbzpjM/lpPxUd3W/4gk4/xfjiG2YS6c0grAc3t4OXiFT
+ 3v910QnlGYXil7qxj6HU8Uwr4JEXMPqBy5uuckB4OqspLDtmMdGMzbZqr04SVYkuZSQ7u3ZU9
+ F13cbcyDeMq6B+CU5G4xj835qNeSaC+VPORvhuEtt5ImScGoD7jBq4/WquhqpFoUb9Pgj3Y
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,43 +64,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Lirong Yuan <yuanzi@google.com>
+ Tobias Koch <tobias.koch@nonterra.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lirong Yuan <yuanzi@google.com>
+From: Tobias Koch <tobias.koch@nonterra.com>
 
-This change adds the support for AT_EXECFN auxval.
+Analogous to what commit 5dfa88f7 did for setrlimit, this commit
+selectively ignores limits for memory-related resources in prlimit64
+calls. This is to prevent too restrictive limits from causing QEMU
+itself to malfunction.
 
-Signed-off-by: Lirong Yuan <yuanzi@google.com>
+Signed-off-by: Tobias Koch <tobias.koch@nonterra.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200302193153.66415-1-yuanzi@google.com>
+Message-Id: <20200305202400.27574-1-tobias.koch@nonterra.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index db748c58775f..8198be044604 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1573,7 +1573,7 @@ struct exec
-                                  ~(abi_ulong)(TARGET_ELF_EXEC_PAGESIZE-1))
- #define TARGET_ELF_PAGEOFFSET(_v) ((_v) & (TARGET_ELF_EXEC_PAGESIZE-1))
- 
--#define DLINFO_ITEMS 15
-+#define DLINFO_ITEMS 16
- 
- static inline void memcpy_fromfs(void * to, const void * from, unsigned long n)
- {
-@@ -2037,6 +2037,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     NEW_AUX_ENT(AT_CLKTCK, (abi_ulong) sysconf(_SC_CLK_TCK));
-     NEW_AUX_ENT(AT_RANDOM, (abi_ulong) u_rand_bytes);
-     NEW_AUX_ENT(AT_SECURE, (abi_ulong) qemu_getauxval(AT_SECURE));
-+    NEW_AUX_ENT(AT_EXECFN, info->file_string);
- 
- #ifdef ELF_HWCAP2
-     NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 811495c3a0bc..be676c3a4fb4 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11904,7 +11904,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         struct target_rlimit64 *target_rnew, *target_rold;
+         struct host_rlimit64 rnew, rold, *rnewp = 0;
+         int resource = target_to_host_resource(arg2);
+-        if (arg3) {
++
++        if (arg3 && (resource != RLIMIT_AS &&
++                     resource != RLIMIT_DATA &&
++                     resource != RLIMIT_STACK)) {
+             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+                 return -TARGET_EFAULT;
+             }
 -- 
 2.24.1
 
