@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9870D186EE9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:45:59 +0100 (CET)
-Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96D1186F7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:59:48 +0100 (CET)
+Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrwD-0003R7-ML
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:45:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
+	id 1jDs9b-0008Cu-Et
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <r.bolshakov@yadro.com>) id 1jDpl3-0001Sq-Gb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:19 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jDpl7-0001UE-UE
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <r.bolshakov@yadro.com>) id 1jDpl2-0000MD-Du
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:17 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:50024 helo=mta-01.yadro.com)
+ (envelope-from <imammedo@redhat.com>) id 1jDpl5-0000vE-Fq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39876
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
- id 1jDpl2-0008Q8-51
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:16 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 9EA4A4127E;
- Mon, 16 Mar 2020 13:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1584365172; x=
- 1586179573; bh=oBkBrguLZWKRgIMwLtFrvJCh47xvuaQQlhruzcozGAg=; b=d
- V40wdeQlrOPJLpJ9lYf7rwPC0pRhV3avq4g43KgJjyqlw8OfNok3vh8U6ocqIqMR
- lhEB9k6fwQQwYoYuSLnq5J2yKqHEynwLifDlECdKfvWei9kNurj39/L4dgq3C/ik
- 5efHBEYmDOHmr7y8W3OLToBCkpTcpwXWGV3azsmKyY=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ls95sNW5TDQw; Mon, 16 Mar 2020 16:26:12 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jDpl5-0000qY-A3
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:26:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584365179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=84FK/whIcqud6MQ9tDuDfoxHPB6HJs1Ch1gm48BLGw4=;
+ b=QVfIpJiIXiLuwLRKWnf5cLG2UbaaP3hJ6gN9DTcRSF1+4BxcnIZEa6BdXGa4W7QVabyUON
+ z64VCpPjUI0WCMA9+GcTDGF6Wdjky/8O4hfwvyrsctFkDMQ1z5NyQOLhrszycURYUS+YRD
+ zrj6J/JQP7giEu+GQLFBB1yrn7r79BM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-PjlUvtwVMXSFvu3ZBi3_dg-1; Mon, 16 Mar 2020 09:26:17 -0400
+X-MC-Unique: PjlUvtwVMXSFvu3ZBi3_dg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 1F6B54120D;
- Mon, 16 Mar 2020 16:26:11 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
- Mar 2020 16:26:11 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] MAINTAINERS: Add an entry for the HVF accelerator
-Date: Mon, 16 Mar 2020 16:22:57 +0300
-Message-ID: <20200316132254.32906-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.24.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CD61189F768;
+ Mon, 16 Mar 2020 13:26:16 +0000 (UTC)
+Received: from localhost (ovpn-200-42.brq.redhat.com [10.40.200.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63A8F5DA7B;
+ Mon, 16 Mar 2020 13:26:11 +0000 (UTC)
+Date: Mon, 16 Mar 2020 14:26:09 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] acpi: Add Windows ACPI Emulated Device Table (WAET)
+Message-ID: <20200316142609.5b73a0ca@redhat.com>
+In-Reply-To: <20200313110940-mutt-send-email-mst@kernel.org>
+References: <20200311170826.79419-1-liran.alon@oracle.com>
+ <20200312172745.1b7b2222@redhat.com>
+ <20200312130854-mutt-send-email-mst@kernel.org>
+ <20200313103656.094ec89b@redhat.com>
+ <20200313110940-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 89.207.88.252
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,51 +74,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Colp <patrick.colp@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Cameron Esfahani <dirty@apple.com>,
- Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Liran Alon <liran.alon@oracle.com>,
- Nikita Leshenko <nikita.leshchenko@oracle.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Heiher <r@hev.cc>
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Liran Alon <liran.alon@oracle.com>, Elad Gabay <elad.gabay@oracle.com>,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Nikita Leshenko <nikita.leshchenko@oracle.com>
-Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
-Cc: Patrick Colp <patrick.colp@oracle.com>
-Cc: Cameron Esfahani <dirty@apple.com>
-Cc: Liran Alon <liran.alon@oracle.com>
-Cc: Heiher <r@hev.cc>
+On Fri, 13 Mar 2020 11:26:45 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+> On Fri, Mar 13, 2020 at 10:36:56AM +0100, Igor Mammedov wrote:
+> > On Thu, 12 Mar 2020 13:09:51 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Thu, Mar 12, 2020 at 05:27:45PM +0100, Igor Mammedov wrote:  
+> > > > On Wed, 11 Mar 2020 19:08:26 +0200
+> > > > Liran Alon <liran.alon@oracle.com> wrote:
+> > > >     
+> > > > > From: Elad Gabay <elad.gabay@oracle.com>
+> > > > > 
+> > > > > Microsoft introduced this ACPI table to avoid Windows guests performing
+> > > > > various workarounds for device erratas. As the virtual device emulated
+> > > > > by VMM may not have the errata.
+> > > > > 
+> > > > > Currently, WAET allows hypervisor to inform guest about two
+> > > > > specific behaviors: One for RTC and the other for ACPI PM Timer.
+> > > > > 
+> > > > > Support for WAET have been introduced since Windows Vista. This ACPI
+> > > > > table is also exposed by other hypervisors, such as VMware, by default.
+> > > > > 
+> > > > > This patch adds WAET ACPI Table to QEMU. It also makes sure to introduce
+> > > > > the new ACPI table only for new machine-types.    
+> > > > 
+> > > > in addition to comments made by Michael ...
+> > > >     
+> > > > > 
+> > > > > Signed-off-by: Elad Gabay <elad.gabay@oracle.com>
+> > > > > Co-developed-by: Liran Alon <liran.alon@oracle.com>
+> > > > > Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> > > > > ---
+> > > > >  hw/i386/acpi-build.c        | 18 ++++++++++++++++++
+> > > > >  hw/i386/pc_piix.c           |  2 ++
+> > > > >  hw/i386/pc_q35.c            |  2 ++
+> > > > >  include/hw/acpi/acpi-defs.h | 25 +++++++++++++++++++++++++
+> > > > >  include/hw/i386/pc.h        |  1 +
+> > > > >  5 files changed, 48 insertions(+)
+> > > > > 
+> > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > > index 9c4e46fa7466..29f70741cd96 100644
+> > > > > --- a/hw/i386/acpi-build.c
+> > > > > +++ b/hw/i386/acpi-build.c
+> > > > > @@ -2512,6 +2512,19 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker)
+> > > > >      build_header(linker, table_data, (void *)(table_data->data + dmar_start),
+> > > > >                   "DMAR", table_data->len - dmar_start, 1, NULL, NULL);
+> > > > >  }
+> > > > > +
+> > > > > +static void
+> > > > > +build_waet(GArray *table_data, BIOSLinker *linker)    
+> > > > see build_hmat_lb() for example how to doc comment for such function
+> > > > should look like. Use earliest spec version where table was introduced.
+> > > >     
+> > > > > +{
+> > > > > +    AcpiTableWaet *waet;
+> > > > > +
+> > > > > +    waet = acpi_data_push(table_data, sizeof(*waet));
+> > > > > +    waet->emulated_device_flags = cpu_to_le32(ACPI_WAET_PM_TIMER_GOOD);    
+> > > > 
+> > > > we don't use packed structures for building ACPI tables anymore (there is
+> > > > old code that still does but that's being converted when we touch it)
+> > > > 
+> > > > pls use build_append_int_noprefix() api instead, see build_amd_iommu() as
+> > > > an example how to build binary tables using it and how to use comments
+> > > > to document fields.
+> > > > Basic idea is that api makes function building a table match table's
+> > > > description in spec (each call represents a row in spec) and comment
+> > > > belonging to a row should contain verbatim field name as used by spec
+> > > > so reader could copy/past and grep it easily.    
+> > > 
+> > > 
+> > > BTW how about a better name for this function?  
+> > 
+> > how about [aml|acpi]_int_raw 
+> > [...]  
+> 
+> I'm not sure how this helps.  I think the main problems are
+> 1- very long name
+> 2- only makes sense if you know that ACPI has a special integer prefix
+> 3- easy to confuse which is the value which is the length
+> 4- length is in bytes (typical documentation is in bits)
+in acpi spec, they use bytes mostly (with occasional bits deviation)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 32867bc636..e544f3012e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -405,6 +405,13 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
-=20
-+X86 HVF CPUs
-+M: Roman Bolshakov <r.bolshakov@yadro.com>
-+S: Supported
-+F: accel/stubs/hvf-stub.c
-+F: target/i386/hvf/
-+F: include/sysemu/hvf.h
-+
- WHPX CPUs
- M: Sunil Muthuswamy <sunilmut@microsoft.com>
- S: Supported
---=20
-2.24.1
+> 
+> Your suggestion only fixes issue 1.
+that's what I don't like the most about current name, it's way too long.
+
+> Having listed it all out, I suggest the following for the purpose of
+> building structures:
+> 
+> 	acpi/aml/build_append_u8
+> 	acpi/aml/build_append_u16
+> 	acpi/aml/build_append_u32
+> 	acpi/aml/build_append_u64
+I prefer having length argument, so when I'm reviewing code, I'm basically
+comparing it with value in the table.
+The same applies to function name, having a bunch of different
+names would be distracting, at least where it comes to composing
+tables.
+So I prefer keeping current list of arguments.
+ 
+> and maybe
+> 	acpi/aml/build_append_pad( length)
+> 
+> I'm not sure what the best prefix is. I guess we can have them all
+> with the slightly different arguments.
 
 
