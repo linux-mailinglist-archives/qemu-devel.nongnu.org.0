@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6FC18719E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:54:25 +0100 (CET)
-Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2CA1871AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:56:03 +0100 (CET)
+Received: from localhost ([::1]:45024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtwV-0007yH-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55503)
+	id 1jDty6-00037L-9k
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDsHb-0004bv-6j
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDsHf-0004dM-7X
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDsHY-0005ZM-V6
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:03 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58811)
+ (envelope-from <philmd@redhat.com>) id 1jDsHd-0006CX-Uu
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:07 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:55101)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsHY-0005V8-PA
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:00 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDsHd-00069f-Q0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:08:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584374880;
+ s=mimecast20190719; t=1584374885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xvIh8Ri8MGdsRwEuM5pCIZMdFKEO3pS7XtCgO8xIIro=;
- b=ER7wfCAgUGkDTZE6uCX3kipzu5rBhYubmpOkWOnZKZkJP+XAUFQBdYrepDuorHzuwsxv2h
- zvd4Ep/AXuLI1p8TcyQBTCDo2Ebr5AjmW/beFJspaumYFqOmAqOJY4OMrdirm4xop1Etq/
- blfkk0sidDyQiA3HcgqbSnI/FwBn+Vw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-zncu3tFzMMS6pFlXzATcxA-1; Mon, 16 Mar 2020 12:07:57 -0400
-X-MC-Unique: zncu3tFzMMS6pFlXzATcxA-1
-Received: by mail-wm1-f70.google.com with SMTP id f9so3240837wme.7
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:07:57 -0700 (PDT)
+ bh=ui04JwX7OiOXq/laFXLsBkQhZYSQ3MHjobkDuHeSfV0=;
+ b=CEqpVH6AccFgE6OyyCvobv1P6Su+fxjdCjaDOipj+K1FNLRVvgp9YvCfFihycQxI/Tfo6F
+ xz9i3oVdcgBOA4GL/CuoQYTAkOEVTH8EQUSecp0VpqqROHpmHtc3qIb56liFb/HcBZ3w9f
+ XOf/H6Wpj+6COyfhAqaOudmA1ae+h8Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49--hHRivwnPAGm3piGG9OKrA-1; Mon, 16 Mar 2020 12:08:01 -0400
+X-MC-Unique: -hHRivwnPAGm3piGG9OKrA-1
+Received: by mail-wr1-f69.google.com with SMTP id 94so4577757wrr.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:08:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2dfDnran3E3vJVzOwh1qQwExgfNmDOU0PLsSJKRIuHk=;
- b=AiRlv/valUDKoUTzhRssNxGds1JXXFWs0zwnXYfujDQgZEnO/k6hRpn7j52JhQVpuW
- yTMGowzMZrChsRRHMWLGh1/UwP48QGfcJpqIui176bn6A/wE66t2raj2MDY/2Ma374DC
- vwd7/TEQj5VfmxBbbw9p7RMqyE5imq5ErVCqZVqoa8NYz+eCwrN+1VuIF4E7WZxXVS9P
- y4yy/PNmatJe96FSjRoKrczxMePWP8A8cd/3Vc0wGu+GxTxkKcU9Ss21n3t/iKSlocv7
- egBQ7J2jhggncJxI7BgyN4CS+iKnhLYW/YU+nEx4cCnmnNYiwDNGHJq+O7ei+jnFkbuj
- 2hAw==
-X-Gm-Message-State: ANhLgQ28fWBzGtoh9SwB8k0X8T+DdDG55KFEzpDMwR+1a82atsYMyyV6
- 1IvYXo1g9V15W+sbE3q3YC8CMGO99YoVp96RDcjiiLlu+g3YcmNqh3vLPPRh5sIb601ILn6pF0T
- aKWtFpen1DzaWLbg=
-X-Received: by 2002:a1c:a70f:: with SMTP id q15mr29224306wme.66.1584374875542; 
- Mon, 16 Mar 2020 09:07:55 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvvUsowZLHDxnYfDB3bDiW71se1HIHUXOcWI+nMKioBIiFsS1gl8oiiU5/RpwkxKCUDyY8mEA==
-X-Received: by 2002:a1c:a70f:: with SMTP id q15mr29224211wme.66.1584374874213; 
- Mon, 16 Mar 2020 09:07:54 -0700 (PDT)
+ bh=sJ9bxuRVskXYC2aJKl03+Z9cSr20F7Dbm9JRwxmo2e4=;
+ b=QyEyovdQNVYULHVvN0tHBMkbt1rWR145B9b7oYnXwh6BpOe2zWiwUEQYMcMCUte8dA
+ UCoR1yhLv9JCec7VNioJsGkHj69q/MfM9N+n2op/gk2iIVA9iU5VDOYJTXjAZi6u913b
+ +5WnaJKfeJ/y+huDACR8gPEcB82Mkf7ZoxGXe9HLOQNvw41W+qt9CbUq+rcPCfJrIl87
+ cAv104wweUGtZG9JTMRO9uImu+OgcyVLMRnQa/Q0Eue7D+Rdrwc+OJf0wTk7RqyERpD6
+ d11gwpPvOiQ95QbM4lxNaypfz0PTPz1nGmnnsH567mflcTzZlGjzUvMbbrVC/lYbqe0Q
+ cX5Q==
+X-Gm-Message-State: ANhLgQ0eG9/TQE1lXsM+qAxi1CCeylr+ezoVBw6OOWV0/NVcafTf2Zd+
+ sk1+NZEbuwSzPdS+EfVip2zjeKuuUq66b2nmpvasNndf6WQ5xSevhNg/2Y4c/lbbt4cHTaEcCyd
+ njCUjAFwPnij53M8=
+X-Received: by 2002:a5d:4488:: with SMTP id j8mr96058wrq.306.1584374879941;
+ Mon, 16 Mar 2020 09:07:59 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsZjM9PYbzB11qOc3TO2Yn7YNmN1hMQ0DyCXu0fd112HXe4vZCCLfxIEsZneEmH7TNa6quBUA==
+X-Received: by 2002:a5d:4488:: with SMTP id j8mr96041wrq.306.1584374879656;
+ Mon, 16 Mar 2020 09:07:59 -0700 (PDT)
 Received: from localhost.localdomain (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id u25sm215843wml.17.2020.03.16.09.07.52
+ by smtp.gmail.com with ESMTPSA id f203sm206459wmf.18.2020.03.16.09.07.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 09:07:53 -0700 (PDT)
+ Mon, 16 Mar 2020 09:07:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/19] target/arm: Restrict ARMv7 M-profile cpus to TCG
- accel
-Date: Mon, 16 Mar 2020 17:06:29 +0100
-Message-Id: <20200316160634.3386-15-philmd@redhat.com>
+Subject: [PATCH v3 15/19] target/arm: Make m_helper.c optional via
+ CONFIG_ARM_V7M
+Date: Mon, 16 Mar 2020 17:06:30 +0100
+Message-Id: <20200316160634.3386-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316160634.3386-1-philmd@redhat.com>
 References: <20200316160634.3386-1-philmd@redhat.com>
@@ -76,7 +76,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,490 +98,143 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A KVM-only build won't be able to run M-profile cpus.
+From: Thomas Huth <thuth@redhat.com>
 
-Only enable the following ARMv7 M-Profile CPUs when TCG is available:
+We've already got the CONFIG_ARM_V7M switch, but it currently can
+not be disabled yet. The m_helper.c code should not be compiled
+into the binary if the switch is not enabled. We also have to
+provide some stubs in a separate file to make sure that we still
+can link the other code without CONFIG_ARM_V7M.
 
-  - Cortex-M3
-  - Cortex-M4
-  - Cortex-M33
-
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190903154810.27365-4-thuth@redhat.com>
+[PMD: add write_v7m_exception() stub when not using TCG,
+      remove CONFIG_ARM_V7M=3Dy in default-configs/arm-softmmu.mak]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- default-configs/arm-softmmu.mak |   8 --
- target/arm/cpu.c                | 176 ---------------------------
- target/arm/cpu_v7m.c            | 207 ++++++++++++++++++++++++++++++++
- target/arm/Kconfig              |   1 +
- target/arm/Makefile.objs        |   1 +
- 5 files changed, 209 insertions(+), 184 deletions(-)
- create mode 100644 target/arm/cpu_v7m.c
+ default-configs/arm-softmmu.mak |  6 ----
+ target/arm/cpu.h                |  7 ++++
+ target/arm/m_helper-stub.c      | 59 +++++++++++++++++++++++++++++++++
+ target/arm/Makefile.objs        |  3 +-
+ 4 files changed, 68 insertions(+), 7 deletions(-)
+ create mode 100644 target/arm/m_helper-stub.c
 
 diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.=
 mak
-index 3aa27f3b40..511d74da58 100644
+index 511d74da58..7ae8006556 100644
 --- a/default-configs/arm-softmmu.mak
 +++ b/default-configs/arm-softmmu.mak
-@@ -12,19 +12,11 @@ CONFIG_ARM_V7M=3Dy
- CONFIG_ARM_VIRT=3Dy
- CONFIG_CUBIEBOARD=3Dy
- CONFIG_EXYNOS4=3Dy
--CONFIG_HIGHBANK=3Dy
--CONFIG_MUSCA=3Dy
--CONFIG_STELLARIS=3Dy
- CONFIG_REALVIEW=3Dy
- CONFIG_VEXPRESS=3Dy
- CONFIG_ZYNQ=3Dy
--CONFIG_NETDUINO2=3Dy
--CONFIG_NETDUINOPLUS2=3Dy
--CONFIG_MPS2=3Dy
- CONFIG_RASPI=3Dy
- CONFIG_SABRELITE=3Dy
--CONFIG_EMCRAFT_SF2=3Dy
--CONFIG_MICROBIT=3Dy
- CONFIG_FSL_IMX7=3Dy
- CONFIG_FSL_IMX6UL=3Dy
- CONFIG_ALLWINNER_H3=3Dy
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 84be8792f6..dfa7e64c7e 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -573,31 +573,6 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrup=
-t_request)
-     return true;
- }
+@@ -1,11 +1,5 @@
+ # Default configuration for arm-softmmu
 =20
--#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
--static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request=
-)
--{
--    CPUClass *cc =3D CPU_GET_CLASS(cs);
--    ARMCPU *cpu =3D ARM_CPU(cs);
--    CPUARMState *env =3D &cpu->env;
--    bool ret =3D false;
+-# CONFIG_SEMIHOSTING is always required on this architecture
+-CONFIG_SEMIHOSTING=3Dy
 -
--    /* ARMv7-M interrupt masking works differently than -A or -R.
--     * There is no FIQ/IRQ distinction. Instead of I and F bits
--     * masking FIQ and IRQ interrupts, an exception is taken only
--     * if it is higher priority than the current execution priority
--     * (which depends on state like BASEPRI, FAULTMASK and the
--     * currently active exception).
--     */
--    if (interrupt_request & CPU_INTERRUPT_HARD
--        && (armv7m_nvic_can_take_pending_exception(env->nvic))) {
--        cs->exception_index =3D EXCP_IRQ;
--        cc->do_interrupt(cs);
--        ret =3D true;
--    }
--    return ret;
--}
--#endif
+-# TODO: ARM_V7M is currently always required - make this more flexible!
+-CONFIG_ARM_V7M=3Dy
 -
- void arm_cpu_update_virq(ARMCPU *cpu)
- {
-     /*
-@@ -1834,147 +1809,6 @@ static ObjectClass *arm_cpu_class_by_name(const cha=
-r *cpu_model)
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+ # CONFIG_PCI_DEVICES=3Dn
+ # CONFIG_TEST_DEVICES=3Dn
 =20
--static void cortex_m0_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--    set_feature(&cpu->env, ARM_FEATURE_V6);
--    set_feature(&cpu->env, ARM_FEATURE_M);
--
--    cpu->midr =3D 0x410cc200;
--}
--
--static void cortex_m3_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_M);
--    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
--    cpu->midr =3D 0x410fc231;
--    cpu->pmsav7_dregion =3D 8;
--    cpu->id_pfr0 =3D 0x00000030;
--    cpu->id_pfr1 =3D 0x00000200;
--    cpu->isar.id_dfr0 =3D 0x00100000;
--    cpu->id_afr0 =3D 0x00000000;
--    cpu->isar.id_mmfr0 =3D 0x00000030;
--    cpu->isar.id_mmfr1 =3D 0x00000000;
--    cpu->isar.id_mmfr2 =3D 0x00000000;
--    cpu->isar.id_mmfr3 =3D 0x00000000;
--    cpu->isar.id_isar0 =3D 0x01141110;
--    cpu->isar.id_isar1 =3D 0x02111000;
--    cpu->isar.id_isar2 =3D 0x21112231;
--    cpu->isar.id_isar3 =3D 0x01111110;
--    cpu->isar.id_isar4 =3D 0x01310102;
--    cpu->isar.id_isar5 =3D 0x00000000;
--    cpu->isar.id_isar6 =3D 0x00000000;
--}
--
--static void cortex_m4_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_M);
--    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
--    cpu->midr =3D 0x410fc240; /* r0p0 */
--    cpu->pmsav7_dregion =3D 8;
--    cpu->isar.mvfr0 =3D 0x10110021;
--    cpu->isar.mvfr1 =3D 0x11000011;
--    cpu->isar.mvfr2 =3D 0x00000000;
--    cpu->id_pfr0 =3D 0x00000030;
--    cpu->id_pfr1 =3D 0x00000200;
--    cpu->isar.id_dfr0 =3D 0x00100000;
--    cpu->id_afr0 =3D 0x00000000;
--    cpu->isar.id_mmfr0 =3D 0x00000030;
--    cpu->isar.id_mmfr1 =3D 0x00000000;
--    cpu->isar.id_mmfr2 =3D 0x00000000;
--    cpu->isar.id_mmfr3 =3D 0x00000000;
--    cpu->isar.id_isar0 =3D 0x01141110;
--    cpu->isar.id_isar1 =3D 0x02111000;
--    cpu->isar.id_isar2 =3D 0x21112231;
--    cpu->isar.id_isar3 =3D 0x01111110;
--    cpu->isar.id_isar4 =3D 0x01310102;
--    cpu->isar.id_isar5 =3D 0x00000000;
--    cpu->isar.id_isar6 =3D 0x00000000;
--}
--
--static void cortex_m7_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_M);
--    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
--    cpu->midr =3D 0x411fc272; /* r1p2 */
--    cpu->pmsav7_dregion =3D 8;
--    cpu->isar.mvfr0 =3D 0x10110221;
--    cpu->isar.mvfr1 =3D 0x12000011;
--    cpu->isar.mvfr2 =3D 0x00000040;
--    cpu->id_pfr0 =3D 0x00000030;
--    cpu->id_pfr1 =3D 0x00000200;
--    cpu->isar.id_dfr0 =3D 0x00100000;
--    cpu->id_afr0 =3D 0x00000000;
--    cpu->isar.id_mmfr0 =3D 0x00100030;
--    cpu->isar.id_mmfr1 =3D 0x00000000;
--    cpu->isar.id_mmfr2 =3D 0x01000000;
--    cpu->isar.id_mmfr3 =3D 0x00000000;
--    cpu->isar.id_isar0 =3D 0x01101110;
--    cpu->isar.id_isar1 =3D 0x02112000;
--    cpu->isar.id_isar2 =3D 0x20232231;
--    cpu->isar.id_isar3 =3D 0x01111131;
--    cpu->isar.id_isar4 =3D 0x01310132;
--    cpu->isar.id_isar5 =3D 0x00000000;
--    cpu->isar.id_isar6 =3D 0x00000000;
--}
--
--static void cortex_m33_initfn(Object *obj)
--{
--    ARMCPU *cpu =3D ARM_CPU(obj);
--
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_M);
--    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
--    set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
--    cpu->midr =3D 0x410fd213; /* r0p3 */
--    cpu->pmsav7_dregion =3D 16;
--    cpu->sau_sregion =3D 8;
--    cpu->isar.mvfr0 =3D 0x10110021;
--    cpu->isar.mvfr1 =3D 0x11000011;
--    cpu->isar.mvfr2 =3D 0x00000040;
--    cpu->id_pfr0 =3D 0x00000030;
--    cpu->id_pfr1 =3D 0x00000210;
--    cpu->isar.id_dfr0 =3D 0x00200000;
--    cpu->id_afr0 =3D 0x00000000;
--    cpu->isar.id_mmfr0 =3D 0x00101F40;
--    cpu->isar.id_mmfr1 =3D 0x00000000;
--    cpu->isar.id_mmfr2 =3D 0x01000000;
--    cpu->isar.id_mmfr3 =3D 0x00000000;
--    cpu->isar.id_isar0 =3D 0x01101110;
--    cpu->isar.id_isar1 =3D 0x02212000;
--    cpu->isar.id_isar2 =3D 0x20232232;
--    cpu->isar.id_isar3 =3D 0x01111131;
--    cpu->isar.id_isar4 =3D 0x01310132;
--    cpu->isar.id_isar5 =3D 0x00000000;
--    cpu->isar.id_isar6 =3D 0x00000000;
--    cpu->clidr =3D 0x00000000;
--    cpu->ctr =3D 0x8000c000;
--}
--
--static void arm_v7m_class_init(ObjectClass *oc, void *data)
--{
--    ARMCPUClass *acc =3D ARM_CPU_CLASS(oc);
--    CPUClass *cc =3D CPU_CLASS(oc);
--
--    acc->info =3D data;
--#ifndef CONFIG_USER_ONLY
--    cc->do_interrupt =3D arm_v7m_cpu_do_interrupt;
--#endif
--
--    cc->cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt;
--}
--
- static const ARMCPRegInfo cortexa8_cp_reginfo[] =3D {
-     { .name =3D "L2LOCKDOWN", .cp =3D 15, .crn =3D 9, .crm =3D 0, .opc1 =
-=3D 1, .opc2 =3D 0,
-       .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-@@ -2274,16 +2108,6 @@ static void arm_max_initfn(Object *obj)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 4ffd991b6f..84e14ce5a9 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1278,7 +1278,14 @@ void pmu_init(ARMCPU *cpu);
+ /* Write a new value to v7m.exception, thus transitioning into or out
+  * of Handler mode; this may result in a change of active stack pointer.
+  */
++#if !defined(CONFIG_TCG)
++static inline void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
++{
++    g_assert_not_reached();
++}
++#else
+ void write_v7m_exception(CPUARMState *env, uint32_t new_exc);
++#endif
 =20
- static const ARMCPUInfo arm_cpus[] =3D {
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
--    { .name =3D "cortex-m0",   .initfn =3D cortex_m0_initfn,
--                             .class_init =3D arm_v7m_class_init },
--    { .name =3D "cortex-m3",   .initfn =3D cortex_m3_initfn,
--                             .class_init =3D arm_v7m_class_init },
--    { .name =3D "cortex-m4",   .initfn =3D cortex_m4_initfn,
--                             .class_init =3D arm_v7m_class_init },
--    { .name =3D "cortex-m7",   .initfn =3D cortex_m7_initfn,
--                             .class_init =3D arm_v7m_class_init },
--    { .name =3D "cortex-m33",  .initfn =3D cortex_m33_initfn,
--                             .class_init =3D arm_v7m_class_init },
-     { .name =3D "cortex-a7",   .initfn =3D cortex_a7_initfn },
-     { .name =3D "cortex-a8",   .initfn =3D cortex_a8_initfn },
-     { .name =3D "cortex-a9",   .initfn =3D cortex_a9_initfn },
-diff --git a/target/arm/cpu_v7m.c b/target/arm/cpu_v7m.c
+ /* Map EL and handler into a PSTATE_MODE.  */
+ static inline unsigned int aarch64_pstate_mode(unsigned int el, bool handl=
+er)
+diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
 new file mode 100644
-index 0000000000..529259b9cd
+index 0000000000..9316a9995b
 --- /dev/null
-+++ b/target/arm/cpu_v7m.c
-@@ -0,0 +1,207 @@
++++ b/target/arm/m_helper-stub.c
+@@ -0,0 +1,59 @@
 +/*
-+ * ARM generic helpers.
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
++ * ARM V7M related stubs.
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+
 +#include "qemu/osdep.h"
 +#include "cpu.h"
++#include "exec/helper-proto.h"
 +#include "internals.h"
 +
-+/* CPU models. These are not needed for the AArch64 linux-user build. */
-+#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+
-+static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request=
-)
++void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
 +{
-+    CPUClass *cc =3D CPU_GET_CLASS(cs);
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    CPUARMState *env =3D &cpu->env;
-+    bool ret =3D false;
-+
-+    /*
-+     * ARMv7-M interrupt masking works differently than -A or -R.
-+     * There is no FIQ/IRQ distinction. Instead of I and F bits
-+     * masking FIQ and IRQ interrupts, an exception is taken only
-+     * if it is higher priority than the current execution priority
-+     * (which depends on state like BASEPRI, FAULTMASK and the
-+     * currently active exception).
-+     */
-+    if (interrupt_request & CPU_INTERRUPT_HARD
-+        && (armv7m_nvic_can_take_pending_exception(env->nvic))) {
-+        cs->exception_index =3D EXCP_IRQ;
-+        cc->do_interrupt(cs);
-+        ret =3D true;
-+    }
-+    return ret;
++    abort();
 +}
 +
-+static void cortex_m0_initfn(Object *obj)
++void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+    set_feature(&cpu->env, ARM_FEATURE_V6);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+
-+    cpu->midr =3D 0x410cc200;
++    abort();
 +}
 +
-+static void cortex_m3_initfn(Object *obj)
++uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    cpu->midr =3D 0x410fc231;
-+    cpu->pmsav7_dregion =3D 8;
-+    cpu->id_pfr0 =3D 0x00000030;
-+    cpu->id_pfr1 =3D 0x00000200;
-+    cpu->isar.id_dfr0 =3D 0x00100000;
-+    cpu->id_afr0 =3D 0x00000000;
-+    cpu->isar.id_mmfr0 =3D 0x00000030;
-+    cpu->isar.id_mmfr1 =3D 0x00000000;
-+    cpu->isar.id_mmfr2 =3D 0x00000000;
-+    cpu->isar.id_mmfr3 =3D 0x00000000;
-+    cpu->isar.id_isar0 =3D 0x01141110;
-+    cpu->isar.id_isar1 =3D 0x02111000;
-+    cpu->isar.id_isar2 =3D 0x21112231;
-+    cpu->isar.id_isar3 =3D 0x01111110;
-+    cpu->isar.id_isar4 =3D 0x01310102;
-+    cpu->isar.id_isar5 =3D 0x00000000;
-+    cpu->isar.id_isar6 =3D 0x00000000;
++    abort();
 +}
 +
-+static void cortex_m4_initfn(Object *obj)
++void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
-+    cpu->midr =3D 0x410fc240; /* r0p0 */
-+    cpu->pmsav7_dregion =3D 8;
-+    cpu->isar.mvfr0 =3D 0x10110021;
-+    cpu->isar.mvfr1 =3D 0x11000011;
-+    cpu->isar.mvfr2 =3D 0x00000000;
-+    cpu->id_pfr0 =3D 0x00000030;
-+    cpu->id_pfr1 =3D 0x00000200;
-+    cpu->isar.id_dfr0 =3D 0x00100000;
-+    cpu->id_afr0 =3D 0x00000000;
-+    cpu->isar.id_mmfr0 =3D 0x00000030;
-+    cpu->isar.id_mmfr1 =3D 0x00000000;
-+    cpu->isar.id_mmfr2 =3D 0x00000000;
-+    cpu->isar.id_mmfr3 =3D 0x00000000;
-+    cpu->isar.id_isar0 =3D 0x01141110;
-+    cpu->isar.id_isar1 =3D 0x02111000;
-+    cpu->isar.id_isar2 =3D 0x21112231;
-+    cpu->isar.id_isar3 =3D 0x01111110;
-+    cpu->isar.id_isar4 =3D 0x01310102;
-+    cpu->isar.id_isar5 =3D 0x00000000;
-+    cpu->isar.id_isar6 =3D 0x00000000;
++    abort();
 +}
 +
-+static void cortex_m7_initfn(Object *obj)
++uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
-+    cpu->midr =3D 0x411fc272; /* r1p2 */
-+    cpu->pmsav7_dregion =3D 8;
-+    cpu->isar.mvfr0 =3D 0x10110221;
-+    cpu->isar.mvfr1 =3D 0x12000011;
-+    cpu->isar.mvfr2 =3D 0x00000040;
-+    cpu->id_pfr0 =3D 0x00000030;
-+    cpu->id_pfr1 =3D 0x00000200;
-+    cpu->isar.id_dfr0 =3D 0x00100000;
-+    cpu->id_afr0 =3D 0x00000000;
-+    cpu->isar.id_mmfr0 =3D 0x00100030;
-+    cpu->isar.id_mmfr1 =3D 0x00000000;
-+    cpu->isar.id_mmfr2 =3D 0x01000000;
-+    cpu->isar.id_mmfr3 =3D 0x00000000;
-+    cpu->isar.id_isar0 =3D 0x01101110;
-+    cpu->isar.id_isar1 =3D 0x02112000;
-+    cpu->isar.id_isar2 =3D 0x20232231;
-+    cpu->isar.id_isar3 =3D 0x01111131;
-+    cpu->isar.id_isar4 =3D 0x01310132;
-+    cpu->isar.id_isar5 =3D 0x00000000;
-+    cpu->isar.id_isar6 =3D 0x00000000;
++    abort();
 +}
 +
-+static void cortex_m33_initfn(Object *obj)
++void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
-+    cpu->midr =3D 0x410fd213; /* r0p3 */
-+    cpu->pmsav7_dregion =3D 16;
-+    cpu->sau_sregion =3D 8;
-+    cpu->isar.mvfr0 =3D 0x10110021;
-+    cpu->isar.mvfr1 =3D 0x11000011;
-+    cpu->isar.mvfr2 =3D 0x00000040;
-+    cpu->id_pfr0 =3D 0x00000030;
-+    cpu->id_pfr1 =3D 0x00000210;
-+    cpu->isar.id_dfr0 =3D 0x00200000;
-+    cpu->id_afr0 =3D 0x00000000;
-+    cpu->isar.id_mmfr0 =3D 0x00101F40;
-+    cpu->isar.id_mmfr1 =3D 0x00000000;
-+    cpu->isar.id_mmfr2 =3D 0x01000000;
-+    cpu->isar.id_mmfr3 =3D 0x00000000;
-+    cpu->isar.id_isar0 =3D 0x01101110;
-+    cpu->isar.id_isar1 =3D 0x02212000;
-+    cpu->isar.id_isar2 =3D 0x20232232;
-+    cpu->isar.id_isar3 =3D 0x01111131;
-+    cpu->isar.id_isar4 =3D 0x01310132;
-+    cpu->isar.id_isar5 =3D 0x00000000;
-+    cpu->isar.id_isar6 =3D 0x00000000;
-+    cpu->clidr =3D 0x00000000;
-+    cpu->ctr =3D 0x8000c000;
++    abort();
 +}
 +
-+static void arm_v7m_class_init(ObjectClass *oc, void *data)
++void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
 +{
-+    ARMCPUClass *acc =3D ARM_CPU_CLASS(oc);
-+    CPUClass *cc =3D CPU_CLASS(oc);
-+
-+    acc->info =3D data;
-+#ifndef CONFIG_USER_ONLY
-+    cc->do_interrupt =3D arm_v7m_cpu_do_interrupt;
-+#endif
-+
-+    cc->cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt;
++    abort();
 +}
 +
-+static const ARMCPUInfo arm_v7m_cpus[] =3D {
-+    { .name =3D "cortex-m0",   .initfn =3D cortex_m0_initfn,
-+                             .class_init =3D arm_v7m_class_init },
-+    { .name =3D "cortex-m3",   .initfn =3D cortex_m3_initfn,
-+                             .class_init =3D arm_v7m_class_init },
-+    { .name =3D "cortex-m4",   .initfn =3D cortex_m4_initfn,
-+                             .class_init =3D arm_v7m_class_init },
-+    { .name =3D "cortex-m7",   .initfn =3D cortex_m7_initfn,
-+                             .class_init =3D arm_v7m_class_init },
-+    { .name =3D "cortex-m33",  .initfn =3D cortex_m33_initfn,
-+                             .class_init =3D arm_v7m_class_init },
-+    { .name =3D NULL }
-+};
-+
-+static void arm_v7m_cpu_register_types(void)
++void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
 +{
-+    const ARMCPUInfo *info =3D arm_v7m_cpus;
-+
-+    while (info->name) {
-+        arm_cpu_register(info);
-+        info++;
-+    }
++    abort();
 +}
 +
-+type_init(arm_v7m_cpu_register_types)
++void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
++{
++    abort();
++}
 +
-+#endif
-diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-index 9768f9180f..929e252d89 100644
---- a/target/arm/Kconfig
-+++ b/target/arm/Kconfig
-@@ -15,4 +15,5 @@ config ARM_V7R
-     bool
-=20
- config ARM_V7M
-+    depends on TCG
-     bool
++ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
++{
++    abort();
++}
 diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index a2508f0655..a0df58526b 100644
+index a0df58526b..993899d731 100644
 --- a/target/arm/Makefile.objs
 +++ b/target/arm/Makefile.objs
-@@ -72,6 +72,7 @@ obj-$(CONFIG_ARM_V4) +=3D cpu_v4.o
+@@ -66,7 +66,8 @@ obj-y +=3D tlb_helper.o debug_helper.o
+ obj-y +=3D translate.o op_helper.o
+ obj-y +=3D crypto_helper.o
+ obj-y +=3D iwmmxt_helper.o vec_helper.o neon_helper.o
+-obj-y +=3D m_helper.o
++obj-$(CONFIG_ARM_V7M) +=3D m_helper.o
++obj-$(call lnot,$(CONFIG_ARM_V7M)) +=3D m_helper-stub.o
+=20
+ obj-$(CONFIG_ARM_V4) +=3D cpu_v4.o
  obj-$(CONFIG_ARM_V5) +=3D cpu_v5.o
- obj-$(CONFIG_ARM_V6) +=3D cpu_v6.o
- obj-$(CONFIG_ARM_V7R) +=3D cpu_v7r.o
-+obj-$(CONFIG_ARM_V7M) +=3D cpu_v7m.o
-=20
- obj-$(CONFIG_SOFTMMU) +=3D psci.o
-=20
 --=20
 2.21.1
 
