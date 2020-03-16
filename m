@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302D218653D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 07:51:27 +0100 (CET)
-Received: from localhost ([::1]:34932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DE9186569
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 08:07:41 +0100 (CET)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDjav-0000Eo-VD
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 02:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
+	id 1jDjqe-0003hb-Bx
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 03:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bharatb.linux@gmail.com>) id 1jDjRP-00078Q-Ex
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 02:41:37 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDjdM-0001Bk-1Z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 02:53:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharatb.linux@gmail.com>) id 1jDjRN-0007G0-Vg
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 02:41:35 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41403)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bharatb.linux@gmail.com>)
- id 1jDjRN-00078k-Nk; Mon, 16 Mar 2020 02:41:33 -0400
-Received: by mail-qk1-x742.google.com with SMTP id s11so12985389qks.8;
- Sun, 15 Mar 2020 23:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jHrIFWBUYTbisZLiMXCYNj6xT1LOq7327qexPzoyprU=;
- b=SkFHmJxFDXomPNsVp6v6tnXhIehgkKu+faslmL1lYDVZqy5jbBq7yKb3tg6RBRaWG0
- bGQBEe1dFBT0faZ5LFGt5ptkHzKYaOFGKKy0U8glbQKxuuBer78cGI/NWIQwH6n7Me2Q
- oeAM9767yoYZjIrNax9Psh9eVGqsEmRiQgNhfNjMp90paLEVii+xXkfB/57nTwGcEgYe
- nqYIgV79VyuZH9yPklKHLSgHBQWtUb9Wz8hAV6JrwmhVoiKPtpEvmfQlxbhSddh0S5bf
- CDInQfDDKcmMxwKDLmm78f8+WQVmNk3TFnMA+ftWitGURFg2Z5GsCxMQvGVYNGegt4c2
- 48ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jHrIFWBUYTbisZLiMXCYNj6xT1LOq7327qexPzoyprU=;
- b=hNN0ul0w0hX9JbGjdJ8U8uwIqkPxbw2/j66Wq2ew8Whn0wuzC7q/1PsVEks7qkCOp/
- SotcP5v8+ds8tr8GeyRJmkvGe4YyFHKSo6tGMtEEuQsv4Mq0FTJlkIo02XE6lZHkVD1k
- +habgBKTOeA3uW2V5/kSk/u3iOzztfJuwT4CY+YktFjzzLs1AbEvxodzoTEnNB3o02ju
- 8G+zohs/QOJOA0pp7prcj95L2GpKJwvBK6KlSANhY1PeQh93TG+tu6dCpyErAj29PfTY
- WSiscmLz3akqLZVGYjMAED0WCgFzV3icJMPPV0hY4PX4z70dGjQ0atYH2CwlYaoXOo2p
- HLHg==
-X-Gm-Message-State: ANhLgQ0inhxVPelkA78weHPsjb4kVsmjQZ9Gtx8NH9bc7j8M/G0VUmJK
- NXuWieqvV/xEELZZFuaPdtXj2oVHbNvE/dfhv7k=
-X-Google-Smtp-Source: ADFU+vvNDC96kpgb7QABw69og6DNZ99nQ+pllxlAVfE4rAxSXznFxvuyQZhVMuzb8Hu0Y8o7xHZDjbYo/lx6Sc32Rt8=
-X-Received: by 2002:a05:620a:22b:: with SMTP id
- u11mr24574374qkm.225.1584340892917; 
- Sun, 15 Mar 2020 23:41:32 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jDjdK-0003ch-Rx
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 02:53:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51048
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDjdK-0003Jm-Gz
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 02:53:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584341633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8by8enI9YoBo7nITvgQmjIJhUiSnmsmPWE3sDt+oxjk=;
+ b=CfV4u9fXSzlb1iGVKBH/MYtTiZzONMvndEB8bomZdeXZ9IZ2tKm6d0heuetVGQwi9u8Gdn
+ ZoA+IBAPkk51VKxJaoluyXSJDZ0M9ckydAD/TRkTl65XVy6ZzRy8Y4LqKXfBzTUwYb+wiL
+ mM0LQ4aR/WodbLjw9n6UkxkrQZbhxK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-IwDXr6AhN_imLvLjN9P18w-1; Mon, 16 Mar 2020 02:53:51 -0400
+X-MC-Unique: IwDXr6AhN_imLvLjN9P18w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ADDB107ACCC;
+ Mon, 16 Mar 2020 06:53:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
+ [10.36.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15352907F7;
+ Mon, 16 Mar 2020 06:53:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9CD621138404; Mon, 16 Mar 2020 07:53:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 4/8] hw/ide: Move MAX_IDE_BUS define to one header
+References: <cover.1584134074.git.balaton@eik.bme.hu>
+ <eb14ddee41be26f38ee0fe5ff0ff42c79afe9731.1584134074.git.balaton@eik.bme.hu>
+Date: Mon, 16 Mar 2020 07:53:45 +0100
+In-Reply-To: <eb14ddee41be26f38ee0fe5ff0ff42c79afe9731.1584134074.git.balaton@eik.bme.hu>
+ (BALATON Zoltan's message of "Fri, 13 Mar 2020 22:14:34 +0100")
+Message-ID: <8736a8n62u.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200313074811.27175-1-bbhushan2@marvell.com>
- <20200313074811.27175-4-bbhushan2@marvell.com>
- <da0a4d7b-c27d-839d-56b6-da67c94adeb7@redhat.com>
-In-Reply-To: <da0a4d7b-c27d-839d-56b6-da67c94adeb7@redhat.com>
-From: Bharat Bhushan <bharatb.linux@gmail.com>
-Date: Mon, 16 Mar 2020 12:11:21 +0530
-Message-ID: <CAAeCc_m=PKV0T8DmaE06F9NMYfU792f9TDdoyKkaPaEN3597ag@mail.gmail.com>
-Subject: Re: [PATCH v7 3/5] virtio-iommu: Call iommu notifier for attach/detach
-To: Auger Eric <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,151 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- mst@redhat.com, drjones@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, qemu-arm@nongnu.org,
- Bharat Bhushan <bbhushan2@marvell.com>, linuc.decode@gmail.com,
- eric.auger.pro@gmail.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, philmd@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+BALATON Zoltan <balaton@eik.bme.hu> writes:
 
-On Fri, Mar 13, 2020 at 8:11 PM Auger Eric <eric.auger@redhat.com> wrote:
+> There are several definitions of MAX_IDE_BUS in different boards (some
+> of them unused) with the same value. Move it to include/hw/ide/internal.h
+> to have it in a central place.
 >
-> Hi Bharat
->
-> On 3/13/20 8:48 AM, Bharat Bhushan wrote:
-> > iommu-notifier are called when a device is attached
-> IOMMU notifiers
-> > or detached to as address-space.
-> > This is needed for VFIO.
-> and vhost for detach
-> >
-> > Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> > ---
-> >  hw/virtio/virtio-iommu.c | 47 ++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 47 insertions(+)
-> >
-> > diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> > index e51344a53e..2006f72901 100644
-> > --- a/hw/virtio/virtio-iommu.c
-> > +++ b/hw/virtio/virtio-iommu.c
-> > @@ -49,6 +49,7 @@ typedef struct VirtIOIOMMUEndpoint {
-> >      uint32_t id;
-> >      VirtIOIOMMUDomain *domain;
-> >      QLIST_ENTRY(VirtIOIOMMUEndpoint) next;
-> > +    VirtIOIOMMU *viommu;
-> This needs specal care on post-load. When migrating the EPs, only the id
-> is migrated. On post-load you need to set viommu as it is done for
-> domain. migration is allowed with vhost.
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-ok, I have not tried vhost/migration. Below change set viommu when
-reconstructing endpoint.
+This one feels a bit questionable.
 
-@@ -984,6 +973,7 @@ static gboolean reconstruct_endpoints(gpointer
-key, gpointer value,
+The number of (PATA) IDE buses provides by a host bus adapter depends on
+the HBA.  It happens to be 2 for all HBAs we implement, but it could
+really be anything.
 
-     QLIST_FOREACH(iter, &d->endpoint_list, next) {
-         iter->domain = d;
-+       iter->viommu = s;
-         g_tree_insert(s->endpoints, GUINT_TO_POINTER(iter->id), iter);
-     }
-     return false; /* continue the domain traversal */
+Similar for SATA, where the common number is 6, but could really be
+anything.  I can't see offhand whether any HBA we implement provides a
+different number.
 
-> >  } VirtIOIOMMUEndpoint;
-> >
-> >  typedef struct VirtIOIOMMUInterval {
-> > @@ -155,8 +156,44 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr iova,
-> >      memory_region_notify_iommu(mr, 0, entry);
-> >  }
-> >
-> > +static gboolean virtio_iommu_mapping_unmap(gpointer key, gpointer value,
-> > +                                           gpointer data)
-> > +{
-> > +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
-> > +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
-> > +
-> > +    virtio_iommu_notify_unmap(mr, interval->low,
-> > +                              interval->high - interval->low + 1);
-> > +
-> > +    return false;
-> > +}
-> > +
-> > +static gboolean virtio_iommu_mapping_map(gpointer key, gpointer value,
-> > +                                         gpointer data)
-> > +{
-> > +    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
-> > +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
-> > +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
-> > +
-> > +    virtio_iommu_notify_map(mr, interval->low, mapping->phys_addr,
-> > +                            interval->high - interval->low + 1);
-> > +
-> > +    return false;
-> > +}
-> > +
-> >  static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
-> >  {
-> > +    VirtioIOMMUNotifierNode *node;
-> > +    VirtIOIOMMU *s = ep->viommu;
-> > +    VirtIOIOMMUDomain *domain = ep->domain;
-> > +
-> > +    QLIST_FOREACH(node, &s->notifiers_list, next) {
-> > +        if (ep->id == node->iommu_dev->devfn) {
-> > +            g_tree_foreach(domain->mappings, virtio_iommu_mapping_unmap,
-> > +                           &node->iommu_dev->iommu_mr);
-> I understand this should fo the job for domain removal
+By moving MAX_IDE_BUS to include/hw/ide/internal.h, you bake the
+accidental commonality into the interface to the IDE core.  I'd prefer
+not to.
 
-did not get the comment, are you saying we should do this on domain removal?
-
-> > +        }
-> > +    }
-> > +
-> >      if (!ep->domain) {
-> >          return;
-> >      }
-> > @@ -178,6 +215,7 @@ static VirtIOIOMMUEndpoint *virtio_iommu_get_endpoint(VirtIOIOMMU *s,
-> >      }
-> >      ep = g_malloc0(sizeof(*ep));
-> >      ep->id = ep_id;
-> > +    ep->viommu = s;
-> >      trace_virtio_iommu_get_endpoint(ep_id);
-> >      g_tree_insert(s->endpoints, GUINT_TO_POINTER(ep_id), ep);
-> >      return ep;
-> > @@ -272,6 +310,7 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
-> >  {
-> >      uint32_t domain_id = le32_to_cpu(req->domain);
-> >      uint32_t ep_id = le32_to_cpu(req->endpoint);
-> > +    VirtioIOMMUNotifierNode *node;
-> >      VirtIOIOMMUDomain *domain;
-> >      VirtIOIOMMUEndpoint *ep;
-> >
-> > @@ -299,6 +338,14 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
-> >
-> >      ep->domain = domain;
-> >
-> > +    /* Replay existing address space mappings on the associated memory region */
-> maybe use the "domain" terminology here.
-
-ok,
-
-Thanks
--Bharat
-
-> > +    QLIST_FOREACH(node, &s->notifiers_list, next) {
-> > +        if (ep_id == node->iommu_dev->devfn) {
-> > +            g_tree_foreach(domain->mappings, virtio_iommu_mapping_map,
-> > +                           &node->iommu_dev->iommu_mr);
-> > +        }
-> > +    }
-> > +
-> >      return VIRTIO_IOMMU_S_OK;
-> >  }
-> >
-> >
-> Thanks
->
-> Eric
->
 
