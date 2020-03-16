@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C0718706B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:51:08 +0100 (CET)
-Received: from localhost ([::1]:42692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BAB187039
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:39:14 +0100 (CET)
+Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsxH-0001tD-TO
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49316)
+	id 1jDsll-0007OV-NM
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jDqiG-0007bm-J2
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:30 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jDqiK-0007dL-3p
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jDqiF-00055b-Ft
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:28 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35944)
+ (envelope-from <npiggin@gmail.com>) id 1jDqiJ-0005Vy-4F
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:32 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35316)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jDqiC-0004bo-8Z; Mon, 16 Mar 2020 10:27:24 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g2so5584557plo.3;
- Mon, 16 Mar 2020 07:27:24 -0700 (PDT)
+ id 1jDqiG-0005AD-9b; Mon, 16 Mar 2020 10:27:28 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id mq3so8801312pjb.0;
+ Mon, 16 Mar 2020 07:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IwXPy4HQuuWGCAq2XrwIVJ4D8opXygGPCnzLpk/UyHs=;
- b=LVSvbXW52IRJUcxBmV/2bU+6i04Qc564XOEHjJZlKJ5lGW4Xvy/8O8oXk9hGOcHUxB
- 3o26DGyfH+mO9r1KLV6Qe4sAP2zHt9zm4s9vF6jeXyADhLnWvOycBpIXlhVjoS3RQ1OL
- wi/3wd3gQ2oGRcVC1pkMI5Od2mvAdlCBwlEETjz14yiNdhAAt0M3LZNpirYQZ7+i35wS
- V1oJYggyfcLzUiQQAMIZ2jiNouUSGTMOP8lN4YLDyRt5b1ZJ6U1BMJu3RHqdyJUOQNtZ
- xu3p2F22QNQ2T4y8Sre/VWQgftQ7leafsCykbn/T2x305xGJjgOYxKWkITAPCDmzX/ji
- hg4A==
+ bh=8p47syJONdd8/zj3ZHq151z5Oq8HeNZBxFWwhkRlYos=;
+ b=YdpGXKpA+0VYhg51FcX4vAq+oOr5b/DeAXbKc2wCNWV2lDbn6yAGotm2pUQe4gS8Cf
+ PBS4+SZvLS9mK3mRTFUhRqLk9fK4MwdPpCu+mBhRgIi4Hl+AYZdcEZhMcH2zycFzL3mU
+ VTB+VLIUPBywqgylfovnlLwTcCmstyFN+7WeOL827XEq623E9KUh3v83ihZ6bGc3sce0
+ NfYuRghm4OIu1jJwjXeDyPU2P0qEWzDnKUbv7OtdNP1Vjt7J3b4T89JjcmRC6nlJ5vOH
+ L0YZTFu3tu0KM2wrtYrI203wDU6HHhlTFBGvOv1Md6xslRSeTXdADMaENzNpVqJy1Sjx
+ qxpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IwXPy4HQuuWGCAq2XrwIVJ4D8opXygGPCnzLpk/UyHs=;
- b=NEYrP7lgxPqNz4Bq1YExLnq2vdYSvvsTTd7eTUWyFU527dCL7L1oVxTMfgNSabhkmE
- EYPMP52h6flnX2rXqj55XAbrxygfdm3dotbK2J7KjEFoAtr+Bn5OVzynMgBaJP7SxaGl
- NcCj5y4WsBlaEUDD662I37ynXOrRzSkMRsDB4tR0OWFMYzy+mREnDsy76dkAJBszfp10
- wm3fX8L/6SGu0QmEwVA33yXAmNKWI6xbesEHPch2H4+p+Kat7BvHjBGoP80TiKgVKjJ2
- dIIgpsgKIx7TOsOkPur/8X0zIr/ARWFX248Hd4TLQnhmJUsza6cKo2HgHtRf4Joy0Hss
- ZDeg==
-X-Gm-Message-State: ANhLgQ30McZCUryWj87shfllUlG3VJ3MDV5ogkVPVW6lbI6MQj8DfPcP
- nwzyPUhdyHYlD6p1VaHas1j2oNNm4hw=
-X-Google-Smtp-Source: ADFU+vuWINuJLu/J78N+ZxLIWLzVNRaLPV0oVKU90irv1yMC+rhXB5bJWtehKVo2MT/CJckiHk+xuw==
-X-Received: by 2002:a17:902:9a48:: with SMTP id
- x8mr27809987plv.14.1584368843025; 
- Mon, 16 Mar 2020 07:27:23 -0700 (PDT)
+ bh=8p47syJONdd8/zj3ZHq151z5Oq8HeNZBxFWwhkRlYos=;
+ b=umiEVTHVCoHmS9KfE3346JQhLfL6yB7NWttwIL4Ezvn5wvwYCyJBqpqldSTU2CWk1n
+ viAlGinSbq61X7Eca+ZzZE1AJj2yGeK1AgKJ0mvwo4/CF5YuWq5i/8GDOw4abUYh1R4e
+ RLLDyd1Ucxpw+u5HFc4ZDVH6TD7ouwZH/1a8Pp4OuEsHI0a9DejEtm3W2nYPiFsE0U9n
+ eTTteQV3Vbo/H/U5RP2/7H+SPwCVjfW4sd7Gu2qmzU8bQgteE3VAXr4MqWvjiL30CUSu
+ TXBhWYNpxLpXNELmTrrSrqehlyp09m4bjVnBdVUkx90SyOjxTaqJE38xUS2JoemhYqJJ
+ fSSg==
+X-Gm-Message-State: ANhLgQ1RYmzDON0ZD4B1ThG6BLuP5P3YO0edCHCVqewsBXnjk4xEDIqx
+ wKvlfvUSvEjtCLDpzDtNu8oNRwp7+nA=
+X-Google-Smtp-Source: ADFU+vsNOsvEcg8XN6hd4REZRuCcn6hqW5WYnKD3laHhrTv/laLcuwweN+wtx9+h6YnnseEpNVUmCQ==
+X-Received: by 2002:a17:902:a588:: with SMTP id
+ az8mr2163506plb.163.1584368847300; 
+ Mon, 16 Mar 2020 07:27:27 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com ([203.63.160.49])
- by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.27.18
+ by smtp.gmail.com with ESMTPSA id v1sm45564pjy.35.2020.03.16.07.27.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 07:27:22 -0700 (PDT)
+ Mon, 16 Mar 2020 07:27:26 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
-Date: Tue, 17 Mar 2020 00:26:12 +1000
-Message-Id: <20200316142613.121089-8-npiggin@gmail.com>
+Subject: [PATCH v2 8/8] ppc/spapr: Ignore common "ibm, nmi-interlock" Linux bug
+Date: Tue, 17 Mar 2020 00:26:13 +1000
+Message-Id: <20200316142613.121089-9-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200316142613.121089-1-npiggin@gmail.com>
 References: <20200316142613.121089-1-npiggin@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,83 +85,41 @@ Cc: Aravinda Prasad <arawinda.p@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
-delivers all system reset and machine check exceptions to the registered
-addresses.
-
-System Resets are delivered with registers set to the architected state,
-and with no interlock.
+Linux kernels call "ibm,nmi-interlock" in their system reset handlers
+contrary to PAPR. Returning an error because the CPU does not hold the
+interlock here causes Linux to print warning messages. PowerVM returns
+success in this case, so do the same for now.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+ hw/ppc/spapr_rtas.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 25221d843c..78e649f47d 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-                      maxdomains, sizeof(maxdomains)));
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 521e6b0b72..9fb8c8632a 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -461,8 +461,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+     }
  
--    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
-+    /*
-+     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
-+     * and 16 bytes per CPU for system reset error log plus an extra 8 bytes.
-+     *
-+     * The system reset requirements are driven by existing Linux and PowerVM
-+     * implementation which (contrary to PAPR) saves r3 in the error log
-+     * structure like machine check, so Linux expects to find the saved r3
-+     * value at the address in r3 upon FWNMI-enabled sreset interrupt (and
-+     * does not look at the error value).
-+     *
-+     * System reset interrupts are not subject to interlock like machine
-+     * check, so this memory area could be corrupted if the sreset is
-+     * interrupted by a machine check (or vice versa) if it was shared. To
-+     * prevent this, system reset uses per-CPU areas for the sreset save
-+     * area. A system reset that interrupts a system reset handler could
-+     * still overwrite this area, but Linux doesn't try to recover in that
-+     * case anyway.
-+     *
-+     * The extra 8 bytes is required because Linux's FWNMI error log check
-+     * is off-by-one.
-+     */
-+    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
-+			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
-     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
-                           RTAS_ERROR_LOG_MAX));
-     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
-@@ -3399,8 +3421,28 @@ static void spapr_machine_finalizefn(Object *obj)
+     if (spapr->fwnmi_machine_check_interlock != cpu->vcpu_id) {
+-        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
+-        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
++        /*
++	 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
++         * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interlock"
++	 * for system reset interrupts, despite them not being interlocked.
++	 * PowerVM silently ignores this and returns success here. Returning
++	 * failure causes Linux to print the error "FWNMI: nmi-interlock
++	 * failed: -3", although no other apparent ill effects, this is a
++	 * regression for the user when enabling FWNMI. So for now, match
++	 * PowerVM. When most Linux clients are fixed, this could be
++	 * changed.
++	 */
++        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+         return;
+     }
  
- void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
- {
-+    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-+
-     cpu_synchronize_state(cs);
--    ppc_cpu_do_system_reset(cs, -1);
-+    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x100 */
-+    if (spapr->fwnmi_system_reset_addr != -1) {
-+        uint64_t rtas_addr, addr;
-+        PowerPCCPU *cpu = POWERPC_CPU(cs);
-+        CPUPPCState *env = &cpu->env;
-+
-+        /* get rtas addr from fdt */
-+        rtas_addr = spapr_get_rtas_addr();
-+        if (!rtas_addr) {
-+            qemu_system_guest_panicked(NULL);
-+            return;
-+        }
-+
-+        addr = rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof(uint64_t)*2;
-+        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
-+        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
-+        env->gpr[3] = addr;
-+    }
-+    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
- }
- 
- static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
 -- 
 2.23.0
 
