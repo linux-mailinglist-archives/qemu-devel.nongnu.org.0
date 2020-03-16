@@ -2,104 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1803718719D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:54:18 +0100 (CET)
-Received: from localhost ([::1]:44960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3F6187131
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:33:36 +0100 (CET)
+Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtwP-0007mq-4S
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:54:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52878)
+	id 1jDtcN-0001r9-59
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDssR-0003WJ-Hb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:46:08 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDt0T-0001j3-BL
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:54:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDssQ-0004uK-2u
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:46:07 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:35653)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDssP-0004gb-O3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:46:06 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MaIzb-1iqYZl2Mk9-00WIPd; Mon, 16 Mar 2020 17:45:57 +0100
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20200316085620.309769-1-laurent@vivier.eu>
- <20200316085620.309769-2-laurent@vivier.eu>
- <BYAPR02MB4886D8ECC90C0845C3BFE27FDEF90@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
-Message-ID: <ec9e86fe-76c2-bab0-6b08-c524e3582dba@vivier.eu>
-Date: Mon, 16 Mar 2020 17:45:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDt0R-0002Al-Oh
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:54:25 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34470)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDt0R-000216-G2
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:54:23 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x3so13747760wmj.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 09:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c7vrua55ertCuPKNks3J3QAz0H3p9AO2iYd+F17dc58=;
+ b=cCImbRAkeUvKfHxcpKjyweEMLVh7+ZnsAfvbZIjTqVHdp/jY0n6GeyyJhH6aqXq/JI
+ jMViba+/wrziOUOA2aNObBtHoOp8lD0EEeegeT0qHFvBqznnmiDOILcK5wsaFaoC0HSL
+ aBnr3OKom9dkSbdgHfqTrQLlUbWA6jcpZOSJ0oNuezSROMNpClYmrDaamgzeNdVQEJLG
+ l6VdZ+oLnfPS7cjjxAB4wT9dw7iXZGbMKmM5cJIEROXuKrU6NMhssv1mVbJF0PFqvjnX
+ 7WSmoGMe2n0GiZRKaIkGyP2gs4/RtM1va4z0HAD+l95t3NV69Vm2njaQT5ffMLRLJD8X
+ Rbrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c7vrua55ertCuPKNks3J3QAz0H3p9AO2iYd+F17dc58=;
+ b=SvfOSufFW65aUUTV6u6dkwy+Pw0kT+sIGgLC9IeEudI+RpjQJfaEsyywP9SMfcQAgN
+ 4hvIi6t75tKnqRL4OVbpkBLNAO1+liDimlDaBMjvP6rjsRu00xsHbWL7ZkEaGq2qHVgM
+ aQlFf5e0hZIjPxw/5c439JHDbe1mIvZG0y3IZJKtaZrRiKOG+zeDbD1Tzz3qgXgkRJNi
+ KwRaiOyLddrl9cX8uANQ9mBSz40YXt/m6cEouDaK4NoRoT1bVLwYR/oz5M5BzgdAQo7m
+ sVvtFDoFmz5siG65NIeL5VcPn+zBEY9nNBlxmZqQmYvInegWEJ64n8oZuP7qENTe0cWK
+ O3fg==
+X-Gm-Message-State: ANhLgQ1QRWezgRFq7KBhh1ZFxiqV0RZi+DKSkA8sp+RYtM57XDYH3eB0
+ s+p6SIPy77B3fqzZjqOe5veBHpJWCxD3bXUuM9o=
+X-Google-Smtp-Source: ADFU+vtXLr+5nDUfsOpr0r1SYoVvq9AZlq50h/bvCNxIcOaIPfWdzQ7WH6pgkjr4X32ai56fHOTY05eylp4zYBVrIj8=
+X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr91865wmf.4.1584377662314;
+ Mon, 16 Mar 2020 09:54:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB4886D8ECC90C0845C3BFE27FDEF90@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2ILNCQqKVweqcQDF3hzO6jBURHRb5GY0xCV0SMaRPWIMfGA29dD
- 4ZsJJTnUEPGGF8LXh/gFYH87/lTqOHzne70gfApJRSFhMqSr0UWolQ9Oy9HD5Lz8JuMOIO3
- urWFX2cdsc27oTrfWpDu3y1d2ohWBwN1bTBLcnV6SjXhK5BNoFEIWyeegx6MKiFcF75kJV4
- 4OKuVL+SQF1axfNuZg2tw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vaU7+ddkzXg=:NSrr/NobzZL7ivCNJYbH0a
- 54HGCcy/IAloBhoalkHz+pSUOC1MzkfvoU+IqNWvRssTd9EFk4SAa9o7GZthdImgibgNJVShT
- zJ7PyWR84OFM+vQZzHnNRFUoRZX8nCi3nZzTiHElXDI44lqyGeJYuhQfRnZKmKmxHgHMFGg3t
- c92F/uVgWA8vFb8RuoGHzaWDVL64N85WtWgl3d8yISTZl8NheL9Kl5NbmgkN8pfvJMN/G3Aa3
- F2M2KSQkSBhv8EKCqN2IzMV9+EntAo0SH/EMorMkLwVL71IygiQlta0m0GX9Bdyt/LbekN/i6
- 74BaMVpSexEDCu5mnfs6KQbF3SKcm2EnNyRmTcg0tMeh9fh9M2CLDJ29HcYo71btFdajsmEyx
- iXuZNGecHqYKhfuAbTdiLoHPoCbqolaJnpqm79A967uNQoFpMwUj2YJAwheSlhwQzFhRxB7H/
- VuvLmVAwxZPnNWttupDON9HQUWw5TnTvRqsNezP5OKBmpjTf2X3yUd8lkvNh4ffHVcRY55Rr6
- /xppRZDe5MrNIPIjsLbqdIGZsXwrLR0SJobE1bs8ou3aRqR/pKFBbgFw1jOAVuGw6NE7s8rxm
- RWdV4L1WQKpTALw7AcE73dkXHjxzEyHBeKbops0Vu4tDvoN8RIH8EFeKmV9aSMupbVY110sYc
- O4+pcoBWkW84AJA2VnXIK9YMhZFApowdUmVEcT8U07FblUUtiKpqgJXqQd61XCZwkhfpcQw1U
- 0U4dzBivGBOufe23WiA8Ts3meddYMHYar03biLQ6OfsFhet7nnKBCXw53496bR9k4SuzLMzK0
- Fk5CqYtR3iry5FvYN65ThaJdCjWiHMPvIBqfiVxPeGr7EboU/ogc1GlVaTv29phisRx3Vyp
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-15-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-15-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 17:54:09 +0100
+Message-ID: <CAJ+F1C+U7ahEZN=D3W-6xTaNO+-uD+hqXwg-DFcKr8zLKGBN=w@mail.gmail.com>
+Subject: Re: [PATCH v3 14/34] qapi/introspect: Rename *qlit* to reduce
+ confusion
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,48 +75,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/03/2020 à 17:21, Taylor Simpson a écrit :
-> 
-> 
->> -----Original Message-----
->> From: Laurent Vivier <laurent@vivier.eu>
->> Sent: Monday, March 16, 2020 3:56 AM
->> To: qemu-devel@nongnu.org
->> Cc: Laurent Vivier <laurent@vivier.eu>; Richard Henderson
->> <richard.henderson@linaro.org>; Riku Voipio <riku.voipio@iki.fi>; Taylor
->> Simpson <tsimpson@quicinc.com>; Alistair Francis
->> <alistair.francis@wdc.com>
->> Subject: [PATCH v3 1/4] scripts: add a script to generate syscall_nr.h
->>
->> This script is needed for targets based on asm-generic syscall numbers
->> generation
->>
->> +
->> +filter_defines()
->> +{
->> +    grep -e "#define __NR_" -e "#define __NR3264"
-> 
-> For Hexagon, we're still running a 4.9 kernel.  When I tried out this script on that code base, there are a handful of these
->     #undef __NR_syscalls
->     #define __NR_syscalls 291
-> This works fine with normal C preprocessing, and the last one wins.  However, when the #undef's are filtered out, it lease to build errors from multiple #define's of TARGET_NR_syscalls.  AFAIK, qemu doesn't use this, so it should be OK to filter out.  So, I changed the above line to
->     grep -e "#define __NR_" -e "#define __NR3264" | grep -v "__NR_syscalls"
-> 
-> If you're OK incorporating that now, great!  Otherwise, I'll add it to the Hexagon RFC patch series until we get to a newer kernel.
+On Sun, Mar 15, 2020 at 4:19 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> We generate the value of qmp_schema_qlit from an expression tree.  The
+> function doing that is named to_qlit(), and its inputs are accumulated
+> in QAPISchemaGenIntrospectVisitor._qlits.  We call both its input and
+> its output "qlit".  This is confusing.
+>
+> Use "tree" for input, and "qlit" only for output: rename to_qlit() to
+> _tree_to_qlit(), ._qlits to ._trees, ._gen_qlit() to ._gen_tree().
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Sorry, I've just sent the pull-request.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Add it to your RFC, please.
 
-It's why this script is only an helper, so it means once the file is
-generated it can be edited before being committed.
+> ---
+>  scripts/qapi/introspect.py | 35 ++++++++++++++++++-----------------
+>  1 file changed, 18 insertions(+), 17 deletions(-)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index b54910510d..e4fc9d90f1 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -16,7 +16,7 @@ from qapi.schema import (QAPISchemaArrayType, QAPISchem=
+aBuiltinType,
+>                           QAPISchemaType)
+>
+>
+> -def to_qlit(obj, level=3D0, suppress_first_indent=3DFalse):
+> +def _tree_to_qlit(obj, level=3D0, suppress_first_indent=3DFalse):
+>
+>      def indent(level):
+>          return level * 4 * ' '
+> @@ -30,7 +30,7 @@ def to_qlit(obj, level=3D0, suppress_first_indent=3DFal=
+se):
+>              ret +=3D indent(level) + '/* %s */\n' % comment
+>          if ifcond:
+>              ret +=3D gen_if(ifcond)
+> -        ret +=3D to_qlit(ifobj, level)
+> +        ret +=3D _tree_to_qlit(ifobj, level)
+>          if ifcond:
+>              ret +=3D '\n' + gen_endif(ifcond)
+>          return ret
+> @@ -43,7 +43,7 @@ def to_qlit(obj, level=3D0, suppress_first_indent=3DFal=
+se):
+>      elif isinstance(obj, str):
+>          ret +=3D 'QLIT_QSTR(' + to_c_string(obj) + ')'
+>      elif isinstance(obj, list):
+> -        elts =3D [to_qlit(elt, level + 1).strip('\n')
+> +        elts =3D [_tree_to_qlit(elt, level + 1).strip('\n')
+>                  for elt in obj]
+>          elts.append(indent(level + 1) + "{}")
+>          ret +=3D 'QLIT_QLIST(((QLitObject[]) {\n'
+> @@ -53,7 +53,8 @@ def to_qlit(obj, level=3D0, suppress_first_indent=3DFal=
+se):
+>          elts =3D []
+>          for key, value in sorted(obj.items()):
+>              elts.append(indent(level + 1) + '{ %s, %s }' %
+> -                        (to_c_string(key), to_qlit(value, level + 1, Tru=
+e)))
+> +                        (to_c_string(key),
+> +                         _tree_to_qlit(value, level + 1, True)))
+>          elts.append(indent(level + 1) + '{}')
+>          ret +=3D 'QLIT_QDICT(((QLitDictEntry[]) {\n'
+>          ret +=3D ',\n'.join(elts) + '\n'
+> @@ -79,7 +80,7 @@ class QAPISchemaGenIntrospectVisitor(QAPISchemaMonolith=
+icCVisitor):
+>              ' * QAPI/QMP schema introspection', __doc__)
+>          self._unmask =3D unmask
+>          self._schema =3D None
+> -        self._qlits =3D []
+> +        self._trees =3D []
+>          self._used_types =3D []
+>          self._name_map =3D {}
+>          self._genc.add(mcgen('''
+> @@ -108,9 +109,9 @@ extern const QLitObject %(c_name)s;
+>  const QLitObject %(c_name)s =3D %(c_string)s;
+>  ''',
+>                               c_name=3Dc_name(name),
+> -                             c_string=3Dto_qlit(self._qlits)))
+> +                             c_string=3D_tree_to_qlit(self._trees)))
+>          self._schema =3D None
+> -        self._qlits =3D []
+> +        self._trees =3D []
+>          self._used_types =3D []
+>          self._name_map =3D {}
+>
+> @@ -144,7 +145,7 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+>              return '[' + self._use_type(typ.element_type) + ']'
+>          return self._name(typ.name)
+>
+> -    def _gen_qlit(self, name, mtype, obj, ifcond, features):
+> +    def _gen_tree(self, name, mtype, obj, ifcond, features):
+>          extra =3D {}
+>          if mtype not in ('command', 'event', 'builtin', 'array'):
+>              if not self._unmask:
+> @@ -159,9 +160,9 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+>          if ifcond:
+>              extra['if'] =3D ifcond
+>          if extra:
+> -            self._qlits.append((obj, extra))
+> +            self._trees.append((obj, extra))
+>          else:
+> -            self._qlits.append(obj)
+> +            self._trees.append(obj)
+>
+>      def _gen_member(self, member):
+>          ret =3D {'name': member.name, 'type': self._use_type(member.type=
+)}
+> @@ -180,17 +181,17 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+>                  {'if': variant.ifcond})
+>
+>      def visit_builtin_type(self, name, info, json_type):
+> -        self._gen_qlit(name, 'builtin', {'json-type': json_type}, [], No=
+ne)
+> +        self._gen_tree(name, 'builtin', {'json-type': json_type}, [], No=
+ne)
+>
+>      def visit_enum_type(self, name, info, ifcond, features, members, pre=
+fix):
+> -        self._gen_qlit(name, 'enum',
+> +        self._gen_tree(name, 'enum',
+>                         {'values':
+>                          [(m.name, {'if': m.ifcond}) for m in members]},
+>                         ifcond, features)
+>
+>      def visit_array_type(self, name, info, ifcond, element_type):
+>          element =3D self._use_type(element_type)
+> -        self._gen_qlit('[' + element + ']', 'array', {'element-type': el=
+ement},
+> +        self._gen_tree('[' + element + ']', 'array', {'element-type': el=
+ement},
+>                         ifcond, None)
+>
+>      def visit_object_type_flat(self, name, info, ifcond, features,
+> @@ -200,10 +201,10 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+>              obj.update(self._gen_variants(variants.tag_member.name,
+>                                            variants.variants))
+>
+> -        self._gen_qlit(name, 'object', obj, ifcond, features)
+> +        self._gen_tree(name, 'object', obj, ifcond, features)
+>
+>      def visit_alternate_type(self, name, info, ifcond, features, variant=
+s):
+> -        self._gen_qlit(name, 'alternate',
+> +        self._gen_tree(name, 'alternate',
+>                         {'members': [
+>                             ({'type': self._use_type(m.type)}, {'if': m.i=
+fcond})
+>                             for m in variants.variants]},
+> @@ -218,11 +219,11 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+>                 'ret-type': self._use_type(ret_type)}
+>          if allow_oob:
+>              obj['allow-oob'] =3D allow_oob
+> -        self._gen_qlit(name, 'command', obj, ifcond, features)
+> +        self._gen_tree(name, 'command', obj, ifcond, features)
+>
+>      def visit_event(self, name, info, ifcond, features, arg_type, boxed)=
+:
+>          arg_type =3D arg_type or self._schema.the_empty_object_type
+> -        self._gen_qlit(name, 'event', {'arg-type': self._use_type(arg_ty=
+pe)},
+> +        self._gen_tree(name, 'event', {'arg-type': self._use_type(arg_ty=
+pe)},
+>                         ifcond, features)
+>
+>
+> --
+> 2.21.1
+>
+>
 
-Thanks,
-Laurent
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
