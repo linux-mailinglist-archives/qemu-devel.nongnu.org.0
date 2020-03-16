@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C5B187346
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:25:11 +0100 (CET)
-Received: from localhost ([::1]:47594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F93218730C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:10:26 +0100 (CET)
+Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDvMM-0002DP-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50723)
+	id 1jDv85-0000zw-8U
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDuye-000297-0J
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:41 -0400
+ (envelope-from <mst@redhat.com>) id 1jDv6Y-0007gA-6b
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:08:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDuyc-0001Dr-7c
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:39 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26039)
+ (envelope-from <mst@redhat.com>) id 1jDv6W-0007Vj-RI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:08:49 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34384)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDuyc-00019Q-2G
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:00:38 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jDv6W-0007Pv-Li
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 15:08:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584385237;
+ s=mimecast20190719; t=1584385728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GTcwy5EcrKMKytC/WSeHnaZ/vMtgK6arLEK3I1pmChw=;
- b=WnXLqmF7AKzvN5M97FSK4YEDuEh3dK0zx23h+yHAN8hz7nrXDrg5fKHg9O24oiNF8J0TRd
- F3IpIjtKauW+sgAnmWQmV1oY+y6dXiBHnRWuSmbH39RJ8VTfZTrekUjl0afFxWtRSPUlGQ
- 6FRfSGvgIMPU0dv43KPUm+20QkcoVSA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-uMdiNIahNCSf5GR7A5Ze7w-1; Mon, 16 Mar 2020 15:00:31 -0400
-X-MC-Unique: uMdiNIahNCSf5GR7A5Ze7w-1
-Received: by mail-ed1-f70.google.com with SMTP id dn10so2307368edb.6
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:00:31 -0700 (PDT)
+ bh=SDzbNbpNDhXjJ7cpAPZf36BEqSbvw1vvLlQ6NBOvHBI=;
+ b=ChNjgYClDGsUT7RwcoXmsp7C6AGkRvtFwyv3fMggUtrIu2TewGQjeF8t5B94KU3UwqowGy
+ Pek0PUOHfA0pZbJHojqwEtbN3y//2m+eTngSGeCW9jVP5Ga9558TUeNeYL8joevB/v28++
+ CnY9IakEsUPfvLU8NKAKZWIB2Yy0lVU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-s2RfARiBPlCC9qEmX24nLA-1; Mon, 16 Mar 2020 15:08:45 -0400
+X-MC-Unique: s2RfARiBPlCC9qEmX24nLA-1
+Received: by mail-wm1-f72.google.com with SMTP id z16so1102026wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 12:08:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SBoLIS60m/R8vVlNjtCKtaSpPA1mtOn0IkBdkHi07aA=;
- b=eR6ggTwz3M0/ighoIVu/plUtkxrV60zLghH0XZULOzrSdUNDMU2x6YagtqNTjPedoV
- S3FUYepAWuJj4QM1Zp//FkGn1ciHtLIDTsISMMeSzbO1z3Aq6PBw3R3OvfqckyPjvrxi
- wrxYAaZEtxKFqeeoh2a7n851nepJ3SnVz1iQ/ihtMG5N+0cx/ZX+V3P0ft7I5wLW9z6p
- xvLw6UpaAMtgn1bTNuuhLbuxtBVck5o3mYrWTXImgcL8FPO39mV1uWlvopfi479RUPyM
- lA+KZ46B/IgYIkEUELz/mvS+5bX+dJxoBDHwNbDAm+0tMcz/8KYRj/1HuuUJXXxK2wZW
- gamg==
-X-Gm-Message-State: ANhLgQ2+UmuwbxyFDD/mbPxx0Cm7hfo+vBRBG6oj+h9Xh55HTN4Vfd6H
- JBLOW+SuRAb3FH+6tdvQXlmC0ljBfp66Q4Ym5bJk2nhiz+ijKOssgG6AK9JFwuqDO9lS4woinS0
- 01EPMjnyO1j5Lf00=
-X-Received: by 2002:a05:6402:180a:: with SMTP id
- g10mr1396201edy.352.1584385228635; 
- Mon, 16 Mar 2020 12:00:28 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtBwTHbkTiIU9n1r6Qr6pyZg2hQ9rRIsQKNUEZ9lnKnt6gBUvvjzB3M5uPPCsZJF+W1RYG4Vw==
-X-Received: by 2002:a05:6402:180a:: with SMTP id
- g10mr1396167edy.352.1584385228380; 
- Mon, 16 Mar 2020 12:00:28 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id d9sm50792ejc.79.2020.03.16.12.00.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 12:00:27 -0700 (PDT)
-Subject: Re: [PATCH v3 18/19] hw/arm: Do not build to 'virt' machine on Xen
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200316160634.3386-1-philmd@redhat.com>
- <20200316160634.3386-19-philmd@redhat.com>
- <CAFEAcA_bXb_RZFxMSYJ8FAoAahAxrq3c0PBzidu+Z0iXTzZqFw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9a627400-c8bd-fcee-8cf8-9896c5b3760f@redhat.com>
-Date: Mon, 16 Mar 2020 20:00:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/z7rijHB78FNDtHGjv+Mp8r8Fle6QoCboT1ahYd5OUY=;
+ b=iOwkP59TS7RUzDXQY37in0kwrI2k+LY7gewg5TW37KLPolsk0GW1Y/rlCY1p9sB5bY
+ sD88PnCjLM3b1IZdJm5Q8aSqPvlyfPUF59QuM4iU+xYw7t9ZmbIfv7/ppM0rQO0QGoB5
+ i/Cp5a9OAi9W/P4cDCZbHKvQQl235z/YCMHvHpI6VNPPSKru/axwuDqybUo1ck1zi53e
+ LZ5Et0TFuBAyo4UJlPi2K0V9bBvfsMgRgSmzjc9Jwo3++Cur5kiqLgoB5GJAou7hPKWG
+ pl6A5FxaSCUhHLZw3hctdbd7/SlG9p6MMX+3+jXAp6OBU+uy8sbwhB16FkCgAvI4SqWL
+ YPgw==
+X-Gm-Message-State: ANhLgQ22D2R//pZxRwS/VPGiWM2EmWYfvyAcPWbP/Xva9w+EaCymCBxr
+ BH0X8sojJrT+Yka//nx1orVktp9IxkrLa0Atc+SkkVyMBvh/TNXTPa2E+BEXCX1rPhYZqDrzo7I
+ /VDaDKzoHSZ5T70o=
+X-Received: by 2002:a05:600c:24c:: with SMTP id
+ 12mr547774wmj.119.1584385724676; 
+ Mon, 16 Mar 2020 12:08:44 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtJB+azXv8UG5huHrHBc2toSfW78VeJ/7GwDSth6mnxmrH1KtPaIJb43u4xJWsDWox6hvGMsg==
+X-Received: by 2002:a05:600c:24c:: with SMTP id
+ 12mr547751wmj.119.1584385724414; 
+ Mon, 16 Mar 2020 12:08:44 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-7-202.red.bezeqint.net. [79.180.7.202])
+ by smtp.gmail.com with ESMTPSA id
+ n2sm1154333wrr.62.2020.03.16.12.08.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 12:08:43 -0700 (PDT)
+Date: Mon, 16 Mar 2020 15:08:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 2/2] mmap-alloc: Include osdep.h before checking
+ CONFIG_LINUX
+Message-ID: <20200316150538-mutt-send-email-mst@kernel.org>
+References: <20200311232342.1614944-1-ehabkost@redhat.com>
+ <20200311232342.1614944-3-ehabkost@redhat.com>
+ <20200315154559.GW1187748@habkost.net>
+ <20200315170229-mutt-send-email-mst@kernel.org>
+ <20200316173039.GB1817047@habkost.net>
+ <CAFEAcA9CYeTjmUSbMtGjDazrh1p=5vLAd3bq7JBtLd0RfnruDw@mail.gmail.com>
+ <20200316184046.GD1817047@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_bXb_RZFxMSYJ8FAoAahAxrq3c0PBzidu+Z0iXTzZqFw@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <20200316184046.GD1817047@habkost.net>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,80 +95,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, kvm-devel <kvm@vger.kernel.org>,
- Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Jingqi Liu <jingqi.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 6:11 PM, Peter Maydell wrote:
-> On Mon, 16 Mar 2020 at 16:08, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> Xen on ARM does not use QEMU machines [*]. Disable the 'virt'
->> machine there to avoid odd errors such:
->>
->>      CC      i386-softmmu/hw/cpu/a15mpcore.o
->>    hw/cpu/a15mpcore.c:28:10: fatal error: kvm_arm.h: No such file or dir=
-ectory
->>
->> [*] https://wiki.xenproject.org/wiki/Xen_ARM_with_Virtualization_Extensi=
-ons#Use_of_qemu-system-i386_on_ARM
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> Cc: Stefano Stabellini <sstabellini@kernel.org>
->> Cc: Anthony Perard <anthony.perard@citrix.com>
->> Cc: Paul Durrant <paul@xen.org>
->> Cc: xen-devel@lists.xenproject.org
->> ---
->>   hw/arm/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
->> index 8e801cd15f..69a8e30125 100644
->> --- a/hw/arm/Kconfig
->> +++ b/hw/arm/Kconfig
->> @@ -1,5 +1,6 @@
->>   config ARM_VIRT
->>       bool
->> +    depends on !XEN
->>       default y if KVM
->>       imply PCI_DEVICES
->>       imply TEST_DEVICES
->> --
+On Mon, Mar 16, 2020 at 02:40:46PM -0400, Eduardo Habkost wrote:
+> On Mon, Mar 16, 2020 at 06:08:54PM +0000, Peter Maydell wrote:
+> > On Mon, 16 Mar 2020 at 17:51, Eduardo Habkost <ehabkost@redhat.com> wro=
+te:
+> > > Yes, but both MAP_SYNC and MAP_SHARED_VALIDATE aren't available
+> > > if the host is not Linux.
+> > >
+> > > Defining MAP_SYNC to 0 on MIPS would restore the existing
+> > > behavior, so it seems like a reasonable step to fix the build
+> > > failure.  But not even printing a warning when the host doesn't
+> > > have MAP_SYNC (the existing behavior on MIPS and non-Linux) seems
+> > > wrong.
+> >=20
+> > The usual approach is that if you don't have the Linux-specific
+> > feature available you quietly fall back to whatever the sensible
+> > behaviour is for when the feature isn't present. We definitely
+> > don't want to be printing warnings on non-Linux systems that
+> > are effectively just saying "you're not running Linux". Same goes
+> > for "host happens not to be running a bleeding-edge Linux kernel
+> > and this feature isn't available yet".
 >=20
-> This seems odd to me:
-> (1) the error message you quote is for a15mpcore.c, not virt.c
+> I don't think using pmem=3Don without MAP_SYNC is expected to be a
+> supported use case, is it?  If a use case is not supported, the
+> sensible behavior is to tell the user it is not supported.
 
-This is the first device the virt board selects:
+Futher when eventually an arch does gain the feature, not failing
+when it's not available would mean users have no way to detect
+what's actually going on.
 
-config ARM_VIRT
-     bool
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     imply VFIO_AMD_XGBE
-     imply VFIO_PLATFORM
-     imply VFIO_XGMAC
-     imply TPM_TIS_SYSBUS
-     select A15MPCORE
-     ...
-
-> (2) shouldn't this be prevented by something saying "don't build
-> guest architecture X boards into Y-softmmu", rather than a specific
-> flag for a specific arm board ?
-
-Yes, agreed. This surgical change was quicker for my testing, but we=20
-don't need this patch right now, so let's drop it.
-
->=20
-> thanks
-> -- PMM
->=20
+> --=20
+> Eduardo
 
 
