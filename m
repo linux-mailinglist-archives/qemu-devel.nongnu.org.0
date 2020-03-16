@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D34186FB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:10:41 +0100 (CET)
-Received: from localhost ([::1]:40088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30226186FF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:24:48 +0100 (CET)
+Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsK7-0003wa-CP
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
+	id 1jDsXn-0002i8-7s
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpzt-0007Jb-40
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:41:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDq7c-0001r4-2R
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jDpzs-0000rB-3i
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:41:37 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:50210)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jDpzp-0008UX-7V; Mon, 16 Mar 2020 09:41:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0AEB4747DFF;
- Mon, 16 Mar 2020 14:41:29 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E2332747DFD; Mon, 16 Mar 2020 14:41:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E07A0747DF7;
- Mon, 16 Mar 2020 14:41:28 +0100 (CET)
-Date: Mon, 16 Mar 2020 14:41:28 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 0/8] Misc hw/ide legacy clean up
-In-Reply-To: <alpine.BSF.2.22.395.2003161401100.70254@zero.eik.bme.hu>
-Message-ID: <alpine.BSF.2.22.395.2003161440060.12641@zero.eik.bme.hu>
-References: <cover.1584134074.git.balaton@eik.bme.hu>
- <87lfo0lr9t.fsf@dusky.pond.sub.org>
- <alpine.BSF.2.22.395.2003161401100.70254@zero.eik.bme.hu>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDq7a-0005m7-Ub
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:35 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44729)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDq7a-0005eK-Ld
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:34 -0400
+Received: by mail-oi1-x243.google.com with SMTP id d62so17751682oia.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0BPAOx1/3Y43ZDSJ8uw6g5y1l1TmUkqMPb5e7PhkswE=;
+ b=cimJ94KAHgRlJsFyrs6LXutuGxspRTOuybbi9s3moNs0h/+90gGAOluRkyTowoh9cs
+ OnSVzL/8f9NolP1aCgL+HXLNCFAC5JfpaHWbnJ2hStICc/ZJ7FyO9HQEgCTry2CpXHaq
+ Uwd9ngxb0/0AMcaRK16ydU7YI0XnqjlGBHk5JRHjQhVcCAD26NnrbxrXglpQvEXbPMVQ
+ 2xm0KVAQo+JvZNpHzcy0HYR3DL19O+FFip1Wsn3OJrs/s8JLU/Yf9WnpLkWKs0vAPDZH
+ H+S1+NehcmkXKWpu2X8sMUcWAWevAaRkxU1S9F5MzRBPB1Ai7JPFVcr3d82ghIz0Ncu6
+ NESg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0BPAOx1/3Y43ZDSJ8uw6g5y1l1TmUkqMPb5e7PhkswE=;
+ b=RH+MtVaWjN8+Fnl7mdhsKNa4kdWZLTBC6IpT29izekW23Pk4X0IygfBPQ3HNaSDPrV
+ oCZHKPvGWnJiCgVr/ojgNJG59+HoX5xI6LylDD2u2yhYyC3rqXXB2OKUbBaYqD4/4Oo7
+ 2ty5OLgET4aH95yzqGk/mvLmaLm/HAOCOaL43b0izb4sbIPJ7/OXr8R54BY5kuAtCvE7
+ eIYpMuR5AfUc7XVr20VypGePUP54LrYmtD0BymFnf1km6g6xYJfJylCuVRAkcLRYu7CA
+ IgaQz0thiJ733AIsUQx18gS45mDa1f4fqcvJE41Avi4IWEVYqFd62VuHBIhshgvgK7Ts
+ dlGw==
+X-Gm-Message-State: ANhLgQ2je73BzdFou8mpIg9h08x4USr4a6X2PdTq5vYh39r89XEKoPyJ
+ E50O9v+3yITnhcUjM4i3I/gUJM9u/Xu2+XzdSi8DFg==
+X-Google-Smtp-Source: ADFU+vt/QED6DsSfKGm+fDkzvJQnEVoxo4uf/dxDx7YElNnMINxMB+74+rqO7iByD4LEo9ntaT2Tm6565Y91iKgKUvE=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr16680662oib.146.1584366573501; 
+ Mon, 16 Mar 2020 06:49:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+References: <20200316120049.11225-1-philmd@redhat.com>
+ <20200316120049.11225-12-philmd@redhat.com>
+In-Reply-To: <20200316120049.11225-12-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 13:49:22 +0000
+Message-ID: <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
+Subject: Re: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG, and
+ allow to disable it
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,43 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, philmd@redhat.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020, BALATON Zoltan wrote:
-> On Mon, 16 Mar 2020, Markus Armbruster wrote:
->> BALATON Zoltan <balaton@eik.bme.hu> writes:
->>> These are some clean ups to remove more legacy init functions and
->>> lessen dependence on include/hw/ide.h with some simplifications in
->>> board code. There should be no functional change.
->> 
->> PATCH 1 could quote precedence more clearly in the commit message, but
->> that's detail.
->> 
->> I don't like PATCH 4.
+On Mon, 16 Mar 2020 at 13:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
-> Sent alternative v2 version of patch 7 so you can drop patch 4 if you like,
+> The semihosting feature is only meaningful when using TCG.
+>
+> So far only the ARM/MIPS/LM32 provide the semihosting feature.
 
-and patch 6 v2 also sent that is affected as well if you drop patch 4.
+Also m68k, nios2, xtensa. riscv eventually but not yet upstream.
 
-> the rest of the series should apply unchanged. Note that there might be some 
-> places where MAX_IDE_BUS is defined but not used and current code probably 
-> has assumption about this being 2 elsewhere and would break with any other 
-> value so other than philosophical there should be no reason to keep this 
-> defined everywhere.
 >
->> PATCH 1-3,5-8:
->> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Do not enable it by default, and let the few targets requiring
+> it to manually select it.
 >
-> Thanks.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/semihosting/Kconfig | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> Regards,
-> BALATON Zoltan
+> diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
+> index efe0a30734..06e9262af2 100644
+> --- a/hw/semihosting/Kconfig
+> +++ b/hw/semihosting/Kconfig
+> @@ -1,3 +1,5 @@
 >
+>  config SEMIHOSTING
+> -       bool
+> +    bool
+> +    depends on TCG
+> +    default n
+
+OK, this is the "do not enable by default" -- where is
+the "but do enable by default for the targets that use it"
+part of the config change ?
+
+thanks
+-- PMM
 
