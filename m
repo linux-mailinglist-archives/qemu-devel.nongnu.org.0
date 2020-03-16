@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDC1187256
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:28:54 +0100 (CET)
-Received: from localhost ([::1]:45838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3758C1871D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:04:48 +0100 (CET)
+Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuTt-0001q4-BB
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1jDu6Z-0008G0-7y
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtXr-0003px-1e
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:57 -0400
+ (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDtYs-00062c-Fq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtXo-0002Tw-Er
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:54 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50262)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtXo-0002NW-1e
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:52 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z13so2549942wml.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EPnkFehuoY8i9HEKpPlDslyHYZfmul1u7YpuP2BpokM=;
- b=ZghqREJzaSEtrozbZV7tluTdr+QkgyxjfdoH5vyOi5FLUkY2Z648wGoAIXA29vzrHr
- fmbkAfIXJiGX4Ic/c7n9B0D55/7Z8vXk3KK32wmP3hR1glGxemZYtHv/8X18tiyh91ai
- q3JeEVPfyVgs31/euZpQ76YRQUxfHgRmpGHE66oavFx+sznx/g+Y5uc5gGZKYswGtrta
- 9fb1kheRE/0xb+0QPm59lu9XaK9kzLyQV7Xh6ibyjA6avdesTjkA03sKuhpum/tY1aGR
- v6/fGqsKtTTcMEAdhWo+nwsZsW2YToj2RCDH8Jf8n4Y4xUFBgmXxmXns6s3jMnxfgPO6
- 17sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EPnkFehuoY8i9HEKpPlDslyHYZfmul1u7YpuP2BpokM=;
- b=jrQKT/NuzdTp/Bjfl8XogzHR5pTAUd9PZlqmox066uUF8Mt4/0BcTRpL46+5Bs8eNE
- V0sZxMnF2S/aSooE2idlUYxhWzN4Bm+w6J/NDLsG4OOI+TZkyHpgHAZbC90D3o2oqjNq
- 2tGpD0e/6ms/tFAlDK3IJpUghn7trK/QajTCnw3n5xRrY+mSYvbNcobQl1Ok2Vmd0Urg
- 4qK9m0hU8mU7/wQ5iREtN0w3sjPjOGHPZ6Mb2N5qs55BggeAUhSdbhftUgiIdk5BPOZq
- dgnC6gSEZbEWuAC5Y0Vw4lRWfhkgybST/0e0h16kLkHOJez/d/AvKNxl9jwiUdj9+sdY
- vWiw==
-X-Gm-Message-State: ANhLgQ2dzWhgInfykz+msaRA+g9WBgizghLKrBWt9OnYaHURsawpx1pX
- mAdkCT4BPJQXg7b8zZAtXI8SmcfU7aJNOBFmLCY=
-X-Google-Smtp-Source: ADFU+vt6TGZYv/yqRZBrAzcXuCIEiuhwu1UwExmaurjGJg1CtAQPmEHVUzT2Neocln/w9lWCsXT8BrZbOL6neCS4GQ0=
-X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr224991wma.26.1584379731060;
- Mon, 16 Mar 2020 10:28:51 -0700 (PDT)
+ (envelope-from <mahesh@linux.vnet.ibm.com>) id 1jDtYr-0005pk-1w
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42952)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mahesh@linux.vnet.ibm.com>)
+ id 1jDtYq-0005cI-NV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:29:56 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02GHMLgi119300
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:29:55 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yrubn2fwc-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 13:29:55 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mahesh@linux.vnet.ibm.com>;
+ Mon, 16 Mar 2020 17:29:52 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 16 Mar 2020 17:29:49 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02GHSmCZ48562522
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Mar 2020 17:28:48 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF3B24C044;
+ Mon, 16 Mar 2020 17:29:48 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 79C5B4C040;
+ Mon, 16 Mar 2020 17:29:47 +0000 (GMT)
+Received: from in.ibm.com (unknown [9.199.45.53])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 16 Mar 2020 17:29:47 +0000 (GMT)
+Date: Mon, 16 Mar 2020 22:59:45 +0530
+From: Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 3/8] ppc/spapr: Add FWNMI System Reset state
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-4-npiggin@gmail.com>
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-23-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-23-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:28:25 +0100
-Message-ID: <CAJ+F1CKD_hfU3XWLjTPHh4xkNCU6MokbL6yz5-LVEtBbfkTMAg@mail.gmail.com>
-Subject: Re: [PATCH v3 22/34] qapi: Simplify how qmp_dispatch() deals with
- QCO_NO_SUCCESS_RESP
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200316142613.121089-4-npiggin@gmail.com>
+X-TM-AS-GCONF: 00
+x-cbid: 20031617-0020-0000-0000-000003B56862
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031617-0021-0000-0000-0000220DC90D
+Message-Id: <20200316172945.fkh5cowdseomgd7g@in.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-16_07:2020-03-12,
+ 2020-03-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=1
+ adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1015 impostorscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003160076
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+X-Mailman-Approved-At: Mon, 16 Mar 2020 13:49:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,87 +92,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: mahesh@linux.vnet.ibm.com
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:51 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 2020-03-17 00:26:08 Tue, Nicholas Piggin wrote:
+> The FWNMI option must deliver system reset interrupts to their
+> registered address, and there are a few constraints on the handler
+> addresses specified in PAPR. Add the system reset address state and
+> checks.
+> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Looks good to me.
 
+Reviwed-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
 
+Thanks,
+-Mahesh.
 > ---
->  qapi/qmp-dispatch.c | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
->
-> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index a588072523..550d1fe8d2 100644
-> --- a/qapi/qmp-dispatch.c
-> +++ b/qapi/qmp-dispatch.c
-> @@ -106,7 +106,7 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
-quest,
->      QDict *dict =3D qobject_to(QDict, request);
->      QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
->      QObject *ret =3D NULL;
-> -    QDict *rsp;
-> +    QDict *rsp =3D NULL;
->
->      dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
->      if (!dict) {
-> @@ -151,31 +151,32 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *=
-request,
->          args =3D qdict_get_qdict(dict, "arguments");
->          qobject_ref(args);
+>  hw/ppc/spapr.c         |  2 ++
+>  hw/ppc/spapr_rtas.c    | 14 +++++++++++++-
+>  include/hw/ppc/spapr.h |  3 ++-
+>  3 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index b03b26370d..5f93c49706 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1704,6 +1704,7 @@ static void spapr_machine_reset(MachineState *machine)
+> 
+>      spapr->cas_reboot = false;
+> 
+> +    spapr->fwnmi_system_reset_addr = -1;
+>      spapr->fwnmi_machine_check_addr = -1;
+>      spapr->fwnmi_machine_check_interlock = -1;
+> 
+> @@ -2023,6 +2024,7 @@ static const VMStateDescription vmstate_spapr_fwnmi = {
+>      .needed = spapr_fwnmi_needed,
+>      .pre_save = spapr_fwnmi_pre_save,
+>      .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(fwnmi_system_reset_addr, SpaprMachineState),
+>          VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
+>          VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState),
+>          VMSTATE_END_OF_LIST()
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 0b8c481593..521e6b0b72 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -414,6 +414,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>                                    uint32_t nret, target_ulong rets)
+>  {
+>      hwaddr rtas_addr;
+> +    target_ulong sreset_addr, mce_addr;
+> 
+>      if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> @@ -426,7 +427,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>          return;
 >      }
-> -
->      cmd->fn(args, &ret, &err);
-> +    qobject_unref(args);
->      if (err) {
-> -        ;
-> -    } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
-> +        goto out;
+> 
+> -    spapr->fwnmi_machine_check_addr = rtas_ld(args, 1);
+> +    sreset_addr = rtas_ld(args, 0);
+> +    mce_addr = rtas_ld(args, 1);
+> +
+> +    /* PAPR requires these are in the first 32M of memory and within RMA */
+> +    if (sreset_addr >= 32 * MiB || sreset_addr >= spapr->rma_size ||
+> +           mce_addr >= 32 * MiB ||    mce_addr >= spapr->rma_size) {
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
 > +    }
 > +
-> +    if (cmd->options & QCO_NO_SUCCESS_RESP) {
->          g_assert(!ret);
-> +        return NULL;
->      } else if (!ret) {
->          /* TODO turn into assertion */
->          ret =3D QOBJECT(qdict_new());
->      }
->
-> -    qobject_unref(args);
-> +    rsp =3D qdict_new();
-> +    qdict_put_obj(rsp, "return", ret);
->
->  out:
->      if (err) {
-> +        assert(!rsp);
->          rsp =3D qmp_error_response(err);
-> -    } else if (ret) {
-> -        rsp =3D qdict_new();
-> -        qdict_put_obj(rsp, "return", ret);
-> -    } else {
-> -        /* Can only happen for commands with QCO_NO_SUCCESS_RESP */
-> -        rsp =3D NULL;
->      }
->
-> -    if (rsp && id) {
-> +    assert(rsp);
-> +
-> +    if (id) {
->          qdict_put_obj(rsp, "id", qobject_ref(id));
->      }
->
-> --
-> 2.21.1
->
->
+> +    spapr->fwnmi_system_reset_addr = sreset_addr;
+> +    spapr->fwnmi_machine_check_addr = mce_addr;
+> 
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 64b83402cb..42d64a0368 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -194,9 +194,10 @@ struct SpaprMachineState {
+> 
+>      /* State related to FWNMI option */
+> 
+> -    /* Machine Check Notification Routine address
+> +    /* System Reset and Machine Check Notification Routine addresses
+>       * registered by "ibm,nmi-register" RTAS call.
+>       */
+> +    target_ulong fwnmi_system_reset_addr;
+>      target_ulong fwnmi_machine_check_addr;
+> 
+>      /* Machine Check FWNMI synchronization, fwnmi_machine_check_interlock is
+> -- 
+> 2.23.0
+> 
+> 
 
+-- 
+Mahesh J Salgaonkar
 
---=20
-Marc-Andr=C3=A9 Lureau
 
