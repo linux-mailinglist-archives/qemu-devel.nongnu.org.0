@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B853118705B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:47:34 +0100 (CET)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8ED187081
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:51:44 +0100 (CET)
+Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDstp-0004mN-OT
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:47:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48673)
+	id 1jDsxr-0003Ef-3A
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jDrNh-0007gi-OI
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:20 -0400
+ (envelope-from <clg@kaod.org>) id 1jDrOl-0008H9-Ml
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jDrNf-0005F3-GH
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:16 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48984)
+ (envelope-from <clg@kaod.org>) id 1jDrOk-0006tY-6i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:23 -0400
+Received: from 8.mo6.mail-out.ovh.net ([178.33.42.204]:53762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrNf-000547-Av
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584371414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NfGd9xKvwNXlcDZ+fm3+orD1Aux3z5WgdpEb/HIGigM=;
- b=TWcX8z1mBk1OXo9HXbjxi+xprmoDZb2Tx2GelvwLZaax2I8J156dB7uM7osnLmQQHAaLgq
- VAhoMcWOI8ZVTNusGnNzlEvS/rxHLMFERuKFRYInViEPlGbYA7FZy5rF3OTvYUQ8QEAXO4
- Id0czy30yaREU47GFqoFIS7rVls1Y04=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-UUzhDEdDP8KyRCfSD3qTNw-1; Mon, 16 Mar 2020 11:10:12 -0400
-X-MC-Unique: UUzhDEdDP8KyRCfSD3qTNw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49175102C8D5;
- Mon, 16 Mar 2020 15:10:10 +0000 (UTC)
-Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8B91001B34;
- Mon, 16 Mar 2020 15:10:09 +0000 (UTC)
-Subject: Re: [PATCH v3 01/34] qemu-doc: Belatedly document QMP command arg &
- result deprecation
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-2-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com>
-Date: Mon, 16 Mar 2020 10:10:09 -0500
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDrOj-0006bB-Tp
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:11:22 -0400
+Received: from player158.ha.ovh.net (unknown [10.108.54.108])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id D3624204F47
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 16:11:19 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player158.ha.ovh.net (Postfix) with ESMTPSA id AF6E410729FFD;
+ Mon, 16 Mar 2020 15:11:03 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] m25p80: Convert to support tracing
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200206183219.3756-1-linux@roeck-us.net>
+ <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
+ <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
+ <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <a6af95d9-f95c-f9fc-eac0-60d9c8517dec@kaod.org>
+Date: Mon, 16 Mar 2020 16:11:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200315144653.22660-2-armbru@redhat.com>
+In-Reply-To: <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10887170627504671664
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 178.33.42.204
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,42 +60,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/20 9:46 AM, Markus Armbruster wrote:
-> A number of deprecated QMP arguments and results were missed in commit
-> eb22aeca65 "docs: document deprecation policy & deprecated features in
-> appendix" (v2.10.0):
-> 
+On 3/16/20 3:58 PM, Peter Maydell wrote:
+> On Mon, 16 Mar 2020 at 14:14, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
+e:
+>>
+>> Hello,
+>>
+>> On 2/17/20 4:47 PM, C=C3=A9dric Le Goater wrote:
+>>> Hello all,
+>>>
+>>> On 2/6/20 7:32 PM, Guenter Roeck wrote:
+>>>> While at it, add some trace messages to help debug problems
+>>>> seen when running the latest Linux kernel.
+>>>
+>>> Through which tree do you think it is best to merge this patchset ?
+>>> block or arm ?
+>>
+>> It would be nice to have these 4 patches for 5.0. All are reviewed and
+>> tested.
+>=20
+> Do you have a pointer to the cover letter? Not sure
+> which platforms (and so which tree) they're aiming for...
 
-> 
-> Since then, we missed a few more:
-> 
-> * Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
->    deprecated block-commit arguments @base and @top.
-> 
-> * Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
->    properties" (v4.0.0) deprecated query-named-block-nodes result
->    @dirty-bitmaps member @status, not just query-block.
-> 
-> Make up for all that.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
->   1 file changed, 44 insertions(+), 4 deletions(-)
+Not having a cover letter clearly doesn't help ...
 
-Should we remove any of these features that have been deprecated long 
-enough?  But that can be separate, having this patch just add mention 
-that was previously forgotten is fine.
+Here is the patchset diffstat :
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+ block/m25p80.c     |   58 ++++++++++++++++++++++++++++------------------=
+-------
+ block/trace-events |   16 ++++++++++++++
+ ssi/aspeed_smc.c   |    2 -
+ 3 files changed, 48 insertions(+), 28 deletions(-)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+http://patchwork.ozlabs.org/patch/1234532/
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
+http://patchwork.ozlabs.org/patch/1234533/
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+http://patchwork.ozlabs.org/patch/1234535/
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+http://patchwork.ozlabs.org/patch/1234536/
+Fixes: f95c4bffdc4c ("aspeed/smc: snoop SPI transfers to fake dummy cycle=
+s")
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Thanks,
+
+C.=20
 
