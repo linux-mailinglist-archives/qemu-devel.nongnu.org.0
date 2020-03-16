@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB6A186F72
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:57:30 +0100 (CET)
-Received: from localhost ([::1]:39950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A5186EB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:38:18 +0100 (CET)
+Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDs7M-0007SO-UQ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
+	id 1jDrom-0008NQ-Ow
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:38:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDppe-0003MX-2X
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:31:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDqMb-0007W7-JK
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jDppc-0004aG-LE
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:31:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43114)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDqMa-0000rS-5g
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:05:05 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37129)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jDppc-0004Rj-CM
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:31:00 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b2so14995566wrj.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=UbbPerI1ViIZ/ZFKWkhwLiubBQVNFB7qXCfElKgnVe4=;
- b=vafpjUZpQMNKzS476VbBN1TOnUrBUi3KUmXLhM/FHFYTwIkduwSrfU/CvXmNy+1CYX
- cwYYC/grM6B8emmhRMIczE2D/ToxvsDMgtjxs5Nv2gkr8GOjlZF6pGodLWHWo6jXBz28
- fF9Eafa16QmxsimCFtf8ssxMU/US7WhvyLBAC3o4Y6/RkUoTRTHR8wkPmhsJollh1djT
- oZ+NTn6sj1w5P+kijKPPcay1bkT+2Qr8RLFSIQL8AAPA/roYH6IzodpKDSbI71f+cF5B
- cQ3lXw7GsItPSlTVtx2edRVXitmbgsQJUenx7nAt+UYb3c7roU2dq2eVO1qZ55L+vkr/
- Ydrw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDqMZ-0000gL-VW
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:05:04 -0400
+Received: by mail-oi1-x241.google.com with SMTP id w13so17905436oih.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iMcdHlw77oZY/VVh3hFvxe/fzUHqyDJ83dwS3dXDDvU=;
+ b=qmAM+VklC6LjMVZPBYpagU6/U24JUoMqNRyvzvxx7s7ZG4fFrLfYqvoqWjzRfK1sLW
+ cH2anYxf7aBEZ8utEKTMu2Bq4/N+k1w0QzPm8/+0nJyFIYs6XIopZkx2tKAfYVRmgg0G
+ P5oUdjNcXIrTsYW/nV0f3G3Ruta+k9+YqSLfDgKMf1vX54cXDbyINQco1gIHOjI++GkK
+ VADPKUN0UUivtJlcgwZjlz6mtMVAU/qmdzoTnEjOaAxVvuNMuX4U1C7J8y50WFQTD83F
+ vH6WkxNUGouBvt+LX7iup3Uu66Z2bPZ3bzagrCfEju0JPp1AnW7MwlGO2TGen97U9cSG
+ ewlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=UbbPerI1ViIZ/ZFKWkhwLiubBQVNFB7qXCfElKgnVe4=;
- b=c173ZhojWJaZkxn5jcbEuVTO+Mg8KDMNBlgpbjtOPhozwbu+2aQPLUvqbBUlYqwbZ2
- hUOW7F2dITrB93+I9p9RYPP/Y75bF/MtGOyNc0NSSaMzL3aehgic3CPLvHPelWZ+bl2V
- U88MweMxQUHCCMXDlFtryoNKSiK4v2/TFjgtmIOBjT9PbRhIAznTPfLUyhOTiF2SpwHJ
- 3xjf0+VNMj9ZOcerzce3tdwPx69E9OnObYRj1+8rwkCYTuFm9Th/u1w+58iIP/PQdGPx
- b6dQZedFivrMOKpq9hJINjBtlAEZDPp5R1/jA1QszlePLZF9Zrm+z0MKMuB2bjafAi1j
- 8iKQ==
-X-Gm-Message-State: ANhLgQ0FL23ZsclC2wcIZVrp0q5lkDr651o/NBG431dsHW/rTaxHZCi7
- +5g6MM0HD8vlgp/uKOj8ZVa0ZBBH
-X-Google-Smtp-Source: ADFU+vtNMHIwTRSzW+jP0Hyk7HJC6921p7iYU6p/F8aQa1RM9s4W1XZmOhJEoytA8GR0VN1kH7h7fA==
-X-Received: by 2002:adf:ce8e:: with SMTP id r14mr5413080wrn.415.1584365458315; 
- Mon, 16 Mar 2020 06:30:58 -0700 (PDT)
-Received: from [192.168.86.224] ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id l7sm22869966wrw.33.2020.03.16.06.30.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 06:30:57 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/rdma: Cosmetic change - no need for two sge arrays
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org
-References: <20200307125608.2476-1-yuval.shaia.ml@gmail.com>
- <20200307125608.2476-2-yuval.shaia.ml@gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <0f105874-c15f-406e-c4e9-fd752f95aa96@gmail.com>
-Date: Mon, 16 Mar 2020 15:32:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iMcdHlw77oZY/VVh3hFvxe/fzUHqyDJ83dwS3dXDDvU=;
+ b=q72WhGrEJ+FySz+wlRFEaQlYJ26/fekVnqYYj7+jbxzOpO04SYrxIonrDec42qxmHT
+ I6uzsOe6ejILMLE4HakDaVNpKnNoIYfhUoWoPbuZs1eUPuzx/Nb9oTc0zQGUBI2kOO6/
+ v/d/FXmeWXxDzKM8An5cVwGdk4ug4tes0flGhoXZeLUcb1N//4GZUUN+L7GcS3NxKaWH
+ C7U9oRzIQDsdHoxTZCi5pB9CCYgTM4u4PI4KdtabM9ZgLRIDYi4nN+WBGgFf7qi0boWm
+ 732OotBFNKJFAJZrJTvxXIsol9nwKtl+KvBceA97VmiLAQ6PnYffLV47t3rt1VqoRnFc
+ M/8A==
+X-Gm-Message-State: ANhLgQ3kYK3mYOlmbkFQX0MjDyK64ksHcMAcGa8OYtkZX3IJR1q6LKVs
+ g6CnnLA3qvWePEE8XNSiIhIxTEID1nav5JZIscBmow==
+X-Google-Smtp-Source: ADFU+vttT/HthjxNAEcWmfjuNJBti9sU+5n19AmJa9ltu/JNWkzsyQqKV9yhd/SiL4LSlQ5S8tbRAv/z04VwFCCxZuc=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr16740881oib.146.1584367502952; 
+ Mon, 16 Mar 2020 07:05:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200307125608.2476-2-yuval.shaia.ml@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20200316114050.3167-1-jiangyifei@huawei.com>
+ <20200316114050.3167-2-jiangyifei@huawei.com>
+In-Reply-To: <20200316114050.3167-2-jiangyifei@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 14:04:51 +0000
+Message-ID: <CAFEAcA8c8sYvrridu_c=Nxs8k0CwDUcbavMdQuHvHfF-ZaUWwg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tcg: avoid integer overflow
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,152 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>, limingwang@huawei.com,
+ victor.zhangxiaofeng@huawei.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ dengkai1@huawei.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yuval,
-
-On 3/7/20 2:56 PM, Yuval Shaia wrote:
-> The function build_host_sge_array uses two sge arrays, one for input and
-> one for output.
-> Since the size of the two arrays is the same, the function can write
-> directly to the given source array (i.e. input/output argument).
+On Mon, 16 Mar 2020 at 13:15, Yifei Jiang <jiangyifei@huawei.com> wrote:
 >
-> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> ---
->   hw/rdma/rdma_backend.c | 40 +++++++++++++++++-----------------------
->   1 file changed, 17 insertions(+), 23 deletions(-)
->
-> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-> index c346407cd3..79b9cfb487 100644
-> --- a/hw/rdma/rdma_backend.c
-> +++ b/hw/rdma/rdma_backend.c
-> @@ -378,30 +378,27 @@ static void ah_cache_init(void)
->   }
->   
->   static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-> -                                struct ibv_sge *dsge, struct ibv_sge *ssge,
-> -                                uint8_t num_sge, uint64_t *total_length)
-> +                                struct ibv_sge *sge, uint8_t num_sge,
-> +                                uint64_t *total_length)
->   {
->       RdmaRmMR *mr;
-> -    int ssge_idx;
-> +    int idx;
->   
-> -    for (ssge_idx = 0; ssge_idx < num_sge; ssge_idx++) {
-> -        mr = rdma_rm_get_mr(rdma_dev_res, ssge[ssge_idx].lkey);
-> +    for (idx = 0; idx < num_sge; idx++) {
-> +        mr = rdma_rm_get_mr(rdma_dev_res, sge[idx].lkey);
->           if (unlikely(!mr)) {
-> -            rdma_error_report("Invalid lkey 0x%x", ssge[ssge_idx].lkey);
-> -            return VENDOR_ERR_INVLKEY | ssge[ssge_idx].lkey;
-> +            rdma_error_report("Invalid lkey 0x%x", sge[idx].lkey);
-> +            return VENDOR_ERR_INVLKEY | sge[idx].lkey;
->           }
->   
->   #ifdef LEGACY_RDMA_REG_MR
-> -        dsge->addr = (uintptr_t)mr->virt + ssge[ssge_idx].addr - mr->start;
-> +        sge[idx].addr = (uintptr_t)mr->virt + sge[idx].addr - mr->start;
->   #else
-> -        dsge->addr = ssge[ssge_idx].addr;
-> +        sge[idx].addr = sge[idx].addr;
+> This fixes coverity issues 75234842, etc.,:
 
-It seems we don't need the above line.
-Other than that it looks good to me.
+Where does this issue number come from, by the way?
+It's not from the online Coverity Scan we use which
+is the issue ID we usually cite for coverity stuff.
 
-Thanks,
-Marcel
+>     2221    tcg_gen_andi_i64(t, t, dup_const(vece, 1));
+> CID 75234842: (OVERFLOW_BEFORE_WIDEN)
+>     2222. overflow_before_widen: Potentially overflowing expression "1 << nbit" with type "int" (32 bits, signed) is evaluated using 32-bit arithmetic, and then used in a context that expects an expression of type "int64_t" (64 bits, signed).
+>     2222    tcg_gen_muli_i64(t, t, (1 << nbit) - 1);
 
->   #endif
-> -        dsge->length = ssge[ssge_idx].length;
-> -        dsge->lkey = rdma_backend_mr_lkey(&mr->backend_mr);
-> +        sge[idx].lkey = rdma_backend_mr_lkey(&mr->backend_mr);
->   
-> -        *total_length += dsge->length;
-> -
-> -        dsge++;
-> +        *total_length += sge[idx].length;
->       }
->   
->       return 0;
-> @@ -484,7 +481,6 @@ void rdma_backend_post_send(RdmaBackendDev *backend_dev,
->                               void *ctx)
->   {
->       BackendCtx *bctx;
-> -    struct ibv_sge new_sge[MAX_SGE];
->       uint32_t bctx_id;
->       int rc;
->       struct ibv_send_wr wr = {}, *bad_wr;
-> @@ -518,7 +514,7 @@ void rdma_backend_post_send(RdmaBackendDev *backend_dev,
->   
->       rdma_protected_gslist_append_int32(&qp->cqe_ctx_list, bctx_id);
->   
-> -    rc = build_host_sge_array(backend_dev->rdma_dev_res, new_sge, sge, num_sge,
-> +    rc = build_host_sge_array(backend_dev->rdma_dev_res, sge, num_sge,
->                                 &backend_dev->rdma_dev_res->stats.tx_len);
->       if (rc) {
->           complete_work(IBV_WC_GENERAL_ERR, rc, ctx);
-> @@ -538,7 +534,7 @@ void rdma_backend_post_send(RdmaBackendDev *backend_dev,
->       wr.num_sge = num_sge;
->       wr.opcode = IBV_WR_SEND;
->       wr.send_flags = IBV_SEND_SIGNALED;
-> -    wr.sg_list = new_sge;
-> +    wr.sg_list = sge;
->       wr.wr_id = bctx_id;
->   
->       rc = ibv_post_send(qp->ibqp, &wr, &bad_wr);
-> @@ -601,7 +597,6 @@ void rdma_backend_post_recv(RdmaBackendDev *backend_dev,
->                               struct ibv_sge *sge, uint32_t num_sge, void *ctx)
->   {
->       BackendCtx *bctx;
-> -    struct ibv_sge new_sge[MAX_SGE];
->       uint32_t bctx_id;
->       int rc;
->       struct ibv_recv_wr wr = {}, *bad_wr;
-> @@ -635,7 +630,7 @@ void rdma_backend_post_recv(RdmaBackendDev *backend_dev,
->   
->       rdma_protected_gslist_append_int32(&qp->cqe_ctx_list, bctx_id);
->   
-> -    rc = build_host_sge_array(backend_dev->rdma_dev_res, new_sge, sge, num_sge,
-> +    rc = build_host_sge_array(backend_dev->rdma_dev_res, sge, num_sge,
->                                 &backend_dev->rdma_dev_res->stats.rx_bufs_len);
->       if (rc) {
->           complete_work(IBV_WC_GENERAL_ERR, rc, ctx);
-> @@ -643,7 +638,7 @@ void rdma_backend_post_recv(RdmaBackendDev *backend_dev,
->       }
->   
->       wr.num_sge = num_sge;
-> -    wr.sg_list = new_sge;
-> +    wr.sg_list = sge;
->       wr.wr_id = bctx_id;
->       rc = ibv_post_recv(qp->ibqp, &wr, &bad_wr);
->       if (rc) {
-> @@ -671,7 +666,6 @@ void rdma_backend_post_srq_recv(RdmaBackendDev *backend_dev,
->                                   uint32_t num_sge, void *ctx)
->   {
->       BackendCtx *bctx;
-> -    struct ibv_sge new_sge[MAX_SGE];
->       uint32_t bctx_id;
->       int rc;
->       struct ibv_recv_wr wr = {}, *bad_wr;
-> @@ -688,7 +682,7 @@ void rdma_backend_post_srq_recv(RdmaBackendDev *backend_dev,
->   
->       rdma_protected_gslist_append_int32(&srq->cqe_ctx_list, bctx_id);
->   
-> -    rc = build_host_sge_array(backend_dev->rdma_dev_res, new_sge, sge, num_sge,
-> +    rc = build_host_sge_array(backend_dev->rdma_dev_res, sge, num_sge,
->                                 &backend_dev->rdma_dev_res->stats.rx_bufs_len);
->       if (rc) {
->           complete_work(IBV_WC_GENERAL_ERR, rc, ctx);
-> @@ -696,7 +690,7 @@ void rdma_backend_post_srq_recv(RdmaBackendDev *backend_dev,
->       }
->   
->       wr.num_sge = num_sge;
-> -    wr.sg_list = new_sge;
-> +    wr.sg_list = sge;
->       wr.wr_id = bctx_id;
->       rc = ibv_post_srq_recv(srq->ibsrq, &wr, &bad_wr);
->       if (rc) {
+Again, you need to apply a more critical eye to the Coverity
+suggestions. For instance:
 
+> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+> index 327d9588e0..3aeb049a46 100644
+> --- a/tcg/tcg-op-gvec.c
+> +++ b/tcg/tcg-op-gvec.c
+> @@ -2219,7 +2219,7 @@ static void gen_absv_mask(TCGv_i64 d, TCGv_i64 b, unsigned vece)
+>      /* Create -1 for each negative element.  */
+>      tcg_gen_shri_i64(t, b, nbit - 1);
+>      tcg_gen_andi_i64(t, t, dup_const(vece, 1));
+> -    tcg_gen_muli_i64(t, t, (1 << nbit) - 1);
+> +    tcg_gen_muli_i64(t, t, ((int64_t)1 << nbit) - 1);
+
+In this function nbit can only be 8 or 16, so this shift
+can never overflow.
+
+I haven't checked whether any of the others are valid.
+
+thanks
+-- PMM
 
