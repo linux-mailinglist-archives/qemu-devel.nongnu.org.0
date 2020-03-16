@@ -2,38 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9504186763
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:05:35 +0100 (CET)
-Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC3B1867AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:17:44 +0100 (CET)
+Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDlgk-0007td-4y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1jDlsV-0003qJ-HR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jDl05-0000da-4w
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:35 -0400
+ (envelope-from <armbru@redhat.com>) id 1jDl06-0000dy-FV
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jDkzz-0005Cy-2l
+ (envelope-from <armbru@redhat.com>) id 1jDkzy-00056J-Gg
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:29 -0400
-Received: from relay.sw.ru ([185.231.240.75]:53716)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28175
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jDkzy-0004k2-FN; Mon, 16 Mar 2020 04:21:22 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jDkzn-00053V-1v; Mon, 16 Mar 2020 11:21:11 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 1/4] qcow2: introduce compression type feature
-Date: Mon, 16 Mar 2020 11:20:53 +0300
-Message-Id: <20200316082056.8839-2-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
-References: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDkzy-0004qs-73
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584346881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lFW23Q+mhrRZ1+7A4WbAgeHPHfTe53MPi6n2visup9w=;
+ b=Ta8qGy/k6I3ugNSl2lhK1dMJsDlqwPylG4lCgVLUMLgxOUE7PXvRHQ3+5HsCI/lQePCH4h
+ GArouU2Z1gaU4XW2DShFsQGKCnl0uUoFmD5oNkJkg3CCtS/+2l2ZikVM9cV78K3DMP0EdN
+ etcS90ltHW8wHwd4Kdk19HHOE0esn9c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-qjCBDF66Pa-TlhRxBAiWMA-1; Mon, 16 Mar 2020 04:21:17 -0400
+X-MC-Unique: qjCBDF66Pa-TlhRxBAiWMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FDD61005509;
+ Mon, 16 Mar 2020 08:21:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
+ [10.36.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1345E5DA7B;
+ Mon, 16 Mar 2020 08:21:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8A73F1138404; Mon, 16 Mar 2020 09:21:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v9 02/10] scripts: Coccinelle script to use
+ ERRP_AUTO_PROPAGATE()
+References: <20200312085936.9552-1-vsementsov@virtuozzo.com>
+ <20200312085936.9552-3-vsementsov@virtuozzo.com>
+ <874kuto7hq.fsf@dusky.pond.sub.org>
+ <4a70c6ee-10a2-fdc3-f8df-88c05340398b@virtuozzo.com>
+ <875zf8gt2m.fsf@dusky.pond.sub.org>
+ <7c6f9a91-76cf-242d-8166-0693ec14b24d@virtuozzo.com>
+ <87blozex9v.fsf@dusky.pond.sub.org>
+ <f9c8de73-38d8-a14c-632a-8e57d18e00c8@virtuozzo.com>
+Date: Mon, 16 Mar 2020 09:21:07 +0100
+In-Reply-To: <f9c8de73-38d8-a14c-632a-8e57d18e00c8@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Mon, 16 Mar 2020 10:12:10 +0300")
+Message-ID: <87o8swk8wc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,1067 +83,1681 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch adds some preparation parts for incompatible compression type
-feature to qcow2 allowing the use different compression methods for
-image clusters (de)compressing.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-It is implied that the compression type is set on the image creation and
-can be changed only later by image conversion, thus compression type
-defines the only compression algorithm used for the image, and thus,
-for all image clusters.
+> On 14.03.2020 00:54, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>
+>>> 13.03.2020 18:42, Markus Armbruster wrote:
+>>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>>
+>>>>> 12.03.2020 19:36, Markus Armbruster wrote:
+>>>>>> I may have a second look tomorrow with fresher eyes, but let's get t=
+his
+>>>>>> out now as is.
+>>>>>>
+>>>>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>>>>
+>>>>>>> Script adds ERRP_AUTO_PROPAGATE macro invocation where appropriate =
+and
+>>>>>>> does corresponding changes in code (look for details in
+>>>>>>> include/qapi/error.h)
+>>>>>>>
+>>>>>>> Usage example:
+>>>>>>> spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>>>>>>>     --macro-file scripts/cocci-macro-file.h --in-place --no-show-di=
+ff \
+>>>>>>>     --max-width 80 FILES...
+>>>>>>>
+>>>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.c=
+om>
+>>>>>>> ---
+>>>>>>>
+>>>>>>> Cc: Eric Blake <eblake@redhat.com>
+>>>>>>> Cc: Kevin Wolf <kwolf@redhat.com>
+>>>>>>> Cc: Max Reitz <mreitz@redhat.com>
+>>>>>>> Cc: Greg Kurz <groug@kaod.org>
+>>>>>>> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+>>>>>>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>>>>>>> Cc: Anthony Perard <anthony.perard@citrix.com>
+>>>>>>> Cc: Paul Durrant <paul@xen.org>
+>>>>>>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>>>>>>> Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+>>>>>>> Cc: Laszlo Ersek <lersek@redhat.com>
+>>>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>>>>>> Cc: Stefan Berger <stefanb@linux.ibm.com>
+>>>>>>> Cc: Markus Armbruster <armbru@redhat.com>
+>>>>>>> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+>>>>>>> Cc: qemu-devel@nongnu.org
+>>>>>>> Cc: qemu-block@nongnu.org
+>>>>>>> Cc: xen-devel@lists.xenproject.org
+>>>>>>>
+>>>>>>>     scripts/coccinelle/auto-propagated-errp.cocci | 327 +++++++++++=
++++++++
+>>>>>>>     include/qapi/error.h                          |   3 +
+>>>>>>>     MAINTAINERS                                   |   1 +
+>>>>>>>     3 files changed, 331 insertions(+)
+>>>>>>>     create mode 100644 scripts/coccinelle/auto-propagated-errp.cocc=
+i
+>>>>>>>
+>>>>>>> diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/script=
+s/coccinelle/auto-propagated-errp.cocci
+>>>>>>> new file mode 100644
+>>>>>>> index 0000000000..7dac2dcfa4
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/scripts/coccinelle/auto-propagated-errp.cocci
+>>>>>>> @@ -0,0 +1,327 @@
+>>>>>>> +// Use ERRP_AUTO_PROPAGATE (see include/qapi/error.h)
+>>>>>>> +//
+>>>>>>> +// Copyright (c) 2020 Virtuozzo International GmbH.
+>>>>>>> +//
+>>>>>>> +// This program is free software; you can redistribute it and/or
+>>>>>>> +// modify it under the terms of the GNU General Public License as
+>>>>>>> +// published by the Free Software Foundation; either version 2 of =
+the
+>>>>>>> +// License, or (at your option) any later version.
+>>>>>>> +//
+>>>>>>> +// This program is distributed in the hope that it will be useful,
+>>>>>>> +// but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>>>>>> +// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>>>>> +// GNU General Public License for more details.
+>>>>>>> +//
+>>>>>>> +// You should have received a copy of the GNU General Public Licen=
+se
+>>>>>>> +// along with this program.  If not, see
+>>>>>>> +// <http://www.gnu.org/licenses/>.
+>>>>>>> +//
+>>>>>>> +// Usage example:
+>>>>>>> +// spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci =
+\
+>>>>>>> +//  --macro-file scripts/cocci-macro-file.h --in-place \
+>>>>>>> +//  --no-show-diff --max-width 80 FILES...
+>>>>>>> +//
+>>>>>>> +// Note: --max-width 80 is needed because coccinelle default is le=
+ss
+>>>>>>> +// than 80, and without this parameter coccinelle may reindent som=
+e
+>>>>>>> +// lines which fit into 80 characters but not to coccinelle defaul=
+t,
+>>>>>>> +// which in turn produces extra patch hunks for no reason.
+>>>>>>
+>>>>>> This is about unwanted reformatting of parameter lists due to the __=
+_
+>>>>>> chaining hack.  --max-width 80 makes that less likely, but not
+>>>>>> impossible.
+>>>>>>
+>>>>>> We can search for unwanted reformatting of parameter lists.  I think
+>>>>>> grepping diffs for '^\+.*Error \*\*' should do the trick.  For the w=
+hole
+>>>>>> tree, I get one false positive (not a parameter list), and one hit:
+>>>>>>
+>>>>>>        @@ -388,8 +388,10 @@ static void object_post_init_with_type(O
+>>>>>>             }
+>>>>>>         }
+>>>>>>
+>>>>>>        -void object_apply_global_props(Object *obj, const GPtrArray =
+*props, Error **errp)
+>>>>>>        +void object_apply_global_props(Object *obj, const GPtrArray =
+*props,
+>>>>>>        +                               Error **errp)
+>>>>>>         {
+>>>>>>        +    ERRP_AUTO_PROPAGATE();
+>>>>>>             int i;
+>>>>>>
+>>>>>>             if (!props) {
+>>>>>>
+>>>>>> Reformatting, but not unwanted.
+>>>>>
+>>>>> Yes, I saw it. This line is 81 character length, so it's OK to fix it=
+ in one hunk with
+>>>>> ERRP_AUTO_PROPAGATE addition even for non-automatic patch.
+>>>>
+>>>> Agree.
+>>>>
+>>>>>>
+>>>>>> The --max-width 80 hack is good enough for me.
+>>>>>>
+>>>>>> It does result in slightly long transformed lines, e.g. this one in
+>>>>>> replication.c:
+>>>>>>
+>>>>>>        @@ -113,7 +113,7 @@ static int replication_open(BlockDriverS
+>>>>>>                 s->mode =3D REPLICATION_MODE_PRIMARY;
+>>>>>>                 top_id =3D qemu_opt_get(opts, REPLICATION_TOP_ID);
+>>>>>>                 if (top_id) {
+>>>>>>        -            error_setg(&local_err, "The primary side does no=
+t support option top-id");
+>>>>>>        +            error_setg(errp, "The primary side does not supp=
+ort option top-id");
+>>>>>>                     goto fail;
+>>>>>>                 }
+>>>>>>             } else if (!strcmp(mode, "secondary")) {
+>>>>>>
+>>>>>> v8 did break this line (that's how I found it).  However, v9 still
+>>>>>> shortens the line, just not below the target.  All your + lines look
+>>>>>> quite unlikely to lengthen lines.  Let's not worry about this.
+>>>>>>
+>>>>>>> +// Switch unusual Error ** parameter names to errp
+>>>>>>> +// (this is necessary to use ERRP_AUTO_PROPAGATE).
+>>>>>>> +//
+>>>>>>> +// Disable optional_qualifier to skip functions with
+>>>>>>> +// "Error *const *errp" parameter.
+>>>>>>> +//
+>>>>>>> +// Skip functions with "assert(_errp && *_errp)" statement, becaus=
+e
+>>>>>>> +// that signals unusual semantics, and the parameter name may well
+>>>>>>> +// serve a purpose. (like nbd_iter_channel_error()).
+>>>>>>> +//
+>>>>>>> +// Skip util/error.c to not touch, for example, error_propagate() =
+and
+>>>>>>> +// error_propagate_prepend().
+>>>>>>> +@ depends on !(file in "util/error.c") disable optional_qualifier@
+>>>>>>> +identifier fn;
+>>>>>>> +identifier _errp !=3D errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(...,
+>>>>>>> +-   Error **_errp
+>>>>>>> ++   Error **errp
+>>>>>>> +    ,...)
+>>>>>>> + {
+>>>>>>> +(
+>>>>>>> +     ... when !=3D assert(_errp && *_errp)
+>>>>>>> +&
+>>>>>>> +     <...
+>>>>>>> +-    _errp
+>>>>>>> ++    errp
+>>>>>>> +     ...>
+>>>>>>> +)
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +// Add invocation of ERRP_AUTO_PROPAGATE to errp-functions where
+>>>>>>> +// necessary
+>>>>>>> +//
+>>>>>>> +// Note, that without "when any" the final "..." does not mach
+>>>>>>> +// something matched by previous pattern, i.e. the rule will not m=
+atch
+>>>>>>> +// double error_prepend in control flow like in
+>>>>>>> +// vfio_set_irq_signaling().
+>>>>>>> +//
+>>>>>>> +// Note, "exists" says that we want apply rule even if it matches =
+not
+>>>>>>> +// on all possible control flows (otherwise, it will not match
+>>>>>>> +// standard pattern when error_propagate() call is in if branch).
+>>>>>>> +@ disable optional_qualifier exists@
+>>>>>>> +identifier fn, local_err;
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error **errp, ...)
+>>>>>>> + {
+>>>>>>> ++   ERRP_AUTO_PROPAGATE();
+>>>>>>> +    ...  when !=3D ERRP_AUTO_PROPAGATE();
+>>>>>>> +(
+>>>>>>> +(
+>>>>>>> +    error_append_hint(errp, ...);
+>>>>>>> +|
+>>>>>>> +    error_prepend(errp, ...);
+>>>>>>> +|
+>>>>>>> +    error_vprepend(errp, ...);
+>>>>>>> +)
+>>>>>>> +    ... when any
+>>>>>>> +|
+>>>>>>> +    Error *local_err =3D NULL;
+>>>>>>> +    ...
+>>>>>>> +(
+>>>>>>> +    error_propagate_prepend(errp, local_err, ...);
+>>>>>>> +|
+>>>>>>> +    error_propagate(errp, local_err);
+>>>>>>> +)
+>>>>>>> +    ...
+>>>>>>> +)
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +
+>>>>>>> +// Match functions with propagation of local error to errp.
+>>>>>>> +// We want to refer these functions in several following rules, bu=
+t I
+>>>>>>> +// don't know a proper way to inherit a function, not just its nam=
+e
+>>>>>>> +// (to not match another functions with same name in following rul=
+es).
+>>>>>>> +// Not-proper way is as follows: rename errp parameter in function=
+s
+>>>>>>> +// header and match it in following rules. Rename it back after al=
+l
+>>>>>>> +// transformations.
+>>>>>>> +//
+>>>>>>> +// The simplest case of propagation scheme is single definition of
+>>>>>>> +// local_err with at most one error_propagate_prepend or
+>>>>>>> +// error_propagate on each control-flow. Still, we want to match m=
+ore
+>>>>>>> +// complex schemes too. We'll warn them with help of further rules=
+.
+>>>>>>
+>>>>>> I think what we actually want is to examine instances of this patter=
+n to
+>>>>>> figure out whether and how we want to transform them.  Perhaps:
+>>>>>>
+>>>>>>        // The common case is a single definition of local_err with a=
+t most one
+>>>>>>        // error_propagate_prepend() or error_propagate() on each con=
+trol-flow
+>>>>>>        // path. Instances of this case we convert with this script. =
+Functions
+>>>>>
+>>>>> For me, sounds a bit like "other things we don't convert".
+>>>>> Actually we convert other things too.
+>>>>
+>>>> What other patterns of error propagation do we convert?
+>>>
+>>> Something like in xen_block_device_destroy, why not? Otherwise, it's be=
+tter to avoid
+>>> matching things like xen_block_device_destroy, not just warn them.
+>>> But I'd prefer to proceed now as is to fit into 5.0.. Too much time alr=
+eady
+>>> spent on this. So, I'm OK with your wording too.
+>>
+>> Let's scratch "Instances of this case we convert with this script."
+>
+> OK
+>
+>>
+>>>>>>        // with multiple definitions or propagates we want to examine
+>>>>>>        // manually. Later rules emit warnings to guide us to them.
+>>>>>>
+>>>>>>> +@rule1 disable optional_qualifier exists@
+>>>>>>> +identifier fn, local_err;
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error **
+>>>>>>> +-    errp
+>>>>>>> ++    ____
+>>>>>>> +    , ...)
+>>>>>>> + {
+>>>>>>> +     ...
+>>>>>>> +     Error *local_err =3D NULL;
+>>>>>>> +     ...
+>>>>>>> +(
+>>>>>>> +     error_propagate_prepend(errp, local_err, ...);
+>>>>>>> +|
+>>>>>>> +     error_propagate(errp, local_err);
+>>>>>>> +)
+>>>>>>> +     ...
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +
+>>>>>>> +// Warn several Error * definitions.
+>>>>>>> +@check1 disable optional_qualifier exists@
+>>>>>>> +identifier fn =3D rule1.fn, local_err, local_err2;
+>>>>>>
+>>>>>> Elsewhere, you use just rule.fn instead of fn =3D rule1.fn.  Any
+>>>>>> particular reason for the difference?
+>>>>>
+>>>>> I didn't find other way to ref check1.fn in next python rule. It just=
+ don't
+>>>>> work if I write here just rule1.fn.
+>>>>>
+>>>>>>
+>>>>>> With the ___ chaining hack, I doubt we still need "=3D rule1.fn" or
+>>>>>> "rule1.fn".  If I replace "fn =3D rule1.fn" and "rule.fn" by just "f=
+n"
+>>>>>> everywhere, then apply the script to the complete tree, I get the sa=
+me
+>>>>>> result.
+>>>>>
+>>>>> I think, it's more efficient to reuse names from previous rules. I th=
+ink it should
+>>>>> work faster (more information, less extra matching).
+>>>>
+>>>> Nope.  With my hacked up script (patch appended) Coccinelle is actuall=
+y
+>>>> *faster* for the .[ch] touched by this series: with your unmodified
+>>>> script, it takes a bit over 12s on my box, with mine around 7s.  Outpu=
+t
+>>>> is identical.
+>>>>
+>>>> Never guess performance, always measure it :)
+>>>
+>>> Hmm, whole tree results would be better proof
+>>>
+>>>>
+>>>> Two notes on my script:
+>>>>
+>>>> * Unlike yours, it recognizes double-propagation in my test case.
+>>>>     Discussed below.
+>>>>
+>>>> * Its "several definitions of" warning includes positions.  That turne=
+d
+>>>>     out to be useless, but I've been too lazy to take that out again.
+>>>>
+>>>>>>
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     ...
+>>>>>>> +     Error *local_err =3D NULL;
+>>>>>>> +     ... when any
+>>>>>>> +     Error *local_err2 =3D NULL;
+>>>>>>> +     ... when any
+>>>>>>> + }
+>>
+>> This flags functions that have more than one declaration along any
+>> control flow path.  It doesn't flag this one:
+>>
+>>      void gnat(bool b, Error **errp)
+>>      {
+>>          if (b) {
+>>              Error *local_err =3D NULL;
+>>              foo(arg, &local_err);
+>>              error_propagate(errp, local_err);
+>>          } else {
+>>              Error *local_err =3D NULL;
+>>              bar(arg, &local_err);
+>>              error_propagate(errp, local_err);
+>>          }
+>>      }
+>>
+>> The Coccinelle script does the right thing for this one regardless.
+>>
+>> I'd prefer to have such functions flagged, too.  But spending time on
+>> convincing Coccinelle to do it for me is not worthwhile; I can simply
+>> search the diff produced by Coccinelle for deletions of declarations
+>> that are not indented exactly four spaces.
+>>
+>> But if we keep this rule, we should adjust its comment
+>>
+>>      // Warn several Error * definitions.
+>>
+>> because it sure suggests it also catches functions like the one I gave
+>> above.
+>
+> Hmm, yes.. We can write "Warn several Error * definitions in _one_
+> control flow (it's not so trivial to match _any_ case with several
+> definitions with coccinelle)" or something like this.
 
-The goal of the feature is to add support of other compression methods
-to qcow2. For example, ZSTD which is more effective on compression than ZLIB.
+Ha, "trivial" reminds me of a story.  The math professor, after having
+spent a good chunk of his lecture developing a proof on the blackboad
+turns to the audience to explain why this little part doesn't require
+proof with the words familiar to any math student "and this is trivial."
+Pause, puzzled look...  "Is it trivial?"  Pause, storms out of the
+lecture hall.  A minute or three pass.  Professor comes back beaming,
+"it is trivial!", and proceeds with the proof.
 
-The default compression is ZLIB. Images created with ZLIB compression type
-are backward compatible with older qemu versions.
+My point is: it might be trivial with Coccinelle once you know how to do
+it.  We don't.
 
-Adding of the compression type breaks a number of tests because now the
-compression type is reported on image creation and there are some changes
-in the qcow2 header in size and offsets.
+Suggest "(can't figure out how to match several definitions regardless
+of control flow)".
 
-The tests are fixed in the following ways:
-    * filter out compression_type for many tests
-    * fix header size, feature table size and backing file offset
-      affected tests: 031, 036, 061, 080
-      header_size +=8: 1 byte compression type
-                       7 bytes padding
-      feature_table += 48: incompatible feature compression type
-      backing_file_offset += 56 (8 + 48 -> header_change + feature_table_change)
-    * add "compression type" for test output matching when it isn't filtered
-      affected tests: 049, 060, 061, 065, 144, 182, 242, 255
-
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+>>
+>>>>>>> +
+>>>>>>> +@ script:python @
+>>>>>>> +fn << check1.fn;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> +print('Warning: function {} has several definitions of '
+>>>>>>> +      'Error * local variable'.format(fn))
+>>>>>>> +
+>>>>>>> +// Warn several propagations in control flow.
+>>>>>>> +@check2 disable optional_qualifier exists@
+>>>>>>> +identifier fn =3D rule1.fn;
+>>>>>>> +symbol errp;
+>>>>>>> +position p1, p2;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     ...
+>>>>>>> +(
+>>>>>>> +     error_propagate_prepend(errp, ...);@p1
+>>>>>>> +|
+>>>>>>> +     error_propagate(errp, ...);@p1
+>>>>>>> +)
+>>>>>>> +     ...
+>>>>>>> +(
+>>>>>>> +     error_propagate_prepend(errp, ...);@p2
+>>>>>>> +|
+>>>>>>> +     error_propagate(errp, ...);@p2
+>>>>>>> +)
+>>>>>>> +     ... when any
+>>>>>>> + }
+>>>>>>> +
+>>>>>>
+>>>>>> Hmm, we don't catch the example I used in review of v8:
+>>>>>>
+>>>>>>        extern foo(int, Error **);
+>>>>>>        extern bar(int, Error **);
+>>>>>>
+>>>>>>        void frob(Error **errp)
+>>>>>>        {
+>>>>>>            Error *local_err =3D NULL;
+>>>>>>            int arg;
+>>>>>>
+>>>>>>            foo(arg, errp);
+>>>>>>            bar(arg, &local_err);
+>>>>>>            error_propagate(errp, local_err);
+>>>>>>            bar(arg + 1, &local_err);
+>>>>>>            error_propagate(errp, local_err);
+>>>>>>        }
+>>>>>>
+>>>>>> I believe this is because rule1 does not match here.
+>>>>>
+>>>>> Yes, rule1 wants at least one code flow with non-doubled propagation.
+>>>>>
+>>>>>>
+>>>>>> If I change the rule as follows, it catches the example:
+>>>>>>
+>>>>>>        @@ -157,24 +157,23 @@ print('Warning: function {} has several=
+ definitions of '
+>>>>>>
+>>>>>>         // Warn several propagations in control flow.
+>>>>>>         @check2 disable optional_qualifier exists@
+>>>>>>        -identifier fn =3D rule1.fn;
+>>>>>>        -symbol errp;
+>>>>>>        +identifier fn, _errp;
+>>>>>>         position p1, p2;
+>>>>>>         @@
+>>>>>>
+>>>>>>        - fn(..., Error ** ____, ...)
+>>>>>>        + fn(..., Error **_errp, ...)
+>>>>>>          {
+>>>>>>              ...
+>>>>>>         (
+>>>>>>        -     error_propagate_prepend(errp, ...);@p1
+>>>>>>        +     error_propagate_prepend(_errp, ...);@p1
+>>>>>>         |
+>>>>>>        -     error_propagate(errp, ...);@p1
+>>>>>>        +     error_propagate(_errp, ...);@p1
+>>>>>>         )
+>>>>>>              ...
+>>>>>>         (
+>>>>>>        -     error_propagate_prepend(errp, ...);@p2
+>>>>>>        +     error_propagate_prepend(_errp, ...);@p2
+>>>>>>         |
+>>>>>>        -     error_propagate(errp, ...);@p2
+>>>>>>        +     error_propagate(_errp, ...);@p2
+>>>>>>         )
+>>>>>>              ... when any
+>>>>>>          }
+>>>>>>
+>>>>>> To my mild surprise, it still doesn't find anything in our tree.
+>>>>>>
+>>>>>> Should we decouple the previous rule from rule1, too?  I tested the
+>>>>>> following on the whole tree:
+>>>>>
+>>>>> I don't think so. Why to check what we are not going to convert? If w=
+e want
+>>>>> to check side things, it's better to do it in other coccinelle script=
+..
+>>>>
+>>>> Misunderstanding?  The rules are still chained together via the ___
+>>>> hack, just not via function name, because that's unreliable and
+>>>> redundant.
+>>>
+>>> Strange.. Then, how can it match something not matched by rule1?
+>>
+>> I think I got confused when I wrote the "Misunderstanding?" paragraph.
+>>
+>> Let me try again.
+>>
+>> First rule check2.
+>>
+>> The common case is a at most one propagation to @errp along any control
+>> flow path.  We trust your Coccinelle script to convert that alright.
+>>
+>> Any other propagation to @errp I want to review.  Whether the script
+>> attempts a conversion or not is unimportant, as long as it points me to
+>> the function to review.
+>>
+>> Rule rule1 matches functions that propagate to @errp once along at least
+>> one control flow path.
+>>
+>> Unchained from rule rule1, rule check2 flags any function that
+>> propagates to @errp multiple times along any control flow path.
+>>
+>> Chained to rule1, it flags only functions that also have a path with
+>> single propagation.
+>>
+>> In other words, the unchained rule flags *all* multi-propagations to
+>> @errp, while the chained rule flags only the ones the script attempts to
+>> convert.  The former is much more useful to me.
+>>
+>> Now rule check1.  It flags functions with multiple declarations along
+>> any control flow path.  Again, chaining it to rule1 restricts it to the
+>> functions we attempt to convert.  Makes it less useful to me.  However,
+>> because my desire to review multiple declarations in function we don't
+>> attempt to convert is lower than my desire to review multiple
+>> propagations to @errp in such functions, chaining check1 is tolerable
+>> for me.  But why chain check1 if we don't chain check2?
+>>
+>
+> OK, let's unchain them.
+>
+>>>
+>>>>
+>>>>>>
+>>>>>>        @@ -136,10 +136,10 @@ symbol errp;
+>>>>>>
+>>>>>>         // Warn several Error * definitions.
+>>>>>>         @check1 disable optional_qualifier exists@
+>>>>>>        -identifier fn =3D rule1.fn, local_err, local_err2;
+>>>>>>        +identifier fn, _errp, local_err, local_err2;
+>>>>>>         @@
+>>>>>>
+>>>>>>        - fn(..., Error ** ____, ...)
+>>>>>>        + fn(..., Error **_errp, ...)
+>>>>>>          {
+>>>>>>              ...
+>>>>>>              Error *local_err =3D NULL;
+>>>>>>
+>>>>>> Warnings remain unchanged.
+>>>>>>
+>>>>>>> +@ script:python @
+>>>>>>> +fn << check2.fn;
+>>>>>>> +p1 << check2.p1;
+>>>>>>> +p2 << check2.p2;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> +print('Warning: function {} propagates to errp several times in '
+>>>>>>> +      'one control flow: at {}:{} and then at {}:{}'.format(
+>>>>>>> +          fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>>>>>>> +
+>>>>>>> +// Convert special case with goto separately.
+>>>>>>> +// I tried merging this into the following rule the obvious way, b=
+ut
+>>>>>>> +// it made Coccinelle hang on block.c
+>>>>>>> +//
+>>>>>>> +// Note interesting thing: if we don't do it here, and try to fixu=
+p
+>>>>>>> +// "out: }" things later after all transformations (the rule will =
+be
+>>>>>>> +// the same, just without error_propagate() call), coccinelle fail=
+s to
+>>>>>>> +// match this "out: }".
+>>>>>>> +@ disable optional_qualifier@
+>>>>>>> +identifier rule1.fn, rule1.local_err, out;
+>>>>>>
+>>>>>> As explained above, I doubt the need for rule1.fn.  We do need
+>>>>>> rule1.local_err to avoid unwanted transformations.  More of the same
+>>>>>> below.
+>>>>>
+>>>>> Logically, I want to inherit from rule1. So why not to stress it by i=
+nheriting
+>>>>> fn variable? It's just a correct thing to do.
+>>>>> And I hope it helps coccinelle to work more efficiently.
+>>>>>
+>>>>>>
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     <...
+>>>>>>> +-    goto out;
+>>>>>>> ++    return;
+>>>>>>> +     ...>
+>>>>>>> +- out:
+>>>>>>> +-    error_propagate(errp, local_err);
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +// Convert most of local_err related stuff.
+>>>>>>> +//
+>>>>>>> +// Note, that we update everything related to matched by rule1
+>>>>>>> +// function name and local_err name. We may match something not
+>>>>>>> +// related to the pattern matched by rule1. For example, local_err=
+ may
+>>>>>>> +// be defined with the same name in different blocks inside one
+>>>>>>> +// function, and in one block follow the propagation pattern and i=
+n
+>>>>>>> +// other block doesn't. Or we may have several functions with the =
+same
+>>>>>>> +// name (for different configurations).
+>>>>>>> +//
+>>>>>>> +// Note also that errp-cleaning functions
+>>>>>>> +//   error_free_errp
+>>>>>>> +//   error_report_errp
+>>>>>>> +//   error_reportf_errp
+>>>>>>> +//   warn_report_errp
+>>>>>>> +//   warn_reportf_errp
+>>>>>>> +// are not yet implemented. They must call corresponding Error* -
+>>>>>>> +// freeing function and then set *errp to NULL, to avoid further
+>>>>>>> +// propagation to original errp (consider ERRP_AUTO_PROPAGATE in u=
+se).
+>>>>>>> +// For example, error_free_errp may look like this:
+>>>>>>> +//
+>>>>>>> +//    void error_free_errp(Error **errp)
+>>>>>>> +//    {
+>>>>>>> +//        error_free(*errp);
+>>>>>>> +//        *errp =3D NULL;
+>>>>>>> +//    }
+>>>>>>> +@ disable optional_qualifier exists@
+>>>>>>> +identifier rule1.fn, rule1.local_err;
+>>>>>>> +expression list args;
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     <...
+>>>>>>> +(
+>>>>>>> +-    Error *local_err =3D NULL;
+>>>>>>> +|
+>>>>>>> +
+>>>>>>> +// Convert error clearing functions
+>>>>>>> +(
+>>>>>>> +-    error_free(local_err);
+>>>>>>> ++    error_free_errp(errp);
+>>>>>>> +|
+>>>>>>> +-    error_report_err(local_err);
+>>>>>>> ++    error_report_errp(errp);
+>>>>>>> +|
+>>>>>>> +-    error_reportf_err(local_err, args);
+>>>>>>> ++    error_reportf_errp(errp, args);
+>>>>>>> +|
+>>>>>>> +-    warn_report_err(local_err);
+>>>>>>> ++    warn_report_errp(errp);
+>>>>>>> +|
+>>>>>>> +-    warn_reportf_err(local_err, args);
+>>>>>>> ++    warn_reportf_errp(errp, args);
+>>>>>>> +)
+>>>>>>> +?-    local_err =3D NULL;
+>>>>>>> +
+>>>>>>> +|
+>>>>>>> +-    error_propagate_prepend(errp, local_err, args);
+>>>>>>> ++    error_prepend(errp, args);
+>>>>>>> +|
+>>>>>>> +-    error_propagate(errp, local_err);
+>>>>>>> +|
+>>>>>>> +-    &local_err
+>>>>>>> ++    errp
+>>>>>>> +)
+>>>>>>> +     ...>
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +// Convert remaining local_err usage. For example, different kinds=
+ of
+>>>>>>> +// error checking in if conditionals. We can't merge this into
+>>>>>>> +// previous hunk, as this conflicts with other substitutions in it=
+ (at
+>>>>>>> +// least with "- local_err =3D NULL").
+>>>>>>> +@ disable optional_qualifier@
+>>>>>>> +identifier rule1.fn, rule1.local_err;
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     <...
+>>>>>>> +-    local_err
+>>>>>>> ++    *errp
+>>>>>>> +     ...>
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +// Always use the same pattern for checking error
+>>>>>>> +@ disable optional_qualifier@
+>>>>>>> +identifier rule1.fn;
+>>>>>>> +symbol errp;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error ** ____, ...)
+>>>>>>> + {
+>>>>>>> +     <...
+>>>>>>> +-    *errp !=3D NULL
+>>>>>>> ++    *errp
+>>>>>>> +     ...>
+>>>>>>> + }
+>>>>>>> +
+>>>>>>> +// Revert temporary ___ identifier.
+>>>>>>> +@ disable optional_qualifier@
+>>>>>>> +identifier rule1.fn;
+>>>>>>> +@@
+>>>>>>> +
+>>>>>>> + fn(..., Error **
+>>>>>>> +-   ____
+>>>>>>> ++   errp
+>>>>>>> +    , ...)
+>>>>>>> + {
+>>>>>>> +     ...
+>>>>>>> + }
+>>>>>>> diff --git a/include/qapi/error.h b/include/qapi/error.h
+>>>>>>> index 30140d9bfe..56c133520d 100644
+>>>>>>> --- a/include/qapi/error.h
+>>>>>>> +++ b/include/qapi/error.h
+>>>>>>> @@ -214,6 +214,9 @@
+>>>>>>>      *         }
+>>>>>>>      *         ...
+>>>>>>>      *     }
+>>>>>>> + *
+>>>>>>> + * For mass-conversion use script
+>>>>>>> + *   scripts/coccinelle/auto-propagated-errp.cocci
+>>>>>>>      */
+>>>>>>>       #ifndef ERROR_H
+>>>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>>>>> index 857f969aa1..047f1b9714 100644
+>>>>>>> --- a/MAINTAINERS
+>>>>>>> +++ b/MAINTAINERS
+>>>>>>> @@ -1998,6 +1998,7 @@ F: include/qemu/error-report.h
+>>>>>>>     F: qapi/error.json
+>>>>>>>     F: util/error.c
+>>>>>>>     F: util/qemu-error.c
+>>>>>>> +F: scripts/coccinelle/*err*.cocci
+>>>>>>>       GDB stub
+>>>>>>>     M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>>>>>
+>>>>
+>>>>
+>>>>   From 42a08c529024337d1b859839c9ce7f797f784555 Mon Sep 17 00:00:00 20=
+01
+>>>> From: Markus Armbruster <armbru@redhat.com>
+>>>> Date: Fri, 13 Mar 2020 14:27:57 +0100
+>>>> Subject: [PATCH] fixup! scripts: Coccinelle script to use
+>>>>    ERRP_AUTO_PROPAGATE()
+>>>>
+>>>> ---
+>>>>    scripts/coccinelle/auto-propagated-errp.cocci | 37 ++++++++++------=
 ---
- qapi/block-core.json             |  22 +++++-
- block/qcow2.h                    |  20 +++++-
- include/block/block_int.h        |   1 +
- block/qcow2.c                    | 113 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/031.out       |  14 ++--
- tests/qemu-iotests/036.out       |   4 +-
- tests/qemu-iotests/049.out       | 102 ++++++++++++++--------------
- tests/qemu-iotests/060.out       |   1 +
- tests/qemu-iotests/061.out       |  34 ++++++----
- tests/qemu-iotests/065           |  28 +++++---
- tests/qemu-iotests/080           |   2 +-
- tests/qemu-iotests/144.out       |   4 +-
- tests/qemu-iotests/182.out       |   2 +-
- tests/qemu-iotests/242.out       |   5 ++
- tests/qemu-iotests/255.out       |   8 +--
- tests/qemu-iotests/common.filter |   3 +-
- 16 files changed, 267 insertions(+), 96 deletions(-)
+>>>>    1 file changed, 20 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/c=
+occinelle/auto-propagated-errp.cocci
+>>>> index 7dac2dcfa4..43b0b0e63b 100644
+>>>> --- a/scripts/coccinelle/auto-propagated-errp.cocci
+>>>> +++ b/scripts/coccinelle/auto-propagated-errp.cocci
+>>>> @@ -136,45 +136,48 @@ symbol errp;
+>>>>      // Warn several Error * definitions.
+>>>>    @check1 disable optional_qualifier exists@
+>>>> -identifier fn =3D rule1.fn, local_err, local_err2;
+>>>> +identifier fn, _errp, local_err, local_err2;
+>>>> +position p1, p2;
+>>>
+>>>
+>>> Hmm, seems like I forget to define ____ as symbol in my patch
+>>
+>> Coccinelle defaults to symbol.
+>
+> But for errp we saw warnings simetimes.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 85e27bb61f..a306484973 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -78,6 +78,8 @@
- #
- # @bitmaps: A list of qcow2 bitmap details (since 4.0)
- #
-+# @compression-type: the image cluster compression method (since 5.0)
-+#
- # Since: 1.7
- ##
- { 'struct': 'ImageInfoSpecificQCow2',
-@@ -89,7 +91,8 @@
-       '*corrupt': 'bool',
-       'refcount-bits': 'int',
-       '*encrypt': 'ImageInfoSpecificQCow2Encryption',
--      '*bitmaps': ['Qcow2BitmapInfo']
-+      '*bitmaps': ['Qcow2BitmapInfo'],
-+      'compression-type': 'Qcow2CompressionType'
-   } }
- 
- ##
-@@ -4392,6 +4395,18 @@
-   'data': [ 'v2', 'v3' ] }
- 
- 
-+##
-+# @Qcow2CompressionType:
-+#
-+# Compression type used in qcow2 image file
-+#
-+# @zlib: zlib compression, see <http://zlib.net/>
-+#
-+# Since: 5.0
-+##
-+{ 'enum': 'Qcow2CompressionType',
-+  'data': [ 'zlib' ] }
-+
- ##
- # @BlockdevCreateOptionsQcow2:
- #
-@@ -4415,6 +4430,8 @@
- #                 allowed values: off, falloc, full, metadata)
- # @lazy-refcounts: True if refcounts may be updated lazily (default: off)
- # @refcount-bits: Width of reference counts in bits (default: 16)
-+# @compression-type: The image cluster compression method
-+#                    (default: zlib, since 5.0)
- #
- # Since: 2.12
- ##
-@@ -4430,7 +4447,8 @@
-             '*cluster-size':    'size',
-             '*preallocation':   'PreallocMode',
-             '*lazy-refcounts':  'bool',
--            '*refcount-bits':   'int' } }
-+            '*refcount-bits':   'int',
-+            '*compression-type':'Qcow2CompressionType' } }
- 
- ##
- # @BlockdevCreateOptionsQed:
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 0942126232..cb6bf2ab83 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -146,8 +146,16 @@ typedef struct QCowHeader {
- 
-     uint32_t refcount_order;
-     uint32_t header_length;
-+
-+    /* Additional fields */
-+    uint8_t compression_type;
-+
-+    /* header must be a multiple of 8 */
-+    uint8_t padding[7];
- } QEMU_PACKED QCowHeader;
- 
-+QEMU_BUILD_BUG_ON(sizeof(QCowHeader) % 8 != 0);
-+
- typedef struct QEMU_PACKED QCowSnapshotHeader {
-     /* header is 8 byte aligned */
-     uint64_t l1_table_offset;
-@@ -216,13 +224,16 @@ enum {
-     QCOW2_INCOMPAT_DIRTY_BITNR      = 0,
-     QCOW2_INCOMPAT_CORRUPT_BITNR    = 1,
-     QCOW2_INCOMPAT_DATA_FILE_BITNR  = 2,
-+    QCOW2_INCOMPAT_COMPRESSION_BITNR = 3,
-     QCOW2_INCOMPAT_DIRTY            = 1 << QCOW2_INCOMPAT_DIRTY_BITNR,
-     QCOW2_INCOMPAT_CORRUPT          = 1 << QCOW2_INCOMPAT_CORRUPT_BITNR,
-     QCOW2_INCOMPAT_DATA_FILE        = 1 << QCOW2_INCOMPAT_DATA_FILE_BITNR,
-+    QCOW2_INCOMPAT_COMPRESSION      = 1 << QCOW2_INCOMPAT_COMPRESSION_BITNR,
- 
-     QCOW2_INCOMPAT_MASK             = QCOW2_INCOMPAT_DIRTY
-                                     | QCOW2_INCOMPAT_CORRUPT
--                                    | QCOW2_INCOMPAT_DATA_FILE,
-+                                    | QCOW2_INCOMPAT_DATA_FILE
-+                                    | QCOW2_INCOMPAT_COMPRESSION,
- };
- 
- /* Compatible feature bits */
-@@ -369,6 +380,13 @@ typedef struct BDRVQcow2State {
- 
-     bool metadata_preallocation_checked;
-     bool metadata_preallocation;
-+    /*
-+     * Compression type used for the image. Default: 0 - ZLIB
-+     * The image compression type is set on image creation.
-+     * For now, the only way to change the compression type
-+     * is to convert the image with the desired compression type set.
-+     */
-+    Qcow2CompressionType compression_type;
- } BDRVQcow2State;
- 
- typedef struct Qcow2COWRegion {
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 6f9fd5e20e..2c6bb9dc99 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -57,6 +57,7 @@
- #define BLOCK_OPT_REFCOUNT_BITS     "refcount_bits"
- #define BLOCK_OPT_DATA_FILE         "data_file"
- #define BLOCK_OPT_DATA_FILE_RAW     "data_file_raw"
-+#define BLOCK_OPT_COMPRESSION_TYPE  "compression_type"
- 
- #define BLOCK_PROBE_BUF_SIZE        512
- 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 3c754f616b..899b5541f5 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1242,6 +1242,39 @@ static int qcow2_update_options(BlockDriverState *bs, QDict *options,
-     return ret;
- }
- 
-+static int validate_compression_type(BDRVQcow2State *s, Error **errp)
-+{
-+    switch (s->compression_type) {
-+    case QCOW2_COMPRESSION_TYPE_ZLIB:
-+        break;
-+
-+    default:
-+        error_setg(errp, "qcow2: unknown compression type: %u",
-+                   s->compression_type);
-+        return -ENOTSUP;
-+    }
-+
-+    /*
-+     * if the compression type differs from QCOW2_COMPRESSION_TYPE_ZLIB
-+     * the incompatible feature flag must be set
-+     */
-+    if (s->compression_type == QCOW2_COMPRESSION_TYPE_ZLIB) {
-+        if (s->incompatible_features & QCOW2_INCOMPAT_COMPRESSION) {
-+            error_setg(errp, "qcow2: Compression type incompatible feature "
-+                             "bit must not be set");
-+            return -EINVAL;
-+        }
-+    } else {
-+        if (!(s->incompatible_features & QCOW2_INCOMPAT_COMPRESSION)) {
-+            error_setg(errp, "qcow2: Compression type incompatible feature "
-+                             "bit must be set");
-+            return -EINVAL;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
- /* Called with s->lock held.  */
- static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-                                       int flags, Error **errp)
-@@ -1357,6 +1390,23 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     s->compatible_features      = header.compatible_features;
-     s->autoclear_features       = header.autoclear_features;
- 
-+    /*
-+     * Handle compression type
-+     * Older qcow2 images don't contain the compression type header.
-+     * Distinguish them by the header length and use
-+     * the only valid (default) compression type in that case
-+     */
-+    if (header.header_length > offsetof(QCowHeader, compression_type)) {
-+        s->compression_type = header.compression_type;
-+    } else {
-+        s->compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
-+    }
-+
-+    ret = validate_compression_type(s, errp);
-+    if (ret) {
-+        goto fail;
-+    }
-+
-     if (s->incompatible_features & ~QCOW2_INCOMPAT_MASK) {
-         void *feature_table = NULL;
-         qcow2_read_extensions(bs, header.header_length, ext_end,
-@@ -2720,6 +2770,11 @@ int qcow2_update_header(BlockDriverState *bs)
-     total_size = bs->total_sectors * BDRV_SECTOR_SIZE;
-     refcount_table_clusters = s->refcount_table_size >> (s->cluster_bits - 3);
- 
-+    ret = validate_compression_type(s, NULL);
-+    if (ret) {
-+        goto fail;
-+    }
-+
-     *header = (QCowHeader) {
-         /* Version 2 fields */
-         .magic                  = cpu_to_be32(QCOW_MAGIC),
-@@ -2742,6 +2797,7 @@ int qcow2_update_header(BlockDriverState *bs)
-         .autoclear_features     = cpu_to_be64(s->autoclear_features),
-         .refcount_order         = cpu_to_be32(s->refcount_order),
-         .header_length          = cpu_to_be32(header_length),
-+        .compression_type       = s->compression_type,
-     };
- 
-     /* For older versions, write a shorter header */
-@@ -2834,6 +2890,11 @@ int qcow2_update_header(BlockDriverState *bs)
-                 .bit  = QCOW2_INCOMPAT_DATA_FILE_BITNR,
-                 .name = "external data file",
-             },
-+            {
-+                .type = QCOW2_FEAT_TYPE_INCOMPATIBLE,
-+                .bit  = QCOW2_INCOMPAT_COMPRESSION_BITNR,
-+                .name = "compression type",
-+            },
-             {
-                 .type = QCOW2_FEAT_TYPE_COMPATIBLE,
-                 .bit  = QCOW2_COMPAT_LAZY_REFCOUNTS_BITNR,
-@@ -3262,6 +3323,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     uint64_t* refcount_table;
-     Error *local_err = NULL;
-     int ret;
-+    uint8_t compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
- 
-     assert(create_options->driver == BLOCKDEV_DRIVER_QCOW2);
-     qcow2_opts = &create_options->u.qcow2;
-@@ -3379,6 +3441,27 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         }
-     }
- 
-+    if (qcow2_opts->has_compression_type &&
-+        qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
-+
-+        ret = -EINVAL;
-+
-+        if (version < 3) {
-+            error_setg(errp, "Non-zlib compression type is only supported with "
-+                       "compatibility level 1.1 and above (use version=v3 or "
-+                       "greater)");
-+            goto out;
-+        }
-+
-+        switch (qcow2_opts->compression_type) {
-+        default:
-+            error_setg(errp, "Unknown compression type");
-+            goto out;
-+        }
-+
-+        compression_type = qcow2_opts->compression_type;
-+    }
-+
-     /* Create BlockBackend to write to the image */
-     blk = blk_new(bdrv_get_aio_context(bs),
-                   BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
-@@ -3401,6 +3484,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         .refcount_table_offset      = cpu_to_be64(cluster_size),
-         .refcount_table_clusters    = cpu_to_be32(1),
-         .refcount_order             = cpu_to_be32(refcount_order),
-+        /* don't deal with endianness since compression_type is 1 byte long */
-+        .compression_type           = compression_type,
-         .header_length              = cpu_to_be32(sizeof(*header)),
-     };
- 
-@@ -3419,6 +3504,10 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         header->autoclear_features |=
-             cpu_to_be64(QCOW2_AUTOCLEAR_DATA_FILE_RAW);
-     }
-+    if (compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
-+        header->incompatible_features |=
-+            cpu_to_be64(QCOW2_INCOMPAT_COMPRESSION);
-+    }
- 
-     ret = blk_pwrite(blk, 0, header, cluster_size, 0);
-     g_free(header);
-@@ -3602,6 +3691,7 @@ static int coroutine_fn qcow2_co_create_opts(const char *filename, QemuOpts *opt
-         { BLOCK_OPT_ENCRYPT,            BLOCK_OPT_ENCRYPT_FORMAT },
-         { BLOCK_OPT_COMPAT_LEVEL,       "version" },
-         { BLOCK_OPT_DATA_FILE_RAW,      "data-file-raw" },
-+        { BLOCK_OPT_COMPRESSION_TYPE,   "compression-type" },
-         { NULL, NULL },
-     };
- 
-@@ -4859,6 +4949,7 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
-             .data_file          = g_strdup(s->image_data_file),
-             .has_data_file_raw  = has_data_file(bs),
-             .data_file_raw      = data_file_is_raw(bs),
-+            .compression_type   = s->compression_type,
-         };
-     } else {
-         /* if this assertion fails, this probably means a new version was
-@@ -5248,6 +5339,22 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
-                                  "images");
-                 return -EINVAL;
-             }
-+        } else if (!strcmp(desc->name, BLOCK_OPT_COMPRESSION_TYPE)) {
-+            int compression_type =
-+                qapi_enum_parse(&Qcow2CompressionType_lookup,
-+                                qemu_opt_get(opts, BLOCK_OPT_COMPRESSION_TYPE),
-+                                -1, errp);
-+
-+            if (compression_type == -EINVAL) {
-+                error_setg(errp, "Unknown compression type");
-+                return -ENOTSUP;
-+            }
-+
-+            if (compression_type != s->compression_type) {
-+                error_setg(errp, "Changing the compression type "
-+                                 "is not supported");
-+                return -ENOTSUP;
-+            }
-         } else {
-             /* if this point is reached, this probably means a new option was
-              * added without having it covered here */
-@@ -5516,6 +5623,12 @@ static QemuOptsList qcow2_create_opts = {
-             .help = "Width of a reference count entry in bits",
-             .def_value_str = "16"
-         },
-+        {
-+            .name = BLOCK_OPT_COMPRESSION_TYPE,
-+            .type = QEMU_OPT_STRING,
-+            .help = "Compression method used for image cluster compression",
-+            .def_value_str = "zlib"
-+        },
-         { /* end of list */ }
-     }
- };
-diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
-index d535e407bc..ed51afe9ce 100644
---- a/tests/qemu-iotests/031.out
-+++ b/tests/qemu-iotests/031.out
-@@ -113,11 +113,11 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- Header extension:
-@@ -146,11 +146,11 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- Header extension:
-@@ -164,7 +164,7 @@ No errors were found on the image.
- 
- magic                     0x514649fb
- version                   3
--backing_file_offset       0x178
-+backing_file_offset       0x1b0
- backing_file_size         0x17
- cluster_bits              16
- size                      67108864
-@@ -179,7 +179,7 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0xe2792aca
-@@ -188,7 +188,7 @@ data                      'host_device'
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- Header extension:
-diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
-index 0b52b934e1..fb509f6357 100644
---- a/tests/qemu-iotests/036.out
-+++ b/tests/qemu-iotests/036.out
-@@ -26,7 +26,7 @@ compatible_features       []
- autoclear_features        [63]
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- 
-@@ -38,7 +38,7 @@ compatible_features       []
- autoclear_features        []
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- *** done
-diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
-index affa55b341..a5cfba1756 100644
---- a/tests/qemu-iotests/049.out
-+++ b/tests/qemu-iotests/049.out
-@@ -4,90 +4,90 @@ QA output created by 049
- == 1. Traditional size parameter ==
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1024
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1024b
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1k
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1K
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1048576 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1048576 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1G
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1073741824 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1073741824 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1T
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1099511627776 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1099511627776 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1024.0
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1024.0b
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1.5k
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1.5K
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1.5M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1572864 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1572864 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1.5G
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1610612736 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1610612736 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 TEST_DIR/t.qcow2 1.5T
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1649267441664 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1649267441664 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == 2. Specifying size via -o ==
- 
- qemu-img create -f qcow2 -o size=1024 TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1024b TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1k TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1K TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1M TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1048576 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1048576 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1G TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1073741824 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1073741824 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1T TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1099511627776 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1099511627776 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1024.0 TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1024.0b TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1024 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1.5k TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1.5K TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1536 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1.5M TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1572864 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1572864 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1.5G TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1610612736 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1610612736 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o size=1.5T TEST_DIR/t.qcow2
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1649267441664 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=1649267441664 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == 3. Invalid sizes ==
- 
-@@ -129,84 +129,84 @@ qemu-img: TEST_DIR/t.qcow2: The image size must be specified only once
- == Check correct interpretation of suffixes for cluster size ==
- 
- qemu-img create -f qcow2 -o cluster_size=1024 TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1024b TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1k TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1K TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1M TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1048576 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1048576 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1024.0 TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=1024.0b TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=1024 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=0.5k TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=512 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=512 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=0.5K TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=512 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=512 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o cluster_size=0.5M TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=524288 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=524288 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == Check compat level option ==
- 
- qemu-img create -f qcow2 -o compat=0.10 TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=1.1 TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
- qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.42 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.42 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
- qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=foobar cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=foobar cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == Check preallocation option ==
- 
- qemu-img create -f qcow2 -o preallocation=off TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=off lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=off lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o preallocation=metadata TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=metadata lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=metadata lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
- qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=1234 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=1234 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == Check encryption option ==
- 
- qemu-img create -f qcow2 -o encryption=off TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 encryption=off cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 encryption=off cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 --object secret,id=sec0,data=123456 -o encryption=on,encrypt.key-secret=sec0 TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 encryption=on encrypt.key-secret=sec0 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 encryption=on encrypt.key-secret=sec0 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- == Check lazy_refcounts option (only with v3) ==
- 
- qemu-img create -f qcow2 -o compat=1.1,lazy_refcounts=off TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=1.1,lazy_refcounts=on TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=on refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=on refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=off TEST_DIR/t.qcow2 64M
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=on TEST_DIR/t.qcow2 64M
- qemu-img: TEST_DIR/t.qcow2: Lazy refcounts only supported with compatibility level 1.1 and above (use version=v3 or greater)
--Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=on refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=on refcount_bits=16 compression_type=zlib
- 
- *** done
-diff --git a/tests/qemu-iotests/060.out b/tests/qemu-iotests/060.out
-index d27692a33c..3e47f537e8 100644
---- a/tests/qemu-iotests/060.out
-+++ b/tests/qemu-iotests/060.out
-@@ -17,6 +17,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: true
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index 8b3091a412..c913f02ad6 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -22,11 +22,11 @@ incompatible_features     []
- compatible_features       [0]
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- magic                     0x514649fb
-@@ -80,11 +80,11 @@ incompatible_features     []
- compatible_features       [0]
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- magic                     0x514649fb
-@@ -136,11 +136,11 @@ incompatible_features     [0]
- compatible_features       [0]
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- ERROR cluster 5 refcount=0 reference=1
-@@ -191,11 +191,11 @@ incompatible_features     []
- compatible_features       [42]
- autoclear_features        [42]
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- magic                     0x514649fb
-@@ -260,11 +260,11 @@ incompatible_features     []
- compatible_features       [0]
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- read 65536/65536 bytes at offset 44040192
-@@ -294,11 +294,11 @@ incompatible_features     [0]
- compatible_features       [0]
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- ERROR cluster 5 refcount=0 reference=1
-@@ -323,11 +323,11 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        []
- refcount_order            4
--header_length             104
-+header_length             112
- 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    240
- data                      <binary>
- 
- read 131072/131072 bytes at offset 0
-@@ -491,6 +491,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -511,6 +512,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file: foo
-@@ -524,6 +526,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file raw: false
-@@ -538,6 +541,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -550,6 +554,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -563,6 +568,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
-index 6426474271..18dc488c7a 100755
---- a/tests/qemu-iotests/065
-+++ b/tests/qemu-iotests/065
-@@ -88,24 +88,30 @@ class TestQMP(TestImageInfoSpecific):
- class TestQCow2(TestQemuImgInfo):
-     '''Testing a qcow2 version 2 image'''
-     img_options = 'compat=0.10'
--    json_compare = { 'compat': '0.10', 'refcount-bits': 16 }
--    human_compare = [ 'compat: 0.10', 'refcount bits: 16' ]
-+    json_compare = { 'compat': '0.10', 'refcount-bits': 16,
-+                     'compression-type': 'zlib' }
-+    human_compare = [ 'compat: 0.10', 'compression type: zlib',
-+                      'refcount bits: 16' ]
- 
- class TestQCow3NotLazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts disabled'''
-     img_options = 'compat=1.1,lazy_refcounts=off'
-     json_compare = { 'compat': '1.1', 'lazy-refcounts': False,
--                     'refcount-bits': 16, 'corrupt': False }
--    human_compare = [ 'compat: 1.1', 'lazy refcounts: false',
--                      'refcount bits: 16', 'corrupt: false' ]
-+                     'refcount-bits': 16, 'corrupt': False,
-+                     'compression-type': 'zlib' }
-+    human_compare = [ 'compat: 1.1', 'compression type: zlib',
-+                      'lazy refcounts: false', 'refcount bits: 16',
-+                      'corrupt: false' ]
- 
- class TestQCow3Lazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts enabled'''
-     img_options = 'compat=1.1,lazy_refcounts=on'
-     json_compare = { 'compat': '1.1', 'lazy-refcounts': True,
--                     'refcount-bits': 16, 'corrupt': False }
--    human_compare = [ 'compat: 1.1', 'lazy refcounts: true',
--                      'refcount bits: 16', 'corrupt: false' ]
-+                     'refcount-bits': 16, 'corrupt': False,
-+                     'compression-type': 'zlib' }
-+    human_compare = [ 'compat: 1.1', 'compression type: zlib',
-+                      'lazy refcounts: true', 'refcount bits: 16',
-+                      'corrupt: false' ]
- 
- class TestQCow3NotLazyQMP(TestQMP):
-     '''Testing a qcow2 version 3 image with lazy refcounts disabled, opening
-@@ -113,7 +119,8 @@ class TestQCow3NotLazyQMP(TestQMP):
-     img_options = 'compat=1.1,lazy_refcounts=off'
-     qemu_options = 'lazy-refcounts=on'
-     compare = { 'compat': '1.1', 'lazy-refcounts': False,
--                'refcount-bits': 16, 'corrupt': False }
-+                'refcount-bits': 16, 'corrupt': False,
-+                'compression-type': 'zlib' }
- 
- 
- class TestQCow3LazyQMP(TestQMP):
-@@ -122,7 +129,8 @@ class TestQCow3LazyQMP(TestQMP):
-     img_options = 'compat=1.1,lazy_refcounts=on'
-     qemu_options = 'lazy-refcounts=off'
-     compare = { 'compat': '1.1', 'lazy-refcounts': True,
--                'refcount-bits': 16, 'corrupt': False }
-+                'refcount-bits': 16, 'corrupt': False,
-+                'compression-type': 'zlib' }
- 
- TestImageInfoSpecific = None
- TestQemuImgInfo = None
-diff --git a/tests/qemu-iotests/080 b/tests/qemu-iotests/080
-index a3d13c414e..7588c63b6c 100755
---- a/tests/qemu-iotests/080
-+++ b/tests/qemu-iotests/080
-@@ -45,7 +45,7 @@ _supported_os Linux
- # - This is generally a test for compat=1.1 images
- _unsupported_imgopts 'refcount_bits=1[^0-9]' data_file 'compat=0.10'
- 
--header_size=104
-+header_size=112
- 
- offset_backing_file_offset=8
- offset_backing_file_size=16
-diff --git a/tests/qemu-iotests/144.out b/tests/qemu-iotests/144.out
-index c7aa2e4820..885a8874a5 100644
---- a/tests/qemu-iotests/144.out
-+++ b/tests/qemu-iotests/144.out
-@@ -9,7 +9,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=536870912
- { 'execute': 'qmp_capabilities' }
- {"return": {}}
- { 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'snapshot-file':'TEST_DIR/tmp.IMGFMT', 'format': 'IMGFMT' } }
--Formatting 'TEST_DIR/tmp.qcow2', fmt=qcow2 size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/tmp.qcow2', fmt=qcow2 size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- {"return": {}}
- 
- === Performing block-commit on active layer ===
-@@ -31,6 +31,6 @@ Formatting 'TEST_DIR/tmp.qcow2', fmt=qcow2 size=536870912 backing_file=TEST_DIR/
- === Performing Live Snapshot 2 ===
- 
- { 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'snapshot-file':'TEST_DIR/tmp2.IMGFMT', 'format': 'IMGFMT' } }
--Formatting 'TEST_DIR/tmp2.qcow2', fmt=qcow2 size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/tmp2.qcow2', fmt=qcow2 size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- {"return": {}}
- *** done
-diff --git a/tests/qemu-iotests/182.out b/tests/qemu-iotests/182.out
-index a8eea166c3..ae43654d32 100644
---- a/tests/qemu-iotests/182.out
-+++ b/tests/qemu-iotests/182.out
-@@ -13,7 +13,7 @@ Is another process using the image [TEST_DIR/t.qcow2]?
- {'execute': 'blockdev-add', 'arguments': { 'node-name': 'node0', 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT', 'locking': 'on' } }
- {"return": {}}
- {'execute': 'blockdev-snapshot-sync', 'arguments': { 'node-name': 'node0', 'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay', 'snapshot-node-name': 'node1' } }
--Formatting 'TEST_DIR/t.qcow2.overlay', fmt=qcow2 size=197120 backing_file=TEST_DIR/t.qcow2 backing_fmt=file cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/t.qcow2.overlay', fmt=qcow2 size=197120 backing_file=TEST_DIR/t.qcow2 backing_fmt=file cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- {"return": {}}
- {'execute': 'blockdev-add', 'arguments': { 'node-name': 'node1', 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT', 'locking': 'on' } }
- {"return": {}}
-diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
-index 7ac8404d11..091b9126ce 100644
---- a/tests/qemu-iotests/242.out
-+++ b/tests/qemu-iotests/242.out
-@@ -12,6 +12,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -32,6 +33,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -64,6 +66,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -104,6 +107,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -153,6 +157,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    compression type: zlib
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
-index 348909fdef..a3c99fd62e 100644
---- a/tests/qemu-iotests/255.out
-+++ b/tests/qemu-iotests/255.out
-@@ -3,9 +3,9 @@ Finishing a commit job with background reads
- 
- === Create backing chain and start VM ===
- 
--Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
--Formatting 'TEST_DIR/PID-t.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-t.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- === Start background read requests ===
- 
-@@ -23,9 +23,9 @@ Closing the VM while a job is being cancelled
- 
- === Create images and start VM ===
- 
--Formatting 'TEST_DIR/PID-src.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-src.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
--Formatting 'TEST_DIR/PID-dst.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-dst.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
- 
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 3f8ee3e5f7..279e0bbb0d 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -152,7 +152,8 @@ _filter_img_create()
-         -e "s# refcount_bits=[0-9]\\+##g" \
-         -e "s# key-secret=[a-zA-Z0-9]\\+##g" \
-         -e "s# iter-time=[0-9]\\+##g" \
--        -e "s# force_size=\\(on\\|off\\)##g"
-+        -e "s# force_size=\\(on\\|off\\)##g" \
-+        -e "s# compression_type=[a-zA-Z0-9]\\+##g"
- }
- 
- _filter_img_info()
--- 
-2.17.0
+I believe it warns when you use rely on the symbol default while also
+using it as something else in other rules.
+
+Feel free to explicitly define it as symbol.
+
+>>>>    @@
+>>>>    - fn(..., Error ** ____, ...)
+>>>> + fn(..., Error **_errp, ...)
+>>>
+>>> Ahmm.. it will break compilation?
+>>>
+>>> Or, how will it work when _errp defined as meta variable is only in "+.=
+.." line? Should it be symbol instead, or just not defined?
+>>
+>> Misunderstanding?  It's a diff between your .cocci and mine.=20
+>
+> Oops, yes, sorry. Patches to coccinelle scripts are tricky thing.
+>
+>> My version
+>> is
+>>
+>>      // Warn several Error * definitions.
+>>      @check1 disable optional_qualifier exists@
+>>      identifier fn, _errp, local_err, local_err2;
+>>      position p1, p2;
+>>      @@
+>>
+>>       fn(..., Error **_errp, ...)
+>>       {
+>>           ...
+>>           Error *local_err =3D NULL;@p1
+>>           ... when any
+>>           Error *local_err2 =3D NULL;@p2
+>>           ... when any
+>>       }
+>>
+>>      @ script:python @
+>>      fn << check1.fn;
+>>      p1 << check1.p1;
+>>      p2 << check1.p2;
+>>      @@
+>>
+>>>>     {
+>>>>         ...
+>>>> -     Error *local_err =3D NULL;
+>>>> +     Error *local_err =3D NULL;@p1
+>>>
+>>> Why to do -/+ here? Nothing changed..
+>>>
+>>>>         ... when any
+>>>> -     Error *local_err2 =3D NULL;
+>>>> +     Error *local_err2 =3D NULL;@p2
+>>>>         ... when any
+>>>>     }
+>>>>      @ script:python @
+>>>>    fn << check1.fn;
+>>>> +p1 << check1.p1;
+>>>> +p2 << check1.p2;
+>>>>    @@
+>>>>      print('Warning: function {} has several definitions of '
+>>>> -      'Error * local variable'.format(fn))
+>>>> +      'Error * local variable: at {}:{} and then at {}:{}'.format(
+>>>> +          fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>>>>      // Warn several propagations in control flow.
+>>>>    @check2 disable optional_qualifier exists@
+>>>> -identifier fn =3D rule1.fn;
+>>>> -symbol errp;
+>>>> +identifier fn, _errp;
+>>>>    position p1, p2;
+>>>>    @@
+>>>>    - fn(..., Error ** ____, ...)
+>>>> + fn(..., Error **_errp, ...)
+>>>>     {
+>>>>         ...
+>>>>    (
+>>>> -     error_propagate_prepend(errp, ...);@p1
+>>>> +     error_propagate_prepend(_errp, ...);@p1
+>>>>    |
+>>>> -     error_propagate(errp, ...);@p1
+>>>> +     error_propagate(_errp, ...);@p1
+>>>>    )
+>>>>         ...
+>>>>    (
+>>>> -     error_propagate_prepend(errp, ...);@p2
+>>>> +     error_propagate_prepend(_errp, ...);@p2
+>>>>    |
+>>>> -     error_propagate(errp, ...);@p2
+>>>> +     error_propagate(_errp, ...);@p2
+>>>>    )
+>>>
+>>> You change some occurrences of errp to _errp, but not all. It breaks co=
+mpilation.
+>>>
+>>>>         ... when any
+>>>>     }
+>>>> @@ -198,7 +201,7 @@ print('Warning: function {} propagates to errp sev=
+eral times in '
+>>>>    // the same, just without error_propagate() call), coccinelle fails=
+ to
+>>>>    // match this "out: }".
+>>>>    @ disable optional_qualifier@
+>>>> -identifier rule1.fn, rule1.local_err, out;
+>>>> +identifier fn, rule1.local_err, out;
+>>>
+>>> Hmm. If it improves performance it is strange.. But I can live with thi=
+s change.
+>>>
+>>>>    symbol errp;
+>>>>    @@
+>>>>    @@ -239,7 +242,7 @@ symbol errp;
+>>>>    //        *errp =3D NULL;
+>>>>    //    }
+>>>>    @ disable optional_qualifier exists@
+>>>> -identifier rule1.fn, rule1.local_err;
+>>>> +identifier fn, rule1.local_err;
+>>>>    expression list args;
+>>>>    symbol errp;
+>>>>    @@
+>>>> @@ -287,7 +290,7 @@ symbol errp;
+>>>>    // previous hunk, as this conflicts with other substitutions in it =
+(at
+>>>>    // least with "- local_err =3D NULL").
+>>>>    @ disable optional_qualifier@
+>>>> -identifier rule1.fn, rule1.local_err;
+>>>> +identifier fn, rule1.local_err;
+>>>>    symbol errp;
+>>>>    @@
+>>>>    @@ -301,7 +304,7 @@ symbol errp;
+>>>>      // Always use the same pattern for checking error
+>>>>    @ disable optional_qualifier@
+>>>> -identifier rule1.fn;
+>>>> +identifier fn;
+>>>>    symbol errp;
+>>>>    @@
+>>>>    @@ -315,7 +318,7 @@ symbol errp;
+>>>>      // Revert temporary ___ identifier.
+>>>>    @ disable optional_qualifier@
+>>>> -identifier rule1.fn;
+>>>> +identifier fn;
+>>>>    @@
+>>>>       fn(..., Error **
+>>>>
+>>
+>> I append my hacked up version of auto-propagated-errp.cocci.  It
+>> produces the same patch as yours for the complete tree.
+>>
+>>
+>>
+>> // Use ERRP_AUTO_PROPAGATE (see include/qapi/error.h)
+>> //
+>> // Copyright (c) 2020 Virtuozzo International GmbH.
+>> //
+>> // This program is free software; you can redistribute it and/or
+>> // modify it under the terms of the GNU General Public License as
+>> // published by the Free Software Foundation; either version 2 of the
+>> // License, or (at your option) any later version.
+>> //
+>> // This program is distributed in the hope that it will be useful,
+>> // but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> // GNU General Public License for more details.
+>> //
+>> // You should have received a copy of the GNU General Public License
+>> // along with this program.  If not, see
+>> // <http://www.gnu.org/licenses/>.
+>> //
+>> // Usage example:
+>> // spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>> //  --macro-file scripts/cocci-macro-file.h --in-place \
+>> //  --no-show-diff --max-width 80 FILES...
+>> //
+>> // Note: --max-width 80 is needed because coccinelle default is less
+>> // than 80, and without this parameter coccinelle may reindent some
+>> // lines which fit into 80 characters but not to coccinelle default,
+>> // which in turn produces extra patch hunks for no reason.
+>>
+>> // Switch unusual Error ** parameter names to errp
+>> // (this is necessary to use ERRP_AUTO_PROPAGATE).
+>> //
+>> // Disable optional_qualifier to skip functions with
+>> // "Error *const *errp" parameter.
+>> //
+>> // Skip functions with "assert(_errp && *_errp)" statement, because
+>> // that signals unusual semantics, and the parameter name may well
+>> // serve a purpose. (like nbd_iter_channel_error()).
+>> //
+>> // Skip util/error.c to not touch, for example, error_propagate() and
+>> // error_propagate_prepend().
+>> @ depends on !(file in "util/error.c") disable optional_qualifier@
+>> identifier fn;
+>> identifier _errp !=3D errp;
+>> @@
+>>
+>>   fn(...,
+>> -   Error **_errp
+>> +   Error **errp
+>>      ,...)
+>>   {
+>> (
+>>       ... when !=3D assert(_errp && *_errp)
+>> &
+>>       <...
+>> -    _errp
+>> +    errp
+>>       ...>
+>> )
+>>   }
+>>
+>> // Add invocation of ERRP_AUTO_PROPAGATE to errp-functions where
+>> // necessary
+>> //
+>> // Note, that without "when any" the final "..." does not mach
+>> // something matched by previous pattern, i.e. the rule will not match
+>> // double error_prepend in control flow like in
+>> // vfio_set_irq_signaling().
+>> //
+>> // Note, "exists" says that we want apply rule even if it matches not
+>> // on all possible control flows (otherwise, it will not match
+>> // standard pattern when error_propagate() call is in if branch).
+>> @ disable optional_qualifier exists@
+>> identifier fn, local_err;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error **errp, ...)
+>>   {
+>> +   ERRP_AUTO_PROPAGATE();
+>>      ...  when !=3D ERRP_AUTO_PROPAGATE();
+>> (
+>> (
+>>      error_append_hint(errp, ...);
+>> |
+>>      error_prepend(errp, ...);
+>> |
+>>      error_vprepend(errp, ...);
+>> )
+>>      ... when any
+>> |
+>>      Error *local_err =3D NULL;
+>>      ...
+>> (
+>>      error_propagate_prepend(errp, local_err, ...);
+>> |
+>>      error_propagate(errp, local_err);
+>> )
+>>      ...
+>> )
+>>   }
+>>
+>>
+>> // Match functions with propagation of local error to errp.
+>> // We want to refer these functions in several following rules, but I
+>> // don't know a proper way to inherit a function, not just its name
+>> // (to not match another functions with same name in following rules).
+>> // Not-proper way is as follows: rename errp parameter in functions
+>> // header and match it in following rules. Rename it back after all
+>> // transformations.
+>> //
+>> // The simplest case of propagation scheme is single definition of
+>> // local_err with at most one error_propagate_prepend or
+>> // error_propagate on each control-flow. Still, we want to match more
+>> // complex schemes too. We'll warn them with help of further rules.
+>> @rule1 disable optional_qualifier exists@
+>> identifier fn, local_err;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error **
+>> -    errp
+>> +    ____
+>>      , ...)
+>>   {
+>>       ...
+>>       Error *local_err =3D NULL;
+>>       ...
+>> (
+>>       error_propagate_prepend(errp, local_err, ...);
+>> |
+>>       error_propagate(errp, local_err);
+>> )
+>>       ...
+>>   }
+>>
+>>
+>> // Warn several Error * definitions.
+>> @check1 disable optional_qualifier exists@
+>> identifier fn, _errp, local_err, local_err2;
+>> position p1, p2;
+>> @@
+>>
+>>   fn(..., Error **_errp, ...)
+>>   {
+>>       ...
+>>       Error *local_err =3D NULL;@p1
+>>       ... when any
+>>       Error *local_err2 =3D NULL;@p2
+>>       ... when any
+>>   }
+>>
+>> @ script:python @
+>> fn << check1.fn;
+>> p1 << check1.p1;
+>> p2 << check1.p2;
+>> @@
+>>
+>> print('Warning: function {} has several definitions of '
+>>        'Error * local variable: at {}:{} and then at {}:{}'.format(
+>>            fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>>
+>> // Warn several propagations in control flow.
+>> @check2 disable optional_qualifier exists@
+>> identifier fn, _errp;
+>> position p1, p2;
+>> @@
+>>
+>>   fn(..., Error **_errp, ...)
+>>   {
+>>       ...
+>> (
+>>       error_propagate_prepend(_errp, ...);@p1
+>> |
+>>       error_propagate(_errp, ...);@p1
+>> )
+>>       ...
+>> (
+>>       error_propagate_prepend(_errp, ...);@p2
+>> |
+>>       error_propagate(_errp, ...);@p2
+>> )
+>>       ... when any
+>>   }
+>>
+>> @ script:python @
+>> fn << check2.fn;
+>> p1 << check2.p1;
+>> p2 << check2.p2;
+>> @@
+>>
+>> print('Warning: function {} propagates to errp several times in '
+>>        'one control flow: at {}:{} and then at {}:{}'.format(
+>>            fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>>
+>> // Convert special case with goto separately.
+>> // I tried merging this into the following rule the obvious way, but
+>> // it made Coccinelle hang on block.c
+>> //
+>> // Note interesting thing: if we don't do it here, and try to fixup
+>> // "out: }" things later after all transformations (the rule will be
+>> // the same, just without error_propagate() call), coccinelle fails to
+>> // match this "out: }".
+>> @ disable optional_qualifier@
+>> identifier fn, rule1.local_err, out;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error ** ____, ...)
+>>   {
+>>       <...
+>> -    goto out;
+>> +    return;
+>>       ...>
+>> - out:
+>> -    error_propagate(errp, local_err);
+>>   }
+>>
+>> // Convert most of local_err related stuff.
+>> //
+>> // Note, that we update everything related to matched by rule1
+>> // function name and local_err name. We may match something not
+>> // related to the pattern matched by rule1. For example, local_err may
+>> // be defined with the same name in different blocks inside one
+>> // function, and in one block follow the propagation pattern and in
+>> // other block doesn't. Or we may have several functions with the same
+>> // name (for different configurations).
+>> //
+>> // Note also that errp-cleaning functions
+>> //   error_free_errp
+>> //   error_report_errp
+>> //   error_reportf_errp
+>> //   warn_report_errp
+>> //   warn_reportf_errp
+>> // are not yet implemented. They must call corresponding Error* -
+>> // freeing function and then set *errp to NULL, to avoid further
+>> // propagation to original errp (consider ERRP_AUTO_PROPAGATE in use).
+>> // For example, error_free_errp may look like this:
+>> //
+>> //    void error_free_errp(Error **errp)
+>> //    {
+>> //        error_free(*errp);
+>> //        *errp =3D NULL;
+>> //    }
+>> @ disable optional_qualifier exists@
+>> identifier fn, rule1.local_err;
+>> expression list args;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error ** ____, ...)
+>>   {
+>>       <...
+>> (
+>> -    Error *local_err =3D NULL;
+>> |
+>>
+>> // Convert error clearing functions
+>> (
+>> -    error_free(local_err);
+>> +    error_free_errp(errp);
+>> |
+>> -    error_report_err(local_err);
+>> +    error_report_errp(errp);
+>> |
+>> -    error_reportf_err(local_err, args);
+>> +    error_reportf_errp(errp, args);
+>> |
+>> -    warn_report_err(local_err);
+>> +    warn_report_errp(errp);
+>> |
+>> -    warn_reportf_err(local_err, args);// Use ERRP_AUTO_PROPAGATE (see i=
+nclude/qapi/error.h)
+> //
+> // Copyright (c) 2020 Virtuozzo International GmbH.
+> //
+> // This program is free software; you can redistribute it and/or
+> // modify it under the terms of the GNU General Public License as
+> // published by the Free Software Foundation; either version 2 of the
+> // License, or (at your option) any later version.
+> //
+> // This program is distributed in the hope that it will be useful,
+> // but WITHOUT ANY WARRANTY; without even the implied warranty of
+> // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> // GNU General Public License for more details.
+> //
+> // You should have received a copy of the GNU General Public License
+> // along with this program.  If not, see
+> // <http://www.gnu.org/licenses/>.
+> //
+> // Usage example:
+> // spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+> //  --macro-file scripts/cocci-macro-file.h --in-place \
+> //  --no-show-diff --max-width 80 FILES...
+> //
+> // Note: --max-width 80 is needed because coccinelle default is less
+> // than 80, and without this parameter coccinelle may reindent some
+> // lines which fit into 80 characters but not to coccinelle default,
+> // which in turn produces extra patch hunks for no reason.
+>
+> // Switch unusual Error ** parameter names to errp
+> // (this is necessary to use ERRP_AUTO_PROPAGATE).
+> //
+> // Disable optional_qualifier to skip functions with
+> // "Error *const *errp" parameter.
+> //
+> // Skip functions with "assert(_errp && *_errp)" statement, because
+> // that signals unusual semantics, and the parameter name may well
+> // serve a purpose. (like nbd_iter_channel_error()).
+> //
+> // Skip util/error.c to not touch, for example, error_propagate() and
+> // error_propagate_prepend().
+> @ depends on !(file in "util/error.c") disable optional_qualifier@
+> identifier fn;
+> identifier _errp !=3D errp;
+> @@
+>
+>  fn(...,
+> -   Error **_errp
+> +   Error **errp
+>     ,...)
+>  {
+> (
+>      ... when !=3D assert(_errp && *_errp)
+> &
+>      <...
+> -    _errp
+> +    errp
+>      ...>
+> )
+>  }
+>
+> // Add invocation of ERRP_AUTO_PROPAGATE to errp-functions where
+> // necessary
+> //
+> // Note, that without "when any" the final "..." does not mach
+> // something matched by previous pattern, i.e. the rule will not match
+> // double error_prepend in control flow like in
+> // vfio_set_irq_signaling().
+> //
+> // Note, "exists" says that we want apply rule even if it matches not
+> // on all possible control flows (otherwise, it will not match
+> // standard pattern when error_propagate() call is in if branch).
+> @ disable optional_qualifier exists@
+> identifier fn, local_err;
+> symbol errp;
+> @@
+>
+>  fn(..., Error **errp, ...)
+>  {
+> +   ERRP_AUTO_PROPAGATE();
+>     ...  when !=3D ERRP_AUTO_PROPAGATE();
+> (
+> (
+>     error_append_hint(errp, ...);
+> |
+>     error_prepend(errp, ...);
+> |
+>     error_vprepend(errp, ...);
+> )
+>     ... when any
+> |
+>     Error *local_err =3D NULL;
+>     ...
+> (
+>     error_propagate_prepend(errp, local_err, ...);
+> |
+>     error_propagate(errp, local_err);
+> )
+>     ...
+> )
+>  }
+>
+>
+> // Match functions with propagation of local error to errp.
+> // We want to refer these functions in several following rules, but I
+> // don't know a proper way to inherit a function, not just its name
+> // (to not match another functions with same name in following rules).
+> // Not-proper way is as follows: rename errp parameter in functions
+> // header and match it in following rules. Rename it back after all
+> // transformations.
+> //
+> // The simplest case of propagation scheme is single definition of
+> // local_err with at most one error_propagate_prepend or
+> // error_propagate on each control-flow. Still, we want to match more
+> // complex schemes too. We'll warn them with help of further rules.
+> @rule1 disable optional_qualifier exists@
+> identifier fn, local_err;
+> symbol errp;
+> @@
+>
+>  fn(..., Error **
+> -    errp
+> +    ____
+>     , ...)
+>  {
+>      ...
+>      Error *local_err =3D NULL;
+>      ...
+> (
+>      error_propagate_prepend(errp, local_err, ...);
+> |
+>      error_propagate(errp, local_err);
+> )
+>      ...
+>  }
+>
+>
+> // Warn several Error * definitions.
+> @check1 disable optional_qualifier exists@
+> identifier fn, _errp, local_err, local_err2;
+> position p1, p2;
+> @@
+>
+>  fn(..., Error **_errp, ...)
+>  {
+>      ...
+>      Error *local_err =3D NULL;@p1
+>      ... when any
+>      Error *local_err2 =3D NULL;@p2
+>      ... when any
+>  }
+>
+> @ script:python @
+> fn << check1.fn;
+> p1 << check1.p1;
+> p2 << check1.p2;
+> @@
+>
+> print('Warning: function {} has several definitions of '
+>       'Error * local variable: at {}:{} and then at {}:{}'.format(
+>           fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>
+> // Warn several propagations in control flow.
+> @check2 disable optional_qualifier exists@
+> identifier fn, _errp;
+> position p1, p2;
+> @@
+>
+>  fn(..., Error **_errp, ...)
+>  {
+>      ...
+> (
+>      error_propagate_prepend(_errp, ...);@p1
+> |
+>      error_propagate(_errp, ...);@p1
+> )
+>      ...
+> (
+>      error_propagate_prepend(_errp, ...);@p2
+> |
+>      error_propagate(_errp, ...);@p2
+> )
+>      ... when any
+>  }
+>
+> @ script:python @
+> fn << check2.fn;
+> p1 << check2.p1;
+> p2 << check2.p2;
+> @@
+>
+> print('Warning: function {} propagates to errp several times in '
+>       'one control flow: at {}:{} and then at {}:{}'.format(
+>           fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
+>
+> // Convert special case with goto separately.
+> // I tried merging this into the following rule the obvious way, but
+> // it made Coccinelle hang on block.c
+> //
+> // Note interesting thing: if we don't do it here, and try to fixup
+> // "out: }" things later after all transformations (the rule will be
+> // the same, just without error_propagate() call), coccinelle fails to
+> // match this "out: }".
+> @ disable optional_qualifier@
+> identifier fn, rule1.local_err, out;
+> symbol errp;
+> @@
+>
+>  fn(..., Error ** ____, ...)
+>  {
+>      <...
+> -    goto out;
+> +    return;
+>      ...>
+> - out:
+> -    error_propagate(errp, local_err);
+>  }
+>
+> // Convert most of local_err related stuff.
+> //
+> // Note, that we update everything related to matched by rule1
+> // function name and local_err name. We may match something not
+> // related to the pattern matched by rule1. For example, local_err may
+> // be defined with the same name in different blocks inside one
+> // function, and in one block follow the propagation pattern and in
+> // other block doesn't. Or we may have several functions with the same
+> // name (for different configurations).
+> //
+> // Note also that errp-cleaning functions
+> //   error_free_errp
+> //   error_report_errp
+> //   error_reportf_errp
+> //   warn_report_errp
+> //   warn_reportf_errp
+> // are not yet implemented. They must call corresponding Error* -
+> // freeing function and then set *errp to NULL, to avoid further
+> // propagation to original errp (consider ERRP_AUTO_PROPAGATE in use).
+> // For example, error_free_errp may look like this:
+> //
+> //    void error_free_errp(Error **errp)
+> //    {
+> //        error_free(*errp);
+> //        *errp =3D NULL;
+> //    }
+> @ disable optional_qualifier exists@
+> identifier fn, rule1.local_err;
+> expression list args;
+> symbol errp;
+> @@
+>
+>  fn(..., Error ** ____, ...)
+>  {
+>      <...
+> (
+> -    Error *local_err =3D NULL;
+> |
+>
+> // Convert error clearing functions
+> (
+> -    error_free(local_err);
+> +    error_free_errp(errp);
+> |
+> -    error_report_err(local_err);
+> +    error_report_errp(errp);
+> |
+> -    error_reportf_err(local_err, args);
+> +    error_reportf_errp(errp, args);
+> |
+> -    warn_report_err(local_err);
+> +    warn_report_errp(errp);
+> |
+> -    warn_reportf_err(local_err, args);
+> +    warn_reportf_errp(errp, args);
+> )
+> ?-    local_err =3D NULL;
+>
+> |
+> -    error_propagate_prepend(errp, local_err, args);
+> +    error_prepend(errp, args);
+> |
+> -    error_propagate(errp, local_err);
+> |
+> -    &local_err
+> +    errp
+> )
+>      ...>
+>  }
+>
+> // Convert remaining local_err usage. For example, different kinds of
+> // error checking in if conditionals. We can't merge this into
+> // previous hunk, as this conflicts with other substitutions in it (at
+> // least with "- local_err =3D NULL").
+> @ disable optional_qualifier@
+> identifier fn, rule1.local_err;
+> symbol errp;
+> @@
+>
+>  fn(..., Error ** ____, ...)
+>  {
+>      <...
+> -    local_err
+> +    *errp
+>      ...>
+>  }
+>
+> // Always use the same pattern for checking error
+> @ disable optional_qualifier@
+> identifier fn;
+> symbol errp;
+> @@
+>
+>  fn(..., Error ** ____, ...)
+>  {
+>      <...
+> -    *errp !=3D NULL
+> +    *errp
+>      ...>
+>  }
+>
+> // Revert temporary ___ identifier.
+> @ disable optional_qualifier@
+> identifier fn;
+> @@
+>
+>  fn(..., Error **
+> -   ____
+> +   errp
+>     , ...)
+>  {
+>      ...
+>  }
+>
+>> +    warn_reportf_errp(errp, args);
+>> )
+>> ?-    local_err =3D NULL;
+>>
+>> |
+>> -    error_propagate_prepend(errp, local_err, args);
+>> +    error_prepend(errp, args);
+>> |
+>> -    error_propagate(errp, local_err);
+>> |
+>> -    &local_err
+>> +    errp
+>> )
+>>       ...>
+>>   }
+>>
+>> // Convert remaining local_err usage. For example, different kinds of
+>> // error checking in if conditionals. We can't merge this into
+>> // previous hunk, as this conflicts with other substitutions in it (at
+>> // least with "- local_err =3D NULL").
+>> @ disable optional_qualifier@
+>> identifier fn, rule1.local_err;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error ** ____, ...)
+>>   {
+>>       <...
+>> -    local_err
+>> +    *errp
+>>       ...>
+>>   }
+>>
+>> // Always use the same pattern for checking error
+>> @ disable optional_qualifier@
+>> identifier fn;
+>> symbol errp;
+>> @@
+>>
+>>   fn(..., Error ** ____, ...)
+>>   {
+>>       <...
+>> -    *errp !=3D NULL
+>> +    *errp
+>>       ...>
+>>   }
+>>
+>> // Revert temporary ___ identifier.
+>> @ disable optional_qualifier@
+>> identifier fn;
+>> @@
+>>
+>>   fn(..., Error **
+>> -   ____
+>> +   errp
+>>      , ...)
+>>   {
+>>       ...
+>>   }
+>>
+>
+> OK, I almost OK with it, the only thing I doubt a bit is the following:
+>
+> We want to keep rule1.local_err inheritance to keep connection with
+> local_err definition.
+
+Yes.
+
+> Interesting, when we have both rule1.fn and rule1.local_err inherited,
+> do we inherit them in separate (i.e. all possible combinations of fn
+> and local_err symbols from rule1) or do we inherit a pair, i.e. only
+> fn/local_err pairs, found by rule1? If the latter is correct, that
+> with your script we loss this pair inheritance, and go to all possible
+> combinations of fn and local_err from rule1, possibly adding some wrong
+> conversion (OK, you've checked that no such cases in current code tree).
+
+The chaining "identifier rule1.FOO" is by name.  It's reliable only as
+long as there is exactly one instance of the name.
+
+We already discussed the case of the function name: if there are two
+instances of foo(), and rule1 matches only one of them, then we
+nevertheless apply the rules chained to rule1 to both.  Because that can
+be wrong, you came up with the ___ trick, which chains reliably.
+
+The same issue exists with the variable name: if there are two instances
+of @local_err, and rule1 matches only one of them, then we nevertheless
+apply the rules chained to rule1 to both.  Can also be wrong.
+
+What are the conditions for "wrong"?
+
+Because the ___ chaining is reliable, we know rule1 matched the
+function, i.e. it has a parameter Error **errp, and it has a automatic
+variable Error *local_err =3D NULL.
+
+We're good as long as *all* identifiers @local_err in this function are
+declared that way.  This seems quite likely.  It's not certain, though.
+
+Since nested declarations of Error ** variables are rare, we can rely on
+review to ensure we transform these functions correctly.
+
+> So, dropping inheritance in check-rules makes sence, as it may match
+> (and warn) more interesting cases.
+>
+> But for other rules, I'd prefere to be safer, and explictly inherit all
+> actually inherited identifiers..
+
+I still can't see what chaining by function name in addition to the ___
+chaining buys us.
+
+>                                  Still, I feel, we'll never be
+> absolutely safe with coccinelle :)
+
+Right, although this particular problem is not really Coccinelle's
+fault.  Blindly treating all instances of a certain identifier in a
+certain area the same regardless of how they are bound to declarations
+is fundamentally unreliable, regardless of your actual tooling.
 
 
