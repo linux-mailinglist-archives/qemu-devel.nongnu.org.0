@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1761918701E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:35:49 +0100 (CET)
-Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3DC18702C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:37:31 +0100 (CET)
+Received: from localhost ([::1]:42424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsiM-0001Ig-MS
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:35:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49661)
+	id 1jDsk6-0004KC-F3
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDr5L-00007w-Aa
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:51:20 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jDr9D-0001VB-63
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDr5K-00085O-9E
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:51:19 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33088)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDr5K-0007tp-1Q
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:51:18 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a25so21606977wrd.0
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EBA2kBnuWIbZxYq1IozPBlavq7ho+4yFZxgtcTzlqMM=;
- b=m5Z8fGavUhGGyLfX0PzBZDYHeEfUf5hzVkFzioL5oE8Js7fNG7xg1HAM64OeYx6Xlu
- avw9mCH6HZPOQWoVtlV+S3rFIZ2LvmkhxJ2k6a7wtP3XquLnMnz1g4zrPlnheJX4waGG
- m5Q0IrBEwkn6NTC/+Io8A81VvOEStNFjFKqzVa5BpLLLGHrHTKA6zeVeA+0thSe1td+I
- imhaPfZgxkXVNGZ22hhEFmGjWrY/kSF1O2DGd87KxyeTWjoCF21dsb3LjCr3RiU7gFUC
- zCUIqWZwCK3rQJd2fQtF9728wJCKRAdZgpfKaU8a27HoqNl6rc9l3adsLakfd7KTx6kG
- xIcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EBA2kBnuWIbZxYq1IozPBlavq7ho+4yFZxgtcTzlqMM=;
- b=dnxnn4+RinMuYTISUx4EpEMQmif6Nlxl5DKtBD0B89evgLmKE3ywAzEVK+SFgWByiz
- +T8Z68+kwDcYh6wpThoCwaQccvtG55qjmfniRtw3MwzPIucVyq8fM6q46yrw6kdDcLLK
- GMa4B91Vv1eGfWMWA/AEZq26e5srdDW3DXWdvEV75476QPaHxFT8kSQjuWk2JiZmqXLJ
- iTT8Id7GsqrndQnVnpts0h6d/GmFbD2oaXtU0SlTmqUphaOmOu1hhrPW0cGgCPriPjy2
- KGoYlCx5Xd9jgh6rFzrftdztXhO167W5+rju4lNsUMT7xtpbyEPIGSU/Zg341M2Rz8LG
- wNBQ==
-X-Gm-Message-State: ANhLgQ1O3iKrVEFmSMJQsCoftpkfnC0Pe7sBIl+RRl+qWQ9CyN14wCZN
- 7lYjRsWBeqU+Kn/KZ/64HSKfrLk2w7PE0R0rPvM=
-X-Google-Smtp-Source: ADFU+vsmPUmAFZNXCupcgzplpXJcX1MCYgHXmUmwVhROtqxZjkAav4Td7dQ6QNhwwaYVJX6UjAV6aweJM/iCTJviI3E=
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr35908613wrj.196.1584370275751; 
- Mon, 16 Mar 2020 07:51:15 -0700 (PDT)
+ (envelope-from <cohuck@redhat.com>) id 1jDr9B-0003sx-VP
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:19 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20461)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDr9B-0003pS-Q4
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:55:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584370517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q2yAv05UUII7yW7CNYqRQPL/lsrT7GZbfavzM4uvF/4=;
+ b=B3ROfnq+CsmKkLMuejg2CGS+d/PNX+YG2RGclyMx4Jxm0f1AMG/Qag+cMzi7OmO1rJl97b
+ bLKE81mAHHvwNESmDfthp1OpQIO0mGtP2KOzkdbdptqubBLW1tfZNubPQOQeyF3rsJNiyT
+ FYo8ImrRGZKsiYiEaLm95i/vo0j9rV8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-J91LzoqYNZ6-Zf16fG04Xg-1; Mon, 16 Mar 2020 10:55:13 -0400
+X-MC-Unique: J91LzoqYNZ6-Zf16fG04Xg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B6B7108AF56;
+ Mon, 16 Mar 2020 14:55:12 +0000 (UTC)
+Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98F7360BE2;
+ Mon, 16 Mar 2020 14:55:08 +0000 (UTC)
+Date: Mon, 16 Mar 2020 15:54:57 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
+Message-ID: <20200316155457.73e97d9c.cohuck@redhat.com>
+In-Reply-To: <bbbabbb0-2325-406d-a619-f2d03f447c8c@linux.ibm.com>
+References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
+ <20200313095232.2392-1-frankja@linux.ibm.com>
+ <20200316152738.4c1c65ee.cohuck@redhat.com>
+ <bbbabbb0-2325-406d-a619-f2d03f447c8c@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-3-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-3-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 15:51:03 +0100
-Message-ID: <CAJ+F1CJ_wUSvv4ZmybaeQxJnUe3RyFHgTnLo=EzYzOJqVq6emA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/34] qapi: Belatedly update doc comment for @wait
- deprecation
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="Sig_/LH/l=TAuQzaScMvmZzww_XR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+--Sig_/LH/l=TAuQzaScMvmZzww_XR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 15, 2020 at 3:48 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Commit a9b305ba29 "socket: allow wait=3Dfalse for client socket"
-> deprecated use of @wait for client socket chardevs, but neglected to
-> update char.json's doc comment.  Make up for that.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Mon, 16 Mar 2020 15:47:41 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
->  qapi/char.json | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/qapi/char.json b/qapi/char.json
-> index 6907b2bfdb..daceb20f84 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -258,6 +258,7 @@
->  # @server: create server socket (default: true)
->  # @wait: wait for incoming connection on server
->  #        sockets (default: false).
-> +#        Silently ignored with server: false.  This use is deprecated.
->  # @nodelay: set TCP_NODELAY socket option (default: false)
->  # @telnet: enable telnet protocol on server
->  #          sockets (default: false)
-> --
-> 2.21.1
->
->
+> On 3/16/20 3:27 PM, Cornelia Huck wrote:
+> > On Fri, 13 Mar 2020 05:52:32 -0400
+> > Janosch Frank <frankja@linux.ibm.com> wrote:
+> >  =20
+> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >> ---
+> >>  hw/s390x/ipl.h      | 11 +++++++----
+> >>  target/s390x/diag.c |  2 +-
+> >>  2 files changed, 8 insertions(+), 5 deletions(-)
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+> >> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t =
+r1, uint64_t r3, uintptr_t ra)
+> >> =20
+> >>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+> >> =20
+> >> -        if (!iplb_valid(iplb)) {
+> >> +        if (!iplb_valid(iplb, subcode)) {
+> >>              env->regs[r1 + 1] =3D DIAG_308_RC_INVALID;
+> >>              goto out;
+> >>          } =20
+> >=20
+> > ...because you're basically checking whether you either have a valid
+> > normal iplb, or a valid pv iplb, with the two being mutually exclusive,
+> > IIUC. So what about introducing iplb_valid_pv and calling that for the
+> > pv case? Would be a bit nicer to read, I think, and also matches what
+> > you do for the STORE case.
+> >  =20
+>=20
+> The idea was to get rid of all of these ifs and elses and only have one
+> iplb_valid function. Your suggestion would defeat hiding that complexity
+> behind this function.
+
+I'd argue that this is a complexity we should not hide; for non-pv, we
+can have several formats, for pv, only one, and we cannot use a pv iplb
+in a non-pv context and vice versa.
+
+--Sig_/LH/l=TAuQzaScMvmZzww_XR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5vk0EACgkQ3s9rk8bw
+L68+iA//XC1x/zZDD+lNKh6qE7w8ixdOeH/2MOuTe5xxSkOIxuPlD1sY0AhT/NTj
+SsU7raQwL1FTjCvqXcno2kcioxQ9dGDD+TNk0kG/0i/rMCPq94oV5hOWSizROXp8
+rufbpFki4FQv0NOItpIhRnsUJ+NoCbQkyoJo+576leN30iYTkHIrWtivRp7eCGBR
+CLqmdyRTak/NUP3HLO+VDO8RNHUqIpH/n3h38iW256Tqknrsv8smf+8QMvM7BMHn
+W1YR73AOsHiOHLnqDpi8I3/wPF6xCS+JquFwkVWWWZwz8OepEPXK3owEijjD1Ht6
+9WppBZdWobFW2NYPsvEoBzm+A3AvjJePzCnwU+L9NX56X7oF64XJD6/4l9rZJ5F3
+Xtc2sPqRj7+ldMcaSHUv/+ic41uNL4RXd4mfl4w/oavQ1TfEWYwC4Q0cTM24zXqJ
+DMwfwzvox3E5lQwY+PhBgrftivQ+s4RdAH0n/hbiEQaWybpf7G1i3nfp8eByjUSp
+xqHgAXVbBuxpTEshZF4EowvcDAck6AxhkdMjXEBd0kjYf3/+xIuukfb6f/TF7eZJ
+KNRNJOcHOb8ErpFgC5CZSa7EVdsD9CbIU9Rrh0BAuBnDiuSGNzurQ6eE1KATwaQa
+EeGURLkL3LXqiL/DP9X5791yZHKb/BhzOoGTOrkZe9fSv/LuhDE=
+=1gDy
+-----END PGP SIGNATURE-----
+
+--Sig_/LH/l=TAuQzaScMvmZzww_XR--
+
 
