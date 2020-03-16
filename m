@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A3F186D05
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:27:57 +0100 (CET)
-Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8165186CC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:04:22 +0100 (CET)
+Received: from localhost ([::1]:38744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDqii-0006CX-8X
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
+	id 1jDqLs-0005pb-SY
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40005)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDoRM-0004yD-Ma
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:54 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jDobm-0000Uq-7P
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDoRL-0006MI-90
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42020
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDoRL-0006EB-2t
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:01:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584360110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KWDNiFJqFqiz5RLtLkzj0Xcv4N3xLjsv0Q3BZIwVHcU=;
- b=gd3wTRUnpJBzTHiNxOD5V4azh7rqOD/XbEFWj0MZ5fhZz6vLEWzmGCAK7IAC6dgNXlNq7J
- YrU6Q8UIdfustBbgDYxYQ0nna2bagJ/CG/WotH0kgUmPbWRS1YIetIBR2izhvPuKHI2YSK
- TDk937MV4EAZ7IyhQpOFUURWpD+b2UA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-PlQeryTsPw2B4e11Dq6k-A-1; Mon, 16 Mar 2020 08:01:49 -0400
-X-MC-Unique: PlQeryTsPw2B4e11Dq6k-A-1
-Received: by mail-wm1-f69.google.com with SMTP id a23so5700205wmm.8
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:01:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F8Hw9XI7udEgvO3Z4/24BD5VnJ65W4Svw6F6Rde3+TE=;
- b=hSgecvABiSObxWZBar8JrgxapOAkdnDVJFFUC5ES4P4u7sgqT+yY/L5VoMJoAy+NqJ
- f5vLwV7EFY2LhRnJxcmXzEF1l03DL9ojj3pq+MfPYkIaWCdcI9+mSAcQgjctFAD9gNck
- 0xt7M/GU1jlkHJLdpE3WXb0EnX/V+UHHArRIc/KSvrAw54SMADnZ7nA9HB8PLVp/gddj
- jL0pCWo4WOu5I5whQP0ENj3YGa6wXFcDOs2xdYE1LpKYuZlU1tyamJ0TlMsRP4+vwoRu
- rxGA14FwdhSVTwvjuvKTVLKKVtk09gJsxjqKv0I2adHRljXPrxTAFNi40ejSOQYiU+NQ
- azeg==
-X-Gm-Message-State: ANhLgQ3SiOkObPDXeyJ8r2iKfGeDat9uTP2+uKMhvXKNxVH0C620XZz8
- WW9y2KOe9Fz5Y1/Oa6w/XEUZUXcnkS2zMZI5nCdX/gT9GueZF0mQqI8rddl4h9BB3clJdam1fIK
- EMGLbcdXxV7U1ZCs=
-X-Received: by 2002:a7b:cc9a:: with SMTP id p26mr27543200wma.0.1584360107671; 
- Mon, 16 Mar 2020 05:01:47 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsHi7yZYGn3LtJcneH8tM5v5HIdXfkC6i2rjyObDKaXMWL0XaRIM3DdOB/uVeHjHaKgbli8DA==
-X-Received: by 2002:a7b:cc9a:: with SMTP id p26mr27543179wma.0.1584360107466; 
- Mon, 16 Mar 2020 05:01:47 -0700 (PDT)
-Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id y15sm3967918wrp.92.2020.03.16.05.01.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 05:01:46 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ (envelope-from <liran.alon@oracle.com>) id 1jDobk-0007kv-Hd
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:37 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:46460)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1jDobk-00077w-6R
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:12:36 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02GC8iX7066974;
+ Mon, 16 Mar 2020 12:12:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=ReZQJWcnA6vBF7ZqTDr4kwx19RG8syAyKejIDYPf+yc=;
+ b=WkfX1AtKu/QKWuTFWYhVxJ5nZEQC4CdY/mjMZ6k1mhaBuinnsTseiuDxMYifhj5OXqgd
+ Ufki093hNJRlkLjFIN3qWl2clgLjKTJiHLq9pLQxJHKPi72Jo9v3SWNJDrPFvj8bX550
+ zecuAK2nYjY6JbEdTrN63CWZwfka2sblYMY+7b6e1KCoFhpFvj3cAPU2ShTYgkfo46YA
+ 5VmXjoJEfTMZojIcvMR+w0S0W82lSpGEquMN4Ddfp6ER1idvxpxgJbV52fITln3Xwsah
+ pyQtyYtmo3M78JQIpJF1umDv7QWgqIZ9Yy5gX8K8bU15Vs5BlCpVCrRwApzzAUndHuUm Cg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2yrq7kpg4m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Mar 2020 12:12:21 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02GC8LSx041307;
+ Mon, 16 Mar 2020 12:12:21 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2ys8yvp776-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Mar 2020 12:12:21 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02GCCJax026561;
+ Mon, 16 Mar 2020 12:12:19 GMT
+Received: from spark.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 16 Mar 2020 05:12:18 -0700
+From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/11] target/arm: Always enable CONFIG_SEMIHOSTING
-Date: Mon, 16 Mar 2020 13:00:48 +0100
-Message-Id: <20200316120049.11225-11-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200316120049.11225-1-philmd@redhat.com>
-References: <20200316120049.11225-1-philmd@redhat.com>
+Subject: [PATCH v2] hw/scsi/vmw_pvscsi: Remove assertion for kick after reset
+Date: Mon, 16 Mar 2020 14:14:28 +0200
+Message-Id: <20200316121428.48723-1-liran.alon@oracle.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9561
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxlogscore=999 mlxscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003160061
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9561
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 suspectscore=1
+ adultscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
+ malwarescore=0 mlxscore=0 phishscore=0 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003160061
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,110 +86,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: fam@euphon.net, pbonzini@redhat.com, dmitry.fleytman@gmail.com,
+ liran.alon@oracle.com, elazar@vastdata.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On ARM, the semihosting feature is always required on user-space,
-and is also used by system emulation.
+From: Elazar Leibovich <elazar.leibovich@oracle.com>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+When running Ubuntu 3.13.0-65-generic guest, QEMU sometimes crashes
+during guest ACPI reset. It crashes on assert(s->rings_info_valid)
+in pvscsi_process_io().
+
+Analyzing the crash revealed that it happens when userspace issues
+a sync during a reboot syscall.
+
+Below are backtraces we gathered from the guests.
+
+Guest backtrace when issuing PVSCSI_CMD_ADAPTER_RESET:
+    pci_device_shutdown
+    device_shutdown
+    init_pid_ns
+    init_pid_ns
+    kernel_power_off
+    SYSC_reboot
+
+Guest backtrace when issuing PVSCSI_REG_OFFSET_KICK_RW_IO:
+    scsi_done
+    scsi_dispatch_cmd
+    blk_add_timer
+    scsi_request_fn
+    elv_rb_add
+    __blk_run_queue
+    queue_unplugged
+    blk_flush_plug_list
+    blk_finish_plug
+    ext4_writepages
+    set_next_entity
+    do_writepages
+    __filemap_fdatawrite_range
+    filemap_write_and_wait_range
+    ext4_sync_file
+    ext4_sync_file
+    do_fsync
+    sys_fsync
+
+Since QEMU pvscsi should imitate VMware pvscsi device emulation,
+we decided to imitate VMware's behavior in this case.
+
+To check VMware behavior, we wrote a kernel module that issues
+a reset to the pvscsi device and then issues a kick. We ran it on
+VMware ESXi 6.5 and it seems that it simply ignores the kick.
+Hence, we decided to ignore the kick as well.
+
+Signed-off-by: Elazar Leibovich <elazar.leibovich@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
 ---
- default-configs/aarch64-linux-user-common.mak | 4 ++++
- default-configs/aarch64-linux-user.mak        | 2 ++
- default-configs/aarch64_be-linux-user.mak     | 2 ++
- default-configs/arm-linux-user-common.mak     | 4 ++++
- default-configs/arm-linux-user.mak            | 2 ++
- default-configs/arm-softmmu.mak               | 4 +++-
- default-configs/armeb-linux-user.mak          | 2 ++
- 7 files changed, 19 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/aarch64-linux-user-common.mak
- create mode 100644 default-configs/arm-linux-user-common.mak
+ hw/scsi/vmw_pvscsi.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/default-configs/aarch64-linux-user-common.mak b/default-config=
-s/aarch64-linux-user-common.mak
-new file mode 100644
-index 0000000000..94c0cdf826
---- /dev/null
-+++ b/default-configs/aarch64-linux-user-common.mak
-@@ -0,0 +1,4 @@
-+# Common aarch64*-linux-user CONFIG defines
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index c91352cf46de..2491f204ddd7 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -29,6 +29,7 @@
+ #include "qapi/error.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
++#include "qemu/log.h"
+ #include "hw/scsi/scsi.h"
+ #include "migration/vmstate.h"
+ #include "scsi/constants.h"
+@@ -719,7 +720,12 @@ pvscsi_process_io(PVSCSIState *s)
+     PVSCSIRingReqDesc descr;
+     hwaddr next_descr_pa;
+ 
+-    assert(s->rings_info_valid);
++    if (!s->rings_info_valid) {
++        qemu_log("WARNING: PVSCSI: Cannot process I/O when "
++                 "rings are not valid.\n");
++        return;
++    }
 +
-+# CONFIG_SEMIHOSTING is always required on this architecture
-+CONFIG_SEMIHOSTING=3Dy
-diff --git a/default-configs/aarch64-linux-user.mak b/default-configs/aarch=
-64-linux-user.mak
-index 0a5b08a007..d27232cbc6 100644
---- a/default-configs/aarch64-linux-user.mak
-+++ b/default-configs/aarch64-linux-user.mak
-@@ -1 +1,3 @@
- # Default configuration for aarch64-linux-user
-+
-+include aarch64-linux-user-common.mak
-diff --git a/default-configs/aarch64_be-linux-user.mak b/default-configs/aa=
-rch64_be-linux-user.mak
-index a69d9d2e41..7dee7ba4cb 100644
---- a/default-configs/aarch64_be-linux-user.mak
-+++ b/default-configs/aarch64_be-linux-user.mak
-@@ -1 +1,3 @@
- # Default configuration for aarch64_be-linux-user
-+
-+include aarch64-linux-user-common.mak
-diff --git a/default-configs/arm-linux-user-common.mak b/default-configs/ar=
-m-linux-user-common.mak
-new file mode 100644
-index 0000000000..67acd961f3
---- /dev/null
-+++ b/default-configs/arm-linux-user-common.mak
-@@ -0,0 +1,4 @@
-+# Common arm*-linux-user CONFIG defines
-+
-+# CONFIG_SEMIHOSTING is always required on this architecture
-+CONFIG_SEMIHOSTING=3Dy
-diff --git a/default-configs/arm-linux-user.mak b/default-configs/arm-linux=
--user.mak
-index 413361a022..7d45e4d20a 100644
---- a/default-configs/arm-linux-user.mak
-+++ b/default-configs/arm-linux-user.mak
-@@ -1 +1,3 @@
- # Default configuration for arm-linux-user
-+
-+include arm-linux-user-common.mak
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.=
-mak
-index 36a0e89daa..8b89d8c4c0 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -1,5 +1,8 @@
- # Default configuration for arm-softmmu
-=20
-+# CONFIG_SEMIHOSTING is always required on this architecture
-+CONFIG_SEMIHOSTING=3Dy
-+
- # TODO: ARM_V7M is currently always required - make this more flexible!
- CONFIG_ARM_V7M=3Dy
-=20
-@@ -40,5 +43,4 @@ CONFIG_MICROBIT=3Dy
- CONFIG_FSL_IMX25=3Dy
- CONFIG_FSL_IMX7=3Dy
- CONFIG_FSL_IMX6UL=3Dy
--CONFIG_SEMIHOSTING=3Dy
- CONFIG_ALLWINNER_H3=3Dy
-diff --git a/default-configs/armeb-linux-user.mak b/default-configs/armeb-l=
-inux-user.mak
-index bf2ffe7038..485132f606 100644
---- a/default-configs/armeb-linux-user.mak
-+++ b/default-configs/armeb-linux-user.mak
-@@ -1 +1,3 @@
- # Default configuration for armeb-linux-user
-+
-+include arm-linux-user-common.mak
---=20
-2.21.1
+     while ((next_descr_pa = pvscsi_ring_pop_req_descr(&s->rings)) != 0) {
+ 
+         /* Only read after production index verification */
+-- 
+2.20.1
 
 
