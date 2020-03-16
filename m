@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA2C18704E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:43:56 +0100 (CET)
-Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE815187059
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:46:40 +0100 (CET)
+Received: from localhost ([::1]:42618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsqJ-0007c2-GG
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53470)
+	id 1jDssx-0002qU-NB
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqkr-0000AI-R7
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:11 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqkv-0000D2-Fk
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqkq-0002V6-Fp
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:09 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48582)
+ (envelope-from <its@irrelevant.dk>) id 1jDqku-0002yE-3G
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:13 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48606)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDqkn-0007p5-0R; Mon, 16 Mar 2020 10:30:05 -0400
+ id 1jDqkp-0007uv-DZ; Mon, 16 Mar 2020 10:30:07 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id B42D5BF5E1;
- Mon, 16 Mar 2020 14:29:43 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id A882ABF91F;
+ Mon, 16 Mar 2020 14:29:44 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 16/42] nvme: make sure ncqr and nsqr is valid
-Date: Mon, 16 Mar 2020 07:29:02 -0700
-Message-Id: <20200316142928.153431-17-its@irrelevant.dk>
+Subject: [PATCH v6 18/42] nvme: support identify namespace descriptor list
+Date: Mon, 16 Mar 2020 07:29:04 -0700
+Message-Id: <20200316142928.153431-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,38 +58,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-0xffff is not an allowed value for NCQR and NSQR in Set Features on
-Number of Queues.
+Since we are not providing the NGUID or EUI64 fields, we must support
+the Namespace UUID. We do not have any way of storing a persistent
+unique identifier, so conjure up a UUID that is just the namespace id.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/block/nvme.c       | 38 ++++++++++++++++++++++++++++++++++++++
+ hw/block/trace-events |  1 +
+ 2 files changed, 39 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 85c7c86b35f0..e56142c4ea99 100644
+index 16de3ca1c5d5..007f8817f101 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1155,6 +1155,14 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvme=
-Cmd *cmd, NvmeRequest *req)
-         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
-         break;
-     case NVME_NUMBER_OF_QUEUES:
-+        /*
-+         * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value f=
-or NCQR
-+         * and NSQR.
-+         */
-+        if ((dw11 & 0xffff) =3D=3D 0xffff || ((dw11 >> 16) & 0xffff) =3D=
-=3D 0xffff) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
+@@ -942,6 +942,42 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, Nv=
+meIdentify *c)
+     return ret;
+ }
+=20
++static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c=
+)
++{
++    uint32_t nsid =3D le32_to_cpu(c->nsid);
++    uint64_t prp1 =3D le64_to_cpu(c->prp1);
++    uint64_t prp2 =3D le64_to_cpu(c->prp2);
 +
-         trace_nvme_dev_setfeat_numq((dw11 & 0xFFFF) + 1,
-                                     ((dw11 >> 16) & 0xFFFF) + 1,
-                                     n->params.max_ioqpairs,
++    void *list;
++    uint16_t ret;
++    NvmeIdNsDescr *ns_descr;
++
++    trace_nvme_dev_identify_ns_descr_list(nsid);
++
++    if (unlikely(nsid =3D=3D 0 || nsid > n->num_namespaces)) {
++        trace_nvme_dev_err_invalid_ns(nsid, n->num_namespaces);
++        return NVME_INVALID_NSID | NVME_DNR;
++    }
++
++    list =3D g_malloc0(NVME_IDENTIFY_DATA_SIZE);
++    ns_descr =3D list;
++
++    /*
++     * Because the NGUID and EUI64 fields are 0 in the Identify Namespac=
+e data
++     * structure, a Namespace UUID (nidt =3D 0x3) must be reported in th=
+e
++     * Namespace Identification Descriptor. Add a very basic Namespace U=
+UID
++     * here.
++     */
++    ns_descr->nidt =3D NVME_NIDT_UUID;
++    ns_descr->nidl =3D NVME_NIDT_UUID_LEN;
++    stl_be_p(ns_descr + sizeof(*ns_descr), nsid);
++
++    ret =3D nvme_dma_read_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SI=
+ZE, prp1,
++                            prp2);
++    g_free(list);
++    return ret;
++}
++
+ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+ {
+     NvmeIdentify *c =3D (NvmeIdentify *)cmd;
+@@ -953,6 +989,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *c=
+md)
+         return nvme_identify_ctrl(n, c);
+     case NVME_ID_CNS_NS_ACTIVE_LIST:
+         return nvme_identify_nslist(n, c);
++    case NVME_ID_CNS_NS_DESCR_LIST:
++        return nvme_identify_ns_descr_list(n, c);
+     default:
+         trace_nvme_dev_err_invalid_identify_cns(le32_to_cpu(c->cns));
+         return NVME_INVALID_FIELD | NVME_DNR;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 13e2c71664f6..4cde0844ef64 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -41,6 +41,7 @@ nvme_dev_del_cq(uint16_t cqid) "deleted completion queu=
+e, sqid=3D%"PRIu16""
+ nvme_dev_identify_ctrl(void) "identify controller"
+ nvme_dev_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ nvme_dev_identify_nslist(uint32_t ns) "nsid %"PRIu32""
++nvme_dev_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ nvme_dev_getfeat(uint16_t cid, uint32_t fid) "cid %"PRIu16" fid 0x%"PRIx=
+32""
+ nvme_dev_setfeat(uint16_t cid, uint32_t fid, uint32_t val) "cid %"PRIu16=
+" fid 0x%"PRIx32" val 0x%"PRIx32""
+ nvme_dev_getfeat_vwcache(const char* result) "get feature volatile write=
+ cache, result=3D%s"
 --=20
 2.25.1
 
