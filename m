@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B653D187153
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:40:56 +0100 (CET)
-Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE4E187165
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:45:44 +0100 (CET)
+Received: from localhost ([::1]:44724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtjT-00080f-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42275)
+	id 1jDto7-0007xY-Cn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jDtPN-0005rT-48
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:20:10 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRI-0000Xa-Rs
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jDtPK-0004JT-67
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:20:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34783)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jDtPK-00046L-0B
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:20:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584379205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VrAnODQA8RSpoxkZwm8E3zk0I33OfLI2F2f6gx5SO5A=;
- b=gK0HypSf7zw/smVhsJCu6cOuQtYEXQqQLbDN7B8cEvBSEE4Xbhqpn9DPDD81lgdooUnb3R
- fT1q8HC6rKDw6g6fYLUalClht4qrn0j6HZuIvQLWu+tVOJ3IymImsq6LbXiSdsKocMYA1N
- RrnPh2y3lKNFGsOlfHeJ5Z32Y9aFgx8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-J96A8VOcOOKLYf0YIuUfHg-1; Mon, 16 Mar 2020 13:20:00 -0400
-X-MC-Unique: J96A8VOcOOKLYf0YIuUfHg-1
-Received: by mail-wr1-f72.google.com with SMTP id f13so3152005wro.23
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:20:00 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRF-0007tf-KA
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43653)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jDtRF-0007io-6K
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:05 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b2so16025929wrj.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q+OUDDPHwOQka6zNvKnp9HDN8/R0WLXE1LB7BAeLwnM=;
+ b=K+7nCIcCzrCrSwm6IZZU7SvkILfnyetgFiwhaMjIs2VjB1zU3szHuzlpvFnQQwDxks
+ Vol5alyK5jBtsFnSbLS79m4a9TrdlMsgfkjmuYRIreK+opXrLiKRCd6rYYCyY5RkS0bQ
+ z/OaBM5X0hr/Zs67vjfkyGs0s6wlQgz1kD8lOQmqeqJn6GrJZ7N2YuVQRVCKlf2scStI
+ cva1tSgz/jU36IhS/wwAj5rYTyfSlFPAKmpDMLPWPKKPgL7EY5lxA2aHcNT6sCGXEryC
+ GIL5wCNeOw7bJXCh1V5QqBnRI5emYz6r7dT0SE6Akg4nBIhhOYAGJObrABIJsJHx0E07
+ 8HqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KW81Xfmr23SQJN0YOnO6ewwkq/Jy/N/uDlYPT400wzQ=;
- b=MKlFsuuL4dRHhs7TeTmGat7UHX580clW7QATVnXZUGWel6p/DIE6WyEgo1YUURh6Bp
- fqT+UM4kIJWFESLmXJsO5QxvTqkUFKsdbqoSzQBNob0IuIzmApEp7GOBDJGbM2RSJF2t
- qWL3fH76vAwVVH9XA7L4u392XRKF5zkssvxjolrrAwaad5prwsrFaKnWnwKC1Ca+VnRR
- pwOhwwDYRxL0SdiN841kK4ThSjD+lT3AOF+DDdWetwPNfuMlqvo8EZhknbsEZ5zEcFdx
- uffuPxs1jpi1ZOjw9zwF9KLwkrkWiNKi5rSD8MpjqBjuRxhmtpQlRHyJhInwQ++TWEPH
- tbxg==
-X-Gm-Message-State: ANhLgQ0QbtvgFBY0o0ifAJf3+g/fnoLqbUt7hczRFjzYkQBroZpRwxg5
- izIWJ9zlubtcryy3LDgOCf9tYzE+cTznMiN57R1ls2dZauwPyJT+97X64snZ9U4i4wR0PgebDuk
- uKIV3+TjqebCJmd8=
-X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr410783wrw.358.1584379199445;
- Mon, 16 Mar 2020 10:19:59 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt0/QHmoL9Z7uWS9hl2cjtA9VoYM25WEKPNqvkacm9dOGRZsP5tgqhfXSV4jWXk5TRF10hHLw==
-X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr410767wrw.358.1584379199152;
- Mon, 16 Mar 2020 10:19:59 -0700 (PDT)
-Received: from redhat.com (bzq-79-180-7-202.red.bezeqint.net. [79.180.7.202])
- by smtp.gmail.com with ESMTPSA id
- f203sm436818wmf.18.2020.03.16.10.19.56
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q+OUDDPHwOQka6zNvKnp9HDN8/R0WLXE1LB7BAeLwnM=;
+ b=nPqZY11IFqZBkrL86FKi4YWECzziS9+9YwMZtrHc++BmyqAAyePLl0pifyx4jBjESd
+ jvnsHFvr5vLnPHlBEPdSR6xusj1kKMWd3XJM6zpRvWJjgFFXnsVdFThYWLhHevLjh3Vd
+ +UylaZRpNqisLxSzWfLxAg065T6zrifhf1t9yqSoopQAvRXRy1IVE6O3bHnbjKQ8r/hX
+ Z4FN+NnqJo5N1pbKrC6NLyJGjbcLFemJxy1EVCgg7CVr380zXdAEA/UGMQdeM4ICTaEZ
+ 63fEQC0AsxR0ZfGhQNklH6nzrGqM0M1zgcTPuPkSVVUVpievF5wnHKWTPXFsMD3UsoHI
+ o8KA==
+X-Gm-Message-State: ANhLgQ0VY86QfoiXGwxzkPVeug2PB+WoCUyALJk5ANNrP/dJ/TGGSvYk
+ ZoC8A1uH6Fj552qA6H0L0biaOA==
+X-Google-Smtp-Source: ADFU+vuPtgVn1/6GjVtt85EO/iugNIzpyS2SyY4hCM65cOA6kkrRp+LvAtTsAN9Sq/FuWK6MaJUfTw==
+X-Received: by 2002:adf:ea42:: with SMTP id j2mr384959wrn.3.1584379320483;
+ Mon, 16 Mar 2020 10:22:00 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z11sm446523wmc.30.2020.03.16.10.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:19:58 -0700 (PDT)
-Date: Mon, 16 Mar 2020 13:19:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
-Message-ID: <20200316131723-mutt-send-email-mst@kernel.org>
-References: <20200226094357.25061-1-jasowang@redhat.com>
- <20200226142839.4263de9b.pasic@linux.ibm.com>
- <20200226083654-mutt-send-email-mst@kernel.org>
- <20200226163618.31aa86ed.pasic@linux.ibm.com>
- <20200226115009-mutt-send-email-mst@kernel.org>
- <20200227140215.2d12149c.pasic@linux.ibm.com>
- <20200227104233-mutt-send-email-mst@kernel.org>
- <20200313134446.782c5f7c.pasic@linux.ibm.com>
- <20200313112902-mutt-send-email-mst@kernel.org>
- <20200313163122.GB95517@xz-x1>
+ Mon, 16 Mar 2020 10:21:57 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 271861FF7E;
+ Mon, 16 Mar 2020 17:21:55 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/28 for 5.0] testing and gdbstub
+Date: Mon, 16 Mar 2020 17:21:27 +0000
+Message-Id: <20200316172155.971-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200313163122.GB95517@xz-x1>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,101 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, "Singh,
- Brijesh" <brijesh.singh@amd.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 13, 2020 at 12:31:22PM -0400, Peter Xu wrote:
-> On Fri, Mar 13, 2020 at 11:29:59AM -0400, Michael S. Tsirkin wrote:
-> > On Fri, Mar 13, 2020 at 01:44:46PM +0100, Halil Pasic wrote:
-> > > [..]
-> > > > >=20
-> > > > > CCing Tom. @Tom does vhost-vsock work for you with SEV and curren=
-t qemu?
-> > > > >=20
-> > > > > Also, one can specify iommu_platform=3Don on a device that ain't =
-a part of
-> > > > > a secure-capable VM, just for the fun of it. And that breaks
-> > > > > vhost-vsock. Or is setting iommu_platform=3Don only valid if
-> > > > > qemu-system-s390x is protected virtualization capable?
-> > > > >=20
-> > > > > BTW, I don't have a strong opinion on the fixes tag. We currently=
- do not
-> > > > > recommend setting iommu_platform, and thus I don't think we care =
-too
-> > > > > much about past qemus having problems with it.
-> > > > >=20
-> > > > > Regards,
-> > > > > Halil
-> > > >=20
-> > > >=20
-> > > > Let's just say if we do have a Fixes: tag we want to set it correct=
-ly to
-> > > > the commit that needs this fix.
-> > > >=20
-> > >=20
-> > > I finally did some digging regarding the performance degradation. For
-> > > s390x the performance degradation on vhost-net was introduced by comm=
-it
-> > > 076a93d797 ("exec: simplify address_space_get_iotlb_entry"). Before
-> > > IOMMUTLBEntry.addr_mask used to be based on plen, which in turn was
-> > > calculated as the rest of the memory regions size (from address), and
-> > > covered most of the guest address space. That is we didn't have a who=
-le
-> > > lot of IOTLB API overhead.
-> > >=20
-> > > With commit 076a93d797 I see IOMMUTLBEntry.addr_mask =3D=3D 0xfff whi=
-ch comes
-> > > as ~TARGET_PAGE_MASK from flatview_do_translate(). To have things wor=
-king
-> > > properly I applied 75e5b70e6, b021d1c044, and d542800d1e on the level=
- of
-> > > 076a93d797 and 076a93d797~1.
-> >=20
-> > Peter, what's your take on this one?
->=20
-> Commit 076a93d797 was one of the patchset where we want to provide
-> sensible IOTLB entries and also that should start to work with huge
-> pages.
+Hi,
 
-So the issue bundamentally is that it
-never produces entries larger than page size.
+This is the last chance to get any reviews in before I send a pull
+request later today. To avoid having multiple PRs I've combined both
+the testing changes and the gdbstub updates. In the end I had to drop
+Gerd's vm updates as it cause problems with the acceptance testing.
 
-Wasteful even just with huge pages, all the more
-so which passthrough which could have giga-byte
-entries.
+The following patches still need review:
+ - tests/tcg/aarch64: add test-sve-ioctl guest-debug test
+ - tests/tcg/aarch64: add SVE iotcl test
+ - tests/tcg/aarch64: add a gdbstub testcase for SVE registers
+ - target/arm: generate xml description of our SVE registers
+ - target/arm: prepare for multiple dynamic XMLs
+ - target/i386: use gdb_get_reg helpers
 
-Want to try fixing that?
+Alex Bennée (20):
+  gdbstub: make GDBState static and have common init function
+  gdbstub: stop passing GDBState * around and use global
+  gdbstub: move str_buf to GDBState and use GString
+  gdbstub: move mem_buf to GDBState and use GByteArray
+  gdbstub: add helper for 128 bit registers
+  target/arm: use gdb_get_reg helpers
+  target/m68k: use gdb_get_reg helpers
+  target/i386: use gdb_get_reg helpers
+  gdbstub: extend GByteArray to read register helpers
+  target/arm: prepare for multiple dynamic XMLs
+  target/arm: explicitly encode regnum in our XML
+  target/arm: default SVE length to 64 bytes for linux-user
+  target/arm: generate xml description of our SVE registers
+  target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
+  tests/tcg/aarch64: userspace system register test
+  configure: allow user to specify what gdb to use
+  tests/guest-debug: add a simple test runner
+  tests/tcg/aarch64: add a gdbstub testcase for SVE registers
+  tests/tcg/aarch64: add SVE iotcl test
+  tests/tcg/aarch64: add test-sve-ioctl guest-debug test
 
+Changbin Du (1):
+  gdbstub: Fix single-step issue by confirming 'vContSupported+' feature
+    to gdb
 
->  Frankly speaking after a few years I forgot the original
-> motivation of that whole thing, but IIRC there's a patch that was
-> trying to speedup especially for vhost but I noticed it's not merged:
->=20
-> https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg00574.html
->=20
-> Regarding to the current patch, I'm not sure I understand it
-> correctly, but is that performance issue only happens when (1) there's
-> no intel-iommu device, and (2) there is iommu_platform=3Don specified
-> for the vhost backend?
->=20
-> If so, I'd confess I am not too surprised if this fails the boot with
-> vhost-vsock because after all we speicified iommu_platform=3Don
-> explicitly in the cmdline, so if we want it to work we can simply
-> remove that iommu_platform=3Don when vhost-vsock doesn't support it
-> yet...  I thougth iommu_platform=3Don was added for that case - when we
-> want to force IOMMU to be enabled from host side, and it should always
-> be used with a vIOMMU device.
->=20
-> However I also agree that from performance POV this patch helps for
-> this quite special case.
->=20
-> Thanks,
->=20
-> --=20
-> Peter Xu
+Damien Hedde (2):
+  gdbstub: change GDBState.last_packet to GByteArray
+  gdbstub: do not split gdb_monitor_write payload
+
+Philippe Mathieu-Daudé (5):
+  tests/docker: Install tools to cross-debug and build Linux kernels
+  tests/docker: Update VirGL git repository URL
+  tests/docker: Remove obsolete VirGL --with-glx configure option
+  tests/docker: Update VirGL to v0.8.0
+  travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
+
+ configure                                    |   9 +
+ include/exec/gdbstub.h                       |  62 +-
+ include/hw/core/cpu.h                        |   2 +-
+ target/alpha/cpu.h                           |   2 +-
+ target/arm/cpu.h                             |  31 +-
+ target/cris/cpu.h                            |   4 +-
+ target/hppa/cpu.h                            |   2 +-
+ target/i386/cpu.h                            |   2 +-
+ target/lm32/cpu.h                            |   2 +-
+ target/m68k/cpu.h                            |   2 +-
+ target/microblaze/cpu.h                      |   2 +-
+ target/mips/internal.h                       |   2 +-
+ target/openrisc/cpu.h                        |   2 +-
+ target/ppc/cpu.h                             |   4 +-
+ target/riscv/cpu.h                           |   2 +-
+ target/s390x/internal.h                      |   2 +-
+ target/sh4/cpu.h                             |   2 +-
+ target/sparc/cpu.h                           |   2 +-
+ target/xtensa/cpu.h                          |   2 +-
+ gdbstub.c                                    | 936 +++++++++----------
+ hw/core/cpu.c                                |   2 +-
+ target/alpha/gdbstub.c                       |   2 +-
+ target/arm/cpu.c                             |   7 +-
+ target/arm/gdbstub.c                         | 173 +++-
+ target/arm/gdbstub64.c                       |   2 +-
+ target/arm/helper.c                          | 186 +++-
+ target/cris/gdbstub.c                        |   4 +-
+ target/hppa/gdbstub.c                        |   2 +-
+ target/i386/gdbstub.c                        |  29 +-
+ target/lm32/gdbstub.c                        |   2 +-
+ target/m68k/gdbstub.c                        |   2 +-
+ target/m68k/helper.c                         |  33 +-
+ target/microblaze/gdbstub.c                  |   2 +-
+ target/mips/gdbstub.c                        |   2 +-
+ target/nios2/cpu.c                           |   2 +-
+ target/openrisc/gdbstub.c                    |   2 +-
+ target/ppc/gdbstub.c                         |  48 +-
+ target/ppc/translate_init.inc.c              |  54 +-
+ target/riscv/gdbstub.c                       |  20 +-
+ target/s390x/gdbstub.c                       |  30 +-
+ target/sh4/gdbstub.c                         |   2 +-
+ target/sparc/gdbstub.c                       |   2 +-
+ target/xtensa/gdbstub.c                      |   2 +-
+ tests/tcg/aarch64/sve-ioctls.c               |  70 ++
+ tests/tcg/aarch64/sysregs.c                  | 172 ++++
+ .travis.yml                                  |   1 +
+ tests/.gitignore                             |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   6 +-
+ tests/docker/dockerfiles/debian10.docker     |   3 +
+ tests/docker/dockerfiles/debian9.docker      |   3 +
+ tests/guest-debug/run-test.py                |  57 ++
+ tests/tcg/aarch64/Makefile.target            |  32 +
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py  |  82 ++
+ tests/tcg/aarch64/gdbstub/test-sve.py        |  81 ++
+ 54 files changed, 1491 insertions(+), 701 deletions(-)
+ create mode 100644 tests/tcg/aarch64/sve-ioctls.c
+ create mode 100644 tests/tcg/aarch64/sysregs.c
+ create mode 100755 tests/guest-debug/run-test.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+
+-- 
+2.20.1
 
 
