@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B171872CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:54:37 +0100 (CET)
-Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC62E1872D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:56:20 +0100 (CET)
+Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDusm-0006L6-E9
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39803)
+	id 1jDuuR-0001nU-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDuAm-0001ng-Lk
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:09 -0400
+ (envelope-from <clg@kaod.org>) id 1jDuGu-0003oi-NF
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDuAl-0007q7-E3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:08 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40878)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDuAl-0007f3-7o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:09:07 -0400
-Received: by mail-ot1-x344.google.com with SMTP id h17so214160otn.7
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A+Fyqn1mI1CNyLfdLpM4w01y1OBVvMKCqPMC43LB79o=;
- b=MraBOAEzqtcSST9s5HL9ns3Xj2bfPdmncEIA5pN1fzj34jcxkE6FpTls0Wngk9510o
- pM9DBd3wdWtm7/i8z3od3ELy/9dfNlH0gim5M0CkViWgMmGP2OE/naGn/rUvzrqF3ELu
- L2uSRdMD3SkfcPI228PxtAc/iRfNb3+KRuZjWR5pItIrksV0aQqHQB9PiU6/PHBqba1e
- dtMYTO1gQt4Lq9N8+840t77w26l6BmoT/wzOTTIzL4AL//o5SIP+vqYytF32TAehlLAo
- nDGVRy9pFhp3p06+0I7qw58tmEYKF5ZqPVdyrd1PA5ilvuSZYe1H5rxUiCBsl8iZyfE6
- ZAVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A+Fyqn1mI1CNyLfdLpM4w01y1OBVvMKCqPMC43LB79o=;
- b=bSF6Qh96zpbHUQ4cp5urP3GifwjOv4ufjIFBLZVY7LlIQzAj3lIOY4eZ7Xmj1Zej6g
- yJ/bb7RQPxe7mBJ3ZTgJ0TE3isU4prCyoJicq3YRzN9FFukvjp6+OgPCJfBzA9mHY5dd
- K2XjdUKaKRYQx+JNDDS2GJ48V1HCuvqiLP+p8Ey8NA7btFmjYqGueGf7J43a1LM9XOi8
- bIlB+cVK2/JceTwIRcrPIiYlH92K50nUS/20EFpDNDBZ1Pz2bAMyR7Sa+li1FE1YRtm1
- JWZeLvyfIG518UmVh2RVyOjNO/G4YlL1/DhJaL8z7u41n0iq0ahR94stZm0KpnbihdIK
- nu1Q==
-X-Gm-Message-State: ANhLgQ2TrOgmOqQ6vlE/2f+lJ/0P/fgFxMbJgdyVa7AXdcM7AVLb9HJv
- 5KUnuK/Cz+FO2svZW8qIRZUAz0v7pG8fecAlgHZSug==
-X-Google-Smtp-Source: ADFU+vutN7vdZZj5AG//fFa1esaU7sfBHHoAsopSTRteRv7qPEwIgxlnwtLM/msNDUwzEbp/Yap5Lm0LDsVF1Mcaquk=
-X-Received: by 2002:a9d:1920:: with SMTP id j32mr363080ota.221.1584382145979; 
- Mon, 16 Mar 2020 11:09:05 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1jDuGt-0002t3-9C
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:28 -0400
+Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:56835)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jDuGs-0002dT-W0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:15:27 -0400
+Received: from player687.ha.ovh.net (unknown [10.108.42.239])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id B24691CDFBE
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 19:15:24 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player687.ha.ovh.net (Postfix) with ESMTPSA id 13EB21070DDFC;
+ Mon, 16 Mar 2020 18:15:17 +0000 (UTC)
+Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
+ an alternate vector
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-7-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
+Date: Mon, 16 Mar 2020 19:15:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200311232342.1614944-1-ehabkost@redhat.com>
- <20200311232342.1614944-3-ehabkost@redhat.com>
- <20200315154559.GW1187748@habkost.net>
- <20200315170229-mutt-send-email-mst@kernel.org>
- <20200316173039.GB1817047@habkost.net>
-In-Reply-To: <20200316173039.GB1817047@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 18:08:54 +0000
-Message-ID: <CAFEAcA9CYeTjmUSbMtGjDazrh1p=5vLAd3bq7JBtLd0RfnruDw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mmap-alloc: Include osdep.h before checking
- CONFIG_LINUX
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+In-Reply-To: <20200316142613.121089-7-npiggin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13996061746096409574
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieekjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 188.165.48.182
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,30 +59,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?J=C3=A1n_Tomko?= <jtomko@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 at 17:51, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> Yes, but both MAP_SYNC and MAP_SHARED_VALIDATE aren't available
-> if the host is not Linux.
->
-> Defining MAP_SYNC to 0 on MIPS would restore the existing
-> behavior, so it seems like a reasonable step to fix the build
-> failure.  But not even printing a warning when the host doesn't
-> have MAP_SYNC (the existing behavior on MIPS and non-Linux) seems
-> wrong.
+On 3/16/20 3:26 PM, Nicholas Piggin wrote:
+> Provide for an alternate delivery location, -1 defaults to the
+> architected address.
 
-The usual approach is that if you don't have the Linux-specific
-feature available you quietly fall back to whatever the sensible
-behaviour is for when the feature isn't present. We definitely
-don't want to be printing warnings on non-Linux systems that
-are effectively just saying "you're not running Linux". Same goes
-for "host happens not to be running a bleeding-edge Linux kernel
-and this feature isn't available yet".
+I don't know what is the best approach, to override the vector addr
+computed by powerpc_excp() or use a machine class handler with 
+cpu->vhyp.
 
-thanks
--- PMM
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+>  hw/ppc/spapr.c           | 2 +-
+>  target/ppc/cpu.h         | 2 +-
+>  target/ppc/excp_helper.c | 5 ++++-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 5f93c49706..25221d843c 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3400,7 +3400,7 @@ static void spapr_machine_finalizefn(Object *obj)
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+>  {
+>      cpu_synchronize_state(cs);
+> -    ppc_cpu_do_system_reset(cs);
+> +    ppc_cpu_do_system_reset(cs, -1);
+>  }
+>  
+>  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 3953680534..f8c7d6f19c 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+>  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+>                                 int cpuid, void *opaque);
+>  #ifndef CONFIG_USER_ONLY
+> -void ppc_cpu_do_system_reset(CPUState *cs);
+> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
+>  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
+>  extern const VMStateDescription vmstate_ppc_cpu;
+>  #endif
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 7f2b5899d3..08bc885ca6 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -961,12 +961,15 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+>      }
+>  }
+>  
+> -void ppc_cpu_do_system_reset(CPUState *cs)
+> +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
+>  {
+>      PowerPCCPU *cpu = POWERPC_CPU(cs);
+>      CPUPPCState *env = &cpu->env;
+>  
+>      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
+> +    if (vector != -1) {
+> +        env->nip = vector;
+> +    }
+>  }
+>  
+>  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+> 
+
 
