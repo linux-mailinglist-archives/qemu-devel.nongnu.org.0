@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB470187041
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:41:15 +0100 (CET)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C441B18701F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:36:10 +0100 (CET)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsni-00023s-NW
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50267)
+	id 1jDsin-00028s-QL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51112)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jDqim-0007oH-L4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDqjN-00080B-HY
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jDqil-0000Dm-GH
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36043
+ (envelope-from <philmd@redhat.com>) id 1jDqjL-0002sZ-LN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34363
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jDqil-0000BI-AK
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:27:59 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqjL-0002rz-Fl
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:28:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584368879;
+ s=mimecast20190719; t=1584368915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CoppFsbbvyA7kK0N+2AWfM9tZdwTTZmszHuy1FLWWSM=;
- b=Qv2n2CHBseZgbUIK4PhVS1isviBu4znaN7pzP8Uk5tqMrivVXMtrHLuaNS3dO4gbxCABak
- t4EbsBulIXdnCoZikWF7v96k9yOCVT8GpWY8ouX5luraODtDRlKw1WjgCwDdR6S16ZOXbe
- JNfKZbW4lTqS+q9wMx/jOwwTV6eCR/k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-SB-_A9JANSyPGec6i0HLJQ-1; Mon, 16 Mar 2020 10:27:57 -0400
-X-MC-Unique: SB-_A9JANSyPGec6i0HLJQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29C86800D50;
- Mon, 16 Mar 2020 14:27:56 +0000 (UTC)
-Received: from gondolin (ovpn-117-70.ams2.redhat.com [10.36.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2251910027B9;
- Mon, 16 Mar 2020 14:27:40 +0000 (UTC)
-Date: Mon, 16 Mar 2020 15:27:38 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
-Message-ID: <20200316152738.4c1c65ee.cohuck@redhat.com>
-In-Reply-To: <20200313095232.2392-1-frankja@linux.ibm.com>
-References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
- <20200313095232.2392-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fOKrfo5bbyxSEwW8Bb/6gBXkGPftjp1ADluFRQkIlR8=;
+ b=dF8gJ8M6SgkNs2vSCkvBLwOyrakVtO8bCiwskhwEjcEgwv9dpLyPM+XAmoDSUmNkGIYPxp
+ Or3eRkpm8yvybHqydtO0KOkF7BZ+WgfdZrPDAvrDnLypMTvYOit0CBE2T6Xl2q7ch0y/jK
+ G7v6jbTTVhpOP0V7eofub3GSOYLGYhE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-WwImNHVIMcaqyVaODKsUBQ-1; Mon, 16 Mar 2020 10:28:32 -0400
+X-MC-Unique: WwImNHVIMcaqyVaODKsUBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id a23so5867312wmm.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:28:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TDKRgixbJAcVUYD4Ybb2gvKa7rLyvdtOHGcjQKF6N9w=;
+ b=UAy3ifrVeXBA7CLTMxYfcYJ21FqkGGVTEaA3+vNIPzstXikaCymEGULGSJeFt+RjPw
+ MPwqMt5lTI6Y3bW6tQL/YWQ0wnEO9cZ2oQVhaM/1MZpSwZ0uz7SBgMszZwNl7RU7gx/y
+ sNIyGofmZo4WyUKqLkR7LK4jr2PV24YdVNac3d7QA3uE3Q2HVizMiGkXPDU4t5n7+Y4m
+ 4vbTYyajY5mxNGSsj55CrLQPMCsOyBV8Unc/d7S8VYLclsqLfNFw0dwufQcs5wewXe38
+ 1isOJftAm47z4wfaUQqBIfALfjZuwiJyJiqUWzbJGAvYjzu4L5wMOFCm/l6TJFX8Sw2z
+ ypZg==
+X-Gm-Message-State: ANhLgQ0ZWhsPSg2eKorLx96FPV53iIk4yv8V/DiU8C0AT16n9NF03DiF
+ YlUf045WKUPUOq5/YxL94L3eM9W/DTVv5PLICXm8RDIIABe7Dsjgm2KQSgwqPueCQUVung//A6Y
+ /KnImQrc9p6mm5SE=
+X-Received: by 2002:a7b:c391:: with SMTP id s17mr27039050wmj.55.1584368911114; 
+ Mon, 16 Mar 2020 07:28:31 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu6eNhDEYbXHwMl5ihSAYArb+HJ5waefmoYQoCCKuDAoI9gtrCoKXJA0yOJKdtgD+h3j7Pc8A==
+X-Received: by 2002:a7b:c391:: with SMTP id s17mr27039033wmj.55.1584368910848; 
+ Mon, 16 Mar 2020 07:28:30 -0700 (PDT)
+Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.191])
+ by smtp.gmail.com with ESMTPSA id z6sm94673wrp.95.2020.03.16.07.28.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 07:28:29 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Michael Walle <michael@walle.cc>,
+ =?UTF-8?q?=C3=81kos=20Kov=C3=A1cs?= <akoskovacs@gmx.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] MAINTAINERS: Mark the LatticeMico32 target as orphan
+Date: Mon, 16 Mar 2020 15:28:27 +0100
+Message-Id: <20200316142827.20867-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -73,68 +88,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 05:52:32 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+Michael Walle expressed his desire to orphan the lm32 target [*]:
 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  hw/s390x/ipl.h      | 11 +++++++----
->  target/s390x/diag.c |  2 +-
->  2 files changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
-> index 95e3183c9cccf8b6..f799f7cfcf4763b1 100644
-> --- a/hw/s390x/ipl.h
-> +++ b/hw/s390x/ipl.h
-> @@ -261,15 +261,18 @@ static inline bool ipl_valid_pv_header(IplParameterBlock *iplb)
->          return true;
->  }
->  
-> -static inline bool iplb_valid(IplParameterBlock *iplb)
-> +static inline bool iplb_valid(IplParameterBlock *iplb, uint64_t subcode)
->  {
->      switch (iplb->pbt) {
->      case S390_IPL_TYPE_FCP:
-> -        return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN;
-> +        return (subcode == DIAG308_SET &&
-> +                be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN);
->      case S390_IPL_TYPE_CCW:
-> -        return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN;
-> +        return (subcode == DIAG308_SET &&
-> +                be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN);
->      case S390_IPL_TYPE_PV:
-> -        if (be32_to_cpu(iplb->len) < S390_IPLB_MIN_PV_LEN) {
-> +        if (subcode != DIAG308_PV_SET ||
-> +            be32_to_cpu(iplb->len) < S390_IPLB_MIN_PV_LEN) {
->              return false;
+  I guess it is time to pull the plug. Mainly, because I have
+  no time for this anymore. I've always worked on this on my
+  spare time and life changed. And secondly, I guess RISC-V is
+  taking over ;) It has a far better ecosystem. Also, to my
+  knowledge the only (public) user of LM32 is milkymist and this
+  project is dead for years now..
 
-I'm not sure I like passing the subcode here...
+  So time to say goodbye. It was fun and I've learned a lot -
+  technically and also how a huge open source project works.
+  Thank you everyone for that :)
 
->          }
->          if (!ipl_valid_pv_header(iplb)) {
-> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-> index b1ca81633b83bbdc..d4f33db5c23c818d 100644
-> --- a/target/s390x/diag.c
-> +++ b/target/s390x/diag.c
-> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
->  
->          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
->  
-> -        if (!iplb_valid(iplb)) {
-> +        if (!iplb_valid(iplb, subcode)) {
->              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
->              goto out;
->          }
+  Basically everything still works and there are even TCG test
+  cases which covers all instructions the processor has.
 
-...because you're basically checking whether you either have a valid
-normal iplb, or a valid pv iplb, with the two being mutually exclusive,
-IIUC. So what about introducing iplb_valid_pv and calling that for the
-pv case? Would be a bit nicer to read, I think, and also matches what
-you do for the STORE case.
+Many thanks to Michael for his substantial contributions to QEMU,
+and for maintaining the LM32 target for various years!
+
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
+
+Acked-by: Michael Walle <michael@walle.cc>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2: Also orphan machines, added Michael A-b tag
+---
+ MAINTAINERS | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 32867bc636..c89bf61989 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -183,8 +183,8 @@ F: hw/net/*i82596*
+ F: include/hw/net/lasi_82596.h
+=20
+ LM32 TCG CPUs
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: target/lm32/
+ F: disas/lm32.c
+ F: hw/lm32/
+@@ -945,13 +945,13 @@ F: pc-bios/hppa-firmware.img
+ LM32 Machines
+ -------------
+ EVR32 and uclinux BSP
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: hw/lm32/lm32_boards.c
+=20
+ milkymist
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: hw/lm32/milkymist.c
+=20
+ M68K Machines
+--=20
+2.21.1
 
 
