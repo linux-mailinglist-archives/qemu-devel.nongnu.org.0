@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2487186D8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:42:39 +0100 (CET)
-Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2103B186E2B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:04:49 +0100 (CET)
+Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDqww-0003c1-7N
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
+	id 1jDrIN-0003Gp-22
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jDpV5-0003RM-9v
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:09:48 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDodI-00015D-IM
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jDpV4-000562-1F
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:09:47 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36242
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jDpV3-0004zs-Sd
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:09:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584364185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ji6W5MVJziJ0ZX9L3kszFiFNaa2iMgdSBH/Fx0f1UZ4=;
- b=GlKgNqQXWYT5KsDcNKHdIIfzBF/Ivl4h7fLYXPdQjzIIDATObDsuYbxf79kNVsU1/8+KVh
- 9jv8kyE/qxEODhppJedH14Ip6S/ZoqVPvXL41uA7pHaeyzKKiNhZBUTfyUcgDnpLQKrDKV
- GXn+IZi0i1qkudveBmCyWjL7XD0xzUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-nSpadLffMPy5YTZqSrCN2Q-1; Mon, 16 Mar 2020 09:09:42 -0400
-X-MC-Unique: nSpadLffMPy5YTZqSrCN2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF28113EA;
- Mon, 16 Mar 2020 13:09:40 +0000 (UTC)
-Received: from localhost (ovpn-200-42.brq.redhat.com [10.40.200.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C99BE5D9E2;
- Mon, 16 Mar 2020 13:09:32 +0000 (UTC)
-Date: Mon, 16 Mar 2020 14:09:30 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 4/8] qapi/misc: Move query-uuid command with block code
-Message-ID: <20200316134317.4d40d16b@redhat.com>
-In-Reply-To: <20200316000348.29692-5-philmd@redhat.com>
-References: <20200316000348.29692-1-philmd@redhat.com>
- <20200316000348.29692-5-philmd@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jDodD-00066o-N7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:12 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41402)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jDodD-0005uz-FN
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:14:07 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f11so4127308wrp.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:14:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=StU4zDv+Lb9NiYdv8+hnIiKqX8SBCEaFj/IXTof6NBQ=;
+ b=UCyr17z1McBaJFsnG5GkBtzWexvLgeGyMGyoKb8dU9MJDUjdsHfhhh7AgnTcqjPuD5
+ PzwtAS4ZsR5G5bIAA3uEISkoWaYSdv0vIOG9xI2CtxcokIFvy4kFJdYv9ETbvj4VRphp
+ mmVvwPM1VF/JwACLVn1dPJDGl8uLcAX8zEnz6HIEjjwZar7AqQY0panhbRKGOfunyu72
+ LGfZfmgmDWMMCMTopL44DhVRDOgdm3bm5/2zR8V4fOTGbVFy9CAL1CkbdHK3pGd7HXpl
+ cRO+XpxVr+xzfkMNXOAeb3JnwttZnbcPt6ougoCxwdo8d0h2lxfWJSSK2L3Dj9KJGvZ0
+ rJ2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=StU4zDv+Lb9NiYdv8+hnIiKqX8SBCEaFj/IXTof6NBQ=;
+ b=PrhjoBgD0QNXESDMLM7PNcPMih+OF8llocioNAhfHe5I3obfYn/vnOo2JAZgnmZ/vc
+ nW7Y56n7P3hLfgF/0nC5N8k9cm43orGLUgFGW/JUVrnxSmBhZQoecfbv/2/Vl5XSTX8v
+ YDKL+5t2bgHHOgZ8od5xzAdnA4egM+B0PCUeMpasXrg4kqi4G4fKbUksDXUMa2lb0vR+
+ 9TmK/OzwmQdSJDUiJjRmaPEBpm0yjbA4EbF5vZ+G4S5pQIsteu/7C7zms+cZIxg1hvgL
+ /fcLNWIbFWXHBNjIogh/IVqNyNgS+viveqjn8uzzEKxSwCMrPwDs2ZFvpjUvZS6O3K6/
+ 8INg==
+X-Gm-Message-State: ANhLgQ0Wn9TuvHQnGrb3FYQopgXAZDUh84o1ZRH/WUfvpJx19PC8ez5k
+ JgBd24GAHWvMz+/pSpGR6BrU7w==
+X-Google-Smtp-Source: ADFU+vvvNC7btcpPK2KKw7zUt1XgNuTGZf2xGB+D3Jste4Y9av5ou2NDWMyJTgNgBg7hTY7xeKujxQ==
+X-Received: by 2002:a5d:5089:: with SMTP id a9mr36349714wrt.187.1584360845952; 
+ Mon, 16 Mar 2020 05:14:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t5sm15116497wmi.34.2020.03.16.05.14.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 05:14:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B5C391FF7E;
+ Mon, 16 Mar 2020 12:14:03 +0000 (GMT)
+References: <20200316101544.22361-1-philmd@redhat.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
+In-reply-to: <20200316101544.22361-1-philmd@redhat.com>
+Date: Mon, 16 Mar 2020 12:14:03 +0000
+Message-ID: <875zf4lcok.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,142 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, "Daniel P.
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S.
- Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 01:03:44 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-here should be why
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-PS:
- I don't see a reason to move it to block code at all
-if this command is moved then it should be machine code
-
+> Since commit f5852efa293 we can display GLib errors with the QEMU
+> error reporting API. Set it to the 'error' level, as this helps
+> understanding failures from QEMU calls to GLib on Travis-CI.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  qapi/block-core.json | 30 ++++++++++++++++++++++++++++++
->  qapi/misc.json       | 30 ------------------------------
->  block/iscsi.c        |  2 +-
->  stubs/uuid.c         |  2 +-
->  4 files changed, 32 insertions(+), 32 deletions(-)
->=20
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 91586fb1fb..5c3fa6c5d0 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -5415,3 +5415,33 @@
->  { 'command': 'blockdev-snapshot-delete-internal-sync',
->    'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
->    'returns': 'SnapshotInfo' }
-> +
-> +##
-> +# @UuidInfo:
-> +#
-> +# Guest UUID information (Universally Unique Identifier).
-> +#
-> +# @UUID: the UUID of the guest
-> +#
-> +# Since: 0.14.0
-> +#
-> +# Notes: If no UUID was specified for the guest, a null UUID is returned=
-.
-> +##
-> +{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
-> +
-> +##
-> +# @query-uuid:
-> +#
-> +# Query the guest UUID information.
-> +#
-> +# Returns: The @UuidInfo for the guest
-> +#
-> +# Since: 0.14.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-uuid" }
-> +# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
-> +#
-> +##
-> +{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tru=
-e }
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index ed28e41229..f70025f34c 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -97,36 +97,6 @@
->  ##
->  { 'command': 'query-kvm', 'returns': 'KvmInfo' }
-> =20
-> -##
-> -# @UuidInfo:
-> -#
-> -# Guest UUID information (Universally Unique Identifier).
-> -#
-> -# @UUID: the UUID of the guest
-> -#
-> -# Since: 0.14.0
-> -#
-> -# Notes: If no UUID was specified for the guest, a null UUID is returned=
-.
-> -##
-> -{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
-> -
-> -##
-> -# @query-uuid:
-> -#
-> -# Query the guest UUID information.
-> -#
-> -# Returns: The @UuidInfo for the guest
-> -#
-> -# Since: 0.14.0
-> -#
-> -# Example:
-> -#
-> -# -> { "execute": "query-uuid" }
-> -# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
-> -#
-> -##
-> -{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': tru=
-e }
-> -
->  ##
->  # @IOThreadInfo:
->  #
-> diff --git a/block/iscsi.c b/block/iscsi.c
-> index 682abd8e09..68ed5cf3f8 100644
-> --- a/block/iscsi.c
-> +++ b/block/iscsi.c
-> @@ -42,7 +42,7 @@
->  #include "qemu/uuid.h"
->  #include "sysemu/replay.h"
->  #include "qapi/error.h"
-> -#include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-commands-block-core.h"
->  #include "qapi/qmp/qdict.h"
->  #include "qapi/qmp/qstring.h"
->  #include "crypto/secret.h"
-> diff --git a/stubs/uuid.c b/stubs/uuid.c
-> index 67f182fa3a..9ef75fdae4 100644
-> --- a/stubs/uuid.c
-> +++ b/stubs/uuid.c
-> @@ -1,5 +1,5 @@
->  #include "qemu/osdep.h"
-> -#include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-commands-block-core.h"
->  #include "qemu/uuid.h"
-> =20
->  UuidInfo *qmp_query_uuid(Error **errp)
 
+Queued to testing/next, thanks.
+
+> ---
+>  .travis.yml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index b92798ac3b..ccf68aa9ab 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -79,6 +79,7 @@ env:
+>      - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,mips64-softmmu,ppc64-softm=
+mu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
+>      - CCACHE_SLOPPINESS=3D"include_file_ctime,include_file_mtime"
+>      - CCACHE_MAXSIZE=3D1G
+> +    - G_MESSAGES_DEBUG=3Derror
+>=20=20
+>=20=20
+>  git:
+
+
+--=20
+Alex Benn=C3=A9e
 
