@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81594186E76
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:25:43 +0100 (CET)
-Received: from localhost ([::1]:39582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D27A186EAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 16:35:14 +0100 (CET)
+Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDrcb-0003jJ-DK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43641)
+	id 1jDrlo-0007PZ-ME
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 11:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59269)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jDqLG-00073j-BN
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:03:44 -0400
+ (envelope-from <vfazio@gmail.com>) id 1jDddQ-0006OP-5R
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:29:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jDqLF-0004sk-72
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:03:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49531
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jDqLF-0004oA-1b
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:03:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584367420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XnLZtjIU8Lbvy5ksQnk5dr0jubYOTU2++eNk5on0R/s=;
- b=eYetZtCnr2IAWnZTBpcmtP/SBoKYlVNvCGGGbew8Fgt6/cVRVcasY8/zN5ivCmwsQ2XBt4
- 2csiSdWaKWRL0N5YOOHczSkJ97AvVVeGHomJmmyO4r4YpBJrMb3Cjkp0Zt7VFbmqbqSyFq
- VNkCM2jubg0eZ1EyB0jbzO/ImsYJHWk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-ICNL31ALMn6TCQ8FymRcwg-1; Mon, 16 Mar 2020 10:03:39 -0400
-X-MC-Unique: ICNL31ALMn6TCQ8FymRcwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D2A801FAD;
- Mon, 16 Mar 2020 14:03:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-49.ams2.redhat.com
- [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3215A60BE2;
- Mon, 16 Mar 2020 14:03:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B1A601138404; Mon, 16 Mar 2020 15:03:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 6/8] hw/ide: Do ide_drive_get() within
- pci_ide_create_devs()
-References: <cover.1584134074.git.balaton@eik.bme.hu>
- <49bf646a9419c3b20125187a26f8a4fd5f35f399.1584134074.git.balaton@eik.bme.hu>
- <alpine.BSF.2.22.395.2003132307280.85181@zero.eik.bme.hu>
- <cb660aa6-6bb6-b75e-ebe3-8fc0e59fb1da@redhat.com>
- <87d09c3jjj.fsf@dusky.pond.sub.org>
- <f3aa3c0d-0786-18aa-0c75-e195910b7a77@redhat.com>
-Date: Mon, 16 Mar 2020 15:03:32 +0100
-In-Reply-To: <f3aa3c0d-0786-18aa-0c75-e195910b7a77@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 16 Mar 2020 09:30:52
- +0100")
-Message-ID: <87pndcgzwr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <vfazio@gmail.com>) id 1jDddN-0007jD-6X
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:29:34 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42605)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vfazio@gmail.com>)
+ id 1jDddM-0007XN-VH; Sun, 15 Mar 2020 20:29:33 -0400
+Received: by mail-ed1-x543.google.com with SMTP id b21so9584702edy.9;
+ Sun, 15 Mar 2020 17:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4ZbYphjZfXVF1533ZbXdDhT49U8OBqjrcyxFroiuUP4=;
+ b=MYRRn6TbDSpZ1NQgqZeIqblEChgzIYRKCUxccmTv/nua4iXs8IkzCCHKqpP7mF7lIE
+ 94i0DCZlazCc7IoT7SvnxKacxVGIeBk8FALHZ8mgl/kV6UfLC9e2dMxqhUzP3GSuy+MQ
+ J+wypkMXvrbM/jjUPJQk52NFXuZIaeV/je0y3WjmnglVM61t1rapsViyMauWdoIkg6Sh
+ 5wRU0Dkeew19kwycLZT6qX/LKbYnkE8qDWxxHl/BbjNwOuCpzJlLy/wfb3cx1ffbV49+
+ oFIuOastKI9R/iOPGQ5BmtMHAZwkOuTBmtjsu5t7NgMr2IVeEhADqBpy7eMjcmv+0fuC
+ c47w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4ZbYphjZfXVF1533ZbXdDhT49U8OBqjrcyxFroiuUP4=;
+ b=Pt7fi6pAMnigXEewxmfRDfH6iejIuhVVfCW+AKi0M9qqsBmtGFcUJFqCVjdyn3DOI8
+ 0mEh6jxcvqLo7aAyivNw3fCH6zGtLX4DWgBd3j8jkeRg8dg5dRkk3YK2dxfPRPF0BCVm
+ 2R3kP9y/G6/5h0Nv0uJzirdlvA58S38gPc+/uJENISxw5hm53LjOCLgsiXrhPTtdEve4
+ +SyN6RzSAhecOtzuGJIHKXuhlzdlo5882aBQ9fClqgMQUOxy0XkWtcuqHtYt+Su8iT+o
+ SzjIgi16BnR6ClwL6sk0z0e8CNbYUv/wDaz4HrqRq2IuFhu8vab6kB5Z9fAcg9cCX1/q
+ h7Ag==
+X-Gm-Message-State: ANhLgQ1ePUPxY6/vPWcuAVJgZ9toGMuEDg8KsRR/H/XIb8iQaIgHO4C7
+ SrhXqDkfwz7ntsys82mH5iE1IBfbUDw+ZssPWVw=
+X-Google-Smtp-Source: ADFU+vs8YnXrfDGn7kN+b0+iaJozhJhjQyFw0z6nurbBjwbK/ZmtXkZVqdpiqttluhy2cXSTOcxEPXOFX15/fdn688I=
+X-Received: by 2002:a05:6402:b8c:: with SMTP id
+ cf12mr14741807edb.322.1584318567485; 
+ Sun, 15 Mar 2020 17:29:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <20200315155202.13107-1-vfazio@xes-inc.com>
+ <346e47c8-4a80-860c-ec55-e38d2021d63d@vivier.eu>
+In-Reply-To: <346e47c8-4a80-860c-ec55-e38d2021d63d@vivier.eu>
+From: Vincent Fazio <vfazio@gmail.com>
+Date: Sun, 15 Mar 2020 19:29:04 -0500
+Message-ID: <CAOrEah5Fq7Kp9wF_4Vtb4Qfcdm0gtwin_5b_ft7h7my+RnTOWA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/ppc: fix ELFv2 signal handler endianness
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::543
+X-Mailman-Approved-At: Mon, 16 Mar 2020 10:26:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,66 +75,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Vincent Fazio <vfazio@xes-inc.com>, qemu-trivial@nongnu.org,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Laurent,
 
-> On 3/16/20 7:23 AM, Markus Armbruster wrote:
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->>
->>> On 13/03/20 23:16, BALATON Zoltan wrote:
->>>>>
->>>>> +=C2=A0=C2=A0=C2=A0 pci_dev =3D pci_create_simple(pci_bus, -1, "cmd64=
-6-ide");
->>>>> +=C2=A0=C2=A0=C2=A0 pci_ide_create_devs(pci_dev);
->>>>
->>>> Additionally, I think it may also make sense to move pci_ide_create_de=
-vs
->>>> call into the realize methods of these IDE controllers so boards do no=
-t
->>>> need to do it explicitely. These calls always follow the creation of t=
-he
->>>> device immediately so could just be done internally in IDE device and
->>>> simplify it further. I can attempt to prepare additional patches for
->>>> that but first I'd like to hear if anyone has anything against that to
->>>> avoid doing useless work.
->>>
->>> No, it's better to do it separately.  I think that otherwise you could
->>> add another IDE controller with -device, and both controllers would try
->>> to add the drives.
->>
->> Correct.
->>
->> Creating device frontends for -drive if=3Dide is the board's job.  Board=
-s
->> may delegate to suitable helpers.  I'd very much prefer these helpers
->> not to live with device model code.  Board and device model code should
->> be cleanly separated to to reduce the temptation to muddle their
->> responsibilities.  It's separation of concerns.
->>
->> I actually wish we had separate sub-trees for boards and devices instead
->> of keeping both in hw/.
+On Sun, Mar 15, 2020 at 1:10 PM Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Never too late!
+> Le 15/03/2020 =C3=A0 16:52, Vincent Fazio a =C3=A9crit :
+> > From: Vincent Fazio <vfazio@gmail.com>
+> >
+> > In ELFv2, function pointers are entry points and are in host endianness=
+.
 >
-> To be clear, you suggest:
->
-> - one dir with machines, boards, system-on-module
-> - one dir with devices, cpu, system-on-chips
->
-> Correct?
+> "host endianness" is misleading here. "target endianness" is better.
 
-In QOM terms:
+I do want to clarify here. In a mixed endian scenario (my test case
+was an x86 host and e5500 PPC BE target), the function pointers are in
+host endianness (little endian) so that the virtual address can be
+dereferenced by the host for the target instructions to be translated.
 
-* One sub-tree with descendants of TYPE_DEVICE
-* One sub-tree with descendants of TYPE_MACHINE
+>
+> >
+> > Previously, the signal handler would be swapped if the target CPU was a
+> > different endianness than the host. This would cause a SIGSEGV when
+> > attempting to translate the opcode pointed to by the swapped address.
+>
+> This is correct.
+>
+> >  Thread 1 "qemu-ppc64" received signal SIGSEGV, Segmentation fault.
+> >  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/incl=
+ude/qemu/bswap.h:351
+> >  351        __builtin_memcpy(&r, ptr, sizeof(r));
+> >
+> >  #0  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/=
+include/qemu/bswap.h:351
+> >  #1  0x00000000600a92fe in ldl_be_p (ptr=3D0x4c2c061000000000) at qemu/=
+include/qemu/bswap.h:449
+> >  #2  0x00000000600c0790 in translator_ldl_swap at qemu/include/exec/tra=
+nslator.h:201
+> >  #3  0x000000006011c1ab in ppc_tr_translate_insn at qemu/target/ppc/tra=
+nslate.c:7856
+> >  #4  0x000000006005ae70 in translator_loop at qemu/accel/tcg/translator=
+.c:102
+> >
+> > Now, no swap is performed and execution continues properly.
+> >
+> > Signed-off-by: Vincent Fazio <vfazio@gmail.com>
+> > ---
+> >  linux-user/ppc/signal.c | 10 +++++++---
+> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+> > index 5b82af6cb6..c7f6455170 100644
+> > --- a/linux-user/ppc/signal.c
+> > +++ b/linux-user/ppc/signal.c
+> > @@ -567,9 +567,13 @@ void setup_rt_frame(int sig, struct target_sigacti=
+on *ka,
+> >          env->nip =3D tswapl(handler->entry);
+> >          env->gpr[2] =3D tswapl(handler->toc);
+> >      } else {
+> > -        /* ELFv2 PPC64 function pointers are entry points, but R12
+> > -         * must also be set */
+> > -        env->nip =3D tswapl((target_ulong) ka->_sa_handler);
+> > +        /*
+> > +         * ELFv2 PPC64 function pointers are entry points and are in h=
+ost
+> > +         * endianness so should not to be swapped.
+>
+> "target endianness"
+>
+> > +         *
+> > +         * Note: R12 must also be set.
+> > +         */
+> > +        env->nip =3D (target_ulong) ka->_sa_handler;
+>
+> The cast is not needed: nip and _sa_handler are abi_ulong.
 
+I'll drop this in v2
+
+>
+> >          env->gpr[12] =3D env->nip;
+> >      }
+> >  #else
+> >
+>
+> If you repost with the fix I've reported above you can add my:
+>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>
+
+I'll hold off on reposting until the endianness wording is figured out.
+
+> Thanks,
+> Laurent
+
+Thanks,
+-Vincent
 
