@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D761870F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:12:52 +0100 (CET)
-Received: from localhost ([::1]:43280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D941870E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:07:36 +0100 (CET)
+Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtIJ-00012A-PV
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54727)
+	id 1jDtDD-0006fx-FU
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlb-0000cO-EQ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:58 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqlg-0000fF-Dg
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:31:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDqlZ-00072R-Ij
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:54 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48848)
+ (envelope-from <its@irrelevant.dk>) id 1jDqle-0007O2-Ku
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:31:00 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDqlT-00045b-R1; Mon, 16 Mar 2020 10:30:47 -0400
+ id 1jDqlT-00045L-SW; Mon, 16 Mar 2020 10:30:48 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id 342B6BFAA8;
+ by charlie.dont.surf (Postfix) with ESMTPSA id A7024BFAA9;
  Mon, 16 Mar 2020 14:29:55 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 39/42] pci: allocate pci id for nvme
-Date: Mon, 16 Mar 2020 07:29:25 -0700
-Message-Id: <20200316142928.153431-40-its@irrelevant.dk>
+Subject: [PATCH v6 40/42] nvme: change controller pci id
+Date: Mon, 16 Mar 2020 07:29:26 -0700
+Message-Id: <20200316142928.153431-41-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,94 +58,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The emulated nvme device (hw/block/nvme.c) is currently using an
-internal Intel device id.
+There are two reasons for changing this:
 
-Prepare to change that by allocating a device id under the 1b36 (Red
-Hat, Inc.) vendor id.
+  1. The nvme device currently uses an internal Intel device id.
+
+  2. Since commits "nvme: fix write zeroes offset and count" and "nvme:
+     support multiple namespaces" the controller device no longer has
+     the quirks that the Linux kernel think it has.
+
+     As the quirks are applied based on pci vendor and device id, change
+     them to get rid of the quirks.
+
+To keep backward compatibility, add a new 'x-use-intel-id' parameter to
+the nvme device to force use of the Intel vendor and device id. This is
+off by default but add a compat property to set this for machines 4.2
+and older.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- MAINTAINERS            |  1 +
- docs/specs/nvme.txt    | 25 +++++++++++++++++++++++++
- docs/specs/pci-ids.txt |  1 +
- include/hw/pci/pci.h   |  1 +
- 4 files changed, 28 insertions(+)
- create mode 100644 docs/specs/nvme.txt
+ hw/block/nvme.c   | 13 +++++++++----
+ hw/block/nvme.h   |  4 +++-
+ hw/core/machine.c |  1 +
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 32867bc63670..fcffe790ef40 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1698,6 +1698,7 @@ L: qemu-block@nongnu.org
- S: Supported
- F: hw/block/nvme*
- F: tests/qtest/nvme-test.c
-+F: docs/specs/nvme.txt
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 88a0499d0fe0..f176d859a85e 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2493,8 +2493,15 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *=
+pci_dev)
 =20
- megasas
- M: Hannes Reinecke <hare@suse.com>
-diff --git a/docs/specs/nvme.txt b/docs/specs/nvme.txt
-new file mode 100644
-index 000000000000..b51552cb5c3f
---- /dev/null
-+++ b/docs/specs/nvme.txt
-@@ -0,0 +1,25 @@
-+NVM Express Controller
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+     pci_conf[PCI_INTERRUPT_PIN] =3D 1;
+     pci_config_set_prog_interface(pci_conf, 0x2);
+-    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
+-    pci_config_set_device_id(pci_conf, 0x5845);
 +
-+The nvme device (-device nvme) emulates an NVM Express Controller.
++    if (n->params.use_intel_id) {
++        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
++        pci_config_set_device_id(pci_conf, 0x5846);
++    } else {
++        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_REDHAT);
++        pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_REDHAT_NVME);
++    }
 +
-+
-+Reference Specifications
-+------------------------
-+
-+The device currently implements most mandatory features of NVMe v1.3d, s=
-ee
-+
-+  https://nvmexpress.org/resources/specifications/
-+
-+for the specification.
-+
-+
-+Known issues
-+------------
-+
-+* The device does not have any way of storing persistent state, so minor=
- parts
-+  of the implementation is in violation of the specification:
-+    - The accounting numbers in the SMART/Health are reset across power =
-cycles
-+
-+* Interrupt Coalescing is not supported and is disabled by default in vo=
-lation
-+  of the specification.
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index 4d53e5c7d9d5..abbdbca6be38 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -63,6 +63,7 @@ PCI devices (other than virtio):
- 1b36:000b  PCIe Expander Bridge (-device pxb-pcie)
- 1b36:000d  PCI xhci usb host adapter
- 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
-+1b36:0010  PCIe NVMe device (-device nvme)
+     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
+     pcie_endpoint_cap_init(pci_dev, 0x80);
 =20
- All these devices are documented in docs/specs.
+@@ -2669,8 +2676,6 @@ static void nvme_class_init(ObjectClass *oc, void *=
+data)
+     pc->realize =3D nvme_realize;
+     pc->exit =3D nvme_exit;
+     pc->class_id =3D PCI_CLASS_STORAGE_EXPRESS;
+-    pc->vendor_id =3D PCI_VENDOR_ID_INTEL;
+-    pc->device_id =3D 0x5845;
+     pc->revision =3D 2;
 =20
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index da9057b8db97..92231885bc23 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -104,6 +104,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_REDHAT_XHCI        0x000d
- #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
- #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
-+#define PCI_DEVICE_ID_REDHAT_NVME        0x0010
- #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index c66f6cd8413a..70df17e6f893 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -13,7 +13,8 @@
+     DEFINE_PROP_UINT32("max_ioqpairs", _state, _props.max_ioqpairs, 64),=
+ \
+     DEFINE_PROP_UINT8("aerl", _state, _props.aerl, 3), \
+     DEFINE_PROP_UINT32("aer_max_queued", _state, _props.aer_max_queued, =
+64), \
+-    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7)
++    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7), \
++    DEFINE_PROP_BOOL("x-use-intel-id", _state, _props.use_intel_id, fals=
+e)
 =20
- #define FMT_PCIBUS                      PRIx64
+ typedef struct NvmeParams {
+     char     *serial;
+@@ -23,6 +24,7 @@ typedef struct NvmeParams {
+     uint8_t  aerl;
+     uint32_t aer_max_queued;
+     uint8_t  mdts;
++    bool     use_intel_id;
+ } NvmeParams;
+=20
+ typedef struct NvmeAsyncEvent {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 9e8c06036faf..fe7dbca0b9a2 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@ GlobalProperty hw_compat_4_2[] =3D {
+     { "usb-redir", "suppress-remote-wake", "off" },
+     { "qxl", "revision", "4" },
+     { "qxl-vga", "revision", "4" },
++    { "nvme", "x-use-intel-id", "on"},
+ };
+ const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
+=20
 --=20
 2.25.1
 
