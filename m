@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DD3187066
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:49:49 +0100 (CET)
-Received: from localhost ([::1]:42664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B853118705B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:47:34 +0100 (CET)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsw0-00089X-3w
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48717)
+	id 1jDstp-0004mN-OT
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrNi-0007j7-VB
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:21 -0400
+ (envelope-from <eblake@redhat.com>) id 1jDrNh-0007gi-OI
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDrNh-0005WE-2N
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:18 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45078)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDrNg-0005L2-Pm
+ (envelope-from <eblake@redhat.com>) id 1jDrNf-0005F3-GH
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:16 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t2so11626094wrx.12
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 08:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Kukfon5TaR/JRHFnX48GSK2ov1UKVe7Azn6CQLvNDVQ=;
- b=q6Lqz+b3Y8xm/gfLr/lsdUb/Jr30XtFcXlUea69EGgLVqEKH8cinUfBj7X0Bdq9bQw
- bNLeHY19Vo6j4F8THMcrU4pydxWWbdgqp4NnfRCq3p8tvUEBeXRXH19Yq/XW6QliiobW
- u5FLKppxFPHLv+EBkcKU0/G11VGKaTKQtFK4KsEAj5zaBWAtfwNwLPcg0N0cl4/nVv1t
- 5lgVCiDMMLkB/NuMJ83TQPdI9MCrsTEQIqpN4dTqJ0uPqMQ7HuEY+TdE8kY+grWMj7OH
- gQ3TCAPARS+ed4kG22CbjVdbQtCJ7tdh2d9vTqpU2BN8U23jQGygUI2L+qCjs7b8DVg5
- l6Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Kukfon5TaR/JRHFnX48GSK2ov1UKVe7Azn6CQLvNDVQ=;
- b=r9D5jmS7mSaknaaiszSBHmmr37uXueOpn+DdFjB/wAj/Z0Gk7ZnUvGL9da94hzR5wA
- tmwRUnzjof4BY1MM7Vcd+OLQ6tts702uz8gs4pYMZDxrsWH6SaB1TyoH0d63/6N2qK61
- DvXl9aMxhtUGkgEYQpPz2o9gBwWbi6fskGunJuQiAJrjvPwZ+jsjMYx8/DPC3Dtz5g3+
- nWKwDh3SQy6uNyiZVJwpNKIVb4gsM96y6hTkeKZBRNM8eK3elJgK5/8EhKvWIygB6nn4
- phGRhaX5NT5ScqlVzhwb/pLEk3VnOAslmuGrPUZqL1XNKlSSDAnO94d/nK8jV04yeLUx
- TepQ==
-X-Gm-Message-State: ANhLgQ0jDbdZvdiqZnXiLFlgkdsI6CCcXwcpY1cyPlDebI4ZYV1wTWr3
- e0KJQbUcbM1zn4rSFZiIIZSF0MIuRx84kdfCWXE=
-X-Google-Smtp-Source: ADFU+vtTYs87v3rZSR++BCmLoLqnQlDQQ55P3Gw8PxnfAciZ7x4teKcplErC/XBMER1PqBboE53HG55snZOjnlswRZg=
-X-Received: by 2002:a05:6000:4a:: with SMTP id
- k10mr34789107wrx.381.1584371415577; 
- Mon, 16 Mar 2020 08:10:15 -0700 (PDT)
-MIME-Version: 1.0
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48984)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jDrNf-000547-Av
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 11:10:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584371414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NfGd9xKvwNXlcDZ+fm3+orD1Aux3z5WgdpEb/HIGigM=;
+ b=TWcX8z1mBk1OXo9HXbjxi+xprmoDZb2Tx2GelvwLZaax2I8J156dB7uM7osnLmQQHAaLgq
+ VAhoMcWOI8ZVTNusGnNzlEvS/rxHLMFERuKFRYInViEPlGbYA7FZy5rF3OTvYUQ8QEAXO4
+ Id0czy30yaREU47GFqoFIS7rVls1Y04=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-UUzhDEdDP8KyRCfSD3qTNw-1; Mon, 16 Mar 2020 11:10:12 -0400
+X-MC-Unique: UUzhDEdDP8KyRCfSD3qTNw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49175102C8D5;
+ Mon, 16 Mar 2020 15:10:10 +0000 (UTC)
+Received: from [10.3.118.63] (ovpn-118-63.phx2.redhat.com [10.3.118.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8B91001B34;
+ Mon, 16 Mar 2020 15:10:09 +0000 (UTC)
+Subject: Re: [PATCH v3 01/34] qemu-doc: Belatedly document QMP command arg &
+ result deprecation
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-8-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-8-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 16:10:03 +0100
-Message-ID: <CAJ+F1CJk+tP33rkRd=qEToXQUTZNRhYOVkxN_2DZit0uXRAp_A@mail.gmail.com>
-Subject: Re: [PATCH v3 07/34] tests/test-qmp-cmds: Simplify test data setup
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+ <20200315144653.22660-2-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <25da4d26-094d-e74c-d0d6-8e159c96191f@redhat.com>
+Date: Mon, 16 Mar 2020 10:10:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200315144653.22660-2-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,215 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 3:55 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Building requests with qdict_put() & friends is tedious to write and
-> hard to read.  Parse them from string literals with
-> qdict_from_vjsonf_nofail() instead.
->
+On 3/15/20 9:46 AM, Markus Armbruster wrote:
+> A number of deprecated QMP arguments and results were missed in commit
+> eb22aeca65 "docs: document deprecation policy & deprecated features in
+> appendix" (v2.10.0):
+> 
+
+> 
+> Since then, we missed a few more:
+> 
+> * Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
+>    deprecated block-commit arguments @base and @top.
+> 
+> * Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
+>    properties" (v4.0.0) deprecated query-named-block-nodes result
+>    @dirty-bitmaps member @status, not just query-block.
+> 
+> Make up for all that.
+> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-& fixes the leak introduced in patch 5.
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
 > ---
->  tests/test-qmp-cmds.c | 93 ++++++++++++++++++-------------------------
->  1 file changed, 38 insertions(+), 55 deletions(-)
->
-> diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-> index 464b370189..99013ff37b 100644
-> --- a/tests/test-qmp-cmds.c
-> +++ b/tests/test-qmp-cmds.c
-> @@ -1,5 +1,6 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qmp/qdict.h"
-> +#include "qapi/qmp/qjson.h"
->  #include "qapi/qmp/qnum.h"
->  #include "qapi/qmp/qstring.h"
->  #include "qapi/error.h"
-> @@ -145,11 +146,16 @@ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org=
-_qemu_x_EnumList *a,
->  }
->
->
-> -static QObject *do_qmp_dispatch(QDict *req, bool allow_oob)
-> +static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ..=
-.)
->  {
-> -    QDict *resp;
-> +    va_list ap;
-> +    QDict *req, *resp;
->      QObject *ret;
->
-> +    va_start(ap, template);
-> +    req =3D qdict_from_vjsonf_nofail(template, ap);
-> +    va_end(ap);
-> +
->      resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
->      g_assert(resp);
->      ret =3D qdict_get(resp, "return");
-> @@ -158,14 +164,21 @@ static QObject *do_qmp_dispatch(QDict *req, bool al=
-low_oob)
->
->      qobject_ref(ret);
->      qobject_unref(resp);
-> +    qobject_unref(req);
->      return ret;
->  }
->
-> -static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass=
- cls)
-> +static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
-> +                                  const char *template, ...)
->  {
-> -    QDict *resp;
-> +    va_list ap;
-> +    QDict *req, *resp;
->      QDict *error;
->
-> +    va_start(ap, template);
-> +    req =3D qdict_from_vjsonf_nofail(template, ap);
-> +    va_end(ap);
-> +
->      resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
->      g_assert(resp);
->      error =3D qdict_get_qdict(resp, "error");
-> @@ -177,59 +190,43 @@ static void do_qmp_dispatch_error(QDict *req, bool =
-allow_oob, ErrorClass cls)
->      g_assert(qdict_size(resp) =3D=3D 1);
->
->      qobject_unref(resp);
-> +    qobject_unref(req);
->  }
->
->  /* test commands with no input and no return value */
->  static void test_dispatch_cmd(void)
->  {
-> -    QDict *req =3D qdict_new();
->      QDict *ret;
->
-> -    qdict_put_str(req, "execute", "user_def_cmd");
-> -
-> -    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
-> +    ret =3D qobject_to(QDict,
-> +                     do_qmp_dispatch(false,
-> +                                     "{ 'execute': 'user_def_cmd' }"));
->      assert(ret && qdict_size(ret) =3D=3D 0);
-> -
->      qobject_unref(ret);
-> -    qobject_unref(req);
->  }
->
->  static void test_dispatch_cmd_oob(void)
->  {
-> -    QDict *req =3D qdict_new();
->      QDict *ret;
->
-> -    qdict_put_str(req, "exec-oob", "test-flags-command");
-> -
-> -    ret =3D qobject_to(QDict, do_qmp_dispatch(req, true));
-> +    ret =3D qobject_to(QDict,
-> +                     do_qmp_dispatch(true,
-> +                                     "{ 'exec-oob': 'test-flags-command'=
- }"));
->      assert(ret && qdict_size(ret) =3D=3D 0);
-> -
->      qobject_unref(ret);
-> -    qobject_unref(req);
->  }
->
->  /* test commands that return an error due to invalid parameters */
->  static void test_dispatch_cmd_failure(void)
->  {
-> -    QDict *req =3D qdict_new();
-> -    QDict *args =3D qdict_new();
-> -
-> -    qdict_put_str(req, "execute", "user_def_cmd2");
-> -
-> -    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
-> -
-> -    qobject_unref(req);
-> -
-> -    /* check that with extra arguments it throws an error */
-> -    req =3D qdict_new();
-> -    qdict_put_int(args, "a", 66);
-> -    qdict_put(req, "arguments", args);
-> -
-> -    qdict_put_str(req, "execute", "user_def_cmd");
-> -
-> -    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
-> -
-> -    qobject_unref(req);
-> +    /* missing arguments */
-> +    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR,
-> +                          "{ 'execute': 'user_def_cmd2' }");
-> +
-> +    /* extra arguments */
-> +    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR,
-> +                          "{ 'execute': 'user_def_cmd',"
-> +                          " 'arguments': { 'a': 66 } }");
->  }
->
->  static void test_dispatch_cmd_success_response(void)
-> @@ -246,26 +243,15 @@ static void test_dispatch_cmd_success_response(void=
-)
->  /* test commands that involve both input parameters and return values */
->  static void test_dispatch_cmd_io(void)
->  {
-> -    QDict *req =3D qdict_new();
-> -    QDict *args =3D qdict_new();
-> -    QDict *args3 =3D qdict_new();
-> -    QDict *ud1a =3D qdict_new();
-> -    QDict *ud1b =3D qdict_new();
->      QDict *ret, *ret_dict, *ret_dict_dict, *ret_dict_dict_userdef;
->      QDict *ret_dict_dict2, *ret_dict_dict2_userdef;
->      QNum *ret3;
->      int64_t val;
->
-> -    qdict_put_int(ud1a, "integer", 42);
-> -    qdict_put_str(ud1a, "string", "hello");
-> -    qdict_put_int(ud1b, "integer", 422);
-> -    qdict_put_str(ud1b, "string", "hello2");
-> -    qdict_put(args, "ud1a", ud1a);
-> -    qdict_put(args, "ud1b", ud1b);
-> -    qdict_put(req, "arguments", args);
-> -    qdict_put_str(req, "execute", "user_def_cmd2");
-> -
-> -    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
-> +    ret =3D qobject_to(QDict, do_qmp_dispatch(false,
-> +        "{ 'execute': 'user_def_cmd2', 'arguments': {"
-> +        " 'ud1a': { 'integer': 42, 'string': 'hello' },"
-> +        " 'ud1b': { 'integer': 422, 'string': 'hello2' } } }"));
->
->      assert(!strcmp(qdict_get_str(ret, "string0"), "blah1"));
->      ret_dict =3D qdict_get_qdict(ret, "dict1");
-> @@ -282,11 +268,8 @@ static void test_dispatch_cmd_io(void)
->      assert(!strcmp(qdict_get_str(ret_dict_dict2, "string"), "blah4"));
->      qobject_unref(ret);
->
-> -    qdict_put_int(args3, "a", 66);
-> -    qdict_put(req, "arguments", args3);
-> -    qdict_put_str(req, "execute", "guest-get-time");
-> -
-> -    ret3 =3D qobject_to(QNum, do_qmp_dispatch(req, false));
-> +    ret3 =3D qobject_to(QNum, do_qmp_dispatch(false,
-> +        "{ 'execute': 'guest-get-time', 'arguments': { 'a': 66 } }"));
->      g_assert(qnum_get_try_int(ret3, &val));
->      g_assert_cmpint(val, =3D=3D, 66);
->      qobject_unref(ret3);
-> --
-> 2.21.1
->
->
+>   docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
+>   1 file changed, 44 insertions(+), 4 deletions(-)
 
+Should we remove any of these features that have been deprecated long 
+enough?  But that can be separate, having this patch just add mention 
+that was previously forgotten is fine.
 
---=20
-Marc-Andr=C3=A9 Lureau
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
