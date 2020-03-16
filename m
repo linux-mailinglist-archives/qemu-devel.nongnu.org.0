@@ -2,86 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF001867DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:28:56 +0100 (CET)
-Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866FC186787
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 10:10:52 +0100 (CET)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDm3L-0008EY-2k
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:28:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35644)
+	id 1jDlln-0001go-UA
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 05:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDl24-0001Yy-9x
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:23:33 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDlLA-0000pH-4C
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDl23-0002MJ-BJ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:23:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58241
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDl23-0002En-5e
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:23:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584347010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=th1CuOjYh6hNHqFjjcXMqr0tgWtWdl26IqVJEcJRP4w=;
- b=B/um+fmZ32IICOCGpuIZM+S6qdD6CNj91CYgUswgfJmfMQ9GBfNWDwbIMjsbSMIAfjlFGG
- FyWhTv60bw86W8rTCwCzKFQOOSzBYAYHJy8p80ULpG5wapKxjYwNvgzCd1Qgi7zzlyEiL6
- hXU8c56fL+6CZbiq5UydsV4IGWPnJPY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-qfTEmfHWPQuGsvtpMaz4nQ-1; Mon, 16 Mar 2020 04:23:29 -0400
-X-MC-Unique: qfTEmfHWPQuGsvtpMaz4nQ-1
-Received: by mail-ed1-f69.google.com with SMTP id g11so14433244edu.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 01:23:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=th1CuOjYh6hNHqFjjcXMqr0tgWtWdl26IqVJEcJRP4w=;
- b=lBAseg6Uq1LwosoiXjKV5zgiY3+1P5hoIXouTqv2EarLZ1Ia+H1gcDmswDd7bl17kw
- stAz8P0jFYmUaP1qnY2rDi9Uis+LvId+Z/ahWRzjZvKIgF0gWW09Vc35p4XvwfJCl1ze
- MdG5BC9QeKW72PqqsXJwC1fEkt3Wn93/UW+GJnPwTvBrYise7nFzVqqrQ8b7SEOW5Fyp
- a7iDU98nv6SDTL4owYDHb4ZGApiWx3rHX6cV+bhiV/Doyi2hq4+pNkbvv0tS6OxYG5XZ
- A2rtzWx4DvZ+ta/UgZkdsRB27RJ4yKNIk8CTFigj0Mtk1vP5Cju1J0b4RVO/0F9K1HXH
- X8Bg==
-X-Gm-Message-State: ANhLgQ3XndH1va6yGIq0p/2SBKjkVD2OQr//GG1hrz0IvSlr2GPHjgZp
- SqyqhAXCIG1uxaCB8psdubbTxcxvdZn62ZTATJvAj1CKqEdgjkht3aCsDuyBKwq6YkGTrQn4Jf/
- DJ3PGDvP9UmK8pU8=
-X-Received: by 2002:a50:d7d7:: with SMTP id m23mr10017623edj.277.1584347008186; 
- Mon, 16 Mar 2020 01:23:28 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt/J9IO+V8CKsGj2cJ++xKaqB+RasHyDr8LwGVfQpqVIgs0iVBa764L0KD737Ylc3F2Ijss6A==
-X-Received: by 2002:a50:d7d7:: with SMTP id m23mr10017586edj.277.1584347007837; 
- Mon, 16 Mar 2020 01:23:27 -0700 (PDT)
-Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id g5sm4374247edn.9.2020.03.16.01.23.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 01:23:27 -0700 (PDT)
-Subject: Re: [PATCH 4/8] hw/ide: Move MAX_IDE_BUS define to one header
-To: Markus Armbruster <armbru@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1584134074.git.balaton@eik.bme.hu>
- <eb14ddee41be26f38ee0fe5ff0ff42c79afe9731.1584134074.git.balaton@eik.bme.hu>
- <8736a8n62u.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <acdb4bbe-9a4a-8d31-87fc-ab4d037e56ff@redhat.com>
-Date: Mon, 16 Mar 2020 09:23:25 +0100
+ (envelope-from <laurent@vivier.eu>) id 1jDlL8-0003Kj-Db
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:15 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:39407)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDlL8-0002zu-2C
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:43:14 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mjjvp-1jbEar1CAN-00lC4g; Mon, 16 Mar 2020 09:42:46 +0100
+Subject: Re: [PULL 132/136] mem-prealloc: optimize large guest startup
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+ <1582632454-16491-30-git-send-email-pbonzini@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <7dc67896-eb79-c25c-6be6-a6b7012c9649@vivier.eu>
+Date: Mon, 16 Mar 2020 09:42:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <8736a8n62u.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1582632454-16491-30-git-send-email-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:u25BlfgkpLUnID/ClDliut/J8ZPmi+nctcmExcvZL0dmBBX4qGt
+ d8YT0Krg6j/7/iRQY+sQXU4RQF6RmGjxMmv6M4M6CxBm5njbBMvJLi9+j6JSBP7xxvx+l/G
+ xQ5h98wIsgEbx4azXKYehRXPgY8xaueTOIWKUW1kNSq55iDpy8xpP9P+24eKsbF0mw3uUCA
+ CP3tBaokXoz3tgYjZGNZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kcRiqgk1znw=:hUDxpFMbSIJzqWj0VMFhk3
+ sDEXx1Sh2S6lMAjSQcfxjBZEJBzdvaiyIBELHbEr+NgYR2IRozpqy5RXwg3UGfotujcYh1pDN
+ mkgTSWAHPq8boPbHpzZRJSDkgEy4PyzpRo+9/eAPaGzbK155vG4G7NHysxQnp4p0Gb9QXEb5v
+ g4ufJzm/524JBNPlvxTi9giqX00v3Tj1Ifyxn7qajKjL+CXR+ynrItBd4EkR366vLp3760FbW
+ le1ihavNjdENR6uLQXKTjXXRpD+1FUWPJhhIjw49OvLVWxmFuQnds52t66r9eUyjAYvdo75H0
+ y5KbpUtvBHB81V071Zz8ldwaO8gzjMvvoFrOi9f6SVpgnfiZLBqo3jeRc7I6RZP+2hC5zQXH/
+ SHWM8sYx/3q3gsLB0WdMRdZiiAN+zpSxR2YeChncNOi0O+FMz6Y3rjZjBhXFPp4lQyjYbyBhY
+ tr2WfFybBt/+2Gvcm+5jL0SHNE8nLMVqD1YZfIuHlZzonhOtm6d7IxOV8yoJaI2HBmmZMD98U
+ sjl5xtbFNRLFb/ySoO0Nc24kkAR11qDhEKlX5dX4GQcGMLi7yduCOoI/nNlmHG3hkU/Dpj7wr
+ 3vUZhp4qxq609eOk/CmKrmdLQeHzWXHnJy3NH5sh3/OuSqguz5NzuuR+lNw7+8iEzi7PwHM59
+ sxtE3RQtoiegbD1CVpvxEalKYShwK3JjpfksfEg+yXlf/k7/YyxKhEvitc7aYqZKqApboQPIA
+ wfnAuw9mYnZqKqarGPgdMga3N56ZAmG2d+nxN4VJzeix3AOGNdgNql/zCCNLfBHMwWfkPd4gs
+ LLmidTwyeek0jxQZGScktsjm9gVebnvw9/IS1r6602/517i2L24mgcKERsFZm3ecIHPuKSv
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,40 +109,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: bauerchen <bauerchen@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 7:53 AM, Markus Armbruster wrote:
-> BALATON Zoltan <balaton@eik.bme.hu> writes:
-> 
->> There are several definitions of MAX_IDE_BUS in different boards (some
->> of them unused) with the same value. Move it to include/hw/ide/internal.h
->> to have it in a central place.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> 
-> This one feels a bit questionable.
-> 
-> The number of (PATA) IDE buses provides by a host bus adapter depends on
-> the HBA.  It happens to be 2 for all HBAs we implement, but it could
-> really be anything.
-> 
-> Similar for SATA, where the common number is 6, but could really be
-> anything.  I can't see offhand whether any HBA we implement provides a
-> different number.
-> 
-> By moving MAX_IDE_BUS to include/hw/ide/internal.h, you bake the
-> accidental commonality into the interface to the IDE core.  I'd prefer
-> not to.
+Hi,
 
-I agree with Markus here (I kept this commit tagged because I was 
-thinking the same but didn't know how to express it correctly. Thanks 
-Markus!).
+a bug has been reported in launchpad for this patch:
+
+[Regression]Powerpc kvm guest unable to start with hugepage backed
+            memory
+https://bugs.launchpad.net/qemu/+bug/1866962
+
+Thanks,
+Laurent
+
+Le 25/02/2020 à 13:07, Paolo Bonzini a écrit :
+> From: bauerchen <bauerchen@tencent.com>
+> 
+> [desc]:
+>     Large memory VM starts slowly when using -mem-prealloc, and
+>     there are some areas to optimize in current method;
+> 
+>     1、mmap will be used to alloc threads stack during create page
+>     clearing threads, and it will attempt mm->mmap_sem for write
+>     lock, but clearing threads have hold read lock, this competition
+>     will cause threads createion very slow;
+> 
+>     2、methods of calcuating pages for per threads is not well;if we use
+>     64 threads to split 160 hugepage,63 threads clear 2page,1 thread
+>     clear 34 page,so the entire speed is very slow;
+> 
+>     to solve the first problem,we add a mutex in thread function,and
+>     start all threads when all threads finished createion;
+>     and the second problem, we spread remainder to other threads,in
+>     situation that 160 hugepage and 64 threads, there are 32 threads
+>     clear 3 pages,and 32 threads clear 2 pages.
+> 
+> [test]:
+>     320G 84c VM start time can be reduced to 10s
+>     680G 84c VM start time can be reduced to 18s
+> 
+> Signed-off-by: bauerchen <bauerchen@tencent.com>
+> Reviewed-by: Pan Rui <ruippan@tencent.com>
+> Reviewed-by: Ivan Ren <ivanren@tencent.com>
+> [Simplify computation of the number of pages per thread. - Paolo]
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  util/oslib-posix.c | 32 ++++++++++++++++++++++++--------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 5a291cc..897e8f3 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -76,6 +76,10 @@ static MemsetThread *memset_thread;
+>  static int memset_num_threads;
+>  static bool memset_thread_failed;
+>  
+> +static QemuMutex page_mutex;
+> +static QemuCond page_cond;
+> +static bool threads_created_flag;
+> +
+>  int qemu_get_thread_id(void)
+>  {
+>  #if defined(__linux__)
+> @@ -403,6 +407,17 @@ static void *do_touch_pages(void *arg)
+>      MemsetThread *memset_args = (MemsetThread *)arg;
+>      sigset_t set, oldset;
+>  
+> +    /*
+> +     * On Linux, the page faults from the loop below can cause mmap_sem
+> +     * contention with allocation of the thread stacks.  Do not start
+> +     * clearing until all threads have been created.
+> +     */
+> +    qemu_mutex_lock(&page_mutex);
+> +    while(!threads_created_flag){
+> +        qemu_cond_wait(&page_cond, &page_mutex);
+> +    }
+> +    qemu_mutex_unlock(&page_mutex);
+> +
+>      /* unblock SIGBUS */
+>      sigemptyset(&set);
+>      sigaddset(&set, SIGBUS);
+> @@ -451,27 +466,28 @@ static inline int get_memset_num_threads(int smp_cpus)
+>  static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>                              int smp_cpus)
+>  {
+> -    size_t numpages_per_thread;
+> -    size_t size_per_thread;
+> +    size_t numpages_per_thread, leftover;
+>      char *addr = area;
+>      int i = 0;
+>  
+>      memset_thread_failed = false;
+> +    threads_created_flag = false;
+>      memset_num_threads = get_memset_num_threads(smp_cpus);
+>      memset_thread = g_new0(MemsetThread, memset_num_threads);
+> -    numpages_per_thread = (numpages / memset_num_threads);
+> -    size_per_thread = (hpagesize * numpages_per_thread);
+> +    numpages_per_thread = numpages / memset_num_threads;
+> +    leftover = numpages % memset_num_threads;
+>      for (i = 0; i < memset_num_threads; i++) {
+>          memset_thread[i].addr = addr;
+> -        memset_thread[i].numpages = (i == (memset_num_threads - 1)) ?
+> -                                    numpages : numpages_per_thread;
+> +        memset_thread[i].numpages = numpages_per_thread + (i < leftover);
+>          memset_thread[i].hpagesize = hpagesize;
+>          qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
+>                             do_touch_pages, &memset_thread[i],
+>                             QEMU_THREAD_JOINABLE);
+> -        addr += size_per_thread;
+> -        numpages -= numpages_per_thread;
+> +        addr += memset_thread[i].numpages * hpagesize;
+>      }
+> +    threads_created_flag = true;
+> +    qemu_cond_broadcast(&page_cond);
+> +
+>      for (i = 0; i < memset_num_threads; i++) {
+>          qemu_thread_join(&memset_thread[i].pgthread);
+>      }
+> 
 
 
