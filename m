@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E761870F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:12:10 +0100 (CET)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3701870F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:14:08 +0100 (CET)
+Received: from localhost ([::1]:43322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtHd-000823-TM
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58285)
+	id 1jDtJX-00034R-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrBb-0002Qt-IJ
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:57:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrCd-0002sc-Be
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:58:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDrBW-0003RM-RS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:57:47 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:47095)
+ (envelope-from <peter.maydell@linaro.org>) id 1jDrCc-0004u0-8z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:58:51 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41189)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDrBW-0003Hf-Ir
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:57:42 -0400
-Received: by mail-oi1-x241.google.com with SMTP id x5so306217oic.13
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:57:42 -0700 (PDT)
+ id 1jDrCc-0004lK-1V
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:58:50 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s15so18131037otq.8
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LMkxuNZp1x7K7kF8fUz7qKbme8Dr4Ol6lMm5Q8gGMJ8=;
- b=efNA6GIAAI0c0M0d1+7twOVhRieTBERAMr4UqRdohi1GbiKNfhv6hg+tu5fRnCEyAj
- obNSicBiPLbRcIC/bKQeIlk79augb+JRWUdqvF5yB39qtYP/ENEN4s0hTKoJYsIZGkX2
- q3JIcz1AC3aDz6cNoXn75wpU9Lrrp+VXKevNdvUBaUXJ7AeqbmnnLtuZxfFkyv7UISoO
- AINNdjRy51R7QaFhLZWQBA5tSv2IpL9ACvFfHJPHDgEpcNfy2TgTHGLbEMJvZgGcnAA/
- DFJTxaD/sEXwbjx2glCWYq6U7bJyqGatNmgPEV+8C549h43G4AhtU7qnYxvBULRInxj1
- fSDA==
+ :cc:content-transfer-encoding;
+ bh=1t7FGpmu+p7rJZSQuRsOLxDzhRORXyV08+TeZNjvzgY=;
+ b=KPcvXVxMA4PkHX0fQ6Y1xdHW4cpr1dTbcISO1f1q6R51RxHUd2aX1J248Pm85+zLtO
+ 5bwMEuwN8fO/fsoOfavClT8zS3e7fJ/iCLSgMSFBl+xexpEimJbJaZerlX1upBY13G20
+ gvx1vdxrrwztGxonXK7HzCDyWoPcm4r2qMyGIyThSr4+u7Pep0YxE3jGh7dKS7bxwdRq
+ u+yv5xO+q7Ds7XRpozXJfjhA1VQz3jIiD4sen4VNBlcpUZpX62Wuv4HcvyG7yX3/xWno
+ hsMjXbze4td8zzUOxHwTErmQ6xgs3Chfp923AlIJuKGmqIGpg/Ci49IFyc/maNLvlWwg
+ jVVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LMkxuNZp1x7K7kF8fUz7qKbme8Dr4Ol6lMm5Q8gGMJ8=;
- b=itJS3Q/CwsB83UibibkMkvX7fANwoB3Bch6v4ZFzCKww8Y7WAwIcP1Dax69ocGk2Mz
- ZTFQW0sudM+xDZKja4aIJro15BnnsApCAmNqaEqYHvSqOErVpK5wwoQMD/rGsj38wpK4
- 3uWZvPrj6ao3QmazL6GJ+VHD5IzVXkzG/d5XPwYCgldtUE1JNAo5Hu5XT3jbMCc/aLjJ
- Uy3hAZ9UlYDofL5HnIG8oV9FnPTEpvYV4KOlV99WwzoPA+C80iYFZTr+q3863qYU4QXX
- lDXND9adXHqm6PadrC4Jhphy9TXNDF18JGrUfX1p7N/9maGjz+aZw7mJJmMaSX9FpvqP
- nnvA==
-X-Gm-Message-State: ANhLgQ3rL2PhTaslBTczQiW8lkFQ8T/TKQ98mb0Ufrjm6JKf10geWylm
- nfpyoWITdCTL1gbTt5I/tzco3FTRDpmnEboMuvt1ew==
-X-Google-Smtp-Source: ADFU+vulDdcYA2iR8QOJnj/lP/+vV2CuhkVXQikXFRTSfoFbdN7ZV+xSDQvBpfp7uLkn3RoKR2XASnpUCyciTaDVt2s=
-X-Received: by 2002:aca:5b07:: with SMTP id p7mr16919130oib.146.1584370661630; 
- Mon, 16 Mar 2020 07:57:41 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1t7FGpmu+p7rJZSQuRsOLxDzhRORXyV08+TeZNjvzgY=;
+ b=uW2ZG3ReS3Aai17v8/hZTNa+5rPt29UwsxRpIQkxAiJpL15cWe4zp5+5rZaQaRvTYO
+ LLOLZg5vNraAcGMh6G7d1PxWIGvZ9STsIrk8HgBU1SHA7pR5JeNm9C6QWhTZ0q21odNN
+ fIKYpG6D003YoJc6gxxQCpQBAQ8gvL8D48VvjXSxMKc7kfQYcyf6eMopPDXCENGYqPdO
+ zkVnOVo2NfffxTRtnde36tgr1zxxK44wzKUqXGGIcVCQvuYWA9ilWz67+i6LgKCf4gjG
+ h1GRfDY/rHpx99NdFrKcL2h7mkq8EMJZW+RfZgONdg+mXaLCZdeLAF8eH1OOclKOA8Aw
+ 8Yzg==
+X-Gm-Message-State: ANhLgQ2L66vsxWGncOjzwF2nnWzeUwu2SJEDOcVJP5j/Bc6jFug3s7fN
+ d4G3u4KB07kTND0zeq9IEcF1cqWigUBgHi9St7syEQ==
+X-Google-Smtp-Source: ADFU+vuJvA0WeERkC+O4vC86BtQtjxQGI/gyEt0GWFMf2wqatgX+dbIJ7vFuhCoa00hQrwEAEda7YWb2v1xWU88KWaE=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr21686367ota.221.1584370728237; 
+ Mon, 16 Mar 2020 07:58:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200312193616.438922-1-crosa@redhat.com>
- <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
- <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
- <CAFEAcA8=3zcffu8FYEenyNR5O=kHh8OJmMCJj6Uwh5HJw_b-WA@mail.gmail.com>
- <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
- <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
- <849930679.1334346.1584361606961.JavaMail.zimbra@redhat.com>
-In-Reply-To: <849930679.1334346.1584361606961.JavaMail.zimbra@redhat.com>
+References: <20200206183219.3756-1-linux@roeck-us.net>
+ <488b3355-4467-e01e-d6a0-a2d5bc959428@kaod.org>
+ <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
+In-Reply-To: <5589b5ce-1ff3-bf1e-ceae-fe82e1e1265c@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 14:57:30 +0000
-Message-ID: <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
+Date: Mon, 16 Mar 2020 14:58:36 +0000
+Message-ID: <CAFEAcA_Zg65ebyTH+7i8ZGf4jzmf1tRPYdVz590UP0rQoz86pg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] m25p80: Convert to support tracing
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,26 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Wainer Moschetta <wmoschet@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 at 12:26, Cleber Rosa <crosa@redhat.com> wrote:
-> About the runners and the fact that the job is stuck without them,
-> the message seems straightforward enough, but I can't get to the
-> project configuration to look at the registered runners with my
-> current permissions (set as "developer").
+On Mon, 16 Mar 2020 at 14:14, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Hello,
+>
+> On 2/17/20 4:47 PM, C=C3=A9dric Le Goater wrote:
+> > Hello all,
+> >
+> > On 2/6/20 7:32 PM, Guenter Roeck wrote:
+> >> While at it, add some trace messages to help debug problems
+> >> seen when running the latest Linux kernel.
+> >
+> > Through which tree do you think it is best to merge this patchset ?
+> > block or arm ?
+>
+> It would be nice to have these 4 patches for 5.0. All are reviewed and
+> tested.
 
-I've moved you up to 'maintainer' status, hopefully that is
-sufficient to look at the relevant config ?
+Do you have a pointer to the cover letter? Not sure
+which platforms (and so which tree) they're aiming for...
 
 thanks
 -- PMM
