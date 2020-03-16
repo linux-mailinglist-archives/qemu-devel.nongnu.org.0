@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06CA187509
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:46:25 +0100 (CET)
-Received: from localhost ([::1]:49478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9F418752B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:54:06 +0100 (CET)
+Received: from localhost ([::1]:49580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxZ2-0002uc-Id
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42883)
+	id 1jDxgT-0006mT-Hf
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHz-00048l-PV
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:49 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxI2-00049R-M1
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHx-0006Wx-Va
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:47 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39569)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHz-0006ZY-Qy
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:49 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHx-0006VJ-Py
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:45 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHz-0006XC-Cn
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1584394125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dEPVzIMyMWMKB/q/1uEhyznN7dRLW8w5wO1zuVp/Uhk=;
- b=KGV8WTinssBFmn7NAsVTRe7Db/zliQqjElw8JupbWIlCD6s4Vjcl+NyFv5BwO+XEGz1DfJ
- OEZjQL86uNEnhQge3L34vQinTLRv4qpCbj1O2KQUuSagCv3iLCJ8LH31jzvfXy6o/vbwj2
- 2BWrvhG13VWrsT0w5PRyD/H2ZH3RYK4=
+ bh=ur/zmMARIrQuuY6HJw2Bi9jYsYGLyjEYoDKJV5fir9Q=;
+ b=K0I+kirVP+AqO6gAr4+gb0ZlCd51vuI4/Ov13FxltBL4Q2XIhBaQhcoDX74Adh0YkwjA/+
+ huOHBZhOf83/gIWRin2ntDuIRzvzRwG6kMgIwQnkFEbBg8HFBMeo3cMFL1a0KllTm0nDyZ
+ 4WX5OTVgJ/mOa4qUhSRRF1SIUHEzGG8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-zfjTpfouNUeThZK4NlgKWA-1; Mon, 16 Mar 2020 17:28:42 -0400
-X-MC-Unique: zfjTpfouNUeThZK4NlgKWA-1
+ us-mta-403-TPDEzqDkMyCd1K30aZxVuA-1; Mon, 16 Mar 2020 17:28:44 -0400
+X-MC-Unique: TPDEzqDkMyCd1K30aZxVuA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CFF3800D53
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65F588017DF
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:43 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15FCB19C4F;
- Mon, 16 Mar 2020 21:28:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73D4619C4F;
+ Mon, 16 Mar 2020 21:28:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/61] lockable: add QemuRecMutex support
-Date: Mon, 16 Mar 2020 22:27:03 +0100
-Message-Id: <1584394048-44994-37-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 37/61] memory: Correctly return alias region type
+Date: Mon, 16 Mar 2020 22:27:04 +0100
+Message-Id: <1584394048-44994-38-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,119 +70,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The polymorphic locking macros don't support QemuRecMutex yet.  Add it
-so that lock guards can be used with QemuRecMutex.
+Since memory region aliases are neither rom nor ram, they are
+described as i/o, which is often incorrect. Return instead the
+type of the original region we are aliasing.
 
-Convert TCG plugins functions that benefit from these macros.  Manual
-qemu_rec_mutex_lock/unlock() callers are left unmodified in cases where
-clarity would not improve by switching to the macros.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/qemu/lockable.h |  2 ++
- plugins/core.c          |  7 +++----
- plugins/loader.c        | 16 ++++++++--------
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ memory.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-index 2b52c7c..44b3f4b 100644
---- a/include/qemu/lockable.h
-+++ b/include/qemu/lockable.h
-@@ -50,6 +50,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
- #define QEMU_LOCK_FUNC(x) ((QemuLockUnlockFunc *)    \
-     QEMU_GENERIC(x,                                  \
-                  (QemuMutex *, qemu_mutex_lock),     \
-+                 (QemuRecMutex *, qemu_rec_mutex_lock), \
-                  (CoMutex *, qemu_co_mutex_lock),    \
-                  (QemuSpin *, qemu_spin_lock),       \
-                  unknown_lock_type))
-@@ -57,6 +58,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
- #define QEMU_UNLOCK_FUNC(x) ((QemuLockUnlockFunc *)  \
-     QEMU_GENERIC(x,                                  \
-                  (QemuMutex *, qemu_mutex_unlock),   \
-+                 (QemuRecMutex *, qemu_rec_mutex_unlock), \
-                  (CoMutex *, qemu_co_mutex_unlock),  \
-                  (QemuSpin *, qemu_spin_unlock),     \
-                  unknown_lock_type))
-diff --git a/plugins/core.c b/plugins/core.c
-index ed86301..51bfc94 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -15,6 +15,7 @@
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
- #include "qapi/error.h"
-+#include "qemu/lockable.h"
- #include "qemu/option.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/xxhash.h"
-@@ -150,11 +151,11 @@ do_plugin_register_cb(qemu_plugin_id_t id, enum qemu_=
-plugin_event ev,
+diff --git a/memory.c b/memory.c
+index 404ff4e..fc99e7f 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2819,6 +2819,9 @@ void address_space_destroy(AddressSpace *as)
+=20
+ static const char *memory_region_type(MemoryRegion *mr)
  {
-     struct qemu_plugin_ctx *ctx;
-=20
--    qemu_rec_mutex_lock(&plugin.lock);
-+    QEMU_LOCK_GUARD(&plugin.lock);
-     ctx =3D plugin_id_to_ctx_locked(id);
-     /* if the plugin is on its way out, ignore this request */
-     if (unlikely(ctx->uninstalling)) {
--        goto out_unlock;
-+        return;
-     }
-     if (func) {
-         struct qemu_plugin_cb *cb =3D ctx->callbacks[ev];
-@@ -178,8 +179,6 @@ do_plugin_register_cb(qemu_plugin_id_t id, enum qemu_pl=
-ugin_event ev,
-     } else {
-         plugin_unregister_cb__locked(ctx, ev);
-     }
-- out_unlock:
--    qemu_rec_mutex_unlock(&plugin.lock);
- }
-=20
- void plugin_register_cb(qemu_plugin_id_t id, enum qemu_plugin_event ev,
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 15fc7e5..685d334 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -19,6 +19,7 @@
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
- #include "qapi/error.h"
-+#include "qemu/lockable.h"
- #include "qemu/option.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/qht.h"
-@@ -367,15 +368,14 @@ void plugin_reset_uninstall(qemu_plugin_id_t id,
-     struct qemu_plugin_reset_data *data;
-     struct qemu_plugin_ctx *ctx;
-=20
--    qemu_rec_mutex_lock(&plugin.lock);
--    ctx =3D plugin_id_to_ctx_locked(id);
--    if (ctx->uninstalling || (reset && ctx->resetting)) {
--        qemu_rec_mutex_unlock(&plugin.lock);
--        return;
-+    WITH_QEMU_LOCK_GUARD(&plugin.lock) {
-+        ctx =3D plugin_id_to_ctx_locked(id);
-+        if (ctx->uninstalling || (reset && ctx->resetting)) {
-+            return;
-+        }
-+        ctx->resetting =3D reset;
-+        ctx->uninstalling =3D !reset;
-     }
--    ctx->resetting =3D reset;
--    ctx->uninstalling =3D !reset;
--    qemu_rec_mutex_unlock(&plugin.lock);
-=20
-     data =3D g_new(struct qemu_plugin_reset_data, 1);
-     data->ctx =3D ctx;
++    if (mr->alias) {
++        return memory_region_type(mr->alias);
++    }
+     if (memory_region_is_ram_device(mr)) {
+         return "ramd";
+     } else if (memory_region_is_romd(mr)) {
 --=20
 1.8.3.1
 
