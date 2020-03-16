@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C01187640
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:35:38 +0100 (CET)
-Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A9818763B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:34:13 +0100 (CET)
+Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDzGj-0003kk-Ed
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50375)
+	id 1jDzFM-0000nx-Rb
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dT-Jd
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dU-E9
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005eA-2X
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005dz-2Y
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:22 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:54851)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44157 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDzDY-0004xm-9I; Mon, 16 Mar 2020 19:32:20 -0400
+ id 1jDzDY-0004ya-7R; Mon, 16 Mar 2020 19:32:20 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hCJJ2WWlz9sPR; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
+ id 48hCJJ30Fwz9sRR; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584401536;
- bh=IDSI4xzL+lXC/mEF1E4aAmSm1bBfVS8TPh3uAqHMVbY=;
+ bh=DNyPYA+nO4b3fa8B0bkXyh8dNit8KveOaim+6PvxVpc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S6N2Fp7dl3RIrAa+Py803R7gOVcbvfjvq/2zHUI2PNXCXLK24UyfZjtY9unGuMo7a
- CHLrC4YQYgESoKW6GX4o417YWKR4fjVba4WIO0dmgpUI6zvOcam6sxhSQ7+sMPU7PB
- 9/5gXWxr+tjsne/iKuH+HGayImV4lUo6A2vk/hEg=
-Date: Tue, 17 Mar 2020 10:28:58 +1100
+ b=OIFVdv1X3zIG9YZjuG6zfHrv/FzHoiKnf6ip1g9ECABe1KOrLK23SGQinZF3oyObZ
+ ikwRGLojoNdHzMitOxUFfXBweR66xtLrt3RsDU8Fovll8u+Q5bQwTUmsEul3ULFkXF
+ bi19W6b01I1vr2sMfEQt/HI92gncs5/hrOLgl8i4=
+Date: Tue, 17 Mar 2020 10:30:29 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
- an alternate vector
-Message-ID: <20200316232858.GF20264@umbus.fritz.box>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
+Message-ID: <20200316233029.GG20264@umbus.fritz.box>
 References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-7-npiggin@gmail.com>
- <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
+ <20200316142613.121089-8-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
+ protocol="application/pgp-signature"; boundary="WkfBGePaEyrk4zXB"
 Content-Disposition: inline
-In-Reply-To: <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
+In-Reply-To: <20200316142613.121089-8-npiggin@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -57,88 +55,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Wb5NtZlyOqqy58h0
-Content-Type: text/plain; charset=iso-8859-1
+--WkfBGePaEyrk4zXB
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2020 at 07:15:14PM +0100, C=E9dric Le Goater wrote:
-> On 3/16/20 3:26 PM, Nicholas Piggin wrote:
-> > Provide for an alternate delivery location, -1 defaults to the
-> > architected address.
+On Tue, Mar 17, 2020 at 12:26:12AM +1000, Nicholas Piggin wrote:
+> PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
+> delivers all system reset and machine check exceptions to the registered
+> addresses.
 >=20
-> I don't know what is the best approach, to override the vector addr
-> computed by powerpc_excp() or use a machine class handler with=20
-> cpu->vhyp.
+> System Resets are delivered with registers set to the architected state,
+> and with no interlock.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-Again, in the interests of getting this in for the soft freeze, I've
-applied this now.  We can clean it up later.
+Applied to ppc-for-5.0.
 
+> ---
+>  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 44 insertions(+), 2 deletions(-)
 >=20
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > ---
-> >  hw/ppc/spapr.c           | 2 +-
-> >  target/ppc/cpu.h         | 2 +-
-> >  target/ppc/excp_helper.c | 5 ++++-
-> >  3 files changed, 6 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 5f93c49706..25221d843c 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -3400,7 +3400,7 @@ static void spapr_machine_finalizefn(Object *obj)
-> >  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
-> >  {
-> >      cpu_synchronize_state(cs);
-> > -    ppc_cpu_do_system_reset(cs);
-> > +    ppc_cpu_do_system_reset(cs, -1);
-> >  }
-> > =20
-> >  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> > index 3953680534..f8c7d6f19c 100644
-> > --- a/target/ppc/cpu.h
-> > +++ b/target/ppc/cpu.h
-> > @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunct=
-ion f, CPUState *cs,
-> >  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-> >                                 int cpuid, void *opaque);
-> >  #ifndef CONFIG_USER_ONLY
-> > -void ppc_cpu_do_system_reset(CPUState *cs);
-> > +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
-> >  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
-> >  extern const VMStateDescription vmstate_ppc_cpu;
-> >  #endif
-> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> > index 7f2b5899d3..08bc885ca6 100644
-> > --- a/target/ppc/excp_helper.c
-> > +++ b/target/ppc/excp_helper.c
-> > @@ -961,12 +961,15 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-> >      }
-> >  }
-> > =20
-> > -void ppc_cpu_do_system_reset(CPUState *cs)
-> > +void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
-> >  {
-> >      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> >      CPUPPCState *env =3D &cpu->env;
-> > =20
-> >      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
-> > +    if (vector !=3D -1) {
-> > +        env->nip =3D vector;
-> > +    }
-> >  }
-> > =20
-> >  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
-> >=20
->=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 25221d843c..78e649f47d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
+void *fdt)
+>      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+>                       maxdomains, sizeof(maxdomains)));
+> =20
+> -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
+> +    /*
+> +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log,
+> +     * and 16 bytes per CPU for system reset error log plus an extra 8 b=
+ytes.
+> +     *
+> +     * The system reset requirements are driven by existing Linux and Po=
+werVM
+> +     * implementation which (contrary to PAPR) saves r3 in the error log
+> +     * structure like machine check, so Linux expects to find the saved =
+r3
+> +     * value at the address in r3 upon FWNMI-enabled sreset interrupt (a=
+nd
+> +     * does not look at the error value).
+> +     *
+> +     * System reset interrupts are not subject to interlock like machine
+> +     * check, so this memory area could be corrupted if the sreset is
+> +     * interrupted by a machine check (or vice versa) if it was shared. =
+To
+> +     * prevent this, system reset uses per-CPU areas for the sreset save
+> +     * area. A system reset that interrupts a system reset handler could
+> +     * still overwrite this area, but Linux doesn't try to recover in th=
+at
+> +     * case anyway.
+> +     *
+> +     * The extra 8 bytes is required because Linux's FWNMI error log che=
+ck
+> +     * is off-by-one.
+> +     */
+> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+> +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+>                            RTAS_ERROR_LOG_MAX));
+>      _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+> @@ -3399,8 +3421,28 @@ static void spapr_machine_finalizefn(Object *obj)
+> =20
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+>  {
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +
+>      cpu_synchronize_state(cs);
+> -    ppc_cpu_do_system_reset(cs, -1);
+> +    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x10=
+0 */
+> +    if (spapr->fwnmi_system_reset_addr !=3D -1) {
+> +        uint64_t rtas_addr, addr;
+> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> +        CPUPPCState *env =3D &cpu->env;
+> +
+> +        /* get rtas addr from fdt */
+> +        rtas_addr =3D spapr_get_rtas_addr();
+> +        if (!rtas_addr) {
+> +            qemu_system_guest_panicked(NULL);
+> +            return;
+> +        }
+> +
+> +        addr =3D rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof=
+(uint64_t)*2;
+> +        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
+> +        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
+> +        env->gpr[3] =3D addr;
+> +    }
+> +    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
+>  }
+> =20
+>  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -146,25 +166,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Wb5NtZlyOqqy58h0
+--WkfBGePaEyrk4zXB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wC7kACgkQbDjKyiDZ
-s5ICpxAAnc1rRI/6Q330XmhUq2pNrAeukoVEWZV7wDFqEKATesM7WftGWesK0lcy
-sPrbAU0A5JHkIB1PnoBZY/CY0OZVvqzhXG5BL8ybZcuepsocZ7aEzqbWhjhhvowu
-wf3/KIIUv8Sy+z8JZi5wtz1ZyEnl2+f/POCRVfCBXv0Di18TvRzwb1XD0HUsz78+
-zzPEcl5VtmmkyvJtlZnwoNcaa9QjsVoaLB78AvzTNQNM3e6nWXe7M4Js2Ca4b3Ek
-vkbqCMnbYG59n9UoLb7Hx0nCXb0Vz830nogrzK/0SxJ3kb3w+vjT5hJUH0ET0+bB
-WIwCiNJhHJfBp/L3re6gNZBB53UnZDphGLplJSZP5InbpzcXqB0VtcRFVMbH95Bc
-bntZ0HhSAqOYV9f4E77jyqbtUdAmAAKMDUEErtxrooH4uei4VbGimSc0/qmA9HUB
-TWQHe9zTg6+g2mrzMWbIPXEHdPYVbuRfeRRBCDeh76BCmwT2WPTtV67tVVk/9Ffk
-i+AfpDLR1EE/HTKytcwKfVg7XfrJ6t+KSy2VgWTotuCdqWpsHulWPdp/5cqAe2Dw
-FlD8fSQeWTOBvzPhkeo270HXl5nbqKgEBktWdWO7iwdq7PLX/IOGgpMkMj2nc7hu
-tMj/1xnNdaZB7BORo0Bgpigk3SMAl+qYdpkrCgawYk96XZBFbYc=
-=H0r5
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wDBUACgkQbDjKyiDZ
+s5IQthAA2USi1wwSuK9dRkSCHFUR1b88SKA0Rm7+/7b9JfFMMUjYRJt6wbWKXC22
+FUDU8l2gR9Ii8oslvFw7e2b9vVOGFA/aYcZ2EV5FSLhBTF7uPXJRqt0OQVUJEUtD
+G1X9vSpVhnfVa15IDsTs8P5wya03a++gQNo4aVnEnDZjdRgb0OhEjgLwu0Kvgair
+Bf35MpkczTtxjRVfBPtPzM+pomv3o9OfbYCkPnAhUxzHhH8DVDaYQ5feDyNkU7Yq
+eLhVTIXEp0XzST25/hRP2DXERtkKamf9ryCKu7cukpXAu9EkbHkx5WefvykQAeCQ
+ujIl8XX/+bmH9/WJSmBz4rYEOycsGTY8jKEz+y847UaSSvQGKYI0H7jO9HAOY/gL
+g6o33Qu1bnJfAn8WHlNiZSWIn+AINdPl+Wgc9zUZQnQPFe9vI9b9yqnPNtfcprrZ
+zkhFDQLaRFukXqCevpqJMQP6hED3NIB0UsEUiMriI6vQvY6cpCOba8NMdOEc/ZRi
+W8GknNOjdYh2qpVCriImNMWPXYjfvHqvctFAohgFOdEh+qCYni0g4SnfqzDABNAt
+ihAhb8RyNG9TmpjzUeXBZvbW3zZX5OBVnd2147O9biuL1a4mEV7w3lsaBtze/QBu
+BVpqHbcSPT8F1hZFgKl1V1pv4/u3oGCD66Na8hT+falB+aYsQV4=
+=FvRR
 -----END PGP SIGNATURE-----
 
---Wb5NtZlyOqqy58h0--
+--WkfBGePaEyrk4zXB--
 
