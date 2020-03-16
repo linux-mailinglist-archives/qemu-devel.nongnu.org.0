@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728AF18763D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:34:17 +0100 (CET)
-Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50F0187641
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 00:36:50 +0100 (CET)
+Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDzFQ-0000x1-FK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
+	id 1jDzHt-000566-OD
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 19:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dW-Nb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:24 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDa-0007dV-Fq
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005fj-77
+ (envelope-from <dgibson@ozlabs.org>) id 1jDzDZ-0005eM-33
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 19:32:22 -0400
-Received: from ozlabs.org ([203.11.71.1]:55155)
+Received: from ozlabs.org ([203.11.71.1]:48823)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jDzDY-00050P-9e; Mon, 16 Mar 2020 19:32:21 -0400
+ id 1jDzDY-00057D-La; Mon, 16 Mar 2020 19:32:21 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hCJJ3hCdz9sRY; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
+ id 48hCJJ5ps6z9sRf; Tue, 17 Mar 2020 10:32:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584401536;
- bh=9e5ApgCXvMxcdcANt5BvHOIJ1GwEe2q7CwyDoxato00=;
+ bh=7MBm6BJBxXuAZ7QWrvQ79T6NMme54v/42Wo2if0FVqM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eZNcYdO0B6Oo98vWu0an7XiFFdQSqUI6xZYi+5hM7KFqHShl0DPMoi0RO50Gcvuas
- UrUJjRvWUBCW1yTmwP+2vXG+EK4B+5wlMp5xtyALVlqxywyGyxH5F88xfgG+ylJXmc
- cIyvVNObHqVaaYKEtEOJOryA6brhVFUgFhvoBS5M=
-Date: Tue, 17 Mar 2020 10:31:35 +1100
+ b=Wt2HGbi1q/4RG1ZZp9wHo14fGL+AhtbGMVUwXsM3ipmh0UAysiXOqZPEfYoGpL1ov
+ T3NIowdDKau7yNZsw9Z5R+dFv/qUZMXhWa9GniIBisiv+2PexOKhWLkx61ECK2P5sD
+ E/uwlF5j2ZkhFNv6w6CXHVaWZBXBzHea1sQcFHD4=
+Date: Tue, 17 Mar 2020 10:32:06 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 7/8] ppc/spapr: Implement FWNMI System Reset delivery
-Message-ID: <20200316233135.GH20264@umbus.fritz.box>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 8/8] ppc/spapr: Ignore common "ibm,nmi-interlock"
+ Linux bug
+Message-ID: <20200316233206.GI20264@umbus.fritz.box>
 References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-8-npiggin@gmail.com>
- <20200316173500.576hdvush3fzvvef@in.ibm.com>
- <20200316185254.1aca6e20@bahia.lan>
+ <20200316142613.121089-9-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Yia77v5a8fyVHJSl"
+ protocol="application/pgp-signature"; boundary="D6z0c4W1rkZNF4Vu"
 Content-Disposition: inline
-In-Reply-To: <20200316185254.1aca6e20@bahia.lan>
+In-Reply-To: <20200316142613.121089-9-npiggin@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -59,97 +58,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aravinda Prasad <arawinda.p@gmail.com>,
  Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org,
- Ganesh Goudar <ganeshgr@linux.ibm.com>
+ Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Yia77v5a8fyVHJSl
+--D6z0c4W1rkZNF4Vu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2020 at 06:52:54PM +0100, Greg Kurz wrote:
-> On Mon, 16 Mar 2020 23:05:00 +0530
-> Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com> wrote:
+On Tue, Mar 17, 2020 at 12:26:13AM +1000, Nicholas Piggin wrote:
+> Linux kernels call "ibm,nmi-interlock" in their system reset handlers
+> contrary to PAPR. Returning an error because the CPU does not hold the
+> interlock here causes Linux to print warning messages. PowerVM returns
+> success in this case, so do the same for now.
 >=20
-> > On 2020-03-17 00:26:12 Tue, Nicholas Piggin wrote:
-> > > PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
-> > > delivers all system reset and machine check exceptions to the registe=
-red
-> > > addresses.
-> > >=20
-> > > System Resets are delivered with registers set to the architected sta=
-te,
-> > > and with no interlock.
-> > >=20
-> > > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > > ---
-> > >  hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
-> > >  1 file changed, 44 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index 25221d843c..78e649f47d 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -967,7 +967,29 @@ static void spapr_dt_rtas(SpaprMachineState *spa=
-pr, void *fdt)
-> > >      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-> > >                       maxdomains, sizeof(maxdomains)));
-> > >=20
-> > > -    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
-> > > +    /*
-> > > +     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error=
- log,
-> > > +     * and 16 bytes per CPU for system reset error log plus an extra=
- 8 bytes.
-> > > +     *
-> > > +     * The system reset requirements are driven by existing Linux an=
-d PowerVM
-> > > +     * implementation which (contrary to PAPR) saves r3 in the error=
- log
-> > > +     * structure like machine check, so Linux expects to find the sa=
-ved r3
-> > > +     * value at the address in r3 upon FWNMI-enabled sreset interrup=
-t (and
-> > > +     * does not look at the error value).
-> > > +     *
-> > > +     * System reset interrupts are not subject to interlock like mac=
-hine
-> > > +     * check, so this memory area could be corrupted if the sreset is
-> > > +     * interrupted by a machine check (or vice versa) if it was shar=
-ed. To
-> > > +     * prevent this, system reset uses per-CPU areas for the sreset =
-save
-> > > +     * area. A system reset that interrupts a system reset handler c=
-ould
-> > > +     * still overwrite this area, but Linux doesn't try to recover i=
-n that
-> > > +     * case anyway.
-> > > +     *
-> > > +     * The extra 8 bytes is required because Linux's FWNMI error log=
- check
-> > > +     * is off-by-one.
-> > > +     */
-> > > +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX=
- +
-> > > +			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
-> >=20
-> > Currently the rtas region is only of size 2048 (i.e RTAS_ERROR_LOG_MAX).
-> > Do we need SLOF change to increase rtas area as well ? Otherwise QEMU
-> > may corrupt guest memory area OR Am I wrong ?
-> >=20
->=20
-> A change is pending for SLOF to use the "rtas-size" property
-> provided by QEMU:
->=20
-> https://patchwork.ozlabs.org/patch/1255264/
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-In the meantime, this is still correct.  Because we rebuild the device
-tree at CAS time, the qemu supplied value will be the one the guest
-sees in the end.  We obviously want that qemu update to avoid
-confusion, but we don't need it for things to work.
+Applied, thanks.
+
+> ---
+>  hw/ppc/spapr_rtas.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 521e6b0b72..9fb8c8632a 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -461,8 +461,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>      }
+> =20
+>      if (spapr->fwnmi_machine_check_interlock !=3D cpu->vcpu_id) {
+> -        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
+> -        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        /*
+> +	 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
+> +         * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interloc=
+k"
+> +	 * for system reset interrupts, despite them not being interlocked.
+> +	 * PowerVM silently ignores this and returns success here. Returning
+> +	 * failure causes Linux to print the error "FWNMI: nmi-interlock
+> +	 * failed: -3", although no other apparent ill effects, this is a
+> +	 * regression for the user when enabling FWNMI. So for now, match
+> +	 * PowerVM. When most Linux clients are fixed, this could be
+> +	 * changed.
+> +	 */
+> +        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>          return;
+>      }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -157,25 +116,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Yia77v5a8fyVHJSl
+--D6z0c4W1rkZNF4Vu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wDFcACgkQbDjKyiDZ
-s5KDkg//at0M2IWgaP6aICdPwyQr+2iUpD7PMG5h4EoBhr7OjU9UWEDMj15popkR
-6gXeaHG7qmNOrgJXXehpUcLIPbOJZV7wAv0PxJ5myqGMeISKMOQH94xgEF1PM56V
-Ej7SgKC7fRyLaZTnZMNFx/FGjVXqOmGxPxqL7pu1d28MVBBebkjywp4iRXvseajm
-AgmwAvif/kmIJigu2/J5sMIeYex9T18wAhn2uzm/gXR7u8cNhTuzhAi6nF5IiIyg
-1EwI6s92faCflk4b6vDpm+4knsEFsXNdAo9mngu6BnC0l7rLQEnOMn2i2dfDyPf8
-0kIfaoMdybuMhLi+YkOYW9tiKLzz+bfYFPGeZveXnQN8hkar/W18Cs2Dq6lhSzNt
-iYGbP8cwg4Gs/ZcpmLx0nQ/pXRjWruErxK0Ovqz/ho+NULNNMPyKFeuD1XwqiLnv
-C8fp5JtFy4xJhnAb7a1acRynuXmHoz3MAj6hY66WZdLgUtBx7KL98ky49RJZpUSR
-N7gHSZoO+QiSdW80+cjRX8N/m7rnaQZI2xvm0frNvNUDluQbjWLv7MHPuWR729sE
-/BD5djO9qV4KfUDLOcX9qRw3IJxLtMOHYTesLBRw39ZEa6DuZ/TyVJnSMNIgUIRX
-hwGxqkhu+Zm6Hg8Mzc+DTLtmlB+rBegSr8iu0+AwNGZoy2eZgjw=
-=2UZy
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5wDHYACgkQbDjKyiDZ
+s5JcwQ/9EL0ELzyB1ya18A1m0XXZiqtMJa7qPXfrwEZkbWu12sFLOXwQXEt1BJCT
+yV7yPr6u8+sUQHA0j3GtbRs7sr/zpP9CFFKKzidmyQEkI83M1YPO/i1Dc//cCcOh
+rwUTkIefjaZl/b1ShXpBGVY2xEnhaCqW2OEhejA+JWVVKOPK9ftmsYcGJ5udgqAQ
+rP8OLa/1rUReMBPkB30QtlS1GkXZruE5ooPBcFFP/t7oU1NJjsbSbSUf61hxBX4I
+wVhl6NWSt78Ug3e65L31O5xbAQ5gScf0JEui4GoWk2wgBqGSNS/DJA09pdQCbUaJ
+0Q2ogwQeKniI4So5rD/Gtaj1iQthPji8VymTam0cyZVshCzT/GzOrUNKv2q2Xzvn
+uWXcyDsT59vnWONmvmUH3i7toRMUXN2MfzFM2ttEs1BsTMYaeCD1qKT+DdhugG06
+tFHskOEbrLrLxAPTxP+pM6Es7uEZPDWmqg0tISrS/zxwaLPwSmOgcpaPLGIpwvln
+P4Cv+6SXOvTgYBNheME1RHxRt/pr4yQcX+A4+kUbXGCakhODczGLSKhvSsSBqEd8
+QoPEKvSbKA8Pct1UXsx01wsvmPSVnOOyCGFjEPk/RjoTROlBuON5EMj5ngjscX7M
+Yjxbi4kvioyhBH9Sj6HVR3f0KWfVmlq44A+cYmDNhO7K5TXwA40=
+=my4s
 -----END PGP SIGNATURE-----
 
---Yia77v5a8fyVHJSl--
+--D6z0c4W1rkZNF4Vu--
 
