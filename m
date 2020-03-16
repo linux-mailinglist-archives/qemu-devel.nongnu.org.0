@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0055187224
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:20:24 +0100 (CET)
-Received: from localhost ([::1]:45618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB02A18721D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:18:23 +0100 (CET)
+Received: from localhost ([::1]:45572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuLf-0001Ox-V2
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49851)
+	id 1jDuJi-0006K9-MU
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:18:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49795)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jDtVA-0007fT-5y
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:09 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jDtV8-00005I-Q8
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtV8-0007bY-50
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:07 -0400
-Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:47793)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jDtV8-0008LG-Ec
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:06 -0400
-Received: from player734.ha.ovh.net (unknown [10.108.35.158])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 5F54315F390
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:26:04 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id 88C201057C669;
- Mon, 16 Mar 2020 17:25:47 +0000 (UTC)
-Date: Mon, 16 Mar 2020 18:25:46 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 2/8] ppc/spapr: Change FWNMI names
-Message-ID: <20200316182546.65def6fd@bahia.lan>
-In-Reply-To: <20200316171845.dq425igrgb5gion2@in.ibm.com>
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-3-npiggin@gmail.com>
- <20200316171845.dq425igrgb5gion2@in.ibm.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jDtV6-0008Jl-Gr
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:05 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34717)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jDtV6-0008Dk-8z
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:04 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x3so13809250wmj.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:26:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dXWR932K4HOgQCUPYucSc3bUlAFTBYQcNOphnZlIFpc=;
+ b=fv+SlBdrX8TRZQIAicysyorbZwmp3ZkC67WsjChMoUwA9Hcw/9hRfi0M4dCAafobUg
+ j1/R3VeAUmzRxTaRHsbWfmpNJk4RTvs83WgaRQCAUyigYyWlLFUkApKz8D6hgJRDfd4h
+ 399ckE1SMn8LMVq3KQt64O089bZ9k3M5MF2ytScyoEuXia+0jYcBOfbKwFu5al2hXWov
+ gclT7eSO6gM+KBDzJVTGvw4xhmfTNwrtrRfiatVhh5Zm3A4hLL/kYCNd9NGw/1oGt/ch
+ E2qkDhyy5QYIu9ZVsjbi4GclnxXeWgfkEiE9GOK3R5M9lA3C2fJ1BqtPPJLdtZcTdaF0
+ GbVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dXWR932K4HOgQCUPYucSc3bUlAFTBYQcNOphnZlIFpc=;
+ b=hS/CrhJy16XE+mxXygcEuNXVPTk+8QU1myxbac1BDbgFkGSljicZzC6AiSn5TPRzK2
+ R40LGNpZGGOUeWEXHIQqcGY2BRrbHx/5jkwxfVg0pEDZj0S0e0MF0zcqXWgljfXUGOJH
+ E9d7GjD2AD2itUyQJ+FhsC8Kz5DfzcUg5NtYAHvXNLCDqeQk/jCAsCb9LpeIYLXWvCMV
+ L1jKsNc9KXgZsSoyobhnUySKLEmVnl3XG3prNi08wSVV3g3RZB3h2j8VqK3+7npY+F/0
+ CN8oYuELB5RK0mdN+qpzbTT9qhM5URghnG5UOfhzkk0V9TTfdZutsslByASShuCB1wfR
+ RoFw==
+X-Gm-Message-State: ANhLgQ0POTD+oQkrodJ84HlbEdaTLtYDMKxS6Fv5j+CaYnQ7zY+E9EyG
+ ZnzlcbZtscSwiDakDppk1UnxYEVdo4Rt/ULJa2o=
+X-Google-Smtp-Source: ADFU+vvzi71oXMJPGrWQ2WRoRdqDWonUtAUiBQ1BYWVSun4bGncARKF6BSfGgmEwbnkJKnbM8zDRXJLKYXX8z+t1cDE=
+X-Received: by 2002:a7b:c7d9:: with SMTP id z25mr174858wmk.25.1584379563024;
+ Mon, 16 Mar 2020 10:26:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13162895813958474148
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.111.220
+References: <20200315144653.22660-1-armbru@redhat.com>
+ <20200315144653.22660-22-armbru@redhat.com>
+In-Reply-To: <20200315144653.22660-22-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 16 Mar 2020 18:25:50 +0100
+Message-ID: <CAJ+F1CLTwBajW=8gNx1o3c7+A0AfyeLwDPdyCHhqXnfi7+J+mA@mail.gmail.com>
+Subject: Re: [PATCH v3 21/34] qapi: Inline do_qmp_dispatch() into
+ qmp_dispatch()
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,52 +75,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 22:48:45 +0530
-Mahesh J Salgaonkar <mahesh@linux.vnet.ibm.com> wrote:
+On Sun, Mar 15, 2020 at 4:05 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Both functions check @request is a QDict, and both have code for
+> QCO_NO_SUCCESS_RESP.  This wasn't the case back when they were
+> created.  It's a sign of muddled responsibilities.  Inline.  The next
+> commits will clean up some more.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-> On 2020-03-17 00:26:07 Tue, Nicholas Piggin wrote:
-> > The option is called "FWNMI", and it involves more than just machine
-> > checks, also machine checks can be delivered without the FWNMI option,
-> > so re-name various things to reflect that.
-> > 
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > ---
-> >  hw/ppc/spapr.c                    | 28 ++++++++++++++--------------
-> >  hw/ppc/spapr_caps.c               | 14 +++++++-------
-> >  hw/ppc/spapr_events.c             | 14 +++++++-------
-> >  hw/ppc/spapr_rtas.c               | 17 +++++++++--------
-> >  include/hw/ppc/spapr.h            | 27 +++++++++++++++++----------
-> >  tests/qtest/libqos/libqos-spapr.h |  2 +-
-> >  6 files changed, 55 insertions(+), 47 deletions(-)
-> > 
-> [...]
-> > @@ -626,14 +626,14 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-> >          .type = "bool",
-> >          .apply = cap_ccf_assist_apply,
-> >      },
-> > -    [SPAPR_CAP_FWNMI_MCE] = {
-> > -        .name = "fwnmi-mce",
-> > -        .description = "Handle fwnmi machine check exceptions",
-> > -        .index = SPAPR_CAP_FWNMI_MCE,
-> > +    [SPAPR_CAP_FWNMI] = {
-> > +        .name = "fwnmi",
-> 
-> I guess this should be fine and should hit QEMU 5.0 release so that we
-> don't end up with two different CAP names for 5.0 and future releases.
-> 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Yeah we really want this patch and the next one (which affects migration) to
-go to 5.0.
 
-> Thanks,
-> -Mahesh.
-> 
+> ---
+>  qapi/qmp-dispatch.c | 90 +++++++++++++++++++++------------------------
+>  1 file changed, 41 insertions(+), 49 deletions(-)
+>
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index bc264b3c9b..a588072523 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -75,19 +75,42 @@ static QDict *qmp_dispatch_check_obj(const QObject *r=
+equest, bool allow_oob,
+>      return dict;
+>  }
+>
+> -static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
+> -                                bool allow_oob, Error **errp)
+> +QDict *qmp_error_response(Error *err)
+>  {
+> -    Error *local_err =3D NULL;
+> +    QDict *rsp;
+> +
+> +    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %=
+s } }",
+> +                                  QapiErrorClass_str(error_get_class(err=
+)),
+> +                                  error_get_pretty(err));
+> +    error_free(err);
+> +    return rsp;
+> +}
+> +
+> +/*
+> + * Does @qdict look like a command to be run out-of-band?
+> + */
+> +bool qmp_is_oob(const QDict *dict)
+> +{
+> +    return qdict_haskey(dict, "exec-oob")
+> +        && !qdict_haskey(dict, "execute");
+> +}
+> +
+> +QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
+> +                    bool allow_oob)
+> +{
+> +    Error *err =3D NULL;
+>      bool oob;
+>      const char *command;
+> -    QDict *args, *dict;
+> +    QDict *args;
+>      QmpCommand *cmd;
+> +    QDict *dict =3D qobject_to(QDict, request);
+> +    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
+>      QObject *ret =3D NULL;
+> +    QDict *rsp;
+>
+> -    dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
+> +    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
+>      if (!dict) {
+> -        return NULL;
+> +        goto out;
+>      }
+>
+>      command =3D qdict_get_try_str(dict, "execute");
+> @@ -99,27 +122,27 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds=
+, QObject *request,
+>      }
+>      cmd =3D qmp_find_command(cmds, command);
+>      if (cmd =3D=3D NULL) {
+> -        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
+> +        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+>                    "The command %s has not been found", command);
+> -        return NULL;
+> +        goto out;
+>      }
+>      if (!cmd->enabled) {
+> -        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
+> +        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+>                    "The command %s has been disabled for this instance",
+>                    command);
+> -        return NULL;
+> +        goto out;
+>      }
+>      if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
+> -        error_setg(errp, "The command %s does not support OOB",
+> +        error_setg(&err, "The command %s does not support OOB",
+>                     command);
+> -        return NULL;
+> +        goto out;
+>      }
+>
+>      if (runstate_check(RUN_STATE_PRECONFIG) &&
+>          !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+> -        error_setg(errp, "The command '%s' isn't permitted in '%s' state=
+",
+> +        error_setg(&err, "The command '%s' isn't permitted in '%s' state=
+",
+>                     cmd->name, RunState_str(RUN_STATE_PRECONFIG));
+> -        return NULL;
+> +        goto out;
+>      }
+>
+>      if (!qdict_haskey(dict, "arguments")) {
+> @@ -129,9 +152,9 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds,=
+ QObject *request,
+>          qobject_ref(args);
+>      }
+>
+> -    cmd->fn(args, &ret, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> +    cmd->fn(args, &ret, &err);
+> +    if (err) {
+> +        ;
+>      } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
+>          g_assert(!ret);
+>      } else if (!ret) {
+> @@ -141,38 +164,7 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds=
+, QObject *request,
+>
+>      qobject_unref(args);
+>
+> -    return ret;
+> -}
+> -
+> -QDict *qmp_error_response(Error *err)
+> -{
+> -    QDict *rsp;
+> -
+> -    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %=
+s } }",
+> -                                  QapiErrorClass_str(error_get_class(err=
+)),
+> -                                  error_get_pretty(err));
+> -    error_free(err);
+> -    return rsp;
+> -}
+> -
+> -/*
+> - * Does @qdict look like a command to be run out-of-band?
+> - */
+> -bool qmp_is_oob(const QDict *dict)
+> -{
+> -    return qdict_haskey(dict, "exec-oob")
+> -        && !qdict_haskey(dict, "execute");
+> -}
+> -
+> -QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
+> -                    bool allow_oob)
+> -{
+> -    Error *err =3D NULL;
+> -    QDict *dict =3D qobject_to(QDict, request);
+> -    QObject *ret, *id =3D dict ? qdict_get(dict, "id") : NULL;
+> -    QDict *rsp;
+> -
+> -    ret =3D do_qmp_dispatch(cmds, request, allow_oob, &err);
+> +out:
+>      if (err) {
+>          rsp =3D qmp_error_response(err);
+>      } else if (ret) {
+> --
+> 2.21.1
+>
+>
 
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
