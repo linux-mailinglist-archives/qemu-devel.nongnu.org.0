@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC0B1871AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:55:53 +0100 (CET)
-Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7641A187199
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:52:50 +0100 (CET)
+Received: from localhost ([::1]:44908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtxw-0002ey-3g
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:55:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52819)
+	id 1jDtuz-0005YU-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXm-0003hw-VN
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:52 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRj-0001Io-AO
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jDtXl-0002Ep-AK
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:50 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43740)
+ (envelope-from <alex.bennee@linaro.org>) id 1jDtRf-00024w-4p
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:35 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33096)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jDtXk-00023S-OX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:28:48 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b2so16053339wrj.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:28:47 -0700 (PDT)
+ id 1jDtRe-0001uD-Q7
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:22:30 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r7so13797952wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b9yQeDMo6CQGzL1Yr1rFXA4YMGbWAVcmyiV4TWBxgDU=;
- b=UzGVJA38FrgRXPYqRd9qFU5QN+JVNIH4Rk1dz1ECkR5tSFk4F51dtJUpARKHA7oOQB
- urX8wYBDH2EWqbpJyCs5DlnBivTE/kKxeCZT7pAFWsJttILgMwizSdi5muE2+aoLBUQ1
- PyNE7y/Ejz0qoQrWlDcFbr4dIv2s4P5r0NSeOBgTgeuhJDmRY4AXzvGmGawPwr2g9v/j
- NN4N3yrQLJK8ca1QaXpjuOHf69xgIewllJELxv1lyi9df0XoG8nRHMLkRAVYHWW+f27V
- K8xKqFSziI/uXZXdBKOhpR11eRmmGd5q2QKEcw+R4lPg5e2s4ZbhteLCcTh9h/gHeJqs
- rjEA==
+ bh=7aNXZAoL0fEr8CHp9NIvYI/wCGleSQwEmfp3SuRJ1II=;
+ b=GZ3O3rJrzhGNg0CM8AEaKyrEvYVxBCL51fXVE/7hRqQr1tt/5Ncc6kWQAFdf+m8Glw
+ tQYL6Kf42n+Za4+rA7MrmCCWJMYriBqjUX58jEr1jL/ZVnTvONbtZpqJWtCvm+eb7H86
+ 7f1FJxZhmaVNqES1vYNeuAgKhQYZF68R5Lfz6VHlc9zGY/74c/ZqFD/bfs+cWtJgZGA1
+ YixPbCgtH/iY6scDl3mmK9qOUBKzQdil9xGrHtOISIWRdlXzsFgryw1ZDRgh06Vg3Oo0
+ BxAytqJ3hN6tX8z20HhII2qudjjpkRYSThlWqB2eLVMMUOuH08Vas1H2NuzAFDx3H/AD
+ Wv/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b9yQeDMo6CQGzL1Yr1rFXA4YMGbWAVcmyiV4TWBxgDU=;
- b=m9DIm7WDKVJBjtIDEo7xrPq+zadNAji5mj4/8zE+tV6w0GnXy46JBmkAOKYEaXRQvE
- 4NvBa8Ay+GBLNVdJSg/MGDkzDQWPiOUQuSlNwqQtWSOfZMDeFtqd5DkEhOa4cs3AaGKw
- PZEElyR1lqz8F4lc8ou18/6x2JuF/sQcAyDTqi8TtO0kmFiVbwrj+rSMYgUh2Yxj8ij6
- SuowbpAY+DBn4BX2ietR8RFFkM3PpwvqNFkdZ6WwPRZ7jgRINZk0QU9cL+2GV3WLg+Ae
- BrDRelqRIsMe6nz5IQlS1913QxsnpKrZqggrAXCs4DyQudkq5V4Q0IWahbZ2AG+gIqKq
- +DKw==
-X-Gm-Message-State: ANhLgQ1Noj4AdKx/Pz0qhGBQcMhU5MLPNQWtUSsiY77Q94H1r8k8PIUY
- R/oYXhA/R8FDha4QVN5+7hZoHg==
-X-Google-Smtp-Source: ADFU+vvAsvbtGMl640m8WOF53HNVI2Bai+tIuV6IVMRsQdmswlyMNZ6bq9Qh9ETC1C4LwlSIuXe0lA==
-X-Received: by 2002:a5d:4a10:: with SMTP id m16mr370895wrq.333.1584379726370; 
- Mon, 16 Mar 2020 10:28:46 -0700 (PDT)
+ bh=7aNXZAoL0fEr8CHp9NIvYI/wCGleSQwEmfp3SuRJ1II=;
+ b=RJlM6zjBiPDUEg7yXpVf26GNQxBd55ZmfFxDRx34vei7ckTmWH9MK7KQolwQr62L+u
+ hefGi+kS/OI0pSCVOPtfdEg2uhqAQAdcAwUSl/uQ75hoWNRJ+gZrSO0pjj285+4xwORO
+ AOVtduLhJehRnxeHPmXbSDAO9ZaCbl8vt1O78Unqzl9f6v3Jqc5ld/roUxJwnzpFH01G
+ iangcy0E0ATezzdCTYvCDpDOH0WYwoxAnPiCY+DR+5/W0bqRI3UOF7h3Vw16jbVC5n2x
+ CiTM6qCnzyhGXtt0XiwKYfO55UC1EuE9d7m2Xm9q4ViGAYro0O+PtcHInzm9bBcYMoVj
+ mDEg==
+X-Gm-Message-State: ANhLgQ2eeSW1e3kRjM9UVvCId+7KDsq6DxTqqohXp3ktBCXPbk91RXx1
+ /omkoMMyNguvsTGermHcZVoHNA==
+X-Google-Smtp-Source: ADFU+vsdrorSCRHex1nb95ebvHsRyd/B8fRk97wi5pQPeCfiK2sgXn0zQeixDGN9JIeVdgNC9ekPEg==
+X-Received: by 2002:a1c:6605:: with SMTP id a5mr194207wmc.32.1584379348650;
+ Mon, 16 Mar 2020 10:22:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c4sm475531wml.7.2020.03.16.10.28.38
+ by smtp.gmail.com with ESMTPSA id s22sm414601wmc.16.2020.03.16.10.22.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 10:28:41 -0700 (PDT)
+ Mon, 16 Mar 2020 10:22:16 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AD1B21FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id EC0801FFB5;
  Mon, 16 Mar 2020 17:21:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 25/28] tests/tcg/aarch64: add test-sve-ioctl guest-debug
- test
-Date: Mon, 16 Mar 2020 17:21:52 +0000
-Message-Id: <20200316172155.971-26-alex.bennee@linaro.org>
+Subject: [PATCH v1 28/28] gdbstub: Fix single-step issue by confirming
+ 'vContSupported+' feature to gdb
+Date: Mon, 16 Mar 2020 17:21:55 +0000
+Message-Id: <20200316172155.971-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200316172155.971-1-alex.bennee@linaro.org>
 References: <20200316172155.971-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,150 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>, Changbin Du <changbin.du@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test exercises the gdbstub while runing the sve-iotcl test. I
-haven't plubmed it into make system as we need a way of verifying if
-gdb has the right support for SVE.
+From: Changbin Du <changbin.du@gmail.com>
 
+Recently when debugging an arm32 system on qemu, I found sometimes the
+single-step command (stepi) is not working. This can be reproduced by
+below steps:
+ 1) start qemu-system-arm -s -S .. and wait for gdb connection.
+ 2) start gdb and connect to qemu. In my case, gdb gets a wrong value
+    (0x60) for PC, which is an another bug.
+ 3) After connected, type 'stepi' and expect it will stop at next ins.
+
+But, it has never stopped. This because:
+ 1) We doesn't report ‘vContSupported’ feature to gdb explicitly and gdb
+    think we do not support it. In this case, gdb use a software breakpoint
+    to emulate single-step.
+ 2) Since gdb gets a wrong initial value of PC, then gdb inserts a
+    breakpoint to wrong place (PC+4).
+
+Not only for the arm target, Philippe has also encountered this on MIPS.
+Probably gdb has different assumption for different architectures.
+
+Since we do support ‘vContSupported’ query command, so let's tell gdb that
+we support it.
+
+Before this change, gdb send below 'Z0' packet to implement single-step:
+gdb_handle_packet: Z0,4,4
+
+After this change, gdb send "vCont;s.." which is expected:
+gdb_handle_packet: vCont?
+put_packet: vCont;c;C;s;S
+gdb_handle_packet: vCont;s:p1.1;c:p1.-1
+
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200221002559.6768-1-changbin.du@gmail.com>
+[AJB: fix for static gdbstub]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 ---
-v4
-  - interrogate ZCR_EL1 directly as no longer have vg
-v5
-  - plumb in
-  - skip if fails to connect
-v6
-  - fix for vg
-v7
-  - change to vg size, also better trap failure in zreg access
----
- tests/tcg/aarch64/Makefile.target           | 11 ++-
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 82 +++++++++++++++++++++
- 2 files changed, 91 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ gdbstub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index c879932ff6c..d99b2a9eced 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -54,15 +54,22 @@ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+diff --git a/gdbstub.c b/gdbstub.c
+index 9ae148cd1ff..013fb1ac0f1 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2130,7 +2130,7 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
+         gdbserver_state.multiprocess = true;
+     }
  
--AARCH64_TESTS += gdbstub-sysregs
-+AARCH64_TESTS += gdbstub-sysregs gdbstub-sve-ioctls
+-    g_string_append(gdbserver_state.str_buf, ";multiprocess+");
++    g_string_append(gdbserver_state.str_buf, ";vContSupported+;multiprocess+");
+     put_strbuf();
+ }
  
--.PHONY: gdbstub-sysregs
-+.PHONY: gdbstub-sysregs gdbstub-sve-ioctls
- run-gdbstub-sysregs: sysregs
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
- 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
- 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
- 	"basic gdbstub SVE support")
-+
-+run-gdbstub-sve-ioctls: sve-ioctls
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
-+	"basic gdbstub SVE ZLEN support")
- endif
- 
- endif
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-new file mode 100644
-index 00000000000..5824abe09ac
---- /dev/null
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -0,0 +1,82 @@
-+from __future__ import print_function
-+#
-+# Test the SVE ZReg reports the right amount of data. It uses the
-+# sve-ioctl test and examines the register data each time the
-+# __sve_ld_done breakpoint is hit.
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+import sys
-+
-+initial_vlen = 0
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+class TestBreakpoint(gdb.Breakpoint):
-+    def __init__(self, sym_name="__sve_ld_done"):
-+        super(TestBreakpoint, self).__init__(sym_name)
-+        # self.sym, ok = gdb.lookup_symbol(sym_name)
-+
-+    def stop(self):
-+        val_i = gdb.parse_and_eval('i')
-+        global initial_vlen
-+        try:
-+            for i in range(0, int(val_i)):
-+                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+                report(int(val_z) == i, "z0.b.u[%d] == %d" % (i, i))
-+            for i in range(i + 1, initial_vlen):
-+                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+                report(int(val_z) == 0, "z0.b.u[%d] == 0" % (i))
-+        except gdb.error:
-+            report(False, "checking zregs (out of range)")
-+
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    print ("Setup breakpoint")
-+    bp = TestBreakpoint()
-+
-+    global initial_vlen
-+    vg = gdb.parse_and_eval("$vg")
-+    initial_vlen = int(vg) * 8
-+
-+    gdb.execute("c")
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    report(arch.name() == "aarch64", "connected to aarch64")
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except:
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    import code
-+    code.InteractiveConsole(locals=globals()).interact()
-+    raise
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
 -- 
 2.20.1
 
