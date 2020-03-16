@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FA4186AB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:15:24 +0100 (CET)
-Received: from localhost ([::1]:37712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFA0186AD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:27:23 +0100 (CET)
+Received: from localhost ([::1]:37860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDoeR-00006o-9y
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59993)
+	id 1jDoq1-0004YT-7z
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDnn2-0006QS-I7
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:20:14 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jDnoN-0006zw-3i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:21:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDnn1-0002gF-5H
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:20:12 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43466)
+ (envelope-from <stefanha@gmail.com>) id 1jDnoM-0003Wd-30
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:21:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43381)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDnn0-0002NY-Nx
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:20:10 -0400
-Received: by mail-wr1-x434.google.com with SMTP id b2so14445765wrj.10
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 04:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e90s5GDKqF71kjDAM6KX7htm2byTtpgfT/7m3PaplCY=;
- b=fbO/ja+/0dTZk/p1OPkanWOwknUvvPsB8ZvfTdth3VJzomGE5GOC5OL5XvtvAeWm7C
- 9VP4C8ofRqF/rObX0xH2cM8Vg3/S6m4QuTxCeG6Kow5tr+Zrm3Lc9x8Xf00Boh78dyJa
- VqF+WNiwQgi2tpjtjZ6dVe+kjR7/91m5OsgHR+0wFTPV8/3BwaM2p591d9PGfYoSSewS
- MaMhQq0snnOv0ta48DPVHLxUPn3TvhpJKqWpfkNUqpjvq4LvdSnJczSjf0TkwptMqjOK
- Dd5y95iq3+34ICpv6+a3s59psj3coSEXAceXL9MyJgTpCXCF7dL53c2JkGdaMKn/jzff
- +NUw==
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jDnoL-0003G9-Qt
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:21:34 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b2so14451450wrj.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 04:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4GK03kA8oNgvX3UTiv2z1xXBynif/uVMbj3je63Vv5Y=;
+ b=JCSCG+6966WrQH1jb1pxiWFV/ifAT79jbbHM38L73dN7NhfUjsUp8y5fCq/30lOYyM
+ 7VnTPInb7RZoNbGIo1Gt4Jy6bd3H0ggeOP1NuaciRPboQTdTm3uaYNz4XRKAComqBIeN
+ tNoOhJBA18oYzDfB+RAqj+Z6jllj+WFyeR1O6hzRRV6iYvRIwLCjYVnG0pes4zW5fat+
+ pc+QM7mZLuWMSthNI1+jsjdGwv8oKToKz53Z1FgHdzqng2I1nizOb22HIMeC1Yd7EVRB
+ H2vU1ka1g+YAK+JPJc64kfdvYalisnLE3x+JbnTgjZWZuinqQcXuhhu8VU6bGcfUgKjN
+ Bvlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e90s5GDKqF71kjDAM6KX7htm2byTtpgfT/7m3PaplCY=;
- b=oRzV1IXi9C6egyr1o819DATpJpztDeX3VzPoEaMJBg3a+9mJ3w2qVzrrqsc3NRyEYs
- ivcdQ80y2GMOpND+YHj9wNgrWp/tdCJFfoHj8hQYAgT5bej+Jn1FY7UQSZEYychvbR+C
- OsqgEYlXtbI9zMdfUzz9OFBejolHAQo9RvJNl+lQwn6U6xEOC5sSlP3n75x89j6XiemJ
- nPLZZD/mQ8hOVRUJsPJRaxflMKWKsbt4OekdtHGMeT2vQ6EWvlhgyI/O8Q2pQhmtXz91
- BeGKaBhZEJJur9yqceaEq18T33vUv/BfKRGn4fDTkr1usIUBqQYWBAydj2sSAx4s8zFr
- KOBQ==
-X-Gm-Message-State: ANhLgQ0Is6uDGkVDHo+8cK8IeICbiksXhVzcyecog9sIIuYmr0JfQwK6
- 3mzz3u5N1jWvm49wlaO0YnXQiZQQ4OgzBQ==
-X-Google-Smtp-Source: ADFU+vtaaloOppJKIJRdFnj530OT9zBbONplkXFi8WZmA16hGZaM/grqL9Kd93FyGsjmchogrJS5zQ==
-X-Received: by 2002:adf:df07:: with SMTP id y7mr1665646wrl.355.1584357608819; 
- Mon, 16 Mar 2020 04:20:08 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r9sm23178099wma.47.2020.03.16.04.20.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4GK03kA8oNgvX3UTiv2z1xXBynif/uVMbj3je63Vv5Y=;
+ b=uJXgfqoVGciJtgVVWQ9AEfNWTjJLwDKTw3AsuZtSVcs20V+uDEObnnRgxuH2+hS8xq
+ bj+F8jocHuunP2faxMBR0Kv/O3sZVX4r1PYA5oEdGcEPpqo1Si4Buw5phdu/vY1QEDKK
+ KLCLRDY4ZAh5J3p7AqLRmVTD8x8DGuywQzpS71LULuggAOKrqf8gHdK7VdZHt7BcmJ45
+ gR65aSm5SiP15RQua2bQWMlddTFY7hJl7xgmJLOgKFmO1jpYoeESaUp44HwD9FEswsOu
+ 8JE1hnrNw+NhylCxrRtQSkmZ5hotm34LkjcH5CZ+dqTP58P33M85WLPmndUVmVAvfuyw
+ WV0g==
+X-Gm-Message-State: ANhLgQ0E/CekocSCCHqxZWmxc2OPt14vAEhVib/drqIfOM1Hb+M5quhK
+ BCk6iZ4Ir80u1Vl1bT+bKKZ8D4wg
+X-Google-Smtp-Source: ADFU+vvT1pXOzZRaR5V3NNhvsScHx1qW7LP0Uh+1GQK+0fM3pljgzmexYEj7M3KIAiP/wdvoDCE6lw==
+X-Received: by 2002:a5d:480c:: with SMTP id l12mr35588174wrq.19.1584357692395; 
+ Mon, 16 Mar 2020 04:21:32 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id l26sm1376501wmi.37.2020.03.16.04.21.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 04:20:08 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Update copyright date for user-facing copyright strings
-Date: Mon, 16 Mar 2020 11:20:06 +0000
-Message-Id: <20200316112006.19107-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Mon, 16 Mar 2020 04:21:30 -0700 (PDT)
+Date: Mon, 16 Mar 2020 11:21:29 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Subject: Re: [PATCH] modules: load modules from versioned /var/run dir
+Message-ID: <20200316112129.GA449975@stefanha-x1.localdomain>
+References: <20200306132648.27577-1-christian.ehrhardt@canonical.com>
+ <20200310093910.GB140737@stefanha-x1.localdomain>
+ <CAATJJ0KvA65i4463wCX1m2e4L=r=O1oaFjojXDvOX3otmMX=dg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
+In-Reply-To: <CAATJJ0KvA65i4463wCX1m2e4L=r=O1oaFjojXDvOX3otmMX=dg@mail.gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,47 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Arbuckle <programmingkidx@gmail.com>
+Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, pkg-qemu-devel@lists.alioth.debian.org,
+ Cole Robinson <crobinso@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the copyright date to 2020 for the copyright strings which are
-user-facing and represent overall copyright info for all of QEMU.
 
-Reported-by: John Arbuckle <programmingkidx@gmail.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/qemu-common.h | 2 +-
- docs/conf.py          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 082da59e852..d0142f29ac1 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -13,7 +13,7 @@
- #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
- 
- /* Copyright string for -version arguments, About dialogs, etc */
--#define QEMU_COPYRIGHT "Copyright (c) 2003-2019 " \
-+#define QEMU_COPYRIGHT "Copyright (c) 2003-2020 " \
-     "Fabrice Bellard and the QEMU Project developers"
- 
- /* Bug reporting information for --help arguments, About dialogs, etc */
-diff --git a/docs/conf.py b/docs/conf.py
-index 960043cb860..af55f506d5d 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -80,7 +80,7 @@ master_doc = 'index'
- 
- # General information about the project.
- project = u'QEMU'
--copyright = u'2019, The QEMU Project Developers'
-+copyright = u'2020, The QEMU Project Developers'
- author = u'The QEMU Project Developers'
- 
- # The version info for the project you're documenting, acts as replacement for
--- 
-2.20.1
+On Tue, Mar 10, 2020 at 12:47:49PM +0100, Christian Ehrhardt wrote:
+> On Tue, Mar 10, 2020 at 10:39 AM Stefan Hajnoczi <stefanha@gmail.com> wro=
+te:
+> > On Fri, Mar 06, 2020 at 02:26:48PM +0100, Christian Ehrhardt wrote:
+> And finally this has to be considered an "offer" by qemu to the packagers
+> to fix a real field issue.
+> The packaging does not "have to" exploit this, every Distro is free to ju=
+st
+> ignore it.
 
+I understand.  My intention is just to draw the attention of the right
+people so that other distros are aware of the problem and improvements
+can be discussed.
+
+=46rom my own perspective it seems fine to merge this or a similar patch
+into qemu.git.
+
+Stefan
+
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5vYTkACgkQnKSrs4Gr
+c8ibvgf7Bj1MD5TlMqJhOeSlzoPwQoBiDuHeLeTwai7hqALH+WcCKxugnp8qh2cn
+jm6XrA7kwG5rclIvsuM+SAUxO5TwTDLJZiNjfhKCizOAVkTdC/S90K5hVa4vGFFn
+9u3xWkuPc+lhSMYHNBxkmNsQjhIpJyVONnQumtrzSi5Kievu1pmA43xUPICvt3y7
+MP0kAeEsiwtO+FhpPEaOm2nb8S40OrEzQVqhyxzbL7uTr1v+d960yxskzfFU9OB5
+MBEka1NQivLiDFarHuubmYosxTmlHm91wjJh2u4iE/NhfYQPwVaEipElzNc/XKLh
+cw0Lx8EL9bMFVsEpGJcFc13adZhwXg==
+=kzvU
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
 
