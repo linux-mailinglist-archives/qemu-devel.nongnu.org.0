@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6C0186FA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:07:05 +0100 (CET)
-Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F2A186FDD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:19:27 +0100 (CET)
+Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsGe-0002RI-2f
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37699)
+	id 1jDsSb-00073n-4H
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jDpBV-0004ma-Ab
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:49:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDpIp-0007U6-8H
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:57:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jDpBP-0003bZ-KK
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:49:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20948
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jDpBP-0003Zx-F5
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:49:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584362967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oMBmqqjrVDoNBM0i5RDn4Af4LJu1yJvrmIbMkJ1iq0I=;
- b=DePusss4z8LPhGQFPKvSok4bPVsUt1fMSLt33Mh5Dv16Q8xbSBomJ/KHOzNKexeSrpr8zI
- cv3uyAXDPFtuFA0IuO1bTMa4zAWD1Uiu3gUY0AogZEWcpsLkerIMfJ++0VgUnfTWHVOALc
- ENOujqF7plnjJHKfwfv/BTgjN2+pYzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-T7fC42KaNySOZ_ub-KuZIA-1; Mon, 16 Mar 2020 08:49:25 -0400
-X-MC-Unique: T7fC42KaNySOZ_ub-KuZIA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39FC518FF660;
- Mon, 16 Mar 2020 12:49:24 +0000 (UTC)
-Received: from localhost (ovpn-200-42.brq.redhat.com [10.40.200.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE53260BE2;
- Mon, 16 Mar 2020 12:49:16 +0000 (UTC)
-Date: Mon, 16 Mar 2020 13:49:14 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 8/8] qapi/misc: Restrict device memory commands to
- machine code
-Message-ID: <20200316134914.2152130a@redhat.com>
-In-Reply-To: <20200316000348.29692-9-philmd@redhat.com>
-References: <20200316000348.29692-1-philmd@redhat.com>
- <20200316000348.29692-9-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jDpIo-0004zs-9i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:57:07 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37675)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDpIo-0004qH-2b
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:57:06 -0400
+Received: by mail-ot1-x343.google.com with SMTP id i12so12412359otp.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QRV/ChvtGjZft6K3OHjZBBimz6AQdGw7nbmGSsNMAOw=;
+ b=XX7HJayGmsCndQ4lLxUWj4I6PAN6YzLfQSkxsPZ/MMj1lYrfvE+8lC+3u3odVysy9B
+ L/jOHTCvd81dkTmgaZZLvkF27sGFIzy39xfIU14Ady8TSKMEERWWrC8iStBnElDP8mIa
+ 11k+AZIpbD36rwYFcTNq2Hi+PUIeZ5LK9lk6EL2vX0IB/rKBObpfzcN+Nk44Yyv9kKim
+ GvIpLO9cBnwYpFm58ggG8a+R3iTFeNinHjt8ysH5ZnTHL9P2KYoyM4ur80wMzfkEuFJ0
+ RGjCQ6636rzvaomnK3H2kbZU4lm+LpARlWqQh3GkHe1y48pN03evSW8cF4sVN6epIKAu
+ lsdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QRV/ChvtGjZft6K3OHjZBBimz6AQdGw7nbmGSsNMAOw=;
+ b=b+cENw/pmcJli/EeP6nAz+7XPTNF2OLhbZjLwrmnr7RCdbyVllL8Y/18174d9a/ek+
+ 7SGHpa5NwkYxFwVwErNYnuhBf7gUiaS9fWUB1Zg1xczjtLYZnHNm7cKZLRI9zm6lfG0J
+ qKEYHySdDqiMtKWp05pwan9854XfvfovD+rYYXqbx+YDf2lEL5FMPSEgId2dcJjd70Pe
+ cX0SJGQWsWj2KMhAvSZa2i0o2mFEzOzuDnMla+EBgbMfwrnoL/64Aj254mdJCXDtWpaC
+ 9MMDHd28IJCc2yf5EwIJqP89/n2dvrSCs5zlF0HR1IJRQniEx12PxieZYhT25RlBW0KL
+ O2LA==
+X-Gm-Message-State: ANhLgQ1QGmQfOwZeREnzqaD5KJKjEuAs0i3c8YX6nZX9DR/AaFFu6ZVk
+ BSSVhZ7d6izlg4txmDjszntgIiEsklIAU5+yEQzeOA==
+X-Google-Smtp-Source: ADFU+vs5ekls+Fwi0z+zQAPsi3P7Yyf2yd0Ry39LcrarYv7N0h196zjVNomgO3ruCpfpWFtWmMuRu7Pg2nzZWfe/b4A=
+X-Received: by 2002:a9d:76c9:: with SMTP id p9mr22462494otl.135.1584363425054; 
+ Mon, 16 Mar 2020 05:57:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200316114050.3167-1-jiangyifei@huawei.com>
+In-Reply-To: <20200316114050.3167-1-jiangyifei@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 12:56:53 +0000
+Message-ID: <CAFEAcA-+hmJALSwuf4NW=KTmpSXJQ4pv5TagDNjc1VXzv8OeBg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] avoid integer overflow
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,348 +71,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>, limingwang@huawei.com,
+ victor.zhangxiaofeng@huawei.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, dengkai1@huawei.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 01:03:48 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Mon, 16 Mar 2020 at 12:25, Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> the constant default type is "int", when the constant is shifted to the left,
+> it may exceed 32 bits, resulting in integer overflowing. So constant type need
+> change to "long"
 
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+"long" would not in general be the right type to use in cases where
+ we do need to make this change, because "long" also can
+be only 32 bits wide on some hosts.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  qapi/machine.json               | 131 +++++++++++++++++++++++++++++++
->  qapi/misc.json                  | 132 --------------------------------
->  include/hw/mem/memory-device.h  |   1 +
->  include/hw/virtio/virtio-pmem.h |   2 +-
->  4 files changed, 133 insertions(+), 133 deletions(-)
->=20
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 33b259dbd0..17ccebda14 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1476,3 +1476,134 @@
->  #
->  ##
->  { 'command': 'query-pci', 'returns': ['PciInfo'] }
-> +
-> +##
-> +# @MemoryInfo:
-> +#
-> +# Actual memory information in bytes.
-> +#
-> +# @base-memory: size of "base" memory specified with command line
-> +#               option -m.
-> +#
-> +# @plugged-memory: size of memory that can be hot-unplugged. This field
-> +#                  is omitted if target doesn't support memory hotplug
-> +#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
-> +#
-> +# Since: 2.11.0
-> +##
-> +{ 'struct': 'MemoryInfo',
-> +  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
-> +
-> +##
-> +# @query-memory-size-summary:
-> +#
-> +# Return the amount of initially allocated and present hotpluggable (if
-> +# enabled) memory in bytes.
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-memory-size-summary" }
-> +# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
-> +#
-> +# Since: 2.11.0
-> +##
-> +{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
-> +
-> +##
-> +# @PCDIMMDeviceInfo:
-> +#
-> +# PCDIMMDevice state information
-> +#
-> +# @id: device's ID
-> +#
-> +# @addr: physical address, where device is mapped
-> +#
-> +# @size: size of memory that the device provides
-> +#
-> +# @slot: slot number at which device is plugged in
-> +#
-> +# @node: NUMA node number where device is plugged in
-> +#
-> +# @memdev: memory backend linked with device
-> +#
-> +# @hotplugged: true if device was hotplugged
-> +#
-> +# @hotpluggable: true if device if could be added/removed while machine =
-is running
-> +#
-> +# Since: 2.1
-> +##
-> +{ 'struct': 'PCDIMMDeviceInfo',
-> +  'data': { '*id': 'str',
-> +            'addr': 'int',
-> +            'size': 'int',
-> +            'slot': 'int',
-> +            'node': 'int',
-> +            'memdev': 'str',
-> +            'hotplugged': 'bool',
-> +            'hotpluggable': 'bool'
-> +          }
-> +}
-> +
-> +##
-> +# @VirtioPMEMDeviceInfo:
-> +#
-> +# VirtioPMEM state information
-> +#
-> +# @id: device's ID
-> +#
-> +# @memaddr: physical address in memory, where device is mapped
-> +#
-> +# @size: size of memory that the device provides
-> +#
-> +# @memdev: memory backend linked with device
-> +#
-> +# Since: 4.1
-> +##
-> +{ 'struct': 'VirtioPMEMDeviceInfo',
-> +  'data': { '*id': 'str',
-> +            'memaddr': 'size',
-> +            'size': 'size',
-> +            'memdev': 'str'
-> +          }
-> +}
-> +
-> +##
-> +# @MemoryDeviceInfo:
-> +#
-> +# Union containing information about a memory device
-> +#
-> +# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
-> +#
-> +# Since: 2.1
-> +##
-> +{ 'union': 'MemoryDeviceInfo',
-> +  'data': { 'dimm': 'PCDIMMDeviceInfo',
-> +            'nvdimm': 'PCDIMMDeviceInfo',
-> +            'virtio-pmem': 'VirtioPMEMDeviceInfo'
-> +          }
-> +}
-> +
-> +##
-> +# @query-memory-devices:
-> +#
-> +# Lists available memory devices and their state
-> +#
-> +# Since: 2.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-memory-devices" }
-> +# <- { "return": [ { "data":
-> +#                       { "addr": 5368709120,
-> +#                         "hotpluggable": true,
-> +#                         "hotplugged": true,
-> +#                         "id": "d1",
-> +#                         "memdev": "/objects/memX",
-> +#                         "node": 0,
-> +#                         "size": 1073741824,
-> +#                         "slot": 0},
-> +#                    "type": "dimm"
-> +#                  } ] }
-> +#
-> +##
-> +{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 92b3926c6b..670b902999 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -518,39 +518,6 @@
->  ##
->  { 'command': 'closefd', 'data': {'fdname': 'str'} }
-> =20
-> -##
-> -# @MemoryInfo:
-> -#
-> -# Actual memory information in bytes.
-> -#
-> -# @base-memory: size of "base" memory specified with command line
-> -#               option -m.
-> -#
-> -# @plugged-memory: size of memory that can be hot-unplugged. This field
-> -#                  is omitted if target doesn't support memory hotplug
-> -#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
-> -#
-> -# Since: 2.11.0
-> -##
-> -{ 'struct': 'MemoryInfo',
-> -  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
-> -
-> -##
-> -# @query-memory-size-summary:
-> -#
-> -# Return the amount of initially allocated and present hotpluggable (if
-> -# enabled) memory in bytes.
-> -#
-> -# Example:
-> -#
-> -# -> { "execute": "query-memory-size-summary" }
-> -# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
-> -#
-> -# Since: 2.11.0
-> -##
-> -{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
-> -
-> -
->  ##
->  # @AddfdInfo:
->  #
-> @@ -788,105 +755,6 @@
->   'returns': ['CommandLineOptionInfo'],
->   'allow-preconfig': true }
-> =20
-> -##
-> -# @PCDIMMDeviceInfo:
-> -#
-> -# PCDIMMDevice state information
-> -#
-> -# @id: device's ID
-> -#
-> -# @addr: physical address, where device is mapped
-> -#
-> -# @size: size of memory that the device provides
-> -#
-> -# @slot: slot number at which device is plugged in
-> -#
-> -# @node: NUMA node number where device is plugged in
-> -#
-> -# @memdev: memory backend linked with device
-> -#
-> -# @hotplugged: true if device was hotplugged
-> -#
-> -# @hotpluggable: true if device if could be added/removed while machine =
-is running
-> -#
-> -# Since: 2.1
-> -##
-> -{ 'struct': 'PCDIMMDeviceInfo',
-> -  'data': { '*id': 'str',
-> -            'addr': 'int',
-> -            'size': 'int',
-> -            'slot': 'int',
-> -            'node': 'int',
-> -            'memdev': 'str',
-> -            'hotplugged': 'bool',
-> -            'hotpluggable': 'bool'
-> -          }
-> -}
-> -
-> -##
-> -# @VirtioPMEMDeviceInfo:
-> -#
-> -# VirtioPMEM state information
-> -#
-> -# @id: device's ID
-> -#
-> -# @memaddr: physical address in memory, where device is mapped
-> -#
-> -# @size: size of memory that the device provides
-> -#
-> -# @memdev: memory backend linked with device
-> -#
-> -# Since: 4.1
-> -##
-> -{ 'struct': 'VirtioPMEMDeviceInfo',
-> -  'data': { '*id': 'str',
-> -            'memaddr': 'size',
-> -            'size': 'size',
-> -            'memdev': 'str'
-> -          }
-> -}
-> -
-> -##
-> -# @MemoryDeviceInfo:
-> -#
-> -# Union containing information about a memory device
-> -#
-> -# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
-> -#
-> -# Since: 2.1
-> -##
-> -{ 'union': 'MemoryDeviceInfo',
-> -  'data': { 'dimm': 'PCDIMMDeviceInfo',
-> -            'nvdimm': 'PCDIMMDeviceInfo',
-> -            'virtio-pmem': 'VirtioPMEMDeviceInfo'
-> -          }
-> -}
-> -
-> -##
-> -# @query-memory-devices:
-> -#
-> -# Lists available memory devices and their state
-> -#
-> -# Since: 2.1
-> -#
-> -# Example:
-> -#
-> -# -> { "execute": "query-memory-devices" }
-> -# <- { "return": [ { "data":
-> -#                       { "addr": 5368709120,
-> -#                         "hotpluggable": true,
-> -#                         "hotplugged": true,
-> -#                         "id": "d1",
-> -#                         "memdev": "/objects/memX",
-> -#                         "node": 0,
-> -#                         "size": 1073741824,
-> -#                         "slot": 0},
-> -#                    "type": "dimm"
-> -#                  } ] }
-> -#
-> -##
-> -{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
-> -
->  ##
->  # @ReplayMode:
->  #
-> diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-devic=
-e.h
-> index 04476acb8f..76f3de0f7e 100644
-> --- a/include/hw/mem/memory-device.h
-> +++ b/include/hw/mem/memory-device.h
-> @@ -14,6 +14,7 @@
->  #define MEMORY_DEVICE_H
-> =20
->  #include "hw/qdev-core.h"
-> +#include "qapi/qapi-types-machine.h"
->  #include "qapi/qapi-types-misc.h"
->  #include "qom/object.h"
-> =20
-> diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-p=
-mem.h
-> index 33f1999320..72863412b2 100644
-> --- a/include/hw/virtio/virtio-pmem.h
-> +++ b/include/hw/virtio/virtio-pmem.h
-> @@ -15,7 +15,7 @@
->  #define HW_VIRTIO_PMEM_H
-> =20
->  #include "hw/virtio/virtio.h"
-> -#include "qapi/qapi-types-misc.h"
-> +#include "qapi/qapi-types-machine.h"
-> =20
->  #define TYPE_VIRTIO_PMEM "virtio-pmem"
-> =20
-
+thanks
+-- PMM
 
