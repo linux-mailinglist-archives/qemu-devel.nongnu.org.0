@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD57186DAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:44:58 +0100 (CET)
-Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EA7186DEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 15:57:51 +0100 (CET)
+Received: from localhost ([::1]:39226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDqzB-0004Zu-DL
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1jDrBd-0000rY-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 10:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jDpAT-0004Vf-1M
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:48:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jDpHW-00074G-SO
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:55:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jDpAR-0004oX-Ug
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:48:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46502
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDpAR-0004j1-P4
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584362907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TlPyNwnohSBBRgqa9xzMvhZb4FmYT1Lu8PWrE8MRHfs=;
- b=AIIBTS+zThjmRug4b98dLI4Qo6FI640K1z2oPktv7a75Lq/hLOM+KXBkokBoz/ksvIOy89
- l4wyiebBX3H5QhwIp/RyapLaNDldkZp9PRLWyewVpgFU0dutI8CPTju3CecXCCXjo20UlN
- 7mTkKc/Ndll6WsI5Z2pPtI+JuJ8fTOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171--V6Pol5KN_2LdFuHk7tbog-1; Mon, 16 Mar 2020 08:48:25 -0400
-X-MC-Unique: -V6Pol5KN_2LdFuHk7tbog-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DCF9800D4E;
- Mon, 16 Mar 2020 12:48:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
- [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F36B7388E;
- Mon, 16 Mar 2020 12:48:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 73F439D13; Mon, 16 Mar 2020 13:48:20 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] stdvga+bochs-display: add dummy mmio handler
-Date: Mon, 16 Mar 2020 13:48:20 +0100
-Message-Id: <20200316124820.22063-2-kraxel@redhat.com>
-In-Reply-To: <20200316124820.22063-1-kraxel@redhat.com>
-References: <20200316124820.22063-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (envelope-from <peter.maydell@linaro.org>) id 1jDpHU-0000w2-DP
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:55:46 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43651)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jDpHU-0000iN-2e
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 08:55:44 -0400
+Received: by mail-oi1-x243.google.com with SMTP id p125so17604778oif.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 05:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=T57J5C1FH/BaOyqAd+oZU73r1nP66CTxyDcT2hHrSiw=;
+ b=cwruJUwgWlhOcMJ8zHhpbR0yj6mUjim1YqzPA89aWyajm/UrAawUGQJTmSjPh35NAy
+ lhA9VgDEbAO5KDVp5DyzRHju54uMIs3Qgon3/hHG1vICnK0vjj1S9KrPBLmvgZjVp5Ao
+ 2Em3Ftwaj3wM/BtZ2GcT4XblG9pWPRCyPd3hCHKnzOkAm8/QrJdbIbeX7MAgoONaCJ/m
+ 4/oR3NfS+ElwUwrM66Gc1PQgZtfGqkitnUoXPs52u6BaNR4mFL94157ApU3mJfNnzXII
+ TA7HMtRrq4DhjuiWhG3joLyugSjGpcKQ6EV4xn8nnK6xXEF8hBzQhJUVpIAcH9QcZAUy
+ 5QIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=T57J5C1FH/BaOyqAd+oZU73r1nP66CTxyDcT2hHrSiw=;
+ b=F5PaotIwglT2h6evAVmQBB/hgLX1n0Dk+eTn0tbPxcMBhnUYlF9M3I33MBXN8q8WAO
+ Oo1hhs3PTWqv0rLhYSfB97d8L7S8lQvTKlSJKXypW9PHqBcYlmjdTlQ7qUzgOaKHAZOG
+ FRXzgLeJOI5x+48ya2c4SSxtGfvsC6YXOI6PWnKNi6EHt0KtXPcEhgSL2bxb9gjqkz9z
+ Pql+JAkr6s3eHI5pc7ExzVrm1VInOOTPZEIlYT6Qi2j5jrrhtinCzWPY7wIe632+egpN
+ qRPeI+PoGlQyy0IRUe5Ouj//rB+LRcZ4Xaw1J6KMyKa9OoFCgn958amEXgyfNlXQp+aj
+ i0Mw==
+X-Gm-Message-State: ANhLgQ0NjO1hSXj6ESh6JGpeHm/y6MQGhlBLbcp4Ecb20RoVuxqo3Q4g
+ MOjFg4TgaaauxGBNKr+A4YjwF65pmNe/FfsPnNKevw==
+X-Google-Smtp-Source: ADFU+vtcV0tW8F51R9Z7ct48JquHvseRplTSoVrHGvuZwQaZNKWuBk6jrVQMukhO4xmlaAR71IrzIoRB6XD+Qqni2vM=
+X-Received: by 2002:aca:190f:: with SMTP id l15mr6455757oii.48.1584363342975; 
+ Mon, 16 Mar 2020 05:55:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200316114050.3167-1-jiangyifei@huawei.com>
+ <20200316114050.3167-3-jiangyifei@huawei.com>
+In-Reply-To: <20200316114050.3167-3-jiangyifei@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Mar 2020 12:55:31 +0000
+Message-ID: <CAFEAcA_JC70gt140h6r9o1DrjaBXAatJCdjc+wYKL3ZPiZAZEg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] accel/tcg: avoid integer overflow
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,76 +72,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>, limingwang@huawei.com,
+ victor.zhangxiaofeng@huawei.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ dengkai1@huawei.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bochs-display mmio bar has some sub-regions with the actual hardware
-registers.  What happens when the guest access something outside those
-regions depends on the archirecture.  On x86 those reads succeed (and
-return 0xff I think).  On risc-v qemu aborts.
+On Mon, 16 Mar 2020 at 12:14, Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> This fixes coverity issues 75235919, etc.,
+>     1524    /* Handle CPU specific unaligned behaviour */
+> CID 75235919: (OVERFLOW_BEFORE_WIDEN)
+>     1525. overflow_before_widen: Potentially overflowing expression "1 << a_bits" with type "int" (32 bits, signed) is evaluated using 32-bit arithmetic, and then used in a context that expects an expression of type "target_ulong" (64 bits, unsigned).
+>     1525    if (addr & ((1 << a_bits) - 1)) {
 
-This patch adds handlers for the parent region, to make the wanted
-behavior explicit and to make things consistent across architectures.
+This is a Coverity false positive. The value of a_bits in
+these cases can never be big enough for 1 << a_bits
+to overflow, because it indicates an alignment requirement
+and will at most be 6 (indicating a 64-byte-alignment).
 
-v2:
- - use existing unassigned_io_ops.
- - also cover stdvga.
-
-Cc: Alistair Francis <alistair23@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200309100009.17624-1-kraxel@redhat.com
----
- hw/display/bochs-display.c | 4 ++--
- hw/display/vga-pci.c       | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-index 62085f9fc063..70eb619ef424 100644
---- a/hw/display/bochs-display.c
-+++ b/hw/display/bochs-display.c
-@@ -284,8 +284,8 @@ static void bochs_display_realize(PCIDevice *dev, Error=
- **errp)
-     memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
-                           "qemu extended regs", PCI_VGA_QEXT_SIZE);
-=20
--    memory_region_init(&s->mmio, obj, "bochs-display-mmio",
--                       PCI_VGA_MMIO_SIZE);
-+    memory_region_init_io(&s->mmio, obj, &unassigned_io_ops, NULL,
-+                          "bochs-display-mmio", PCI_VGA_MMIO_SIZE);
-     memory_region_add_subregion(&s->mmio, PCI_VGA_BOCHS_OFFSET, &s->vbe);
-     memory_region_add_subregion(&s->mmio, PCI_VGA_QEXT_OFFSET, &s->qext);
-=20
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index b34632467399..6b9db86e363c 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -249,8 +249,8 @@ static void pci_std_vga_realize(PCIDevice *dev, Error *=
-*errp)
-=20
-     /* mmio bar for vga register access */
-     if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_MMIO)) {
--        memory_region_init(&d->mmio, NULL, "vga.mmio",
--                           PCI_VGA_MMIO_SIZE);
-+        memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, N=
-ULL,
-+                              "vga.mmio", PCI_VGA_MMIO_SIZE);
-=20
-         if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
-             qext =3D true;
-@@ -285,8 +285,8 @@ static void pci_secondary_vga_realize(PCIDevice *dev, E=
-rror **errp)
-     s->con =3D graphic_console_init(DEVICE(dev), 0, s->hw_ops, s);
-=20
-     /* mmio bar */
--    memory_region_init(&d->mmio, OBJECT(dev), "vga.mmio",
--                       PCI_VGA_MMIO_SIZE);
-+    memory_region_init_io(&d->mmio, OBJECT(dev), &unassigned_io_ops, NULL,
-+                          "vga.mmio", PCI_VGA_MMIO_SIZE);
-=20
-     if (d->flags & (1 << PCI_VGA_FLAG_ENABLE_QEXT)) {
-         qext =3D true;
---=20
-2.18.2
-
+thanks
+-- PMM
 
