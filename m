@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBFE186140
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:19:38 +0100 (CET)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0419186129
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:10:11 +0100 (CET)
+Received: from localhost ([::1]:32772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDePo-0000Me-Sa
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57063)
+	id 1jDeGg-0005kb-8r
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdLm-0008B7-7C
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdLr-0008DR-9x
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdLl-0003pO-08
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:22 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55707
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDdLp-00046D-61
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39068
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdLk-0003nQ-SY
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:20 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdLp-00044B-1A
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317480;
+ s=mimecast20190719; t=1584317484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gRsLFuJ+39CvQ6Xhe9Lqzsuk7Wpp36Eav8te/BpLAQE=;
- b=BvdnnAMeyyZR8M8seHu382DkwF1BU+ZVeztxlMuo4xikx77UsGDFQCP0RLersspoZ4kYMd
- Z+9ovInhvWu734dhDF0XkjqpWowtvlJ4s0cGOTJzcEuIZgO+vAzKv2LLxXvwoewx9gaDbN
- ti8EKeZEHoBDXpFMvzFqNDyvMyWGuzc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-MDF9jbMXMJSqAs4en_Ljiw-1; Sun, 15 Mar 2020 20:11:16 -0400
-X-MC-Unique: MDF9jbMXMJSqAs4en_Ljiw-1
-Received: by mail-wm1-f69.google.com with SMTP id a23so5027991wmm.8
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:15 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jznyG6ZwK2HqBmm0XWTDAnNXPpietF898ys70w4PLHk=;
+ b=Su1olYXksk3/ivw8SeEMoD8lsZluSD0O8RLOLVPAVASNZXSyGrApHkvo23Fsmgg3BxzR5U
+ KLZdeIblREKundgO5WXjVlpqbs1+6HSADwUFtqARF6saTypppT8w7b7lwB/8hO3xvcuJCY
+ j92Yceoy5vMAJBwxhHVHoyYFxzEdftg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-lG9mLbDeNnOgNNSjR1vUTA-1; Sun, 15 Mar 2020 20:11:21 -0400
+X-MC-Unique: lG9mLbDeNnOgNNSjR1vUTA-1
+Received: by mail-wr1-f69.google.com with SMTP id t10so1852435wrp.15
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wmcP5vH6JJTG8WT2DHX8rmUvESkkPngmR30VgSpi6G8=;
- b=WXJIFUm5Mlwnmj1p06EkAM9eeMnQCcAoYW/SZW+gnmgehK1M7An0RbtdV6Rh3wv64W
- wJ5keZ0zemJYZG3jcG91jGVD2PCeY1niFP0+t2X18V1S6YWoAFp/i4dBzZaU8pfXLh/x
- G2Iv3dBxTD+c74fhtQLcoW+H4cqRdbicbvdS51mBFm+Cyh6vp2krKHcn2Wpa8KH/TzzW
- cSsinwpsPEDSNOd36Y8BIBlB0krLHzL71etX84jwHNRy7CQ+qQsOf1gkrxmcSRgIwFPR
- 8PPipP2Eg01sVvz+2LQZ/s7Xd72mDPcO66nydnMcJlK7Wd+Bwpx+vJLk3acjL1gfvN0h
- pLUg==
-X-Gm-Message-State: ANhLgQ0qCsaRQ8/zuKu4FgS6nTWytA2wYzjE34LX6YPgev0DMxT4+h/X
- h3KZGgQlcitq04ravu2gQM2u/ebGyUrUh17+mfdrev8alwFsjK3Lkn9W+3JeXKvRhfDFfFMuHWI
- dKzE/Uh0X5TXwffM=
-X-Received: by 2002:adf:9796:: with SMTP id s22mr5968541wrb.31.1584317474560; 
- Sun, 15 Mar 2020 17:11:14 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vt8kJ5Wm7Dqo7B0A0JNPhNFT6gxa3efBrzDpLmnUES3ZyYzL5F4iIAHIonf8YOPArJh4oG7dQ==
-X-Received: by 2002:adf:9796:: with SMTP id s22mr5968517wrb.31.1584317474286; 
- Sun, 15 Mar 2020 17:11:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cjkIxsGDVLhIoi2wxX81/gLAzGZQZKT/spQLce8K0hQ=;
+ b=Iyufo3tsX7LDDKcBe/kKTYGGq1mYJWOFnSgTISK66CglK3c5XOfiCkv4qYkbV6iDsk
+ 033twQPQWbjsQJqbzB3ZASMQwCVlrsKjqTKeqOQKY8idPyIc5bcHhfnRptpOL3vimzMm
+ 1wLH8d1qOzc9F7bjO4gCjZBAT6HMCS1FK16TC1Dz+INx9FBrXWqNUtsJhLG3G19ioPPH
+ SSbOwPq0BRRMPa2ZED+dI53QRfN9WYn+TdhWLkiW6802H0mj+wWaQ/BeHIXcsPqaLjW8
+ YVX6/Km+YXGQbCVwujdeWFOCg3m9YfAHgmhrDn3qnAKzd+s/pjMeldhZno/CzjVD3XvH
+ rkIw==
+X-Gm-Message-State: ANhLgQ1HyJxwRnGeTU5FTrSWhJ9g2wZCOdiuYpy72wz4mVTGBGbLQMQJ
+ r44pxGp0gtsNYLRvzNst0nPd60Ck9XrHCuwXsp0oNE6HLwuLO4vqhyv1kr6HIfoEJUdzyFARokz
+ EYj9D0i0J0FJmEaw=
+X-Received: by 2002:a1c:6605:: with SMTP id a5mr24393043wmc.32.1584317479913; 
+ Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuo0cRj+iuolTs3FlbHkV8ErFMyIFtT512xgxL4hi8D0xSKaiNthiT2j73tAx6df9E9vsCwHw==
+X-Received: by 2002:a1c:6605:: with SMTP id a5mr24393015wmc.32.1584317479669; 
+ Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id t126sm26973778wmb.27.2020.03.15.17.11.13
+ by smtp.gmail.com with ESMTPSA id f15sm16109952wrt.9.2020.03.15.17.11.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:11:13 -0700 (PDT)
+ Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/9] user-mode: Prune build dependencies (part 3)
-Date: Mon, 16 Mar 2020 01:11:02 +0100
-Message-Id: <20200316001111.31004-1-philmd@redhat.com>
+Subject: [PATCH v2 1/9] hw/core/qdev-properties: Use qemu_strtol() in
+ set_mac() handler
+Date: Mon, 16 Mar 2020 01:11:03 +0100
+Message-Id: <20200316001111.31004-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200316001111.31004-1-philmd@redhat.com>
+References: <20200316001111.31004-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -73,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,55 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Michael Roth <mdroth@linux.vnet.ibm.com>,
  Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the second part of a series reducing user-mode
-dependencies. By stripping out unused code, the build
-and testing time is reduced (as is space used by objects).
+The MACAddr structure contains an array of uint8_t. Previously
+if a value was out of the [0..255] range, it was silently casted
+and no input validation was done.
+Replace strtol() by qemu_strtol() -- so checkpatch.pl won't
+complain if we move this code later -- and return EINVAL if the
+input is invalid.
 
-Part 3:
-- Extract code not related to user-mode from hw/core/qdev-properties.c
-- Reduce user-mode QAPI generated files
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2: Comment we added input validation (rth)
+---
+ hw/core/qdev-properties.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Since v1:
-- Addressed Richard and Paolo review comments
-
-Patch missing review: #2 'Use qemu_strtoul() in set_pci_host_devaddr()'
-
-v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688486.html
-
-full series available at:
-repo: https://github.com/philmd/qemu/
-branch: usermode_pruning-v2
-
-Based-on: <20200316000348.29692-1-philmd@redhat.com>
-
-Philippe Mathieu-Daud=C3=A9 (9):
-  hw/core/qdev-properties: Use qemu_strtol() in set_mac() handler
-  hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()
-  hw/core/qdev-properties: Fix code style
-  hw/core/qdev-properties: Export enum-related functions
-  hw/core/qdev-properties: Export qdev_prop_enum
-  hw/core/qdev-properties: Export some integer-related functions
-  hw/core/qdev-properties: Extract system-mode specific properties
-  hw/core: Add qdev stub for user-mode
-  qapi: Restrict code generated for user-mode
-
- hw/core/qdev-prop-internal.h     |  28 ++
- include/hw/qdev-properties.h     |   1 +
- hw/core/qdev-properties-system.c | 602 ++++++++++++++++++++++++++++-
- hw/core/qdev-properties.c        | 643 ++-----------------------------
- hw/core/qdev-stubs.c             |  20 +
- hw/core/Makefile.objs            |   3 +
- qapi/Makefile.objs               |  37 +-
- 7 files changed, 714 insertions(+), 620 deletions(-)
- create mode 100644 hw/core/qdev-prop-internal.h
- create mode 100644 hw/core/qdev-stubs.c
-
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 59380ed761..48e4c98cf0 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "net/net.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+@@ -532,7 +533,8 @@ static void set_mac(Object *obj, Visitor *v, const char=
+ *name, void *opaque,
+     MACAddr *mac =3D qdev_get_prop_ptr(dev, prop);
+     Error *local_err =3D NULL;
+     int i, pos;
+-    char *str, *p;
++    char *str;
++    const char *p;
+=20
+     if (dev->realized) {
+         qdev_prop_set_after_realize(dev, name, errp);
+@@ -546,6 +548,8 @@ static void set_mac(Object *obj, Visitor *v, const char=
+ *name, void *opaque,
+     }
+=20
+     for (i =3D 0, pos =3D 0; i < 6; i++, pos +=3D 3) {
++        long val;
++
+         if (!qemu_isxdigit(str[pos])) {
+             goto inval;
+         }
+@@ -561,7 +565,10 @@ static void set_mac(Object *obj, Visitor *v, const cha=
+r *name, void *opaque,
+                 goto inval;
+             }
+         }
+-        mac->a[i] =3D strtol(str+pos, &p, 16);
++        if (qemu_strtol(str + pos, &p, 16, &val) < 0 || val > 0xff) {
++            goto inval;
++        }
++        mac->a[i] =3D val;
+     }
+     g_free(str);
+     return;
 --=20
 2.21.1
 
