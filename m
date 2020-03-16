@@ -2,139 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495F9187299
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:44:12 +0100 (CET)
-Received: from localhost ([::1]:46407 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844CA18725F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:32:13 +0100 (CET)
+Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuih-0003Gu-Bm
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47398)
+	id 1jDuX6-0006tH-J8
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jDtSo-0003N4-II
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:43 -0400
+ (envelope-from <groug@kaod.org>) id 1jDtLd-0007VQ-Bu
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:16:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jDtSn-0005O0-6D
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37598)
+ (envelope-from <groug@kaod.org>) id 1jDtLb-00073A-6I
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:16:17 -0400
+Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]:59528)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jDtSm-00058b-Us
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:23:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584379419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XyWJio/1Evw23dXKe4cmAPo0KgIGrlR+mkQPsqszrDQ=;
- b=VESY259S4oUdmRljU1yLgoCvqdgGet9BN96gNEaRl4vCnNXcNrmclZr9n/O7AtCSXdBiHz
- N8LieMud5h/ceEm5l8Fkp4M5YzymSvr4PHa+D7tEih5w+YhusfLP8KYRzN+J7wcXC6DnLO
- TPkfLK6+HQokcwrG3ZwplCO0CibaOkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-ikTBv5TMOHucwDgEgC4rjg-1; Mon, 16 Mar 2020 13:23:38 -0400
-X-MC-Unique: ikTBv5TMOHucwDgEgC4rjg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31599EAD74
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 17:11:29 +0000 (UTC)
-Received: from [10.10.125.118] (ovpn-125-118.rdu2.redhat.com [10.10.125.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C31410027A3;
- Mon, 16 Mar 2020 17:11:25 +0000 (UTC)
-Subject: Re: [PATCH v4] python/qemu/qmp.py: QMP debug with VM label
-To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
-References: <20200316103203.10046-1-ovoshcha@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c69f6789-3553-2a16-688b-4d9f766bdb1a@redhat.com>
-Date: Mon, 16 Mar 2020 13:11:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jDtLa-0006pn-SD
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:16:15 -0400
+Received: from player772.ha.ovh.net (unknown [10.110.115.164])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 7B0D11CDF63
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 18:16:12 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id 9E98010895B91;
+ Mon, 16 Mar 2020 17:15:58 +0000 (UTC)
+Date: Mon, 16 Mar 2020 18:15:57 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 2/8] ppc/spapr: Change FWNMI names
+Message-ID: <20200316181557.53ab930f@bahia.lan>
+In-Reply-To: <20200316142613.121089-3-npiggin@gmail.com>
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-3-npiggin@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200316103203.10046-1-ovoshcha@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 12996262624738712003
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeffedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 87.98.165.38
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -146,74 +56,349 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, wainersm@redhat.com, crosa@redhat.com
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 17 Mar 2020 00:26:07 +1000
+Nicholas Piggin <npiggin@gmail.com> wrote:
 
-
-On 3/16/20 6:32 AM, Oksana Vohchana wrote:
-> QEMUMachine writes some messages to the default logger.
-> But it sometimes hard to read the output if we have requests to
-> more than one VM.
-> This patch adds a label to the logger in the debug mode.
+> The option is called "FWNMI", and it involves more than just machine
+> checks, also machine checks can be delivered without the FWNMI option,
+> so re-name various things to reflect that.
 > 
-> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
-> v2:
->  - Instead of shown the label in the message it provides the label
->    only in the debug logger information.
-> v3:
->  - Fixes coding style problems.
-> v4:
->  - Use a suffix method to get a children's logger process from the parent.
-> ---
->  python/qemu/machine.py | 3 ++-
->  python/qemu/qmp.py     | 5 ++++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/ppc/spapr.c                    | 28 ++++++++++++++--------------
+>  hw/ppc/spapr_caps.c               | 14 +++++++-------
+>  hw/ppc/spapr_events.c             | 14 +++++++-------
+>  hw/ppc/spapr_rtas.c               | 17 +++++++++--------
+>  include/hw/ppc/spapr.h            | 27 +++++++++++++++++----------
+>  tests/qtest/libqos/libqos-spapr.h |  2 +-
+>  6 files changed, 55 insertions(+), 47 deletions(-)
 > 
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 183d8f3d38..f53abfa492 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -270,7 +270,8 @@ class QEMUMachine(object):
->                  self._vm_monitor = os.path.join(self._sock_dir,
->                                                  self._name + "-monitor.sock")
->                  self._remove_files.append(self._vm_monitor)
-> -            self._qmp = qmp.QEMUMonitorProtocol(self._vm_monitor, server=True)
-> +            self._qmp = qmp.QEMUMonitorProtocol(self._vm_monitor, server=True,
-> +                                                nickname=self._name)
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index d3db3ec56e..b03b26370d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1704,11 +1704,11 @@ static void spapr_machine_reset(MachineState *machine)
 >  
->      def _post_launch(self):
->          if self._qmp:
-> diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-> index f40586eedd..d6c9b2f4b1 100644
-> --- a/python/qemu/qmp.py
-> +++ b/python/qemu/qmp.py
-> @@ -46,7 +46,7 @@ class QEMUMonitorProtocol:
->      #: Logger object for debugging messages
->      logger = logging.getLogger('QMP')
+>      spapr->cas_reboot = false;
 >  
-> -    def __init__(self, address, server=False):
-> +    def __init__(self, address, server=False, nickname=None):
->          """
->          Create a QEMUMonitorProtocol class.
+> -    spapr->mc_status = -1;
+> -    spapr->guest_machine_check_addr = -1;
+> +    spapr->fwnmi_machine_check_addr = -1;
+> +    spapr->fwnmi_machine_check_interlock = -1;
 >  
-> @@ -62,6 +62,9 @@ class QEMUMonitorProtocol:
->          self.__address = address
->          self.__sock = self.__get_sock()
->          self.__sockfile = None
-> +        self._nickname = nickname
-> +        if self._nickname:
-> +            self.logger = logging.getLogger('QMP').getChild(self._nickname)
->          if server:
->              self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
->              self.__sock.bind(self.__address)
-> 
-
-
-Looks right to me. Thank you for taking the time to get this cleaned up.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+>      /* Signal all vCPUs waiting on this condition */
+> -    qemu_cond_broadcast(&spapr->mc_delivery_cond);
+> +    qemu_cond_broadcast(&spapr->fwnmi_machine_check_interlock_cond);
+>  
+>      migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+> @@ -1997,7 +1997,7 @@ static bool spapr_fwnmi_needed(void *opaque)
+>  {
+>      SpaprMachineState *spapr = (SpaprMachineState *)opaque;
+>  
+> -    return spapr->guest_machine_check_addr != -1;
+> +    return spapr->fwnmi_machine_check_addr != -1;
+>  }
+>  
+>  static int spapr_fwnmi_pre_save(void *opaque)
+> @@ -2008,7 +2008,7 @@ static int spapr_fwnmi_pre_save(void *opaque)
+>       * Check if machine check handling is in progress and print a
+>       * warning message.
+>       */
+> -    if (spapr->mc_status != -1) {
+> +    if (spapr->fwnmi_machine_check_interlock != -1) {
+>          warn_report("A machine check is being handled during migration. The"
+>                  "handler may run and log hardware error on the destination");
+>      }
+> @@ -2016,15 +2016,15 @@ static int spapr_fwnmi_pre_save(void *opaque)
+>      return 0;
+>  }
+>  
+> -static const VMStateDescription vmstate_spapr_machine_check = {
+> -    .name = "spapr_machine_check",
+> +static const VMStateDescription vmstate_spapr_fwnmi = {
+> +    .name = "spapr_fwnmi",
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .needed = spapr_fwnmi_needed,
+>      .pre_save = spapr_fwnmi_pre_save,
+>      .fields = (VMStateField[]) {
+> -        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> -        VMSTATE_INT32(mc_status, SpaprMachineState),
+> +        VMSTATE_UINT64(fwnmi_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(fwnmi_machine_check_interlock, SpaprMachineState),
+>          VMSTATE_END_OF_LIST()
+>      },
+>  };
+> @@ -2063,7 +2063,7 @@ static const VMStateDescription vmstate_spapr = {
+>          &vmstate_spapr_cap_large_decr,
+>          &vmstate_spapr_cap_ccf_assist,
+>          &vmstate_spapr_cap_fwnmi,
+> -        &vmstate_spapr_machine_check,
+> +        &vmstate_spapr_fwnmi,
+>          NULL
+>      }
+>  };
+> @@ -2884,7 +2884,7 @@ static void spapr_machine_init(MachineState *machine)
+>          spapr_create_lmb_dr_connectors(spapr);
+>      }
+>  
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_ON) {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_ON) {
+>          /* Create the error string for live migration blocker */
+>          error_setg(&spapr->fwnmi_migration_blocker,
+>              "A machine check is being handled during migration. The handler"
+> @@ -3053,7 +3053,7 @@ static void spapr_machine_init(MachineState *machine)
+>          kvmppc_spapr_enable_inkernel_multitce();
+>      }
+>  
+> -    qemu_cond_init(&spapr->mc_delivery_cond);
+> +    qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
+>  }
+>  
+>  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
+> @@ -4534,7 +4534,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
+>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_ON;
+> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+>      spapr_caps_add_properties(smc, &error_abort);
+>      smc->irq = &spapr_irq_dual;
+>      smc->dr_phb_enabled = true;
+> @@ -4612,7 +4612,7 @@ static void spapr_machine_4_2_class_options(MachineClass *mc)
+>      spapr_machine_5_0_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
+> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
+> +    smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_OFF;
+>      smc->rma_limit = 16 * GiB;
+>      mc->nvdimm_supported = false;
+>  }
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 8b27d3ac09..f626d769a0 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -509,7 +509,7 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+>      }
+>  }
+>  
+> -static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
+> +static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+>                                  Error **errp)
+>  {
+>      if (!val) {
+> @@ -626,14 +626,14 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+>          .type = "bool",
+>          .apply = cap_ccf_assist_apply,
+>      },
+> -    [SPAPR_CAP_FWNMI_MCE] = {
+> -        .name = "fwnmi-mce",
+> -        .description = "Handle fwnmi machine check exceptions",
+> -        .index = SPAPR_CAP_FWNMI_MCE,
+> +    [SPAPR_CAP_FWNMI] = {
+> +        .name = "fwnmi",
+> +        .description = "Implements PAPR FWNMI option",
+> +        .index = SPAPR_CAP_FWNMI,
+>          .get = spapr_cap_get_bool,
+>          .set = spapr_cap_set_bool,
+>          .type = "bool",
+> -        .apply = cap_fwnmi_mce_apply,
+> +        .apply = cap_fwnmi_apply,
+>      },
+>  };
+>  
+> @@ -774,7 +774,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
+>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+> -SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
+> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
+>  
+>  void spapr_caps_init(SpaprMachineState *spapr)
+>  {
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 11303258d4..27ba8a2c19 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -837,7 +837,7 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>  
+>      env->gpr[3] = rtas_addr + RTAS_ERROR_LOG_OFFSET;
+>      env->msr = msr;
+> -    env->nip = spapr->guest_machine_check_addr;
+> +    env->nip = spapr->fwnmi_machine_check_addr;
+>  
+>      g_free(ext_elog);
+>  }
+> @@ -849,7 +849,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>      int ret;
+>      Error *local_err = NULL;
+>  
+> -    if (spapr->guest_machine_check_addr == -1) {
+> +    if (spapr->fwnmi_machine_check_addr == -1) {
+>          /*
+>           * This implies that we have hit a machine check either when the
+>           * guest has not registered FWNMI (i.e., "ibm,nmi-register" not
+> @@ -861,19 +861,19 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>          return;
+>      }
+>  
+> -    while (spapr->mc_status != -1) {
+> +    while (spapr->fwnmi_machine_check_interlock != -1) {
+>          /*
+>           * Check whether the same CPU got machine check error
+>           * while still handling the mc error (i.e., before
+>           * that CPU called "ibm,nmi-interlock")
+>           */
+> -        if (spapr->mc_status == cpu->vcpu_id) {
+> +        if (spapr->fwnmi_machine_check_interlock == cpu->vcpu_id) {
+>              qemu_system_guest_panicked(NULL);
+>              return;
+>          }
+> -        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
+> +        qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_cond);
+>          /* Meanwhile if the system is reset, then just return */
+> -        if (spapr->guest_machine_check_addr == -1) {
+> +        if (spapr->fwnmi_machine_check_addr == -1) {
+>              return;
+>          }
+>      }
+> @@ -889,7 +889,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>          warn_report("Received a fwnmi while migration was in progress");
+>      }
+>  
+> -    spapr->mc_status = cpu->vcpu_id;
+> +    spapr->fwnmi_machine_check_interlock = cpu->vcpu_id;
+>      spapr_mce_dispatch_elog(cpu, recovered);
+>  }
+>  
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index fe83b50c66..0b8c481593 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -415,7 +415,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>  {
+>      hwaddr rtas_addr;
+>  
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_OFF) {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>          return;
+>      }
+> @@ -426,7 +426,8 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>          return;
+>      }
+>  
+> -    spapr->guest_machine_check_addr = rtas_ld(args, 1);
+> +    spapr->fwnmi_machine_check_addr = rtas_ld(args, 1);
+> +
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>  }
+>  
+> @@ -436,18 +437,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>                                     target_ulong args,
+>                                     uint32_t nret, target_ulong rets)
+>  {
+> -    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_OFF) {
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_OFF) {
+>          rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>          return;
+>      }
+>  
+> -    if (spapr->guest_machine_check_addr == -1) {
+> +    if (spapr->fwnmi_machine_check_addr == -1) {
+>          /* NMI register not called */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>          return;
+>      }
+>  
+> -    if (spapr->mc_status != cpu->vcpu_id) {
+> +    if (spapr->fwnmi_machine_check_interlock != cpu->vcpu_id) {
+>          /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>          return;
+> @@ -455,10 +456,10 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>  
+>      /*
+>       * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> -     * hence unset mc_status.
+> +     * hence unset fwnmi_machine_check_interlock.
+>       */
+> -    spapr->mc_status = -1;
+> -    qemu_cond_signal(&spapr->mc_delivery_cond);
+> +    spapr->fwnmi_machine_check_interlock = -1;
+> +    qemu_cond_signal(&spapr->fwnmi_machine_check_interlock_cond);
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>      migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 35b489a549..64b83402cb 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -79,10 +79,10 @@ typedef enum {
+>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
+>  /* Count Cache Flush Assist HW Instruction */
+>  #define SPAPR_CAP_CCF_ASSIST            0x09
+> -/* FWNMI machine check handling */
+> -#define SPAPR_CAP_FWNMI_MCE             0x0A
+> +/* Implements PAPR FWNMI option */
+> +#define SPAPR_CAP_FWNMI                 0x0A
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
+>  
+>  /*
+>   * Capability Values
+> @@ -192,14 +192,21 @@ struct SpaprMachineState {
+>       * occurs during the unplug process. */
+>      QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
+>  
+> -    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
+> -    target_ulong guest_machine_check_addr;
+> -    /*
+> -     * mc_status is set to -1 if mc is not in progress, else is set to the CPU
+> -     * handling the mc.
+> +    /* State related to FWNMI option */
+> +
+> +    /* Machine Check Notification Routine address
+> +     * registered by "ibm,nmi-register" RTAS call.
+> +     */
+> +    target_ulong fwnmi_machine_check_addr;
+> +
+> +    /* Machine Check FWNMI synchronization, fwnmi_machine_check_interlock is
+> +     * set to -1 if a FWNMI machine check is not in progress, else is set to
+> +     * the CPU that was delivered the machine check, and is set back to -1
+> +     * when that CPU makes an "ibm,nmi-interlock" RTAS call. The cond is used
+> +     * to synchronize other CPUs.
+>       */
+> -    int mc_status;
+> -    QemuCond mc_delivery_cond;
+> +    int fwnmi_machine_check_interlock;
+> +    QemuCond fwnmi_machine_check_interlock_cond;
+>  
+>      /*< public >*/
+>      char *kvm_type;
+> diff --git a/tests/qtest/libqos/libqos-spapr.h b/tests/qtest/libqos/libqos-spapr.h
+> index d9c4c22343..16174dbada 100644
+> --- a/tests/qtest/libqos/libqos-spapr.h
+> +++ b/tests/qtest/libqos/libqos-spapr.h
+> @@ -13,6 +13,6 @@ void qtest_spapr_shutdown(QOSState *qs);
+>      "cap-sbbc=broken,"                           \
+>      "cap-ibs=broken,"                            \
+>      "cap-ccf-assist=off,"                        \
+> -    "cap-fwnmi-mce=off"
+> +    "cap-fwnmi=off"
+>  
+>  #endif
 
 
