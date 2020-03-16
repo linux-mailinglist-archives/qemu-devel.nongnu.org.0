@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F67187065
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:49:39 +0100 (CET)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23A41870B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:58:04 +0100 (CET)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsvq-0007v0-FA
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
+	id 1jDt3z-0006nM-Uu
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1jDqlB-0000M9-1O
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:32 -0400
+ (envelope-from <its@irrelevant.dk>) id 1jDqlF-0000QJ-KO
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1jDql9-0004BM-R2
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:28 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:48806)
+ (envelope-from <its@irrelevant.dk>) id 1jDqlC-0004VT-8i
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:30:33 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:48810)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1jDql5-0001nl-KK; Mon, 16 Mar 2020 10:30:24 -0400
+ id 1jDql6-0001sC-SE; Mon, 16 Mar 2020 10:30:25 -0400
 Received: from apples.local (80-62-117-52-mobile.dk.customer.tdc.net
  [80.62.117.52])
- by charlie.dont.surf (Postfix) with ESMTPSA id A788FBF95B;
- Mon, 16 Mar 2020 14:29:45 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id B0D31BF965;
+ Mon, 16 Mar 2020 14:29:46 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 20/42] nvme: provide the mandatory subnqn field
-Date: Mon, 16 Mar 2020 07:29:06 -0700
-Message-Id: <20200316142928.153431-21-its@irrelevant.dk>
+Subject: [PATCH v6 22/42] nvme: memset preallocated requests structures
+Date: Mon, 16 Mar 2020 07:29:08 -0700
+Message-Id: <20200316142928.153431-23-its@irrelevant.dk>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316142928.153431-1-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
@@ -58,27 +58,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+This is preparatory to subsequent patches that change how QSGs/IOVs are
+handled. It is important that the qsg and iov members of the NvmeRequest
+are initially zeroed.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index b40d27cddc46..74061d08fd2e 100644
+index 26c4b6e69f72..08267e847671 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1925,6 +1925,9 @@ static void nvme_init_ctrl(NvmeCtrl *n)
-     id->nn =3D cpu_to_le32(n->num_namespaces);
-     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
-);
+@@ -597,7 +597,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n,=
+ uint64_t dma_addr,
+     sq->size =3D size;
+     sq->cqid =3D cqid;
+     sq->head =3D sq->tail =3D 0;
+-    sq->io_req =3D g_new(NvmeRequest, sq->size);
++    sq->io_req =3D g_new0(NvmeRequest, sq->size);
 =20
-+    pstrcpy((char *) id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qe=
-mu:");
-+    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
-+
-     id->psd[0].mp =3D cpu_to_le16(0x9c4);
-     id->psd[0].enlat =3D cpu_to_le32(0x10);
-     id->psd[0].exlat =3D cpu_to_le32(0x4);
+     QTAILQ_INIT(&sq->req_list);
+     QTAILQ_INIT(&sq->out_req_list);
 --=20
 2.25.1
 
