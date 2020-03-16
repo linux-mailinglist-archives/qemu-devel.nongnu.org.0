@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD15C187276
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:37:39 +0100 (CET)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB84E1872E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 20:00:25 +0100 (CET)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDucM-0007ZB-RZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41783)
+	id 1jDuyO-0000Zx-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 15:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuWe-0007gR-MP
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:31:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuZV-000438-KR
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jDuWd-0006RC-L3
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:31:44 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44384)
+ (envelope-from <richard.henderson@linaro.org>) id 1jDuZU-0005dY-LM
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:41 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46540)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jDuWd-0006I9-DF
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:31:43 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b72so10406018pfb.11
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:31:43 -0700 (PDT)
+ id 1jDuZU-0005Xu-FX
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 14:34:40 -0400
+Received: by mail-pl1-x644.google.com with SMTP id r3so348302pls.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 11:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YDThJG+zzbkaeauug25aTrE2t9ITnVdBY3IX0bwOn/E=;
- b=kTTuInR6gjJffzKwLEk6Apxiykc9X+b7iCNRQDLpMv3BD0lsqF7BeeG1kGm4hxkWkP
- 9BgRGVQQ7gCljFZimjO/khll57QjYqtngjqPsqtmvWYiFDLr2Si9w8XyzPC3YSkyGjid
- zzv96jLegrMzAZrzZJf/de9B/BxNvRog2O0Z5D0lyUHrrrJ4RLqqiZtOxDtYpNdJKxmU
- 0MZOQzPN1TCVvXVE8vQTa80+revmIX7h9My/wztuj9J5LhTT8995td/d4jb7vPfsclCf
- ZdGfrjEe71A4n3sOnSOlLuksln8LxS166+qQMzYy+Aeg5XOw2AxKJ1B0+akmVg0YpgQe
- kTIA==
+ bh=PC2ldSLzBIGyBSvA9ZmOPp4tVJwN/WY+kDxO7U/JLuE=;
+ b=Wl1Y4XNAeLvQNwX566xDFe85W8KyJrcvDX6J10fv+m0wYL+JW25xh7K6r+h2Qheawu
+ O+pklhhG9PHcOqNKXo43tPmDRS4KKZ5Hd0N2s7bIesUMj7hJFfP5Ozje7pEXsOOvqTLF
+ a2abxh1+DJD3KRsWHBRvrflXIq9qu/WPmNzyZ8zYmibfZt3W8RGKqq1TQpiL3wKZORRW
+ zguNcoJQVNDmIGUd5tOIokHhYnLI4J5dTfMcMDZYh/dkxv8PL6dwqJ534ftKChB+s56l
+ RZIjvouWMnpo4sphNj870/f21602na7bmZk0IvdLodMI75jINl4jTo96mwW12pwyQFi2
+ h03g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YDThJG+zzbkaeauug25aTrE2t9ITnVdBY3IX0bwOn/E=;
- b=rKVfkLukJTcXZJ1vz5l78oGDGGe/2BXL96c6EfExJD3mMTjvlWFivqil4JekDr9RFg
- dDRjCgAFSzRpavkZsm8BWUbHCLhOyn2yXkp/FLwH8wCICRV1bCQNW8Oypa6WuP3eivvm
- Vw09cWXrB6dIg1cqnuS+GoI/oepE9S5inlQ+8wJVMS5MxXVLgSgKpThVzB6iKYAm2ox0
- YFt9EcHlyy2TGgOUi42wKQL7zpo+IaU1IplhaxFcjfOjrI55Srammhf3kY3eSyDAyaDq
- HkHykbqBIiuzzfVpvJ26HoZjUfSqJIWptW2/yNrLZUqzhllLXxqqzP5SoGlJIzq+cGDG
- xbwg==
-X-Gm-Message-State: ANhLgQ3JFw1RYGtkJfIjXh7QuWodFQrPP+wjwX/DBPaKttgmhwJ4Sjum
- 7fBfFjXAT5ELzoPwMRF7ufSmog==
-X-Google-Smtp-Source: ADFU+vvLO6lqqRI8YLWBlaQ1frA/n8p9gTHrdJC8pEdLIoDrDWTZWAYEHpyLa1wQdNo9nc2P/VWAIA==
-X-Received: by 2002:a63:34c8:: with SMTP id b191mr1162080pga.220.1584383502350; 
- Mon, 16 Mar 2020 11:31:42 -0700 (PDT)
+ bh=PC2ldSLzBIGyBSvA9ZmOPp4tVJwN/WY+kDxO7U/JLuE=;
+ b=LNu29u96KjYHhIXog+Wvvwg8Eb1SOhfOdoyOlYUzoLcLhCjqeuHGNMr315ZeYpQXQ+
+ 36Tjoo/ZlC0l6kTN6pe0ECQrgOvkWCNTkpruBtMVYroCzGW15nZeEih/83UxcFz+B3aw
+ JaxYBkRs5x9uDku4Jl/kYqJuAzpghYtIGUFg0xJfmI5aR5hsumx8n3jevFQw9cD2gx3C
+ tgKY1aFn8Uz14kwJ42Bdv3i1IUII8N2GNs2UEDL9ApwhCSTyUKwrR2alH/Q0nJxLCsp1
+ QI3eguA4vfp/8xigM3BApsgBV6BuFKfJLcNiIx3ASdqV8Xb/9FCD0sKhWGpp/SZZCRK/
+ DGWQ==
+X-Gm-Message-State: ANhLgQ0Pu+G8O88FZarIOg8AIwi3605inHlyCciwNu59/1Ap9IKFrSlU
+ Y0FlhxvTnt+Vy2gNhWrg0sYxkA==
+X-Google-Smtp-Source: ADFU+vtnItt3QTgIwsLaiSBbZ5RZmIlwQ80uqEu2MbvD9kszgcX8iuAzeXxMIY/NHizm7WCVLwm7Rg==
+X-Received: by 2002:a17:90a:cf96:: with SMTP id
+ i22mr949791pju.66.1584383679409; 
+ Mon, 16 Mar 2020 11:34:39 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- f68sm491647pje.0.2020.03.16.11.31.41
+ h64sm543729pfg.191.2020.03.16.11.34.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Mar 2020 11:31:41 -0700 (PDT)
-Subject: Re: [PATCH 07/11] accel/Kconfig: Add the TCG selector
+ Mon, 16 Mar 2020 11:34:38 -0700 (PDT)
+Subject: Re: [PATCH 09/11] target/mips: Always enable CONFIG_SEMIHOSTING
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-8-philmd@redhat.com>
+ <20200316120049.11225-10-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d08d0c77-d20d-b1df-6e98-fac3a6eedcbd@linaro.org>
-Date: Mon, 16 Mar 2020 11:31:39 -0700
+Message-ID: <68624737-0447-3e19-4971-1d1bbe2fde8c@linaro.org>
+Date: Mon, 16 Mar 2020 11:34:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316120049.11225-8-philmd@redhat.com>
+In-Reply-To: <20200316120049.11225-10-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,21 +89,25 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/16/20 5:00 AM, Philippe Mathieu-Daudé wrote:
-> Expose the CONFIG_TCG selector to let minikconf.py uses it.
-> 
-> When building with --disable-tcg build, this helps to deselect
-> devices that are TCG-dependent.
+> On MIPS, the semihosting feature is always required on user-space.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  Makefile      | 1 +
->  accel/Kconfig | 3 +++
->  2 files changed, 4 insertions(+)
+>  default-configs/mips-linux-user-common.mak | 4 ++++
+>  default-configs/mips-linux-user.mak        | 2 ++
+>  default-configs/mips64-linux-user.mak      | 2 ++
+>  default-configs/mips64el-linux-user.mak    | 2 ++
+>  default-configs/mipsel-linux-user.mak      | 2 ++
+>  default-configs/mipsn32-linux-user.mak     | 2 ++
+>  default-configs/mipsn32el-linux-user.mak   | 2 ++
+>  7 files changed, 16 insertions(+)
+>  create mode 100644 default-configs/mips-linux-user-common.mak
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
