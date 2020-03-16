@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135501874FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:44:33 +0100 (CET)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9491874E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 22:42:03 +0100 (CET)
+Received: from localhost ([::1]:49422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDxXE-0000sq-3R
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:44:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42227)
+	id 1jDxUo-0004Hm-UV
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 17:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHV-0003VY-Ub
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:21 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHa-0003Z3-8y
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jDxHU-00049A-CS
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26541)
+ (envelope-from <pbonzini@redhat.com>) id 1jDxHY-0004Vi-7w
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20614)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHU-00046V-5o
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:16 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jDxHY-0004VK-3L
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 17:28:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584394095;
+ s=mimecast20190719; t=1584394099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MxyXzd1+M78f5LJXGIa385OSe7uymUkxw4jDQcSJ+g4=;
- b=Sni6kUeg/FOBQ1yN0m6DtjXe7ucUybWGM4pMGU0Oq4aUpOy5twoAh32Ww8XoV5barni7iO
- vohIxJ1aeRt5KefK/va3LoGXGn1eYVuy6wIkzeCCACSM+o8KKKBL2Vj2AAHfkskIOGIMjG
- WoHG9EplOusNNHP7aZjWVfVcV3GCYdk=
+ bh=JHmCL3a+xAfKgSq86Fdzp47nnxo0weWCnyOq498MzaQ=;
+ b=P/lR3g6H/IipQUUZQ4MUxt1YibSOyyxCHR1us6yA2+QaGX3Zz6cEQXlg3+2odXmlg6VTTd
+ S0qGq1wta4ocMmQE8Gm9WoxJ6pDv6COuybCCu+GzYn8e4T7IezDZ8VUrKgBx6hn0jD0Mlo
+ v5HHYRopFNNmunVwZcGsn4lLVeixTIM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-cBKrsaOQOWC41H6eCOXiQw-1; Mon, 16 Mar 2020 17:28:14 -0400
-X-MC-Unique: cBKrsaOQOWC41H6eCOXiQw-1
+ us-mta-232-ceghNtbpOIyPlNM-OmVRkw-1; Mon, 16 Mar 2020 17:28:17 -0400
+X-MC-Unique: ceghNtbpOIyPlNM-OmVRkw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 302E2100550E
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0EF51804540
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 21:28:15 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BE9E19C4F;
- Mon, 16 Mar 2020 21:28:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 998EB19C4F;
+ Mon, 16 Mar 2020 21:28:13 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/61] Makefile: Align 'help' target output
-Date: Mon, 16 Mar 2020 22:26:50 +0100
-Message-Id: <1584394048-44994-24-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 24/61] Makefile: Let the 'help' target list the tools targets
+Date: Mon, 16 Mar 2020 22:26:51 +0100
+Message-Id: <1584394048-44994-25-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,8 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,99 +75,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The 'help' target is displayed unaligned. Add a print-help
-function and use it. Now if someone want to change the
-indentation, there is a single place to modify.
+List the name of the tool targets when calling 'make help':
+
+  $ make help
+  [...]
+  Tools targets:
+    qemu-ga                        - Build qemu-ga tool
+    qemu-keymap                    - Build qemu-keymap tool
+    elf2dmp                        - Build elf2dmp tool
+    ivshmem-client                 - Build ivshmem-client tool
+    ivshmem-server                 - Build ivshmem-server tool
+    qemu-nbd                       - Build qemu-nbd tool
+    qemu-img                       - Build qemu-img tool
+    qemu-io                        - Build qemu-io tool
+    qemu-edid                      - Build qemu-edid tool
+    fsdev/virtfs-proxy-helper      - Build virtfs-proxy-helper tool
+    scsi/qemu-pr-helper            - Build qemu-pr-helper tool
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 44 +++++++++++++++++++++++---------------------
- 1 file changed, 23 insertions(+), 21 deletions(-)
+ Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index 7df22fc..6ec19f8 100644
+index 6ec19f8..25a7056 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1235,50 +1235,52 @@ endif
- include $(SRC_PATH)/tests/docker/Makefile.include
- include $(SRC_PATH)/tests/vm/Makefile.include
-=20
-+print-help-run =3D printf "  %-30s - %s\\n" "$1" "$2"
-+print-help =3D $(quiet-@)$(call print-help-run,$1,$2)
-+
- .PHONY: help
- help:
- =09@echo  'Generic targets:'
--=09@echo  '  all             - Build all'
-+=09$(call print-help,all,Build all)
- ifdef CONFIG_MODULES
--=09@echo  '  modules         - Build all modules'
-+=09$(call print-help,modules,Build all modules)
- endif
--=09@echo  '  dir/file.o      - Build specified target only'
--=09@echo  '  install         - Install QEMU, documentation and tools'
--=09@echo  '  ctags/TAGS      - Generate tags file for editors'
--=09@echo  '  cscope          - Generate cscope index'
-+=09$(call print-help,dir/file.o,Build specified target only)
-+=09$(call print-help,install,Install QEMU, documentation and tools)
-+=09$(call print-help,ctags/TAGS,Generate tags file for editors)
-+=09$(call print-help,cscope,Generate cscope index)
- =09@echo  ''
- =09@$(if $(TARGET_DIRS), \
- =09=09echo 'Architecture specific targets:'; \
+@@ -1255,6 +1255,11 @@ endif
  =09=09$(foreach t, $(TARGET_DIRS), \
--=09=09printf "  %-30s - Build for %s\\n" $(t)/all $(t);) \
-+=09=09$(call print-help-run,$(t)/all,Build for $(t));) \
+ =09=09$(call print-help-run,$(t)/all,Build for $(t));) \
  =09=09echo '')
++=09@$(if $(TOOLS), \
++=09=09echo 'Tools targets:'; \
++=09=09$(foreach t, $(TOOLS), \
++=09=09$(call print-help-run,$(t),Build $(shell basename $(t)) tool);) \
++=09=09echo '')
  =09@echo  'Cleaning targets:'
--=09@echo  '  clean           - Remove most generated files but keep the co=
-nfig'
-+=09$(call print-help,clean,Remove most generated files but keep the config=
+ =09$(call print-help,clean,Remove most generated files but keep the config=
 )
  ifdef CONFIG_GCOV
--=09@echo  '  clean-coverage  - Remove coverage files'
-+=09$(call print-help,clean-coverage,Remove coverage files)
- endif
--=09@echo  '  distclean       - Remove all generated files'
--=09@echo  '  dist            - Build a distributable tarball'
-+=09$(call print-help,distclean,Remove all generated files)
-+=09$(call print-help,dist,Build a distributable tarball)
- =09@echo  ''
- =09@echo  'Test targets:'
--=09@echo  '  check           - Run all tests (check-help for details)'
--=09@echo  '  docker          - Help about targets running tests inside con=
-tainers'
--=09@echo  '  vm-help         - Help about targets running tests inside VM'
-+=09$(call print-help,check,Run all tests (check-help for details))
-+=09$(call print-help,docker,Help about targets running tests inside contai=
-ners)
-+=09$(call print-help,vm-help,Help about targets running tests inside VM)
- =09@echo  ''
- =09@echo  'Documentation targets:'
--=09@echo  '  html info pdf txt'
--=09@echo  '                  - Build documentation in specified format'
-+=09$(call print-help,html info pdf txt,Build documentation in specified fo=
-rmat)
- ifdef CONFIG_GCOV
--=09@echo  '  coverage-report - Create code coverage report'
-+=09$(call print-help,coverage-report,Create code coverage report)
- endif
- =09@echo  ''
- ifdef CONFIG_WIN32
- =09@echo  'Windows targets:'
--=09@echo  '  installer       - Build NSIS-based installer for QEMU'
-+=09$(call print-help,installer,Build NSIS-based installer for QEMU)
- ifdef QEMU_GA_MSI_ENABLED
--=09@echo  '  msi             - Build MSI-based installer for qemu-ga'
-+=09$(call print-help,msi,Build MSI-based installer for qemu-ga)
- endif
- =09@echo  ''
- endif
--=09@echo  '  $(MAKE) [targets]      (quiet build, default)'
--=09@echo  '  $(MAKE) V=3D1 [targets]  (verbose build)'
-+=09$(call print-help,$(MAKE) [targets],(quiet build, default))
-+=09$(call print-help,$(MAKE) V=3D1 [targets],(verbose build))
 --=20
 1.8.3.1
 
