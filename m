@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42267186A1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:32:45 +0100 (CET)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E564186A38
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 12:41:09 +0100 (CET)
+Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDnz9-0001Jl-OY
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56235)
+	id 1jDo7H-0004Fx-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 07:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55089)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1jDn2j-00069Z-Ch
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:23 -0400
+ (envelope-from <kchamart@redhat.com>) id 1jDnUf-000873-4I
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1jDn2i-0006Fv-2b
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49356
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kchamart@redhat.com>) id 1jDnUT-0000gH-27
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:01:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57078
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jDn2h-0006AZ-TO
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 06:32:19 -0400
+ (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1jDnUP-0000CZ-GJ
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:00:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584354739;
+ s=mimecast20190719; t=1584356450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=I5e9z/RYaSlKBVT20zqlkjBIyMqasVu9eIlMIo6qUiM=;
- b=HXBnqNUQu5mpxp7QwOC0yKM3erkdEzsEKj4siLzNA/3tjwgx+SBDzNDr58EcRXhVKa4lJI
- +EZYICtIqlEeBzpaiCovk6UAvmTXgT318fDtqs3n17Qd5F3r0z7ePb8CM2D6bbsaTnXsHF
- 0YDFcZf2RDL26z+1fnW67L0JjHXOrRs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dg6Z/zM68y6egVxjTIxJNihvnmhssR0VTz+eymxL59Y=;
+ b=bA7/aw/lp5fWg19tNMkChvsyNSGBffRekC3daLAe5be0XTT32aEtZ6FILSsV6bahRLNRMH
+ arXbS+00sP1DYMcdvhufigDnjYoVxrukf4njZy2j1P8yFZNxDHkePotfbGCQ0hZ5oIYwBb
+ p+sGtOYxtIhA012MxeyoSfNJeI8D/kM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-PsGAWBcPPaS9br-dJMBVrg-1; Mon, 16 Mar 2020 06:32:18 -0400
-X-MC-Unique: PsGAWBcPPaS9br-dJMBVrg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-200-BFVJiV76NR-2JZ9X_6LFDQ-1; Mon, 16 Mar 2020 07:00:48 -0400
+X-MC-Unique: BFVJiV76NR-2JZ9X_6LFDQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26DB98E1D0D
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:32:17 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-205-24.brq.redhat.com [10.40.205.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 561BE1C2;
- Mon, 16 Mar 2020 10:32:05 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] python/qemu/qmp.py: QMP debug with VM label
-Date: Mon, 16 Mar 2020 12:32:03 +0200
-Message-Id: <20200316103203.10046-1-ovoshcha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11EF6105253F;
+ Mon, 16 Mar 2020 11:00:47 +0000 (UTC)
+Received: from paraplu.localdomain (unknown [10.36.119.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 140248B756;
+ Mon, 16 Mar 2020 11:00:46 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 9FDF23E048A; Mon, 16 Mar 2020 12:00:43 +0100 (CET)
+Date: Mon, 16 Mar 2020 12:00:43 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] softmmu/vl.c: Handle '-cpu help' and '-device help'
+ before 'no default machine'
+Message-ID: <20200316110043.GN22884@paraplu>
+References: <20200313172447.15471-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200313172447.15471-1-peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,73 +74,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ovoshcha@redhat.com, ehabkost@redhat.com, wainersm@redhat.com,
- crosa@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMUMachine writes some messages to the default logger.
-But it sometimes hard to read the output if we have requests to
-more than one VM.
-This patch adds a label to the logger in the debug mode.
+[Cc: Markus; he'd be pleasantly surprised with this, if he already
+hadn't noticed this, as he was also mildly annoyed about this the other
+day.]
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
-v2:
- - Instead of shown the label in the message it provides the label
-   only in the debug logger information.
-v3:
- - Fixes coding style problems.
-v4:
- - Use a suffix method to get a children's logger process from the parent.
----
- python/qemu/machine.py | 3 ++-
- python/qemu/qmp.py     | 5 ++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+On Fri, Mar 13, 2020 at 05:24:47PM +0000, Peter Maydell wrote:
+> Currently if you try to ask for the list of CPUs for a target
+> architecture which does not specify a default machine type
+> you just get an error:
+>=20
+>   $ qemu-system-arm -cpu help
+>   qemu-system-arm: No machine specified, and there is no default
+>   Use -machine help to list supported machines
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 183d8f3d38..f53abfa492 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -270,7 +270,8 @@ class QEMUMachine(object):
-                 self._vm_monitor =3D os.path.join(self._sock_dir,
-                                                 self._name + "-monitor.soc=
-k")
-                 self._remove_files.append(self._vm_monitor)
--            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, server=
-=3DTrue)
-+            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, server=
-=3DTrue,
-+                                                nickname=3Dself._name)
-=20
-     def _post_launch(self):
-         if self._qmp:
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index f40586eedd..d6c9b2f4b1 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -46,7 +46,7 @@ class QEMUMonitorProtocol:
-     #: Logger object for debugging messages
-     logger =3D logging.getLogger('QMP')
-=20
--    def __init__(self, address, server=3DFalse):
-+    def __init__(self, address, server=3DFalse, nickname=3DNone):
-         """
-         Create a QEMUMonitorProtocol class.
-=20
-@@ -62,6 +62,9 @@ class QEMUMonitorProtocol:
-         self.__address =3D address
-         self.__sock =3D self.__get_sock()
-         self.__sockfile =3D None
-+        self._nickname =3D nickname
-+        if self._nickname:
-+            self.logger =3D logging.getLogger('QMP').getChild(self._nickna=
-me)
-         if server:
-             self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,=
- 1)
-             self.__sock.bind(self.__address)
+I just applied the patch and built on QEMU.
+
+With `qemu-system-arm`:
+
+    $> ./arm-softmmu/qemu-system-arm -cpu help | head -5
+    Available CPUs:
+      arm1026
+      arm1136
+      arm1136-r2
+      arm1176
+
+    $> ./arm-softmmu/qemu-system-arm -device help | head -5
+    Controller/Bridge/Hub devices:
+    name "i82801b11-bridge", bus PCI
+    name "ioh3420", bus PCI, desc "Intel IOH device id 3420 PCIE Root Port"
+    name "pci-bridge", bus PCI, desc "Standard PCI Bridge"
+    name "pci-bridge-seat", bus PCI, desc "Standard PCI Bridge (multiseat)"
+
+With `qemu-system-aarch64`:
+
+    $> ./aarch64-softmmu/qemu-system-aarch64 -cpu help | head -5
+    Available CPUs:
+      arm1026
+      arm1136
+      arm1136-r2
+      arm1176
+
+    $> ./aarch64-softmmu/qemu-system-aarch64 -device help | head -5
+    Controller/Bridge/Hub devices:
+    name "i82801b11-bridge", bus PCI
+    name "ioh3420", bus PCI, desc "Intel IOH device id 3420 PCIE Root Port"
+    name "pci-bridge", bus PCI, desc "Standard PCI Bridge"
+    name "pci-bridge-seat", bus PCI, desc "Standard PCI Bridge (multiseat)"
+
+> Since the list of CPUs doesn't depend on the machine, this is
+> unnecessarily unhelpful. "-device help" has a similar problem.
+>=20
+> Move the checks for "did the user ask for -cpu help or -device help"
+> up so they precede the select_machine() call which checks that the
+> user specified a valid machine type.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Tested-by: Kashyap Chamarthy <kchamart@redhat.com>
+
+> ---
+> This has been on-and-off irritating me for years, and it's
+> embarrassing how simple the fix turns out to be...
+> ---
+>  softmmu/vl.c | 26 ++++++++++++++++----------
+>  1 file changed, 16 insertions(+), 10 deletions(-)
+
+[...]=20
+
+Thanks. :)
+
 --=20
-2.21.1
+/kashyap
 
 
