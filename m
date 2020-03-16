@@ -2,50 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB37186624
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:13:13 +0100 (CET)
-Received: from localhost ([::1]:35512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A11F186671
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 09:29:24 +0100 (CET)
+Received: from localhost ([::1]:35660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDks3-0004nU-MJ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
+	id 1jDl7i-0002Vk-RR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 04:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jDkkE-0002qU-Vb
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:05:08 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jDl00-0000aq-NF
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jDkkD-0006bS-6k
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:05:06 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:44748)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jDkzy-0005Ah-Qo
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 04:21:24 -0400
+Received: from relay.sw.ru ([185.231.240.75]:53720)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jDkkC-0004rV-8s; Mon, 16 Mar 2020 04:05:05 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07633739|-1; CH=green; DM=||false|;
- DS=CONTINUE|ham_regular_dialog|0.0167076-0.00263636-0.980656;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03308; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=9; SR=0; TI=SMTPD_---.H0EYJRp_1584345889; 
-Received: from 172.16.31.150(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H0EYJRp_1584345889)
- by smtp.aliyun-inc.com(10.147.42.241);
- Mon, 16 Mar 2020 16:04:50 +0800
-Subject: Re: [PATCH v5 57/60] target/riscv: vector slide instructions
-To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200312145900.2054-1-zhiwei_liu@c-sky.com>
- <20200312145900.2054-58-zhiwei_liu@c-sky.com>
- <28063df7-bf38-d136-2d32-39651692c4c6@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <88b87d58-5387-9d0d-b1a0-5705171f2e83@c-sky.com>
-Date: Mon, 16 Mar 2020 16:04:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <28063df7-bf38-d136-2d32-39651692c4c6@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jDkzy-0004k5-FO; Mon, 16 Mar 2020 04:21:22 -0400
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jDkzn-00053V-Aw; Mon, 16 Mar 2020 11:21:11 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 2/4] qcow2: rework the cluster compression routine
+Date: Mon, 16 Mar 2020 11:20:54 +0300
+Message-Id: <20200316082056.8839-3-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
+References: <20200316082056.8839-1-dplotnikov@virtuozzo.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,135 +45,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The patch enables processing the image compression type defined
+for the image and chooses an appropriate method for image clusters
+(de)compression.
 
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-threads.c | 71 ++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 60 insertions(+), 11 deletions(-)
 
-On 2020/3/15 13:16, Richard Henderson wrote:
-> On 3/12/20 7:58 AM, LIU Zhiwei wrote:
->> +#define GEN_VEXT_VSLIDEUP_VX(NAME, ETYPE, H, CLEAR_FN)                    \
->> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->> +        CPURISCVState *env, uint32_t desc)                                \
->> +{                                                                         \
->> +    uint32_t mlen = vext_mlen(desc);                                      \
->> +    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
->> +    uint32_t vm = vext_vm(desc);                                          \
->> +    uint32_t vl = env->vl;                                                \
->> +    uint32_t offset = s1, i;                                              \
->> +                                                                          \
->> +    if (offset > vl) {                                                    \
->> +        offset = vl;                                                      \
->> +    }                                                                     \
-> This isn't right.
->
->> +    for (i = 0; i < vl; i++) {                                            \
->> +        if (((i < offset)) || (!vm && !vext_elem_mask(v0, mlen, i))) {    \
->> +            continue;                                                     \
->> +        }                                                                 \
->> +        *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - offset));          \
->> +    }                                                                     \
->> +    if (i == 0) {                                                         \
->> +        return;                                                           \
->> +    }                                                                     \
-> You need to eliminate vl == 0 first, not last.
-> Then
->
->      for (i = offset; i < vl; i++)
->
-> The types of i and vl need to be extended to target_ulong, so that you don't
-> incorrectly crop the input offset.
->
-> It may be worth special-casing vm=1, or hoisting it out of the loop.  The
-> operation becomes a memcpy (at least for little-endian) at that point.  See
-> swap_memmove in arm/sve_helper.c.
->
->
->> +#define GEN_VEXT_VSLIDEDOWN_VX(NAME, ETYPE, H, CLEAR_FN)                  \
->> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->> +        CPURISCVState *env, uint32_t desc)                                \
->> +{                                                                         \
->> +    uint32_t mlen = vext_mlen(desc);                                      \
->> +    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
->> +    uint32_t vm = vext_vm(desc);                                          \
->> +    uint32_t vl = env->vl;                                                \
->> +    uint32_t offset = s1, i;                                              \
->> +                                                                          \
->> +    for (i = 0; i < vl; i++) {                                            \
->> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
->> +            continue;                                                     \
->> +        }                                                                 \
->> +        if (i + offset < vlmax) {                                         \
->> +            *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i + offset));      \
-> Again, eliminate vl == 0 first.  In fact, why don't we make that a global
-> request for all of the patches for the next revision.  Checking for i == 0 last
-> is silly, and checks for the zero twice: once in the loop bounds and again at
-> the end.
->
-> It is probably worth changing the loop bounds to
->
->      if (offset >= vlmax) {
->         max = 0;
->      } else {
->         max = MIN(vl, vlmax - offset);
->      }
->      for (i = 0; i < max; ++i)
->
->
->> +        } else {                                                          \
->> +            *((ETYPE *)vd + H(i)) = 0;                                    \
->> +        }
-> Which lets these zeros merge into...
->
->> +    for (; i < vlmax; i++) {                                              \
->> +        CLEAR_FN(vd, vl, vl * sizeof(ETYPE), vlmax * sizeof(ETYPE));      \
->> +    }                                                                     \
-> These zeros.
->
->> +#define GEN_VEXT_VSLIDE1UP_VX(NAME, ETYPE, H, CLEAR_FN)                   \
->> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->> +        CPURISCVState *env, uint32_t desc)                                \
->> +{                                                                         \
->> +    uint32_t mlen = vext_mlen(desc);                                      \
->> +    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
->> +    uint32_t vm = vext_vm(desc);                                          \
->> +    uint32_t vl = env->vl;                                                \
->> +    uint32_t i;                                                           \
->> +                                                                          \
->> +    for (i = 0; i < vl; i++) {                                            \
->> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
->> +            continue;                                                     \
->> +        }                                                                 \
->> +        if (i == 0) {                                                     \
->> +            *((ETYPE *)vd + H(i)) = s1;                                   \
->> +        } else {                                                          \
->> +            *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - 1));           \
->> +        }                                                                 \
->> +    }                                                                     \
->> +    if (i == 0) {                                                         \
->> +        return;                                                           \
->> +    }                                                                     \
->> +    for (; i < vlmax; i++) {                                              \
->> +        CLEAR_FN(vd, vl, vl * sizeof(ETYPE), vlmax * sizeof(ETYPE));      \
->> +    }                                                                     \
->> +}
-> As a preference, I think you can do away with this helper.
-> Simply use the slideup helper with argument 1, and then
-> afterwards store the integer register into element 0.  You should be able to
-> re-use code from vmv.s.x for that.
-When I try it, I find it is some difficult, because  vmv.s.x will clean
-the elements (0 < index < VLEN/SEW).
-
-Zhiwei
->> +#define GEN_VEXT_VSLIDE1DOWN_VX(NAME, ETYPE, H, CLEAR_FN)                 \
->> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
->> +        CPURISCVState *env, uint32_t desc)                                \
->> +{                                                                         \
-> Likewise.
->
->
-> r~
+diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+index a68126f291..7dbaf53489 100644
+--- a/block/qcow2-threads.c
++++ b/block/qcow2-threads.c
+@@ -74,7 +74,9 @@ typedef struct Qcow2CompressData {
+ } Qcow2CompressData;
+ 
+ /*
+- * qcow2_compress()
++ * qcow2_zlib_compress()
++ *
++ * Compress @src_size bytes of data using zlib compression method
+  *
+  * @dest - destination buffer, @dest_size bytes
+  * @src - source buffer, @src_size bytes
+@@ -83,8 +85,8 @@ typedef struct Qcow2CompressData {
+  *          -ENOMEM destination buffer is not enough to store compressed data
+  *          -EIO    on any other error
+  */
+-static ssize_t qcow2_compress(void *dest, size_t dest_size,
+-                              const void *src, size_t src_size)
++static ssize_t qcow2_zlib_compress(void *dest, size_t dest_size,
++                                   const void *src, size_t src_size)
+ {
+     ssize_t ret;
+     z_stream strm;
+@@ -119,10 +121,10 @@ static ssize_t qcow2_compress(void *dest, size_t dest_size,
+ }
+ 
+ /*
+- * qcow2_decompress()
++ * qcow2_zlib_decompress()
+  *
+  * Decompress some data (not more than @src_size bytes) to produce exactly
+- * @dest_size bytes.
++ * @dest_size bytes using zlib compression method
+  *
+  * @dest - destination buffer, @dest_size bytes
+  * @src - source buffer, @src_size bytes
+@@ -130,8 +132,8 @@ static ssize_t qcow2_compress(void *dest, size_t dest_size,
+  * Returns: 0 on success
+  *          -EIO on fail
+  */
+-static ssize_t qcow2_decompress(void *dest, size_t dest_size,
+-                                const void *src, size_t src_size)
++static ssize_t qcow2_zlib_decompress(void *dest, size_t dest_size,
++                                     const void *src, size_t src_size)
+ {
+     int ret;
+     z_stream strm;
+@@ -191,20 +193,67 @@ qcow2_co_do_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+     return arg.ret;
+ }
+ 
++/*
++ * qcow2_co_compress()
++ *
++ * Compress @src_size bytes of data using the compression
++ * method defined by the image compression type
++ *
++ * @dest - destination buffer, @dest_size bytes
++ * @src - source buffer, @src_size bytes
++ *
++ * Returns: compressed size on success
++ *          a negative error code on failure
++ */
+ ssize_t coroutine_fn
+ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+                   const void *src, size_t src_size)
+ {
+-    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
+-                                qcow2_compress);
++    BDRVQcow2State *s = bs->opaque;
++    Qcow2CompressFunc fn;
++
++    switch (s->compression_type) {
++    case QCOW2_COMPRESSION_TYPE_ZLIB:
++        fn = qcow2_zlib_compress;
++        break;
++
++    default:
++        abort();
++    }
++
++    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size, fn);
+ }
+ 
++/*
++ * qcow2_co_decompress()
++ *
++ * Decompress some data (not more than @src_size bytes) to produce exactly
++ * @dest_size bytes using the compression method defined by the image
++ * compression type
++ *
++ * @dest - destination buffer, @dest_size bytes
++ * @src - source buffer, @src_size bytes
++ *
++ * Returns: 0 on success
++ *          a negative error code on failure
++ */
+ ssize_t coroutine_fn
+ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
+                     const void *src, size_t src_size)
+ {
+-    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
+-                                qcow2_decompress);
++    BDRVQcow2State *s = bs->opaque;
++    Qcow2CompressFunc fn;
++
++    switch (s->compression_type) {
++    case QCOW2_COMPRESSION_TYPE_ZLIB:
++        fn = qcow2_zlib_decompress;
++        break;
++
++    default:
++        abort();
++    }
++
++    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size, fn);
+ }
+ 
+ 
+-- 
+2.17.0
 
 
