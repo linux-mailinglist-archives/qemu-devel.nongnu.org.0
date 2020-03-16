@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375B1187257
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:29:06 +0100 (CET)
-Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E4F18722E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 19:22:00 +0100 (CET)
+Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDuU5-00028G-7o
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
+	id 1jDuND-0005QR-29
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 14:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtEV-0001uc-KX
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:08:56 -0400
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDtVB-0007gp-68
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jDtEU-0001dz-Dc
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:08:55 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56248)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jDtEU-0001a9-6A
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:08:54 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 6so18534773wmi.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 10:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=99dn/GuhwAHx2S002190vY0CnNI7zHUp3az7R7L8TFY=;
- b=SNXfGnn1xK7BuGqjlOmsRLybZbnL6/G4lYfntprIlEMiqL9aKfp9cvJ8qid8swothV
- MyMT8ojXC86NwCSylza4bF9oPXy9TOcLeiX3VrPC95zmltsAnJdx+85b2AbXsiI8u9jD
- M5TFHhtX/Rc2MK3znjHGCESydIQSugwD9y3nzAjl6eSPrvxWP1JQhdkbgF8r+otCQ0Yv
- a2h1IL8Gq3il9txBBrsi7uQmcTcRqlRVqNFL2r5R7d/IxrD+cXir0G7U6Ammp9eE7v0M
- WyHEmgb3hT15kMlsLLuH5Y76loKBUmQgpbo7wXhAkE5rpyIHJIZgsLkdFcSIL0a8Ps9v
- luPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=99dn/GuhwAHx2S002190vY0CnNI7zHUp3az7R7L8TFY=;
- b=RCv6S18CW7vsuSjwkWln3jVnYFX19AaWspKq2B69CH0F+dW8UrP1oq5Be0Vk/kpA0x
- J4VUPZrro93twlg628rxvoOE8Uk6LMu8vKqg4Ebix+QXy0BAXC1FEY7n1t92JVePDV7p
- F/3gMBoi9fkRWOsBQiKL9AxyCNUkQcmzoJnIpnOUigX6MgXgR6WoInhTjuG11PyfHRlY
- ZUOxXJGwYrzg6nEq+F6fzHg+frgECM/VIMAbtTb4k9U/h/NcLmmt6+pWtM1fcBPS6vmW
- WvnANHGHoACpuCNvUY6qPinFNraV7LKylyxPN86Ez0KD2vnCR6LhzYTTjknI9o5x0CyO
- iohA==
-X-Gm-Message-State: ANhLgQ2W6AxePw4LiilCurrYrRBy6LmuHRQabFT7m3+Ezw/JuRgEoVsv
- zNh5jnSPuiz7iLtv3KWHQukDCXmKzYnXUKRxqMBNb467Mwc=
-X-Google-Smtp-Source: ADFU+vsY6bDMIelg9RQTfRctssaH0FJTf5nDOtFgI0so9ofMIlqkzT2h6uOUIK8zOhueHwHeQAJF5H38kF5qvL4wx8c=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr147752wmf.4.1584378533159;
- Mon, 16 Mar 2020 10:08:53 -0700 (PDT)
+ (envelope-from <r.bolshakov@yadro.com>) id 1jDtV9-0000DK-SG
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:08 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:34122 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jDtV9-0008RS-Is
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 13:26:07 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id BED8540418;
+ Mon, 16 Mar 2020 17:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1584379563; x=
+ 1586193964; bh=aTNGDJuYHGco724gdsuQJNuglR994JG7/z8mTvTwqcY=; b=X
+ J0ZG7jItwpp8XMQMho745ro1lqGBXNSw8cUte9JOF3Y/c3e0BpYsztmlkzGEXMyE
+ a1KzijMS4BwMLp+Bv9ScxJUPzYG8iM8Rg9IAwAAhzNp0OguKSDpP4CdPYMud98OA
+ PSb/wGDHcPvOC1nCOK4b3XiRazEffsemNEK3LUIr7Q=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id K4CIFJfK45QP; Mon, 16 Mar 2020 20:26:03 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 72F0740416;
+ Mon, 16 Mar 2020 20:26:01 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
+ Mar 2020 20:26:01 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2] MAINTAINERS: Add an entry for the HVF accelerator
+Date: Mon, 16 Mar 2020 20:18:27 +0300
+Message-ID: <20200316171825.42544-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-20-armbru@redhat.com>
-In-Reply-To: <20200315144653.22660-20-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 16 Mar 2020 18:08:41 +0100
-Message-ID: <CAJ+F1CLZ-Nh-nkQZcYbKnYTdAw3QkUtb4D=kk5L8SyB+0Bcnuw@mail.gmail.com>
-Subject: Re: [PATCH v3 19/34] qapi/schema: Call QAPIDoc.connect_member() in
- just one place
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 89.207.88.252
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,89 +72,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Patrick Colp <patrick.colp@oracle.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Cameron Esfahani <dirty@apple.com>,
+ Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Liran Alon <liran.alon@oracle.com>,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Heiher <r@hev.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Mar 15, 2020 at 4:00 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> The .connect_doc() of classes that have QAPISchemaMember connect them
-> to their documentation.  Change them to delegate the actual work to
-> new QAPISchemaMember.connect_doc().  Matches the .connect_doc() that
-> already exist.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Cc: Nikita Leshenko <nikita.leshchenko@oracle.com>
+Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
+Cc: Patrick Colp <patrick.colp@oracle.com>
+Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Heiher <r@hev.cc>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
 
+Changes since v1:
+  Status is changed to Maintained instead of Supported.
 
-> ---
->  scripts/qapi/schema.py | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 033c84c4a0..59e1f5a395 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -252,9 +252,8 @@ class QAPISchemaEnumType(QAPISchemaType):
->      def connect_doc(self, doc=3DNone):
->          super().connect_doc(doc)
->          doc =3D doc or self.doc
-> -        if doc:
-> -            for m in self.members:
-> -                doc.connect_member(m)
-> +        for m in self.members:
-> +            m.connect_doc(doc)
->
->      def is_implicit(self):
->          # See QAPISchema._make_implicit_enum_type() and ._def_predefined=
-s()
-> @@ -396,11 +395,10 @@ class QAPISchemaObjectType(QAPISchemaType):
->      def connect_doc(self, doc=3DNone):
->          super().connect_doc(doc)
->          doc =3D doc or self.doc
-> -        if doc:
-> -            if self.base and self.base.is_implicit():
-> -                self.base.connect_doc(doc)
-> -            for m in self.local_members:
-> -                doc.connect_member(m)
-> +        if self.base and self.base.is_implicit():
-> +            self.base.connect_doc(doc)
-> +        for m in self.local_members:
-> +            m.connect_doc(doc)
->
->      @property
->      def ifcond(self):
-> @@ -496,9 +494,8 @@ class QAPISchemaAlternateType(QAPISchemaType):
->      def connect_doc(self, doc=3DNone):
->          super().connect_doc(doc)
->          doc =3D doc or self.doc
-> -        if doc:
-> -            for v in self.variants.variants:
-> -                doc.connect_member(v)
-> +        for v in self.variants.variants:
-> +            v.connect_doc(doc)
->
->      def c_type(self):
->          return c_name(self.name) + pointer_suffix
-> @@ -627,6 +624,10 @@ class QAPISchemaMember:
->                  % (self.describe(info), seen[cname].describe(info)))
->          seen[cname] =3D self
->
-> +    def connect_doc(self, doc):
-> +        if doc:
-> +            doc.connect_member(self)
-> +
->      def describe(self, info):
->          role =3D self.role
->          defined_in =3D self.defined_in
-> --
-> 2.21.1
->
->
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 32867bc636..8649ff9cda 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -405,6 +405,13 @@ S: Supported
+ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
+=20
++X86 HVF CPUs
++M: Roman Bolshakov <r.bolshakov@yadro.com>
++S: Maintained
++F: accel/stubs/hvf-stub.c
++F: target/i386/hvf/
++F: include/sysemu/hvf.h
++
+ WHPX CPUs
+ M: Sunil Muthuswamy <sunilmut@microsoft.com>
+ S: Supported
 --=20
-Marc-Andr=C3=A9 Lureau
+2.24.1
+
 
