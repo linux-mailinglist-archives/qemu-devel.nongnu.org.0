@@ -2,62 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A057187057
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:46:34 +0100 (CET)
-Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB3818700E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:32:25 +0100 (CET)
+Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDssr-0002XD-1I
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46945)
+	id 1jDsfA-0005ae-3S
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jDqgY-0006xC-C8
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDqdH-0005bi-I0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jDqgW-0005ow-Tw
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57754)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jDqgW-0005ce-N1
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:25:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jDqgU-0002JR-SR
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 14:25:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB8BE2E80D3
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 14:25:38 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jDqdB-0003y8-K1
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47703
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqdB-0003v3-Fy
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:22:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584368533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KwcMGbu7t7ONr8JUuRhyhEIBgdDZlOZDihLGevxfioA=;
+ b=FJrcJ/z6Kb4yVqEc0gTChaspzXgh6biNXoucgnXkpRQD0vLUWLsJk8HxG3ms1NR0m8UTl1
+ 58iNcX+3e0dGhdZT+CIoUS3Es6EIfc/zeL6VQey5ySTveE+hLSOQX91eGbUugQZ+iE7Ip9
+ TjVGtXESQfeZKx06ZN7V27Soy79Yf+g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-Xqy_etl8NoS-If4ADDqY3Q-1; Mon, 16 Mar 2020 10:22:11 -0400
+X-MC-Unique: Xqy_etl8NoS-If4ADDqY3Q-1
+Received: by mail-ed1-f72.google.com with SMTP id y23so15296839edt.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:22:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nj40mOwmbOU2SLSTB9dqVS5zqZslCHWqMXMoCmBytNw=;
+ b=t4XZ846iV76rRGlp9CKyqkTWiulhcpVvUnXXAl4ILo6LUQh3Y/G6AJOfEGZDrmfmAP
+ sZh8CGAwdTvet5QhLNelxEF7j1TleSzuKx2xxifINQAfiw054znqu1ybSYSgkGvfKVZD
+ H59PvG3ZU3nExUMddlPrAJRU6IFiFQM6E1oQau/LSBRYScMVzFLzFKED3Rj7blFFVYOp
+ vNND/TcnR+5oDo6/WWnpxIk7HWorXwqBgyMl9L9e8IPRPBKFeEurn8eAy3lpumhwlWOT
+ Y7Eokz5jF1be26+DzXiPJoPXafGx3iYzn27hvcu4/Fu49F2vHT51JsAaXViopuIq/Z2o
+ bTPg==
+X-Gm-Message-State: ANhLgQ0R2iM6Ebylr+tR3rsgdwjBJI39OxkE5teY0Fkv2rdW+KlCJWyy
+ 4ak3GVxNURRhg2iWppa7T6ita4V59xC1VVs/QVtfXgwfBR3Xm15doLjxFvzj/v6DHIYNjmCyg3U
+ 1R9xRCIfvS/L2m/o=
+X-Received: by 2002:a50:9998:: with SMTP id m24mr166457edb.98.1584368529727;
+ Mon, 16 Mar 2020 07:22:09 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuLo5/tnrx87KFuAvaHdYiJYV1D1CmA385B+oQvTkoyufhRYJnmC1QR0KB7HOJz1ooUumjf8A==
+X-Received: by 2002:a50:9998:: with SMTP id m24mr166437edb.98.1584368529458;
+ Mon, 16 Mar 2020 07:22:09 -0700 (PDT)
+Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.191])
+ by smtp.gmail.com with ESMTPSA id 91sm3149996edq.78.2020.03.16.07.22.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 07:22:08 -0700 (PDT)
+Subject: Re: [PATCH 1/4] tests/vm: write raw console log
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20200310083218.26355-1-kraxel@redhat.com>
+ <20200310083218.26355-2-kraxel@redhat.com> <87wo7kjsfp.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <80b6dd22-aae9-268f-21a9-7add0dd3fa51@redhat.com>
+Date: Mon, 16 Mar 2020 15:22:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <87wo7kjsfp.fsf@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Mar 2020 14:20:22 -0000
-From: Andreas Hasenack <andreas@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
-X-Launchpad-Bug-Reporter: tstrike (tstrike34)
-X-Launchpad-Bug-Modifier: Andreas Hasenack (ahasenack)
-References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158436842225.11736.2918985588472857115.malone@soybean.canonical.com>
-Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 99c216ee5a6345a92279a609a67302c7949b8672
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,101 +93,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The package from the PPA failed the same way for me:
+On 3/16/20 3:16 PM, Alex Benn=C3=A9e wrote:
+>=20
+> Gerd Hoffmann <kraxel@redhat.com> writes:
+>=20
+>> Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
+>> to watch the install console.
+>>
+>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>=20
+> I suspect this is what's breaking "make check-acceptance" so I've
+> dropped the series from testing/next for now.
+>=20
+>    2020-03-11 12:12:30,546 stacktrace       L0039 ERROR|
+>    2020-03-11 12:12:30,546 stacktrace       L0042 ERROR| Reproduced trace=
+back from: /home/alex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python=
+3.6/site-packages/avocado/c\
+>    ore/test.py:860
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| Traceback (most =
+recent call last):
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
+ex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python3.6/site-packages/a=
+vocado/core/test.py", line \
+>    1456, in test
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     self.error(s=
+elf.exception)
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
+ex.bennee/lsrc/qemu.git/builds/all/tests/venv/lib/python3.6/site-packages/a=
+vocado/core/test.py", line \
+>    1064, in error
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     raise except=
+ions.TestError(message)
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| avocado.core.exc=
+eptions.TestError: Traceback (most recent call last):
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/usr/lib=
+/python3.6/imp.py", line 235, in load_module
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     return load_=
+source(name, filename, file)
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/usr/lib=
+/python3.6/imp.py", line 172, in load_source
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     module =3D _=
+load(spec)
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
+importlib._bootstrap>", line 684, in _load
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
+importlib._bootstrap>", line 665, in _load_unlocked
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
+importlib._bootstrap_external>", line 678, in exec_module
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "<frozen =
+importlib._bootstrap>", line 219, in _call_with_frames_removed
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
+ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/machine_mips_malta.py",=
+ line 15, in <module>
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from avocado=
+_qemu import Test
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
+ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/__init__.p=
+y", line 22, in <module>
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from qemu.ma=
+chine import QEMUMachine
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|   File "/home/al=
+ex.bennee/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/../../../p=
+ython/qemu/machine.py", lin\
+>    e 27, in <module>
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|     from qemu.co=
+nsole_socket import ConsoleSocket
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR| ModuleNotFoundEr=
+ror: No module named 'qemu.console_socket'
 
-ubuntu@f1:~$ qemu-system-x86_64 --enable-kvm -cpu Penryn,vmx=3Don -m 512 --=
-nodefaults --nographic
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
-01H:ECX.sse4.1 [bit 19]
-KVM internal error. Suberror: 1
-emulation failure
-EAX=3D00000000 EBX=3D00000000 ECX=3D000086d4 EDX=3D00000000
-ESI=3D00000000 EDI=3D00000000 EBP=3D000086d4 ESP=3D00006d7c
-EIP=3D00007acf EFL=3D00000002 [-------] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HLT=
-=3D0
-ES =3D0000 00000000 ffffffff 00809300
-CS =3Df000 000f0000 ffffffff 00809b00
-SS =3D0000 00000000 ffffffff 00809300
-DS =3D0000 00000000 ffffffff 00809300
-FS =3D0000 00000000 ffffffff 00809300
-GS =3D0000 00000000 ffffffff 00809300
-LDT=3D0000 00000000 0000ffff 00008200
-TR =3D0000 00000000 0000ffff 00008b00
-GDT=3D     000f6200 00000037
-IDT=3D     00000000 000003ff
-CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
-DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
-0000000000000000 =
+Cc'ing Wainer/Cleber in case...
 
-DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
-EFER=3D0000000000000000
-Code=3Db8 90 d9 00 00 66 e8 6b f7 ff ff 66 b8 0a 00 00 00 e9 61 f2 <f3> 0f =
-1e fb 66 57 66 56 66 53 66 53 66 89 c7 67 66 89 14 24 66 89 ce 66 e8 15 f8 =
-ff ff 88
-^Cqemu-system-x86_64: terminating on signal 2
+>    2020-03-11 12:12:30,547 stacktrace       L0045 ERROR|
+>    2020-03-11 12:12:30,547 stacktrace       L0046 ERROR|
+>    2020-03-11 12:12:30,548 test             L0865 DEBUG| Local variables:
+>    2020-03-11 12:12:30,561 test             L0868 DEBUG|  -> self <class =
+'avocado.core.test.TestError'>: 1-./tests/acceptance/machine_mips_malta.py:=
+MaltaMachineFramebuffer.tes\
+>    t_mips_malta_i6400_framebuffer_logo_1core
+>=20
+>=20
+>> ---
+>>   tests/vm/basevm.py | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+>> index 8400b0e07f65..c53fd354d955 100644
+>> --- a/tests/vm/basevm.py
+>> +++ b/tests/vm/basevm.py
+>> @@ -213,6 +213,9 @@ class BaseVM(object):
+>>       def console_init(self, timeout =3D 120):
+>>           vm =3D self._guest
+>>           vm.console_socket.settimeout(timeout)
+>> +        self.console_raw_path =3D os.path.join(vm._temp_dir,
+>> +                                             vm._name + "-console.raw")
+>> +        self.console_raw_file =3D open(self.console_raw_path, 'wb')
+>>  =20
+>>       def console_log(self, text):
+>>           for line in re.split("[\r\n]", text):
+>> @@ -234,6 +237,9 @@ class BaseVM(object):
+>>           while True:
+>>               try:
+>>                   chars =3D vm.console_socket.recv(1)
+>> +                if self.console_raw_file:
+>> +                    self.console_raw_file.write(chars)
+>> +                    self.console_raw_file.flush()
+>>               except socket.timeout:
+>>                   sys.stderr.write("console: *** read timeout ***\n")
+>>                   sys.stderr.write("console: waiting for: '%s'\n" % expe=
+ct)
+>=20
+>=20
 
-ubuntu@f1:~$ qemu-system-x86_64 --help 2>&1|head -n 1
-QEMU emulator version 4.2.0 (Debian 1:4.2-3ubuntu3~ppa1)
-ubuntu@f1:~$
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866870
-
-Title:
-  KVM Guest pauses after upgrade to Ubuntu 20.04
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Symptom:
-  Error unpausing domain: internal error: unable to execute QEMU command 'c=
-ont': Resetting the Virtual Machine is required
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
- in resume
-      self._backend.resume()
-    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
-      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
-t': Resetting the Virtual Machine is required
-
-  =
-
-  ---
-
-  As outlined here:
-  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
-
-  After upgrade, all KVM guests are in a default pause state. Even after
-  forcing them off via virsh, and restarting them the guests are paused.
-
-  These Guests are not nested.
-
-  A lot of diganostic information are outlined in the previous bug
-  report link provided. The solution mentioned in previous report had
-  been allegedly integrated into the downstream updates.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
