@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C11A186B7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:53:41 +0100 (CET)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E6186B38
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 13:39:51 +0100 (CET)
+Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDpFT-0004ff-TT
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51692)
+	id 1jDp25-0000Ds-0E
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 08:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jDnwu-00021c-M1
+ (envelope-from <kraxel@redhat.com>) id 1jDnwx-00022I-QR
  for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jDnwt-0000ty-1m
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48390
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1jDnwv-0001Cv-Cb
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:27 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45755
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnws-0000md-RL
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:22 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jDnwv-00018P-71
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 07:30:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584358222;
+ s=mimecast20190719; t=1584358224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PJxoln7e7LAPr0w6x0CSFvMFj00f8t79mjPRS95ptHM=;
- b=Cpipz1AsNSfYlOQ1OXdBeB7OqNedADxJ4RQObekJVwKezZtEAiTMkDcBVALsIbZFwQU8Ry
- gV7RNnXSbR5+4R/D/CpM5WFtL5q1hcsSxeM8kFzxYk7130NCStxaxW1LJJGzQdyYJIYYke
- lp3zj9WKkoNTxpEVaZYWD9vqHOVMu5w=
+ bh=k2+gky+iQX2sRF3Cj4Ap1jl4jZVwiMISvIxm8ts03s8=;
+ b=cEusEkXyJso773L8pDQiHsjEOR+9UyHtoyE+gft2kqDXclXO4fo/kMH+5mrvyRtWGo3Pdh
+ iIKrWQgMmZVWwEEZQ88zLblGFALCSbl6FrRpH2qQuIcDk0LtN08Q7xJULRbiNbA8SqArHO
+ hdhyvyujq4sQeKfPWQG88vSCe6yN9+Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-XXtxCJIyM3uO3Fir5zYsiA-1; Mon, 16 Mar 2020 07:30:20 -0400
-X-MC-Unique: XXtxCJIyM3uO3Fir5zYsiA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-367-Ze1VJ06pP0egSUsibdhZKw-1; Mon, 16 Mar 2020 07:30:20 -0400
+X-MC-Unique: Ze1VJ06pP0egSUsibdhZKw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC9D107ACC9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79BAD8017CC;
  Mon, 16 Mar 2020 11:30:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A6F891841;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64C165DA2C;
  Mon, 16 Mar 2020 11:30:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 94BB19D1F; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
+ id 9D20D9D21; Mon, 16 Mar 2020 12:30:15 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/6] audio: change naming scheme of FLOAT_CONV macros
-Date: Mon, 16 Mar 2020 12:30:11 +0100
-Message-Id: <20200316113015.28013-3-kraxel@redhat.com>
+Subject: [PULL 3/6] audio: consistency changes
+Date: Mon, 16 Mar 2020 12:30:12 +0100
+Message-Id: <20200316113015.28013-4-kraxel@redhat.com>
 In-Reply-To: <20200316113015.28013-1-kraxel@redhat.com>
 References: <20200316113015.28013-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +81,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-This patch changes the naming scheme of the FLOAT_CONV_TO and
-FLOAT_CONV_FROM macros to the scheme used in mixeng_template.h.
+Change the clip_natural_float_from_mono() function in
+audio/mixeng.c to be consistent with the clip_*_from_mono()
+functions in audio/mixeng_template.h.
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-id: 20200308193321.20668-2-vr_qemu@t-online.de
+Message-id: 20200308193321.20668-3-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/mixeng.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ audio/mixeng.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/audio/mixeng.c b/audio/mixeng.c
-index c14b0d874ce5..b57fad83bf3b 100644
+index b57fad83bf3b..725b529be7da 100644
 --- a/audio/mixeng.c
 +++ b/audio/mixeng.c
-@@ -268,17 +268,17 @@ f_sample *mixeng_clip[2][2][2][3] =3D {
- };
-=20
- #ifdef FLOAT_MIXENG
--#define FLOAT_CONV_TO(x) (x)
--#define FLOAT_CONV_FROM(x) (x)
-+#define CONV_NATURAL_FLOAT(x) (x)
-+#define CLIP_NATURAL_FLOAT(x) (x)
- #else
- static const float float_scale =3D UINT_MAX;
--#define FLOAT_CONV_TO(x) ((x) * float_scale)
-+#define CONV_NATURAL_FLOAT(x) ((x) * float_scale)
-=20
- #ifdef RECIPROCAL
- static const float float_scale_reciprocal =3D 1.f / UINT_MAX;
--#define FLOAT_CONV_FROM(x) ((x) * float_scale_reciprocal)
-+#define CLIP_NATURAL_FLOAT(x) ((x) * float_scale_reciprocal)
- #else
--#define FLOAT_CONV_FROM(x) ((x) / float_scale)
-+#define CLIP_NATURAL_FLOAT(x) ((x) / float_scale)
- #endif
- #endif
-=20
-@@ -288,7 +288,7 @@ static void conv_natural_float_to_mono(struct st_sample=
- *dst, const void *src,
-     float *in =3D (float *)src;
-=20
-     while (samples--) {
--        dst->r =3D dst->l =3D FLOAT_CONV_TO(*in++);
-+        dst->r =3D dst->l =3D CONV_NATURAL_FLOAT(*in++);
-         dst++;
-     }
- }
-@@ -299,8 +299,8 @@ static void conv_natural_float_to_stereo(struct st_samp=
-le *dst, const void *src,
-     float *in =3D (float *)src;
-=20
-     while (samples--) {
--        dst->l =3D FLOAT_CONV_TO(*in++);
--        dst->r =3D FLOAT_CONV_TO(*in++);
-+        dst->l =3D CONV_NATURAL_FLOAT(*in++);
-+        dst->r =3D CONV_NATURAL_FLOAT(*in++);
-         dst++;
-     }
- }
 @@ -316,7 +316,7 @@ static void clip_natural_float_from_mono(void *dst, con=
 st struct st_sample *src,
      float *out =3D (float *)dst;
 =20
      while (samples--) {
--        *out++ =3D FLOAT_CONV_FROM(src->l) + FLOAT_CONV_FROM(src->r);
-+        *out++ =3D CLIP_NATURAL_FLOAT(src->l) + CLIP_NATURAL_FLOAT(src->r)=
+-        *out++ =3D CLIP_NATURAL_FLOAT(src->l) + CLIP_NATURAL_FLOAT(src->r)=
 ;
-         src++;
-     }
- }
-@@ -327,8 +327,8 @@ static void clip_natural_float_from_stereo(
-     float *out =3D (float *)dst;
-=20
-     while (samples--) {
--        *out++ =3D FLOAT_CONV_FROM(src->l);
--        *out++ =3D FLOAT_CONV_FROM(src->r);
-+        *out++ =3D CLIP_NATURAL_FLOAT(src->l);
-+        *out++ =3D CLIP_NATURAL_FLOAT(src->r);
++        *out++ =3D CLIP_NATURAL_FLOAT(src->l + src->r);
          src++;
      }
  }
