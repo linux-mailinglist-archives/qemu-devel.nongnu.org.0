@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0419186129
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:10:11 +0100 (CET)
-Received: from localhost ([::1]:32772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CC618614B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 02:25:15 +0100 (CET)
+Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDeGg-0005kb-8r
-	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
+	id 1jDeVG-0002KB-2D
+	for lists+qemu-devel@lfdr.de; Sun, 15 Mar 2020 21:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jDdLr-0008DR-9x
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDdM4-0008IG-DL
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jDdLp-00046D-61
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39068
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1jDdLz-0004nD-A4
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57380
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdLp-00044B-1A
- for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:25 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDdLz-0004ej-5P
+ for qemu-devel@nongnu.org; Sun, 15 Mar 2020 20:11:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584317484;
+ s=mimecast20190719; t=1584317493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jznyG6ZwK2HqBmm0XWTDAnNXPpietF898ys70w4PLHk=;
- b=Su1olYXksk3/ivw8SeEMoD8lsZluSD0O8RLOLVPAVASNZXSyGrApHkvo23Fsmgg3BxzR5U
- KLZdeIblREKundgO5WXjVlpqbs1+6HSADwUFtqARF6saTypppT8w7b7lwB/8hO3xvcuJCY
- j92Yceoy5vMAJBwxhHVHoyYFxzEdftg=
+ bh=XIuJH9XweykhZcigkBeWkONlanSTYG2zvlCgRMYIfdo=;
+ b=MDSzN5KB7/XjpcXLHR157CxdNbsSqusoRutuGrhgFzeymMU7v50o59mc38PKfzLguu2z4O
+ BfAqJYouutEBe8Obo1S6HS/MnbUwD3heakf8CRwr6OGWVTDlzDh6hNuquptc+fw0vm71Ce
+ GzflsXzToA731clvq6Ugc2wOPWq/m9c=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-lG9mLbDeNnOgNNSjR1vUTA-1; Sun, 15 Mar 2020 20:11:21 -0400
-X-MC-Unique: lG9mLbDeNnOgNNSjR1vUTA-1
-Received: by mail-wr1-f69.google.com with SMTP id t10so1852435wrp.15
- for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:21 -0700 (PDT)
+ us-mta-56-HyX-pBpYPZCJE7WVVb7aQg-1; Sun, 15 Mar 2020 20:11:32 -0400
+X-MC-Unique: HyX-pBpYPZCJE7WVVb7aQg-1
+Received: by mail-wr1-f69.google.com with SMTP id v6so8067561wrg.22
+ for <qemu-devel@nongnu.org>; Sun, 15 Mar 2020 17:11:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cjkIxsGDVLhIoi2wxX81/gLAzGZQZKT/spQLce8K0hQ=;
- b=Iyufo3tsX7LDDKcBe/kKTYGGq1mYJWOFnSgTISK66CglK3c5XOfiCkv4qYkbV6iDsk
- 033twQPQWbjsQJqbzB3ZASMQwCVlrsKjqTKeqOQKY8idPyIc5bcHhfnRptpOL3vimzMm
- 1wLH8d1qOzc9F7bjO4gCjZBAT6HMCS1FK16TC1Dz+INx9FBrXWqNUtsJhLG3G19ioPPH
- SSbOwPq0BRRMPa2ZED+dI53QRfN9WYn+TdhWLkiW6802H0mj+wWaQ/BeHIXcsPqaLjW8
- YVX6/Km+YXGQbCVwujdeWFOCg3m9YfAHgmhrDn3qnAKzd+s/pjMeldhZno/CzjVD3XvH
- rkIw==
-X-Gm-Message-State: ANhLgQ1HyJxwRnGeTU5FTrSWhJ9g2wZCOdiuYpy72wz4mVTGBGbLQMQJ
- r44pxGp0gtsNYLRvzNst0nPd60Ck9XrHCuwXsp0oNE6HLwuLO4vqhyv1kr6HIfoEJUdzyFARokz
- EYj9D0i0J0FJmEaw=
-X-Received: by 2002:a1c:6605:: with SMTP id a5mr24393043wmc.32.1584317479913; 
- Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuo0cRj+iuolTs3FlbHkV8ErFMyIFtT512xgxL4hi8D0xSKaiNthiT2j73tAx6df9E9vsCwHw==
-X-Received: by 2002:a1c:6605:: with SMTP id a5mr24393015wmc.32.1584317479669; 
- Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
+ bh=T07f0oxk6PiljPlit4vlu7WFh9/oVHLX+IM98LA5apA=;
+ b=VIqOBozc89M61Aa1wskCTmEJAg0CCeQYpOAb42S6ZgFvROt54+mCWGykpQXh1fGt27
+ uF9j6zp87aX10CUdjhE2MQsTGuZn82hfhy1SHQAOKeAYuLq17TZfYzCqxcBT45UPK22V
+ VXYs+5KT0ymcj+/U7+s4vCC5fnlzooxHZeo/UM9iLTJ6d0YQdvhxhV7hai650IbzibV6
+ c4+AgWZL/UVE0bpu+c1gsMip6P9ClSbvFJVmuz0zxvHaEFKLDaGk+n8pxwF03B4CZUAS
+ 1Re1nBeH2tGyZxZ26o0eiK5C5YILJQ27jves/o5UbES9Cd+iGQ7h5Zpw66KqKty8UixO
+ s18g==
+X-Gm-Message-State: ANhLgQ0YUg0j6NQC1QDMqHBFuTXdjLIK0ojZgHTspz8K+xFDScT7OGKO
+ UnXx2aznCe+x7qPZQ/rkZtToER7ikbvGAyeN4hPsZXmsiqf6ygFJJxZevX/iaMECODiAOQE6fkm
+ CqkpDYN5vCTNcLNc=
+X-Received: by 2002:a5d:6245:: with SMTP id m5mr32313873wrv.154.1584317490615; 
+ Sun, 15 Mar 2020 17:11:30 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtwUJ6968d0frHLgVPd6S8Vf6H9zyITIH0xkdCdyffmSNEg2DYRaM4NprVOT4DPsH2kfw/JQw==
+X-Received: by 2002:a5d:6245:: with SMTP id m5mr32313855wrv.154.1584317490453; 
+ Sun, 15 Mar 2020 17:11:30 -0700 (PDT)
 Received: from localhost.localdomain (191.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.191])
- by smtp.gmail.com with ESMTPSA id f15sm16109952wrt.9.2020.03.15.17.11.18
+ by smtp.gmail.com with ESMTPSA id c23sm28103571wme.39.2020.03.15.17.11.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Mar 2020 17:11:19 -0700 (PDT)
+ Sun, 15 Mar 2020 17:11:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] hw/core/qdev-properties: Use qemu_strtol() in
- set_mac() handler
-Date: Mon, 16 Mar 2020 01:11:03 +0100
-Message-Id: <20200316001111.31004-2-philmd@redhat.com>
+Subject: [PATCH v2 3/9] hw/core/qdev-properties: Fix code style
+Date: Mon, 16 Mar 2020 01:11:05 +0100
+Message-Id: <20200316001111.31004-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200316001111.31004-1-philmd@redhat.com>
 References: <20200316001111.31004-1-philmd@redhat.com>
@@ -77,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,65 +97,53 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MACAddr structure contains an array of uint8_t. Previously
-if a value was out of the [0..255] range, it was silently casted
-and no input validation was done.
-Replace strtol() by qemu_strtol() -- so checkpatch.pl won't
-complain if we move this code later -- and return EINVAL if the
-input is invalid.
+We will soon move this code, fix its style to avoid checkpatch.pl
+to complain.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Comment we added input validation (rth)
----
- hw/core/qdev-properties.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/core/qdev-properties.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 59380ed761..48e4c98cf0 100644
+index 0e4da655c1..8ef949e3bd 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -1,4 +1,5 @@
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "net/net.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
-@@ -532,7 +533,8 @@ static void set_mac(Object *obj, Visitor *v, const char=
- *name, void *opaque,
-     MACAddr *mac =3D qdev_get_prop_ptr(dev, prop);
-     Error *local_err =3D NULL;
-     int i, pos;
--    char *str, *p;
-+    char *str;
-+    const char *p;
-=20
-     if (dev->realized) {
-         qdev_prop_set_after_realize(dev, name, errp);
-@@ -546,6 +548,8 @@ static void set_mac(Object *obj, Visitor *v, const char=
- *name, void *opaque,
-     }
-=20
-     for (i =3D 0, pos =3D 0; i < 6; i++, pos +=3D 3) {
-+        long val;
-+
+@@ -553,15 +553,15 @@ static void set_mac(Object *obj, Visitor *v, const ch=
+ar *name, void *opaque,
          if (!qemu_isxdigit(str[pos])) {
              goto inval;
          }
-@@ -561,7 +565,10 @@ static void set_mac(Object *obj, Visitor *v, const cha=
-r *name, void *opaque,
+-        if (!qemu_isxdigit(str[pos+1])) {
++        if (!qemu_isxdigit(str[pos + 1])) {
+             goto inval;
+         }
+         if (i =3D=3D 5) {
+-            if (str[pos+2] !=3D '\0') {
++            if (str[pos + 2] !=3D '\0') {
+                 goto inval;
+             }
+         } else {
+-            if (str[pos+2] !=3D ':' && str[pos+2] !=3D '-') {
++            if (str[pos + 2] !=3D ':' && str[pos + 2] !=3D '-') {
                  goto inval;
              }
          }
--        mac->a[i] =3D strtol(str+pos, &p, 16);
-+        if (qemu_strtol(str + pos, &p, 16, &val) < 0 || val > 0xff) {
-+            goto inval;
-+        }
-+        mac->a[i] =3D val;
+@@ -767,8 +767,8 @@ static void set_blocksize(Object *obj, Visitor *v, cons=
+t char *name,
+     /* We rely on power-of-2 blocksizes for bitmasks */
+     if ((value & (value - 1)) !=3D 0) {
+         error_setg(errp,
+-                  "Property %s.%s doesn't take value '%" PRId64 "', it's n=
+ot a power of 2",
+-                  dev->id ?: "", name, (int64_t)value);
++                  "Property %s.%s doesn't take value '%" PRId64 "', "
++                  "it's not a power of 2", dev->id ?: "", name, (int64_t)v=
+alue);
+         return;
      }
-     g_free(str);
-     return;
+=20
 --=20
 2.21.1
 
