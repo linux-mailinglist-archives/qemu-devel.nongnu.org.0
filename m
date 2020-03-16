@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D60A187160
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:43:57 +0100 (CET)
-Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7AE1871C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 18:59:58 +0100 (CET)
+Received: from localhost ([::1]:45116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDtmO-0005KT-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39913)
+	id 1jDu1t-0001iz-QF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 13:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jDsPT-0007qA-AD
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:13 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jDsPZ-0007si-BW
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jDsPR-0006Wf-94
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:56325)
+ (envelope-from <laurent@vivier.eu>) id 1jDsPX-0007Th-Vt
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:43915)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPQ-0006JS-Uf
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:09 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jDsPX-0007Jc-Ll
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 12:16:15 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MFb38-1j5bzV2d2s-00H5OL; Mon, 16 Mar 2020 17:16:00 +0100
+ id 1MpTpc-1jfE1Q2EZQ-00pryl; Mon, 16 Mar 2020 17:16:04 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/38] Linux user for 5.0 patches
-Date: Mon, 16 Mar 2020 17:15:12 +0100
-Message-Id: <20200316161550.336150-1-laurent@vivier.eu>
+Subject: [PULL 02/38] linux-user/i386: Split out gen_signal
+Date: Mon, 16 Mar 2020 17:15:14 +0100
+Message-Id: <20200316161550.336150-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200316161550.336150-1-laurent@vivier.eu>
+References: <20200316161550.336150-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8MwWF+gdKaU8FduivmQrr8pxCdzf8rVZ9IH+6y9gDX5Za7jnfBp
- UH6ITk6tYzRLWuYLh1URP2nhQlk2ghMEPBVvpXtROZkVfTIzjxhpAYVD9Pflj0549u/TaZW
- hQSbaT0r5H6f4oq29WX4Yu4J4TgAusrGlMPmphjqAmI0xAExBBkhEySrrcDyk+2sPR/FZXQ
- OQIy8Iy9j2ZH1XF+sADeg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PEGVsEuvAJA=:A7ZAr2IksPQiG0Fjh30QiP
- NMZGRmiapNnXdhmKPOUc5Bm3v577xubwr6Ls9eK7xd1a7oSFSGdOl+IrmRLNNtU7yi3nQhJO5
- rxm9faRIhRMcR8Qu+irXU8QM14nAW7KTMnwCP+/bk9lGxfz4fLqnyLT6GMLfnRbuwuKiqNMY2
- YIjUcdr2MJVCiqwmhA7PZiOe+XmnyPrF3C2k7ddANO2KzQu05PmyV9aeXWlQRDBRSNY+f/SVf
- BRKWzLpSU2N0y4cnCbQR4iZw+3kaI4c7d8ruS53u8NnEGE9LmxM6RFGyFN9/R+T8EO0CyMd0+
- 3YN4GBG3TDSA2HUTLdvnkNupNlCJjyg3W/ew4v6jh7r7VKrcJnj2mGXcSaxaDnVr4hCnmaiZj
- hVyRUCl34VZPCi4LY5PwCuRl5xSwAiPSAlo1jsVRoclfKjz/zSthy92wc3yrT2NsyxGPPuBIb
- flJHj7Xsnui+Ooi5wpGeOCD14K4h+hlJCVNpqR45t/vnSLkfs4liBz7WwZWKtblCIW35SUpN3
- FpdcxeLkNfx8jKtGew3pf0cyGTQWxs26U/bQLmHaGE7a2Fa0E2ccY+Qqv9jTjekeN0V0MOwGv
- o4jLL9cDEjk7+yQoDxWcM0fODA0ILlJnUKvrpOGoMcCnYs4FW69N9zFNDSeORzS4fJnzN+BXl
- tWif2Wfgjmdv8b/8cKhzxM4LwBnYq9ZARXjvV7FEiEZrAeCxYTT+InucuSzBuN1sqVISDPrPX
- 5SNttKkREBBFrVyrhG23Fut5bEaKCx4dkw4zF8WWtL0HC0Z0Efgyi2b0SDkJzSRi0KuaVpKzT
- dB2cpGPgr4qW+eeZoWbc4A1bzBM0SgRKX1QjZ3DkfrIhQzhTQENav83jQdK7G1Z4e3Szt+q
+X-Provags-ID: V03:K1:KrL6I/F7MNRegfxQaiB29bAN8Uwn/7ObA5TnQeZdB4gWJH9ikUW
+ Ra1813wakb/rt0BRgSu9R8jfn1sFryE/E8krtgeCWu4xv0wCvN1rgbTTseygIPS8i3eGg+N
+ Gi35z7nG/QTWBranhBE5ofLHdPM2Ja7kRBDVzRbAXgIDRlaqup/v5c7Txl0/hJ95FCX+HCf
+ t25MCMT7BVRw8HcPshu5w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:i01+A/033oY=:EB1CbLBRvjfyCHmdn/VBhw
+ LSmjpjvGWmDh5Zr/qHvhah5Ojqsr+qtvpUqdTky9jqOONjxDkTUAs3GUJogL3tCbonp0Qa1fR
+ bW7+PoyR741cYkTcRpXPkO/9N8jGgOzaLBmfjPXxD5j1tuwe134HFRNNLeHHsv8/TLyWt4P3V
+ zIWISABaT9/aXFigAIf78HfiUQWz3MNGHTnz50ZcyG09vJqXfqfDyRJg+EW/qTKCaivk/DPf9
+ 9EmOQKUCp3rFTU/g8aK8xQb7Ju7ekFmcRww9VL3VMR0urhstx9XvuLwpbav1bO+kFtT4Raz6j
+ iJ4TpXnThm/Q9yyL1A85Okmr8PoLyIl8oDPoy5q2fBuy08P9yoiZJpxwaH9OFR5sxvwMIXFZu
+ 4nhF6v3ipeMHdFk0pLuSTvAdB/V8MMGMghzJqlyhB+8EfO+jTNZ11QdpgB2s5+1NIy5cy+391
+ 9ZE88/NIH5tdbhmkeDD07pVBubD7Azspl9CG9nFPPZ8NpxHDWor3rgY3Fi1bKxp6jhxE8Jfnb
+ RZx/kbu/k796z8NyB7glX1/dslcwtacC3N0X1k69lVSmgSKjIGeA6I9yUTEMhReb2RMq7VjCs
+ RYCRJLeHMrQu/jQCC2xpGpZC1H8+GBnnpQ0MUEKAmXVeNP54r81xfCutjbvMPW5EzEL234zmi
+ 142JjxLtLMO+x2PH2aAQMBPaauU/TN3q5lwgO4lQKu7dEdtkkVLg3g+NbfDyFZQONwmPMyY4G
+ F8kRnmBbdulR4k6lwBSd4l641HcNe45+lvWgR1S3ogO5hqjDzpXCPybKMwuplCajgSl7AeXLT
+ tMzUkMwYXEm7jq1C+sFeXjDPw/4piLaQ3mBIOZKGSmyh1Oj5/SamcGVCtQ24ru1tGmNQwmB
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,232 +64,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
+This is a bit tidier than open-coding the 5 lines necessary
+to initialize the target_siginfo_t.  In addition, this zeros
+the remaining bytes of the target_siginfo_t, rather than
+passing in garbage.
 
-are available in the Git repository at:
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200213032223.14643-3-richard.henderson@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/i386/cpu_loop.c | 93 ++++++++++++++------------------------
+ 1 file changed, 33 insertions(+), 60 deletions(-)
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to 63e05b3db1e5f0560ae579050c53d1ee36ed5aca:
-
-  linux-user, openrisc: sync syscall numbers with kernel v5.5 (2020-03-16 14:20:07 +0100)
-
-----------------------------------------------------------------
-update syscall numbers to linux 5.5 (with scripts)
-add futex_time64/clock_gettime64/clock_settime64
-add AT_EXECFN
-Emulate x86_64 vsyscalls
-
-----------------------------------------------------------------
-
-Alistair Francis (4):
-  linux-user: Protect more syscalls
-  linux-user/syscall: Add support for clock_gettime64/clock_settime64
-  linux-user: Support futex_time64
-  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
-
-Laurent Vivier (26):
-  linux-user: fix socket() strace
-  linux-user: introduce parameters to generate syscall_nr.h
-  linux-user, alpha: add syscall table generation support
-  linux-user, hppa: add syscall table generation support
-  linux-user, m68k: add syscall table generation support
-  linux-user, xtensa: add syscall table generation support
-  linux-user, sh4: add syscall table generation support
-  linux-user, microblaze: add syscall table generation support
-  linux-user, arm: add syscall table generation support
-  linux-user, ppc: add syscall table generation support
-  linux-user, s390x: remove syscall definitions for !TARGET_S390X
-  linux-user, s390x: add syscall table generation support
-  linux-user, sparc, sparc64: add syscall table generation support
-  linux-user, x86_64, i386: cleanup TARGET_NR_arch_prctl
-  linux-user, i386: add syscall table generation support
-  linux-user, x86_64: add syscall table generation support
-  linux-user, mips: add syscall table generation support
-  linux-user, mips64: add syscall table generation support
-  linux-user, scripts: add a script to update syscall.tbl
-  linux-user: update syscall.tbl from linux 0bf999f9c5e7
-  linux-user,mips: move content of mips_syscall_args
-  linux-user,mips: update syscall-args-o32.c.inc
-  scripts: add a script to generate syscall_nr.h
-  linux-user, aarch64: sync syscall numbers with kernel v5.5
-  linux-user, nios2: sync syscall numbers with kernel v5.5
-  linux-user, openrisc: sync syscall numbers with kernel v5.5
-
-Lirong Yuan (2):
-  linux-user: Add AT_EXECFN auxval
-  linux-user: Update TASK_UNMAPPED_BASE for aarch64
-
-Richard Henderson (5):
-  target/i386: Renumber EXCP_SYSCALL
-  linux-user/i386: Split out gen_signal
-  linux-user/i386: Emulate x86_64 vsyscalls
-  linux-user: Add x86_64 vsyscall page to /proc/self/maps
-  linux-user: Flush out implementation of gettimeofday
-
-Tobias Koch (1):
-  linux-user: do prlimit selectively
-
- MAINTAINERS                            |   3 +
- Makefile.target                        |   3 +-
- configure                              |  35 ++
- linux-user/Makefile.objs               |  19 +-
- linux-user/aarch64/syscall_nr.h        |  34 +-
- linux-user/alpha/Makefile.objs         |   5 +
- linux-user/alpha/syscall.tbl           | 479 ++++++++++++++++
- linux-user/alpha/syscall_nr.h          | 492 -----------------
- linux-user/alpha/syscallhdr.sh         |  32 ++
- linux-user/arm/Makefile.objs           |   8 +
- linux-user/arm/syscall.tbl             | 453 +++++++++++++++
- linux-user/arm/syscall_nr.h            | 447 ---------------
- linux-user/arm/syscallhdr.sh           |  31 ++
- linux-user/elfload.c                   |   3 +-
- linux-user/hppa/Makefile.objs          |   5 +
- linux-user/hppa/syscall.tbl            | 437 +++++++++++++++
- linux-user/hppa/syscall_nr.h           | 358 ------------
- linux-user/hppa/syscallhdr.sh          |  32 ++
- linux-user/i386/Makefile.objs          |   5 +
- linux-user/i386/cpu_loop.c             | 201 +++++--
- linux-user/i386/syscall_32.tbl         | 444 +++++++++++++++
- linux-user/i386/syscall_nr.h           | 387 -------------
- linux-user/i386/syscallhdr.sh          |  28 +
- linux-user/i386/target_cpu.h           |   4 +-
- linux-user/m68k/Makefile.objs          |   5 +
- linux-user/m68k/syscall.tbl            | 439 +++++++++++++++
- linux-user/m68k/syscall_nr.h           | 434 ---------------
- linux-user/m68k/syscallhdr.sh          |  32 ++
- linux-user/microblaze/Makefile.objs    |   5 +
- linux-user/microblaze/syscall.tbl      | 445 +++++++++++++++
- linux-user/microblaze/syscall_nr.h     | 442 ---------------
- linux-user/microblaze/syscallhdr.sh    |  32 ++
- linux-user/mips/Makefile.objs          |   5 +
- linux-user/mips/cpu_loop.c             | 440 +--------------
- linux-user/mips/syscall-args-o32.c.inc | 436 +++++++++++++++
- linux-user/mips/syscall_nr.h           | 425 ---------------
- linux-user/mips/syscall_o32.tbl        | 427 +++++++++++++++
- linux-user/mips/syscallhdr.sh          |  36 ++
- linux-user/mips64/Makefile.objs        |  12 +
- linux-user/mips64/syscall_n32.tbl      | 378 +++++++++++++
- linux-user/mips64/syscall_n64.tbl      | 354 ++++++++++++
- linux-user/mips64/syscall_nr.h         | 725 -------------------------
- linux-user/mips64/syscallhdr.sh        |  33 ++
- linux-user/mmap.c                      |   4 +
- linux-user/nios2/syscall_nr.h          | 650 +++++++++++-----------
- linux-user/openrisc/syscall_nr.h       | 309 +++--------
- linux-user/ppc/Makefile.objs           |   6 +
- linux-user/ppc/signal.c                |   2 +-
- linux-user/ppc/syscall.tbl             | 521 ++++++++++++++++++
- linux-user/ppc/syscall_nr.h            | 402 --------------
- linux-user/ppc/syscallhdr.sh           |  34 ++
- linux-user/riscv/syscall32_nr.h        | 295 ++++++++++
- linux-user/riscv/syscall64_nr.h        | 301 ++++++++++
- linux-user/riscv/syscall_nr.h          | 294 +---------
- linux-user/s390x/Makefile.objs         |   5 +
- linux-user/s390x/syscall.tbl           | 442 +++++++++++++++
- linux-user/s390x/syscall_nr.h          | 398 --------------
- linux-user/s390x/syscallhdr.sh         |  32 ++
- linux-user/sh4/Makefile.objs           |   5 +
- linux-user/sh4/syscall.tbl             | 442 +++++++++++++++
- linux-user/sh4/syscall_nr.h            | 441 ---------------
- linux-user/sh4/syscallhdr.sh           |  32 ++
- linux-user/sparc/Makefile.objs         |   5 +
- linux-user/sparc/syscall.tbl           | 485 +++++++++++++++++
- linux-user/sparc/syscall_nr.h          | 363 -------------
- linux-user/sparc/syscallhdr.sh         |  32 ++
- linux-user/sparc64/Makefile.objs       |   5 +
- linux-user/sparc64/syscall.tbl         | 485 +++++++++++++++++
- linux-user/sparc64/syscall_nr.h        | 366 -------------
- linux-user/sparc64/syscallhdr.sh       |  32 ++
- linux-user/strace.c                    |  10 +-
- linux-user/syscall.c                   | 314 ++++++++++-
- linux-user/x86_64/Makefile.objs        |   5 +
- linux-user/x86_64/syscall_64.tbl       | 404 ++++++++++++++
- linux-user/x86_64/syscall_nr.h         | 356 ------------
- linux-user/x86_64/syscallhdr.sh        |  28 +
- linux-user/xtensa/Makefile.objs        |   5 +
- linux-user/xtensa/syscall.tbl          | 410 ++++++++++++++
- linux-user/xtensa/syscall_nr.h         | 469 ----------------
- linux-user/xtensa/syscallhdr.sh        |  32 ++
- scripts/gensyscalls.sh                 | 102 ++++
- scripts/update-mips-syscall-args.sh    |  57 ++
- scripts/update-syscalltbl.sh           |  49 ++
- target/i386/cpu.h                      |  12 +-
- target/i386/translate.c                |  14 +-
- 85 files changed, 9791 insertions(+), 7914 deletions(-)
- create mode 100644 linux-user/alpha/Makefile.objs
- create mode 100644 linux-user/alpha/syscall.tbl
- delete mode 100644 linux-user/alpha/syscall_nr.h
- create mode 100644 linux-user/alpha/syscallhdr.sh
- create mode 100644 linux-user/arm/Makefile.objs
- create mode 100644 linux-user/arm/syscall.tbl
- delete mode 100644 linux-user/arm/syscall_nr.h
- create mode 100644 linux-user/arm/syscallhdr.sh
- create mode 100644 linux-user/hppa/Makefile.objs
- create mode 100644 linux-user/hppa/syscall.tbl
- delete mode 100644 linux-user/hppa/syscall_nr.h
- create mode 100644 linux-user/hppa/syscallhdr.sh
- create mode 100644 linux-user/i386/Makefile.objs
- create mode 100644 linux-user/i386/syscall_32.tbl
- delete mode 100644 linux-user/i386/syscall_nr.h
- create mode 100644 linux-user/i386/syscallhdr.sh
- create mode 100644 linux-user/m68k/Makefile.objs
- create mode 100644 linux-user/m68k/syscall.tbl
- delete mode 100644 linux-user/m68k/syscall_nr.h
- create mode 100644 linux-user/m68k/syscallhdr.sh
- create mode 100644 linux-user/microblaze/Makefile.objs
- create mode 100644 linux-user/microblaze/syscall.tbl
- delete mode 100644 linux-user/microblaze/syscall_nr.h
- create mode 100644 linux-user/microblaze/syscallhdr.sh
- create mode 100644 linux-user/mips/Makefile.objs
- create mode 100644 linux-user/mips/syscall-args-o32.c.inc
- delete mode 100644 linux-user/mips/syscall_nr.h
- create mode 100644 linux-user/mips/syscall_o32.tbl
- create mode 100644 linux-user/mips/syscallhdr.sh
- create mode 100644 linux-user/mips64/Makefile.objs
- create mode 100644 linux-user/mips64/syscall_n32.tbl
- create mode 100644 linux-user/mips64/syscall_n64.tbl
- delete mode 100644 linux-user/mips64/syscall_nr.h
- create mode 100644 linux-user/mips64/syscallhdr.sh
- create mode 100644 linux-user/ppc/Makefile.objs
- create mode 100644 linux-user/ppc/syscall.tbl
- delete mode 100644 linux-user/ppc/syscall_nr.h
- create mode 100644 linux-user/ppc/syscallhdr.sh
- create mode 100644 linux-user/riscv/syscall32_nr.h
- create mode 100644 linux-user/riscv/syscall64_nr.h
- create mode 100644 linux-user/s390x/Makefile.objs
- create mode 100644 linux-user/s390x/syscall.tbl
- delete mode 100644 linux-user/s390x/syscall_nr.h
- create mode 100755 linux-user/s390x/syscallhdr.sh
- create mode 100644 linux-user/sh4/Makefile.objs
- create mode 100644 linux-user/sh4/syscall.tbl
- delete mode 100644 linux-user/sh4/syscall_nr.h
- create mode 100644 linux-user/sh4/syscallhdr.sh
- create mode 100644 linux-user/sparc/Makefile.objs
- create mode 100644 linux-user/sparc/syscall.tbl
- delete mode 100644 linux-user/sparc/syscall_nr.h
- create mode 100644 linux-user/sparc/syscallhdr.sh
- create mode 100644 linux-user/sparc64/Makefile.objs
- create mode 100644 linux-user/sparc64/syscall.tbl
- delete mode 100644 linux-user/sparc64/syscall_nr.h
- create mode 100644 linux-user/sparc64/syscallhdr.sh
- create mode 100644 linux-user/x86_64/Makefile.objs
- create mode 100644 linux-user/x86_64/syscall_64.tbl
- delete mode 100644 linux-user/x86_64/syscall_nr.h
- create mode 100644 linux-user/x86_64/syscallhdr.sh
- create mode 100644 linux-user/xtensa/Makefile.objs
- create mode 100644 linux-user/xtensa/syscall.tbl
- delete mode 100644 linux-user/xtensa/syscall_nr.h
- create mode 100644 linux-user/xtensa/syscallhdr.sh
- create mode 100755 scripts/gensyscalls.sh
- create mode 100755 scripts/update-mips-syscall-args.sh
- create mode 100755 scripts/update-syscalltbl.sh
-
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 024b6f4d588c..e217cca5ee1e 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -81,13 +81,23 @@ static void set_idt(int n, unsigned int dpl)
+ }
+ #endif
+ 
++static void gen_signal(CPUX86State *env, int sig, int code, abi_ptr addr)
++{
++    target_siginfo_t info = {
++        .si_signo = sig,
++        .si_code = code,
++        ._sifields._sigfault._addr = addr
++    };
++
++    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++}
++
+ void cpu_loop(CPUX86State *env)
+ {
+     CPUState *cs = env_cpu(env);
+     int trapnr;
+     abi_ulong pc;
+     abi_ulong ret;
+-    target_siginfo_t info;
+ 
+     for(;;) {
+         cpu_exec_start(cs);
+@@ -134,70 +144,45 @@ void cpu_loop(CPUX86State *env)
+ #endif
+         case EXCP0B_NOSEG:
+         case EXCP0C_STACK:
+-            info.si_signo = TARGET_SIGBUS;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_SI_KERNEL;
+-            info._sifields._sigfault._addr = 0;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGBUS, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP0D_GPF:
+             /* XXX: potential problem if ABI32 */
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_fault(env);
+-            } else
+-#endif
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_SI_KERNEL;
+-                info._sifields._sigfault._addr = 0;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP0E_PAGE:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            if (!(env->error_code & 1))
+-                info.si_code = TARGET_SEGV_MAPERR;
+-            else
+-                info.si_code = TARGET_SEGV_ACCERR;
+-            info._sifields._sigfault._addr = env->cr[2];
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGSEGV,
++                       (env->error_code & 1 ?
++                        TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
++                       env->cr[2]);
+             break;
+         case EXCP00_DIVZ:
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
+-#endif
+-            {
+-                /* division by zero */
+-                info.si_signo = TARGET_SIGFPE;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_FPE_INTDIV;
+-                info._sifields._sigfault._addr = env->eip;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
+             break;
+         case EXCP01_DB:
+         case EXCP03_INT3:
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
++                break;
++            }
+ #endif
+-            {
+-                info.si_signo = TARGET_SIGTRAP;
+-                info.si_errno = 0;
+-                if (trapnr == EXCP01_DB) {
+-                    info.si_code = TARGET_TRAP_BRKPT;
+-                    info._sifields._sigfault._addr = env->eip;
+-                } else {
+-                    info.si_code = TARGET_SI_KERNEL;
+-                    info._sifields._sigfault._addr = 0;
+-                }
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            if (trapnr == EXCP01_DB) {
++                gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
++            } else {
++                gen_signal(env, TARGET_SIGTRAP, TARGET_SI_KERNEL, 0);
+             }
+             break;
+         case EXCP04_INTO:
+@@ -205,31 +190,19 @@ void cpu_loop(CPUX86State *env)
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
+-#endif
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_SI_KERNEL;
+-                info._sifields._sigfault._addr = 0;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP06_ILLOP:
+-            info.si_signo = TARGET_SIGILL;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_ILL_ILLOPN;
+-            info._sifields._sigfault._addr = env->eip;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
+             break;
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+         case EXCP_DEBUG:
+-            info.si_signo = TARGET_SIGTRAP;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_TRAP_BRKPT;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
+             break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
 -- 
 2.24.1
 
