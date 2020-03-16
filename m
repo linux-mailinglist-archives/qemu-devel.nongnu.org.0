@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30226186FF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:24:48 +0100 (CET)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA57186FFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Mar 2020 17:27:34 +0100 (CET)
+Received: from localhost ([::1]:42208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jDsXn-0002i8-7s
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
+	id 1jDsaT-0007H4-Dd
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 12:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jDq7c-0001r4-2R
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:37 -0400
+ (envelope-from <philmd@redhat.com>) id 1jDqIz-0006Oi-RE
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jDq7a-0005m7-Ub
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:35 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44729)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jDq7a-0005eK-Ld
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 09:49:34 -0400
-Received: by mail-oi1-x243.google.com with SMTP id d62so17751682oia.11
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 06:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0BPAOx1/3Y43ZDSJ8uw6g5y1l1TmUkqMPb5e7PhkswE=;
- b=cimJ94KAHgRlJsFyrs6LXutuGxspRTOuybbi9s3moNs0h/+90gGAOluRkyTowoh9cs
- OnSVzL/8f9NolP1aCgL+HXLNCFAC5JfpaHWbnJ2hStICc/ZJ7FyO9HQEgCTry2CpXHaq
- Uwd9ngxb0/0AMcaRK16ydU7YI0XnqjlGBHk5JRHjQhVcCAD26NnrbxrXglpQvEXbPMVQ
- 2xm0KVAQo+JvZNpHzcy0HYR3DL19O+FFip1Wsn3OJrs/s8JLU/Yf9WnpLkWKs0vAPDZH
- H+S1+NehcmkXKWpu2X8sMUcWAWevAaRkxU1S9F5MzRBPB1Ai7JPFVcr3d82ghIz0Ncu6
- NESg==
+ (envelope-from <philmd@redhat.com>) id 1jDqIy-000330-HC
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26270
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jDqIy-0002wk-AW
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 10:01:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584367279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQ7dZwtJRHWr0ppwGHuRtSpECSj8PWFSLN0ojtxEM5M=;
+ b=TejipG6/vIj7OXgE7wkRBENwU52uoS4RGr2osrZQn7BjepRgbxDWeUnlTwDW4Ujx6yQmNv
+ encEZABOhI9hLlKwR9kclP+9DPMyvGaXfAacFi7bAtiMl0PwmNFNN+3LWwHYWK7V0p9e2F
+ iblCMRhQu2j+TJOPZP3ow8xt/96xKNQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-ZKOeWPMIPi2aRfak0aAIhA-1; Mon, 16 Mar 2020 10:01:18 -0400
+X-MC-Unique: ZKOeWPMIPi2aRfak0aAIhA-1
+Received: by mail-ed1-f72.google.com with SMTP id i25so15289697edx.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 07:01:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0BPAOx1/3Y43ZDSJ8uw6g5y1l1TmUkqMPb5e7PhkswE=;
- b=RH+MtVaWjN8+Fnl7mdhsKNa4kdWZLTBC6IpT29izekW23Pk4X0IygfBPQ3HNaSDPrV
- oCZHKPvGWnJiCgVr/ojgNJG59+HoX5xI6LylDD2u2yhYyC3rqXXB2OKUbBaYqD4/4Oo7
- 2ty5OLgET4aH95yzqGk/mvLmaLm/HAOCOaL43b0izb4sbIPJ7/OXr8R54BY5kuAtCvE7
- eIYpMuR5AfUc7XVr20VypGePUP54LrYmtD0BymFnf1km6g6xYJfJylCuVRAkcLRYu7CA
- IgaQz0thiJ733AIsUQx18gS45mDa1f4fqcvJE41Avi4IWEVYqFd62VuHBIhshgvgK7Ts
- dlGw==
-X-Gm-Message-State: ANhLgQ2je73BzdFou8mpIg9h08x4USr4a6X2PdTq5vYh39r89XEKoPyJ
- E50O9v+3yITnhcUjM4i3I/gUJM9u/Xu2+XzdSi8DFg==
-X-Google-Smtp-Source: ADFU+vt/QED6DsSfKGm+fDkzvJQnEVoxo4uf/dxDx7YElNnMINxMB+74+rqO7iByD4LEo9ntaT2Tm6565Y91iKgKUvE=
-X-Received: by 2002:aca:5b07:: with SMTP id p7mr16680662oib.146.1584366573501; 
- Mon, 16 Mar 2020 06:49:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200316120049.11225-1-philmd@redhat.com>
- <20200316120049.11225-12-philmd@redhat.com>
-In-Reply-To: <20200316120049.11225-12-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Mar 2020 13:49:22 +0000
-Message-ID: <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D8+MyFj2dVLBMt/lZhSsIiYpmSpY6oum5eCHUAIHa+o=;
+ b=URGZZQmjNew1EhI+MaHFQX0o2VK2wiUYECQuFYo0vRXQFCWKREgieuPUzO0pYGRrRI
+ z34CHmiUxhYpTmKQMHnAlVZTpGkP/nKGwCZxjphDIYCpHU9K65SJ8psxjx/hUvibRsPR
+ 9IdImDCIA8U/L0+FWjDND3Zwyg15ezk4tJaYNLjZosh7DO1gnEybsgEeNOaVJ/I1hYwM
+ ZFFDUglhqEyxhdDwQQSQ4LEnP596iuLCziZpDxzNz52++IdpH6TA+EYbIeTBB+OXIMuQ
+ M52BeZhJc151RN3PdtBWYRYWxkgX+sV3w9L24jygka9cj0ySuY4ISwKz1X5R2Y35msWT
+ VUpg==
+X-Gm-Message-State: ANhLgQ1yFFEdOnTWcHmblxV3a4d4V62sO9ADgy7XLJaToQM2rTuceSmt
+ v2dSW7rikvt/oWbCc77m49iKAApE3DBqjSCuZEPA7hBAVFQ7jzc8+0xNONuIhm0z1FLccuaaP5z
+ mWua2cRcIWTK6jNk=
+X-Received: by 2002:a05:6402:228a:: with SMTP id
+ cw10mr20019edb.107.1584367276904; 
+ Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtNAP+1dxDLWYMCS8BE7op5z3Xacs9LPKoDtYKyZ4/pRd4HgFcV2LUjRIZL+OQ3U1KJRgvtUw==
+X-Received: by 2002:a05:6402:228a:: with SMTP id
+ cw10mr19997edb.107.1584367276712; 
+ Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
+Received: from [192.168.1.40] (191.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.191])
+ by smtp.gmail.com with ESMTPSA id c15sm169361edu.4.2020.03.16.07.01.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Mar 2020 07:01:16 -0700 (PDT)
 Subject: Re: [PATCH 11/11] hw/semihosting: Make the feature depend of TCG, and
  allow to disable it
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200316120049.11225-1-philmd@redhat.com>
+ <20200316120049.11225-12-philmd@redhat.com>
+ <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <169683cf-5784-b956-cf07-14fe287b6ee6@redhat.com>
+Date: Mon, 16 Mar 2020 15:01:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-jidDwoZCgf+xKjqHm8xo87iGr6pGtOcWp5iAcWrHETQ@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,44 +100,62 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Mar 2020 at 13:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> The semihosting feature is only meaningful when using TCG.
->
-> So far only the ARM/MIPS/LM32 provide the semihosting feature.
+On 3/16/20 2:49 PM, Peter Maydell wrote:
+> On Mon, 16 Mar 2020 at 13:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com> wrote:
+>>
+>> The semihosting feature is only meaningful when using TCG.
+>>
+>> So far only the ARM/MIPS/LM32 provide the semihosting feature.
+>=20
+> Also m68k, nios2, xtensa. riscv eventually but not yet upstream.
+>=20
+>>
+>> Do not enable it by default, and let the few targets requiring
+>> it to manually select it.
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   hw/semihosting/Kconfig | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
+>> index efe0a30734..06e9262af2 100644
+>> --- a/hw/semihosting/Kconfig
+>> +++ b/hw/semihosting/Kconfig
+>> @@ -1,3 +1,5 @@
+>>
+>>   config SEMIHOSTING
+>> -       bool
+>> +    bool
+>> +    depends on TCG
+>> +    default n
+>=20
+> OK, this is the "do not enable by default" -- where is
+> the "but do enable by default for the targets that use it"
+> part of the config change ?
 
-Also m68k, nios2, xtensa. riscv eventually but not yet upstream.
+This is already the default for these targets, see:
 
->
-> Do not enable it by default, and let the few targets requiring
-> it to manually select it.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/semihosting/Kconfig | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
-> index efe0a30734..06e9262af2 100644
-> --- a/hw/semihosting/Kconfig
-> +++ b/hw/semihosting/Kconfig
-> @@ -1,3 +1,5 @@
->
->  config SEMIHOSTING
-> -       bool
-> +    bool
-> +    depends on TCG
-> +    default n
+commit 16932bb761e52c2ca9397b57af5bdc5bdc5ae6a4
+Author: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Date:   Mon May 13 15:25:27 2019 +0100
 
-OK, this is the "do not enable by default" -- where is
-the "but do enable by default for the targets that use it"
-part of the config change ?
+     semihosting: introduce CONFIG_SEMIHOSTING
 
-thanks
--- PMM
+     There isn't much point building semihosting for platforms that don't
+     support it. Introduce a new symbol and enable it only for the
+     softmmu targets that need it.
+
+I'll add that information in the description.
+
+>=20
+> thanks
+> -- PMM
+>=20
+
 
