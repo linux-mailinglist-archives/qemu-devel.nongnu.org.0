@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DFE188898
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:07:45 +0100 (CET)
-Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A063318889F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:09:33 +0100 (CET)
+Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEDom-0007wj-Gn
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52301)
+	id 1jEDqW-0002dV-Jt
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <programmingkidx@gmail.com>) id 1jEDnX-0006tW-Ot
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:06:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEDor-0000gI-9h
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:07:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <programmingkidx@gmail.com>) id 1jEDnW-0005Bb-Ls
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:06:27 -0400
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:43093)
+ (envelope-from <peter.maydell@linaro.org>) id 1jEDop-0007EI-P4
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:07:48 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:39921)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
- id 1jEDnQ-00048I-HY; Tue, 17 Mar 2020 11:06:20 -0400
-Received: by mail-qv1-xf43.google.com with SMTP id c28so10999000qvb.10;
- Tue, 17 Mar 2020 08:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=iicBtEJsKuObftjCntJzhmJhcV615VU5yQU1s0QCYoA=;
- b=tqM+DA9ZFc00dAK/Tug9ooP0pnCRsp6bRkMjj/YhDt/lNE9e4Uu9LdjioBXV21f43d
- sGI/7UwLO6VlfqaUummDPaFpVF8GwfOdHPiNPC8vaB27hjA+rRl1bmPdqznQqLn6ILHT
- 7Aec/u2B9mNOQtlBJkYM2lwwfD0t8BOMmjInfQ38ic+G24rcLERhRt5ORUMe30S3la28
- yf1hWukk2EeRSvn+UZI/c78e5xWqv9shv+rIjtgOxdWpE+qVP73ICLmmBaa5IPObGYa/
- bWNMWDK7+IfzUjjetOgbib9dV9hllMVg6jFOJXhM4SQ3S1LYSvPq6NRP+IXUTTpM5pom
- HH0w==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jEDop-00079a-Gy
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:07:47 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id r2so6538108otn.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=C7Y4UJGLKwFelm6HlTF0wyLG/bfxpxmk307g3iM1ISI=;
+ b=d4oTy5aTQ7kI3i5RR1G/dK6bFzGiO1gBScdqq2J/XZcikOnEALnDA8lDLXoLLbnBXG
+ wJzmFKZAHvhf+AMiCxQGmyq2lkztFVyYGoMkAdVFYQXeYDb5B7Gp2CizjOxlwwnbxfYS
+ BETcDvO2gixzSJ5QEiBLtw+mZ9BcGUzI7K/LxGbATZ1MBJrJKg+Qe1qHH0lYfLUVoxhp
+ WXwl5YGevTWo4dkkTDwL9zPDfM3AhFUiLqdEp/VWpVQA4+uhguBX3M86hrda/X2tpnlp
+ YFEZPvmYFtffejGE0vun8sjl+yeZn5hPok/bXXPwsG+uDYbPK1dgD5uZIFc1cn5GB0kL
+ 7myQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=iicBtEJsKuObftjCntJzhmJhcV615VU5yQU1s0QCYoA=;
- b=hMEWbggs5B+xbMV5fk+4d1wW/m9fc8WR3gB3HwvltdjxztX2zAtvktBCYeA1ExZ70a
- tEf+I/TZeemCfGp9hZwvtsBTSHqfZ1CXxsEHtwi/vNBCiVRqHxyB0h3Q9IOwBIjrfi1I
- ID0fUXJOyoPl/DDWyE9CNcbZvSbZZu5QdUkNkY9ib7syvlvMmjd6Ky3taSlZ7mEZ3f6T
- Bli/jCRk5RPeAO9kYJI84pJpxb3H3ey568SwiEoNL8zoEbvMF71+MTeDTjaTFkbaYoqv
- c8CWniH5KrNWsZYisB0kgovwtUyzpRTQ7weYm0X4iv+gUeCwYHd4dxVsYJ5eJL+HAxiy
- 6yyQ==
-X-Gm-Message-State: ANhLgQ111qY2fJ8m4zjDVbkKC5nkzNkxBdsWvlqK2SeETX4loZ3T3zdw
- NbMtRYjXgdIUlVWwZDmwchWmrBuc
-X-Google-Smtp-Source: ADFU+vvVFjReH1Ez0hhHxDWbPl/Cp+tI6VPwY5ub+bjR2jrW5BQV+2PbwLCjRMylCUbgflaHmgB+jg==
-X-Received: by 2002:a0c:ed2d:: with SMTP id u13mr5378959qvq.203.1584457578392; 
- Tue, 17 Mar 2020 08:06:18 -0700 (PDT)
-Received: from [192.168.0.4] (d149-67-30-58.try.wideopenwest.com.
- [67.149.58.30])
- by smtp.gmail.com with ESMTPSA id p126sm2104362qkd.108.2020.03.17.08.06.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Mar 2020 08:06:17 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
- an alternate vector
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <mailman.138.1584442890.3017.qemu-ppc@nongnu.org>
-Date: Tue, 17 Mar 2020 11:06:15 -0400
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=C7Y4UJGLKwFelm6HlTF0wyLG/bfxpxmk307g3iM1ISI=;
+ b=n9e5byZ9ZbKdU8mbRaxJ0uJ1hdK/FXKiwoR46t1Fd00q1p7Y4bzNF48WdM1BRU2vde
+ oihalRPnynkn/6zfiTy3Yo26vLmzUfF3WpuvoZmL2LNm7e58k9iUmRDn2HxjtmyP21FY
+ s65kDyp2beCz7YAit7lkWSkOEmaU8TShfJ332sEy/9SFabPA1a+pEQSJjnvrIzVpeXt3
+ 2bSeden2ncfL91XNN81YNwR7lxy0BLSvwlQKndTQYS4U7Vwvwzg67FPHMeph+Vi4n2LI
+ F2UxKZGRMYe2LQHHoDF48laJFBbeD+kLlznwylS6r+0X8H7pDWo9jliF3xWWkzUoYHjg
+ /pSw==
+X-Gm-Message-State: ANhLgQ34bRDa7/22NdpWjYpTIj7mSV2hCG6ke5mGiTAa5R0SjLVKO4y3
+ SwENvpv2BGka1Ml/nEyYLUxgnlfKkGzPquZ5d1kHBw==
+X-Google-Smtp-Source: ADFU+vsflQdwfBOmcNngY5g9Hzi8MxNNOxpmkIJ8h27l1doV8wK1Zc/T6GXj1Yhd6WTK4aM0oPQXnwVgjH0vvoihWmo=
+X-Received: by 2002:a9d:19ca:: with SMTP id k68mr4114688otk.232.1584457665736; 
+ Tue, 17 Mar 2020 08:07:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200317043819.20197-1-jsnow@redhat.com>
+ <CAFEAcA_=DHpNZ+b9Hrim39R74Jik8MKqu8MPJm80wMsQS0FADQ@mail.gmail.com>
+ <5805273e-0a2f-850a-a07a-97dac0d7211e@redhat.com>
+ <20200317145703.GH2041016@redhat.com>
+ <CAFEAcA9-YLNcZPPsHsdLB0O2Ac4WKPspMe=Re2S7tyTZu=kwFA@mail.gmail.com>
+ <20200317150528.GK2041016@redhat.com>
+In-Reply-To: <20200317150528.GK2041016@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Mar 2020 15:07:34 +0000
+Message-ID: <CAFEAcA_pLvupGhgeuevVBxhNz-NVkKWOUrr=nJaPAEKquHaqxw@mail.gmail.com>
+Subject: Re: [PULL 00/10] Bitmaps patches
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <34ABB38A-B887-41B5-9108-25DA6ADB4B24@gmail.com>
-References: <mailman.138.1584442890.3017.qemu-ppc@nongnu.org>
-To: qemu-ppc <qemu-ppc@nongnu.org>,
- =?utf-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, npiggin@gmail.com
-X-Mailer: Apple Mail (2.3273)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+X-Received-From: 2607:f8b0:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 17 Mar 2020 at 15:05, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> On Tue, Mar 17, 2020 at 03:00:48PM +0000, Peter Maydell wrote:
+> > On Tue, 17 Mar 2020 at 14:57, Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> > > I don't feel like -Wno-unused-function looses anything significant, a=
+s
+> > > the GCC builds will still be reporting unused functions which will
+> > > catch majority of cases.
+> >
+> > The most interesting difference is that clang will catch unused
+> > static inline functions which gcc does not.
+>
+> That's mostly just about dead code cruft detection IIUC. That code won't
+> make it into the binary if it isn't used.
 
-> On Mar 17, 2020, at 7:01 AM, qemu-ppc-request@nongnu.org wrote:
->=20
-> Message: 3
-> Date: Tue, 17 Mar 2020 11:47:32 +0100
-> From: C=C3=A9dric Le Goater <clg@kaod.org>
-> To: David Gibson <david@gibson.dropbear.id.au>, Nicholas Piggin
-> 	<npiggin@gmail.com>
-> Cc: qemu-ppc@nongnu.org, Aravinda Prasad <arawinda.p@gmail.com>,
-> 	Ganesh Goudar <ganeshgr@linux.ibm.com>, Greg Kurz =
-<groug@kaod.org>,
-> 	qemu-devel@nongnu.org
-> Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset
-> 	to take an alternate vector
-> Message-ID: <097148e5-78be-a294-236d-160fb5c29d4a@kaod.org>
-> Content-Type: text/plain; charset=3Dwindows-1252
->=20
-> On 3/17/20 12:34 AM, David Gibson wrote:
->> On Tue, Mar 17, 2020 at 09:28:24AM +1000, Nicholas Piggin wrote:
->>> C=C3=A9dric Le Goater's on March 17, 2020 4:15 am:
->>>> On 3/16/20 3:26 PM, Nicholas Piggin wrote:
->>>>> Provide for an alternate delivery location, -1 defaults to the
->>>>> architected address.
->>>>=20
->>>> I don't know what is the best approach, to override the vector addr
->>>> computed by powerpc_excp() or use a machine class handler with=20
->>>> cpu->vhyp.
->>>=20
->>> Yeah it's getting a bit ad hoc and inconsistent with machine check
->>> etc, I just figured get something minimal in there now. The whole
->>> exception delivery needs a spring clean though.
->>=20
+Indeed, but it's nice to have the dead code cruft detection. You
+can always mark the function as __attribute__((unused)) if you really
+mean that it might be present but not used.
 
-Currently Mac OS 9 will not restart. When someone goes to restart it the =
-screen will turn black and stay that way. Could this patch solve this =
-problem?
-
+thanks
+-- PMM
 
