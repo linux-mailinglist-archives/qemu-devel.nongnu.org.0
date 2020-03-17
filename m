@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B57188A1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:23:41 +0100 (CET)
-Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BAC1889CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:07:19 +0100 (CET)
+Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEF0G-0006lq-EX
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37702)
+	id 1jEEkQ-0005vM-OS
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEEVx-0005nA-6X
+ (envelope-from <laurent@vivier.eu>) id 1jEEVw-0005lW-EG
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:52:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEEVv-0000nZ-Lx
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:52:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:60917)
+ (envelope-from <laurent@vivier.eu>) id 1jEEVu-0000hj-Bi
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:52:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:51091)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVv-0000hI-1e
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:52:19 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVu-0000cf-0C
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:52:18 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Md6V3-1jo7MU0O8p-00aHpf; Tue, 17 Mar 2020 16:52:13 +0100
+ id 1MRTEp-1itWrw3ZvJ-00NPJh; Tue, 17 Mar 2020 16:52:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 30/37] linux-user,
- scripts: add a script to update syscall.tbl
-Date: Tue, 17 Mar 2020 16:51:09 +0100
-Message-Id: <20200317155116.1227513-31-laurent@vivier.eu>
+Subject: [PULL v2 31/37] linux-user: update syscall.tbl from linux 0bf999f9c5e7
+Date: Tue, 17 Mar 2020 16:51:10 +0100
+Message-Id: <20200317155116.1227513-32-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200317155116.1227513-1-laurent@vivier.eu>
 References: <20200317155116.1227513-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zczIHcFNviwsApZGtNJYxLgK5zAHn7kJA6IYl0DNO3P2Pd1+gyN
- IcGR/a20KnEUFWTV8G7uqevNhEaMrvifb7GW1IC8g0EbQmuYwRgDTl+rkd1N18e8ryRaHBA
- wUxAldt6CwzVqubPmrI30crcx5c0r4ivOxAhUVzAJo4gg9tfuAZKIQ3M1uwh6rMp/LpDRbn
- 2zRsNWJZpCUJh/aIyBd8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fhon14Mhv2k=:NlnbO/88LKuRoJKeLdsqFs
- pP6tScvCF0CVOkEFOSwWQyJsToZE7wmQIc0Jz6yy6Aac0v2sNLTGis91otVpn4t/iSn+S5c75
- TzzcMJSrIo9VwnTYNuMKORgbaWPVic1PqCWhlvItNajC1zE9O2h1xSlY2C00qYFIpyNl5Cfzt
- Ek122jhdNc0GkLqpZCwhFSjD4lO/6UlDgnllaWnRKMlUmP1GWjFeD73i/WHNfvlt4gARudaAf
- S//jvDuID1TLidjQXdZdiScylUD1vgSimuoUep3pfZ8v5BVxKuG3E89QGQdwDl2J5vno7Qx3i
- nXQqlaRoxjZnIlMXCOFm6IOpgNrVPaVSugEkVOIKpOOi2Gi1mYpzmXLGdE6r7IEcnFZHoYbhF
- yYzkznzqVIDsGaB6iRrGq4DxbMQIiYn35HSfI2cR0YVDjR1WSQ3lbQMceetFXq3m7p3jOTRoR
- +7ASz7y0DFaKiLRoj+umHWGfJsTSb4aaPzkYbHSKcyeUdnS48EWMAaVIxZ5AVz8bzTPUys7aw
- ECkpQgkYzauZGgZe0MkwLX8V7M/+Vwjt3KSlisijwj9x1SOMz61Q9E/WmbFCo/FVw/YmfvY2e
- TV716d4u/Hs35WXDbA/7uqvkOwD23o2dXBtpu/fXOr0KHe4GTaUtbJxj4pPm4J8e29iicLqZR
- HPpY+aACuu+qNE7ZQ6RU3/VUzKZ0tGgVNTWM4XnSDlEbGzcTvMevZ1+BlWJek4QOc2jTlbRAz
- Ngi13Png+EWCiIeQkS07YWzgDuT9ywuh8l94wu/dxI5pc0eLIYx1ldhF1dOt6nq7CWJ32zifr
- YAgK3sFp30e76f49izCh1qIZmJzV1WZNFlymCpp27tC6pXzrKhZsvOd+DNR++OAMfKV01/a
+X-Provags-ID: V03:K1:sBn0pR1KsolyGfnr/oXRyeDCe0nfyGgtQlu1rvjvZIn8SPQKzbE
+ T9UWmwDh6e2jSxjiJZ6+FnarODeHH8SWF9XZEaSO0svMOxYFlpZoI2wOsCjJurJU0uHQHXj
+ vPQt/QfIe+zPaRXAPzOuEyLAW2lPZRxWtXc7cDCvRYXj7RqNK4zRNHR/SPoWmlQI1SaI7Au
+ Cpj365ZF2a4E2uErW6oIw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3KHggnMdhGA=:v3oGqivbHDH19/Mc9nFvg/
+ 6AlAW7qLfjQjBO7XaT47fKcnHuRWcdXBwATok+quOWp6LtCvc4tW1Ddlt46/MeckpgGKcYQKB
+ ZC36E2K7J/b+UVZsI5GNttPoAKbtdN0TAOKcY3i25RhmKbUBy77krKhV6BqQSceRm2oEgDCWi
+ +ZqUwm2UKQcVn3+voWiTbonAOC+jR60haKHOXhrnyaNk8VNBhugcnzybeAkHLFC13vl4PZC/o
+ 32ezVuiots3/o1PtwiOb5GnKK8KMOq8jlCYJDcuDdaARVEVCQI2S4AGiog8kURmYCXcDB9f2e
+ YtgWH1B/12HX4B4+4+7B8q9Gvpu/HFhbkukcaplITkZS/6lpYm07englJ7aibkVnDOqZbDpa2
+ WAS7cbYLCG0A2sFR+40L5l0APSV5BYvpbmBYGStiJk6sJK/prhLIFr56IkVuidUOt06cp5ept
+ 5NRA46IL0eMY2cgFdFVidmN58FIJH47dKh1L0SAfOoIGPy+YX5fCSkOWXI3JyPZ+cHzD+BdQB
+ +gzGDwvPO0LVyHhAskyoWAvhQqqrdnLwazac7Owew0uhRlc6JNaUexjwxQGizXkwFKoZdxz4a
+ fKgsrX9qCTroP15qj7fuN2d5cboVDwtBI9p7Vzx9NNwJ71ilXJ+fMTWUU6KxmBqtIlvXc7z1W
+ 1FY3W+pka3i77u+Is7r2UbsrPFP6bzBjv7ZdZMFag+hpSwTr6K0Vx5RXMhmT/j1htgQ50Hyvt
+ 1iNFwBYxVVRT+Yo8HSOxS9jELCpSLtHO/C6DfR5nniHYE7EUJT3KQMCgRs2ke82FmZKiQTpI4
+ M5SgRiBO/Rq7ya1f2hqPwoWqoRS+MBYFYlOMsobt+3nIQWa6UotSZ5RnMXKiQUI4V/TcYic
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,92 +64,189 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-scripts/update-syscalltbl.sh has the list of syscall.tbl to update and
-can copy them from the linux source directory
+Run scripts/update-syscalltbl.sh with linux commit 0bf999f9c5e7
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200310103403.3284090-19-laurent@vivier.eu>
+Message-Id: <20200310103403.3284090-20-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS                  |  1 +
- scripts/update-syscalltbl.sh | 49 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100755 scripts/update-syscalltbl.sh
+ linux-user/arm/syscall.tbl        | 2 ++
+ linux-user/hppa/syscall.tbl       | 2 ++
+ linux-user/i386/syscall_32.tbl    | 2 ++
+ linux-user/m68k/syscall.tbl       | 4 +++-
+ linux-user/microblaze/syscall.tbl | 2 ++
+ linux-user/mips/syscall_o32.tbl   | 2 ++
+ linux-user/mips64/syscall_n32.tbl | 2 ++
+ linux-user/mips64/syscall_n64.tbl | 2 ++
+ linux-user/ppc/syscall.tbl        | 2 ++
+ linux-user/s390x/syscall.tbl      | 2 ++
+ linux-user/sh4/syscall.tbl        | 2 ++
+ linux-user/sparc/syscall.tbl      | 2 ++
+ linux-user/sparc64/syscall.tbl    | 2 ++
+ linux-user/x86_64/syscall_64.tbl  | 2 ++
+ linux-user/xtensa/syscall.tbl     | 2 ++
+ 15 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36d0c6887a99..709832758e51 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2448,6 +2448,7 @@ S: Maintained
- F: linux-user/
- F: default-configs/*-linux-user.mak
- F: scripts/qemu-binfmt-conf.sh
-+F: scripts/update-syscalltbl.sh
+diff --git a/linux-user/arm/syscall.tbl b/linux-user/arm/syscall.tbl
+index 6da7dc4d79cc..4d1cf74a2caa 100644
+--- a/linux-user/arm/syscall.tbl
++++ b/linux-user/arm/syscall.tbl
+@@ -449,3 +449,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/hppa/syscall.tbl b/linux-user/hppa/syscall.tbl
+index 285ff516150c..52a15f5cd130 100644
+--- a/linux-user/hppa/syscall.tbl
++++ b/linux-user/hppa/syscall.tbl
+@@ -433,3 +433,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3_wrapper
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/i386/syscall_32.tbl b/linux-user/i386/syscall_32.tbl
+index 15908eb9b17e..c17cb77eb150 100644
+--- a/linux-user/i386/syscall_32.tbl
++++ b/linux-user/i386/syscall_32.tbl
+@@ -440,3 +440,5 @@
+ 433	i386	fspick			sys_fspick			__ia32_sys_fspick
+ 434	i386	pidfd_open		sys_pidfd_open			__ia32_sys_pidfd_open
+ 435	i386	clone3			sys_clone3			__ia32_sys_clone3
++437	i386	openat2			sys_openat2			__ia32_sys_openat2
++438	i386	pidfd_getfd		sys_pidfd_getfd			__ia32_sys_pidfd_getfd
+diff --git a/linux-user/m68k/syscall.tbl b/linux-user/m68k/syscall.tbl
+index a88a285a0e5f..f4f49fcb76d0 100644
+--- a/linux-user/m68k/syscall.tbl
++++ b/linux-user/m68k/syscall.tbl
+@@ -434,4 +434,6 @@
+ 432	common	fsmount				sys_fsmount
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+-# 435 reserved for clone3
++435	common	clone3				__sys_clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/microblaze/syscall.tbl b/linux-user/microblaze/syscall.tbl
+index 09b0cd7dab0a..4c67b11f9c9e 100644
+--- a/linux-user/microblaze/syscall.tbl
++++ b/linux-user/microblaze/syscall.tbl
+@@ -441,3 +441,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/mips/syscall_o32.tbl b/linux-user/mips/syscall_o32.tbl
+index 353539ea4140..ac586774c980 100644
+--- a/linux-user/mips/syscall_o32.tbl
++++ b/linux-user/mips/syscall_o32.tbl
+@@ -423,3 +423,5 @@
+ 433	o32	fspick				sys_fspick
+ 434	o32	pidfd_open			sys_pidfd_open
+ 435	o32	clone3				__sys_clone3
++437	o32	openat2				sys_openat2
++438	o32	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/mips64/syscall_n32.tbl b/linux-user/mips64/syscall_n32.tbl
+index e7c5ab38e403..1f9e8ad636cc 100644
+--- a/linux-user/mips64/syscall_n32.tbl
++++ b/linux-user/mips64/syscall_n32.tbl
+@@ -374,3 +374,5 @@
+ 433	n32	fspick				sys_fspick
+ 434	n32	pidfd_open			sys_pidfd_open
+ 435	n32	clone3				__sys_clone3
++437	n32	openat2				sys_openat2
++438	n32	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/mips64/syscall_n64.tbl b/linux-user/mips64/syscall_n64.tbl
+index 13cd66581f3b..c0b9d802dbf6 100644
+--- a/linux-user/mips64/syscall_n64.tbl
++++ b/linux-user/mips64/syscall_n64.tbl
+@@ -350,3 +350,5 @@
+ 433	n64	fspick				sys_fspick
+ 434	n64	pidfd_open			sys_pidfd_open
+ 435	n64	clone3				__sys_clone3
++437	n64	openat2				sys_openat2
++438	n64	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/ppc/syscall.tbl b/linux-user/ppc/syscall.tbl
+index 43f736ed47f2..35b61bfc1b1a 100644
+--- a/linux-user/ppc/syscall.tbl
++++ b/linux-user/ppc/syscall.tbl
+@@ -517,3 +517,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	nospu	clone3				ppc_clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/s390x/syscall.tbl b/linux-user/s390x/syscall.tbl
+index 3054e9c035a3..bd7bd3581a0f 100644
+--- a/linux-user/s390x/syscall.tbl
++++ b/linux-user/s390x/syscall.tbl
+@@ -438,3 +438,5 @@
+ 433  common	fspick			sys_fspick			sys_fspick
+ 434  common	pidfd_open		sys_pidfd_open			sys_pidfd_open
+ 435  common	clone3			sys_clone3			sys_clone3
++437  common	openat2			sys_openat2			sys_openat2
++438  common	pidfd_getfd		sys_pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/sh4/syscall.tbl b/linux-user/sh4/syscall.tbl
+index b5ed26c4c005..c7a30fcd135f 100644
+--- a/linux-user/sh4/syscall.tbl
++++ b/linux-user/sh4/syscall.tbl
+@@ -438,3 +438,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/sparc/syscall.tbl b/linux-user/sparc/syscall.tbl
+index 8c8cc7537fb2..f13615ecdecc 100644
+--- a/linux-user/sparc/syscall.tbl
++++ b/linux-user/sparc/syscall.tbl
+@@ -481,3 +481,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++437	common	openat2			sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/sparc64/syscall.tbl b/linux-user/sparc64/syscall.tbl
+index 8c8cc7537fb2..f13615ecdecc 100644
+--- a/linux-user/sparc64/syscall.tbl
++++ b/linux-user/sparc64/syscall.tbl
+@@ -481,3 +481,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ # 435 reserved for clone3
++437	common	openat2			sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
+diff --git a/linux-user/x86_64/syscall_64.tbl b/linux-user/x86_64/syscall_64.tbl
+index c29976eca4a8..44d510bc9b78 100644
+--- a/linux-user/x86_64/syscall_64.tbl
++++ b/linux-user/x86_64/syscall_64.tbl
+@@ -357,6 +357,8 @@
+ 433	common	fspick			__x64_sys_fspick
+ 434	common	pidfd_open		__x64_sys_pidfd_open
+ 435	common	clone3			__x64_sys_clone3/ptregs
++437	common	openat2			__x64_sys_openat2
++438	common	pidfd_getfd		__x64_sys_pidfd_getfd
  
- Tiny Code Generator (TCG)
- -------------------------
-diff --git a/scripts/update-syscalltbl.sh b/scripts/update-syscalltbl.sh
-new file mode 100755
-index 000000000000..2d23e5680075
---- /dev/null
-+++ b/scripts/update-syscalltbl.sh
-@@ -0,0 +1,49 @@
-+TBL_LIST="\
-+arch/alpha/kernel/syscalls/syscall.tbl,linux-user/alpha/syscall.tbl \
-+arch/arm/tools/syscall.tbl,linux-user/arm/syscall.tbl \
-+arch/m68k/kernel/syscalls/syscall.tbl,linux-user/m68k/syscall.tbl \
-+arch/microblaze/kernel/syscalls/syscall.tbl,linux-user/microblaze/syscall.tbl \
-+arch/mips/kernel/syscalls/syscall_n32.tbl,linux-user/mips64/syscall_n32.tbl \
-+arch/mips/kernel/syscalls/syscall_n64.tbl,linux-user/mips64/syscall_n64.tbl \
-+arch/mips/kernel/syscalls/syscall_o32.tbl,linux-user/mips/syscall_o32.tbl \
-+arch/parisc/kernel/syscalls/syscall.tbl,linux-user/hppa/syscall.tbl \
-+arch/powerpc/kernel/syscalls/syscall.tbl,linux-user/ppc/syscall.tbl \
-+arch/s390/kernel/syscalls/syscall.tbl,linux-user/s390x/syscall.tbl \
-+arch/sh/kernel/syscalls/syscall.tbl,linux-user/sh4/syscall.tbl \
-+arch/sparc/kernel/syscalls/syscall.tbl,linux-user/sparc64/syscall.tbl \
-+arch/sparc/kernel/syscalls/syscall.tbl,linux-user/sparc/syscall.tbl \
-+arch/x86/entry/syscalls/syscall_32.tbl,linux-user/i386/syscall_32.tbl \
-+arch/x86/entry/syscalls/syscall_64.tbl,linux-user/x86_64/syscall_64.tbl \
-+arch/xtensa/kernel/syscalls/syscall.tbl,linux-user/xtensa/syscall.tbl\
-+"
-+
-+linux="$1"
-+output="$2"
-+
-+if [ -z "$linux" ] || ! [ -d "$linux" ]; then
-+    cat << EOF
-+usage: update-syscalltbl.sh LINUX_PATH [OUTPUT_PATH]
-+
-+LINUX_PATH      Linux kernel directory to obtain the syscall.tbl from
-+OUTPUT_PATH     output directory, usually the qemu source tree (default: $PWD)
-+EOF
-+    exit 1
-+fi
-+
-+if [ -z "$output" ]; then
-+    output="$PWD"
-+fi
-+
-+for entry in $TBL_LIST; do
-+    OFS="$IFS"
-+    IFS=,
-+    set $entry
-+    src=$1
-+    dst=$2
-+    IFS="$OFS"
-+    if ! cp "$linux/$src" "$output/$dst" ; then
-+        echo "Cannot copy $linux/$src to $output/$dst" 1>&2
-+        exit 1
-+    fi
-+done
-+
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+diff --git a/linux-user/xtensa/syscall.tbl b/linux-user/xtensa/syscall.tbl
+index 25f4de729a6d..85a9ab1bc04d 100644
+--- a/linux-user/xtensa/syscall.tbl
++++ b/linux-user/xtensa/syscall.tbl
+@@ -406,3 +406,5 @@
+ 433	common	fspick				sys_fspick
+ 434	common	pidfd_open			sys_pidfd_open
+ 435	common	clone3				sys_clone3
++437	common	openat2				sys_openat2
++438	common	pidfd_getfd			sys_pidfd_getfd
 -- 
 2.24.1
 
