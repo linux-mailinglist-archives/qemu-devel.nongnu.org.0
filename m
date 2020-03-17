@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5278C188704
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 15:15:29 +0100 (CET)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9628F188709
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 15:16:11 +0100 (CET)
+Received: from localhost ([::1]:33522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jED0B-0006D6-UO
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 10:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52943)
+	id 1jED0s-0007wh-KE
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 10:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jECyr-0005HM-Sz
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:06 -0400
+ (envelope-from <groug@kaod.org>) id 1jECzJ-0005vC-L9
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jECyq-0001hp-MU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:05 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35061)
+ (envelope-from <groug@kaod.org>) id 1jECzH-00051f-1d
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:33 -0400
+Received: from 18.mo4.mail-out.ovh.net ([188.165.54.143]:38727)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jECyq-0001gH-Ih
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584454444;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+UBbZ9tWGjNN43eJbMmPxd6cZVaNwzYUMssw08TDUBA=;
- b=cauJigdW/VGHvhEs5SGMqNlBg/++cqVu5QPpGmkHCyfGxH9FGtahOGp7/rcyZSGxI+88M0
- engAsqg6PSlQFHVIdjWQdjFi3zMph+lvjs45H7rdUXDJT91UN0F0aW+RGa+Vr5DpKCc8Zx
- sOke7cBhLNP2KXs86ByoLdRCRcbE44g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-2b85kIidMXuzKPxun816nQ-1; Tue, 17 Mar 2020 10:14:02 -0400
-X-MC-Unique: 2b85kIidMXuzKPxun816nQ-1
-Received: by mail-wr1-f70.google.com with SMTP id s4so5336707wrb.19
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 07:14:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6leC9Z3btxw4uzyY0SvMMxSG88hUVvd55XNZE52mFTQ=;
- b=dFt2c3OyMuwg+zCTucfz18oI03Owkbppx68r2jgHmsUfSvfiOACXx+UhkbidWopHUw
- 8uixvMj0DhwXToP4W57GfzVv/q1IelPzeepjBA11CcQqE+HmCUOHbBe5vfMdtG5+YuS/
- d+w4tDl7pbgWAA7fjI0fpXEyXg7r54O3/O3zmpHT5rGsk0QViUmKQR8LqiHi+fucBF/9
- tK7sglDlAWo6Yv33p/9DuvyzQtzDEdO6WE2OZUE+zGGVvVyvYviU8N6TFqucuLYEt3ut
- 46CAb4NLNZC0dNFHbOhdkoq5WCY7Ngumz0DUnxuoBb5mX51NS9sxWBnOuEt0fBU/rgQm
- d3tQ==
-X-Gm-Message-State: ANhLgQ3LLz6/wFmNBt8BUv/Waq4AzZ5ThpCB7xF+YQ1mOKqSFR5upxmI
- nRArZ5r1oulEozs/LZun6Pxj2Sxq8dtlONYrwlBSQz5WJwdCJdBWOLSrXhCT2rcJXcaniWE9WIu
- UBF/RxB2oycY9eGU=
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr6271509wrw.163.1584454441445; 
- Tue, 17 Mar 2020 07:14:01 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuaW0sPCdO+wAc3KufETCkO+J3gQ7g58rcDtbhc3o9CR+3d8VkHlfMmUQM61Rfiih04pZsyKQ==
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr6271497wrw.163.1584454441289; 
- Tue, 17 Mar 2020 07:14:01 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id r3sm3036366wrn.35.2020.03.17.07.14.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 07:14:00 -0700 (PDT)
-Subject: Re: [PATCH v10 4/3] hw/sd/ssi-sd: fix error handling in ssi_sd_realize
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200313170517.22480-1-armbru@redhat.com>
- <20200317125741.15301-1-vsementsov@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d340d29b-f99c-f192-c00d-c1af16a562e5@redhat.com>
-Date: Tue, 17 Mar 2020 15:13:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jECzG-0004hB-QV
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:14:30 -0400
+Received: from player692.ha.ovh.net (unknown [10.108.35.211])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 8555622B646
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 15:14:28 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id CD55C10629FBF;
+ Tue, 17 Mar 2020 14:14:26 +0000 (UTC)
+Date: Tue, 17 Mar 2020 15:14:23 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v4 10/11] 9pfs: T_readdir latency optimization
+Message-ID: <20200317151423.14fc43d9@bahia.lan>
+In-Reply-To: <3047810.ezBau4JpT1@silver>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <2408892.h2sFNKg3ST@silver> <20200311171408.3b3a2dfa@bahia.home>
+ <3047810.ezBau4JpT1@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200317125741.15301-1-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 15799753393225374016
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudefhedgheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 188.165.54.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,66 +57,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, ashijeetacharya@gmail.com, paul.durrant@citrix.com,
- armbru@redhat.com, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 1:57 PM, Vladimir Sementsov-Ogievskiy wrote:
-> It's wrong to use same err object as errp parameter for several
-> function calls without intermediate checking for error: we'll crash if
-> try to set err object twice. Fix that.
+On Wed, 11 Mar 2020 20:54:58 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> On Mittwoch, 11. M=C3=A4rz 2020 17:14:08 CET Greg Kurz wrote:
+> > On Wed, 11 Mar 2020 02:18:04 +0100
+> >=20
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Dienstag, 10. M=C3=A4rz 2020 19:33:36 CET Greg Kurz wrote:
+> > > > > This patch is also too big for my preference, but I don't see a v=
+iable
+> > > > > way
+> > > > > to split it further into separate patches. I already separated al=
+l the
+> > > > > patches I could. If you have suggestions, very much appreciated!
+> > > >=20
+> > > > Well, the patch could be split in two or three parts at least:
+> > > >=20
+> > > > (1) introduce the new function that reads multiple entries in codir=
+.c
+> > > >=20
+> > > > (2) use it from 9p.c
+> > > >=20
+> > > > (3) remove unused stuff if anything remains
+> > > >=20
+> > > > This doesn't seem to change much but the smaller diffstats
+> > > > for each individual patch make them less scary :) and with
+> > > > (1) applied only it is easier to compare what the old code
+> > > > in 9p.c and the new one in codir.c do.
+> > > >=20
+> > > > > The reason for this is that in order to fix these issues with cur=
+rent
+> > > > > T_readdir implementation, it requires to separate what's currentl=
+y one
+> > > > > task
+> > > > > (i.e. one function) into two separate tasks (i.e. two functions).
+> > > > > There is
+> > > > > no sensible way to do that.
+> > > >=20
+> > > > Yeah, I won't ask for finer grain.
+> > >=20
+> > > Me confused. Does that mean your split suggestion was just theoretica=
+l, or
+> > > do you need it?
+> >=20
+> > I need it and I won't ask for more splitting. Promised ! :)
 >=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+> Okay then. :)
 >=20
-> Forgive me for sending this into your series, but seems it is very
-> appropriate.
+> > > > > Current code on master is much more tricky and error prone due to=
+ the
+> > > > > huge
+> > > > > amount of potential branches, individual error/cleanup handlers, =
+high
+> > > > > amount of thread dispatching and much more. In the patched versio=
+n all
+> > > > > these code complexities and error sources are removed.
+> > > >=20
+> > > > Come on :) The 9pfs code has been a can of worms from the beginning.
+> > > > It produced more than the average amount of security-related bugs,
+> > > > and most sadly, due to the overall lack of interest, it bitrotted
+> > > > and missed a lot of cool improvements like an appropriate support of
+> > > > unlinked files, QOM-ification of fsdev, conversion of proxy fsdev to
+> > > > vhost-user, hot plug/unplug support, live migration support and
+> > > > "much more"... The performance aspect of things is a full time job
+> > >=20
+> > > No, the performance issues are actually very managable in case of 9pf=
+s.
+> > > I already addressed readdir with this patch (by far the worst perform=
+ance
+> >=20
+> > They're very manageable if someone cares and spends time. Thanks again
+> > for doing this.
 >=20
-> It's rephrasing  of my
->   [PATCH v9 03/10] hw/sd/ssi-sd: fix error handling in ssi_sd_realize
-> for partI series but but without use of ERRP_AUTO_PROPAGATE.
+> Thanks!
 >=20
->   hw/sd/ssi-sd.c | 16 ++++++++++++++--
->   1 file changed, 14 insertions(+), 2 deletions(-)
+> > > My intention is not to squeeze out the last fractional percent of
+> > > performance for 9pfs, but you certainly agree that a simple "ls" bloc=
+king
+> > > for more than 1 second is something that should be fixed, and fortuna=
+tely
+> > > the amount of
+> > I never observed such timeouts with my personal toy use of 9p but
+> > you did and this motivated you to step in, which is very welcome.
 >=20
-> diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-> index 91db069212..829797b597 100644
-> --- a/hw/sd/ssi-sd.c
-> +++ b/hw/sd/ssi-sd.c
-> @@ -255,13 +255,25 @@ static void ssi_sd_realize(SSISlave *d, Error **err=
-p)
->       carddev =3D qdev_create(BUS(&s->sdbus), TYPE_SD_CARD);
->       if (dinfo) {
->           qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo=
-), &err);
-> +        if (err) {
-> +            goto fail;
-> +        }
->       }
-> +
->       object_property_set_bool(OBJECT(carddev), true, "spi", &err);
-> +    if (err) {
-> +        goto fail;
-> +    }
-> +
->       object_property_set_bool(OBJECT(carddev), true, "realized", &err);
->       if (err) {
-> -        error_setg(errp, "failed to init SD card: %s", error_get_pretty(=
-err));
-> -        return;
-> +        goto fail;
->       }
-> +
-> +    return;
-> +
-> +fail:
-> +    error_propagate_prepend(errp, err, "failed to init SD card: ");
->   }
->  =20
->   static void ssi_sd_reset(DeviceState *dev)
+> Probably you don't notice it much because of the dirent cache on guest si=
+de.=20
+> If guest's dirent cache is cold, and you do a readdir() ("ls") on some=20
+> directory with e.g. several hundred entries, you should notice it.
+>=20
+> > > I think the cause of disagreements we have are solely our use cases of
+> > > 9pfs: your personal use case does not seem to require any performance
+> > > considerations or multi-user aspects, whereas my use case requires at
+> > > least some minimum performance grade for utilizing 9pfs for server
+> > > applications.
+> >=20
+> > Your point about the personal use case is right indeed but our
+> > disagreements, if any, aren't uniquely related to that. It's more about
+> > maintainership and available time really. I'm 100% benevolent "Odd fixe=
+r"
+> > now and I just try to avoid being forced into fixing things after my PR=
+ is
+> > merged. If you want to go faster, then you're welcome to upgrade to
+> > maintainer and send PRs. This would make sense since you care for 9p, y=
+ou
+> > showed a good understanding of the code and you provided beneficial
+> > contributions so far :)
+>=20
+> That maintainership upgrade is planned. The question is just when. What w=
+as=20
+> your idea, co-maintainership?
 >=20
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Basically yes.
+
+> > > > > > Oh, so we'd still have the current implementation being used, e=
+ven
+> > > > > > with this patch applied... This would be okay for a RFC patch b=
+ut
+> > > > > > in the end I'd really like to merge something that also converts
+> > > > > > v9fs_do_readdir_with_stat().
+> > > > >=20
+> > > > > Yes, I know, but I would not recommend mixing these things at this
+> > > > > point,
+> > > > > because it would be an entire effort on its own.
+> > > > >=20
+> > > > > v9fs_do_readdir_with_stat() is used for 9P2000.u, while
+> > > > > v9fs_do_readdir()
+> > > > > is used for 9P2000.L. They're behaving very differently, so it wo=
+uld
+> > > > > not
+> > > > > only require me to update v9fs_do_readdir_with_stat() and v9fs_re=
+ad(),
+> > > > > I
+> > > > > would also need to write their own test cases (plural, since ther=
+e are
+> > > > > none at all yet) and benchmarks, and of course somebody what need=
+ to
+> > > > > review all that additional amount of code, and who would actually=
+ test
+> > > > > it? I am actively testing my 9P2000.L changes, but I am not actua=
+lly
+> > > > > using 9P2000.u, so I could not guarantee for the same quality.
+> > > > >=20
+> > > > > Considering the current commitment situation regarding 9pfs, we c=
+an
+> > > > > only
+> > > > > bring things forward with compromises. Hence I suggest I concentr=
+ate
+> > > > > on
+> > > > > fixing the worst performance issues on 9P2000.L side first, and l=
+ater
+> > > > > on
+> > > > > if there are really people interested in seeing these improvement=
+s on
+> > > > > 9P2000.u side and willing to at least help out with testing, then=
+ I
+> > > > > can
+> > > > > definitely also adjust 9P2000.u side accordingly as well.
+> > > > >=20
+> > > > > But to also make this clear: this patch 10 is not introducing any
+> > > > > behaviour
+> > > > > change for 9P2000.u side.
+> > > >=20
+> > > > Ok, fair enough to leave 9p2000.U behind for now but I had to ask :)
+> > > > /me is even wondering if we should start deprecating 9p2000.U since
+> > > > most clients can use 9p2000.L now...
+> > >=20
+> > > I probably wouldn't. On macOS for instance there's only 9p2000.u. In =
+the
+> > > end
+> > Hmm... the only thing I've heard about is:
+> >=20
+> > https://github.com/benavento/mac9p
+> >=20
+> > and unless I'm missing something, this seems to only have a socket based
+> > transport... the server in QEMU is for virtio-9p and Xen 9p devices onl=
+y.
+> > Unless mac9p seriously plans to implement a driver for either of those,
+> > I'm still not convinced it is worth keeping .U around... and BTW, our
+> > deprecation policy imposes a 2 QEMU versions cooling period before
+> > actually removing the code. This would leave ample time for someone
+> > to speak up.
+>=20
+> Well, I leave that up to you. I could consider adding a transport for mac=
+OS=20
+> guests, but that's definitely not going to happen in any near future.
+>=20
+
+The whole idea behind dropping support for .U is really just about
+reducing the potential attack surface. But I'm also fine to keep
+things as is until the next CVE since I'm confident someone will
+help ;-)
+
+> > > > Not sure we're talking about the same loop here...
+> > > >=20
+> > > > I'm just suggesting that v9fs_readdir_lock() could be something lik=
+e:
+> > > >=20
+> > > > static inline void v9fs_readdir_lock(V9fsDir *dir)
+> > > > {
+> > > >=20
+> > > >     while (qemu_mutex_trylock(&dir->readdir_mutex)) {
+> > > >    =20
+> > > >         warn_report_once("blah");
+> > > >    =20
+> > > >     }
+> > > >=20
+> > > > }
+> > >=20
+> > > Ah yeah, in fact I got you wrong on this one. I thought you meant to =
+move
+> > > the lock within do_readdir_lowlat(). About your actual suggestion abo=
+ve
+> > > ...>=20
+> > > > > the loop. The normal case is not requiring a lock at all, like the
+> > > > > comment
+> > > > > describes. Doing multiple locks inside the loop unnecessaririly
+> > > > > reduces
+> > > > > performance for no reason.
+> > > > >=20
+> > > > > About *_trylock() instead of v9fs_readdir_lock(): might be a cand=
+idate
+> > > > > to
+> > > >=20
+> > > > Hmm... are you suggesting that do_readdir_lowlat() should return if=
+ it
+> > > > can't take the lock ?
+> > >=20
+> > > ... yep, that's what I had in mind for it later on. I would not mind
+> > > running trylock in a loop like you suggested; if it fails, log a warn=
+ing
+> > > and return. Because if the lock fails, then client is buggy. User can
+> > > read the warning in the logs and report the bug for client to be fixe=
+d.
+> > > Not worth to handle that case in any fancy way by server.
+> >=20
+> > The locking is just a safety net because readdir(3) isn't necessarily
+> > thread safe. It was never my intention to add an error path for that.
+> > And thinking again, sending concurrent Treaddir requests on the same
+> > fid is certainly a weird thing to do but is it really a bug ?
+>=20
+> Well, I was unresolved on that issue as well, hence my decision to only l=
+eave=20
+> a TODO comment for now. My expectation would be separate fid for concurre=
+nt=20
+> readdir, but you are right of course, Treaddir (unlike its 9p2000.u=20
+> counterpart) is reentrant by design, since it has an offset parameter, so=
+ from=20
+> protocol perspective concurrent Treaddir is not per se impossible.
+>=20
+> The lock would not be noticable either with this patch, since unlike on=20
+> master, the lock is just retained on driver side now (with this patch), w=
+hich=20
+> returns very fast even on large directories, as you can see from the benc=
+hmark=20
+> output.
+>=20
+> So yes, returning from function with an error is probably not the best ch=
+oice.=20
+> My tendency is still though logging a message at least. I don't care abou=
+t=20
+> that too much though to deal with trylock() in a loop or something right =
+now.=20
+> There are more important things to take care of ATM.
+>=20
+
+Yeah, that can wait.
+
+> > > avoid similar mistakes by placing appropriate comment(s).
+> > >=20
+> > > > > > > > +                                        struct V9fsDirEnt
+> > > > > > > > **entries,
+> > > > > > > > +                                        int32_t maxsize, b=
+ool
+> > > > > > > > dostat)
+> > > > > >=20
+> > > > > > s/maxsize/max_count since this is the wording use in the caller.
+> > > > >=20
+> > > > > Wouldn't do that. This is the driver side, not the 9p protocol re=
+quest
+> > > > > handler. As you might have relized before, "max_count" is semanti=
+cally
+> > > > > completely wrong. This variable does not count integral entries, =
+it is
+> > > > > rather a maximum size (in bytes) of the destination buffer being
+> > > > > filled.
+> > > > >=20
+> > > > > On 9p request handler side it is ok to use "max_count" instead,
+> > > > > because
+> > > > > the
+> > > > > protocol definition uses exactly this term for the request parame=
+ter,
+> > > > > but
+> > > > > on driver side it's IMO inappropriate.
+> > > >=20
+> > > > I agree the max_count wording sucks and I don't care that much to
+> > > > name variables according to protocol definitions, but I do care
+> > > > to use the same name in caller/callee when it makes sense, for a
+> > > > better grep or cscope experience.
+> > >=20
+> > > So you insist on that max_count change?
+> >=20
+> > Rather the opposite. Kill max_count and make it maxsize, in a preparato=
+ry
+> > patch with the reasons you've exposed.
+>=20
+> Ah got it. OK then.
+>=20
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
 
