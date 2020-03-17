@@ -2,79 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B80188A0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:19:51 +0100 (CET)
-Received: from localhost ([::1]:35774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7295188A3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:28:43 +0100 (CET)
+Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEwY-0008E1-13
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1jEF58-00077x-O0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:28:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1jEEd4-0004DH-0R
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:59:43 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1jEEmQ-0002CW-Oc
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:09:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1jEEd2-0000zL-9f
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:59:41 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34855)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1jEEd1-0000uM-Un
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:59:40 -0400
-Received: by mail-wm1-x341.google.com with SMTP id m3so22620782wmi.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=A/IsLi/BcDZeVO8LUPtQCLArR9Xjhd5qIYUK/ohoMaM=;
- b=APCYEqzBPo4pZA90Wdl8KH+3nLIO5nZ27zrSOCANaDwaG38jLdG776MgiEgCbWdVPF
- YuJMo4BuFhp8TjxfdxebKpVdOJNXHWul+e8LOd4yDwNNkRUus8x2oJRIvYdDH9333G4z
- Kd3XxK6ncqCeW7LGqMJyWN7+qlvn9Kjgclz6SfLDejSk/HGrdbaI7E/rDw1VZIky0ErK
- 5IhtK1tzC1hi0WDJZw/Uk+km9pNnrIGUxUFsPB2C82UlPssvdOAyiD66Qg0wTBxKg+mT
- et7oDvqZIwh4x7m/jKZB/A1aZ+UXuvLOXCf7Je/SpmVcFEDKLtyHeKmkc+bz9Xb6rvD/
- olBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=A/IsLi/BcDZeVO8LUPtQCLArR9Xjhd5qIYUK/ohoMaM=;
- b=hCz4wMjlD6+KrE711n2LZ7djTr1+6kw1D6N0FprAOrFyVYWYLqmoLGEtHFrd0Jus+G
- mbaFicyNRPV73mp5RRVrImLGpu2rzWzH4YY5W+XKvr61wv4QPWZKcc41oG+3+QIdqNBW
- 9yAaFkmmNz5De+Eygmav4E+GG0sdAP4pOUuhFFqR142KOxCjwEu8mZAvq3zIHTxkhB66
- B05I9M6krC//qRKZzu+LZ/AIJUjmby3SgN85oSbvo9bEPC9tOGr96njQhDw4vKX9lpGN
- qGQ8T10M1KR2aArVNLG9t28X0nzrAwx9JPl3Qr99DWIRdk68mtU3CHZxZ7hRA2EKH5Gv
- apqQ==
-X-Gm-Message-State: ANhLgQ3SpcNkKlK92vY4BDS3T0x6gYm9r7/WOG8SrcixQ+LHnZzDZs+i
- bWI+5xcdtQ9bFZQsf8h7v+X4nA==
-X-Google-Smtp-Source: ADFU+vuJTn+sWIDqMFxwGrw89+0o0+nSlCTfJqxfuF+qNuxf7KCqaJiH+jqbWqxaB2eYmVnvjkQbmQ==
-X-Received: by 2002:a05:600c:2c2:: with SMTP id 2mr5943963wmn.95.1584460777918; 
- Tue, 17 Mar 2020 08:59:37 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id a199sm4329683wme.29.2020.03.17.08.59.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 08:59:37 -0700 (PDT)
-Date: Tue, 17 Mar 2020 16:59:29 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Bharat Bhushan <bharatb.linux@gmail.com>
-Subject: Re: [PATCH v7 3/5] virtio-iommu: Call iommu notifier for attach/detach
-Message-ID: <20200317155929.GB1057687@myrica>
-References: <CAAeCc_m=PKV0T8DmaE06F9NMYfU792f9TDdoyKkaPaEN3597ag@mail.gmail.com>
- <9b4ab5e8-8848-50ba-17c8-652567483126@redhat.com>
- <CAAeCc_ksAdoNJcFWkoB4YcySAb5Hw7D+kLyHx-Nt0hZJY17AXA@mail.gmail.com>
- <CAAeCc_nnM-DGCyXjFJuk-6L8F+Oetq076SEjeV8kUAGxfJVQTw@mail.gmail.com>
- <cc447790-d1c5-784b-9706-fbcd76f0c94b@redhat.com>
- <CAAeCc_mSobL4oGcK-J3WJJq8BCS6M_oyPTrzJ9bk8yFgsUDBUw@mail.gmail.com>
- <20200316101124.GA304669@myrica>
- <CAAeCc_kJq_TjbZxf3Un5rpwBrNrz-8gdL_SMS-gP_0=rARf0WQ@mail.gmail.com>
- <20200317085304.GA1057687@myrica>
- <CAAeCc_n8_sY0EJODeo_PrOZ22zp8nUMOmGx2tBewz8jLaU30kA@mail.gmail.com>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1jEEmO-0003PO-Jg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:09:22 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:60319)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jEEmO-0003IJ-0m
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:09:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=O3C1DWiovOlIFXopWonrU5czWPELFVg5RjnELw3g5DU=; b=ljKIDIND+8WGk1+VBrZIEPvH0v
+ 2vs6tQHKhzCJCQI3pWaSKgkLxgHb1zpLChoy/MlggbCF5l+IiAYUq8uf0kwy8n/4bAMA17fICXr2l
+ TAp3UiD1Y5O4PPRBGzFM8P2EktOzvqDG3E4M7nXHjllFZsDhPbdViss5+a3f3n03ze7SYvWDxb8uN
+ cUnvsSjx+B8TYL2qUS5/MfzEbkL5cWKOZMyogytsAgNTXj1AP99RTjB9oNdX0EAYHrxiBMAWX9kMW
+ 5cj4FfbMKqb1PoL/FycSGanQnQIF1L4V5ZrBmyz7FeDVBYpJatuROIXJnmP9thNG8EzNd1cd0t09Q
+ B374tIVSCG3L9Dq07wO0f9HTK+U/kRHSmttyfF5mdIb1O8emqc5s+G8/So3pT5sklN0DdliVi1h26
+ pG4imRA4Qxix5yer2QBzs/7aXFvkiMv31oEUd0tVLSjk5kCTesAzSNF/LP8hC5+i74AyK2JY7y3SV
+ d5pFbPtBkO+PEct5JPWGE5Pk6kSwcMbvVgwR+lJPG+i2Vm3pY/4RLltyM+4Qi7WpqTQHjzjHOIAWb
+ 0BYHmVGz6z1XjSqTSp4XYgtlhyHNR1LPK6mz3ROuQRBpf48cBDFitjvMFpXTgv7tKW82YnhIC/M3B
+ 0s3j+zX78fPm8J44xvRisXpQ4VM361xgOjuT4B220=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 10/11] 9pfs: T_readdir latency optimization
+Date: Tue, 17 Mar 2020 17:09:16 +0100
+Message-ID: <3151790.FkRGVyreOq@silver>
+In-Reply-To: <20200317151423.14fc43d9@bahia.lan>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <3047810.ezBau4JpT1@silver> <20200317151423.14fc43d9@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeCc_n8_sY0EJODeo_PrOZ22zp8nUMOmGx2tBewz8jLaU30kA@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,126 +60,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, drjones@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- alex.williamson@redhat.com, qemu-arm@nongnu.org,
- Bharat Bhushan <bbhushan2@marvell.com>, linuc.decode@gmail.com,
- eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 02:46:55PM +0530, Bharat Bhushan wrote:
-> Hi Jean,
-> 
-> On Tue, Mar 17, 2020 at 2:23 PM Jean-Philippe Brucker
-> <jean-philippe@linaro.org> wrote:
-> >
-> > On Tue, Mar 17, 2020 at 12:40:39PM +0530, Bharat Bhushan wrote:
-> > > Hi Jean,
-> > >
-> > > On Mon, Mar 16, 2020 at 3:41 PM Jean-Philippe Brucker
-> > > <jean-philippe@linaro.org> wrote:
-> > > >
-> > > > Hi Bharat,
-> > > >
-> > > > Could you Cc me on your next posting?  Unfortunately I don't have much
-> > > > hardware for testing this at the moment, but I might be able to help a
-> > > > little on the review.
-> > > >
-> > > > On Mon, Mar 16, 2020 at 02:40:00PM +0530, Bharat Bhushan wrote:
-> > > > > > >>> First issue is: your guest can use 4K page and your host can use 64KB
-> > > > > > >>> pages. In that case VFIO_DMA_MAP will fail with -EINVAL. We must devise
-> > > > > > >>> a way to pass the host settings to the VIRTIO-IOMMU device.
-> > > > > > >>>
-> > > > > > >>> Even with 64KB pages, it did not work for me. I have obviously not the
-> > > > > > >>> storm of VFIO_DMA_MAP failures but I have some, most probably due to
-> > > > > > >>> some wrong notifications somewhere. I will try to investigate on my side.
-> > > > > > >>>
-> > > > > > >>> Did you test with VFIO on your side?
-> > > > > > >>
-> > > > > > >> I did not tried with different page sizes, only tested with 4K page size.
-> > > > > > >>
-> > > > > > >> Yes it works, I tested with two n/w device assigned to VM, both interfaces works
-> > > > > > >>
-> > > > > > >> First I will try with 64k page size.
-> > > > > > >
-> > > > > > > 64K page size does not work for me as well,
-> > > > > > >
-> > > > > > > I think we are not passing correct page_size_mask here
-> > > > > > > (config.page_size_mask is set to TARGET_PAGE_MASK ( which is
-> > > > > > > 0xfffffffffffff000))
-> > > > > > I guess you mean with guest using 4K and host using 64K.
-> > > > > > >
-> > > > > > > We need to set this correctly as per host page size, correct?
-> > > > > > Yes that's correct. We need to put in place a control path to retrieve
-> > > > > > the page settings on host through VFIO to inform the virtio-iommu device.
-> > > > > >
-> > > > > > Besides this issue, did you try with 64kB on host and guest?
-> > > > >
-> > > > > I tried Followings
-> > > > >   - 4k host and 4k guest  - it works with v7 version
-> > > > >   - 64k host and 64k guest - it does not work with v7
-> > > > >     hard-coded config.page_size_mask to 0xffffffffffff0000 and it works
-> > > >
-> > > > You might get this from the iova_pgsize bitmap returned by
-> > > > VFIO_IOMMU_GET_INFO. The virtio config.page_size_mask is global so there
-> > > > is the usual problem of aggregating consistent properties, but I'm
-> > > > guessing using the host page size as a granule here is safe enough.
-> > > >
-> > > > If it is a problem, we can add a PROBE property for page size mask,
-> > > > allowing to define per-endpoint page masks. I have kernel patches
-> > > > somewhere to do just that.
-> > >
-> > > I do not see we need page size mask per endpoint.
-> > >
-> > > While I am trying to understand what "page-size-mask" guest will work with
-> > >
-> > > - 4K page size host and 4k page size guest
-> > >   config.page_size_mask = 0xffffffffffff000 will work
-> > >
-> > > - 64K page size host and 64k page size guest
-> > >   config.page_size_mask = 0xfffffffffff0000 will work
-> > >
-> > > - 64K page size host and 4k page size guest
-> > >    1) config.page_size_mask = 0xffffffffffff000 will also not work as
-> > > VFIO in host expect iova and size to be aligned to 64k (PAGE_SIZE in
-> > > host)
-> > >    2) config.page_size_mask = 0xfffffffffff0000 will not work, iova
-> > > initialization (in guest) expect minimum page-size supported by h/w to
-> > > be equal to 4k (PAGE_SIZE in guest)
-> > >        Should we look to relax this in iova allocation code?
-> >
-> > Oh right, that's not great. Maybe the BUG_ON() can be removed, I'll ask on
-> > the list.
-> 
-> yes, the BUG_ON in iova_init.
-> I tried with removing same and it worked, but not analyzed side effects.
+On Dienstag, 17. M=E4rz 2020 15:14:23 CET Greg Kurz wrote:
+> > > > I think the cause of disagreements we have are solely our use cases=
+ of
+> > > > 9pfs: your personal use case does not seem to require any performan=
+ce
+> > > > considerations or multi-user aspects, whereas my use case requires =
+at
+> > > > least some minimum performance grade for utilizing 9pfs for server
+> > > > applications.
+> > >=20
+> > > Your point about the personal use case is right indeed but our
+> > > disagreements, if any, aren't uniquely related to that. It's more abo=
+ut
+> > > maintainership and available time really. I'm 100% benevolent "Odd
+> > > fixer"
+> > > now and I just try to avoid being forced into fixing things after my =
+PR
+> > > is
+> > > merged. If you want to go faster, then you're welcome to upgrade to
+> > > maintainer and send PRs. This would make sense since you care for 9p,
+> > > you
+> > > showed a good understanding of the code and you provided beneficial
+> > > contributions so far :)
+> >=20
+> > That maintainership upgrade is planned. The question is just when. What
+> > was
+> > your idea, co-maintainership?
+>=20
+> Basically yes.
 
-It might break the assumption from device drivers that mapping a page is
-safe. For example they call alloc_page() followed by dma_map_page(). In
-our situation dma-iommu.c will oblige and create one 64k mapping to one 4k
-physical page. As a result the endpoint can access the neighbouring 60k of
-memory.
+Ok, I'll send out a MAINTAINERS patch tomorrow or so to make that
+co-maintainer upgrade official. But I obviously still need a while to learn=
+=20
+the bureaucracy involved for PRs, signing, ML tools, Wiki, etc.
 
-This isn't too terrible. After all, even when the page sizes match, device
-drivers can call dma_map_single() on sub-page buffers, which will also let
-the endpoint access a whole page. The solution, if you don't trust the
-endpoint, is to use bounce buffers.
+> > > > > Ok, fair enough to leave 9p2000.U behind for now but I had to ask=
+ :)
+> > > > > /me is even wondering if we should start deprecating 9p2000.U sin=
+ce
+> > > > > most clients can use 9p2000.L now...
+> > > >=20
+> > > > I probably wouldn't. On macOS for instance there's only 9p2000.u. In
+> > > > the
+> > > > end
+> > >=20
+> > > Hmm... the only thing I've heard about is:
+> > >=20
+> > > https://github.com/benavento/mac9p
+> > >=20
+> > > and unless I'm missing something, this seems to only have a socket ba=
+sed
+> > > transport... the server in QEMU is for virtio-9p and Xen 9p devices
+> > > only.
+> > > Unless mac9p seriously plans to implement a driver for either of thos=
+e,
+> > > I'm still not convinced it is worth keeping .U around... and BTW, our
+> > > deprecation policy imposes a 2 QEMU versions cooling period before
+> > > actually removing the code. This would leave ample time for someone
+> > > to speak up.
+> >=20
+> > Well, I leave that up to you. I could consider adding a transport for
+> > macOS
+> > guests, but that's definitely not going to happen in any near future.
+>=20
+> The whole idea behind dropping support for .U is really just about
+> reducing the potential attack surface. But I'm also fine to keep
+> things as is until the next CVE since I'm confident someone will
+> help ;-)
 
-But I suspect it's not as simple as removing the BUG_ON(), we'll need to
-go over dma-iommu.c first. And it seems like assigning endpoints to guest
-userspace won't work either in this config. In vfio_dma_do_map():
+Sure, sounds like a plan!
 
-        mask = ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
+> > > > > > the loop. The normal case is not requiring a lock at all, like =
+the
+> > > > > > comment
+> > > > > > describes. Doing multiple locks inside the loop unnecessaririly
+> > > > > > reduces
+> > > > > > performance for no reason.
+> > > > > >=20
+> > > > > > About *_trylock() instead of v9fs_readdir_lock(): might be a
+> > > > > > candidate
+> > > > > > to
+> > > > >=20
+> > > > > Hmm... are you suggesting that do_readdir_lowlat() should return =
+if
+> > > > > it
+> > > > > can't take the lock ?
+> > > >=20
+> > > > ... yep, that's what I had in mind for it later on. I would not mind
+> > > > running trylock in a loop like you suggested; if it fails, log a
+> > > > warning
+> > > > and return. Because if the lock fails, then client is buggy. User c=
+an
+> > > > read the warning in the logs and report the bug for client to be
+> > > > fixed.
+> > > > Not worth to handle that case in any fancy way by server.
+> > >=20
+> > > The locking is just a safety net because readdir(3) isn't necessarily
+> > > thread safe. It was never my intention to add an error path for that.
+> > > And thinking again, sending concurrent Treaddir requests on the same
+> > > fid is certainly a weird thing to do but is it really a bug ?
+> >=20
+> > Well, I was unresolved on that issue as well, hence my decision to only
+> > leave a TODO comment for now. My expectation would be separate fid for
+> > concurrent readdir, but you are right of course, Treaddir (unlike its
+> > 9p2000.u counterpart) is reentrant by design, since it has an offset
+> > parameter, so from protocol perspective concurrent Treaddir is not per =
+se
+> > impossible.
+> >=20
+> > The lock would not be noticable either with this patch, since unlike on
+> > master, the lock is just retained on driver side now (with this patch),
+> > which returns very fast even on large directories, as you can see from
+> > the benchmark output.
+> >=20
+> > So yes, returning from function with an error is probably not the best
+> > choice. My tendency is still though logging a message at least. I don't
+> > care about that too much though to deal with trylock() in a loop or
+> > something right now. There are more important things to take care of AT=
+M.
+>=20
+> Yeah, that can wait.
 
-        WARN_ON(mask & PAGE_MASK);
+Okay.
 
-If I read this correctly the WARN will trigger in a 4k guest under 64k
-host, right?  So maybe we can just say that this config isn't supported,
-unless it's an important use-case for virtio-iommu?
+The only thing I actually still need to figure out for this patch series to=
+ be=20
+complete (at least from my side), is how to fix the test environment bug=20
+discussed. Probably I can reset the test environment's buffer after every t=
+est=20
+somehow ...
 
-Thanks,
-Jean
+Best regards,
+Christian Schoenebeck
+
 
 
