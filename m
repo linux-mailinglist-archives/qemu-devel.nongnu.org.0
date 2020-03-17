@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720CD18795F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:51:18 +0100 (CET)
-Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899AA187963
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:53:55 +0100 (CET)
+Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE58H-0000h6-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
+	id 1jE5Ao-0003EY-KI
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jE57H-00083N-GL
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:50:16 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jE58Q-0001Ta-4B
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:51:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jE57G-0004Q9-FS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:50:15 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:32992)
+ (envelope-from <jasowang@redhat.com>) id 1jE58N-0000u4-RE
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:51:26 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33669)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jE57G-0004O6-AL
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:50:14 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jE58N-0000qA-Lk
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:51:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584424214;
+ s=mimecast20190719; t=1584424283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JZg4UR4sHoUpLlV+Tm1k3ru2Hi0OSWFFR+b9/HKNFHs=;
- b=KgnW9RVQ+wpU4LwYOnyfFVmrK2kDXkmkd0UGR+kamBu7Wd2OClS7V5U/G6d+LOu971ZXtD
- qHYUfahQF6j/zgvRSsH8kbjq5Z/FB6tdE5hWPh6fuINIID68vSWdO3KplADwKLu534Ls2x
- RecYSDRY4YC7OlgN05kWpl/5ZQtzcF8=
+ bh=eZyc03uIXxVnHk5B0Ka968IeL/7/8G1+6bALMy4dLP8=;
+ b=aZscwFx7h3/5AQBtccsJPDKONA2C82qqWKlmx7lWodDoYxfz6m2I5GWcdAL9wsZvrC4Qn3
+ XizksEdGxGgnAye/guLFxUPw4qKivcw0krcH1Q3iQw01XX3dKASrMXusa02sWNdnhVPQVV
+ qfX0kvb3kNFlhuuXv/8Iw8AZ5gee9l0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-yfaec4AnPVan62vMFvCJrw-1; Tue, 17 Mar 2020 01:50:12 -0400
-X-MC-Unique: yfaec4AnPVan62vMFvCJrw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-468-y3l1xS7ZM-yCYbEVlpAtLw-1; Tue, 17 Mar 2020 01:51:21 -0400
+X-MC-Unique: y3l1xS7ZM-yCYbEVlpAtLw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC914149CB;
- Tue, 17 Mar 2020 05:50:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DCFA18A5500;
+ Tue, 17 Mar 2020 05:51:20 +0000 (UTC)
 Received: from [10.72.12.89] (ovpn-12-89.pek2.redhat.com [10.72.12.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AF285C1BB;
- Tue, 17 Mar 2020 05:50:07 +0000 (UTC)
-Subject: Re: [PATCH v3 2/2] net: tulip: add .can_recieve routine
-To: P J P <ppandit@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
-References: <20200303104724.233375-1-ppandit@redhat.com>
- <20200303104724.233375-3-ppandit@redhat.com>
- <20200306130853.GM1335569@stefanha-x1.localdomain>
- <nycvar.YSQ.7.76.2003162325500.5086@xnncv>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93B18907FB;
+ Tue, 17 Mar 2020 05:51:17 +0000 (UTC)
+Subject: Re: [PATCH] hw/net/i82596: Correct command bitmask (CID 1419392)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200214004753.15736-1-f4bug@amsat.org>
+ <CAFEAcA9CdtrbTTFAkngP90jNaSALVN2svOx75qLORhLKGUoUUA@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <27df2e70-936f-f989-7b6b-a00772dea0cd@redhat.com>
-Date: Tue, 17 Mar 2020 13:50:06 +0800
+Message-ID: <cbc557d0-a32d-af1c-33d8-c6177dca2883@redhat.com>
+Date: Tue, 17 Mar 2020 13:51:16 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YSQ.7.76.2003162325500.5086@xnncv>
+In-Reply-To: <CAFEAcA9CdtrbTTFAkngP90jNaSALVN2svOx75qLORhLKGUoUUA@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -75,52 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <pangpei.lq@antfin.com>, Sven Schnelle <svens@stackframe.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Ziming Zhang <ezrakiez@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/3/17 =E4=B8=8A=E5=8D=882:01, P J P wrote:
->    Hello Stefan, Jason,
+On 2020/3/13 =E4=B8=8B=E5=8D=887:01, Peter Maydell wrote:
+> On Fri, 14 Feb 2020 at 00:48, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>> The command is 32-bit, but we are loading the 16 upper bits with
+>> the 'get_uint16(s->scb + 2)' call.
+>>
+>> Once shifted by 16, the command bits match the status bits:
+>>
+>> - Command
+>>    Bit 31 ACK-CX   Acknowledges that the CU completed an Action Command.
+>>    Bit 30 ACK-FR   Acknowledges that the RU received a frame.
+>>    Bit 29 ACK-CNA  Acknowledges that the Command Unit became not active.
+>>    Bit 28 ACK-RNR  Acknowledges that the Receive Unit became not ready.
+>>
+>> - Status
+>>    Bit 15 CX       The CU finished executing a command with its I(interr=
+upt) bit set.
+>>    Bit 14 FR       The RU finished receiving a frame.
+>>    Bit 13 CNA      The Command Unit left the Active state.
+>>    Bit 12 RNR      The Receive Unit left the Ready state.
+>>
+>> Add the SCB_COMMAND_ACK_MASK definition to simplify the code.
+>>
+>> This fixes Coverity 1419392 (CONSTANT_EXPRESSION_RESULT):
+>>
+>>    /hw/net/i82596.c: 352 in examine_scb()
+>>    346         cuc =3D (command >> 8) & 0x7;
+>>    347         ruc =3D (command >> 4) & 0x7;
+>>    348         DBG(printf("MAIN COMMAND %04x  cuc %02x ruc %02x\n", comm=
+and, cuc, ruc));
+>>    349         /* and clear the scb command word */
+>>    350         set_uint16(s->scb + 2, 0);
+>>    351
+>>    >>>     CID 1419392:    (CONSTANT_EXPRESSION_RESULT)
+>>    >>>     "command & (2147483648UL /* 1UL << 31 */)" is always 0 regard=
+less of the values of its operands. This occurs as the logical operand of "=
+if".
+>>    352         if (command & BIT(31))      /* ACK-CX */
+>>    353             s->scb_status &=3D ~SCB_STATUS_CX;
+>>    >>>     CID 1419392:    (CONSTANT_EXPRESSION_RESULT)
+>>    >>>     "command & (1073741824UL /* 1UL << 30 */)" is always 0 regard=
+less of the values of its operands. This occurs as the logical operand of "=
+if".
+>>    354         if (command & BIT(30))      /*ACK-FR */
+>>    355             s->scb_status &=3D ~SCB_STATUS_FR;
+>>    >>>     CID 1419392:    (CONSTANT_EXPRESSION_RESULT)
+>>    >>>     "command & (536870912UL /* 1UL << 29 */)" is always 0 regardl=
+ess of the values of its operands. This occurs as the logical operand of "i=
+f".
+>>    356         if (command & BIT(29))      /*ACK-CNA */
+>>    357             s->scb_status &=3D ~SCB_STATUS_CNA;
+>>    >>>     CID 1419392:    (CONSTANT_EXPRESSION_RESULT)
+>>    >>>     "command & (268435456UL /* 1UL << 28 */)" is always 0 regardl=
+ess of the values of its operands. This occurs as the logical operand of "i=
+f".
+>>    358         if (command & BIT(28))      /*ACK-RNR */
+>>    359             s->scb_status &=3D ~SCB_STATUS_RNR;
+>>
+>> Fixes: Covertiy CID 1419392 (commit 376b851909)
+> ("Coverity")
 >
-> +-- On Fri, 6 Mar 2020, Stefan Hajnoczi wrote --+
-> | > +static int
-> | > +tulip_can_receive(NetClientState *nc)
-> | > +{
-> | > +    TULIPState *s =3D qemu_get_nic_opaque(nc);
-> | > +
-> | > +    if (s->rx_frame_len || tulip_rx_stopped(s)) {
-> | > +        return false;
-> | > +    }
-> | > +
-> | > +    return true;
-> | > +}
-> |
-> | Are the required qemu_flush_queued_packets() calls in place so that
-> | packet transfer wakes up again when .can_receive() transitions from
-> | false to true?
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 >
->    Yes, qemu_flush_queued_packets() calls are in tulip_write(). Do we nee=
-d to
-> call tulip_can_receive() before each call?
+> Jason, are you planning to pick this one up?
 
 
-Probably not, just need to make sure the check in tulip_rx_stopped(s)=20
-matches the action that triggers qemu_flush_queued_packets() in=20
-tulip_write() is sufficient.
-
-This to make sure net core can restore the receiving.
-
-Btw, what's the point of checking rx_frame_len here?
+Yes. queued.
 
 Thanks
 
 
+> thanks
+> -- PMM
 >
-> Thank you.
-> --
-> Prasad J Pandit / Red Hat Product Security Team
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
