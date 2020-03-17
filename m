@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6ED18836A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:13:11 +0100 (CET)
-Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABB71882D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:03:41 +0100 (CET)
+Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEB5q-0005lQ-MA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57114)
+	id 1jEAwe-00031C-1u
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEAoo-0000BJ-Gp
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:36 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEAoZ-0008AO-6g
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEAom-00081D-DQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:30666)
+ (envelope-from <armbru@redhat.com>) id 1jEAoX-0006et-3U
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:19 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEAom-0007yd-82
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:32 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEAoW-0006cC-Sb
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584446131;
+ s=mimecast20190719; t=1584446116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VpWeiBGxvTJjSpS1IhpBA3HU0RqRXGBUXMMDPDGdbRI=;
- b=ftZUDmrltILwRFCGRPwib8iRptLPHJqoRd56sMiEB7OVS8hzIfGWnkVKi7VbfMBdai2yZh
- EALLCta3CQym5vvQqe2LMstLK4EDz6e1e9qZbq31JYccpXNcYjAly5HQFpmQCdYprGcdbE
- kX7GVBFd2cJ2jcXeQTYllEZQ948OLBA=
+ bh=g00Prh+uvQe+VSOmvW8i9oEnkuZZI+qq9LLubpzlJw0=;
+ b=EGt745Ep5FctyDMZRfqJch1wnj49RJr2BZDqD8hgVaRSixs+ZqICFY2EL/QJE5GyH+nATD
+ +TRgO62ZYXjMVcTYcg3XhlRSoq74ZMMsvu89yS+Tn0YjBO5hgB4Y6sjhSu/v3xM1kRw3F6
+ RfLBoC9n6O4Wv4jANm2aZA+EOB1XoPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-b1FDJLOUNQqiDNNz7EpzCw-1; Tue, 17 Mar 2020 07:55:13 -0400
-X-MC-Unique: b1FDJLOUNQqiDNNz7EpzCw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-466-I0-VlpQLPra7urAgHnE7MA-1; Tue, 17 Mar 2020 07:55:15 -0400
+X-MC-Unique: I0-VlpQLPra7urAgHnE7MA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9763B801E6C;
- Tue, 17 Mar 2020 11:55:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F1E21922960;
+ Tue, 17 Mar 2020 11:55:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
  [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 108BF1036B47;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B504953B1;
  Tue, 17 Mar 2020 11:55:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5BD2E1135A70; Tue, 17 Mar 2020 12:55:00 +0100 (CET)
+ id 60ACA11358A3; Tue, 17 Mar 2020 12:55:00 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/34] qapi: Add feature flags to struct members
-Date: Tue, 17 Mar 2020 12:54:45 +0100
-Message-Id: <20200317115459.31821-21-armbru@redhat.com>
+Subject: [PATCH v4 21/34] qapi: Inline do_qmp_dispatch() into qmp_dispatch()
+Date: Tue, 17 Mar 2020 12:54:46 +0100
+Message-Id: <20200317115459.31821-22-armbru@redhat.com>
 In-Reply-To: <20200317115459.31821-1-armbru@redhat.com>
 References: <20200317115459.31821-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -77,273 +77,167 @@ Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Both functions check @request is a QDict, and both have code for
+QCO_NO_SUCCESS_RESP.  This wasn't the case back when they were
+created.  It's a sign of muddled responsibilities.  Inline.  The next
+commits will clean up some more.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt            |  4 +++-
- tests/qapi-schema/doc-good.texi         |  2 ++
- qapi/introspect.json                    |  6 +++++-
- scripts/qapi/expr.py                    |  3 ++-
- scripts/qapi/introspect.py              |  2 +-
- scripts/qapi/schema.py                  | 25 ++++++++++++++++++++-----
- tests/qapi-schema/doc-good.json         |  5 ++++-
- tests/qapi-schema/doc-good.out          |  3 +++
- tests/qapi-schema/qapi-schema-test.json |  2 +-
- tests/qapi-schema/qapi-schema-test.out  |  1 +
- tests/qapi-schema/test-qapi.py          |  7 ++++---
- 11 files changed, 46 insertions(+), 14 deletions(-)
+ qapi/qmp-dispatch.c | 90 +++++++++++++++++++++------------------------
+ 1 file changed, 41 insertions(+), 49 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 9fce78dcad..a1ef1cfd61 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -234,7 +234,9 @@ Syntax:
-                '*features': FEATURES }
-     MEMBERS =3D { MEMBER, ... }
-     MEMBER =3D STRING : TYPE-REF
--           | STRING : { 'type': TYPE-REF, '*if': COND }
-+           | STRING : { 'type': TYPE-REF,
-+                        '*if': COND,
-+                        '*features': FEATURES }
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index bc264b3c9b..a588072523 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -75,19 +75,42 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
+uest, bool allow_oob,
+     return dict;
+ }
 =20
- Member 'struct' names the struct type.
-=20
-diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.t=
-exi
-index 76b396dae6..7f28fb7a0f 100644
---- a/tests/qapi-schema/doc-good.texi
-+++ b/tests/qapi-schema/doc-good.texi
-@@ -132,6 +132,8 @@ Not documented
- @table @asis
- @item @code{variant1-feat}
- a feature
-+@item @code{member-feat}
-+a member feature
- @end table
-=20
- @end deftp
-diff --git a/qapi/introspect.json b/qapi/introspect.json
-index da3e176899..b1aabd4cfd 100644
---- a/qapi/introspect.json
-+++ b/qapi/introspect.json
-@@ -206,11 +206,15 @@
- #           Future extension: if present and non-null, the parameter
- #           is optional, and defaults to this value.
- #
-+# @features: names of features associated with the member, in no
-+#            particular order.  (since 5.0)
-+#
- # Since: 2.5
- ##
- { 'struct': 'SchemaInfoObjectMember',
--  'data': { 'name': 'str', 'type': 'str', '*default': 'any' } }
-+  'data': { 'name': 'str', 'type': 'str', '*default': 'any',
- # @default's type must be null or match @type
-+            '*features': [ 'str' ] } }
-=20
- ##
- # @SchemaInfoObjectVariant:
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index f9c4448980..2942520399 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -167,8 +167,9 @@ def check_type(value, info, source,
-                        allow_optional=3DTrue, permit_upper=3Dpermit_upper)
-         if c_name(key, False) =3D=3D 'u' or c_name(key, False).startswith(=
-'has_'):
-             raise QAPISemError(info, "%s uses reserved name" % key_source)
--        check_keys(arg, info, key_source, ['type'], ['if'])
-+        check_keys(arg, info, key_source, ['type'], ['if', 'features'])
-         check_if(arg, info, key_source)
-+        check_features(arg.get('features'), info)
-         check_type(arg['type'], info, key_source, allow_array=3DTrue)
-=20
-=20
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index a3fa9865db..23652be810 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -173,7 +173,7 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-         obj =3D {'name': member.name, 'type': self._use_type(member.type)}
-         if member.optional:
-             obj['default'] =3D None
--        return _make_tree(obj, member.ifcond, None)
-+        return _make_tree(obj, member.ifcond, member.features)
-=20
-     def _gen_variants(self, tag_name, variants):
-         return {'tag': tag_name,
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 59e1f5a395..6ee3677215 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -668,18 +668,31 @@ class QAPISchemaFeature(QAPISchemaMember):
-=20
-=20
- class QAPISchemaObjectTypeMember(QAPISchemaMember):
--    def __init__(self, name, info, typ, optional, ifcond=3DNone):
-+    def __init__(self, name, info, typ, optional, ifcond=3DNone, features=
-=3DNone):
-         super().__init__(name, info, ifcond)
-         assert isinstance(typ, str)
-         assert isinstance(optional, bool)
-+        for f in features or []:
-+            assert isinstance(f, QAPISchemaFeature)
-+            f.set_defined_in(name)
-         self._type_name =3D typ
-         self.type =3D None
-         self.optional =3D optional
-+        self.features =3D features or []
-=20
-     def check(self, schema):
-         assert self.defined_in
-         self.type =3D schema.resolve_type(self._type_name, self.info,
-                                         self.describe)
-+        seen =3D {}
-+        for f in self.features:
-+            f.check_clash(self.info, seen)
+-static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
+-                                bool allow_oob, Error **errp)
++QDict *qmp_error_response(Error *err)
+ {
+-    Error *local_err =3D NULL;
++    QDict *rsp;
 +
-+    def connect_doc(self, doc):
-+        super().connect_doc(doc)
-+        if doc:
-+            for f in self.features:
-+                doc.connect_feature(f)
++    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
+} }",
++                                  QapiErrorClass_str(error_get_class(err))=
+,
++                                  error_get_pretty(err));
++    error_free(err);
++    return rsp;
++}
++
++/*
++ * Does @qdict look like a command to be run out-of-band?
++ */
++bool qmp_is_oob(const QDict *dict)
++{
++    return qdict_haskey(dict, "exec-oob")
++        && !qdict_haskey(dict, "execute");
++}
++
++QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
++                    bool allow_oob)
++{
++    Error *err =3D NULL;
+     bool oob;
+     const char *command;
+-    QDict *args, *dict;
++    QDict *args;
+     QmpCommand *cmd;
++    QDict *dict =3D qobject_to(QDict, request);
++    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
+     QObject *ret =3D NULL;
++    QDict *rsp;
 =20
+-    dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
++    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
+     if (!dict) {
+-        return NULL;
++        goto out;
+     }
 =20
- class QAPISchemaVariant(QAPISchemaObjectTypeMember):
-@@ -962,7 +975,7 @@ class QAPISchema:
-             name, info, doc, ifcond, features,
-             self._make_enum_members(data, info), prefix))
+     command =3D qdict_get_try_str(dict, "execute");
+@@ -99,27 +122,27 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
+QObject *request,
+     }
+     cmd =3D qmp_find_command(cmds, command);
+     if (cmd =3D=3D NULL) {
+-        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+                   "The command %s has not been found", command);
+-        return NULL;
++        goto out;
+     }
+     if (!cmd->enabled) {
+-        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+                   "The command %s has been disabled for this instance",
+                   command);
+-        return NULL;
++        goto out;
+     }
+     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
+-        error_setg(errp, "The command %s does not support OOB",
++        error_setg(&err, "The command %s does not support OOB",
+                    command);
+-        return NULL;
++        goto out;
+     }
 =20
--    def _make_member(self, name, typ, ifcond, info):
-+    def _make_member(self, name, typ, ifcond, features, info):
-         optional =3D False
-         if name.startswith('*'):
-             name =3D name[1:]
-@@ -970,10 +983,12 @@ class QAPISchema:
-         if isinstance(typ, list):
-             assert len(typ) =3D=3D 1
-             typ =3D self._make_array_type(typ[0], info)
--        return QAPISchemaObjectTypeMember(name, info, typ, optional, ifcon=
-d)
-+        return QAPISchemaObjectTypeMember(name, info, typ, optional, ifcon=
-d,
-+                                          self._make_features(features, in=
-fo))
+     if (runstate_check(RUN_STATE_PRECONFIG) &&
+         !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+-        error_setg(errp, "The command '%s' isn't permitted in '%s' state",
++        error_setg(&err, "The command '%s' isn't permitted in '%s' state",
+                    cmd->name, RunState_str(RUN_STATE_PRECONFIG));
+-        return NULL;
++        goto out;
+     }
 =20
-     def _make_members(self, data, info):
--        return [self._make_member(key, value['type'], value.get('if'), inf=
-o)
-+        return [self._make_member(key, value['type'], value.get('if'),
-+                                  value.get('features'), info)
-                 for (key, value) in data.items()]
+     if (!qdict_haskey(dict, "arguments")) {
+@@ -129,9 +152,9 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, Q=
+Object *request,
+         qobject_ref(args);
+     }
 =20
-     def _def_struct_type(self, expr, info, doc):
-@@ -996,7 +1011,7 @@ class QAPISchema:
-             typ =3D self._make_array_type(typ[0], info)
-         typ =3D self._make_implicit_object_type(
-             typ, info, self.lookup_type(typ),
--            'wrapper', [self._make_member('data', typ, None, info)])
-+            'wrapper', [self._make_member('data', typ, None, None, info)])
-         return QAPISchemaVariant(case, info, typ, ifcond)
+-    cmd->fn(args, &ret, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    cmd->fn(args, &ret, &err);
++    if (err) {
++        ;
+     } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
+         g_assert(!ret);
+     } else if (!ret) {
+@@ -141,38 +164,7 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
+QObject *request,
 =20
-     def _def_union_type(self, expr, info, doc):
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.j=
-son
-index 457b8b2cdf..ddd89d1233 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -78,10 +78,13 @@
- #
- # Features:
- # @variant1-feat: a feature
-+# @member-feat: a member feature
- ##
- { 'struct': 'Variant1',
-   'features': [ 'variant1-feat' ],
--  'data': { 'var1': { 'type': 'str', 'if': 'defined(IFSTR)' } } }
-+  'data': { 'var1': { 'type': 'str',
-+                      'features': [ 'member-feat' ],
-+                      'if': 'defined(IFSTR)' } } }
+     qobject_unref(args);
 =20
- ##
- # @Variant2:
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.ou=
-t
-index 9bcb2b3e91..6757dd26a2 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -21,6 +21,7 @@ object Base
- object Variant1
-     member var1: str optional=3DFalse
-         if ['defined(IFSTR)']
-+        feature member-feat
-     feature variant1-feat
- object Variant2
- object Object
-@@ -135,6 +136,8 @@ Another paragraph (but no @var: line)
-=20
-     feature=3Dvariant1-feat
- a feature
-+    feature=3Dmember-feat
-+a member feature
- doc symbol=3DVariant2
-     body=3D
-=20
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qa=
-pi-schema-test.json
-index fa4f3a15da..f576c337af 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -258,7 +258,7 @@
-   'data': { 'foo': 'int' },
-   'features': [] }
- { 'struct': 'FeatureStruct1',
--  'data': { 'foo': 'int' },
-+  'data': { 'foo': { 'type': 'int', 'features': [ 'member-feature1' ] } },
-   'features': [ 'feature1' ] }
- { 'struct': 'FeatureStruct2',
-   'data': { 'foo': 'int' },
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
-i-schema-test.out
-index 1cbd0802b3..cd863ae966 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -359,6 +359,7 @@ object FeatureStruct0
-     member foo: int optional=3DFalse
- object FeatureStruct1
-     member foo: int optional=3DFalse
-+        feature member-feature1
-     feature feature1
- object FeatureStruct2
-     member foo: int optional=3DFalse
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.p=
-y
-index 8e09e54edb..f396b471eb 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -55,6 +55,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-             print('    member %s: %s optional=3D%s'
-                   % (m.name, m.type.name, m.optional))
-             self._print_if(m.ifcond, 8)
-+            self._print_features(m.features, indent=3D8)
-         self._print_variants(variants)
-         self._print_if(ifcond)
-         self._print_features(features)
-@@ -96,11 +97,11 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-             print('%sif %s' % (' ' * indent, ifcond))
-=20
-     @classmethod
--    def _print_features(cls, features):
-+    def _print_features(cls, features, indent=3D4):
-         if features:
-             for f in features:
--                print('    feature %s' % f.name)
--                cls._print_if(f.ifcond, 8)
-+                print('%sfeature %s' % (' ' * indent, f.name))
-+                cls._print_if(f.ifcond, indent + 4)
-=20
-=20
- def test_frontend(fname):
+-    return ret;
+-}
+-
+-QDict *qmp_error_response(Error *err)
+-{
+-    QDict *rsp;
+-
+-    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
+} }",
+-                                  QapiErrorClass_str(error_get_class(err))=
+,
+-                                  error_get_pretty(err));
+-    error_free(err);
+-    return rsp;
+-}
+-
+-/*
+- * Does @qdict look like a command to be run out-of-band?
+- */
+-bool qmp_is_oob(const QDict *dict)
+-{
+-    return qdict_haskey(dict, "exec-oob")
+-        && !qdict_haskey(dict, "execute");
+-}
+-
+-QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
+-                    bool allow_oob)
+-{
+-    Error *err =3D NULL;
+-    QDict *dict =3D qobject_to(QDict, request);
+-    QObject *ret, *id =3D dict ? qdict_get(dict, "id") : NULL;
+-    QDict *rsp;
+-
+-    ret =3D do_qmp_dispatch(cmds, request, allow_oob, &err);
++out:
+     if (err) {
+         rsp =3D qmp_error_response(err);
+     } else if (ret) {
 --=20
 2.21.1
 
