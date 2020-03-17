@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B2188B94
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:06:21 +0100 (CET)
-Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4486C188BBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:12:54 +0100 (CET)
+Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFfX-0007N4-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33325)
+	id 1jEFlt-0006B1-BX
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEFXN-0003X8-KG
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEFjo-0004Qf-VF
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:10:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEFXM-00032O-HC
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34453)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEFXM-0002sv-AQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584464271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vPEiiSAl56VAAKPjCBtTx1uRBef9U6A/Bk60c4u/VKQ=;
- b=Z2P6Qias1ONfyVCGXoy6zMRkB9T16zEHMWNL/sYqNcenHZPTgIcpqZABjh6LsELktbDIBS
- cE1ZG60mL1ouxlcZ5MayK7NQSJkvTAv7wbEb3jhXjXagW9xAeNVbtZU+xD4DYmrWKg53dI
- wHKYzDbPyUDddnX4yH0vVcJewDYDgyU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-psGFNm5VOO6CoJhXlx6gqw-1; Tue, 17 Mar 2020 12:57:50 -0400
-X-MC-Unique: psGFNm5VOO6CoJhXlx6gqw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E98F9801E67;
- Tue, 17 Mar 2020 16:57:48 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF27F5E7A0;
- Tue, 17 Mar 2020 16:57:47 +0000 (UTC)
-Date: Tue, 17 Mar 2020 17:57:45 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9] s390x: protvirt: Fence huge pages
-Message-ID: <20200317175745.7dbcb682.cohuck@redhat.com>
-In-Reply-To: <20200312162510.5472-1-frankja@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200312162510.5472-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <bounces@canonical.com>) id 1jEFjm-0000qv-O6
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:10:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40152)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jEFjm-0000k8-Hq
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:10:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jEFjl-0000Iy-5O
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 17:10:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F1C312E8048
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 17:10:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Mar 2020 17:05:28 -0000
+From: carlosedp <carlosedp@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: carlosedp laurent-vivier
+X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
+X-Launchpad-Bug-Modifier: carlosedp (carlosedp)
+References: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
+Message-Id: <158446472888.20060.18347429710814069330.malone@wampee.canonical.com>
+Subject: [Bug 1867786] Re: Qemu PPC64 freezes with multi-core CPU
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: dd81d7d3c0f050c4fa24a097495b766a8eb736ec
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,35 +65,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Mar 2020 12:25:10 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+It's soft emulation, running Qemu 4.2.50 (from master branch) on MacOS
+Mojave.
 
-> Let's bail out of the protected transition if we detect that huge
-> pages might be in use.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
-> 
-> I'd like to squash this into the unpack patch to give a proper error
-> message if we try to transition into the protected mode while being
-> backed by huge pages. 
+-- =
 
-Looks sane to me. Folding this into the unpack patch will probably
-create less churn.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1867786
 
-> 
-> ---
->  hw/s390x/ipl.h             | 16 ++++++++++++++++
->  hw/s390x/s390-virtio-ccw.c |  1 -
->  target/s390x/diag.c        | 23 ++++++++---------------
->  target/s390x/kvm-stub.c    |  5 +++++
->  target/s390x/kvm.c         |  5 +++++
->  target/s390x/kvm_s390x.h   |  1 +
->  6 files changed, 35 insertions(+), 16 deletions(-)
+Title:
+  Qemu PPC64 freezes with multi-core CPU
 
+Status in QEMU:
+  New
+
+Bug description:
+  I installed Debian 10 on a Qemu PPC64 VM running with the following
+  flags:
+
+  qemu-system-ppc64 \
+       -nographic -nodefaults -monitor pty -serial stdio \
+       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
+       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
+       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
+1 \
+
+  =
+
+  Within a couple minutes on any operation (could be a Go application or si=
+mply changing the hostname with hostnamectl, the VM freezes and prints this=
+ on the console:
+
+  ```
+  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
+ CPU
+  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
+00000000004 softirq=3D5957/5960 fqs=3D2544
+  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
+
+  Message from syslogd@debian at Mar 17 11:35:24 ...
+   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
+[zsh:462]
+  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
+ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
+  [  980.111177] rcu: blocking rcu_node structures:
+  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
+  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
+000000000004 softirq=3D5957/5960 fqs=3D9342
+  ```
+
+  If I change to 1 core on the command line, I haven't seen these
+  freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
