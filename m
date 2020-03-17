@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F305418922E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:34:24 +0100 (CET)
-Received: from localhost ([::1]:43132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9283189234
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:36:34 +0100 (CET)
+Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELj5-0007Cn-SP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54122)
+	id 1jELlB-0002Pd-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELaE-0001j3-87
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:15 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELaH-0001qK-NO
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELaC-0008P9-Ca
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:13 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:45952)
+ (envelope-from <jsnow@redhat.com>) id 1jELaG-0000FU-D8
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:17 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59799)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELaC-0008Hj-8h
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:12 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELaG-0000Cj-8r
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487510;
+ s=mimecast20190719; t=1584487515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YQM0UB9If7Xg4g9za/6nNer7pYMGCLAddpBFGqJQ8wM=;
- b=Z8PlMbFEg7HqiBtgmYjXC4tVaJ+sHjq4AvNxL8g7X9b1ryj7SwdnagAVeJHFXxJfF0ub8C
- qPiQgf1udnUoPy4qHss55444Dz+B5uaSCk/L+XpJIazZlEg79oUyuBhnUcqI6LvWmlCYrq
- pQAZvRIiwaMsLeXXNAKo07GJt7WjcFA=
+ bh=iF0+/Pdzy8HgdQpvJErGs69taSaLcsxlEw81wFyJFpQ=;
+ b=X9vablU7jG4ESbHMP2PUfssYKmX4P8rw+3isv0ztXpDo3j9ckgpfaKpUDbFYxuv5WBSTpV
+ SdCaOFzSRDactdEt5MrNyd8eBmpR9vUSAniaIhxp/IhozSI9MR+5uJ/vQhNXsYJ8qQ70d4
+ p2k97ZpTfkXXrPhs93STFujW1wC1TK0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-wER0LIegMkKk25wdS13xjA-1; Tue, 17 Mar 2020 19:25:08 -0400
-X-MC-Unique: wER0LIegMkKk25wdS13xjA-1
+ us-mta-126-kBAdC_BFOSGOAj8R4QWQcg-1; Tue, 17 Mar 2020 19:25:13 -0400
+X-MC-Unique: kBAdC_BFOSGOAj8R4QWQcg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47AD81005516;
- Tue, 17 Mar 2020 23:25:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2FA9DB60;
+ Tue, 17 Mar 2020 23:25:11 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC21C60BE0;
- Tue, 17 Mar 2020 23:24:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B4A660BE0;
+ Tue, 17 Mar 2020 23:25:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/20] hw/isa/piix4.c: Introduce variable to store devfn
-Date: Tue, 17 Mar 2020 19:23:23 -0400
-Message-Id: <20200317232329.22362-15-jsnow@redhat.com>
+Subject: [PULL 15/20] hw/ide: Get rid of piix4_init function
+Date: Tue, 17 Mar 2020 19:23:24 -0400
+Message-Id: <20200317232329.22362-16-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -72,7 +72,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-block@nongnu.org,
- Helge Deller <deller@gmx.de>,
+ Helge Deller <deller@gmx.de>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Richard Henderson <rth@twiddle.net>,
@@ -88,53 +88,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-To avoid any problem with reassigning pci variable store devfn in a
-variable instead of acessing it from the PCIDevice.
+This removes pci_piix4_ide_init() function similar to clean up done to
+other ide devices.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 1020e0bfcfc6e364f967ccb2a9a3778ac174ccbe.1584457537.git.balaton=
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-id: fe46b6536abbae77695f6d1c711a04a3f4b5481d.1584457537.git.balaton=
 @eik.bme.hu
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/isa/piix4.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/hw/ide.h |  1 -
+ hw/ide/piix.c    | 12 +-----------
+ hw/isa/piix4.c   |  4 +++-
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index 883bbaeb9b..21bd8f23f1 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -12,7 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int ioba=
+se2, int isairq,
+                         DriveInfo *hd0, DriveInfo *hd1);
+=20
+ /* ide-pci.c */
+-PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
+);
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+=20
+ /* ide-mmio.c */
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index 8bcd6b72c2..3b2de4c312 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -208,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
+     }
+ }
+=20
+-/* hd_table must contain 4 block drivers */
+-/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
+-PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
+)
+-{
+-    PCIDevice *dev;
+-
+-    dev =3D pci_create_simple(bus, devfn, "piix4-ide");
+-    pci_ide_create_devs(dev, hd_table);
+-    return dev;
+-}
+-
+ /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+ {
+@@ -247,6 +236,7 @@ static const TypeInfo piix3_ide_xen_info =3D {
+     .class_init    =3D piix3_ide_class_init,
+ };
+=20
++/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
+ static void piix4_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 7edec5e149..2cbdcd7700 100644
+index 2cbdcd7700..706eb5be69 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -247,9 +247,10 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **is=
+@@ -35,6 +35,7 @@
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/ide.h"
++#include "hw/ide/pci.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+@@ -256,9 +257,10 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **is=
 a_bus,
-     DriveInfo **hd;
-     PCIDevice *pci;
-     DeviceState *dev;
-+    int devfn =3D PCI_DEVFN(10, 0);
-=20
--    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
--                                          true, TYPE_PIIX4_PCI_DEVICE);
-+    pci =3D pci_create_simple_multifunction(pci_bus, devfn,  true,
-+                                          TYPE_PIIX4_PCI_DEVICE);
-     dev =3D DEVICE(pci);
-     if (isa_bus) {
          *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-@@ -257,11 +258,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **i=
-sa_bus,
+     }
 =20
++    pci =3D pci_create_simple(pci_bus, devfn + 1, "piix4-ide");
      hd =3D g_new(DriveInfo *, ide_drives);
      ide_drive_get(hd, ide_drives);
--    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-+    pci_piix4_ide_init(pci_bus, hd, devfn + 1);
+-    pci_piix4_ide_init(pci_bus, hd, devfn + 1);
++    pci_ide_create_devs(pci, hd);
      g_free(hd);
--    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-+
-+    pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
--        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-+        *smbus =3D piix4_pm_init(pci_bus, devfn + 3, 0x1100,
-                                isa_get_irq(NULL, 9), NULL, 0, NULL);
-    }
 =20
+     pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
 --=20
 2.21.1
 
