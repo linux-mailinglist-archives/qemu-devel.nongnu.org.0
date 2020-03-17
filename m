@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8683E187DFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:16:40 +0100 (CET)
-Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BDE187DD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:10:22 +0100 (CET)
+Received: from localhost ([::1]:55582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9H5-00059e-H3
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1jE9Ay-0002Pj-Vk
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95k-00015i-RS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95j-00013j-V2
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95h-0002lh-N8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:56 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44645 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95h-0002lH-L5
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41927 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE95h-0001uD-9b; Tue, 17 Mar 2020 06:04:53 -0400
+ id 1jE95h-0001uK-6s; Tue, 17 Mar 2020 06:04:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTKw42JQz9sSm; Tue, 17 Mar 2020 21:04:36 +1100 (AEDT)
+ id 48hTKw4v3Gz9sSt; Tue, 17 Mar 2020 21:04:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584439476;
- bh=MjjxC04elr5NVApj6H/3AhJX6J6nM8jDgUwU8I+pbxE=;
+ bh=ahf6kPUdTFlVRzytiUCLwUm2hqrLDJD3Di+JZ1vbp30=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SGpfQXwgrcPcmagN9376g0T8+d/PP6Gr6dd0R9ed6wLKYpr0DgAz5lhu62yaZj8Aq
- jrv+TuCqgMlyV4ENBeq8FRRq2Icw3a7jeQsCbTwLIebQm0Us5ikZPp+7QCCYQFwAFC
- OG4tX3NrwBX8aKZ005LP8V9KqEeVNKhjoYTboTXo=
+ b=HZNnyV1hmaH/QbFp9bsKZ311WiT5hxSo64ZaLebi1GN6l/LfRWjPT1Y85N7bvDdJO
+ /ndfFNtKYTma9/azWRt802tssBmRs7TG8qP65clcGeFZkC8qxrt3YNp/wldCN0zhrm
+ M+1hHy0tNRLoXF02R1+Fp6S+nVY9q1CabquRba4I=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/45] target/ppc: Don't store VRMA SLBE persistently
-Date: Tue, 17 Mar 2020 21:03:54 +1100
-Message-Id: <20200317100423.622643-17-david@gibson.dropbear.id.au>
+Subject: [PULL 17/45] spapr: Don't use weird units for MIN_RMA_SLOF
+Date: Tue, 17 Mar 2020 21:03:55 +1100
+Message-Id: <20200317100423.622643-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
@@ -61,185 +61,57 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, mdroth@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, we construct the SLBE used for VRMA translations when the LPCR
-is written (which controls some bits in the SLBE), then use it later for
-translations.
+MIN_RMA_SLOF records the minimum about of RMA that the SLOF firmware
+requires.  It lets us give a meaningful error if the RMA ends up too smal=
+l,
+rather than just letting SLOF crash.
 
-This is a bit complex and confusing - simplify it by simply constructing
-the SLBE directly from the LPCR when we need it.
+It's currently stored as a number of megabytes, which is strange for glob=
+al
+constants.  Move that megabyte scaling into the definition of the constan=
+t
+like most other things use.
+
+Change from M to MiB in the associated message while we're at it.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/ppc/cpu.h        |  3 --
- target/ppc/mmu-hash64.c | 92 ++++++++++++++++-------------------------
- 2 files changed, 35 insertions(+), 60 deletions(-)
+ hw/ppc/spapr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index f9871b1233..5a55fb02bd 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1044,9 +1044,6 @@ struct CPUPPCState {
-     uint32_t flags;
-     uint64_t insns_flags;
-     uint64_t insns_flags2;
--#if defined(TARGET_PPC64)
--    ppc_slb_t vrma_slb;
--#endif
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index cc10798be4..510494ad87 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -103,7 +103,7 @@
+ #define FW_OVERHEAD             0x2800000
+ #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
 =20
-     int error_code;
-     uint32_t pending_interrupts;
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 4fd7b7ee74..34f6009b1e 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -784,11 +784,41 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-     return rma_sizes[rmls];
- }
+-#define MIN_RMA_SLOF            128UL
++#define MIN_RMA_SLOF            (128 * MiB)
 =20
-+static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+    target_ulong lpcr =3D env->spr[SPR_LPCR];
-+    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-+    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
-MASK);
-+    int i;
-+
-+    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
-+        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
-i];
-+
-+        if (!sps->page_shift) {
-+            break;
-+        }
-+
-+        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
-+            slb->esid =3D SLB_ESID_V;
-+            slb->vsid =3D vsid;
-+            slb->sps =3D sps;
-+            return 0;
-+        }
-+    }
-+
-+    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
-+                 TARGET_FMT_lx"\n", lpcr);
-+
-+    return -1;
-+}
-+
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                                 int rwx, int mmu_idx)
- {
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
-+    ppc_slb_t vrma_slbe;
-     ppc_slb_t *slb;
-     unsigned apshift;
-     hwaddr ptex;
-@@ -827,8 +857,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
-r eaddr,
-             }
-         } else if (ppc_hash64_use_vrma(env)) {
-             /* Emulated VRMA mode */
--            slb =3D &env->vrma_slb;
--            if (!slb->sps) {
-+            slb =3D &vrma_slbe;
-+            if (build_vrma_slbe(cpu, slb) !=3D 0) {
-                 /* Invalid VRMA setup, machine check */
-                 cs->exception_index =3D POWERPC_EXCP_MCHECK;
-                 env->error_code =3D 0;
-@@ -976,6 +1006,7 @@ skip_slb_search:
- hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
-)
- {
-     CPUPPCState *env =3D &cpu->env;
-+    ppc_slb_t vrma_slbe;
-     ppc_slb_t *slb;
-     hwaddr ptex, raddr;
-     ppc_hash_pte64_t pte;
-@@ -997,8 +1028,8 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cp=
-u, target_ulong addr)
-             return raddr | env->spr[SPR_HRMOR];
-         } else if (ppc_hash64_use_vrma(env)) {
-             /* Emulated VRMA mode */
--            slb =3D &env->vrma_slb;
--            if (!slb->sps) {
-+            slb =3D &vrma_slbe;
-+            if (build_vrma_slbe(cpu, slb) !=3D 0) {
-                 return -1;
-             }
-         } else {
-@@ -1037,65 +1068,12 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
-arget_ulong ptex,
-     cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
-LUSH;
- }
+ #define PHANDLE_INTC            0x00001111
 =20
--static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
--{
--    CPUPPCState *env =3D &cpu->env;
--    const PPCHash64SegmentPageSizes *sps =3D NULL;
--    target_ulong esid, vsid, lpcr;
--    ppc_slb_t *slb =3D &env->vrma_slb;
--    uint32_t vrmasd;
--    int i;
--
--    /* First clear it */
--    slb->esid =3D slb->vsid =3D 0;
--    slb->sps =3D NULL;
--
--    /* Is VRMA enabled ? */
--    if (!ppc_hash64_use_vrma(env)) {
--        return;
--    }
--
--    /*
--     * Make one up. Mostly ignore the ESID which will not be needed
--     * for translation
--     */
--    lpcr =3D env->spr[SPR_LPCR];
--    vsid =3D SLB_VSID_VRMA;
--    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
--    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
--    esid =3D SLB_ESID_V;
--
--    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
--        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
-[i];
--
--        if (!sps1->page_shift) {
--            break;
--        }
--
--        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
--            sps =3D sps1;
--            break;
--        }
--    }
--
--    if (!sps) {
--        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
--                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
--        return;
--    }
--
--    slb->vsid =3D vsid;
--    slb->esid =3D esid;
--    slb->sps =3D sps;
--}
--
- void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
- {
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-     CPUPPCState *env =3D &cpu->env;
+@@ -2956,10 +2956,10 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+         }
+     }
 =20
-     env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
--    ppc_hash64_update_vrma(cpu);
- }
+-    if (spapr->rma_size < (MIN_RMA_SLOF * MiB)) {
++    if (spapr->rma_size < MIN_RMA_SLOF) {
+         error_report(
+-            "pSeries SLOF firmware requires >=3D %ldM guest RMA (Real Mo=
+de Area memory)",
+-            MIN_RMA_SLOF);
++            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real =
+Mode Area memory)",
++            MIN_RMA_SLOF / MiB);
+         exit(1);
+     }
 =20
- void helper_store_lpcr(CPUPPCState *env, target_ulong val)
 --=20
 2.24.1
 
