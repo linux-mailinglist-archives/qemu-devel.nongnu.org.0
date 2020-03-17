@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155C31886A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 14:59:18 +0100 (CET)
-Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442D618874F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 15:19:06 +0100 (CET)
+Received: from localhost ([::1]:33578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jECkX-0003aR-4n
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 09:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
+	id 1jED3h-0003Ty-9O
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 10:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1jECjU-0002Rp-E0
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:58:13 -0400
+ (envelope-from <mahesh@linux.ibm.com>) id 1jEBME-0005nd-Bi
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:30:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1jECjS-0001qJ-Vd
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:58:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36350)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jECjS-0001ip-Qk
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:58:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584453490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YdHEdVRYP9CD6PWvGjL6Gbim9SHcDv5lA4DA3lptc2Q=;
- b=JbIemPa+hxaaGsw8GCZ1PLSVoutuST0xVCy7ZKg2ZR5mgkWUO1V5asVrf62RS9RIwhFhp6
- IU2M4rsf/5zSQFFm5B2Hfq9JNPACEv7Ka1c2FYadF5hB00eO8kY6ataigulbHWFpMLMxDX
- Us3eW37+FApQbJrvNYO7hN1mJI+zIx4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-1oFp1njEN7aGrpDJks3qPQ-1; Tue, 17 Mar 2020 09:58:08 -0400
-X-MC-Unique: 1oFp1njEN7aGrpDJks3qPQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE8C718A6EC6;
- Tue, 17 Mar 2020 13:58:07 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 709FA5D9E2;
- Tue, 17 Mar 2020 13:58:04 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] slirp: update submodule to v4.2.0
-Date: Tue, 17 Mar 2020 14:58:03 +0100
-Message-Id: <20200317135803.2682384-1-marcandre.lureau@redhat.com>
+ (envelope-from <mahesh@linux.ibm.com>) id 1jEBMD-00009q-1U
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:30:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57612)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mahesh@linux.ibm.com>)
+ id 1jEBMC-0008UY-Pg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:30:04 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02HCM666034817
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:30:03 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yrubp08f4-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:30:02 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mahesh@linux.ibm.com>;
+ Tue, 17 Mar 2020 12:29:59 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 17 Mar 2020 12:29:56 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02HCTtGn37618082
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Mar 2020 12:29:55 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7ECCAA405B;
+ Tue, 17 Mar 2020 12:29:55 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4A786A405C;
+ Tue, 17 Mar 2020 12:29:54 +0000 (GMT)
+Received: from [192.168.0.24] (unknown [9.199.55.39])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Mar 2020 12:29:54 +0000 (GMT)
+Subject: [PATCH] ppc/spapr: Set the effective address provided flag in mc
+ error log.
+From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+To: Qemu-ppc <qemu-ppc@nongnu.org>
+Date: Tue, 17 Mar 2020 17:59:53 +0530
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031712-4275-0000-0000-000003ADC81C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031712-4276-0000-0000-000038C2F0D6
+Message-Id: <158444819283.31599.12155058652686614304.stgit@jupiter>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-17_03:2020-03-17,
+ 2020-03-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1011 impostorscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003170052
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+X-Mailman-Approved-At: Tue, 17 Mar 2020 10:17:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,138 +91,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- samuel.thibault@ens-lyon.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Qemu-devel <qemu-devel@nongnu.org>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-git shortlog
-126c04acbabd7ad32c2b018fe10dfac2a3bc1210..daba14c3416fa9641ab4453a9a11e7f8b=
-de08875
+Per PAPR, it is expected to set effective address provided flag in
+sub_err_type member of mc extended error log (i.e
+rtas_event_log_v6_mc.sub_err_type). This somehow got missed in original
+fwnmi-mce patch series. Hence guest fails to extract effective address from
+mce rtas log. This patch fixes that.
 
-5eraph (1):
-      Use specific outbound IP address
+Without this patch guest MCE logs fails print DAR value:
 
-Akihiro Suda (8):
-      remove confusing comment that exists from ancient slirp
-      add slirp_new(SlirpConfig *, SlirpCb *, void *)
-      allow custom MTU
-      add disable_host_loopback (prohibit connections to 127.0.0.1)
-      add SlirpConfig version
-      emu: remove dead code
-      emu: disable by default
-      fix a typo in a comment
+[   11.933608] Disabling lock debugging due to kernel taint
+[   11.933773] MCE: CPU0: machine check (Severe) Host TLB Multihit [Recovered]
+[   11.933979] MCE: CPU0: NIP: [c000000000090b34] radix__flush_tlb_range_psize+0x194/0xf00
+[   11.934223] MCE: CPU0: Initiator CPU
+[   11.934341] MCE: CPU0: Unknown
 
-Anders Waldenborg (1):
-      state: fix loading of guestfwd state
+After the change:
 
-Giuseppe Scrivano (1):
-      socket: avoid getpeername after shutdown(SHUT_WR)
+[   22.454149] Disabling lock debugging due to kernel taint
+[   22.454316] MCE: CPU0: machine check (Severe) Host TLB Multihit DAR: deadbeefdeadbeef [Recovered]
+[   22.454605] MCE: CPU0: NIP: [c0000000003e5804] kmem_cache_alloc+0x84/0x330
+[   22.454820] MCE: CPU0: Initiator CPU
+[   22.454944] MCE: CPU0: Unknown
 
-Jindrich Novy (1):
-      Don't leak memory when reallocation fails.
 
-Jordi Pujol Palomer (1):
-      fork_exec: correctly parse command lines that contain spaces
-
-Marc-Andr=C3=A9 Lureau (49):
-      Merge branch 'AkihiroSuda/libslirp-slirp4netns'
-      Merge branch 'fix-typo' into 'master'
-      meson: make it subproject friendly
-      Merge branch 'meson' into 'master'
-      misc: fix compilation warnings
-      Merge branch 'fix-shutdown-wr' into 'master'
-      sbuf: remove unused and undefined sbcopy() path
-      sbuf: check more strictly sbcopy() bounds with offset
-      sbuf: replace a comment with a runtime warning
-      Replace remaining malloc/free user with glib
-      tcp_attach() can no longer fail
-      state: can't ENOMEM
-      sbuf: use unsigned types
-      sbuf: simplify sbreserve()
-      dnssearch: use g_strv_length()
-      vmstate: silence scan-build warning
-      gitlab-ci: run scan-build
-      Merge branch 'mem-cleanups' into 'master'
-      libslirp.map: bind slirp_new to SLIRP_4.1 version
-      meson: fix libtool versioning
-      Release v4.1.0
-      Merge branch '4.1.0' into 'master'
-      CHANGELOG: start unreleased section
-      Merge branch 'add-unix' into 'master'
-      util: add G_SIZEOF_MEMBER() macro
-      Check bootp_filename is not going to be truncated
-      bootp: remove extra cast
-      bootp: replace simple snprintf() with strcpy()
-      tftp: clarify what is actually OACK m_len
-      tcp_emu: add more fixme/warnings comments
-      util: add slirp_fmt() helpers
-      dhcpv6: use slirp_fmt()
-      misc: use slirp_fmt0()
-      tftp: use slirp_fmt0()
-      tcp_ctl: use slirp_fmt()
-      tcp_emu: fix unsafe snprintf() usages
-      misc: improve error report
-      Use g_snprintf()
-      util: add gnuc format function attribute to slirp_fmt*
-      Merge branch 'aw-guestfwd-state' into 'master'
-      Merge branch 'slirp-fmt' into 'master'
-      socket: remove extra label and variable
-      socket: factor out sotranslate ipv4/ipv6 handling
-      socket: remove need for extra scope_id variable
-      socket: do not fallback on host loopback if get_dns_addr() failed
-      socket: do not fallback on loopback addr for addresses in our mask/pr=
-efix
-      Prepare for v4.2.0 release
-      Merge branch 'translate-fix' into 'master'
-      Merge branch 'release-v4.2.0' into 'master'
-
-PanNengyuan (1):
-      libslirp: fix NULL pointer dereference in tcp_sockclosed
-
-Philippe Mathieu-Daud=C3=A9 (1):
-      Add a git-publish configuration file
-
-Prasad J Pandit (4):
-      slirp: ncsi: compute checksum for valid data length
-      slirp: use correct size while emulating IRC commands
-      slirp: use correct size while emulating commands
-      slirp: tftp: restrict relative path access
-
-Renzo Davoli (2):
-      Add slirp_remove_guestfwd()
-      Add slirp_add_unix()
-
-Samuel Thibault (14):
-      ip_reass: explain why we should not always update the q pointer
-      Merge branch 'comment' into 'master'
-      Merge branch 'no-emu' into 'master'
-      Fix bogus indent, no source change
-      ip_reass: Fix use after free
-      Merge branch 'reass2' into 'master'
-      Make host receive broadcast packets
-      arp: Allow 0.0.0.0 destination address
-      Merge branch 'warnings' into 'master'
-      Merge branch 'arp_0' into 'master'
-      Merge branch 'broadcast' into 'master'
-      tcp_emu: Fix oob access
-      Merge branch 'oob' into 'master'
-      Merge branch 'master' into 'master'
-
-Cc: samuel.thibault@ens-lyon.org
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
 ---
- slirp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/spapr_events.c |   26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/slirp b/slirp
-index 126c04acba..daba14c341 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
-+Subproject commit daba14c3416fa9641ab4453a9a11e7f8bde08875
---=20
-2.25.0.rc2.1.g09a9a1a997
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 8b32b7eea5..98a32a2e2e 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -243,6 +243,14 @@ struct rtas_event_log_v6_mc {
+ #define RTAS_LOG_V6_MC_TLB_PARITY                        1
+ #define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+ #define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
++/*
++ * Per PAPR,
++ * For UE error type, set bit 1 of sub_err_type to indicate effective addr is
++ * provided. For other error types (SLB/ERAT/TLB), set bit 0 to indicate
++ * same.
++ */
++#define RTAS_LOG_V6_MC_UE_EA_ADDR_PROVIDED               0x40
++#define RTAS_LOG_V6_MC_EA_ADDR_PROVIDED                  0x80
+     uint8_t reserved_1[6];
+     uint64_t effective_address;
+     uint64_t logical_address;
+@@ -726,6 +734,22 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+                             RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
+ }
+ 
++static void spapr_mc_set_ea_provided_flag(struct mc_extended_log *ext_elog)
++{
++	switch (ext_elog->mc.error_type) {
++	case RTAS_LOG_V6_MC_TYPE_UE:
++		ext_elog->mc.sub_err_type |= RTAS_LOG_V6_MC_UE_EA_ADDR_PROVIDED;
++		break;
++	case RTAS_LOG_V6_MC_TYPE_SLB:
++	case RTAS_LOG_V6_MC_TYPE_ERAT:
++	case RTAS_LOG_V6_MC_TYPE_TLB:
++		ext_elog->mc.sub_err_type |= RTAS_LOG_V6_MC_EA_ADDR_PROVIDED;
++		break;
++	default:
++		break;
++	}
++}
++
+ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+                                         struct mc_extended_log *ext_elog)
+ {
+@@ -751,6 +775,7 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+             ext_elog->mc.sub_err_type = mc_derror_table[i].error_subtype;
+             if (mc_derror_table[i].dar_valid) {
+                 ext_elog->mc.effective_address = cpu_to_be64(env->spr[SPR_DAR]);
++                spapr_mc_set_ea_provided_flag(ext_elog);
+             }
+ 
+             summary |= mc_derror_table[i].initiator
+@@ -769,6 +794,7 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+             ext_elog->mc.sub_err_type = mc_ierror_table[i].error_subtype;
+             if (mc_ierror_table[i].nip_valid) {
+                 ext_elog->mc.effective_address = cpu_to_be64(env->nip);
++                spapr_mc_set_ea_provided_flag(ext_elog);
+             }
+ 
+             summary |= mc_ierror_table[i].initiator
 
 
