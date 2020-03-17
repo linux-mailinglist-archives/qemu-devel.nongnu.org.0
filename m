@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B069187DAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:02:49 +0100 (CET)
-Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DD4187DB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:04:00 +0100 (CET)
+Received: from localhost ([::1]:55472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE93g-0005u5-3z
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36743)
+	id 1jE94q-0008Pb-1L
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jE8yw-0008Io-QP
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:56 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yy-0008Li-84
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jE8yu-0006Tv-Ek
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:54 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:31350)
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yw-0006gR-Qj
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:56 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31359)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jE8yo-00060Q-Sh; Tue, 17 Mar 2020 05:57:48 -0400
+ id 1jE8ys-00060V-9X; Tue, 17 Mar 2020 05:57:50 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AE0EF747E18;
+ by localhost (Postfix) with SMTP id B155B747E19;
  Tue, 17 Mar 2020 10:57:44 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2E4E4747E0B; Tue, 17 Mar 2020 10:57:44 +0100 (CET)
-Message-Id: <adddfa21552783020d64e1314318cab6d24362c3.1584437958.git.balaton@eik.bme.hu>
+ id 37290747E06; Tue, 17 Mar 2020 10:57:44 +0100 (CET)
+Message-Id: <7679b82b4f26fdb16f00c3b130f8e6a807724f73.1584437958.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584437957.git.balaton@eik.bme.hu>
 References: <cover.1584437957.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 1/7] hw/ide: Get rid of piix3_init functions
+Subject: [PATCH v2 3/7] hw/ide: Remove now unneded #include "hw/pci/pci.h"
+ from hw/ide.h
 Date: Tue, 17 Mar 2020 10:39:17 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,130 +61,70 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes pci_piix3_ide_init() and pci_piix3_xen_ide_init()
-functions similar to clean up done to other ide devices.
+After previous patches we don't need hw/pci/pci.h any more in
+hw/ide.h. Some files depended on implicit inclusion by this header
+which are also fixed up here.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/i386/pc_piix.c | 10 +++++-----
- hw/ide/pci.c      |  1 +
- hw/ide/piix.c     | 21 +--------------------
- include/hw/ide.h  |  2 --
- 4 files changed, 7 insertions(+), 27 deletions(-)
+ hw/ide/ahci_internal.h        | 1 +
+ include/hw/ide.h              | 1 -
+ include/hw/ide/pci.h          | 1 +
+ include/hw/misc/macio/macio.h | 1 +
+ 4 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index e2d98243bc..c399398739 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -39,6 +39,7 @@
- #include "hw/usb.h"
- #include "net/net.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "hw/irq.h"
- #include "sysemu/kvm.h"
- #include "hw/kvm/clock.h"
-@@ -242,11 +243,10 @@ static void pc_init1(MachineState *machine,
-     ide_drive_get(hd, ARRAY_SIZE(hd));
-     if (pcmc->pci_enabled) {
-         PCIDevice *dev;
--        if (xen_enabled()) {
--            dev =3D pci_piix3_xen_ide_init(pci_bus, hd, piix3_devfn + 1)=
-;
--        } else {
--            dev =3D pci_piix3_ide_init(pci_bus, hd, piix3_devfn + 1);
--        }
-+
-+        dev =3D pci_create_simple(pci_bus, piix3_devfn + 1,
-+                                xen_enabled() ? "piix3-ide-xen" : "piix3=
--ide");
-+        pci_ide_create_devs(dev, hd);
-         idebus[0] =3D qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] =3D qdev_get_child_bus(&dev->qdev, "ide.1");
-         pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 1a6a287e76..4fc76c5225 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -476,6 +476,7 @@ const VMStateDescription vmstate_ide_pci =3D {
-     }
- };
+diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
+index 73424516da..bab0459774 100644
+--- a/hw/ide/ahci_internal.h
++++ b/hw/ide/ahci_internal.h
+@@ -27,6 +27,7 @@
+ #include "hw/ide/ahci.h"
+ #include "hw/ide/internal.h"
+ #include "hw/sysbus.h"
++#include "hw/pci/pci.h"
 =20
-+/* hd_table must contain 4 block drivers */
- void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd_table)
- {
-     PCIIDEState *d =3D PCI_IDE(dev);
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index bc575b4d70..8bcd6b72c2 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -197,15 +197,6 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool =
-aux)
-     return 0;
- }
-=20
--PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int=
- devfn)
--{
--    PCIDevice *dev;
--
--    dev =3D pci_create_simple(bus, devfn, "piix3-ide-xen");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- static void pci_piix_ide_exitfn(PCIDevice *dev)
- {
-     PCIIDEState *d =3D PCI_IDE(dev);
-@@ -217,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
-     }
- }
-=20
--/* hd_table must contain 4 block drivers */
--/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
--PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn)
--{
--    PCIDevice *dev;
--
--    dev =3D pci_create_simple(bus, devfn, "piix3-ide");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- /* hd_table must contain 4 block drivers */
- /* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn)
-@@ -239,6 +219,7 @@ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo =
-**hd_table, int devfn)
-     return dev;
- }
-=20
-+/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
- static void piix3_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
+ #define AHCI_MEM_BAR_SIZE         0x1000
+ #define AHCI_MAX_PORTS            32
 diff --git a/include/hw/ide.h b/include/hw/ide.h
-index dea0ecf5be..883bbaeb9b 100644
+index 21bd8f23f1..d52c211f32 100644
 --- a/include/hw/ide.h
 +++ b/include/hw/ide.h
-@@ -12,8 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int io=
-base2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
+@@ -2,7 +2,6 @@
+ #define HW_IDE_H
 =20
- /* ide-pci.c */
--PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int=
- devfn);
--PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn);
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+ #include "hw/isa/isa.h"
+-#include "hw/pci/pci.h"
+ #include "exec/memory.h"
 =20
+ #define MAX_IDE_DEVS	2
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index a9f2c33e68..98ffa7dfcd 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -2,6 +2,7 @@
+ #define HW_IDE_PCI_H
+=20
+ #include "hw/ide/internal.h"
++#include "hw/pci/pci.h"
+=20
+ #define BM_STATUS_DMAING 0x01
+ #define BM_STATUS_ERROR  0x02
+diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.=
+h
+index 070a694eb5..87335a991c 100644
+--- a/include/hw/misc/macio/macio.h
++++ b/include/hw/misc/macio/macio.h
+@@ -27,6 +27,7 @@
+ #define MACIO_H
+=20
+ #include "hw/char/escc.h"
++#include "hw/pci/pci.h"
+ #include "hw/ide/internal.h"
+ #include "hw/intc/heathrow_pic.h"
+ #include "hw/misc/macio/cuda.h"
 --=20
 2.21.1
 
