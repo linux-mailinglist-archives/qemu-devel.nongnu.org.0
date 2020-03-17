@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894FD18880C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 15:51:44 +0100 (CET)
-Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D661887B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 15:41:50 +0100 (CET)
+Received: from localhost ([::1]:33926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEDZH-00055c-J9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 10:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
+	id 1jEDPh-0007WY-TN
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 10:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEDYM-0004gm-U0
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:50:48 -0400
+ (envelope-from <eblake@redhat.com>) id 1jEDOC-0006UW-KK
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:40:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEDYL-000226-IJ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:50:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57160)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEDYL-0001ii-B7
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:50:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEDYH-0002zH-M1
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 14:50:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 979B22E80D7
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 14:50:41 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1jEDOB-0000oE-8u
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:40:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37563)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jEDOB-0000jp-3F
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 10:40:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584456014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pBEcqXjfhNcJf9LeWO9VtenTKBK/Yti2iUo1Fo0vhfM=;
+ b=aJpcrp175k0/uqSKJ06/c4Xu/1g0EEHCiiWooYFLq2Ik+5moMemscPKs6QS0ihMvB1Ahx+
+ B92OEWgVqaAgcUAHnPayhPYL1dL2JIiE8p6vmf7fiMBwl/h5OAVGuSAFfTOKv3foWHzG3q
+ FiljFDEdXX7Q3O9lOzvXF+ZYPrnVTlI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-xLJvM9g3MXG0YrhZyOOZGA-1; Tue, 17 Mar 2020 10:40:09 -0400
+X-MC-Unique: xLJvM9g3MXG0YrhZyOOZGA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A363D107ACC9;
+ Tue, 17 Mar 2020 14:40:07 +0000 (UTC)
+Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DECD77E317;
+ Tue, 17 Mar 2020 14:40:00 +0000 (UTC)
+Subject: Re: [PULL 00/10] Bitmaps patches
+To: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
+References: <20200317043819.20197-1-jsnow@redhat.com>
+ <CAFEAcA_=DHpNZ+b9Hrim39R74Jik8MKqu8MPJm80wMsQS0FADQ@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5805273e-0a2f-850a-a07a-97dac0d7211e@redhat.com>
+Date: Tue, 17 Mar 2020 09:40:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Mar 2020 14:39:18 -0000
-From: carlosedp <carlosedp@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: carlosedp
-X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
-X-Launchpad-Bug-Modifier: carlosedp (carlosedp)
-Message-Id: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
-Subject: [Bug 1867786] [NEW] Qemu PPC64 freezes with multi-core CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cae288142ce80583c61bbd086cc5c541251267d5
+In-Reply-To: <CAFEAcA_=DHpNZ+b9Hrim39R74Jik8MKqu8MPJm80wMsQS0FADQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,100 +75,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Libvirt <libvir-list@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 3/17/20 9:00 AM, Peter Maydell wrote:
+> On Tue, 17 Mar 2020 at 04:38, John Snow <jsnow@redhat.com> wrote:
 
-I installed Debian 10 on a Qemu PPC64 VM running with the following
-flags:
+>>
+>>    block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty (2020-03-12 16:36:46 -0400)
+>>
+>> ----------------------------------------------------------------
+>> Pull request
+>>
+>> ---------------------------------------------------------------
+> 
+> Hi; this fails to compile with clang:
+> 
+> /home/petmay01/linaro/qemu-for-merges/nbd/server.c:1937:1: error:
+> unused function 'glib_listautoptr_cleanup_NBDExtentArray'
+> [-Werror,-Wunused-function]
+> G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
+> ^
+> /usr/include/glib-2.0/glib/gmacros.h:462:22: note: expanded from macro
+> 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
+>    static inline void _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) (GList
+> **_l) { g_list_free_full (*_l, (GDestroyNotify) func); } \
+>                       ^
+> /usr/include/glib-2.0/glib/gmacros.h:443:48: note: expanded from macro
+> '_GLIB_AUTOPTR_LIST_FUNC_NAME'
+> #define _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName)
+> glib_listautoptr_cleanup_##TypeName
+>                                                 ^
+> <scratch space>:49:1: note: expanded from here
+> glib_listautoptr_cleanup_NBDExtentArray
+> ^
 
-qemu-system-ppc64 \
-     -nographic -nodefaults -monitor pty -serial stdio \
-     -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
-     -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
-     -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork01 \
+Should we add -Wno-unused-function to CFLAGS when dealing with a version 
+of clang that complains about that version of glib's headers?  Is it 
+fixed in a newer version of glib, where we could just backport a newer 
+definition of G_DEFINE_AUTOPTR_CLEANUP_FUNC() that adds whatever 
+annotations are needed to shut the compiler up?
 
+On IRC, danpb pointed me to libvirt's solution:
+https://libvirt.org/git/?p=libvirt.git;a=commit;h=44e7f029
 
-Within a couple minutes on any operation (could be a Go application or simp=
-ly changing the hostname with hostnamectl, the VM freezes and prints this o=
-n the console:
+Maybe we just write our own macro wrapper around 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC which takes care of adding necessary 
+annotations and use that instead (and our macro name might be shorter...)
 
-```
-root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on C=
-PU
-[  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x4000000=
-000000004 softirq=3D5957/5960 fqs=3D2544
-[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Message from syslogd@debian at Mar 17 11:35:24 ...
- kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [z=
-sh:462]
-[  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks=
-: { 3-... } 5276 jiffies s: 93 root: 0x8/.
-[  980.111177] rcu: blocking rcu_node structures:
-[ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
-[ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x400000=
-0000000004 softirq=3D5957/5960 fqs=3D9342
-```
-
-If I change to 1 core on the command line, I haven't seen these freezes.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867786
-
-Title:
-  Qemu PPC64 freezes with multi-core CPU
-
-Status in QEMU:
-  New
-
-Bug description:
-  I installed Debian 10 on a Qemu PPC64 VM running with the following
-  flags:
-
-  qemu-system-ppc64 \
-       -nographic -nodefaults -monitor pty -serial stdio \
-       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
-       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
-       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
-1 \
-
-  =
-
-  Within a couple minutes on any operation (could be a Go application or si=
-mply changing the hostname with hostnamectl, the VM freezes and prints this=
- on the console:
-
-  ```
-  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
- CPU
-  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
-00000000004 softirq=3D5957/5960 fqs=3D2544
-  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
-
-  Message from syslogd@debian at Mar 17 11:35:24 ...
-   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
-[zsh:462]
-  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
-ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
-  [  980.111177] rcu: blocking rcu_node structures:
-  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
-  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
-000000000004 softirq=3D5957/5960 fqs=3D9342
-  ```
-
-  If I change to 1 core on the command line, I haven't seen these
-  freezes.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
