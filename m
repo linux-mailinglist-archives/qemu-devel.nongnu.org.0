@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7761E18922F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:34:29 +0100 (CET)
-Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6227189236
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:37:00 +0100 (CET)
+Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELjA-0007Lm-2K
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55035)
+	id 1jELlb-0003Iq-QN
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELan-0002lj-LS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:50 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELat-00030P-QX
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELal-0003KP-AQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:49 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:53700)
+ (envelope-from <jsnow@redhat.com>) id 1jELas-00047O-Bm
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:55 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35615)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELak-0003Hi-Pi
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:47 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELas-00043y-7p
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487546;
+ s=mimecast20190719; t=1584487553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pCCSGLhwJCGa6fW/xmoL2oVSV5CWJA33+UBKKk99HzE=;
- b=GcR3eNv2EHkCgoISlg0zvopNxjwCBTSBGWcVmpw23VI1+bphZJsZkXoli3/zrK+3BMlVo9
- RRiC8VBQe6dAKqtbVBv0hVWT+1PjRajS4+JTJsUOslqZEhWimhckz9Gd278eBLhYlHtMNf
- Cm4z7ReKOnIb610qqMS0BBr2Q/5QW2s=
+ bh=3Pg9K4ABElv75k8A0SNVDAxOarrMkfzrJc6UIc1GqFY=;
+ b=KUpXWUuBwP2TnTbwTZjbsJdv8pPDy668XeZ0lvapQ1dRdjE/UzORsOjcQKdVeGZQoHFA5L
+ 7Ij/dmI2qRaAAsWdfzWKXba2p+M68ldPmBCfKMTj/TVbkjQERPRzKASNbVLQBI03N0dMys
+ SFSqfHZj4AnwFatjzHSMilJOAvm8Okw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-5I3DhKzKNEaRFtnLm1G8zw-1; Tue, 17 Mar 2020 19:25:42 -0400
-X-MC-Unique: 5I3DhKzKNEaRFtnLm1G8zw-1
+ us-mta-269-2eOh29oNPj2RWWSHv3GRHw-1; Tue, 17 Mar 2020 19:25:49 -0400
+X-MC-Unique: 2eOh29oNPj2RWWSHv3GRHw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463A3DB60;
- Tue, 17 Mar 2020 23:25:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B353180456C;
+ Tue, 17 Mar 2020 23:25:47 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A4E260BE0;
- Tue, 17 Mar 2020 23:25:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8866260BE0;
+ Tue, 17 Mar 2020 23:25:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 19/20] hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
-Date: Tue, 17 Mar 2020 19:23:28 -0400
-Message-Id: <20200317232329.22362-20-jsnow@redhat.com>
+Subject: [PULL 20/20] hw/ide: Remove unneeded inclusion of hw/ide.h
+Date: Tue, 17 Mar 2020 19:23:29 -0400
+Message-Id: <20200317232329.22362-21-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,58 +89,121 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-We can move this define now that less files use it to internal.h to
-further reduce dependency on hw/ide.h.
+After previous clean ups we can drop direct inclusion of hw/ide.h from
+several places.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: e68675d2f6252f229cf788b7cd163bb76fa3e26b.1584457537.git.balaton=
+Message-id: a3f72b663e537701c63cec5fc9cb8ed4f4249f28.1584457537.git.balaton=
 @eik.bme.hu
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/ide.h          | 2 --
- include/hw/ide/internal.h | 2 ++
- hw/mips/mips_r4k.c        | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ hw/hppa/hppa_sys.h      | 1 -
+ hw/hppa/machine.c       | 1 -
+ hw/i386/pc_piix.c       | 1 -
+ hw/isa/piix4.c          | 1 -
+ hw/mips/mips_fulong2e.c | 1 -
+ hw/ppc/mac_newworld.c   | 1 -
+ hw/ppc/mac_oldworld.c   | 1 -
+ hw/ppc/prep.c           | 1 -
+ 8 files changed, 8 deletions(-)
 
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index d52c211f32..c5ce5da4f4 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -4,8 +4,6 @@
- #include "hw/isa/isa.h"
- #include "exec/memory.h"
+diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
+index 4d08501464..0b18271cc9 100644
+--- a/hw/hppa/hppa_sys.h
++++ b/hw/hppa/hppa_sys.h
+@@ -5,7 +5,6 @@
 =20
--#define MAX_IDE_DEVS=092
--
- /* ide-isa.c */
- ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 1bc1fc73e5..55da35d768 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
- #define TYPE_IDE_BUS "IDE"
- #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
+-#include "hw/ide.h"
+ #include "hw/boards.h"
+ #include "hw/intc/i8259.h"
 =20
-+#define MAX_IDE_DEVS 2
-+
- /* Bits of HD_STATUS */
- #define ERR_STAT=09=090x01
- #define INDEX_STAT=09=090x02
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index ad8b75e286..3487013a4a 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -26,6 +26,7 @@
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 9175f4b790..00dd9f58d6 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -13,7 +13,6 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/ide.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/char/serial.h"
+ #include "hw/net/lasi_82596.h"
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 9216596ec6..e6756216f9 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -38,7 +38,6 @@
+ #include "hw/pci/pci_ids.h"
+ #include "hw/usb.h"
+ #include "net/net.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "hw/irq.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index cc3e5cef8c..9a10fb9b3c 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -34,7 +34,6 @@
+ #include "hw/dma/i8257.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 0f312b5a35..5040afd581 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -36,7 +36,6 @@
+ #include "audio/audio.h"
  #include "qemu/log.h"
- #include "hw/mips/bios.h"
- #include "hw/ide.h"
-+#include "hw/ide/internal.h"
  #include "hw/loader.h"
+-#include "hw/ide.h"
+ #include "hw/ide/pci.h"
  #include "elf.h"
+ #include "hw/isa/vt82c686.h"
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index b8189bf7a4..13164ee9d7 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -62,7 +62,6 @@
+ #include "hw/char/escc.h"
+ #include "hw/misc/macio/macio.h"
+ #include "hw/ppc/openpic.h"
+-#include "hw/ide.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+ #include "elf.h"
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 440c406eb4..2d419d82fa 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -41,7 +41,6 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/char/escc.h"
+ #include "hw/misc/macio/macio.h"
+-#include "hw/ide.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+ #include "elf.h"
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index 111cc80867..44be9d25a2 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -37,7 +37,6 @@
+ #include "hw/boards.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+-#include "hw/ide.h"
+ #include "hw/irq.h"
+ #include "hw/loader.h"
  #include "hw/rtc/mc146818rtc.h"
 --=20
 2.21.1
