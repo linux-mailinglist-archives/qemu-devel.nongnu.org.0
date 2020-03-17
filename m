@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38105187C10
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:31:01 +0100 (CET)
-Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92632187C19
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:34:25 +0100 (CET)
+Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE8Yu-0002Nz-9y
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35723)
+	id 1jE8cC-0004iw-Ke
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jE8Xi-0001SQ-RS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:29:48 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jE8aw-00049l-PU
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jE8Xh-0000ej-MZ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:29:46 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:46714)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jE8av-0008Rb-QL
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:06 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33029)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jE8Xh-0000Zs-G0
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:29:45 -0400
-Received: by mail-ot1-x330.google.com with SMTP id 111so20847374oth.13
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 02:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jE8av-0008NW-Jo
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:05 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r7so15195672wmg.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 02:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lnOKmgu1sNl0XqBjfHs1rrPrWm0VhQNaLDMjjMjtNYo=;
- b=XblnLDluido2eTh/Bj6PFaoLC+eV4o2Tv0a77qwBBevbIOQ8B1L6sPYDAWw3Tk2epf
- L37p8GGYlaP3w8eqp1YymEwxJsb7EIvFv/089Vj7YNfZSEC8YcMTlsThqIGHaWc3Wycc
- MIbJUjXn5kQ3e8U80qPsZgig6BVakuSN4vlN/2AlJeeBfLubjAiXR+tX5ZTCkHDC6eKj
- ilhobqbCk/LciMfbS3lg+CxNcGwEgz7GGBTjKmhm8ripDkWSZ7stdRkN04dmoFXaRfsa
- beLVWpirwDWJeY97xqnA0J49JLFfA+RSymUvDurEx9OvbETZgDMoSbcggnIZ0C4N4PLU
- j57A==
+ :cc:content-transfer-encoding;
+ bh=sXAUQaew6U/yeeHyfSwsvuPaFAuDs6QQqqmnz8Zr5II=;
+ b=XZKrVGPUukeIHVqV/AGuMU+uaBUW+5kYlICva5UguP9LRPyv7wiRqPBlXa4PigZjyS
+ QFZiNU/ZAesz/PCiYMQQ+XM9fNmV8kG6zrtz4mJwagXopv5WmbXTFqrfmKzO6PGgQxNA
+ JmWryjuZS9BJDDpHe27lB59PbYBNTET/LBE3fRiVFkBZkee8BxOo1UWBUFlUvGS9f18h
+ HgD5zbahZM5aSMsWGQu0J9Zi2+V1Zf8kmeRP25nNoVn6fQpxjFY24nzRgQavxZqHkvAU
+ HCx+a34CYbPlkOmTuAru+2EABDn0if5QGxjvsuNQ3r3I8kCxCg5MxzMJ4HpFQ4mSa/G9
+ hmwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lnOKmgu1sNl0XqBjfHs1rrPrWm0VhQNaLDMjjMjtNYo=;
- b=gvR8r0xIRAaF1fGYHQYrcIN4xy9DFJw4eyCHyDUkIwD8fOCSb3xDNhsEF+WRhOeoVF
- TrMasZGEfjooQJsBdWXXu5mYy3/oiJf34s59WqgdIOXUAyyyUdjJfSDLz0tTHAshR81l
- lDUjsleR3Qf4KsNGgWJmXzO6UJ1aaKMVhU6jmZk6AJEzwh/BQ9Z4caWMUd3Uuuf0KBLB
- H9+Fm9mClLdTl0g99xHvgH99f40hyLoFsAhUfYocKPjNyTwUp1HzZWczYzuGaIRHLIV7
- YzE9yM8xYUH6hHcEvRfnhlElNmFmCVbr0fjiC+Z/VfNx0PH4glFRuWKkefCEe/op3fq3
- naTw==
-X-Gm-Message-State: ANhLgQ3GBURn0AqvPFNoJt/z2b+4rC4sbjlBu8g3s2ICgqC8Q5SqxEds
- 6Xy2CvD90066rA7Ey6NNvFHm17rFN/gULk6eafMyMA==
-X-Google-Smtp-Source: ADFU+vuU0uJIMlOE4mZElweW3lz41Sd0z+UeCpJGyWjwfYhPc2I5FuVqAmBg0sKf+5vufzgDfiVMgkrAHr7iyhI3zKo=
-X-Received: by 2002:a9d:19ca:: with SMTP id k68mr2940204otk.232.1584437384344; 
- Tue, 17 Mar 2020 02:29:44 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sXAUQaew6U/yeeHyfSwsvuPaFAuDs6QQqqmnz8Zr5II=;
+ b=ZkmaY58IzP/QSWExgLsE3ik36tSjQwoed17x4l/jed2L7q11y7QG/XKqxjoABvTwTA
+ cE+9JSFrf91rTyZbjdFIq+vSPsHc0G3MI0e3yRmqtaBFL4BoyKwd16N7TG9HBWOBnVQi
+ rt0GkQaoTre23F/x6HmQVxjZrdLIwWnwEqZ9UCkRN0cF1Hkh+Rw0yUj3XZUEuDsL4xMn
+ U4kmqJm/nfV/UBsa1zPMIcD63Ku2GmnMkjhNDIBscfX0TNHVCc5quCmgWPIhKLnvIcRt
+ vrLTruLBJBwIzA6Wd4NBifou/CRTV86/8wziSu2rYKNu4KmRyop5uwtqoJBbYuuVltNH
+ YuGA==
+X-Gm-Message-State: ANhLgQ0NPFm4flLs/MlbWIsv1c0Oc48rEokBHUSF9JW+mETg40cOHklc
+ PPPAnzPthJ65aNs03igm2KByMpceSCuRs/YmUFBqYwRQM0U=
+X-Google-Smtp-Source: ADFU+vs/KAe+DGqfeMmO02rJpTle/XvOI5rk1WdkU+Ne7zoiDh64WtC26h640mngR6Z2DauhHHvDSyDOlariBX43yc8=
+X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr4513274wmf.4.1584437584529; 
+ Tue, 17 Mar 2020 02:33:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200312193616.438922-1-crosa@redhat.com>
- <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
- <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
- <CAFEAcA8=3zcffu8FYEenyNR5O=kHh8OJmMCJj6Uwh5HJw_b-WA@mail.gmail.com>
- <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
- <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
- <849930679.1334346.1584361606961.JavaMail.zimbra@redhat.com>
- <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
- <1182067639.1655516.1584421185287.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1182067639.1655516.1584421185287.JavaMail.zimbra@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Mar 2020 09:29:32 +0000
-Message-ID: <CAFEAcA-zRw7kzwzXxPmLaUqwOrQLwW9BymOJ34iJOOTCUAf=xg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
+References: <20200317092241.31660-1-armbru@redhat.com>
+In-Reply-To: <20200317092241.31660-1-armbru@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 17 Mar 2020 10:32:52 +0100
+Message-ID: <CAJ+F1C+kkY-vqY2vQ2iWNW0_N0hcWszQuuas5UxdCcjP5sQA=A@mail.gmail.com>
+Subject: Re: [PATCH] qom-qmp-cmds: Fix another memory leak in qmp_object_add()
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::330
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,43 +73,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Wainer Moschetta <wmoschet@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 at 04:59, Cleber Rosa <crosa@redhat.com> wrote:
-> Yes, that did the trick and I can now see the configuration.  What I can
-> *not* see is any "Specific Runner" configured.  So maybe:
+On Tue, Mar 17, 2020 at 10:23 AM Markus Armbruster <armbru@redhat.com> wrot=
+e:
 >
-> 1) The documentation I included is not clear enough about the fact that
-> setup steps need to be done on a machine so that it becomes a "Runner"
+> When user_creatable_add_type() fails, qmp_object_add() returns both
+> its error and the usual empty QDict success value.  The QMP core
+> handles the error, and ignores the success value, leaking it.  Exposed
+> by qmp-cmd-test case /x86_64/qmp/object-add-without-props, and duly
+> reported both by ASan and valgrind.
 >
-> 2) The (Ansible) playbooks (especially contrib/ci/orgs/qemu/gitlab-runner.yml)
-> is not working as intended
+> To plug the leak, set the success value only on success.
 >
-> 3) Some expectations misalignment on machines that would be available to run
-> those jobs
->
-> In any case, none of those should be big problems.  Please let me know what
-> you did/experienced/expected up to this point, and we can continue from there.
+> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Ah, I see. My assumption was that this was all stuff that you were
-working on, so that I would then be able to test that it worked correctly,
-not that I would need to do configuration of the gitlab.com setup.
-I thought all the stuff about "how to set up runners" was only for
-people who wanted to set up some 3rd-party CI for non-official
-forks or for when we wanted to add extra runners in future (eg for
-architectures not yet covered). So the only thing I did was follow
-your "just push to staging" instructions.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-thanks
--- PMM
+
+> ---
+>  qom/qom-qmp-cmds.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+> index 435193b036..6bd137ccbf 100644
+> --- a/qom/qom-qmp-cmds.c
+> +++ b/qom/qom-qmp-cmds.c
+> @@ -287,8 +287,8 @@ void qmp_object_add(QDict *qdict, QObject **ret_data,=
+ Error **errp)
+>      visit_free(v);
+>      if (obj) {
+>          object_unref(obj);
+> +        *ret_data =3D QOBJECT(qdict_new());
+>      }
+> -    *ret_data =3D QOBJECT(qdict_new());
+>  }
+>
+>  void qmp_object_del(const char *id, Error **errp)
+> --
+> 2.21.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
