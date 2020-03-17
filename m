@@ -2,70 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FB3188891
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:07:02 +0100 (CET)
-Received: from localhost ([::1]:34278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9510E1888D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:16:16 +0100 (CET)
+Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEDo5-0006yz-Se
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51739)
+	id 1jEDx1-0000TG-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jEDn0-0006O9-7C
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:05:55 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jEDuf-00077g-T9
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jEDmy-0000TH-DZ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:05:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43272)
+ (envelope-from <balaton@eik.bme.hu>) id 1jEDue-0001IU-Kl
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:49 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:49473)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jEDmy-0000Jj-6G
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584457551;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q6gBqZLiVimV9CLnIyWtDxz3f4ecQLAHyF1s5sDOSxU=;
- b=SRigaC6H17S/R2kvClTKVWOyHBn7e1RFA7KZAOvaX/d2GltesGH/zaQa/lUS/+l29sE6lw
- eeowX4/hM/q36/da7IfP9zyWl7Qr/jv7saIDbTDbmXQ40uJb4jMxAk7CO8FJKiY55eCnhD
- 5s1hzVrsLvI/kEgNo8BeO4ywuzUmWJw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-MMI4_85nPiKtEeCMDcu3GQ-1; Tue, 17 Mar 2020 11:05:43 -0400
-X-MC-Unique: MMI4_85nPiKtEeCMDcu3GQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE5DB1084436;
- Tue, 17 Mar 2020 15:05:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07ACB8F34E;
- Tue, 17 Mar 2020 15:05:30 +0000 (UTC)
-Date: Tue, 17 Mar 2020 15:05:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/10] Bitmaps patches
-Message-ID: <20200317150528.GK2041016@redhat.com>
-References: <20200317043819.20197-1-jsnow@redhat.com>
- <CAFEAcA_=DHpNZ+b9Hrim39R74Jik8MKqu8MPJm80wMsQS0FADQ@mail.gmail.com>
- <5805273e-0a2f-850a-a07a-97dac0d7211e@redhat.com>
- <20200317145703.GH2041016@redhat.com>
- <CAFEAcA9-YLNcZPPsHsdLB0O2Ac4WKPspMe=Re2S7tyTZu=kwFA@mail.gmail.com>
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jEDua-0000sV-R0; Tue, 17 Mar 2020 11:13:45 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C9318747E16;
+ Tue, 17 Mar 2020 16:13:42 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 52231745953; Tue, 17 Mar 2020 16:13:42 +0100 (CET)
+Message-Id: <cover.1584457537.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v3 0/8] Misc hw/ide legacy clean up
+Date: Tue, 17 Mar 2020 16:05:37 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9-YLNcZPPsHsdLB0O2Ac4WKPspMe=Re2S7tyTZu=kwFA@mail.gmail.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org,
+    qemu-block@nongnu.org
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,38 +47,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 03:00:48PM +0000, Peter Maydell wrote:
-> On Tue, 17 Mar 2020 at 14:57, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> > I don't feel like -Wno-unused-function looses anything significant, as
-> > the GCC builds will still be reporting unused functions which will
-> > catch majority of cases.
->=20
-> The most interesting difference is that clang will catch unused
-> static inline functions which gcc does not.
+Avoid problems from reassigning variable in piix4_create and fix
+compilation problem with mips_r4k
 
-That's mostly just about dead code cruft detection IIUC. That code won't
-make it into the binary if it isn't used.
+BALATON Zoltan (8):
+  hw/ide: Get rid of piix3_init functions
+  hw/isa/piix4.c: Introduce variable to store devfn
+  hw/ide: Get rid of piix4_init function
+  hw/ide: Remove now unneded #include "hw/pci/pci.h" from hw/ide.h
+  hw/ide/pci.c: Coding style update to fix checkpatch errors
+  hw/ide: Do ide_drive_get() within pci_ide_create_devs()
+  hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
+  hw/ide: Remove unneeded inclusion of hw/ide.h
 
-Regards,
-Daniel
+ hw/alpha/dp264.c              | 13 +++----------
+ hw/hppa/hppa_sys.h            |  1 -
+ hw/hppa/machine.c             |  1 -
+ hw/i386/pc_piix.c             | 18 +++++++++---------
+ hw/ide/ahci_internal.h        |  1 +
+ hw/ide/pci.c                  | 11 +++++++----
+ hw/ide/piix.c                 | 31 +------------------------------
+ hw/isa/piix4.c                | 23 ++++++++++-------------
+ hw/mips/mips_fulong2e.c       |  5 +----
+ hw/mips/mips_malta.c          |  2 +-
+ hw/mips/mips_r4k.c            |  1 +
+ hw/ppc/mac_newworld.c         |  1 -
+ hw/ppc/mac_oldworld.c         |  1 -
+ hw/ppc/prep.c                 |  1 -
+ hw/sparc64/sun4u.c            |  6 +-----
+ include/hw/ide.h              |  6 ------
+ include/hw/ide/internal.h     |  2 ++
+ include/hw/ide/pci.h          |  3 ++-
+ include/hw/misc/macio/macio.h |  1 +
+ include/hw/southbridge/piix.h |  3 +--
+ 20 files changed, 41 insertions(+), 90 deletions(-)
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.21.1
 
 
