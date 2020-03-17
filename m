@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A395188FEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:00:24 +0100 (CET)
-Received: from localhost ([::1]:41262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124E318900C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:06:29 +0100 (CET)
+Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEJK2-000218-Ul
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48859)
+	id 1jEJPw-000815-0A
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEJIc-0001R8-MC
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:58:55 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEJL0-0002o2-NT
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEJIb-0004jF-AO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:58:54 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43332)
+ (envelope-from <armbru@redhat.com>) id 1jEJKy-0002BW-Du
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:22 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:30658)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEJIb-0004a5-5K
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:58:53 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEJKy-000289-9G
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584478732;
+ s=mimecast20190719; t=1584478880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2kWLVj57CUSNpMF3wx/rqYzLNYm+65ZiBlFdSEqgqjk=;
- b=J2DlaLA5C5mt5ZZ8Ul5iM0wwWc3IBb1sAtB5utlz2RV7dUiY0Q4ZyKHtQz765bY+leJXSI
- KRXAaximVbHQYhIX+/x5xycmTsIA9bs/Fd5NZ3gLDnYlHeXabF9rGWPAqj7aj96sRccCHr
- 89YbsbbEY9dD5n7BA0yzlmSyvKeYZpI=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rRmlZdhQWeoUSv+ZM7HXXBceHWchhlaSA7WEALrQvHI=;
+ b=TbWAxt1HWI3QcpyUQL7Jy0+G61elj61KmWpI46IGchjwATQo2UTjihELonPANKh2pma4D0
+ TSvq6gmFfEswSZ3EbvPgKN+Nlwt9pWg/jkkc/8A2spfj2BWQrVHjqidYuEmy4ZUwuFzRG6
+ tAlPoeiYEj2W3O8AikfUEKOvHNRH+XM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-ZvDVhzY2MNWlph4fh8-P8g-1; Tue, 17 Mar 2020 16:58:49 -0400
-X-MC-Unique: ZvDVhzY2MNWlph4fh8-P8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-139-Rk3A8NzJOVarWjTqpYUWtg-1; Tue, 17 Mar 2020 17:01:18 -0400
+X-MC-Unique: Rk3A8NzJOVarWjTqpYUWtg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EB7318FE860;
- Tue, 17 Mar 2020 20:58:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BBC8108BD0D
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 21:01:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
  [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DEE425D9E2;
- Tue, 17 Mar 2020 20:58:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE1AA93520
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 21:01:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F42B1138404; Tue, 17 Mar 2020 21:58:41 +0100 (CET)
+ id 29A191138404; Tue, 17 Mar 2020 22:01:15 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 00/34] Configurable policy for handling deprecated
- interfaces
-References: <20200317115459.31821-1-armbru@redhat.com>
-Date: Tue, 17 Mar 2020 21:58:41 +0100
-In-Reply-To: <20200317115459.31821-1-armbru@redhat.com> (Markus Armbruster's
- message of "Tue, 17 Mar 2020 12:54:25 +0100")
-Message-ID: <877dziitq6.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Subject: [PULL 00/30] QAPI patches for 2020-03-17
+Date: Tue, 17 Mar 2020 22:00:45 +0100
+Message-Id: <20200317210115.8864-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,48 +70,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, libvir-list@redhat.com,
- mdroth@linux.vnet.ibm.com, marcandre.lureau@gmail.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+The following changes since commit 40c67636f67c2a89745f2e698522fe917326a952=
+:
 
-> This series extends QMP introspection to cover deprecation.
-> Additionally, new option -compat lets you configure what to do when
-> deprecated interfaces get used.  This is intended for testing users of
-> the management interfaces.  It is experimental.
->
-> -compat deprecated-input=3D<in-policy> configures what to do when
-> deprecated input is received.  Available policies:
->
-> * accept: Accept deprecated commands and arguments (default)
-> * reject: Reject them
-> * crash: Crash
->
-> -compat deprecated-output=3D<out-policy> configures what to do when
-> deprecated output is sent.  Available output policies:
->
-> * accept: Emit deprecated command results and events (default)
-> * hide: Suppress them
->
-> For now, -compat covers only deprecated syntactic aspects of QMP.  We
-> may want to extend it to cover semantic aspects, CLI, and experimental
-> features.
->
-> PATCH 01-04: Documentation fixes
-> PATCH 05-10: Test improvements
-> PATCH 11-24: Add feature flags to remaining user-defined types and to
->       =09     struct members
-> PATCH 25-26: New special feature 'deprecated', visible in
->       =09     introspection
-> PATCH 27-34: New -compat to set policy for handling stuff marked with
->       =09     feature 'deprecated'
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200317-pull-reque=
+st' into staging (2020-03-17 14:00:56 +0000)
 
-Queued PATCH 01-26.  Thanks for the reviews that made this possible!
+are available in the Git repository at:
 
-PATCH 27-34 will have to wait for 5.1.
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-03-17
+
+for you to fetch changes up to 0d2ff4a9adfdac37495f04441d0dc3100804abae:
+
+  net: Track netdevs in NetClientState rather than QemuOpt (2020-03-17 21:4=
+4:02 +0100)
+
+----------------------------------------------------------------
+QAPI patches for 2020-03-17
+
+* Fix documentation of deprecated features
+
+* QMP unit test improvements
+
+* QAPI schema language
+
+  - Documentation improvements
+  - Support feature flags in more places
+
+* Expose deprecated syntax in query-qmp-schema
+
+* Fix netdev_add
+
+  - Don't ignore arguments dnssearch, hostfwd, and guestfwd
+  - Don't exit on "type": "help"
+  - Drop undocumented and unwanted argument ipv6
+  - Fix type checking
+
+----------------------------------------------------------------
+Eric Blake (2):
+      net: Complete qapi-fication of netdev_add
+      net: Track netdevs in NetClientState rather than QemuOpt
+
+Marc-Andr=C3=A9 Lureau (1):
+      qmp: constify QmpCommand and list
+
+Markus Armbruster (27):
+      docs/devel/qapi-code-gen: Fix typo in grammar
+      qemu-doc: Belatedly document QMP command arg & result deprecation
+      qapi: Belatedly update doc comment for @wait deprecation
+      docs/devel/qapi-code-gen: Clarify allow-oob introspection
+      docs/devel/qapi-code-gen: Document 'features' introspection
+      tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
+      tests/test-qmp-cmds: Check responses more thoroughly
+      tests/test-qmp-cmds: Simplify test data setup
+      tests/test-qmp-event: Simplify test data setup
+      tests/test-qmp-event: Use qobject_is_equal()
+      tests/test-qmp-event: Check event is actually emitted
+      qapi/schema: Clean up around QAPISchemaEntity.connect_doc()
+      qapi: Add feature flags to remaining definitions
+      qapi: Consistently put @features parameter right after @ifcond
+      qapi/introspect: Rename *qlit* to reduce confusion
+      qapi/introspect: Factor out _make_tree()
+      qapi/schema: Change _make_features() to a take feature list
+      qapi/schema: Reorder classes so related ones are together
+      qapi/schema: Rename QAPISchemaObjectType{Variant,Variants}
+      qapi/schema: Call QAPIDoc.connect_member() in just one place
+      qapi: Add feature flags to struct members
+      qapi: Inline do_qmp_dispatch() into qmp_dispatch()
+      qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
+      qapi: Simplify how qmp_dispatch() gets the request ID
+      qapi: Replace qmp_dispatch()'s TODO comment by an explanation
+      qapi: New special feature flag "deprecated"
+      qapi: Mark deprecated QMP parts with feature 'deprecated'
+
+ docs/devel/qapi-code-gen.txt                    |  81 +++-
+ docs/system/deprecated.rst                      |  48 ++-
+ tests/qapi-schema/doc-good.texi                 |  32 ++
+ qapi/block-core.json                            |  48 ++-
+ qapi/block.json                                 |  30 +-
+ qapi/char.json                                  |   1 +
+ qapi/control.json                               |  11 +-
+ qapi/introspect.json                            |  26 +-
+ qapi/machine.json                               |  34 +-
+ qapi/migration.json                             |  36 +-
+ qapi/misc.json                                  |  13 +-
+ qapi/net.json                                   |  14 +-
+ include/net/net.h                               |   2 +-
+ include/qapi/qmp/dispatch.h                     |   9 +-
+ monitor/monitor-internal.h                      |   2 +-
+ monitor/misc.c                                  |   6 +-
+ monitor/qmp-cmds-control.c                      |   2 +-
+ net/net.c                                       |  39 +-
+ qapi/qmp-dispatch.c                             | 134 ++++---
+ qapi/qmp-registry.c                             |   6 +-
+ qga/commands.c                                  |   2 +-
+ qga/main.c                                      |   6 +-
+ tests/test-qmp-cmds.c                           | 162 ++++----
+ tests/test-qmp-event.c                          | 166 ++------
+ scripts/qapi/commands.py                        |   6 +-
+ scripts/qapi/doc.py                             |  16 +-
+ scripts/qapi/events.py                          |   2 +-
+ scripts/qapi/expr.py                            |  14 +-
+ scripts/qapi/introspect.py                      | 104 ++---
+ scripts/qapi/schema.py                          | 488 +++++++++++++-------=
+----
+ scripts/qapi/types.py                           |   8 +-
+ scripts/qapi/visit.py                           |   8 +-
+ tests/Makefile.include                          |   1 +
+ tests/qapi-schema/alternate-base.err            |   2 +-
+ tests/qapi-schema/doc-good.json                 |  22 +-
+ tests/qapi-schema/doc-good.out                  |  18 +
+ tests/qapi-schema/features-deprecated-type.err  |   2 +
+ tests/qapi-schema/features-deprecated-type.json |   3 +
+ tests/qapi-schema/features-deprecated-type.out  |   0
+ tests/qapi-schema/qapi-schema-test.json         |  33 +-
+ tests/qapi-schema/qapi-schema-test.out          |  30 +-
+ tests/qapi-schema/test-qapi.py                  |  26 +-
+ 42 files changed, 924 insertions(+), 769 deletions(-)
+ create mode 100644 tests/qapi-schema/features-deprecated-type.err
+ create mode 100644 tests/qapi-schema/features-deprecated-type.json
+ create mode 100644 tests/qapi-schema/features-deprecated-type.out
+armbru@dusky:~/work/qemu$ git-commit -v --amend
+hint: Waiting for your editor to close the file...
+Waiting for Emacs...  C-c C-c
+[Exit 130 (INT)]
+armbru@dusky:~/work/qemu$ git-rebase -i master
+hint: Waiting for your editor to close the file...
+Waiting for Emacs...
+hint: Waiting for your editor to close the file...
+Waiting for Emacs...
+[detached HEAD db2a380c84] net: Complete qapi-fication of netdev_add
+ Author: Eric Blake <eblake@redhat.com>
+ Date: Tue Mar 17 15:17:10 2020 -0500
+ 4 files changed, 4 insertions(+), 19 deletions(-)
+Successfully rebased and updated refs/heads/qapi-next.
+armbru@dusky:~/work/qemu$ find -name trace-[0-9]\* -delete
+armbru@dusky:~/work/qemu$ git-request-pull master public pull-qapi-`date +%=
+F`
+The following changes since commit 40c67636f67c2a89745f2e698522fe917326a952=
+:
+
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200317-pull-reque=
+st' into staging (2020-03-17 14:00:56 +0000)
+
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-03-17
+
+for you to fetch changes up to 08712fcb851034228b61f75bd922863a984a4f60:
+
+  net: Track netdevs in NetClientState rather than QemuOpt (2020-03-17 21:5=
+0:36 +0100)
+
+----------------------------------------------------------------
+QAPI patches for 2020-03-17
+
+----------------------------------------------------------------
+Eric Blake (2):
+      net: Complete qapi-fication of netdev_add
+      net: Track netdevs in NetClientState rather than QemuOpt
+
+Marc-Andr=C3=A9 Lureau (1):
+      qmp: constify QmpCommand and list
+
+Markus Armbruster (27):
+      docs/devel/qapi-code-gen: Fix typo in grammar
+      qemu-doc: Belatedly document QMP command arg & result deprecation
+      qapi: Belatedly update doc comment for @wait deprecation
+      docs/devel/qapi-code-gen: Clarify allow-oob introspection
+      docs/devel/qapi-code-gen: Document 'features' introspection
+      tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
+      tests/test-qmp-cmds: Check responses more thoroughly
+      tests/test-qmp-cmds: Simplify test data setup
+      tests/test-qmp-event: Simplify test data setup
+      tests/test-qmp-event: Use qobject_is_equal()
+      tests/test-qmp-event: Check event is actually emitted
+      qapi/schema: Clean up around QAPISchemaEntity.connect_doc()
+      qapi: Add feature flags to remaining definitions
+      qapi: Consistently put @features parameter right after @ifcond
+      qapi/introspect: Rename *qlit* to reduce confusion
+      qapi/introspect: Factor out _make_tree()
+      qapi/schema: Change _make_features() to a take feature list
+      qapi/schema: Reorder classes so related ones are together
+      qapi/schema: Rename QAPISchemaObjectType{Variant,Variants}
+      qapi/schema: Call QAPIDoc.connect_member() in just one place
+      qapi: Add feature flags to struct members
+      qapi: Inline do_qmp_dispatch() into qmp_dispatch()
+      qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
+      qapi: Simplify how qmp_dispatch() gets the request ID
+      qapi: Replace qmp_dispatch()'s TODO comment by an explanation
+      qapi: New special feature flag "deprecated"
+      qapi: Mark deprecated QMP parts with feature 'deprecated'
+
+ docs/devel/qapi-code-gen.txt                    |  81 +++-
+ docs/system/deprecated.rst                      |  48 ++-
+ tests/qapi-schema/doc-good.texi                 |  32 ++
+ qapi/block-core.json                            |  48 ++-
+ qapi/block.json                                 |  30 +-
+ qapi/char.json                                  |   1 +
+ qapi/control.json                               |  11 +-
+ qapi/introspect.json                            |  26 +-
+ qapi/machine.json                               |  34 +-
+ qapi/migration.json                             |  36 +-
+ qapi/misc.json                                  |  13 +-
+ qapi/net.json                                   |  14 +-
+ include/net/net.h                               |   2 +-
+ include/qapi/qmp/dispatch.h                     |   9 +-
+ monitor/monitor-internal.h                      |   2 +-
+ monitor/misc.c                                  |   6 +-
+ monitor/qmp-cmds-control.c                      |   2 +-
+ net/net.c                                       |  39 +-
+ qapi/qmp-dispatch.c                             | 134 ++++---
+ qapi/qmp-registry.c                             |   6 +-
+ qga/commands.c                                  |   2 +-
+ qga/main.c                                      |   6 +-
+ tests/test-qmp-cmds.c                           | 162 ++++----
+ tests/test-qmp-event.c                          | 166 ++------
+ scripts/qapi/commands.py                        |   6 +-
+ scripts/qapi/doc.py                             |  16 +-
+ scripts/qapi/events.py                          |   2 +-
+ scripts/qapi/expr.py                            |  14 +-
+ scripts/qapi/introspect.py                      | 104 ++---
+ scripts/qapi/schema.py                          | 488 +++++++++++++-------=
+----
+ scripts/qapi/types.py                           |   8 +-
+ scripts/qapi/visit.py                           |   8 +-
+ tests/Makefile.include                          |   1 +
+ tests/qapi-schema/alternate-base.err            |   2 +-
+ tests/qapi-schema/doc-good.json                 |  22 +-
+ tests/qapi-schema/doc-good.out                  |  18 +
+ tests/qapi-schema/features-deprecated-type.err  |   2 +
+ tests/qapi-schema/features-deprecated-type.json |   3 +
+ tests/qapi-schema/features-deprecated-type.out  |   0
+ tests/qapi-schema/qapi-schema-test.json         |  33 +-
+ tests/qapi-schema/qapi-schema-test.out          |  30 +-
+ tests/qapi-schema/test-qapi.py                  |  26 +-
+ 42 files changed, 924 insertions(+), 769 deletions(-)
+ create mode 100644 tests/qapi-schema/features-deprecated-type.err
+ create mode 100644 tests/qapi-schema/features-deprecated-type.json
+ create mode 100644 tests/qapi-schema/features-deprecated-type.out
+
+--=20
+2.21.1
 
 
