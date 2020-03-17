@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35A51891AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 23:59:03 +0100 (CET)
-Received: from localhost ([::1]:42546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BF41891B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:00:00 +0100 (CET)
+Received: from localhost ([::1]:42561 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELAt-0002Gu-0Q
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 18:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
+	id 1jELBo-00047x-29
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jEL9r-0001QQ-D8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:00 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jELA7-0001pk-Nc
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1jEL9q-00076P-6P
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:57:59 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22840)
+ (envelope-from <alex.williamson@redhat.com>) id 1jELA6-0008J1-If
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27917)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1jEL9q-00074j-1q
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:57:58 -0400
+ id 1jELA6-0008E3-Du
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584485877;
+ s=mimecast20190719; t=1584485893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OBWZKnFuVmOYref0i51L31CtQO6pe9rAdovXC3JCYoc=;
- b=dMhJTm7988jbvxA13H5Lt18EP4+hJ+ePAohoA6bfgDaz3cMUjY/MJmC4rftFjwnMNrwXDW
- fWG1eNz7YnFf6GlKlMFbRSzzQeIkcsTKdfvreC2Kw7KrHklcsnE722imMq+x8F1Dm1v2Ev
- G5PlSuKVrVRgIVBnjrlyEiNnqreugI4=
+ bh=zhwQF5g8vG2X3J3654SVthC/nc05aSSF8QisVT3uV0k=;
+ b=VRMpEaPrFxLI65XNWGXBixzy87SiOoF8OKx497rHwriRlExeTCbnPCnjfe/6Y9Hgck3/DX
+ grPvraUuXrhK4spjwagi7aAsZ4WY+0QTSFr2U6gRS3RjHrQ54dDLt6KONMQ3LnHrPjdYlh
+ V2pPH8DyR3uGWatakKFKqr8ecwvSRoo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-M1Q0z193PAWrTMHX8-V_UA-1; Tue, 17 Mar 2020 18:57:55 -0400
-X-MC-Unique: M1Q0z193PAWrTMHX8-V_UA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-30-zDAaM1DuP72MYb8rp4R8fw-1; Tue, 17 Mar 2020 18:58:12 -0400
+X-MC-Unique: zDAaM1DuP72MYb8rp4R8fw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEFD8107ACC4
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 22:57:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44D6C18B6381
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 22:58:11 +0000 (UTC)
 Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03AEA48;
- Tue, 17 Mar 2020 22:57:49 +0000 (UTC)
-Date: Tue, 17 Mar 2020 16:57:38 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6ADE473873;
+ Tue, 17 Mar 2020 22:58:05 +0000 (UTC)
+Date: Tue, 17 Mar 2020 16:58:05 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 2/5] vfio/pci: Use
- kvm_irqchip_add_irqfd_notifier_gsi() for irqfds
-Message-ID: <20200317165738.1221dc06@w520.home>
-In-Reply-To: <20200317195042.282977-3-peterx@redhat.com>
+Subject: Re: [PATCH v3 3/5] KVM: Pass EventNotifier into
+ kvm_irqchip_assign_irqfd
+Message-ID: <20200317165805.28a9bfce@w520.home>
+In-Reply-To: <20200317195042.282977-4-peterx@redhat.com>
 References: <20200317195042.282977-1-peterx@redhat.com>
- <20200317195042.282977-3-peterx@redhat.com>
+ <20200317195042.282977-4-peterx@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -77,124 +77,68 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 15:50:39 -0400
+On Tue, 17 Mar 2020 15:50:40 -0400
 Peter Xu <peterx@redhat.com> wrote:
 
-> VFIO is currently the only one left that is not using the generic
-> function (kvm_irqchip_add_irqfd_notifier_gsi()) to register irqfds.
-> Let VFIO use the common framework too.
-> 
-> Follow up patches will introduce extra features for kvm irqfd, so that
-> VFIO can easily leverage that after the switch.
+> So that kvm_irqchip_assign_irqfd() can have access to the
+> EventNotifiers, especially the resample event.  It is needed in follow
+> up patch to cache and kick resamplefds from QEMU.
 > 
 > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  hw/vfio/pci.c | 37 +++++++++++++++----------------------
->  1 file changed, 15 insertions(+), 22 deletions(-)
+>  accel/kvm/kvm-all.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 
 Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 98e0e0c994..09703362df 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -115,11 +115,7 @@ static void vfio_intx_eoi(VFIODevice *vbasedev)
->  static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->  {
->  #ifdef CONFIG_KVM
-> -    struct kvm_irqfd irqfd = {
-> -        .fd = event_notifier_get_fd(&vdev->intx.interrupt),
-> -        .gsi = vdev->intx.route.irq,
-> -        .flags = KVM_IRQFD_FLAG_RESAMPLE,
-> -    };
-> +    int irq_fd = event_notifier_get_fd(&vdev->intx.interrupt);
->      Error *err = NULL;
->  
->      if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
-> @@ -141,7 +137,7 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->      }
->  
->      /* Get to a known interrupt state */
-> -    qemu_set_fd_handler(irqfd.fd, NULL, NULL, vdev);
-> +    qemu_set_fd_handler(irq_fd, NULL, NULL, vdev);
->      vfio_mask_single_irqindex(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
->      vdev->intx.pending = false;
->      pci_irq_deassert(&vdev->pdev);
-> @@ -152,17 +148,18 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->          goto fail;
->      }
->  
-> -    /* KVM triggers it, VFIO listens for it */
-> -    irqfd.resamplefd = event_notifier_get_fd(&vdev->intx.unmask);
-> -
-> -    if (kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd)) {
-> +    if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-> +                                           &vdev->intx.interrupt,
-> +                                           &vdev->intx.unmask,
-> +                                           vdev->intx.route.irq)) {
->          error_setg_errno(errp, errno, "failed to setup resample irqfd");
->          goto fail_irqfd;
->      }
->  
->      if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
->                                 VFIO_IRQ_SET_ACTION_UNMASK,
-> -                               irqfd.resamplefd, &err)) {
-> +                               event_notifier_get_fd(&vdev->intx.unmask),
-> +                               &err)) {
->          error_propagate(errp, err);
->          goto fail_vfio;
->      }
-> @@ -177,12 +174,12 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->      return;
->  
->  fail_vfio:
-> -    irqfd.flags = KVM_IRQFD_FLAG_DEASSIGN;
-> -    kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd);
-> +    kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vdev->intx.interrupt,
-> +                                          vdev->intx.route.irq);
->  fail_irqfd:
->      event_notifier_cleanup(&vdev->intx.unmask);
->  fail:
-> -    qemu_set_fd_handler(irqfd.fd, vfio_intx_interrupt, NULL, vdev);
-> +    qemu_set_fd_handler(irq_fd, vfio_intx_interrupt, NULL, vdev);
->      vfio_unmask_single_irqindex(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
->  #endif
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 439a4efe52..d49b74512a 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -1628,9 +1628,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
+>      return kvm_update_routing_entry(s, &kroute);
 >  }
-> @@ -190,12 +187,6 @@ fail:
->  static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
+>  
+> -static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int rfd, int virq,
+> +static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+> +                                    EventNotifier *resample, int virq,
+>                                      bool assign)
 >  {
->  #ifdef CONFIG_KVM
-> -    struct kvm_irqfd irqfd = {
-> -        .fd = event_notifier_get_fd(&vdev->intx.interrupt),
-> -        .gsi = vdev->intx.route.irq,
-> -        .flags = KVM_IRQFD_FLAG_DEASSIGN,
-> -    };
-> -
->      if (!vdev->intx.kvm_accel) {
->          return;
->      }
-> @@ -209,7 +200,8 @@ static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
->      pci_irq_deassert(&vdev->pdev);
+> +    int fd = event_notifier_get_fd(event);
+> +    int rfd = resample ? event_notifier_get_fd(resample) : -1;
+> +
+>      struct kvm_irqfd irqfd = {
+>          .fd = fd,
+>          .gsi = virq,
+> @@ -1735,7 +1739,9 @@ int kvm_irqchip_add_hv_sint_route(KVMState *s, uint32_t vcpu, uint32_t sint)
+>      return -ENOSYS;
+>  }
 >  
->      /* Tell KVM to stop listening for an INTx irqfd */
-> -    if (kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd)) {
-> +    if (kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vdev->intx.interrupt,
-> +                                              vdev->intx.route.irq)) {
->          error_report("vfio: Error: Failed to disable INTx irqfd: %m");
->      }
+> -static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int virq, bool assign)
+> +static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+> +                                    EventNotifier *resample, int virq,
+> +                                    bool assign)
+>  {
+>      abort();
+>  }
+> @@ -1749,15 +1755,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg)
+>  int kvm_irqchip_add_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
+>                                         EventNotifier *rn, int virq)
+>  {
+> -    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n),
+> -           rn ? event_notifier_get_fd(rn) : -1, virq, true);
+> +    return kvm_irqchip_assign_irqfd(s, n, rn, virq, true);
+>  }
 >  
-> @@ -217,7 +209,8 @@ static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
->      event_notifier_cleanup(&vdev->intx.unmask);
+>  int kvm_irqchip_remove_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
+>                                            int virq)
+>  {
+> -    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n), -1, virq,
+> -           false);
+> +    return kvm_irqchip_assign_irqfd(s, n, NULL, virq, false);
+>  }
 >  
->      /* QEMU starts listening for interrupt events. */
-> -    qemu_set_fd_handler(irqfd.fd, vfio_intx_interrupt, NULL, vdev);
-> +    qemu_set_fd_handler(event_notifier_get_fd(&vdev->intx.interrupt),
-> +                        vfio_intx_interrupt, NULL, vdev);
->  
->      vdev->intx.kvm_accel = false;
->  
+>  int kvm_irqchip_add_irqfd_notifier(KVMState *s, EventNotifier *n,
 
 
