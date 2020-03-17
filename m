@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDA0187DA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:00:35 +0100 (CET)
-Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41940187DD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:08:21 +0100 (CET)
+Received: from localhost ([::1]:55552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE91W-0002uO-R5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:00:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36833)
+	id 1jE992-0006k6-9g
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jE8yy-0008Lx-Bc
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:57 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95X-0000kC-7c
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jE8yw-0006fz-RP
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:56 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31366)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95V-0001DK-MF
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:43 -0400
+Received: from ozlabs.org ([203.11.71.1]:57419)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jE8ys-00060f-66; Tue, 17 Mar 2020 05:57:50 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B2E58747E1A;
- Tue, 17 Mar 2020 10:57:44 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 32ECC747E12; Tue, 17 Mar 2020 10:57:44 +0100 (CET)
-Message-Id: <3240656814c804513de08bdbbf318f2f590df241.1584437958.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1584437957.git.balaton@eik.bme.hu>
-References: <cover.1584437957.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 2/7] hw/ide: Get rid of piix4_init function
-Date: Tue, 17 Mar 2020 10:39:17 +0100
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jE95U-0000PH-Rm; Tue, 17 Mar 2020 06:04:41 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48hTKv25l7z9sR4; Tue, 17 Mar 2020 21:04:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584439475;
+ bh=rqL6iLT4LjWb68J1CnzA4QnOzndydJXIPwQf7nMcQbo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=J5YapKIygljlusLcp4YeVk4Nv+lCHIdIiWl2j7BshEPy91053QXojTQWl/zMZqYit
+ UphCG5/9mz75V+H5o6gxztkQP+1Z+XkgUD48rS/xo79nSzwYCuyFFOBBC7bRSAL5h9
+ M5jzn120yeQ9BvSaZ4VoXVoLV8pqWRlnRIb6qvzg=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/45] ppc-for-5.0 queue 20200317
+Date: Tue, 17 Mar 2020 21:03:38 +1100
+Message-Id: <20200317100423.622643-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,101 +52,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, mdroth@linux.vnet.ibm.com,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes pci_piix4_ide_init() function similar to clean up done to
-other ide devices.
+The following changes since commit a98135f727595382e200d04c2996e868b7925a=
+01:
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- hw/ide/piix.c    | 12 +-----------
- hw/isa/piix4.c   |  5 ++++-
- include/hw/ide.h |  1 -
- 3 files changed, 5 insertions(+), 13 deletions(-)
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200316-pull-req=
+uest' into staging (2020-03-16 14:55:59 +0000)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 8bcd6b72c2..3b2de4c312 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -208,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
-     }
- }
-=20
--/* hd_table must contain 4 block drivers */
--/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
--PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn)
--{
--    PCIDevice *dev;
--
--    dev =3D pci_create_simple(bus, devfn, "piix4-ide");
--    pci_ide_create_devs(dev, hd_table);
--    return dev;
--}
--
- /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
- static void piix3_ide_class_init(ObjectClass *klass, void *data)
- {
-@@ -247,6 +236,7 @@ static const TypeInfo piix3_ide_xen_info =3D {
-     .class_init    =3D piix3_ide_class_init,
- };
-=20
-+/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
- static void piix4_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 7edec5e149..0ab4787658 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -35,6 +35,7 @@
- #include "hw/timer/i8254.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "migration/vmstate.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -255,10 +256,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus *=
-*isa_bus,
-         *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-     }
-=20
-+    pci =3D pci_create_simple(pci_bus, pci->devfn + 1, "piix4-ide");
-     hd =3D g_new(DriveInfo *, ide_drives);
-     ide_drive_get(hd, ide_drives);
--    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-+    pci_ide_create_devs(pci, hd);
-     g_free(hd);
-+
-     pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
-         *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 883bbaeb9b..21bd8f23f1 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -12,7 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int io=
-base2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
-=20
- /* ide-pci.c */
--PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
-=20
- /* ide-mmio.c */
---=20
-2.21.1
+are available in the Git repository at:
 
+  git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200317
+
+for you to fetch changes up to 6961eae79f58385482775dc0a6c3d553f633662d:
+
+  pseries: Update SLOF firmware image (2020-03-17 17:00:22 +1100)
+
+----------------------------------------------------------------
+ppc patch queue 2020-03-17
+
+Here's my final pull request for the qemu-5.0 soft freeze.  Sorry this
+is just under the wire - I hit some last minute problems that took a
+while to fix up and retest.
+
+Highlights are:
+ * Numerous fixes for the FWNMI feature
+ * A handful of cleanups to the device tree construction code
+ * Numerous fixes for the spapr-vscsi device
+ * A number of fixes and cleanups for real mode (MMU off) softmmu
+   handling
+ * Fixes for handling of the PAPR RMA
+ * Better handling of hotplug/unplug events during boot
+ * Assorted other fixes
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (5):
+      pseries: Update SLOF firmware image
+      ppc/spapr: Move GPRs setup to one place
+      pseries: Update SLOF firmware image
+      spapr/rtas: Reserve space for RTAS blob and log
+      pseries: Update SLOF firmware image
+
+C=C3=A9dric Le Goater (1):
+      spapr/xive: use SPAPR_IRQ_IPI to define IPI ranges exposed to the g=
+uest
+
+David Gibson (19):
+      ppc: Remove stub support for 32-bit hypervisor mode
+      ppc: Remove stub of PPC970 HID4 implementation
+      target/ppc: Correct handling of real mode accesses with vhyp on has=
+h MMU
+      target/ppc: Introduce ppc_hash64_use_vrma() helper
+      spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+      target/ppc: Remove RMOR register from POWER9 & POWER10
+      target/ppc: Use class fields to simplify LPCR masking
+      target/ppc: Streamline calculation of RMA limit from LPCR[RMLS]
+      target/ppc: Correct RMLS table
+      target/ppc: Only calculate RMLS derived RMA limit on demand
+      target/ppc: Don't store VRMA SLBE persistently
+      spapr: Don't use weird units for MIN_RMA_SLOF
+      spapr,ppc: Simplify signature of kvmppc_rma_size()
+      spapr: Don't attempt to clamp RMA to VRMA constraint
+      spapr: Don't clamp RMA to 16GiB on new machine types
+      spapr: Clean up RMA size calculation
+      spapr: Move creation of ibm,dynamic-reconfiguration-memory dt node
+      spapr: Move creation of ibm,architecture-vec-5 property
+      spapr: Rename DT functions to newer naming convention
+
+Greg Kurz (2):
+      spapr: Handle pending hot plug/unplug requests at CAS
+      ppc: Officially deprecate the CPU "compat" property
+
+Nicholas Piggin (8):
+      ppc/spapr: Fix FWNMI machine check failure handling
+      ppc/spapr: Change FWNMI names
+      ppc/spapr: Add FWNMI System Reset state
+      ppc/spapr: Fix FWNMI machine check interrupt delivery
+      ppc/spapr: Allow FWNMI on TCG
+      target/ppc: allow ppc_cpu_do_system_reset to take an alternate vect=
+or
+      ppc/spapr: Implement FWNMI System Reset delivery
+      ppc/spapr: Ignore common "ibm,nmi-interlock" Linux bug
+
+Philippe Mathieu-Daud=C3=A9 (8):
+      hw/ppc/pnv: Fix typo in comment
+      hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
+      hw/scsi/spapr_vscsi: Use SRP_MAX_IU_LEN instead of sizeof flexible =
+array
+      hw/scsi/spapr_vscsi: Simplify a bit
+      hw/scsi/spapr_vscsi: Introduce req_iu() helper
+      hw/scsi/spapr_vscsi: Do not mix SRP IU size with DMA buffer size
+      hw/scsi/spapr_vscsi: Prevent buffer overflow
+      hw/scsi/spapr_vscsi: Convert debug fprintf() to trace event
+
+Shivaprasad G Bhat (1):
+      spapr: Fix Coverity warning while validating nvdimm options
+
+Vitaly Chikunov (1):
+      target/ppc: Fix rlwinm on ppc64
+
+ docs/system/deprecated.rst        |   7 +
+ hw/intc/spapr_xive.c              |   4 +-
+ hw/ppc/pnv_lpc.c                  |   2 +-
+ hw/ppc/spapr.c                    | 980 ++++++++++++++++++++------------=
+------
+ hw/ppc/spapr_caps.c               |  19 +-
+ hw/ppc/spapr_cpu_core.c           |  16 +-
+ hw/ppc/spapr_events.c             |  51 +-
+ hw/ppc/spapr_hcall.c              |  15 +-
+ hw/ppc/spapr_nvdimm.c             |   7 +-
+ hw/ppc/spapr_ovec.c               |   4 +-
+ hw/ppc/spapr_rtas.c               |  45 +-
+ hw/scsi/spapr_vscsi.c             |  72 +--
+ hw/scsi/trace-events              |   1 +
+ hw/scsi/viosrp.h                  |   3 +-
+ include/hw/ppc/spapr.h            |  34 +-
+ include/hw/ppc/spapr_cpu_core.h   |   4 +-
+ include/hw/ppc/spapr_ovec.h       |   4 +-
+ pc-bios/README                    |   2 +-
+ pc-bios/slof.bin                  | Bin 931032 -> 965008 bytes
+ roms/SLOF                         |   2 +-
+ target/ppc/cpu-qom.h              |   1 +
+ target/ppc/cpu.h                  |  28 +-
+ target/ppc/excp_helper.c          |  79 ++-
+ target/ppc/kvm.c                  |   5 +-
+ target/ppc/kvm_ppc.h              |   7 +-
+ target/ppc/mmu-hash64.c           | 319 +++++--------
+ target/ppc/translate.c            |  20 +-
+ target/ppc/translate_init.inc.c   | 116 ++---
+ tests/qtest/libqos/libqos-spapr.h |   3 +-
+ 29 files changed, 930 insertions(+), 920 deletions(-)
 
