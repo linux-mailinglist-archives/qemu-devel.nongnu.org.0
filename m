@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769DC187E4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:30:05 +0100 (CET)
-Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CF1187E5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:32:17 +0100 (CET)
+Received: from localhost ([::1]:56127 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9U4-0003m9-CW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
+	id 1jE9WC-0006N9-Ak
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jE9GQ-0005N2-Ik
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:15:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96P-0002Bz-Ai
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jE9GO-0006My-KO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:15:58 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2511 helo=huawei.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96O-0007ct-34
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:37 -0400
+Received: from ozlabs.org ([203.11.71.1]:46565)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1jE9GO-0005Lp-7S
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:15:56 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id DA7D17B9018C35A16583;
- Tue, 17 Mar 2020 18:15:49 +0800 (CST)
-Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.221]) by
- DGGEMM405-HUB.china.huawei.com ([10.3.20.213]) with mapi id 14.03.0439.000;
- Tue, 17 Mar 2020 18:15:39 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] qom-qmp-cmds: Fix another memory leak in qmp_object_add()
-Thread-Topic: [PATCH] qom-qmp-cmds: Fix another memory leak in qmp_object_add()
-Thread-Index: AQHV/D3In4NOl2cshU65ZirmzAslvahMjsHQ
-Date: Tue, 17 Mar 2020 10:15:39 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83B69E58A@dggemm531-mbx.china.huawei.com>
-References: <20200317092241.31660-1-armbru@redhat.com>
-In-Reply-To: <20200317092241.31660-1-armbru@redhat.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.205.93]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jE96N-0003xE-Me; Tue, 17 Mar 2020 06:05:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48hTL039dLz9sTS; Tue, 17 Mar 2020 21:04:39 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584439480;
+ bh=SAXwkEjbnnAeuIlPrPLqPBmFdg7DXOMyP1ESLVuY0oE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=UQ+mM4JUpVvLAwBbWygdDmgo69WCA/RGQIxlzAiPh9k8Mo9aWpOI/fuiNOF2kWvFq
+ dkW7CXbrDrNNOpzgKDu/2VOfwXZMm6XL1v3JZUpRomINbNW/+XiUzLPHZ51YAmL/YW
+ aUFP9FAH8NUao5jZD06RSKIeWa5v5OQHP204hPWo=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 30/45] target/ppc: Fix rlwinm on ppc64
+Date: Tue, 17 Mar 2020 21:04:08 +1100
+Message-Id: <20200317100423.622643-31-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
+References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.188
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,42 +53,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- Pannengyuan <pannengyuan@huawei.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-stable@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, mdroth@linux.vnet.ibm.com,
+ qemu-devel@nongnu.org, Vitaly Chikunov <vt@altlinux.org>, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogUWVtdS1kZXZlbCBbbWFpbHRvOnFl
-bXUtZGV2ZWwtDQo+Ym91bmNlcytrdWhuLmNoZW5xdW49aHVhd2VpLmNvbUBub25nbnUub3JnXSBP
-biBCZWhhbGYgT2YgTWFya3VzDQo+QXJtYnJ1c3Rlcg0KPlNlbnQ6IFR1ZXNkYXksIE1hcmNoIDE3
-LCAyMDIwIDU6MjMgUE0NCj5UbzogcWVtdS1kZXZlbEBub25nbnUub3JnDQo+Q2M6IEtldmluIFdv
-bGYgPGt3b2xmQHJlZGhhdC5jb20+OyBwYm9uemluaUByZWRoYXQuY29tOw0KPmJlcnJhbmdlQHJl
-ZGhhdC5jb207IGVoYWJrb3N0QHJlZGhhdC5jb20NCj5TdWJqZWN0OiBbUEFUQ0hdIHFvbS1xbXAt
-Y21kczogRml4IGFub3RoZXIgbWVtb3J5IGxlYWsgaW4NCj5xbXBfb2JqZWN0X2FkZCgpDQo+DQo+
-V2hlbiB1c2VyX2NyZWF0YWJsZV9hZGRfdHlwZSgpIGZhaWxzLCBxbXBfb2JqZWN0X2FkZCgpIHJl
-dHVybnMgYm90aCBpdHMNCj5lcnJvciBhbmQgdGhlIHVzdWFsIGVtcHR5IFFEaWN0IHN1Y2Nlc3Mg
-dmFsdWUuICBUaGUgUU1QIGNvcmUgaGFuZGxlcyB0aGUNCj5lcnJvciwgYW5kIGlnbm9yZXMgdGhl
-IHN1Y2Nlc3MgdmFsdWUsIGxlYWtpbmcgaXQuICBFeHBvc2VkIGJ5IHFtcC1jbWQtdGVzdA0KPmNh
-c2UgL3g4Nl82NC9xbXAvb2JqZWN0LWFkZC13aXRob3V0LXByb3BzLCBhbmQgZHVseSByZXBvcnRl
-ZCBib3RoIGJ5DQo+QVNhbiBhbmQgdmFsZ3JpbmQuDQo+DQo+VG8gcGx1ZyB0aGUgbGVhaywgc2V0
-IHRoZSBzdWNjZXNzIHZhbHVlIG9ubHkgb24gc3VjY2Vzcy4NCj4NCj5GaXhlczogNWYwN2M0ZDYw
-ZDA5MTMyMDE4NmU3YjBlZGFmOWVkMmNjMTZiMmQxZQ0KPkNjOiBLZXZpbiBXb2xmIDxrd29sZkBy
-ZWRoYXQuY29tPg0KPlNpZ25lZC1vZmYtYnk6IE1hcmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVk
-aGF0LmNvbT4NCj4tLS0NCkhpLCAgTWFya3VzDQoNCiAgICAgICAgTG9va3MgbGlrZSB0aGUgc2Ft
-ZSBwYXRjaCB0aGF0IGhhcyBiZWVuIHJlcG9ydGVkIGFscmVhZHkgaGVyZToNCmh0dHBzOi8vbGlz
-dHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIwLTAzL21zZzAzOTI4Lmh0bWwN
-Cg0KTWF5YmUgd2Ugc2hvdWxkIGluaXRpYWxpemUgcmV0X2RhdGEgaW4geGVuLWJsb2NrIHRvIGF2
-b2lkIGEgcG9zc2libGUgdW5pbml0aWFsaXplZCBlcnJvciDvvJ8NCg0KVGhhbmtzLg0KPiBxb20v
-cW9tLXFtcC1jbWRzLmMgfCAyICstDQo+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
-MSBkZWxldGlvbigtKQ0KPg0KPmRpZmYgLS1naXQgYS9xb20vcW9tLXFtcC1jbWRzLmMgYi9xb20v
-cW9tLXFtcC1jbWRzLmMgaW5kZXgNCj40MzUxOTNiMDM2Li42YmQxMzdjY2JmIDEwMDY0NA0KPi0t
-LSBhL3FvbS9xb20tcW1wLWNtZHMuYw0KPisrKyBiL3FvbS9xb20tcW1wLWNtZHMuYw0KPkBAIC0y
-ODcsOCArMjg3LDggQEAgdm9pZCBxbXBfb2JqZWN0X2FkZChRRGljdCAqcWRpY3QsIFFPYmplY3QN
-Cj4qKnJldF9kYXRhLCBFcnJvciAqKmVycnApDQo+ICAgICB2aXNpdF9mcmVlKHYpOw0KPiAgICAg
-aWYgKG9iaikgew0KPiAgICAgICAgIG9iamVjdF91bnJlZihvYmopOw0KPisgICAgICAgICpyZXRf
-ZGF0YSA9IFFPQkpFQ1QocWRpY3RfbmV3KCkpOw0KPiAgICAgfQ0KPi0gICAgKnJldF9kYXRhID0g
-UU9CSkVDVChxZGljdF9uZXcoKSk7DQo+IH0NCj4NCj4gdm9pZCBxbXBfb2JqZWN0X2RlbChjb25z
-dCBjaGFyICppZCwgRXJyb3IgKiplcnJwKQ0KPi0tDQo+Mi4yMS4xDQo+DQoNCg==
+From: Vitaly Chikunov <vt@altlinux.org>
+
+rlwinm cannot just AND with Mask if shift value is zero on ppc64 when
+Mask Begin is greater than Mask End and high bits are set to 1.
+
+Note that PowerISA 3.0B says that for `rlwinm' ROTL32 is used, and
+ROTL32 is defined (in 3.3.14) so that rotated value should have two
+copies of lower word of the source value.
+
+This seems to be another incarnation of the fix from 820724d170
+("target-ppc: Fix rlwimi, rlwinm, rlwnm again"), except I leave
+optimization when Mask value is less than 32 bits.
+
+Fixes: 7b4d326f47 ("target-ppc: Use the new deposit and extract ops")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+Message-Id: <20200309204557.14836-1-vt@altlinux.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ target/ppc/translate.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 36fa27367c..127c82a24e 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1938,15 +1938,17 @@ static void gen_rlwinm(DisasContext *ctx)
+         me +=3D 32;
+ #endif
+         mask =3D MASK(mb, me);
+-        if (sh =3D=3D 0) {
+-            tcg_gen_andi_tl(t_ra, t_rs, mask);
+-        } else if (mask <=3D 0xffffffffu) {
+-            TCGv_i32 t0 =3D tcg_temp_new_i32();
+-            tcg_gen_trunc_tl_i32(t0, t_rs);
+-            tcg_gen_rotli_i32(t0, t0, sh);
+-            tcg_gen_andi_i32(t0, t0, mask);
+-            tcg_gen_extu_i32_tl(t_ra, t0);
+-            tcg_temp_free_i32(t0);
++        if (mask <=3D 0xffffffffu) {
++            if (sh =3D=3D 0) {
++                tcg_gen_andi_tl(t_ra, t_rs, mask);
++            } else {
++                TCGv_i32 t0 =3D tcg_temp_new_i32();
++                tcg_gen_trunc_tl_i32(t0, t_rs);
++                tcg_gen_rotli_i32(t0, t0, sh);
++                tcg_gen_andi_i32(t0, t0, mask);
++                tcg_gen_extu_i32_tl(t_ra, t0);
++                tcg_temp_free_i32(t0);
++            }
+         } else {
+ #if defined(TARGET_PPC64)
+             tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
+--=20
+2.24.1
+
 
