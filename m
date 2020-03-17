@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F13D188EB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:09:25 +0100 (CET)
-Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C38F188EC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:13:51 +0100 (CET)
+Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEIWi-00030s-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50570)
+	id 1jEIb0-0006B9-7D
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jEITa-0008Or-04
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:11 -0400
+ (envelope-from <peterx@redhat.com>) id 1jEIZG-00057T-Rr
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:12:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jEITY-00050H-Kg
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45389)
+ (envelope-from <peterx@redhat.com>) id 1jEIZF-000601-Fu
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:12:02 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21118)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEITY-0004w1-FH
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:08 -0400
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jEIZF-0005xK-Bp
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:12:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584475568;
+ s=mimecast20190719; t=1584475920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KIARl1H3U65zXq4MlRqXVEjDrgSVBYcSfawq25lyOTg=;
- b=HwD0sti3zi8K0SdEOP/tnFOMlf73SdFTFL6HO5jLFzcbMn/cUEJ1DJeWTp6eUFbbnQrAxc
- d08w1clt8QdvV+Xy0n7/c/AnnKgOouw/6DA8jcPrkWPjBqG9TXRD+wCM1z6oDIvItGwen+
- iAKyV6ouYTQDjNpnvw1A29YTuO2WLEo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-xS3s4NP8MFSXe28Zc-GFSQ-1; Tue, 17 Mar 2020 16:06:04 -0400
-X-MC-Unique: xS3s4NP8MFSXe28Zc-GFSQ-1
-Received: by mail-wr1-f72.google.com with SMTP id b12so11276221wro.4
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:06:04 -0700 (PDT)
+ bh=Ch6MFyjX0VPp0Y9DHKRGyPIJ148lX5GCC4QkkcQzBXA=;
+ b=SGQC02LSj1HfYAukbIRA780ERAxzLR9rJsZqgttVDIU56s8QFFSGxXJxTAjiiuvnrinM4V
+ Hg6VKIEjw28OsdDPcbuKMxGHhNR9mH8CSNOiJbS7JhoDzVWHZwixsOXIKGRei6aNRpJT8X
+ puL6ZH58qmdClVeVmXvPLOt3sRP3Kbs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-Qs7gbSBdOCiuMoOVvo9rjA-1; Tue, 17 Mar 2020 16:11:59 -0400
+X-MC-Unique: Qs7gbSBdOCiuMoOVvo9rjA-1
+Received: by mail-wr1-f70.google.com with SMTP id h17so1533686wru.16
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:11:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mrd5FWvmNFE63RRMy6fTaQFpQYng5ob5o09jcOCUbzM=;
- b=I1wmWjGTnSWrVYHw1sB1UsX2w4i8ia8N8cn2nm1fK8FJ1vU5tfFQBnEA6DHvwnx6PV
- uz88GsfBvH7/4/V6YIDoxPPFjpyh7AYxLJvywRxKYqPb0S1wGdxvwftC43PHYiGMGnAg
- 5nYWCaK4yX1kQcDy3eOH7xvt7cdglvYav2ltFLG5m+j1FOhFeH2DHeEM03SHxug/QA0t
- aXG15O1htmdnXsRF/wOxL3bfIlPZpF/1Byp5ZB+zyu0fcSyhcYgDGBJ+KL4s5eRhLvmI
- PSlTnci3xy7JfFdizHJMqeZDgnMpBb+Xu6/JZG2mL12wyIxoiX6b8rjLzw5hecF5rZ7y
- Rzog==
-X-Gm-Message-State: ANhLgQ2LMSGPh3PigKHjblSIta1YddyYOAWeHULLuWDr3I+Iweoxoy+d
- iqpCz2T0CwZdKa95/W2UVdNuQ6qwayJus/k6QUZ/y5rErMb/yEiAjjyEo4nqZGqmh242bY3/wLG
- gMt1qE1+eGqIpOq0=
-X-Received: by 2002:a1c:2e92:: with SMTP id u140mr730820wmu.84.1584475563057; 
- Tue, 17 Mar 2020 13:06:03 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuri5ZPg0/tYcFpIGHtBI+xYOPDo7pJVoPe7xPgBmScDhE03Afz8I6bYLAHJhgst5Dmyd7S4g==
-X-Received: by 2002:a1c:2e92:: with SMTP id u140mr730798wmu.84.1584475562845; 
- Tue, 17 Mar 2020 13:06:02 -0700 (PDT)
-Received: from x1w.redhat.com (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id i8sm5606946wrw.55.2020.03.17.13.06.01
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rTI5XjHvGl9p4i0aDDhF0wj7jPpyHkuu7P1chixtGmI=;
+ b=iU3cdv25c5tvQT+qnt27bN+8TuUIUWA2No5ptgIEcF6GoOakIqfvlrfWj+NEM27e/9
+ qKR9Wlmci4KwWOUodH9gUq8LJvQugfSDl3I6/m8nWSHWqNczJEsxDSh2J8rQ56NCIEXO
+ /Vslqto1Y21pdRXy/H55kaf/s7zEyPms1LxV2BD2Yk2PqbxKcAatmCC6XHli9rVd7oCt
+ kV3L5tNo2RQ6RvVSBcfaPfsr+2I7mR8GSl6k74gi42LgCgHuxigB6ZuNnY0EzkG/TBOl
+ 3IPYEND3WeW66gbQnFtc9VvjAD2twSUoOkNmEz9izh9rECcm02f3zpKdXuBJgioUJS8G
+ LtkA==
+X-Gm-Message-State: ANhLgQ1JQLUd3TPefzTdj0VqKWnvA26GxnjS8BO919oqSiwpU+cmMXc9
+ 8/vdZreWThzRaDiq5999QtBOw/QrjzTAxWWLz8nPeYus/9YX3z9kfJeSgZ5UPeUuVn+0ZD1jw/r
+ Ew8OXVQEOiAwo8KE=
+X-Received: by 2002:adf:cf04:: with SMTP id o4mr769390wrj.347.1584475918121;
+ Tue, 17 Mar 2020 13:11:58 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtjllUzPjABWuBX10YdXH38Jui4ZmPL2NVJuWV88ZxbDi/Nn6mgNpIM06xocj8G7Hu0+EaDOg==
+X-Received: by 2002:adf:cf04:: with SMTP id o4mr769370wrj.347.1584475917931;
+ Tue, 17 Mar 2020 13:11:57 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id w19sm638655wmi.0.2020.03.17.13.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 13:06:02 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] .travis.yml: Add a KVM-only s390x job
-Date: Tue, 17 Mar 2020 21:05:41 +0100
-Message-Id: <20200317200541.6246-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200317200541.6246-1-philmd@redhat.com>
-References: <20200317200541.6246-1-philmd@redhat.com>
+ Tue, 17 Mar 2020 13:11:57 -0700 (PDT)
+Date: Tue, 17 Mar 2020 16:11:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] pci: Display PCI IRQ pin in "info pci"
+Message-ID: <20200317201153.GB233068@xz-x1>
+References: <20200317195908.283800-1-peterx@redhat.com>
+ <6beb4b5d-91c6-2536-64ab-18217be71134@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <6beb4b5d-91c6-2536-64ab-18217be71134@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -88,84 +87,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to build QEMU on s390x with TCG disabled, so
-this configuration won't bitrot over time.
+On Tue, Mar 17, 2020 at 03:02:57PM -0500, Eric Blake wrote:
+> On 3/17/20 2:59 PM, Peter Xu wrote:
+> > Sometimes it would be good to be able to read the pin number along
+> > with the IRQ number allocated.  Since we'll dump the IRQ number, no
+> > reason to not dump the pin information.  For example, the vfio-pci
+> > device will overwrite the pin with the hardware pin number.  It would
+> > be nice to know the pin number of one assigned device from QMP/HMP.
+> >=20
+> > CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > CC: Alex Williamson <alex.williamson@redhat.com>
+> > CC: Michael S. Tsirkin <mst@redhat.com>
+> > CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > CC: Julia Suvorova <jusual@redhat.com>
+> > CC: Markus Armbruster <armbru@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >=20
+> > This helped me to debug an IRQ sharing issue, so may good to have it
+> > in master too.
+>=20
+> We're right at soft freeze.
+>=20
+>=20
+> > +++ b/qapi/misc.json
+> > @@ -403,6 +403,8 @@
+> >   #
+> >   # @irq: if an IRQ is assigned to the device, the IRQ number
+> >   #
+> > +# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
+> > +#
+>=20
+> But if we really do want it in 5.0, this needs a tweak.  Does the delay
+> hurt?
 
-This job is quick, running check-unit: Ran for 4 min 48 sec
-https://travis-ci.org/github/philmd/qemu/jobs/663659486
+No it won't; it's something good to have only.  I'll let the
+maintainers to decide...
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- .travis.yml | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+>=20
+> Naming convention: We prefer 'irq-pin' unless there is a consistency
+> issue....
+>=20
+> >   # @qdev_id: the device name of the PCI device
+> >   #
+> >   # @pci_bridge: if the device is a PCI bridge, the bridge information
+> > @@ -417,8 +419,8 @@
+> >   { 'struct': 'PciDeviceInfo',
+> >     'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
+> >              'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
+> > -           '*irq': 'int', 'qdev_id': 'str', '*pci_bridge': 'PciBridgeI=
+nfo',
+> > -           'regions': ['PciMemoryRegion']} }
+> > +           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
+> > +           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegio=
+n'] }}
+>=20
+> and the pre-existing pci_bridge is indeed the consistency issue.
 
-diff --git a/.travis.yml b/.travis.yml
-index b92798ac3b..0109f02ed4 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -524,6 +524,48 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
-=20
-+    - name: "[s390x] GCC check (KVM)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - TEST_CMD=3D"make check-unit"
-+        - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm --disa=
-ble-tools"
-+      script:
-+        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-+        - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
-+        - |
-+          if [ "$BUILD_RC" -eq 0 ] ; then
-+              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              ${TEST_CMD} ;
-+          else
-+              $(exit $BUILD_RC);
-+          fi
-+
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start=
- with a 'v'.
-     # This is the case when release candidate tags are created.
+Yeh, actually every key in this struct. :)
+
+Thanks,
+
 --=20
-2.21.1
+Peter Xu
 
 
