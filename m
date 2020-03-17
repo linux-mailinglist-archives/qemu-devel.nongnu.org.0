@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60591878F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:05:06 +0100 (CET)
-Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225601878F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:06:29 +0100 (CET)
+Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE4PZ-0008RY-OH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:05:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49805)
+	id 1jE4Qu-0001zK-69
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jE4Nv-0006qW-DB
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:03:24 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jE4O0-00072M-M6
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:03:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jE4Nu-0001v8-6Z
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:03:23 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39958)
+ (envelope-from <npiggin@gmail.com>) id 1jE4Nz-0002dm-BK
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:03:28 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35995)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jE4Nr-0001Qj-KJ; Tue, 17 Mar 2020 01:03:19 -0400
-Received: by mail-pl1-x641.google.com with SMTP id h11so9065376plk.7;
- Mon, 16 Mar 2020 22:03:19 -0700 (PDT)
+ id 1jE4Nw-0002CO-JM; Tue, 17 Mar 2020 01:03:24 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id nu11so6642855pjb.1;
+ Mon, 16 Mar 2020 22:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8ZYw6lvEvF1npHa5ZX6HcYXupR8cZnIrf1sZZ0UGhPA=;
- b=VrGYtHhV5M4XrGBGw3HFJwa+d3kZ/cVK988ufqLL8+d/yRL6qGnPkT0j281IngHKqs
- 6wS5qbtf5zVvpNosPirSpacoU67qwyKTM+TpVR2oK3oDGcoV4D3MHaU3AOPzG4wBb6l6
- nh6t/5C/f5SizwEkjA+SyrbcvKgBJ2nbcHqlXwMDwCaCCc4HailoDdKu5OCe6bMMR0+W
- IW1eLENc6otVxhVvAQsS9aYhChWM/KZ+ZUWzvurDGxnJfE8P+phwNeDq7UZ0Kgw1aDch
- n0YNTQcTj2P0J1oR2Obr9FRTPljNZdZ3zSQ8p0wqj+xIRjORkS3IUqs6uxUG6XYPxtJj
- g8Vw==
+ bh=amo7tEPKLKAI4LAECmJK7fRz7zN6KrBvaL5VCtrB9GE=;
+ b=opoZ+f1PJBBHSae1VU28wafJiBg312u0Y32s6moJ7ne8JRs3Imom3SpQMpe+LlFajp
+ aOFMyTvrDQNvXgSNVo7zODg2qWU2AVY8W38eocq26WikWvoG11PxjseSWTsWEHuVX471
+ lrQKXNFmiUd+SmGkEOd9AztW2z/RxB+ehvk4ulhCgmi1ZqAWHMIxMbGnDAM19yGKiUXV
+ TuWuavT2zwmDvd+C7gBeWBYH8iqgp/TD0zDpntDzVClOTiO1qhOHtwH/Hn0zqJuVAnBx
+ zWRu3xkmgWgfMqMv/bt8+awSRV4nG6Tdg0gd8ODO26L9HigthdE9QumUaMLi1Fs9vNv1
+ 8Cug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8ZYw6lvEvF1npHa5ZX6HcYXupR8cZnIrf1sZZ0UGhPA=;
- b=gu9JtD1m4aFedhU+NfH9XHEUCZ3PaIETr9x/8u/hGhtgxD8NGmD4WU8qWcJ7KVhW3Q
- MNmSAlCvVtOaPFDuaVrefEnPsm/Q60AVfqpRveqsGe9D2Nd7xcYz4OVRWUDOfOqE6mXr
- DLH9OHUoOHRWVRVLmCPy3eN7seGmrJly87X/D6PGSS9Og9egjLmb9Zf+CO8UyOEca6Yb
- HD+J2tuVkQfbNUDaT0TnYXQl0DtIM6GGguCKY79TeaXVOySl9T802+tE/FA622/G31G4
- RG1IPSi2MlKowCC3r1uJ9kqdlhBRAyLIoRcqjaBkR48CnkZ+T3t/aMzXL5PLYIewqUJl
- z0rw==
-X-Gm-Message-State: ANhLgQ2eBi7iR1cqjiw6DCQzZgVo4Ff8FqnKDnoyPeEGFYykvuESWReE
- Wtu1eHv8YfjbHcq8zbXpftUKpQVQqN8=
-X-Google-Smtp-Source: ADFU+vvXKd0g1JsmcLYvfK+2EVOTxkWQy8Nqt+mujMDKcN+btEkrxog7FsmGuusb57xGL3m2uWE/qg==
-X-Received: by 2002:a17:902:6bcb:: with SMTP id
- m11mr2708697plt.10.1584421398447; 
- Mon, 16 Mar 2020 22:03:18 -0700 (PDT)
+ bh=amo7tEPKLKAI4LAECmJK7fRz7zN6KrBvaL5VCtrB9GE=;
+ b=H36kD9csnktEQf4x+yO0Bk7vr+3+BvAjtAYQryGsyEFI3i8Ra5yHbz8ePhJ0B4KlPk
+ guiN0+MjMVbxEGyF2mHla04Ll9KxDv857HhKyKzLELVWqEkvgPTuuG1MFnUSH+frIajE
+ AJDlRoYlTpz7nQcou1dvRa4LUPVkh4Fa6Ctrfp8+eT9OQ27uYmM68mkgl6KkHbZONW8Q
+ jwAP8Vr8eDIpKJpxVb89Wq9eYGO6+goIfqnKa0kPNbkDkJLTjhJ1HIuDKCR1tDaCF7kk
+ V5hMFRUWy5jGBbgwWSs8wXTzzJpwJVyugldKmlbTljiBxLW+Gzm6U/WwjC7aLN7uV5S6
+ hkIw==
+X-Gm-Message-State: ANhLgQ2uO0jJe0MK+XpISvnpSjiwsQfDyA9XRuWqLHzLWUKs1pR026gH
+ lYmmBfFoPv3yRYTUO62fg4CZbtmWcrE=
+X-Google-Smtp-Source: ADFU+vtpZOSjgzNkEQr8+pR7DKgFMi5P/OoljaJw2SYbUvPB64vcjvtfXWmy5n4bnwKk3XeXwHp/hQ==
+X-Received: by 2002:a17:902:b58b:: with SMTP id
+ a11mr2716505pls.9.1584421403442; 
+ Mon, 16 Mar 2020 22:03:23 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com (14-202-190-183.tpgi.com.au.
  [14.202.190.183])
- by smtp.gmail.com with ESMTPSA id k67sm994803pga.91.2020.03.16.22.03.13
+ by smtp.gmail.com with ESMTPSA id k67sm994803pga.91.2020.03.16.22.03.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Mar 2020 22:03:17 -0700 (PDT)
+ Mon, 16 Mar 2020 22:03:22 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH 2/5] ppc/spapr: Improve FWNMI machine check delivery corner
- case comments
-Date: Tue, 17 Mar 2020 15:02:12 +1000
-Message-Id: <20200317050215.159334-3-npiggin@gmail.com>
+Subject: [PATCH 3/5] ppc/spapr: Add FWNMI machine check delivery warnings
+Date: Tue, 17 Mar 2020 15:02:13 +1000
+Message-Id: <20200317050215.159334-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200317050215.159334-1-npiggin@gmail.com>
 References: <20200317050215.159334-1-npiggin@gmail.com>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,64 +87,52 @@ Cc: Aravinda Prasad <arawinda.p@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the conditions are not as clearly documented as they could be.
-Also the non-FWNMI case does not need a large comment.
+Add some messages which explain problems and guest misbehaviour that
+may be difficult to diagnose in rare cases of machine checks.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_events.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ hw/ppc/spapr_events.c | 4 ++++
+ hw/ppc/spapr_rtas.c   | 4 ++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 323fcef4aa..05337f0671 100644
+index 05337f0671..d35151eeb0 100644
 --- a/hw/ppc/spapr_events.c
 +++ b/hw/ppc/spapr_events.c
-@@ -834,17 +834,13 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-     Error *local_err = NULL;
+@@ -807,6 +807,8 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+     /* get rtas addr from fdt */
+     rtas_addr = spapr_get_rtas_addr();
+     if (!rtas_addr) {
++        warn_report("FWNMI: Unable to deliver machine check to guest: "
++                    "rtas_addr not found.");
+         qemu_system_guest_panicked(NULL);
+         g_free(ext_elog);
+         return;
+@@ -848,6 +850,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+          * that CPU called "ibm,nmi-interlock")
+          */
+         if (spapr->fwnmi_machine_check_interlock == cpu->vcpu_id) {
++            warn_report("FWNMI: Unable to deliver machine check to guest: "
++                        "nested machine check.");
+             qemu_system_guest_panicked(NULL);
+             return;
+         }
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 29abe66d01..12cd09701c 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -462,6 +462,10 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+     }
  
      if (spapr->fwnmi_machine_check_addr == -1) {
--        /*
--         * This implies that we have hit a machine check either when the
--         * guest has not registered FWNMI (i.e., "ibm,nmi-register" not
--         * called) or between system reset and "ibm,nmi-register".
--         * Fall back to the old machine check behavior in such cases.
--         */
-+        /* Non-FWNMI case, deliver it like an architected CPU interrupt. */
-         cs->exception_index = POWERPC_EXCP_MCHECK;
-         ppc_cpu_do_interrupt(cs);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "FWNMI: ibm,nmi-interlock RTAS called with FWNMI not "
++                       "registered.\n");
++
+         /* NMI register not called */
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
          return;
-     }
- 
-+    /* Wait for FWNMI interlock. */
-     while (spapr->fwnmi_machine_check_interlock != -1) {
-         /*
-          * Check whether the same CPU got machine check error
-@@ -856,8 +852,13 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-             return;
-         }
-         qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_cond);
--        /* Meanwhile if the system is reset, then just return */
-         if (spapr->fwnmi_machine_check_addr == -1) {
-+            /*
-+             * If the machine was reset while waiting for the interlock,
-+             * abort the delivery. The machine check applies to a context
-+             * that no longer exists, so it wouldn't make sense to deliver
-+             * it now.
-+             */
-             return;
-         }
-     }
-@@ -868,7 +869,9 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-          * We don't want to abort so we let the migration to continue.
-          * In a rare case, the machine check handler will run on the target.
-          * Though this is not preferable, it is better than aborting
--         * the migration or killing the VM.
-+         * the migration or killing the VM. It is okay to call
-+         * migrate_del_blocker on a blocker that was not added (which the
-+         * nmi-interlock handler would do when it's called after this).
-          */
-         warn_report("Received a fwnmi while migration was in progress");
-     }
 -- 
 2.23.0
 
