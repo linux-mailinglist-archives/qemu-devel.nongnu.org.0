@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B981891B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:00:36 +0100 (CET)
-Received: from localhost ([::1]:42564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4741891D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:11:16 +0100 (CET)
+Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELCN-0004rK-7B
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:00:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52873)
+	id 1jELMh-0000ue-MY
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jELAF-00021m-L2
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:25 -0400
+ (envelope-from <crosa@redhat.com>) id 1jELLo-0000LS-LJ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:10:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1jELAD-0000PL-Tc
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44431)
+ (envelope-from <crosa@redhat.com>) id 1jELLm-00011g-RL
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:10:20 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:28238)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1jELAD-0000KM-PI
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 18:58:21 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1jELLm-0000rT-Fb
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:10:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584485901;
+ s=mimecast20190719; t=1584486617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0UF/wXy/5Xx0F5N5b18WnypTqi2VD8/BzVmBSxMaA+E=;
- b=jEUriOToIZQ3W4eRrcbKMoxQnM462HdyricIPLFvGvtAbWdIMhU152owD45O8hUkJPwkew
- 8uHq8C8FqqlAjSD+3wbyiMzL8ogfjy6ZQvcvdPXfQneNe5s6oJYTPj20yUl3qQYzh3Tkd7
- OsUjRm/S1FuI2U4bsGHlSeZuSWblURA=
+ bh=xBVlmo3wD7gBHiL9yf7lXGmy/YOVe3t9BaCifxbDauo=;
+ b=RPkAWaUfcaLEHAy18U89Ub/v0AHfL4/BmqDHgkkswIEHuOHbnErV8juv8i+2KX+5IRTPVV
+ opMHOcCzmbDzhhwtgd87s5ymhXgTJWUSqCebicidvJAjhAuz5s8SGunW2hgbNAVIq85LH+
+ 1IOY/WJEWqFoL6Kv7azUAu3wVXdEcAo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-Ckxkl7VsPIGlZbaoAVNfqA-1; Tue, 17 Mar 2020 18:58:19 -0400
-X-MC-Unique: Ckxkl7VsPIGlZbaoAVNfqA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-389-hdv58QlTPXKfXLvBGYZnyg-1; Tue, 17 Mar 2020 19:10:15 -0400
+X-MC-Unique: hdv58QlTPXKfXLvBGYZnyg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 736F81005513
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 22:58:18 +0000 (UTC)
-Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 879B39080B;
- Tue, 17 Mar 2020 22:58:12 +0000 (UTC)
-Date: Tue, 17 Mar 2020 16:58:12 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3.1 4/5] KVM: Kick resamplefd for split kernel irqchip
-Message-ID: <20200317165812.6ffe3e59@w520.home>
-In-Reply-To: <20200317224923.506330-1-peterx@redhat.com>
-References: <20200317195042.282977-5-peterx@redhat.com>
- <20200317224923.506330-1-peterx@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 617BE1005514;
+ Tue, 17 Mar 2020 23:10:14 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-2.rdu2.redhat.com [10.10.117.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA2FF94941;
+ Tue, 17 Mar 2020 23:10:06 +0000 (UTC)
+Date: Tue, 17 Mar 2020 19:10:04 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v10 3/3] Acceptance tests: add make targets to download
+ images
+Message-ID: <20200317231004.GA158340@localhost.localdomain>
+References: <20200317141654.29355-1-crosa@redhat.com>
+ <20200317141654.29355-4-crosa@redhat.com>
+ <87d09akevx.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87d09akevx.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -72,208 +73,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 18:49:23 -0400
-Peter Xu <peterx@redhat.com> wrote:
+--YiEDa0DAkWCtVeE4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This is majorly only for X86 because that's the only one that supports
-> split irqchip for now.
-> 
-> When the irqchip is split, we face a dilemma that KVM irqfd will be
-> enabled, however the slow irqchip is still running in the userspace.
-> It means that the resamplefd in the kernel irqfds won't take any
-> effect and it will miss to ack INTx interrupts on EOIs.
-> 
-> One example is split irqchip with VFIO INTx, which will break if we
-> use the VFIO INTx fast path.
-> 
-> This patch can potentially supports the VFIO fast path again for INTx,
-> that the IRQ delivery will still use the fast path, while we don't
-> need to trap MMIOs in QEMU for the device to emulate the EIOs (see the
-> callers of vfio_eoi() hook).  However the EOI of the INTx will still
-> need to be done from the userspace by caching all the resamplefds in
-> QEMU and kick properly for IOAPIC EOI broadcast.
-> 
-> This is tricky because in this case the userspace ioapic irr &
-> remote-irr will be bypassed.  However such a change will greatly boost
-> performance for assigned devices using INTx irqs (TCP_RR boosts 46%
-> after this patch applied).
-> 
-> When the userspace is responsible for the resamplefd kickup, don't
-> register it on the kvm_irqfd anymore, because on newer kernels (after
-> commit 654f1f13ea56, 5.2+) the KVM_IRQFD will fail if with both split
-> irqchip and resamplefd.  This will make sure that the fast path will
-> work for all supported kernels.
-> 
-> https://patchwork.kernel.org/patch/10738541/#22609933
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
-> v3.1 changelog
-> - only kick resamplefd for level triggered irqs [Alex]
->  accel/kvm/kvm-all.c    | 79 ++++++++++++++++++++++++++++++++++++++++--
->  accel/kvm/trace-events |  1 +
->  hw/intc/ioapic.c       | 17 +++++++++
->  include/sysemu/kvm.h   |  4 +++
->  4 files changed, 99 insertions(+), 2 deletions(-)
+On Tue, Mar 17, 2020 at 06:36:18PM +0000, Alex Benn=E9e wrote:
+>=20
+> Cleber Rosa <crosa@redhat.com> writes:
+>=20
+> > The newly introduced "boot linux" tests make use of Linux images that
+> > are larger than usual, and fall into what Avocado calls "vmimages",
+> > and can be referred to by name, version and architecture.
+> >
+> > The images can be downloaded automatically during the test. But, to
+> > make for more reliable test results, this introduces a target that
+> > will download the vmimages for the architectures that have been
+> > configured and are available for the currently used distro (Fedora
+> > 31).
+> >
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> > ---
+> >  tests/Makefile.include | 19 +++++++++++++++++--
+> >  1 file changed, 17 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tests/Makefile.include b/tests/Makefile.include
+> > index 67e8fcddda..9c19229a06 100644
+> > --- a/tests/Makefile.include
+> > +++ b/tests/Makefile.include
+> > @@ -20,6 +20,8 @@ check-help:
+> >  =09@echo " $(MAKE) check-venv           Creates a Python venv for test=
+s"
+> >  =09@echo " $(MAKE) check-clean          Clean the tests and related da=
+ta"
+> >  =09@echo
+> > +=09@echo " $(MAKE) get-vm-images        Downloads all images used by a=
+cceptance tests, according to configured targets (~350 MB each, 1.5 GB max)=
+"
+> > +=09@echo
+>=20
+> I'm not overly enamoured with a super long line help for something that
+> is a dependency anyway but whatever...
+>=20
+>
 
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+I had a hard time choosing the right info to put there, and I didn't
+want to break the style of the majority of help messages that use a
+single line.  Anyway, we can always improve that.
 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index d49b74512a..9a85fd1b8f 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -159,9 +159,59 @@ static const KVMCapabilityInfo kvm_required_capabilites[] = {
->  static NotifierList kvm_irqchip_change_notifiers =
->      NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
->  
-> +struct KVMResampleFd {
-> +    int gsi;
-> +    EventNotifier *resample_event;
-> +    QLIST_ENTRY(KVMResampleFd) node;
-> +};
-> +typedef struct KVMResampleFd KVMResampleFd;
-> +
-> +/*
-> + * Only used with split irqchip where we need to do the resample fd
-> + * kick for the kernel from userspace.
-> + */
-> +static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =
-> +    QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
-> +
->  #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
->  #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
->  
-> +static inline void kvm_resample_fd_remove(int gsi)
-> +{
-> +    KVMResampleFd *rfd;
-> +
-> +    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
-> +        if (rfd->gsi == gsi) {
-> +            QLIST_REMOVE(rfd, node);
-> +            g_free(rfd);
-> +            break;
-> +        }
-> +    }
-> +}
-> +
-> +static inline void kvm_resample_fd_insert(int gsi, EventNotifier *event)
-> +{
-> +    KVMResampleFd *rfd = g_new0(KVMResampleFd, 1);
-> +
-> +    rfd->gsi = gsi;
-> +    rfd->resample_event = event;
-> +
-> +    QLIST_INSERT_HEAD(&kvm_resample_fd_list, rfd, node);
-> +}
-> +
-> +void kvm_resample_fd_notify(int gsi)
-> +{
-> +    KVMResampleFd *rfd;
-> +
-> +    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
-> +        if (rfd->gsi == gsi) {
-> +            event_notifier_set(rfd->resample_event);
-> +            trace_kvm_resample_fd_notify(gsi);
-> +            return;
-> +        }
-> +    }
-> +}
-> +
->  int kvm_get_max_memslots(void)
->  {
->      KVMState *s = KVM_STATE(current_accel());
-> @@ -1642,8 +1692,33 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
->      };
->  
->      if (rfd != -1) {
-> -        irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
-> -        irqfd.resamplefd = rfd;
-> +        assert(assign);
-> +        if (kvm_irqchip_is_split()) {
-> +            /*
-> +             * When the slow irqchip (e.g. IOAPIC) is in the
-> +             * userspace, KVM kernel resamplefd will not work because
-> +             * the EOI of the interrupt will be delivered to userspace
-> +             * instead, so the KVM kernel resamplefd kick will be
-> +             * skipped.  The userspace here mimics what the kernel
-> +             * provides with resamplefd, remember the resamplefd and
-> +             * kick it when we receive EOI of this IRQ.
-> +             *
-> +             * This is hackery because IOAPIC is mostly bypassed
-> +             * (except EOI broadcasts) when irqfd is used.  However
-> +             * this can bring much performance back for split irqchip
-> +             * with INTx IRQs (for VFIO, this gives 93% perf of the
-> +             * full fast path, which is 46% perf boost comparing to
-> +             * the INTx slow path).
-> +             */
-> +            kvm_resample_fd_insert(virq, resample);
-> +        } else {
-> +            irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
-> +            irqfd.resamplefd = rfd;
-> +        }
-> +    } else if (!assign) {
-> +        if (kvm_irqchip_is_split()) {
-> +            kvm_resample_fd_remove(virq);
-> +        }
->      }
->  
->      if (!kvm_irqfds_enabled()) {
-> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-> index 4fb6e59d19..a68eb66534 100644
-> --- a/accel/kvm/trace-events
-> +++ b/accel/kvm/trace-events
-> @@ -16,4 +16,5 @@ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_
->  kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
->  kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
->  kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
-> +kvm_resample_fd_notify(int gsi) "gsi %d"
->  
-> diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-> index 15747fe2c2..2ae96e10be 100644
-> --- a/hw/intc/ioapic.c
-> +++ b/hw/intc/ioapic.c
-> @@ -241,6 +241,23 @@ void ioapic_eoi_broadcast(int vector)
->                  continue;
->              }
->  
-> +            /*
-> +             * When IOAPIC is in the userspace while APIC is still in
-> +             * the kernel (i.e., split irqchip), we have a trick to
-> +             * kick the resamplefd logic for registered irqfds from
-> +             * userspace to deactivate the IRQ.  When that happens, it
-> +             * means the irq bypassed userspace IOAPIC (so the irr and
-> +             * remote-irr of the table entry should be bypassed too
-> +             * even if interrupt come).  Still kick the resamplefds if
-> +             * they're bound to the IRQ, to make sure to EOI the
-> +             * interrupt for the hardware correctly.
-> +             *
-> +             * Note: We still need to go through the irr & remote-irr
-> +             * operations below because we don't know whether there're
-> +             * emulated devices that are using/sharing the same IRQ.
-> +             */
-> +            kvm_resample_fd_notify(n);
-> +
->              if (!(entry & IOAPIC_LVT_REMOTE_IRR)) {
->                  continue;
->              }
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 141342de98..583a976f8a 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -555,4 +555,8 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
->  int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
->  struct ppc_radix_page_info *kvm_get_radix_page_info(void);
->  int kvm_get_max_memslots(void);
-> +
-> +/* Notify resamplefd for EOI of specific interrupts. */
-> +void kvm_resample_fd_notify(int gsi);
-> +
->  #endif
+> >  =09@echo
+> >  =09@echo "The variable SPEED can be set to control the gtester speed s=
+etting."
+> >  =09@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; th=
+ey can be"
+> > @@ -889,7 +891,20 @@ $(TESTS_RESULTS_DIR):
+> > =20
+> >  check-venv: $(TESTS_VENV_DIR)
+> > =20
+> > -check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+> > +FEDORA_31_ARCHES_CANDIDATES=3D$(patsubst ppc64,ppc64le,$(TARGETS))
+> > +FEDORA_31_ARCHES :=3D x86_64 aarch64 ppc64le s390x
+> > +FEDORA_31_DOWNLOAD=3D$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_C=
+ANDIDATES))
+> > +
+> > +# download one specific Fedora 31 image
+> > +get-vm-image-fedora-31-%: $(check-venv)
+>=20
+> Why $(check-venv) instead of check-venv
+>
+
+Good point.
+
+> > +=09$(call quiet-command, \
+> > +             $(TESTS_VENV_DIR)/bin/python -m avocado vmimage get \
+> > +             --distro=3Dfedora --distro-version=3D31 --arch=3D$*)
+>=20
+> Some short text for the operation would be nice (DNLD acceptance images?)
+>
+
+Another good point.
+
+> > +
+> > +# download all vm images, according to defined targets
+> > +get-vm-images: $(check-venv) $(patsubst %,get-vm-image-fedora-31-%, $(=
+FEDORA_31_DOWNLOAD))
+> > +
+> > +check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+> >  =09$(call quiet-command, \
+> >              $(TESTS_VENV_DIR)/bin/python -m avocado \
+> >              --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_R=
+ESULTS_DIR) \
+> > @@ -900,7 +915,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+> > =20
+> >  # Consolidated targets
+> > =20
+> > -.PHONY: check-block check-qapi-schema check-qtest check-unit check che=
+ck-clean
+> > +.PHONY: check-block check-qapi-schema check-qtest check-unit check che=
+ck-clean get-vm-images
+> >  check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-s=
+chema/doc-good.texi
+> >  check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+> >  ifeq ($(CONFIG_TOOLS),y)
+>=20
+> Otherwise:
+>=20
+> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+>=20
+>
+
+Thanks!
+- Cleber.
+
+> --=20
+> Alex Benn=E9e
+>=20
+
+--YiEDa0DAkWCtVeE4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl5xWMkACgkQZX6NM6Xy
+CfMkyhAAl1jJl/haB8x5DlXQoopJQX9l4TJQLlR6Bsjl2IEP4lZ3OIZEqK2YukD3
+saenmtEi4ym5q/Uve8iOSy3qDIxctYCmFo5fJa1B8B1QwF7efOAIQDqGGSdcQ/rA
+5H7/6rJqEWVJQloZHT1qJgwAVnvNUrivcNp7PaW4j/vUBoUtGIv70aMRXm2gBxPa
+oCxMvoJUQv4f6AXCbukTmcyJuZnjACuZTQhCeIExq8KoboHfu45vqIfeilXdN3wb
+dgZUM1x/hfBkiNVOMKc1Gewceeqe3TGzq8QWlcbKJtBVv7cAAOjMUQ+3vjtoGACa
+7DX2WWzQsm8LR8DQLC0bZd5v9c9qEh6EHpY5AThn4e4VX+dHCtkYkVtmhm6LfH0o
+GjObTJFz/4WVOeeFp1JOyjdoNDMA6UPAMbok1u5433nzyiNAfvM+m0fv0pkYDVCB
+QlZXb2vbB0nsXPk3vaBPYM/awVefgruq6CQ1V5RQYeLvz56Pn4vk52EqFnYf9G5w
+p/vcZBTmrq1IQPNBRvpZL2Yqg55z4Z09A2X8PzlLZCyTYm2qZzQDS9YzOFkRYBW3
+ZotMPJtGjL4a9u0X3c5RmrjoDpcxcXh+9F/qif83kn9xV8NmO4azMQ1d6ui0/x3p
+UdUyYy7G0WjheL3CDmuqzpS2GijY6ztYwShe5nJKaIvy4aUgZAk=
+=LPBL
+-----END PGP SIGNATURE-----
+
+--YiEDa0DAkWCtVeE4--
 
 
