@@ -2,86 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49789187E91
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:43:47 +0100 (CET)
-Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D5F187E5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:32:15 +0100 (CET)
+Received: from localhost ([::1]:56124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9hK-0007RR-Aj
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53084)
+	id 1jE9WA-0006Ko-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE9Co-0006nM-K0
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:12:16 -0400
+ (envelope-from <teawaterz@linux.alibaba.com>) id 1jE9Ec-0001n3-2v
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:14:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE9Cn-0007xD-1u
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:12:14 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:57917)
+ (envelope-from <teawaterz@linux.alibaba.com>) id 1jE9EV-0007h5-2K
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:14:00 -0400
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:58653)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE9Cm-0007sc-SK
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:12:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584439932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wczHtPnFUm/B8CYddn2fGF8jAaaMjSval7XhFyORwt4=;
- b=JPdfHFkvv9m/VNnlJ9EKuUkWJ0vrsZPOAtxA9bkKN2sHFeEIarnza2X/7SMmuQPkIdA882
- Lx76f4GNP1CeixdI/Q7rFrbhgZ6fMzPdkjZlJ3+5nUSbytI9B9lV+a4NZ5gp+WjsOGEfpZ
- ht7smb9qCzZiqjmiFmOhdxFQvy6Ya8I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-MBbhNVwmOzyYMOCmuRfAXg-1; Tue, 17 Mar 2020 06:12:10 -0400
-X-MC-Unique: MBbhNVwmOzyYMOCmuRfAXg-1
-Received: by mail-wm1-f71.google.com with SMTP id s15so3969971wmc.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:12:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=23YmDj573kSY71NN04yCleqJPaB6Ug3awN2eCamQcr4=;
- b=tHOooA/RM7jcCgV95cCR/bZK8GwQHuw1e6m5OWXARsaXIgSykX4d6xJsj4pv6TbQi9
- 8yDVBBFEY7mzcW0NCMjsShexZtxodjxgDVuxkm8RhSwtabRWWEnqkMH0Cocs8vklFcl4
- jVH4QoqaHnE6wlBApt5tK2AC9pj/9VLocc50Sz2uA7XrdYC53cqCfKhdR84b6uq1JxaK
- TKcGEDv5mDGr9/lC8+wkQkmpnM8f5bGV8G+SHQttEOCQgJWvfxSjkPRCU11tlmtZF5Cd
- KANy3nwUpPy52wOktMa06JqE3i7j6YcVbnDVR+iaWDLb+rNvCEr7HIuib2rRaikGyiFO
- GxDA==
-X-Gm-Message-State: ANhLgQ3uwAoYPAU9ttsM2+cbyrDkozBMQE1IcFSN88dSW7AEfgUgGo4g
- o/ixYOxHYcRmZnGr+vvOPsCURkHQHKzagj00aW4iE3tBcnEXfKRDrUdDeLF5u13mUZbhvVfnRPK
- 8cazQzEZnhwCiooU=
-X-Received: by 2002:adf:a40d:: with SMTP id d13mr5152969wra.336.1584439929528; 
- Tue, 17 Mar 2020 03:12:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvsj4FyWhYWEUpLTEsKcFXnH8NKbTvtbBKHav2XX35uKWdtDVmxL3PTBXDe37/50rUNt2I+8A==
-X-Received: by 2002:adf:a40d:: with SMTP id d13mr5152925wra.336.1584439929198; 
- Tue, 17 Mar 2020 03:12:09 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id i12sm3990664wro.46.2020.03.17.03.12.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:12:08 -0700 (PDT)
-Subject: Re: [PATCH 1/2] migration: avoid suspicious strncpy() use
-To: Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>
-References: <20200316160702.478964-1-stefanha@redhat.com>
- <20200316160702.478964-2-stefanha@redhat.com>
- <24d36e90-5880-02ad-fa24-761eb3d9074f@redhat.com>
- <62dbe165-8311-71f0-fcf6-d020d7e93fd8@redhat.com>
- <20200317095222.GB492272@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <eeede616-a22d-9d82-4c86-65f1ab4aef73@redhat.com>
-Date: Tue, 17 Mar 2020 11:12:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200317095222.GB492272@stefanha-x1.localdomain>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.71) (envelope-from <teawaterz@linux.alibaba.com>)
+ id 1jE9EU-000740-Ko
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:13:59 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04452; MF=teawaterz@linux.alibaba.com;
+ NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0Tss.xHA_1584440013; 
+Received: from 127.0.0.1(mailfrom:teawaterz@linux.alibaba.com
+ fp:SMTPD_---0Tss.xHA_1584440013) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 17 Mar 2020 18:13:38 +0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
+Subject: Re: [RFC for QEMU] virtio-balloon: Add option thp-order to set
+ VIRTIO_BALLOON_F_THP_ORDER
+From: teawater <teawaterz@linux.alibaba.com>
+In-Reply-To: <20200312042340-mutt-send-email-mst@kernel.org>
+Date: Tue, 17 Mar 2020 18:13:32 +0800
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Message-Id: <C9436807-D9CA-49FD-AEE3-3B7CE4BBB711@linux.alibaba.com>
+References: <1583999395-9131-1-git-send-email-teawater@gmail.com>
+ <1583999395-9131-2-git-send-email-teawater@gmail.com>
+ <20200312042340-mutt-send-email-mst@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+X-Mailer: Apple Mail (2.3608.60.0.2.5)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,115 +55,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: pagupta@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
+ mojha@codeaurora.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, namit@vmware.com,
+ akpm@linux-foundation.org, jasowang@redhat.com, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 10:52 AM, Stefan Hajnoczi wrote:
-> On Mon, Mar 16, 2020 at 01:15:35PM -0500, Eric Blake wrote:
->> On 3/16/20 1:09 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 3/16/20 5:07 PM, Stefan Hajnoczi wrote:
->>>> gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled
->>>> reports the following error:
->>>>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 migration/g=
-lobal_state.o
->>>>  =C2=A0=C2=A0 In file included from /usr/include/string.h:495,
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from /home/stefanha/qemu/incl=
-ude/qemu/osdep.h:101,
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from migration/global_state.c=
-:13:
->>>>  =C2=A0=C2=A0 In function =E2=80=98strncpy=E2=80=99,
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inlined from =E2=80=98global_sta=
-te_store_running=E2=80=99 at
->>>> migration/global_state.c:47:5:
->>>>  =C2=A0=C2=A0 /usr/include/bits/string_fortified.h:106:10: error:
->>>> =E2=80=98__builtin_strncpy=E2=80=99 specified bound 100 equals destina=
-tion size
->>>> [-Werror=3Dstringop-truncation]
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0 106 |=C2=A0=C2=A0 return __builtin___strncpy=
-_chk (__dest, __src, __len,
->>>> __bos (__dest));
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
->>>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>
->>>> Use pstrcpy() instead of strncpy().=C2=A0 It is guaranteed to NUL-term=
-inate
->>>> strings.
->>>
->>> There was a long discussion 1 year ago with it, and Eric suggested to
->>> use strpadcpy after the assert() and I sent this patch:
->>> https://www.mail-archive.com/qemu-block@nongnu.org/msg44925.html
->>> Not sure what's best.
->>
->> strncpy() pads the tail, guaranteeing that for our fixed-size buffer, we
->> guarantee the contents of all bytes in the buffer.  pstrcpy() does not (=
-but
->> pstrcpy() can be followed up with a memset() to emulate the remaining
->> effects of strncpy() - at which point you have reimplemented strpadcpy).
->>
->>>
->>>>
->>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->>>> ---
->>>>  =C2=A0 migration/global_state.c | 4 ++--
->>>>  =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/migration/global_state.c b/migration/global_state.c
->>>> index 25311479a4..cbe07f21a8 100644
->>>> --- a/migration/global_state.c
->>>> +++ b/migration/global_state.c
->>>> @@ -44,8 +44,8 @@ void global_state_store_running(void)
->>>>  =C2=A0 {
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *state =3D RunState_str(RUN=
-_STATE_RUNNING);
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(strlen(state) < sizeof(global_s=
-tate.runstate));
->>>> -=C2=A0=C2=A0=C2=A0 strncpy((char *)global_state.runstate,
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 state, s=
-izeof(global_state.runstate));
->>>> +=C2=A0=C2=A0=C2=A0 pstrcpy((char *)global_state.runstate,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 si=
-zeof(global_state.runstate), state);
->>
->> Can we guarantee that the padding bytes have been previously set to 0, o=
-r do
->> we need to go the extra mile with a memset() or strpadcpy() to guarantee
->> that we have set the entire buffer?
->=20
-> I don't understand GlobalState:
->=20
-> 1. You ask if runstate[] must be padded with NULs but neither
->     global_state_store() nor register_global_state() do that.  Is it
->     really necessary to pad runstate[]?
->=20
->     If yes, is it safe for global_state_store() and
->     register_global_state() to not pad runstate[]?
->=20
->     If we decide the pad runstate[] to prevent information leaks to the
->     migration destination then I think it should be done in the pre-save
->     function so that it's guaranteed to happen no matter which of the 3
->     functions that write runstate[] has been called.
->=20
-> 2. There is a GlobalState::size field that is only written and then
->     migrated but never read from what I can tell.  :?
 
-Isn't it in process_incoming_migration_bh()?
 
-     /* If global state section was not received or we are in running
-        state, we need to obey autostart. Any other state is set with
-        runstate_set. */
-     ...
-     runstate_set(global_state_get_runstate());
+> 2020=E5=B9=B43=E6=9C=8812=E6=97=A5 16:25=EF=BC=8CMichael S. Tsirkin =
+<mst@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Thu, Mar 12, 2020 at 03:49:55PM +0800, Hui Zhu wrote:
+>> If the guest kernel has many fragmentation pages, use virtio_balloon
+>> will split THP of QEMU when it calls MADV_DONTNEED madvise to release
+>> the balloon pages.
+>> Set option thp-order to on will open flags =
+VIRTIO_BALLOON_F_THP_ORDER.
+>> It will set balloon size to THP size to handle the THP split issue.
+>>=20
+>> Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
+>=20
+> What's wrong with just using the PartiallyBalloonedPage machinery
+> instead? That would make it guest transparent.
+
+In balloon_inflate_page:
+    rb_page_size =3D qemu_ram_pagesize(rb);
+
+    if (rb_page_size =3D=3D BALLOON_PAGE_SIZE) {
+        /* Easy case */
+
+It seems that PartiallyBalloonedPage is only used when rb_page_size is =
+greater than BALLOON_PAGE_SIZE.
+Do you mean I should modify the working mechanism of =
+balloon_inflate_page function?
+
+Thanks,
+Hui
 
 >=20
-> Juan: Please clarify the above.  Thanks!
->=20
+>> ---
+>> hw/virtio/virtio-balloon.c                      | 67 =
+++++++++++++++++---------
+>> include/standard-headers/linux/virtio_balloon.h |  4 ++
+>> 2 files changed, 47 insertions(+), 24 deletions(-)
+>>=20
+>> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+>> index a4729f7..cfe86b0 100644
+>> --- a/hw/virtio/virtio-balloon.c
+>> +++ b/hw/virtio/virtio-balloon.c
+>> @@ -340,37 +340,49 @@ static void =
+virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>>         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, =
+4) =3D=3D 4) {
+>>             unsigned int p =3D virtio_ldl_p(vdev, &pfn);
+>>             hwaddr pa;
+>> +            size_t handle_size =3D BALLOON_PAGE_SIZE;
+>>=20
+>>             pa =3D (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
+>>             offset +=3D 4;
+>>=20
+>> -            section =3D memory_region_find(get_system_memory(), pa,
+>> -                                         BALLOON_PAGE_SIZE);
+>> -            if (!section.mr) {
+>> -                trace_virtio_balloon_bad_addr(pa);
+>> -                continue;
+>> -            }
+>> -            if (!memory_region_is_ram(section.mr) ||
+>> -                memory_region_is_rom(section.mr) ||
+>> -                memory_region_is_romd(section.mr)) {
+>> -                trace_virtio_balloon_bad_addr(pa);
+>> -                memory_region_unref(section.mr);
+>> -                continue;
+>> -            }
+>> +            if (virtio_has_feature(s->host_features,
+>> +                                   VIRTIO_BALLOON_F_THP_ORDER))
+>> +                handle_size =3D BALLOON_PAGE_SIZE << =
+VIRTIO_BALLOON_THP_ORDER;
+>> +
+>> +            while (handle_size > 0) {
+>> +                section =3D memory_region_find(get_system_memory(), =
+pa,
+>> +                                             BALLOON_PAGE_SIZE);
+>> +                if (!section.mr) {
+>> +                    trace_virtio_balloon_bad_addr(pa);
+>> +                    continue;
+>> +                }
+>> +                if (!memory_region_is_ram(section.mr) ||
+>> +                    memory_region_is_rom(section.mr) ||
+>> +                    memory_region_is_romd(section.mr)) {
+>> +                    trace_virtio_balloon_bad_addr(pa);
+>> +                    memory_region_unref(section.mr);
+>> +                    continue;
+>> +                }
+>>=20
+>> -            =
+trace_virtio_balloon_handle_output(memory_region_name(section.mr),
+>> -                                               pa);
+>> -            if (!qemu_balloon_is_inhibited()) {
+>> -                if (vq =3D=3D s->ivq) {
+>> -                    balloon_inflate_page(s, section.mr,
+>> -                                         =
+section.offset_within_region, &pbp);
+>> -                } else if (vq =3D=3D s->dvq) {
+>> -                    balloon_deflate_page(s, section.mr, =
+section.offset_within_region);
+>> -                } else {
+>> -                    g_assert_not_reached();
+>> +                =
+trace_virtio_balloon_handle_output(memory_region_name(section.mr),
+>> +                                                   pa);
+>> +                if (!qemu_balloon_is_inhibited()) {
+>> +                    if (vq =3D=3D s->ivq) {
+>> +                        balloon_inflate_page(s, section.mr,
+>> +                                             =
+section.offset_within_region,
+>> +                                             &pbp);
+>> +                    } else if (vq =3D=3D s->dvq) {
+>> +                        balloon_deflate_page(s, section.mr,
+>> +                                             =
+section.offset_within_region);
+>> +                    } else {
+>> +                        g_assert_not_reached();
+>> +                    }
+>>                 }
+>> +                memory_region_unref(section.mr);
+>> +
+>> +                pa +=3D BALLOON_PAGE_SIZE;
+>> +                handle_size -=3D BALLOON_PAGE_SIZE;
+>>             }
+>> -            memory_region_unref(section.mr);
+>>         }
+>>=20
+>>         virtqueue_push(vq, elem, offset);
+>> @@ -693,6 +705,8 @@ static void =
+virtio_balloon_set_config(VirtIODevice *vdev,
+>>=20
+>>     memcpy(&config, config_data, virtio_balloon_config_size(dev));
+>>     dev->actual =3D le32_to_cpu(config.actual);
+>> +    if (virtio_has_feature(vdev->host_features, =
+VIRTIO_BALLOON_F_THP_ORDER))
+>> +        dev->actual <<=3D VIRTIO_BALLOON_THP_ORDER;
+>>     if (dev->actual !=3D oldactual) {
+>>         qapi_event_send_balloon_change(vm_ram_size -
+>>                         ((ram_addr_t) dev->actual << =
+VIRTIO_BALLOON_PFN_SHIFT));
+>> @@ -728,6 +742,9 @@ static void virtio_balloon_to_target(void =
+*opaque, ram_addr_t target)
+>>     }
+>>     if (target) {
+>>         dev->num_pages =3D (vm_ram_size - target) >> =
+VIRTIO_BALLOON_PFN_SHIFT;
+>> +        if (virtio_has_feature(dev->host_features,
+>> +                               VIRTIO_BALLOON_F_THP_ORDER))
+>> +            dev->num_pages >>=3D VIRTIO_BALLOON_THP_ORDER;
+>>         virtio_notify_config(vdev);
+>>     }
+>>     trace_virtio_balloon_to_target(target, dev->num_pages);
+>> @@ -916,6 +933,8 @@ static Property virtio_balloon_properties[] =3D {
+>>                     VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
+>>     DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
+>>                     VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
+>> +    DEFINE_PROP_BIT("thp-order", VirtIOBalloon, host_features,
+>> +                    VIRTIO_BALLOON_F_THP_ORDER, false),
+>>     /* QEMU 4.0 accidentally changed the config size even when =
+free-page-hint
+>>      * is disabled, resulting in QEMU 3.1 migration incompatibility.  =
+This
+>>      * property retains this quirk for QEMU 4.1 machine types.
+>> diff --git a/include/standard-headers/linux/virtio_balloon.h =
+b/include/standard-headers/linux/virtio_balloon.h
+>> index 9375ca2..f54d613 100644
+>> --- a/include/standard-headers/linux/virtio_balloon.h
+>> +++ b/include/standard-headers/linux/virtio_balloon.h
+>> @@ -36,10 +36,14 @@
+>> #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM	2 /* Deflate balloon on =
+OOM */
+>> #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free =
+pages */
+>> #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page =
+poisoning */
+>> +#define VIRTIO_BALLOON_F_THP_ORDER	5 /* Set balloon page order to =
+thp order */
+>>=20
+>> /* Size of a PFN in the balloon interface. */
+>> #define VIRTIO_BALLOON_PFN_SHIFT 12
+>>=20
+>> +/* The order of the balloon page */
+>> +#define VIRTIO_BALLOON_THP_ORDER 9
+>> +
+>> #define VIRTIO_BALLOON_CMD_ID_STOP	0
+>> #define VIRTIO_BALLOON_CMD_ID_DONE	1
+>> struct virtio_balloon_config {
+>> --=20
+>> 2.7.4
 
 
