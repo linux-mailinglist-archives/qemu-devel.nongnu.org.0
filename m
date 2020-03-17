@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8513188CE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:13:02 +0100 (CET)
-Received: from localhost ([::1]:38687 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A4F188D03
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:21:32 +0100 (CET)
+Received: from localhost ([::1]:38984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGi5-0005cd-T2
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44494)
+	id 1jEGqJ-0007od-RW
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jEGgl-0004Oy-1T
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:39 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1jEGir-0007Ll-1o
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:13:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jEGgj-0007ln-HG
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:38 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37330)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jEGgj-0007Yi-CE
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:37 -0400
-Received: by mail-oi1-x243.google.com with SMTP id w13so22833922oih.4
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 11:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iUkX8fuwyHhypxL9tKPv2VHnDme+D2YoOp0hvm/rEKA=;
- b=Bbq6VyiAJKQVs9SwsHR0AP4hn5GJ1gvPe38vCf8xELx+PGJfUw+x5LhEs8uf4+kkWs
- 4zmEuQpWsJtYebSHmKZX6F06DoLHU9BaWfymeQPm2H40Z7PhWPe1TSRkVyCCPAPAUZjV
- lbZxr8ovxTPA+rsP7UsAXCJrLY3Oyc5N/EWEXPdsiIYPgWW3F+sVtQR51aojF646uvKI
- Gt+S2F2twUqy8izsvJVi1CVKmF985GNNcbizVrI6sIAeJMsr0849jCfJ948PDw8GcfFU
- sChZ6ziYzdLUwTCbh3xKrpoaFeLr9YfqpEag4cbvEd+9slmYm3siYaGRvV99ghm4TgaH
- JaZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iUkX8fuwyHhypxL9tKPv2VHnDme+D2YoOp0hvm/rEKA=;
- b=IWPamrwXh1Y9XmiIZgf3GXjkOrp5YLWMvi1du1s9sGq7Ja0+ui5QOb77NQXXZY0zGI
- Fd4o/QRVJegR7SFJ24m+jspy8Ix/x+bvAtjnYbiqAD81D1lAyKS5VQvrGQIcPrx0RDw5
- 2PIzRH0gw32m2wbiu57r4LZEKWULyOtqEc5+k+rfnXd1UAVpnHyD6QLNwjEyT+yLqrOl
- mKExhlCzxbxTdmtlBN75sWPsIJqwNfe6fuVLUk4Jmta7oAC4rceJylROsgp8Yg9GgK2S
- VxBMs3umxXfbn9KdiSESWAgYBQPwhR4bnYJ5j+JU36XwiKb1XBAaT+S9dliwbIm+j/i0
- u4FA==
-X-Gm-Message-State: ANhLgQ1d+KiQKgxkFdlQFHk3uBCHWQMaPUCh27+QxWEZRGfufqUlWX+i
- tlGIN6w0soGptMBbL8KVTCEAOB7Ksw2w7Hb0EiUWKQ==
-X-Google-Smtp-Source: ADFU+vupP9KbTuAebCwLbBMErw1yFVcvsVncdQnfjTF30OG00xU8mtodsYyoe1OEVP+/yJwX0DCg7lYQ3UHfo/bGu0E=
-X-Received: by 2002:aca:c608:: with SMTP id w8mr82276oif.163.1584468693785;
- Tue, 17 Mar 2020 11:11:33 -0700 (PDT)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1jEGio-0007wy-F4
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:13:47 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22374)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1jEGio-0007q0-8g
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:13:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584468824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qUeb7eVKHzR6huGHguldQ1yMjr8M76rwgzBlTAgtsa4=;
+ b=i/t6AYbzNRRGGBfPKXgJtVkl/Ap45U8ZB0L4l1OCI+1QXCkER25XUNXUT28IsJEBwAZavB
+ 1JyBF3DdIc3clXzWMhnQmPRZCJrEvTAiEpO0D7mUh8HaDcqi8rRzaGypPb53Bn7AsiG+Tk
+ EM1Y7vURvVknKlexOy1k5WvFf/aRlUA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-A7OtpTZ2Poy8ZUU5-bX7Yg-1; Tue, 17 Mar 2020 14:13:42 -0400
+X-MC-Unique: A7OtpTZ2Poy8ZUU5-bX7Yg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A8D5800D55;
+ Tue, 17 Mar 2020 18:13:41 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39F2148;
+ Tue, 17 Mar 2020 18:13:38 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] slirp: update submodule to v4.2.0 + mingw-fix
+Date: Tue, 17 Mar 2020 19:13:36 +0100
+Message-Id: <20200317181336.2730307-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20200317175534.196295-1-eblake@redhat.com>
-In-Reply-To: <20200317175534.196295-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Mar 2020 18:11:22 +0000
-Message-ID: <CAFEAcA8qGWhvoRwT1Wcg6RTWONG7gVSzGbhCFtG-AgQYwZHyQA@mail.gmail.com>
-Subject: Re: [PATCH] build: Silence clang warning on older glib autoptr usage
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +67,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 at 17:55, Eric Blake <eblake@redhat.com> wrote:
->
-> glib's G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro defines several static
-> inline functions, often with some of them unused, but prior to 2.57.2
-> did not mark the functions as such.  As a result, clang (but not gcc)
-> fails to build with older glib unless -Wno-unused-function is enabled.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->
-> Half-tested: I proved to myself that this does NOT enable
-> -Wno-unused-function on my setup of glib 2.62.5 and gcc 9.2.1 (Fedora
-> 31), but would do so if I introduced an intentional compile error into
-> the sample program; but Iwas unable to test that it would prevent the
-> build failure encountered by Peter on John's pull request (older glib
-> but exact version unknown, clang, on NetBSD).
+git shortlog
+126c04acbabd7ad32c2b018fe10dfac2a3bc1210..7012a2c62e5b54eab88c119383022ec7c=
+e86e9b2
 
-This wasn't a NetBSD failure. I hit it on my clang-on-x86-64-Ubuntu
-setup, and also on FreeBSD. (The latter is just the tests/vm
-FreeBSD config, so you can repro that if you need to.)
+5eraph (1):
+      Use specific outbound IP address
 
-The ubuntu setup is libglib 2.56.4-0ubuntu0.18.04.4 and
-clang 6.0.0-1ubuntu2.
+Akihiro Suda (8):
+      remove confusing comment that exists from ancient slirp
+      add slirp_new(SlirpConfig *, SlirpCb *, void *)
+      allow custom MTU
+      add disable_host_loopback (prohibit connections to 127.0.0.1)
+      add SlirpConfig version
+      emu: remove dead code
+      emu: disable by default
+      fix a typo in a comment
 
-thanks
--- PMM
+Anders Waldenborg (1):
+      state: fix loading of guestfwd state
+
+Giuseppe Scrivano (1):
+      socket: avoid getpeername after shutdown(SHUT_WR)
+
+Jindrich Novy (1):
+      Don't leak memory when reallocation fails.
+
+Jordi Pujol Palomer (1):
+      fork_exec: correctly parse command lines that contain spaces
+
+Marc-Andr=C3=A9 Lureau (54):
+      Merge branch 'AkihiroSuda/libslirp-slirp4netns'
+      Merge branch 'fix-typo' into 'master'
+      meson: make it subproject friendly
+      Merge branch 'meson' into 'master'
+      misc: fix compilation warnings
+      Merge branch 'fix-shutdown-wr' into 'master'
+      sbuf: remove unused and undefined sbcopy() path
+      sbuf: check more strictly sbcopy() bounds with offset
+      sbuf: replace a comment with a runtime warning
+      Replace remaining malloc/free user with glib
+      tcp_attach() can no longer fail
+      state: can't ENOMEM
+      sbuf: use unsigned types
+      sbuf: simplify sbreserve()
+      dnssearch: use g_strv_length()
+      vmstate: silence scan-build warning
+      gitlab-ci: run scan-build
+      Merge branch 'mem-cleanups' into 'master'
+      libslirp.map: bind slirp_new to SLIRP_4.1 version
+      meson: fix libtool versioning
+      Release v4.1.0
+      Merge branch '4.1.0' into 'master'
+      CHANGELOG: start unreleased section
+      Merge branch 'add-unix' into 'master'
+      util: add G_SIZEOF_MEMBER() macro
+      Check bootp_filename is not going to be truncated
+      bootp: remove extra cast
+      bootp: replace simple snprintf() with strcpy()
+      tftp: clarify what is actually OACK m_len
+      tcp_emu: add more fixme/warnings comments
+      util: add slirp_fmt() helpers
+      dhcpv6: use slirp_fmt()
+      misc: use slirp_fmt0()
+      tftp: use slirp_fmt0()
+      tcp_ctl: use slirp_fmt()
+      tcp_emu: fix unsafe snprintf() usages
+      misc: improve error report
+      Use g_snprintf()
+      util: add gnuc format function attribute to slirp_fmt*
+      Merge branch 'aw-guestfwd-state' into 'master'
+      Merge branch 'slirp-fmt' into 'master'
+      socket: remove extra label and variable
+      socket: factor out sotranslate ipv4/ipv6 handling
+      socket: remove need for extra scope_id variable
+      socket: do not fallback on host loopback if get_dns_addr() failed
+      socket: do not fallback on loopback addr for addresses in our mask/pr=
+efix
+      Prepare for v4.2.0 release
+      Merge branch 'translate-fix' into 'master'
+      Merge branch 'release-v4.2.0' into 'master'
+      changelog: post-release
+      changelog: fix link
+      .gitlab-ci: add --werror, treat CI build warnings as errors
+      Revert "socket: remove need for extra scope_id variable"
+      Merge branch 'mingw-fix' into 'master'
+
+PanNengyuan (1):
+      libslirp: fix NULL pointer dereference in tcp_sockclosed
+
+Philippe Mathieu-Daud=C3=A9 (1):
+      Add a git-publish configuration file
+
+Prasad J Pandit (4):
+      slirp: ncsi: compute checksum for valid data length
+      slirp: use correct size while emulating IRC commands
+      slirp: use correct size while emulating commands
+      slirp: tftp: restrict relative path access
+
+Renzo Davoli (2):
+      Add slirp_remove_guestfwd()
+      Add slirp_add_unix()
+
+Samuel Thibault (14):
+      ip_reass: explain why we should not always update the q pointer
+      Merge branch 'comment' into 'master'
+      Merge branch 'no-emu' into 'master'
+      Fix bogus indent, no source change
+      ip_reass: Fix use after free
+      Merge branch 'reass2' into 'master'
+      Make host receive broadcast packets
+      arp: Allow 0.0.0.0 destination address
+      Merge branch 'warnings' into 'master'
+      Merge branch 'arp_0' into 'master'
+      Merge branch 'broadcast' into 'master'
+      tcp_emu: Fix oob access
+      Merge branch 'oob' into 'master'
+      Merge branch 'master' into 'master'
+
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ slirp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/slirp b/slirp
+index 126c04acba..7012a2c62e 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
++Subproject commit 7012a2c62e5b54eab88c119383022ec7ce86e9b2
+--=20
+2.25.0.rc2.1.g09a9a1a997
+
 
