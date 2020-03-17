@@ -2,45 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A28188D67
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:45:39 +0100 (CET)
-Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8342B188D57
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:40:18 +0100 (CET)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEHDe-00019U-AN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33179)
+	id 1jEH8T-0002s1-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35263)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jEH2y-0003LU-FI
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:34:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jEH4h-0005tD-Ro
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:36:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jEH2x-0003qQ-2W
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:34:36 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:36498)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jEH2t-0003RW-6X; Tue, 17 Mar 2020 14:34:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 05D88747DF5;
- Tue, 17 Mar 2020 19:34:29 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D6B6E747D5D; Tue, 17 Mar 2020 19:34:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D504D746383;
- Tue, 17 Mar 2020 19:34:28 +0100 (CET)
-Date: Tue, 17 Mar 2020 19:34:28 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 0/8] Misc hw/ide legacy clean up
-In-Reply-To: <bcb72a4d-ace7-f4b2-650b-fd2e7cfece71@redhat.com>
-Message-ID: <alpine.BSF.2.22.395.2003171931520.35246@zero.eik.bme.hu>
-References: <cover.1584457537.git.balaton@eik.bme.hu>
- <bcb72a4d-ace7-f4b2-650b-fd2e7cfece71@redhat.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <alex.bennee@linaro.org>) id 1jEH4g-00014K-KO
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:36:23 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33223)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jEH4g-0000vo-AN
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:36:22 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a25so27064725wrd.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 11:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1QV6QjxpBz1oTUXKtsmy/dpWi6SiQuScvTnQVcrmG7I=;
+ b=uFVSP15f0KbQL52SlWhzYh5IqcK03Nc68ilxOi6Bmv/7vInGURMXHWxl8n4szv1R9K
+ 4VfSe4wdU0JowBiQn5Eii7B8rzuBStClWn10dHSwXijwL4jv42B2okJbvTgq0esTA/SR
+ 7KWPvQttvNPMpweTChY2bbzcePJ2YetjwRRfYaR1itoqgTkaj3sRgizFYD1Whe+QKlvH
+ zt2ihVXCqDK+mtPQvkh4DdMQqyfXCpsG26/GPQjZ0PMQpCRxz99+teIbZT1iyIsyOrFl
+ omsgb0wbPHokDWcTA7OwDksbLr3pHH5c3oaz+MUj0fmzjipOR2HUpt8UwAph/RsIeXw2
+ AaNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1QV6QjxpBz1oTUXKtsmy/dpWi6SiQuScvTnQVcrmG7I=;
+ b=ZpCYMCixRGK69mhFkYbzs/8zOW1UXJH24P/mNqFTdL1pipwgEASNdUU9GqDrrmHWUS
+ KOkwS+K8tDZDYJqEN1X8ZtUShJleQ1njyEhZ6SOFjGWF+43gzj4L5KhX7y0Oqi9fnpWE
+ 17JYcN3iRfgZaZF5tOZLSgEUD7/9ORLBloQMda+CkoJPsqSUGUbMOYyHRrtUHtjtNsqt
+ 8wxH9HlFJOOcNj55I51l6xIp1HzpNlavRRVe/ZLknLQ381VivfbDnMytGIpmRBMqfuuy
+ UQJkkR4HSRx1DXSEupJPUIEeaCOgU+p02noonULQCOPzBRFt0cBUTL8XCkijXH1jKI0+
+ a/Jw==
+X-Gm-Message-State: ANhLgQ0mJKIzektnqVds30nhnaJtoPA8GbL6ktL5qZouUxdCVa/bThME
+ 3fLrO0mol54Yz1lRWbC/YFVcfw==
+X-Google-Smtp-Source: ADFU+vuJG96nTqa2GpOqwYpGVVp5BwPUbIA0ODgc8qsPp0unqUsOVKCXjNqphzkab6R+NzJNEIX+gA==
+X-Received: by 2002:a05:6000:11c1:: with SMTP id
+ i1mr367938wrx.146.1584470181081; 
+ Tue, 17 Mar 2020 11:36:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l26sm317516wmi.37.2020.03.17.11.36.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 11:36:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 752B21FF7E;
+ Tue, 17 Mar 2020 18:36:18 +0000 (GMT)
+References: <20200317141654.29355-1-crosa@redhat.com>
+ <20200317141654.29355-4-crosa@redhat.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v10 3/3] Acceptance tests: add make targets to download
+ images
+In-reply-to: <20200317141654.29355-4-crosa@redhat.com>
+Date: Tue, 17 Mar 2020 18:36:18 +0000
+Message-ID: <87d09akevx.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,61 +84,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- hpoussin@reactos.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020, John Snow wrote:
-> On 3/17/20 11:05 AM, BALATON Zoltan wrote:
->> Avoid problems from reassigning variable in piix4_create and fix
->> compilation problem with mips_r4k
->>
->> BALATON Zoltan (8):
->>   hw/ide: Get rid of piix3_init functions
->>   hw/isa/piix4.c: Introduce variable to store devfn
->>   hw/ide: Get rid of piix4_init function
->>   hw/ide: Remove now unneded #include "hw/pci/pci.h" from hw/ide.h
->>   hw/ide/pci.c: Coding style update to fix checkpatch errors
->>   hw/ide: Do ide_drive_get() within pci_ide_create_devs()
->>   hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
->>   hw/ide: Remove unneeded inclusion of hw/ide.h
->>
->>  hw/alpha/dp264.c              | 13 +++----------
->>  hw/hppa/hppa_sys.h            |  1 -
->>  hw/hppa/machine.c             |  1 -
->>  hw/i386/pc_piix.c             | 18 +++++++++---------
->>  hw/ide/ahci_internal.h        |  1 +
->>  hw/ide/pci.c                  | 11 +++++++----
->>  hw/ide/piix.c                 | 31 +------------------------------
->>  hw/isa/piix4.c                | 23 ++++++++++-------------
->>  hw/mips/mips_fulong2e.c       |  5 +----
->>  hw/mips/mips_malta.c          |  2 +-
->>  hw/mips/mips_r4k.c            |  1 +
->>  hw/ppc/mac_newworld.c         |  1 -
->>  hw/ppc/mac_oldworld.c         |  1 -
->>  hw/ppc/prep.c                 |  1 -
->>  hw/sparc64/sun4u.c            |  6 +-----
->>  include/hw/ide.h              |  6 ------
->>  include/hw/ide/internal.h     |  2 ++
->>  include/hw/ide/pci.h          |  3 ++-
->>  include/hw/misc/macio/macio.h |  1 +
->>  include/hw/southbridge/piix.h |  3 +--
->>  20 files changed, 41 insertions(+), 90 deletions(-)
->>
->
-> Passed local testing. Pushed to gitlab and pending further tests.
->
-> Track here: https://gitlab.com/jsnow/qemu/pipelines/127143307
 
-These tests don't seem to compile mips64el-softmmu target so probably miss 
-some of these which are only used on those boards. (E.g. I could not find 
-hw/ide/via.c mentioned in any of the logs.)
+Cleber Rosa <crosa@redhat.com> writes:
 
-Regards,
-BALATON Zoltan
+> The newly introduced "boot linux" tests make use of Linux images that
+> are larger than usual, and fall into what Avocado calls "vmimages",
+> and can be referred to by name, version and architecture.
+>
+> The images can be downloaded automatically during the test. But, to
+> make for more reliable test results, this introduces a target that
+> will download the vmimages for the architectures that have been
+> configured and are available for the currently used distro (Fedora
+> 31).
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+>  tests/Makefile.include | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 67e8fcddda..9c19229a06 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -20,6 +20,8 @@ check-help:
+>  	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+>  	@echo " $(MAKE) check-clean          Clean the tests and related data"
+>  	@echo
+> +	@echo " $(MAKE) get-vm-images        Downloads all images used by accep=
+tance tests, according to configured targets (~350 MB each, 1.5 GB max)"
+> +	@echo
+
+I'm not overly enamoured with a super long line help for something that
+is a dependency anyway but whatever...
+
+
+>  	@echo
+>  	@echo "The variable SPEED can be set to control the gtester speed setti=
+ng."
+>  	@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; they c=
+an be"
+> @@ -889,7 +891,20 @@ $(TESTS_RESULTS_DIR):
+>=20=20
+>  check-venv: $(TESTS_VENV_DIR)
+>=20=20
+> -check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+> +FEDORA_31_ARCHES_CANDIDATES=3D$(patsubst ppc64,ppc64le,$(TARGETS))
+> +FEDORA_31_ARCHES :=3D x86_64 aarch64 ppc64le s390x
+> +FEDORA_31_DOWNLOAD=3D$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CAN=
+DIDATES))
+> +
+> +# download one specific Fedora 31 image
+> +get-vm-image-fedora-31-%: $(check-venv)
+
+Why $(check-venv) instead of check-venv
+
+> +	$(call quiet-command, \
+> +             $(TESTS_VENV_DIR)/bin/python -m avocado vmimage get \
+> +             --distro=3Dfedora --distro-version=3D31 --arch=3D$*)
+
+Some short text for the operation would be nice (DNLD acceptance images?)
+
+> +
+> +# download all vm images, according to defined targets
+> +get-vm-images: $(check-venv) $(patsubst %,get-vm-image-fedora-31-%, $(FE=
+DORA_31_DOWNLOAD))
+> +
+> +check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>  	$(call quiet-command, \
+>              $(TESTS_VENV_DIR)/bin/python -m avocado \
+>              --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RES=
+ULTS_DIR) \
+> @@ -900,7 +915,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+>=20=20
+>  # Consolidated targets
+>=20=20
+> -.PHONY: check-block check-qapi-schema check-qtest check-unit check check=
+-clean
+> +.PHONY: check-block check-qapi-schema check-qtest check-unit check check=
+-clean get-vm-images
+>  check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-sch=
+ema/doc-good.texi
+>  check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+>  ifeq ($(CONFIG_TOOLS),y)
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+--=20
+Alex Benn=C3=A9e
 
