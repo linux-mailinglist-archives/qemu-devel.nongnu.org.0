@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D5F187E5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:32:15 +0100 (CET)
-Received: from localhost ([::1]:56124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE9D187E62
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:32:56 +0100 (CET)
+Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9WA-0006Ko-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55000)
+	id 1jE9Wp-0007b1-PF
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <teawaterz@linux.alibaba.com>) id 1jE9Ec-0001n3-2v
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:14:07 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jE9OP-00046g-Fm
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <teawaterz@linux.alibaba.com>) id 1jE9EV-0007h5-2K
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:14:00 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:58653)
+ (envelope-from <cohuck@redhat.com>) id 1jE9ON-0003Uf-Sl
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:25027)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jE9EU-000740-Ko
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:13:59 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04452; MF=teawaterz@linux.alibaba.com;
- NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0Tss.xHA_1584440013; 
-Received: from 127.0.0.1(mailfrom:teawaterz@linux.alibaba.com
- fp:SMTPD_---0Tss.xHA_1584440013) by smtp.aliyun-inc.com(127.0.0.1);
- Tue, 17 Mar 2020 18:13:38 +0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: [RFC for QEMU] virtio-balloon: Add option thp-order to set
- VIRTIO_BALLOON_F_THP_ORDER
-From: teawater <teawaterz@linux.alibaba.com>
-In-Reply-To: <20200312042340-mutt-send-email-mst@kernel.org>
-Date: Tue, 17 Mar 2020 18:13:32 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C9436807-D9CA-49FD-AEE3-3B7CE4BBB711@linux.alibaba.com>
-References: <1583999395-9131-1-git-send-email-teawater@gmail.com>
- <1583999395-9131-2-git-send-email-teawater@gmail.com>
- <20200312042340-mutt-send-email-mst@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 47.88.44.36
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jE9ON-0003Om-OT
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584440650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ahjKwJ9t5Zipjl3f7KqTEvmLGkx5LN5Rd7zBw+/Ob/0=;
+ b=ESzycGz15CnQiCqBkEnpZQahSBz2b+kGOUbnTS9U/kiOc94GrFhvdhgtJt7Mz4lpeIBfNT
+ SHrCftc2hUNqBNluenodcaK5DazbzwcVp5Gf/aopH4tumP9mBzg1S8oBuE5ZyZKL6g+vyO
+ +wh7juvWWu8B0o6NIhhAjjFzgQ8aEJo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-7CtWdGEYPfKjfkIJyE92Lw-1; Tue, 17 Mar 2020 06:24:09 -0400
+X-MC-Unique: 7CtWdGEYPfKjfkIJyE92Lw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0D0D801E5C;
+ Tue, 17 Mar 2020 10:24:07 +0000 (UTC)
+Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBCD55C1BB;
+ Tue, 17 Mar 2020 10:24:03 +0000 (UTC)
+Date: Tue, 17 Mar 2020 11:24:01 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 06/15] s390x: Add SIDA memory ops
+Message-ID: <20200317112401.7c7d2683.cohuck@redhat.com>
+In-Reply-To: <20200311132151.172389-7-frankja@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-7-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,200 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
- mojha@codeaurora.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, namit@vmware.com,
- akpm@linux-foundation.org, jasowang@redhat.com, Hui Zhu <teawater@gmail.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 11 Mar 2020 09:21:42 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
+> Protected guests save the instruction control blocks in the SIDA
+> instead of QEMU/KVM directly accessing the guest's memory.
+> 
+> Let's introduce new functions to access the SIDA.
+> 
+> Also the new memops are available with KVM_CAP_S390_PROTECTED, so
 
-> 2020=E5=B9=B43=E6=9C=8812=E6=97=A5 16:25=EF=BC=8CMichael S. Tsirkin =
-<mst@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Thu, Mar 12, 2020 at 03:49:55PM +0800, Hui Zhu wrote:
->> If the guest kernel has many fragmentation pages, use virtio_balloon
->> will split THP of QEMU when it calls MADV_DONTNEED madvise to release
->> the balloon pages.
->> Set option thp-order to on will open flags =
-VIRTIO_BALLOON_F_THP_ORDER.
->> It will set balloon size to THP size to handle the THP split issue.
->>=20
->> Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
->=20
-> What's wrong with just using the PartiallyBalloonedPage machinery
-> instead? That would make it guest transparent.
+"The memops for doing so are available..." ?
 
-In balloon_inflate_page:
-    rb_page_size =3D qemu_ram_pagesize(rb);
+> let's check for that.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/cpu.h        |  7 ++++++-
+>  target/s390x/kvm.c        | 25 +++++++++++++++++++++++++
+>  target/s390x/kvm_s390x.h  |  2 ++
+>  target/s390x/mmu_helper.c | 14 ++++++++++++++
+>  4 files changed, 47 insertions(+), 1 deletion(-)
 
-    if (rb_page_size =3D=3D BALLOON_PAGE_SIZE) {
-        /* Easy case */
-
-It seems that PartiallyBalloonedPage is only used when rb_page_size is =
-greater than BALLOON_PAGE_SIZE.
-Do you mean I should modify the working mechanism of =
-balloon_inflate_page function?
-
-Thanks,
-Hui
-
->=20
->> ---
->> hw/virtio/virtio-balloon.c                      | 67 =
-++++++++++++++++---------
->> include/standard-headers/linux/virtio_balloon.h |  4 ++
->> 2 files changed, 47 insertions(+), 24 deletions(-)
->>=20
->> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
->> index a4729f7..cfe86b0 100644
->> --- a/hw/virtio/virtio-balloon.c
->> +++ b/hw/virtio/virtio-balloon.c
->> @@ -340,37 +340,49 @@ static void =
-virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->>         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, =
-4) =3D=3D 4) {
->>             unsigned int p =3D virtio_ldl_p(vdev, &pfn);
->>             hwaddr pa;
->> +            size_t handle_size =3D BALLOON_PAGE_SIZE;
->>=20
->>             pa =3D (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
->>             offset +=3D 4;
->>=20
->> -            section =3D memory_region_find(get_system_memory(), pa,
->> -                                         BALLOON_PAGE_SIZE);
->> -            if (!section.mr) {
->> -                trace_virtio_balloon_bad_addr(pa);
->> -                continue;
->> -            }
->> -            if (!memory_region_is_ram(section.mr) ||
->> -                memory_region_is_rom(section.mr) ||
->> -                memory_region_is_romd(section.mr)) {
->> -                trace_virtio_balloon_bad_addr(pa);
->> -                memory_region_unref(section.mr);
->> -                continue;
->> -            }
->> +            if (virtio_has_feature(s->host_features,
->> +                                   VIRTIO_BALLOON_F_THP_ORDER))
->> +                handle_size =3D BALLOON_PAGE_SIZE << =
-VIRTIO_BALLOON_THP_ORDER;
->> +
->> +            while (handle_size > 0) {
->> +                section =3D memory_region_find(get_system_memory(), =
-pa,
->> +                                             BALLOON_PAGE_SIZE);
->> +                if (!section.mr) {
->> +                    trace_virtio_balloon_bad_addr(pa);
->> +                    continue;
->> +                }
->> +                if (!memory_region_is_ram(section.mr) ||
->> +                    memory_region_is_rom(section.mr) ||
->> +                    memory_region_is_romd(section.mr)) {
->> +                    trace_virtio_balloon_bad_addr(pa);
->> +                    memory_region_unref(section.mr);
->> +                    continue;
->> +                }
->>=20
->> -            =
-trace_virtio_balloon_handle_output(memory_region_name(section.mr),
->> -                                               pa);
->> -            if (!qemu_balloon_is_inhibited()) {
->> -                if (vq =3D=3D s->ivq) {
->> -                    balloon_inflate_page(s, section.mr,
->> -                                         =
-section.offset_within_region, &pbp);
->> -                } else if (vq =3D=3D s->dvq) {
->> -                    balloon_deflate_page(s, section.mr, =
-section.offset_within_region);
->> -                } else {
->> -                    g_assert_not_reached();
->> +                =
-trace_virtio_balloon_handle_output(memory_region_name(section.mr),
->> +                                                   pa);
->> +                if (!qemu_balloon_is_inhibited()) {
->> +                    if (vq =3D=3D s->ivq) {
->> +                        balloon_inflate_page(s, section.mr,
->> +                                             =
-section.offset_within_region,
->> +                                             &pbp);
->> +                    } else if (vq =3D=3D s->dvq) {
->> +                        balloon_deflate_page(s, section.mr,
->> +                                             =
-section.offset_within_region);
->> +                    } else {
->> +                        g_assert_not_reached();
->> +                    }
->>                 }
->> +                memory_region_unref(section.mr);
->> +
->> +                pa +=3D BALLOON_PAGE_SIZE;
->> +                handle_size -=3D BALLOON_PAGE_SIZE;
->>             }
->> -            memory_region_unref(section.mr);
->>         }
->>=20
->>         virtqueue_push(vq, elem, offset);
->> @@ -693,6 +705,8 @@ static void =
-virtio_balloon_set_config(VirtIODevice *vdev,
->>=20
->>     memcpy(&config, config_data, virtio_balloon_config_size(dev));
->>     dev->actual =3D le32_to_cpu(config.actual);
->> +    if (virtio_has_feature(vdev->host_features, =
-VIRTIO_BALLOON_F_THP_ORDER))
->> +        dev->actual <<=3D VIRTIO_BALLOON_THP_ORDER;
->>     if (dev->actual !=3D oldactual) {
->>         qapi_event_send_balloon_change(vm_ram_size -
->>                         ((ram_addr_t) dev->actual << =
-VIRTIO_BALLOON_PFN_SHIFT));
->> @@ -728,6 +742,9 @@ static void virtio_balloon_to_target(void =
-*opaque, ram_addr_t target)
->>     }
->>     if (target) {
->>         dev->num_pages =3D (vm_ram_size - target) >> =
-VIRTIO_BALLOON_PFN_SHIFT;
->> +        if (virtio_has_feature(dev->host_features,
->> +                               VIRTIO_BALLOON_F_THP_ORDER))
->> +            dev->num_pages >>=3D VIRTIO_BALLOON_THP_ORDER;
->>         virtio_notify_config(vdev);
->>     }
->>     trace_virtio_balloon_to_target(target, dev->num_pages);
->> @@ -916,6 +933,8 @@ static Property virtio_balloon_properties[] =3D {
->>                     VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
->>     DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
->>                     VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
->> +    DEFINE_PROP_BIT("thp-order", VirtIOBalloon, host_features,
->> +                    VIRTIO_BALLOON_F_THP_ORDER, false),
->>     /* QEMU 4.0 accidentally changed the config size even when =
-free-page-hint
->>      * is disabled, resulting in QEMU 3.1 migration incompatibility.  =
-This
->>      * property retains this quirk for QEMU 4.1 machine types.
->> diff --git a/include/standard-headers/linux/virtio_balloon.h =
-b/include/standard-headers/linux/virtio_balloon.h
->> index 9375ca2..f54d613 100644
->> --- a/include/standard-headers/linux/virtio_balloon.h
->> +++ b/include/standard-headers/linux/virtio_balloon.h
->> @@ -36,10 +36,14 @@
->> #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM	2 /* Deflate balloon on =
-OOM */
->> #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free =
-pages */
->> #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page =
-poisoning */
->> +#define VIRTIO_BALLOON_F_THP_ORDER	5 /* Set balloon page order to =
-thp order */
->>=20
->> /* Size of a PFN in the balloon interface. */
->> #define VIRTIO_BALLOON_PFN_SHIFT 12
->>=20
->> +/* The order of the balloon page */
->> +#define VIRTIO_BALLOON_THP_ORDER 9
->> +
->> #define VIRTIO_BALLOON_CMD_ID_STOP	0
->> #define VIRTIO_BALLOON_CMD_ID_DONE	1
->> struct virtio_balloon_config {
->> --=20
->> 2.7.4
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
