@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C058188372
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:15:14 +0100 (CET)
-Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B4D18837E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:17:41 +0100 (CET)
+Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEB7p-0000Ex-GG
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
+	id 1jEBAC-0004Ou-WD
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEAv6-0001y2-Um
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:02:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEAvu-00032h-Ab
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:02:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEAv1-0006pt-M8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:02:04 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40934)
+ (envelope-from <philmd@redhat.com>) id 1jEAvt-0008Ld-1b
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:02:54 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35710)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEAv1-0006i2-GT
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:01:59 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEAvs-0008KI-Si
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 08:02:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584446514;
+ s=mimecast20190719; t=1584446572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6NugTnAcCq7Oc2hM8bnHTii06KuFEIoiLb9jHiIOtzQ=;
- b=azfuUF4CmNY+QXLGar6n0pJUl97tjQk8oZQ6IqZkoSgDgcJ1ajf557mD4GzEiqr22eCt58
- xdDtFG/w57QL8flY/7BBE5YyKpKXrwMNlxYsa8X/X1JnoZO0bVJBp2WAm3Z6f/ZGpLx1zD
- XYu+9KWNDj0mJVsO+UbBs/wyJ/MVzQE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-HsaF-LkZM9i20NzYtggC8g-1; Tue, 17 Mar 2020 08:01:52 -0400
-X-MC-Unique: HsaF-LkZM9i20NzYtggC8g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05EE5190D346;
- Tue, 17 Mar 2020 12:01:51 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6C057E327;
- Tue, 17 Mar 2020 12:01:49 +0000 (UTC)
-Date: Tue, 17 Mar 2020 13:01:38 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9 08/15] s390x: protvirt: SCLP interpretation
-Message-ID: <20200317130138.0765e2ad.cohuck@redhat.com>
-In-Reply-To: <511c84ef-950f-ab82-04db-d0fb08e76973@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-9-frankja@linux.ibm.com>
- <da7d6747-bf56-6888-2d9f-8f689fa42b32@de.ibm.com>
- <20200317120529.3c5cd2b2.cohuck@redhat.com>
- <511c84ef-950f-ab82-04db-d0fb08e76973@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=Ltb8FyAB5nrmSAxMuXyxZoW28ONI4BXKV4H3Z/B8Ms8=;
+ b=FzlHOh+wLzXD1+XKlr4MBkdI7n4BNS9FrW+7TrFdJtQ5gvmkIgJ+ykcFOx91GwO8XxmttP
+ 2eaL6DM9YvgtJZPqugCzf4Rn14YH2Twr/ALYY9TCXFsM51HYSLgvyFcGekQRB1HfGymYV0
+ ymzZbFciTB7aMjlaT8ZisUOaNThzdWA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-iW7YZMxkNgOw5yyvHAFgKg-1; Tue, 17 Mar 2020 08:02:50 -0400
+X-MC-Unique: iW7YZMxkNgOw5yyvHAFgKg-1
+Received: by mail-wr1-f72.google.com with SMTP id o9so10581680wrw.14
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 05:02:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ltb8FyAB5nrmSAxMuXyxZoW28ONI4BXKV4H3Z/B8Ms8=;
+ b=LJAn1ffNUnRacWmyJwgvOKk5loJvrFz8X3KlX9jzTc7E62mP3DIEzIF7RlWFfWolNq
+ wsLn1xBStP7IAWvroMDKhBwPpt2tODvo1Nh2WGh+e+KyZwk0w6qBxtz8iw8hdMpdFz1i
+ RDetloMk9ishibp+rS3wPSgIhnoPTnfcOG2EVC8CTCkmPU0rHm96rsRZ3OFJn1Ix0iaY
+ 9JkR7/tRLLRXkW+eECBDSPjR9iXCBu71RKyvKqLk2SjFUZEsIlfb0yNG9RnVOBqTWh0p
+ oVmDHX3OQfylHUhzM+OY9gxlH3yZ8lo6Ebl9Qz8GoCCP8M3xlyBA8iJqFiN2mqQGGBXl
+ WCQQ==
+X-Gm-Message-State: ANhLgQ24+OXTy70fPgkiX++0wZ0lWzj+amIibSddhs2LMJ+GPdFoob1B
+ iUU/Q7Q53WAzMG5UKF/MDJp4lhmRS19Ibb70aAcpuI4591O27BDOohaO6UMRbaPyLKu5SLLP4UY
+ uuosun31wvZH2Wkk=
+X-Received: by 2002:a5d:640a:: with SMTP id z10mr6093694wru.301.1584446569729; 
+ Tue, 17 Mar 2020 05:02:49 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtrZZlsOBK2jVFLpO/lew9GuztbyxSkdYVWbW6HNmIKh54WWnRQTGpdkivyiB4XVv0vla6q+Q==
+X-Received: by 2002:a5d:640a:: with SMTP id z10mr6093666wru.301.1584446569415; 
+ Tue, 17 Mar 2020 05:02:49 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id g2sm4572104wrs.42.2020.03.17.05.02.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Mar 2020 05:02:48 -0700 (PDT)
+Subject: Re: [PULL v2 00/61] Misc patches for soft freeze
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <1584396375-31278-1-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA-W=7LQyKvy-Pxv7eUh-tLoYu5jLiObTST0-Ee0wrCX7g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <da99ee7c-49fb-057e-a6bb-b2c89de86ffa@redhat.com>
+Date: Tue, 17 Mar 2020 13:02:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAFEAcA-W=7LQyKvy-Pxv7eUh-tLoYu5jLiObTST0-Ee0wrCX7g@mail.gmail.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/PdPl5EoHQGxgnUiQat0iZl1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,120 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/PdPl5EoHQGxgnUiQat0iZl1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Cc'ing Stefan
 
-On Tue, 17 Mar 2020 12:54:54 +0100
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> On 3/17/20 12:05 PM, Cornelia Huck wrote:
-> > On Fri, 13 Mar 2020 14:14:35 +0100
-> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> >  =20
-> >> On 11.03.20 14:21, Janosch Frank wrote: =20
-> >>> SCLP for a protected guest is done over the SIDAD, so we need to use
-> >>> the s390_cpu_pv_mem_* functions to access the SIDAD instead of guest
-> >>> memory when reading/writing SCBs.
-> >>>
-> >>> To not confuse the sclp emulation, we set 0x4000 as the SCCB address,
-> >>> since the function that injects the sclp external interrupt would
-> >>> reject a zero sccb address.
-> >>>
-> >>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> >>> Reviewed-by: David Hildenbrand <david@redhat.com>
-> >>> ---
-> >>>  hw/s390x/sclp.c         | 30 ++++++++++++++++++++++++++++++
-> >>>  include/hw/s390x/sclp.h |  2 ++
-> >>>  target/s390x/kvm.c      | 24 +++++++++++++++++++-----
-> >>>  3 files changed, 51 insertions(+), 5 deletions(-) =20
-> >  =20
-> >>> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-> >>> +                                uint32_t code)
-> >>> +{
-> >>> +    SCLPDevice *sclp =3D get_sclp_device();
-> >>> +    SCLPDeviceClass *sclp_c =3D SCLP_GET_CLASS(sclp);
-> >>> +    SCCB work_sccb;
-> >>> +    hwaddr sccb_len =3D sizeof(SCCB);
-> >>> +
-> >>> +    /*
-> >>> +     * Only a very limited amount of calls is permitted by the
-> >>> +     * Ultravisor and we support all of them, so we don't check for
-> >>> +     * them. All other specification exceptions are also interpreted
-> >>> +     * by the Ultravisor and hence never cause an exit we need to
-> >>> +     * handle.
-> >>> +     *
-> >>> +     * Setting the CC is also done by the Ultravisor.
-> >>> +     */   =20
-> >>
-> >> This is fine for the current architecture which specifies a list of sc=
-lp=20
-> >> commands that are passed through (and this is fine). Question is still=
- if
-> >> we replace this comment with an assertion that this is the case?
-> >> Or maybe even really do the same as sclp_service_call and return 0x1f0=
- for
-> >> unknown commands? =20
-> >=20
-> > That would be a case of older QEMU on newer hardware, right? Signaling
-> > that the command is unsupported seems the most reasonable to me
-> > (depending on what the architecture allows.) =20
->=20
-> Question is if we want to check for the non-pv codes as the hardware
-> will currently only allow a smaller subset anyway. Then if the IO codes
-> are passed through by SIE we would support them right away.
-
-Depending on if the passed-through codes would work without any further
-changes, I guess (which seems likely?) You probably have a better idea
-about that :)
-
->=20
-> >  =20
-> >>
-> >> Anyway, whatever you decide.
-> >>
-> >> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> >> =20
-> >>> +    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
-> >>> +    sclp_c->execute(sclp, &work_sccb, code);
-> >>> +    s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-> >>> +                          be16_to_cpu(work_sccb.h.length));
-> >>> +    sclp_c->service_interrupt(sclp, SCLP_PV_DUMMY_ADDR);
-> >>> +    return 0;
-> >>> +}
-> >>> + =20
-> >=20
-> >  =20
->=20
->=20
-
-
---Sig_/PdPl5EoHQGxgnUiQat0iZl1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5wvCIACgkQ3s9rk8bw
-L69P/g/+NRdkY/+AuOikHqkrhXlmvh1VwtEAMdtKbSN51BeAjNQSUnChOyMUjjib
-jbzRpUagWUu3kd9XQiLmnJYOR9mkqUtxxnXX0bVA5SyWQkWvfzcYBnanfADjElHL
-VJj7ECl0Ks4lUcWOYJJ4My8EbLND7O1lBi5nKMYo2AOt19AMCJX2lpfvRWUtnlxo
-onI9YP/DVavd+mzr1KlxmqRbwNVTGgZu6JjJxALyGsded//u8Sg9LQMUcp2h12D0
-W11QR0gPogmXIq3Ck85zhiPkw9lgnICnA3YF7nQzzwNfsO8QZ0GyIAm9UT5sxz94
-xBlysxa/v6tX0Whesve0odovklyoe9gcOvAr7xSJ5rvQ1TbyDfq0BbO+1I4r297w
-Pjn1IW5w1GvlIEkdo7MM6mhK4uEbLdX8/dg5g9WbxphBPG158spPNmNm3RuD7buF
-XQAPbEv4lgmQKaReNmqyLDTt6b9tFZzvc9JbEI1wgSC8QFgJ+otnxFLpNSyKxJ13
-72G1qOhwUX0UieavUoerXkz7RjeErkP8sJTkuUs2cWleQ1uJsvz36boDhkDEQiRy
-NPe1u1MYwwNTOFo+hmRwu8UnLVN9UIodG776e2w/JoxuFqXZQIeY+7C95Tibovb7
-d/tYn2SoOh7x4cPJ8Wc/H9iXBnSxnLVTpZeJRnvJklR54oFHhIA=
-=mRCo
------END PGP SIGNATURE-----
-
---Sig_/PdPl5EoHQGxgnUiQat0iZl1--
+On 3/17/20 12:03 PM, Peter Maydell wrote:
+> On Mon, 16 Mar 2020 at 22:07, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> The following changes since commit a98135f727595382e200d04c2996e868b7925a01:
+>>
+>>    Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200316-pull-request' into staging (2020-03-16 14:55:59 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>
+>>    git://github.com/bonzini/qemu.git tags/for-upstream
+>>
+>> for you to fetch changes up to 9d04fea181318684a899fadd99cef7e04097456b:
+>>
+>>    hw/arm: Let devices own the MemoryRegion they create (2020-03-16 23:02:30 +0100)
+>>
+>> ----------------------------------------------------------------
+>> * Bugfixes all over the place
+>> * get/set_uint cleanups (Felipe)
+>> * Lock guard support (Stefan)
+>> * MemoryRegion ownership cleanup (Philippe)
+>> * AVX512 optimization for buffer_is_zero (Robert)
+> 
+> Hi; this generates a new warning on netbsd:
+> 
+> /home/qemu/qemu-test.N42OXz/src/util/qemu-timer.c: In function
+> 'timerlist_expired':
+> /home/qemu/qemu-test.N42OXz/src/util/qemu-timer.c:197:12: warning:
+> 'expire_time' may be used uninitialized in this function
+> [-Wmaybe-uninitialized]
+>       return expire_time <= qemu_clock_get_ns(timer_list->clock->type);
+>              ^
+> /home/qemu/qemu-test.N42OXz/src/util/qemu-timer.c: In function
+> 'timerlist_deadline_ns':
+> /home/qemu/qemu-test.N42OXz/src/util/qemu-timer.c:235:11: warning:
+> 'expire_time' may be used uninitialized in this function
+> [-Wmaybe-uninitialized]
+>       delta = expire_time - qemu_clock_get_ns(timer_list->clock->type);
+>             ^
+> 
+> This is probably just the compiler being not smart enough
+> to figure out that there's no code path where it's not
+> initialized.
+> 
+> thanks
+> -- PMM
+> 
 
 
