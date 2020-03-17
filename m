@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D01B187EBE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:52:24 +0100 (CET)
-Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEAE187EC5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:53:40 +0100 (CET)
+Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9pf-0001hi-2B
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39167)
+	id 1jE9qt-0003vq-An
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE9nJ-0007Gd-Pn
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:59 -0400
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1jE9nr-0008B5-BQ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:50:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE9nI-0007TL-F8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44050)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE9nI-0007Rh-AU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584442196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7N/RCnPpThro4ivC+YB5Aq4swc9VwC2D8U6V0un99f8=;
- b=iKDUJaAn3EkXlNNJMVZod8SBGYurCpv0nrTZbMP5C4eQh0clNrJnOBLbJgVLJrq60dSRSG
- 2Lhn1RJWQ5lEqSk16hCspEJzJIqk1mY2EbtcP0DWK1O9VmDDXHe54cmWRIhBdxrx1Z2Rm5
- 6hviED0RK63Me/AMHHrzR/YDAdCNPpc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-pbJOWZbxPreWtxs4c9HwYw-1; Tue, 17 Mar 2020 06:49:54 -0400
-X-MC-Unique: pbJOWZbxPreWtxs4c9HwYw-1
-Received: by mail-wr1-f69.google.com with SMTP id h17so819333wru.16
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:49:54 -0700 (PDT)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1jE9no-0002AC-85
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:50:31 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33067)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1jE9no-00024q-0p
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:50:28 -0400
+Received: by mail-ot1-f65.google.com with SMTP id x26so4090836otk.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:50:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pgCnV1ClBHNum8linnqGwHhkwzy1FtASqGHz1mJkAxc=;
- b=EufMsJU+AYZZyOOlZ7QdWLP5Z8MLmnGdz/4RpX2witBxagcgfVs3hxabQbfTf/PLcm
- zqidnCPkeNmCnbMl6J2JlIBHakb41pp+62OJqQQAr6WU6JTyf5Fx0+bZ5eE8y8J/52cl
- 1Q25YUOrrXJVRBKNJ5I9KPH2y/fKj6XY5iWVY2x+VuyAWkGgXdSVUn+IgagKR1BgNXZJ
- aGWYfZAXOqzszBA5yXXJe9D8lfvSrURQ1RaY+pAZQW7oVOlTGdwe6vnmZEBPoMcAL53p
- IqN9zqba4avn3et+gfcPtWDNMJqeDLKTlGfHxTYbCoghPIBmywuQ0WoCF7zIeLnaWspe
- qsiw==
-X-Gm-Message-State: ANhLgQ31e8GCnTr9c5FOMm29QOzpWmWMGFUbMdLbjn2USWuQF90l/QPg
- DTmYdU5N90irLd2VBmgRIuI1TBMbeIT0cJZoCGbzX4/ET2LU0DrO0QjpNpbv1JTqY0lrE3PsxlS
- XNuqHCcNSbLO886k=
-X-Received: by 2002:a5d:6aca:: with SMTP id u10mr5074211wrw.99.1584442193352; 
- Tue, 17 Mar 2020 03:49:53 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtHZSPMkXTL1QjR/V4DMmESYK/IZk+QADYHe+7JRk0upu6PwAtoio/xtH++yoR2JA5BQZyUiQ==
-X-Received: by 2002:a5d:6aca:: with SMTP id u10mr5074182wrw.99.1584442193101; 
- Tue, 17 Mar 2020 03:49:53 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id i67sm3982423wri.50.2020.03.17.03.49.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:49:52 -0700 (PDT)
-Subject: Re: [PATCH v2 2/7] hw/ide: Get rid of piix4_init function
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <cover.1584437957.git.balaton@eik.bme.hu>
- <3240656814c804513de08bdbbf318f2f590df241.1584437958.git.balaton@eik.bme.hu>
- <c43e2f9b-3002-32f0-08fa-7164a98f3b9f@redhat.com>
-Message-ID: <f70ea487-c8e8-d76d-fbe5-9213284a8574@redhat.com>
-Date: Tue, 17 Mar 2020 11:49:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4RHKUQaqLP0RIgfBpLL5qOEOQG1NeX+nzzByYvELZmw=;
+ b=WBlJyjGd4mrhciKcnGhOQ5qvYMXCEhcmgfhZ8Dq1mOSLS13FnVY3SnlL3E3rfpaOUV
+ v5hxZ2DuQa2cgnD/QuTf8pLrRUqSyRdwbeYFsr91AOadc9fbT2QRecpk1Nm4iYn9P7Ql
+ 1iaReXimBIPdbl/RFXWdqOJ6tevRd53JptItCkkeloGXaMo04aXL4nAq4pSxX/2mih9G
+ Sa+ObVaGYWHp26dIfqoU4uaDiWsEWKvdURbEcPIalsSyZSq1WokIwEuBSso7iWZqRctj
+ uxSos2pLcC9Gh06YSidJQu7B0Bjot8UV4SeXk5UYUCuz5B16OICoESqZ5GR+iZOJ+s7p
+ VuHA==
+X-Gm-Message-State: ANhLgQ2bK1paYPhoV+jm1aYW6+x8EPHXhp7RSEcAkx2WsHz1/6rj+8OZ
+ xL2qaoGMxi3ulXaSUO3a7oEpASeIcPL53HkOKPM=
+X-Google-Smtp-Source: ADFU+vvCnj5TM9jDoklN6SW2pOqgA8Yhy1UV90pkEYu70e2sIcYjz1ttaGrq9DI81fCb/fZk6X299+gFRk0K7Dbjlgs=
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr2946810otf.107.1584442226939; 
+ Tue, 17 Mar 2020 03:50:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c43e2f9b-3002-32f0-08fa-7164a98f3b9f@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+ <20200218151812.7816-4-geert+renesas@glider.be>
+ <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
+In-Reply-To: <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Mar 2020 11:50:15 +0100
+Message-ID: <CAMuHMdVnoZ8uki9Ur-E-pDe60U_d=hNs8GTkMoTU3kACwFeY=g@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 209.85.210.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,112 +64,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 11:41 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 3/17/20 10:39 AM, BALATON Zoltan wrote:
->> This removes pci_piix4_ide_init() function similar to clean up done to
->> other ide devices.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Hi Linus,
 
-Please disregard this tag (I withdraw it), I mis-read the pci variable=20
-was not assigned.
+On Thu, Mar 12, 2020 at 3:57 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> thanks for your patience and again sorry for procrastination on my part :(
+>
+> Overall I start to like this driver a lot. It has come a long way.
+>
+> Some comments below are nitpicky, bear with me if they seem stupid.
 
->=20
->> ---
->> =C2=A0 hw/ide/piix.c=C2=A0=C2=A0=C2=A0 | 12 +-----------
->> =C2=A0 hw/isa/piix4.c=C2=A0=C2=A0 |=C2=A0 5 ++++-
->> =C2=A0 include/hw/ide.h |=C2=A0 1 -
->> =C2=A0 3 files changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
->> index 8bcd6b72c2..3b2de4c312 100644
->> --- a/hw/ide/piix.c
->> +++ b/hw/ide/piix.c
->> @@ -208,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 }
->> -/* hd_table must contain 4 block drivers */
->> -/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
->> -PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int=20
->> devfn)
->> -{
->> -=C2=A0=C2=A0=C2=A0 PCIDevice *dev;
->> -
->> -=C2=A0=C2=A0=C2=A0 dev =3D pci_create_simple(bus, devfn, "piix4-ide");
->> -=C2=A0=C2=A0=C2=A0 pci_ide_create_devs(dev, hd_table);
->> -=C2=A0=C2=A0=C2=A0 return dev;
->> -}
->> -
->> =C2=A0 /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->> =C2=A0 static void piix3_ide_class_init(ObjectClass *klass, void *data)
->> =C2=A0 {
->> @@ -247,6 +236,7 @@ static const TypeInfo piix3_ide_xen_info =3D {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .class_init=C2=A0=C2=A0=C2=A0 =3D piix3_i=
-de_class_init,
->> =C2=A0 };
->> +/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
->> =C2=A0 static void piix4_ide_class_init(ObjectClass *klass, void *data)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);
->> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
->> index 7edec5e149..0ab4787658 100644
->> --- a/hw/isa/piix4.c
->> +++ b/hw/isa/piix4.c
->> @@ -35,6 +35,7 @@
->> =C2=A0 #include "hw/timer/i8254.h"
->> =C2=A0 #include "hw/rtc/mc146818rtc.h"
->> =C2=A0 #include "hw/ide.h"
->> +#include "hw/ide/pci.h"
->> =C2=A0 #include "migration/vmstate.h"
->> =C2=A0 #include "sysemu/reset.h"
->> =C2=A0 #include "sysemu/runstate.h"
->> @@ -255,10 +256,12 @@ DeviceState *piix4_create(PCIBus *pci_bus,=20
->> ISABus **isa_bus,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *isa_bus =3D ISA_=
-BUS(qdev_get_child_bus(dev, "isa.0"));
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 pci =3D pci_create_simple(pci_bus, pci->devfn + 1, "=
-piix4-ide");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hd =3D g_new(DriveInfo *, ide_drives);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_drive_get(hd, ide_drives);
->> -=C2=A0=C2=A0=C2=A0 pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
->> +=C2=A0=C2=A0=C2=A0 pci_ide_create_devs(pci, hd);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_free(hd);
->> +
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_create_simple(pci_bus, pci->devfn + 2=
-, "piix4-usb-uhci");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (smbus) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *smbus =3D piix4_=
-pm_init(pci_bus, pci->devfn + 3, 0x1100,
->> diff --git a/include/hw/ide.h b/include/hw/ide.h
->> index 883bbaeb9b..21bd8f23f1 100644
->> --- a/include/hw/ide.h
->> +++ b/include/hw/ide.h
->> @@ -12,7 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int=
-=20
->> iobase2, int isairq,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 DriveInfo *hd0, DriveInfo *hd1);
->> =C2=A0 /* ide-pci.c */
->> -PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int=20
->> devfn);
->> =C2=A0 int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
->> =C2=A0 /* ide-mmio.c */
->>
+Thanks a lot for your comments!
 
+> On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > +#define DRV_NAME       "gpio-aggregator"
+> > +#define pr_fmt(fmt)    DRV_NAME ": " fmt
+>
+> I would just use dev_[info|err] for all messages to get rid of this.
+
+See below.
+
+> > +#include <linux/bitmap.h>
+> > +#include <linux/bitops.h>
+> > +#include <linux/ctype.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/gpio/driver.h>
+> > +#include <linux/gpio/machine.h>
+> > +#include <linux/idr.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/overflow.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/spinlock.h>
+> > +#include <linux/string.h>
+> > +
+> > +#include "gpiolib.h"
+>
+> When this file is includes I prefer if there is a comment next to
+> this include saying why we have to touch internals and which
+> ones.
+
+I have just discovered gpiod_to_chip(), which removes the need for two
+of the three users ;-)
+
+> > +struct gpio_aggregator {
+> > +       struct gpiod_lookup_table *lookups;
+> > +       struct platform_device *pdev;
+>
+> What about just storing struct device *dev?
+>
+> Then callbacks can just
+>
+> dev_err(aggregator->dev, "myerror\n");
+
+&aggr->pdev.dev or aggr->dev does't make much of a difference.
+
+> > +static char *get_arg(char **args)
+> > +{
+> > +       char *start = *args, *end;
+> > +
+> > +       start = skip_spaces(start);
+> > +       if (!*start)
+> > +               return NULL;
+> > +
+> > +       if (*start == '"') {
+> > +               /* Quoted arg */
+> > +               end = strchr(++start, '"');
+> > +               if (!end)
+> > +                       return ERR_PTR(-EINVAL);
+> > +       } else {
+> > +               /* Unquoted arg */
+> > +               for (end = start; *end && !isspace(*end); end++) ;
+> > +       }
+> > +
+> > +       if (*end)
+> > +               *end++ = '\0';
+> > +
+> > +       *args = end;
+> > +       return start;
+> > +}
+>
+> Isn't this function reimplementing strsep()?
+> while ((s = strsep(&p, " \""))) {
+> or something.
+>
+> I'm not the best with strings, just asking so I know you tried it
+> already.
+
+strsep(&p, " \"") would terminate the token if a space or double quote is
+seen.  I.e. it wouldn't handle spaces in quoted arguments.
+There's also argv_split(), but that doesn't handle quoted args, and
+duplicates all arguments.
+
+Line names assigned by "gpio-lines-names" may contain spaces, so support
+for quoted args is mandatory.
+
+> > +static int aggr_parse(struct gpio_aggregator *aggr)
+> > +{
+> > +       unsigned int first_index, last_index, i, n = 0;
+> > +       char *name, *offsets, *first, *last, *next;
+> > +       char *args = aggr->args;
+> > +       int error;
+> > +
+> > +       for (name = get_arg(&args), offsets = get_arg(&args); name;
+> > +            offsets = get_arg(&args)) {
+> > +               if (IS_ERR(name)) {
+> > +                       pr_err("Cannot get GPIO specifier: %pe\n", name);
+>
+> If gpio_aggregrator contained struct device *dev this would be
+> dev_err(aggr->dev, "...\n");
+
+aggr_parse() is called before the platform device is created, and before
+aggr->pdev is populated.  So there is no device to print yet.
+
+> > +static void gpio_aggregator_free(struct gpio_aggregator *aggr)
+> > +{
+> > +       platform_device_unregister(aggr->pdev);
+>
+> Aha maybe store both the pdev and the dev in the struct then?
+>
+> Or print using &aggr->pdev.dev.
+
+Same for aggr->pdev.dev (or aggr->dev).
+
+> > +       /*
+> > +        * If any of the GPIO lines are sleeping, then the entire forwarder
+> > +        * will be sleeping.
+> > +        * If any of the chips support .set_config(), then the forwarder will
+> > +        * support setting configs.
+> > +        */
+> > +       for (i = 0; i < ngpios; i++) {
+> > +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
+> > +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
+>
+> If this desc->label business is why you need to include
+> "gpiolib.h" then I'd prefer if you just add a
+
+It was the third reason to include that file...
+
+> const char *gpiod_get_producer_name(struct gpio_desc *desc);
+>
+> to gpiolib (add in <linux/gpio/consumer.h> so that gpiolib can
+> try to give you something reasonable to print for the label here.
+> I ran into that problem before (wanting to print something like this)
+> and usually just printed the offset.
+>
+> But if it is a serious debug issue, let's fix a helper for this.
+>
+> gpiod_get_producer_name() could return the thing in
+> desc->label if that is set or else something along
+> "chipname-offset" or "unknown", I'm not very picky
+> with that.
+
+I will just remove the printing of the label, as it is no longer useful.
+Since I started using gpiod_lookup, the descriptor has already been
+requested at this point, which means its label will usually be
+"gpio-aggregator.N", i.e. it doesn't provide any help.
+The only exception is for a GPIO line which has an associated line name
+through "gpio-line-names" in DT.  But just seeing the global GPIO number
+should be good enough for debugging.
+
+BTW, one day you may want to have your our printk() format specifier for
+GPIOs?  Oh, no "%pg" and "%pG" are already taken; "%pp" is still
+available.
+
+> > error = aggr_add_gpio(aggr, name, U16_MAX, &n);
+>
+> Is the reason why you use e.g. "gpiochip0" as name here that this
+> is a simple ABI for userspace?
+
+"name" is not the "gpiochipN" name here, but the line name, cfr. the
+U16_MAX value for chip index, and the comment just above:
+
++                       /* Named GPIO line */
+
+That one is supposed to be stable, right?
+Note that this is the most use-centric way to refer to a GPIO.
+
+In the other caller:
+
++                               error = aggr_add_gpio(aggr, name, i, &n);
+
+"name" is a reference to the gpiochip, i.e. either its label, or the
+"gpiochipN" name.
+
+> Such like obtained from /sys/bus/gpio/devices/<chipname>?
+>
+> I would actually prefer to just add a sysfs attribute
+> such as "name" and set it to the value of gpiochip->label.
+
+Makes sense, but that would be a separate, unrelated patch, right?
+
+> These labels are compulsory and supposed to be unique.
+>
+> Then whatever creates an aggregator can just use
+> cat /sys/bus/gpio/devices/gpiochipN/name to send in
+> through the sysfs interface to this kernel driver.
+>
+> This will protect you in the following way:
+>
+> When a system is booted and populated the N in
+> gpiochipN is not stable and this aggregator will be used
+> by scripts that assume it is. We already had this dilemma
+> with things like network interfaces like eth0/1.
+>
+> This can be because of things like probe order which
+> can be random, or because someone compiled a
+> kernel with a new driver for a gpiochip that wasn't
+> detected before. This recently happened to Raspberry Pi,
+> that added gpio driver for "firmware GPIOs" (IIRC).
+>
+> The label on the chip is going to be more stable
+> I think, so it is better to use that.
+
+OK, so support for "gpiochipN" matching can be dropped, obsoleting
+"[PATCH v5 1/5] gpiolib: Add support for gpiochipN-based table lookup".
+
+Note that I added support for that in response to Bartosz' first try
+https://lore.kernel.org/linux-gpio/CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com/
+
+> This should also rid the need to include "gpiolib.h"
+> which makes me nervous.
+
+Consider it done!
+Thanks!
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
