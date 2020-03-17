@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2C6187DD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:10:03 +0100 (CET)
-Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C435187DCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:07:10 +0100 (CET)
+Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9Ag-0001sc-9f
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45031)
+	id 1jE97t-0003hm-2z
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95b-0000mP-Fr
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:49 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95c-0000oA-9u
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95a-0001pz-8l
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:47 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58461 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95a-0001qj-Bh
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:48 -0400
+Received: from ozlabs.org ([203.11.71.1]:38101)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE95Z-0001Fl-SK; Tue, 17 Mar 2020 06:04:46 -0400
+ id 1jE95Z-0001G2-Q7; Tue, 17 Mar 2020 06:04:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTKv67Xyz9sSL; Tue, 17 Mar 2020 21:04:35 +1100 (AEDT)
+ id 48hTKv6Vs5z9sSM; Tue, 17 Mar 2020 21:04:35 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584439475;
- bh=7wZ3mloQ1D8Wy0r2A2GHMcqEh/j6Iul/yYJo14bNXbY=;
+ bh=UOHF20krMv8ludcowjauA+f5cObH+ONZIZJKweMcMpU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IUJU4yFMtCr21Q9CRZ6qJEeHLAyGD8spXcxsUQK2hb63M0cjHaa+xhfjUgRncGq/W
- +cMYf0z/gSRqNYNYkrz//2o2ARJ236/AnOFuIREzp5Tkue4U4280X9fAq14lphNa9Y
- 0INYrJDWR0E9N4kws3Qj7E/85jRjemo0mdXAwb/0=
+ b=BrE2U5+QiThVGTKJDh588HDXjSpLix7anN3Y50zi/TRMMkFzKpQPXkKSONwzt1jeF
+ 8Q2wWOcVRgTsADzRl7/3xzjyuoQ2Aje6mi3XfuvRXEO63+xanRf0CoB/1di7Guc3dw
+ +323DBbaPS/5Z8l/875/hLuxzwF4+nWP06d4JGz4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/45] hw/ppc/pnv: Fix typo in comment
-Date: Tue, 17 Mar 2020 21:03:43 +1100
-Message-Id: <20200317100423.622643-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/45] ppc: Remove stub support for 32-bit hypervisor mode
+Date: Tue, 17 Mar 2020 21:03:44 +1100
+Message-Id: <20200317100423.622643-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,38 +54,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+Cc: lvivier@redhat.com, Fabiano Rosas <farosas@linux.ibm.com>, aik@ozlabs.ru,
+ mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+a4f30719a8cd, way back in 2007 noted that "PowerPC hypervisor mode is not
+fundamentally available only for PowerPC 64" and added a 32-bit version
+of the MSR[HV] bit.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200228123303.14540-1-philmd@redhat.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+But nothing was ever really done with that; there is no meaningful suppor=
+t
+for 32-bit hypervisor mode 13 years later.  Let's stop pretending and jus=
+t
+remove the stubs.
+
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/pnv_lpc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/cpu.h                | 21 +++++++--------------
+ target/ppc/translate_init.inc.c |  6 +++---
+ 2 files changed, 10 insertions(+), 17 deletions(-)
 
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index f150deca34..b5ffa48dac 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -829,7 +829,7 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
-l use_cpld, Error **errp)
-     bool hostboot_mode =3D !!pnv->fw_load_addr;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index b283042515..8077fdb068 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -24,8 +24,6 @@
+ #include "exec/cpu-defs.h"
+ #include "cpu-qom.h"
 =20
-     /* let isa_bus_new() create its own bridge on SysBus otherwise
--     * devices speficied on the command line won't find the bus and
-+     * devices specified on the command line won't find the bus and
-      * will fail to create.
-      */
-     isa_bus =3D isa_bus_new(NULL, &lpc->isa_mem, &lpc->isa_io, &local_er=
-r);
+-/* #define PPC_EMULATE_32BITS_HYPV */
+-
+ #define TCG_GUEST_DEFAULT_MO 0
+=20
+ #define TARGET_PAGE_BITS_64K 16
+@@ -300,13 +298,12 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_SF   63 /* Sixty-four-bit mode                            hf=
+lags */
+ #define MSR_TAG  62 /* Tag-active mode (POWERx ?)                       =
+     */
+ #define MSR_ISF  61 /* Sixty-four-bit interrupt mode on 630             =
+     */
+-#define MSR_SHV  60 /* hypervisor state                               hf=
+lags */
++#define MSR_HV   60 /* hypervisor state                               hf=
+lags */
+ #define MSR_TS0  34 /* Transactional state, 2 bits (Book3s)             =
+     */
+ #define MSR_TS1  33
+ #define MSR_TM   32 /* Transactional Memory Available (Book3s)          =
+     */
+ #define MSR_CM   31 /* Computation mode for BookE                     hf=
+lags */
+ #define MSR_ICM  30 /* Interrupt computation mode for BookE             =
+     */
+-#define MSR_THV  29 /* hypervisor state for 32 bits PowerPC           hf=
+lags */
+ #define MSR_GS   28 /* guest state for BookE                            =
+     */
+ #define MSR_UCLE 26 /* User-mode cache lock enable for BookE            =
+     */
+ #define MSR_VR   25 /* altivec available                            x hf=
+lags */
+@@ -401,10 +398,13 @@ typedef struct ppc_v3_pate_t {
+=20
+ #define msr_sf   ((env->msr >> MSR_SF)   & 1)
+ #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
+-#define msr_shv  ((env->msr >> MSR_SHV)  & 1)
++#if defined(TARGET_PPC64)
++#define msr_hv   ((env->msr >> MSR_HV)   & 1)
++#else
++#define msr_hv   (0)
++#endif
+ #define msr_cm   ((env->msr >> MSR_CM)   & 1)
+ #define msr_icm  ((env->msr >> MSR_ICM)  & 1)
+-#define msr_thv  ((env->msr >> MSR_THV)  & 1)
+ #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+ #define msr_ucle ((env->msr >> MSR_UCLE) & 1)
+ #define msr_vr   ((env->msr >> MSR_VR)   & 1)
+@@ -449,16 +449,9 @@ typedef struct ppc_v3_pate_t {
+=20
+ /* Hypervisor bit is more specific */
+ #if defined(TARGET_PPC64)
+-#define MSR_HVB (1ULL << MSR_SHV)
+-#define msr_hv  msr_shv
+-#else
+-#if defined(PPC_EMULATE_32BITS_HYPV)
+-#define MSR_HVB (1ULL << MSR_THV)
+-#define msr_hv  msr_thv
++#define MSR_HVB (1ULL << MSR_HV)
+ #else
+ #define MSR_HVB (0ULL)
+-#define msr_hv  (0)
+-#endif
+ #endif
+=20
+ /* DSISR */
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 2f7125c51f..df3401cf06 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8764,7 +8764,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+                         PPC2_TM | PPC2_PM_ISA206;
+     pcc->msr_mask =3D (1ull << MSR_SF) |
+-                    (1ull << MSR_SHV) |
++                    (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
+@@ -8976,7 +8976,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+                         PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
+     pcc->msr_mask =3D (1ull << MSR_SF) |
+-                    (1ull << MSR_SHV) |
++                    (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
+@@ -9186,7 +9186,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data=
+)
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+                         PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
+     pcc->msr_mask =3D (1ull << MSR_SF) |
+-                    (1ull << MSR_SHV) |
++                    (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
 --=20
 2.24.1
 
