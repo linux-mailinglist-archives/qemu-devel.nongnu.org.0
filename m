@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D0E188B40
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:55:00 +0100 (CET)
-Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA16C188B51
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:59:10 +0100 (CET)
+Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFUZ-00060F-J9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55505)
+	id 1jEFYb-0004mY-R5
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jEFS4-0002Rh-7V
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:25 -0400
+ (envelope-from <groug@kaod.org>) id 1jEFXE-0003GY-Sg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jEFS2-0003el-TI
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:24 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20005)
+ (envelope-from <groug@kaod.org>) id 1jEFXD-0001Ck-H5
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:44 -0400
+Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]:41147)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jEFS2-0003aH-NO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584463942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kx8+EOhssb9Itsb352KEYDK/Yxdu2Z9JmwOVUEoxxsE=;
- b=UgTDTWpfGTjW4VQ+tNYSBvCrcnBd2sG+JYrMj1+dHL9aJvzjGJQga6Ob57mXWyK9O6mRNH
- +cW3bDy7GIx/EE1ERFDKuJd1CRT1M5GWI3yd4t2mlYYr8nf0BsZuFUC1rdXEbxDzbG+gFW
- knUbcvZN2KNWaJnj70YyHHiSPIzURv8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-Il12puKxMO2GMJJIoGWc2Q-1; Tue, 17 Mar 2020 12:52:20 -0400
-X-MC-Unique: Il12puKxMO2GMJJIoGWc2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 890CE108443B
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 16:52:19 +0000 (UTC)
-Received: from office.mammed.net (unknown [10.40.195.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CE825D9E5;
- Tue, 17 Mar 2020 16:52:15 +0000 (UTC)
-Date: Tue, 17 Mar 2020 17:52:13 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH for-5.0] vl.c: fix migration failure for 3.1 and older
- machine types
-Message-ID: <20200317175213.217c3969@office.mammed.net>
-In-Reply-To: <20200304172748.15338-1-imammedo@redhat.com>
-References: <20200304172748.15338-1-imammedo@redhat.com>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jEFXD-0000fz-8B
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:57:43 -0400
+Received: from player159.ha.ovh.net (unknown [10.110.103.177])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id A899C1B5B75
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 17:57:40 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player159.ha.ovh.net (Postfix) with ESMTPSA id F3B5910815BC9;
+ Tue, 17 Mar 2020 16:57:30 +0000 (UTC)
+Date: Tue, 17 Mar 2020 17:57:24 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH 4/5] ppc/spapr: Don't kill the guest if a recovered
+ FWNMI machine check delivery fails
+Message-ID: <20200317175724.711884d5@bahia.lan>
+In-Reply-To: <20200317050215.159334-5-npiggin@gmail.com>
+References: <20200317050215.159334-1-npiggin@gmail.com>
+ <20200317050215.159334-5-npiggin@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 109212294222617027
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudefhedgledtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 178.33.253.128
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,80 +57,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ldoktor@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@fr.ibm.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  4 Mar 2020 12:27:48 -0500
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Tue, 17 Mar 2020 15:02:14 +1000
+Nicholas Piggin <npiggin@gmail.com> wrote:
 
-> Migration from QEMU(v4.0) fails when using 3.1 or older machine
-> type. For example if one attempts to migrate
-> QEMU-2.12 started as
->   qemu-system-ppc64 -nodefaults -M pseries-2.12 -m 4096 -mem-path /tmp/
-> to current master, it will fail with
->   qemu-system-ppc64: Unknown ramblock "ppc_spapr.ram", cannot accept migr=
-ation
->   qemu-system-ppc64: error while loading state for instance 0x0 of device=
- 'ram'
->   qemu-system-ppc64: load of migration failed: Invalid argument
->=20
-> Caused by 900c0ba373 commit which switches main RAM allocation to
-> memory backends and the fact in 3.1 and older QEMU, backends used
-> full[***] QOM path as memory region name instead of backend's name.
-> That was changed after 3.1 to use prefix-less names by default
-> (fa0cb34d22) for new machine types.
-> *** effectively makes main RAM memory region names defined by
-> MachineClass::default_ram_id being altered with '/objects/' prefix
-> and therefore migration fails as old QEMU sends prefix-less
-> name while new QEMU expects name with prefix when using 3.1 and
-> older machine types.
->=20
-> Fix it by forcing implicit[1] memory backend to always use
-> prefix-less names for its memory region by setting
->   'x-use-canonical-path-for-ramblock-id'
-> property to false.
->=20
-> 1) i.e. memory backend created by compat glue which maps
-> -m/-mem-path/-mem-prealloc/default RAM size into
-> appropriate backend type/options to match old CLI format.
->=20
-> Fixes: 900c0ba373
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-
-
-ping,
-
-so we don't forget to merge it
-
+> Try to be tolerant of errors if the machine check had been recovered
+> by the host.
+> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
-> CC: ldoktor@redhat.com
-> CC: marcandre.lureau@redhat.com
-> CC: dgilbert@redhat.com
-> ---
->  softmmu/vl.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5549f4b619..1101b1cb41 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2800,6 +2800,9 @@ static void create_default_memdev(MachineState *ms,=
- const char *path)
->      object_property_set_int(obj, ms->ram_size, "size", &error_fatal);
->      object_property_add_child(object_get_objects_root(), mc->default_ram=
-_id,
->                                obj, &error_fatal);
-> +    /* Ensure backend's memory region name is equal to mc->default_ram_i=
-d */
-> +    object_property_set_bool(obj, false, "x-use-canonical-path-for-rambl=
-ock-id",
-> +                             &error_fatal);
->      user_creatable_complete(USER_CREATABLE(obj), &error_fatal);
->      object_unref(obj);
->      object_property_set_str(OBJECT(ms), mc->default_ram_id, "memory-back=
-end",
+
+Same comment as previous patch on multi-line error strings and
+warn_report() in the !recovered case.
+
+>  hw/ppc/spapr_events.c | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index d35151eeb0..3f524cb0ca 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -807,13 +807,20 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>      /* get rtas addr from fdt */
+>      rtas_addr = spapr_get_rtas_addr();
+>      if (!rtas_addr) {
+> -        warn_report("FWNMI: Unable to deliver machine check to guest: "
+> -                    "rtas_addr not found.");
+> -        qemu_system_guest_panicked(NULL);
+> +        if (!recovered) {
+> +            warn_report("FWNMI: Unable to deliver machine check to guest: "
+> +                        "rtas_addr not found.");
+> +            qemu_system_guest_panicked(NULL);
+> +        } else {
+> +            warn_report("FWNMI: Unable to deliver machine check to guest: "
+> +                        "rtas_addr not found. Machine check recovered.");
+> +        }
+>          g_free(ext_elog);
+>          return;
+>      }
+>  
+> +    spapr->fwnmi_machine_check_interlock = cpu->vcpu_id;
+> +
+
+I don't understand this change.
+
+>      stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET,
+>                  env->gpr[3]);
+>      cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+> @@ -850,9 +857,14 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>           * that CPU called "ibm,nmi-interlock")
+>           */
+>          if (spapr->fwnmi_machine_check_interlock == cpu->vcpu_id) {
+> -            warn_report("FWNMI: Unable to deliver machine check to guest: "
+> -                        "nested machine check.");
+> -            qemu_system_guest_panicked(NULL);
+> +            if (!recovered) {
+> +                warn_report("FWNMI: Unable to deliver machine check to guest: "
+> +                            "nested machine check.");
+> +                qemu_system_guest_panicked(NULL);
+> +            } else {
+> +                warn_report("FWNMI: Unable to deliver machine check to guest: "
+> +                            "nested machine check. Machine check recovered.");
+> +            }
+>              return;
+>          }
+>          qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_cond);
+> @@ -880,7 +892,6 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>          warn_report("Received a fwnmi while migration was in progress");
+>      }
+>  
+> -    spapr->fwnmi_machine_check_interlock = cpu->vcpu_id;
+>      spapr_mce_dispatch_elog(cpu, recovered);
+>  }
+>  
 
 
