@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F3E187EBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:51:33 +0100 (CET)
-Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A56187EC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:52:47 +0100 (CET)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9oq-0000Js-R5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37325)
+	id 1jE9q2-0002a0-Uk
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jE9lF-0004B7-Tl
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:50 -0400
+ (envelope-from <armbru@redhat.com>) id 1jE9lY-0004Ov-Vx
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:48:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jE9lE-0004A7-Ma
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:49 -0400
-Received: from 11.mo1.mail-out.ovh.net ([188.165.48.29]:45495)
+ (envelope-from <armbru@redhat.com>) id 1jE9lW-0005go-Qb
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:48:08 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32611)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jE9lE-0003th-F3
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:48 -0400
-Received: from player168.ha.ovh.net (unknown [10.110.208.62])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 1115B1B524E
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 11:47:45 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player168.ha.ovh.net (Postfix) with ESMTPSA id 01D83107A8D52;
- Tue, 17 Mar 2020 10:47:32 +0000 (UTC)
-Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
- an alternate vector
-To: David Gibson <david@gibson.dropbear.id.au>,
- Nicholas Piggin <npiggin@gmail.com>
-References: <20200316142613.121089-1-npiggin@gmail.com>
- <20200316142613.121089-7-npiggin@gmail.com>
- <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
- <1584401195.r6knelt82x.astroid@bobo.none>
- <20200316233407.GK20264@umbus.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <097148e5-78be-a294-236d-160fb5c29d4a@kaod.org>
-Date: Tue, 17 Mar 2020 11:47:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jE9lW-0005eL-L4
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:48:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584442086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P0n1YYL4/APPQLsGPtIEHuML+/kO9dUi6LIEEAe8m3E=;
+ b=SgkfgrvL384kz4Tla0z8mXdqPnDPNR8udde0+6kEGSfHHdkDZ6f0WmfAfCPzCDd6ws21Fb
+ t/qaYVO8JvcrZirXUG0OdWNIte8bJqxmgxSU90cyIs6k9UQ70+jp15EqKF8Z3YAVe7i/IO
+ dsvnh+7dlcBr6IAYFNWRIvOn/HzVHZg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-g3JwkAMfNXmwP-DGEnmyEg-1; Tue, 17 Mar 2020 06:48:02 -0400
+X-MC-Unique: g3JwkAMfNXmwP-DGEnmyEg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F27D687181E;
+ Tue, 17 Mar 2020 10:47:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
+ [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BB3F8AC30;
+ Tue, 17 Mar 2020 10:47:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 003521138404; Tue, 17 Mar 2020 11:47:53 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH] qom-qmp-cmds: Fix another memory leak in qmp_object_add()
+References: <20200317092241.31660-1-armbru@redhat.com>
+ <7412CDE03601674DA8197E2EBD8937E83B69E58A@dggemm531-mbx.china.huawei.com>
+Date: Tue, 17 Mar 2020 11:47:53 +0100
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B69E58A@dggemm531-mbx.china.huawei.com>
+ (Chenqun's message of "Tue, 17 Mar 2020 10:15:39 +0000")
+Message-ID: <87k13jqmue.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200316233407.GK20264@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-X-Ovh-Tracer-Id: 12308619259802454848
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudefhedgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduieekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.48.29
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,38 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ Pannengyuan <pannengyuan@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 12:34 AM, David Gibson wrote:
-> On Tue, Mar 17, 2020 at 09:28:24AM +1000, Nicholas Piggin wrote:
->> C=E9dric Le Goater's on March 17, 2020 4:15 am:
->>> On 3/16/20 3:26 PM, Nicholas Piggin wrote:
->>>> Provide for an alternate delivery location, -1 defaults to the
->>>> architected address.
->>>
->>> I don't know what is the best approach, to override the vector addr
->>> computed by powerpc_excp() or use a machine class handler with=20
->>> cpu->vhyp.
+"Chenqun (kuhn)" <kuhn.chenqun@huawei.com> writes:
+
+>>-----Original Message-----
+>>From: Qemu-devel [mailto:qemu-devel-
+>>bounces+kuhn.chenqun=3Dhuawei.com@nongnu.org] On Behalf Of Markus
+>>Armbruster
+>>Sent: Tuesday, March 17, 2020 5:23 PM
+>>To: qemu-devel@nongnu.org
+>>Cc: Kevin Wolf <kwolf@redhat.com>; pbonzini@redhat.com;
+>>berrange@redhat.com; ehabkost@redhat.com
+>>Subject: [PATCH] qom-qmp-cmds: Fix another memory leak in
+>>qmp_object_add()
 >>
->> Yeah it's getting a bit ad hoc and inconsistent with machine check
->> etc, I just figured get something minimal in there now. The whole
->> exception delivery needs a spring clean though.
->=20
-> Yeah, there's a huge amount of cruft in nearly all the softmmu code.
+>>When user_creatable_add_type() fails, qmp_object_add() returns both its
+>>error and the usual empty QDict success value.  The QMP core handles the
+>>error, and ignores the success value, leaking it.  Exposed by qmp-cmd-tes=
+t
+>>case /x86_64/qmp/object-add-without-props, and duly reported both by
+>>ASan and valgrind.
+>>
+>>To plug the leak, set the success value only on success.
+>>
+>>Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
+>>Cc: Kevin Wolf <kwolf@redhat.com>
+>>Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>---
+> Hi,  Markus
+>
+>         Looks like the same patch that has been reported already here:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg03928.html
 
-The MMU emulation is not that bad to read. However, the exception model=20
-is hideous as one would say. powerpc_excp() is my favorite.=20
+That patch has an additional hunk:
 
-> It's such a big task that I don't really have any plans to tackle it
-> specifically.  Instead I've been cleaning up little pieces as they
-> impinge on things I actually care about.
+  diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+  index 3885464513..041866b846 100644
+  --- a/hw/block/xen-block.c
+  +++ b/hw/block/xen-block.c
+  @@ -860,7 +860,7 @@ static XenBlockIOThread *xen_block_iothread_create(co=
+nst=20
+  char *id,
+       XenBlockIOThread *iothread =3D g_new(XenBlockIOThread, 1);
+       Error *local_err =3D NULL;
+       QDict *opts;
+  -    QObject *ret_data;
+  +    QObject *ret_data =3D NULL;
 
-Maybe we should extract book3s to start with.
+       iothread->id =3D g_strdup(id);
 
-C.
+       opts =3D qdict_new();
+       qdict_put_str(opts, "qom-type", TYPE_IOTHREAD);
+       qdict_put_str(opts, "id", id);
+       qmp_object_add(opts, &ret_data, &local_err);
+       qobject_unref(opts);
+       qobject_unref(ret_data);
+
+       if (local_err) {
+           error_propagate(errp, local_err);
+
+           g_free(iothread->id);
+           g_free(iothread);
+           return NULL;
+       }
+
+       return iothread;
+
+> Maybe we should initialize ret_data in xen-block to avoid a possible unin=
+itialized error =EF=BC=9F
+
+Yes, because xen_block_iothread_create() passes @ret_data to
+qobject_unref() even after qmp_object_add() failed.
+
+In short, Pan Nengyuan's patch is more complete.
 
 
