@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5191E187700
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 01:44:30 +0100 (CET)
-Received: from localhost ([::1]:50866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E21187708
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 01:46:32 +0100 (CET)
+Received: from localhost ([::1]:50902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE0LN-00012A-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 20:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41431)
+	id 1jE0NK-0003RN-GU
+	for lists+qemu-devel@lfdr.de; Mon, 16 Mar 2020 20:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jE0IH-00041w-9G
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:19 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jE0IL-00045y-D0
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jE0IF-0004yV-Tv
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38671)
+ (envelope-from <jsnow@redhat.com>) id 1jE0IJ-0005A0-EL
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27687)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jE0IF-0004xu-Pe
- for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:15 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jE0II-00056K-Tg
+ for qemu-devel@nongnu.org; Mon, 16 Mar 2020 20:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584405675;
+ s=mimecast20190719; t=1584405677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KQBnYkEn5mABwOQVjYOEtia36Kc/+snsuX5m5kADB2o=;
- b=T41mPmGHu3HlexyaXvccPjkL+hF0Mts08K2Mwjyiz0jSiyjOFoCUCXZRkkDqbQKxW6tlKH
- wVSgcA43/vJIT/zRIbTuOYHFJopmga6ZnkalNNCrv/IDRZo77v0GhVSVFZEHvmTU9PhkaW
- EqgUsEF70IkTA+GwjHEW5nwWKecpNxY=
+ bh=S0We64aQWj81gfK4BjbGVkVQfRzyf3QTE+z185OEnM4=;
+ b=L5V6Dr5Hxq7HmwDN08mEuIml2UgSoNrDUH91KnZVOtHM47iHrJXfJ3Pq03hNvn3Njdl58H
+ jzMUAatQnbDPyqRW4yLEWgu7ovrjkafncbQMl11V0uzfqrKcFfgOjSH9grZa5YpJnqMuh7
+ CFblBztJMCwn5hbS94qUUSzPhrPKAEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-z2CnrJbxNsO4r9nOcgPXTw-1; Mon, 16 Mar 2020 20:41:13 -0400
-X-MC-Unique: z2CnrJbxNsO4r9nOcgPXTw-1
+ us-mta-474-dB8CC8YvOMWg0uqXm0WI_A-1; Mon, 16 Mar 2020 20:41:14 -0400
+X-MC-Unique: dB8CC8YvOMWg0uqXm0WI_A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D355107ACC7;
- Tue, 17 Mar 2020 00:41:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF1488010C7;
+ Tue, 17 Mar 2020 00:41:13 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23E3F7A411;
- Tue, 17 Mar 2020 00:41:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 523F97A411;
+ Tue, 17 Mar 2020 00:41:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 04/11] iotests: replace mutable list default args
-Date: Mon, 16 Mar 2020 20:40:58 -0400
-Message-Id: <20200317004105.27059-5-jsnow@redhat.com>
+Subject: [PATCH v8 05/11] iotests: add pylintrc file
+Date: Mon, 16 Mar 2020 20:40:59 -0400
+Message-Id: <20200317004105.27059-6-jsnow@redhat.com>
 In-Reply-To: <20200317004105.27059-1-jsnow@redhat.com>
 References: <20200317004105.27059-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,112 +75,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's bad hygiene: if we modify this list, it will be modified across all
-invocations.
-
-(Remaining bad usages are fixed in a subsequent patch which changes the
-function signature anyway.)
+This allows others to get repeatable results with pylint. If you run
+`pylint iotests.py`, you should see a 100% pass.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/pylintrc | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 tests/qemu-iotests/pylintrc
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index cb9c2cd05d..7cd74e7cb1 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -136,7 +136,7 @@ def qemu_img_log(*args):
-     log(result, filters=3D[filter_testfiles])
-     return result
-=20
--def img_info_log(filename, filter_path=3DNone, imgopts=3DFalse, extra_args=
-=3D[]):
-+def img_info_log(filename, filter_path=3DNone, imgopts=3DFalse, extra_args=
-=3D()):
-     args =3D ['info']
-     if imgopts:
-         args.append('--image-opts')
-@@ -350,7 +350,7 @@ def _filter(_key, value):
-         return value
-     return filter_qmp(qmsg, _filter)
-=20
--def log(msg, filters=3D[], indent=3DNone):
-+def log(msg, filters=3D(), indent=3DNone):
-     '''Logs either a string message or a JSON serializable message (like Q=
-MP).
-     If indent is provided, JSON serializable messages are pretty-printed.'=
-''
-     for flt in filters:
-@@ -566,7 +566,7 @@ def get_qmp_events_filtered(self, wait=3D60.0):
-             result.append(filter_qmp_event(ev))
-         return result
-=20
--    def qmp_log(self, cmd, filters=3D[], indent=3DNone, **kwargs):
-+    def qmp_log(self, cmd, filters=3D(), indent=3DNone, **kwargs):
-         full_cmd =3D OrderedDict((
-             ("execute", cmd),
-             ("arguments", ordered_qmp(kwargs))
-@@ -970,7 +970,7 @@ def case_notrun(reason):
-     open('%s/%s.casenotrun' % (output_dir, seq), 'a').write(
-         '    [case not run] ' + reason + '\n')
-=20
--def verify_image_format(supported_fmts=3D[], unsupported_fmts=3D[]):
-+def verify_image_format(supported_fmts=3D(), unsupported_fmts=3D()):
-     assert not (supported_fmts and unsupported_fmts)
-=20
-     if 'generic' in supported_fmts and \
-@@ -984,7 +984,7 @@ def verify_image_format(supported_fmts=3D[], unsupporte=
-d_fmts=3D[]):
-     if not_sup or (imgfmt in unsupported_fmts):
-         notrun('not suitable for this image format: %s' % imgfmt)
-=20
--def verify_protocol(supported=3D[], unsupported=3D[]):
-+def verify_protocol(supported=3D(), unsupported=3D()):
-     assert not (supported and unsupported)
-=20
-     if 'generic' in supported:
-@@ -1003,11 +1003,11 @@ def verify_platform(supported=3DNone, unsupported=
-=3DNone):
-         if not any((sys.platform.startswith(x) for x in supported)):
-             notrun('not suitable for this OS: %s' % sys.platform)
-=20
--def verify_cache_mode(supported_cache_modes=3D[]):
-+def verify_cache_mode(supported_cache_modes=3D()):
-     if supported_cache_modes and (cachemode not in supported_cache_modes):
-         notrun('not suitable for this cache mode: %s' % cachemode)
-=20
--def verify_aio_mode(supported_aio_modes=3D[]):
-+def verify_aio_mode(supported_aio_modes=3D()):
-     if supported_aio_modes and (aiomode not in supported_aio_modes):
-         notrun('not suitable for this aio mode: %s' % aiomode)
-=20
-@@ -1047,7 +1047,7 @@ def supported_formats(read_only=3DFalse):
-=20
-     return supported_formats.formats[read_only]
-=20
--def skip_if_unsupported(required_formats=3D[], read_only=3DFalse):
-+def skip_if_unsupported(required_formats=3D(), read_only=3DFalse):
-     '''Skip Test Decorator
-        Runs the test if all the required formats are whitelisted'''
-     def skip_test_decorator(func):
-@@ -1098,11 +1098,11 @@ def execute_unittest(output, verbosity, debug):
-             sys.stderr.write(out)
-=20
- def execute_test(test_function=3DNone,
--                 supported_fmts=3D[],
-+                 supported_fmts=3D(),
-                  supported_platforms=3DNone,
--                 supported_cache_modes=3D[], supported_aio_modes=3D{},
--                 unsupported_fmts=3D[], supported_protocols=3D[],
--                 unsupported_protocols=3D[]):
-+                 supported_cache_modes=3D(), supported_aio_modes=3D(),
-+                 unsupported_fmts=3D(), supported_protocols=3D(),
-+                 unsupported_protocols=3D()):
-     """Run either unittest or script-style tests."""
-=20
-     # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
+diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+new file mode 100644
+index 0000000000..8720b6a0de
+--- /dev/null
++++ b/tests/qemu-iotests/pylintrc
+@@ -0,0 +1,22 @@
++[MESSAGES CONTROL]
++
++# Disable the message, report, category or checker with the given id(s). Y=
+ou
++# can either give multiple identifiers separated by comma (,) or put this
++# option multiple times (only on the command line, not in the configuratio=
+n
++# file where it should appear only once). You can also use "--disable=3Dal=
+l" to
++# disable everything first and then reenable specific checks. For example,=
+ if
++# you want to run only the similarities checker, you can use "--disable=3D=
+all
++# --enable=3Dsimilarities". If you want to run only the classes checker, b=
+ut have
++# no Warning level messages displayed, use "--disable=3Dall --enable=3Dcla=
+sses
++# --disable=3DW".
++disable=3Dinvalid-name,
++        no-else-return,
++        too-many-lines,
++        too-few-public-methods,
++        too-many-arguments,
++        too-many-locals,
++        too-many-branches,
++        too-many-public-methods,
++        # These are temporary, and should be removed:
++        missing-docstring,
++        line-too-long,
 --=20
 2.21.1
 
