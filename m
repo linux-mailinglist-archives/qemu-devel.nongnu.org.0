@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B00188ABE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:42:25 +0100 (CET)
-Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C912E188A94
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:40:51 +0100 (CET)
+Received: from localhost ([::1]:36644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFIO-0008H7-GC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
+	id 1jEFGs-0004Gl-RW
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEFA8-0006uP-At
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:33:53 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEFA6-0006q2-Ku
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:33:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEFA7-0004wn-1X
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:33:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:42116)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEFA6-0004uo-T7
+ (envelope-from <armbru@redhat.com>) id 1jEFA5-0004il-2a
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:33:50 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43077)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEFA4-0004dF-TJ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:33:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584462830;
+ s=mimecast20190719; t=1584462828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Px0X9H785H2y1QeaPhBzK01f4MiNP9U/SjH/J6SPl6k=;
- b=JbuFH6jywPCuksszQcEBM2QPaK75yW9zrncwoyJkJ0C+8/fl3DFThVTNhk1mIRNxrjpV7B
- GME7DUUE8cj0XYbN97+ioevqI3BtThdDWnQfGJUv6yLuidOtwTmMZ6gGeim1UhoOR6Cmcb
- 6nyRELDbB0jXPt0h4orbEJ+cIeXNl7s=
+ bh=wqB72yCY1p7yCeZkg0uizrFc4d/XuUya1TSV3J9ObRM=;
+ b=DRgUPiUwQvbX6et7whYnM1UwZNhrBkUiq40KY3U+IsJgB9GpBITVjibtH8Q8C1F8fFcDal
+ 6l5wUEKqOBrgJ8ktNR4Nm+8X3RdDDJVnEJg65jJTb1dp4ZrsQIstK6NaCTVo+5KGId9rvH
+ ZucsfWI8gl9+tOFCvkY32vJzVetKtF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-kDzL92RMOb-Ml7aitxhz4g-1; Tue, 17 Mar 2020 12:33:46 -0400
-X-MC-Unique: kDzL92RMOb-Ml7aitxhz4g-1
+ us-mta-240-RZ1_-SaDO0C8Q-2_uGCGfg-1; Tue, 17 Mar 2020 12:33:46 -0400
+X-MC-Unique: RZ1_-SaDO0C8Q-2_uGCGfg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55E5F800D5A;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59B30800D5B;
  Tue, 17 Mar 2020 16:33:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
  [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 256E790808;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27ADC9080A;
  Tue, 17 Mar 2020 16:33:45 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A719B11366CC; Tue, 17 Mar 2020 17:33:43 +0100 (CET)
+ id AA3CB11366CF; Tue, 17 Mar 2020 17:33:43 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] hw/misc/ivshmem: Use one Error * variable instead of two
-Date: Tue, 17 Mar 2020 17:33:41 +0100
-Message-Id: <20200317163343.25028-3-armbru@redhat.com>
+Subject: [PULL 3/4] xen-block: Use one Error * variable instead of two
+Date: Tue, 17 Mar 2020 17:33:42 +0100
+Message-Id: <20200317163343.25028-4-armbru@redhat.com>
 In-Reply-To: <20200317163343.25028-1-armbru@redhat.com>
 References: <20200317163343.25028-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,51 +73,63 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit fe44dc9180 "migration: disallow migrate_add_blocker during
-migration" accidentally added a second Error * variable.  Use the
-first one instead.
+While there, tidy up indentation, and add return just for consistency
+and robustness.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200313170517.22480-3-armbru@redhat.com>
+Message-Id: <20200313170517.22480-4-armbru@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/misc/ivshmem.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/block/xen-block.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index 1a0fad74e1..a8dc9b377d 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -832,7 +832,6 @@ static void ivshmem_common_realize(PCIDevice *dev, Erro=
-r **errp)
-     IVShmemState *s =3D IVSHMEM_COMMON(dev);
-     Error *err =3D NULL;
-     uint8_t *pci_conf;
--    Error *local_err =3D NULL;
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 3885464513..07bb32e22b 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -998,29 +998,27 @@ static void xen_block_device_destroy(XenBackendInstan=
+ce *backend,
+     XenBlockVdev *vdev =3D &blockdev->props.vdev;
+     XenBlockDrive *drive =3D blockdev->drive;
+     XenBlockIOThread *iothread =3D blockdev->iothread;
++    Error *local_err =3D NULL;
 =20
-     /* IRQFD requires MSI */
-     if (ivshmem_has_feature(s, IVSHMEM_IOEVENTFD) &&
-@@ -899,9 +898,9 @@ static void ivshmem_common_realize(PCIDevice *dev, Erro=
-r **errp)
-     if (!ivshmem_is_master(s)) {
-         error_setg(&s->migration_blocker,
-                    "Migration is disabled when using feature 'peer mode' i=
-n device 'ivshmem'");
--        migrate_add_blocker(s->migration_blocker, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        migrate_add_blocker(s->migration_blocker, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-             error_free(s->migration_blocker);
+     trace_xen_block_device_destroy(vdev->number);
+=20
+     object_unparent(OBJECT(xendev));
+=20
+     if (iothread) {
+-        Error *local_err =3D NULL;
+-
+         xen_block_iothread_destroy(iothread, &local_err);
+         if (local_err) {
+             error_propagate_prepend(errp, local_err,
+-                                "failed to destroy iothread: ");
++                                    "failed to destroy iothread: ");
              return;
          }
+     }
+=20
+     if (drive) {
+-        Error *local_err =3D NULL;
+-
+         xen_block_drive_destroy(drive, &local_err);
+         if (local_err) {
+             error_propagate_prepend(errp, local_err,
+-                                "failed to destroy drive: ");
++                                    "failed to destroy drive: ");
++            return;
+         }
+     }
+ }
 --=20
 2.21.1
 
