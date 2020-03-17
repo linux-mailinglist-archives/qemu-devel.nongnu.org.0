@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77263188B33
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:53:13 +0100 (CET)
-Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D0E188B40
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:55:00 +0100 (CET)
+Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFSq-0002gg-Ee
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51962)
+	id 1jEFUZ-00060F-J9
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEFP3-00064s-Nf
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:19 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jEFS4-0002Rh-7V
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEFP2-0005t7-3Q
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51566)
+ (envelope-from <imammedo@redhat.com>) id 1jEFS2-0003el-TI
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:24 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20005)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEFP1-0005lT-T3
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:16 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jEFS2-0003aH-NO
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:52:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584463755;
+ s=mimecast20190719; t=1584463942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5TTlAhk/7drsqfeKyqvIFiaFPJtt8PqcGysqpb1xeLY=;
- b=cQ1NMzUr+4BWmEbmJgkBMx/FPArYRP1pqYJ0VZ/cQXBlNQoNyqNYtWkfshplx5ulnfMFOc
- s2fxn0ZE0NRoNFWOq4DdnL1whjsfcqIUrWbxMYvzXX6Wt8HrZaUAvBneD9kXMdWfKjJVkw
- zo5+DNwRQICU9duiE8ske+3z9Xr0vik=
+ bh=kx8+EOhssb9Itsb352KEYDK/Yxdu2Z9JmwOVUEoxxsE=;
+ b=UgTDTWpfGTjW4VQ+tNYSBvCrcnBd2sG+JYrMj1+dHL9aJvzjGJQga6Ob57mXWyK9O6mRNH
+ +cW3bDy7GIx/EE1ERFDKuJd1CRT1M5GWI3yd4t2mlYYr8nf0BsZuFUC1rdXEbxDzbG+gFW
+ knUbcvZN2KNWaJnj70YyHHiSPIzURv8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-2nfN7rXLPoOAbPPIV2UyUw-1; Tue, 17 Mar 2020 12:49:13 -0400
-X-MC-Unique: 2nfN7rXLPoOAbPPIV2UyUw-1
+ us-mta-320-Il12puKxMO2GMJJIoGWc2Q-1; Tue, 17 Mar 2020 12:52:20 -0400
+X-MC-Unique: Il12puKxMO2GMJJIoGWc2Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E6613F6;
- Tue, 17 Mar 2020 16:49:12 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EDD95DA7C;
- Tue, 17 Mar 2020 16:49:07 +0000 (UTC)
-Date: Tue, 17 Mar 2020 17:48:56 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
- correctly
-Message-ID: <20200317174856.456810a5.cohuck@redhat.com>
-In-Reply-To: <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-14-frankja@linux.ibm.com>
- <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
- <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 890CE108443B
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 16:52:19 +0000 (UTC)
+Received: from office.mammed.net (unknown [10.40.195.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CE825D9E5;
+ Tue, 17 Mar 2020 16:52:15 +0000 (UTC)
+Date: Tue, 17 Mar 2020 17:52:13 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for-5.0] vl.c: fix migration failure for 3.1 and older
+ machine types
+Message-ID: <20200317175213.217c3969@office.mammed.net>
+In-Reply-To: <20200304172748.15338-1-imammedo@redhat.com>
+References: <20200304172748.15338-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/R/2wqm8DRngjT4AqwRZO.No";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,81 +70,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, david@redhat.com
+Cc: ldoktor@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/R/2wqm8DRngjT4AqwRZO.No
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed,  4 Mar 2020 12:27:48 -0500
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-On Thu, 12 Mar 2020 17:13:10 +0100
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> On 3/12/20 4:51 PM, Christian Borntraeger wrote:
-> > On 11.03.20 14:21, Janosch Frank wrote: =20
-> >> For protected VMs status storing is not done by QEMU anymore.
-> >>
-> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> >> Reviewed-by: David Hildenbrand <david@redhat.com> =20
-> >=20
-> >  =20
-> >> ---
-> >>  target/s390x/helper.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-> >> index ed726849114f2f35..5022df8812d406c9 100644
-> >> --- a/target/s390x/helper.c
-> >> +++ b/target/s390x/helper.c
-> >> @@ -25,6 +25,7 @@
-> >>  #include "qemu/timer.h"
-> >>  #include "qemu/qemu-print.h"
-> >>  #include "hw/s390x/ioinst.h"
-> >> +#include "hw/s390x/pv.h"
-> >>  #include "sysemu/hw_accel.h"
-> >>  #include "sysemu/runstate.h"
-> >>  #ifndef CONFIG_USER_ONLY
-> >> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, =
-bool store_arch)
-> >>      hwaddr len =3D sizeof(*sa);
-> >>      int i;
-> >> =20
-> >> +    /* Storing will occur on next SIE entry for protected VMs */ =20
-> >=20
-> > Maybe ... next SIE entry of the sending CPU ....=20
-> > ? =20
+> Migration from QEMU(v4.0) fails when using 3.1 or older machine
+> type. For example if one attempts to migrate
+> QEMU-2.12 started as
+>   qemu-system-ppc64 -nodefaults -M pseries-2.12 -m 4096 -mem-path /tmp/
+> to current master, it will fail with
+>   qemu-system-ppc64: Unknown ramblock "ppc_spapr.ram", cannot accept migr=
+ation
+>   qemu-system-ppc64: error while loading state for instance 0x0 of device=
+ 'ram'
+>   qemu-system-ppc64: load of migration failed: Invalid argument
 >=20
-> Well that would be the current cpu, right?
-> So:
-> /* For PVMs storing will occur when this cpu enters SIE again */
+> Caused by 900c0ba373 commit which switches main RAM allocation to
+> memory backends and the fact in 3.1 and older QEMU, backends used
+> full[***] QOM path as memory region name instead of backend's name.
+> That was changed after 3.1 to use prefix-less names by default
+> (fa0cb34d22) for new machine types.
+> *** effectively makes main RAM memory region names defined by
+> MachineClass::default_ram_id being altered with '/objects/' prefix
+> and therefore migration fails as old QEMU sends prefix-less
+> name while new QEMU expects name with prefix when using 3.1 and
+> older machine types.
+>=20
+> Fix it by forcing implicit[1] memory backend to always use
+> prefix-less names for its memory region by setting
+>   'x-use-canonical-path-for-ramblock-id'
+> property to false.
+>=20
+> 1) i.e. memory backend created by compat glue which maps
+> -m/-mem-path/-mem-prealloc/default RAM size into
+> appropriate backend type/options to match old CLI format.
+>=20
+> Fixes: 900c0ba373
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
 
-With that comment tweak,
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
---Sig_/R/2wqm8DRngjT4AqwRZO.No
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+ping,
 
------BEGIN PGP SIGNATURE-----
+so we don't forget to merge it
 
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5w/3gACgkQ3s9rk8bw
-L6+XLA/+Nn+rtlyOM65n+AlXmzA8WSuBVBi0w/H8Ze+FCQGERC/U+FwFud+oIXjn
-RfLsnOp8IZ/UFfmHpqiPH2Hz1iKR9ytWB17p6/RkPVl0UMGQYESwSO0mFcydvUIn
-ROzuNyra6656+iQxL0Jj2up4ptO7aZXcmVk7HFt2bOAQAIgUA5fRtpIhceSzof4D
-DC2DpgqNOI/Cf7TnEX2hPIpMfoer0QchH8/nRJA8+15r3PNP2sh3O68GbEW5ySTy
-3w9Whz/ikSTqntKVWUEoYOo7SQMOSCaakk6dvYhHRsjtWto8dblH8OjknTuhKpJR
-TkQTNJsEjeA2hr19LZdg5LKJgzg3UU48fAzB3ZYnyyjPbAJdNaYQERX3oTn6FnKa
-YBpfIjrSweWeVtEn6Wa0e+2Yjlj3du/l5KAGF0NDSx0IQ7C+1Q5xAt4UDSRrrfBO
-e72hA6EIAK23uCfc9NYuY6TQsBIpTBxnHdOW6DzE2iARHA9Fk7I4f7UnVGhEsZxC
-lGGMvsCYfZfmH3YiG0j0NuUFYh7HmILyuJ7gXPESNSPfUm0kHe4NLVUclVpKoOvB
-mD24ty/3631KPbIZ5ufLEDKf9E0H5bemKXUVw8H4VHSpVPLrnIlrYNfScISBgLZ9
-egWZ4ATAxdtfU8ZW9W6jwyZA/WliuJIp7ytvtHoiCZEqt/Fxosw=
-=p2K1
------END PGP SIGNATURE-----
-
---Sig_/R/2wqm8DRngjT4AqwRZO.No--
+> ---
+> CC: ldoktor@redhat.com
+> CC: marcandre.lureau@redhat.com
+> CC: dgilbert@redhat.com
+> ---
+>  softmmu/vl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5549f4b619..1101b1cb41 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2800,6 +2800,9 @@ static void create_default_memdev(MachineState *ms,=
+ const char *path)
+>      object_property_set_int(obj, ms->ram_size, "size", &error_fatal);
+>      object_property_add_child(object_get_objects_root(), mc->default_ram=
+_id,
+>                                obj, &error_fatal);
+> +    /* Ensure backend's memory region name is equal to mc->default_ram_i=
+d */
+> +    object_property_set_bool(obj, false, "x-use-canonical-path-for-rambl=
+ock-id",
+> +                             &error_fatal);
+>      user_creatable_complete(USER_CREATABLE(obj), &error_fatal);
+>      object_unref(obj);
+>      object_property_set_str(OBJECT(ms), mc->default_ram_id, "memory-back=
+end",
 
 
