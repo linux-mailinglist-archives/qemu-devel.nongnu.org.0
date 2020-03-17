@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B761884BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 14:07:16 +0100 (CET)
-Received: from localhost ([::1]:60942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E088A1884BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 14:07:15 +0100 (CET)
+Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEBwB-0007Ci-RC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 09:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39429)
+	id 1jEBwA-00077O-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 09:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jEBuk-0005Yr-Vt
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jEBuk-0005Yq-Sr
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:05:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jEBui-0007Hb-Pr
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1jEBui-0007II-Ry
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:05:46 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60520 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:60519 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1jEBui-00067f-H5
+ id 1jEBui-00067J-Gu
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 09:05:44 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 21E911A21B2;
+ by mail.rt-rk.com (Postfix) with ESMTP id 2A61D1A2185;
  Tue, 17 Mar 2020 14:04:40 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 000941A2185;
- Tue, 17 Mar 2020 14:04:39 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 1083D1A2198;
+ Tue, 17 Mar 2020 14:04:40 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] MAINTAINERS: Adjust maintainer's status for some MIPS items
-Date: Tue, 17 Mar 2020 14:04:27 +0100
-Message-Id: <1584450269-26897-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 2/3] MAINTAINERS: Adjust maintainer's email
+Date: Tue, 17 Mar 2020 14:04:28 +0100
+Message-Id: <1584450269-26897-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1584450269-26897-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1584450269-26897-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,56 +59,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Aurelien has been and will forever remain an idol in QEMU for
-MIPS world. However, since he decided to move on to other projects,
-acknowledge the reality, and formally releive him from maintainer's
-duties for QEMU for MIPS items. Aurelien is though welcome to come
-back at any time. Some empty spots caused by this are filled in by
-Aleksandar.
+For some longish time I've been using multiple email addresses
+for mailing list communication, and would like to consolidate it
+into a single email address that is the most convenient to me.
+My other emails, from rt-rk.com and wavecomp.com domains remain
+active and I will respond from them too, if needed, but I would
+like to manage almost all communication using gmail.com account.
 
-CC: Aurelien Jarno <aurelien@aurel32.net>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Acked-by: Aurelien Jarno <aurelien@aurel32.net>
-Message-Id: <1584061252-16635-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <1584061252-16635-3-git-send-email-aleksandar.markovic@rt-rk.=
+com>
 ---
- MAINTAINERS | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ .mailmap    |  5 +++--
+ MAINTAINERS | 16 ++++++++--------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
+diff --git a/.mailmap b/.mailmap
+index 76154c7..6412067 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -39,8 +39,9 @@ Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu=
+-devel <qemu-devel@nongnu
+ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-dev=
+el <qemu-devel@nongnu.org>
+=20
+ # Next, replace old addresses by a more recent one.
+-Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@mips.c=
+om>
+-Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec=
+.com>
++Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markov=
+ic@mips.com>
++Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markov=
+ic@imgtec.com>
++Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecom=
+p.com>
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm=
+.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 32867bc..4fba8b8 100644
+index 4fba8b8..682032c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -209,8 +209,8 @@ F: hw/microblaze/
+@@ -209,7 +209,7 @@ F: hw/microblaze/
  F: disas/microblaze.c
- 
+=20
  MIPS TCG CPUs
--M: Aurelien Jarno <aurelien@aurel32.net>
- M: Aleksandar Markovic <amarkovic@wavecomp.com>
-+R: Aurelien Jarno <aurelien@aurel32.net>
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
  S: Maintained
- F: target/mips/
-@@ -1036,7 +1036,8 @@ F: hw/mips/mips_mipssim.c
+@@ -367,7 +367,7 @@ S: Maintained
+ F: target/arm/kvm.c
+=20
+ MIPS KVM CPUs
+-M: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ S: Odd Fixes
+ F: target/mips/kvm.c
+=20
+@@ -1016,7 +1016,7 @@ F: hw/display/jazz_led.c
+ F: hw/dma/rc4030.c
+=20
+ Malta
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ S: Maintained
+@@ -1029,14 +1029,14 @@ F: tests/acceptance/linux_ssh_mips_malta.py
+ F: tests/acceptance/machine_mips_malta.py
+=20
+ Mipssim
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+ S: Odd Fixes
+ F: hw/mips/mips_mipssim.c
  F: hw/net/mipsnet.c
- 
+=20
  R4000
--M: Aurelien Jarno <aurelien@aurel32.net>
-+M: Aleksandar Markovic <amarkovic@wavecomp.com>
-+R: Aurelien Jarno <aurelien@aurel32.net>
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
  S: Obsolete
- F: hw/mips/mips_r4k.c
-@@ -2507,7 +2508,8 @@ F: tcg/i386/
+@@ -1044,7 +1044,7 @@ F: hw/mips/mips_r4k.c
+=20
+ Fulong 2E
+ M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ S: Odd Fixes
+ F: hw/mips/mips_fulong2e.c
+ F: hw/isa/vt82c686.c
+@@ -2508,7 +2508,7 @@ F: tcg/i386/
  F: disas/i386.c
- 
+=20
  MIPS TCG target
--M: Aurelien Jarno <aurelien@aurel32.net>
-+M: Aleksandar Markovic <amarkovic@wavecomp.com>
-+R: Aurelien Jarno <aurelien@aurel32.net>
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
  S: Maintained
- F: tcg/mips/
--- 
+@@ -2837,7 +2837,7 @@ S: Odd Fixes
+ F: scripts/git-submodule.sh
+=20
+ UI translations
+-M: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ F: po/*.po
+=20
+ Sphinx documentation configuration and build machinery
+--=20
 2.7.4
 
 
