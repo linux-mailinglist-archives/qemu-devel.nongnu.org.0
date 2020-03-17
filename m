@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37657188961
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:46:40 +0100 (CET)
-Received: from localhost ([::1]:35088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D846718896B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:49:37 +0100 (CET)
+Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEQR-0001yf-5j
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55525)
+	id 1jEETI-00077M-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jEEL5-0004Xd-St
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:41:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEEMe-0006Wq-Vi
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:42:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jEEL1-0003FW-00
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:41:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:52343)
+ (envelope-from <philmd@redhat.com>) id 1jEEMd-0000Ox-56
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:42:44 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24052)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jEEL0-0003Dy-SP
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:41:02 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEEMd-0000LT-0X
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:42:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584459662;
+ s=mimecast20190719; t=1584459761;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bNIvdCFkbhhWtvqMmqjJEG3FPAvakEkXe9qb9UW+Z4M=;
- b=axQ+soSUwomIBb3fwrdfD1IsZd/dQEeifXlUYUbUrZ9ctbBjBh2TLVXEmVh5/hTsoVYfzi
- zrs23yXMdUmcucBYrQ4bG5K1C+PEEVnYs2mCg8hRdbW1qdKfosmA9UjAGYbBZPMW/Xe0Xk
- TNbsyMTTcXtGUSP2WfsS1RcZgWlyGoU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-kXc9CVHeOKCNKewtB0O_pg-1; Tue, 17 Mar 2020 11:41:00 -0400
-X-MC-Unique: kXc9CVHeOKCNKewtB0O_pg-1
-Received: by mail-wm1-f69.google.com with SMTP id 20so5899271wmk.1
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:41:00 -0700 (PDT)
+ bh=n5htWkFQVjV3nq6eFNrhXATuVCH+zX0fM0so4PnzsAI=;
+ b=aOpxnuSEQQRY76QzC1nG7c81w5mb4FU5fA87xD6IOJoluBUXjGizELhNTTrfmpXx/cK1Nc
+ 1hnn7XxG4ZEerjfTmAWOdwus/HHIcXpPsVpSr3y44n4JXDaSdO2CbQfxh/CCRXQ/vO7hxs
+ lrb7UqMCvUoh0QWZtPJBGfruhUtSa90=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-BLlW7I9qMAiZnRjYG-cneA-1; Tue, 17 Mar 2020 11:42:37 -0400
+X-MC-Unique: BLlW7I9qMAiZnRjYG-cneA-1
+Received: by mail-wm1-f70.google.com with SMTP id r23so7328321wmn.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:42:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EKr3v9KEER1rDvaLZ1Ew27fVsL/dVowXe2qq2qvjiyE=;
- b=n1kwAyXvXIiDK3qyO7jcgQ42ao34jUFw4WIDRhsfy7m1JJmspYDv1CBvVSI/sxgku+
- TW97qfXD15AGySMaWYpgjUgwbQocaWAOF6Q5uB/u4Uo+xfWPzf9HNDZX9ijC1GsQd9PJ
- mTcagV6HoVOaITvnlaGJy/NqxGntKxoZrAy94lVX3Lax9qltYhmgUmyUtnx/Uqc0Bgxe
- 9TxiKa5oeb3sDfZHAeV8NNbxdLlfFPs9AJbZvLPwbcmqHnTam2PSgixOxYb6/pk4QmNT
- nAt0gtu+y6K65DcokzLJogWDukUB3yVXP82WSkCwXmi+O8LldQxWjkYwvxYiaDuUDjqu
- aG8Q==
-X-Gm-Message-State: ANhLgQ197w8AkPl5wM3Jg5bWGwkrpMPb7kMiRqrHfy0VykRvU2o7TpD6
- 4hREDPrCI/2Trbjoona6xRgGEytOV1NChWtAiYXBUzHFIkhSXu9L03LEj0oyJcQK0NffrqK8Y05
- i3DLqZpdCGk5r+LU=
-X-Received: by 2002:a5d:67cd:: with SMTP id n13mr6411023wrw.383.1584459659232; 
- Tue, 17 Mar 2020 08:40:59 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvMqmkNwzyYr37cUwSf6nFs7oG+HmkKrMOZUQMyBzlXUn3C9WQrsZJNk5YrpRJ03ApyxSJMyQ==
-X-Received: by 2002:a5d:67cd:: with SMTP id n13mr6411007wrw.383.1584459658918; 
- Tue, 17 Mar 2020 08:40:58 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.15.227])
- by smtp.gmail.com with ESMTPSA id d21sm4854784wrb.51.2020.03.17.08.40.57
+ bh=mjTNLk+7Sz2D68z11aig8/LbtItNOkQ/Wsvikf+nsD8=;
+ b=LoCqADe5Mq9Um6j9A5WkcQcS6aLvXeopBSUKSpEiUQP4xk/ZHoY/SyIcLXfG25GM3Y
+ oqvA7Rf/rJhk2XluRAX23jKWYL2tN8Z25rwclhUTD7N9XOLcFBhROhTAq1Fng00hwDRq
+ K33PhhhIT9Su8uOSsRIsg47d8/xd+siGr36FqrdIvQEO+w5rmvjalo45gns9zNK/fIR3
+ CFE4Raj2DeYJdql8Aa9VJkBdBt1txD+OGPwAqiSzIWIuXIBEdWb2pBL+uEdnqkErTPKm
+ AWs2k5QOoMJtkaFvEuDETyYW8PoYxgxtqL/uobaDFvxy6/7QigUat8cYln3zXu1wXGVE
+ 9ReA==
+X-Gm-Message-State: ANhLgQ1mkoo+DYYmI5vbQe6AARM2PHBAyLHHEZAESCRMQ2Dhdl9rlJDG
+ YDSJb3vXoM21BBD8ETOOSRrrO+OR5IRlbXjbPcamCiGa++oIE9TfTaE+b4U+k3Zx3GONHWkPIsF
+ rqv7YS+gWouEESAQ=
+X-Received: by 2002:adf:b307:: with SMTP id j7mr6690630wrd.128.1584459756489; 
+ Tue, 17 Mar 2020 08:42:36 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuP3EfB9QJh2FzLtgnFze3lYq7H9udGgTiP04d2znq1ptIHNURCySy7fpIRqeodgMtxmnk/4g==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr6690611wrd.128.1584459756223; 
+ Tue, 17 Mar 2020 08:42:36 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id x24sm4187910wmc.36.2020.03.17.08.42.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 08:40:57 -0700 (PDT)
-Subject: Re: [PATCH] softmmu: fix crash with invalid -M memory-backend=
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200309145155.168942-1-marcandre.lureau@redhat.com>
- <20200317161342.53ae8b98@office.mammed.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <71d93e5c-7c77-4577-d31a-a112be822904@redhat.com>
-Date: Tue, 17 Mar 2020 16:40:56 +0100
+ Tue, 17 Mar 2020 08:42:35 -0700 (PDT)
+Subject: Re: [PULL v2 00/61] Misc patches for soft freeze
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <1584396375-31278-1-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA-W=7LQyKvy-Pxv7eUh-tLoYu5jLiObTST0-Ee0wrCX7g@mail.gmail.com>
+ <da99ee7c-49fb-057e-a6bb-b2c89de86ffa@redhat.com>
+ <20200317142635.GB517094@stefanha-x1.localdomain>
+ <4685b090-c480-0061-6cae-f29cc8cbd717@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8f1f0486-2ad6-0d16-b423-bc09110b31a0@redhat.com>
+Date: Tue, 17 Mar 2020 16:42:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200317161342.53ae8b98@office.mammed.net>
+In-Reply-To: <4685b090-c480-0061-6cae-f29cc8cbd717@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,51 +95,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/03/20 16:13, Igor Mammedov wrote:
-> On Mon,  9 Mar 2020 15:51:55 +0100
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> wrote:
->=20
->> Fixes: fe64d06afc1c5d895f220c268cfe4d5f1e65d44e ("vl.c: ensure that
->> ram_size matches size of machine.memory-backend")
->> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->=20
-> Paolo,
->=20
-> Can you pick up this patch for your pull req?=20
-
-I've done it already, but I can send more.
-
-Paolo
-
->> ---
->>  softmmu/vl.c | 5 +++++
->>  1 file changed, 5 insertions(+)
+On 3/17/20 3:47 PM, Paolo Bonzini wrote:
+> On 17/03/20 15:26, Stefan Hajnoczi wrote:
+>> Yes, looks like the compiler can't figure out the control flow on
+>> NetBSD.
 >>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 5549f4b619..38e9c404f2 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -4287,6 +4287,11 @@ void qemu_init(int argc, char **argv, char **envp=
-)
->> =20
->>          backend =3D object_resolve_path_type(current_machine->ram_memde=
-v_id,
->>                                             TYPE_MEMORY_BACKEND, NULL);
->> +        if (!backend) {
->> +            error_report("Memory backend '%s' not found",
->> +                         current_machine->ram_memdev_id);
->> +            exit(EXIT_FAILURE);
->> +        }
->>          backend_size =3D object_property_get_uint(backend, "size",  &er=
-ror_abort);
->>          if (have_custom_ram_size && backend_size !=3D ram_size) {
->>                  error_report("Size specified by -m option must match si=
-ze of "
+>> We could drop the WITH_QEMU_LOCK_GUARD() macro and use this idiom
+>> instead:
+>>
+>>    {
+>>        QEMU_LOCK_GUARD(&mutex);
+>>        ...
+>>    }
+>>
+>> But it's unusual for C code to create scopes without a statement (for,
+>> if, while).
+>=20
+> After staring at compiler dumps for a while I have just concluded that
+> this could actually be considered a bug in WITH_QEMU_LOCK_GUARD.
+>=20
+> QEMU_MAKE_LOCKABLE returns NULL if passed a NULL argument.  This is the
+> root cause of the NetBSD failure, as the compiler doesn't figure out
+> that &timer_list->active_timers_lock is non-NULL and therefore doesn't
+> simplify the qemu_make_lockable function.
+>=20
+> But why does that cause an uninitialized variable warning?  Because if
+> WITH_QEMU_LOCK_GUARD were passed NULL, it would not execute its body!
+>=20
+> So I'm going to squash the following in the series, mostly through a new
+> patch "lockable: introduce QEMU_MAKE_LOCKABLE_NONNULL":
+>=20
+> diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
+> index 44b3f4b..1aeb2cb 100644
+> --- a/include/qemu/lockable.h
+> +++ b/include/qemu/lockable.h
+> @@ -67,7 +67,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
+>    * In C++ it would be different, but then C++ wouldn't need QemuLockabl=
+e
+>    * either...
+>    */
+> -#define QEMU_MAKE_LOCKABLE_(x) qemu_make_lockable((x), &(QemuLockable) {=
+    \
+> +#define QEMU_MAKE_LOCKABLE_(x) (&(QemuLockable) {    \
+>           .object =3D (x),                               \
+>           .lock =3D QEMU_LOCK_FUNC(x),                   \
+>           .unlock =3D QEMU_UNLOCK_FUNC(x),               \
+> @@ -75,14 +75,27 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
+>  =20
+>   /* QEMU_MAKE_LOCKABLE - Make a polymorphic QemuLockable
+>    *
+> - * @x: a lock object (currently one of QemuMutex, CoMutex, QemuSpin).
+> + * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex,=
+ QemuSpin).
+>    *
+>    * Returns a QemuLockable object that can be passed around
+> - * to a function that can operate with locks of any kind.
+> + * to a function that can operate with locks of any kind, or
+> + * NULL if @x is %NULL.
+>    */
+>   #define QEMU_MAKE_LOCKABLE(x)                        \
+>       QEMU_GENERIC(x,                                  \
+>                    (QemuLockable *, (x)),              \
+> +                 qemu_make_lockable((x), QEMU_MAKE_LOCKABLE_(x)))
+> +
+> +/* QEMU_MAKE_LOCKABLE_NONNULL - Make a polymorphic QemuLockable
+> + *
+> + * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex,=
+ QemuSpin).
+> + *
+> + * Returns a QemuLockable object that can be passed around
+> + * to a function that can operate with locks of any kind.
+> + */
+> +#define QEMU_MAKE_LOCKABLE_NONNULL(x)                \
+> +    QEMU_GENERIC(x,                                  \
+> +                 (QemuLockable *, (x)),              \
+>                    QEMU_MAKE_LOCKABLE_(x))
+>  =20
+>   static inline void qemu_lockable_lock(QemuLockable *x)
+> @@ -112,7 +125,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(QemuLockable, qemu_lock=
+able_auto_unlock)
+>  =20
+>   #define WITH_QEMU_LOCK_GUARD_(x, var) \
+>       for (g_autoptr(QemuLockable) var =3D \
+> -                qemu_lockable_auto_lock(QEMU_MAKE_LOCKABLE((x))); \
+> +                qemu_lockable_auto_lock(QEMU_MAKE_LOCKABLE_NONNULL((x)))=
+; \
+>            var; \
+>            qemu_lockable_auto_unlock(var), var =3D NULL)
+>  =20
+>=20
+> So thank you NetBSD compiler, I guess. :P
+
+Yep, new patch looks good.
+
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+>=20
+> Paolo
 >=20
 
 
