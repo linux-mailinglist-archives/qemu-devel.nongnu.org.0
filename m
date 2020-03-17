@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24DD1889CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:07:58 +0100 (CET)
-Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87F21889D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:10:10 +0100 (CET)
+Received: from localhost ([::1]:35618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEl3-00071J-Gn
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36963)
+	id 1jEEnB-000235-DV
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEEVK-0004lo-4l
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:43 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jEEVK-0004mZ-Hd
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEEVI-0007CP-Rl
+ (envelope-from <laurent@vivier.eu>) id 1jEEVJ-0007EP-73
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:42 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:58391)
+Received: from mout.kundenserver.de ([212.227.17.10]:54317)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVI-00074f-IW
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:40 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVI-00079j-RX
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:41 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MfYHW-1jl5Gw1Xjs-00g3GW; Tue, 17 Mar 2020 16:51:26 +0100
+ id 1McY0J-1jqsm43zJN-00d2SH; Tue, 17 Mar 2020 16:51:30 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/37] linux-user: Add x86_64 vsyscall page to
- /proc/self/maps
-Date: Tue, 17 Mar 2020 16:50:43 +0100
-Message-Id: <20200317155116.1227513-5-laurent@vivier.eu>
+Subject: [PULL v2 07/37] linux-user: do prlimit selectively
+Date: Tue, 17 Mar 2020 16:50:46 +0100
+Message-Id: <20200317155116.1227513-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200317155116.1227513-1-laurent@vivier.eu>
 References: <20200317155116.1227513-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:obArXG41tvjaxxflB7jXPHCdM0J/9xxp6czqD9oDJq1UMtUan+v
- asnZX+TAJAOVCAl1ZqGGg5gCgxkRoGhTsMY3mal05Gkfsh7SXZkx4CAA1BGrfjH6FBeBc/t
- a/5dAoM1MK2Z0YuC6CvdTVnDzp64Iv0gR7pibiHX8eqrwMbDPubEGcUQnTqQsF4hC6dFE0H
- drRtmsLYY5GhPQ4u1hYsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s6QCS2Xc3Ck=:FYEG4lEN3r35VJclh/mPh1
- j+9HTb4dWE8BIiDv74oiMxSgMad09TNNbWZ5RVziG8wTXQdgOkXKPyxBCZUDVzPX4nCiQb91E
- qgE22cm+pTSW36O97m+kUavAPKQuzIaTXGHrLT7E75tP59bo/UknXNkwkgpMz+7YD1BPkeAaN
- IuNnRjvoluNdWEcXFJdYS4IIWqZG5aKUKDH8JKQfb3hrCz+CVbGoHhMURjzupq9ffgQ+v/kpT
- UJTkQA6xeIFaLYY42rjajAcbDF3Hvj0SLnCHr52hZEvhTTe/Jg5S34CVriM3HEOWJ5wNyl1yY
- whGVrM0BOjq1lM7bHxmMmxWLnpJCpzopuG7FwTDQSMA5cqbX9l7wQ4t7Ehp/2URVoqE7rC9IV
- QfDugDsZwzoZ4/8eRC4yAnaI1XB8rkpGKAewKgGWLOU7MWv2PAMlBXq1p0G6YvBIlhYkIZb+P
- jg/Lh50sv5nQAB7hBnRixccZ10sj4KIk/M8bBlmgdEP/V2tCw1tZ7oASwhf+DvLo61dENKz6c
- bia+l91Wvc2k9MAzBxpyFDrQgR8bAQ0aYw3uAsizQ5KiY3c+wH6lzVv3YOsPaFMMw2feMc9OU
- ugsdvBWii26l/hn07pnFwiUx3rqJVZz5+MjBUi8Oxi3UKp4XQm1BY0FyLFnTpaWfa7GWnt/ol
- zE9wtqC3Z0NhT7TfMAeMzmapi2kDeUNAmFvplTAxcTNm6N68LwoQW71VhTvFb4qpe1AeV5N0h
- w167rruVzt3csP0fwVqtYSiTPy7SEJqo3dR1wY99wOzbF8/xY4Y5Fkn4Drv78dPs4ncnBYr8T
- GU5waJ0Q1Te1HBlsK01H+bkxfH+incVoXHDlueSDlN9IOW6VANtJS//3ORbWkeKySb2HpD6
+X-Provags-ID: V03:K1:wBTezntg/MGI6bIrWXYV24/VFgMTo/4yH9qxUNAdIuMFnrbVA+b
+ hoKDBk8xoVYGFS+shBZUfImZs3gumy+OZNemHwN2NAwC8raOfvytsyZ0QayUiIz2zoB0vHi
+ r3VDHI8Uzm5YNB8qrWiLgZ9tpDnVwn0mhZBKTtAwUQyoYFVrJQsIfNCXAWcjFn021upODTu
+ nM9puZ38jTtGwqpOH92Sg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3n5A30sRZOk=:q+v60rWe96GsEilf3haQjG
+ 6qQrOgT9GPmTBnr5reBqypx060yAlgRUwiFEHDmM7o8HoMUG5sTtaKpnXEigwJfpxU4aBqtG9
+ VTBo3xniCrsI0vo/EcZxDX88FutJeRejO+RMtNkCvYowmkzGMxafZeNBBzF9wRHdRmHXa4uFo
+ jyEIxbrW4nNIiU0z8+iY1ZKjKEuYaSX9HqJCnjMhgIrsN1NSJXMDxndEvimd2NXr4oZLdS0jq
+ D9Dp5UV9c36XeMdi3lAiYWDC8AYIXXvs4gMtQUhUKavZ3OFR7omVRcHb4TE3ZtXqP43jjCl8x
+ Z4pX7gE0f+DkIG5J3aAqZiYuyTm3EZii0q5Jh2qwf/caDM59Y16pB8iB0X8+JDuj/ZKAfhiJU
+ BgG2Or24a8KXul7RAVSFB+cBsqNYcYnzk309nlrSMxbUJASCQyW9cj776NjuAzHEXs8X89S22
+ ouYrlYoZ+oswXqr0ghDmieRexkGG/PFwi4IUlYTU4fbuEPuyOrTV/U5FCRDZoQbnATyk7xW0Q
+ jI6orkiPKlja7aqjXoQYIeXcW17EmNVdqUXYu/9HYvrnoIesMEh7Y9OsbLdlBrqDVpmMbgEvr
+ 6aqv6xYoPrHzJp/plbGxFwW0476M5mFS7YWVkdkhIkjLgJ1f7yQYJIV5zhYZRp4ahqcSn+Pd9
+ T5mXhH8l7t4HEI7uy03XrHbilXPaKhjFFdG5VqMG8X4T2XXwmobTN3P9mNhLKUO+EmoxrKIJR
+ IyALpdmIThHpMoDHrbM/F9fJQefxB5uOzrhGz8PKBIW+hWQrh2l4cW/Hlo2/pHVqyWnEgduAi
+ CVLIdMGpWY7S2wDkM0Qd8D/UiT3Q2UGAJhBuxZqYHubePCl4k8hnJVAjMBCUEPony9v4Xlf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,50 +63,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Tobias Koch <tobias.koch@nonterra.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Tobias Koch <tobias.koch@nonterra.com>
 
-The page isn't (necessarily) present in the host /proc/self/maps,
-and even if it might be it isn't present in page_flags, and even
-if it was it might not have the same set of page permissions.
+Analogous to what commit 5dfa88f7 did for setrlimit, this commit
+selectively ignores limits for memory-related resources in prlimit64
+calls. This is to prevent too restrictive limits from causing QEMU
+itself to malfunction.
 
-The easiest thing to do, particularly when it comes to the
-"[vsyscall]" note at the end of line, is to special case it.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200213032223.14643-5-richard.henderson@linaro.org>
-[lv: remove trailing whitespace]
+Signed-off-by: Tobias Koch <tobias.koch@nonterra.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200305202400.27574-1-tobias.koch@nonterra.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ linux-user/syscall.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8d27d1080752..5479d67a10be 100644
+index 811495c3a0bc..be676c3a4fb4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7079,6 +7079,16 @@ static int open_self_maps(void *cpu_env, int fd)
-         }
-     }
- 
-+#ifdef TARGET_VSYSCALL_PAGE
-+    /*
-+     * We only support execution from the vsyscall page.
-+     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=y from v5.3.
-+     */
-+    dprintf(fd, TARGET_FMT_lx "-" TARGET_FMT_lx
-+            " --xp 00000000 00:00 0 [vsyscall]\n",
-+            TARGET_VSYSCALL_PAGE, TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE);
-+#endif
+@@ -11904,7 +11904,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         struct target_rlimit64 *target_rnew, *target_rold;
+         struct host_rlimit64 rnew, rold, *rnewp = 0;
+         int resource = target_to_host_resource(arg2);
+-        if (arg3) {
 +
-     free(line);
-     fclose(fp);
- 
++        if (arg3 && (resource != RLIMIT_AS &&
++                     resource != RLIMIT_DATA &&
++                     resource != RLIMIT_STACK)) {
+             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+                 return -TARGET_EFAULT;
+             }
 -- 
 2.24.1
 
