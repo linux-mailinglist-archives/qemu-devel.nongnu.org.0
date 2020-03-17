@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79FA187E79
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:37:09 +0100 (CET)
-Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E66187E88
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:41:43 +0100 (CET)
+Received: from localhost ([::1]:56374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9au-0005X7-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
+	id 1jE9fK-0004gw-Di
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47121)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE96W-0002Ph-MB
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:46 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96r-0002xR-UQ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:06:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE96U-0008Td-Kv
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:44 -0400
-Received: from ozlabs.org ([203.11.71.1]:41279)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96q-0002Eh-I8
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:06:05 -0400
+Received: from ozlabs.org ([203.11.71.1]:37583)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE96U-0008DY-79; Tue, 17 Mar 2020 06:05:42 -0400
+ id 1jE96o-0008EI-8Y; Tue, 17 Mar 2020 06:06:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTL34bSpz9sTd; Tue, 17 Mar 2020 21:04:43 +1100 (AEDT)
+ id 48hTL36CyJz9sTf; Tue, 17 Mar 2020 21:04:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584439483;
- bh=K5aTTPyNTiXqeOFBunos2P9/ndyBJIQYmUSNYf41ZFc=;
+ bh=gKwYQwb5HTXse/b5oCF+Tl+1Y9dBwynzr4Ti010BJdU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iIMZrzVdNvmPhM6YjcW+ERmTHq82D/SPCh7tlGw1FUDJn+UeeRj63ht8HByWXD021
- T3e3EabJdXqFv68QOvZe8RgaOD+hzEN94x+9aqpQvqIXSgumFvshLV4PWwL61HXqEj
- DxpFRY0POwSZUwLYpEk+qqQ0eTj1Fks1fFpOfYWo=
+ b=Aus/naQ/cFH7OfOJV1sxcMZXH86fQtHSvjRYazNFJCE/Iq8P1vr7xcl2j4O00UP5i
+ k3cYxL3/x9H/1Aykan+l3v00laL0xDRpwB6674RhrmpxUQZ2oYu8TzKdn1Wkyb6lwS
+ eC5jxtiOxe4A5DS0MLN2AuEDLFTN53Ssa6oOsFH0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 43/45] ppc/spapr: Implement FWNMI System Reset delivery
-Date: Tue, 17 Mar 2020 21:04:21 +1100
-Message-Id: <20200317100423.622643-44-david@gibson.dropbear.id.au>
+Subject: [PULL 44/45] ppc/spapr: Ignore common "ibm,nmi-interlock" Linux bug
+Date: Tue, 17 Mar 2020 21:04:22 +1100
+Message-Id: <20200317100423.622643-45-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
@@ -61,96 +61,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-PAPR requires that if "ibm,nmi-register" succeeds, then the hypervisor
-delivers all system reset and machine check exceptions to the registered
-addresses.
-
-System Resets are delivered with registers set to the architected state,
-and with no interlock.
+Linux kernels call "ibm,nmi-interlock" in their system reset handlers
+contrary to PAPR. Returning an error because the CPU does not hold the
+interlock here causes Linux to print warning messages. PowerVM returns
+success in this case, so do the same for now.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200316142613.121089-8-npiggin@gmail.com>
+Message-Id: <20200316142613.121089-9-npiggin@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+ hw/ppc/spapr_rtas.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6d65c0797b..8fcd21ac7b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -951,7 +951,29 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
-     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-                      maxdomains, sizeof(maxdomains)));
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 521e6b0b72..9fb8c8632a 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -461,8 +461,18 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+     }
 =20
--    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_SIZE));
-+    /*
-+     * FWNMI reserves RTAS_ERROR_LOG_MAX for the machine check error log=
-,
-+     * and 16 bytes per CPU for system reset error log plus an extra 8 b=
-ytes.
-+     *
-+     * The system reset requirements are driven by existing Linux and Po=
-werVM
-+     * implementation which (contrary to PAPR) saves r3 in the error log
-+     * structure like machine check, so Linux expects to find the saved =
-r3
-+     * value at the address in r3 upon FWNMI-enabled sreset interrupt (a=
-nd
-+     * does not look at the error value).
-+     *
-+     * System reset interrupts are not subject to interlock like machine
-+     * check, so this memory area could be corrupted if the sreset is
-+     * interrupted by a machine check (or vice versa) if it was shared. =
-To
-+     * prevent this, system reset uses per-CPU areas for the sreset save
-+     * area. A system reset that interrupts a system reset handler could
-+     * still overwrite this area, but Linux doesn't try to recover in th=
-at
-+     * case anyway.
-+     *
-+     * The extra 8 bytes is required because Linux's FWNMI error log che=
-ck
-+     * is off-by-one.
-+     */
-+    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
-+			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
-     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
-                           RTAS_ERROR_LOG_MAX));
-     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
-@@ -3384,8 +3406,28 @@ static void spapr_machine_finalizefn(Object *obj)
+     if (spapr->fwnmi_machine_check_interlock !=3D cpu->vcpu_id) {
+-        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" *=
+/
+-        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
++        /*
++	 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
++         * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interloc=
+k"
++	 * for system reset interrupts, despite them not being interlocked.
++	 * PowerVM silently ignores this and returns success here. Returning
++	 * failure causes Linux to print the error "FWNMI: nmi-interlock
++	 * failed: -3", although no other apparent ill effects, this is a
++	 * regression for the user when enabling FWNMI. So for now, match
++	 * PowerVM. When most Linux clients are fixed, this could be
++	 * changed.
++	 */
++        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+         return;
+     }
 =20
- void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
- {
-+    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-+
-     cpu_synchronize_state(cs);
--    ppc_cpu_do_system_reset(cs, -1);
-+    /* If FWNMI is inactive, addr will be -1, which will deliver to 0x10=
-0 */
-+    if (spapr->fwnmi_system_reset_addr !=3D -1) {
-+        uint64_t rtas_addr, addr;
-+        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+        CPUPPCState *env =3D &cpu->env;
-+
-+        /* get rtas addr from fdt */
-+        rtas_addr =3D spapr_get_rtas_addr();
-+        if (!rtas_addr) {
-+            qemu_system_guest_panicked(NULL);
-+            return;
-+        }
-+
-+        addr =3D rtas_addr + RTAS_ERROR_LOG_MAX + cs->cpu_index * sizeof=
-(uint64_t)*2;
-+        stq_be_phys(&address_space_memory, addr, env->gpr[3]);
-+        stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
-+        env->gpr[3] =3D addr;
-+    }
-+    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
- }
-=20
- static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
 --=20
 2.24.1
 
