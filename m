@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3514187EA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:49:48 +0100 (CET)
-Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F3E187EBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:51:33 +0100 (CET)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9n9-00069N-PD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
+	id 1jE9oq-0000Js-R5
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE9kj-0003jv-QQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:19 -0400
+ (envelope-from <clg@kaod.org>) id 1jE9lF-0004B7-Tl
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE9ki-0000hr-7u
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56936)
+ (envelope-from <clg@kaod.org>) id 1jE9lE-0004A7-Ma
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:49 -0400
+Received: from 11.mo1.mail-out.ovh.net ([188.165.48.29]:45495)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE9ki-0000Tm-2R
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584442034;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hOFa0QkNgttDsW6uWI5I7ymnkTRXnXuBlAOmrcaUR8g=;
- b=gCw/y4SiSCfZ0gEb6sCZNxe1h1bRBfBaWvd/i+WWfpf/WiNzAvEfEfMo0bSkHwnC7vP14x
- L+Wj5jzMGghXAix6A3lbGr+RUW/2ga5lS0KyNxLnH83q9TuhpGoyqBkpXilaDbIQ9gl/Bh
- CI2TSPoXYvrPBKrnq2M2pXg74v2kWIk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-zRZY0vlPPz6FqBsQuY-tYw-1; Tue, 17 Mar 2020 06:47:10 -0400
-X-MC-Unique: zRZY0vlPPz6FqBsQuY-tYw-1
-Received: by mail-wm1-f70.google.com with SMTP id g26so5568357wmk.6
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:47:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BVKKzGOrmX0AKRh5Gyr6rnvTXSip4bHXX6R/JGyx4N4=;
- b=VDL/zJdziKcLBTP0Ew04UBdLRBkyYBwnjsSCjaaUs4nnsDABNAYGSieKaECk8EMD1Q
- acZKZt0yJR/05fx7UPTvEXqTBSay00MTAle1gfIK6yqVbgUodmKukpvS79cTZkchTtNT
- KUEH5JCQxEzQmWTfIhol7fpNVEfsOFZLnqKU+BaYsi/MkwtMOSoh11RadCgvpO/NAp1e
- LfHLmAl96k7TiqCJvvPrJBe/lFO2+c7Fcd1ReAY9HUgDS6x/Ioe859xwTVXR+iHc+m4z
- 3Acx5KjWr11WfHEasi36plrnR2YmeasWP0/nV0h0n62aiXxOusHcatXHGiHJOlD8Is8m
- EF8Q==
-X-Gm-Message-State: ANhLgQ3TkQgWwNLgmbJvJnOqcvjQ3asUqDcU5/5IS5AH4/JWAfxeRMcM
- 94JVlOaxawMTG9tBfs2BlybqqcipH1QbKZo2Gma+50j89QBQjVjtKfZodEFqTPtVndtdrIc7r2R
- ycVLTFoAAZ2QqY7M=
-X-Received: by 2002:a5d:440a:: with SMTP id z10mr5451497wrq.177.1584442029429; 
- Tue, 17 Mar 2020 03:47:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuOo47gqd8facNWdWVH62fj8EonQ28w+FY4ciBffpODbxxK9iNtlPPUvg7o65YJp9ch6Op7qA==
-X-Received: by 2002:a5d:440a:: with SMTP id z10mr5451468wrq.177.1584442029195; 
- Tue, 17 Mar 2020 03:47:09 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id u25sm3400281wml.17.2020.03.17.03.47.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:47:08 -0700 (PDT)
-Subject: Re: [PATCH 0/6] hw/net: Make Net/CanBus can_receive() handlers return
- a boolean
-To: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
-References: <20200305175651.4563-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <74bab3ca-fd8c-5c27-0376-2c3728cb18e4@redhat.com>
-Date: Tue, 17 Mar 2020 11:47:07 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jE9lE-0003th-F3
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:47:48 -0400
+Received: from player168.ha.ovh.net (unknown [10.110.208.62])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 1115B1B524E
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 11:47:45 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player168.ha.ovh.net (Postfix) with ESMTPSA id 01D83107A8D52;
+ Tue, 17 Mar 2020 10:47:32 +0000 (UTC)
+Subject: Re: [PATCH v2 6/8] target/ppc: allow ppc_cpu_do_system_reset to take
+ an alternate vector
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>
+References: <20200316142613.121089-1-npiggin@gmail.com>
+ <20200316142613.121089-7-npiggin@gmail.com>
+ <85cfff63-88e3-b5a5-75e3-aa29ac13ff60@kaod.org>
+ <1584401195.r6knelt82x.astroid@bobo.none>
+ <20200316233407.GK20264@umbus.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <097148e5-78be-a294-236d-160fb5c29d4a@kaod.org>
+Date: Tue, 17 Mar 2020 11:47:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200305175651.4563-1-philmd@redhat.com>
+In-Reply-To: <20200316233407.GK20264@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Ovh-Tracer-Id: 12308619259802454848
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudefhedgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduieekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 188.165.48.29
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,63 +63,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, Joel Stanley <joel@jms.id.au>,
- Beniamino Galvani <b.galvani@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goat?= =?UTF-8?Q?er?= <clg@kaod.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping?
+On 3/17/20 12:34 AM, David Gibson wrote:
+> On Tue, Mar 17, 2020 at 09:28:24AM +1000, Nicholas Piggin wrote:
+>> C=E9dric Le Goater's on March 17, 2020 4:15 am:
+>>> On 3/16/20 3:26 PM, Nicholas Piggin wrote:
+>>>> Provide for an alternate delivery location, -1 defaults to the
+>>>> architected address.
+>>>
+>>> I don't know what is the best approach, to override the vector addr
+>>> computed by powerpc_excp() or use a machine class handler with=20
+>>> cpu->vhyp.
+>>
+>> Yeah it's getting a bit ad hoc and inconsistent with machine check
+>> etc, I just figured get something minimal in there now. The whole
+>> exception delivery needs a spring clean though.
+>=20
+> Yeah, there's a huge amount of cruft in nearly all the softmmu code.
 
-This series is fully reviewed.
+The MMU emulation is not that bad to read. However, the exception model=20
+is hideous as one would say. powerpc_excp() is my favorite.=20
 
-On 3/5/20 6:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The Net/CanBus can_receive() handlers return whether
-> the network device can or can not receive new data.
-> Make it obvious by returning a boolean type
->=20
-> Philippe Mathieu-Daud=C3=A9 (6):
->    hw/net/e1000e_core: Let e1000e_can_receive() return a boolean
->    hw/net/smc91c111: Let smc91c111_can_receive() return a boolean
->    hw/net/rtl8139: Simplify if/else statement
->    hw/net/rtl8139: Update coding style to make checkpatch.pl happy
->    hw/net: Make NetCanReceive() return a boolean
->    hw/net/can: Make CanBusClientInfo::can_receive() return a boolean
->=20
->   hw/net/can/can_sja1000.h |  2 +-
->   hw/net/e1000e_core.h     |  2 +-
->   hw/net/i82596.h          |  2 +-
->   include/net/can_emu.h    |  2 +-
->   include/net/net.h        |  2 +-
->   hw/net/allwinner_emac.c  |  2 +-
->   hw/net/cadence_gem.c     |  8 ++++----
->   hw/net/can/can_sja1000.c |  8 ++++----
->   hw/net/dp8393x.c         |  8 +++-----
->   hw/net/e1000.c           |  2 +-
->   hw/net/e1000e.c          |  2 +-
->   hw/net/e1000e_core.c     |  2 +-
->   hw/net/ftgmac100.c       |  6 +++---
->   hw/net/i82596.c          | 10 +++++-----
->   hw/net/imx_fec.c         |  2 +-
->   hw/net/opencores_eth.c   |  5 ++---
->   hw/net/rtl8139.c         | 22 ++++++++++++----------
->   hw/net/smc91c111.c       | 10 +++++-----
->   hw/net/spapr_llan.c      |  4 ++--
->   hw/net/sungem.c          |  6 +++---
->   hw/net/sunhme.c          |  4 ++--
->   hw/net/virtio-net.c      | 10 +++++-----
->   hw/net/xilinx_ethlite.c  |  2 +-
->   net/can/can_socketcan.c  |  4 ++--
->   net/filter-buffer.c      |  2 +-
->   net/hub.c                |  6 +++---
->   26 files changed, 67 insertions(+), 68 deletions(-)
->=20
+> It's such a big task that I don't really have any plans to tackle it
+> specifically.  Instead I've been cleaning up little pieces as they
+> impinge on things I actually care about.
+
+Maybe we should extract book3s to start with.
+
+C.
 
 
