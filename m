@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C151E189230
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:34:29 +0100 (CET)
-Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E468189235
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:36:39 +0100 (CET)
+Received: from localhost ([::1]:43182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELjA-0007LS-NO
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54536)
+	id 1jELlG-0002YR-48
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELaR-0002C6-PJ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:29 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELab-0002Uj-HI
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELaO-0001Jz-Kv
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:27 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:57086)
+ (envelope-from <jsnow@redhat.com>) id 1jELaa-0002Ul-BY
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:29097)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELaO-0001I9-Gu
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:24 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELaa-0002Rl-6R
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:25:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487524;
+ s=mimecast20190719; t=1584487535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qVcbRFfRi8J5PAMXWOGMjOOSCw5AkybzeTOriUoBA2Q=;
- b=faoR57YOgDCwabXyzPQr0gI3YBqtQVTXxBXw7OnyD3KOu+LviNZEho1yxRjGkzUmCfPgi7
- gZEQam6rYaW6DcE3JuISXMr85t9rl3kcjAW+X+Xv65RaWIe9yogmfkwwtpN1YY3n6hS3ym
- /qyKhsFepYhvpIXh9uiR0emkDlJ5YYs=
+ bh=qdeFAM6x9SD6qY2ZcCKAngQF5k3SDotf+6TE0F1uUh4=;
+ b=edXQqhbNF8hjgm7lKP6qg02md9rJX62l/kjq/F/02n0qwogpSkOimv2MxlBpJNODiOwak+
+ hXKxycpSlFBSt8kKZMU8M2uCbSZUqIX3EuQFgZdCoj2v6V02U1v2m5TgyLxVVwdssRKfeR
+ 51pc8IWE0GmchahLIlCd1EuiEw5V6Vc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-Iv0F6AWWNcyWQ_YVxWeTeA-1; Tue, 17 Mar 2020 19:25:20 -0400
-X-MC-Unique: Iv0F6AWWNcyWQ_YVxWeTeA-1
+ us-mta-293-RFSAdMHcO2en35qpLXKCMA-1; Tue, 17 Mar 2020 19:25:32 -0400
+X-MC-Unique: RFSAdMHcO2en35qpLXKCMA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE0B5100550D;
- Tue, 17 Mar 2020 23:25:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E4D180455E;
+ Tue, 17 Mar 2020 23:25:29 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BE8160BE0;
- Tue, 17 Mar 2020 23:25:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49B5060BE0;
+ Tue, 17 Mar 2020 23:25:18 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/20] hw/ide: Remove now unneded #include "hw/pci/pci.h" from
- hw/ide.h
-Date: Tue, 17 Mar 2020 19:23:25 -0400
-Message-Id: <20200317232329.22362-17-jsnow@redhat.com>
+Subject: [PULL 17/20] hw/ide/pci.c: Coding style update to fix checkpatch
+ errors
+Date: Tue, 17 Mar 2020 19:23:26 -0400
+Message-Id: <20200317232329.22362-18-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -90,72 +90,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-After previous patches we don't need hw/pci/pci.h any more in
-hw/ide.h. Some files depended on implicit inclusion by this header
-which are also fixed up here.
+Spaces are required around a + operator and if statements should have
+braces even for single line. Also make it simpler by reversing the
+condition instead of breaking the loop.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 444a5e34331bf1f7880541b8d46e0353f470f5a6.1584457537.git.balaton=
+Message-id: 0d50336ab26a56240c8c17ca1ec6135a4092fcc9.1584457537.git.balaton=
 @eik.bme.hu
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/ide/ahci_internal.h        | 1 +
- include/hw/ide.h              | 1 -
- include/hw/ide/pci.h          | 1 +
- include/hw/misc/macio/macio.h | 1 +
- 4 files changed, 3 insertions(+), 1 deletion(-)
+ hw/ide/pci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
-index 73424516da..bab0459774 100644
---- a/hw/ide/ahci_internal.h
-+++ b/hw/ide/ahci_internal.h
-@@ -27,6 +27,7 @@
- #include "hw/ide/ahci.h"
- #include "hw/ide/internal.h"
- #include "hw/sysbus.h"
-+#include "hw/pci/pci.h"
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 4fc76c5225..e0c84392e2 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -485,9 +485,9 @@ void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd=
+_table)
+     int i;
 =20
- #define AHCI_MEM_BAR_SIZE         0x1000
- #define AHCI_MAX_PORTS            32
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 21bd8f23f1..d52c211f32 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -2,7 +2,6 @@
- #define HW_IDE_H
+     for (i =3D 0; i < 4; i++) {
+-        if (hd_table[i] =3D=3D NULL)
+-            continue;
+-        ide_create_drive(d->bus+bus[i], unit[i], hd_table[i]);
++        if (hd_table[i]) {
++            ide_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
++        }
+     }
+ }
 =20
- #include "hw/isa/isa.h"
--#include "hw/pci/pci.h"
- #include "exec/memory.h"
-=20
- #define MAX_IDE_DEVS=092
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index a9f2c33e68..98ffa7dfcd 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -2,6 +2,7 @@
- #define HW_IDE_PCI_H
-=20
- #include "hw/ide/internal.h"
-+#include "hw/pci/pci.h"
-=20
- #define BM_STATUS_DMAING 0x01
- #define BM_STATUS_ERROR  0x02
-diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
-index 070a694eb5..87335a991c 100644
---- a/include/hw/misc/macio/macio.h
-+++ b/include/hw/misc/macio/macio.h
-@@ -27,6 +27,7 @@
- #define MACIO_H
-=20
- #include "hw/char/escc.h"
-+#include "hw/pci/pci.h"
- #include "hw/ide/internal.h"
- #include "hw/intc/heathrow_pic.h"
- #include "hw/misc/macio/cuda.h"
 --=20
 2.21.1
 
