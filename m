@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4823B1888FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:18:58 +0100 (CET)
-Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1194418889A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:08:30 +0100 (CET)
+Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEDzd-0004Vx-9H
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58729)
+	id 1jEDpV-0001Ef-4b
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jEDuh-0007BJ-PX
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:52 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jEDoO-0008Cx-8z
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:07:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jEDug-0001Yu-GS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:51 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49490)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jEDoM-0003pp-7Y
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:07:19 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:56035)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jEDuc-000184-Ij; Tue, 17 Mar 2020 11:13:47 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 05BFF747E1B;
- Tue, 17 Mar 2020 16:13:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 71B36747E12; Tue, 17 Mar 2020 16:13:42 +0100 (CET)
-Message-Id: <e68675d2f6252f229cf788b7cd163bb76fa3e26b.1584457537.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1584457537.git.balaton@eik.bme.hu>
-References: <cover.1584457537.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 7/8] hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
-Date: Tue, 17 Mar 2020 16:05:37 +0100
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jEDoL-0001uJ-8O; Tue, 17 Mar 2020 11:07:18 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0746686|-1; CH=green; DM=||false|;
+ DS=CONTINUE|ham_system_inform|0.0230443-0.00100222-0.975954;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01l07447; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=10; RT=10; SR=0; TI=SMTPD_---.H0zOLJH_1584457618; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.H0zOLJH_1584457618)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Tue, 17 Mar 2020 23:06:58 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: richard.henderson@linaro.org, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+Subject: [PATCH v6 00/61]  target/riscv: support vector extension v0.7.1
+Date: Tue, 17 Mar 2020 23:05:52 +0800
+Message-Id: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,68 +50,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can move this define now that less files use it to internal.h to
-further reduce dependency on hw/ide.h.
+This patchset implements the vector extension for RISC-V on QEMU.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- hw/mips/mips_r4k.c        | 1 +
- include/hw/ide.h          | 2 --
- include/hw/ide/internal.h | 2 ++
- 3 files changed, 3 insertions(+), 2 deletions(-)
+You can also find the patchset and all *test cases* in
+my repo(https://github.com/romanheros/qemu.git branch:vector-upstream-v3).
+All the test cases are in the directory qemu/tests/riscv/vector/. They are
+riscv64 linux user mode programs.
 
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index ad8b75e286..3487013a4a 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -26,6 +26,7 @@
- #include "qemu/log.h"
- #include "hw/mips/bios.h"
- #include "hw/ide.h"
-+#include "hw/ide/internal.h"
- #include "hw/loader.h"
- #include "elf.h"
- #include "hw/rtc/mc146818rtc.h"
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index d52c211f32..c5ce5da4f4 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -4,8 +4,6 @@
- #include "hw/isa/isa.h"
- #include "exec/memory.h"
-=20
--#define MAX_IDE_DEVS	2
--
- /* ide-isa.c */
- ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq=
-,
-                         DriveInfo *hd0, DriveInfo *hd1);
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 1bc1fc73e5..55da35d768 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
- #define TYPE_IDE_BUS "IDE"
- #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
-=20
-+#define MAX_IDE_DEVS 2
-+
- /* Bits of HD_STATUS */
- #define ERR_STAT		0x01
- #define INDEX_STAT		0x02
---=20
-2.21.1
+You can test the patchset by the script qemu/tests/riscv/vector/runcase.sh.
+
+Features:
+  * support specification riscv-v-spec-0.7.1.(https://github.com/riscv/riscv-v-spec/releases/tag/0.7.1/)
+  * support basic vector extension.
+  * support Zvlsseg.
+  * support Zvamo.
+  * not support Zvediv as it is changing.
+  * SLEN always equals VLEN.
+  * element width support 8bit, 16bit, 32bit, 64bit.
+
+Changelog:
+v6
+  * use gvec_dup Gvec IR to accellerate move and merge.
+  * a better way to implement fixed point instructions.
+  * a global check when vl == 0.
+  * limit some macros to only one inline function call.
+  * fixup sew error when use Gvec IR.
+  * fixup bugs for corner cases.
+v5
+  * fixup a bug in tb flags.
+v4
+  * no change
+v3
+  * move check code from execution-time to translation-time
+  * use a continous memory block for vector register description.
+  * vector registers as direct fields in RISCVCPUState.
+  * support VLEN configure from qemu command line.
+  * support ELEN configure from qemu command line.
+  * support vector specification version configure from qemu command line.
+  * probe pages before real load or store access.
+  * use probe_page_check for no-fault operations in linux user mode.
+  * generation atomic exit exception when in parallel environment.
+  * fixup a lot of concrete bugs.
+
+V2
+  * use float16_compare{_quiet}
+  * only use GETPC() in outer most helper
+  * add ctx.ext_v Property
+
+LIU Zhiwei (61):
+  target/riscv: add vector extension field in CPURISCVState
+  target/riscv: implementation-defined constant parameters
+  target/riscv: support vector extension csr
+  target/riscv: add vector configure instruction
+  target/riscv: add an internals.h header
+  target/riscv: add vector stride load and store instructions
+  target/riscv: add vector index load and store instructions
+  target/riscv: add fault-only-first unit stride load
+  target/riscv: add vector amo operations
+  target/riscv: vector single-width integer add and subtract
+  target/riscv: vector widening integer add and subtract
+  target/riscv: vector integer add-with-carry / subtract-with-borrow
+    instructions
+  target/riscv: vector bitwise logical instructions
+  target/riscv: vector single-width bit shift instructions
+  target/riscv: vector narrowing integer right shift instructions
+  target/riscv: vector integer comparison instructions
+  target/riscv: vector integer min/max instructions
+  target/riscv: vector single-width integer multiply instructions
+  target/riscv: vector integer divide instructions
+  target/riscv: vector widening integer multiply instructions
+  target/riscv: vector single-width integer multiply-add instructions
+  target/riscv: vector widening integer multiply-add instructions
+  target/riscv: vector integer merge and move instructions
+  target/riscv: vector single-width saturating add and subtract
+  target/riscv: vector single-width averaging add and subtract
+  target/riscv: vector single-width fractional multiply with rounding
+    and saturation
+  target/riscv: vector widening saturating scaled multiply-add
+  target/riscv: vector single-width scaling shift instructions
+  target/riscv: vector narrowing fixed-point clip instructions
+  target/riscv: vector single-width floating-point add/subtract
+    instructions
+  target/riscv: vector widening floating-point add/subtract instructions
+  target/riscv: vector single-width floating-point multiply/divide
+    instructions
+  target/riscv: vector widening floating-point multiply
+  target/riscv: vector single-width floating-point fused multiply-add
+    instructions
+  target/riscv: vector widening floating-point fused multiply-add
+    instructions
+  target/riscv: vector floating-point square-root instruction
+  target/riscv: vector floating-point min/max instructions
+  target/riscv: vector floating-point sign-injection instructions
+  target/riscv: vector floating-point compare instructions
+  target/riscv: vector floating-point classify instructions
+  target/riscv: vector floating-point merge instructions
+  target/riscv: vector floating-point/integer type-convert instructions
+  target/riscv: widening floating-point/integer type-convert
+    instructions
+  target/riscv: narrowing floating-point/integer type-convert
+    instructions
+  target/riscv: vector single-width integer reduction instructions
+  target/riscv: vector wideing integer reduction instructions
+  target/riscv: vector single-width floating-point reduction
+    instructions
+  target/riscv: vector widening floating-point reduction instructions
+  target/riscv: vector mask-register logical instructions
+  target/riscv: vector mask population count vmpopc
+  target/riscv: vmfirst find-first-set mask bit
+  target/riscv: set-X-first mask bit
+  target/riscv: vector iota instruction
+  target/riscv: vector element index instruction
+  target/riscv: integer extract instruction
+  target/riscv: integer scalar move instruction
+  target/riscv: floating-point scalar move instructions
+  target/riscv: vector slide instructions
+  target/riscv: vector register gather instruction
+  target/riscv: vector compress instruction
+  target/riscv: configure and turn on vector extension from command line
+
+ target/riscv/Makefile.objs              |    2 +-
+ target/riscv/cpu.c                      |   49 +
+ target/riscv/cpu.h                      |   82 +-
+ target/riscv/cpu_bits.h                 |   15 +
+ target/riscv/csr.c                      |   75 +-
+ target/riscv/fpu_helper.c               |   33 +-
+ target/riscv/helper.h                   | 1073 +++++
+ target/riscv/insn32-64.decode           |   11 +
+ target/riscv/insn32.decode              |  372 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 2710 +++++++++++++
+ target/riscv/internals.h                |   35 +
+ target/riscv/translate.c                |   24 +-
+ target/riscv/vector_helper.c            | 4928 +++++++++++++++++++++++
+ 13 files changed, 9366 insertions(+), 43 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+ create mode 100644 target/riscv/internals.h
+ create mode 100644 target/riscv/vector_helper.c
+
+-- 
+2.23.0
 
 
