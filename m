@@ -2,66 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92632187C19
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:34:25 +0100 (CET)
-Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739C2187DA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:59:41 +0100 (CET)
+Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE8cC-0004iw-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39127)
+	id 1jE90e-0001wV-EA
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:59:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jE8aw-00049l-PU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:07 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yw-0008Ip-Qc
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jE8av-0008Rb-QL
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:06 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33029)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jE8av-0008NW-Jo
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:33:05 -0400
-Received: by mail-wm1-x342.google.com with SMTP id r7so15195672wmg.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 02:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sXAUQaew6U/yeeHyfSwsvuPaFAuDs6QQqqmnz8Zr5II=;
- b=XZKrVGPUukeIHVqV/AGuMU+uaBUW+5kYlICva5UguP9LRPyv7wiRqPBlXa4PigZjyS
- QFZiNU/ZAesz/PCiYMQQ+XM9fNmV8kG6zrtz4mJwagXopv5WmbXTFqrfmKzO6PGgQxNA
- JmWryjuZS9BJDDpHe27lB59PbYBNTET/LBE3fRiVFkBZkee8BxOo1UWBUFlUvGS9f18h
- HgD5zbahZM5aSMsWGQu0J9Zi2+V1Zf8kmeRP25nNoVn6fQpxjFY24nzRgQavxZqHkvAU
- HCx+a34CYbPlkOmTuAru+2EABDn0if5QGxjvsuNQ3r3I8kCxCg5MxzMJ4HpFQ4mSa/G9
- hmwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sXAUQaew6U/yeeHyfSwsvuPaFAuDs6QQqqmnz8Zr5II=;
- b=ZkmaY58IzP/QSWExgLsE3ik36tSjQwoed17x4l/jed2L7q11y7QG/XKqxjoABvTwTA
- cE+9JSFrf91rTyZbjdFIq+vSPsHc0G3MI0e3yRmqtaBFL4BoyKwd16N7TG9HBWOBnVQi
- rt0GkQaoTre23F/x6HmQVxjZrdLIwWnwEqZ9UCkRN0cF1Hkh+Rw0yUj3XZUEuDsL4xMn
- U4kmqJm/nfV/UBsa1zPMIcD63Ku2GmnMkjhNDIBscfX0TNHVCc5quCmgWPIhKLnvIcRt
- vrLTruLBJBwIzA6Wd4NBifou/CRTV86/8wziSu2rYKNu4KmRyop5uwtqoJBbYuuVltNH
- YuGA==
-X-Gm-Message-State: ANhLgQ0NPFm4flLs/MlbWIsv1c0Oc48rEokBHUSF9JW+mETg40cOHklc
- PPPAnzPthJ65aNs03igm2KByMpceSCuRs/YmUFBqYwRQM0U=
-X-Google-Smtp-Source: ADFU+vs/KAe+DGqfeMmO02rJpTle/XvOI5rk1WdkU+Ne7zoiDh64WtC26h640mngR6Z2DauhHHvDSyDOlariBX43yc8=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr4513274wmf.4.1584437584529; 
- Tue, 17 Mar 2020 02:33:04 -0700 (PDT)
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yu-0006Wr-S3
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:54 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31342)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jE8ys-0005zv-95; Tue, 17 Mar 2020 05:57:50 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 847BA747E15;
+ Tue, 17 Mar 2020 10:57:44 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3B8A4747E0F; Tue, 17 Mar 2020 10:57:44 +0100 (CET)
+Message-Id: <59c6743ce76b1b0fc36d048968760f130ebcf5a3.1584437958.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1584437957.git.balaton@eik.bme.hu>
+References: <cover.1584437957.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v2 4/7] hw/ide/pci.c: Coding style update to fix checkpatch
+ errors
+Date: Tue, 17 Mar 2020 10:39:17 +0100
 MIME-Version: 1.0
-References: <20200317092241.31660-1-armbru@redhat.com>
-In-Reply-To: <20200317092241.31660-1-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 17 Mar 2020 10:32:52 +0100
-Message-ID: <CAJ+F1C+kkY-vqY2vQ2iWNW0_N0hcWszQuuas5UxdCcjP5sQA=A@mail.gmail.com>
-Subject: Re: [PATCH] qom-qmp-cmds: Fix another memory leak in qmp_object_add()
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org,
+    qemu-block@nongnu.org
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,55 +51,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 10:23 AM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
-> When user_creatable_add_type() fails, qmp_object_add() returns both
-> its error and the usual empty QDict success value.  The QMP core
-> handles the error, and ignores the success value, leaking it.  Exposed
-> by qmp-cmd-test case /x86_64/qmp/object-add-without-props, and duly
-> reported both by ASan and valgrind.
->
-> To plug the leak, set the success value only on success.
->
-> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Spaces are required around a + operator and if statements should have
+braces even for single line. Also make it simpler by reversing the
+condition instead of breaking the loop.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/ide/pci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
-> ---
->  qom/qom-qmp-cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-> index 435193b036..6bd137ccbf 100644
-> --- a/qom/qom-qmp-cmds.c
-> +++ b/qom/qom-qmp-cmds.c
-> @@ -287,8 +287,8 @@ void qmp_object_add(QDict *qdict, QObject **ret_data,=
- Error **errp)
->      visit_free(v);
->      if (obj) {
->          object_unref(obj);
-> +        *ret_data =3D QOBJECT(qdict_new());
->      }
-> -    *ret_data =3D QOBJECT(qdict_new());
->  }
->
->  void qmp_object_del(const char *id, Error **errp)
-> --
-> 2.21.1
->
->
-
-
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 4fc76c5225..e0c84392e2 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -485,9 +485,9 @@ void pci_ide_create_devs(PCIDevice *dev, DriveInfo **=
+hd_table)
+     int i;
+=20
+     for (i =3D 0; i < 4; i++) {
+-        if (hd_table[i] =3D=3D NULL)
+-            continue;
+-        ide_create_drive(d->bus+bus[i], unit[i], hd_table[i]);
++        if (hd_table[i]) {
++            ide_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
++        }
+     }
+ }
+=20
 --=20
-Marc-Andr=C3=A9 Lureau
+2.21.1
+
 
