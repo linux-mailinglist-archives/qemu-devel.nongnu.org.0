@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31F61891EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:25:48 +0100 (CET)
-Received: from localhost ([::1]:42895 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DE918920A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:28:09 +0100 (CET)
+Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELal-0001Kq-VN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52337)
+	id 1jELd2-0005OE-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELZ2-0007tm-Qk
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:01 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELZA-00086v-1z
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELZ1-0000lx-MJ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:00 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:20942)
+ (envelope-from <jsnow@redhat.com>) id 1jELZ8-0001j6-UK
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:07 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:47223)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZ1-0000jc-Hk
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:23:59 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZ8-0001fP-NB
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487439;
+ s=mimecast20190719; t=1584487446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+UZ8FByt5+RSoyescxnZG3nj5fi4dBjqEbnSTh+hW7o=;
- b=VWuTG5O6nMPbnT1qkjhrJ/WGFmPUUmGcP7HdPwNffRvntwWV9BoWcoza7OV0bxdzjerQOL
- BK9GB02Zq9UL4KvxhgMwposT8RI2VjB0O7taAE3ZDwaqahkf/OH0Z+4MQA0y2zvcphyoKi
- mfsqf16co4Quh+RNa7TspxiEtAIXlH0=
+ bh=FoFgopLAB+y1Kafxr406tQHOxCuRauEC8WkTDOoEQZg=;
+ b=LPaibMfvJgLPct//yGPxH9zksVmaZZAa+VPOHnwRlErPYfpLpbYd6Nkx7G6YK0lIKScmvU
+ kggPdQ6EX4T7j0mNMO/deFWV9KxG+2JpBNZIgp6C2F5atiBbY8twh4LXSumFLRfBI5KLaz
+ fyjSizAiADjGw/0WaB8VyupSMvG8hQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-TTW-PHrVNSi5H3Cc5zY4ag-1; Tue, 17 Mar 2020 19:23:57 -0400
-X-MC-Unique: TTW-PHrVNSi5H3Cc5zY4ag-1
+ us-mta-475-J8fsZo4cMUut_8bloKzKrg-1; Tue, 17 Mar 2020 19:24:03 -0400
+X-MC-Unique: J8fsZo4cMUut_8bloKzKrg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9E0918A6EC1;
- Tue, 17 Mar 2020 23:23:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E18218A6EC1;
+ Tue, 17 Mar 2020 23:24:01 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 612C660BE0;
- Tue, 17 Mar 2020 23:23:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE9F460BE0;
+ Tue, 17 Mar 2020 23:23:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/20] dp264: use pci_create_simple() to initialise the cmd646
- device
-Date: Tue, 17 Mar 2020 19:23:12 -0400
-Message-Id: <20200317232329.22362-4-jsnow@redhat.com>
+Subject: [PULL 04/20] cmd646: remove unused pci_cmd646_ide_init() function
+Date: Tue, 17 Mar 2020 19:23:13 -0400
+Message-Id: <20200317232329.22362-5-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -91,44 +90,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Remove the call to pci_cmd646_ide_init() since global device init functions
-are deprecated in preference of using qdev directly.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20200307091313.24190-2-mark.cave-ayland@ilande.co.uk
+Message-id: 20200307091313.24190-3-mark.cave-ayland@ilande.co.uk
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/alpha/dp264.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/hw/ide.h |  2 --
+ hw/ide/cmd646.c  | 12 ------------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index e5350a287f..27595767e5 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -16,6 +16,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "hw/timer/i8254.h"
- #include "hw/isa/superio.h"
- #include "hw/dma/i8257.h"
-@@ -101,9 +102,12 @@ static void clipper_init(MachineState *machine)
-     /* IDE disk setup.  */
-     {
-         DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-+        PCIDevice *pci_dev;
-+
-         ide_drive_get(hd, ARRAY_SIZE(hd));
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index 28d8a06439..0c7080ed92 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -12,8 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int ioba=
+se2, int isairq,
+                         DriveInfo *hd0, DriveInfo *hd1);
 =20
--        pci_cmd646_ide_init(pci_bus, hd, 0);
-+        pci_dev =3D pci_create_simple(pci_bus, -1, "cmd646-ide");
-+        pci_ide_create_devs(pci_dev, hd);
+ /* ide-pci.c */
+-void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table,
+-                         int secondary_ide_enabled);
+ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int d=
+evfn);
+ PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
+);
+ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
+);
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index 3c4f765bd6..699f25824d 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -314,18 +314,6 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
      }
+ }
 =20
-     /* Load PALcode.  Given that this is not "real" cpu palcode,
+-void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table,
+-                         int secondary_ide_enabled)
+-{
+-    PCIDevice *dev;
+-
+-    dev =3D pci_create(bus, -1, "cmd646-ide");
+-    qdev_prop_set_uint32(&dev->qdev, "secondary", secondary_ide_enabled);
+-    qdev_init_nofail(&dev->qdev);
+-
+-    pci_ide_create_devs(dev, hd_table);
+-}
+-
+ static Property cmd646_ide_properties[] =3D {
+     DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
+     DEFINE_PROP_END_OF_LIST(),
 --=20
 2.21.1
 
