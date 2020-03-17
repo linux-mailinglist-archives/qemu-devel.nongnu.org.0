@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA4B187DCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:08:17 +0100 (CET)
-Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60EF187DCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:06:46 +0100 (CET)
+Received: from localhost ([::1]:55522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE98y-0006cr-UF
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
+	id 1jE97V-0002oK-Rl
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95X-0000kB-DK
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:45 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95X-0000kD-6e
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95V-0001DS-Me
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:42 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38125 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE95V-0001BZ-Gy
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:04:43 -0400
+Received: from ozlabs.org ([203.11.71.1]:60245)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE95U-0000PW-R6; Tue, 17 Mar 2020 06:04:41 -0400
+ id 1jE95U-0000Qk-VC; Tue, 17 Mar 2020 06:04:41 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTKv3svgz9sRY; Tue, 17 Mar 2020 21:04:35 +1100 (AEDT)
+ id 48hTKv4q2Kz9sRf; Tue, 17 Mar 2020 21:04:35 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584439475;
- bh=PBE+gjeFRpPSfcZJVO9UNrzoIcWu1Dh/piS9F0gC7rg=;
+ bh=uz03V/ru9X630/rRDbbXvWwKAd0CRMRYWvPqvXbXi8o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d9DLhVjged4dRVvvfm3UA5Nzy6VpWGUVjkCj1YMaKRp5rNUuMh2lZfqFyU4QKxkBI
- 5ORD3vecbyvmsnzBZY5y1/UWN+k26Y69ZVS+Uy1OO+UAZ8vcengpVysb+EbHIsdi6n
- UWX8AWR0gUSlTeUqCXEMN7Otg9JyPyxDmGUS0KyY=
+ b=k5dWZuU5jjvwnvN2Tbe2yr+UY6YRmWlkzyMAHmg5kCteGxfq+OOoZcrzOEfxfmMPW
+ 8r6+9ncCqrIHz4219ioGUh+5uUy6sOZwuTfxgyJV5juN/fGfEDsCHrSIEL/BGR4+ZO
+ i2d2y0xYV0fVMVJRx3JQoWocYl/62g75LHLaJi4Q=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/45] spapr: Handle pending hot plug/unplug requests at CAS
-Date: Tue, 17 Mar 2020 21:03:40 +1100
-Message-Id: <20200317100423.622643-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/45] ppc: Officially deprecate the CPU "compat" property
+Date: Tue, 17 Mar 2020 21:03:41 +1100
+Message-Id: <20200317100423.622643-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,120 +61,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-If a hot plug or unplug request is pending at CAS, we currently trigger
-a CAS reboot, which severely increases the guest boot time. This is
-because SLOF doesn't handle hot plug events and we had no way to fix
-the FDT that gets presented to the guest.
+Server class POWER CPUs have a "compat" property, which was obsoleted
+by commit 7843c0d60d and replaced by a "max-cpu-compat" property on the
+pseries machine type. A hack was introduced so that passing "compat" to
+-cpu would still produce the desired effect, for the sake of backward
+compatibility : it strips the "compat" option from the CPU properties
+and applies internally it to the pseries machine. The accessors of the
+"compat" property were updated to do nothing but warn the user about the
+deprecated status when doing something like:
 
-We can do better thanks to recent changes in QEMU and SLOF:
+$ qemu-system-ppc64 -global POWER9-family-powerpc64-cpu.compat=3Dpower9
+qemu-system-ppc64: warning: CPU 'compat' property is deprecated and has n=
+o
+ effect; use max-cpu-compat machine property instead
 
-- we now return a full FDT to SLOF during CAS
+This was merged during the QEMU 2.10 timeframe, a few weeks before we
+formalized our deprecation process. As a consequence, the "compat"
+property fell through the cracks and was never listed in the officialy
+deprecated features.
 
-- SLOF was fixed to correctly detect any device that was either added or
-  removed since boot time and to update its internal DT accordingly.
+We are now eight QEMU versions later, it is largely time to mention it
+in qemu-deprecated.texi. Also, since -global XXX-powerpc64-cpu.compat=3D
+has been emitting warnings since QEMU 2.10 and the usual way of setting
+CPU properties is with -cpu, completely remove the "compat" property.
+Keep the hack so that -cpu XXX,compat=3D stays functional some more time,
+as required by our deprecation process.
 
-The right solution is to process all pending hot plug/unplug requests
-during CAS: convert hot plugged devices to cold plugged devices and
-remove the hot unplugged ones, which is exactly what spapr_drc_reset()
-does. Also clear all hot plug events that are currently queued since
-they're no longer relevant.
-
-Note that SLOF cannot currently populate hot plugged PCI bridges or PHBs
-at CAS. Until this limitation is lifted, SLOF will reset the machine when
-this scenario occurs : this will allow the FDT to be fully processed when
-SLOF is started again (ie. the same effect as the CAS reboot that would
-occur anyway without this patch).
+The now empty powerpc_servercpu_properties[] list which was introduced
+for "compat" and never had any other use is removed on the way. We can
+re-add it in the future if the need for a server class POWER CPU specific
+property arises again.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158257222352.4102917.8984214333937947307.stgit@bahia.lan>
+Message-Id: <158274357799.140275.12263135811731647490.stgit@bahia.lan>
+[dwg: Convert from .texi to .rst to match upstream change]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_events.c  | 13 +++++++++++++
- hw/ppc/spapr_hcall.c   | 11 +++++------
- include/hw/ppc/spapr.h |  1 +
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ docs/system/deprecated.rst      |  7 ++++++
+ target/ppc/translate_init.inc.c | 44 ++-------------------------------
+ 2 files changed, 9 insertions(+), 42 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 8b32b7eea5..2afd1844e4 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -983,6 +983,19 @@ void spapr_clear_pending_events(SpaprMachineState *s=
-papr)
-     }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 0838338d8f..412b1b166d 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -289,6 +289,13 @@ The RISC-V no MMU cpus have been depcreated. The two=
+ CPUs: ``rv32imacu-nommu`` a
+ ``rv64imacu-nommu`` should no longer be used. Instead the MMU status can=
+ be specified
+ via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
+=20
++``compat`` property of server class POWER CPUs (since 5.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The ``compat`` property used to set backwards compatibility modes for
++the processor has been deprecated. The ``max-cpu-compat`` property of
++the ``pseries`` machine type should be used instead.
++
+ System emulator devices
+ -----------------------
+=20
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 53995f62ea..2f7125c51f 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8492,44 +8492,6 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *dat=
+a)
+     pcc->l1_icache_size =3D 0x10000;
  }
 =20
-+void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr)
-+{
-+    SpaprEventLogEntry *entry =3D NULL, *next_entry;
-+
-+    QTAILQ_FOREACH_SAFE(entry, &spapr->pending_events, next, next_entry)=
- {
-+        if (spapr_event_log_entry_type(entry) =3D=3D RTAS_LOG_TYPE_HOTPL=
-UG) {
-+            QTAILQ_REMOVE(&spapr->pending_events, entry, next);
-+            g_free(entry->extended_log);
-+            g_free(entry);
-+        }
-+    }
-+}
-+
- void spapr_events_init(SpaprMachineState *spapr)
- {
-     int epow_irq =3D SPAPR_IRQ_EPOW;
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 934eb12d27..c2b3286625 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1640,7 +1640,7 @@ static uint32_t cas_check_pvr(SpaprMachineState *sp=
-apr, PowerPCCPU *cpu,
-     return best_compat;
- }
-=20
--static bool spapr_transient_dev_before_cas(void)
-+static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spa=
-pr)
- {
-     Object *drc_container;
-     ObjectProperty *prop;
-@@ -1658,10 +1658,11 @@ static bool spapr_transient_dev_before_cas(void)
-                                                           prop->name, NU=
-LL));
-=20
-         if (spapr_drc_transient(drc)) {
--            return true;
-+            spapr_drc_reset(drc);
-         }
-     }
--    return false;
-+
-+    spapr_clear_pending_hotplug_events(spapr);
- }
-=20
- static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-@@ -1834,9 +1835,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-=20
-     spapr_irq_update_active_intc(spapr);
-=20
--    if (spapr_transient_dev_before_cas()) {
--        spapr->cas_reboot =3D true;
+-/*
+- * The CPU used to have a "compat" property which set the
+- * compatibility mode PVR.  However, this was conceptually broken - it
+- * only makes sense on the pseries machine type (otherwise the guest
+- * owns the PCR and can control the compatibility mode itself).  It's
+- * been replaced with the 'max-cpu-compat' property on the pseries
+- * machine type.  For backwards compatibility, pseries specially
+- * parses the -cpu parameter and converts old compat=3D parameters into
+- * the appropriate machine parameters.  This stub implementation of
+- * the parameter catches any uses on explicitly created CPUs.
+- */
+-static void getset_compat_deprecated(Object *obj, Visitor *v, const char=
+ *name,
+-                                     void *opaque, Error **errp)
+-{
+-    QNull *null =3D NULL;
+-
+-    if (!qtest_enabled()) {
+-        warn_report("CPU 'compat' property is deprecated and has no effe=
+ct; "
+-                    "use max-cpu-compat machine property instead");
 -    }
-+    spapr_handle_transient_dev_before_cas(spapr);
+-    visit_type_null(v, name, &null, NULL);
+-    qobject_unref(null);
+-}
+-
+-static const PropertyInfo ppc_compat_deprecated_propinfo =3D {
+-    .name =3D "str",
+-    .description =3D "compatibility mode (deprecated)",
+-    .get =3D getset_compat_deprecated,
+-    .set =3D getset_compat_deprecated,
+-};
+-static Property powerpc_servercpu_properties[] =3D {
+-    {
+-        .name =3D "compat",
+-        .info =3D &ppc_compat_deprecated_propinfo,
+-    },
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void init_proc_POWER7(CPUPPCState *env)
+ {
+     /* Common Registers */
+@@ -8611,7 +8573,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
 =20
-     if (!spapr->cas_reboot) {
-         void *fdt;
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 09110961a5..a4216935a1 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -824,6 +824,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
- void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
-                           Error **errp);
- void spapr_clear_pending_events(SpaprMachineState *spapr);
-+void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
- int spapr_max_server_number(SpaprMachineState *spapr);
- void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
-                       uint64_t pte0, uint64_t pte1);
+     dc->fw_name =3D "PowerPC,POWER7";
+     dc->desc =3D "POWER7";
+-    device_class_set_props(dc, powerpc_servercpu_properties);
+     pcc->pvr_match =3D ppc_pvr_match_power7;
+     pcc->pcr_mask =3D PCR_VEC_DIS | PCR_VSX_DIS | PCR_COMPAT_2_05;
+     pcc->pcr_supported =3D PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+@@ -8776,7 +8737,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+=20
+     dc->fw_name =3D "PowerPC,POWER8";
+     dc->desc =3D "POWER8";
+-    device_class_set_props(dc, powerpc_servercpu_properties);
+     pcc->pvr_match =3D ppc_pvr_match_power8;
+     pcc->pcr_mask =3D PCR_TM_DIS | PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->pcr_supported =3D PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | PCR_COMPA=
+T_2_05;
+@@ -8988,7 +8948,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+=20
+     dc->fw_name =3D "PowerPC,POWER9";
+     dc->desc =3D "POWER9";
+-    device_class_set_props(dc, powerpc_servercpu_properties);
+     pcc->pvr_match =3D ppc_pvr_match_power9;
+     pcc->pcr_mask =3D PCR_COMPAT_2_05 | PCR_COMPAT_2_06 | PCR_COMPAT_2_0=
+7;
+     pcc->pcr_supported =3D PCR_COMPAT_3_00 | PCR_COMPAT_2_07 | PCR_COMPA=
+T_2_06 |
+@@ -9198,7 +9157,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data=
+)
+=20
+     dc->fw_name =3D "PowerPC,POWER10";
+     dc->desc =3D "POWER10";
+-    device_class_set_props(dc, powerpc_servercpu_properties);
+     pcc->pvr_match =3D ppc_pvr_match_power10;
+     pcc->pcr_mask =3D PCR_COMPAT_2_05 | PCR_COMPAT_2_06 | PCR_COMPAT_2_0=
+7 |
+                     PCR_COMPAT_3_00;
+@@ -10486,6 +10444,8 @@ static void ppc_cpu_parse_featurestr(const char *=
+type, char *features,
+         *s =3D '\0';
+         for (i =3D 0; inpieces[i]; i++) {
+             if (g_str_has_prefix(inpieces[i], "compat=3D")) {
++                warn_report_once("CPU 'compat' property is deprecated; "
++                    "use max-cpu-compat machine property instead");
+                 compat_str =3D inpieces[i];
+                 continue;
+             }
 --=20
 2.24.1
 
