@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07339188D39
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:33:36 +0100 (CET)
-Received: from localhost ([::1]:39356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596CB188D43
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:35:23 +0100 (CET)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEH1z-0000Cg-09
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
+	id 1jEH3i-0003fV-9x
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jEGmx-0003Tt-GC
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:05 -0400
+ (envelope-from <berto@igalia.com>) id 1jEGmu-0003Mn-57
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jEGmu-00007x-Rx
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:03 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58003)
+ (envelope-from <berto@igalia.com>) id 1jEGms-0008UH-GF
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:00 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:57771)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jEGmu-0005xs-6U; Tue, 17 Mar 2020 14:18:00 -0400
+ id 1jEGms-0005Ys-5E; Tue, 17 Mar 2020 14:17:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=kGMBm7CPcoxosu3rPPvnqWJexaU+hdFjFWtE5hsu+VA=; 
- b=ZiVVTZ3DpJTazl2RKHVl/Hx6Hgc0WX62GOaTJW9YPhU/U7N+PB5KObPNMTweEzagb83eGm4cqhH8/M6ju3vjEBLnwSZ7JYuAhAaeiN8vPAnTSg34ukKeV+tYLoAmZcp3eOWYPc4ux3q4Z1SAqQtpY6O09ks2dOgFIuMJ+TEsZCOlZ3oktsd4QiqXGtsUWjulMBbTEVFZo3UoePNpJRQoCybeSopyOnchPAMv5KSJmok+H1kiFe0AhmYn1GJpB/abb1HNEyvYJ8Q2nEl8zvspIG0djiN7K1iJhKlbHd25IXa50G3zwYQ81CCduMo3e1iJMJO9AeAE4id+lqx4VetfRQ==;
+ bh=woi6foyn/GnsQXxokCfj/612eLxPV2bZbIy780eGch4=; 
+ b=OOndXjn7oDji51bTAsQqtUeSdocQYLxrCgRLxHXRY7rd0r6xQ5e50lIG6RHnHgsgyW1pmkSbjqzgkbaJrsQp9kWTD+67kVTdU24Z6tCL1OoJxeOfb1rfGwVVB6Wne8hqqry0mNc+ZE6mjrLYLMHOPOTsb2LvBtbm1Dx/YCHlrhzoywalGTVauet9cBU9DMCScqc+niaQFrRwz31Cd63to6+c1TdLU5B6pj33JrsRjWpCIWhPJgHIfy57UqphjXahd/PVUtisPpdX6Lm+Lxr7vaLL2ERk+8sTGwkxhPQ27wyi/vYYDxa6vkUYB9OC0tFc8/5ruQwkIW5UoLKffpwaxw==;
 Received: from [81.0.35.138] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jEGmD-000155-4O; Tue, 17 Mar 2020 19:17:17 +0100
+ id 1jEGmD-00015Q-0o; Tue, 17 Mar 2020 19:17:17 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jEGlw-0006OL-B9; Tue, 17 Mar 2020 19:17:00 +0100
+ id 1jEGlw-0006OV-H0; Tue, 17 Mar 2020 19:17:00 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/30] qcow2: Add subcluster-related fields to
- BDRVQcow2State
-Date: Tue, 17 Mar 2020 19:16:06 +0100
-Message-Id: <eea31d0b30552e61f5921c6e693034cc75c724c6.1584468723.git.berto@igalia.com>
+Subject: [PATCH v4 14/30] qcow2: Add cluster type parameter to
+ qcow2_get_host_offset()
+Date: Tue, 17 Mar 2020 19:16:11 +0100
+Message-Id: <348c0b057802b5b35eefe3dc7cc8ef2964024ed5.1584468723.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1584468723.git.berto@igalia.com>
 References: <cover.1584468723.git.berto@igalia.com>
@@ -65,60 +65,193 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the following new fields to BDRVQcow2State:
+This function returns an integer that can be either an error code or a
+cluster type (a value from the QCow2ClusterType enum).
 
-- subclusters_per_cluster: Number of subclusters in a cluster
-- subcluster_size: The size of each subcluster, in bytes
-- subcluster_bits: No. of bits so 1 << subcluster_bits = subcluster_size
+We are going to start using subcluster types instead of cluster types
+in some functions so it's better to use the exact data types instead
+of integers for clarity and in order to detect errors more easily.
 
-Images without subclusters are treated as if they had exactly one,
-with subcluster_size = cluster_size.
+This patch makes qcow2_get_host_offset() return 0 on success and
+puts the returned cluster type in a separate parameter. There are no
+semantic changes.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.h | 5 +++++
- block/qcow2.c | 5 +++++
- 2 files changed, 10 insertions(+)
+ block/qcow2.h         |  3 ++-
+ block/qcow2-cluster.c | 11 +++++++----
+ block/qcow2.c         | 37 ++++++++++++++++++++++---------------
+ 3 files changed, 31 insertions(+), 20 deletions(-)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 55298750bd..3052b14dc0 100644
+index 52865787ee..6b7b286b91 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -78,6 +78,8 @@
- /* The cluster reads as all zeros */
- #define QCOW_OFLAG_ZERO (1ULL << 0)
+@@ -859,7 +859,8 @@ int qcow2_encrypt_sectors(BDRVQcow2State *s, int64_t sector_num,
+                           uint8_t *buf, int nb_sectors, bool enc, Error **errp);
  
-+#define QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER 32
+ int qcow2_get_host_offset(BlockDriverState *bs, uint64_t offset,
+-                          unsigned int *bytes, uint64_t *host_offset);
++                          unsigned int *bytes, uint64_t *host_offset,
++                          QCow2ClusterType *cluster_type);
+ int qcow2_alloc_cluster_offset(BlockDriverState *bs, uint64_t offset,
+                                unsigned int *bytes, uint64_t *host_offset,
+                                QCowL2Meta **m);
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 41a23c5305..acfcf8ea4c 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -514,13 +514,14 @@ static int coroutine_fn do_perform_cow_write(BlockDriverState *bs,
+  *
+  * On exit, *bytes is the number of bytes starting at offset that have the same
+  * cluster type and (if applicable) are stored contiguously in the image file.
++ * The cluster type is stored in *cluster_type.
+  * Compressed clusters are always returned one by one.
+  *
+- * Returns the cluster type (QCOW2_CLUSTER_*) on success, -errno in error
+- * cases.
++ * Returns 0 on success, -errno in error cases.
+  */
+ int qcow2_get_host_offset(BlockDriverState *bs, uint64_t offset,
+-                          unsigned int *bytes, uint64_t *host_offset)
++                          unsigned int *bytes, uint64_t *host_offset,
++                          QCow2ClusterType *cluster_type)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     unsigned int l2_index;
+@@ -663,7 +664,9 @@ out:
+     assert(bytes_available - offset_in_cluster <= UINT_MAX);
+     *bytes = bytes_available - offset_in_cluster;
+ 
+-    return type;
++    *cluster_type = type;
 +
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
++    return 0;
  
-@@ -284,6 +286,9 @@ typedef struct BDRVQcow2State {
-     int cluster_bits;
-     int cluster_size;
-     int l2_slice_size;
-+    int subcluster_bits;
-+    int subcluster_size;
-+    int subclusters_per_cluster;
-     int l2_bits;
-     int l2_size;
-     int l1_size;
+ fail:
+     qcow2_cache_put(s->l2_table_cache, (void **)&l2_slice);
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 5b6ceaa2fa..239e0ad3d9 100644
+index d3b8581aed..48e188152c 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -1380,6 +1380,11 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-         }
+@@ -1971,6 +1971,7 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
+     BDRVQcow2State *s = bs->opaque;
+     uint64_t host_offset;
+     unsigned int bytes;
++    QCow2ClusterType type;
+     int ret, status = 0;
+ 
+     qemu_co_mutex_lock(&s->lock);
+@@ -1982,7 +1983,7 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
      }
  
-+    s->subclusters_per_cluster =
-+        has_subclusters(s) ? QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER : 1;
-+    s->subcluster_size = s->cluster_size / s->subclusters_per_cluster;
-+    s->subcluster_bits = ctz32(s->subcluster_size);
-+
-     /* Check support for various header values */
-     if (header.refcount_order > 6) {
-         error_setg(errp, "Reference count entry width too large; may not "
+     bytes = MIN(INT_MAX, count);
+-    ret = qcow2_get_host_offset(bs, offset, &bytes, &host_offset);
++    ret = qcow2_get_host_offset(bs, offset, &bytes, &host_offset, &type);
+     qemu_co_mutex_unlock(&s->lock);
+     if (ret < 0) {
+         return ret;
+@@ -1990,15 +1991,15 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
+ 
+     *pnum = bytes;
+ 
+-    if ((ret == QCOW2_CLUSTER_NORMAL || ret == QCOW2_CLUSTER_ZERO_ALLOC) &&
++    if ((type == QCOW2_CLUSTER_NORMAL || type == QCOW2_CLUSTER_ZERO_ALLOC) &&
+         !s->crypto) {
+         *map = host_offset;
+         *file = s->data_file->bs;
+         status |= BDRV_BLOCK_OFFSET_VALID;
+     }
+-    if (ret == QCOW2_CLUSTER_ZERO_PLAIN || ret == QCOW2_CLUSTER_ZERO_ALLOC) {
++    if (type == QCOW2_CLUSTER_ZERO_PLAIN || type == QCOW2_CLUSTER_ZERO_ALLOC) {
+         status |= BDRV_BLOCK_ZERO;
+-    } else if (ret != QCOW2_CLUSTER_UNALLOCATED) {
++    } else if (type != QCOW2_CLUSTER_UNALLOCATED) {
+         status |= BDRV_BLOCK_DATA;
+     }
+     if (s->metadata_preallocation && (status & BDRV_BLOCK_DATA) &&
+@@ -2207,6 +2208,7 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+     int ret = 0;
+     unsigned int cur_bytes; /* number of bytes in current iteration */
+     uint64_t host_offset = 0;
++    QCow2ClusterType type;
+     AioTaskPool *aio = NULL;
+ 
+     while (bytes != 0 && aio_task_pool_status(aio) == 0) {
+@@ -2218,22 +2220,23 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+         }
+ 
+         qemu_co_mutex_lock(&s->lock);
+-        ret = qcow2_get_host_offset(bs, offset, &cur_bytes, &host_offset);
++        ret = qcow2_get_host_offset(bs, offset, &cur_bytes,
++                                    &host_offset, &type);
+         qemu_co_mutex_unlock(&s->lock);
+         if (ret < 0) {
+             goto out;
+         }
+ 
+-        if (ret == QCOW2_CLUSTER_ZERO_PLAIN ||
+-            ret == QCOW2_CLUSTER_ZERO_ALLOC ||
+-            (ret == QCOW2_CLUSTER_UNALLOCATED && !bs->backing))
++        if (type == QCOW2_CLUSTER_ZERO_PLAIN ||
++            type == QCOW2_CLUSTER_ZERO_ALLOC ||
++            (type == QCOW2_CLUSTER_UNALLOCATED && !bs->backing))
+         {
+             qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
+         } else {
+             if (!aio && cur_bytes != bytes) {
+                 aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
+             }
+-            ret = qcow2_add_task(bs, aio, qcow2_co_preadv_task_entry, ret,
++            ret = qcow2_add_task(bs, aio, qcow2_co_preadv_task_entry, type,
+                                  host_offset, offset, cur_bytes,
+                                  qiov, qiov_offset, NULL);
+             if (ret < 0) {
+@@ -3716,6 +3719,7 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+     if (head || tail) {
+         uint64_t off;
+         unsigned int nr;
++        QCow2ClusterType type;
+ 
+         assert(head + bytes <= s->cluster_size);
+ 
+@@ -3731,10 +3735,11 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+         offset = QEMU_ALIGN_DOWN(offset, s->cluster_size);
+         bytes = s->cluster_size;
+         nr = s->cluster_size;
+-        ret = qcow2_get_host_offset(bs, offset, &nr, &off);
+-        if (ret != QCOW2_CLUSTER_UNALLOCATED &&
+-            ret != QCOW2_CLUSTER_ZERO_PLAIN &&
+-            ret != QCOW2_CLUSTER_ZERO_ALLOC) {
++        ret = qcow2_get_host_offset(bs, offset, &nr, &off, &type);
++        if (ret < 0 ||
++            (type != QCOW2_CLUSTER_UNALLOCATED &&
++             type != QCOW2_CLUSTER_ZERO_PLAIN &&
++             type != QCOW2_CLUSTER_ZERO_ALLOC)) {
+             qemu_co_mutex_unlock(&s->lock);
+             return -ENOTSUP;
+         }
+@@ -3792,16 +3797,18 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+ 
+     while (bytes != 0) {
+         uint64_t copy_offset = 0;
++        QCow2ClusterType type;
+         /* prepare next request */
+         cur_bytes = MIN(bytes, INT_MAX);
+         cur_write_flags = write_flags;
+ 
+-        ret = qcow2_get_host_offset(bs, src_offset, &cur_bytes, &copy_offset);
++        ret = qcow2_get_host_offset(bs, src_offset, &cur_bytes,
++                                    &copy_offset, &type);
+         if (ret < 0) {
+             goto out;
+         }
+ 
+-        switch (ret) {
++        switch (type) {
+         case QCOW2_CLUSTER_UNALLOCATED:
+             if (bs->backing && bs->backing->bs) {
+                 int64_t backing_length = bdrv_getlength(bs->backing->bs);
 -- 
 2.20.1
 
