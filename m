@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E0E188C66
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:44:49 +0100 (CET)
-Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0669188C95
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:52:43 +0100 (CET)
+Received: from localhost ([::1]:38050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGGm-00036s-LS
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
+	id 1jEGOQ-0002CS-EA
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jEGFz-0002hH-7t
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:44:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGMl-0000FD-5I
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jEGFx-0004hO-Ea
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:43:58 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:40872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jEGFx-0004Ym-4E
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:43:57 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02HHfPKL144478;
- Tue, 17 Mar 2020 17:43:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=xThm8GOVvm08cwD0Jla7v9+rgSKpFSRlL0rnjtxGtnU=;
- b=bvIdWo1yEwWsje6XOA2akO+t7EBGbPXmu/rQ8FscLk9xgvqCy9/1AbJO0yQfds56s6s7
- p89FDZKjiDgJ1dxoFCIwWroh+YPbr2ne1cSmJaXDorUYay5QYjVgw8eFE4eknCmvs3pG
- pgcTG9htBUboaCKbg8z2sHv+WSH2lnIj8QY851QrNc5qCtlJZ2tn/jYRM3BrH+xQzmzO
- /iGCu87g+vjUj4HJyoTsDQ84ixEvwAk6/MQSQHR9MmpwAS1dGRVInU8Ot5K95Nnq0G/o
- /poJdnB9lGdQ+gfzkcKfFx1JrLgrDuBOXNoQTUgcGktsx/FbLcMfDfPFH8vdhAzX3SYX 1Q== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2yrq7kxauy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Mar 2020 17:43:53 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02HHKcaM040873;
- Tue, 17 Mar 2020 17:43:52 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2ys8rfb6pr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Mar 2020 17:43:52 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02HHhpZc008070;
- Tue, 17 Mar 2020 17:43:51 GMT
-Received: from [192.168.14.112] (/79.179.237.174)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 17 Mar 2020 10:43:51 -0700
-Subject: Re: [PATCH] i386/kvm: Add CPU property to expose VMware CPUID
- signature
-To: qemu-devel@nongnu.org
-References: <20200310004017.100484-1-liran.alon@oracle.com>
-From: Liran Alon <liran.alon@oracle.com>
-Message-ID: <bc4ee7b0-99e7-5d1a-892a-6848ee25adaa@oracle.com>
-Date: Tue, 17 Mar 2020 19:43:45 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.6.0
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGMj-0001Tr-2N
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:50:58 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37619)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jEGMi-0001K1-Q5
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:50:57 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id 6so26871150wre.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qSLczt+gDAdBi4LDjw24bYcBV5MQ/AraFikb8wO4XTY=;
+ b=KfGCU4e51O3k5UpAnIZkaWDPh94/1tXUaKVL2nE12YGKLV4+3YgWI0YlFZ22QUbgKy
+ 4tlxvXHvsHtPM6E/hb8Mlux9sf2DrQwgT+bETq/gV5WVU7IUCqiIM8XzhuwaLtBFfoX7
+ jvdxVFDa0L88AZ2wiB7YGAy1FsijIVUVgU5tmmAuQEO2a4Vr3z0YowuIzQ7qTwirAzxz
+ pZ/zgEvx8tr0L1B6RiBSjFkFLFtnPtMuX9rUAChU7aVM6q+fYVko6FiJf5j3VKIrevtO
+ aShCQiOidqQudOH/YWXSeigzaFeiUzYW6KCfldqsE/b5Gc5hcLS4O1DVtUcgSAHHyakm
+ tw2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qSLczt+gDAdBi4LDjw24bYcBV5MQ/AraFikb8wO4XTY=;
+ b=KLqvAbuXBz6pPcbqtXsFMREs6vEE0j1E1kDF6ceSQI9exJVei2g8k6Rb+ZUCICRSiM
+ 0JnCJRF+ZUsu184ZWtAZvxoZcCV6ITTtfoB+esxw+wxH5A7Z7QPUveXyOabfJSb0XQQo
+ K/F0rhgYdI4Wcu3VhtmhYX700V3sB/pFfUe71TGffOXlMqoXDSEmwocib/N/WHNX61vh
+ RPDL/zCtBTLRz1TK4WMFMElWWBvJJswvmtuJEajgLr/MpFrCIPTULyptuMPRQt37VoQw
+ iEXNqLNWnWLMKWbnsrrCNlgMfqukIGGxT3gcBH5fxKdWf3o6/MLEp3vV/A+JXqGRgZIm
+ pr6g==
+X-Gm-Message-State: ANhLgQ2nACbHLXo9MZG/HwF+/iyZFhO8prPG9C2RZe9Evvp3iDFRRCxg
+ RtPFi073nhSCKmkOGRAv6LNpDg==
+X-Google-Smtp-Source: ADFU+vvYSbDTq4rOnJqXzWxDohl4D6hbNzie3S3020geYhTaHpgaObCrjRUdJQ/4tlTfD3OgtV1pZQ==
+X-Received: by 2002:adf:8023:: with SMTP id 32mr143293wrk.189.1584467455416;
+ Tue, 17 Mar 2020 10:50:55 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c85sm173188wmd.48.2020.03.17.10.50.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 10:50:54 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 406271FF7E;
+ Tue, 17 Mar 2020 17:50:53 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/28 for 5.0] testing and gdbstub updates
+Date: Tue, 17 Mar 2020 17:50:25 +0000
+Message-Id: <20200317175053.5278-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200310004017.100484-1-liran.alon@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9563
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 phishscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 suspectscore=1
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003170069
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9563
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 suspectscore=1
- adultscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
- malwarescore=0 mlxscore=0 phishscore=0 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003170069
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,120 +79,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mtosatti@redhat.com, ehabkost@redhat.com,
- rth@twiddle.net
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gentle ping (A week have passed since submission).
+The following changes since commit 6fb1603aa24d9212493e4819d7b685be9c9aad7a:
 
-Thanks,
--Liran
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200317' into staging (2020-03-17 14:44:50 +0000)
 
-On 10/03/2020 2:40, Liran Alon wrote:
-> Some guests are only familiar with VMware PV interface. Therefore, in
-> order for these guests to run properly on KVM, we need to be able to
-> expose VMware main CPUID leaf. i.e. leaf 0x40000000.
->
-> E.g. Without exposing this VMware CPUID leaf, some guests will fail to boot.
-> For example, because of guest attempt to calibrate TSC.
->
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> ---
->   target/i386/cpu.c |  1 +
->   target/i386/cpu.h |  1 +
->   target/i386/kvm.c | 35 +++++++++++++++++++++++++++++------
->   3 files changed, 31 insertions(+), 6 deletions(-)
->
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 92fafa265914..694766d45a9b 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -7127,6 +7127,7 @@ static Property x86_cpu_properties[] = {
->       DEFINE_PROP_BOOL("l3-cache", X86CPU, enable_l3_cache, true),
->       DEFINE_PROP_BOOL("kvm-no-smi-migration", X86CPU, kvm_no_smi_migration,
->                        false),
-> +    DEFINE_PROP_BOOL("vmware-cpuid", X86CPU, expose_vmware, false),
->       DEFINE_PROP_BOOL("vmware-cpuid-freq", X86CPU, vmware_cpuid_freq, true),
->       DEFINE_PROP_BOOL("tcg-cpuid", X86CPU, expose_tcg, true),
->       DEFINE_PROP_BOOL("x-migrate-smi-count", X86CPU, migrate_smi_count,
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 9c7cd7cde107..bca626963e25 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1647,6 +1647,7 @@ struct X86CPU {
->        */
->       bool force_features;
->       bool expose_kvm;
-> +    bool expose_vmware;
->       bool expose_tcg;
->       bool migratable;
->       bool migrate_smi_count;
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 00917196dffb..2656258b96b3 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1187,6 +1187,15 @@ static int hyperv_handle_properties(CPUState *cs,
->       if (!hyperv_enabled(cpu))
->           return 0;
->   
-> +    /*
-> +     * VMware & Hyper-V conflicts in CPUID leafs.
-> +     * Therefore, they cannot exists together.
-> +     */
-> +    if (cpu->expose_vmware) {
-> +        error_report("vmware-cpuid not compatible with hyperv options");
-> +        return -ENOTSUP;
-> +    }
-> +
->       if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ||
->           cpu->hyperv_passthrough) {
->           uint16_t evmcs_version;
-> @@ -1508,6 +1517,18 @@ int kvm_arch_init_vcpu(CPUState *cs)
->           has_msr_hv_hypercall = true;
->       }
->   
-> +    if (cpu->expose_vmware) {
-> +        c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = KVM_CPUID_SIGNATURE;
-> +        memcpy(signature, "VMwareVMware", 12);
-> +        c->eax = KVM_CPUID_SIGNATURE;
-> +        c->ebx = signature[0];
-> +        c->ecx = signature[1];
-> +        c->edx = signature[2];
-> +
-> +        kvm_base = KVM_CPUID_SIGNATURE_NEXT;
-> +    }
-> +
->       if (cpu->expose_kvm) {
->           memcpy(signature, "KVMKVMKVM\0\0\0", 12);
->           c = &cpuid_data.entries[cpuid_i++];
-> @@ -1791,11 +1812,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
->           }
->       }
->   
-> -    if (cpu->vmware_cpuid_freq
-> -        /* Guests depend on 0x40000000 to detect this feature, so only expose
-> -         * it if KVM exposes leaf 0x40000000. (Conflicts with Hyper-V) */
-> -        && cpu->expose_kvm
-> -        && kvm_base == KVM_CPUID_SIGNATURE
-> +    if (cpu->vmware_cpuid_freq &&
-> +        (cpu->expose_vmware ||
-> +         /*
-> +          * Guests depend on 0x40000000 to detect this feature, so only expose
-> +          * it if KVM exposes leaf 0x40000000. (Conflicts with Hyper-V)
-> +          */
-> +          (cpu->expose_kvm && kvm_base == KVM_CPUID_SIGNATURE))
->           /* TSC clock must be stable and known for this feature. */
->           && tsc_is_stable_and_known(env)) {
->   
-> @@ -1805,7 +1828,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
->           c->ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
->           c->ecx = c->edx = 0;
->   
-> -        c = cpuid_find_entry(&cpuid_data.cpuid, kvm_base, 0);
-> +        c = cpuid_find_entry(&cpuid_data.cpuid, KVM_CPUID_SIGNATURE, 0);
->           c->eax = MAX(c->eax, KVM_CPUID_SIGNATURE | 0x10);
->       }
->   
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-gdbstub-170320-1
+
+for you to fetch changes up to 3bc2609d478779be600fd66744eb4e3730ec5e33:
+
+  gdbstub: Fix single-step issue by confirming 'vContSupported+' feature to gdb (2020-03-17 17:38:52 +0000)
+
+----------------------------------------------------------------
+Testing and gdbstub updates:
+
+  - docker updates for VirGL
+  - re-factor gdbstub for static GDBState
+  - re-factor gdbstub for dynamic arrays
+  - add SVE support to arm gdbstub
+  - add some guest debug tests to check-tcg
+  - add aarch64 userspace register tests
+  - remove packet size limit to gdbstub
+  - simplify gdbstub monitor code
+  - report vContSupported in gdbstub to use proper single-step
+
+----------------------------------------------------------------
+Alex Bennée (20):
+      gdbstub: make GDBState static and have common init function
+      gdbstub: stop passing GDBState * around and use global
+      gdbstub: move str_buf to GDBState and use GString
+      gdbstub: move mem_buf to GDBState and use GByteArray
+      gdbstub: add helper for 128 bit registers
+      target/arm: use gdb_get_reg helpers
+      target/m68k: use gdb_get_reg helpers
+      target/i386: use gdb_get_reg helpers
+      gdbstub: extend GByteArray to read register helpers
+      target/arm: prepare for multiple dynamic XMLs
+      target/arm: explicitly encode regnum in our XML
+      target/arm: default SVE length to 64 bytes for linux-user
+      target/arm: generate xml description of our SVE registers
+      target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
+      tests/tcg/aarch64: userspace system register test
+      configure: allow user to specify what gdb to use
+      tests/guest-debug: add a simple test runner
+      tests/tcg/aarch64: add a gdbstub testcase for SVE registers
+      tests/tcg/aarch64: add SVE iotcl test
+      tests/tcg/aarch64: add test-sve-ioctl guest-debug test
+
+Changbin Du (1):
+      gdbstub: Fix single-step issue by confirming 'vContSupported+' feature to gdb
+
+Damien Hedde (2):
+      gdbstub: change GDBState.last_packet to GByteArray
+      gdbstub: do not split gdb_monitor_write payload
+
+Philippe Mathieu-Daudé (5):
+      tests/docker: Install tools to cross-debug and build Linux kernels
+      tests/docker: Update VirGL git repository URL
+      tests/docker: Remove obsolete VirGL --with-glx configure option
+      tests/docker: Update VirGL to v0.8.0
+      travis.yml: Set G_MESSAGES_DEBUG do report GLib errors
+
+ configure                                    |   9 +
+ include/exec/gdbstub.h                       |  62 +-
+ include/hw/core/cpu.h                        |   2 +-
+ target/alpha/cpu.h                           |   2 +-
+ target/arm/cpu.h                             |  31 +-
+ target/cris/cpu.h                            |   4 +-
+ target/hppa/cpu.h                            |   2 +-
+ target/i386/cpu.h                            |   2 +-
+ target/lm32/cpu.h                            |   2 +-
+ target/m68k/cpu.h                            |   2 +-
+ target/microblaze/cpu.h                      |   2 +-
+ target/mips/internal.h                       |   2 +-
+ target/openrisc/cpu.h                        |   2 +-
+ target/ppc/cpu.h                             |   4 +-
+ target/riscv/cpu.h                           |   2 +-
+ target/s390x/internal.h                      |   2 +-
+ target/sh4/cpu.h                             |   2 +-
+ target/sparc/cpu.h                           |   2 +-
+ target/xtensa/cpu.h                          |   2 +-
+ gdbstub.c                                    | 936 +++++++++++++--------------
+ hw/core/cpu.c                                |   2 +-
+ target/alpha/gdbstub.c                       |   2 +-
+ target/arm/cpu.c                             |   7 +-
+ target/arm/gdbstub.c                         | 173 ++++-
+ target/arm/gdbstub64.c                       |   2 +-
+ target/arm/helper.c                          | 186 +++++-
+ target/cris/gdbstub.c                        |   4 +-
+ target/hppa/gdbstub.c                        |   2 +-
+ target/i386/gdbstub.c                        |  29 +-
+ target/lm32/gdbstub.c                        |   2 +-
+ target/m68k/gdbstub.c                        |   2 +-
+ target/m68k/helper.c                         |  33 +-
+ target/microblaze/gdbstub.c                  |   2 +-
+ target/mips/gdbstub.c                        |   2 +-
+ target/nios2/cpu.c                           |   2 +-
+ target/openrisc/gdbstub.c                    |   2 +-
+ target/ppc/gdbstub.c                         |  48 +-
+ target/ppc/translate_init.inc.c              |  54 +-
+ target/riscv/gdbstub.c                       |  20 +-
+ target/s390x/gdbstub.c                       |  30 +-
+ target/sh4/gdbstub.c                         |   2 +-
+ target/sparc/gdbstub.c                       |   2 +-
+ target/xtensa/gdbstub.c                      |   2 +-
+ tests/tcg/aarch64/sve-ioctls.c               |  70 ++
+ tests/tcg/aarch64/sysregs.c                  | 172 +++++
+ .travis.yml                                  |   1 +
+ tests/.gitignore                             |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   6 +-
+ tests/docker/dockerfiles/debian10.docker     |   3 +
+ tests/docker/dockerfiles/debian9.docker      |   3 +
+ tests/guest-debug/run-test.py                |  57 ++
+ tests/tcg/aarch64/Makefile.target            |  32 +
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py  |  85 +++
+ tests/tcg/aarch64/gdbstub/test-sve.py        |  84 +++
+ 54 files changed, 1497 insertions(+), 701 deletions(-)
+ create mode 100644 tests/tcg/aarch64/sve-ioctls.c
+ create mode 100644 tests/tcg/aarch64/sysregs.c
+ create mode 100755 tests/guest-debug/run-test.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+
+-- 
+2.20.1
+
 
