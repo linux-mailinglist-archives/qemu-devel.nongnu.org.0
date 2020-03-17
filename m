@@ -2,75 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667F3188CEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:14:19 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCB6188CBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:04:17 +0100 (CET)
+Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGjK-0007R2-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
+	id 1jEGZc-0001Lr-Sw
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUd-0005tZ-6W
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:59:08 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jEGPk-00063S-BV
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUb-0001D1-Td
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:59:07 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52856)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jEGUb-00017C-Li
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:59:05 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 11so282009wmo.2
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/er0YYsHIwE0mZN9mnJ6X1m0HeTDXCeZYTdLs35Tmio=;
- b=z8emhfso8Got270aizEytcNYUCxFPHHSre6nGBDWQVuf1JopFRdnTOEYjkBk80UVEi
- p86OHjGiGfgiux1z5sti7OwuSiBW3svKHweTR6tqOTOUdVSTQtU6wDEroY/CJL9mvlyH
- WTp4+1IsCLGGD3s4ie4YKlH3GAIKwvnUMW1snNpYpvIxrDALlKqBftNvE6FT0xFmDn/a
- GMzGB/8sHAwGfO1oVsC+Qa+EDAwQWZO+ptM9ZtLwnbH6/zFe2E2Pc1cC2NWOsECP7Kkn
- pdkVJBymlrR8Q3DgVIPLSo7VNySm9twYqvaA2YDY4nSl1Eb0b1odtPFXupvyc7bHN1v8
- EffA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/er0YYsHIwE0mZN9mnJ6X1m0HeTDXCeZYTdLs35Tmio=;
- b=fbRzt6FeJy5EnzIkIFQFsiB5ryV1IGqSiXiXeYAUO0My+UASZXCJeJg+hWQSOEi6IW
- KrmNkq0S+GRNICTZ0Q/Ah3iBuFCGAEazSDrqN/hwRrAn8oiVgjXk/WQLvW/mm6bVAWAd
- 0cUQIKIs3pRYpovu2RLeMeBapMGdaxHGmiFnQmxKwToEOngq6QgJcHhz+CAif3rityNL
- TfAiT0Qs0gy9rGTqNIqeAaKz0hP79r4qufzv63XqxdHNYTrGe6Y5MBdbQtsTh0wsRIra
- ndzFC8lxb7xAbzlG/kxG1Okdar95Bwr6fjbxsxKpvTFddw3Wggz1ZZY8TMr5g6+F+nOn
- 9kMQ==
-X-Gm-Message-State: ANhLgQ1/PPE+FuGjaTiKFpINLOCU/6cPVlFA3g07Id9hc5D0sK5SAM+K
- uqfCKsrfWyb3v8Wwi6/fa9IUWw==
-X-Google-Smtp-Source: ADFU+vtWNa6cXqeQ0LT3RkBKwVEknPNKH7B3euwtmGVwA0lU4+MkfgtUpbjYAp7brlCQMItg364gTA==
-X-Received: by 2002:a7b:ce81:: with SMTP id q1mr236610wmj.156.1584467944667;
- Tue, 17 Mar 2020 10:59:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s131sm215016wmf.35.2020.03.17.10.58.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 10:58:54 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 244871FFB4;
- Tue, 17 Mar 2020 17:50:56 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 28/28] gdbstub: Fix single-step issue by confirming
- 'vContSupported+' feature to gdb
-Date: Tue, 17 Mar 2020 17:50:53 +0000
-Message-Id: <20200317175053.5278-29-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200317175053.5278-1-alex.bennee@linaro.org>
-References: <20200317175053.5278-1-alex.bennee@linaro.org>
+ (envelope-from <jsnow@redhat.com>) id 1jEGPj-0003mH-1t
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:04 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:50312)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEGPi-0003jR-TU
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584467642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+sHuLj4do0lqFSLREbep8aBeH16Dxxdpg8JHWXbN+Qk=;
+ b=LdGOfNCpcJATgyb5/N1lezMDtFLpCt0wlGOmAYhEL3a25wIuTFgLI2I+hIEXztVH0ukvlD
+ W5R4Wpk3YRcSdWvRCdZp/HjciAIgUp73cGIUx85Fw9yiR0ONgEedhK46VKRpmabgVel4My
+ HJ4R5AA/dfoJYyUlCGNyKMPmaSqed4c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-VkHpj-yNNeecp8q3h32dZg-1; Tue, 17 Mar 2020 13:53:58 -0400
+X-MC-Unique: VkHpj-yNNeecp8q3h32dZg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17CC0190B2B8;
+ Tue, 17 Mar 2020 17:53:57 +0000 (UTC)
+Received: from [10.10.112.191] (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8BDA1001DC0;
+ Tue, 17 Mar 2020 17:53:47 +0000 (UTC)
+Subject: Re: [PATCH v3 0/8] Misc hw/ide legacy clean up
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+References: <cover.1584457537.git.balaton@eik.bme.hu>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <bcb72a4d-ace7-f4b2-650b-fd2e7cfece71@redhat.com>
+Date: Tue, 17 Mar 2020 13:53:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <cover.1584457537.git.balaton@eik.bme.hu>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,66 +147,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Luc Michel <luc.michel@greensocs.com>,
- Changbin Du <changbin.du@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Changbin Du <changbin.du@gmail.com>
 
-Recently when debugging an arm32 system on qemu, I found sometimes the
-single-step command (stepi) is not working. This can be reproduced by
-below steps:
- 1) start qemu-system-arm -s -S .. and wait for gdb connection.
- 2) start gdb and connect to qemu. In my case, gdb gets a wrong value
-    (0x60) for PC, which is an another bug.
- 3) After connected, type 'stepi' and expect it will stop at next ins.
 
-But, it has never stopped. This because:
- 1) We doesn't report ‘vContSupported’ feature to gdb explicitly and gdb
-    think we do not support it. In this case, gdb use a software breakpoint
-    to emulate single-step.
- 2) Since gdb gets a wrong initial value of PC, then gdb inserts a
-    breakpoint to wrong place (PC+4).
+On 3/17/20 11:05 AM, BALATON Zoltan wrote:
+> Avoid problems from reassigning variable in piix4_create and fix
+> compilation problem with mips_r4k
+> 
+> BALATON Zoltan (8):
+>   hw/ide: Get rid of piix3_init functions
+>   hw/isa/piix4.c: Introduce variable to store devfn
+>   hw/ide: Get rid of piix4_init function
+>   hw/ide: Remove now unneded #include "hw/pci/pci.h" from hw/ide.h
+>   hw/ide/pci.c: Coding style update to fix checkpatch errors
+>   hw/ide: Do ide_drive_get() within pci_ide_create_devs()
+>   hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
+>   hw/ide: Remove unneeded inclusion of hw/ide.h
+> 
+>  hw/alpha/dp264.c              | 13 +++----------
+>  hw/hppa/hppa_sys.h            |  1 -
+>  hw/hppa/machine.c             |  1 -
+>  hw/i386/pc_piix.c             | 18 +++++++++---------
+>  hw/ide/ahci_internal.h        |  1 +
+>  hw/ide/pci.c                  | 11 +++++++----
+>  hw/ide/piix.c                 | 31 +------------------------------
+>  hw/isa/piix4.c                | 23 ++++++++++-------------
+>  hw/mips/mips_fulong2e.c       |  5 +----
+>  hw/mips/mips_malta.c          |  2 +-
+>  hw/mips/mips_r4k.c            |  1 +
+>  hw/ppc/mac_newworld.c         |  1 -
+>  hw/ppc/mac_oldworld.c         |  1 -
+>  hw/ppc/prep.c                 |  1 -
+>  hw/sparc64/sun4u.c            |  6 +-----
+>  include/hw/ide.h              |  6 ------
+>  include/hw/ide/internal.h     |  2 ++
+>  include/hw/ide/pci.h          |  3 ++-
+>  include/hw/misc/macio/macio.h |  1 +
+>  include/hw/southbridge/piix.h |  3 +--
+>  20 files changed, 41 insertions(+), 90 deletions(-)
+> 
 
-Not only for the arm target, Philippe has also encountered this on MIPS.
-Probably gdb has different assumption for different architectures.
+Passed local testing. Pushed to gitlab and pending further tests.
 
-Since we do support ‘vContSupported’ query command, so let's tell gdb that
-we support it.
-
-Before this change, gdb send below 'Z0' packet to implement single-step:
-gdb_handle_packet: Z0,4,4
-
-After this change, gdb send "vCont;s.." which is expected:
-gdb_handle_packet: vCont?
-put_packet: vCont;c;C;s;S
-gdb_handle_packet: vCont;s:p1.1;c:p1.-1
-
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200221002559.6768-1-changbin.du@gmail.com>
-[AJB: fix for static gdbstub]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-Id: <20200316172155.971-29-alex.bennee@linaro.org>
-
-diff --git a/gdbstub.c b/gdbstub.c
-index 9ae148cd1ff..013fb1ac0f1 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2130,7 +2130,7 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-         gdbserver_state.multiprocess = true;
-     }
- 
--    g_string_append(gdbserver_state.str_buf, ";multiprocess+");
-+    g_string_append(gdbserver_state.str_buf, ";vContSupported+;multiprocess+");
-     put_strbuf();
- }
- 
--- 
-2.20.1
+Track here: https://gitlab.com/jsnow/qemu/pipelines/127143307
 
 
