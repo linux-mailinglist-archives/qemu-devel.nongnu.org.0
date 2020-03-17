@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB31C187900
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:15:03 +0100 (CET)
-Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AED1878EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:01:03 +0100 (CET)
+Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE4ZC-0006RY-RL
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60280)
+	id 1jE4Le-0005oE-8M
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jE4YC-0005eb-Co
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:14:01 -0400
+ (envelope-from <crosa@redhat.com>) id 1jE4KY-0005NY-1p
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:59:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jE4YB-00081u-AN
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:14:00 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:47496)
+ (envelope-from <crosa@redhat.com>) id 1jE4KW-0007MJ-EM
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:59:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:28652)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jE4Y7-0007ne-8w
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:13:59 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1jE4KW-0007HS-AE
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:59:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584422034;
+ s=mimecast20190719; t=1584421191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmfgMDNzUtJmnd3qcSddNrCZlHCUO4nCb/1RoeUlvbI=;
- b=LJ6/Iz3I5mTDR7iXwGTYL3u2HLzgGH6YjxsKLsf+KbfYNoDj1GF/8Otqs4UGgqfyWZ8XJz
- KAerZW/dP0nh/BayfQYW2ox8oU1obAy6Iyi5/Fu70aA6GXEmnV/JimTA+LqCnaNkkadGEz
- +KTFMUDnQpxbtjVR78miY6evCjtCfIg=
+ bh=9w2/MbmqR0vOcDwPInDjxKSYDK13HymlDPzPtZk4gd4=;
+ b=WlOJU/vTePSgs1x6xMiy9mVwgKcYH662c37ilBwBs7K0OsaCq4hE3tJLKcedV4/EqtAYXr
+ MZFW9AZv7vOkcWWW/TJCDRefnbCwai5+eqeu83arW2AQu53rPMDOoGqiJLWo61PI9f4fiH
+ Uk8wgwTHqBadkAxpfgo5Tg1j0gkmYPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-Oql1gl8NNBWe1XXv4VsWag-1; Tue, 17 Mar 2020 01:13:51 -0400
-X-MC-Unique: Oql1gl8NNBWe1XXv4VsWag-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-15-zZ9X5XO9OFiuJo3vBRVvXg-1; Tue, 17 Mar 2020 00:59:47 -0400
+X-MC-Unique: zZ9X5XO9OFiuJo3vBRVvXg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7C708017CC;
- Tue, 17 Mar 2020 05:13:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
- [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7039660BF3;
- Tue, 17 Mar 2020 05:13:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 677D911366CF; Mon, 16 Mar 2020 20:48:07 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 30/34] qapi: Implement deprecated-output=hide for QMP
- event data
-References: <20200315144653.22660-1-armbru@redhat.com>
- <20200315144653.22660-31-armbru@redhat.com>
-Date: Mon, 16 Mar 2020 20:48:07 +0100
-In-Reply-To: <20200315144653.22660-31-armbru@redhat.com> (Markus Armbruster's
- message of "Sun, 15 Mar 2020 15:46:49 +0100")
-Message-ID: <875zf4w07c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3008C1005514;
+ Tue, 17 Mar 2020 04:59:46 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E15A19C58;
+ Tue, 17 Mar 2020 04:59:46 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id D27EE86FED;
+ Tue, 17 Mar 2020 04:59:45 +0000 (UTC)
+Date: Tue, 17 Mar 2020 00:59:45 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <1182067639.1655516.1584421185287.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
+References: <20200312193616.438922-1-crosa@redhat.com>
+ <CAFEAcA_PiX7LffcT9+1Bdn764fsqsSzUZib-yp=Og0Vpa3oOrw@mail.gmail.com>
+ <20200312221619.GA483011@dhcp-17-173.bos.redhat.com>
+ <CAFEAcA8=3zcffu8FYEenyNR5O=kHh8OJmMCJj6Uwh5HJw_b-WA@mail.gmail.com>
+ <1367332727.1329619.1584360253413.JavaMail.zimbra@redhat.com>
+ <CAFEAcA-jiZ=Pv7Co6gdkqKans=m6-9RwKAQuB9mri-baM5Gssw@mail.gmail.com>
+ <849930679.1334346.1584361606961.JavaMail.zimbra@redhat.com>
+ <CAFEAcA8Lw94_=kY+Fv-cFW2Tk5RD62EjODjKdGf2-mLdDw7FuQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] QEMU Gating CI
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Originating-IP: [10.10.112.137, 10.4.195.18]
+Thread-Topic: QEMU Gating CI
+Thread-Index: LK4AdQ3x3bq5va7rGyWJ8Kf1QmwUCA==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -77,49 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer Moschetta <wmoschet@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
 
-> This policy suppresses deprecated bits in output, and thus permits
-> "testing the future".  Implement it for QMP event data: suppress
-> deprecated members.
->
-> No QMP event data is deprecated right now.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Needs a fixup:
+----- Original Message -----
+> From: "Peter Maydell" <peter.maydell@linaro.org>
+> To: "Cleber Rosa" <crosa@redhat.com>
+> Cc: "Fam Zheng" <fam@euphon.net>, "Thomas Huth" <thuth@redhat.com>, "Bera=
+ldo Leal" <bleal@redhat.com>, "Erik
+> Skultety" <eskultet@redhat.com>, "Alex Benn=C3=A9e" <alex.bennee@linaro.o=
+rg>, "Wainer Moschetta" <wmoschet@redhat.com>,
+> "QEMU Developers" <qemu-devel@nongnu.org>, "Wainer dos Santos Moschetta" =
+<wainersm@redhat.com>, "Willian Rampazzo"
+> <wrampazz@redhat.com>, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>,=
+ "Eduardo Habkost" <ehabkost@redhat.com>
+> Sent: Monday, March 16, 2020 10:57:30 AM
+> Subject: Re: [PATCH 0/5] QEMU Gating CI
+>=20
+> On Mon, 16 Mar 2020 at 12:26, Cleber Rosa <crosa@redhat.com> wrote:
+> > About the runners and the fact that the job is stuck without them,
+> > the message seems straightforward enough, but I can't get to the
+> > project configuration to look at the registered runners with my
+> > current permissions (set as "developer").
+>=20
+> I've moved you up to 'maintainer' status, hopefully that is
+> sufficient to look at the relevant config ?
+>=20
+> thanks
+> -- PMM
+>=20
+>=20
 
-diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index be5a2433d0..8f77485454 100644
---- a/tests/test-qmp-event.c
-+++ b/tests/test-qmp-event.c
-@@ -167,6 +167,8 @@ static void test_event_deprecated_data(TestEventData *d=
-ata, const void *unused)
-     qapi_event_send_test_event_features0(42);
-     g_assert(data->emitted);
-=20
-+    qobject_unref(data->expect);
-+
-     compat_policy.deprecated_output =3D COMPAT_POLICY_OUTPUT_HIDE;
-     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATU=
-RES0' }");
-     qapi_event_send_test_event_features0(42);
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 78fa60aa8e..f03c825cc1 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -125,6 +125,8 @@ def gen_event_send(name, arg_type, features, boxed,
-     visit_complete(v, &obj);
-     if (qdict_size(qobject_to(QDict, obj))) {
-         qdict_put_obj(qmp, "data", obj);
-+    } else {
-+        qobject_unref(obj);
-     }
- ''')
-=20
+Hi Peter,
+
+Yes, that did the trick and I can now see the configuration.  What I can
+*not* see is any "Specific Runner" configured.  So maybe:
+
+1) The documentation I included is not clear enough about the fact that
+setup steps need to be done on a machine so that it becomes a "Runner"
+
+2) The (Ansible) playbooks (especially contrib/ci/orgs/qemu/gitlab-runner.y=
+ml)
+is not working as intended
+
+3) Some expectations misalignment on machines that would be available to ru=
+n
+those jobs
+
+In any case, none of those should be big problems.  Please let me know what
+you did/experienced/expected up to this point, and we can continue from the=
+re.
+
+Regards,
+- Cleber.
 
 
