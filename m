@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF31187B2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 09:27:49 +0100 (CET)
-Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2761C187B59
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 09:33:07 +0100 (CET)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE7Zk-0002gc-U4
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 04:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
+	id 1jE7es-00052Q-8S
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 04:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jE7Yf-0001UD-1k
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:26:41 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1jE7e2-0004cZ-FZ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:32:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jE7Ye-0000fV-6H
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:26:40 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38034)
+ (envelope-from <chen.zhang@intel.com>) id 1jE7e0-00081Y-W1
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:32:14 -0400
+Received: from mga02.intel.com ([134.134.136.20]:29723)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jE7Ye-0000cp-24
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:26:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584433599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VESC7OQKqU3rtzs4Wq31Jt0RRx9Sf5HDHJefSWtcT0g=;
- b=WDnojsDYG4yJ65lE5/ogfIyIBAWzJNNvth5QpbH0YdxWOp/srOYCVxxHuqyNKOFVEW+per
- 6XxC+8bgsbDCJnonSyviyorhWw8n2rEL0dgxH1x4AKtN3W8NLDx38TjdCKwqop4xcczH43
- EeOYjZle4XlrxknZ72QncueGRLnTvU8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-UJGoWfxdN9GP1YXHEMBosg-1; Tue, 17 Mar 2020 04:26:35 -0400
-X-MC-Unique: UJGoWfxdN9GP1YXHEMBosg-1
-Received: by mail-wm1-f69.google.com with SMTP id y7so6832206wmd.4
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 01:26:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VESC7OQKqU3rtzs4Wq31Jt0RRx9Sf5HDHJefSWtcT0g=;
- b=tG0mmWJF/mJYKN3W3FhCLmdnvNvRZ7R4eC39PXoXmkjKWRgFDc3XIzeLJyKX1vjBwf
- t3tFRw8la7f3t6nUzqpJTjawERLHIMESUrMhv8BEHihv5HYyh8OBq7wgUMpG4qa6eOLT
- WGISkkPRGPFPBtdJr8seWLNKFt8Mm19E8HQet4iMSJ/pdOzTNU/3bZ6OYGRA2vkaxOuC
- WSbIWiIokRoXWTcTlZ6mJ+qteYqeXNHKNbYnnVcn7CAWjWI9uReXA4qqXgJEd4MrfeX6
- cjSlU4FeRtbi4pa5quUtMXEtJ52a1oNP1Zroq6Yf+V4jtRim/BRA6FakD/AYfrFNhXgO
- MK4w==
-X-Gm-Message-State: ANhLgQ0g5BqcpquqzWRwcuWLHSYlZMU49QO2P7+H3DYfHDoZ7AmG6FMw
- AgSor6MDVy7FG9ugswm/J8jK8aCVx1H0VwSbrEuO1mSeeYdizwr7EJbixIIl2gxJm7lfJ1rnybU
- n87mdcL7sxDkteh4=
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr3925779wmk.131.1584433594879; 
- Tue, 17 Mar 2020 01:26:34 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvZtCDZH1KV0kCyLrrkPpHLlUbR2KWpLpGUbz4uGi6gkCNSK2nGpYyXZEL4QU128S7MDuLudg==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr3925753wmk.131.1584433594572; 
- Tue, 17 Mar 2020 01:26:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:24d8:ed40:c82a:8a01?
- ([2001:b07:6468:f312:24d8:ed40:c82a:8a01])
- by smtp.gmail.com with ESMTPSA id z4sm3602278wrr.6.2020.03.17.01.26.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 01:26:34 -0700 (PDT)
-Subject: Re: [PULL 09/61] MAINTAINERS: Add entry for Guest X86 HAXM CPUs
-To: Colin.Xu@intel.com, qemu-devel@nongnu.org
-References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
- <1584394048-44994-10-git-send-email-pbonzini@redhat.com>
- <d9e9e44f-ba54-c2e7-01c8-72337d3f5993@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bc354cda-b731-183f-3860-43c3a0af434c@redhat.com>
-Date: Tue, 17 Mar 2020 09:26:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <d9e9e44f-ba54-c2e7-01c8-72337d3f5993@intel.com>
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1jE7e0-0007hn-Mm
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 04:32:12 -0400
+IronPort-SDR: y2pr43VegW+c7MTIdFDybpn1JkL6/IdQZlVF7GHCJvrIOUumO6DFtrPQ104w5QfzGnGvCPt686
+ Vzh01Dgn0BXA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2020 01:32:08 -0700
+IronPort-SDR: UKpNlINTdJ+ZnWDYUSHYlt5hg6ecYo2qVqFdn1vinAZ1YV8ngGCCcoHFYbGOC5PS6gPBgkCCdA
+ xNNdnDMCGRkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,563,1574150400"; d="scan'208";a="267886680"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga004.fm.intel.com with ESMTP; 17 Mar 2020 01:32:08 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 17 Mar 2020 01:32:08 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 17 Mar 2020 16:32:06 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
+ Tue, 17 Mar 2020 16:32:06 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Lukas Straub
+ <lukasstraub2@web.de>
+Subject: RE: The issues about architecture of the COLO checkpoint
+Thread-Topic: The issues about architecture of the COLO checkpoint
+Thread-Index: AQHV4KTcP1R3sKJVikmfjsOVjXKwRqgVv2IAgACfSoCAAKv5kP//rSyAgAEfU4CAAIj8QIAABEuQ//+ILQCAAH9LAIACrsiAgAPMiICAAUtUgIADQekA//+FpwAAxsXV4AAJj7+AAdZL4rAAY+3agAEwcryAAPr/VeA=
+Date: Tue, 17 Mar 2020 08:32:06 +0000
+Message-ID: <f65c766e750a463ba81970f6d27ce986@intel.com>
+References: <20200213103752.GE2960@work-vm>
+ <CA+XQNE7i15fTmwN6UL_fNi1e2sEb5v6+T05FaYdy0nS-DFC9HA@mail.gmail.com>
+ <e820e35d-5b8a-18c8-736b-6c38cff9798e@intel.com>
+ <CA+XQNE49wq2nRKJ0CA4uHDZ4OUEbFGPKBfAWB4+UwPYgiZkrCw@mail.gmail.com>
+ <5d030380-76d6-67c6-39a1-82c197e320b4@intel.com>
+ <CA+XQNE6riKARXtP9oZaQjK9Gqgfh-+Ae8qX+WsWhGfMB0hf8tg@mail.gmail.com>
+ <0c69b913bf1047c4b7d5edac50f3988b@intel.com>
+ <CA+XQNE6tZv0uhGoqqnS2ki=ZjP_YFaE53ZZntKPAbCxGnO1V8A@mail.gmail.com>
+ <343daa37127e424c94fa0a3edde30f0c@intel.com> <20200306162201.3a1cd3ae@luklap>
+ <20200312163919.GJ3211@work-vm>
+In-Reply-To: <20200312163919.GJ3211@work-vm>
+Accept-Language: en-US
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,19 +87,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wenchao Wang <wenchao.wang@intel.com>, Hang Yuan <hang.yuan@intel.com>
+Cc: Daniel Cho <danielcho@qnap.com>, Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/03/20 08:46, Colin Xu wrote:
-> Hi Paolo,
-> 
-> For future HAX patch, once it's "Reviewed-by" haxm maintainers and other
-> reviewers, do we need "SubmitAPullRequest" separately or you will do it
-> together with other patches?
 
-As you prefer.  I wouldn't mind having to send fewer pull requests. :)
 
-Paolo
+> -----Original Message-----
+> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Sent: Friday, March 13, 2020 12:39 AM
+> To: Lukas Straub <lukasstraub2@web.de>
+> Cc: Zhang, Chen <chen.zhang@intel.com>; Daniel Cho
+> <danielcho@qnap.com>; qemu-devel@nongnu.org; Jason Wang
+> <jasowang@redhat.com>; Zhanghailiang <zhang.zhanghailiang@huawei.com>
+> Subject: Re: The issues about architecture of the COLO checkpoint
+>=20
+> * Lukas Straub (lukasstraub2@web.de) wrote:
+> > On Wed, 4 Mar 2020 07:44:11 +0000
+> > "Zhang, Chen" <chen.zhang@intel.com> wrote:
+> >
+> > > > -----Original Message-----
+> > > > From: Daniel Cho <danielcho@qnap.com>
+> > > > Sent: Monday, February 24, 2020 3:15 PM
+> > > > To: Zhang, Chen <chen.zhang@intel.com>
+> > > > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>; Zhanghailiang
+> > > > <zhang.zhanghailiang@huawei.com>; qemu-devel@nongnu.org; Jason
+> > > > Wang <jasowang@redhat.com>
+> > > > Subject: Re: The issues about architecture of the COLO checkpoint
+> > > >
+> > > > Hi Zhang,
+> > > >
+> > > > Thanks for your help.
+> > > > However, did you occur the error which the function qemu_hexdump
+> > > > in colo-compare.c will crash the qemu process while doing
+> > > > operation with network?
+> > > >
+> > >
+> > > No, qemu_hexdump looks no relationship with network...
+> > > Do you means it will crashed in qemu_hexdump sometimes?
+> >
+> > Jeah, I hit that bug too, but it was fixed with
+> > 1e907a32b77e5d418538453df5945242e43224fa "COLO-compare: Fix
+> incorrect `if` logic"
+> > in qemu 4.2.
+>=20
+> Is anyone running any CI stuff for COLO?  I'm not, but bugs like that mak=
+e it
+> clear we probably should be;  it's not trivial to setup, but it should be=
+ doable
+> in a nest setup these days.
+
+Currently, No CI stuff for COLO,  I'm busy on COLO landing with CSPs.
+We will be happy If someone want to take this work.
+
+Thanks
+Zhang Chen
+
+>=20
+> Dave
+>=20
+> > Regards,
+> > Lukas Straub
+> >
+> > > > We are working on VM fault tolerance study and COLO function
+> > > > evalutation first. Currently we did not have a confirmed plan on it=
+.
+> > >
+> > > OK, keep connection.
+> > >
+> > > Thanks
+> > > Zhang Chen
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
