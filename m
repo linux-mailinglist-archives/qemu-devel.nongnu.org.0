@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182E4188CD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:10:22 +0100 (CET)
-Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58444188CCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:07:06 +0100 (CET)
+Received: from localhost ([::1]:38530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGfV-0001qC-4F
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36692)
+	id 1jEGcL-00060u-BV
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUU-0005az-Tq
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:59:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGUS-0005WL-S6
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUT-0000Jq-GA
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:58 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33219)
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGUR-0008Vq-6t
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:56 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55848)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jEGUT-0000C2-7s
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:57 -0400
-Received: by mail-wr1-x430.google.com with SMTP id a25so26922032wrd.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:58:57 -0700 (PDT)
+ id 1jEGUQ-0008PM-Rl
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:55 -0400
+Received: by mail-wm1-x331.google.com with SMTP id 6so256663wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iBvEUDncqC3Mv+jQK3irHfsoAQSqaRXgCJbGIbs+9L0=;
- b=cjMefkL6PhJUwi3KUx2Azk+AC6dnATdahMTgg26tZVAblnujyci6NtDK37CfVOR82c
- RTbCCOvvaVt2CF/Md/YcF16R/5UTz1bxKbLq5GlPGLcibnm240l8tNf8bBg1xP5YjpZC
- ywslHOvy6og+gQN9XEHpC/ST1ekVC1hVPXMcjuM5N5wTIBGnLL2uBtBZ+5b07yDQ0ZyA
- duC66lyDLm1bd8AR1oZFVePLaSbpv7ocvl+JJTZiAKCy3p8iGed7vJCSYlRM2HzNUD93
- D4yg7ADL+wUdQsprudIPQYZSAwuH3Z8jkhJtMCem4jyhi74cLWxgtfAawGT0lbsn9gc4
- R+Rg==
+ bh=y70yduvZnlJuuEmJKz38qFwzokDPfNTPIIUVc1ktav0=;
+ b=lix2ZnYOEUi01Log7I7WE+5KIg5Kmcf+6HH7/k98xE8P01xhpa5r1NzfZCM8CyQ/sJ
+ +alaisFp2redPti1cORSloAKExOCo19GkBsiFiwsf6X8BqPXuKwRqr6YWwhsIkdHfTho
+ IWi9PlPXyRLEYr34PWk2KIlfrtSRR1Z/ljgD097cJalxl5d2MnpyanQ8XMDerHctI0Xy
+ w02crGpMwsGen4Pk0lkj6CBPxXl7wyzCha5/qUP4hbFs1lcSpJG/siErFWUQewlK8moz
+ jiJ3IuUsrXa63cCFlzuiV+5WjzIharnoNd0ry7dp+kEu6YscXW0mw9evS1z0v0ro8FEc
+ /ZGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iBvEUDncqC3Mv+jQK3irHfsoAQSqaRXgCJbGIbs+9L0=;
- b=NRVU+6ogFnGBrYWu201b0LEOH6nNMw1IpCKIJgrI33n+TrLMN1KoX9gNrnmBb/JtNm
- G53Ejdt5hrbVFx+FjGRbJB5/GcT80U1NwZMC1flOA4sLytVo9pdXX+O385W+k4UPWYLL
- QpVVQdjJEM5sRh0Mx/dDskjGkqKZN2coLKN+g0RdE3gZtLxjztTFYVqlgfWiOqGDUCZL
- b9LNiZYak+SJVEivGFJko0SZeJodYgJR+bItSdEjjMfFo3fczDuiBZgrTjBBU/XXYJNt
- x0ebkuQ230t0MQ4niGrDPQmRdssH8jp0RQ7bY8rgg8TNqTbckXdrYIN3ZJQMJuQ8Ef3d
- u9yg==
-X-Gm-Message-State: ANhLgQ1u9rfuGgwQbmBXoAL6O8B+LJl1vrml945iZ25NOPMpbUBMA9cQ
- mot+T/UC/etsyhxkU8r2hNlXuQ==
-X-Google-Smtp-Source: ADFU+vsfRQUHYIuLH/c26LyXwhk38wukSxJwUGd9L4/WhRO59avQu59tEulwxpAgLX/5wm429fp3uw==
-X-Received: by 2002:adf:a3d3:: with SMTP id m19mr145865wrb.377.1584467936142; 
- Tue, 17 Mar 2020 10:58:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k3sm5216743wro.59.2020.03.17.10.58.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=y70yduvZnlJuuEmJKz38qFwzokDPfNTPIIUVc1ktav0=;
+ b=PmYIloyFqInzf5nR4veiQjXopvivtOAPek4dhZYVZm8wFA1gHzREbOvUc5Z5ReI1P3
+ les0eJpGddkN/6MCcTx0n0TljwfJSteC6WfgZP5Lue5O8O7GLI8qOHGYcx+HRlYGVex6
+ 3id35cXFEavVpVO3ASwa49ymuHawCBHk0mTJO2NVELXDSVuFmO7X7sB/W9g5At2+xcjy
+ c5/ChUvg2KfUkRNPtg71Dc5BvaSyDf8fId+/YFFgXLX0mkqPlcKIJA+WOyWgv7XJItBH
+ mpQRjV2ax3R8K3EIu4QIZdxMMTyub4l5l203ExHAEdT7IBg+5pv7CstokGVaLVG8/P+a
+ B8hw==
+X-Gm-Message-State: ANhLgQ3STxedag/5oVYo4IKvvaR7bcCX7ckFTQJfU9yFqpP7Fh4b3MXj
+ dwlaw4SVlbHbu7b4I3SkUmirAw==
+X-Google-Smtp-Source: ADFU+vv7Ewcy2Uwgn+QtGMa5hSYGerxGFXuRGdYK4UUIKnsueZCIE3hp0ljecu8Q+i3UnTNTRvOP1w==
+X-Received: by 2002:a1c:b789:: with SMTP id h131mr171297wmf.141.1584467933564; 
  Tue, 17 Mar 2020 10:58:53 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u8sm5236356wrn.69.2020.03.17.10.58.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Mar 2020 10:58:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EB9751FFB1;
- Tue, 17 Mar 2020 17:50:55 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0D16C1FFB3;
+ Tue, 17 Mar 2020 17:50:56 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/28] gdbstub: change GDBState.last_packet to GByteArray
-Date: Tue, 17 Mar 2020 17:50:51 +0000
-Message-Id: <20200317175053.5278-27-alex.bennee@linaro.org>
+Subject: [PULL 27/28] gdbstub: do not split gdb_monitor_write payload
+Date: Tue, 17 Mar 2020 17:50:52 +0000
+Message-Id: <20200317175053.5278-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317175053.5278-1-alex.bennee@linaro.org>
 References: <20200317175053.5278-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,128 +82,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Damien Hedde <damien.hedde@greensocs.com>
 
-Remove the packet size upper limit by using a GByteArray
-instead of a statically allocated array for last_packet.
-Thus we can now send big packets.
+Since we can now send packets of arbitrary length:
+simplify gdb_monitor_write() and send the whole payload
+in one packet.
 
-Also remove the last_packet_len field and use last_packet->len
-instead.
-
+Suggested-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191211160514.58373-2-damien.hedde@greensocs.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200316172155.971-27-alex.bennee@linaro.org>
+Message-Id: <20191211160514.58373-3-damien.hedde@greensocs.com>
+Message-Id: <20200316172155.971-28-alex.bennee@linaro.org>
 
 diff --git a/gdbstub.c b/gdbstub.c
-index 0bcfc47a7c5..a60ef5125eb 100644
+index a60ef5125eb..9ae148cd1ff 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -351,8 +351,7 @@ typedef struct GDBState {
-     int line_buf_index;
-     int line_sum; /* running checksum */
-     int line_csum; /* checksum at the end of the packet */
--    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
--    int last_packet_len;
-+    GByteArray *last_packet;
-     int signal;
- #ifdef CONFIG_USER_ONLY
-     int fd;
-@@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
-     gdbserver_state.init = true;
-     gdbserver_state.str_buf = g_string_new(NULL);
-     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
-+    gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+@@ -3200,28 +3200,11 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
+     }
  }
  
- #ifndef CONFIG_USER_ONLY
-@@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
- static int put_packet_binary(const char *buf, int len, bool dump)
+-static void gdb_monitor_output(const char *msg, int len)
+-{
+-    g_autoptr(GString) buf = g_string_new("O");
+-    memtohex(buf, (uint8_t *)msg, len);
+-    put_packet(buf->str);
+-}
+-
+ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
  {
-     int csum, i;
--    uint8_t *p;
--    uint8_t *ps = &gdbserver_state.last_packet[0];
-+    uint8_t footer[3];
+-    const char *p = (const char *)buf;
+-    int max_sz;
+-
+-    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
+-    for (;;) {
+-        if (len <= max_sz) {
+-            gdb_monitor_output(p, len);
+-            break;
+-        }
+-        gdb_monitor_output(p, max_sz);
+-        p += max_sz;
+-        len -= max_sz;
+-    }
++    g_autoptr(GString) hex_buf = g_string_new("O");
++    memtohex(hex_buf, buf, len);
++    put_packet(hex_buf->str);
+     return len;
+ }
  
-     if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARYREPLY)) {
-         hexdump(buf, len, trace_gdbstub_io_binaryreply);
-     }
- 
-     for(;;) {
--        p = ps;
--        *(p++) = '$';
--        memcpy(p, buf, len);
--        p += len;
-+        g_byte_array_set_size(gdbserver_state.last_packet, 0);
-+        g_byte_array_append(gdbserver_state.last_packet,
-+                            (const uint8_t *) "$", 1);
-+        g_byte_array_append(gdbserver_state.last_packet,
-+                            (const uint8_t *) buf, len);
-         csum = 0;
-         for(i = 0; i < len; i++) {
-             csum += buf[i];
-         }
--        *(p++) = '#';
--        *(p++) = tohex((csum >> 4) & 0xf);
--        *(p++) = tohex((csum) & 0xf);
-+        footer[0] = '#';
-+        footer[1] = tohex((csum >> 4) & 0xf);
-+        footer[2] = tohex((csum) & 0xf);
-+        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
- 
--        gdbserver_state.last_packet_len = p - ps;
--        put_buffer(ps, gdbserver_state.last_packet_len);
-+        put_buffer(gdbserver_state.last_packet->data,
-+                   gdbserver_state.last_packet->len);
- 
- #ifdef CONFIG_USER_ONLY
-         i = get_char();
-@@ -2812,20 +2813,22 @@ static void gdb_read_byte(uint8_t ch)
-     uint8_t reply;
- 
- #ifndef CONFIG_USER_ONLY
--    if (gdbserver_state.last_packet_len) {
-+    if (gdbserver_state.last_packet->len) {
-         /* Waiting for a response to the last packet.  If we see the start
-            of a new command then abandon the previous response.  */
-         if (ch == '-') {
-             trace_gdbstub_err_got_nack();
--            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserver_state.last_packet_len);
-+            put_buffer(gdbserver_state.last_packet->data,
-+                       gdbserver_state.last_packet->len);
-         } else if (ch == '+') {
-             trace_gdbstub_io_got_ack();
-         } else {
-             trace_gdbstub_io_got_unexpected(ch);
-         }
- 
--        if (ch == '+' || ch == '$')
--            gdbserver_state.last_packet_len = 0;
-+        if (ch == '+' || ch == '$') {
-+            g_byte_array_set_size(gdbserver_state.last_packet, 0);
-+        }
-         if (ch != '$')
-             return;
-     }
-@@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
-     const char *p = (const char *)buf;
-     int max_sz;
- 
--    max_sz = (sizeof(gdbserver_state.last_packet) - 2) / 2;
-+    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
-     for (;;) {
-         if (len <= max_sz) {
-             gdb_monitor_output(p, len);
 -- 
 2.20.1
 
