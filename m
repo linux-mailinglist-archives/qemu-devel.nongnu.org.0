@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A53188262
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:42:24 +0100 (CET)
-Received: from localhost ([::1]:59162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E77188267
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:44:18 +0100 (CET)
+Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEAc3-0002d2-35
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43487)
+	id 1jEAdu-00068U-00
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAaW-0000NJ-Di
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAaX-0000PM-Q2
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAaV-0002MX-DT
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33121)
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAaW-0002aO-GS
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:49 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40659)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jEAaV-0002Db-6j
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:47 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a25so25212093wrd.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:47 -0700 (PDT)
+ id 1jEAaW-0002Pz-9U
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:48 -0400
+Received: by mail-wm1-x332.google.com with SMTP id z12so12365555wmf.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gGt7/ycHlk/paOjuicsg+s6eHvlL+QhBi/5GXoTKKrA=;
- b=jCb853Z24I+auyAJtr2pNHZaN8W7teP3+bramSLeBQfME8nI/peMv2Ye1e2WeBCMSN
- OhziJaUornz7vbbeWH9a506mD6YZTrvVo/f7wLTSK1AnscKn/QFp3X5+GH5OtRxzzI4r
- z8lExrguuvwUXnjYukDUTinXJoJRA6RMoj3yeAB/+8079nQ4HRhPA4ttH7WP2CMLlS9K
- ASCjeMjryixvJ462lUVGh+ITFFNIgNOVR/ek4BaRTvN0QcuUv0Kp4Ks8c7ALnWfIpPUE
- baJnrH51vWiYfEt8e3H3zOPt+7/ivE2FSy3ID2i1tSp8sq7GOz2Zz1YPxcTVV15D5wGj
- Vsvw==
+ bh=jXJaCx3hbYmcNKuqEiqjFHkajTM6KcIwjOw6oo6oGk4=;
+ b=ay1LZVy1BbgFQjfzwts4uKZY68k+JjH638j5tbCwtSS3YdFA/tyeNGCy/ujp1PJirr
+ VNKvoIDfX4Q7wB3RyuVVOedjcH/jwrIvkQzNOIYYu8ufuHmxCnG9CDK+kLknXq8rcltU
+ J+CdnO7CxyupWFUj+K5lY1RSorpZ8DSSAA8UdwtBSk3x/9sHPjojGeR9MCw/RizOymvk
+ 98Kr99oxAsLoxxoxbHV1NoK/EIsONKG1ePqu2r9Iu3A0hck7Bs1KbGTFuAviBnoc3gfk
+ 4SAQJE5B06fkmqvH0zLM3s/10sOTWOq2DOZGCgn9cEuuupBny0P2H58eKdi3W3fhay1d
+ wp4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gGt7/ycHlk/paOjuicsg+s6eHvlL+QhBi/5GXoTKKrA=;
- b=K+Dbpu88qivi5tHegANqHYQOgzBL4fS4585zyGDHuJ5LbW40Fbn1ipiWvHtcxu0yDr
- 0R0ex34J/13CnaRxO76ey8jkeCZTfxVUhUVyfHqbD5W7lKYOPz18uUwgUOfkx9xnwCSm
- 5OuAzbf9Vm+QscNqFAp5phdS1mMBA2G6rOyeLunRo5KB5IPcLIepedHCgCc8Wbyk1OX1
- SUHVIYeTTfbcbwsS+WJ+iBy5ly1U/clXyq03zUhGriqapG1OX5rx1I8Rh2DmawdDhfNC
- f1yVG7lg9KahhyhALD6oLZWaaFBbYF8EZFCHcNE+5VSaXne59/u1VUTqtwaP73p30neR
- ULag==
-X-Gm-Message-State: ANhLgQ0iYKR3U25iKjwQ6RsHXy8lj+5AYi+RdtMEQx70kl4cibG8UV+z
- KUBNJK0/D7lBcFtiIeNiJUdbKA1EZTm3Iw==
-X-Google-Smtp-Source: ADFU+vuqq1kHs/gSy1ZIgsAO5i92QnlB0HmaKGMg1k6aHODUVZln5lWutdExd6KIAXCb6mE0AWhzEg==
-X-Received: by 2002:adf:eb48:: with SMTP id u8mr5554501wrn.283.1584445245549; 
- Tue, 17 Mar 2020 04:40:45 -0700 (PDT)
+ bh=jXJaCx3hbYmcNKuqEiqjFHkajTM6KcIwjOw6oo6oGk4=;
+ b=VRIkTjhvEt1kXqsKFQE8WWSHMBbjqwqTXcgWGmrW1l1FvJEWbiI3LH5mZUQbXTyQFo
+ RqGcHSPP+llzdbXA3zHP17fECQm+lQH3BWzDETzWvfv6KLxxHQcxHAUPbfjGNoD6a0ob
+ EjA5/zlWCyI+Vt2RjSk2COJO8eNc3I5WDoqUUzR42INxuDIaW/P52IOEMd80zs6dF3Wg
+ jB7XIwX4BttQCpvwEbqDWWQoq7UDJV7ANFOiWpOJB5d+//ffxQKnU0eausxrGdSiPQHk
+ DLIsJeMLg8mFTSYAftAtzy3v1qf6bhkxWMI6SBh8oUS6MV2rsZYxvWJ0+pjv+OvMLyvl
+ cfHg==
+X-Gm-Message-State: ANhLgQ22RNP1PPBvk81S/uxO1bEhKI5KglaAOVDvoqpSwdRftgajAuI3
+ 2iDkAVj9gObDSNqWTpm1Wgdyfwp/FQ7ieQ==
+X-Google-Smtp-Source: ADFU+vvj7cCDbg3n7bCQpUolpHdcPA39IUKztmEWnNXxS9fsXGxxi80yXMsjXgdi7rose46KRg80og==
+X-Received: by 2002:a7b:c341:: with SMTP id l1mr4636504wmj.146.1584445246910; 
+ Tue, 17 Mar 2020 04:40:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.44
+ by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 04:40:44 -0700 (PDT)
+ Tue, 17 Mar 2020 04:40:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/11] hw/arm/fsl-imx6ul: Instantiate unimplemented pwm and can
- devices
-Date: Tue, 17 Mar 2020 11:40:31 +0000
-Message-Id: <20200317114039.26914-4-peter.maydell@linaro.org>
+Subject: [PULL 04/11] hw/arm/fsl-imx6ul: Wire up USB controllers
+Date: Tue, 17 Mar 2020 11:40:32 +0000
+Message-Id: <20200317114039.26914-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317114039.26914-1-peter.maydell@linaro.org>
 References: <20200317114039.26914-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +83,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-Recent Linux kernels (post v4.20) crash due to accesses to flexcan
-and pwm controllers. Instantiate as unimplemented devices to work
-around the problem.
+IMX6UL USB controllers are quite similar to IMX7 USB controllers.
+Wire them up the same way.
+
+The only real difference is that wiring up phy devices is necessary
+to avoid phy reset timeouts in the Linux kernel.
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20200313014551.12554-4-linux@roeck-us.net
+Message-id: 20200313014551.12554-5-linux@roeck-us.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/fsl-imx6ul.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ include/hw/arm/fsl-imx6ul.h | 10 ++++++++++
+ hw/arm/fsl-imx6ul.c         | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
 
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 5a420785b95..1a0bab8daaf 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -34,6 +34,8 @@
+ #include "hw/sd/sdhci.h"
+ #include "hw/ssi/imx_spi.h"
+ #include "hw/net/imx_fec.h"
++#include "hw/usb/chipidea.h"
++#include "hw/usb/imx-usb-phy.h"
+ #include "exec/memory.h"
+ #include "cpu.h"
+ 
+@@ -54,6 +56,8 @@ enum FslIMX6ULConfiguration {
+     FSL_IMX6UL_NUM_I2CS         = 4,
+     FSL_IMX6UL_NUM_ECSPIS       = 4,
+     FSL_IMX6UL_NUM_ADCS         = 2,
++    FSL_IMX6UL_NUM_USB_PHYS     = 2,
++    FSL_IMX6UL_NUM_USBS         = 2,
+ };
+ 
+ typedef struct FslIMX6ULState {
+@@ -77,6 +81,8 @@ typedef struct FslIMX6ULState {
+     IMXFECState        eth[FSL_IMX6UL_NUM_ETHS];
+     SDHCIState         usdhc[FSL_IMX6UL_NUM_USDHCS];
+     IMX2WdtState       wdt[FSL_IMX6UL_NUM_WDTS];
++    IMXUSBPHYState     usbphy[FSL_IMX6UL_NUM_USB_PHYS];
++    ChipideaState      usb[FSL_IMX6UL_NUM_USBS];
+     MemoryRegion       rom;
+     MemoryRegion       caam;
+     MemoryRegion       ocram;
+@@ -145,6 +151,10 @@ enum FslIMX6ULMemoryMap {
+     FSL_IMX6UL_EPIT2_ADDR           = 0x020D4000,
+     FSL_IMX6UL_EPIT1_ADDR           = 0x020D0000,
+     FSL_IMX6UL_SNVS_HP_ADDR         = 0x020CC000,
++    FSL_IMX6UL_USBPHY2_ADDR         = 0x020CA000,
++    FSL_IMX6UL_USBPHY2_SIZE         = (4 * 1024),
++    FSL_IMX6UL_USBPHY1_ADDR         = 0x020C9000,
++    FSL_IMX6UL_USBPHY1_SIZE         = (4 * 1024),
+     FSL_IMX6UL_ANALOG_ADDR          = 0x020C8000,
+     FSL_IMX6UL_CCM_ADDR             = 0x020C4000,
+     FSL_IMX6UL_WDOG2_ADDR           = 0x020C0000,
 diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index c405b68d1dd..a0bcc6f8957 100644
+index a0bcc6f8957..99a5859a4e9 100644
 --- a/hw/arm/fsl-imx6ul.c
 +++ b/hw/arm/fsl-imx6ul.c
-@@ -516,6 +516,20 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-      */
-     create_unimplemented_device("sdma", FSL_IMX6UL_SDMA_ADDR, 0x4000);
+@@ -20,6 +20,7 @@
+ #include "qapi/error.h"
+ #include "hw/arm/fsl-imx6ul.h"
+ #include "hw/misc/unimp.h"
++#include "hw/usb/imx-usb-phy.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu/error-report.h"
+@@ -133,6 +134,18 @@ static void fsl_imx6ul_init(Object *obj)
+                               TYPE_IMX_ENET);
+     }
  
-+    /*
-+     * PWM
-+     */
-+    create_unimplemented_device("pwm1", FSL_IMX6UL_PWM1_ADDR, 0x4000);
-+    create_unimplemented_device("pwm2", FSL_IMX6UL_PWM2_ADDR, 0x4000);
-+    create_unimplemented_device("pwm3", FSL_IMX6UL_PWM3_ADDR, 0x4000);
-+    create_unimplemented_device("pwm4", FSL_IMX6UL_PWM4_ADDR, 0x4000);
-+
-+    /*
-+     * CAN
-+     */
-+    create_unimplemented_device("can1", FSL_IMX6UL_CAN1_ADDR, 0x4000);
-+    create_unimplemented_device("can2", FSL_IMX6UL_CAN2_ADDR, 0x4000);
++    /* USB */
++    for (i = 0; i < FSL_IMX6UL_NUM_USB_PHYS; i++) {
++        snprintf(name, NAME_SIZE, "usbphy%d", i);
++        sysbus_init_child_obj(obj, name, &s->usbphy[i], sizeof(s->usbphy[i]),
++                              TYPE_IMX_USBPHY);
++    }
++    for (i = 0; i < FSL_IMX6UL_NUM_USBS; i++) {
++        snprintf(name, NAME_SIZE, "usb%d", i);
++        sysbus_init_child_obj(obj, name, &s->usb[i], sizeof(s->usb[i]),
++                              TYPE_CHIPIDEA);
++    }
 +
      /*
-      * APHB_DMA
+      * SDHCI
+      */
+@@ -456,6 +469,28 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+                                             FSL_IMX6UL_ENETn_TIMER_IRQ[i]));
+     }
+ 
++    /* USB */
++    for (i = 0; i < FSL_IMX6UL_NUM_USB_PHYS; i++) {
++        object_property_set_bool(OBJECT(&s->usbphy[i]), true, "realized",
++                                 &error_abort);
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usbphy[i]), 0,
++                        FSL_IMX6UL_USBPHY1_ADDR + i * 0x1000);
++    }
++
++    for (i = 0; i < FSL_IMX6UL_NUM_USBS; i++) {
++        static const int FSL_IMX6UL_USBn_IRQ[] = {
++            FSL_IMX6UL_USB1_IRQ,
++            FSL_IMX6UL_USB2_IRQ,
++        };
++        object_property_set_bool(OBJECT(&s->usb[i]), true, "realized",
++                                 &error_abort);
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usb[i]), 0,
++                        FSL_IMX6UL_USBO2_USB_ADDR + i * 0x200);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i]), 0,
++                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
++                                            FSL_IMX6UL_USBn_IRQ[i]));
++    }
++
+     /*
+      * USDHC
       */
 -- 
 2.20.1
