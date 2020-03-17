@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EEF188268
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:44:19 +0100 (CET)
-Received: from localhost ([::1]:59214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6403B18826E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:46:28 +0100 (CET)
+Received: from localhost ([::1]:59270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEAdu-00068b-75
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1jEAfz-0001RP-CF
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAac-0000YR-1B
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAac-0000ad-TA
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAaa-0003M4-Pk
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:53 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54860)
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAab-0003TW-HG
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:54 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38649)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jEAaa-0003F0-Ij
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:52 -0400
-Received: by mail-wm1-x341.google.com with SMTP id n8so21058777wmc.4
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:52 -0700 (PDT)
+ id 1jEAab-0003LB-8T
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:53 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t13so15202180wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7QaJCv7GzRfGh0KkLLK7VCXCCrICGrOH8s1Sycp5qFA=;
- b=p65F/NlVIgSOkwUvLg80G0rnrKNGAqyMxUegZmTKBWOtpEb1Djb7+rBUJEc3okVMFa
- h5mbmNliCWWd8Ar8TXB7MonnfTe5mV9uTd97NPUmP5zop+KxLxuJENt/zR9BGFWnijQk
- GB5f0u09aArT+c36p4SmPR7vGxigDeynaMwP8dM7hJ7IzMgOLUqjf6+94cTR99ec1zg2
- rtRlYiRqxvGx0Jkg5CePRj2/DHh5z5+yU8MqPSWnOyLOCz7w23FzXjtYxoAPtaKkBa33
- V6VnIBor9lz/+mdBWL5hkDEiOBVg1BlM39toozV8EZA2uPVXDdmhDePxRP2OnyogmpE9
- VA2Q==
+ bh=uJezzTDs3XobR7ONkeF8BKlCK+ZTZQttyc6HsBQx6+8=;
+ b=mLp7vdgquFY3QNk1KOtLMNSKRH7EzMQlkUaN2McgyOalSkS+KJc6SaO0oR98fGCQzY
+ I5JpT/yxVj3VYvGkNJMNK7bsdfVDb6JM73fRxoKVr3Eo8TbGoVP4lT+EdKvxsABdWaNh
+ cCsGgopQEB7GT7j0Efr1867i5AN9Ap4y+HqQwWdkk5lkMhE2hb6rNRKkZS93jJFeyF2R
+ T244CWZnGm4bbP5lAnsMO/2ZofqrFIVk1Ihe5Wflp25x5BQarm+69zVrDo5HOKZcXOeT
+ 06ZMjdzQysLUF36kcYTWm7Nv7RN0K+6+mh6iL18Ib9L/wZt0bAobUR1xZkNWuyJCZowX
+ Km4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7QaJCv7GzRfGh0KkLLK7VCXCCrICGrOH8s1Sycp5qFA=;
- b=lxAIwQKZuc7B54PoH8C33BO8cwV0OKvaZHIgC1P50AfFMotr/ir0V3aLg/R7swNJFQ
- Uiu2e3oYigA2HwzK6LeNKaD+FeqFnG7VKQrF6TC9jaz1snoDtPiO3m+F7qbXf9w+IWG6
- Khk87/e5D3CVOSmTYfiwnHqXT/CQ1VSjpXx8EjQCta2WIyVn5qZV0n6QTcFuCcSms6/v
- xVhV+hI72NPssr79GKp3CQIdiiOQ3e3Y7iYXmOia1UsO7eslJh2D0zOsLvQiRYZoDTaW
- Z99XMaNCFy9OSwmohWX7tGU3AqCxWCaBMhcL7jyNX17H0b/W9S6lImvdPgnLh5q/BRLY
- JX2w==
-X-Gm-Message-State: ANhLgQ2a6Gqjm+8Jt4HF7PN/qLQkxK+kylz/0Wl7X3mTQZ3lDKJNEsXI
- YlOmBb9brvoJF4MNvy6QttLaULeII6NgzA==
-X-Google-Smtp-Source: ADFU+vsTgTCjodEg+OcPg5uOds6Zxx/GV50FSGSZDeZ2EVrOqv1GNY3GGi4tCxMlkPE1vawxT//cMQ==
-X-Received: by 2002:a7b:cb86:: with SMTP id m6mr4811503wmi.72.1584445251089;
- Tue, 17 Mar 2020 04:40:51 -0700 (PDT)
+ bh=uJezzTDs3XobR7ONkeF8BKlCK+ZTZQttyc6HsBQx6+8=;
+ b=qEYauY7/7n/gC1j2MfCRzxuOikA1jgoBRo8GZb1+EJyaMNzP+88UUA4zbTU6ohb5Js
+ sPQOWN+aG/aN366I8PvJB0kXUuW85R4TEAwSKsh5A0FAOsEpMqvG2Tc5grD3Xl1TInJO
+ TqEEAaAkIkQl8VG016dJd8TIN2HVIyBz8tNtop3KcGzyrfDMZZVQYEuZVoB+dW/kVV6Z
+ ojic68TkQ/lh3CAI7AVciIjZvy7jtxnTz8/5WWrbOtg+mmQuWHuqm3LHBkRFLl7eeX+S
+ 8pOyZTaHDIsG3fLNo0n/nR2vnGJDWcAzdCpg05mTedtJ6r1oWe6glTLo2CjDkQKsOtJV
+ QBfg==
+X-Gm-Message-State: ANhLgQ1dxns75dDaI94TpG6XGDO0Xmz9zcMggaOO15A1d2/ul3o9siOg
+ 8BRvPy60CYiiJBo0W9Btf8LpfnVVnvQoRA==
+X-Google-Smtp-Source: ADFU+vuImWy916hIC16u5l3FZrAGLs/EdluiB1K++vtpL4WBRXAMzRtfcm0H3QSxTvZWwuVO+357sg==
+X-Received: by 2002:a7b:c458:: with SMTP id l24mr4849938wmi.120.1584445252054; 
+ Tue, 17 Mar 2020 04:40:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.50
+ by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 04:40:50 -0700 (PDT)
+ Tue, 17 Mar 2020 04:40:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/11] m25p80: Improve command handling for Jedec commands
-Date: Tue, 17 Mar 2020 11:40:36 +0000
-Message-Id: <20200317114039.26914-9-peter.maydell@linaro.org>
+Subject: [PULL 09/11] m25p80: Improve command handling for unsupported commands
+Date: Tue, 17 Mar 2020 11:40:37 +0000
+Message-Id: <20200317114039.26914-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317114039.26914-1-peter.maydell@linaro.org>
 References: <20200317114039.26914-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,39 +84,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-When requesting JEDEC data using the JEDEC_READ command, the Linux kernel
-always requests 6 bytes. The current implementation only returns three
-bytes, and interprets the remaining three bytes as new commands.
-While this does not matter most of the time, it is at the very least
-confusing. To avoid the problem, always report up to 6 bytes of JEDEC
-data. Fill remaining data with 0.
+Whenever an unsupported command is encountered, the current code
+interprets each transferred byte as new command. Most of the time, those
+'commands' are interpreted as new unknown commands. However, in rare
+cases, it may be that for example address or length information
+passed with the original command is by itself a valid command.
+If that happens, the state machine may get completely confused and,
+worst case, start writing data into the flash or even erase it.
+
+To avoid the problem, transition into STATE_READING_DATA and keep
+sending a value of 0 until the chip is deselected after encountering
+an unsupported command.
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/block/m25p80.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/block/m25p80.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 5ff8d270c4a..53bf63856f5 100644
+index 53bf63856f5..82270884416 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -1040,8 +1040,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         for (i = 0; i < s->pi->id_len; i++) {
-             s->data[i] = s->pi->id[i];
-         }
-+        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
-+            s->data[i] = 0;
-+        }
- 
--        s->len = s->pi->id_len;
-+        s->len = SPI_NOR_MAX_ID_LEN;
-         s->pos = 0;
-         s->state = STATE_READING_DATA;
+@@ -1161,6 +1161,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+         s->quad_enable = false;
          break;
+     default:
++        s->pos = 0;
++        s->len = 1;
++        s->state = STATE_READING_DATA;
++        s->data_read_loop = true;
++        s->data[0] = 0;
+         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
+         break;
+     }
 -- 
 2.20.1
 
