@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51655188991
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:57:42 +0100 (CET)
-Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599B7188981
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:53:22 +0100 (CET)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEb7-0007mk-AZ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36977)
+	id 1jEEWv-0006mM-38
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEEVK-0004mJ-Db
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:43 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jEEVL-0004p3-Nw
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEEVJ-0007EH-5R
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:42 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:51517)
+ (envelope-from <laurent@vivier.eu>) id 1jEEVK-0007I2-5b
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:43 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:53213)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVI-00079M-P1
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:40 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVJ-0007Cz-RT
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:42 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M7JvO-1jD82u2zDI-007oNM; Tue, 17 Mar 2020 16:51:29 +0100
+ id 1N8XHb-1jIeTi0gkb-014PdF; Tue, 17 Mar 2020 16:51:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 06/37] linux-user: Add AT_EXECFN auxval
-Date: Tue, 17 Mar 2020 16:50:45 +0100
-Message-Id: <20200317155116.1227513-7-laurent@vivier.eu>
+Subject: [PULL v2 08/37] linux-user: fix socket() strace
+Date: Tue, 17 Mar 2020 16:50:47 +0100
+Message-Id: <20200317155116.1227513-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200317155116.1227513-1-laurent@vivier.eu>
 References: <20200317155116.1227513-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7Kilwg1l9IsgK+FEbdtGTS5sPxpECCuDHv241Zo5PdMdH0c6SVV
- ds3rUZkaSrsPN6v9UWoMHdP4BjrEp/NzCAgrCIdyYL/pkzWDAhaA8UR1bh7sTK4T6BMEXuA
- gdWPBMdqJzzmjIQ4APT68jYbLS/TrQ+kBB4arorUQsgw0LP5I73lmfL1qdK5AplPSbLB/cO
- A+JgmFuBDsEC9JxFfwKOw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Halbe73P018=:CJ8Joq4htcm+TGKBLRkac5
- uFOTO6wmPc/ZkV47UY2aSR6PhlqA0s5WpTsQL2F+vMBYu5aSTRwbsnhZRAhoVnIE6iK8cTrl1
- kUGfr0bWwjbxUpvu50knPJfF6XEHCTSiUWKzw0XVVBI2uicOcQ0ZNx5NQQCUJIkbSzbeNOzQA
- XTSG8+fnhotrTzI+H+C59lmXzT1Y/AO58kFgifgtDfB1qSroGHYgkPfQwH4QLUvR0Z9nBHqMW
- 1lWvxwiDFhW6lS/YsOJchE8zq8251YUq4/JnKywsvr3iQkvBF1FwLq2Rb2Rw3aHcJMtFKLlUM
- wmkrhgPrjbnu81Uj8Qam7vSjkkhSoOny2ttClLgq0labqgrEOnQUrT4JNF6Ocbouvj7uJ9XOd
- 6jYIReh5RxlA56gZKkUNfhjk7AIugMvl9+lSAmZBEkQwRbTjeBEGqTqSWGSpnL670qgnYFnpz
- bOmTDxkHt5BQ4ofMiTLYrJHc9U+n9VJYpzXMSUp50hV2ILQb582dielkcg4CghQ3M4Y9lnzFF
- PHAVWJRKiLzgqwwHvyqxQn1a8GMc1fuAYHFSFWMU6mDv9grFDDynyCY9+w9r8r2Pm9Zw6dYUb
- 7c0V97SUa6UreE0UdY9blksvmWOhmVOQ8oUMvhW0UBZCAca+JQ1JDGkfg5BoGRMA1qCnMTahc
- gQhcKDYjY6Ipl3SkMJw1EuIqDXPNRc1Coj0BxckHbaZOGifimlp/kOgkORn5+zYKgoib7R+1I
- 7phjRR50WMjAwJ+Kk2IzEDlObUTeq5nX+i/6zL2zsXMBWBCqqMA5xeYKLucKoXLuYDe2/mqpq
- kmXdVAVzxQcpGvAJL1C1taF61FS87pkmz7cVpF07dN/q8oTNlcDySuetnQTGySOPslexv0b
+X-Provags-ID: V03:K1:EWgirKQ5Nau73P3h26c8IFSt2bZDOeBwwekd8WB1ezCMJaEWZWz
+ sodKbGRiJDNnQuqukjlgUL3C8afPISHrbfmaFsnSItC9FA/7vpf1fWiD4mdfoGuAAoJY93L
+ 9pgsvZY5ttshBPnvx4fqvbzRylvGk2k9YEu121AWAqLSHdHgIQoh8gJ3o/l/efQDRTQuDfu
+ MHtnWV8q86mws+GUkmeDg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NrGki+CH0nY=:KqgKOY1fut76t0X7c1+mwH
+ +pNnDr7DR0gRKtN3hisGcd6R+xBqqUqguS+IiVIn8HdG0w4hGlriEkeOWNwB4QFVBA6cOD5Qs
+ UWnHku4vk17iurxTkdlUjmGRxYElfeVzFzX1f/e3ImjVSwuj9eBvO/sCk1ZYeRER2m17fvswz
+ rWJRfOGudPIlt+Z5qCOBdRpU6tcfOIltKk148DLJa+Y31ZEK8DgS25wWm+wQniVh6y4uj3DL5
+ FNX7HaJj+UiA7apmW2mPtaUdzfoPAXCuN1rGz6U/LwCT9+M8EA448Ph+qBfQmcyZRaawRFhP0
+ LYhyiKYkPtdh3SuMEESJajUeFwB/D0Z511iN1zrnRGawW2RVmEHkasmLomnr7z5xfX1yGidmd
+ y/ishvYe/I5iT6iRuFW9Th6J2mxicjjrrvy8T59D4IKHvJrXUtHPrfB0QmGwtZ0HdBCzJgzWp
+ Y3guc7fpYHLqVUBYScojQj46Fix4Jq7q9GMS1aD34lwqgwysbJ4t4J+uKkzefLMqyJKRzOSHc
+ xL+4bC/I1fOsfanWi6uTPFLwiMNmK210Exu33ENKFDGK8oSVOMx6gxGQ1eqvtappLit9eupjj
+ f86wQ+TaDmH1T1yPQg2e7EnWqwVSTg5i6KJ/Dr5zswys8knh2GPC1l7K0QBi0Hr3z5+/yqOTd
+ yNsk0XbVOWsV5ANEggLG6doCkTNvi5AM3KbTdnnZirO/g1aGxaEI0oLDU+ybK186CTaadK6m/
+ N1qbNsOvMmnRGShvE32CS9w5O2i9Ia7lohe57U8xZ3OrequHqC+2S3qZYmNTb4s2Hn6JS/6LG
+ cJclJIfS8mSxM6ZB61CD45F9OzGVF79hXtYLqZji7Ly5RaW7anH+3xnEAECZCd/BAD62ej4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,44 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Lirong Yuan <yuanzi@google.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lirong Yuan <yuanzi@google.com>
+print_socket_type() doesn't manage flags and the correct type cannot
+be displayed
 
-This change adds the support for AT_EXECFN auxval.
-
-Signed-off-by: Lirong Yuan <yuanzi@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200302193153.66415-1-yuanzi@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200312165530.53450-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ linux-user/strace.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index db748c58775f..8198be044604 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1573,7 +1573,7 @@ struct exec
-                                  ~(abi_ulong)(TARGET_ELF_EXEC_PAGESIZE-1))
- #define TARGET_ELF_PAGEOFFSET(_v) ((_v) & (TARGET_ELF_EXEC_PAGESIZE-1))
- 
--#define DLINFO_ITEMS 15
-+#define DLINFO_ITEMS 16
- 
- static inline void memcpy_fromfs(void * to, const void * from, unsigned long n)
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 4f7130b2ff63..69232f7e27b8 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -444,7 +444,7 @@ print_socket_domain(int domain)
+ static void
+ print_socket_type(int type)
  {
-@@ -2037,6 +2037,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     NEW_AUX_ENT(AT_CLKTCK, (abi_ulong) sysconf(_SC_CLK_TCK));
-     NEW_AUX_ENT(AT_RANDOM, (abi_ulong) u_rand_bytes);
-     NEW_AUX_ENT(AT_SECURE, (abi_ulong) qemu_getauxval(AT_SECURE));
-+    NEW_AUX_ENT(AT_EXECFN, info->file_string);
+-    switch (type) {
++    switch (type & TARGET_SOCK_TYPE_MASK) {
+     case TARGET_SOCK_DGRAM:
+         qemu_log("SOCK_DGRAM");
+         break;
+@@ -464,6 +464,12 @@ print_socket_type(int type)
+         qemu_log("SOCK_PACKET");
+         break;
+     }
++    if (type & TARGET_SOCK_CLOEXEC) {
++        qemu_log("|SOCK_CLOEXEC");
++    }
++    if (type & TARGET_SOCK_NONBLOCK) {
++        qemu_log("|SOCK_NONBLOCK");
++    }
+ }
  
- #ifdef ELF_HWCAP2
-     NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
+ static void
 -- 
 2.24.1
 
