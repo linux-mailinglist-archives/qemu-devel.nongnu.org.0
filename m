@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473ED18795E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:50:08 +0100 (CET)
-Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C634187960
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 06:51:26 +0100 (CET)
+Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE579-0007dA-Bf
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
+	id 1jE58P-0000s7-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 01:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jE56E-0007DL-6a
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:49:11 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jE57H-00083l-T9
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:50:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jE56C-00008t-Vf
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:49:10 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:38179)
+ (envelope-from <npiggin@gmail.com>) id 1jE57G-0004RN-Mz
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:50:15 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45480)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jE56C-0008VI-Ik
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 01:49:08 -0400
-Received: by mail-qk1-x742.google.com with SMTP id h14so30588348qke.5
- for <qemu-devel@nongnu.org>; Mon, 16 Mar 2020 22:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U2LDGD5lpx/cCE5pWRoOPwbkAmvzPZv/Zf/ncg5S0FU=;
- b=pBHkirdI6G0oo6Sq4nXhJgzqa6LBIFPYoBetRDFwxB2vClUXSgN4DfYcHWskqzMnIZ
- Lis4knl4JD43dZMFQAJiyMxNvd6S7seAGAqAN5J8wcKteB6Rm7Uj4NW1QMcTRadL4H1f
- fkste0bbPE19cIt1IKCRI4wdQUcPi7NcM299rN5mz3itz/2uUn6r0938SZc1vufG2Z/V
- k7ILWyWRDp+TLKR/pUtq5nW6Ni+RZVrYhbltCLd/umWPKMo4eYInbdC4jfUpUd0B2gPG
- SLz91zdzeBTuGQW0+HJvSSnQXJH72/cmam1cNBa/jf2OdPnLY93TxU2EnjWt2JaI64Iz
- VbGw==
+ (Exim 4.71) (envelope-from <npiggin@gmail.com>)
+ id 1jE57E-0004CD-8F; Tue, 17 Mar 2020 01:50:12 -0400
+Received: by mail-pl1-x644.google.com with SMTP id b22so9119570pls.12;
+ Mon, 16 Mar 2020 22:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RpIYMi98ERdqGF80xj54e/sTeGl4eeAe2USIP3ZNd7Y=;
+ b=fbAMvCsSn4u/n2d+RNS8uAP3/OemUPdCNzf8LZv/AoKlY8KD42DcUln82nEGp5yair
+ 3y9ejONIB3XLoYPUvLYv08PPJ3mopXKIYnfspvf+1n8dsQ+LMTWIwgtuVCHX34xBJsbW
+ GDgV8h1Nf9gg/bkXZ7HS+vOGFeBySt1PlBuUif42tEGc2cv6efv2sxCEruEitWLXiGex
+ QgPT7J7heqweC+a06GjuDVMLlTaypCl57cGu2132Vad/+RWkOndQhH50YiaCxTruhdHe
+ qJlrRca2dsNNmU+NZ+aaMtW89eeZafrMBoDDWo4zPVcxjfbQLGZjC4diZCPy0BWy9BUc
+ Hr+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U2LDGD5lpx/cCE5pWRoOPwbkAmvzPZv/Zf/ncg5S0FU=;
- b=AJlUB4+rrSnNILte7sdLAEfpOzROb4zHL4gxj7VYEBDa/pYDLZmdm+X4eJob767tr6
- 3ywORZmYx8OJijPLm5uyeAqt/VFUn4aYZEqsea992Erl55a9gnUsYlaL131PaxFOkivS
- rS+hk4IET/wqUjsQsvf6C6rt23taEXaz3gVnQpNsCGd0XpUhKkXgcL80wHsgYyXD5439
- 70GA3huVdrA158kbFBIcwOgEaYBp4wjRAi8EFBhnXFyM+Z3s0vea+/UNm0Jx9szYr+Yo
- vJhrMC6OJOwNcMC2O2j1t7WDlgjL+fB9GwD7CmrnzsZEx/5POeI9LZ9kqAFozziq7FO9
- nFyw==
-X-Gm-Message-State: ANhLgQ3aFhxV+KUUqCaMMiUCY3aGnuQ3CRbfQdORemghUPJ3XK5Jf7ZA
- WR8jntkQxXt/7qqFNutrX7TqbFCDdJR6HiRXzUfdJA==
-X-Google-Smtp-Source: ADFU+vtKKoVEc/SBXHcK9k9GHIoQqZLtWTto6NMAckmyLV2Eixsp6gh7oMT/xuXBi7JnmlUkY7KUra7DHqMzdXALwM4=
-X-Received: by 2002:a25:244f:: with SMTP id k76mr5119746ybk.235.1584424147393; 
- Mon, 16 Mar 2020 22:49:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RpIYMi98ERdqGF80xj54e/sTeGl4eeAe2USIP3ZNd7Y=;
+ b=pqZjlo8APXqYH9ON/BTOyDGe8SntWI5fD7iE4LUaMEioMP6GE38aZlRaLaNqN0YBX9
+ tSfqpJDSy4Yym3B4AAeHwiOBz/Q9z9qfGUiUKCqrv35jxlfgRkn29qmO13ZHJzck4FNR
+ rNIKCep7smHmmufjJ/KRodXq/olIZtuvR/nbBZWQkp054TeiSg92VIxKVl99Ab4xjQ5n
+ fscpJ/Lqp9IzMu6vrbtleOX3XBau45/DN64rxa8fBBffI8vd3gt/XOLTTAWjvuy7S346
+ CIE8EINdidQGH566oMYwRN4czcfhBleP60ioYEixN0gcceMV7kFqbYYkTDXo9Lh3ibyf
+ FkRQ==
+X-Gm-Message-State: ANhLgQ1+bC5blvuc3886duBxCAkGZeXfIP34iwD0bVCtjgniTC3NC5/E
+ Y/vS4JCxwqFdtOBLtBkapypdh2Xh1Rw=
+X-Google-Smtp-Source: ADFU+vsqrdcfc9VzdFKTD8gYizVpKT5bTYQbMDOA1CE7+Z6keixIessDOwKGCqfN2jpgvzvKMyR+4g==
+X-Received: by 2002:a17:902:34f:: with SMTP id 73mr2671593pld.50.1584424210881; 
+ Mon, 16 Mar 2020 22:50:10 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com (14-202-190-183.tpgi.com.au.
+ [14.202.190.183])
+ by smtp.gmail.com with ESMTPSA id s206sm1599735pfs.100.2020.03.16.22.50.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Mar 2020 22:50:10 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v3 1/2] target/ppc: Improve syscall exception logging
+Date: Tue, 17 Mar 2020 15:49:17 +1000
+Message-Id: <20200317054918.199161-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200316100933.11499-1-yuri.benditovich@daynix.com>
- <20200316100933.11499-7-yuri.benditovich@daynix.com>
- <20200316190407-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200316190407-mutt-send-email-mst@kernel.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Tue, 17 Mar 2020 07:48:55 +0200
-Message-ID: <CAOEp5OfLAU1oyj=75K6CFPSH_YXz+mZsbSLRZ=LEMRcTvUdetA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] virtio-net: add migration support for RSS and hash
- report
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007ab06b05a1067eb2"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,205 +75,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007ab06b05a1067eb2
-Content-Type: text/plain; charset="UTF-8"
+system calls (at least in Linux) use registers r3-r8 for inputs, so
+include those registers in the dump.
 
-On Tue, Mar 17, 2020 at 1:05 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+This also adds a mode for PAPR hcalls, which have a different calling
+convention.
 
-> On Mon, Mar 16, 2020 at 12:09:33PM +0200, Yuri Benditovich wrote:
-> > Save and restore RSS/hash report configuration.
-> >
-> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > ---
-> >  hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index a0614ad4e6..f343762a0f 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void
-> *opaque, int version_id)
-> >          }
-> >      }
-> >
-> > +    if (n->rss_data.enabled) {
-> > +        trace_virtio_net_rss_enable(n->rss_data.hash_types,
-> > +                                    n->rss_data.indirections_len,
-> > +                                    sizeof(n->rss_data.key));
-> > +    } else {
-> > +        trace_virtio_net_rss_disable();
-> > +    }
-> >      return 0;
-> >  }
-> >
-> > @@ -3019,6 +3026,24 @@ static const VMStateDescription
-> vmstate_virtio_net_has_vnet = {
-> >      },
-> >  };
-> >
-> > +static const VMStateDescription vmstate_rss = {
-> > +    .name      = "vmstate_rss",
-> > +    .fields = (VMStateField[]) {
-> > +        VMSTATE_BOOL(enabled, VirtioNetRssData),
-> > +        VMSTATE_BOOL(redirect, VirtioNetRssData),
-> > +        VMSTATE_BOOL(populate_hash, VirtioNetRssData),
-> > +        VMSTATE_UINT32(hash_types, VirtioNetRssData),
-> > +        VMSTATE_UINT32(indirections_len, VirtioNetRssData),
->
->
-> Why is this UINT32? Shouldn't it be UINT16?
->
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+Since v2:
+- Rebased on top of FWNMI series
 
-It is UINT32 in the _internal_ structure to use VMSTATE_VARRAY_UINT32_ALLOC.
-Otherwise I need to invent additional macro for the same operation with
-UINT16 length.
+ target/ppc/excp_helper.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 08bc885ca6..81ee19ebae 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -57,12 +57,29 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+ #else /* defined(CONFIG_USER_ONLY) */
+ static inline void dump_syscall(CPUPPCState *env)
+ {
+-    qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64 " r3=%016" PRIx64
+-                  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
++    qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64
++                  " r3=%016" PRIx64 " r4=%016" PRIx64 " r5=%016" PRIx64
++                  " r6=%016" PRIx64 " r7=%016" PRIx64 " r8=%016" PRIx64
+                   " nip=" TARGET_FMT_lx "\n",
+                   ppc_dump_gpr(env, 0), ppc_dump_gpr(env, 3),
+                   ppc_dump_gpr(env, 4), ppc_dump_gpr(env, 5),
+-                  ppc_dump_gpr(env, 6), env->nip);
++                  ppc_dump_gpr(env, 6), ppc_dump_gpr(env, 7),
++                  ppc_dump_gpr(env, 8), env->nip);
++}
++
++static inline void dump_hcall(CPUPPCState *env)
++{
++    qemu_log_mask(CPU_LOG_INT, "hypercall r3=%016" PRIx64
++		  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
++		  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
++		  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
++                  " nip=" TARGET_FMT_lx "\n",
++                  ppc_dump_gpr(env, 3), ppc_dump_gpr(env, 4),
++		  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
++		  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
++		  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
++		  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
++		  env->nip);
+ }
+ 
+ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+@@ -379,9 +396,14 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         }
+         break;
+     case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
+-        dump_syscall(env);
+         lev = env->error_code;
+ 
++        if ((lev == 1) && cpu->vhyp) {
++            dump_hcall(env);
++        } else {
++            dump_syscall(env);
++        }
++
+         /*
+          * We need to correct the NIP which in this case is supposed
+          * to point to the next instruction
+-- 
+2.23.0
 
->
-> > +        VMSTATE_UINT16(default_queue, VirtioNetRssData),
-> > +        VMSTATE_UINT8_ARRAY(key, VirtioNetRssData,
-> > +                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
-> > +        VMSTATE_VARRAY_UINT32_ALLOC(indirections_table,
-> VirtioNetRssData,
-> > +                                    indirections_len, 0,
-> > +                                    vmstate_info_uint16, uint16_t),
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
-> > +};
-> > +
-> >  static const VMStateDescription vmstate_virtio_net_device = {
-> >      .name = "virtio-net-device",
-> >      .version_id = VIRTIO_NET_VM_VERSION,
-> > @@ -3067,6 +3092,7 @@ static const VMStateDescription
-> vmstate_virtio_net_device = {
-> >                           vmstate_virtio_net_tx_waiting),
-> >          VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
-> >                              has_ctrl_guest_offloads),
-> > +        VMSTATE_STRUCT(rss_data, VirtIONet, 1, vmstate_rss,
-> VirtioNetRssData),
-> >          VMSTATE_END_OF_LIST()
-> >     },
-> >  };
-> > --
-> > 2.17.1
->
->
-
---0000000000007ab06b05a1067eb2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 17, 2020 at 1:05 AM Micha=
-el S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, M=
-ar 16, 2020 at 12:09:33PM +0200, Yuri Benditovich wrote:<br>
-&gt; Save and restore RSS/hash report configuration.<br>
-&gt; <br>
-&gt; Signed-off-by: Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich=
-@daynix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 26 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
-&gt; index a0614ad4e6..f343762a0f 100644<br>
-&gt; --- a/hw/net/virtio-net.c<br>
-&gt; +++ b/hw/net/virtio-net.c<br>
-&gt; @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *op=
-aque, int version_id)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 if (n-&gt;rss_data.enabled) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_virtio_net_rss_enable(n-&gt;rss_dat=
-a.hash_types,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.ind=
-irections_len,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(n-&gt;rss_d=
-ata.key));<br>
-&gt; +=C2=A0 =C2=A0 } else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_virtio_net_rss_disable();<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; @@ -3019,6 +3026,24 @@ static const VMStateDescription vmstate_virtio_=
-net_has_vnet =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 },<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt; +static const VMStateDescription vmstate_rss =3D {<br>
-&gt; +=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =3D &quot;vmstate_rss&quot;,<=
-br>
-&gt; +=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(enabled, VirtioNetRssData),<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(redirect, VirtioNetRssData),=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(populate_hash, VirtioNetRssD=
-ata),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(hash_types, VirtioNetRssDa=
-ta),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(indirections_len, VirtioNe=
-tRssData),<br>
-<br>
-<br>
-Why is this UINT32? Shouldn&#39;t it be UINT16?<br></blockquote><div><br></=
-div><div>It is UINT32 in the _internal_ structure to use VMSTATE_VARRAY_UIN=
-T32_ALLOC.</div><div>Otherwise I need to invent additional macro for the sa=
-me operation with UINT16 length.</div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT16(default_queue, VirtioNetRs=
-sData),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT8_ARRAY(key, VirtioNetRssData=
-,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 VIRTIO_NET_RSS_MAX_KEY_SIZE),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_VARRAY_UINT32_ALLOC(indirections_=
-table, VirtioNetRssData,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 indirections_len, =
-0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_info_uint1=
-6, uint16_t),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-&gt; +=C2=A0 =C2=A0 },<br>
-&gt; +};<br>
-&gt; +<br>
-&gt;=C2=A0 static const VMStateDescription vmstate_virtio_net_device =3D {<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .name =3D &quot;virtio-net-device&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .version_id =3D VIRTIO_NET_VM_VERSION,<br>
-&gt; @@ -3067,6 +3092,7 @@ static const VMStateDescription vmstate_virtio_n=
-et_device =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0vmstate_virtio_net_tx_waiting),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT64_TEST(curr_guest_offlo=
-ads, VirtIONet,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_ctrl_guest_offloads),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_STRUCT(rss_data, VirtIONet, 1, vm=
-state_rss, VirtioNetRssData),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0},<br>
-&gt;=C2=A0 };<br>
-&gt; -- <br>
-&gt; 2.17.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000007ab06b05a1067eb2--
 
