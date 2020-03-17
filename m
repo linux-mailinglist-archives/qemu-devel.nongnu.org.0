@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599B7188981
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:53:22 +0100 (CET)
-Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E6E188986
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:55:27 +0100 (CET)
+Received: from localhost ([::1]:35328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEWv-0006mM-38
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37036)
+	id 1jEEYw-0002Tb-1N
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEEVL-0004p3-Nw
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:47 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEEVK-0007I2-5b
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:43 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:53213)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVJ-0007Cz-RT
+ (envelope-from <laurent@vivier.eu>) id 1jEEVI-0004jg-QX
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:42 -0400
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1jEEVH-0007A4-JS
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:58169)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVC-00074I-Tg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:35 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N8XHb-1jIeTi0gkb-014PdF; Tue, 17 Mar 2020 16:51:31 +0100
+ id 1N8onQ-1jK1n00q0c-015moE; Tue, 17 Mar 2020 16:51:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/37] linux-user: fix socket() strace
-Date: Tue, 17 Mar 2020 16:50:47 +0100
-Message-Id: <20200317155116.1227513-9-laurent@vivier.eu>
+Subject: [PULL v2 09/37] linux-user: Update TASK_UNMAPPED_BASE for aarch64
+Date: Tue, 17 Mar 2020 16:50:48 +0100
+Message-Id: <20200317155116.1227513-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200317155116.1227513-1-laurent@vivier.eu>
 References: <20200317155116.1227513-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EWgirKQ5Nau73P3h26c8IFSt2bZDOeBwwekd8WB1ezCMJaEWZWz
- sodKbGRiJDNnQuqukjlgUL3C8afPISHrbfmaFsnSItC9FA/7vpf1fWiD4mdfoGuAAoJY93L
- 9pgsvZY5ttshBPnvx4fqvbzRylvGk2k9YEu121AWAqLSHdHgIQoh8gJ3o/l/efQDRTQuDfu
- MHtnWV8q86mws+GUkmeDg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NrGki+CH0nY=:KqgKOY1fut76t0X7c1+mwH
- +pNnDr7DR0gRKtN3hisGcd6R+xBqqUqguS+IiVIn8HdG0w4hGlriEkeOWNwB4QFVBA6cOD5Qs
- UWnHku4vk17iurxTkdlUjmGRxYElfeVzFzX1f/e3ImjVSwuj9eBvO/sCk1ZYeRER2m17fvswz
- rWJRfOGudPIlt+Z5qCOBdRpU6tcfOIltKk148DLJa+Y31ZEK8DgS25wWm+wQniVh6y4uj3DL5
- FNX7HaJj+UiA7apmW2mPtaUdzfoPAXCuN1rGz6U/LwCT9+M8EA448Ph+qBfQmcyZRaawRFhP0
- LYhyiKYkPtdh3SuMEESJajUeFwB/D0Z511iN1zrnRGawW2RVmEHkasmLomnr7z5xfX1yGidmd
- y/ishvYe/I5iT6iRuFW9Th6J2mxicjjrrvy8T59D4IKHvJrXUtHPrfB0QmGwtZ0HdBCzJgzWp
- Y3guc7fpYHLqVUBYScojQj46Fix4Jq7q9GMS1aD34lwqgwysbJ4t4J+uKkzefLMqyJKRzOSHc
- xL+4bC/I1fOsfanWi6uTPFLwiMNmK210Exu33ENKFDGK8oSVOMx6gxGQ1eqvtappLit9eupjj
- f86wQ+TaDmH1T1yPQg2e7EnWqwVSTg5i6KJ/Dr5zswys8knh2GPC1l7K0QBi0Hr3z5+/yqOTd
- yNsk0XbVOWsV5ANEggLG6doCkTNvi5AM3KbTdnnZirO/g1aGxaEI0oLDU+ybK186CTaadK6m/
- N1qbNsOvMmnRGShvE32CS9w5O2i9Ia7lohe57U8xZ3OrequHqC+2S3qZYmNTb4s2Hn6JS/6LG
- cJclJIfS8mSxM6ZB61CD45F9OzGVF79hXtYLqZji7Ly5RaW7anH+3xnEAECZCd/BAD62ej4
+X-Provags-ID: V03:K1:VpaJU59AIPv4rBbxgxCk9XEvAnAIat9XyRL9WouSEjiUJMHWOA4
+ 3bN9wKn7H/qd5Zm+R3dJYMZ2Vk+/2HeYcLd/tqfza2tSpZePCerGW1s7Kkw6D6Oxivyofdm
+ VzLT4M8zkg4G2UF9WPeqzsFQfXRFWYAUJp8RyfxHijQX4v5YS60ZW0xnhsmNjoVvTU8Ejqd
+ 6AWsdqkvwxdMmaKanONbw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bo2fGl5hh3E=:HGQxFXzkwAiYZqUnDAeRRO
+ X2OTuYV8pSdLvK4E3SDk0aEkuRxUH/7h9krxiy42JnQtOJIb0l/Pke8plVk6zmWJcqIemHsGG
+ 9D2sfUSv9diOCsWcLf3Dxe8p2pF3oHqtlnvr5SvdNuwdrC7771f5rgkSvXwxnxZG7BuH0FYLG
+ rmPmGu1q2M+p+EvncdAYWA8RCLSkPJfpiVQFKBfnslK+Tt+APGXZxrd4qTl+vjRCTMUe9ADvS
+ BuNxrO2BQseCyEgp5jzENloaAEv+GPw3Ii4OVXn3gPfY5DNdzwyasdI9IzKDuxo0t5rB9Iwwc
+ DXbrvZCeJ1sXA4FsTFHdJ7S+K1GDInyuX/IEPQFGprpa6yaHatry9qex9WYVUARzwaI+Ij3rI
+ H7M9MIgaRlwKYxocXpD2tXHwPbg1b7uw8Lj8aLDamwUfSxyp2kFfJjUAWWxn8EfKJ1YIfOzWW
+ 1KQYLU/y0YSpUfOJEUrIP/cbJe9lpv9TfJVztBVlxll8OVet0h5ZVuUooz6WGjOFtR4h7faTU
+ YS/godcOgnU0PiAbuBckyIusqqaMbCMqQcVsMKpgdQbwqpB8hYUyRSi7vU8loV5P75Xucftnw
+ vV+78FvwpBPPSg4uYyGTwKudSb0dPWuRyCZnwxXZ4HJU7oHSBC75qgKdINZtbwGYvjshTVUXs
+ zfht8a5WtoCw9DYznY6sEtBzTbSQc1Gzs9GRCRT/BkYT97tQo/YSoERY8hhzLGDo7uWvh+Gyi
+ qBb9NeLkhI6Y5X5KuUzTyVDoDH9vlevSFVYn/9GqdVkz283E6eqIzRrcWe0o0EITkQON6qit1
+ R3Rrmec0M54jHC62iCoehzI5+7XvNLP6/lPKqiSlp4XokI8icz0pnMPZKsA8U5gNgLaOJJF
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,49 +63,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Lirong Yuan <yuanzi@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-print_socket_type() doesn't manage flags and the correct type cannot
-be displayed
+From: Lirong Yuan <yuanzi@google.com>
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200312165530.53450-1-laurent@vivier.eu>
+This change updates TASK_UNMAPPED_BASE (the base address for guest programs) for aarch64. It is needed to allow qemu to work with Thread Sanitizer (TSan), which has specific boundary definitions for memory mappings on different platforms:
+https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_platform.h
+
+Signed-off-by: Lirong Yuan <yuanzi@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200313002813.3857-1-yuanzi@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ linux-user/mmap.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 4f7130b2ff63..69232f7e27b8 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -444,7 +444,7 @@ print_socket_domain(int domain)
- static void
- print_socket_type(int type)
- {
--    switch (type) {
-+    switch (type & TARGET_SOCK_TYPE_MASK) {
-     case TARGET_SOCK_DGRAM:
-         qemu_log("SOCK_DGRAM");
-         break;
-@@ -464,6 +464,12 @@ print_socket_type(int type)
-         qemu_log("SOCK_PACKET");
-         break;
-     }
-+    if (type & TARGET_SOCK_CLOEXEC) {
-+        qemu_log("|SOCK_CLOEXEC");
-+    }
-+    if (type & TARGET_SOCK_NONBLOCK) {
-+        qemu_log("|SOCK_NONBLOCK");
-+    }
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 8685f02e7e90..e37803379747 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -184,7 +184,11 @@ static int mmap_frag(abi_ulong real_start,
  }
  
- static void
+ #if HOST_LONG_BITS == 64 && TARGET_ABI_BITS == 64
++#ifdef TARGET_AARCH64
++# define TASK_UNMAPPED_BASE  0x5500000000
++#else
+ # define TASK_UNMAPPED_BASE  (1ul << 38)
++#endif
+ #else
+ # define TASK_UNMAPPED_BASE  0x40000000
+ #endif
 -- 
 2.24.1
 
