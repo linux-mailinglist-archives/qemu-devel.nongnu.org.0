@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3D5188F2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:42:43 +0100 (CET)
-Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9C9188F13
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:37:00 +0100 (CET)
+Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEJ2w-000391-Gx
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59789)
+	id 1jEIxP-0006iA-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEJ1D-0001do-FP
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:56 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEIwX-0006JO-99
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:36:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEJ1C-0005oQ-59
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46874)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEJ1B-0005ar-Uf
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEJ1A-0006aq-8Q
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 20:40:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3EC172E80C8
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 20:40:52 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1jEIwW-0003cL-1U
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:36:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:44470)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEIwV-0003Wi-Tk
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:36:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584477363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qRjw6/ZuXFkJQKPsdq1mTnZqZIVNPB7nbxH+cV0VxTI=;
+ b=iJpWztH4k6iM0e4z8NRgjhkLDhDojglCif8RN2p4zw54n9y+Q2UA5yMu6JLTURP0Wyx5aw
+ OBsmndbwrqeeQ8pjKfC/M1VN5J712+hnabZ4vPOX6V+0TT0ZEmuBMdxBTrT92/6O+Sqti5
+ OmNpF8V5SRQunuhhN4i40HSkgI238Qw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-v25_jyPSNNao45FVVfCqZw-1; Tue, 17 Mar 2020 16:36:00 -0400
+X-MC-Unique: v25_jyPSNNao45FVVfCqZw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF62C1084455;
+ Tue, 17 Mar 2020 20:35:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
+ [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60EBC90812;
+ Tue, 17 Mar 2020 20:35:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C1A8F1138404; Tue, 17 Mar 2020 21:35:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 2/2] net: Track netdevs in NetClientState rather than
+ QemuOpt
+References: <20200317201711.322764-1-eblake@redhat.com>
+ <20200317201711.322764-3-eblake@redhat.com>
+Date: Tue, 17 Mar 2020 21:35:56 +0100
+In-Reply-To: <20200317201711.322764-3-eblake@redhat.com> (Eric Blake's message
+ of "Tue, 17 Mar 2020 15:17:11 -0500")
+Message-ID: <87h7ymk9cj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Mar 2020 20:35:26 -0000
-From: carlosedp <carlosedp@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: carlosedp laurent-vivier
-X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
-X-Launchpad-Bug-Modifier: carlosedp (carlosedp)
-References: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
-Message-Id: <158447732650.11338.4872950680078287954.malone@soybean.canonical.com>
-Subject: [Bug 1867786] Re: Qemu PPC64 freezes with multi-core CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 52d85593e3b1ec00a70bd44a8f34b68e0c0679d9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,71 +76,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
+Cc: lekiravi@yandex-team.ru, jasowang@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just reverted to 4.2.0 and it works fine. No freezes for the past
-hour.
+Eric Blake <eblake@redhat.com> writes:
 
-=E2=9D=AF qemu-system-ppc64 --version
-QEMU emulator version 4.2.0
-Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+> As mentioned in the previous patch, our use of QemuOpt group "netdev"
+> has two purposes: collect the CLI arguments, and serve as a witness
+> for monitor hotplug actions.  As the latter didn't use anything but an
+> id, it felt rather unclean to have to touch QemuOpts at all when going
+> through QMP, so let's instead track things with a bool field in
+> NetClientState.
+>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  include/net/net.h |  1 +
+>  monitor/misc.c    |  4 +---
+>  net/net.c         | 37 +++++++++++--------------------------
+>  3 files changed, 13 insertions(+), 29 deletions(-)
+>
+> diff --git a/include/net/net.h b/include/net/net.h
+> index 96e6eae8176e..094e966af9ec 100644
+> --- a/include/net/net.h
+> +++ b/include/net/net.h
+> @@ -98,6 +98,7 @@ struct NetClientState {
+>      unsigned rxfilter_notify_enabled:1;
+>      int vring_enable;
+>      int vnet_hdr_len;
+> +    bool is_netdev;
+>      QTAILQ_HEAD(, NetFilterState) filters;
+>  };
+>
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index 41a86e7012a1..6c45fa490ff5 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -2035,13 +2035,11 @@ void netdev_del_completion(ReadLineState *rs, int=
+ nb_args, const char *str)
+>      count =3D qemu_find_net_clients_except(NULL, ncs, NET_CLIENT_DRIVER_=
+NIC,
+>                                           MAX_QUEUE_NUM);
+>      for (i =3D 0; i < MIN(count, MAX_QUEUE_NUM); i++) {
+> -        QemuOpts *opts;
+>          const char *name =3D ncs[i]->name;
+>          if (strncmp(str, name, len)) {
+>              continue;
+>          }
+> -        opts =3D qemu_opts_find(qemu_find_opts_err("netdev", NULL), name=
+);
+> -        if (opts) {
+> +        if (ncs[i]->is_netdev) {
+>              readline_add_completion(rs, name);
+>          }
+>      }
+> diff --git a/net/net.c b/net/net.c
+> index a2065aabede2..38778e831da2 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1060,6 +1060,15 @@ static int net_client_init1(const void *object, bo=
+ol is_netdev, Error **errp)
+>          }
+>          return -1;
+>      }
+> +
+> +    if (is_netdev) {
+> +        NetClientState *nc;
+> +
+> +        nc =3D qemu_find_netdev(netdev->id);
+> +        assert(nc);
+> +        nc->is_netdev =3D true;
+> +    }
+> +
+>      return 0;
+>  }
+>
 
-Couldn't bisect to find the bad commit.
+Would be simpler if net_client_init_fun[]() returned the NetClientState.
+But that's clearly more than we can get done today.
 
-Carlos
+> @@ -1172,34 +1181,12 @@ void netdev_add(QemuOpts *opts, Error **errp)
+>
+>  void qmp_netdev_add(Netdev *netdev, Error **errp)
+>  {
+> -    Error *local_err =3D NULL;
+> -    QemuOptsList *opts_list;
+> -    QemuOpts *opts;
+> -
+> -    opts_list =3D qemu_find_opts_err("netdev", &local_err);
+> -    if (local_err) {
+> -        goto out;
+> -    }
+> -
+> -    opts =3D qemu_opts_create(opts_list, netdev->id, 1, &local_err);
+> -    if (local_err) {
+> -        goto out;
+> -    }
+> -
+> -    net_client_init1(netdev, true, &local_err);
+> -    if (local_err) {
+> -        qemu_opts_del(opts);
+> -        goto out;
+> -    }
+> -
+> -out:
+> -    error_propagate(errp, local_err);
+> +    net_client_init1(netdev, true, errp);
+>  }
 
--- =
+Nice!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867786
+>
+>  void qmp_netdev_del(const char *id, Error **errp)
+>  {
+>      NetClientState *nc;
+> -    QemuOpts *opts;
+>
+>      nc =3D qemu_find_netdev(id);
+>      if (!nc) {
+> @@ -1208,14 +1195,12 @@ void qmp_netdev_del(const char *id, Error **errp)
+>          return;
+>      }
+>
+> -    opts =3D qemu_opts_find(qemu_find_opts_err("netdev", NULL), id);
+> -    if (!opts) {
+> +    if (!nc->is_netdev) {
+>          error_setg(errp, "Device '%s' is not a netdev", id);
+>          return;
+>      }
+>
+>      qemu_del_net_client(nc);
+> -    qemu_opts_del(opts);
+>  }
+>
+>  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
 
-Title:
-  Qemu PPC64 freezes with multi-core CPU
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-Status in QEMU:
-  New
-
-Bug description:
-  I installed Debian 10 on a Qemu PPC64 VM running with the following
-  flags:
-
-  qemu-system-ppc64 \
-       -nographic -nodefaults -monitor pty -serial stdio \
-       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
-       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
-       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
-1 \
-
-  =
-
-  Within a couple minutes on any operation (could be a Go application or si=
-mply changing the hostname with hostnamectl, the VM freezes and prints this=
- on the console:
-
-  ```
-  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
- CPU
-  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
-00000000004 softirq=3D5957/5960 fqs=3D2544
-  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
-
-  Message from syslogd@debian at Mar 17 11:35:24 ...
-   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
-[zsh:462]
-  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
-ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
-  [  980.111177] rcu: blocking rcu_node structures:
-  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
-  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
-000000000004 softirq=3D5957/5960 fqs=3D9342
-  ```
-
-  If I change to 1 core on the command line, I haven't seen these
-  freezes.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
