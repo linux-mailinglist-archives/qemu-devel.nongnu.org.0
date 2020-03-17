@@ -2,140 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCB6188CBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:04:17 +0100 (CET)
-Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFF4188CD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:08:26 +0100 (CET)
+Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGZc-0001Lr-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:04:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59469)
+	id 1jEGdd-000859-Dp
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jEGPk-00063S-BV
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:05 -0400
+ (envelope-from <eblake@redhat.com>) id 1jEGRL-0000Ll-GW
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:55:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jEGPj-0003mH-1t
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:04 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:50312)
+ (envelope-from <eblake@redhat.com>) id 1jEGRK-000627-31
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:55:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36603)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEGPi-0003jR-TU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:54:02 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jEGRJ-0005uz-Tg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:55:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584467642;
+ s=mimecast20190719; t=1584467741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+sHuLj4do0lqFSLREbep8aBeH16Dxxdpg8JHWXbN+Qk=;
- b=LdGOfNCpcJATgyb5/N1lezMDtFLpCt0wlGOmAYhEL3a25wIuTFgLI2I+hIEXztVH0ukvlD
- W5R4Wpk3YRcSdWvRCdZp/HjciAIgUp73cGIUx85Fw9yiR0ONgEedhK46VKRpmabgVel4My
- HJ4R5AA/dfoJYyUlCGNyKMPmaSqed4c=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bMK6XfK9vehRdbJFxq/pHg1LB0t8hDi00V1bAJFLWdU=;
+ b=GZCTNYJH6ZeWE1ToadYOBpdQBx1xDpSB4RFWss00J7Z/AmmLey60xJ8OKXTA1Pz1xYSA9g
+ gHLxaICkNoK9RwzB5TsDWv5gmM63JFCUbBVJC3GmWtYv6aUsS/PFCrVomAIG5xpFG6S02u
+ xThyxruE+QsjAMAfqSADxFG+Qo9GX6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-VkHpj-yNNeecp8q3h32dZg-1; Tue, 17 Mar 2020 13:53:58 -0400
-X-MC-Unique: VkHpj-yNNeecp8q3h32dZg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-251-kAxLUTOPPyGcD71T3T5G4A-1; Tue, 17 Mar 2020 13:55:39 -0400
+X-MC-Unique: kAxLUTOPPyGcD71T3T5G4A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17CC0190B2B8;
- Tue, 17 Mar 2020 17:53:57 +0000 (UTC)
-Received: from [10.10.112.191] (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8BDA1001DC0;
- Tue, 17 Mar 2020 17:53:47 +0000 (UTC)
-Subject: Re: [PATCH v3 0/8] Misc hw/ide legacy clean up
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <cover.1584457537.git.balaton@eik.bme.hu>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
- IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
- vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
- rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
- 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
- ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
- 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
- h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
- T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
- LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
- KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
- BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
- qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
- LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
- ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
- J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
- vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
- il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
- 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
- tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
- 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
- 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
- d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
- 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
- MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
- NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
- TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
- L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
- JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
- /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
- nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
- 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
- Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
- e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
- ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
- vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
- C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
- fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
- rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
- TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
- PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
- Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
- E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
- Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
- rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
- cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
- wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
- jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
- vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
- eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
- RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
- CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
- AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
- VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
- XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
- Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
- y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
- sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
- HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
- 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
- 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
- y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
- uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
- YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
- 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
- Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
- TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
- TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
- GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
- rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
- i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
- RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
- glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <bcb72a4d-ace7-f4b2-650b-fd2e7cfece71@redhat.com>
-Date: Tue, 17 Mar 2020 13:53:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AF18101FC60;
+ Tue, 17 Mar 2020 17:55:38 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-193.phx2.redhat.com [10.3.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF7735DA7C;
+ Tue, 17 Mar 2020 17:55:37 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] build: Silence clang warning on older glib autoptr usage
+Date: Tue, 17 Mar 2020 12:55:34 -0500
+Message-Id: <20200317175534.196295-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1584457537.git.balaton@eik.bme.hu>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -147,57 +67,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: berrange@redhat.com, jsnow@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+glib's G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro defines several static
+inline functions, often with some of them unused, but prior to 2.57.2
+did not mark the functions as such.  As a result, clang (but not gcc)
+fails to build with older glib unless -Wno-unused-function is enabled.
 
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
-On 3/17/20 11:05 AM, BALATON Zoltan wrote:
-> Avoid problems from reassigning variable in piix4_create and fix
-> compilation problem with mips_r4k
-> 
-> BALATON Zoltan (8):
->   hw/ide: Get rid of piix3_init functions
->   hw/isa/piix4.c: Introduce variable to store devfn
->   hw/ide: Get rid of piix4_init function
->   hw/ide: Remove now unneded #include "hw/pci/pci.h" from hw/ide.h
->   hw/ide/pci.c: Coding style update to fix checkpatch errors
->   hw/ide: Do ide_drive_get() within pci_ide_create_devs()
->   hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
->   hw/ide: Remove unneeded inclusion of hw/ide.h
-> 
->  hw/alpha/dp264.c              | 13 +++----------
->  hw/hppa/hppa_sys.h            |  1 -
->  hw/hppa/machine.c             |  1 -
->  hw/i386/pc_piix.c             | 18 +++++++++---------
->  hw/ide/ahci_internal.h        |  1 +
->  hw/ide/pci.c                  | 11 +++++++----
->  hw/ide/piix.c                 | 31 +------------------------------
->  hw/isa/piix4.c                | 23 ++++++++++-------------
->  hw/mips/mips_fulong2e.c       |  5 +----
->  hw/mips/mips_malta.c          |  2 +-
->  hw/mips/mips_r4k.c            |  1 +
->  hw/ppc/mac_newworld.c         |  1 -
->  hw/ppc/mac_oldworld.c         |  1 -
->  hw/ppc/prep.c                 |  1 -
->  hw/sparc64/sun4u.c            |  6 +-----
->  include/hw/ide.h              |  6 ------
->  include/hw/ide/internal.h     |  2 ++
->  include/hw/ide/pci.h          |  3 ++-
->  include/hw/misc/macio/macio.h |  1 +
->  include/hw/southbridge/piix.h |  3 +--
->  20 files changed, 41 insertions(+), 90 deletions(-)
-> 
+Half-tested: I proved to myself that this does NOT enable
+-Wno-unused-function on my setup of glib 2.62.5 and gcc 9.2.1 (Fedora
+31), but would do so if I introduced an intentional compile error into
+the sample program; but Iwas unable to test that it would prevent the
+build failure encountered by Peter on John's pull request (older glib
+but exact version unknown, clang, on NetBSD).
 
-Passed local testing. Pushed to gitlab and pending further tests.
+ configure | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Track here: https://gitlab.com/jsnow/qemu/pipelines/127143307
+diff --git a/configure b/configure
+index eb49bb6680c1..57a72f120aa9 100755
+--- a/configure
++++ b/configure
+@@ -3832,6 +3832,26 @@ if ! compile_prog "$glib_cflags -Werror" "$glib_libs=
+" ; then
+     fi
+ fi
+
++# Silence clang warnings triggered by glib < 2.57.2
++cat > $TMPC << EOF
++#include <glib.h>
++typedef struct Foo {
++    int i;
++} Foo;
++static void foo_free(Foo *f)
++{
++    g_free(f);
++}
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(Foo, foo_free);
++int main(void) { return 0; }
++EOF
++if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
++    if cc_has_warning_flag "-Wno-unused-function"; then
++        glib_cflags=3D"$glib_cflags -Wno-unused-function"
++        CFLAGS=3D"$CFLAGS -Wno-unused-function"
++    fi
++fi
++
+ #########################################
+ # zlib check
+
+--=20
+2.25.1
 
 
