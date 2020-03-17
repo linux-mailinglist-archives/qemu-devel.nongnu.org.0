@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890A6188EB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:08:53 +0100 (CET)
-Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B5A188EAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:07:22 +0100 (CET)
+Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEIWC-0002af-Kc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
+	id 1jEIUj-0000u5-NA
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jEITO-0008Aw-58
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEITO-0008B0-64
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jEITM-0003hn-9K
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47995)
+ (envelope-from <philmd@redhat.com>) id 1jEITN-0003oF-4Z
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:58 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:22625)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEITM-0003dH-53
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:56 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEITM-0003lQ-Ve
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584475555;
+ s=mimecast20190719; t=1584475556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W2Uio4O39LGTCl54niMoeAIzdHQX9K6PS1/yY4c+PZU=;
- b=UHcU40rCCB7hSwa+BzP+2fU/V8cinppyW4W2U1d5GY88AKSuoXfUL+XGfJsZwAPlRVmrJ4
- TnJz1pWiEwnUE4bjwnt6QPWNOulEIRUAkySNWXj4bZwtA8US2pLuzZYNkD1Kbh9ymgrlbF
- YdLaT34tY644FeTlOBMqlZm8CdK4ttY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-vJHLUJk0N7SCuS0AYGTGcA-1; Tue, 17 Mar 2020 16:05:50 -0400
-X-MC-Unique: vJHLUJk0N7SCuS0AYGTGcA-1
-Received: by mail-wr1-f71.google.com with SMTP id c6so3378172wro.7
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:05:50 -0700 (PDT)
+ bh=L/HZmWIIHfnHmTdUZzrupKrEMlqcM1d6Bo691jseyEo=;
+ b=c4GZh/FSAEK2+H3nBcZh0VekvdMX0rUjqhit/N36j1dcnIL7MZ4gAxudDK5AonNyrkGzIw
+ 5iE5p4g+68MHFJIUdRg+Dpn0PX/oC216jRDeseRUnHCy4CLc1uNb/2BEsNTjbcaY+Igj1N
+ QdBX2XgsyJOlyfgdHzY4p+YSu3Czqm4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-yOgP6AjwNR-S9ot7pVBUsA-1; Tue, 17 Mar 2020 16:05:54 -0400
+X-MC-Unique: yOgP6AjwNR-S9ot7pVBUsA-1
+Received: by mail-wr1-f69.google.com with SMTP id t4so8258697wrv.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:05:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lT/ObMlAQ2H/bRv1VQKQQXSN8/cTHTnb20apclf4pHs=;
- b=YJTvtDi1Pxkzb97EcgOCuRrssAqxKcykHpWn1TtY9yiqXhjqWSdvXT9QG4k52MDleQ
- /aGM3QV6fihomch2AI1p7b+L6uRRZM8Vx62TNWl0+dpeKqaZrqdvG9l1FPd0+WGwS/Se
- QGjmZkkVfMORdGScDvnoCHRxsLYBJLESbqly9+oQJ5Zyda45DIBbrx3nQ83fWpoUTMgn
- r54j5unAzJ7LZOcdR8QsWrY1kvCQqYqb/ExSz5E4+8kaansl9rHVpwypCkcCUwwzLSQ9
- nGn4xWF2G8yQseBcvyIV1o32YEy/LKrCwGIi2i1SuDVTOk9Qs2DCkv1epigKZwrDbnUl
- aRJg==
-X-Gm-Message-State: ANhLgQ1hbBkueuuQ+XroeTNRRXzk4b2jEmb6JjQPv43SMzUYfWI7bsRE
- 0Uxa9EWRNX8mpurVYir7YUQnUOnoy4q/1/RoiXVoo4X6CTz6QL4mFBzqC6zMdSUIy6hiTx1ddqZ
- 6ZO5TVIB+Oezeg9A=
-X-Received: by 2002:a05:6000:1203:: with SMTP id
- e3mr798889wrx.166.1584475548789; 
- Tue, 17 Mar 2020 13:05:48 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu5vgWxnlSjm8ZhdjL4SXpPoUyYaBt0jrnhjrVAHZ8L2fxE8nUGXrN3S/uaRngmC9lMrQtjAg==
-X-Received: by 2002:a05:6000:1203:: with SMTP id
- e3mr798868wrx.166.1584475548616; 
- Tue, 17 Mar 2020 13:05:48 -0700 (PDT)
+ bh=NHp6AQsVQYWhdJl/pzLHGNq2w7hMQpu50+SKuporuyI=;
+ b=OIW46WleFl0j52MQVPuOzsk969WV/JAj/oBsSe9xAE0ft7x0TxrhnCmrv3NnOo96fr
+ kWHlzr0sKj37kW1XrXTkNsO3SuWBw2D6Gfh+e7QTht9p8v1AtzOzAyxLZ3oLQjrD3uFu
+ sPCt6xZeJSwKCAW3KqJqGCdivEgt58b5Go6Q64cdWHMAJfqwokkM9QxqYPCXylKF4glU
+ zbVIdUJhpxDzc/boaJzpbwDkvEewtuQCuS/q/dwS+PtC7cFBBrG/XyV33HnSskflPbTx
+ k4WgK39OXhtN3m5EpEqspbhrffHwzH56M9Einel8WsY8+c9ggZvoYR7yN6ODNF7ZlfRx
+ 7Tfg==
+X-Gm-Message-State: ANhLgQ2SKaMwxTZMzn7yWY9Yqiwm8zVEYAebHFLmbqj9Bs/ZP3vSczU+
+ D06kpu7jadv48GTkSKUFcVk7sRLIf+645DpJku1lUlnsTkJnzaLJmm0dshM8Uo4/6HMGVB1OtCT
+ 4TxoKPTSBOVxqjU0=
+X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr767616wrq.246.1584475553517; 
+ Tue, 17 Mar 2020 13:05:53 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtB9s6ul08C7udL9wGC88e8Is+vhALABZrg4E14KNNewEEQsym4WaSyQcHk6gSpGhlbv5jTVg==
+X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr767599wrq.246.1584475553301; 
+ Tue, 17 Mar 2020 13:05:53 -0700 (PDT)
 Received: from x1w.redhat.com (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id v2sm6213931wrt.58.2020.03.17.13.05.47
+ by smtp.gmail.com with ESMTPSA id s131sm616075wmf.35.2020.03.17.13.05.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 13:05:48 -0700 (PDT)
+ Tue, 17 Mar 2020 13:05:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] tests/test-util-filemonitor: Fix Travis-CI $ARCH env
- variable name
-Date: Tue, 17 Mar 2020 21:05:38 +0100
-Message-Id: <20200317200541.6246-2-philmd@redhat.com>
+Subject: [PATCH 2/4] tests/test-util-sockets: Skip test on non-x86 Travis
+ containers
+Date: Tue, 17 Mar 2020 21:05:39 +0100
+Message-Id: <20200317200541.6246-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200317200541.6246-1-philmd@redhat.com>
 References: <20200317200541.6246-1-philmd@redhat.com>
@@ -78,7 +76,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,7 +90,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
@@ -102,33 +100,39 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we can find reference of a 'TRAVIS_ARCH' variable in
-the environment and source [1], per the Travis-CI multi-arch
-documentation [2] the variable is named TRAVIS_CPU_ARCH.
-
-[1] https://github.com/travis-ci/travis-build/blob/v10.0.0/lib/travis/build=
-/bash/travis_setup_env.bash#L39
-[2] https://docs.travis-ci.com/user/multi-cpu-architectures/#identifying-cp=
-u-architecture-of-build-jobs
+Similarly to commit 4f370b1098, test-util-sockets fails in
+restricted non-x86 Travis containers since they apparently
+blacklisted some required system calls there.
+Let's simply skip the test if we detect such an environment.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/test-util-filemonitor.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/test-util-sockets.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
-index 45009c69f4..e703a7f8fc 100644
---- a/tests/test-util-filemonitor.c
-+++ b/tests/test-util-filemonitor.c
-@@ -415,7 +415,7 @@ test_file_monitor_events(void)
-      * This test does not work on Travis LXD containers since some
-      * syscalls are blocked in that environment.
-      */
--    travis_arch =3D getenv("TRAVIS_ARCH");
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index 5fd947c7bf..046ebec8ba 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -231,11 +231,18 @@ static void test_socket_fd_pass_num_nocli(void)
+ int main(int argc, char **argv)
+ {
+     bool has_ipv4, has_ipv6;
++    char *travis_arch;
+=20
+     socket_init();
+=20
+     g_test_init(&argc, &argv, NULL);
+=20
 +    travis_arch =3D getenv("TRAVIS_CPU_ARCH");
-     if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
-         g_test_skip("Test does not work on non-x86 Travis containers.");
-         return;
++    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
++        g_printerr("Test does not work on non-x86 Travis containers.");
++        goto end;
++    }
++
+     /* We're creating actual IPv4/6 sockets, so we should
+      * check if the host running tests actually supports
+      * each protocol to avoid breaking tests on machines
 --=20
 2.21.1
 
