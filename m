@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F3A188CF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:17:25 +0100 (CET)
-Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8513188CE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:13:02 +0100 (CET)
+Received: from localhost ([::1]:38687 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGmK-0002Jv-6G
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40757)
+	id 1jEGi5-0005cd-T2
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEGbc-00064g-7n
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:06:21 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEGgl-0004Oy-1T
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEGba-0003fj-Do
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:06:20 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32638)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEGba-0003dw-7O
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:06:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584468377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VfNRKrxqo2jMTYy3+h3lKvv6PqiHbPojnK8xnOxJ7n4=;
- b=OtdKypuprn5RUDtythrjtvtnaV8/1CU6arZjFr7tRQWOt5UcO1x/gCd3DOl9dgQVGrZfCt
- xRwNZVtYCfugaeOPR2o0g3ax93GFvp6b+TaE4aNcxeQn5UFvZ6xZ8Ndi3L6n0zGWfENNRk
- PGPWWx0qjVPlabmhz9wD23bxxPOEI2g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-JmTj_pzCN_-uI9mPb9CjXg-1; Tue, 17 Mar 2020 14:06:16 -0400
-X-MC-Unique: JmTj_pzCN_-uI9mPb9CjXg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAF4918FF683;
- Tue, 17 Mar 2020 18:06:14 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AADC9F5C;
- Tue, 17 Mar 2020 18:06:07 +0000 (UTC)
-Date: Tue, 17 Mar 2020 19:06:05 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9 15/15] s390x: Add unpack facility feature to GA1
-Message-ID: <20200317190605.36c5c73b.cohuck@redhat.com>
-In-Reply-To: <20200311132151.172389-16-frankja@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-16-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1jEGgj-0007ln-HG
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:38 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37330)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jEGgj-0007Yi-CE
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:11:37 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w13so22833922oih.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 11:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iUkX8fuwyHhypxL9tKPv2VHnDme+D2YoOp0hvm/rEKA=;
+ b=Bbq6VyiAJKQVs9SwsHR0AP4hn5GJ1gvPe38vCf8xELx+PGJfUw+x5LhEs8uf4+kkWs
+ 4zmEuQpWsJtYebSHmKZX6F06DoLHU9BaWfymeQPm2H40Z7PhWPe1TSRkVyCCPAPAUZjV
+ lbZxr8ovxTPA+rsP7UsAXCJrLY3Oyc5N/EWEXPdsiIYPgWW3F+sVtQR51aojF646uvKI
+ Gt+S2F2twUqy8izsvJVi1CVKmF985GNNcbizVrI6sIAeJMsr0849jCfJ948PDw8GcfFU
+ sChZ6ziYzdLUwTCbh3xKrpoaFeLr9YfqpEag4cbvEd+9slmYm3siYaGRvV99ghm4TgaH
+ JaZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iUkX8fuwyHhypxL9tKPv2VHnDme+D2YoOp0hvm/rEKA=;
+ b=IWPamrwXh1Y9XmiIZgf3GXjkOrp5YLWMvi1du1s9sGq7Ja0+ui5QOb77NQXXZY0zGI
+ Fd4o/QRVJegR7SFJ24m+jspy8Ix/x+bvAtjnYbiqAD81D1lAyKS5VQvrGQIcPrx0RDw5
+ 2PIzRH0gw32m2wbiu57r4LZEKWULyOtqEc5+k+rfnXd1UAVpnHyD6QLNwjEyT+yLqrOl
+ mKExhlCzxbxTdmtlBN75sWPsIJqwNfe6fuVLUk4Jmta7oAC4rceJylROsgp8Yg9GgK2S
+ VxBMs3umxXfbn9KdiSESWAgYBQPwhR4bnYJ5j+JU36XwiKb1XBAaT+S9dliwbIm+j/i0
+ u4FA==
+X-Gm-Message-State: ANhLgQ1d+KiQKgxkFdlQFHk3uBCHWQMaPUCh27+QxWEZRGfufqUlWX+i
+ tlGIN6w0soGptMBbL8KVTCEAOB7Ksw2w7Hb0EiUWKQ==
+X-Google-Smtp-Source: ADFU+vupP9KbTuAebCwLbBMErw1yFVcvsVncdQnfjTF30OG00xU8mtodsYyoe1OEVP+/yJwX0DCg7lYQ3UHfo/bGu0E=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr82276oif.163.1584468693785;
+ Tue, 17 Mar 2020 11:11:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200317175534.196295-1-eblake@redhat.com>
+In-Reply-To: <20200317175534.196295-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Mar 2020 18:11:22 +0000
+Message-ID: <CAFEAcA8qGWhvoRwT1Wcg6RTWONG7gVSzGbhCFtG-AgQYwZHyQA@mail.gmail.com>
+Subject: Re: [PATCH] build: Silence clang warning on older glib autoptr usage
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,72 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 09:21:51 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> From: Christian Borntraeger <borntraeger@de.ibm.com>
-> 
-> The unpack facility is an indication that diagnose 308 subcodes 8-10
-> are available to the guest. That means, that the guest can put itself
-> into protected mode.
-> 
-> Once it is in protected mode, the hardware stops any attempt of VM
-> introspection by the hypervisor.
-> 
-> Some features are currently not supported in protected mode:
->      * Passthrough devices
-
-s/Passthrough/vfio/ ?
-
->      * Migration
->      * Huge page backings
-> 
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-
-Btw: please add your s-o-b if you're passing on patches from others.
-
+On Tue, 17 Mar 2020 at 17:55, Eric Blake <eblake@redhat.com> wrote:
+>
+> glib's G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro defines several static
+> inline functions, often with some of them unused, but prior to 2.57.2
+> did not mark the functions as such.  As a result, clang (but not gcc)
+> fails to build with older glib unless -Wno-unused-function is enabled.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  target/s390x/gen-features.c | 1 +
->  target/s390x/kvm.c          | 5 +++++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-> index 6278845b12b8dee8..8ddeebc54419a3e2 100644
-> --- a/target/s390x/gen-features.c
-> +++ b/target/s390x/gen-features.c
-> @@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
->      S390_FEAT_GROUP_MSA_EXT_9,
->      S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
->      S390_FEAT_ETOKEN,
-> +    S390_FEAT_UNPACK,
->  };
->  
->  /* Default features (in order of release)
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index ff6027036ec2f14a..e11e895a3d9038bb 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -2403,6 +2403,11 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
->          clear_bit(S390_FEAT_BPB, model->features);
->      }
->  
-> +    /* we do have the IPL enhancements */
+>
+> Half-tested: I proved to myself that this does NOT enable
+> -Wno-unused-function on my setup of glib 2.62.5 and gcc 9.2.1 (Fedora
+> 31), but would do so if I introduced an intentional compile error into
+> the sample program; but Iwas unable to test that it would prevent the
+> build failure encountered by Peter on John's pull request (older glib
+> but exact version unknown, clang, on NetBSD).
 
-I'm more confused by that comment than educated :) Not sure what 'IPL
-enhancements' means in this context.
+This wasn't a NetBSD failure. I hit it on my clang-on-x86-64-Ubuntu
+setup, and also on FreeBSD. (The latter is just the tests/vm
+FreeBSD config, so you can repro that if you need to.)
 
-> +    if (cap_protected) {
-> +        set_bit(S390_FEAT_UNPACK, model->features);
-> +    }
-> +
->      /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
->      set_bit(S390_FEAT_ZPCI, model->features);
->      set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
+The ubuntu setup is libglib 2.56.4-0ubuntu0.18.04.4 and
+clang 6.0.0-1ubuntu2.
 
+thanks
+-- PMM
 
