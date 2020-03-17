@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B5A188EAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:07:22 +0100 (CET)
-Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFEE188EBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:10:40 +0100 (CET)
+Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEIUj-0000u5-NA
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50333)
+	id 1jEIXv-00046q-Jy
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jEITO-0008B0-64
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEITT-0008G3-Lg
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jEITN-0003oF-4Z
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:58 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:22625)
+ (envelope-from <philmd@redhat.com>) id 1jEITS-0004Em-AE
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:03 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:53271)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEITM-0003lQ-Ve
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:05:57 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEITR-0004BM-Uh
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:06:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584475556;
+ s=mimecast20190719; t=1584475561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L/HZmWIIHfnHmTdUZzrupKrEMlqcM1d6Bo691jseyEo=;
- b=c4GZh/FSAEK2+H3nBcZh0VekvdMX0rUjqhit/N36j1dcnIL7MZ4gAxudDK5AonNyrkGzIw
- 5iE5p4g+68MHFJIUdRg+Dpn0PX/oC216jRDeseRUnHCy4CLc1uNb/2BEsNTjbcaY+Igj1N
- QdBX2XgsyJOlyfgdHzY4p+YSu3Czqm4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-yOgP6AjwNR-S9ot7pVBUsA-1; Tue, 17 Mar 2020 16:05:54 -0400
-X-MC-Unique: yOgP6AjwNR-S9ot7pVBUsA-1
-Received: by mail-wr1-f69.google.com with SMTP id t4so8258697wrv.9
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:05:54 -0700 (PDT)
+ bh=/PyD7+RJ4/A5gy2wbJ6MziohBvoadqKSq3w75LWrEVU=;
+ b=RUvaUasK30DuvXgXBB03dWeEidSBvR99zpCj/D1daAKGUt13CTdigzjhSF7MzFIgZdHXgK
+ X2RqYsCFoBz/ePMgN4R8W1wDu/6vaTR/dP4mfqIFDI5ttKdBlm2J3dwbdJlekTeUuz4c6Q
+ bxkIFUDvGbOM6PFqKyGRZLoQ9HRBPOo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-FLzqcabtOayDF5AXmw38eg-1; Tue, 17 Mar 2020 16:05:59 -0400
+X-MC-Unique: FLzqcabtOayDF5AXmw38eg-1
+Received: by mail-wm1-f71.google.com with SMTP id a13so183150wme.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:05:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NHp6AQsVQYWhdJl/pzLHGNq2w7hMQpu50+SKuporuyI=;
- b=OIW46WleFl0j52MQVPuOzsk969WV/JAj/oBsSe9xAE0ft7x0TxrhnCmrv3NnOo96fr
- kWHlzr0sKj37kW1XrXTkNsO3SuWBw2D6Gfh+e7QTht9p8v1AtzOzAyxLZ3oLQjrD3uFu
- sPCt6xZeJSwKCAW3KqJqGCdivEgt58b5Go6Q64cdWHMAJfqwokkM9QxqYPCXylKF4glU
- zbVIdUJhpxDzc/boaJzpbwDkvEewtuQCuS/q/dwS+PtC7cFBBrG/XyV33HnSskflPbTx
- k4WgK39OXhtN3m5EpEqspbhrffHwzH56M9Einel8WsY8+c9ggZvoYR7yN6ODNF7ZlfRx
- 7Tfg==
-X-Gm-Message-State: ANhLgQ2SKaMwxTZMzn7yWY9Yqiwm8zVEYAebHFLmbqj9Bs/ZP3vSczU+
- D06kpu7jadv48GTkSKUFcVk7sRLIf+645DpJku1lUlnsTkJnzaLJmm0dshM8Uo4/6HMGVB1OtCT
- 4TxoKPTSBOVxqjU0=
-X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr767616wrq.246.1584475553517; 
- Tue, 17 Mar 2020 13:05:53 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtB9s6ul08C7udL9wGC88e8Is+vhALABZrg4E14KNNewEEQsym4WaSyQcHk6gSpGhlbv5jTVg==
-X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr767599wrq.246.1584475553301; 
- Tue, 17 Mar 2020 13:05:53 -0700 (PDT)
+ bh=VFYerVqML5WLPQvDawZvTMww1bUZUEqxoUBIS/19Nu8=;
+ b=DdCKl+hp6xLGW5VhTthXEfyUSDUsxA1H1Wj2U0PRm0S61HCsJQ4LLMJUp0GKg1vFQL
+ iNyrq+HEGWNOevI4DgfLse9hw3HGfcMktuK/q7RuAl2Ao+s7AFYCZbwFT1awx1usvDnb
+ 6RKk/w5UOKJ1kcwVraFcR7OdEXxMToho9UOY192EOfHTZPqG3ryJYPLvP5YgRPhwX3kQ
+ qeysup/fXWyuz4pACLhWxPWZjma3/5CAeGDebUIFBqO+hGVjS2GB54PEUr6BlcXP1GeV
+ oT2dx5nL6ydxQpUw3afEfgDGzR7NkHoenvNFsEcOBK3ImApriVWB1tqPdkU6Z8prKCUt
+ Z7oA==
+X-Gm-Message-State: ANhLgQ1VlklJR8PuYQ120O7JSj4oeaWkmjqni1T2ZIEhDS1FJAhERZ5I
+ yQUmjs+poK+/Td+6zLL309QNZic7WynmQa4NcDn8Mjw7rySNz37xDRxHtooc1itIXWGpDwtl+by
+ qS10Pp5aY0aSFTts=
+X-Received: by 2002:a1c:2e04:: with SMTP id u4mr726429wmu.185.1584475558360;
+ Tue, 17 Mar 2020 13:05:58 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtlQ78HgeeGpUQpz0ATirjsLdrPNru8oNgbR+P282DUF/jhkumWLYytv93+bl1+JAwL4Q9cpA==
+X-Received: by 2002:a1c:2e04:: with SMTP id u4mr726394wmu.185.1584475558084;
+ Tue, 17 Mar 2020 13:05:58 -0700 (PDT)
 Received: from x1w.redhat.com (96.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id s131sm616075wmf.35.2020.03.17.13.05.52
+ by smtp.gmail.com with ESMTPSA id o23sm6146519wro.23.2020.03.17.13.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 13:05:52 -0700 (PDT)
+ Tue, 17 Mar 2020 13:05:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] tests/test-util-sockets: Skip test on non-x86 Travis
- containers
-Date: Tue, 17 Mar 2020 21:05:39 +0100
-Message-Id: <20200317200541.6246-3-philmd@redhat.com>
+Subject: [PATCH 3/4] tests/migration: Disable autoconverge test on Travis-CI
+ s390x
+Date: Tue, 17 Mar 2020 21:05:40 +0100
+Message-Id: <20200317200541.6246-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200317200541.6246-1-philmd@redhat.com>
 References: <20200317200541.6246-1-philmd@redhat.com>
@@ -76,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,50 +88,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to commit 4f370b1098, test-util-sockets fails in
-restricted non-x86 Travis containers since they apparently
-blacklisted some required system calls there.
-Let's simply skip the test if we detect such an environment.
+This test fails on Travis-CI s390x when configured with --disable-tcg:
+
+  $ make check-qtest
+    TEST    check-qtest-s390x: tests/qtest/boot-serial-test
+  qemu-system-s390x: -accel tcg: invalid accelerator tcg
+  qemu-system-s390x: falling back to KVM
+    TEST    check-qtest-s390x: tests/qtest/pxe-test
+    TEST    check-qtest-s390x: tests/qtest/test-netfilter
+    TEST    check-qtest-s390x: tests/qtest/test-filter-mirror
+    TEST    check-qtest-s390x: tests/qtest/test-filter-redirector
+    TEST    check-qtest-s390x: tests/qtest/drive_del-test
+    TEST    check-qtest-s390x: tests/qtest/device-plug-test
+    TEST    check-qtest-s390x: tests/qtest/virtio-ccw-test
+    TEST    check-qtest-s390x: tests/qtest/cpu-plug-test
+    TEST    check-qtest-s390x: tests/qtest/migration-test
+  **
+  ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_=
+stop' should be FALSE
+  ERROR - Bail out! ERROR:tests/qtest/migration-test.c:1229:test_migrate_au=
+to_converge: 'got_stop' should be FALSE
+  make: *** [tests/Makefile.include:633: check-qtest-s390x] Error 1
+
+Per David Gilbert, it might be a threshold requiring tuning:
+"it could just be the writing is slow on s390 and the migration
+thread fast; in which case the autocomplete wouldn't be needed.
+Perhaps we just need to reduce the bandwidth limit."
+
+Disable the autoconverge test for now.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/test-util-sockets.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/qtest/migration-test.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index 5fd947c7bf..046ebec8ba 100644
---- a/tests/test-util-sockets.c
-+++ b/tests/test-util-sockets.c
-@@ -231,11 +231,18 @@ static void test_socket_fd_pass_num_nocli(void)
- int main(int argc, char **argv)
- {
-     bool has_ipv4, has_ipv6;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3d6cc83b88..878399666e 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1181,6 +1181,16 @@ static void test_migrate_auto_converge(void)
+     MigrateStart *args =3D migrate_start_new();
+     QTestState *from, *to;
+     int64_t remaining, percentage;
 +    char *travis_arch;
-=20
-     socket_init();
-=20
-     g_test_init(&argc, &argv, NULL);
-=20
-+    travis_arch =3D getenv("TRAVIS_CPU_ARCH");
-+    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
-+        g_printerr("Test does not work on non-x86 Travis containers.");
-+        goto end;
-+    }
 +
-     /* We're creating actual IPv4/6 sockets, so we should
-      * check if the host running tests actually supports
-      * each protocol to avoid breaking tests on machines
++    /*
++     * This test does not work reliably on Travis s390x.
++     */
++    travis_arch =3D getenv("TRAVIS_CPU_ARCH");
++    if (travis_arch && g_str_equal(travis_arch, "s390x")) {
++        g_test_skip("Test does not work reliably on s390x Travis container=
+s.");
++        return;
++    }
+=20
+     /*
+      * We want the test to be stable and as fast as possible.
 --=20
 2.21.1
 
