@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1550C18826A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:45:00 +0100 (CET)
-Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0483F18826D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 12:46:28 +0100 (CET)
+Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEAeZ-0007Qy-1R
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
+	id 1jEAfz-0001Qz-1G
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 07:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAaZ-0000Sn-NE
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAab-0000XV-Li
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jEAaY-0002yR-Fp
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:51 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51141)
+ (envelope-from <peter.maydell@linaro.org>) id 1jEAaZ-0003Cq-OP
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:53 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54898)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jEAaY-0002n0-85
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:50 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z13so5011808wml.0
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:50 -0700 (PDT)
+ id 1jEAaZ-00032D-Fb
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:40:51 -0400
+Received: by mail-wm1-x329.google.com with SMTP id n8so21058711wmc.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 04:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mMeVBvXlMaaa/OKSczXDTF+WMf2stZl9iIzAXVliKXU=;
- b=TVz8/vrniLSGvQUUqxkB7fJr3f5f8+SL3+7oncsZWaubu2IPu9FjM2dP002Z/vE/Iy
- uPVEx1bvaPmGDb/idnH4zHpjCegk6sbWgBpg+kD6LcPTKVFUm+EK593A880lPbOT1txC
- nf6ssEO6594+liYvyhDby5ChjAmzGKX/qLq1X+wGaV8YZtyxnUBwb6J0EPNakQm/g/Og
- rvzlccByC3nuj7AsSICIl+IlbZORDj+7+Q5BkcXxiDUjURKOyeWTG9ynBxN9yjnlozEv
- cgvzdsRx0teBaM8DFcp915WQBnY1TZ8eYAar1EG7r4BZQkSPChVohAQuO5NIj9hF+nMs
- NLZA==
+ bh=hAL6R1W30kQJDLELv7RQwnzz+uTtd3Q5yg+T35G1inY=;
+ b=EcfkICseHquFT19a2nC+1A9BLfBf2IEX+Ups4XefOGlqpGBqZu1Mq4TKUBVx97xE5q
+ OWTmzor5dCpfzMzNDGBlZkLAnpPjIGvoKrkGegZyWH5sdhtrEVCgCrAGhYVOFX5Rcdk9
+ jfH+9+Mu8gHkqp38IjF6XApgn8VkdYAaeB/g9gfep59AbBWj5/GcqAj3BtF/4ljnxUL6
+ wbRxrzRDyVNl+gh5rvzBRZCPmyNAtZdqLmpthre/GBvi8apFIheMBDc2HCFmnigO0WyP
+ wzB3D7M4qSZqdq8uNjplkq1Yw2uQFrWOQtAW42A6wpkVsbMjyklT7janzw6D6EnbNHQI
+ inqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mMeVBvXlMaaa/OKSczXDTF+WMf2stZl9iIzAXVliKXU=;
- b=sGXqEfqg0EFvzTUcQFaVKtErkhE/snZG+v8bHOeLkCrBLdQQjFTIlRKsODAQH0jOcJ
- 5ptEvDa1YISMeRuH31IEfjhwf8PfqYWY7Lv+ngFtaZmAdSdGOJ+1MENhHEaHcRfZ/n6q
- JAtiLgWjfdSvBLOZeBrR7XUpHlBrgvtOKmlTB1U3NssVikN7SB65ReUSJqkMNT3Jqz37
- Y2xl+fNE6FH9X82qhOUVoDauLxpFrAHEjEHB9J7mNExUqmEvP4p1vry0n58zioIUT9pY
- NA7Mf03+IqZ16weqrcJnrWuCf4aDrd3DJNp0cEgBR3HffptRDjKrrmUbWXv7bR9IqHYH
- sBLg==
-X-Gm-Message-State: ANhLgQ3EDnQV7LhznCOgWuy9zKv5mRvh25wGRSCJqeskkVJjM+MkWlzN
- aF9Fpq5IXDJ8CeQatQtW3eC486WYJWVuSw==
-X-Google-Smtp-Source: ADFU+vtky0W0KZxhChVU1MXIn27EvriV+qOStnPQpY7qauCNvjeqliLpZmiA0D1gSOf0wbC3bAb1BA==
-X-Received: by 2002:a1c:984a:: with SMTP id a71mr5124175wme.185.1584445248897; 
- Tue, 17 Mar 2020 04:40:48 -0700 (PDT)
+ bh=hAL6R1W30kQJDLELv7RQwnzz+uTtd3Q5yg+T35G1inY=;
+ b=lQPpgGliv0+FUlQNUlX3lpI3Ro+fTXkTIAmcwD12IuHy+onWnOjy979aGa8pEmn7ls
+ hSXydGyPdwPz+3F6kEK9MfCzi6EBOxdvwT5vrdffyWGfZ30r7F8E8Fux9kezn8n+us5D
+ 3cnfKcXcJCyaPXkYJwd6QZ/lzsbemPOYnx0k1SSBBAeHJgwVxhRqSc9X4/pRhvjoNHTN
+ 0FsC7udmw4G+ktIOScOc3BC9iYYs45q1VtPrR8+51M5fEIqLtCpO5HILTZJ00hpKxJuM
+ Yq65myUcygWWHjAWn88tOgz8FmoDuzFsvMhTu6vj/Bf9lc4dREvdR328krMYfRx5CwY+
+ GE+w==
+X-Gm-Message-State: ANhLgQ2cxDA2kTK4n5gOj+kGLBdFJ/HOoB3hTOjq1rrexlPSslI/Cq4s
+ wkpR2QdqTTdieYBbcwK31PmC1IBjOkrNLw==
+X-Google-Smtp-Source: ADFU+vunpENIY91qdvmX99PUMbtNiBn50740cr+pwiWXklPkHIzx+7HsqAHUX0GE+u+BXOvGXKJSXw==
+X-Received: by 2002:a1c:e442:: with SMTP id b63mr5034195wmh.174.1584445249904; 
+ Tue, 17 Mar 2020 04:40:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.48
+ by smtp.gmail.com with ESMTPSA id a186sm3577443wmh.33.2020.03.17.04.40.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 04:40:48 -0700 (PDT)
+ Tue, 17 Mar 2020 04:40:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/11] hw/net/imx_fec: write TGSR and TCSR3 in imx_enet_write()
-Date: Tue, 17 Mar 2020 11:40:34 +0000
-Message-Id: <20200317114039.26914-7-peter.maydell@linaro.org>
+Subject: [PULL 07/11] m25p80: Convert to support tracing
+Date: Tue, 17 Mar 2020 11:40:35 +0000
+Message-Id: <20200317114039.26914-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317114039.26914-1-peter.maydell@linaro.org>
 References: <20200317114039.26914-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,50 +82,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Guenter Roeck <linux@roeck-us.net>
 
-The current code causes clang static code analyzer generate warning:
-hw/net/imx_fec.c:858:9: warning: Value stored to 'value' is never read
-        value = value & 0x0000000f;
-        ^       ~~~~~~~~~~~~~~~~~~
-hw/net/imx_fec.c:864:9: warning: Value stored to 'value' is never read
-        value = value & 0x000000fd;
-        ^       ~~~~~~~~~~~~~~~~~~
+While at it, add some trace messages to help debug problems
+seen when running the latest Linux kernel.
 
-According to the definition of the function, the two “value” assignments
- should be written to registers.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Message-id: 20200313123242.13236-1-kuhn.chenqun@huawei.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/imx_fec.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/block/m25p80.c     | 48 ++++++++++++++++++++-----------------------
+ hw/block/trace-events | 16 +++++++++++++++
+ 2 files changed, 38 insertions(+), 26 deletions(-)
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 6a124a154a8..5c145a8197e 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -855,13 +855,15 @@ static void imx_enet_write(IMXFECState *s, uint32_t index, uint32_t value)
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 61f2fb8f8f8..5ff8d270c4a 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -32,17 +32,7 @@
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-
+-#ifndef M25P80_ERR_DEBUG
+-#define M25P80_ERR_DEBUG 0
+-#endif
+-
+-#define DB_PRINT_L(level, ...) do { \
+-    if (M25P80_ERR_DEBUG > (level)) { \
+-        fprintf(stderr,  ": %s: ", __func__); \
+-        fprintf(stderr, ## __VA_ARGS__); \
+-    } \
+-} while (0)
++#include "trace.h"
+ 
+ /* Fields for FlashPartInfo->flags */
+ 
+@@ -574,7 +564,8 @@ static void flash_erase(Flash *s, int offset, FlashCMD cmd)
+         abort();
+     }
+ 
+-    DB_PRINT_L(0, "offset = %#x, len = %d\n", offset, len);
++    trace_m25p80_flash_erase(s, offset, len);
++
+     if ((s->pi->flags & capa_to_assert) != capa_to_assert) {
+         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: %d erase size not supported by"
+                       " device\n", len);
+@@ -607,8 +598,7 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+     }
+ 
+     if ((prev ^ data) & data) {
+-        DB_PRINT_L(1, "programming zero to one! addr=%" PRIx32 "  %" PRIx8
+-                   " -> %" PRIx8 "\n", addr, prev, data);
++        trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+     }
+ 
+     if (s->pi->flags & EEPROM) {
+@@ -662,6 +652,9 @@ static void complete_collecting_data(Flash *s)
+ 
+     s->state = STATE_IDLE;
+ 
++    trace_m25p80_complete_collecting(s, s->cmd_in_progress, n, s->ear,
++                                     s->cur_addr);
++
+     switch (s->cmd_in_progress) {
+     case DPP:
+     case QPP:
+@@ -825,7 +818,7 @@ static void reset_memory(Flash *s)
          break;
-     case ENET_TGSR:
-         /* implement clear timer flag */
--        value = value & 0x0000000f;
-+        s->regs[index] &= ~(value & 0x0000000f); /* all bits W1C */
+     }
+ 
+-    DB_PRINT_L(0, "Reset done.\n");
++    trace_m25p80_reset_done(s);
+ }
+ 
+ static void decode_fast_read_cmd(Flash *s)
+@@ -941,9 +934,10 @@ static void decode_qio_read_cmd(Flash *s)
+ 
+ static void decode_new_cmd(Flash *s, uint32_t value)
+ {
+-    s->cmd_in_progress = value;
+     int i;
+-    DB_PRINT_L(0, "decoded new command:%x\n", value);
++
++    s->cmd_in_progress = value;
++    trace_m25p80_command_decoded(s, value);
+ 
+     if (value != RESET_MEMORY) {
+         s->reset_enable = false;
+@@ -1042,7 +1036,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
          break;
-     case ENET_TCSR0:
-     case ENET_TCSR1:
-     case ENET_TCSR2:
-     case ENET_TCSR3:
--        value = value & 0x000000fd;
-+        s->regs[index] &= ~(value & 0x00000080); /* W1C bits */
-+        s->regs[index] &= ~0x0000007d; /* writable fields */
-+        s->regs[index] |= (value & 0x0000007d);
+ 
+     case JEDEC_READ:
+-        DB_PRINT_L(0, "populated jedec code\n");
++        trace_m25p80_populated_jedec(s);
+         for (i = 0; i < s->pi->id_len; i++) {
+             s->data[i] = s->pi->id[i];
+         }
+@@ -1063,7 +1057,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+     case BULK_ERASE_60:
+     case BULK_ERASE:
+         if (s->write_enable) {
+-            DB_PRINT_L(0, "chip erase\n");
++            trace_m25p80_chip_erase(s);
+             flash_erase(s, 0, BULK_ERASE);
+         } else {
+             qemu_log_mask(LOG_GUEST_ERROR, "M25P80: chip erase with write "
+@@ -1184,7 +1178,7 @@ static int m25p80_cs(SSISlave *ss, bool select)
+         s->data_read_loop = false;
+     }
+ 
+-    DB_PRINT_L(0, "%sselect\n", select ? "de" : "");
++    trace_m25p80_select(s, select ? "de" : "");
+ 
+     return 0;
+ }
+@@ -1194,19 +1188,20 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
+     Flash *s = M25P80(ss);
+     uint32_t r = 0;
+ 
++    trace_m25p80_transfer(s, s->state, s->len, s->needed_bytes, s->pos,
++                          s->cur_addr, (uint8_t)tx);
++
+     switch (s->state) {
+ 
+     case STATE_PAGE_PROGRAM:
+-        DB_PRINT_L(1, "page program cur_addr=%#" PRIx32 " data=%" PRIx8 "\n",
+-                   s->cur_addr, (uint8_t)tx);
++        trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
+         flash_write8(s, s->cur_addr, (uint8_t)tx);
+         s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
          break;
-     case ENET_TCCR0:
-     case ENET_TCCR1:
+ 
+     case STATE_READ:
+         r = s->storage[s->cur_addr];
+-        DB_PRINT_L(1, "READ 0x%" PRIx32 "=%" PRIx8 "\n", s->cur_addr,
+-                   (uint8_t)r);
++        trace_m25p80_read_byte(s, s->cur_addr, (uint8_t)r);
+         s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
+         break;
+ 
+@@ -1244,6 +1239,7 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
+         }
+ 
+         r = s->data[s->pos];
++        trace_m25p80_read_data(s, s->pos, (uint8_t)r);
+         s->pos++;
+         if (s->pos == s->len) {
+             s->pos = 0;
+@@ -1281,7 +1277,7 @@ static void m25p80_realize(SSISlave *ss, Error **errp)
+             return;
+         }
+ 
+-        DB_PRINT_L(0, "Binding to IF_MTD drive\n");
++        trace_m25p80_binding(s);
+         s->storage = blk_blockalign(s->blk, s->size);
+ 
+         if (blk_pread(s->blk, 0, s->storage, s->size) != s->size) {
+@@ -1289,7 +1285,7 @@ static void m25p80_realize(SSISlave *ss, Error **errp)
+             return;
+         }
+     } else {
+-        DB_PRINT_L(0, "No BDRV - binding to RAM\n");
++        trace_m25p80_binding_no_bdrv(s);
+         s->storage = blk_blockalign(NULL, s->size);
+         memset(s->storage, 0xFF, s->size);
+     }
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index c03e80c2c9c..f78939fa9da 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -134,3 +134,19 @@ xen_block_blockdev_add(char *str) "%s"
+ xen_block_blockdev_del(const char *node_name) "%s"
+ xen_block_device_create(unsigned int number) "%u"
+ xen_block_device_destroy(unsigned int number) "%u"
++
++# m25p80.c
++m25p80_flash_erase(void *s, int offset, uint32_t len) "[%p] offset = 0x%"PRIx32", len = %u"
++m25p80_programming_zero_to_one(void *s, uint32_t addr, uint8_t prev, uint8_t data) "[%p] programming zero to one! addr=0x%"PRIx32"  0x%"PRIx8" -> 0x%"PRIx8
++m25p80_reset_done(void *s) "[%p] Reset done."
++m25p80_command_decoded(void *s, uint32_t cmd) "[%p] new command:0x%"PRIx32
++m25p80_complete_collecting(void *s, uint32_t cmd, int n, uint8_t ear, uint32_t cur_addr) "[%p] decode cmd: 0x%"PRIx32" len %d ear 0x%"PRIx8" addr 0x%"PRIx32
++m25p80_populated_jedec(void *s) "[%p] populated jedec code"
++m25p80_chip_erase(void *s) "[%p] chip erase"
++m25p80_select(void *s, const char *what) "[%p] %sselect"
++m25p80_page_program(void *s, uint32_t addr, uint8_t tx) "[%p] page program cur_addr=0x%"PRIx32" data=0x%"PRIx8
++m25p80_transfer(void *s, uint8_t state, uint32_t len, uint8_t needed, uint32_t pos, uint32_t cur_addr, uint8_t t) "[%p] Transfer state 0x%"PRIx8" len 0x%"PRIx32" needed 0x%"PRIx8" pos 0x%"PRIx32" addr 0x%"PRIx32" tx 0x%"PRIx8
++m25p80_read_byte(void *s, uint32_t addr, uint8_t v) "[%p] Read byte 0x%"PRIx32"=0x%"PRIx8
++m25p80_read_data(void *s, uint32_t pos, uint8_t v) "[%p] Read data 0x%"PRIx32"=0x%"PRIx8
++m25p80_binding(void *s) "[%p] Binding to IF_MTD drive"
++m25p80_binding_no_bdrv(void *s) "[%p] No BDRV - binding to RAM"
 -- 
 2.20.1
 
