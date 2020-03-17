@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4764188D1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:27:34 +0100 (CET)
-Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F42188CFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:19:51 +0100 (CET)
+Received: from localhost ([::1]:38938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGw9-0000TQ-Px
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48832)
+	id 1jEGog-0004oV-Pi
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jEGmx-0003TS-AQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:05 -0400
+ (envelope-from <berto@igalia.com>) id 1jEGmc-0002p1-62
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:17:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jEGmv-000097-5T
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:03 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58015)
+ (envelope-from <berto@igalia.com>) id 1jEGmZ-0007Vr-3K
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:17:41 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:57765)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jEGmu-0005yG-4U; Tue, 17 Mar 2020 14:18:00 -0400
+ id 1jEGmX-0005YS-Ao; Tue, 17 Mar 2020 14:17:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=hxp55E9JUt56NLfwt7oK+Qjm0FNoUMZxhVIeDlCQuSw=; 
- b=ZxQ1KWUydvc5RQVXn4Iqu7OnVYcvAuhOC90senR0rMEDbNCs2d7iZJdYAr7TPXyC1nSDBgvkgVdkerh6/rodF/cRcmPACOySSroLqyHaK3PBE1QlDMSu7DZGj64h3XKFuo7k790SAEY9PzBB4KaVq5EX/Wbtnv7zOTgZqb6/Ma+ILnR3wttFX9S0ioObK1v2CPTAO/TSHk8KeOgMO6HN5x52B0G3lKdHFW7A9IK0xLvmoUeUUIN5HBT7bG6yyjn7IsnjxHd8fh8yG6Q2Qs0KcTzHJ21VFaSiY0UdLgrHaYYC1M/NTb+6LV68sgNfbIp1j2PKVBAmJwdvbXTP0PgNmA==;
+ bh=LjK5j2bf8Ro+XMHhvP6jjCCoC2fozdNxPBv9pecMwAM=; 
+ b=YgSsHHqFVMST/uUh3mSGJEGcDcNgip6AUrRRDri8/J9KR6ctkzwGGc2QK6hD/WvNkdxnpnq7BFsvEq6cf99ep6RDmVpe/ncX3VvZC+DAeSCBA3rkE+Jis74YhR95Yw7AgOw4eCFvUSA6VzmuaBzxRhjBrOs1+9rljEyMNl6Is9UpUSA6hrDOgEkvYQzkJsWstnVJLKFuXgvRzK1F6iDN5TEi+nj3UJVEeCJw3Jrt1AohcafFc4OE7Kg6ptT/+Jqo0+ThuQkkE/Q3/4DrsaITrkakqSobk79++4aTsMfAYv4fHeAhZutHOS3s+CcVx1wZUXSWvmzn05c1kc5gwxH5nw==;
 Received: from [81.0.35.138] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jEGmD-00015Y-48; Tue, 17 Mar 2020 19:17:17 +0100
+ id 1jEGmD-00014s-0S; Tue, 17 Mar 2020 19:17:17 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jEGlw-0006Ot-U4; Tue, 17 Mar 2020 19:17:00 +0100
+ id 1jEGlx-0006Oz-0s; Tue, 17 Mar 2020 19:17:01 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/30] qcow2: Restrict qcow2_co_pwrite_zeroes() to full
- clusters only
-Date: Tue, 17 Mar 2020 19:16:23 +0100
-Message-Id: <1415552fc60acc658e3f80751d9ecd63da2b863d.1584468723.git.berto@igalia.com>
+Subject: [PATCH v4 29/30] qcow2: Add subcluster support to qcow2_measure()
+Date: Tue, 17 Mar 2020 19:16:26 +0100
+Message-Id: <ecb9c7c49c0119440aa37916d8cefc08e2098b7d.1584468724.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1584468723.git.berto@igalia.com>
 References: <cover.1584468723.git.berto@igalia.com>
@@ -65,30 +64,86 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally it should be possible to zero individual subclusters using
-this function, but this is currently not implemented.
+Extended L2 entries are bigger than normal L2 entries so this has an
+impact on the amount of metadata needed for a qcow2 file.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/qcow2.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/block/qcow2.c b/block/qcow2.c
-index ad230ed1b1..d406ef355b 100644
+index 77b2713533..aefac85b23 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -3743,7 +3743,9 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-         bytes = s->cluster_size;
-         nr = s->cluster_size;
-         ret = qcow2_get_host_offset(bs, offset, &nr, &off, &type);
--        if (ret < 0 ||
-+        /* TODO: allow zeroing separate subclusters, we only allow
-+         * zeroing full clusters at the moment. */
-+        if (ret < 0 || nr != bytes ||
-             (type != QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN &&
-              type != QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC &&
-              type != QCOW2_SUBCLUSTER_ZERO_PLAIN &&
+@@ -3154,28 +3154,31 @@ int64_t qcow2_refcount_metadata_size(int64_t clusters, size_t cluster_size,
+  * @total_size: virtual disk size in bytes
+  * @cluster_size: cluster size in bytes
+  * @refcount_order: refcount bits power-of-2 exponent
++ * @extended_l2: true if the image has extended L2 entries
+  *
+  * Returns: Total number of bytes required for the fully allocated image
+  * (including metadata).
+  */
+ static int64_t qcow2_calc_prealloc_size(int64_t total_size,
+                                         size_t cluster_size,
+-                                        int refcount_order)
++                                        int refcount_order,
++                                        bool extended_l2)
+ {
+     int64_t meta_size = 0;
+     uint64_t nl1e, nl2e;
+     int64_t aligned_total_size = ROUND_UP(total_size, cluster_size);
++    size_t l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
+ 
+     /* header: 1 cluster */
+     meta_size += cluster_size;
+ 
+     /* total size of L2 tables */
+     nl2e = aligned_total_size / cluster_size;
+-    nl2e = ROUND_UP(nl2e, cluster_size / sizeof(uint64_t));
+-    meta_size += nl2e * sizeof(uint64_t);
++    nl2e = ROUND_UP(nl2e, cluster_size / l2e_size);
++    meta_size += nl2e * l2e_size;
+ 
+     /* total size of L1 tables */
+-    nl1e = nl2e * sizeof(uint64_t) / cluster_size;
++    nl1e = nl2e * l2e_size / cluster_size;
+     nl1e = ROUND_UP(nl1e, cluster_size / sizeof(uint64_t));
+     meta_size += nl1e * sizeof(uint64_t);
+ 
+@@ -4680,6 +4683,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     bool has_backing_file;
+     bool has_luks;
+     bool extended_l2;
++    size_t l2e_size;
+ 
+     /* Parse image creation options */
+     extended_l2 = qemu_opt_get_bool_del(opts, BLOCK_OPT_EXTL2, false);
+@@ -4748,8 +4752,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     virtual_size = ROUND_UP(virtual_size, cluster_size);
+ 
+     /* Check that virtual disk size is valid */
++    l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
+     l2_tables = DIV_ROUND_UP(virtual_size / cluster_size,
+-                             cluster_size / sizeof(uint64_t));
++                             cluster_size / l2e_size);
+     if (l2_tables * sizeof(uint64_t) > QCOW_MAX_L1_SIZE) {
+         error_setg(&local_err, "The image size is too large "
+                                "(try using a larger cluster size)");
+@@ -4812,9 +4817,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     }
+ 
+     info = g_new(BlockMeasureInfo, 1);
+-    info->fully_allocated =
++    info->fully_allocated = luks_payload_size +
+         qcow2_calc_prealloc_size(virtual_size, cluster_size,
+-                                 ctz32(refcount_bits)) + luks_payload_size;
++                                 ctz32(refcount_bits), extended_l2);
+ 
+     /* Remove data clusters that are not required.  This overestimates the
+      * required size because metadata needed for the fully allocated file is
 -- 
 2.20.1
 
