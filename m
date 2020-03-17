@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740B918900D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:06:29 +0100 (CET)
-Received: from localhost ([::1]:41412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FFE189010
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:07:33 +0100 (CET)
+Received: from localhost ([::1]:41440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEJPw-00083Z-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
+	id 1jEJQy-0001ec-GG
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEJL0-0002o1-UK
+ (envelope-from <armbru@redhat.com>) id 1jEJL0-0002o3-O3
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEJKy-0002C5-G3
+ (envelope-from <armbru@redhat.com>) id 1jEJKy-00027J-1P
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:22 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45376)
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44006)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEJKy-00028q-BO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:20 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEJKx-000246-TG
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:01:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584478880;
+ s=mimecast20190719; t=1584478879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NCNLTEn6nwkO0WHex16fofctkvIQtceOwnbeHuTPIA4=;
- b=DPQuOU9cvhnfyhukP8htS1v5gzwXzC8wrBKuWKSGgQqI9odJ8RYCyOpxD6nj4o1+/ZJEZI
- 7h/sXHGcYlIknPmrwkfQ6dXWyrzcZvZMZGtHGjn8cxNVEynzM4l1NfDX77tmdoLTWZlHke
- gTET9dVqlDaqXC3pmBh0Psk2lzsMrXM=
+ bh=3wOFtNB5zpuL7bPtTy0UpWepQUXSNPJv2hSqkkT8rwQ=;
+ b=Gtjh9zNFyLiOzmfAx9Y1BY6hEepE4FQLrbnkI7Plky6lCEXmo9Y8DeOJ7GucnrTtEGA9Zu
+ s7UKKeRHhbbdq8eMMZKoQovi9CiktTRnJqJrQQZSJJy4IL/qGONx95z5fKmqLe6ZNIuCdL
+ NolJmlJq6zkJ83JMqrf6/ZWvF41TS/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-nx909cNJPdWby-USHh4Otg-1; Tue, 17 Mar 2020 17:01:17 -0400
-X-MC-Unique: nx909cNJPdWby-USHh4Otg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-255-gpqBJNkxPc2nbYJs0vvjDA-1; Tue, 17 Mar 2020 17:01:18 -0400
+X-MC-Unique: gpqBJNkxPc2nbYJs0vvjDA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B5F107ACC4
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DAAC800D55
  for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 21:01:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
  [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDCD319C58;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE0B460BE0;
  Tue, 17 Mar 2020 21:01:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 336F81138405; Tue, 17 Mar 2020 22:01:15 +0100 (CET)
+ id 3862511366CC; Tue, 17 Mar 2020 22:01:15 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/30] docs/devel/qapi-code-gen: Fix typo in grammar
-Date: Tue, 17 Mar 2020 22:00:46 +0100
-Message-Id: <20200317210115.8864-2-armbru@redhat.com>
+Subject: [PULL 02/30] qemu-doc: Belatedly document QMP command arg & result
+ deprecation
+Date: Tue, 17 Mar 2020 22:00:47 +0100
+Message-Id: <20200317210115.8864-3-armbru@redhat.com>
 In-Reply-To: <20200317210115.8864-1-armbru@redhat.com>
 References: <20200317210115.8864-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -73,36 +74,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An ALTERNATIVE's value can only be a type name.  Arrays are not
-supported, yet.  The text gets it right: "The form STRING is shorthand
-for { 'type': STRING }."  The grammar doesn't.  Fix it.
+A number of deprecated QMP arguments and results were missed in commit
+eb22aeca65 "docs: document deprecation policy & deprecated features in
+appendix" (v2.10.0):
 
-Fixes: b6c37ebaaf074cac8fe8a4781dc3e79db23e914e
-Reported-by: John Snow <jsnow@redhat.com>
+* Commit b33945cfff "block: Accept device model name for
+  blockdev-open/close-tray" (v2.8.0) deprecated blockdev-open-tray,
+  blockdev-close-tray argument @device.
+
+* Commit fbe2d8163e "block: Accept device model name for eject"
+  (v2.8.0) deprecated eject argument @device.
+
+* Commit 70e2cb3bd7 "block: Accept device model name for
+  blockdev-change-medium" (v2.8.0) deprecated blockdev-change-medium
+  argument @device.
+
+* Commit 7a9877a026 "block: Accept device model name for
+  block_set_io_throttle" (v2.8.0) deprecated block_set_io_throttle
+  argument @device.
+
+* Commit c01c214b69 "block: remove all encryption handling APIs"
+  (v2.10.0) deprecated query-named-block-nodes result
+  @encryption_key_missing and query-block result @inserted member
+  @encryption_key_missing.
+
+* Commit c42e8742f5 "block: Use JSON null instead of "" to disable
+  backing file" (v2.10.0) deprecated blockdev-add empty string
+  argument @backing.
+
+Since then, we missed a few more:
+
+* Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.1.0)
+  deprecated block-commit arguments @base and @top.
+
+* Commit 4db6ceb0b5 "block/dirty-bitmap: add recording and busy
+  properties" (v4.0.0) deprecated query-named-block-nodes result
+  @dirty-bitmaps member @status, not just query-block.
+
+Make up for all that.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200309142638.19988-1-armbru@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200317115459.31821-2-armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/deprecated.rst | 48 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1e..e73979e182 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -399,7 +399,7 @@ Syntax:
-                   'data': ALTERNATIVES,
-                   '*if': COND }
-     ALTERNATIVES =3D { ALTERNATIVE, ... }
--    ALTERNATIVE =3D STRING : TYPE-REF
-+    ALTERNATIVE =3D STRING : STRING
-                 | STRING : { 'type': STRING, '*if': COND }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 0838338d8f..bfc693e8e0 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -180,27 +180,67 @@ QEMU Machine Protocol (QMP) commands
 =20
- Member 'alternate' names the alternate type.
+ Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
+=20
++``blockdev-open-tray``, ``blockdev-close-tray`` argument ``device`` (since=
+ 2.8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+'''''''
++
++Use argument ``id`` instead.
++
++``eject`` argument ``device`` (since 2.8.0)
++'''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
++``blockdev-change-medium`` argument ``device`` (since 2.8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
++``block_set_io_throttle`` argument ``device`` (since 2.8.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument ``id`` instead.
++
+ ``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+=20
+ Use ``migrate-set-parameters`` instead.
+=20
++``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.=
+0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+''
++
++Always false.
++
++``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Always false.
++
++``blockdev-add`` empty string argument ``backing`` (since 2.10.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use argument value ``null`` instead.
++
+ ``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+=20
+ Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
+=20
++``block-commit`` arguments ``base`` and ``top`` (since 3.1.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use arguments ``base-node`` and ``top-node`` instead.
++
+ ``object-add`` option ``props`` (since 5.0)
+ '''''''''''''''''''''''''''''''''''''''''''
+=20
+ Specify the properties for the object as top-level arguments instead.
+=20
+-``query-block`` result field ``dirty-bitmaps[i].status`` (since 4.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].st=
+atus (since 4.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+''''''''''''''''
+=20
+ The ``status`` field of the ``BlockDirtyInfo`` structure, returned by
+-the query-block command is deprecated. Two new boolean fields,
+-``recording`` and ``busy`` effectively replace it.
++these commands is deprecated. Two new boolean fields, ``recording`` and
++``busy`` effectively replace it.
+=20
+ ``query-block`` result field ``dirty-bitmaps`` (Since 4.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 --=20
 2.21.1
 
