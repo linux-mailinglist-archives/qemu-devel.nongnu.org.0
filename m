@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC57187E6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:35:16 +0100 (CET)
-Received: from localhost ([::1]:56192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB8E187E7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:37:53 +0100 (CET)
+Received: from localhost ([::1]:56240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9Z5-0002ZS-PB
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40347)
+	id 1jE9bc-0006ba-7B
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE9Oq-0005CN-UF
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:42 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jE9Rt-0001TX-DU
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE9Oo-0005nH-IN
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:40 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35765)
+ (envelope-from <pbonzini@redhat.com>) id 1jE9Rs-0001Z4-Cj
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:49 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55217)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE9Oo-0005m1-EW
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:24:38 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jE9Rs-0001Si-7n
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584440677;
+ s=mimecast20190719; t=1584440867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cBG0wUfQjsUCmmLPmdOOlLFEXjl2Ck9aL2Cf+XqWfH4=;
- b=BMgQDQ80FNbAfN5Rb74pb8NRv1TyyOhIfjMsTpGZ9pkA/Ki94GV/K94U5IlKkQr8JDblt2
- dYy1uH9+RJhXtfGCBc8XJMMZh7owOUd+u0aFFiCZVwyV1xt93At36vy9+X+dk7Tg2f3f0p
- 06PkpPVmSUxfNK1WWSDb4GWDDjMA0Yc=
+ bh=Es5YNMuYHbD/0Pj7xxHy+DX/ynr1OuFYkFxd50kqhS0=;
+ b=dAf51romkAXcuS7cLzABNz7EFc+gyAQxtdT89v6RvxY9+bhBT1eGFAnVQ1gd2fKG22+dmy
+ swUt2LrH40Z9UeS65olUxyQ4lODKX6r+6ZttV0AG6ryr7r2M0e9ss4Is5xlrxLTfGxkH8h
+ Z0y6DS3wnCxnY+TPVCjobZqwrJ+NzjA=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-uFfSmqAcM2SZo7JGlxVB5w-1; Tue, 17 Mar 2020 06:24:33 -0400
-X-MC-Unique: uFfSmqAcM2SZo7JGlxVB5w-1
-Received: by mail-wm1-f71.google.com with SMTP id a13so6968973wme.7
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:24:33 -0700 (PDT)
+ us-mta-224-03kzja2nNYeL4Igv-H18Xw-1; Tue, 17 Mar 2020 06:27:43 -0400
+X-MC-Unique: 03kzja2nNYeL4Igv-H18Xw-1
+Received: by mail-wm1-f71.google.com with SMTP id a23so6951167wmm.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:27:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IomYhTzxc9V/qeC4qJVlX3AsWM5b1XTh4VYgJVBlMOA=;
- b=BNkMb35Ny2J2o2WpaBbEMKKkky0QZlAQzQyklKAXoUURpoXuU34Ko34k42V88ladA5
- QEEP3j/a2jJLsge1BQJw3+xZwxzpHez5N7TbFJLNKyb0y0UX+JT5qTpM+nVSjnrInoJI
- GJTwiyHtmSEVbhHVRPxwrilaqXo6IyMENvyHWSULV8CZAOYeFvQJ8l6admEKhDgQ367s
- jrAZeDTDaQa3qhoAn/fa7oZi9Gxckhx1VpVRZ+U+KdypVW9D2ZvBJsu/ZlRo8kiMBhe7
- jzpSouEnQfj5SjuwP6vFrS7Zaj35cTpjefqvmnImfhAvzbZ655kH4nWe8uo4pboMCCyW
- lIvA==
-X-Gm-Message-State: ANhLgQ0ki06wROuVihCK5lLU4ZupJLlgzr2sIWqDPfdemXXbdyhzpkhi
- s2vaPekCDLoMySBS33VO14OJ5xR60EbgnHmsXdOAKxBGm3XpjD59Y0rokrAxdv9uYsqv3NlWtjN
- 83tOm/ugRNDzB4I0=
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr4633296wmk.70.1584440672471; 
- Tue, 17 Mar 2020 03:24:32 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuLBAH6WF4VuLla4LV/ARjL47XmkEr1YriPP5LfbIDfu/kF0ylc2yGEcSMRE/8jzfiGcqlS/w==
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr4633277wmk.70.1584440672175; 
- Tue, 17 Mar 2020 03:24:32 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id x17sm3359873wmi.28.2020.03.17.03.24.31
+ bh=b4ue4HBlk0wlprqmw7rP19D9WyYBfZS5Z5GORIUm+VY=;
+ b=KR4QmyLV9m1iywwMPCEreYtdaGmCPRZdIXZEEJVjHtTqHDsZV8RiKkauOJMYZnb4AP
+ X3wW5KIeM3vCq3K+stFj4wYaEBmNPdCnh+aZHdLf5NmG6seHjtzAtRnq3bVJWiRkfMjY
+ xxWMMxJDO949bPEAZnJi4S+7RLNg2AiyKbHMPtkcqAqPE3kr4JfR0zZOLnTDz62tB5DZ
+ HbWCxYwHsjsh0Y18DvfnF5FfMCN1jzvqx6LWSzm5GKuY3ZJECFvxt9y4OoCd2MwJFAY4
+ 15cRfERKr01jer07IWKFsJgu07obZ4PhS7LKcIpzrvXmDtw6VHtOd5bZn2wvae5PsRod
+ p/pA==
+X-Gm-Message-State: ANhLgQ2LkZuQPLKHWVzSFwP7nXrZo5RcwQEXB2fhx8AZRro/ZfVN7QES
+ xmELl25h2kyI6ZfnHJtone0FXbF49yJuRlcQ8wIWvfLENCvYmCFmdVLy/hpXoTc/FGsb6mDKZYf
+ yf05QS9f+QKnw0j8=
+X-Received: by 2002:a5d:44c1:: with SMTP id z1mr5129193wrr.315.1584440862701; 
+ Tue, 17 Mar 2020 03:27:42 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvif/Qj3ow192LmueaosfhLd4VY5SCXjrAi4CUKAdHNUIU93WQZPO4824p1dOOY3XXcUTocfQ==
+X-Received: by 2002:a5d:44c1:: with SMTP id z1mr5129178wrr.315.1584440862475; 
+ Tue, 17 Mar 2020 03:27:42 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.15.227])
+ by smtp.gmail.com with ESMTPSA id i21sm3449926wmb.23.2020.03.17.03.27.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:24:31 -0700 (PDT)
-Subject: Re: [PATCH v1 20/28] tests/tcg/aarch64: userspace system register test
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200316172155.971-1-alex.bennee@linaro.org>
- <20200316172155.971-21-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <18254420-c4a6-b8b6-a8cd-cad3b1d6e38b@redhat.com>
-Date: Tue, 17 Mar 2020 11:24:30 +0100
+ Tue, 17 Mar 2020 03:27:41 -0700 (PDT)
+Subject: Re: [PULL 09/61] MAINTAINERS: Add entry for Guest X86 HAXM CPUs
+To: Colin.Xu@intel.com, qemu-devel@nongnu.org
+References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
+ <1584394048-44994-10-git-send-email-pbonzini@redhat.com>
+ <d9e9e44f-ba54-c2e7-01c8-72337d3f5993@intel.com>
+ <bc354cda-b731-183f-3860-43c3a0af434c@redhat.com>
+ <41756673-bbd4-593f-ade8-3232db8b512e@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1eead546-c06f-2ec0-e3b7-fdc5bb426620@redhat.com>
+Date: Tue, 17 Mar 2020 11:27:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316172155.971-21-alex.bennee@linaro.org>
+In-Reply-To: <41756673-bbd4-593f-ade8-3232db8b512e@intel.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -93,235 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Wenchao Wang <wenchao.wang@intel.com>, Hang Yuan <hang.yuan@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 6:21 PM, Alex Benn=C3=A9e wrote:
-> This tests a bunch of registers that the kernel allows userspace to
-> read including the CPUID registers. We need a SVE aware compiler as we
-> are testing the id_aa64zfr0_el1 register in the set.
+On 17/03/20 09:55, Colin Xu wrote:
 >=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20190205190224.2198-7-alex.bennee@linaro.org>
+> On 2020-03-17 16:26, Paolo Bonzini wrote:
+>> On 17/03/20 08:46, Colin Xu wrote:
+>>> Hi Paolo,
+>>>
+>>> For future HAX patch, once it's "Reviewed-by" haxm maintainers and othe=
+r
+>>> reviewers, do we need "SubmitAPullRequest" separately or you will do it
+>>> together with other patches?
+>> As you prefer.=C2=A0 I wouldn't mind having to send fewer pull requests.=
+ :)
+>>
+>> Paolo
 >=20
-> ---
-> vgdbstub
->    - don't build unless using docker or CROSS_CC_HAS_SVE
-> ---
->   tests/tcg/aarch64/sysregs.c       | 172 ++++++++++++++++++++++++++++++
->   tests/tcg/aarch64/Makefile.target |   6 ++
->   2 files changed, 178 insertions(+)
->   create mode 100644 tests/tcg/aarch64/sysregs.c
+> Would you mind continue help HAX send pull request? It feels like easier
+> to track the changes when stay together with other accelerator patches.
+> We'll regularly check the reviewed patches and do necessary tests, and
+> send you a list of patches that can be queued for next pull.
 >=20
-> diff --git a/tests/tcg/aarch64/sysregs.c b/tests/tcg/aarch64/sysregs.c
-> new file mode 100644
-> index 00000000000..40cf8d2877e
-> --- /dev/null
-> +++ b/tests/tcg/aarch64/sysregs.c
-> @@ -0,0 +1,172 @@
-> +/*
-> + * Check emulated system register access for linux-user mode.
-> + *
-> + * See: https://www.kernel.org/doc/Documentation/arm64/cpu-feature-regis=
-ters.txt
-> + *
-> + * Copyright (c) 2019 Linaro
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include <asm/hwcap.h>
-> +#include <stdio.h>
-> +#include <sys/auxv.h>
-> +#include <signal.h>
-> +#include <string.h>
-> +#include <stdbool.h>
-> +
-> +#ifndef HWCAP_CPUID
-> +#define HWCAP_CPUID (1 << 11)
-> +#endif
-> +
-> +int failed_bit_count;
-> +
-> +/* Read and print system register `id' value */
-> +#define get_cpu_reg(id) ({                                      \
-> +            unsigned long __val =3D 0xdeadbeef;                   \
-> +            asm("mrs %0, "#id : "=3Dr" (__val));                  \
-> +            printf("%-20s: 0x%016lx\n", #id, __val);            \
-> +            __val;                                               \
-> +        })
-> +
-> +/* As above but also check no bits outside of `mask' are set*/
-> +#define get_cpu_reg_check_mask(id, mask) ({                     \
-> +            unsigned long __cval =3D get_cpu_reg(id);             \
-> +            unsigned long __extra =3D __cval & ~mask;             \
-> +            if (__extra) {                                      \
-> +                printf("%-20s: 0x%016lx\n", "  !!extra bits!!", __extra)=
-;   \
-> +                failed_bit_count++;                            \
-> +            }                                                   \
-> +})
-> +
-> +/* As above but check RAZ */
-> +#define get_cpu_reg_check_zero(id) ({                           \
-> +            unsigned long __val =3D 0xdeadbeef;                   \
-> +            asm("mrs %0, "#id : "=3Dr" (__val));                  \
-> +            if (__val) {                                        \
-> +                printf("%-20s: 0x%016lx (not RAZ!)\n", #id, __val);     =
-   \
-> +                failed_bit_count++;                            \
-> +            }                                                   \
-> +})
-> +
-> +/* Chunk up mask into 63:48, 47:32, 31:16, 15:0 to ease counting */
-> +#define _m(a, b, c, d) (0x ## a ## b ## c ## d ##ULL)
-> +
-> +bool should_fail;
-> +int should_fail_count;
-> +int should_not_fail_count;
-> +uintptr_t failed_pc[10];
-> +
-> +void sigill_handler(int signo, siginfo_t *si, void *data)
-> +{
-> +    ucontext_t *uc =3D (ucontext_t *)data;
-> +
-> +    if (should_fail) {
-> +        should_fail_count++;
-> +    } else {
-> +        uintptr_t pc =3D (uintptr_t) uc->uc_mcontext.pc;
-> +        failed_pc[should_not_fail_count++] =3D  pc;
-> +    }
-> +    uc->uc_mcontext.pc +=3D 4;
-> +}
-> +
-> +int main(void)
-> +{
-> +    struct sigaction sa;
-> +
-> +    /* Hook in a SIGILL handler */
-> +    memset(&sa, 0, sizeof(struct sigaction));
-> +    sa.sa_flags =3D SA_SIGINFO;
-> +    sa.sa_sigaction =3D &sigill_handler;
-> +    sigemptyset(&sa.sa_mask);
-> +
-> +    if (sigaction(SIGILL, &sa, 0) !=3D 0) {
-> +        perror("sigaction");
-> +        return 1;
-> +    }
-> +
-> +    /* Counter values have been exposed since Linux 4.12 */
-> +    printf("Checking Counter registers\n");
-> +
-> +    get_cpu_reg(ctr_el0);
-> +    get_cpu_reg(cntvct_el0);
-> +    get_cpu_reg(cntfrq_el0);
-> +
-> +    /* HWCAP_CPUID indicates we can read feature registers, since Linux =
-4.11 */
-> +    if (!(getauxval(AT_HWCAP) & HWCAP_CPUID)) {
-> +        printf("CPUID registers unavailable\n");
-> +        return 1;
-> +    } else {
-> +        printf("Checking CPUID registers\n");
-> +    }
-> +
-> +    /*
-> +     * Some registers only expose some bits to user-space. Anything
-> +     * that is IMPDEF is exported as 0 to user-space. The _mask checks
-> +     * assert no extra bits are set.
-> +     *
-> +     * This check is *not* comprehensive as some fields are set to
-> +     * minimum valid fields - for the purposes of this check allowed
-> +     * to have non-zero values.
-> +     */
-> +    get_cpu_reg_check_mask(id_aa64isar0_el1, _m(00ff,ffff,f0ff,fff0));
-> +    get_cpu_reg_check_mask(id_aa64isar1_el1, _m(0000,00f0,ffff,ffff));
-> +    /* TGran4 & TGran64 as pegged to -1 */
-> +    get_cpu_reg_check_mask(id_aa64mmfr0_el1, _m(0000,0000,ff00,0000));
-> +    get_cpu_reg_check_zero(id_aa64mmfr1_el1);
-> +    /* EL1/EL0 reported as AA64 only */
-> +    get_cpu_reg_check_mask(id_aa64pfr0_el1,  _m(000f,000f,00ff,0011));
-> +    get_cpu_reg_check_mask(id_aa64pfr1_el1,  _m(0000,0000,0000,00f0));
-> +    /* all hidden, DebugVer fixed to 0x6 (ARMv8 debug architecture) */
-> +    get_cpu_reg_check_mask(id_aa64dfr0_el1,  _m(0000,0000,0000,0006));
-> +    get_cpu_reg_check_zero(id_aa64dfr1_el1);
-> +    get_cpu_reg_check_zero(id_aa64zfr0_el1);
-> +
-> +    get_cpu_reg_check_zero(id_aa64afr0_el1);
-> +    get_cpu_reg_check_zero(id_aa64afr1_el1);
-> +
-> +    get_cpu_reg_check_mask(midr_el1,         _m(0000,0000,ffff,ffff));
-> +    /* mpidr sets bit 31, everything else hidden */
-> +    get_cpu_reg_check_mask(mpidr_el1,        _m(0000,0000,8000,0000));
-> +    /* REVIDR is all IMPDEF so should be all zeros to user-space */
-> +    get_cpu_reg_check_zero(revidr_el1);
-> +
-> +    /*
-> +     * There are a block of more registers that are RAZ in the rest of
-> +     * the Op0=3D3, Op1=3D0, CRn=3D0, CRm=3D0,4,5,6,7 space. However for
-> +     * brevity we don't check stuff that is currently un-allocated
-> +     * here. Feel free to add them ;-)
-> +     */
-> +
-> +    printf("Remaining registers should fail\n");
-> +    should_fail =3D true;
-> +
-> +    /* Unexposed register access causes SIGILL */
-> +    get_cpu_reg(id_mmfr0_el1);
-> +    get_cpu_reg(id_mmfr1_el1);
-> +    get_cpu_reg(id_mmfr2_el1);
-> +    get_cpu_reg(id_mmfr3_el1);
-> +
-> +    get_cpu_reg(mvfr0_el1);
-> +    get_cpu_reg(mvfr1_el1);
-> +
-> +    if (should_not_fail_count > 0) {
-> +        int i;
-> +        for (i =3D 0; i < should_not_fail_count; i++) {
-> +            uintptr_t pc =3D failed_pc[i];
-> +            uint32_t insn =3D *(uint32_t *) pc;
-> +            printf("insn %#x @ %#lx unexpected FAIL\n", insn, pc);
-> +        }
-> +        return 1;
-> +    }
-> +
-> +    if (failed_bit_count > 0) {
-> +        printf("Extra information leaked to user-space!\n");
-> +        return 1;
-> +    }
-> +
-> +    return should_fail_count =3D=3D 6 ? 0 : 1;
-> +}
-> diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefi=
-le.target
-> index 8ed477d0d51..a25afc071cc 100644
-> --- a/tests/tcg/aarch64/Makefile.target
-> +++ b/tests/tcg/aarch64/Makefile.target
-> @@ -42,4 +42,10 @@ run-semiconsole: semiconsole
->   run-plugin-semiconsole-with-%:
->   =09$(call skip-test, $<, "MANUAL ONLY")
->  =20
-> +ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
-> +# System Registers Tests
-> +AARCH64_TESTS +=3D sysregs
-> +sysregs: CFLAGS+=3D-march=3Darmv8.1-a+sve
-> +endif
-> +
->   TESTS +=3D $(AARCH64_TESTS)
->=20
+> What do you think?
 
-warning: while parsing target description (at line 47): Vector "vq128hf"=20
-references undefined type "ieee_half"
-warning: Could not load XML target description; ignoring
-*** stack smashing detected ***: <unknown> terminated
+Sure, that's okay.  The number of patches is low enough.
 
-(GCC 9.2.1, Fedora 30)
+Paolo
 
 
