@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423AA189039
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:18:03 +0100 (CET)
-Received: from localhost ([::1]:41586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5955918903C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 22:18:34 +0100 (CET)
+Received: from localhost ([::1]:41594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEJb8-00084o-8j
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55540)
+	id 1jEJbd-0000K5-CU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 17:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jEJOd-0007RZ-2b
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:08 -0400
+ (envelope-from <eblake@redhat.com>) id 1jEJPN-0008N5-7Y
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jEJOb-0001v9-Lq
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:06 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46095)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jEJOb-0001mA-DM
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:05 -0400
-Received: by mail-oi1-x242.google.com with SMTP id x5so5639891oic.13
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 14:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aSojqioVRFKDbpv4f2MVXp5UIa+37kip+rbI87mQAz0=;
- b=tffrDhA9mTBv/u+h1H7qdj6/MFTLNie/tr4fH2XwVMS1+PLY5mnhRotrvtF8YinJRA
- GqVWHc3RjmEmsv5VPKpRSqPhlbQ3fvVNvBOi2kE6vwr+fuGyJCrCAVvjEcJSQcIURcBV
- vyOJJzwWXNu9dcNP4vaAqCgKt+p1yBcU2rmJ3fKkWfkXAry2IponbhTKSLA7YpOim2AM
- WtqohDWqAjv9lb10LvqIuRY2y/oTRgL/3fbqlzj0x0uyYqMC/ZkHjh2lVlQofJWtAS6k
- avyU/45NWAPA3NU8I3z3YUoNPkWrLuaFrwtzxNpWldrLpmYdd3k6lWzG2okyW+6ff3l7
- 82MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aSojqioVRFKDbpv4f2MVXp5UIa+37kip+rbI87mQAz0=;
- b=nu+c2YV7hdJRq3GvMxq1I4aXXmh2uB9o3BdItrs9IT30X9xpxEaFsdtwZ8Y+awPNsR
- Ny9JQnYL7FC4wrPmj2PriUn57mQHtzoYYmQxGuHmih+frmp2/+YR4X/bF2EqR8YJcgCg
- kxKUdpDakTaENsybpm6l0O3Ghcnxmw6yrmHXs5pR0ckU1rqlddxpRWw4qzk+AgCH8G1G
- bO/YEwEcwrNVspHRuWWVHR4cl10fuZPUuOcDR0aTWv9Tp4pVOcJnsF4sh3quhmAb+5Sk
- 4+DvnYAAY7dRgOdfspLwmFtB3oSY87HBKvd3LYjeP7yPJqAIIoi0eN9LZoi7bgrqYbHT
- RkuA==
-X-Gm-Message-State: ANhLgQ2JxFX2C6GIqHCNmMP2s+eBzEBfApt8gz7fCfAYCiPf0/01V6SJ
- uxf+TbfmOtJ6cJ0Fk/VlRXTk5jaWB4+YdwoODGgp/Q==
-X-Google-Smtp-Source: ADFU+vteUOHoFs4FB62KYlUQg9xQiYOiIDUQY1gAjGhPgjHDcl3Az1zt4lvhg4zonA4vdVfjQu7JbiyY3cKdTCWX+qM=
-X-Received: by 2002:aca:5b07:: with SMTP id p7mr661643oib.146.1584479104341;
- Tue, 17 Mar 2020 14:05:04 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jEJPL-00072J-Oq
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39382)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jEJPL-0006xA-IA
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 17:05:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584479151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LCyQlP5WQig87n4l4RlZlHJCGddOMZXdG/uFkKJzNAI=;
+ b=N3PQ2wkVZm/uwHvitYd1JeVdpJxJH+jgopLoZolFCOSdjn1zf0qYB1ax53+flpv4rbvnv7
+ +8sqNVnJYyvC1FsaIuZRS4IEJbhCh+rk1H12gFZXd04JHvZPpj3aCh5oowvNJhZUPXOBYw
+ ZReoGPzzjztNG9v5n66hCoax+92goBI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-bwlbzSrdODiGVNwN3ojaqQ-1; Tue, 17 Mar 2020 17:05:49 -0400
+X-MC-Unique: bwlbzSrdODiGVNwN3ojaqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84570800EB6;
+ Tue, 17 Mar 2020 21:05:48 +0000 (UTC)
+Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F90092D0E;
+ Tue, 17 Mar 2020 21:05:48 +0000 (UTC)
+Subject: Re: [PATCH v4 27/34] qemu-options: New -compat to set policy for
+ deprecated interfaces
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200317115459.31821-1-armbru@redhat.com>
+ <20200317115459.31821-28-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f2466af3-a20d-94f7-950c-2d2cd2e919ae@redhat.com>
+Date: Tue, 17 Mar 2020 16:05:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1584458374-29068-1-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1584458374-29068-1-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Mar 2020 21:04:53 +0000
-Message-ID: <CAFEAcA_eRc7AbD0d2aT-zuHRjyHqRdwvAhZSqkRVMAPQXYvhdQ@mail.gmail.com>
-Subject: Re: [PULL v3 00/62] Misc patches for soft freeze
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <20200317115459.31821-28-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,37 +75,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Mar 2020 at 15:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit a98135f727595382e200d04c2996e868b7925a01:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200316-pull-request' into staging (2020-03-16 14:55:59 +0000)
->
-> are available in the git repository at:
->
->
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 32b9523ad5b44dea87792d5d8f71a87e8cc5803b:
->
->   hw/arm: Let devices own the MemoryRegion they create (2020-03-17 15:18:50 +0100)
->
-> ----------------------------------------------------------------
-> * Bugfixes all over the place
-> * get/set_uint cleanups (Felipe)
-> * Lock guard support (Stefan)
-> * MemoryRegion ownership cleanup (Philippe)
-> * AVX512 optimization for buffer_is_zero (Robert)
->
+On 3/17/20 6:54 AM, Markus Armbruster wrote:
+> Policy is separate for input and output.
+> 
+> Input policy can be "accept" (accept silently), or "reject" (reject
+> the request with an error).
+> 
+> Output policy can be "accept" (pass on unchanged), or "hide" (filter
+> out the deprecated parts).
+> 
+> Default is "accept".  Policies other than "accept" are implemented
+> later in this series.
+> 
+> For now, -compat covers only syntactic aspects of QMP, i.e. stuff
+> tagged with feature 'deprecated'.  We may want to extend it to cover
+> semantic aspects, CLI, and experimental features.
+> 
+> The option is experimental.
 
-Applied, thanks.
+On IRC, we decided that it's probably not worth shoe-horning this (and 
+the rest of the series) into 5.0, given the experimental nature.  Still, 
+I'll go ahead and review, so we can settle on things early in 5.1.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
--- PMM
+> +++ b/qapi/compat.json
+> @@ -0,0 +1,51 @@
+> +# -*- Mode: Python -*-
+> +
+> +##
+> +# = Compatibility policy
+> +##
+> +
+> +##
+> +# @CompatPolicyInput:
+> +#
+> +# Policy for handling "funny" input.
+> +#
+> +# @accept: Accept silently
+> +# @reject: Reject with an error
+> +#
+> +# Since: 5.0
+
+Of course, now that we're slipping this, you'll have to s/5.0/5.1/g over 
+the remaining patches.  I won't point it out further.
+
+> +##
+> +# @CompatPolicy:
+> +#
+> +# Policy for handling deprecated management interfaces.
+> +#
+> +# This is intended for testing users of the management interfaces.
+> +#
+> +# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
+> +# with feature 'deprecated'.  We may want to extend it to cover
+> +# semantic aspects, CLI, and experimental features.
+
+Hiding/rejecting x- interfaces is probably the easiest of these, but I 
+agree that leaving this open-ended to add further coverage (or even 
+additional modes) is still reasonable.
+
+> +#
+> +# @deprecated-input: how to handle deprecated input (default 'accept')
+> +# @deprecated-output: how to handle deprecated output (default 'accept')
+> +#
+> +# Since: 5.0
+> +##
+> +{ 'struct': 'CompatPolicy',
+> +  'data': { '*deprecated-input': 'CompatPolicyInput',
+> +            '*deprecated-output': 'CompatPolicyOutput' } }
+
+For example, adding
+'*experimental-input': 'CompatPolicyInput'
+would make it easy to hard-code failure on attempt to use x-* commands.
+
+
+> +++ b/include/qapi/compat-policy.h
+> @@ -0,0 +1,20 @@
+> +/*
+> + * Policy for handling "funny" management interfaces
+> + *
+> + * Copyright (C) 2019 Red Hat, Inc.
+
+You've had this in-tree for a while. I'll leave it up to you if you want 
+to add 2020.
+
+> + *
+> + * Authors:
+> + *  Markus Armbruster <armbru@redhat.com>,
+> + *
+
+Ending with a comma is odd.  Is the Authors: snippet even necessary, or 
+are we better off relying on git history (which tends to be more 
+accurate anyway)?
+
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> + * later.  See the COPYING file in the top-level directory.
+> + */
+
+Are we trying to use SPDX tags in more files?
+
+> +++ b/qemu-options.hx
+> @@ -3357,6 +3357,26 @@ DEFHEADING()
+>   
+>   DEFHEADING(Debug/Expert options:)
+>   
+> +DEF("compat", HAS_ARG, QEMU_OPTION_compat,
+> +    "-compat [deprecated-input=accept|reject][,deprecated-output=accept|hide]\n"
+> +    "                Policy for handling deprecated management interfaces\n",
+> +    QEMU_ARCH_ALL)
+> +SRST
+> +``-compat [deprecated-input=@var{input-policy}][,deprecated-output=@var{output-policy}]``
+> +    Set policy for handling deprecated management interfaces (experimental):
+
+We'll eventually want to drop (experimental), especially if we get all 
+the rest of this into 5.1.
+
+But for now this looks like a good start.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
