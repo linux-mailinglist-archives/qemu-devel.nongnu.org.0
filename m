@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858B9187DEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:14:51 +0100 (CET)
-Received: from localhost ([::1]:55658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC62187E11
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:19:16 +0100 (CET)
+Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9FK-0001lD-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45541)
+	id 1jE9Jb-0001Rn-Kx
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95r-0001Hw-Gb
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:06 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE968-0001j8-TU
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE95o-0003c0-AX
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:03 -0400
-Received: from ozlabs.org ([203.11.71.1]:32855)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE967-0005mu-OK
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:20 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51149 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE95n-0002yq-Ro; Tue, 17 Mar 2020 06:05:00 -0400
+ id 1jE967-00030h-DZ; Tue, 17 Mar 2020 06:05:19 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTKy6Zkvz9sTG; Tue, 17 Mar 2020 21:04:38 +1100 (AEDT)
+ id 48hTKz4Hnbz9sTP; Tue, 17 Mar 2020 21:04:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584439478;
- bh=48ImQCW8f6mEY6ZIE+2mS92Voyx9RR4s4+J+AWbKKsE=;
+ d=gibson.dropbear.id.au; s=201602; t=1584439479;
+ bh=D29V9qAZgS7/TrioIy7viFrcpIYypxn45k8+wQFRzEA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JV8mEeJUaWZnmJTWDLFDYuiUyafhz2iW/RyH30kAC99/bHSmBQg+f3bWFgj2b9cPy
- 7P6MLbJ8ZVI1SY11uELvScltlh9YEPSJsRBZMy1u5fNcXyQTHemL6XgStw9V/ij8JS
- sO2UIq6PaJPsnHO2ULNRSHqfOhXYIOWWw7cuvaGE=
+ b=k6YbDP7Pm05r97t7GJLZslld2Wkl4m4Mo+Ki19SLRDO+CtLxxHOK+vof+dg0mhM6b
+ uDRYgK92yv37BZIzAyd78B1lUi3zQdWa54LXOVxhFcHZwlEurWt1MiZ+wyaFik8QOD
+ CO58mWfCemNGsYdhvTpI+ZXuq95g+h0ha1usLZZ4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 27/45] hw/scsi/spapr_vscsi: Prevent buffer overflow
-Date: Tue, 17 Mar 2020 21:04:05 +1100
-Message-Id: <20200317100423.622643-28-david@gibson.dropbear.id.au>
+Subject: [PULL 28/45] hw/scsi/spapr_vscsi: Convert debug fprintf() to trace
+ event
+Date: Tue, 17 Mar 2020 21:04:06 +1100
+Message-Id: <20200317100423.622643-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,71 +65,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Depending on the length of sense data, vscsi_send_rsp() can
-overrun the buffer size.
-Do not copy more than SRP_MAX_IU_DATA_LEN bytes, and assert
-that vscsi_send_iu() is always called with a size in range.
-
-Reported-by: Paolo Bonzini <pbonzini@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200305121253.19078-7-philmd@redhat.com>
+Message-Id: <20200305121253.19078-8-philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/scsi/spapr_vscsi.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/scsi/spapr_vscsi.c | 4 +---
+ hw/scsi/trace-events  | 1 +
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-index acf9bb50bc..c4c4f31170 100644
+index c4c4f31170..923488beb2 100644
 --- a/hw/scsi/spapr_vscsi.c
 +++ b/hw/scsi/spapr_vscsi.c
-@@ -55,6 +55,8 @@
- #define VSCSI_MAX_SECTORS       4096
- #define VSCSI_REQ_LIMIT         24
-=20
-+/* Maximum size of a IU payload */
-+#define SRP_MAX_IU_DATA_LEN     (SRP_MAX_IU_LEN - sizeof(union srp_iu))
- #define SRP_RSP_SENSE_DATA_LEN  18
-=20
- #define SRP_REPORT_LUNS_WLUN    0xc10100000000000ULL
-@@ -181,6 +183,8 @@ static int vscsi_send_iu(VSCSIState *s, vscsi_req *re=
-q,
- {
-     long rc, rc1;
-=20
-+    assert(length <=3D SRP_MAX_IU_LEN);
-+
-     /* First copy the SRP */
-     rc =3D spapr_vio_dma_write(&s->vdev, req->crq.s.IU_data_ptr,
-                              &req->viosrp_iu_buf, length);
-@@ -266,10 +270,12 @@ static int vscsi_send_rsp(VSCSIState *s, vscsi_req =
-*req,
-     if (status) {
-         iu->srp.rsp.sol_not =3D (sol_not & 0x04) >> 2;
-         if (req->senselen) {
-+            int sense_data_len =3D MIN(req->senselen, SRP_MAX_IU_DATA_LE=
-N);
-+
-             iu->srp.rsp.flags |=3D SRP_RSP_FLAG_SNSVALID;
--            iu->srp.rsp.sense_data_len =3D cpu_to_be32(req->senselen);
--            memcpy(iu->srp.rsp.data, req->sense, req->senselen);
--            total_len +=3D req->senselen;
-+            iu->srp.rsp.sense_data_len =3D cpu_to_be32(sense_data_len);
-+            memcpy(iu->srp.rsp.data, req->sense, sense_data_len);
-+            total_len +=3D sense_data_len;
-         }
-     } else {
-         iu->srp.rsp.sol_not =3D (sol_not & 0x02) >> 1;
-@@ -896,6 +902,7 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscs=
+@@ -839,9 +839,7 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscs=
 i_req *req)
-     }
+     uint64_t tag =3D iu->srp.rsp.tag;
+     uint8_t sol_not =3D iu->srp.cmd.sol_not;
 =20
-     /* Compose the response here as  */
-+    QEMU_BUILD_BUG_ON(SRP_MAX_IU_DATA_LEN < 4);
-     memset(iu, 0, sizeof(struct srp_rsp) + 4);
-     iu->srp.rsp.opcode =3D SRP_RSP;
-     iu->srp.rsp.req_lim_delta =3D cpu_to_be32(1);
+-    fprintf(stderr, "vscsi_process_tsk_mgmt %02x\n",
+-            iu->srp.tsk_mgmt.tsk_mgmt_func);
+-
++    trace_spapr_vscsi_process_tsk_mgmt(iu->srp.tsk_mgmt.tsk_mgmt_func);
+     d =3D vscsi_device_find(&s->bus,
+                           be64_to_cpu(req_iu(req)->srp.tsk_mgmt.lun), &l=
+un);
+     if (!d) {
+diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+index b0820052f8..9a4a60ca63 100644
+--- a/hw/scsi/trace-events
++++ b/hw/scsi/trace-events
+@@ -227,6 +227,7 @@ spapr_vscsi_command_complete_status(uint32_t status) =
+"Command complete err=3D%"PRI
+ spapr_vscsi_save_request(uint32_t qtag, unsigned desc, unsigned offset) =
+"saving tag=3D%"PRIu32", current desc#%u, offset=3D0x%x"
+ spapr_vscsi_load_request(uint32_t qtag, unsigned desc, unsigned offset) =
+"restoring tag=3D%"PRIu32", current desc#%u, offset=3D0x%x"
+ spapr_vscsi_process_login(void) "Got login, sending response !"
++spapr_vscsi_process_tsk_mgmt(uint8_t func) "tsk_mgmt_func 0x%02x"
+ spapr_vscsi_queue_cmd_no_drive(uint64_t lun) "Command for lun 0x%08" PRI=
+x64 " with no drive"
+ spapr_vscsi_queue_cmd(uint32_t qtag, unsigned cdb, const char *cmd, int =
+lun, int ret) "Queued command tag 0x%"PRIx32" CMD 0x%x=3D%s LUN %d ret: %=
+d"
+ spapr_vscsi_do_crq(unsigned c0, unsigned c1) "crq: %02x %02x ..."
 --=20
 2.24.1
 
