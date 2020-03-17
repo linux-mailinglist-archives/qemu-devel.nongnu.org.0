@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB4018922B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:30:31 +0100 (CET)
-Received: from localhost ([::1]:43042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D3D18922D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:32:59 +0100 (CET)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELfK-0001gH-RD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52975)
+	id 1jELhi-00058n-8Y
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELZR-0000Ix-Oo
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:26 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELZe-0000oz-0i
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELZQ-0003qb-Mj
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:49855)
+ (envelope-from <jsnow@redhat.com>) id 1jELZc-0005PC-Qk
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35046)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZQ-0003m9-Hi
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:24 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZc-0005MW-NJ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487464;
+ s=mimecast20190719; t=1584487476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GnwRsDX6VExlAm3qYZrwhrxhhISuBQagwjpeLuR/TMk=;
- b=UmZjzwyO7nSgzi3g2oCm2czRqTU5LK8vTiWg2450WD3Xtwvc58+4Jp+LG32V8EEX3UZC+J
- X4NocQp2bGd9eyflvhwOnpNuEPMO3mfm2dK4MOvVWEj/7+1oFl3AW18detAhyHfqkTKebD
- dMmVuZwjPF+EqyB14qrm7PEM+o0Ocy8=
+ bh=hav4nkUHBnBpOmQjjncPxXw7xtu0T2JmJhQ14ZDoJo8=;
+ b=VfJduzrN4iWZ5SjDqn6MGzIaq1accctDVBvNQziimq+Wgzv2o5PxLS5d+xZgyf9fy7/EYn
+ Lg7fcMlN9HcENoFi7yr/fySsZqK1BCI/9ITtKRfFbBuTwONZo2ieM7un7z94isQOv+WQCZ
+ YlePh6SrQGZ68Nl19yUNnUR2zy5+dk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-LZDidgCQMlSsSsbeIYTDFQ-1; Tue, 17 Mar 2020 19:24:22 -0400
-X-MC-Unique: LZDidgCQMlSsSsbeIYTDFQ-1
+ us-mta-207-zALfh3zzPPCyxJofTIVa5w-1; Tue, 17 Mar 2020 19:24:32 -0400
+X-MC-Unique: zALfh3zzPPCyxJofTIVa5w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42210100550D;
- Tue, 17 Mar 2020 23:24:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBC621005514;
+ Tue, 17 Mar 2020 23:24:29 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ACA660BE0;
- Tue, 17 Mar 2020 23:24:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96D7960BE0;
+ Tue, 17 Mar 2020 23:24:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/20] pci: Honour wmask when resetting PCI_INTERRUPT_LINE
-Date: Tue, 17 Mar 2020 19:23:16 -0400
-Message-Id: <20200317232329.22362-8-jsnow@redhat.com>
+Subject: [PULL 09/20] via-ide: initialise IDE controller in legacy mode
+Date: Tue, 17 Mar 2020 19:23:18 -0400
+Message-Id: <20200317232329.22362-10-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,46 +87,57 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The pci_do_device_reset() function (called from pci_device_reset)
-clears the PCI_INTERRUPT_LINE config reg of devices on the bus but did
-this without taking wmask into account. We'll have a device model now
-that needs to set a constant value for this reg and this patch allows
-to do that without additional workaround in device emulation to
-reverse the effect of this PCI bus reset function.
+According to both the VT82C686B and VT8231 datasheets the VIA Southbridge I=
+DE
+controller is initialised in legacy mode.
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+This allows Linux to correctly determine that legacy rather than PCI IRQ ro=
+uting
+should be used since the boot console text in the fulong2e test image chang=
+es from:
+
+scsi0 : pata_via
+scsi1 : pata_via
+ata1: PATA max UDMA/100 cmd 0xffffffffbfd04050 ctl 0xffffffffbfd04062 \
+  bmdma 0xffffffffbfd04040 irq 14
+ata2: PATA max UDMA/100 cmd 0xffffffffbfd04058 ctl 0xffffffffbfd04066 \
+  bmdma 0xffffffffbfd04048 irq 14
+
+to:
+
+scsi0 : pata_via
+scsi1 : pata_via
+ata1: PATA max UDMA/100 cmd 0xffffffffbfd001f0 ctl 0xffffffffbfd003f6 \
+  bmdma 0xffffffffbfd04040 irq 14
+ata2: PATA max UDMA/100 cmd 0xffffffffbfd00170 ctl 0xffffffffbfd00376 \
+  bmdma 0xffffffffbfd04048 irq 15
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-id: 20200313082444.2439-4-mark.cave-ayland@ilande.co.uk
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-id: 20200313082444.2439-6-mark.cave-ayland@ilande.co.uk
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/pci/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/ide/via.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e1ed6677e1..b5bc842fac 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -302,8 +302,11 @@ static void pci_do_device_reset(PCIDevice *dev)
-     pci_word_test_and_clear_mask(dev->config + PCI_STATUS,
-                                  pci_get_word(dev->wmask + PCI_STATUS) |
-                                  pci_get_word(dev->w1cmask + PCI_STATUS));
-+    /* Some devices make bits of PCI_INTERRUPT_LINE read only */
-+    pci_byte_test_and_clear_mask(dev->config + PCI_INTERRUPT_LINE,
-+                              pci_get_word(dev->wmask + PCI_INTERRUPT_LINE=
-) |
-+                              pci_get_word(dev->w1cmask + PCI_INTERRUPT_LI=
-NE));
-     dev->config[PCI_CACHE_LINE_SIZE] =3D 0x0;
--    dev->config[PCI_INTERRUPT_LINE] =3D 0x0;
-     for (r =3D 0; r < PCI_NUM_REGIONS; ++r) {
-         PCIIORegion *region =3D &dev->io_regions[r];
-         if (!region->size) {
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 8363bd4802..c8835de01b 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -167,7 +167,7 @@ static void via_ide_realize(PCIDevice *dev, Error **err=
+p)
+     uint8_t *pci_conf =3D dev->config;
+     int i;
+=20
+-    pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode =
+*/
++    pci_config_set_prog_interface(pci_conf, 0x8a); /* legacy mode */
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+     dev->wmask[PCI_INTERRUPT_LINE] =3D 0;
+=20
 --=20
 2.21.1
 
