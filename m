@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AC01889AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:02:32 +0100 (CET)
-Received: from localhost ([::1]:35468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24DD1889CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:07:58 +0100 (CET)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEfm-0006dA-9R
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:02:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36979)
+	id 1jEEl3-00071J-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEEVK-0004mS-FS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:44 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jEEVK-0004lo-4l
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEEVI-0007Bd-PG
+ (envelope-from <laurent@vivier.eu>) id 1jEEVI-0007CP-Rl
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:42 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:53959)
+Received: from mout.kundenserver.de ([217.72.192.73]:58391)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVH-000798-MP
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEEVI-00074f-IW
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:51:40 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MvbO4-1jXHUC43vC-00sdf8; Tue, 17 Mar 2020 16:51:23 +0100
+ id 1MfYHW-1jl5Gw1Xjs-00g3GW; Tue, 17 Mar 2020 16:51:26 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/37] target/i386: Renumber EXCP_SYSCALL
-Date: Tue, 17 Mar 2020 16:50:40 +0100
-Message-Id: <20200317155116.1227513-2-laurent@vivier.eu>
+Subject: [PULL v2 04/37] linux-user: Add x86_64 vsyscall page to
+ /proc/self/maps
+Date: Tue, 17 Mar 2020 16:50:43 +0100
+Message-Id: <20200317155116.1227513-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200317155116.1227513-1-laurent@vivier.eu>
 References: <20200317155116.1227513-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IHSb0XGKBUV2bLYKONNW1gLsiPLvCT+GaqeE2S4y0flDKBJ9S1N
- JehETmgvNW/82ei8ENXFeeDXz0vF7YVDVyJsGxQpPXT/64pBB8LAoU2Tbd/0TJyRKYXS1Hq
- 4FR82COdrMLM31ecvJsM+kjabx51N8avI6gVxKvEfmcx9iaDYhjNZIgSjbrI2GkxYeJTzYI
- 8fzuz4MNtcteEtRdtqrBA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J2WJ+ttZNPs=:qqu8/qDkGEsqfqEkU4JHw2
- /MqUUCrQvz+pJWV8Nqgb1LlzVnuOYHoKzYrPnQnMYwF3wLN0gDOd3sORn8dYqDIcNFTGBeh0Y
- 8g1Mo/VAMIPOKnRJfDutWMuN7zTCEin5w0v0rVBIKp0o5VXzmQbxqs4jdLd33TsjfkmvqcjJq
- ddto7Swf40LkeoQqwiFbaaT6wp4Hmhpg27CTREsCGgQLTwcmZf9r4H8iL0nRR6+BfA6+zzuki
- Cc1C25r4gIlR7nAiAfMvz2qF4OCfvMwVwO3J+0nx+htwtuv1jaaaBnH6zhzMbuFLQYPFCWn4m
- WhUNC99Ius7hBFachQQatnEutQMMI6vS4py9auLYP/YHVguzHE2l1MgCxtviWQJyvcOss0Eby
- Yibl4INxmI7ezGiJJIfvukwaFYaZkbeLeaer39QqyJkwLV0VqovNr5XGlMjbj1nMxUik1FnAP
- rX2YN54Dj1TtojMgkxYHZv8Fnet+GyXZeIT6XAVPkk5CCgxrp/JmsofFBDlBRJtL7wSMLh5Vs
- bRkut5C9jXKvuxFGEFj+9VJ3suEY3V0RrxqDkCrF3umK00GmDodYxUul9PROLv9iQHHVTNhrJ
- tleTdvGXiGsYPusPbJIiaKHpDIadpwyHa090hQMUaCHrnSEIPZhoFmut6MpkZ+NO4XR1NQ3es
- CQj8iwVJntMU+ga4+js+1fJ1cGp3JJrDct5ohv40SIvwoO+JQovBRA5vRGD/RT2JzCLLjAxZy
- GJCZXPnVJOMi7/+V6iH/2xE0DYDQEWX91FgyBiUk8rZvYpxAgP41Pd/445Eei2Fa0YRykJP9V
- 7MOY4tDy5ahvQ2WF5bkjvJdfPxsKXHhboiP03mbpkYhDhiVftceE7SkAI0caz84eD+/dewp
+X-Provags-ID: V03:K1:obArXG41tvjaxxflB7jXPHCdM0J/9xxp6czqD9oDJq1UMtUan+v
+ asnZX+TAJAOVCAl1ZqGGg5gCgxkRoGhTsMY3mal05Gkfsh7SXZkx4CAA1BGrfjH6FBeBc/t
+ a/5dAoM1MK2Z0YuC6CvdTVnDzp64Iv0gR7pibiHX8eqrwMbDPubEGcUQnTqQsF4hC6dFE0H
+ drRtmsLYY5GhPQ4u1hYsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s6QCS2Xc3Ck=:FYEG4lEN3r35VJclh/mPh1
+ j+9HTb4dWE8BIiDv74oiMxSgMad09TNNbWZ5RVziG8wTXQdgOkXKPyxBCZUDVzPX4nCiQb91E
+ qgE22cm+pTSW36O97m+kUavAPKQuzIaTXGHrLT7E75tP59bo/UknXNkwkgpMz+7YD1BPkeAaN
+ IuNnRjvoluNdWEcXFJdYS4IIWqZG5aKUKDH8JKQfb3hrCz+CVbGoHhMURjzupq9ffgQ+v/kpT
+ UJTkQA6xeIFaLYY42rjajAcbDF3Hvj0SLnCHr52hZEvhTTe/Jg5S34CVriM3HEOWJ5wNyl1yY
+ whGVrM0BOjq1lM7bHxmMmxWLnpJCpzopuG7FwTDQSMA5cqbX9l7wQ4t7Ehp/2URVoqE7rC9IV
+ QfDugDsZwzoZ4/8eRC4yAnaI1XB8rkpGKAewKgGWLOU7MWv2PAMlBXq1p0G6YvBIlhYkIZb+P
+ jg/Lh50sv5nQAB7hBnRixccZ10sj4KIk/M8bBlmgdEP/V2tCw1tZ7oASwhf+DvLo61dENKz6c
+ bia+l91Wvc2k9MAzBxpyFDrQgR8bAQ0aYw3uAsizQ5KiY3c+wH6lzVv3YOsPaFMMw2feMc9OU
+ ugsdvBWii26l/hn07pnFwiUx3rqJVZz5+MjBUi8Oxi3UKp4XQm1BY0FyLFnTpaWfa7GWnt/ol
+ zE9wtqC3Z0NhT7TfMAeMzmapi2kDeUNAmFvplTAxcTNm6N68LwoQW71VhTvFb4qpe1AeV5N0h
+ w167rruVzt3csP0fwVqtYSiTPy7SEJqo3dR1wY99wOzbF8/xY4Y5Fkn4Drv78dPs4ncnBYr8T
+ GU5waJ0Q1Te1HBlsK01H+bkxfH+incVoXHDlueSDlN9IOW6VANtJS//3ORbWkeKySb2HpD6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,46 +64,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>,
+Cc: Riku Voipio <riku.voipio@iki.fi>,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We are not short of numbers for EXCP_*.  There is no need to confuse things
-by having EXCP_VMEXIT and EXCP_SYSCALL overlap, even though the former is
-only used for system mode and the latter is only used for user mode.
+The page isn't (necessarily) present in the host /proc/self/maps,
+and even if it might be it isn't present in page_flags, and even
+if it was it might not have the same set of page permissions.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The easiest thing to do, particularly when it comes to the
+"[vsyscall]" note at the end of line, is to special case it.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200213032223.14643-2-richard.henderson@linaro.org>
+Message-Id: <20200213032223.14643-5-richard.henderson@linaro.org>
+[lv: remove trailing whitespace]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/i386/cpu.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ linux-user/syscall.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 576f309bbfc8..08b4422f36bd 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -999,9 +999,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define EXCP11_ALGN	17
- #define EXCP12_MCHK	18
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8d27d1080752..5479d67a10be 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7079,6 +7079,16 @@ static int open_self_maps(void *cpu_env, int fd)
+         }
+     }
  
--#define EXCP_SYSCALL    0x100 /* only happens in user only emulation
--                                 for syscall instruction */
--#define EXCP_VMEXIT     0x100
-+#define EXCP_VMEXIT     0x100 /* only for system emulation */
-+#define EXCP_SYSCALL    0x101 /* only for user emulation */
++#ifdef TARGET_VSYSCALL_PAGE
++    /*
++     * We only support execution from the vsyscall page.
++     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=y from v5.3.
++     */
++    dprintf(fd, TARGET_FMT_lx "-" TARGET_FMT_lx
++            " --xp 00000000 00:00 0 [vsyscall]\n",
++            TARGET_VSYSCALL_PAGE, TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE);
++#endif
++
+     free(line);
+     fclose(fp);
  
- /* i386-specific interrupt pending bits.  */
- #define CPU_INTERRUPT_POLL      CPU_INTERRUPT_TGT_EXT_1
 -- 
 2.24.1
 
