@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7673188C9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:54:31 +0100 (CET)
-Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B690F188C98
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:52:45 +0100 (CET)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGQA-0005e4-NP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56915)
+	id 1jEGOS-0002Ic-OU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGMs-0000Im-1x
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGMs-0000JQ-77
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGMn-000281-Q7
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:04 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37968)
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGMm-00020t-OA
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:05 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35112)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jEGMn-00023R-JX
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:01 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id t13so244527wmi.3
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:51:01 -0700 (PDT)
+ id 1jEGMm-0001rv-CJ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:51:00 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h4so6269763wru.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ct6UnNO0v3t7GlF0HPoxhyjiCS97DL0SR0Dn0QoY3ek=;
- b=D+H2vv2/ZJHaFBk4sfreBJmvQVNbPMwYBsV1/MBbHbDWTR4QlU4DzOZtpjtJCmZRt9
- GGbbg/ia7Em/WgtmW9IIreh3RoWin5cesql74IOyQ2zmMWk6rn+RDS17EKbZG6Lft8CJ
- IN9wJpz3TrOxs7t2MRI8lpAm90o3f6K7PQfq7CdPBvab87BAp09nRmc+nvGdPXo/TGBI
- qwsduMUbtlcv4I+J7C25NfyuLMjpslo48nlRwJWVu5k/zCgzdPXrwsj/6VwkR6dU+Qes
- MgYd611UoG10XSlml6Qef7Gj1bwcVFy2VCXZ9shxyyYlX3g6VnMBumcmnpOf++iERfgd
- rTnA==
+ bh=y/xH7KKbev8lpysybsWMzMTaGtbZlSBv+uAIC7/GWhE=;
+ b=WPb0FEwGGjDjC+kAwgIdvsyZ6f10D556yNER69hAeS5roDzoQqzMA7P6y+0rvp4mt2
+ H52efzx5PwLUJLyB3FcIehksDmLunUGDk+hK0y2M71s6kTtNtVPj+fqaT8Txuutvhe6H
+ r78i3UP9FcB/wBHjEt161B+wQLoIAejWy/C39C6rclKWmELPjMU8BLW19eaeuP3dxH2o
+ sjjiw07l2txW3oIAhX3cX1mY0nYN+lUzSvp9kvNpsN72Qu1vjOO5ZICoyuR7parVUVY9
+ gMy3E/ToybI679jNpYRY0wxgPiW9DJTy+IQx57ivSn1wTaeDjgIanHHBVJVyvBgJWJRg
+ P8uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ct6UnNO0v3t7GlF0HPoxhyjiCS97DL0SR0Dn0QoY3ek=;
- b=XeySG/31U/Z88fM6OQ7GJjTmKu8x0XTptbbnmD6iARbx2MQSJt98RxnyRcF6D3u7bO
- Z/3On4H50ju2KdWOdWKidfYtmV5SBpsg4/x2/aX2CZEjbOw3B3VL6JCluiSitanaMig4
- KPWTYJFg2tP6TKrfcsFJDWgXmbZ9KFGqS1DpUDtRoxnTJ9xCmCEjxZSP5aHj7GwfcL3l
- g4z02KuI5fFj/2eXQ74LwmSqsd1aTBhGAl5wWP9suS3Q2QKjj0uDqe48gG+LrrUxQP7C
- fhLYawaMiHkaSAsP3fIiI8W30aDEkNNcOMA5+CTT2a6edK87LPOji+QwshIekp9yh7Z2
- XhqQ==
-X-Gm-Message-State: ANhLgQ1jZU/lfb044iJHNW/aoFVKSCuxNEj8LEREANynlLxyaeV1MDle
- 1RX7Pv+nDjpKOyjOZyKoRO4nXQ==
-X-Google-Smtp-Source: ADFU+vuch3Ao6ABNa+ZQ3QfON5r9r12PtWaurqNjci4gA+t1+WRN9nPrr2SbIyBcNR845r/VmBY03g==
-X-Received: by 2002:a7b:c770:: with SMTP id x16mr144638wmk.159.1584467460485; 
- Tue, 17 Mar 2020 10:51:00 -0700 (PDT)
+ bh=y/xH7KKbev8lpysybsWMzMTaGtbZlSBv+uAIC7/GWhE=;
+ b=QIH5LHp8rx5NCDfVMzB9682+q8DuxIn08W/gyBcGlRUiPA3Z7BoBZhVASj54cmUKsJ
+ 9hs66lgXtKUZgwvArOX5oe8fUyZOu3XsPDWH56Iw9D1ONzsC9zazCaqKuxBI3FNPvA8D
+ 6hnrAT9/cnuYpa+D/UnmVWKWg1CnNqXQBXhQL2kvQgkIIf9siZM+lzFraGiC1fMHapco
+ FG9YJc4VIa3hKY9wps2AZHRKx2Mm057y86oqEsl522T+FZ59+VSxmXRGccqsWb2bmmvc
+ mjvnb+oh7u4IPMVI1oyK6UMfLSC8s0IsNUMAHPDtaPK5VNQixHGFp/F7lmxOg8VcmBjy
+ JqMQ==
+X-Gm-Message-State: ANhLgQ0SybRAO6GuAeEzpaoNQB5FdZOl51MfFZse3akN+gVHVQ1edLL/
+ t4rye80WNisGGXoLjRwTS7HAhg==
+X-Google-Smtp-Source: ADFU+vtP+aBDr2tiFKYWYh1W7UwEx5vbqd3w3mawfzM0QhWqgwuCYUiluP2EsWfM1gfZZTD8AjPTbw==
+X-Received: by 2002:a5d:5504:: with SMTP id b4mr134936wrv.181.1584467459325;
+ Tue, 17 Mar 2020 10:50:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n9sm207661wmi.23.2020.03.17.10.50.54
+ by smtp.gmail.com with ESMTPSA id n10sm5768352wro.14.2020.03.17.10.50.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Mar 2020 10:50:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 840841FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 99B0B1FF90;
  Tue, 17 Mar 2020 17:50:53 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/28] tests/docker: Remove obsolete VirGL --with-glx configure
- option
-Date: Tue, 17 Mar 2020 17:50:28 +0000
-Message-Id: <20200317175053.5278-4-alex.bennee@linaro.org>
+Subject: [PULL 04/28] tests/docker: Update VirGL to v0.8.0
+Date: Tue, 17 Mar 2020 17:50:29 +0000
+Message-Id: <20200317175053.5278-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317175053.5278-1-alex.bennee@linaro.org>
 References: <20200317175053.5278-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,36 +90,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The GLX configure option has been removed in 71c75f201d [*].
-We missed that when updating to v0.7.0 in commit fab3220f97.
+Building the qemu:debian-amd64 fails when building VirGL:
 
-This silents:
+  make[2]: Entering directory '/usr/src/virglrenderer/src/gallium/auxiliary'
+    CC       cso_cache/cso_cache.lo
+    CC       cso_cache/cso_hash.lo
+    CC       os/os_misc.lo
+    CC       util/u_debug.lo
+    CC       util/u_debug_describe.lo
+    CC       util/u_format.lo
+    GEN      util/u_format_table.c
+  Traceback (most recent call last):
+    File "./util/u_format_table.py", line 168, in <module>
+      main()
+    File "./util/u_format_table.py", line 164, in main
+      write_format_table(formats)
+    File "./util/u_format_table.py", line 132, in write_format_table
+      print("   %s,\t/* is_array */" % (bool_map(format.is_array()),))
+    File "/usr/src/virglrenderer/src/gallium/auxiliary/util/u_format_parse.py", line 164, in is_array
+      return self.array_element() != None
+    File "/usr/src/virglrenderer/src/gallium/auxiliary/util/u_format_parse.py", line 73, in __eq__
+      return self.type == other.type and self.norm == other.norm and self.pure == other.pure and self.size == other.size
+  AttributeError: 'NoneType' object has no attribute 'type'
+  make[2]: Leaving directory '/usr/src/virglrenderer/src/gallium/auxiliary'
+  make[2]: *** [Makefile:906: util/u_format_table.c] Error 1
+  make[1]: *** [Makefile:631: install-recursive] Error 1
 
-  configure: creating ./config.status
-  config.status: creating virglrenderer.pc
-  ...
-  configure: WARNING: unrecognized options: --with-glx
-
-[*] https://gitlab.freedesktop.org/virgl/virglrenderer/commit/71c75f201d
+VirGL commits a8962eda1..a613dcc82 fix this problem.
+Update to VirGL 0.8.0 which contains them.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200212202709.12665-3-philmd@redhat.com>
-Message-Id: <20200316172155.971-4-alex.bennee@linaro.org>
+Message-Id: <20200212202709.12665-4-philmd@redhat.com>
+Message-Id: <20200316172155.971-5-alex.bennee@linaro.org>
 
 diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index b67fad54cb7..a1d40a56fa1 100644
+index a1d40a56fa1..c70c916343e 100644
 --- a/tests/docker/dockerfiles/debian-amd64.docker
 +++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -29,7 +29,7 @@ RUN apt update && \
+@@ -28,7 +28,7 @@ RUN apt update && \
+         libepoxy-dev \
          libgbm-dev
  RUN git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git /usr/src/virglrenderer && \
-     cd /usr/src/virglrenderer && git checkout virglrenderer-0.7.0
--RUN cd /usr/src/virglrenderer && ./autogen.sh && ./configure --with-glx --disable-tests && make install
-+RUN cd /usr/src/virglrenderer && ./autogen.sh && ./configure --disable-tests && make install
+-    cd /usr/src/virglrenderer && git checkout virglrenderer-0.7.0
++    cd /usr/src/virglrenderer && git checkout virglrenderer-0.8.0
+ RUN cd /usr/src/virglrenderer && ./autogen.sh && ./configure --disable-tests && make install
  
  # netmap
- RUN apt update && \
 -- 
 2.20.1
 
