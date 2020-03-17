@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6E7188963
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:47:08 +0100 (CET)
-Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD0A188959
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:44:19 +0100 (CET)
+Received: from localhost ([::1]:35032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEQt-0002tr-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:47:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36431)
+	id 1jEEOA-0007Mw-8i
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jEE0q-0007Xm-36
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:20:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEE42-0004kG-NN
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:23:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jEE0o-0007ps-K2
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:20:11 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59077)
+ (envelope-from <philmd@redhat.com>) id 1jEE41-0000fA-G7
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:23:30 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:27217)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jEE0o-0007mR-ED
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:20:10 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEE41-0000bq-9Y
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:23:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584458410;
+ s=mimecast20190719; t=1584458605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=45hdr1RxCui+Y2WN5hiOmAiGRqBnDrR3cNwNQQQEKrs=;
- b=QLbTEMEJW2y29Fx4Bbv+gcesP44C8wRYoUhvzlNPzmg9ZhrnNEUr7v0Oll/nYBrp1tZ3k8
- PHO0ZjC0J3bkxmTJMTpE2oa5B7Mp7pke7lPxFLVagR1LdIqT9JjsPthkvTMKVsdYTXRgoX
- kfDTKP572/RcF6BKOuMN7v7l0P4sig4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-1NoNgNcxNaWgFQeWDd0sog-1; Tue, 17 Mar 2020 11:20:08 -0400
-X-MC-Unique: 1NoNgNcxNaWgFQeWDd0sog-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4690C801E7E
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 15:20:07 +0000 (UTC)
-Received: from 640k.localdomain.com (unknown [10.36.110.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16A1D7E333;
- Tue, 17 Mar 2020 15:20:02 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 37/62] lockable: add QemuRecMutex support
-Date: Tue, 17 Mar 2020 16:19:34 +0100
-Message-Id: <1584458374-29068-4-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1584458374-29068-1-git-send-email-pbonzini@redhat.com>
-References: <1584458374-29068-1-git-send-email-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ bh=VAd7TGQuwmnGh0gRhtsgfxgXkdeiRCQDX/ppoRr5I3k=;
+ b=S2xbD2lBqLsA2loGgV7i2qQwFmvZFEX8nYYs4jwIdXM++fpSlNKf94scEUnpB4NJJfOASf
+ b0m+6WlerHPcilZLl/D1QBJf/wRJ7d+fePpM8BNndYlKGkDTTXkv4RqMbmigIwa5hoH+Ty
+ u6GOQTUvFiopPNQi/jHoXBAqXbuMBV0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-svYzEs0hNoKhTPkpDy1zQA-1; Tue, 17 Mar 2020 11:23:22 -0400
+X-MC-Unique: svYzEs0hNoKhTPkpDy1zQA-1
+Received: by mail-wm1-f69.google.com with SMTP id r23so7301559wmn.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 08:23:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9V0MuUsVFzNiBW4fwUsGHbWAkRWSoWXMiHtd49rqK5U=;
+ b=XiAl9pq9OAv7s8jelnPdHKrKPhbP21FOJRoaBenQJtjWl4cbqMHxqZtrfrQ2b4byp2
+ zR8I7Lv5C77Zbt9f2NKYs1/1VzvGolKAU80F3ssFizZ79Ir0oWkXtDJ1DKDMfkLp/+ot
+ 424+JCMftXLn81MH/q+5DFg9S/oG9y2Giywm7RdS4Wz4Kq1g3USItAxIEr32kdfJeLdR
+ TSzO3/EX3EpvzlJBQy7Cv+VIakefaQHV+gOcnhc0rHGGsQxQGhvBIIJ5vu8UaW4vrqpb
+ w1+PNDcUvoMUDSP/GSmXznsYZyCO8Qk4S2QIFXKJ31eTeQypEgV4+2Pei0wMgvyEmtRm
+ /1Eg==
+X-Gm-Message-State: ANhLgQ0MrsnRusmbTLfNAGt+AdMuhwsyrDIlsb/F7DtOLr8brCi6sQ/O
+ jjlhc9qBsbDsI1wpApZowRhEMACvF8ltNlflg7qFPOx/akQxvHZCsBq2ESIg9mrGuITkOkPakbG
+ VabQU9PelWpSQq+k=
+X-Received: by 2002:a5d:6344:: with SMTP id b4mr6534071wrw.354.1584458599813; 
+ Tue, 17 Mar 2020 08:23:19 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu47ytdIQpk6V0d8FcAZBREsB3SgTZQ8o2LoD4LAvHhSTEzI23NmTO9nKDDfRPSU5d53J6clQ==
+X-Received: by 2002:a5d:6344:: with SMTP id b4mr6534055wrw.354.1584458599599; 
+ Tue, 17 Mar 2020 08:23:19 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id b203sm4397022wmc.45.2020.03.17.08.23.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Mar 2020 08:23:18 -0700 (PDT)
+Subject: Re: [PATCH v3 2/8] hw/isa/piix4.c: Introduce variable to store devfn
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+References: <cover.1584457537.git.balaton@eik.bme.hu>
+ <1020e0bfcfc6e364f967ccb2a9a3778ac174ccbe.1584457537.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ad5acdc7-25e6-9a65-3b1d-681edf3aa2f2@redhat.com>
+Date: Tue, 17 Mar 2020 16:23:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <1020e0bfcfc6e364f967ccb2a9a3778ac174ccbe.1584457537.git.balaton@eik.bme.hu>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -68,140 +91,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On 3/17/20 4:05 PM, BALATON Zoltan wrote:
+> To avoid any problem with reassigning pci variable store devfn in a
+> variable instead of acessing it from the PCIDevice.
+>=20
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/isa/piix4.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 7edec5e149..2cbdcd7700 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -247,9 +247,10 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **=
+isa_bus,
+>       DriveInfo **hd;
+>       PCIDevice *pci;
+>       DeviceState *dev;
+> +    int devfn =3D PCI_DEVFN(10, 0);
+>  =20
+> -    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> -                                          true, TYPE_PIIX4_PCI_DEVICE);
+> +    pci =3D pci_create_simple_multifunction(pci_bus, devfn,  true,
+> +                                          TYPE_PIIX4_PCI_DEVICE);
+>       dev =3D DEVICE(pci);
+>       if (isa_bus) {
+>           *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> @@ -257,11 +258,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus *=
+*isa_bus,
+>  =20
+>       hd =3D g_new(DriveInfo *, ide_drives);
+>       ide_drive_get(hd, ide_drives);
+> -    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
+> +    pci_piix4_ide_init(pci_bus, hd, devfn + 1);
+>       g_free(hd);
+> -    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
+> +
+> +    pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
+>       if (smbus) {
+> -        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
+> +        *smbus =3D piix4_pm_init(pci_bus, devfn + 3, 0x1100,
+>                                  isa_get_irq(NULL, 9), NULL, 0, NULL);
+>      }
+>  =20
+>=20
 
-The polymorphic locking macros don't support QemuRecMutex yet.  Add it
-so that lock guards can be used with QemuRecMutex.
+This looks better, thanks (and sorry for not being more verbose earlier)
 
-Convert TCG plugins functions that benefit from these macros.  Manual
-qemu_rec_mutex_lock/unlock() callers are left unmodified in cases where
-clarity would not improve by switching to the macros.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qemu/lockable.h |  6 ++++--
- plugins/core.c          |  7 +++----
- plugins/loader.c        | 16 ++++++++--------
- 3 files changed, 15 insertions(+), 14 deletions(-)
-
-diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-index 90342ba..1aeb2cb 100644
---- a/include/qemu/lockable.h
-+++ b/include/qemu/lockable.h
-@@ -50,6 +50,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
- #define QEMU_LOCK_FUNC(x) ((QemuLockUnlockFunc *)    \
-     QEMU_GENERIC(x,                                  \
-                  (QemuMutex *, qemu_mutex_lock),     \
-+                 (QemuRecMutex *, qemu_rec_mutex_lock), \
-                  (CoMutex *, qemu_co_mutex_lock),    \
-                  (QemuSpin *, qemu_spin_lock),       \
-                  unknown_lock_type))
-@@ -57,6 +58,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
- #define QEMU_UNLOCK_FUNC(x) ((QemuLockUnlockFunc *)  \
-     QEMU_GENERIC(x,                                  \
-                  (QemuMutex *, qemu_mutex_unlock),   \
-+                 (QemuRecMutex *, qemu_rec_mutex_unlock), \
-                  (CoMutex *, qemu_co_mutex_unlock),  \
-                  (QemuSpin *, qemu_spin_unlock),     \
-                  unknown_lock_type))
-@@ -73,7 +75,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
-=20
- /* QEMU_MAKE_LOCKABLE - Make a polymorphic QemuLockable
-  *
-- * @x: a lock object (currently one of QemuMutex, CoMutex, QemuSpin).
-+ * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex, Q=
-emuSpin).
-  *
-  * Returns a QemuLockable object that can be passed around
-  * to a function that can operate with locks of any kind, or
-@@ -86,7 +88,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
-=20
- /* QEMU_MAKE_LOCKABLE_NONNULL - Make a polymorphic QemuLockable
-  *
-- * @x: a lock object (currently one of QemuMutex, CoMutex, QemuSpin).
-+ * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex, Q=
-emuSpin).
-  *
-  * Returns a QemuLockable object that can be passed around
-  * to a function that can operate with locks of any kind.
-diff --git a/plugins/core.c b/plugins/core.c
-index ed86301..51bfc94 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -15,6 +15,7 @@
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
- #include "qapi/error.h"
-+#include "qemu/lockable.h"
- #include "qemu/option.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/xxhash.h"
-@@ -150,11 +151,11 @@ do_plugin_register_cb(qemu_plugin_id_t id, enum qemu_=
-plugin_event ev,
- {
-     struct qemu_plugin_ctx *ctx;
-=20
--    qemu_rec_mutex_lock(&plugin.lock);
-+    QEMU_LOCK_GUARD(&plugin.lock);
-     ctx =3D plugin_id_to_ctx_locked(id);
-     /* if the plugin is on its way out, ignore this request */
-     if (unlikely(ctx->uninstalling)) {
--        goto out_unlock;
-+        return;
-     }
-     if (func) {
-         struct qemu_plugin_cb *cb =3D ctx->callbacks[ev];
-@@ -178,8 +179,6 @@ do_plugin_register_cb(qemu_plugin_id_t id, enum qemu_pl=
-ugin_event ev,
-     } else {
-         plugin_unregister_cb__locked(ctx, ev);
-     }
-- out_unlock:
--    qemu_rec_mutex_unlock(&plugin.lock);
- }
-=20
- void plugin_register_cb(qemu_plugin_id_t id, enum qemu_plugin_event ev,
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 15fc7e5..685d334 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -19,6 +19,7 @@
- #include "qemu/error-report.h"
- #include "qemu/config-file.h"
- #include "qapi/error.h"
-+#include "qemu/lockable.h"
- #include "qemu/option.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/qht.h"
-@@ -367,15 +368,14 @@ void plugin_reset_uninstall(qemu_plugin_id_t id,
-     struct qemu_plugin_reset_data *data;
-     struct qemu_plugin_ctx *ctx;
-=20
--    qemu_rec_mutex_lock(&plugin.lock);
--    ctx =3D plugin_id_to_ctx_locked(id);
--    if (ctx->uninstalling || (reset && ctx->resetting)) {
--        qemu_rec_mutex_unlock(&plugin.lock);
--        return;
-+    WITH_QEMU_LOCK_GUARD(&plugin.lock) {
-+        ctx =3D plugin_id_to_ctx_locked(id);
-+        if (ctx->uninstalling || (reset && ctx->resetting)) {
-+            return;
-+        }
-+        ctx->resetting =3D reset;
-+        ctx->uninstalling =3D !reset;
-     }
--    ctx->resetting =3D reset;
--    ctx->uninstalling =3D !reset;
--    qemu_rec_mutex_unlock(&plugin.lock);
-=20
-     data =3D g_new(struct qemu_plugin_reset_data, 1);
-     data->ctx =3D ctx;
---=20
-1.8.3.1
+Now this looks
 
 
