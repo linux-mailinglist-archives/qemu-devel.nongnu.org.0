@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB8E187E7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:37:53 +0100 (CET)
-Received: from localhost ([::1]:56240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34816187E68
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:34:23 +0100 (CET)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9bc-0006ba-7B
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43410)
+	id 1jE9YE-0001Ne-7U
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jE9Rt-0001TX-DU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:51 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jE9TE-0003O0-Gf
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:29:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jE9Rs-0001Z4-Cj
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:49 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55217)
+ (envelope-from <cohuck@redhat.com>) id 1jE9TC-00047b-TO
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:29:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:50227)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jE9Rs-0001Si-7n
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:27:48 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jE9TC-000431-LU
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:29:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584440867;
+ s=mimecast20190719; t=1584440949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Es5YNMuYHbD/0Pj7xxHy+DX/ynr1OuFYkFxd50kqhS0=;
- b=dAf51romkAXcuS7cLzABNz7EFc+gyAQxtdT89v6RvxY9+bhBT1eGFAnVQ1gd2fKG22+dmy
- swUt2LrH40Z9UeS65olUxyQ4lODKX6r+6ZttV0AG6ryr7r2M0e9ss4Is5xlrxLTfGxkH8h
- Z0y6DS3wnCxnY+TPVCjobZqwrJ+NzjA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-03kzja2nNYeL4Igv-H18Xw-1; Tue, 17 Mar 2020 06:27:43 -0400
-X-MC-Unique: 03kzja2nNYeL4Igv-H18Xw-1
-Received: by mail-wm1-f71.google.com with SMTP id a23so6951167wmm.8
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:27:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b4ue4HBlk0wlprqmw7rP19D9WyYBfZS5Z5GORIUm+VY=;
- b=KR4QmyLV9m1iywwMPCEreYtdaGmCPRZdIXZEEJVjHtTqHDsZV8RiKkauOJMYZnb4AP
- X3wW5KIeM3vCq3K+stFj4wYaEBmNPdCnh+aZHdLf5NmG6seHjtzAtRnq3bVJWiRkfMjY
- xxWMMxJDO949bPEAZnJi4S+7RLNg2AiyKbHMPtkcqAqPE3kr4JfR0zZOLnTDz62tB5DZ
- HbWCxYwHsjsh0Y18DvfnF5FfMCN1jzvqx6LWSzm5GKuY3ZJECFvxt9y4OoCd2MwJFAY4
- 15cRfERKr01jer07IWKFsJgu07obZ4PhS7LKcIpzrvXmDtw6VHtOd5bZn2wvae5PsRod
- p/pA==
-X-Gm-Message-State: ANhLgQ2LkZuQPLKHWVzSFwP7nXrZo5RcwQEXB2fhx8AZRro/ZfVN7QES
- xmELl25h2kyI6ZfnHJtone0FXbF49yJuRlcQ8wIWvfLENCvYmCFmdVLy/hpXoTc/FGsb6mDKZYf
- yf05QS9f+QKnw0j8=
-X-Received: by 2002:a5d:44c1:: with SMTP id z1mr5129193wrr.315.1584440862701; 
- Tue, 17 Mar 2020 03:27:42 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvif/Qj3ow192LmueaosfhLd4VY5SCXjrAi4CUKAdHNUIU93WQZPO4824p1dOOY3XXcUTocfQ==
-X-Received: by 2002:a5d:44c1:: with SMTP id z1mr5129178wrr.315.1584440862475; 
- Tue, 17 Mar 2020 03:27:42 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.15.227])
- by smtp.gmail.com with ESMTPSA id i21sm3449926wmb.23.2020.03.17.03.27.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:27:41 -0700 (PDT)
-Subject: Re: [PULL 09/61] MAINTAINERS: Add entry for Guest X86 HAXM CPUs
-To: Colin.Xu@intel.com, qemu-devel@nongnu.org
-References: <1584394048-44994-1-git-send-email-pbonzini@redhat.com>
- <1584394048-44994-10-git-send-email-pbonzini@redhat.com>
- <d9e9e44f-ba54-c2e7-01c8-72337d3f5993@intel.com>
- <bc354cda-b731-183f-3860-43c3a0af434c@redhat.com>
- <41756673-bbd4-593f-ade8-3232db8b512e@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1eead546-c06f-2ec0-e3b7-fdc5bb426620@redhat.com>
-Date: Tue, 17 Mar 2020 11:27:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=hrLU/2oKfFS7jSSW+98QZMDDPOalKw3bB3xVYxJoprQ=;
+ b=CeF3PI2xvlFn1riq2PvnwCvwWMz8vyV+0QarjqBOUEv/Ua7Dc2BCvyDTyRQ31SL/xSdWRc
+ QSCrlVI3zXlLieGLXgNIFjw9WtROLGh/FRcvSrOnU/Io37cKMkDupdXAx0S7GufA0hP1Gp
+ mZoIuI6mGYu5u0a3V2EhuYEFbhfLuYI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-wTMFJFGWOqWZaHGoLnt6Sw-1; Tue, 17 Mar 2020 06:29:07 -0400
+X-MC-Unique: wTMFJFGWOqWZaHGoLnt6Sw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1468E800D4E;
+ Tue, 17 Mar 2020 10:29:06 +0000 (UTC)
+Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 335601001B07;
+ Tue, 17 Mar 2020 10:29:02 +0000 (UTC)
+Date: Tue, 17 Mar 2020 11:28:50 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 07/15] s390x: protvirt: Move STSI data over SIDAD
+Message-ID: <20200317112850.70daa19c.cohuck@redhat.com>
+In-Reply-To: <4f99c8bc-932d-2d38-a4dd-71ef54399af6@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-8-frankja@linux.ibm.com>
+ <5936071e-36d7-b456-5106-d377eab15785@de.ibm.com>
+ <4f99c8bc-932d-2d38-a4dd-71ef54399af6@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <41756673-bbd4-593f-ade8-3232db8b512e@intel.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/V7weV+R62QnOVvXcheFEQe4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,34 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wenchao Wang <wenchao.wang@intel.com>, Hang Yuan <hang.yuan@intel.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/03/20 09:55, Colin Xu wrote:
->=20
-> On 2020-03-17 16:26, Paolo Bonzini wrote:
->> On 17/03/20 08:46, Colin Xu wrote:
->>> Hi Paolo,
->>>
->>> For future HAX patch, once it's "Reviewed-by" haxm maintainers and othe=
-r
->>> reviewers, do we need "SubmitAPullRequest" separately or you will do it
->>> together with other patches?
->> As you prefer.=C2=A0 I wouldn't mind having to send fewer pull requests.=
- :)
->>
->> Paolo
->=20
-> Would you mind continue help HAX send pull request? It feels like easier
-> to track the changes when stay together with other accelerator patches.
-> We'll regularly check the reviewed patches and do necessary tests, and
-> send you a list of patches that can be queued for next pull.
->=20
-> What do you think?
+--Sig_/V7weV+R62QnOVvXcheFEQe4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Sure, that's okay.  The number of patches is low enough.
+On Thu, 12 Mar 2020 12:20:25 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Paolo
+> On 3/12/20 11:42 AM, Christian Borntraeger wrote:
+> >=20
+> >=20
+> > On 11.03.20 14:21, Janosch Frank wrote: =20
+> >> For protected guests, we need to put the STSI emulation results into
+> >> the SIDA, so SIE will write them into the guest at the next entry.
+> >>
+> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >> Reviewed-by: David Hildenbrand <david@redhat.com>
+> >> ---
+> >>  target/s390x/kvm.c | 11 +++++++++--
+> >>  1 file changed, 9 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> >> index cdcd538b4f7fb318..8085d5030e7c6454 100644
+> >> --- a/target/s390x/kvm.c
+> >> +++ b/target/s390x/kvm.c
+> >> @@ -50,6 +50,7 @@
+> >>  #include "exec/memattrs.h"
+> >>  #include "hw/s390x/s390-virtio-ccw.h"
+> >>  #include "hw/s390x/s390-virtio-hcall.h"
+> >> +#include "hw/s390x/pv.h"
+> >> =20
+> >>  #ifndef DEBUG_KVM
+> >>  #define DEBUG_KVM  0
+> >> @@ -1800,7 +1801,9 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u6=
+4 addr, uint8_t ar)
+> >>      SysIB_322 sysib;
+> >>      int del;
+> >> =20
+> >> -    if (s390_cpu_virt_mem_read(cpu, addr, ar, &sysib, sizeof(sysib)))=
+ {
+> >> +    if (s390_is_pv()) {
+> >> +        s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib)); =20
+> >=20
+> > Not strictly necessary, but do we also want to do an early exit if the =
+pv case fails?
+> >  =20
+>=20
+> I'd rather do an early exit for the SIDA read/write ioctl itself
+
+Early exit in what respect? Abort?
+
+If not, checking the return code here and returning looks like
+something we want.
+
+--Sig_/V7weV+R62QnOVvXcheFEQe4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5wpmIACgkQ3s9rk8bw
+L68ZVBAApwfpUO8/O754EB8vRFGkr95+L7EVjqeIE4rpvO7gSE+YYv2NMQx6dyTY
+192GG9FmHx82uymD57xzjsbIt42OWnbw0FGu0pKxgKx7pmEMA8EAllxIlenaSNqb
+3k+viPkdu45QSozJmj533JAIe+65ZVQRkKEg4Yx/2MGiooO29ouR+zLhp+q15otW
+CgMwBUi5qdaPgul9wSwbrgITZ9ipOC4oXAh/Qnv378OdxqAC3NPr5oqMBNdD1xTw
+WcvhNGOve/ehCnq3ycs9QlPITZZhUckaAi8NYPNEj7qy0eRYDkV4QpA6KjA8q3D1
+JB1PfLY7Jtyvi+xd7k8EYR9qZsvLn1Rn8Pr685HpFryOAckAZEtMpyVVvMyERw6d
+ZYH1on1zcCb9VM7oIy+MwezdbF1BnsGzUXDKwjTj8jeDrnI2BVpfPEFPn0rWI90m
+SMUAef0j3WXcauk67A1Rn+G07ENI6yMld9GkSFe6+B1SmVds3JTTmhWQN0de53wH
+jNYYFiSmYOoDBsSv3iP/914XHwMgftCbIN9WnvXcAxe0BaCuXxtr9W2FFoiJY1fa
+Y1R1LdpSerII/hjk5ZN9K6Zz6X1oiR43wSFa3RQ1zHtBZEII/6oNv0cubOjszVJB
+mBaj92XvG8jag4xl6cYnG2Jyc10No0FMpPpFP4lH1AIBCL/tYRU=
+=GCzt
+-----END PGP SIGNATURE-----
+
+--Sig_/V7weV+R62QnOVvXcheFEQe4--
 
 
