@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A978188CD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:08:55 +0100 (CET)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B02188CC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:05:04 +0100 (CET)
+Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGe6-000099-96
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1jEGaN-0002GF-VO
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:05:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUT-0005XD-6E
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:59 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGUQ-0005S8-2Q
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jEGUQ-0008Ty-U2
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:57 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40301)
+ (envelope-from <alex.bennee@linaro.org>) id 1jEGUN-0008JA-Aa
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:53 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40285)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jEGUQ-0008Ir-2G
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:54 -0400
-Received: by mail-wr1-x434.google.com with SMTP id f3so19943899wrw.7
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:58:51 -0700 (PDT)
+ id 1jEGUL-0008Ca-Jf
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:58:50 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id z12so254032wmf.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cu3KUkXmnV78ecgw6EvvkNrK6dkOUBK9syUxYkP1nbE=;
- b=b+4nsU1HdCgTCHNgwH/mMSr560Y46IzRpStCHJo1JOKUN9k8IaoFuokNud9pTpyKel
- 7i4tesc1BC2CoAckJCmyQISIMiqebHJcRd+0BcSiiiINxrtd5tbFadqt3geALwKSyrPK
- W6fV109fNvzf3Vb62QMjEo4aXjtcTR/GBcOh/5iaTsziNuQFsA39IU/KJKrfd5j1G7lI
- 2WZ0fRoesXJprJEcAQOAa1HgBLyDz3wPQcORFs4gdhJ1h4DXww0fN+ENJYlQ4Czh3PdK
- bdrkTGid8WI1aG/50vEHtf/N4pbTOR+Xf/KgPRWtWF0W6+wLKSRl2i1mNajOMYpk6Ilb
- F+NQ==
+ bh=Z2YdO0eBBHYBuVAaMP2mXqLSUKwI7KCxJYvCQtmd2VM=;
+ b=eG87WYHXKlRUlu9pUbxueBEqwocJOn6lcQTvIf9lZdlcXHSAtYbrNk+X7NPsADue+/
+ AiJN+HhqoXheS95WS/Z+wdGUJYt7YdSlOFQm9nM2Hdw835iNvZxF8y6G9gc66UWhWgwy
+ ZUcR0vdlRpIR7gXfurBjI58VbP27SoELi3tPA0AIl6v2RVJhXInip+PJ6azayduVQBeb
+ /Is80Qe5MbtfldSlrgCWGeetq1WOVt0vGTHaq/3pMYuNFsF4KOCnyM/56oqwwKg1hvyh
+ 6iRgUmmXh06GJJHrvFB/1VxjON+3RUwnpt+wIt2A9l1nff5HcNZn0QCIUDg1vUwuzvRS
+ nL+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cu3KUkXmnV78ecgw6EvvkNrK6dkOUBK9syUxYkP1nbE=;
- b=hlgW5e0gAfcj6FqFHvi6/9oEmmZr8zw0vaYREBnGh69gjyf/6GN3bM++8TosHAqyOH
- dXCelZXGAgRCqHGP0/rlheTdyF5PO9znAB5Rl93Robzyl6wxGkCGqPRCJrPvWrUrHbJC
- YFw9IPPRS6Va8yLEdk8XAgaPAr+Li+ouMwgazD2+Vf+Bmodr4u0caTkLEwgk2axV5/hj
- ZZ/bPT1Ba57ere7RFU1NgQj6D+N1v+TqbmOn88Fzo3YicUP5bHqaO+wfiZ2a33a7beMI
- YyUN8/DOsWTL9SGSo/xivizMwD8BPrPyGtvpPWhc8a5HtQRjKM9Li1aoI57NgCCxEeUl
- zqDw==
-X-Gm-Message-State: ANhLgQ3cQSnqDXHwMe7LezEwoRqi4E9PmsQb+VIz1lPcef0JtVrG0/TX
- tbg1aXtH+Ycs7mmABKogXbcJfg==
-X-Google-Smtp-Source: ADFU+vtk9B6MNNugNku06UkQPMzA7ag7fP/oTjpT+iXbMag3gCD+3y7TsNtI0NCfGiGi/m+qvczQgA==
-X-Received: by 2002:a5d:5504:: with SMTP id b4mr164838wrv.181.1584467930676;
- Tue, 17 Mar 2020 10:58:50 -0700 (PDT)
+ bh=Z2YdO0eBBHYBuVAaMP2mXqLSUKwI7KCxJYvCQtmd2VM=;
+ b=kXJ2lDd4NicCVrEjg99dsmyWaeaj/fl8Vl8W8sfVRG3Z97cu5DjPgPxVM8LqFfpHxM
+ yqX4+//rJzsAtMlMAWck/VIrLHe+oQucPxsqVWYgRxwFX02YecjIrTn/Nr9ek8DhVTeW
+ 8Gs4XRKjGvF62gstXQ+JnyTBu+mFHySMJkGtGNOEVekgPzoIYRUyUuOqvCGn7RQWu+ov
+ qw+To7T7fpj48T70H4c7RcIyvevbm7Rgv35qU3YxuUo+EeZP4padnpe9LFJLqvAYqeTD
+ JYXH/q+NJyavDQhLgVmGGZB3B01WqgemrXX9RzoPef4lIZk2fc1DnKgR4WNPuYo9JDaW
+ ZtKw==
+X-Gm-Message-State: ANhLgQ3tA4dzAyVRiO+MaIe39uvunmdeihw/fhPK4OljI/Q3cJFqwy4D
+ Fh3bDyy99+pV7gsP90CUWOkVVA==
+X-Google-Smtp-Source: ADFU+vvrD3qzINKATncKNGPLpYtiR6P4viJ37S1hu1nm1BSvyoZ32IpDgkY8kn2fHh5HHUbrJlx0PA==
+X-Received: by 2002:a1c:5443:: with SMTP id p3mr169796wmi.149.1584467927282;
+ Tue, 17 Mar 2020 10:58:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b10sm5676766wrm.30.2020.03.17.10.58.44
+ by smtp.gmail.com with ESMTPSA id c23sm215647wme.39.2020.03.17.10.58.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Mar 2020 10:58:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3949B1FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id 5009E1FFA9;
  Tue, 17 Mar 2020 17:50:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/28] target/arm: generate xml description of our SVE registers
-Date: Tue, 17 Mar 2020 17:50:43 +0000
-Message-Id: <20200317175053.5278-19-alex.bennee@linaro.org>
+Subject: [PULL 19/28] target/arm: don't bother with id_aa64pfr0_read for
+ USER_ONLY
+Date: Tue, 17 Mar 2020 17:50:44 +0000
+Message-Id: <20200317175053.5278-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200317175053.5278-1-alex.bennee@linaro.org>
 References: <20200317175053.5278-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,352 +84,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We also expose a the helpers to read/write the the registers.
+For system emulation we need to check the state of the GIC before we
+report the value. However this isn't relevant to exporting of the
+value to linux-user and indeed breaks the exported value as set by
+modify_arm_cp_regs.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200316172155.971-20-alex.bennee@linaro.org>
 
-Message-Id: <20200316172155.971-19-alex.bennee@linaro.org>
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index fbfd73a7b5b..8b9f2961ba0 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -756,6 +756,7 @@ struct ARMCPU {
-     int32_t cpreg_vmstate_array_len;
- 
-     DynamicGDBXMLInfo dyn_sysreg_xml;
-+    DynamicGDBXMLInfo dyn_svereg_xml;
- 
-     /* Timers used by the generic (architected) timer */
-     QEMUTimer *gt_timer[NUM_GTIMERS];
-@@ -977,10 +978,12 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
- int arm_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- 
--/* Dynamically generates for gdb stub an XML description of the sysregs from
-- * the cp_regs hashtable. Returns the registered sysregs number.
-+/*
-+ * Helpers to dynamically generates XML descriptions of the sysregs
-+ * and SVE registers. Returns the number of registers in each set.
-  */
- int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
-+int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
- 
- /* Returns the dynamically generated XML for the gdb stub.
-  * Returns a pointer to the XML contents for the specified XML file or NULL
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 69c35462a63..d9ef7d2187c 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -171,12 +171,146 @@ int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
-     return cpu->dyn_sysreg_xml.num;
- }
- 
-+struct TypeSize {
-+    const char *gdb_type;
-+    int  size;
-+    const char sz, suffix;
-+};
-+
-+static const struct TypeSize vec_lanes[] = {
-+    /* quads */
-+    { "uint128", 128, 'q', 'u' },
-+    { "int128", 128, 'q', 's' },
-+    /* 64 bit */
-+    { "uint64", 64, 'd', 'u' },
-+    { "int64", 64, 'd', 's' },
-+    { "ieee_double", 64, 'd', 'f' },
-+    /* 32 bit */
-+    { "uint32", 32, 's', 'u' },
-+    { "int32", 32, 's', 's' },
-+    { "ieee_single", 32, 's', 'f' },
-+    /* 16 bit */
-+    { "uint16", 16, 'h', 'u' },
-+    { "int16", 16, 'h', 's' },
-+    { "ieee_half", 16, 'h', 'f' },
-+    /* bytes */
-+    { "uint8", 8, 'b', 'u' },
-+    { "int8", 8, 'b', 's' },
-+};
-+
-+
-+int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    GString *s = g_string_new(NULL);
-+    DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
-+    g_autoptr(GString) ts = g_string_new("");
-+    int i, bits, reg_width = (cpu->sve_max_vq * 128);
-+    info->num = 0;
-+    g_string_printf(s, "<?xml version=\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
-+
-+    /* First define types and totals in a whole VL */
-+    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-+        int count = reg_width / vec_lanes[i].size;
-+        g_string_printf(ts, "vq%d%c%c", count,
-+                        vec_lanes[i].sz, vec_lanes[i].suffix);
-+        g_string_append_printf(s,
-+                               "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
-+                               ts->str, vec_lanes[i].gdb_type, count);
-+    }
-+    /*
-+     * Now define a union for each size group containing unsigned and
-+     * signed and potentially float versions of each size from 128 to
-+     * 8 bits.
-+     */
-+    for (bits = 128; bits >= 8; bits /= 2) {
-+        int count = reg_width / bits;
-+        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
-+        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-+            if (vec_lanes[i].size == bits) {
-+                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
-+                                       vec_lanes[i].suffix,
-+                                       count,
-+                                       vec_lanes[i].sz, vec_lanes[i].suffix);
-+            }
-+        }
-+        g_string_append(s, "</union>");
-+    }
-+    /* And now the final union of unions */
-+    g_string_append(s, "<union id=\"vq\">");
-+    for (bits = 128; bits >= 8; bits /= 2) {
-+        int count = reg_width / bits;
-+        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-+            if (vec_lanes[i].size == bits) {
-+                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
-+                                       vec_lanes[i].sz, count);
-+                break;
-+            }
-+        }
-+    }
-+    g_string_append(s, "</union>");
-+
-+    /* Then define each register in parts for each vq */
-+    for (i = 0; i < 32; i++) {
-+        g_string_append_printf(s,
-+                               "<reg name=\"z%d\" bitsize=\"%d\""
-+                               " regnum=\"%d\" group=\"vector\""
-+                               " type=\"vq\"/>",
-+                               i, reg_width, base_reg++);
-+        info->num++;
-+    }
-+    /* fpscr & status registers */
-+    g_string_append_printf(s, "<reg name=\"fpsr\" bitsize=\"32\""
-+                           " regnum=\"%d\" group=\"float\""
-+                           " type=\"int\"/>", base_reg++);
-+    g_string_append_printf(s, "<reg name=\"fpcr\" bitsize=\"32\""
-+                           " regnum=\"%d\" group=\"float\""
-+                           " type=\"int\"/>", base_reg++);
-+    info->num += 2;
-+    /*
-+     * Predicate registers aren't so big they are worth splitting up
-+     * but we do need to define a type to hold the array of quad
-+     * references.
-+     */
-+    g_string_append_printf(s,
-+                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
-+                           cpu->sve_max_vq);
-+    for (i = 0; i < 16; i++) {
-+        g_string_append_printf(s,
-+                               "<reg name=\"p%d\" bitsize=\"%d\""
-+                               " regnum=\"%d\" group=\"vector\""
-+                               " type=\"vqp\"/>",
-+                               i, cpu->sve_max_vq * 16, base_reg++);
-+        info->num++;
-+    }
-+    g_string_append_printf(s,
-+                           "<reg name=\"ffr\" bitsize=\"%d\""
-+                           " regnum=\"%d\" group=\"vector\""
-+                           " type=\"vqp\"/>",
-+                           cpu->sve_max_vq * 16, base_reg++);
-+    g_string_append_printf(s,
-+                           "<reg name=\"vg\" bitsize=\"64\""
-+                           " regnum=\"%d\" group=\"vector\""
-+                           " type=\"uint32\"/>",
-+                           base_reg++);
-+    info->num += 2;
-+    g_string_append_printf(s, "</feature>");
-+    cpu->dyn_svereg_xml.desc = g_string_free(s, false);
-+
-+    return cpu->dyn_svereg_xml.num;
-+}
-+
-+
- const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
- 
-     if (strcmp(xmlname, "system-registers.xml") == 0) {
-         return cpu->dyn_sysreg_xml.desc;
-+    } else if (strcmp(xmlname, "sve-registers.xml") == 0) {
-+        return cpu->dyn_svereg_xml.desc;
-     }
-     return NULL;
- }
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 90135731353..7e560ea7db6 100644
+index 7e560ea7db6..d2ec2c53510 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -202,6 +202,15 @@ static void write_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri,
-     }
+@@ -6697,6 +6697,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     return pfr1;
  }
  
-+/**
-+ * arm_get/set_gdb_*: get/set a gdb register
-+ * @env: the CPU state
-+ * @buf: a buffer to copy to/from
-+ * @reg: register number (offset from start of group)
-+ *
-+ * We return the number of bytes copied
-+ */
-+
- static int arm_gdb_get_sysreg(CPUARMState *env, GByteArray *buf, int reg)
++#ifndef CONFIG_USER_ONLY
+ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
  {
      ARMCPU *cpu = env_archcpu(env);
-@@ -225,6 +234,102 @@ static int arm_gdb_set_sysreg(CPUARMState *env, uint8_t *buf, int reg)
-     return 0;
+@@ -6707,6 +6708,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     }
+     return pfr0;
  }
- 
-+#ifdef TARGET_AARCH64
-+static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    switch (reg) {
-+    /* The first 32 registers are the zregs */
-+    case 0 ... 31:
-+    {
-+        int vq, len = 0;
-+        for (vq = 0; vq < cpu->sve_max_vq; vq++) {
-+            len += gdb_get_reg128(buf,
-+                                  env->vfp.zregs[reg].d[vq * 2 + 1],
-+                                  env->vfp.zregs[reg].d[vq * 2]);
-+        }
-+        return len;
-+    }
-+    case 32:
-+        return gdb_get_reg32(buf, vfp_get_fpsr(env));
-+    case 33:
-+        return gdb_get_reg32(buf, vfp_get_fpcr(env));
-+    /* then 16 predicates and the ffr */
-+    case 34 ... 50:
-+    {
-+        int preg = reg - 34;
-+        int vq, len = 0;
-+        for (vq = 0; vq < cpu->sve_max_vq; vq = vq + 4) {
-+            len += gdb_get_reg64(buf, env->vfp.pregs[preg].p[vq / 4]);
-+        }
-+        return len;
-+    }
-+    case 51:
-+    {
-+        /*
-+         * We report in Vector Granules (VG) which is 64bit in a Z reg
-+         * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
-+         */
-+        int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+        return gdb_get_reg32(buf, vq * 2);
-+    }
-+    default:
-+        /* gdbstub asked for something out our range */
-+        qemu_log_mask(LOG_UNIMP, "%s: out of range register %d", __func__, reg);
-+        break;
-+    }
-+
-+    return 0;
-+}
-+
-+static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    /* The first 32 registers are the zregs */
-+    switch (reg) {
-+    /* The first 32 registers are the zregs */
-+    case 0 ... 31:
-+    {
-+        int vq, len = 0;
-+        uint64_t *p = (uint64_t *) buf;
-+        for (vq = 0; vq < cpu->sve_max_vq; vq++) {
-+            env->vfp.zregs[reg].d[vq * 2 + 1] = *p++;
-+            env->vfp.zregs[reg].d[vq * 2] = *p++;
-+            len += 16;
-+        }
-+        return len;
-+    }
-+    case 32:
-+        vfp_set_fpsr(env, *(uint32_t *)buf);
-+        return 4;
-+    case 33:
-+        vfp_set_fpcr(env, *(uint32_t *)buf);
-+        return 4;
-+    case 34 ... 50:
-+    {
-+        int preg = reg - 34;
-+        int vq, len = 0;
-+        uint64_t *p = (uint64_t *) buf;
-+        for (vq = 0; vq < cpu->sve_max_vq; vq = vq + 4) {
-+            env->vfp.pregs[preg].p[vq / 4] = *p++;
-+            len += 8;
-+        }
-+        return len;
-+    }
-+    case 51:
-+        /* cannot set vg via gdbstub */
-+        return 0;
-+    default:
-+        /* gdbstub asked for something out our range */
-+        break;
-+    }
-+
-+    return 0;
-+}
-+#endif /* TARGET_AARCH64 */
-+
- static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
- {
-    /* Return true if the regdef would cause an assertion if you called
-@@ -7959,9 +8064,22 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     CPUARMState *env = &cpu->env;
- 
-     if (arm_feature(env, ARM_FEATURE_AARCH64)) {
--        gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
--                                 aarch64_fpu_gdb_set_reg,
--                                 34, "aarch64-fpu.xml", 0);
-+        /*
-+         * The lower part of each SVE register aliases to the FPU
-+         * registers so we don't need to include both.
-+         */
-+#ifdef TARGET_AARCH64
-+        if (isar_feature_aa64_sve(&cpu->isar)) {
-+            gdb_register_coprocessor(cs, arm_gdb_get_svereg, arm_gdb_set_svereg,
-+                                     arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs),
-+                                     "sve-registers.xml", 0);
-+        } else
 +#endif
-+        {
-+            gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
-+                                     aarch64_fpu_gdb_set_reg,
-+                                     34, "aarch64-fpu.xml", 0);
-+        }
-     } else if (arm_feature(env, ARM_FEATURE_NEON)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  51, "arm-neon.xml", 0);
-@@ -7975,6 +8093,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
-+
- }
  
- /* Sort alphabetically by type name, except for "any". */
+ /* Shared logic between LORID and the rest of the LOR* registers.
+  * Secure state has already been delt with.
+@@ -7280,16 +7282,24 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+          * define new registers here.
+          */
+         ARMCPRegInfo v8_idregs[] = {
+-            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we don't
+-             * know the right value for the GIC field until after we
+-             * define these regs.
++            /*
++             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
++             * emulation because we don't know the right value for the
++             * GIC field until after we define these regs.
+              */
+             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
+-              .access = PL1_R, .type = ARM_CP_NO_RAW,
++              .access = PL1_R,
++#ifdef CONFIG_USER_ONLY
++              .type = ARM_CP_CONST,
++              .resetvalue = cpu->isar.id_aa64pfr0
++#else
++              .type = ARM_CP_NO_RAW,
+               .accessfn = access_aa64_tid3,
+               .readfn = id_aa64pfr0_read,
+-              .writefn = arm_cp_write_ignore },
++              .writefn = arm_cp_write_ignore
++#endif
++            },
+             { .name = "ID_AA64PFR1_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
+               .access = PL1_R, .type = ARM_CP_CONST,
 -- 
 2.20.1
 
