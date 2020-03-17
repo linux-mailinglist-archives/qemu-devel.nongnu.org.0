@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AF5188B4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:58:27 +0100 (CET)
-Received: from localhost ([::1]:37007 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77263188B33
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 17:53:13 +0100 (CET)
+Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFXu-0003O0-Uq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36070)
+	id 1jEFSq-0002gg-Ee
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 12:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51962)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jEFCp-00042x-CW
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:36:40 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jEFP3-00064s-Nf
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jEFCn-0004F1-FN
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:36:39 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55969)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jEFCn-00048f-5j
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:36:37 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 6so22193236wmi.5
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 09:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DlkS/lJlVKWDegsd0LArtsnfUSESor37RBYt82J35Yw=;
- b=bxE6A7i+0ViPtVoiqCdCdDrujxlJBXwkn71i2LpXhhXLnuF8qCjH4Ff1qhsXKTieZE
- eFoo9hrDF/fmtWmH9APLaUXP+U7fYcTeR5dm3Xg2YQ+GEnidoaqh3sVRdvd99T7M23ZX
- /VnSnJp3Vwn1fnfhBn5Ax8hSBtwZ8EJ6BYwrwGLLwpQMTFvH8STF+l9IKKqKSRUhON2B
- f/dsNQjaYwcLNMXxwsHyV/cA93l/Y9IwlVNfwBIbWj0FWukWVNqyUxVqd4FF1CvvIXqb
- Ofx3GlHykva1hZrVV5VFTKIHFc5zvsq2AyQg011mzUFUiytEUVXzC2MZwctSieJQLsYf
- Gj7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DlkS/lJlVKWDegsd0LArtsnfUSESor37RBYt82J35Yw=;
- b=TV0NDuN3d/DwbYuh+9O6505OlaaX2FkPUhncDaPG4NQByAzrfRasju54mpauGegaQP
- 9/qeF3mvbCtIAG+OA1TxcbMhoTXLMbJv1IiBjV1XhNgiQVKOfUzP7Zj/4naLDTM1C3rt
- ZSPtxcN+RY55wWs1PnhaUOl4JAio9quIgdwLsILx4BB//pUFNfaovCtjcGaZMdKqjj1q
- +g6mTT25OL4kOTVAcmpyiDEKP6z/JBXq+BWAQbS5PDERKxHvgYhr0Gll44RR4Ufh684U
- 2uqP3L7Qfsmwe77EgJv1c4Wjtuqa8ApbERRN9zFS6LfPO0DVkQid2s9/tNFC/4qS9k5w
- fbkg==
-X-Gm-Message-State: ANhLgQ1rWtzw4PbdK3PkLbBG0JQQnKiuNtmJ+ORMFLcUAlV/6+4enfOn
- +Tg1j3XiqvNZpuMxmxBBuv+klY8t
-X-Google-Smtp-Source: ADFU+vuX8EYPXndq3XvjHfi3dSsQu5SHQg1fkgyygrhIJOPHtax7m6Jll5YSku2AFT5NUNxWUP2qNw==
-X-Received: by 2002:a1c:6a07:: with SMTP id f7mr170913wmc.38.1584462995783;
- Tue, 17 Mar 2020 09:36:35 -0700 (PDT)
-Received: from x1w.redhat.com (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id b202sm4618697wmd.15.2020.03.17.09.36.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 09:36:35 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] Add rx-softmmu
-Date: Tue, 17 Mar 2020 17:36:16 +0100
-Message-Id: <20200317163616.30027-14-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200317163616.30027-1-f4bug@amsat.org>
-References: <20200317163616.30027-1-f4bug@amsat.org>
+ (envelope-from <cohuck@redhat.com>) id 1jEFP2-0005t7-3Q
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:17 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51566)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEFP1-0005lT-T3
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 12:49:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584463755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5TTlAhk/7drsqfeKyqvIFiaFPJtt8PqcGysqpb1xeLY=;
+ b=cQ1NMzUr+4BWmEbmJgkBMx/FPArYRP1pqYJ0VZ/cQXBlNQoNyqNYtWkfshplx5ulnfMFOc
+ s2fxn0ZE0NRoNFWOq4DdnL1whjsfcqIUrWbxMYvzXX6Wt8HrZaUAvBneD9kXMdWfKjJVkw
+ zo5+DNwRQICU9duiE8ske+3z9Xr0vik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-2nfN7rXLPoOAbPPIV2UyUw-1; Tue, 17 Mar 2020 12:49:13 -0400
+X-MC-Unique: 2nfN7rXLPoOAbPPIV2UyUw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E6613F6;
+ Tue, 17 Mar 2020 16:49:12 +0000 (UTC)
+Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EDD95DA7C;
+ Tue, 17 Mar 2020 16:49:07 +0000 (UTC)
+Date: Tue, 17 Mar 2020 17:48:56 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 13/15] s390x: protvirt: Handle SIGP store status
+ correctly
+Message-ID: <20200317174856.456810a5.cohuck@redhat.com>
+In-Reply-To: <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-14-frankja@linux.ibm.com>
+ <b89dafb1-d931-906a-671d-caf71d795873@de.ibm.com>
+ <d40bc40f-c217-f464-9f65-ea8899bbb899@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="Sig_/R/2wqm8DRngjT4AqwRZO.No";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,156 +73,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+--Sig_/R/2wqm8DRngjT4AqwRZO.No
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Squashed patches from Richard Henderson modifying
-      qapi/common.json and tests/machine-none-test.c]
-Message-Id: <20200224141923.82118-21-ysato@users.sourceforge.jp>
-[PMD: Added @since 5.0 tag in SysEmuTarget]
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- configure                       | 11 ++++++++++-
- default-configs/rx-softmmu.mak  |  2 ++
- qapi/machine.json               |  4 +++-
- include/exec/poison.h           |  1 +
- include/sysemu/arch_init.h      |  1 +
- arch_init.c                     |  2 ++
- tests/qtest/machine-none-test.c |  1 +
- 7 files changed, 20 insertions(+), 2 deletions(-)
- create mode 100644 default-configs/rx-softmmu.mak
+On Thu, 12 Mar 2020 17:13:10 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-diff --git a/configure b/configure
-index eb49bb6680..f9586cbc34 100755
---- a/configure
-+++ b/configure
-@@ -4184,7 +4184,7 @@ fi
- fdt_required=no
- for target in $target_list; do
-   case $target in
--    aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips64el-softmmu|riscv*-softmmu)
-+    aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips64el-softmmu|riscv*-softmmu|rx-softmmu)
-       fdt_required=yes
-     ;;
-   esac
-@@ -7881,6 +7881,12 @@ case "$target_name" in
-     mttcg=yes
-     gdb_xml_files="riscv-64bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
-   ;;
-+  rx)
-+    TARGET_ARCH=rx
-+    bflt="yes"
-+    target_compiler=$cross_cc_rx
-+    gdb_xml_files="rx-core.xml"
-+  ;;
-   sh4|sh4eb)
-     TARGET_ARCH=sh4
-     bflt="yes"
-@@ -8062,6 +8068,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-   riscv*)
-     disas_config "RISCV"
-   ;;
-+  rx)
-+    disas_config "RX"
-+  ;;
-   s390*)
-     disas_config "S390"
-   ;;
-diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
-new file mode 100644
-index 0000000000..7c4eb2c1a0
---- /dev/null
-+++ b/default-configs/rx-softmmu.mak
-@@ -0,0 +1,2 @@
-+# Default configuration for rx-softmmu
-+
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6c11e3cf3a..282d247097 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -16,6 +16,8 @@
- # individual target constants are not documented here, for the time
- # being.
- #
-+# @rx: since 5.0
-+#
- # Notes: The resulting QMP strings can be appended to the "qemu-system-"
- #        prefix to produce the corresponding QEMU executable name. This
- #        is true even for "qemu-system-x86_64".
-@@ -26,7 +28,7 @@
-   'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
--             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-+             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
-              'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
-              'x86_64', 'xtensa', 'xtensaeb' ] }
- 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 955eb863ab..7b9ac361dc 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -26,6 +26,7 @@
- #pragma GCC poison TARGET_PPC
- #pragma GCC poison TARGET_PPC64
- #pragma GCC poison TARGET_ABI32
-+#pragma GCC poison TARGET_RX
- #pragma GCC poison TARGET_S390X
- #pragma GCC poison TARGET_SH4
- #pragma GCC poison TARGET_SPARC
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 01392dc945..71a7a285ee 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,6 +24,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_RX = (1 << 20),
- 
-     QEMU_ARCH_NONE = (1 << 31),
- };
-diff --git a/arch_init.c b/arch_init.c
-index 705d0b94ad..d9eb0ec1dd 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -77,6 +77,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_PPC
- #elif defined(TARGET_RISCV)
- #define QEMU_ARCH QEMU_ARCH_RISCV
-+#elif defined(TARGET_RX)
-+#define QEMU_ARCH QEMU_ARCH_RX
- #elif defined(TARGET_S390X)
- #define QEMU_ARCH QEMU_ARCH_S390X
- #elif defined(TARGET_SH4)
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 5953d31755..8bb54a6360 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -56,6 +56,7 @@ static struct arch2cpu cpus_map[] = {
-     { "hppa", "hppa" },
-     { "riscv64", "rv64gcsu-v1.10.0" },
-     { "riscv32", "rv32gcsu-v1.9.1" },
-+    { "rx", "rx62n" },
- };
- 
- static const char *get_cpu_model_by_arch(const char *arch)
--- 
-2.21.1
+> On 3/12/20 4:51 PM, Christian Borntraeger wrote:
+> > On 11.03.20 14:21, Janosch Frank wrote: =20
+> >> For protected VMs status storing is not done by QEMU anymore.
+> >>
+> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> >> Reviewed-by: David Hildenbrand <david@redhat.com> =20
+> >=20
+> >  =20
+> >> ---
+> >>  target/s390x/helper.c | 6 ++++++
+> >>  1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+> >> index ed726849114f2f35..5022df8812d406c9 100644
+> >> --- a/target/s390x/helper.c
+> >> +++ b/target/s390x/helper.c
+> >> @@ -25,6 +25,7 @@
+> >>  #include "qemu/timer.h"
+> >>  #include "qemu/qemu-print.h"
+> >>  #include "hw/s390x/ioinst.h"
+> >> +#include "hw/s390x/pv.h"
+> >>  #include "sysemu/hw_accel.h"
+> >>  #include "sysemu/runstate.h"
+> >>  #ifndef CONFIG_USER_ONLY
+> >> @@ -246,6 +247,11 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, =
+bool store_arch)
+> >>      hwaddr len =3D sizeof(*sa);
+> >>      int i;
+> >> =20
+> >> +    /* Storing will occur on next SIE entry for protected VMs */ =20
+> >=20
+> > Maybe ... next SIE entry of the sending CPU ....=20
+> > ? =20
+>=20
+> Well that would be the current cpu, right?
+> So:
+> /* For PVMs storing will occur when this cpu enters SIE again */
+
+With that comment tweak,
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+--Sig_/R/2wqm8DRngjT4AqwRZO.No
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5w/3gACgkQ3s9rk8bw
+L6+XLA/+Nn+rtlyOM65n+AlXmzA8WSuBVBi0w/H8Ze+FCQGERC/U+FwFud+oIXjn
+RfLsnOp8IZ/UFfmHpqiPH2Hz1iKR9ytWB17p6/RkPVl0UMGQYESwSO0mFcydvUIn
+ROzuNyra6656+iQxL0Jj2up4ptO7aZXcmVk7HFt2bOAQAIgUA5fRtpIhceSzof4D
+DC2DpgqNOI/Cf7TnEX2hPIpMfoer0QchH8/nRJA8+15r3PNP2sh3O68GbEW5ySTy
+3w9Whz/ikSTqntKVWUEoYOo7SQMOSCaakk6dvYhHRsjtWto8dblH8OjknTuhKpJR
+TkQTNJsEjeA2hr19LZdg5LKJgzg3UU48fAzB3ZYnyyjPbAJdNaYQERX3oTn6FnKa
+YBpfIjrSweWeVtEn6Wa0e+2Yjlj3du/l5KAGF0NDSx0IQ7C+1Q5xAt4UDSRrrfBO
+e72hA6EIAK23uCfc9NYuY6TQsBIpTBxnHdOW6DzE2iARHA9Fk7I4f7UnVGhEsZxC
+lGGMvsCYfZfmH3YiG0j0NuUFYh7HmILyuJ7gXPESNSPfUm0kHe4NLVUclVpKoOvB
+mD24ty/3631KPbIZ5ufLEDKf9E0H5bemKXUVw8H4VHSpVPLrnIlrYNfScISBgLZ9
+egWZ4ATAxdtfU8ZW9W6jwyZA/WliuJIp7ytvtHoiCZEqt/Fxosw=
+=p2K1
+-----END PGP SIGNATURE-----
+
+--Sig_/R/2wqm8DRngjT4AqwRZO.No--
 
 
