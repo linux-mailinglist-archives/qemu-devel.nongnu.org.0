@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3205187D7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:55:41 +0100 (CET)
-Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E14187D86
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:57:45 +0100 (CET)
+Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE8wm-0004EH-PI
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60151)
+	id 1jE8ym-0007WU-0q
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jE8vW-0002lH-Q8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:54:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1jE8xd-0006Ma-QY
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jE8vV-0006kV-LL
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:54:22 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31290)
+ (envelope-from <philmd@redhat.com>) id 1jE8xc-0005xd-FN
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34643)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jE8vV-0006Xh-G8
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:54:21 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE8xc-0005sF-At
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584438858;
+ s=mimecast20190719; t=1584438991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IjJ47UJEm8nrHIKwp/rnf19reU48jEoAg5NUpVfxZQg=;
- b=ikJsCvHGjUL12fnxYHb8DdVcQA48DYjhr8bOkRXUit4nDSg5Ovd69hbIZLiNKBa6QzlYL7
- GcwRKXvn5xxeg+gzi4XhxFAdzu42wins8pBPHELR5WIHx2FgF4iBdgM8AI4KNL78+IlnMn
- SfohLH/93qhQs65DucE3eEhxrQi+0Xw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-NS5CNhc6Orm0wlwOkbSeSQ-1; Tue, 17 Mar 2020 05:54:16 -0400
-X-MC-Unique: NS5CNhc6Orm0wlwOkbSeSQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3CFADB60;
- Tue, 17 Mar 2020 09:54:15 +0000 (UTC)
-Received: from localhost (ovpn-114-232.ams2.redhat.com [10.36.114.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 574C394941;
- Tue, 17 Mar 2020 09:54:15 +0000 (UTC)
-Date: Tue, 17 Mar 2020 09:54:14 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] tools/virtiofsd: add support for --socket-group
-Message-ID: <20200317095414.GC492272@stefanha-x1.localdomain>
-References: <20200312104142.21259-1-alex.bennee@linaro.org>
- <20200312104913.GB4089516@redhat.com>
- <CAJ+F1CJWy2gEHHjzqyqnvHFf6EP4mEGABLt4aA7xptkXDwPGiw@mail.gmail.com>
- <20200316103331.GC1528804@redhat.com>
+ bh=LKb9voVP0DcRntiJe2qk76Bv9LmVh1K46wznR3c2LOY=;
+ b=Ss8fb6mG3R+FBNTGxJXn3Fk9qd+9rueCxbKAnCI1naWpLltN7AQekRRUUczMPtZFmPP+Q9
+ IvnRsthAus3anwq3+l4FmoWjXJJvYQdKHs9dxaPF6h144jXHe0bzhDas4nWrlC71J60cl4
+ MYq2C0o3CJFCpTojXZiB5SfldUbEjcE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-O6AHQzM4P7WuMmEVE5n0nQ-1; Tue, 17 Mar 2020 05:56:28 -0400
+X-MC-Unique: O6AHQzM4P7WuMmEVE5n0nQ-1
+Received: by mail-wm1-f70.google.com with SMTP id n25so5528186wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 02:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ULRZbuCwsnyJRRqZMeMEz/jzykrdAzXvpLbJ6qxv3wY=;
+ b=j3hWeJ+hrUmihBKiRplcLpwojUDFf+ZobzYdqBgtjw0LQSKgbIQWJ2KmruVTCY+u7a
+ VHXgtY/eKKkap6RAQrKxmRiSW5Ib9h27e8a51/gauSagJqyvxf4YBPY1AdqxVj75skRL
+ MgowVOct0UVXrr0Ix7V03brkLRwtOK+G52kFD3j/Auw3Lh/on4sRXUnh+ZIsRfPHiPiM
+ 04NNqDbYzA5OTJycS7ULvAMVc1DkxYFPFXl3MnlKSHMJMdAWrJLAms6A4hHrHlBHQ2rD
+ i5e0pE7DwhIN+DPMSPOO701wMmP0TpAPhRpQ2zg3/GDLkEHMYbSajsE7a6MG7kOaF3Dp
+ EGPQ==
+X-Gm-Message-State: ANhLgQ3jyxCyqOQ30myrDIFscLouzp6ToxGjlY9QEw4A1IteO2hsKSbV
+ 2CTqkTFVcMDfl0+BeKOCdfHL82+AiZBoV1FrKRCi/VMLMXg5BR0WEseF8041bc3xWEy6LL9hCJh
+ p4ao2+AFu6ANwzC8=
+X-Received: by 2002:a1c:23d5:: with SMTP id j204mr4651686wmj.59.1584438987450; 
+ Tue, 17 Mar 2020 02:56:27 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsick/AaJ59hYzl2j0L4ccWTV4FeDghE+IJhpnzcbkiqWTZGJYVEdLJhu48LbNrsXfGOlW1rQ==
+X-Received: by 2002:a1c:23d5:: with SMTP id j204mr4651665wmj.59.1584438987221; 
+ Tue, 17 Mar 2020 02:56:27 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id w19sm3242788wmi.0.2020.03.17.02.56.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Mar 2020 02:56:26 -0700 (PDT)
+Subject: Re: [PATCH v1 19/28] target/arm: don't bother with id_aa64pfr0_read
+ for USER_ONLY
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200316172155.971-1-alex.bennee@linaro.org>
+ <20200316172155.971-20-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c34eed7d-ee17-b06a-68e4-fecceab4b216@redhat.com>
+Date: Tue, 17 Mar 2020 10:56:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316103331.GC1528804@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200316172155.971-20-alex.bennee@linaro.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7qSK/uQB79J36Y4o"
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,74 +92,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---7qSK/uQB79J36Y4o
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 16, 2020 at 10:33:31AM +0000, Daniel P. Berrang=E9 wrote:
-> On Sat, Mar 14, 2020 at 02:33:25PM +0100, Marc-Andr=E9 Lureau wrote:
-> > Hi
-> >=20
-> > On Thu, Mar 12, 2020 at 11:49 AM Daniel P. Berrang=E9 <berrange@redhat.=
-com> wrote:
-> > >
-> > > On Thu, Mar 12, 2020 at 10:41:42AM +0000, Alex Benn=E9e wrote:
-> > > > If you like running QEMU as a normal user (very common for TCG runs=
-)
-> > > > but you have to run virtiofsd as a root user you run into connectio=
-n
-> > > > problems. Adding support for an optional --socket-group allows the
-> > > > users to keep using the command line.
-> > >
-> > > If we're going to support this, then I think we need to put it in
-> > > the vhost-user.rst specification so we standardize across backends.
-> > >
-> > >
-> >=20
-> > Perhaps. Otoh, I wonder if the backend spec should be more limited to
-> > arguments/introspection that are used by programs.
-> >=20
-> > In this case, I even consider --socket-path to be unnecessary, as a
-> > management layer can/should provide a preopened & setup fd directly.
-> >=20
-> > What do you think?
+On 3/16/20 6:21 PM, Alex Benn=C3=A9e wrote:
+> For system emulation we need to check the state of the GIC before we
+> report the value. However this isn't relevant to exporting of the
+> value to linux-user and indeed breaks the exported value as set by
+> modify_arm_cp_regs.
 >=20
-> I think there's value in standardization even if it is an option targette=
-d
-> at human admins, rather than machine usage. You are right though that
-> something like libvirt would never use --socket-group, or --socket-path.
-> Even admins would benefit if all programs followed the same naming for
-> these.  We could document such options as "SHOULD" rather than "MUST"
-> IOW, we don't mandate --socket-group, but if you're going to provide a
-> way to control socket group, this option should be used.
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> ---
+> v2
+>    - extend the ifdef and make type CONST with no accessfn
+> ---
+>   target/arm/helper.c | 20 +++++++++++++++-----
+>   1 file changed, 15 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 7e560ea7db6..d2ec2c53510 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6697,6 +6697,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, cons=
+t ARMCPRegInfo *ri)
+>       return pfr1;
+>   }
+>  =20
+> +#ifndef CONFIG_USER_ONLY
+>   static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *=
+ri)
+>   {
+>       ARMCPU *cpu =3D env_archcpu(env);
+> @@ -6707,6 +6708,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, =
+const ARMCPRegInfo *ri)
+>       }
+>       return pfr0;
+>   }
+> +#endif
+>  =20
+>   /* Shared logic between LORID and the rest of the LOR* registers.
+>    * Secure state has already been delt with.
+> @@ -7280,16 +7282,24 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>            * define new registers here.
+>            */
+>           ARMCPRegInfo v8_idregs[] =3D {
+> -            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we do=
+n't
+> -             * know the right value for the GIC field until after we
+> -             * define these regs.
+> +            /*
+> +             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
+> +             * emulation because we don't know the right value for the
+> +             * GIC field until after we define these regs.
+>                */
+>               { .name =3D "ID_AA64PFR0_EL1", .state =3D ARM_CP_STATE_AA64=
+,
+>                 .opc0 =3D 3, .opc1 =3D 0, .crn =3D 0, .crm =3D 4, .opc2 =
+=3D 0,
+> -              .access =3D PL1_R, .type =3D ARM_CP_NO_RAW,
+> +              .access =3D PL1_R,
+> +#ifdef CONFIG_USER_ONLY
+> +              .type =3D ARM_CP_CONST,
+> +              .resetvalue =3D cpu->isar.id_aa64pfr0
+> +#else
+> +              .type =3D ARM_CP_NO_RAW,
+>                 .accessfn =3D access_aa64_tid3,
+>                 .readfn =3D id_aa64pfr0_read,
+> -              .writefn =3D arm_cp_write_ignore },
+> +              .writefn =3D arm_cp_write_ignore
 
-I agree.  It's still useful to have a convention that most vhost-user
-backend programs follow.
+I guess this is the implementation of what Peter described here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689388.html
 
-Stefan
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
---7qSK/uQB79J36Y4o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5wnkYACgkQnKSrs4Gr
-c8gfEAgAlIOYHvcSibTyNM3a0mBaciVGPWkvVFZMAl7UwKBHKSRSVWJP9VF0MlPH
-19LjzXSopgKBpi5zEHqCH+IYTbYI2QP4jBlsTej9+ElFrTJ/XG6UjAghyjy/hOV1
-u/GAEssUNxSIGjeMWE1PmMjf4vjCZcQ+HHjA1VUTR/KanO6irv+bfiw2dnS2i6/9
-jPC5NYN5JmUDQmtE0ad0x+5WhCrP+aZ5W211ZJKDIBUoy98VB0vp7l8xw52+btTw
-OK7o75IE3asQQGH1XkhPWMBsoU3tpVanthaX4uA77ab1GKNVOyHcpsOFZ+jTe3+o
-ff8HcJqoZUMlb4dYgnpZ/9O/IAZcuw==
-=hOvd
------END PGP SIGNATURE-----
-
---7qSK/uQB79J36Y4o--
+> +#endif
+> +            },
+>               { .name =3D "ID_AA64PFR1_EL1", .state =3D ARM_CP_STATE_AA64=
+,
+>                 .opc0 =3D 3, .opc1 =3D 0, .crn =3D 0, .crm =3D 4, .opc2 =
+=3D 1,
+>                 .access =3D PL1_R, .type =3D ARM_CP_CONST,
+>=20
 
 
