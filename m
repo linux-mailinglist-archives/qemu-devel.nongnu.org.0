@@ -2,49 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8A7188BB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:11:11 +0100 (CET)
-Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276CF188B80
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:03:50 +0100 (CET)
+Received: from localhost ([::1]:37158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEFkE-0004Jn-AS
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45975)
+	id 1jEFd7-0003zk-5c
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jEFj6-0003KU-C5
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:10:01 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEFaE-0008Rl-Ew
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jEFj4-0002LS-VK
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:10:00 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:40916)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jEFj4-0001iY-GC; Tue, 17 Mar 2020 13:09:58 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743922|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.0358285-0.000344232-0.963827;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03310; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.H1.q1Rn_1584464990; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H1.q1Rn_1584464990)
- by smtp.aliyun-inc.com(10.147.42.253);
- Wed, 18 Mar 2020 01:09:50 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v6 61/61] target/riscv: configure and turn on vector extension
- from command line
-Date: Tue, 17 Mar 2020 23:06:53 +0800
-Message-Id: <20200317150653.9008-62-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+ (envelope-from <bounces@canonical.com>) id 1jEFaC-0004RU-3k
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38340)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jEFaB-0004IR-Qv
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:00:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jEFa9-0007dB-UU
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 17:00:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DEBFB2E80C0
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 17:00:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Mar 2020 16:50:34 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: carlosedp laurent-vivier
+X-Launchpad-Bug-Reporter: carlosedp (carlosedp)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158445595923.20060.16174990100496488911.malonedeb@wampee.canonical.com>
+Message-Id: <158446383487.28640.17668497009053972900.malone@gac.canonical.com>
+Subject: [Bug 1867786] Re: Qemu PPC64 freezes with multi-core CPU
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a9b80dc1edb02fa0e9bbcd3d5e67282dc627a057
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,121 +65,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Bug 1867786 <1867786@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-"-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+Is this with KVM or with TCG?
+What is your hardware configuration?
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
+-- =
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
- target/riscv/cpu.h |  2 ++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1867786
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6e4135583d..92cbcf1a2d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -395,7 +395,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     set_priv_version(env, priv_version);
--    set_vext_version(env, vext_version);
-     set_resetvec(env, DEFAULT_RSTVEC);
- 
-     if (cpu->cfg.mmu) {
-@@ -463,6 +462,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -500,10 +538,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f42f075024..42ab0f141a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -285,12 +285,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
--- 
-2.23.0
+Title:
+  Qemu PPC64 freezes with multi-core CPU
 
+Status in QEMU:
+  New
+
+Bug description:
+  I installed Debian 10 on a Qemu PPC64 VM running with the following
+  flags:
+
+  qemu-system-ppc64 \
+       -nographic -nodefaults -monitor pty -serial stdio \
+       -M pseries -cpu POWER9 -smp cores=3D4,threads=3D1 -m 4G \
+       -drive file=3Ddebian-ppc64el-qemu.qcow2,format=3Dqcow2,if=3Dvirtio \
+       -netdev user,id=3Dnetwork01,$ports -device rtl8139,netdev=3Dnetwork0=
+1 \
+
+  =
+
+  Within a couple minutes on any operation (could be a Go application or si=
+mply changing the hostname with hostnamectl, the VM freezes and prints this=
+ on the console:
+
+  ```
+  root@debian:~# [  950.428255] rcu: INFO: rcu_sched self-detected stall on=
+ CPU
+  [  950.428453] rcu:     3-....: (5318 ticks this GP) idle=3D8e2/1/0x40000=
+00000000004 softirq=3D5957/5960 fqs=3D2544
+  [  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! [zsh:462]
+
+  Message from syslogd@debian at Mar 17 11:35:24 ...
+   kernel:[  976.244481] watchdog: BUG: soft lockup - CPU#3 stuck for 23s! =
+[zsh:462]
+  [  980.110018] rcu: INFO: rcu_sched detected expedited stalls on CPUs/tas=
+ks: { 3-... } 5276 jiffies s: 93 root: 0x8/.
+  [  980.111177] rcu: blocking rcu_node structures:
+  [ 1013.442268] rcu: INFO: rcu_sched self-detected stall on CPU
+  [ 1013.442365] rcu:     3-....: (21071 ticks this GP) idle=3D8e2/1/0x4000=
+000000000004 softirq=3D5957/5960 fqs=3D9342
+  ```
+
+  If I change to 1 core on the command line, I haven't seen these
+  freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1867786/+subscriptions
 
