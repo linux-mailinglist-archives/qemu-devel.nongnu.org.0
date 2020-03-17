@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51056187D78
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:54:26 +0100 (CET)
-Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4864187D7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:55:55 +0100 (CET)
+Received: from localhost ([::1]:55318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE8vZ-0002Dn-B8
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58904)
+	id 1jE8x0-0004mh-OU
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE8uM-0001Lc-8D
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:11 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jE8uZ-0001cP-1E
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE8uL-0007xY-4F
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:10 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:32764)
+ (envelope-from <cohuck@redhat.com>) id 1jE8uX-0000z4-S0
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:22 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:30017)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE8uK-0007vr-W9
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:09 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jE8uX-0000wF-MH
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:53:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584438788;
+ s=mimecast20190719; t=1584438801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=laNZlL7Tt9NYI5LoxZQ8lyNrzvzhVmV+Pbohz3i15mY=;
- b=Mmih/sfcdW9+Fqtg9Q53Hsuy/JkouJr7+vJGXE6wreTYau461/Ls1zV7cw6ChOVmjDYV1X
- 39VVFsRrex7K2L3A0ll+gI2BVFP4lKfPSGrK2Qpbnn5vYHZ9QEtc4fM1AWsan+lEHe/z7H
- UjN4MuxOL3oOP+EJr8w9UMShVuC4aGQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-IdVc5WybPKmEVoTqOpcCnw-1; Tue, 17 Mar 2020 05:53:06 -0400
-X-MC-Unique: IdVc5WybPKmEVoTqOpcCnw-1
-Received: by mail-wm1-f72.google.com with SMTP id f207so6911598wme.6
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 02:53:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OcE9RsIGTqtb4S7XTfRvGWs4Vuw7HRNex08Oaq9O0V0=;
- b=dWw9uIeCDRCVb9MvJSbbsxlNLGWEZAYOUWFJsS1IPfjADSqcLUv9SP8SCQG1sHjTgF
- CCyngVdu1Gv5JFlEFWeE95G3fgfnxVWqFY59/wAJrX+E5hlHcFKi8r/nhI083kpXLyQm
- aA+TwcwS6QiJnODuj8i1rtyS78OOIoYlevdW13GyV/7VTtVhtltfhOPKzQJPTWAaHAU1
- pOur+7rDAYW5qmJOVWiez78LpmjTOxUGErATm5wXkz6jfgsN1AO+m9CBh7auuyvpj7MT
- 3WHpAUAB9Fi+7YhcwjTACz83ptfpkYRVHNHMXbzYWRRRsRknwvjtk48soCMbmqHH4ybb
- Q/4w==
-X-Gm-Message-State: ANhLgQ37MwfMVr7x5Lk7d4SWjRBGkxdx7A4LQPhNB/7NdhgHUl3Wolak
- t1p+S8nRdhK1d6G72GVWfZPdAQU74sgJ6LsWbp3YsM1dlnYSQgFgZPqsZNzKthCfD6fYbH+llpO
- Jja59uVSWNQUGAN4=
-X-Received: by 2002:adf:f807:: with SMTP id s7mr5011848wrp.49.1584438785577;
- Tue, 17 Mar 2020 02:53:05 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vttmpvei2C6jE946LeR/RwTzv1Jawzh/HFVpZ4WtaquipivtTYuOo9kEj2duVRmVKG8PSH4LA==
-X-Received: by 2002:adf:f807:: with SMTP id s7mr5011821wrp.49.1584438785327;
- Tue, 17 Mar 2020 02:53:05 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id l83sm3252809wmf.43.2020.03.17.02.53.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 02:53:04 -0700 (PDT)
-Subject: Re: [PATCH v1 13/28] target/i386: use gdb_get_reg helpers
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200316172155.971-1-alex.bennee@linaro.org>
- <20200316172155.971-14-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9ecb1d64-c447-5c0d-0280-ce9cd6537fa6@redhat.com>
-Date: Tue, 17 Mar 2020 10:53:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=PEn5Lh+NmTAvhU/mobJWJAQBBL2vDWH4MTgpAqWAxoo=;
+ b=ea3xQgJ84AYH30NIdOn5lQoX3D45i+HIe50gVUWm2UCClLT8ub/MjrXauICALn+JvCkPDN
+ hw8+LsYcWIU/6ni04+250/fHQ6D8ct98OM8WOo28/06ZPVbFlUs/HzPUBku59hVcfInynE
+ ef7LdsDGW0TThDauSVoEiJHU31u49x8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-zn1zra1UPNSfpQ5_X5OUwQ-1; Tue, 17 Mar 2020 05:53:17 -0400
+X-MC-Unique: zn1zra1UPNSfpQ5_X5OUwQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AB6D19057A0;
+ Tue, 17 Mar 2020 09:53:16 +0000 (UTC)
+Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69FCD8AC30;
+ Tue, 17 Mar 2020 09:53:12 +0000 (UTC)
+Date: Tue, 17 Mar 2020 10:53:09 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH v9] fixup! Fix subcode/pbt
+Message-ID: <20200317105309.195bc3ce.cohuck@redhat.com>
+In-Reply-To: <0fcd69fc-0e23-5cd1-bd21-0c4923a99ef1@de.ibm.com>
+References: <a1ed33c4-91c0-90fa-2f95-417e320e172c@de.ibm.com>
+ <20200313095232.2392-1-frankja@linux.ibm.com>
+ <20200316152738.4c1c65ee.cohuck@redhat.com>
+ <bbbabbb0-2325-406d-a619-f2d03f447c8c@linux.ibm.com>
+ <20200316155457.73e97d9c.cohuck@redhat.com>
+ <a39815f9-6c36-5c7e-39e0-3cd49a66c571@de.ibm.com>
+ <20200316185708.30d23522.cohuck@redhat.com>
+ <0fcd69fc-0e23-5cd1-bd21-0c4923a99ef1@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200316172155.971-14-alex.bennee@linaro.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,85 +77,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-s390x@nongnu.org, david@redhat.com,
+ Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/16/20 6:21 PM, Alex Benn=C3=A9e wrote:
-> This is cleaner than poking memory directly and will make later
-> clean-ups easier.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->=20
-> ---
-> v7
->    - remove stray space
->    - fixup the floatx80 set/get routines
-> ---
->   target/i386/gdbstub.c | 27 +++++++++++----------------
->   1 file changed, 11 insertions(+), 16 deletions(-)
->=20
-> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-> index 572ead641ca..e4d8cb66c00 100644
-> --- a/target/i386/gdbstub.c
-> +++ b/target/i386/gdbstub.c
-> @@ -98,26 +98,22 @@ int x86_cpu_gdb_read_register(CPUState *cs, uint8_t *=
-mem_buf, int n)
->                   return gdb_get_reg64(mem_buf,
->                                        env->regs[gpr_map[n]] & 0xffffffff=
-UL);
->               } else {
-> -                memset(mem_buf, 0, sizeof(target_ulong));
-> -                return sizeof(target_ulong);
-> +                return gdb_get_regl(mem_buf, 0);
->               }
->           } else {
->               return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
->           }
->       } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-> -#ifdef USE_X86LDOUBLE
-> -        /* FIXME: byteswap float values - after fixing fpregs layout. */
-> -        memcpy(mem_buf, &env->fpregs[n - IDX_FP_REGS], 10);
-> -#else
-> -        memset(mem_buf, 0, 10);
-> -#endif
-> -        return 10;
-> +        floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-> +        int len =3D gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
-> +        len +=3D gdb_get_reg16(mem_buf + len, cpu_to_le16(fp->high));
-> +        return len;
->       } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
->           n -=3D IDX_XMM_REGS;
->           if (n < CPU_NB_REGS32 || TARGET_LONG_BITS =3D=3D 64) {
-> -            stq_p(mem_buf, env->xmm_regs[n].ZMM_Q(0));
-> -            stq_p(mem_buf + 8, env->xmm_regs[n].ZMM_Q(1));
-> -            return 16;
-> +            return gdb_get_reg128(mem_buf,
-> +                                  env->xmm_regs[n].ZMM_Q(0),
-> +                                  env->xmm_regs[n].ZMM_Q(1));
->           }
->       } else {
->           switch (n) {
-> @@ -290,10 +286,9 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t=
- *mem_buf, int n)
->               return 4;
->           }
->       } else if (n >=3D IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-> -#ifdef USE_X86LDOUBLE
-> -        /* FIXME: byteswap float values - after fixing fpregs layout. */
-> -        memcpy(&env->fpregs[n - IDX_FP_REGS], mem_buf, 10);
-> -#endif
-> +        floatx80 *fp =3D (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-> +        fp->low =3D le64_to_cpu(* (uint64_t *) mem_buf);
-> +        fp->high =3D le16_to_cpu(* (uint16_t *) (mem_buf + 8));
->           return 10;
->       } else if (n >=3D IDX_XMM_REGS && n < IDX_XMM_REGS + CPU_NB_REGS) {
->           n -=3D IDX_XMM_REGS;
->=20
+On Mon, 16 Mar 2020 20:42:33 +0100
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-I'd prefer both USE_X86LDOUBLE hunks in a separate patch, anyway:
+> On 16.03.20 18:57, Cornelia Huck wrote:
+> > On Mon, 16 Mar 2020 16:04:00 +0100
+> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> >   
+> >> On 16.03.20 15:54, Cornelia Huck wrote:  
+> >>> On Mon, 16 Mar 2020 15:47:41 +0100
+> >>> Janosch Frank <frankja@linux.ibm.com> wrote:
+> >>>     
+> >>>> On 3/16/20 3:27 PM, Cornelia Huck wrote:    
+> >>>>> On Fri, 13 Mar 2020 05:52:32 -0400
+> >>>>> Janosch Frank <frankja@linux.ibm.com> wrote:
+> >>>>>       
+> >>>>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >>>>>> ---
+> >>>>>>  hw/s390x/ipl.h      | 11 +++++++----
+> >>>>>>  target/s390x/diag.c |  2 +-
+> >>>>>>  2 files changed, 8 insertions(+), 5 deletions(-)    
+> >>>
+> >>>     
+> >>>>>> @@ -118,7 +118,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+> >>>>>>  
+> >>>>>>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+> >>>>>>  
+> >>>>>> -        if (!iplb_valid(iplb)) {
+> >>>>>> +        if (!iplb_valid(iplb, subcode)) {
+> >>>>>>              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+> >>>>>>              goto out;
+> >>>>>>          }      
+> >>>>>
+> >>>>> ...because you're basically checking whether you either have a valid
+> >>>>> normal iplb, or a valid pv iplb, with the two being mutually exclusive,
+> >>>>> IIUC. So what about introducing iplb_valid_pv and calling that for the
+> >>>>> pv case? Would be a bit nicer to read, I think, and also matches what
+> >>>>> you do for the STORE case.
+> >>>>>       
+> >>>>
+> >>>> The idea was to get rid of all of these ifs and elses and only have one
+> >>>> iplb_valid function. Your suggestion would defeat hiding that complexity
+> >>>> behind this function.    
+> >>>
+> >>> I'd argue that this is a complexity we should not hide; for non-pv, we
+> >>> can have several formats, for pv, only one, and we cannot use a pv iplb
+> >>> in a non-pv context and vice versa.    
+> >>
+> >> So you suggest to split these case statements?
+> >> case DIAG308_STORE:
+> >> case DIAG308_PV_STORE:  
+> > 
+> > Why? Those cases are already done in the way I suggest for these here
+> > as well (i.e. keep common checks, just split the iplb handling.)  
+> 
+> This was more of a question. I was not sure what your suggestion was.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Sorry if I wasn't clear enough.
+
+For the store case, you have
+
+        if (subcode == DIAG308_PV_STORE) {
+            iplb = s390_ipl_get_iplb_pv();
+        } else {
+            iplb = s390_ipl_get_iplb();
+        }
+
+with the rest of the handling being identical. My suggestion was to use
+something like
+
+        valid = subcode == DIAG308_PV_SET ? iplb_valid_pv(iplb) : iplb_valid(iplb);
+        if (!valid) {
+             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+             goto out;
+         }
 
 
