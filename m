@@ -2,64 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9B0187D92
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 10:57:59 +0100 (CET)
-Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B069187DAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:02:49 +0100 (CET)
+Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE8z0-0007lN-KW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 05:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35032)
+	id 1jE93g-0005u5-3z
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:02:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jE8xo-0006dQ-Jm
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:45 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yw-0008Io-QP
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jE8xn-0007VB-Hp
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:44 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:21822)
+ (envelope-from <balaton@eik.bme.hu>) id 1jE8yu-0006Tv-Ek
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:57:54 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:31350)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jE8xn-0007Qf-AQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 05:56:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584439003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ov0W2bPqJ9/ITW4yjDNJwyUNzmiJKxsnJPPaGFxowLc=;
- b=UpO1BhzMkUFJv14sGfZecFLttg7jaqpfP9AyxIuYzndvVFTIhzV4gwRWWKkXsMVlNLWgox
- Jq+gTRAjZJNhODLC7fSEjdWtsZZ29C0AWMcgMegnMj0n7HO6XyrP+HwjVeK5BIE775Rbf9
- JH5DVLkJ3wlcU8E61ev0xrD08LWwTzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-bMqQeaXFPB-Ivre_TrUSJQ-1; Tue, 17 Mar 2020 05:56:41 -0400
-X-MC-Unique: bMqQeaXFPB-Ivre_TrUSJQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7C71005F61;
- Tue, 17 Mar 2020 09:56:40 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75F4560BF3;
- Tue, 17 Mar 2020 09:56:36 +0000 (UTC)
-Date: Tue, 17 Mar 2020 10:56:33 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v9 05/15] s390x: protvirt: KVM intercept changes
-Message-ID: <20200317105633.328bcda7.cohuck@redhat.com>
-In-Reply-To: <20200311132151.172389-6-frankja@linux.ibm.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-6-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jE8yo-00060Q-Sh; Tue, 17 Mar 2020 05:57:48 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id AE0EF747E18;
+ Tue, 17 Mar 2020 10:57:44 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2E4E4747E0B; Tue, 17 Mar 2020 10:57:44 +0100 (CET)
+Message-Id: <adddfa21552783020d64e1314318cab6d24362c3.1584437958.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1584437957.git.balaton@eik.bme.hu>
+References: <cover.1584437957.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v2 1/7] hw/ide: Get rid of piix3_init functions
+Date: Tue, 17 Mar 2020 10:39:17 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org,
+    qemu-block@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,42 +49,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Mar 2020 09:21:41 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+This removes pci_piix3_ide_init() and pci_piix3_xen_ide_init()
+functions similar to clean up done to other ide devices.
 
-> Protected VMs no longer intercept with code 4 for an instruction
-> interception. Instead they have codes 104 and 108 for protected
-> instruction interception and protected instruction notification
-> respectively.
-> 
-> The 104 mirrors the 4 interception.
-> 
-> The 108 is a notification interception to let KVM and QEMU know that
-> something changed and we need to update tracking information or
-> perform specific tasks. It's currently taken for the following
-> instructions:
-> 
-> * spx (To inform about the changed prefix location)
-> * sclp (On incorrect SCCB values, so we can inject a IRQ)
-> * sigp (All but "stop and store status")
-> * diag308 (Subcodes 0/1)
-> 
-> Of these exits only sclp errors, state changing sigps and diag308 will
-> reach QEMU. QEMU will do its parts of the job, while the ultravisor
-> has done the instruction part of the job.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  target/s390x/kvm.c | 4 ++++
->  1 file changed, 4 insertions(+)
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/i386/pc_piix.c | 10 +++++-----
+ hw/ide/pci.c      |  1 +
+ hw/ide/piix.c     | 21 +--------------------
+ include/hw/ide.h  |  2 --
+ 4 files changed, 7 insertions(+), 27 deletions(-)
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index e2d98243bc..c399398739 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -39,6 +39,7 @@
+ #include "hw/usb.h"
+ #include "net/net.h"
+ #include "hw/ide.h"
++#include "hw/ide/pci.h"
+ #include "hw/irq.h"
+ #include "sysemu/kvm.h"
+ #include "hw/kvm/clock.h"
+@@ -242,11 +243,10 @@ static void pc_init1(MachineState *machine,
+     ide_drive_get(hd, ARRAY_SIZE(hd));
+     if (pcmc->pci_enabled) {
+         PCIDevice *dev;
+-        if (xen_enabled()) {
+-            dev =3D pci_piix3_xen_ide_init(pci_bus, hd, piix3_devfn + 1)=
+;
+-        } else {
+-            dev =3D pci_piix3_ide_init(pci_bus, hd, piix3_devfn + 1);
+-        }
++
++        dev =3D pci_create_simple(pci_bus, piix3_devfn + 1,
++                                xen_enabled() ? "piix3-ide-xen" : "piix3=
+-ide");
++        pci_ide_create_devs(dev, hd);
+         idebus[0] =3D qdev_get_child_bus(&dev->qdev, "ide.0");
+         idebus[1] =3D qdev_get_child_bus(&dev->qdev, "ide.1");
+         pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 1a6a287e76..4fc76c5225 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -476,6 +476,7 @@ const VMStateDescription vmstate_ide_pci =3D {
+     }
+ };
+=20
++/* hd_table must contain 4 block drivers */
+ void pci_ide_create_devs(PCIDevice *dev, DriveInfo **hd_table)
+ {
+     PCIIDEState *d =3D PCI_IDE(dev);
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index bc575b4d70..8bcd6b72c2 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -197,15 +197,6 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool =
+aux)
+     return 0;
+ }
+=20
+-PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int=
+ devfn)
+-{
+-    PCIDevice *dev;
+-
+-    dev =3D pci_create_simple(bus, devfn, "piix3-ide-xen");
+-    pci_ide_create_devs(dev, hd_table);
+-    return dev;
+-}
+-
+ static void pci_piix_ide_exitfn(PCIDevice *dev)
+ {
+     PCIIDEState *d =3D PCI_IDE(dev);
+@@ -217,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
+     }
+ }
+=20
+-/* hd_table must contain 4 block drivers */
+-/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+-PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn)
+-{
+-    PCIDevice *dev;
+-
+-    dev =3D pci_create_simple(bus, devfn, "piix3-ide");
+-    pci_ide_create_devs(dev, hd_table);
+-    return dev;
+-}
+-
+ /* hd_table must contain 4 block drivers */
+ /* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
+ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn)
+@@ -239,6 +219,7 @@ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo =
+**hd_table, int devfn)
+     return dev;
+ }
+=20
++/* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
+ static void piix3_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index dea0ecf5be..883bbaeb9b 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -12,8 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int io=
+base2, int isairq,
+                         DriveInfo *hd0, DriveInfo *hd1);
+=20
+ /* ide-pci.c */
+-PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int=
+ devfn);
+-PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn);
+ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn);
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+=20
+--=20
+2.21.1
 
 
