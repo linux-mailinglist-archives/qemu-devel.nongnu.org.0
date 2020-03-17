@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AF8187E8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:43:42 +0100 (CET)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093F5187E9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:48:20 +0100 (CET)
+Received: from localhost ([::1]:57436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9hE-0007Ik-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
+	id 1jE9lj-00046m-3B
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jE9fj-0005q1-GB
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:42:08 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jE9jI-0002En-PE
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jE9fi-0007Wr-2y
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:42:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37305)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jE9fh-0007Tq-RN
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:42:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584441724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J3VfCw2nMU177NdLL3DlJokqsLMH32QW/fa+/o1jVBY=;
- b=SxDqBMB96741A+MCkoTc5+b8QqsqXWS/tM48jZEA2AGbCTfsr29Vfq6hl6dA5uKAyTSSPC
- zblzK6vT32H/eRCIRlY2Zf0D7wplWN46kUeQB0EkqsiMfTFeQ9bHuJk2QTaXQppqoOg5JO
- YDDUJEb2M9aENss9H/Y9LZQkLlgIh+I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-emg7NdjQPqG90_JvvqHDHQ-1; Tue, 17 Mar 2020 06:42:02 -0400
-X-MC-Unique: emg7NdjQPqG90_JvvqHDHQ-1
-Received: by mail-wr1-f71.google.com with SMTP id t4so6186256wrr.1
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:42:02 -0700 (PDT)
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jE9jH-0006S2-0M
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:45:48 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37049)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jE9jG-0006FP-Gi; Tue, 17 Mar 2020 06:45:46 -0400
+Received: by mail-wr1-x442.google.com with SMTP id 6so24951376wre.4;
+ Tue, 17 Mar 2020 03:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=cG0+Tw2MoGN7C/riLxUa3AlBIsSXCDnmaYVircrkrMU=;
+ b=uZdEQioMM6iN6B38QrPgpSlli5TIfy0zHxLi0SwiqWxbOtacS0+pnEqZVWx5lLmMX1
+ J31kXbhKNoVn0Zc2Enc66vae9ogLrAFSAu9mWmG2H0dmw3umDxBWldj8rPs+o5MS0o5j
+ Wo9vBiUNsMwczMqhYhQNWZ+TB3VWJ2l4tvr1ZlxBgKJFgJ0gmAIs00QpzauSSkhOk9m9
+ UoWzQ/4UBKPQcBgO3DK8vjb5LcG+Jx4nObVRvkYpROG7RiAuqI1Kwv32o0Cx9xFOJPI1
+ iHXYTIyGXy1J7BifuYYM07JHDPwcSLSnRcimEXkWgS/rLA1Uqnaa36jAU3Ztw79x6Pva
+ IFgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q0+9Hv7NpyRm3x1g5iWC/bW/ly1Dlp8k+Uoe29FmYVk=;
- b=q51FP9wwr3xDkwJkiFvVpbqOriRrc8goANrz4T6DP2nWd0U02To6jteoeCFyV4Pg0/
- q76A/8BuaFvkHl0gWA9b3WXMHoYs/zG9j3yYmzCD2/vNUzPkKNqgYdYcn9t8HfC1YWXW
- mrsWJGMUY1aNTjbe3xX5sxbgfHaGovH5yEZRf8cY7O6b2+8/L5XgvwCkgRCLHI+4MfKh
- xGr6y9843zaS6n/FKpWX9sUJIlIvOMJ2vmHZpSFXsponyQR+6fmto69mrxqXI9kivlt1
- nXlrnF17dcog06g9kSudHsjanhZzLBTjbA/Er9J/kPZz5CFeciPlIla3idURwXjXeL0y
- Eqgg==
-X-Gm-Message-State: ANhLgQ1D+gUElb7lWvA6qk0KhaBu7YvMS6jOppe51EN5MSt85cmGZd+Z
- zUpU6RJDImLU+JoXyG4uqfynpdfWWjSsitae2xNlhb1Og5X6E5FoOeG9d9hHqcsu5kuayAAkzgN
- pBpyJeHXZJwxMIQE=
-X-Received: by 2002:adf:bbd3:: with SMTP id z19mr5413091wrg.228.1584441721618; 
- Tue, 17 Mar 2020 03:42:01 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsczd1pu0enKZB313Ghsc1MAw86JxsGRwBQIBb5HW+rTRwQKXhoPF+KRGJ1ZdbNs6qtrY3d8w==
-X-Received: by 2002:adf:bbd3:: with SMTP id z19mr5413059wrg.228.1584441721282; 
- Tue, 17 Mar 2020 03:42:01 -0700 (PDT)
-Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.96])
- by smtp.gmail.com with ESMTPSA id 133sm3522134wmd.5.2020.03.17.03.42.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Mar 2020 03:42:00 -0700 (PDT)
-Subject: Re: [PATCH v2 2/7] hw/ide: Get rid of piix4_init function
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <cover.1584437957.git.balaton@eik.bme.hu>
- <3240656814c804513de08bdbbf318f2f590df241.1584437958.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c43e2f9b-3002-32f0-08fa-7164a98f3b9f@redhat.com>
-Date: Tue, 17 Mar 2020 11:41:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cG0+Tw2MoGN7C/riLxUa3AlBIsSXCDnmaYVircrkrMU=;
+ b=hCdscMlDF8Z0BENE6KEu0g1tdMiz/9FJCPWcH3FItWMriD7r10Gf2oPIsQ55hk4k4v
+ mgVNWpHlisQ+rNAtaU3bhcwwICMkl/j+/fnO458L6VXP5OdJZplC/IRGStQHhHlRBDQY
+ kJ9cnstYuCvw9MxMDcFo+E9vV1POM//rxu4EEZ6hejiotPrQMTkYun1oHuh60XWMKZiJ
+ B+K4tofMiX/HRo1VDa7Qj4ZafeKNmBfW0XM8/iMogvbuKQvXQX2fhMjG57gnP/OjGdzW
+ gCYLNxxF8upntm4tDPJh7dsrl0iJsXwvahxyQHExXIha5BT9gVQMTaEA3QxWZjWfRNJX
+ x8IA==
+X-Gm-Message-State: ANhLgQ0xzZf7ApQM7Tk8AIkyV02rAQSALjcaYv5g73bdlMWS6HBTbpuu
+ ZMvLGM3ZUE9dRerWZva+eH3CRu2dtus4M36ZQwc=
+X-Google-Smtp-Source: ADFU+vt7Js4pgcgRflHF4Vhqrrj5CVi/f0Dws12kKSEqnKA5TR7tJGh4TrVzyF97okdHJTa0+2QOf9f/lKarM05sYXw=
+X-Received: by 2002:adf:e9cc:: with SMTP id l12mr5317024wrn.420.1584441938187; 
+ Tue, 17 Mar 2020 03:45:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3240656814c804513de08bdbbf318f2f590df241.1584437958.git.balaton@eik.bme.hu>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <20200316172155.971-1-alex.bennee@linaro.org>
+ <20200316172155.971-25-alex.bennee@linaro.org>
+ <3d01f357-eeb6-7fd7-1895-feae05beca99@redhat.com>
+In-Reply-To: <3d01f357-eeb6-7fd7-1895-feae05beca99@redhat.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 17 Mar 2020 11:45:27 +0100
+Message-ID: <CAHiYmc5CtAH-zs38YmyLkrrp2DnxzLUWNKBTcL+oyFNEiCsV8A@mail.gmail.com>
+Subject: Re: [PATCH v1 24/28] tests/tcg/aarch64: add SVE iotcl test
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,104 +74,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, hpoussin@reactos.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/17/20 10:39 AM, BALATON Zoltan wrote:
-> This removes pci_piix4_ide_init() function similar to clean up done to
-> other ide devices.
->=20
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+=D1=83=D1=82=D0=BE, 17. =D0=BC=D0=B0=D1=80 2020. =D1=83 11:33 Philippe Math=
+ieu-Daud=C3=A9 <philmd@redhat.com>
+=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On 3/16/20 6:21 PM, Alex Benn=C3=A9e wrote:
+> > This is a fairly bare-bones test of setting the various vector sizes
+> > for SVE which will only fail if the PR_SVE_SET_VL can't reduce the
+> > user-space vector length by powers of 2.
+> >
+> > However we will also be able to use it in a future test which
+> > exercises the GDB stub.
+> >
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I think it would be clearer and better if you used used the
+word "prctl" rather than "ioctl" in both title/commit message
+and code (including comments).
 
-> ---
->   hw/ide/piix.c    | 12 +-----------
->   hw/isa/piix4.c   |  5 ++++-
->   include/hw/ide.h |  1 -
->   3 files changed, 5 insertions(+), 13 deletions(-)
->=20
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index 8bcd6b72c2..3b2de4c312 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -208,17 +208,6 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->       }
->   }
->  =20
-> -/* hd_table must contain 4 block drivers */
-> -/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
-> -PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn)
-> -{
-> -    PCIDevice *dev;
-> -
-> -    dev =3D pci_create_simple(bus, devfn, "piix4-ide");
-> -    pci_ide_create_devs(dev, hd_table);
-> -    return dev;
-> -}
-> -
->   /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->   static void piix3_ide_class_init(ObjectClass *klass, void *data)
->   {
-> @@ -247,6 +236,7 @@ static const TypeInfo piix3_ide_xen_info =3D {
->       .class_init    =3D piix3_ide_class_init,
->   };
->  =20
-> +/* NOTE: for the PIIX4, the IRQs and IOports are hardcoded */
->   static void piix4_ide_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc =3D DEVICE_CLASS(klass);
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 7edec5e149..0ab4787658 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -35,6 +35,7 @@
->   #include "hw/timer/i8254.h"
->   #include "hw/rtc/mc146818rtc.h"
->   #include "hw/ide.h"
-> +#include "hw/ide/pci.h"
->   #include "migration/vmstate.h"
->   #include "sysemu/reset.h"
->   #include "sysemu/runstate.h"
-> @@ -255,10 +256,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus *=
-*isa_bus,
->           *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
->       }
->  =20
-> +    pci =3D pci_create_simple(pci_bus, pci->devfn + 1, "piix4-ide");
->       hd =3D g_new(DriveInfo *, ide_drives);
->       ide_drive_get(hd, ide_drives);
-> -    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-> +    pci_ide_create_devs(pci, hd);
->       g_free(hd);
-> +
->       pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
->       if (smbus) {
->           *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-> diff --git a/include/hw/ide.h b/include/hw/ide.h
-> index 883bbaeb9b..21bd8f23f1 100644
-> --- a/include/hw/ide.h
-> +++ b/include/hw/ide.h
-> @@ -12,7 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int io=
-base2, int isairq,
->                           DriveInfo *hd0, DriveInfo *hd1);
->  =20
->   /* ide-pci.c */
-> -PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
-fn);
->   int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
->  =20
->   /* ide-mmio.c */
->=20
+I think it is also a little problematic that tests like this reside
+and belong in tests/tcg - since they deal more with elements
+of kernel interface (system call prctl()), rather than TCG.
+Still, I see there are many other similar cases in tests/tcg,
+so probably (at this moment) one should't bother about it in
+the context of this patch. However, in general, the location
+/tests/tcg for all these cases seems wrong to me.
 
+Sincerely,
+Aleksandar
+
+> >
+> > ---
+> > v3
+> >    - use index to fill zreg
+> >    - CROSS_CC_HAS_SVE
+> > v5
+> >    - merge conflicts
+> > v6
+> >    - drop id check
+> > ---
+> >   tests/tcg/aarch64/sve-ioctls.c    | 70 ++++++++++++++++++++++++++++++=
++
+> >   tests/tcg/aarch64/Makefile.target |  4 ++
+> >   2 files changed, 74 insertions(+)
+> >   create mode 100644 tests/tcg/aarch64/sve-ioctls.c
+> >
+> > diff --git a/tests/tcg/aarch64/sve-ioctls.c b/tests/tcg/aarch64/sve-ioc=
+tls.c
+> > new file mode 100644
+> > index 00000000000..9544dffa0ee
+> > --- /dev/null
+> > +++ b/tests/tcg/aarch64/sve-ioctls.c
+> > @@ -0,0 +1,70 @@
+> > +/*
+> > + * SVE ioctls tests
+> > + *
+> > + * Test the SVE width setting ioctls work and provide a base for
+> > + * testing the gdbstub.
+> > + *
+> > + * Copyright (c) 2019 Linaro Ltd
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +#include <sys/prctl.h>
+> > +#include <asm/hwcap.h>
+> > +#include <stdio.h>
+> > +#include <sys/auxv.h>
+> > +#include <stdint.h>
+> > +#include <stdlib.h>
+> > +
+> > +#ifndef HWCAP_CPUID
+> > +#define HWCAP_CPUID (1 << 11)
+> > +#endif
+> > +
+> > +#define SVE_MAX_QUADS  (2048 / 128)
+> > +#define BYTES_PER_QUAD (128 / 8)
+> > +
+> > +#define get_cpu_reg(id) ({                                      \
+> > +            unsigned long __val;                                \
+> > +            asm("mrs %0, "#id : "=3Dr" (__val));                  \
+> > +            __val;                                              \
+> > +        })
+> > +
+> > +static int do_sve_ioctl_test(void)
+> > +{
+> > +    int i, res, init_vq;
+> > +
+> > +    res =3D prctl(PR_SVE_GET_VL, 0, 0, 0, 0);
+> > +    if (res < 0) {
+> > +        printf("FAILED to PR_SVE_GET_VL (%d)", res);
+> > +        return -1;
+> > +    }
+> > +    init_vq =3D res & PR_SVE_VL_LEN_MASK;
+> > +
+> > +    for (i =3D init_vq; i > 15; i /=3D 2) {
+> > +        printf("Checking PR_SVE_SET_VL=3D%d\n", i);
+> > +        res =3D prctl(PR_SVE_SET_VL, i, 0, 0, 0, 0);
+> > +        if (res < 0) {
+> > +            printf("FAILED to PR_SVE_SET_VL (%d)", res);
+> > +            return -1;
+> > +        }
+> > +        asm("index z0.b, #0, #1\n"
+> > +            ".global __sve_ld_done\n"
+> > +            "__sve_ld_done:\n"
+> > +            "mov z0.b, #0\n"
+> > +            : /* no outputs kept */
+> > +            : /* no inputs */
+> > +            : "memory", "z0");
+> > +    }
+> > +    printf("PASS\n");
+> > +    return 0;
+> > +}
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +    /* we also need to probe for the ioctl support */
+> > +    if (getauxval(AT_HWCAP) & HWCAP_SVE) {
+> > +        return do_sve_ioctl_test();
+> > +    } else {
+> > +        printf("SKIP: no HWCAP_SVE on this system\n");
+> > +        return 0;
+> > +    }
+> > +}
+> > diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Make=
+file.target
+> > index b61b53e4dd1..c879932ff6c 100644
+> > --- a/tests/tcg/aarch64/Makefile.target
+> > +++ b/tests/tcg/aarch64/Makefile.target
+> > @@ -47,6 +47,10 @@ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
+> >   AARCH64_TESTS +=3D sysregs
+> >   sysregs: CFLAGS+=3D-march=3Darmv8.1-a+sve
+> >
+> > +# SVE ioctl test
+> > +AARCH64_TESTS +=3D sve-ioctls
+> > +sve-ioctls: CFLAGS+=3D-march=3Darmv8.1-a+sve
+> > +
+> >   ifneq ($(HAVE_GDB_BIN),)
+> >   GDB_SCRIPT=3D$(SRC_PATH)/tests/guest-debug/run-test.py
+> >
+> >
+>
+>
 
