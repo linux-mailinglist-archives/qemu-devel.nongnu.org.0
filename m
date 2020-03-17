@@ -2,46 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A3A188C69
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:46:11 +0100 (CET)
-Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AA1188C1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 18:30:52 +0100 (CET)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGI6-0004Fp-51
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
+	id 1jEG3G-0004i0-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 13:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <a809679a8b237614dcd050ea1f7e72e97638c0ba@lizzy.crudebyte.com>)
- id 1jEGGh-0003Km-Hx
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:44:44 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEG2E-0004Bq-6l
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:29:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <a809679a8b237614dcd050ea1f7e72e97638c0ba@lizzy.crudebyte.com>)
- id 1jEGGg-00005G-Ao
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:44:43 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54081)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <a809679a8b237614dcd050ea1f7e72e97638c0ba@lizzy.crudebyte.com>)
- id 1jEGGf-0003NH-Qs
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:44:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=7iID3mk+2e4wEusfddIqxklPf8tGYhW55AoLvQNF9r4=; b=RvFO/
- gWXFd4LYoFfAxLKUM56lj8J6pcFkTPtgKGwBg3J2rdiOqJFYlYTfJ09+qc+rMmCLInM1Imh1TNmQu
- kvqPv14a+l1xpVxbyEB/xhGtPF4dqcGP6MFhb/UDkgT5bN65hWb2PHkyFFYtYEXfl2dXF7iX2sIw3
- zETTyvCbcNmotDOAb2QT786ciwY/WQSvSGKmmKE5YGTk4vW1i7C4YOS5IRYNUAyVoZQGn9OEhAlRs
- S6CzHDW/gQCC7nhXRAxafeHSDqxUOBXh5rlZUt1u919o8ZrOWCUCajcC0E4CheHRFgvkohGReLnlP
- qpMy+yHuOzGp+a5kURgygpjNB8C2Q==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 17 Mar 2020 17:38:15 +0100
-Subject: [PATCH 0/1] add support for QEMU 9pfs 'multidevs' option
-To: libvir-list@redhat.com
-Cc: qemu-devel@nongnu.org,
-    Greg Kurz <groug@kaod.org>
-Message-Id: <E1jEFpH-00028X-1c@lizzy.crudebyte.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
+ (envelope-from <peter.maydell@linaro.org>) id 1jEG2C-00079X-2I
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:29:45 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:38400)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jEG2B-00074H-Qj
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 13:29:44 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id t28so19876261ott.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 10:29:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5iqfpJYNHTtuays6U7MVeaPb82O2zfD+zyN2Te24nGQ=;
+ b=IFIrhuzPuR6YleqpUtB6g9tF2+zE6o95Q3P2y8L+BxqYpJrVEwXDsxm3s78ztqicpr
+ SpJ36jb/+H+GvAFWP+BduzR+hrUrmaRgCMQrTcz3HaV132KchBvKfLbTOOz7CHgT/uRu
+ WNDs9HV9q7EdDM7V+iRirUEm99ipW2j4eGjwxvo9EaJ+mXAsNIO26URUWpTp0Y+DCrwJ
+ p2TXulD/CEVMeY0QECteCnKIMurybDsSQUu21Ur3A/l24mRznTSGvOlaOyZSZGlFmO1S
+ 4Cjoido/ss1T7iy7XA4pTFNR2ei03VZXLy8RV3QkdJo+wVn+4hHG8CQMH7r5mWJLz4ZL
+ nYgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5iqfpJYNHTtuays6U7MVeaPb82O2zfD+zyN2Te24nGQ=;
+ b=MAptkZmvBeEw717+iZe6uqunXEJmP+IDMwxIHIeek3RR0fT/Xnn66m1w7Nl0EYq/N+
+ jlfoDJXAx4R7IAKw6zwrurduBSQJqUX9CO08EYLbbAv0rOaLtHcwOGs6CbElGyGFLdXY
+ FCKaSwZZqGm0EXhCGDXMXlh/XweaOczb/IeTSooQOz6fuGDPWvHy0SQGqr+F1v6NrP+6
+ 11K6Jb0aPp12cOgiajVFTpDp9Rf0Y/boD85XiasjD4WZIn7zQvidrVEVM7MSy4VBvoEU
+ aNHG5FJ5MNMETm5KKBH7vgNUs/6GdnErjE59thSiq/HwGlZBKpaerCgbZU8YVdT67XmK
+ K5jA==
+X-Gm-Message-State: ANhLgQ33TaERx0iXdQmTHEokF4kel6c+mJI28Sli+KrUpAIRV0k9mzyl
+ vY84wQ+thNxWqbRD1p2VetmRTZBqL/jezcHRS/uKVAojLWY=
+X-Google-Smtp-Source: ADFU+vtkEIhrOCAGp0k7nCGq2uTU6C28KKA5KRYZWkN4Buom3Rf5A77ecXEpsI+CjB6tVFBEhTbEQBzEL8kqJWfwoWI=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr245726ota.221.1584466182527; 
+ Tue, 17 Mar 2020 10:29:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <1584450269-26897-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1584450269-26897-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Mar 2020 17:29:31 +0000
+Message-ID: <CAFEAcA8YezPxjq+BXqOX77t9pZNYqbkeD2-i1Jdk_yFbXyxJiw@mail.gmail.com>
+Subject: Re: [PULL 0/3] MIPS queue for March 17th, 2020
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,44 +71,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU 4.2 added a new option 'multidevs' for 9pfs. The following patch adds
-support for this new option to libvirt.
+On Tue, 17 Mar 2020 at 13:04, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> The following changes since commit a98135f727595382e200d04c2996e868b7925a01:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200316-pull-request' into staging (2020-03-16 14:55:59 +0000)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-mar-17-2020
+>
+> for you to fetch changes up to c0ac595b69a71fe04529b05406b7aa958b7efb99:
+>
+>   MAINTAINERS: Add a file to the main MIPS section (2020-03-17 13:51:37 +0100)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for March 17th, 2020
+>
+>   - maintaining and enhancing MIPS maintainership
+>
 
-In short, what is this about: to distinguish files uniquely from each other
-in general, numeric file IDs are typically used for comparison, which in
-practice is the combination of a file's device ID and the file's inode
-number. Unfortunately 9p protocol's QID field used for this purpose,
-currently is too small to fit both the device ID and inode number in, which
-hence is a problem if one 9pfs export contains multiple devices and may
-thus lead to misbheaviours on guest (e.g. with SAMBA file servers) in that
-case due to potential file ID collisions.
 
-To mitigate this problem with 9pfs a 'multidevs' option was introduced in
-QEMU 4.2 for defining how to deal with this, e.g. multidevs=remap will cause
-QEMU's 9pfs implementation to remap all inodes from host side to different
-inode numbers on guest side in a way that prevents file ID collisions.
+Applied, thanks.
 
-NOTE: In the libvirt docs changes of this libvirt patch I simply assumed
-"since 6.2.0". So the final libvirt version number would need to be adjusted
-in that text if necessary.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-See QEMU discussion with following Message-ID for details:
-8a2ffe17fda3a86b9a5a437e1245276881f1e235.1567680121.git.qemu_oss@crudebyte.com
-
-Christian Schoenebeck (1):
-  conf: qemu 9pfs: add 'multidevs' option
-
- docs/formatdomain.html.in     | 47 ++++++++++++++++++++++++++++++++++-
- docs/schemas/domaincommon.rng | 10 ++++++++
- src/conf/domain_conf.c        | 30 ++++++++++++++++++++++
- src/conf/domain_conf.h        | 13 ++++++++++
- src/qemu/qemu_command.c       |  7 ++++++
- 5 files changed, 106 insertions(+), 1 deletion(-)
-
--- 
-2.20.1
-
+-- PMM
 
