@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0045F187EB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:50:51 +0100 (CET)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EFA187EC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:54:04 +0100 (CET)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9oB-0007eU-0C
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38621)
+	id 1jE9rH-0004bc-Gr
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jE9mp-0006Nl-Oj
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:28 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jE9nK-0007He-IA
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jE9mn-0004jx-Kb
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:26 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:47565)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jE9mn-0004i5-GQ
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584442165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dAi1ANiMpRi3UDiR+vwamFLHbiWA1Dg1W5jdDBKoYpI=;
- b=KGvBdgEsPkE0Rmjn94S4AFHV7KyYr322ZT0UtGbZk5wQaa7pBwdJZYpfQ7eSercf+738TZ
- AoHTquRQPdkaD7iK1ZRNrW5F1n8ra1eAB1VOB83X55o22hA7gk4oFNT7/SgRrxS/E5Mtr9
- /UngSAlEFciw9X1v3o1+dZDxiZgrya0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-Jodq2SCpNiSgZSXXvU6KKg-1; Tue, 17 Mar 2020 06:49:23 -0400
-X-MC-Unique: Jodq2SCpNiSgZSXXvU6KKg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6839C1005510;
- Tue, 17 Mar 2020 10:49:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
- [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31A6294940;
- Tue, 17 Mar 2020 10:49:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0683C1138404; Tue, 17 Mar 2020 11:49:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH] qom-qmp-cmds: remove unnecessary alloc in qmp_object_add
- to fix memleak
-References: <20200313075858.15860-1-pannengyuan@huawei.com>
-Date: Tue, 17 Mar 2020 11:49:20 +0100
-In-Reply-To: <20200313075858.15860-1-pannengyuan@huawei.com> (Pan Nengyuan's
- message of "Fri, 13 Mar 2020 15:58:58 +0800")
-Message-ID: <87a74fdznz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1jE9nJ-0007Yz-A1
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:58 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40953)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jE9nJ-0007S5-1R
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:49:57 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y71so21183476oia.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 03:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5jebkakv2QsVGKK+gf+7wsIdub0gn7LKnI+hJ3xjhFk=;
+ b=UuqhQFUt4+g6xdeiRdCFqb0HYKcOD4viudiBqX0UkqxmeItOHVbVYjLHB3o6fQXCAK
+ 0UKWNFEs+ixDwQIHnTViDZ420k9qdqCqZsQWi3xc4xcKGl9P7OkoAktqAGsNlUhg+9zR
+ Ax0xkzo17IysqmNTXmQyAkg3iAVqyUcBWjPgBs1tu3l0jmpmZvXb9jwoTgV+qATb2UHd
+ l6sbnTahsHTVoj+e9Vd9E0LevP5MD5kee81cWhB/AI4bOOrRSHFQpC6W696rhNCJV5Tl
+ h6w7riHYJGaBHNQuIh2TFHCnvempr1pVYKnKUgGEbuSIjPceY9hM9+Cf/lzG9Wx69m23
+ n0Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5jebkakv2QsVGKK+gf+7wsIdub0gn7LKnI+hJ3xjhFk=;
+ b=IFxa+tOgDVkPf30lMM1u1na5a/TJq/yAxeUeqGfVLC+Lqkc1WvDC5IAQuq/qSu3G49
+ Pq2Q0UsNU3puXmk9GuagQFVUeJR6AerP9uOhznqkbNeJhfLzXcS9Goz2UpI/5sTg48zY
+ Mwc2kQkFHdygaRelZO7dong6ObP6qCco5ax5GG1rEQ+yXN52ReZHbmAgiYj5qyT7woUK
+ 5snFbrxdgMpcSE7MSyxBFD3RTR3SK4TifXLe5fp4/VCSoD2WJ5WKSf91tcaZS/5juLYA
+ MaoSohzgeiVDDcMbZnrgnn6ox5HqjE2+VCYbj681hz9AF8Gaoxab1/X2EQryo6gnMEh5
+ DhbQ==
+X-Gm-Message-State: ANhLgQ1xJ0cCEbdcHwFm5UiW7DF/blC9YKDw3S7DJb+5IXDAJ+dq28FE
+ oWKPtFRcMrWkFjBdQ1Ya/znbZkpm8ysW82TvRBFEIg==
+X-Google-Smtp-Source: ADFU+vsDyWNYKItBscndIPy44LE4AYtwfJ1XjsMzN7693uDS+5wfYPNtlgpICh0HYyxdO9Ps6SY/ABY2NrBI+p0tm5M=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr2866202oib.146.1584442195840; 
+ Tue, 17 Mar 2020 03:49:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200316172155.971-1-alex.bennee@linaro.org>
+ <20200316172155.971-25-alex.bennee@linaro.org>
+ <3d01f357-eeb6-7fd7-1895-feae05beca99@redhat.com>
+ <CAHiYmc5CtAH-zs38YmyLkrrp2DnxzLUWNKBTcL+oyFNEiCsV8A@mail.gmail.com>
+In-Reply-To: <CAHiYmc5CtAH-zs38YmyLkrrp2DnxzLUWNKBTcL+oyFNEiCsV8A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Mar 2020 10:49:44 +0000
+Message-ID: <CAFEAcA8FSwVeOVDWT8qRO_EL2OncxdgGZbNHH8VhaaoKuwS7_w@mail.gmail.com>
+Subject: Re: [PATCH v1 24/28] tests/tcg/aarch64: add SVE iotcl test
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,48 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org, euler.robot@huawei.com, pbonzini@redhat.com,
- zhang.zhanghailiang@huawei.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pan Nengyuan <pannengyuan@huawei.com> writes:
+On Tue, 17 Mar 2020 at 10:45, Aleksandar Markovic
+<aleksandar.qemu.devel@gmail.com> wrote:
+> I think it is also a little problematic that tests like this reside
+> and belong in tests/tcg - since they deal more with elements
+> of kernel interface (system call prctl()), rather than TCG.
+> Still, I see there are many other similar cases in tests/tcg,
+> so probably (at this moment) one should't bother about it in
+> the context of this patch. However, in general, the location
+> /tests/tcg for all these cases seems wrong to me.
 
-> In qmp_object_add(), user_creatable_add_type() may set errp with some err=
-or message and
-> return NULL. In this case, qmp_object_add() still alloc memory to *ret_da=
-ta which return
-> to the caller and causes a memory leak.
->
-> This patch do this alloc() action only if obj is not NULL to fix it. And =
-initialize ret_data
-> in xen-block to avoid a possible uninitialized error.
->
-> The Leak stack:
-> Direct leak of 4120 byte(s) in 1 object(s) allocated from:
->     #0 0x7f6106ce5970 in __interceptor_calloc (/lib64/libasan.so.5+0xef97=
-0)
->     #1 0x7f6105e6a49d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
->     #2 0x55d2c58c17fd in qdict_new /mnt/sdb/qemu-new/qemu_test/qemu/qobje=
-ct/qdict.c:29
->     #3 0x55d2c53a0051 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
-qom/qom-qmp-cmds.c:291
->     #4 0x55d2c57b47da in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
-/qapi/qmp-dispatch.c:132
->     #5 0x55d2c57b47da in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
-pi/qmp-dispatch.c:175
->     #6 0x55d2c52f1430 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
-/qemu/monitor/qmp.c:145
->     #7 0x55d2c52f3087 in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
-_test/qemu/monitor/qmp.c:234
->     #8 0x55d2c58e6153 in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
-l/async.c:136
->
-> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Well, the only reason we have the test at all is for testing
+our TCG emulation. Generic tests of syscalls don't live
+in QEMU at all, the best place for those would be the
+Linux Test Project's test suite.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+thanks
+-- PMM
 
