@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743FC189226
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:29:50 +0100 (CET)
-Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA725189212
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:28:17 +0100 (CET)
+Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELef-0000ZY-F8
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
+	id 1jELdA-0005j6-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELZK-0008RL-FC
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:19 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELZY-0000bi-UH
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELZJ-0002nP-5s
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:18 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45277)
+ (envelope-from <jsnow@redhat.com>) id 1jELZX-0004mj-ND
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:32 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48327)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZJ-0002l4-10
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:17 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZX-0004k5-J6
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487456;
+ s=mimecast20190719; t=1584487471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sw7irWBODFAOA5JA5Jo4Sw7IdxZM3hhTMVPInNO4y68=;
- b=N/p0PXedLhImXCsRAoGU8SEHSUWXjN/BC+g2iGe5yweEnL/rqKr70tSIuqw4dcyRNJ1Q/3
- 714gOwb6/+nSxnoJIr315QCuyn/XLqE0sibRXTFpCcOVsBzMMnyi/eXzWIKyq9HICOpbQF
- pzqC0Mn1XVT8WQVrcrQINmP1RslF/BY=
+ bh=rvAt1CSPjqW2q4HvtdiK4wixwpQOtmzZV7FR/w/lqw8=;
+ b=JlmGwgyWnE7tsIBJkMQtXFw1i/+eRgOvaa5O3MTIN7W3t8SqiiNRegV0BIB1jvcJuQz69P
+ zwHKGyF1YbgtqJOlR2FBjs0DJzbN9Rb9OxHiNl0yMn2CkdLeexzSZhj69241k10a+rbDgs
+ rzKzZMc6ue7/594wvfp8ViYuCNhghJo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-Vb1vI6djP46TKt2WcO9yUw-1; Tue, 17 Mar 2020 19:24:15 -0400
-X-MC-Unique: Vb1vI6djP46TKt2WcO9yUw-1
+ us-mta-102-pxbscp3kNcujnvuK9h5-SQ-1; Tue, 17 Mar 2020 19:24:27 -0400
+X-MC-Unique: pxbscp3kNcujnvuK9h5-SQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D75AC1005514;
- Tue, 17 Mar 2020 23:24:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 364FC100550D;
+ Tue, 17 Mar 2020 23:24:25 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C746C60BE0;
- Tue, 17 Mar 2020 23:24:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8934760BE0;
+ Tue, 17 Mar 2020 23:24:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/20] ide/via: Get rid of via_ide_init()
-Date: Tue, 17 Mar 2020 19:23:15 -0400
-Message-Id: <20200317232329.22362-7-jsnow@redhat.com>
+Subject: [PULL 08/20] via-ide: ensure that PCI_INTERRUPT_LINE is hard-wired to
+ its default value
+Date: Tue, 17 Mar 2020 19:23:17 -0400
+Message-Id: <20200317232329.22362-9-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,91 +87,39 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Follow example of CMD646 and remove via_ide_init function and do it
-directly in board code instead.
+Some firmwares accidentally write to PCI_INTERRUPT_LINE on startup which ha=
+s
+no effect on real hardware since it is hard-wired to its default value, but
+causes the guest OS to become confused trying to initialise IDE devices
+when running under QEMU.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-id: 20200313082444.2439-3-mark.cave-ayland@ilande.co.uk
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-id: 20200313082444.2439-5-mark.cave-ayland@ilande.co.uk
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/ide.h        | 1 -
- hw/ide/via.c            | 8 --------
- hw/mips/mips_fulong2e.c | 5 ++++-
- 3 files changed, 4 insertions(+), 10 deletions(-)
+ hw/ide/via.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 0c7080ed92..dea0ecf5be 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -16,7 +16,6 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo =
-**hd_table, int devfn);
- PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
-);
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
-);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
--void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
-=20
- /* ide-mmio.c */
- void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1=
-);
 diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 84f0efff94..3153be8862 100644
+index 3153be8862..8363bd4802 100644
 --- a/hw/ide/via.c
 +++ b/hw/ide/via.c
-@@ -211,14 +211,6 @@ static void via_ide_exitfn(PCIDevice *dev)
-     }
- }
+@@ -169,7 +169,7 @@ static void via_ide_realize(PCIDevice *dev, Error **err=
+p)
 =20
--void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
--{
--    PCIDevice *dev;
--
--    dev =3D pci_create_simple(bus, devfn, "via-ide");
--    pci_ide_create_devs(dev, hd_table);
--}
--
- static void via_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 4727b1d3a4..639ba2a091 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -37,6 +37,7 @@
- #include "qemu/log.h"
- #include "hw/loader.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "elf.h"
- #include "hw/isa/vt82c686.h"
- #include "hw/rtc/mc146818rtc.h"
-@@ -239,6 +240,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus,=
- int slot, qemu_irq intc,
-     qemu_irq *i8259;
-     ISABus *isa_bus;
-     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-+    PCIDevice *dev;
+     pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode =
+*/
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+-    dev->wmask[PCI_INTERRUPT_LINE] =3D 0xf;
++    dev->wmask[PCI_INTERRUPT_LINE] =3D 0;
 =20
-     isa_bus =3D vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
-     if (!isa_bus) {
-@@ -256,8 +258,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus,=
- int slot, qemu_irq intc,
-     /* Super I/O */
-     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-=20
-+    dev =3D pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-     ide_drive_get(hd, ARRAY_SIZE(hd));
--    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1));
-+    pci_ide_create_devs(dev, hd);
-=20
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+     memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops=
+,
+                           &d->bus[0], "via-ide0-data", 8);
 --=20
 2.21.1
 
