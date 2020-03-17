@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6811888FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:18:54 +0100 (CET)
-Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4823B1888FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:18:58 +0100 (CET)
+Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEDzZ-0004Ml-KD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58721)
+	id 1jEDzd-0004Vx-9H
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jEDuh-0007Ax-KA
+ (envelope-from <balaton@eik.bme.hu>) id 1jEDuh-0007BJ-PX
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jEDug-0001Z2-Gk
+ (envelope-from <balaton@eik.bme.hu>) id 1jEDug-0001Yu-GS
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:13:51 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49474)
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49490)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jEDuc-0000sK-Ii; Tue, 17 Mar 2020 11:13:47 -0400
+ id 1jEDuc-000184-Ij; Tue, 17 Mar 2020 11:13:47 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D2D32747E0A;
- Tue, 17 Mar 2020 16:13:42 +0100 (CET)
+ by localhost (Postfix) with SMTP id 05BFF747E1B;
+ Tue, 17 Mar 2020 16:13:43 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5C5F6747DF5; Tue, 17 Mar 2020 16:13:42 +0100 (CET)
-Message-Id: <1020e0bfcfc6e364f967ccb2a9a3778ac174ccbe.1584457537.git.balaton@eik.bme.hu>
+ id 71B36747E12; Tue, 17 Mar 2020 16:13:42 +0100 (CET)
+Message-Id: <e68675d2f6252f229cf788b7cd163bb76fa3e26b.1584457537.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1584457537.git.balaton@eik.bme.hu>
 References: <cover.1584457537.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 2/8] hw/isa/piix4.c: Introduce variable to store devfn
+Subject: [PATCH v3 7/8] hw/ide: Move MAX_IDE_DEVS define to hw/ide/internal.h
 Date: Tue, 17 Mar 2020 16:05:37 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,49 +60,57 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To avoid any problem with reassigning pci variable store devfn in a
-variable instead of acessing it from the PCIDevice.
+We can move this define now that less files use it to internal.h to
+further reduce dependency on hw/ide.h.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/isa/piix4.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/mips/mips_r4k.c        | 1 +
+ include/hw/ide.h          | 2 --
+ include/hw/ide/internal.h | 2 ++
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 7edec5e149..2cbdcd7700 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -247,9 +247,10 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **=
-isa_bus,
-     DriveInfo **hd;
-     PCIDevice *pci;
-     DeviceState *dev;
-+    int devfn =3D PCI_DEVFN(10, 0);
+diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+index ad8b75e286..3487013a4a 100644
+--- a/hw/mips/mips_r4k.c
++++ b/hw/mips/mips_r4k.c
+@@ -26,6 +26,7 @@
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+ #include "hw/ide.h"
++#include "hw/ide/internal.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+ #include "hw/rtc/mc146818rtc.h"
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index d52c211f32..c5ce5da4f4 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -4,8 +4,6 @@
+ #include "hw/isa/isa.h"
+ #include "exec/memory.h"
 =20
--    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
--                                          true, TYPE_PIIX4_PCI_DEVICE);
-+    pci =3D pci_create_simple_multifunction(pci_bus, devfn,  true,
-+                                          TYPE_PIIX4_PCI_DEVICE);
-     dev =3D DEVICE(pci);
-     if (isa_bus) {
-         *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-@@ -257,11 +258,12 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus *=
-*isa_bus,
+-#define MAX_IDE_DEVS	2
+-
+ /* ide-isa.c */
+ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq=
+,
+                         DriveInfo *hd0, DriveInfo *hd1);
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 1bc1fc73e5..55da35d768 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -27,6 +27,8 @@ typedef struct IDEDMAOps IDEDMAOps;
+ #define TYPE_IDE_BUS "IDE"
+ #define IDE_BUS(obj) OBJECT_CHECK(IDEBus, (obj), TYPE_IDE_BUS)
 =20
-     hd =3D g_new(DriveInfo *, ide_drives);
-     ide_drive_get(hd, ide_drives);
--    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-+    pci_piix4_ide_init(pci_bus, hd, devfn + 1);
-     g_free(hd);
--    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
++#define MAX_IDE_DEVS 2
 +
-+    pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
-     if (smbus) {
--        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-+        *smbus =3D piix4_pm_init(pci_bus, devfn + 3, 0x1100,
-                                isa_get_irq(NULL, 9), NULL, 0, NULL);
-    }
-=20
+ /* Bits of HD_STATUS */
+ #define ERR_STAT		0x01
+ #define INDEX_STAT		0x02
 --=20
 2.21.1
 
