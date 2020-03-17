@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8530188D33
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:31:12 +0100 (CET)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D30188D4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:37:20 +0100 (CET)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEGzf-00062l-Nx
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:31:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48775)
+	id 1jEH5b-0006Oh-9p
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1jEGmv-0003Ql-T6
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:04 -0400
+ (envelope-from <berto@igalia.com>) id 1jEGmx-0003Sx-08
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1jEGmu-00006h-DY
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:01 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:57918)
+ (envelope-from <berto@igalia.com>) id 1jEGmu-000086-Tu
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:18:02 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:57999)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1jEGmu-0005wH-41; Tue, 17 Mar 2020 14:18:00 -0400
+ id 1jEGmu-0005xk-6Z; Tue, 17 Mar 2020 14:18:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=yU0+mCKAyZ6lIvQHsAFwvNxk4bue3OrHxBOx+RuSq50=; 
- b=mxTOrUQFR19UbGg5mLcYZS30OI23nwzBqTrJpTD9Hdv9Qx8icZquwrTWPQDRF73Fxs6f+/wEHEsb/Vv22xk4NJ7M0wygw5TdX1edHqfkKu7jOKiawyMjLMmbtwd1xnxZSGitNE4rL8vymPen6q4t91YNABETOEucak1/KS3ObGpO/jZe65xLecPep6GDfVQsw0HUeN0TN0g7i77fu+kNqy1mVmeJ0dnT6fKUdQQl6mHb4DrZpQSdf71Une/grUEmDsoEYATBfKIjpGJpUjpl1G0xeMZv632Qy0tTD8Wn3AE0NiSvCwaN+8/NFZ9tII3kZnIAQ8f+mY23wo1y04ytiQ==;
+ bh=s7dRHxBO3oqeFHBCKa67pRvg2ir7e1CHI3jX0YPDL6A=; 
+ b=hQTVEwlum3Sq6l/FFvFiETJzZQn+C2MQJUCN2MvxqTL0XagiRwaDizgDLYDBpEu3H3pg78M3z5Q/iTLvc8z2NkNtcvhkOvBObRrkn1vVudBepgu6l7teK/H+sZVy8+QT7rHGEJvU8YQ8GYVWVvDsqVhCRhc9vXRH5TjugzvbDu6Egyw6pPNU0GGO6I3QV+ANUa2szvK6ZsCIkvLTi1+In2tNlPqy/8+yngy6GuA+0edKa4Lgew5b49XSPSiIuMHcXQkilrS5QDKp8TTPHc5DV9i7T4bzQt2HACnldrM2gIjvEmb3vLgU5fMjgF7VHSqSaNOo9g/JDXCbuZkcgASIdg==;
 Received: from [81.0.35.138] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jEGmD-00015a-0D; Tue, 17 Mar 2020 19:17:17 +0100
+ id 1jEGmD-000156-4G; Tue, 17 Mar 2020 19:17:17 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jEGlw-0006On-Qy; Tue, 17 Mar 2020 19:17:00 +0100
+ id 1jEGlw-0006Op-Ry; Tue, 17 Mar 2020 19:17:00 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 23/30] qcow2: Update L2 bitmap in
- qcow2_alloc_cluster_link_l2()
-Date: Tue, 17 Mar 2020 19:16:20 +0100
-Message-Id: <6ffd3ee7ca1e53272705ad34d2ea7ac10b50ade0.1584468723.git.berto@igalia.com>
+Subject: [PATCH v4 24/30] qcow2: Clear the L2 bitmap when allocating a
+ compressed cluster
+Date: Tue, 17 Mar 2020 19:16:21 +0100
+Message-Id: <6d596d82ed62615a8565b661691a06bfaf32237e.1584468723.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1584468723.git.berto@igalia.com>
 References: <cover.1584468723.git.berto@igalia.com>
@@ -65,46 +65,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The L2 bitmap needs to be updated after each write to indicate what
-new subclusters are now allocated.
-
-This needs to happen even if the cluster was already allocated and the
-L2 entry was otherwise valid.
+Compressed clusters always have the bitmap part of the extended L2
+entry set to 0.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ block/qcow2-cluster.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index ceacd91ea3..dfd8b66958 100644
+index dfd8b66958..1f471db98c 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -1006,6 +1006,23 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
-         assert((offset & L2E_OFFSET_MASK) == offset);
+@@ -806,6 +806,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
+     BLKDBG_EVENT(bs->file, BLKDBG_L2_UPDATE_COMPRESSED);
+     qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+     set_l2_entry(s, l2_slice, l2_index, cluster_offset);
++    if (has_subclusters(s)) {
++        set_l2_bitmap(s, l2_slice, l2_index, 0);
++    }
+     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
  
-         set_l2_entry(s, l2_slice, l2_index + i, offset | QCOW_OFLAG_COPIED);
-+
-+        /* Update bitmap with the subclusters that were just written */
-+        if (has_subclusters(s)) {
-+            unsigned written_from = m->cow_start.offset;
-+            unsigned written_to = m->cow_end.offset + m->cow_end.nb_bytes ?:
-+                m->nb_clusters << s->cluster_bits;
-+            uint64_t l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
-+            int sc;
-+            for (sc = 0; sc < s->subclusters_per_cluster; sc++) {
-+                int sc_off = i * s->cluster_size + sc * s->subcluster_size;
-+                if (sc_off >= written_from && sc_off < written_to) {
-+                    l2_bitmap |= QCOW_OFLAG_SUB_ALLOC(sc);
-+                    l2_bitmap &= ~QCOW_OFLAG_SUB_ZERO(sc);
-+                }
-+            }
-+            set_l2_bitmap(s, l2_slice, l2_index + i, l2_bitmap);
-+        }
-      }
- 
- 
+     *host_offset = cluster_offset & s->cluster_offset_mask;
 -- 
 2.20.1
 
