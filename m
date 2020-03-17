@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2501187DFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:17:27 +0100 (CET)
-Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A753B187E16
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:20:17 +0100 (CET)
+Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9Hq-0006XF-Kd
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:17:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45935)
+	id 1jE9Ka-0003Tw-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45923)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE967-0001iB-EG
+ (envelope-from <dgibson@ozlabs.org>) id 1jE966-0001hX-Rc
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE965-0005YK-Qc
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:19 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57809 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE965-0005XC-Lk
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:18 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36045 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE965-0002os-Bl; Tue, 17 Mar 2020 06:05:17 -0400
+ id 1jE965-0002ok-6a; Tue, 17 Mar 2020 06:05:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTKx6jdnz9sTC; Tue, 17 Mar 2020 21:04:36 +1100 (AEDT)
+ id 48hTKx5Wz3z9sSq; Tue, 17 Mar 2020 21:04:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1584439477;
- bh=o7N/dshst+CIkSfq9Go1qUnQPzkKuFsVjI0nGOok1OU=;
+ bh=fAXtD2ODA0a0KuawsYUHly3XdUAn7S9stTBG9ajl/f0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MxarlFhTsBJfLcn+OBdW+1z9HbK7kbwamUkQIbmqchS2vq2HRzBvk+oJyjNKqqhXh
- GQTIKY196jYmQdFqAdqd5Rr/2u5axjGOlcFJIT78cAA26n+95ZWuFjlr+u8c2QFlyk
- CHKq2qD927Odkv+6/6QxbNkAv+/19dBKClEW43+M=
+ b=YOvlYcBR80ry/r+wVskSQNXw2csxa7hC40Nu6Jf4IOipJgsSxO3d2DnZ4EJwf1wvb
+ Of8zKiI+fPz+XwgOKetCmATs1FcBrPaEhf9TL6qU7NKSBVBPJw4yIa7iT9B7y8ltvs
+ Nu7jVdIQKINdx0wKmSpvEleYimvoAJp99cvk6mvA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/45] spapr: Clean up RMA size calculation
-Date: Tue, 17 Mar 2020 21:03:59 +1100
-Message-Id: <20200317100423.622643-22-david@gibson.dropbear.id.au>
+Subject: [PULL 22/45] hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
+Date: Tue, 17 Mar 2020 21:04:00 +1100
+Message-Id: <20200317100423.622643-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
@@ -56,125 +56,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, mdroth@linux.vnet.ibm.com,
  qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the calculation of the Real Mode Area (RMA) size into a helper
-function.  While we're there clean it up and correct it in a few ways:
-  * Add comments making it clearer where the various constraints come fro=
-m
-  * Remove a pointless check that the RMA fits within Node 0 (we've just
-    clamped it so that it does)
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+This header use the srp_* structures declared in "hw/scsi/srp.h".
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200305121253.19078-2-philmd@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/spapr.c | 61 ++++++++++++++++++++++++++++++--------------------
- 1 file changed, 37 insertions(+), 24 deletions(-)
+ hw/scsi/viosrp.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 95bda4a615..1950fc303e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2648,6 +2648,42 @@ static PCIHostState *spapr_create_default_phb(void=
-)
-     return PCI_HOST_BRIDGE(dev);
- }
+diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
+index d8e365db1e..25676c2383 100644
+--- a/hw/scsi/viosrp.h
++++ b/hw/scsi/viosrp.h
+@@ -34,6 +34,8 @@
+ #ifndef PPC_VIOSRP_H
+ #define PPC_VIOSRP_H
 =20
-+static hwaddr spapr_rma_size(SpaprMachineState *spapr, Error **errp)
-+{
-+    MachineState *machine =3D MACHINE(spapr);
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-+    hwaddr rma_size =3D machine->ram_size;
-+    hwaddr node0_size =3D spapr_node0_size(machine);
++#include "hw/scsi/srp.h"
 +
-+    /* RMA has to fit in the first NUMA node */
-+    rma_size =3D MIN(rma_size, node0_size);
-+
-+    /*
-+     * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-+     * never exceed that
-+     */
-+    rma_size =3D MIN(rma_size, 1 * TiB);
-+
-+    /*
-+     * Clamp the RMA size based on machine type.  This is for
-+     * migration compatibility with older qemu versions, which limited
-+     * the RMA size for complicated and mostly bad reasons.
-+     */
-+    if (smc->rma_limit) {
-+        rma_size =3D MIN(rma_size, smc->rma_limit);
-+    }
-+
-+    if (rma_size < MIN_RMA_SLOF) {
-+        error_setg(errp,
-+                   "pSeries SLOF firmware requires >=3D %" HWADDR_PRIx
-+                   "ldMiB guest RMA (Real Mode Area memory)",
-+                   MIN_RMA_SLOF / MiB);
-+        return 0;
-+    }
-+
-+    return rma_size;
-+}
-+
- /* pSeries LPAR / sPAPR hardware init */
- static void spapr_machine_init(MachineState *machine)
- {
-@@ -2659,7 +2695,6 @@ static void spapr_machine_init(MachineState *machin=
-e)
-     PCIHostState *phb;
-     int i;
-     MemoryRegion *sysmem =3D get_system_memory();
--    hwaddr node0_size =3D spapr_node0_size(machine);
-     long load_limit, fw_size;
-     char *filename;
-     Error *resize_hpt_err =3D NULL;
-@@ -2699,22 +2734,7 @@ static void spapr_machine_init(MachineState *machi=
-ne)
-         exit(1);
-     }
-=20
--    spapr->rma_size =3D node0_size;
--
--    /*
--     * Clamp the RMA size based on machine type.  This is for
--     * migration compatibility with older qemu versions, which limited
--     * the RMA size for complicated and mostly bad reasons.
--     */
--    if (smc->rma_limit) {
--        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
--    }
--
--    if (spapr->rma_size > node0_size) {
--        error_report("Numa node 0 has to span the RMA (%#08"HWADDR_PRIx"=
-)",
--                     spapr->rma_size);
--        exit(1);
--    }
-+    spapr->rma_size =3D spapr_rma_size(spapr, &error_fatal);
-=20
-     /* Setup a load limit for the ramdisk leaving room for SLOF and FDT =
-*/
-     load_limit =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
-@@ -2951,13 +2971,6 @@ static void spapr_machine_init(MachineState *machi=
-ne)
-         }
-     }
-=20
--    if (spapr->rma_size < MIN_RMA_SLOF) {
--        error_report(
--            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real =
-Mode Area memory)",
--            MIN_RMA_SLOF / MiB);
--        exit(1);
--    }
--
-     if (kernel_filename) {
-         uint64_t lowaddr =3D 0;
-=20
+ #define SRP_VERSION "16.a"
+ #define SRP_MAX_IU_LEN    256
+ #define SRP_MAX_LOC_LEN 32
 --=20
 2.24.1
 
