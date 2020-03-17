@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F756188D5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:40:59 +0100 (CET)
-Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169B8188D62
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 19:43:28 +0100 (CET)
+Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEH98-0004Co-3G
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52557)
+	id 1jEHBX-0007Cx-57
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 14:43:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEGsJ-000487-0t
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:23:36 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jEGxN-0004CX-3x
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:28:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEGsG-000218-HA
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:23:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32191)
+ (envelope-from <kwankhede@nvidia.com>) id 1jEGxJ-0007sS-TB
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:28:47 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18691)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEGsG-0001uT-Am
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:23:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584469411;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nO5V8856P41MxakkAqC2DD3v+ad+TC8mRBucL/oVy2Q=;
- b=RelydGDY/8DK1SqAUp6WfzpTRjHtVXx9gU8Q8OYdMgD3nDVM5vvqUsdAx6eIE3t+0ZT0dr
- Zpbs+wPikVfts6KvcIFpyPFruLrg3GThPphUREjee0o4wm1mluuEv0pOVAJviwUU79PXmT
- 3dqA3ITqw8jqmeC0a6LE6iHvnjRtyzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-ItZIrJQwPsql_MK_tM5EVA-1; Tue, 17 Mar 2020 14:23:29 -0400
-X-MC-Unique: ItZIrJQwPsql_MK_tM5EVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C11E100550E;
- Tue, 17 Mar 2020 18:23:28 +0000 (UTC)
-Received: from gondolin (ovpn-113-156.ams2.redhat.com [10.36.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58E2D5D9E2;
- Tue, 17 Mar 2020 18:23:24 +0000 (UTC)
-Date: Tue, 17 Mar 2020 19:23:21 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v9 14/15] docs: Add protvirt docs
-Message-ID: <20200317192321.3c6e3d21.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA84eNDe82ZNCDO3apgjhoa3UEriWo1+2aW7L4ok0hMZgQ@mail.gmail.com>
-References: <20200311132151.172389-1-frankja@linux.ibm.com>
- <20200311132151.172389-15-frankja@linux.ibm.com>
- <CAFEAcA84eNDe82ZNCDO3apgjhoa3UEriWo1+2aW7L4ok0hMZgQ@mail.gmail.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1jEGxJ-0007iL-JJ
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 14:28:45 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e71167b0000>; Tue, 17 Mar 2020 11:27:07 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 17 Mar 2020 11:28:43 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 17 Mar 2020 11:28:43 -0700
+Received: from [10.40.102.54] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Mar
+ 2020 18:28:35 +0000
+Subject: Re: [PATCH v13 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
+ dirty bitmap before unmap
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1584035607-23166-1-git-send-email-kwankhede@nvidia.com>
+ <1584035607-23166-6-git-send-email-kwankhede@nvidia.com>
+ <20200313124529.402e01c3@x1.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <b6618d95-507c-a96e-c6b0-62e1a1d86e59@nvidia.com>
+Date: Tue, 17 Mar 2020 23:58:31 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200313124529.402e01c3@x1.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584469627; bh=HREQZr6FyeV/Qwt/xRIYsi7cDMQLuJFhTQG07dd+dz8=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=LIaGkFKR7GZitM/8r6Hnvrq2fRu3r+Tcwmu80XVW8xJciHt7S7FzJyjtpgFnLLggI
+ nV4WFEk6ACsn3CsdIF7f5BRdFl1N5LhggW0ip8g5g2jftSIwxkKLxEVTCj/1gp+/Uo
+ Z3oq2WEocb5EZcGPTV7o78qRDhh98/YySRqnCrZ1yJ7fDDu1DU0gBO2/dtUf3TaSzM
+ qtVa5/WiJWveA52J37vtqhcgmxRBC4q3+PAA7iUMBOX5QiaFIUjL5Pr6L6L9tFIg6f
+ 70un9NJE5p2XH0FE5v+8oIA12ClbDRLKXe0dtnp1ndI4rIjY2wtscEcjsNX4FDMkWg
+ 9tcJWZwM0Y28g==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,55 +77,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, David Hildenbrand <david@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Mar 2020 13:28:56 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
 
-> On Wed, 11 Mar 2020 at 13:31, Janosch Frank <frankja@linux.ibm.com> wrote:
-> >
-> > Lets add some documentation for the Protected VM functionality.
-> >
-> > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> > ---
-> >  docs/system/index.rst    |  1 +
-> >  docs/system/protvirt.rst | 56 ++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 57 insertions(+)
-> >  create mode 100644 docs/system/protvirt.rst
-> >
-> > diff --git a/docs/system/index.rst b/docs/system/index.rst
-> > index 6e5f20fa1333ce23..74afbd7cc3fc0296 100644
-> > --- a/docs/system/index.rst
-> > +++ b/docs/system/index.rst
-> > @@ -34,3 +34,4 @@ Contents:
-> >     deprecated
-> >     build-platforms
-> >     license
-> > +   protvirt  
+
+On 3/14/2020 12:15 AM, Alex Williamson wrote:
+> On Thu, 12 Mar 2020 23:23:25 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
 > 
-> The order of this list in index.rst determines the order
-> of the table of contents in the manual. Could you put
-> your new document at a reasonable place in the manual,
-> not just at the bottom of the list, please?
+>> Pages, pinned by external interface for requested IO virtual address
+>> range,  might get unpinned  and unmapped while migration is active and
 > 
-> For something that is s390 specific, the ideal would
-> be to create a new docs/system/target-s390x.rst
-> which is then the place where all s390 docs can
-> hang off of. This is how we're handling various
-> other guest architecture docs. It doesn't all
-> have to go in a single page -- eg target-arm.rst
-> is an example of putting some sub-documents into
-> docs/system/arm/ and referring to them from
-> target-arm.rst.
+> "DMA mapped pages, including those pinned by mdev vendor drivers, might
+> get..."
+> 
+>> device is still running, that is, in pre-copy phase while guest driver
+> 
+> "...running.  For example, in pre-copy..."
+> 
+>> still could access those pages. Host device can write to these pages while
+>> those were mapped.
+> 
+> "...those pages, host device or vendor driver can dirty these mapped
+> pages."
+> 
+>> Such pages should be marked dirty so that after
+>> migration guest driver should still be able to complete the operation.
+> 
+> Complete what operation?  
 
-That sounds like a good idea; let me see whether I can come up with
-something that Janosch can base his change on.
+For whatever operation guest driver was using that memory for.
 
-(There's already the vfio-ap documentation that's s390x specific; I'll
-also move it.)
+> We need to report these dirty pages in order
+> to maintain memory consistency for a user making use of dirty page
+> tracking.
+> 
+>> To get bitmap during unmap, user should set flag
+>> VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP, bitmap memory should be allocated and
+>> zeroed by user space application. Bitmap size and page size should be set
+>> by user application.
+> 
+> It seems like zeroed pages are no longer strictly necessary now that we
+> require requests to match existing mappings, right?
+> 
 
+Right.
+
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> ---
+>>   drivers/vfio/vfio_iommu_type1.c | 63 +++++++++++++++++++++++++++++++++++++----
+>>   include/uapi/linux/vfio.h       | 12 ++++++++
+>>   2 files changed, 70 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+>> index 435e84269a28..4037b82c6db0 100644
+>> --- a/drivers/vfio/vfio_iommu_type1.c
+>> +++ b/drivers/vfio/vfio_iommu_type1.c
+>> @@ -976,7 +976,8 @@ static int verify_bitmap_size(unsigned long npages, unsigned long bitmap_size)
+>>   }
+>>   
+>>   static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>> -			     struct vfio_iommu_type1_dma_unmap *unmap)
+>> +			     struct vfio_iommu_type1_dma_unmap *unmap,
+>> +			     unsigned long *bitmap)
+>>   {
+>>   	uint64_t mask;
+>>   	struct vfio_dma *dma, *dma_last = NULL;
+>> @@ -1027,6 +1028,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>   	 * will be returned if these conditions are not met.  The v2 interface
+>>   	 * will only return success and a size of zero if there were no
+>>   	 * mappings within the range.
+>> +	 *
+>> +	 * When VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP flag is set, unmap request
+>> +	 * must be for single mapping. Multiple mappings with this flag set is
+>> +	 * not supported.
+>>   	 */
+>>   	if (iommu->v2) {
+>>   		dma = vfio_find_dma(iommu, unmap->iova, 1);
+>> @@ -1034,6 +1039,13 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>   			ret = -EINVAL;
+>>   			goto unlock;
+>>   		}
+>> +
+>> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
+>> +		    (dma->iova != unmap->iova || dma->size != unmap->size)) {
+>> +			ret = -EINVAL;
+>> +			goto unlock;
+>> +		}
+>> +
+>>   		dma = vfio_find_dma(iommu, unmap->iova + unmap->size - 1, 0);
+>>   		if (dma && dma->iova + dma->size != unmap->iova + unmap->size) {
+>>   			ret = -EINVAL;
+>> @@ -1051,6 +1063,11 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>   		if (dma->task->mm != current->mm)
+>>   			break;
+>>   
+>> +		if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)
+>> +			vfio_iova_dirty_bitmap(iommu, dma->iova, dma->size,
+>> +					       unmap->bitmap_pgsize,
+>> +					      (unsigned char __user *) bitmap);
+>> +
+>>   		if (!RB_EMPTY_ROOT(&dma->pfn_list)) {
+>>   			struct vfio_iommu_type1_dma_unmap nb_unmap;
+>>   
+>> @@ -1076,6 +1093,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>>   						    &nb_unmap);
+>>   			goto again;
+>>   		}
+>> +
+>>   		unmapped += dma->size;
+>>   		vfio_remove_dma(iommu, dma);
+>>   	}
+> 
+> Spurious white space.
+> 
+>> @@ -2406,22 +2424,57 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+>>   
+>>   	} else if (cmd == VFIO_IOMMU_UNMAP_DMA) {
+>>   		struct vfio_iommu_type1_dma_unmap unmap;
+>> -		long ret;
+>> +		unsigned long *bitmap = NULL;
+> 
+> Shouldn't this have a __user attribute?  Also long doesn't seem the
+> right type. void would be ok here.
+> 
+
+Removed this with the use of vfio_bitmap structure.
+
+>> +		long ret, bsize;
+>>   
+>>   		minsz = offsetofend(struct vfio_iommu_type1_dma_unmap, size);
+>>   
+>>   		if (copy_from_user(&unmap, (void __user *)arg, minsz))
+>>   			return -EFAULT;
+>>   
+>> -		if (unmap.argsz < minsz || unmap.flags)
+>> +		if (unmap.argsz < minsz ||
+>> +		    unmap.flags & ~VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)
+>>   			return -EINVAL;
+>>   
+>> -		ret = vfio_dma_do_unmap(iommu, &unmap);
+>> +		if (unmap.flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
+>> +			unsigned long pgshift;
+>> +			uint64_t iommu_pgsizes = vfio_pgsize_bitmap(iommu);
+>> +			uint64_t iommu_pgmask =
+>> +				 ((uint64_t)1 << __ffs(iommu_pgsizes)) - 1;
+>> +
+> 
+> Need to test that unmap.argsz includes this.
+> 
+
+Added.
+
+>> +			if (copy_from_user(&unmap, (void __user *)arg,
+>> +					   sizeof(unmap)))
+>> +				return -EFAULT;
+>> +
+>> +			pgshift = __ffs(unmap.bitmap_pgsize);
+>> +
+>> +			if (((unmap.bitmap_pgsize - 1) & iommu_pgmask) !=
+>> +			     (unmap.bitmap_pgsize - 1))
+>> +				return -EINVAL;
+>> +
+>> +			if ((unmap.bitmap_pgsize & iommu_pgsizes) !=
+>> +			     unmap.bitmap_pgsize)
+>> +				return -EINVAL;
+>> +			if (unmap.iova + unmap.size < unmap.iova)
+>> +				return -EINVAL;
+>> +			if (!access_ok((void __user *)unmap.bitmap,
+>> +				       unmap.bitmap_size))
+>> +				return -EINVAL;
+> 
+> These tests should be identical to the previous patch.
+>
+
+Updating tests here. Removing redundant tests which are already in 
+vfio_dma_do_unmap()
+
+>> +
+>> +			bsize = verify_bitmap_size(unmap.size >> pgshift,
+>> +						   unmap.bitmap_size);
+>> +			if (bsize < 0)
+>> +				return bsize;
+>> +			bitmap = unmap.bitmap;
+>> +		}
+>> +
+>> +		ret = vfio_dma_do_unmap(iommu, &unmap, bitmap);
+>>   		if (ret)
+>>   			return ret;
+>>   
+>> -		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+>> +		ret = copy_to_user((void __user *)arg, &unmap, minsz) ?
+>>   			-EFAULT : 0;
+>> +		return ret;
+> 
+> Why?  Leftover debugging?
+> 
+
+Yeah, keeping the original one.
+
+
+>>   	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+>>   		struct vfio_iommu_type1_dirty_bitmap dirty;
+>>   		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+>> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+>> index 02d555cc7036..12b2094f887e 100644
+>> --- a/include/uapi/linux/vfio.h
+>> +++ b/include/uapi/linux/vfio.h
+>> @@ -1004,12 +1004,24 @@ struct vfio_iommu_type1_dma_map {
+>>    * field.  No guarantee is made to the user that arbitrary unmaps of iova
+>>    * or size different from those used in the original mapping call will
+>>    * succeed.
+>> + * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get dirty bitmap
+>> + * before unmapping IO virtual addresses. When this flag is set, user should
+>> + * allocate memory to get bitmap, clear the bitmap memory by setting zero and
+>> + * should set size of allocated memory in bitmap_size field. One bit in bitmap
+>> + * represents per page , page of user provided page size in 'bitmap_pgsize',
+>> + * consecutively starting from iova offset. Bit set indicates page at that
+>> + * offset from iova is dirty. Bitmap of pages in the range of unmapped size is
+>> + * returned in bitmap.
+>>    */
+>>   struct vfio_iommu_type1_dma_unmap {
+>>   	__u32	argsz;
+>>   	__u32	flags;
+>> +#define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
+>>   	__u64	iova;				/* IO virtual address */
+>>   	__u64	size;				/* Size of mapping (bytes) */
+>> +	__u64        bitmap_pgsize;		/* page size for bitmap */
+>> +	__u64        bitmap_size;               /* in bytes */
+>> +	void __user *bitmap;                    /* one bit per page */
+> 
+> This suggests to me that we should further split struct
+> vfio_iommu_type1_dirty_bitmap_get so that we can use the same
+> sub-structure here.  For example:
+> 
+> struct vfio_bitmap {
+> 	__u64 pgsize;
+> 	__u64 size;
+> 	__u64 __user *data;
+> };
+> 
+> Note we still have a void* rather than __u64* in original above.
+> 
+> Also, why wouldn't we take the same data[] approach as the previous
+> patch, defining this as the data when the GET_DIRTY_BITMAP flag is set?
+> 
+> Previous patch would be updated to something like:
+> 
+> struct vfio_iommu_type1_dirty_bitmap_get {
+> 	__u64 iova;
+> 	__u64 size;
+> 	struct vfio_bitmap bitmap;
+> };
+> 
+>>   };
+>>   
+>>   #define VFIO_IOMMU_UNMAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 14)
+> 
+
+Ok. Updating.
+
+Thanks,
+Kirti
 
