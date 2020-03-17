@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DE918920A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:28:09 +0100 (CET)
-Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDD9189224
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 00:28:36 +0100 (CET)
+Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jELd2-0005OE-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52528)
+	id 1jELdT-0006VU-UP
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 19:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jELZA-00086v-1z
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:12 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jELZF-0008FH-V2
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jELZ8-0001j6-UK
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:47223)
+ (envelope-from <jsnow@redhat.com>) id 1jELZE-00028s-R8
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:13 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:49278)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZ8-0001fP-NB
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:06 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jELZE-00024R-N0
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 19:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584487446;
+ s=mimecast20190719; t=1584487452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FoFgopLAB+y1Kafxr406tQHOxCuRauEC8WkTDOoEQZg=;
- b=LPaibMfvJgLPct//yGPxH9zksVmaZZAa+VPOHnwRlErPYfpLpbYd6Nkx7G6YK0lIKScmvU
- kggPdQ6EX4T7j0mNMO/deFWV9KxG+2JpBNZIgp6C2F5atiBbY8twh4LXSumFLRfBI5KLaz
- fyjSizAiADjGw/0WaB8VyupSMvG8hQw=
+ bh=AxPPYQlKjDe83YjabJntkZwaKw5Sd3QGdqivkrdy3aA=;
+ b=b1BjrVaORKZ7DDKJPcmTear5qN+otzOGwwKNcRkk+yDz471zUS4u/B2bMI1UCdZOwukVXv
+ g5fgHImvsb5YfyY8gzgYRPSr4rmobYMUMiVGqi9Ce7FomqxbqeIsOLj2dBQ5rLGfO8Ds+x
+ 0IzLPsMtub4I4seRNxe/DVhca9x4u9s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-J8fsZo4cMUut_8bloKzKrg-1; Tue, 17 Mar 2020 19:24:03 -0400
-X-MC-Unique: J8fsZo4cMUut_8bloKzKrg-1
+ us-mta-226-wPv4bS9YOmGNoQbN9R6UXw-1; Tue, 17 Mar 2020 19:24:10 -0400
+X-MC-Unique: wPv4bS9YOmGNoQbN9R6UXw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E18218A6EC1;
- Tue, 17 Mar 2020 23:24:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B873800D50;
+ Tue, 17 Mar 2020 23:24:08 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE9F460BE0;
- Tue, 17 Mar 2020 23:23:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BF6B60BE0;
+ Tue, 17 Mar 2020 23:24:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/20] cmd646: remove unused pci_cmd646_ide_init() function
-Date: Tue, 17 Mar 2020 19:23:13 -0400
-Message-Id: <20200317232329.22362-5-jsnow@redhat.com>
+Subject: [PULL 05/20] via-ide: move registration of VMStateDescription to
+ DeviceClass
+Date: Tue, 17 Mar 2020 19:23:14 -0400
+Message-Id: <20200317232329.22362-6-jsnow@redhat.com>
 In-Reply-To: <20200317232329.22362-1-jsnow@redhat.com>
 References: <20200317232329.22362-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,10 +80,9 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -91,55 +90,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20200307091313.24190-3-mark.cave-ayland@ilande.co.uk
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-id: 20200313082444.2439-2-mark.cave-ayland@ilande.co.uk
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/ide.h |  2 --
- hw/ide/cmd646.c  | 12 ------------
- 2 files changed, 14 deletions(-)
+ hw/ide/via.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 28d8a06439..0c7080ed92 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -12,8 +12,6 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int ioba=
-se2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 096de8dba0..84f0efff94 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -190,8 +190,6 @@ static void via_ide_realize(PCIDevice *dev, Error **err=
+p)
+     bmdma_setup_bar(d);
+     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
 =20
- /* ide-pci.c */
--void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table,
--                         int secondary_ide_enabled);
- PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int d=
-evfn);
- PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
-);
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn=
-);
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index 3c4f765bd6..699f25824d 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -314,18 +314,6 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
-     }
- }
+-    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+-
+     for (i =3D 0; i < 2; i++) {
+         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+         ide_init2(&d->bus[i], qemu_allocate_irq(via_ide_set_irq, d, i));
+@@ -227,6 +225,7 @@ static void via_ide_class_init(ObjectClass *klass, void=
+ *data)
+     PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
 =20
--void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table,
--                         int secondary_ide_enabled)
--{
--    PCIDevice *dev;
--
--    dev =3D pci_create(bus, -1, "cmd646-ide");
--    qdev_prop_set_uint32(&dev->qdev, "secondary", secondary_ide_enabled);
--    qdev_init_nofail(&dev->qdev);
--
--    pci_ide_create_devs(dev, hd_table);
--}
--
- static Property cmd646_ide_properties[] =3D {
-     DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
-     DEFINE_PROP_END_OF_LIST(),
+     dc->reset =3D via_ide_reset;
++    dc->vmsd =3D &vmstate_ide_pci;
+     k->realize =3D via_ide_realize;
+     k->exit =3D via_ide_exitfn;
+     k->vendor_id =3D PCI_VENDOR_ID_VIA;
 --=20
 2.21.1
 
