@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B1B187E34
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:23:03 +0100 (CET)
-Received: from localhost ([::1]:55838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB505187E23
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 11:21:10 +0100 (CET)
+Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE9NG-0000ak-BU
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46495)
+	id 1jE9LR-00056e-M3
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 06:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jE96S-0002Ho-JL
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:42 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96c-0002an-BW
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jE96Q-0007xa-NS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:40 -0400
-Received: from ozlabs.org ([203.11.71.1]:57301)
+ (envelope-from <dgibson@ozlabs.org>) id 1jE96a-0000k0-MR
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 06:05:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49853 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jE96Q-0007fI-9t; Tue, 17 Mar 2020 06:05:38 -0400
+ id 1jE96a-0006UO-7O; Tue, 17 Mar 2020 06:05:48 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48hTL31M4Nz9sTc; Tue, 17 Mar 2020 21:04:41 +1100 (AEDT)
+ id 48hTL26Nbsz9sTZ; Tue, 17 Mar 2020 21:04:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584439483;
- bh=w8FnmTmTKIT07gXVMMuYlFdyZ2CmcEwbXiUvJcwhsFA=;
+ d=gibson.dropbear.id.au; s=201602; t=1584439482;
+ bh=bQQmdDvTIGTYx9hToVqDanlWHhCaBUAPPuQxwhbV9d4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gpGHSqMSfO3nHyHZ+w/vkYmDxuDhD/w7YjACT+89gXc/igVlucLLHk5wyUl4ZCGQ7
- 9WHDD5f+68BsIsCqWwhofFEKC+8mhOse3FTEfiIza4XErSE7wCUgbVt2PMPTUoMkWt
- KK5FeFtO5vmlhhhqBwp/pI2sMcQq7vZmXVQGUvsg=
+ b=Szs+mtCHEuG7pJhOWVtyNcVeUiRz0W20aviFU8F21j9s/3iP6aPIMGNAaouPtlhIQ
+ SccB+wE18iry5mn4V9a+UlrVXfm/lxWQJuwNK2FDzEBD9x8QJ8S3HlAtL6fJcohpj3
+ u3cxIPnQdZ3T+akLA0ZDFZx112csMId2cn1188w0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 40/45] ppc/spapr: Fix FWNMI machine check interrupt delivery
-Date: Tue, 17 Mar 2020 21:04:18 +1100
-Message-Id: <20200317100423.622643-41-david@gibson.dropbear.id.au>
+Subject: [PULL 41/45] ppc/spapr: Allow FWNMI on TCG
+Date: Tue, 17 Mar 2020 21:04:19 +1100
+Message-Id: <20200317100423.622643-42-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,194 +62,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-FWNMI machine check delivery misses a few things that will make it fail
-with TCG at least (which we would like to allow in future to improve
-testing).
-
-It's not nice to scatter interrupt delivery logic around the tree, so
-move it to excp_helper.c and share code where possible.
+There should no longer be a reason to prevent TCG providing FWNMI.
+System Reset interrupts are generated to the guest with nmi monitor
+command and H_SIGNAL_SYS_RESET. Machine Checks can not be injected
+currently, but this could be implemented with the mce monitor cmd
+similarly to i386.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200316142613.121089-5-npiggin@gmail.com>
+Message-Id: <20200316142613.121089-6-npiggin@gmail.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+[dwg: Re-enable FWNMI in qtests, since that now works]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_events.c    | 24 +++----------
- target/ppc/cpu.h         |  1 +
- target/ppc/excp_helper.c | 74 ++++++++++++++++++++++++++++------------
- 3 files changed, 57 insertions(+), 42 deletions(-)
+ hw/ppc/spapr_caps.c               | 5 +----
+ tests/qtest/libqos/libqos-spapr.h | 3 +--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 27ba8a2c19..323fcef4aa 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -785,28 +785,13 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU =
-*cpu, bool recovered,
- static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
- {
-     SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
--    uint64_t rtas_addr;
-+    CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
--    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
--    target_ulong msr =3D 0;
-+    uint64_t rtas_addr;
-     struct rtas_error_log log;
-     struct mc_extended_log *ext_elog;
-     uint32_t summary;
-=20
--    /*
--     * Properly set bits in MSR before we invoke the handler.
--     * SRR0/1, DAR and DSISR are properly set by KVM
--     */
--    if (!(*pcc->interrupts_big_endian)(cpu)) {
--        msr |=3D (1ULL << MSR_LE);
--    }
--
--    if (env->msr & (1ULL << MSR_SF)) {
--        msr |=3D (1ULL << MSR_SF);
--    }
--
--    msr |=3D (1ULL << MSR_ME);
--
-     ext_elog =3D g_malloc0(sizeof(*ext_elog));
-     summary =3D spapr_mce_get_elog_type(cpu, recovered, ext_elog);
-=20
-@@ -834,12 +819,11 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu=
-, bool recovered)
-     cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
-                               sizeof(env->gpr[3]) + sizeof(log), ext_elo=
-g,
-                               sizeof(*ext_elog));
-+    g_free(ext_elog);
-=20
-     env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
--    env->msr =3D msr;
--    env->nip =3D spapr->fwnmi_machine_check_addr;
-=20
--    g_free(ext_elog);
-+    ppc_cpu_do_fwnmi_machine_check(cs, spapr->fwnmi_machine_check_addr);
- }
-=20
- void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 5a55fb02bd..3953680534 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1221,6 +1221,7 @@ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunctio=
-n f, CPUState *cs,
-                                int cpuid, void *opaque);
- #ifndef CONFIG_USER_ONLY
- void ppc_cpu_do_system_reset(CPUState *cs);
-+void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
- extern const VMStateDescription vmstate_ppc_cpu;
- #endif
-=20
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 027f54c0ed..7f2b5899d3 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -128,6 +128,37 @@ static uint64_t ppc_excp_vector_offset(CPUState *cs,=
- int ail)
-     return offset;
- }
-=20
-+static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
-+                                          target_ulong vector, target_ul=
-ong msr)
-+{
-+    CPUState *cs =3D CPU(cpu);
-+    CPUPPCState *env =3D &cpu->env;
-+
-+    /*
-+     * We don't use hreg_store_msr here as already have treated any
-+     * special case that could occur. Just store MSR and update hflags
-+     *
-+     * Note: We *MUST* not use hreg_store_msr() as-is anyway because it
-+     * will prevent setting of the HV bit which some exceptions might ne=
-ed
-+     * to do.
-+     */
-+    env->msr =3D msr & env->msr_mask;
-+    hreg_compute_hflags(env);
-+    env->nip =3D vector;
-+    /* Reset exception state */
-+    cs->exception_index =3D POWERPC_EXCP_NONE;
-+    env->error_code =3D 0;
-+
-+    /* Reset the reservation */
-+    env->reserve_addr =3D -1;
-+
-+    /*
-+     * Any interrupt is context synchronizing, check if TCG TLB needs
-+     * a delayed flush on ppc64
-+     */
-+    check_tlb_flush(env, false);
-+}
-+
- /*
-  * Note that this function should be greatly optimized when called
-  * with a constant excp, from ppc_hw_interrupt
-@@ -768,29 +799,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
-         }
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index f626d769a0..679ae7959f 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -516,10 +516,7 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr=
+, uint8_t val,
+         return; /* Disabled by default */
      }
+=20
+-    if (tcg_enabled()) {
+-        warn_report("Firmware Assisted Non-Maskable Interrupts(FWNMI) no=
+t "
+-                    "supported in TCG");
+-    } else if (kvm_enabled()) {
++    if (kvm_enabled()) {
+         if (kvmppc_set_fwnmi() < 0) {
+             error_setg(errp, "Firmware Assisted Non-Maskable Interrupts(=
+FWNMI) "
+                              "not supported by KVM");
+diff --git a/tests/qtest/libqos/libqos-spapr.h b/tests/qtest/libqos/libqo=
+s-spapr.h
+index 16174dbada..49bd72d20b 100644
+--- a/tests/qtest/libqos/libqos-spapr.h
++++ b/tests/qtest/libqos/libqos-spapr.h
+@@ -12,7 +12,6 @@ void qtest_spapr_shutdown(QOSState *qs);
+     "cap-cfpc=3Dbroken,"                           \
+     "cap-sbbc=3Dbroken,"                           \
+     "cap-ibs=3Dbroken,"                            \
+-    "cap-ccf-assist=3Doff,"                        \
+-    "cap-fwnmi=3Doff"
++    "cap-ccf-assist=3Doff,"
+=20
  #endif
--    /*
--     * We don't use hreg_store_msr here as already have treated any
--     * special case that could occur. Just store MSR and update hflags
--     *
--     * Note: We *MUST* not use hreg_store_msr() as-is anyway because it
--     * will prevent setting of the HV bit which some exceptions might ne=
-ed
--     * to do.
--     */
--    env->msr =3D new_msr & env->msr_mask;
--    hreg_compute_hflags(env);
--    env->nip =3D vector;
--    /* Reset exception state */
--    cs->exception_index =3D POWERPC_EXCP_NONE;
--    env->error_code =3D 0;
-=20
--    /* Reset the reservation */
--    env->reserve_addr =3D -1;
--
--    /*
--     * Any interrupt is context synchronizing, check if TCG TLB needs
--     * a delayed flush on ppc64
--     */
--    check_tlb_flush(env, false);
-+    powerpc_set_excp_state(cpu, vector, new_msr);
- }
-=20
- void ppc_cpu_do_interrupt(CPUState *cs)
-@@ -958,6 +968,26 @@ void ppc_cpu_do_system_reset(CPUState *cs)
-=20
-     powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
- }
-+
-+void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+    CPUPPCState *env =3D &cpu->env;
-+    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-+    target_ulong msr =3D 0;
-+
-+    /*
-+     * Set MSR and NIP for the handler, SRR0/1, DAR and DSISR have alrea=
-dy
-+     * been set by KVM.
-+     */
-+    msr =3D (1ULL << MSR_ME);
-+    msr |=3D env->msr & (1ULL << MSR_SF);
-+    if (!(*pcc->interrupts_big_endian)(cpu)) {
-+        msr |=3D (1ULL << MSR_LE);
-+    }
-+
-+    powerpc_set_excp_state(cpu, vector, msr);
-+}
- #endif /* !CONFIG_USER_ONLY */
-=20
- bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 --=20
 2.24.1
 
