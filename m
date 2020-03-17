@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88892188F21
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:38:20 +0100 (CET)
-Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105C8188F2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 21:42:06 +0100 (CET)
+Received: from localhost ([::1]:41118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEIyh-0008E9-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
+	id 1jEJ2L-0002Ex-1d
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 16:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jEIxZ-0007GB-Oo
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:37:10 -0400
+ (envelope-from <mansourweb@gmail.com>) id 1jEJ0j-0000nZ-0j
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jEIxY-0007aI-Ll
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:37:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44043)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jEIxY-0007WS-GY
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:37:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584477428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ItVAuHD+XdKiTqum/PLO2Snxg3UvjYq75JyUf3dp34I=;
- b=dQim3IbTs/5AjEaOKdcxdHpVKP4pJtZFlLeE/UPjhyOL6ADhd4zy0tkh6f6IfDyzCetHOG
- DWYUyN4deYNmv4cbetWXRsn2Zrp06leQpCOTrOSHeS1yAoSOMmxy/X9i1qbMXxLHHKEOgk
- 1JqGwccvq+OKdIT+rquivyeKn4eXvF4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-JI1h1b8UPpuPrtATTyxCKQ-1; Tue, 17 Mar 2020 16:37:05 -0400
-X-MC-Unique: JI1h1b8UPpuPrtATTyxCKQ-1
-Received: by mail-wr1-f69.google.com with SMTP id t4so8294101wrv.9
- for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:37:05 -0700 (PDT)
+ (envelope-from <mansourweb@gmail.com>) id 1jEJ0g-0001Pw-Vr
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:24 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:41567)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mansourweb@gmail.com>)
+ id 1jEJ0g-00017S-Nf
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 16:40:22 -0400
+Received: by mail-lf1-x131.google.com with SMTP id u26so6175116lfu.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Mar 2020 13:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=q6W6dATC1dY65IVQ96i99f6AL59x7lL28EmyFVVXC3g=;
+ b=TiINNWTJnX2y7JafHilom7hb42RJ2haIf5OVGHIhNq+wvOoXWUoXQb7v46OrPqPyO2
+ zPy0JNGYAXwcGeJRNtoGJbwgabDGNbtvHkUX0iUtXDdXFww0TOdXW903mTEGe+wsUXKY
+ kLxXftMe0Quu+lq8LoIf8CcdYlEthWU0viHD0qMvt3jA2Untzkhws6tRXKt91gALbMZ6
+ rbU7Z9xEpWbYiBaX3yfEFNnV5/p4qZdd0uVppYxIVnr3XnMmMrk2l9DReuHQU5mQXJSL
+ h7q2eoZ0B+D2Cv5gSaKQJVYHYkyTCq/3GQyQLYtahSOIc4yf/hRdpxTkkxWaIO6GcZnr
+ /k9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JdAyyF/FwTMWBTq6jvhI5/YqCfhuYwnxedj032Did7c=;
- b=ITgvljuOomx+RAT/BgstRUeSxkzB4TYsg1WCUpD8FNqoZeSZ+zJ8FP6wWBdFQhJXFM
- iCZPUGXnh3B5yU/9VyIufhUULMoNpiDGSLG9gve0sXb73dphwL/sEwJrF5d8z5D6f0WQ
- E7SY8CFs/5TNqa3Q00C4fJhOqcRx2aHl26rPIU7rwZGhwemFfe9aMg6pHlzgFdeKwLs3
- Nxd9yus92HK9ciz2bfyh1IkqZZYQQrhB4NaVKVgX91TkNJV3CjxObRpII2amrk0riI9P
- hwYyw/S81lEMpK0kFafocWmWLXuvKiagw0/PO50Gce5T7wn+wHiUzOHNrtZs+XezHqi8
- 6cNg==
-X-Gm-Message-State: ANhLgQ3fbIMTBcOr3MRIKJtpI/Z5uT9N6w2c94HeWxOUn7L4qd1h/AON
- 7mUmhm9zkiveKNaQUXgOwzY3rU41iRW9KFwSO8OpEtM7NRY+liXid5OfgKytSzQtnJSozgc1FJD
- hf4STJ1S9cJIpxwg=
-X-Received: by 2002:a5d:6386:: with SMTP id p6mr825315wru.194.1584477423273;
- Tue, 17 Mar 2020 13:37:03 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsf3TG247ecpCsD1lOMqz6gChii/0iJOKghgeUrYAKVnMsyo8mWiNXeAV1mW6u5/QD15fHyJQ==
-X-Received: by 2002:a5d:6386:: with SMTP id p6mr825295wru.194.1584477423088;
- Tue, 17 Mar 2020 13:37:03 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id k126sm789206wme.4.2020.03.17.13.37.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Mar 2020 13:37:02 -0700 (PDT)
-Date: Tue, 17 Mar 2020 16:36:59 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] pci: Display PCI IRQ pin in "info pci"
-Message-ID: <20200317203659.GC233068@xz-x1>
-References: <20200317195908.283800-1-peterx@redhat.com>
- <20200317202117.GI3369@work-vm>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=q6W6dATC1dY65IVQ96i99f6AL59x7lL28EmyFVVXC3g=;
+ b=t7ZyBnZ7SveHDTH4UCHS+FtRfNWJ4wxBUU/dpnY3/Cjcq3nOMJ+SN6CDYsfCVrofnD
+ WFGTMOanCPHznIY5H3MMlYhTKd9k0Fmftp9pxIwihoxTH5icDtNlqq27fvQLhWFtjcnP
+ BtQWq5ahdD+xvInmJZ114OJBVOTTupQWfYgZdfhf7Z22ptq9n1JVTsyuaHA2yW7F33LJ
+ i3zOmFOAoiESLvirNi/UgbdhXyOhw3rN3fZn12OooH76XfYdB0Pgej0HjLwb+AfL3lb/
+ BPRqSJuGcViJwebexN4z8985tm+2ewlw+AnDJ0Jso1XogBbERWzwM3jslLDUVwE/Ge9n
+ cZ/A==
+X-Gm-Message-State: ANhLgQ3yKemp8i9dwvuDYKUpYnMfFZl0HO+jRglXHVu3pM63pyg3jdCq
+ tJUT9jOxbC3fLzOtZqkGsGS13fVuuT5oMd7IPWqCm6A5xwU=
+X-Google-Smtp-Source: ADFU+vtH28asMw8ZAviZYbJvokgdRCiEKLLUtrtZtOAMqD38QIGJZFyVUYoAy2h8jkJ0fFUTWrkW9EnpJwg1z5OPplM=
+X-Received: by 2002:a19:f611:: with SMTP id x17mr716627lfe.89.1584477620654;
+ Tue, 17 Mar 2020 13:40:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200317202117.GI3369@work-vm>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+From: Mansour Ahmadi <ManSoSec@gmail.com>
+Date: Tue, 17 Mar 2020 16:40:09 -0400
+Message-ID: <CAGT9xrB039Q7_fG1NpKv7w3t1N0OH93U9HPNawtpq9TsNr5hfA@mail.gmail.com>
+Subject: Missing Null check
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000bbd9b005a112f1b9"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,74 +68,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 08:21:17PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Sometimes it would be good to be able to read the pin number along
-> > with the IRQ number allocated.  Since we'll dump the IRQ number, no
-> > reason to not dump the pin information.  For example, the vfio-pci
-> > device will overwrite the pin with the hardware pin number.  It would
-> > be nice to know the pin number of one assigned device from QMP/HMP.
-> >=20
-> > CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > CC: Alex Williamson <alex.williamson@redhat.com>
-> > CC: Michael S. Tsirkin <mst@redhat.com>
-> > CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > CC: Julia Suvorova <jusual@redhat.com>
-> > CC: Markus Armbruster <armbru@redhat.com>
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >=20
-> > This helped me to debug an IRQ sharing issue, so may good to have it
-> > in master too.
-> > ---
-> >  hw/pci/pci.c       | 1 +
-> >  monitor/hmp-cmds.c | 3 ++-
-> >  qapi/misc.json     | 6 ++++--
-> >  3 files changed, 7 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > index e1ed6677e1..7ebf532ac9 100644
-> > --- a/hw/pci/pci.c
-> > +++ b/hw/pci/pci.c
-> > @@ -1769,6 +1769,7 @@ static PciDeviceInfo *qmp_query_pci_device(PCIDev=
-ice *dev, PCIBus *bus,
-> >      info->regions =3D qmp_query_pci_regions(dev);
-> >      info->qdev_id =3D g_strdup(dev->qdev.id ? dev->qdev.id : "");
-> > =20
-> > +    info->irq_pin =3D dev->config[PCI_INTERRUPT_PIN];
-> >      if (dev->config[PCI_INTERRUPT_PIN] !=3D 0) {
-> >          info->has_irq =3D true;
-> >          info->irq =3D dev->config[PCI_INTERRUPT_LINE];
-> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > index 58724031ea..04c86bbb03 100644
-> > --- a/monitor/hmp-cmds.c
-> > +++ b/monitor/hmp-cmds.c
-> > @@ -680,7 +680,8 @@ static void hmp_info_pci_device(Monitor *mon, const=
- PciDeviceInfo *dev)
-> >      }
-> > =20
-> >      if (dev->has_irq) {
-> > -        monitor_printf(mon, "      IRQ %" PRId64 ".\n", dev->irq);
-> > +        monitor_printf(mon, "      IRQ %" PRId64 ", pin %c\n",
-> > +                       dev->irq, (char)('A' + dev->irq_pin - 1));
->=20
-> Can we trust dev->irq_pin not to be something silly and generate a
-> non-printable?
+--000000000000bbd9b005a112f1b9
+Content-Type: text/plain; charset="UTF-8"
 
-It should be strictly a value between 1-4 corresponds to irq pin A-D
-(note the has_irq check masked out the zero value, or it could be
-0-4), so I think it should always make sense. Otherwise I see it a
-qemu bug somewhere...
+Is a NULL check on 'drv1->format_name' missing here?
+https://github.com/qemu/qemu/blob/cc818a2148c5f321bdeb8e5564bdb2914e824600/block.c#L400-L403
 
-Thanks,
+if (!strcmp(drv1->format_name, format_name)) {
 
---=20
-Peter Xu
+While it is checked in similar case:
+https://github.com/qemu/qemu/blob/cc818a2148c5f321bdeb8e5564bdb2914e824600/block.c#L797-L800
 
+if (drv1->protocol_name && !strcmp(drv1->protocol_name, protocol)) {
+
+--000000000000bbd9b005a112f1b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:garamond=
+,serif;font-size:large">Is a NULL check on &#39;<span style=3D"color:rgb(36=
+,41,46);font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Men=
+lo,monospace;font-size:12px;white-space:pre;background-color:rgb(255,251,22=
+1)">drv1-&gt;</span><span class=3D"gmail-pl-smi" style=3D"box-sizing:border=
+-box;color:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&quot;Liberati=
+on Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre">format_name</=
+span>&#39; missing here?</div><div class=3D"gmail_default" style=3D"font-fa=
+mily:garamond,serif;font-size:large"><a href=3D"https://github.com/qemu/qem=
+u/blob/cc818a2148c5f321bdeb8e5564bdb2914e824600/block.c#L400-L403">https://=
+github.com/qemu/qemu/blob/cc818a2148c5f321bdeb8e5564bdb2914e824600/block.c#=
+L400-L403</a><br></div><div class=3D"gmail_default" style=3D"font-family:ga=
+ramond,serif;font-size:large"><br></div><div class=3D"gmail_default" style=
+=3D"font-family:garamond,serif;font-size:large"><span class=3D"gmail-pl-k" =
+style=3D"box-sizing:border-box;color:rgb(215,58,73);font-family:SFMono-Regu=
+lar,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;whi=
+te-space:pre">if</span><span style=3D"color:rgb(36,41,46);font-family:SFMon=
+o-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12=
+px;white-space:pre;background-color:rgb(255,251,221)"> (!</span><span class=
+=3D"gmail-pl-c1" style=3D"box-sizing:border-box;color:rgb(0,92,197);font-fa=
+mily:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;fo=
+nt-size:12px;white-space:pre">strcmp</span><span style=3D"color:rgb(36,41,4=
+6);font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,mo=
+nospace;font-size:12px;white-space:pre;background-color:rgb(255,251,221)">(=
+drv1-&gt;</span><span class=3D"gmail-pl-smi" style=3D"box-sizing:border-box=
+;color:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&quot;Liberation M=
+ono&quot;,Menlo,monospace;font-size:12px;white-space:pre">format_name</span=
+><span style=3D"color:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&qu=
+ot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre;bac=
+kground-color:rgb(255,251,221)">, format_name)) {</span><br></div><div clas=
+s=3D"gmail_default" style=3D"font-family:garamond,serif;font-size:large"><b=
+r></div><div class=3D"gmail_default" style=3D"font-family:garamond,serif;fo=
+nt-size:large">While it is checked in similar case:</div><div class=3D"gmai=
+l_default" style=3D"font-family:garamond,serif;font-size:large"><a href=3D"=
+https://github.com/qemu/qemu/blob/cc818a2148c5f321bdeb8e5564bdb2914e824600/=
+block.c#L797-L800">https://github.com/qemu/qemu/blob/cc818a2148c5f321bdeb8e=
+5564bdb2914e824600/block.c#L797-L800</a><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-family:garamond,serif;font-size:large"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-family:garamond,serif;font-size:large"><=
+span class=3D"gmail-pl-k" style=3D"box-sizing:border-box;color:rgb(215,58,7=
+3);font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,mo=
+nospace;font-size:12px;white-space:pre">if</span><span style=3D"color:rgb(3=
+6,41,46);font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Me=
+nlo,monospace;font-size:12px;white-space:pre;background-color:rgb(255,251,2=
+21)"> (drv1-&gt;</span><span class=3D"gmail-pl-smi" style=3D"box-sizing:bor=
+der-box;color:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&quot;Liber=
+ation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre">protocol_n=
+ame</span><span style=3D"color:rgb(36,41,46);font-family:SFMono-Regular,Con=
+solas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-spac=
+e:pre;background-color:rgb(255,251,221)"> &amp;&amp; !</span><span class=3D=
+"gmail-pl-c1" style=3D"box-sizing:border-box;color:rgb(0,92,197);font-famil=
+y:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-=
+size:12px;white-space:pre">strcmp</span><span style=3D"color:rgb(36,41,46);=
+font-family:SFMono-Regular,Consolas,&quot;Liberation Mono&quot;,Menlo,monos=
+pace;font-size:12px;white-space:pre;background-color:rgb(255,251,221)">(drv=
+1-&gt;</span><span class=3D"gmail-pl-smi" style=3D"box-sizing:border-box;co=
+lor:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&quot;Liberation Mono=
+&quot;,Menlo,monospace;font-size:12px;white-space:pre">protocol_name</span>=
+<span style=3D"color:rgb(36,41,46);font-family:SFMono-Regular,Consolas,&quo=
+t;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre;back=
+ground-color:rgb(255,251,221)">, protocol)) {</span></div><div><div dir=3D"=
+ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
+=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div dir=3D"ltr"><span=
+ style=3D"border-collapse:collapse;white-space:pre-wrap"><span style=3D"bor=
+der-collapse:separate;white-space:normal"><font color=3D"#000000" size=3D"2=
+"><div style=3D"font-family:Calibri"><div style=3D"font-family:arial,sans-s=
+erif"></div></div></font></span></span></div></div></div></div></div></div>=
+</div></div></div>
+
+--000000000000bbd9b005a112f1b9--
 
