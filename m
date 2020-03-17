@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCD818893C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:34:13 +0100 (CET)
-Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02968188942
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:37:17 +0100 (CET)
+Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEEEO-0001V4-HL
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33335)
+	id 1jEEHM-0005rx-0O
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxp-0002xi-TO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:07 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxu-00038A-9v
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxo-000201-8P
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:05 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxo-00023R-Oy
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:10 -0400
 Received: from mail-he1eur04on071f.outbound.protection.outlook.com
  ([2a01:111:f400:fe0d::71f]:1794
  helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jEDxn-0001d5-Tf
+ id 1jEDxo-0001d5-Dq
  for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:04 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ds7VH+MOrsU463V5zMQBbo6UFgFCYHBr82LFeqCDrfDOcxEHH3LJqLbwDQ8ULaPpfDr89ojjRv9zqSaC2tZnKa4MdcAJ1+oxDrEWCSfG80D4q45luY/bZgH4fiCqt/prhqjSnp+8V920L2Yvl0fxIcEdfGaQLo0okJ4SEnbqu8eGB5UdpLHMXddCGfV+JhyaG24UmpSp4oYrLZ3pYjeRgwV4MAi5H2jcHklERLnKSLO2u+IDosJ965aiyfabeAbxSCuVBiR3XKF6HWNK5NlPipohFrkGemei/uKY3LqG7bOi61BzR5fwi3VNUXcMB9kyzwoS5hBlJft6HLoBtR74Mw==
+ b=CD0TP3T5jqc1ITfaNiKNTAF+pyYxYIlu+j5OQAq8FAFiAVOboLtu6FDQgRh+xelxF9TAn93xkFIHzTAVstytheSCP2QMW7UziMO2FDjm6atPpbnFFPdxJMb6wouYjm0SS7nbxJm2y1qi9QQoAzpPkcDsHys8XEZbPHieLaJYC8IEk/qjfig/Dm0p5rj8QZhI/PTKQECvT6gKnLQ5rwhM2J0UAGRV7CVGC0Dies6DJHXwQpagGDTTsD8Hq5TLt55ssrXjQt/Tt6JzX5VhpgwYBFK561GRXmMVrnH/Cz4Bs85arVU8i/uPS6dM6MyCBfVR2LA8vkF4vEMsTLKIJ+5NxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tmefC/lvr09AIhgGCB50fZJW6BwAZK3vMfeQYk4zbJc=;
- b=LtL79ac02SCk2iU3sSbiznEN2C2mtn3NPsPJsE71o000nQP0JDrTHsnLd/OU5gH2xYIX+ElbzTl8N+jl3Usc+r72pXZ+nNCfJzh9D6PgL2Kghhf2+ypw9UNHZRU8AeX3Jtp7Ldx2mrGgFW+gsUDQOc1FvUK35hpP6QlW5Nh5PsmDKqhd9qRsjW3LuH9TqKRSWs2J/OPy608LqsbMN1BSiG07uGMl18oh5MD97qUhrzJAhNT9CWL6Q8nXC3sp4yZ2Nmg4WDFmqE0cuvokACriw8wBPNFfoVpTdypIMUXHtuKP2FrtAXGzYcrNI9BvnsDRDvd/GJzIw0k9aIk2vhaX1Q==
+ bh=si6nQkmUdczLedju7B7iVXPgkItV2yXZa7yvcN13kXM=;
+ b=Seajqej1WOCVJtmMRHtLcqNLqGREqUOmxuTtvM+tK3dWZbJvtPfpQ5EYrr/Ygzv38pVDG5hVg7/43+TYqTICCJOt9k9tpcvg8sfd3TZgTeMv67vBMObwYpuLh/YJ8z4HJblV8s9qUx7uFGdyv3jaMnPmZb61UOAJLB4rpnyGYIkaAqkRUj4UbfTWf8t4W7XdlbGnrR6cM1gdcC7HAWdaH0AzOnAJPAycGxTD2hoa2+IvL4Luf6qLtpO2sbt5so/K66OkbLH9F7JNDX2AexJHxBdKlN+OSW7hj77KgBe1L3on9GDFxjNy/in0tsXfue7rfAgVN6xNtXVUhHDz/1Cw2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tmefC/lvr09AIhgGCB50fZJW6BwAZK3vMfeQYk4zbJc=;
- b=FqkKUubRW1G910v9h8NtANUZ7cnWoNgcoYkNB3Dm4NABbTk8YdAPEW13DKu2LSaiq7lSIDpe/T7G8KqlJTRuC5s+wIV1GRLl6nKAp6iHyf1JfSHegYTO6KYREBuiZUJXI8Qcfi0HZGD/dpi/RahxvvZ0b++W3SmTBe8sJ83gAT0=
+ bh=si6nQkmUdczLedju7B7iVXPgkItV2yXZa7yvcN13kXM=;
+ b=rKfTsqqjCBpJ8+ZWpV//hMHs1oh4cZ9kagPM0CB/hrvVvG2lHGAwz0wE8xCwQbhYYF9NSRJ9jZs4CCm2EnkvsjTdFc9JHSHkz5Wv+1vRp52UN8mkuU498EvK6elHXYTS2Zywto+gef9SA7zyiW2AZWIxR1thvOEutgsfuEtlPYE=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com (10.175.35.136) by
  HE1PR0802MB2620.eurprd08.prod.outlook.com (10.175.36.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.21; Tue, 17 Mar 2020 15:17:01 +0000
+ 15.20.2814.21; Tue, 17 Mar 2020 15:17:02 +0000
 Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com
  ([fe80::4d32:e4e1:5b9f:240f]) by HE1PR0802MB2507.eurprd08.prod.outlook.com
  ([fe80::4d32:e4e1:5b9f:240f%12]) with mapi id 15.20.2814.021; Tue, 17 Mar
- 2020 15:17:01 +0000
+ 2020 15:17:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 6/9] virtio-9p: introduce ERRP_AUTO_PROPAGATE
-Date: Tue, 17 Mar 2020 18:16:22 +0300
-Message-ID: <20200317151625.20797-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v10 7/9] TPM: introduce ERRP_AUTO_PROPAGATE
+Date: Tue, 17 Mar 2020 18:16:23 +0300
+Message-ID: <20200317151625.20797-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200317151625.20797-1-vsementsov@virtuozzo.com>
 References: <20200317151625.20797-1-vsementsov@virtuozzo.com>
@@ -67,14 +67,14 @@ Received: from localhost.localdomain (185.215.60.248) by
  AM0PR10CA0005.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend
- Transport; Tue, 17 Mar 2020 15:17:00 +0000
+ Transport; Tue, 17 Mar 2020 15:17:01 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.248]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa60b06c-fc19-4d2d-c943-08d7ca863e20
+X-MS-Office365-Filtering-Correlation-Id: c46bcee2-6943-4da8-32d5-08d7ca863ed7
 X-MS-TrafficTypeDiagnostic: HE1PR0802MB2620:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0802MB2620A5B9D95DE0FF764A934BC1F60@HE1PR0802MB2620.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB26200071E45353C5D19B2122C1F60@HE1PR0802MB2620.eurprd08.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:121;
 X-Forefront-PRVS: 0345CFD558
 X-Forefront-Antispam-Report: SFV:NSPM;
@@ -86,15 +86,15 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S9LwLetGlPcyMaNizIT9eVN3qXuY6W99efhOm41AXtS9lnMwsMi32ffQrqtoWXEsHHx567SVYvp2ootvEOfTjQ6XU8ZDPrRqby/SK4/gwNebBffRzo+3AVAosJV0aJ5vuGw2rMAeGA0fPMCgyVEREeOGHIVF1x72dVUZUKaNpG63mr3cHPR5gPQOeXHSnMSK+3V+jxf/fg4M1oGLnmtCK2XBCeyakQSwnrLMu9ldkeU4dHLIWQ/UnAth54okwf9kGlMDXboZ9qC19C6EmIhm6GJ681BCQYeQ63mbcKzdnsDo3AxGC4QeqDXmQ3fxOIMHw8CG8hstcF5rRuXFk3wKsiNAfvxubboqZXfFKkxrTEE2GI1lKquLub0WniAtCOwE3PaEyzfbnho5RE+kK3BaP8Rv/5bzdzHPJXAq50Io6a0adDOkwah+BSHgF1xDs2lrdV6CJvrwadrDQqxEgtObY7GLaocfpqxYkKHLsvBF7mcPra57j25Q5LgTuppcIcpM
-X-MS-Exchange-AntiSpam-MessageData: Q6TBNhod/sajA+blf8/vJBU9fpTsJvEArtkZVQCTympaIrcGAhW6g+aJQ5JPnZZk/iplUP3fC7bYRBU9cyxiSmazACSyiu5TGmLE655F3dLck5k/NCpnGSl14riZoOL+g4lQTU7kCaUg4rN/BYO5Jw==
+X-Microsoft-Antispam-Message-Info: WJSdgNHKWnv37npGzJJYr/u+Wbt2l67R8OiXRbPHFiIQlLEZdEfNpqJtU8JdMJalvYh+IAJzxNP1JjGcIi1zaCYMqYSC7uoMmYssidmdRO+QGxfB4A04KQQ2MQ/ulG9me0+9yKsCog2cw3IaATyse4EE9ji3QPmz57iXzRKXH2rUtkLrSESPgxLDYvrnv7jGTscZ+PsLA+3RaVSezJRk+T2c9OGaAh00SN5vpsd9TfCqzlbKRzcqFONj71r1W76+FEDaDvtIULPUmd5/Fum+1N/ZltNfJhNAs06mZ80f/7/GOdEvNPLCR8mUowEPfFTeZZL6H/CREcGOThM+GWPIyW8+2Uisi1UmLeaUvJWaSBxrLFNi3urJgHmGVGYL9Wq4GsGx0Ih9vI6h1khUCxqkzDXK+FQDj+6kz1RqUOz64Y6MXrtLdSmjghJG82RlhFRh/a/PCVV4UekIKgSQuwSLDOCE8UiuzJ0qa4m4gc71it+3A4zj2Nc63OpkKjDM99tK
+X-MS-Exchange-AntiSpam-MessageData: AG88XCCbiRGTphLGaH8GqK+0EMmL0hLgm1p036gSd5ZgNQABqsgZiw+hO8gsMGap3UH20R0gD4hAnG6Ka+bXk+uaQ92IN+QhqwYEVgtZ61+2Ll4O0cBhrZC7YzdN0tm+cnaSMJczlLIl5Qqzgo2lbA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa60b06c-fc19-4d2d-c943-08d7ca863e20
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 15:17:01.5497 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c46bcee2-6943-4da8-32d5-08d7ca863ed7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 15:17:02.7402 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OfajoGfi113be1Xhe8lZWSNk2ru5VKhBMuihfHztMfCFu9WxLaTDUZG3G4CklzESGLR1tC/jOc4K+ZtgpAmlrr9cgr8QR5Lr4nxwsIYvATc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NxpZSBKNp4ZnoxtYSlPKNLYekI0EX6AS1VWk3m7AwWXAWOP7No/TtBS+9bt/15lxTFQIap11pX/RAPmGZ1j3wWXNEBTTdtO163mktniJF0M=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2620
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 2a01:111:f400:fe0d::71f
@@ -109,9 +109,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -132,7 +131,7 @@ ERRP_AUTO_PROPAGATE macro, benefits are:
 
 This commit is generated by command
 
-    sed -n '/^virtio-9p$/,/^$/{s/^F: //p}' MAINTAINERS | \
+    sed -n '/^TPM$/,/^$/{s/^F: //p}' MAINTAINERS | \
     xargs git ls-files | grep '\.[hc]$' | \
     xargs spatch \
         --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
@@ -142,72 +141,71 @@ This commit is generated by command
 Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- hw/9pfs/9p-local.c | 12 +++++-------
- hw/9pfs/9p.c       |  1 +
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/tpm/tpm_util.c | 7 +++----
+ tpm.c             | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 54e012e5b4..0361e0c0b4 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1479,10 +1479,10 @@ static void error_append_security_model_hint(Error =
-*const *errp)
-=20
- static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **er=
-rp)
+diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+index c0a0f3d71f..66e0e0c7f3 100644
+--- a/hw/tpm/tpm_util.c
++++ b/hw/tpm/tpm_util.c
+@@ -47,8 +47,8 @@ static void get_tpm(Object *obj, Visitor *v, const char *=
+name, void *opaque,
+ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaqu=
+e,
+                     Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     const char *sec_model =3D qemu_opt_get(opts, "security_model");
-     const char *path =3D qemu_opt_get(opts, "path");
-     const char *multidevs =3D qemu_opt_get(opts, "multidevs");
+     DeviceState *dev =3D DEVICE(obj);
 -    Error *local_err =3D NULL;
-=20
-     if (!sec_model) {
-         error_setg(errp, "security_model property not set");
-@@ -1516,11 +1516,10 @@ static int local_parse_opts(QemuOpts *opts, FsDrive=
-rEntry *fse, Error **errp)
-             fse->export_flags &=3D ~V9FS_FORBID_MULTIDEVS;
-             fse->export_flags &=3D ~V9FS_REMAP_INODES;
-         } else {
--            error_setg(&local_err, "invalid multidevs property '%s'",
-+            error_setg(errp, "invalid multidevs property '%s'",
-                        multidevs);
--            error_append_hint(&local_err, "Valid options are: multidevs=3D=
-"
-+            error_append_hint(errp, "Valid options are: multidevs=3D"
-                               "[remap|forbid|warn]\n");
--            error_propagate(errp, local_err);
-             return -1;
-         }
-     }
-@@ -1530,9 +1529,8 @@ static int local_parse_opts(QemuOpts *opts, FsDriverE=
-ntry *fse, Error **errp)
-         return -1;
+     Property *prop =3D opaque;
+     TPMBackend *s, **be =3D qdev_get_prop_ptr(dev, prop);
+     char *str;
+@@ -58,9 +58,8 @@ static void set_tpm(Object *obj, Visitor *v, const char *=
+name, void *opaque,
+         return;
      }
 =20
--    if (fsdev_throttle_parse_opts(opts, &fse->fst, &local_err)) {
--        error_propagate_prepend(errp, local_err,
--                                "invalid throttle configuration: ");
-+    if (fsdev_throttle_parse_opts(opts, &fse->fst, errp)) {
-+        error_prepend(errp, "invalid throttle configuration: ");
-         return -1;
+-    visit_type_str(v, name, &str, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    visit_type_str(v, name, &str, errp);
++    if (*errp) {
+         return;
      }
 =20
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9e046f7acb..3aa6a57f3a 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -4023,6 +4023,7 @@ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr)
- int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
-                                Error **errp)
+diff --git a/tpm.c b/tpm.c
+index 9c9e20bbb7..359ebb7f68 100644
+--- a/tpm.c
++++ b/tpm.c
+@@ -81,11 +81,11 @@ TPMBackend *qemu_find_tpm_be(const char *id)
+=20
+ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int i, len;
-     struct stat stat;
-     FsDriverEntry *fse;
+     const char *value;
+     const char *id;
+     const TPMBackendClass *be;
+     TPMBackend *drv;
+-    Error *local_err =3D NULL;
+     int i;
+=20
+     if (!QLIST_EMPTY(&tpm_backends)) {
+@@ -116,9 +116,8 @@ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts,=
+ Error **errp)
+     }
+=20
+     /* validate backend specific opts */
+-    qemu_opts_validate(opts, be->opts, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_validate(opts, be->opts, errp);
++    if (*errp) {
+         return 1;
+     }
+=20
 --=20
 2.21.0
 
