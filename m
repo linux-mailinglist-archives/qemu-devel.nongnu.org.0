@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AE6188919
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:22:59 +0100 (CET)
-Received: from localhost ([::1]:34636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F1B18892E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 16:29:49 +0100 (CET)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEE3W-0002Lc-CX
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33193)
+	id 1jEEA8-0004l5-P4
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 11:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxl-0002oh-1M
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxl-0002pE-8v
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxi-0001R0-Iv
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:00 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jEDxj-0001aM-Hk
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:17:01 -0400
 Received: from mail-he1eur04on0718.outbound.protection.outlook.com
  ([2a01:111:f400:fe0d::718]:38692
  helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jEDxi-0001CE-5x; Tue, 17 Mar 2020 11:16:58 -0400
+ id 1jEDxj-0001CE-8o
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 11:16:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XyMBz/z+lRqNJ9btlpLsD2wOb8995wDG3lE7W81l8g2r+NJsn4dXR1bueGUWwDoAea1nIC6elrQpRP6dEuQiZSI0TLZtCpF4mdknNr6dqCmAuHLFhyBPesHxlxNIuka/5yAoCOleFmBhLop8Qup8gNlipG68qoEe8tSz8uaUh5h1RYUq7U3mMVLuCInU/WnYeuguujHyQYgUgLQXLIiLiwBg9xq3n+rgtdQxzXIwWvU7fkX7lO8N4s2mXJvTjejCqLiP2zg7WgPMPe721VyE4LNK6XUaIcDQGjGqTyIQGf1zMX409lUPL7tI6tS39QY29OO5P81m3q9Rui+8c//apw==
+ b=GUzaMurbVJCHONIutn6FVg1CKOst52OOCOhQ4RBmKUv5bEU7sLWTzJu2z033eliUNEc388RZPBN5zJ0rhEJMsLPoINqu8PCv4G7PI3CkcE5vLaoG5Ge6JmSQ0VWfRE/9DlmRT3FNBkh4UqoSQkg2t2Jclb5Liere2jDLmIAQf3Kp8Exoj3hXVM2hrYRTbBFmzcUGy7E+Xxj3ktAj1KmuR07mVQd1yPqSWDqZv5qeibfZRQiGdnLZbEEGhkYrAa+u+ejTFfnpBE7u/2WgKetngPaUbkNwBfb6/0yfIv40c7c5FWIU/I8nMOpqnycDlW0fY7b+eov4DMYInHAT+Si9sQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=geidpRKznJ30A50ug7yvS4fUAC8Dpy0mf3kSy7C5GVs=;
- b=hxMSNjCK1wGDGdanCCh0VNB764ETs1Cwenq8PysP6FIPTQ5xq2GreWLAcAuFjORnyt9gom5jGWTbBJt163WRg0k46rBEehjdgf/yBRmMIR+jTmnbFrss0iGmKR9gCOakxOUVJCd9jtdNwr1wBI5cM3ViPbDCEtMdZd/58E6l5y37EzlXdUwJkfaG2nOiv1DgDh/oYy6k2h6tHuRItO8dwuG307NIgQQnBWDvj7IvQ+XLhC8ePfjM1bomPrkmBxfHIsALvVy+sdL7vMLvYa0gqsP1NxMRY+nYwKAhVh1Z9Od/4ljKe+2VsBzw5tRT2xpCIUhWmi4cxfw0qy+RsxkIBA==
+ bh=3j106k9EKlyYw31jk7ZgZGTNbLs/5KHn4gp9c3MACwY=;
+ b=EZbzPJoWONsMgRl7KeReAzjlx79eRnGrWJI09WyWNKOTC2IRnhBbcge2/Q4pBy7FCiJ31d7Bp8GAYebIi3sEAjv5/pPtLw1zagiqJ7hlX95qcxxhwV7sYyrwjrmedY0Obdizl6uwkZ+XX8zF5Cw9xXSzho5i+Mwbfxevd/bF99DKQPRFOyupu46qoAicvt3yCMQbBkpUI8TvSFFCE1VOT8T1zHZMJRUwRxfFkwLms5paSuFhGDSMer3bkID2bgva7VpoXSKcNYu58moX/mbypNJB5zPnSISispCqXnNuJqcktIv1W93fK4tgKtctPvxjnLM9ePEqOiLsmdJbMq0SHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=geidpRKznJ30A50ug7yvS4fUAC8Dpy0mf3kSy7C5GVs=;
- b=Iy0n92SfLDaQUVzGY2hOwh65ImidroKCBeCkP+6T3lojQiyOv94NX8yxFuLerLzWPdu6gBUUdA795Nabx+v4Tf5P2GkmDWmb2lFzVdDXEck04Ci3V+vu02UN3EFktvktIQKN3QHGFB6jwrQaqXnvVl6YWQbJg8YA4aTjRPbcRfQ=
+ bh=3j106k9EKlyYw31jk7ZgZGTNbLs/5KHn4gp9c3MACwY=;
+ b=EnZH2f3cF4gLBA8RKYluF2zLrHo/DzeS/mJjdOC7foqoKMEYbR7QBNX/MFFDkUkvdHRhfTV5qDdukw502DyeLWWyZdMl2lnjKXJPP0sPE47J0eWqN4WcPwHHTGsSLr6hAZRG7JJtLd6dr/qV9npmHOla77MLMZ0GT7epdpesM3w=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com (10.175.35.136) by
  HE1PR0802MB2620.eurprd08.prod.outlook.com (10.175.36.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.21; Tue, 17 Mar 2020 15:16:54 +0000
+ 15.20.2814.21; Tue, 17 Mar 2020 15:16:58 +0000
 Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com
  ([fe80::4d32:e4e1:5b9f:240f]) by HE1PR0802MB2507.eurprd08.prod.outlook.com
  ([fe80::4d32:e4e1:5b9f:240f%12]) with mapi id 15.20.2814.021; Tue, 17 Mar
- 2020 15:16:54 +0000
+ 2020 15:16:58 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 1/9] error: auto propagated local_err
-Date: Tue, 17 Mar 2020 18:16:17 +0300
-Message-ID: <20200317151625.20797-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v10 3/9] SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
+Date: Tue, 17 Mar 2020 18:16:19 +0300
+Message-ID: <20200317151625.20797-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200317151625.20797-1-vsementsov@virtuozzo.com>
 References: <20200317151625.20797-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-ClientProxiedBy: AM0PR10CA0005.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:17c::15) To HE1PR0802MB2507.eurprd08.prod.outlook.com
  (2603:10a6:3:e1::8)
@@ -66,18 +67,18 @@ Received: from localhost.localdomain (185.215.60.248) by
  AM0PR10CA0005.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15 via Frontend
- Transport; Tue, 17 Mar 2020 15:16:52 +0000
+ Transport; Tue, 17 Mar 2020 15:16:56 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.248]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 539ae3f3-a216-4b90-693d-08d7ca8639e9
+X-MS-Office365-Filtering-Correlation-Id: fc883ae0-82fd-445c-5132-08d7ca863bda
 X-MS-TrafficTypeDiagnostic: HE1PR0802MB2620:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0802MB26200C63B207329CAAF0D472C1F60@HE1PR0802MB2620.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2620748174A6DAC13F696E34C1F60@HE1PR0802MB2620.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:156;
 X-Forefront-PRVS: 0345CFD558
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(39850400004)(376002)(136003)(346002)(366004)(396003)(199004)(66946007)(6666004)(30864003)(1076003)(66556008)(54906003)(66476007)(86362001)(6486002)(16526019)(5660300002)(6916009)(186003)(6506007)(52116002)(4326008)(81166006)(6512007)(81156014)(8676002)(8936002)(316002)(7416002)(2906002)(26005)(478600001)(956004)(36756003)(2616005);
+ SFS:(10019020)(4636009)(39850400004)(376002)(136003)(346002)(366004)(396003)(199004)(66946007)(6666004)(1076003)(66556008)(54906003)(66476007)(86362001)(6486002)(16526019)(5660300002)(6916009)(186003)(69590400007)(6506007)(52116002)(4326008)(81166006)(6512007)(81156014)(8676002)(8936002)(316002)(2906002)(26005)(478600001)(956004)(36756003)(2616005);
  DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0802MB2620;
  H:HE1PR0802MB2507.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; 
@@ -85,15 +86,15 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zi4EwamTi7mTr4MNREbSTJwyhTXFoK86BJstsgcPhCOz/WWrQBXEvNHDoAISIsF0M5ZhBjYFDs/A++NTI/Pc98H5j4TjrfcvO8ax888RqEKYtEHB64TBJ6+48keudRlVz/n1VWeTv3CALAzg26/FEHpFeF9jWoImSNeW/dGCs+B+jUnNwhUamnoQmOQt00C4mG2C9eOxVtv/S2/StDQTWGG5UJlkyzDpKxGzfdmljLrgEvXA3vpBiON2lAlTGuOiZx/P1UoQ0sUGmwG2PA3HbEHCI+0q7n10NPx6mW5Dv9uLfz3i96/ryhDJnUdjd+QJ1b5aVZ53VFY1xcS5/j0S4GabyDLfvQd/Td6jAxriomTOiZdiuEB7H/yYzuJyo3H5ZIgejpIER5ATaMM2qDRdRNNEKRE2ZE2UJpmQedbykWWb9iIK2D5CmonLatI5OxgM
-X-MS-Exchange-AntiSpam-MessageData: 5ntmn/kSFPsbLUL6ZhtmUbU2ysCHbCv415PB6w5/YOnFXbtWAoGt2l9BRRTUlNXHZRAP9Fsg7WtT20WbL5W8D6y/1ZIJmTm7H+kgYBvFln3LG1Hb7n0icpKDfdT343g9MQ+MkooO3obpEKB8idFaDA==
+X-Microsoft-Antispam-Message-Info: KA8yngjKwceDqyFpD91l9l/hO/vsHs057NFVsaVfJils0j8yQQdom0irq+JH8AvILGIiTw2XgHNJLak0ilqiJyiMeZbYJl2S8896GBK5MF+Sbg786XM6NlonK7WDIa7hjS+4LnhocoA7tcoDWAYLo+cSTD1aXOorq0xAx/BgWckY+40FEOyOtVVpJcTaxUcd7YxAn+LuBUGCk+INwrlar8V6ja9U2LfS8G52NEcjja69QycO0F8hac7bDZpddxx7cVjjjtXclf+otgA9IDJ0Er3Upbvum+LBPOiYv1A20fGm8CH3sLq/hA4s+tfEA8GvyukAur/Aow1xSGWEHI9yI0/M5pmHDIJ73OdT8naCrl4xtXwm5cC78+XaJMKWvuI8xcgCoFncYVJp5SeqQ6rl2KFdJwDEojDKy+r9xag1Qi6e0vl+lxjsiGPLEogcZ3Uag3m5wcb6Yq8uIztDLDQaswQNtiHvO3ANpS/91B5gE4ZiTdh9qhz038+ottAG8ej8
+X-MS-Exchange-AntiSpam-MessageData: dHX5WTbpw0Za30vKnIfuOuu5IdERtRnmQcvPigXuw+xl7pCHYpbyMtGwI4C6S10343dHNZUycmjW/yuX88w9EB5BHBW6HwXqCir6J0dgdhr4nkm/fzzZ3onQHmtloimRTmQq7ptgqx5cHK+3TuShNg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 539ae3f3-a216-4b90-693d-08d7ca8639e9
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 15:16:54.5349 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc883ae0-82fd-445c-5132-08d7ca863bda
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 15:16:57.8934 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aZ50MhjOFu7oxN8ZM8fyztsbUtWxxi9Sg1SOb+k8GduYFai9QtXBc7FUFE8gBRUVs83RrBkkerKu6kmRyPSjQ+tK1azepHoDhaM+CdcFmdA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HBnXhpuUNYA9BMHhNXOodC/vXvExKMhZn0X+Nw795chCVpQ5KbBo1i/q8Cw1npeIXlywy9RxSWK67kjtxsjDA7iiWe1Ob5M0ntPw+gQTMNw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2620
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 2a01:111:f400:fe0d::718
@@ -109,348 +110,176 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- armbru@redhat.com, Stefano Stabellini <sstabellini@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new ERRP_AUTO_PROPAGATE macro, to be used at start of
-functions with an errp OUT parameter.
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp =3D=3D &error_fatal
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
 
-It has three goals:
+If we want to check error after errp-function call, we need to
+introduce local_err and then propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatal, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
 
-1. Fix issue with error_fatal and error_prepend/error_append_hint: user
-can't see this additional information, because exit() happens in
-error_setg earlier than information is added. [Reported by Greg Kurz]
+This commit is generated by command
 
-2. Fix issue with error_abort and error_propagate: when we wrap
-error_abort by local_err+error_propagate, the resulting coredump will
-refer to error_propagate and not to the place where error happened.
-(the macro itself doesn't fix the issue, but it allows us to [3.] drop
-the local_err+error_propagate pattern, which will definitely fix the
-issue) [Reported by Kevin Wolf]
+    sed -n '/^SD (Secure Card)$/,/^$/{s/^F: //p}' \
+        MAINTAINERS | \
+    xargs git ls-files | grep '\.[hc]$' | \
+    xargs spatch \
+        --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+        --macro-file scripts/cocci-macro-file.h \
+        --in-place --no-show-diff --max-width 80
 
-3. Drop local_err+error_propagate pattern, which is used to workaround
-void functions with errp parameter, when caller wants to know resulting
-status. (Note: actually these functions could be merely updated to
-return int error code).
-
-To achieve these goals, later patches will add invocations
-of this macro at the start of functions with either use
-error_prepend/error_append_hint (solving 1) or which use
-local_err+error_propagate to check errors, switching those
-functions to use *errp instead (solving 2 and 3).
-
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
+ hw/sd/sdhci-pci.c |  7 +++----
+ hw/sd/sdhci.c     | 21 +++++++++------------
+ hw/sd/ssi-sd.c    | 16 ++++++++--------
+ 3 files changed, 20 insertions(+), 24 deletions(-)
 
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-Cc: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-Cc: xen-devel@lists.xenproject.org
-
- include/qapi/error.h | 205 ++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 173 insertions(+), 32 deletions(-)
-
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index ad5b6e896d..30140d9bfe 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -15,6 +15,8 @@
- /*
-  * Error reporting system loosely patterned after Glib's GError.
-  *
-+ * =3D Deal with Error object =3D
-+ *
-  * Create an error:
-  *     error_setg(&err, "situation normal, all fouled up");
-  *
-@@ -47,28 +49,91 @@
-  * reporting it (primarily useful in testsuites):
-  *     error_free_or_abort(&err);
-  *
-- * Pass an existing error to the caller:
-- *     error_propagate(errp, err);
-- * where Error **errp is a parameter, by convention the last one.
-+ * =3D Deal with Error ** function parameter =3D
-  *
-- * Pass an existing error to the caller with the message modified:
-- *     error_propagate_prepend(errp, err);
-+ * A function may use the error system to return errors. In this case, the
-+ * function defines an Error **errp parameter, by convention the last one =
-(with
-+ * exceptions for functions using ... or va_list).
-  *
-- * Avoid
-- *     error_propagate(errp, err);
-- *     error_prepend(errp, "Could not frobnicate '%s': ", name);
-- * because this fails to prepend when @errp is &error_fatal.
-+ * The caller may then pass in the following errp values:
-  *
-- * Create a new error and pass it to the caller:
-+ * 1. &error_abort
-+ *    Any error will result in abort().
-+ * 2. &error_fatal
-+ *    Any error will result in exit() with a non-zero status.
-+ * 3. NULL
-+ *    No error reporting through errp parameter.
-+ * 4. The address of a NULL-initialized Error *err
-+ *    Any error will populate errp with an error object.
-+ *
-+ * The following rules then implement the correct semantics desired by the
-+ * caller.
-+ *
-+ * Create a new error to pass to the caller:
-  *     error_setg(errp, "situation normal, all fouled up");
-  *
-- * Call a function and receive an error from it:
-+ * Calling another errp-based function:
-+ *     f(..., errp);
-+ *
-+ * =3D=3D Checking success of subcall =3D=3D
-+ *
-+ * If a function returns a value indicating an error in addition to settin=
-g
-+ * errp (which is recommended), then you don't need any additional code, j=
-ust
-+ * do:
-+ *
-+ *     int ret =3D f(..., errp);
-+ *     if (ret < 0) {
-+ *         ... handle error ...
-+ *         return ret;
-+ *     }
-+ *
-+ * If a function returns nothing (not recommended for new code), the only =
-way
-+ * to check success is by consulting errp; doing this safely requires the =
-use
-+ * of the ERRP_AUTO_PROPAGATE macro, like this:
-+ *
-+ *     int our_func(..., Error **errp) {
-+ *         ERRP_AUTO_PROPAGATE();
-+ *         ...
-+ *         subcall(..., errp);
-+ *         if (*errp) {
-+ *             ...
-+ *             return -EINVAL;
-+ *         }
-+ *         ...
-+ *     }
-+ *
-+ * ERRP_AUTO_PROPAGATE takes care of wrapping the original errp as needed,=
- so
-+ * that the rest of the function can directly use errp (including
-+ * dereferencing), where any errors will then be propagated on to the orig=
-inal
-+ * errp when leaving the function.
-+ *
-+ * In some cases, we need to check result of subcall, but do not want to
-+ * propagate the Error object to our caller. In such cases we don't need
-+ * ERRP_AUTO_PROPAGATE, but just a local Error object:
-+ *
-+ * Receive an error and not pass it:
-  *     Error *err =3D NULL;
-- *     foo(arg, &err);
-+ *     subcall(arg, &err);
-  *     if (err) {
-  *         handle the error...
-+ *         error_free(err);
-  *     }
-  *
-+ * Note that older code that did not use ERRP_AUTO_PROPAGATE would instead=
- need
-+ * a local Error * variable and the use of error_propagate() to properly h=
-andle
-+ * all possible caller values of errp. Now this is DEPRECATED* (see below)=
-.
-+ *
-+ * Note that any function that wants to modify an error object, such as by
-+ * calling error_append_hint or error_prepend, must use ERRP_AUTO_PROPAGAT=
-E, in
-+ * order for a caller's use of &error_fatal to see the additional informat=
-ion.
-+ *
-+ * In rare cases, we need to pass existing Error object to the caller by h=
-and:
-+ *     error_propagate(errp, err);
-+ *
-+ * Pass an existing error to the caller with the message modified:
-+ *     error_propagate_prepend(errp, err);
-+ *
-+ *
-  * Call a function ignoring errors:
-  *     foo(arg, NULL);
-  *
-@@ -78,26 +143,6 @@
-  * Call a function treating errors as fatal:
-  *     foo(arg, &error_fatal);
-  *
-- * Receive an error and pass it on to the caller:
-- *     Error *err =3D NULL;
-- *     foo(arg, &err);
-- *     if (err) {
-- *         handle the error...
-- *         error_propagate(errp, err);
-- *     }
-- * where Error **errp is a parameter, by convention the last one.
-- *
-- * Do *not* "optimize" this to
-- *     foo(arg, errp);
-- *     if (*errp) { // WRONG!
-- *         handle the error...
-- *     }
-- * because errp may be NULL!
-- *
-- * But when all you do with the error is pass it on, please use
-- *     foo(arg, errp);
-- * for readability.
-- *
-  * Receive and accumulate multiple errors (first one wins):
-  *     Error *err =3D NULL, *local_err =3D NULL;
-  *     foo(arg, &err);
-@@ -114,6 +159,61 @@
-  *         handle the error...
-  *     }
-  * because this may pass a non-null err to bar().
-+ *
-+ * DEPRECATED*
-+ *
-+ * The following pattern of receiving, checking, and then forwarding an er=
-ror
-+ * to the caller by hand is now deprecated:
-+ *
-+ *     Error *err =3D NULL;
-+ *     foo(arg, &err);
-+ *     if (err) {
-+ *         handle the error...
-+ *         error_propagate(errp, err);
-+ *     }
-+ *
-+ * Instead, use ERRP_AUTO_PROPAGATE macro.
-+ *
-+ * The old pattern is deprecated because of two things:
-+ *
-+ * 1. Issue with error_abort and error_propagate: when we wrap error_abort=
- by
-+ * local_err+error_propagate, the resulting coredump will refer to
-+ * error_propagate and not to the place where error happened.
-+ *
-+ * 2. A lot of extra code of the same pattern
-+ *
-+ * How to update old code to use ERRP_AUTO_PROPAGATE?
-+ *
-+ * All you need is to add ERRP_AUTO_PROPAGATE() invocation at function sta=
-rt,
-+ * than you may safely dereference errp to check errors and do not need an=
-y
-+ * additional local Error variables or calls to error_propagate().
-+ *
-+ * Example:
-+ *
-+ * old code
-+ *
-+ *     void fn(..., Error **errp) {
-+ *         Error *err =3D NULL;
-+ *         foo(arg, &err);
-+ *         if (err) {
-+ *             handle the error...
-+ *             error_propagate(errp, err);
-+ *             return;
-+ *         }
-+ *         ...
-+ *     }
-+ *
-+ * updated code
-+ *
-+ *     void fn(..., Error **errp) {
-+ *         ERRP_AUTO_PROPAGATE();
-+ *         foo(arg, errp);
-+ *         if (*errp) {
-+ *             handle the error...
-+ *             return;
-+ *         }
-+ *         ...
-+ *     }
-  */
+diff --git a/hw/sd/sdhci-pci.c b/hw/sd/sdhci-pci.c
+index 19fa8bd8ed..ceaf3ea35b 100644
+--- a/hw/sd/sdhci-pci.c
++++ b/hw/sd/sdhci-pci.c
+@@ -29,13 +29,12 @@ static Property sdhci_pci_properties[] =3D {
 =20
- #ifndef ERROR_H
-@@ -322,6 +422,47 @@ void error_set_internal(Error **errp,
-                         ErrorClass err_class, const char *fmt, ...)
-     GCC_FMT_ATTR(6, 7);
+ static void sdhci_pci_realize(PCIDevice *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SDHCIState *s =3D PCI_SDHCI(dev);
+-    Error *local_err =3D NULL;
 =20
-+typedef struct ErrorPropagator {
-+    Error *local_err;
-+    Error **errp;
-+} ErrorPropagator;
-+
-+static inline void error_propagator_cleanup(ErrorPropagator *prop)
-+{
-+    error_propagate(prop->errp, prop->local_err);
-+}
-+
-+G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup=
-);
-+
-+/*
-+ * ERRP_AUTO_PROPAGATE
-+ *
-+ * This macro exists to assist with proper error handling in a function wh=
-ich
-+ * uses an Error **errp parameter.  It must be used as the first line of a
-+ * function which modifies an error (with error_prepend, error_append_hint=
-, or
-+ * similar) or which wants to dereference *errp.  It is still safe (but
-+ * useless) to use in other functions.
-+ *
-+ * If errp is NULL or points to error_fatal, it is rewritten to point to a
-+ * local Error object, which will be automatically propagated to the origi=
-nal
-+ * errp on function exit (see error_propagator_cleanup).
-+ *
-+ * After invocation of this macro it is always safe to dereference errp
-+ * (as it's not NULL anymore) and to add information by error_prepend or
-+ * error_append_hint (as, if it was error_fatal, we swapped it with a
-+ * local_error to be propagated on cleanup).
-+ *
-+ * Note: we don't wrap the error_abort case, as we want resulting coredump
-+ * to point to the place where the error happened, not to error_propagate.
-+ */
-+#define ERRP_AUTO_PROPAGATE() \
-+    g_auto(ErrorPropagator) _auto_errp_prop =3D {.errp =3D errp}; \
-+    do { \
-+        if (!errp || errp =3D=3D &error_fatal) { \
-+            errp =3D &_auto_errp_prop.local_err; \
-+        } \
-+    } while (0)
-+
- /*
-  * Special error destination to abort on error.
-  * See error_setg() and error_propagate() for details.
+     sdhci_initfn(s);
+-    sdhci_common_realize(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_common_realize(s, errp);
++    if (*errp) {
+         return;
+     }
+=20
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index de63ffb037..c25ac3c099 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1288,7 +1288,7 @@ static const MemoryRegionOps sdhci_mmio_ops =3D {
+=20
+ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
+ {
+-    Error *local_err =3D NULL;
++    ERRP_AUTO_PROPAGATE();
+=20
+     switch (s->sd_spec_version) {
+     case 2 ... 3:
+@@ -1299,9 +1299,8 @@ static void sdhci_init_readonly_registers(SDHCIState =
+*s, Error **errp)
+     }
+     s->version =3D (SDHC_HCVER_VENDOR << 8) | (s->sd_spec_version - 1);
+=20
+-    sdhci_check_capareg(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_check_capareg(s, errp);
++    if (*errp) {
+         return;
+     }
+ }
+@@ -1332,11 +1331,10 @@ void sdhci_uninitfn(SDHCIState *s)
+=20
+ void sdhci_common_realize(SDHCIState *s, Error **errp)
+ {
+-    Error *local_err =3D NULL;
++    ERRP_AUTO_PROPAGATE();
+=20
+-    sdhci_init_readonly_registers(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_init_readonly_registers(s, errp);
++    if (*errp) {
+         return;
+     }
+     s->buf_maxsz =3D sdhci_get_fifolen(s);
+@@ -1456,13 +1454,12 @@ static void sdhci_sysbus_finalize(Object *obj)
+=20
+ static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SDHCIState *s =3D SYSBUS_SDHCI(dev);
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+-    Error *local_err =3D NULL;
+=20
+-    sdhci_common_realize(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_common_realize(s, errp);
++    if (*errp) {
+         return;
+     }
+=20
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 829797b597..bc44e1a0f5 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -241,10 +241,10 @@ static const VMStateDescription vmstate_ssi_sd =3D {
+=20
+ static void ssi_sd_realize(SSISlave *d, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     ssi_sd_state *s =3D FROM_SSI_SLAVE(ssi_sd_state, d);
+     DeviceState *carddev;
+     DriveInfo *dinfo;
+-    Error *err =3D NULL;
+=20
+     qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
+                         DEVICE(d), "sd-bus");
+@@ -254,26 +254,26 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
+     dinfo =3D drive_get_next(IF_SD);
+     carddev =3D qdev_create(BUS(&s->sdbus), TYPE_SD_CARD);
+     if (dinfo) {
+-        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo), =
+&err);
+-        if (err) {
++        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo), =
+errp);
++        if (*errp) {
+             goto fail;
+         }
+     }
+=20
+-    object_property_set_bool(OBJECT(carddev), true, "spi", &err);
+-    if (err) {
++    object_property_set_bool(OBJECT(carddev), true, "spi", errp);
++    if (*errp) {
+         goto fail;
+     }
+=20
+-    object_property_set_bool(OBJECT(carddev), true, "realized", &err);
+-    if (err) {
++    object_property_set_bool(OBJECT(carddev), true, "realized", errp);
++    if (*errp) {
+         goto fail;
+     }
+=20
+     return;
+=20
+ fail:
+-    error_propagate_prepend(errp, err, "failed to init SD card: ");
++    error_prepend(errp, "failed to init SD card: ");
+ }
+=20
+ static void ssi_sd_reset(DeviceState *dev)
 --=20
 2.21.0
 
