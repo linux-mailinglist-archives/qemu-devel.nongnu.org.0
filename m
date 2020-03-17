@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0030A18788B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 05:42:49 +0100 (CET)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E7187894
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 05:46:05 +0100 (CET)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jE441-0006pe-1e
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 00:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52143)
+	id 1jE47A-0002gX-3j
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 00:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jE40I-00016x-Ji
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:38:59 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jE40L-0001GM-5A
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:39:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jE40H-0000Q0-9p
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:38:58 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33138)
+ (envelope-from <jsnow@redhat.com>) id 1jE40J-0000XD-Vd
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:39:01 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:29987)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jE40H-0000Ni-5b
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:38:57 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jE40J-0000Wp-Py
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 00:38:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584419936;
+ s=mimecast20190719; t=1584419939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7S4pvEvRq43tAOJ+VoWTNYoKkV9GHiGO1EgDeCec5QM=;
- b=E3NzlhTcUsN6PEIlkCfUM5EPpoAxCHen84PW92j2wsNoHlQDMV/T/O/6fSNKvYEerkrQ/w
- ZoyPw5E8aM5t7L7xXNWnBf/Rn67BR9qn2FWkNPr5Gk9BtEPYFzLM4AepR2dDfEiUuxCUnO
- teqxZ067Hx0RMB5XfuGOT5M4hIRDl/8=
+ bh=JHxH1i/K0GH7hBo2Xl83uRZs9D8rNYlhtL+6rGnwWgY=;
+ b=UlUH/jMmz9Ko2VcbbuR1wlzsy5Z0S1rymI9XnyijJOe2MJZSTj8RYIP0wDtS2WctUr9H83
+ C3dXlor9iDVTG31B652PP8ySRGhkh57KepJLgWCSBp6ZGq9sQqLVV9LLLcdIc9cwROIeZf
+ G8QqnGh6K+HlmsM+Rp9rWPWfIXBv24Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-lNV5h5bYONCQ9h5D63ffdg-1; Tue, 17 Mar 2020 00:38:54 -0400
-X-MC-Unique: lNV5h5bYONCQ9h5D63ffdg-1
+ us-mta-395-dMdC7dGiOkOPkypOnnsRzA-1; Tue, 17 Mar 2020 00:38:57 -0400
+X-MC-Unique: dMdC7dGiOkOPkypOnnsRzA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E8751005516;
- Tue, 17 Mar 2020 04:38:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85DF9107ACC7;
+ Tue, 17 Mar 2020 04:38:55 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D7CD1009ABB;
- Tue, 17 Mar 2020 04:38:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96D9A10016EB;
+ Tue, 17 Mar 2020 04:38:53 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  jsnow@redhat.com
-Subject: [PULL 09/10] nbd/server: use bdrv_dirty_bitmap_next_dirty_area
-Date: Tue, 17 Mar 2020 00:38:18 -0400
-Message-Id: <20200317043819.20197-10-jsnow@redhat.com>
+Subject: [PULL 10/10] block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty
+Date: Tue, 17 Mar 2020 00:38:19 -0400
+Message-Id: <20200317043819.20197-11-jsnow@redhat.com>
 In-Reply-To: <20200317043819.20197-1-jsnow@redhat.com>
 References: <20200317043819.20197-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,114 +82,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Use bdrv_dirty_bitmap_next_dirty_area for bitmap_to_extents. Since
-bdrv_dirty_bitmap_next_dirty_area is very accurate in its interface,
-we'll never exceed requested region with last chunk. So, we don't need
-dont_fragment, and bitmap_to_extents() interface becomes clean enough
-to not require any comment.
+store_bitmap_data() loop does bdrv_set_dirty_iter() on each iteration,
+which means that we actually don't need iterator itself and we can use
+simpler bitmap API.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20200205112041.6003-10-vsementsov@virtuozzo.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20200205112041.6003-11-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- nbd/server.c | 59 +++++++++++++++++-----------------------------------
- 1 file changed, 19 insertions(+), 40 deletions(-)
+ block/qcow2-bitmap.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index f90bb33a75..02b1ed0801 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2068,57 +2068,36 @@ static int nbd_co_send_block_status(NBDClient *clie=
-nt, uint64_t handle,
-     return nbd_co_send_extents(client, handle, ea, last, context_id, errp)=
-;
- }
-=20
--/*
-- * Populate @ea from a dirty bitmap. Unless @dont_fragment, the
-- * final extent may exceed the original @length.
-- */
-+/* Populate @ea from a dirty bitmap. */
- static void bitmap_to_extents(BdrvDirtyBitmap *bitmap,
-                               uint64_t offset, uint64_t length,
--                              NBDExtentArray *ea, bool dont_fragment)
-+                              NBDExtentArray *es)
- {
--    uint64_t begin =3D offset, end =3D offset;
--    uint64_t overall_end =3D offset + length;
--    BdrvDirtyBitmapIter *it;
--    bool dirty;
-+    int64_t start, dirty_start, dirty_count;
-+    int64_t end =3D offset + length;
-+    bool full =3D false;
-=20
-     bdrv_dirty_bitmap_lock(bitmap);
-=20
--    it =3D bdrv_dirty_iter_new(bitmap);
--    dirty =3D bdrv_dirty_bitmap_get_locked(bitmap, offset);
--
--    while (begin < overall_end) {
--        bool next_dirty =3D !dirty;
--
--        if (dirty) {
--            end =3D bdrv_dirty_bitmap_next_zero(bitmap, begin, INT64_MAX);
--        } else {
--            bdrv_set_dirty_iter(it, begin);
--            end =3D bdrv_dirty_iter_next(it);
--        }
--        if (end =3D=3D -1 || end - begin > UINT32_MAX) {
--            /* Cap to an aligned value < 4G beyond begin. */
--            end =3D MIN(bdrv_dirty_bitmap_size(bitmap),
--                      begin + UINT32_MAX + 1 -
--                      bdrv_dirty_bitmap_granularity(bitmap));
--            next_dirty =3D dirty;
--        }
--        if (dont_fragment && end > overall_end) {
--            end =3D overall_end;
--        }
--
--        if (nbd_extent_array_add(ea, end - begin,
--                                 dirty ? NBD_STATE_DIRTY : 0) < 0) {
-+    for (start =3D offset;
-+         bdrv_dirty_bitmap_next_dirty_area(bitmap, start, end, INT32_MAX,
-+                                           &dirty_start, &dirty_count);
-+         start =3D dirty_start + dirty_count)
-+    {
-+        if ((nbd_extent_array_add(es, dirty_start - start, 0) < 0) ||
-+            (nbd_extent_array_add(es, dirty_count, NBD_STATE_DIRTY) < 0))
-+        {
-+            full =3D true;
-             break;
-         }
--        begin =3D end;
--        dirty =3D next_dirty;
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 8cccc2c9f3..cb06954b4a 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1288,7 +1288,6 @@ static uint64_t *store_bitmap_data(BlockDriverState *=
+bs,
+     uint64_t bm_size =3D bdrv_dirty_bitmap_size(bitmap);
+     const char *bm_name =3D bdrv_dirty_bitmap_name(bitmap);
+     uint8_t *buf =3D NULL;
+-    BdrvDirtyBitmapIter *dbi;
+     uint64_t *tb;
+     uint64_t tb_size =3D
+             size_to_clusters(s,
+@@ -1307,12 +1306,14 @@ static uint64_t *store_bitmap_data(BlockDriverState=
+ *bs,
+         return NULL;
      }
 =20
--    bdrv_dirty_iter_free(it);
-+    if (!full) {
-+        /* last non dirty extent */
-+        nbd_extent_array_add(es, end - start, 0);
-+    }
+-    dbi =3D bdrv_dirty_iter_new(bitmap);
+     buf =3D g_malloc(s->cluster_size);
+     limit =3D bytes_covered_by_bitmap_cluster(s, bitmap);
+     assert(DIV_ROUND_UP(bm_size, limit) =3D=3D tb_size);
 =20
-     bdrv_dirty_bitmap_unlock(bitmap);
+-    while ((offset =3D bdrv_dirty_iter_next(dbi)) >=3D 0) {
++    offset =3D 0;
++    while ((offset =3D bdrv_dirty_bitmap_next_dirty(bitmap, offset, INT64_=
+MAX))
++           >=3D 0)
++    {
+         uint64_t cluster =3D offset / limit;
+         uint64_t end, write_size;
+         int64_t off;
+@@ -1355,23 +1356,17 @@ static uint64_t *store_bitmap_data(BlockDriverState=
+ *bs,
+             goto fail;
+         }
+=20
+-        if (end >=3D bm_size) {
+-            break;
+-        }
 -
--    assert(offset < end);
- }
+-        bdrv_set_dirty_iter(dbi, end);
++        offset =3D end;
+     }
 =20
- static int nbd_co_send_bitmap(NBDClient *client, uint64_t handle,
-@@ -2129,7 +2108,7 @@ static int nbd_co_send_bitmap(NBDClient *client, uint=
-64_t handle,
-     unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_E=
-XTENTS;
-     g_autoptr(NBDExtentArray) ea =3D nbd_extent_array_new(nb_extents);
+     *bitmap_table_size =3D tb_size;
+     g_free(buf);
+-    bdrv_dirty_iter_free(dbi);
 =20
--    bitmap_to_extents(bitmap, offset, length, ea, dont_fragment);
-+    bitmap_to_extents(bitmap, offset, length, ea);
+     return tb;
 =20
-     return nbd_co_send_extents(client, handle, ea, last, context_id, errp)=
-;
- }
+ fail:
+     clear_bitmap_table(bs, tb, tb_size);
+     g_free(buf);
+-    bdrv_dirty_iter_free(dbi);
+     g_free(tb);
+=20
+     return NULL;
 --=20
 2.21.1
 
