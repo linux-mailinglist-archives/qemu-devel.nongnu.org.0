@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B83B188379
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:16:33 +0100 (CET)
-Received: from localhost ([::1]:60080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B8F1882CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Mar 2020 13:01:08 +0100 (CET)
+Received: from localhost ([::1]:59702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEB96-0002hU-JC
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
+	id 1jEAuB-00085B-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 08:01:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEAop-0000Da-JI
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:36 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEAoV-000831-Ki
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEAoo-0008Bh-6j
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:35 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25018)
+ (envelope-from <armbru@redhat.com>) id 1jEAoU-0006K7-22
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52802)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEAoo-00088A-1G
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:34 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEAoT-0006H3-Sl
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 07:55:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584446133;
+ s=mimecast20190719; t=1584446113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bBypn0WmvXJtvIQptVIylzIgB0vIczmMxB341Fjd2io=;
- b=WDw3FaX2cOEeeQ5pzJ1THgWWcFhVKYz7sVOIRnimLhny3xpr4vNSw8hkD33OMKQOeTjB2a
- RiSq4Qa1Q4LKzqlQ3ysIK06R4CDhu3fJ9FYRKQfZnknOXoBaMy6S8psgrBbCl+yW3OZk0X
- hDog3fY8p2edomstcwC/ln+hVwb/EjM=
+ bh=deHWtMLcOFVqmfety9mvhUjyvqnRYqCfdMv/VU5iTRQ=;
+ b=ZqrjliA070QOckY++isPr0JQ3F/3I4iX/Am2EFesZuNyiyFS8Pctr2z10uI7KZ4ClXKJkm
+ PZXQUyE8+B2coU8dES4fbt6cHseybl+pJZAGdaUVuDHJ9slSzowPEiMeppaXflJ3T7gDhv
+ CgLz+yCurkzW5RDCI3cnJOJ9mmNPT7w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170--MrmuDgPOx6XBG97CtHW5g-1; Tue, 17 Mar 2020 07:55:18 -0400
-X-MC-Unique: -MrmuDgPOx6XBG97CtHW5g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-363-cL444LzyOvCr-0-BUk0Clg-1; Tue, 17 Mar 2020 07:55:12 -0400
+X-MC-Unique: cL444LzyOvCr-0-BUk0Clg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6527E8024F4;
- Tue, 17 Mar 2020 11:55:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB7CA1034B05;
+ Tue, 17 Mar 2020 11:55:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
  [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B257E92D5C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3CCB9129A;
  Tue, 17 Mar 2020 11:55:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 432191135A56; Tue, 17 Mar 2020 12:55:00 +0100 (CET)
+ id 47C831135A59; Tue, 17 Mar 2020 12:55:00 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/34] qapi/introspect: Factor out _make_tree()
-Date: Tue, 17 Mar 2020 12:54:40 +0100
-Message-Id: <20200317115459.31821-16-armbru@redhat.com>
+Subject: [PATCH v4 16/34] qapi/schema: Change _make_features() to a take
+ feature list
+Date: Tue, 17 Mar 2020 12:54:41 +0100
+Message-Id: <20200317115459.31821-17-armbru@redhat.com>
 In-Reply-To: <20200317115459.31821-1-armbru@redhat.com>
 References: <20200317115459.31821-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,123 +74,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: marcandre.lureau@gmail.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The value of @qmp_schema_qlit is generated from an expression tree.
-Tree nodes are created in several places.  Factor out the common code
-into _make_tree().  This isn't much of a win now.  It will pay off
-when we add feature flags in the next few commits.
+QAPISchema._make_features() takes a definition expression, and
+extracts its 'features' member.  The other ._make_FOO() leave
+destructuring expressions to their callers.  Change ._make_features()
+to match them.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- scripts/qapi/introspect.py | 44 +++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 20 deletions(-)
+ scripts/qapi/schema.py | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index e4fc9d90f1..a3fa9865db 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -16,6 +16,18 @@ from qapi.schema import (QAPISchemaArrayType, QAPISchema=
-BuiltinType,
-                          QAPISchemaType)
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 958756ecd6..4d8ad67303 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -904,8 +904,9 @@ class QAPISchema:
+         self._def_entity(QAPISchemaEnumType('QType', None, None, None, Non=
+e,
+                                             qtype_values, 'QTYPE'))
 =20
+-    def _make_features(self, expr, info):
+-        features =3D expr.get('features', [])
++    def _make_features(self, features, info):
++        if features is None:
++            return []
+         return [QAPISchemaFeature(f['name'], info, f.get('if'))
+                 for f in features]
 =20
-+def _make_tree(obj, ifcond, features, extra=3DNone):
-+    if extra is None:
-+        extra =3D {}
-+    if ifcond:
-+        extra['if'] =3D ifcond
-+    if features:
-+        obj['features'] =3D [(f.name, {'if': f.ifcond}) for f in features]
-+    if extra:
-+        return (obj, extra)
-+    return obj
-+
-+
- def _tree_to_qlit(obj, level=3D0, suppress_first_indent=3DFalse):
-=20
-     def indent(level):
-@@ -146,47 +158,38 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-         return self._name(typ.name)
-=20
-     def _gen_tree(self, name, mtype, obj, ifcond, features):
--        extra =3D {}
-+        extra =3D None
-         if mtype not in ('command', 'event', 'builtin', 'array'):
-             if not self._unmask:
-                 # Output a comment to make it easy to map masked names
-                 # back to the source when reading the generated output.
--                extra['comment'] =3D '"%s" =3D %s' % (self._name(name), na=
-me)
-+                extra =3D {'comment': '"%s" =3D %s' % (self._name(name), n=
-ame)}
-             name =3D self._name(name)
-         obj['name'] =3D name
-         obj['meta-type'] =3D mtype
--        if features:
--            obj['features'] =3D [(f.name, {'if': f.ifcond}) for f in featu=
-res]
--        if ifcond:
--            extra['if'] =3D ifcond
--        if extra:
--            self._trees.append((obj, extra))
--        else:
--            self._trees.append(obj)
-+        self._trees.append(_make_tree(obj, ifcond, features, extra))
-=20
-     def _gen_member(self, member):
--        ret =3D {'name': member.name, 'type': self._use_type(member.type)}
-+        obj =3D {'name': member.name, 'type': self._use_type(member.type)}
-         if member.optional:
--            ret['default'] =3D None
--        if member.ifcond:
--            ret =3D (ret, {'if': member.ifcond})
--        return ret
-+            obj['default'] =3D None
-+        return _make_tree(obj, member.ifcond, None)
-=20
-     def _gen_variants(self, tag_name, variants):
-         return {'tag': tag_name,
-                 'variants': [self._gen_variant(v) for v in variants]}
-=20
-     def _gen_variant(self, variant):
--        return ({'case': variant.name, 'type': self._use_type(variant.type=
-)},
--                {'if': variant.ifcond})
-+        obj =3D {'case': variant.name, 'type': self._use_type(variant.type=
-)}
-+        return _make_tree(obj, variant.ifcond, None)
-=20
-     def visit_builtin_type(self, name, info, json_type):
-         self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None=
-)
-=20
-     def visit_enum_type(self, name, info, ifcond, features, members, prefi=
-x):
-         self._gen_tree(name, 'enum',
--                       {'values':
--                        [(m.name, {'if': m.ifcond}) for m in members]},
-+                       {'values': [_make_tree(m.name, m.ifcond, None)
-+                                   for m in members]},
-                        ifcond, features)
-=20
-     def visit_array_type(self, name, info, ifcond, element_type):
-@@ -206,7 +209,8 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-     def visit_alternate_type(self, name, info, ifcond, features, variants)=
-:
-         self._gen_tree(name, 'alternate',
-                        {'members': [
--                           ({'type': self._use_type(m.type)}, {'if': m.ifc=
-ond})
-+                           _make_tree({'type': self._use_type(m.type)},
-+                                      m.ifcond, None)
-                            for m in variants.variants]},
-                        ifcond, features)
-=20
+@@ -955,7 +956,7 @@ class QAPISchema:
+         data =3D expr['data']
+         prefix =3D expr.get('prefix')
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         self._def_entity(QAPISchemaEnumType(
+             name, info, doc, ifcond, features,
+             self._make_enum_members(data, info), prefix))
+@@ -979,7 +980,7 @@ class QAPISchema:
+         base =3D expr.get('base')
+         data =3D expr['data']
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         self._def_entity(QAPISchemaObjectType(
+             name, info, doc, ifcond, features, base,
+             self._make_members(data, info),
+@@ -1002,7 +1003,7 @@ class QAPISchema:
+         data =3D expr['data']
+         base =3D expr.get('base')
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         tag_name =3D expr.get('discriminator')
+         tag_member =3D None
+         if isinstance(base, dict):
+@@ -1032,7 +1033,7 @@ class QAPISchema:
+         name =3D expr['alternate']
+         data =3D expr['data']
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         variants =3D [self._make_variant(key, value['type'], value.get('if=
+'),
+                                        info)
+                     for (key, value) in data.items()]
+@@ -1052,7 +1053,7 @@ class QAPISchema:
+         allow_oob =3D expr.get('allow-oob', False)
+         allow_preconfig =3D expr.get('allow-preconfig', False)
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         if isinstance(data, OrderedDict):
+             data =3D self._make_implicit_object_type(
+                 name, info, ifcond,
+@@ -1070,7 +1071,7 @@ class QAPISchema:
+         data =3D expr.get('data')
+         boxed =3D expr.get('boxed', False)
+         ifcond =3D expr.get('if')
+-        features =3D self._make_features(expr, info)
++        features =3D self._make_features(expr.get('features'), info)
+         if isinstance(data, OrderedDict):
+             data =3D self._make_implicit_object_type(
+                 name, info, ifcond,
 --=20
 2.21.1
 
