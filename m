@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A580189E0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:39:41 +0100 (CET)
-Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D28D189E1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:42:40 +0100 (CET)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEZrA-0005y7-6X
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58936)
+	id 1jEZu3-0002X0-3f
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jEZjV-0003DJ-GY
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:31:46 -0400
+ (envelope-from <bharatb.linux@gmail.com>) id 1jEZn2-00085M-AJ
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:35:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jEZjU-0002PS-9J
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:31:45 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47976
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jEZjU-0001xe-2n
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:31:44 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02IE2ZBa069334
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 10:31:33 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yu98t9nt2-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 10:31:33 -0400
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 18 Mar 2020 14:31:31 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 18 Mar 2020 14:31:29 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02IEVTAW57344154
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Mar 2020 14:31:29 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E17DB42049;
- Wed, 18 Mar 2020 14:31:28 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D116742041;
- Wed, 18 Mar 2020 14:31:27 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.78.199])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 18 Mar 2020 14:31:27 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 16/16] s390x: Add unpack facility feature to GA1
-Date: Wed, 18 Mar 2020 10:30:47 -0400
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200318143047.2335-1-frankja@linux.ibm.com>
-References: <20200318143047.2335-1-frankja@linux.ibm.com>
+ (envelope-from <bharatb.linux@gmail.com>) id 1jEZn0-0005xE-Rw
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:35:24 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34711)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bharatb.linux@gmail.com>)
+ id 1jEZn0-0005vD-KZ; Wed, 18 Mar 2020 10:35:22 -0400
+Received: by mail-qk1-x741.google.com with SMTP id f3so39032980qkh.1;
+ Wed, 18 Mar 2020 07:35:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1zY6kt8FtxFx7OpmNp1j1dQSSVOqMnX77gpHTli89F0=;
+ b=i4LT7HcuPZVbM06C35VOsyxaF0plNxj18vgib2KXessROmC4E3r2oKZKy3xDedMksu
+ LOFXs3Y1i2cl0g9n+rYMjDY1mbYOFXUG40pVhsj2kFstfmUoXzCtfLDJ4I75PgJIPSHI
+ MHIxIm1YlTc77NvewiUlOEeJGFSV3VEMT20zqe7ucH3CMgVGc4HfEZFx3JE0TmUVUovq
+ itiFEUPMloJEn9ArUKIzkugT8u6VXhImHfoGLYIb39845Ifo8GIEpdeSVJehEJ8EMr0N
+ czObGYGSnDp6F3TtN4pAUaxxuiR6Evmc7GShDQeyD7qBavzOox0AdHyv7V+Ioieepj+U
+ HxHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1zY6kt8FtxFx7OpmNp1j1dQSSVOqMnX77gpHTli89F0=;
+ b=rNzU7O3uxiAaw8l5Gty3ztJu2xLK48zwHIUo4QIpJAIrY+6/qC4k3+NBvWJGLC/g74
+ fM5amvFKvkzD7h0BMnbnai1Zs1E8C4rKf7My12zqh/aL9C+px/LOG3vvIvVP/glO9JbW
+ 28lZcJyx5Bxzj8Qh+eY3l3W3NnlO6Fl3krV9+MIPaLXv7RJbjA6DIoRB33Kmbq9Li+to
+ egQEOAI1fi03AKFOy2V8y70pcRplHN8kW1BX5Fr5mJ1mopdrSBp/FZ397iwSVw9yKAzP
+ N0k3tWGovpVgzbKfr56bosHkGMl4Wg/t4ELklfVmuwAJMebKzrYPKmMBzSkgEM9WwNyK
+ yEzA==
+X-Gm-Message-State: ANhLgQ0OhoziZS1xMtYLQRZKDEm2ptiSLbWWoThpAJWUf66W0CNeI19e
+ MBRm37sCvsk9GA6A3Uokmzrl8HhTGjSPo1vOXMk=
+X-Google-Smtp-Source: ADFU+vusiyGPAGQOstrIA7xDWI9EuMeODcv7g4YecrEeKHfiLAeLUCdzgSVn1AaPaeXglI55q2uOw4WG9Wvgj6HDXDo=
+X-Received: by 2002:a05:620a:10ae:: with SMTP id
+ h14mr4305427qkk.170.1584542121798; 
+ Wed, 18 Mar 2020 07:35:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031814-0012-0000-0000-000003933C0A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031814-0013-0000-0000-000021D01EBB
-Message-Id: <20200318143047.2335-17-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
- definitions=2020-03-18_06:2020-03-18,
- 2020-03-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- adultscore=0 mlxlogscore=999 suspectscore=1 impostorscore=0 mlxscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003180066
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+References: <20200318101159.8767-1-bbhushan2@marvell.com>
+ <20200318101159.8767-5-bbhushan2@marvell.com>
+ <3da60c1b-6897-7ab1-3a67-bec44fa00a54@redhat.com>
+In-Reply-To: <3da60c1b-6897-7ab1-3a67-bec44fa00a54@redhat.com>
+From: Bharat Bhushan <bharatb.linux@gmail.com>
+Date: Wed, 18 Mar 2020 20:05:10 +0530
+Message-ID: <CAAeCc_nVJXsvEw6iqcs9UEvLJNFyPmHnPnN0VUvzUFtVvjCQsQ@mail.gmail.com>
+Subject: Re: [PATCH v8 4/8] virtio-iommu: set supported page size mask
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,66 +73,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: "Zhong, Yang" <yang.zhong@intel.com>,
+ Peter Maydell <peter.maydell@linaro.org>, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, drjones@redhat.com, peterx@redhat.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, qemu-arm@nongnu.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Bharat Bhushan <bbhushan2@marvell.com>, linuc.decode@gmail.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+Hi Eric,
 
-The unpack facility is an indication that diagnose 308 subcodes 8-10
-are available to the guest. That means, that the guest can put itself
-into protected mode.
+On Wed, Mar 18, 2020 at 4:58 PM Auger Eric <eric.auger@redhat.com> wrote:
+>
+> Hi Bharat,
+>
+> On 3/18/20 11:11 AM, Bharat Bhushan wrote:
+> > Add optional interface to set page size mask.
+> > Currently this is set global configuration and not
+> > per endpoint.
+> >
+> > Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+> > ---
+> > v7->v8:
+> >  - new patch
+> >
+> >  hw/virtio/virtio-iommu.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> > index 4cee8083bc..c00a55348d 100644
+> > --- a/hw/virtio/virtio-iommu.c
+> > +++ b/hw/virtio/virtio-iommu.c
+> > @@ -650,6 +650,15 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+> >      return (ua > ub) - (ua < ub);
+> >  }
+> >
+> > +static void virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
+> > +                                            uint64_t page_size_mask)
+> > +{
+> > +    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
+> > +    VirtIOIOMMU *s = sdev->viommu;
+> > +
+> > +    s->config.page_size_mask = page_size_mask;
+> The problem is page_size_mask is global to the VIRTIO-IOMMU.
+>
+> - Can't different VFIO containers impose different/inconsistent settings?
+> - VFIO devices can be hotplugged.
 
-Once it is in protected mode, the hardware stops any attempt of VM
-introspection by the hypervisor.
+This is possible if we different iommu's, which we support. correct?
 
-Some features are currently not supported in protected mode:
-     * vfio devices
-     * Migration
-     * Huge page backings
+> So we may start with some default
+> page_size_mask which is latter overriden by a host imposed one. Assume
+> you first launch the VM with a virtio NIC. This uses 64K. Then you
+> hotplug a VFIO device behind a physical IOMMU which only supports 4K
+> pages. Isn't it a valid scenario?
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- target/s390x/gen-features.c | 1 +
- target/s390x/kvm.c          | 8 ++++++++
- 2 files changed, 9 insertions(+)
+So we need to expose page_size_mask per endpoint?
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6278845b12b8dee8..8ddeebc54419a3e2 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
-     S390_FEAT_GROUP_MSA_EXT_9,
-     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
-     S390_FEAT_ETOKEN,
-+    S390_FEAT_UNPACK,
- };
- 
- /* Default features (in order of release)
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 6b7819d2c51a111c..3630c15f45a48864 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -2410,6 +2410,14 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
-         clear_bit(S390_FEAT_BPB, model->features);
-     }
- 
-+    /*
-+     * If we have support for protected virtualization, indicate
-+     * the protected virtualization IPL unpack facility.
-+     */
-+    if (cap_protected) {
-+        set_bit(S390_FEAT_UNPACK, model->features);
-+    }
-+
-     /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
-     set_bit(S390_FEAT_ZPCI, model->features);
-     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
--- 
-2.25.1
+Thanks
+-Bharat
 
+>
+> Thanks
+>
+> Eric
+>
+> > +}
+> > +
+> >  static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+> >  {
+> >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > @@ -865,6 +874,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
+> >      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
+> >
+> >      imrc->translate = virtio_iommu_translate;
+> > +    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
+> >  }
+> >
+> >  static const TypeInfo virtio_iommu_info = {
+> >
+>
 
