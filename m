@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A020218A3BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:27:05 +0100 (CET)
-Received: from localhost ([::1]:58156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC72118A3C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:29:19 +0100 (CET)
+Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEfHM-0001Ly-JZ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
+	id 1jEfJW-00053s-Ui
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jEfFe-0007uL-Qj
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:20 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jEfFj-000829-FV
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jEfFd-00044U-H7
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:18 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32057)
+ (envelope-from <jsnow@redhat.com>) id 1jEfFh-0004IJ-Ep
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:23 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:59181)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfFd-00043h-CS
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:17 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfFh-0004H6-9c
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584563117;
+ s=mimecast20190719; t=1584563121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UF7bUzZTexTsPuG4oMZyLXC9yux60lZwTIeJ+jS+dJM=;
- b=G/ydJZsdjXy5c+svI9o7CazPLplkOXesp684hguqqvBvVpYGV5rYIRN24R8KRbRjbK2Xlw
- mZmGaBqDndzEnzB6cvaP+KEEWVVHQTrc8EVIki2oXtUZarq64WINWIPoeFZ//BlZrH5z59
- hTqyP4P4RvXv5sK9KfGOG6axEUDlYRw=
+ bh=IKtPjnOC+qmsf/rsTqO8bPpSqljWlxweNtsd9zZRPu4=;
+ b=THFhk/ZKmwReXnMbnc6H/LzjuWmsjvaKEjBKoz007NzF2tR9Ye7lNJM9Ish5ePPCoiuKMW
+ +boJuGIJRsdz947eE37FwkudjOL+uQLYvfxOoN62E9PWOuGrij+ea6V4tTmz5o+T0dix/I
+ Dfc0x/NPABKsyU11TtXYqzNxVae5UzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-kn9rvyEjNSiIwh-Yr6eOCg-1; Wed, 18 Mar 2020 16:25:14 -0400
-X-MC-Unique: kn9rvyEjNSiIwh-Yr6eOCg-1
+ us-mta-387-w0aq-q96PJGMIPQjWbo_Iw-1; Wed, 18 Mar 2020 16:25:19 -0400
+X-MC-Unique: w0aq-q96PJGMIPQjWbo_Iw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72BA9107B768;
- Wed, 18 Mar 2020 20:24:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353DF1016E7D;
+ Wed, 18 Mar 2020 20:24:56 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 508E960BFB;
- Wed, 18 Mar 2020 20:24:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EE7060BF1;
+ Wed, 18 Mar 2020 20:24:53 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org, jsnow@redhat.com,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 03/11] hbitmap: move hbitmap_iter_next_word to hbitmap.c
-Date: Wed, 18 Mar 2020 16:23:33 -0400
-Message-Id: <20200318202341.6961-4-jsnow@redhat.com>
+Subject: [PULL v2 05/11] hbitmap: drop meta bitmaps as they are unused
+Date: Wed, 18 Mar 2020 16:23:35 -0400
+Message-Id: <20200318202341.6961-6-jsnow@redhat.com>
 In-Reply-To: <20200318202341.6961-1-jsnow@redhat.com>
 References: <20200318202341.6961-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,100 +82,251 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-The function is definitely internal (it's not used by third party and
-it has complicated interface). Move it to .c file.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-id: 20200205112041.6003-3-vsementsov@virtuozzo.com
+Message-id: 20200205112041.6003-5-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/qemu/hbitmap.h | 30 ------------------------------
- util/hbitmap.c         | 29 +++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+), 30 deletions(-)
+ include/qemu/hbitmap.h |  21 --------
+ tests/test-hbitmap.c   | 115 -----------------------------------------
+ util/hbitmap.c         |  16 ------
+ 3 files changed, 152 deletions(-)
 
 diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 1bf944ca3d..ab227b117f 100644
+index 15837a0e2d..df922d8517 100644
 --- a/include/qemu/hbitmap.h
 +++ b/include/qemu/hbitmap.h
-@@ -362,34 +362,4 @@ void hbitmap_free_meta(HBitmap *hb);
-  */
- int64_t hbitmap_iter_next(HBitmapIter *hbi);
+@@ -325,27 +325,6 @@ int64_t hbitmap_next_zero(const HBitmap *hb, uint64_t =
+start, uint64_t count);
+ bool hbitmap_next_dirty_area(const HBitmap *hb, uint64_t *start,
+                              uint64_t *count);
 =20
--/**
-- * hbitmap_iter_next_word:
-- * @hbi: HBitmapIter to operate on.
-- * @p_cur: Location where to store the next non-zero word.
+-/* hbitmap_create_meta:
+- * Create a "meta" hbitmap to track dirtiness of the bits in this HBitmap.
+- * The caller owns the created bitmap and must call hbitmap_free_meta(hb) =
+to
+- * free it.
 - *
-- * Return the index of the next nonzero word that is set in @hbi's
-- * associated HBitmap, and set *p_cur to the content of that word
-- * (bits before the index that was passed to hbitmap_iter_init are
-- * trimmed on the first call).  Return -1, and set *p_cur to zero,
-- * if all remaining words are zero.
+- * Currently, we only guarantee that if a bit in the hbitmap is changed it
+- * will be reflected in the meta bitmap, but we do not yet guarantee the
+- * opposite.
+- *
+- * @hb: The HBitmap to operate on.
+- * @chunk_size: How many bits in @hb does one bit in the meta track.
 - */
--static inline size_t hbitmap_iter_next_word(HBitmapIter *hbi, unsigned lon=
-g *p_cur)
--{
--    unsigned long cur =3D hbi->cur[HBITMAP_LEVELS - 1];
+-HBitmap *hbitmap_create_meta(HBitmap *hb, int chunk_size);
 -
--    if (cur =3D=3D 0) {
--        cur =3D hbitmap_iter_skip_words(hbi);
--        if (cur =3D=3D 0) {
--            *p_cur =3D 0;
--            return -1;
--        }
--    }
+-/* hbitmap_free_meta:
+- * Free the meta bitmap of @hb.
+- *
+- * @hb: The HBitmap whose meta bitmap should be freed.
+- */
+-void hbitmap_free_meta(HBitmap *hb);
 -
--    /* The next call will resume work from the next word.  */
--    hbi->cur[HBITMAP_LEVELS - 1] =3D 0;
--    *p_cur =3D cur;
--    return hbi->pos;
--}
--
--
- #endif
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 7f9b3e0cd7..a368dc5ef7 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -298,6 +298,35 @@ uint64_t hbitmap_count(const HBitmap *hb)
-     return hb->count << hb->granularity;
+ /**
+  * hbitmap_iter_next:
+  * @hbi: HBitmapIter to operate on.
+diff --git a/tests/test-hbitmap.c b/tests/test-hbitmap.c
+index e1f867085f..aeaa0b3f22 100644
+--- a/tests/test-hbitmap.c
++++ b/tests/test-hbitmap.c
+@@ -22,7 +22,6 @@
+=20
+ typedef struct TestHBitmapData {
+     HBitmap       *hb;
+-    HBitmap       *meta;
+     unsigned long *bits;
+     size_t         size;
+     size_t         old_size;
+@@ -94,14 +93,6 @@ static void hbitmap_test_init(TestHBitmapData *data,
+     }
  }
 =20
-+/**
-+ * hbitmap_iter_next_word:
-+ * @hbi: HBitmapIter to operate on.
-+ * @p_cur: Location where to store the next non-zero word.
-+ *
-+ * Return the index of the next nonzero word that is set in @hbi's
-+ * associated HBitmap, and set *p_cur to the content of that word
-+ * (bits before the index that was passed to hbitmap_iter_init are
-+ * trimmed on the first call).  Return -1, and set *p_cur to zero,
-+ * if all remaining words are zero.
-+ */
-+static size_t hbitmap_iter_next_word(HBitmapIter *hbi, unsigned long *p_cu=
-r)
-+{
-+    unsigned long cur =3D hbi->cur[HBITMAP_LEVELS - 1];
-+
-+    if (cur =3D=3D 0) {
-+        cur =3D hbitmap_iter_skip_words(hbi);
-+        if (cur =3D=3D 0) {
-+            *p_cur =3D 0;
-+            return -1;
-+        }
-+    }
-+
-+    /* The next call will resume work from the next word.  */
-+    hbi->cur[HBITMAP_LEVELS - 1] =3D 0;
-+    *p_cur =3D cur;
-+    return hbi->pos;
-+}
-+
- /* Count the number of set bits between start and end, not accounting for
-  * the granularity.  Also an example of how to use hbitmap_iter_next_word.
-  */
+-static void hbitmap_test_init_meta(TestHBitmapData *data,
+-                                   uint64_t size, int granularity,
+-                                   int meta_chunk)
+-{
+-    hbitmap_test_init(data, size, granularity);
+-    data->meta =3D hbitmap_create_meta(data->hb, meta_chunk);
+-}
+-
+ static inline size_t hbitmap_test_array_size(size_t bits)
+ {
+     size_t n =3D DIV_ROUND_UP(bits, BITS_PER_LONG);
+@@ -144,9 +135,6 @@ static void hbitmap_test_teardown(TestHBitmapData *data=
+,
+                                   const void *unused)
+ {
+     if (data->hb) {
+-        if (data->meta) {
+-            hbitmap_free_meta(data->hb);
+-        }
+         hbitmap_free(data->hb);
+         data->hb =3D NULL;
+     }
+@@ -648,96 +636,6 @@ static void test_hbitmap_truncate_shrink_large(TestHBi=
+tmapData *data,
+     hbitmap_test_truncate(data, size, -diff, 0);
+ }
+=20
+-static void hbitmap_check_meta(TestHBitmapData *data,
+-                               int64_t start, int count)
+-{
+-    int64_t i;
+-
+-    for (i =3D 0; i < data->size; i++) {
+-        if (i >=3D start && i < start + count) {
+-            g_assert(hbitmap_get(data->meta, i));
+-        } else {
+-            g_assert(!hbitmap_get(data->meta, i));
+-        }
+-    }
+-}
+-
+-static void hbitmap_test_meta(TestHBitmapData *data,
+-                              int64_t start, int count,
+-                              int64_t check_start, int check_count)
+-{
+-    hbitmap_reset_all(data->hb);
+-    hbitmap_reset_all(data->meta);
+-
+-    /* Test "unset" -> "unset" will not update meta. */
+-    hbitmap_reset(data->hb, start, count);
+-    hbitmap_check_meta(data, 0, 0);
+-
+-    /* Test "unset" -> "set" will update meta */
+-    hbitmap_set(data->hb, start, count);
+-    hbitmap_check_meta(data, check_start, check_count);
+-
+-    /* Test "set" -> "set" will not update meta */
+-    hbitmap_reset_all(data->meta);
+-    hbitmap_set(data->hb, start, count);
+-    hbitmap_check_meta(data, 0, 0);
+-
+-    /* Test "set" -> "unset" will update meta */
+-    hbitmap_reset_all(data->meta);
+-    hbitmap_reset(data->hb, start, count);
+-    hbitmap_check_meta(data, check_start, check_count);
+-}
+-
+-static void hbitmap_test_meta_do(TestHBitmapData *data, int chunk_size)
+-{
+-    uint64_t size =3D chunk_size * 100;
+-    hbitmap_test_init_meta(data, size, 0, chunk_size);
+-
+-    hbitmap_test_meta(data, 0, 1, 0, chunk_size);
+-    hbitmap_test_meta(data, 0, chunk_size, 0, chunk_size);
+-    hbitmap_test_meta(data, chunk_size - 1, 1, 0, chunk_size);
+-    hbitmap_test_meta(data, chunk_size - 1, 2, 0, chunk_size * 2);
+-    hbitmap_test_meta(data, chunk_size - 1, chunk_size + 1, 0, chunk_size =
+* 2);
+-    hbitmap_test_meta(data, chunk_size - 1, chunk_size + 2, 0, chunk_size =
+* 3);
+-    hbitmap_test_meta(data, 7 * chunk_size - 1, chunk_size + 2,
+-                      6 * chunk_size, chunk_size * 3);
+-    hbitmap_test_meta(data, size - 1, 1, size - chunk_size, chunk_size);
+-    hbitmap_test_meta(data, 0, size, 0, size);
+-}
+-
+-static void test_hbitmap_meta_byte(TestHBitmapData *data, const void *unus=
+ed)
+-{
+-    hbitmap_test_meta_do(data, BITS_PER_BYTE);
+-}
+-
+-static void test_hbitmap_meta_word(TestHBitmapData *data, const void *unus=
+ed)
+-{
+-    hbitmap_test_meta_do(data, BITS_PER_LONG);
+-}
+-
+-static void test_hbitmap_meta_sector(TestHBitmapData *data, const void *un=
+used)
+-{
+-    hbitmap_test_meta_do(data, BDRV_SECTOR_SIZE * BITS_PER_BYTE);
+-}
+-
+-/**
+- * Create an HBitmap and test set/unset.
+- */
+-static void test_hbitmap_meta_one(TestHBitmapData *data, const void *unuse=
+d)
+-{
+-    int i;
+-    int64_t offsets[] =3D {
+-        0, 1, L1 - 1, L1, L1 + 1, L2 - 1, L2, L2 + 1, L3 - 1, L3, L3 + 1
+-    };
+-
+-    hbitmap_test_init_meta(data, L3 * 2, 0, 1);
+-    for (i =3D 0; i < ARRAY_SIZE(offsets); i++) {
+-        hbitmap_test_meta(data, offsets[i], 1, offsets[i], 1);
+-        hbitmap_test_meta(data, offsets[i], L1, offsets[i], L1);
+-        hbitmap_test_meta(data, offsets[i], L2, offsets[i], L2);
+-    }
+-}
+-
+ static void test_hbitmap_serialize_align(TestHBitmapData *data,
+                                          const void *unused)
+ {
+@@ -750,13 +648,6 @@ static void test_hbitmap_serialize_align(TestHBitmapDa=
+ta *data,
+     g_assert_cmpint(r, =3D=3D, 64 << 3);
+ }
+=20
+-static void test_hbitmap_meta_zero(TestHBitmapData *data, const void *unus=
+ed)
+-{
+-    hbitmap_test_init_meta(data, 0, 0, 1);
+-
+-    hbitmap_check_meta(data, 0, 0);
+-}
+-
+ static void hbitmap_test_serialize_range(TestHBitmapData *data,
+                                          uint8_t *buf, size_t buf_size,
+                                          uint64_t pos, uint64_t count)
+@@ -1165,12 +1056,6 @@ int main(int argc, char **argv)
+     hbitmap_test_add("/hbitmap/truncate/shrink/large",
+                      test_hbitmap_truncate_shrink_large);
+=20
+-    hbitmap_test_add("/hbitmap/meta/zero", test_hbitmap_meta_zero);
+-    hbitmap_test_add("/hbitmap/meta/one", test_hbitmap_meta_one);
+-    hbitmap_test_add("/hbitmap/meta/byte", test_hbitmap_meta_byte);
+-    hbitmap_test_add("/hbitmap/meta/word", test_hbitmap_meta_word);
+-    hbitmap_test_add("/hbitmap/meta/sector", test_hbitmap_meta_sector);
+-
+     hbitmap_test_add("/hbitmap/serialize/align",
+                      test_hbitmap_serialize_align);
+     hbitmap_test_add("/hbitmap/serialize/basic",
+diff --git a/util/hbitmap.c b/util/hbitmap.c
+index 26145d4b9e..b6d4b99a06 100644
+--- a/util/hbitmap.c
++++ b/util/hbitmap.c
+@@ -905,22 +905,6 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b,=
+ HBitmap *result)
+     return true;
+ }
+=20
+-HBitmap *hbitmap_create_meta(HBitmap *hb, int chunk_size)
+-{
+-    assert(!(chunk_size & (chunk_size - 1)));
+-    assert(!hb->meta);
+-    hb->meta =3D hbitmap_alloc(hb->size << hb->granularity,
+-                             hb->granularity + ctz32(chunk_size));
+-    return hb->meta;
+-}
+-
+-void hbitmap_free_meta(HBitmap *hb)
+-{
+-    assert(hb->meta);
+-    hbitmap_free(hb->meta);
+-    hb->meta =3D NULL;
+-}
+-
+ char *hbitmap_sha256(const HBitmap *bitmap, Error **errp)
+ {
+     size_t size =3D bitmap->sizes[HBITMAP_LEVELS - 1] * sizeof(unsigned lo=
+ng);
 --=20
 2.21.1
 
