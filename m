@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BBF18A0C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 17:43:19 +0100 (CET)
-Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A50718A0C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 17:44:24 +0100 (CET)
+Received: from localhost ([::1]:55532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEbmm-00025G-QH
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 12:43:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43440)
+	id 1jEbnr-00037L-CU
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 12:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEblv-0001dw-JL
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:42:24 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jEbn7-0002bv-Gq
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:43:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEblu-0003Ha-OF
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:42:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54065)
+ (envelope-from <cohuck@redhat.com>) id 1jEbn6-0003z3-Gr
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:43:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:25274)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEblu-0003H8-LN
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:42:22 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEbn6-0003xq-Cj
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:43:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584549742;
+ s=mimecast20190719; t=1584549815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yzeMD5uJIwVP8KZoOHZrYXi/SGg5VOyA8M/pnX7OjdM=;
- b=cL4UQ190EZ3z+SplSllXRZ1v4uKWVB1DC0rPWK7ZncdSumnvn1y42RapOwDNtO+bfMsBry
- Tjm4SamHaypiYUmoTr9GUhZnBYgSGjJ5gmfZr9oYqGrQAdaDPj6fX7XoOMPAP6yx0I6EER
- M2zeLQcEH4ADhumZTl6vP4ta4b528bA=
+ bh=mZR0AOLpqPjE0K3iF3bC4S2fZcphvsNyJ+6EpW3pk98=;
+ b=hBr4RPd/zj3o+oI8MpQok4sZZVucyrfSSGgOf+yX9bZGW35fkZCKminL+Cff1zSjhK/ETG
+ +5xBPtBeAvklF6eFi2EWeYnhJcJ7uGRTTPV2JFGM8HvVYn03x4gGh6Ly7QolmzkvOywBXt
+ m7wHYmQTsaH/0/R6FS9RSoKItwMKfto=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-WLfL-AjjO82YLCRj2hDJEQ-1; Wed, 18 Mar 2020 12:42:18 -0400
-X-MC-Unique: WLfL-AjjO82YLCRj2hDJEQ-1
+ us-mta-283-7Y0PQm-_N221DM1zAkaiDQ-1; Wed, 18 Mar 2020 12:43:33 -0400
+X-MC-Unique: 7Y0PQm-_N221DM1zAkaiDQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B012107ACCA;
- Wed, 18 Mar 2020 16:42:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FE9518A5528;
+ Wed, 18 Mar 2020 16:43:32 +0000 (UTC)
 Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 210EB60BEC;
- Wed, 18 Mar 2020 16:42:10 +0000 (UTC)
-Date: Wed, 18 Mar 2020 17:42:01 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10EC460BF1;
+ Wed, 18 Mar 2020 16:43:27 +0000 (UTC)
+Date: Wed, 18 Mar 2020 17:43:23 +0100
 From: Cornelia Huck <cohuck@redhat.com>
 To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v10 01/16] s390x: Move diagnose 308 subcodes and rcs
- into ipl.h
-Message-ID: <20200318174201.7eab0e17.cohuck@redhat.com>
-In-Reply-To: <20200318143047.2335-2-frankja@linux.ibm.com>
+Subject: Re: [PATCH v10 16/16] s390x: Add unpack facility feature to GA1
+Message-ID: <20200318174323.0001eb7c.cohuck@redhat.com>
+In-Reply-To: <20200318143047.2335-17-frankja@linux.ibm.com>
 References: <20200318143047.2335-1-frankja@linux.ibm.com>
- <20200318143047.2335-2-frankja@linux.ibm.com>
+ <20200318143047.2335-17-frankja@linux.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -60,7 +59,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,17 +77,31 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Mar 2020 10:30:32 -0400
+On Wed, 18 Mar 2020 10:30:47 -0400
 Janosch Frank <frankja@linux.ibm.com> wrote:
 
-> They are part of the IPL process, so let's put them into the ipl
-> header.
+> From: Christian Borntraeger <borntraeger@de.ibm.com>
 > 
+> The unpack facility is an indication that diagnose 308 subcodes 8-10
+> are available to the guest. That means, that the guest can put itself
+> into protected mode.
+> 
+> Once it is in protected mode, the hardware stops any attempt of VM
+> introspection by the hypervisor.
+> 
+> Some features are currently not supported in protected mode:
+>      * vfio devices
+>      * Migration
+>      * Huge page backings
+> 
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  hw/s390x/ipl.h      | 11 +++++++++++
->  target/s390x/diag.c | 11 -----------
->  2 files changed, 11 insertions(+), 11 deletions(-)
+>  target/s390x/gen-features.c | 1 +
+>  target/s390x/kvm.c          | 8 ++++++++
+>  2 files changed, 9 insertions(+)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
