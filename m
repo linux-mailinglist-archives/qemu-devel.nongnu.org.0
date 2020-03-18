@@ -2,47 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EA4189E8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 16:01:43 +0100 (CET)
-Received: from localhost ([::1]:52036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F05189EFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 16:07:35 +0100 (CET)
+Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEaCU-0002CJ-6U
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 11:01:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50249)
+	id 1jEaIA-0007dz-8D
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 11:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vfazio@xes-inc.com>) id 1jEaBM-0001Q7-0i
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 11:00:37 -0400
+ (envelope-from <armbru@redhat.com>) id 1jEaH3-0006Rc-Jy
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 11:06:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vfazio@xes-inc.com>) id 1jEaBD-0007Hx-Ls
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 11:00:31 -0400
-Received: from xes-mad.com ([162.248.234.2]:20005 helo=mail.xes-mad.com)
+ (envelope-from <armbru@redhat.com>) id 1jEaH1-0003pX-TZ
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 11:06:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:53023)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vfazio@xes-inc.com>)
- id 1jEaBD-0006zz-FU; Wed, 18 Mar 2020 11:00:23 -0400
-Received: from [10.52.16.140] (vfazio1.xes-mad.com [10.52.16.140])
- by mail.xes-mad.com (Postfix) with ESMTP id 2206D20296;
- Wed, 18 Mar 2020 10:00:20 -0500 (CDT)
-Subject: Re: [PATCH 1/1] target/ppc: fix ELFv2 signal handler endianness
-To: David Gibson <david@gibson.dropbear.id.au>,
- Vincent Fazio <vfazio@gmail.com>
-References: <20200315155202.13107-1-vfazio@xes-inc.com>
- <346e47c8-4a80-860c-ec55-e38d2021d63d@vivier.eu>
- <CAOrEah5Fq7Kp9wF_4Vtb4Qfcdm0gtwin_5b_ft7h7my+RnTOWA@mail.gmail.com>
- <20200316022107.GA2013@umbus.fritz.box>
-From: Vincent Fazio <vfazio@xes-inc.com>
-Message-ID: <0a4f5e07-3934-ea6b-4fe1-9fc3ec4c8d85@xes-inc.com>
-Date: Wed, 18 Mar 2020 10:00:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEaH1-0003oT-Pq
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 11:06:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584543982;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mN2CmWZXbSnMwxSiLKtfcjfFKWwuDhPFeqDcSytjXDs=;
+ b=P2kwPE74WP8aFJcTaRuE2wlIF/nlp8wVSRDhHN4Zo5Ql5ctEcQokyySVT2VC4PyypF+sRU
+ Vg8Z6G9sen4edfeTdFm66oLQ5utFqWOftw5QARTpqedzej8iz8cXEzC7xnOQtjD1RVjrGT
+ ByPhAs+Hr+TFLO2fWKE7Qx4r8jyk07c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-YJHu6kvXN5q27QeRDWndmQ-1; Wed, 18 Mar 2020 11:06:19 -0400
+X-MC-Unique: YJHu6kvXN5q27QeRDWndmQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99E561005512;
+ Wed, 18 Mar 2020 15:06:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
+ [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F4E95DE56;
+ Wed, 18 Mar 2020 15:06:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B49C91138404; Wed, 18 Mar 2020 16:06:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
+ in mac_via
+References: <20200305065422.12707-1-pannengyuan@huawei.com>
+ <20200305065422.12707-3-pannengyuan@huawei.com>
+ <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
+ <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
+ <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
+ <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
+ <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
+ <871rq08tn9.fsf@dusky.pond.sub.org>
+ <eca27715-554d-2c2e-5e58-ffd01abb654c@ilande.co.uk>
+ <e1ae65dd-f9cd-b0ee-0ea6-f3c2b010fdab@redhat.com>
+ <87tv2p8y5j.fsf@dusky.pond.sub.org>
+ <3f512e33-5875-eee4-bbe8-61e7b313743d@redhat.com>
+ <87mu8g3kgj.fsf@dusky.pond.sub.org>
+ <bd83fe53-6541-b04d-04d9-76ddd29e2b99@redhat.com>
+ <875zf1ak9e.fsf@dusky.pond.sub.org>
+ <d94927af-eb46-f704-6658-e3f321c4d8ed@redhat.com>
+Date: Wed, 18 Mar 2020 16:06:13 +0100
+In-Reply-To: <d94927af-eb46-f704-6658-e3f321c4d8ed@redhat.com> (Paolo
+ Bonzini's message of "Wed, 18 Mar 2020 14:21:56 +0100")
+Message-ID: <87d0997lei.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200316022107.GA2013@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 162.248.234.2
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,135 +90,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
- qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David, Laurent,
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-On 3/15/20 9:21 PM, David Gibson wrote:
-> On Sun, Mar 15, 2020 at 07:29:04PM -0500, Vincent Fazio wrote:
->> Laurent,
->>
->> On Sun, Mar 15, 2020 at 1:10 PM Laurent Vivier <laurent@vivier.eu> wro=
-te:
->>> Le 15/03/2020 =E0 16:52, Vincent Fazio a =E9crit :
->>>> From: Vincent Fazio <vfazio@gmail.com>
->>>>
->>>> In ELFv2, function pointers are entry points and are in host endiann=
-ess.
->>> "host endianness" is misleading here. "target endianness" is better.
-> Yeah, the trouble here is that I think the ELF spec will use "host"
-> and "target" in a quite different sense than qemu.
+> On 18/03/20 14:02, Markus Armbruster wrote:
+>> Object instantiation must be completely reverted by finalization.
+>>=20
+>> device-introspect-test guards against a particularly egregious violation
+>> of this rule, namely output of "info qtree" after initialization +
+>> finalization differing from output before.  Surprisingly common issue.
+>> It's what made Peter invite me to this thread.
+>>=20
+>> Device realization must be completely reverted by unrealization.
 >
-I'll be simplifying the wording in the message to just mention the=20
-problematic cross-endian scenario
->> I do want to clarify here. In a mixed endian scenario (my test case
->> was an x86 host and e5500 PPC BE target), the function pointers are in
->> host endianness (little endian) so that the virtual address can be
->> dereferenced by the host for the target instructions to be
->> translated.
-> This can't be right.  The ELF is operating entirely within the guest,
-> and has no concept of a host (in the qemu sense).  Therefore it's
-> impossible for it to specify anything as "host endian" (again in the
-> qemu sense).
+> So far so good.
 >
-> It *is* possible that it's little endian explicitly (in which case
-> we'd need a conditional swap that's different from the one we have
-> now).
+>> We don't always implement unrealize.  Fine when the device cannot be
+>> unrealized.  But the code doesn't seem to guard against omitting
+>> unrealize when the device actually can be unrealized.
+>>=20
+>> Properties for use with device_add must exist after object
+>> instantiation.
+>>=20
+>> But is that true?  Setting a property can run arbitrary code.  What if
+>> setting property P to value V runs code that adds property Q?  Then
+>> device_add P=3DV,Q=3DW works provided P gets set before Q, which is
+>> anybody's guess.
+>>=20
+>> So "must exist" is actually "should exist", and we' already moved from
+>> the self-evident to the unclear.
 >
-> But even that seems pretty odd.  AFAICT that target_sigaction
-> structure is copied verbatim from guest memory when the guest makes
-> the sigaction() syscall.  Are we expecting a BE process to put LE
-> parameters into a syscall structure?  That seems unlikely.
+> Right, and there is already one case where the properties don't exist,
+> namely the "fake array" properties.
+
+I tried to strangle them in their crib, but failed.
+
+>> Even less clear: what side effects may be visible between object
+>> initialization and realization / finalization?
+>>=20
+>> A safe but constricting answer would be "only host resource
+>> reservation".
+>>=20
+>> What's your answer?
 >
-> I really think you need to put some instrumentation in the sigaction()
-> call that comes before this, to see exactly what the guest process is
-> supplying there.
+> Here are some random thoughts about it:
 >
-> And then we maybe need to look at your guest side libc and/or a native
-> e5500 BE kernel to see what it expects in that structure.
-As we discussed in the other thread, I missed the endian swap done as=20
-part of get_user in do_sigaction. So while my initial determination for=20
-the root cause of the problem was wrong, the fix is still the same (drop=20
-the `tswapl` call). The commit message will be updated.
->>>> Previously, the signal handler would be swapped if the target CPU wa=
-s a
->>>> different endianness than the host. This would cause a SIGSEGV when
->>>> attempting to translate the opcode pointed to by the swapped address=
-.
->>> This is correct.
->>>
->>>>   Thread 1 "qemu-ppc64" received signal SIGSEGV, Segmentation fault.
->>>>   0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/=
-include/qemu/bswap.h:351
->>>>   351        __builtin_memcpy(&r, ptr, sizeof(r));
->>>>
->>>>   #0  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at q=
-emu/include/qemu/bswap.h:351
->>>>   #1  0x00000000600a92fe in ldl_be_p (ptr=3D0x4c2c061000000000) at q=
-emu/include/qemu/bswap.h:449
->>>>   #2  0x00000000600c0790 in translator_ldl_swap at qemu/include/exec=
-/translator.h:201
->>>>   #3  0x000000006011c1ab in ppc_tr_translate_insn at qemu/target/ppc=
-/translate.c:7856
->>>>   #4  0x000000006005ae70 in translator_loop at qemu/accel/tcg/transl=
-ator.c:102
->>>>
->>>> Now, no swap is performed and execution continues properly.
->>>>
->>>> Signed-off-by: Vincent Fazio <vfazio@gmail.com>
->>>> ---
->>>>   linux-user/ppc/signal.c | 10 +++++++---
->>>>   1 file changed, 7 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
->>>> index 5b82af6cb6..c7f6455170 100644
->>>> --- a/linux-user/ppc/signal.c
->>>> +++ b/linux-user/ppc/signal.c
->>>> @@ -567,9 +567,13 @@ void setup_rt_frame(int sig, struct target_siga=
-ction *ka,
->>>>           env->nip =3D tswapl(handler->entry);
->>>>           env->gpr[2] =3D tswapl(handler->toc);
->>>>       } else {
->>>> -        /* ELFv2 PPC64 function pointers are entry points, but R12
->>>> -         * must also be set */
->>>> -        env->nip =3D tswapl((target_ulong) ka->_sa_handler);
->>>> +        /*
->>>> +         * ELFv2 PPC64 function pointers are entry points and are i=
-n host
->>>> +         * endianness so should not to be swapped.
->>> "target endianness"
->>>
->>>> +         *
->>>> +         * Note: R12 must also be set.
->>>> +         */
->>>> +        env->nip =3D (target_ulong) ka->_sa_handler;
->>> The cast is not needed: nip and _sa_handler are abi_ulong.
->> I'll drop this in v2
->>
->>>>           env->gpr[12] =3D env->nip;
->>>>       }
->>>>   #else
->>>>
->>> If you repost with the fix I've reported above you can add my:
->>>
->>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>>
->> I'll hold off on reposting until the endianness wording is figured out=
-.
-I'll be submitting v2 shortly, but it will have a different commit=20
-message to better reflect the issue.
->>> Thanks,
->>> Laurent
->> Thanks,
->> -Vincent
->>
---=20
-Vincent Fazio
-Embedded Software Engineer - Linux
-Extreme Engineering Solutions, Inc
-http://www.xes-inc.com
+> - object initialization should cause no side effects outside the subtree
+> of the object
+
+object_initialize_child() and its users like sysbus_init_child_obj()
+violate this rule: they add a child property to the subtree's parent.
+Correct?
+
+> - setting properties can cause side effects outside the subtree of the
+> object (e.g. marking an object as "in use"), but they must be undone by
+> finalization.
+
+Textbook example is the 1:1 connection between device frontend and
+backend: block frontend's property "drive", char frontend's property
+"chardev", NIC frontend property "netdev", ...
+
+Can we come up with some guardrails for what property setting may do?
+Affecting guest-visible state is off limits.  What else is?
+
+> - realization can also cause side effects outside the subtree of the
+> object, but if unrealization is possible, they must be undone by
+> unrealization. if an object is realized and unrealization is not
+> possible, finalization will never run (and in that case, side effects of
+> realization need not be undone at all).
+
+One possible answer the question what should be done in realize() is
+whatever must not be done earlier.  Is that the best we can do?
 
 
