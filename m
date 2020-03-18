@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C3B1897D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 10:21:12 +0100 (CET)
-Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE161897DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 10:25:07 +0100 (CET)
+Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEUsx-0000pY-9u
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 05:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39687)
+	id 1jEUwk-00038o-RF
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 05:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jEUnp-0003F5-MP
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:54 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jEUw3-0002i3-7V
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:24:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jEUno-0004sR-LG
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:53 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40613)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jEUno-0004ml-EQ
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:52 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z12so2335115wmf.5
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 02:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=v8SYlyFWHibMbzw5x9/Oky71TcnVdLOahGjn4df4QAU=;
- b=YjjS6EfjtvisDjroCFTSc9vhLIDSTXCO3bilV6VM/f8t6RAgU5+tg4LCUPe0u3vroj
- Q4WiCXdNzdEMqwF0pB6pkdAIikKKqqkzHrVEAzDr94CT/oO3/iIVqtrP4X+OKRD/Z0lw
- VqCyMBo0CKX4rojQUUGVXOQeU2zco5qMBiEiBMtRGnatoiQ8OompkgnufzuXICyTnNvH
- ri0Xqocmn837S28LWGWfI1UqQxOoXjHwifrfRH/dOWN+g8Kq/6E93gyt8MSAe2g8ASg5
- SGCOXDCWGtuVneqq7EQu7PyXVlrsSLnd64hXNUqAAMGNqLytclqHGE6OoiZQzDXaCtx5
- 4DNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=v8SYlyFWHibMbzw5x9/Oky71TcnVdLOahGjn4df4QAU=;
- b=uNtHK4kjk1IS39jq4U3f0exTaxkSoiU95rC7Ys0I2u/j0z3K6HbZAwxjvjPPWcb2Hh
- AK4iL1Bj1gKK9eZZqkhbyXCSZo6OxWKbina00/kpv9XFCZIS01tu7z2sjaWtngL8nFH9
- H4CNmHdSQ+M5rvt1LHhWJgwyP7ExhQhSw/RV2WRnjggnSYBH7BBRXOZ/8bSJuDyadIrW
- RTTzajAqz2DkB1KrhHxT2ZHruHvW5Hkskb2haTSsrLcjN7fZjLCYwHcyH+tVmsXAdJOB
- IIs7yPI2fT1EBL0jOZ4vTM8MORThyWxH2cQD0Wy38f+rqGdCvdOydUj02Fa8pXp8S0yf
- VrXw==
-X-Gm-Message-State: ANhLgQ0ydjT0+5h95IKaQNHgPToxEUZ5yNZ8ZD4pEL2LvUQaYblCYLpO
- ZV+AOTnVwvkA05JY5XMA7Z+7nJc2r1AQ0A==
-X-Google-Smtp-Source: ADFU+vvfcYVmUqX5mlgjYgUP1miBwlrf413OxxZJv3oiHJKUYYK4A4DPlrsVQ/XLz2Pnvr5IP020vQ==
-X-Received: by 2002:a1c:2dc7:: with SMTP id t190mr4254586wmt.137.1584522950384; 
- Wed, 18 Mar 2020 02:15:50 -0700 (PDT)
-Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
- [79.183.43.120])
- by smtp.gmail.com with ESMTPSA id z22sm3062342wmi.1.2020.03.18.02.15.49
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 18 Mar 2020 02:15:49 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH v5 7/7] virtio-net: add migration support for RSS and hash
- report
-Date: Wed, 18 Mar 2020 11:15:25 +0200
-Message-Id: <20200318091525.27044-8-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200318091525.27044-1-yuri.benditovich@daynix.com>
-References: <20200318091525.27044-1-yuri.benditovich@daynix.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+ (envelope-from <dgilbert@redhat.com>) id 1jEUvz-0004Y8-FG
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:24:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58337)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jEUvz-0004Uv-9d
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:24:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584523458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4QpNZHI3ciXbSBYyCW7fMUXX0SBd9Ijwis/0eWUrFbo=;
+ b=CCmZF1smujle7esrjPwiEyl1Tia3mqriei516k+bxU6dm9c8ZavtXhFHeLUkKFTdVJAooL
+ YNa3Nv1MBJK+rF058k+OAuP/QckTW8btK8P4a5I3hcdI6K/uINfcw6BeNsiXo8jFEZzo9j
+ szB+KJml9Eyg/Xi7XQsiONYciD/VNDU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-sLkT8OtMPPi_dB7PNv434Q-1; Wed, 18 Mar 2020 05:24:15 -0400
+X-MC-Unique: sLkT8OtMPPi_dB7PNv434Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00600100726A;
+ Wed, 18 Mar 2020 09:24:14 +0000 (UTC)
+Received: from work-vm (ovpn-115-3.ams2.redhat.com [10.36.115.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7ECBE94967;
+ Wed, 18 Mar 2020 09:23:59 +0000 (UTC)
+Date: Wed, 18 Mar 2020 09:23:57 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH] pci: Display PCI IRQ pin in "info pci"
+Message-ID: <20200318092357.GB2850@work-vm>
+References: <20200317195908.283800-1-peterx@redhat.com>
+ <20200317202117.GI3369@work-vm> <20200317203659.GC233068@xz-x1>
+MIME-Version: 1.0
+In-Reply-To: <20200317203659.GC233068@xz-x1>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,69 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save and restore RSS/hash report configuration.
+* Peter Xu (peterx@redhat.com) wrote:
+> On Tue, Mar 17, 2020 at 08:21:17PM +0000, Dr. David Alan Gilbert wrote:
+> > * Peter Xu (peterx@redhat.com) wrote:
+> > > Sometimes it would be good to be able to read the pin number along
+> > > with the IRQ number allocated.  Since we'll dump the IRQ number, no
+> > > reason to not dump the pin information.  For example, the vfio-pci
+> > > device will overwrite the pin with the hardware pin number.  It would
+> > > be nice to know the pin number of one assigned device from QMP/HMP.
+> > >=20
+> > > CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > CC: Alex Williamson <alex.williamson@redhat.com>
+> > > CC: Michael S. Tsirkin <mst@redhat.com>
+> > > CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > > CC: Julia Suvorova <jusual@redhat.com>
+> > > CC: Markus Armbruster <armbru@redhat.com>
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >=20
+> > > This helped me to debug an IRQ sharing issue, so may good to have it
+> > > in master too.
+> > > ---
+> > >  hw/pci/pci.c       | 1 +
+> > >  monitor/hmp-cmds.c | 3 ++-
+> > >  qapi/misc.json     | 6 ++++--
+> > >  3 files changed, 7 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> > > index e1ed6677e1..7ebf532ac9 100644
+> > > --- a/hw/pci/pci.c
+> > > +++ b/hw/pci/pci.c
+> > > @@ -1769,6 +1769,7 @@ static PciDeviceInfo *qmp_query_pci_device(PCID=
+evice *dev, PCIBus *bus,
+> > >      info->regions =3D qmp_query_pci_regions(dev);
+> > >      info->qdev_id =3D g_strdup(dev->qdev.id ? dev->qdev.id : "");
+> > > =20
+> > > +    info->irq_pin =3D dev->config[PCI_INTERRUPT_PIN];
+> > >      if (dev->config[PCI_INTERRUPT_PIN] !=3D 0) {
+> > >          info->has_irq =3D true;
+> > >          info->irq =3D dev->config[PCI_INTERRUPT_LINE];
+> > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> > > index 58724031ea..04c86bbb03 100644
+> > > --- a/monitor/hmp-cmds.c
+> > > +++ b/monitor/hmp-cmds.c
+> > > @@ -680,7 +680,8 @@ static void hmp_info_pci_device(Monitor *mon, con=
+st PciDeviceInfo *dev)
+> > >      }
+> > > =20
+> > >      if (dev->has_irq) {
+> > > -        monitor_printf(mon, "      IRQ %" PRId64 ".\n", dev->irq);
+> > > +        monitor_printf(mon, "      IRQ %" PRId64 ", pin %c\n",
+> > > +                       dev->irq, (char)('A' + dev->irq_pin - 1));
+> >=20
+> > Can we trust dev->irq_pin not to be something silly and generate a
+> > non-printable?
+>=20
+> It should be strictly a value between 1-4 corresponds to irq pin A-D
+> (note the has_irq check masked out the zero value, or it could be
+> 0-4), so I think it should always make sense. Otherwise I see it a
+> qemu bug somewhere...
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+OK, then=20
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a0614ad4e6..0b058aae9f 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-         }
-     }
- 
-+    if (n->rss_data.enabled) {
-+        trace_virtio_net_rss_enable(n->rss_data.hash_types,
-+                                    n->rss_data.indirections_len,
-+                                    sizeof(n->rss_data.key));
-+    } else {
-+        trace_virtio_net_rss_disable();
-+    }
-     return 0;
- }
- 
-@@ -3019,6 +3026,24 @@ static const VMStateDescription vmstate_virtio_net_has_vnet = {
-     },
- };
- 
-+static const VMStateDescription vmstate_rss = {
-+    .name      = "vmstate_rss",
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(enabled, VirtioNetRssData),
-+        VMSTATE_BOOL(redirect, VirtioNetRssData),
-+        VMSTATE_BOOL(populate_hash, VirtioNetRssData),
-+        VMSTATE_UINT32(hash_types, VirtioNetRssData),
-+        VMSTATE_UINT16(indirections_len, VirtioNetRssData),
-+        VMSTATE_UINT16(default_queue, VirtioNetRssData),
-+        VMSTATE_UINT8_ARRAY(key, VirtioNetRssData,
-+                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
-+        VMSTATE_VARRAY_UINT16_ALLOC(indirections_table, VirtioNetRssData,
-+                                    indirections_len, 0,
-+                                    vmstate_info_uint16, uint16_t),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static const VMStateDescription vmstate_virtio_net_device = {
-     .name = "virtio-net-device",
-     .version_id = VIRTIO_NET_VM_VERSION,
-@@ -3067,6 +3092,7 @@ static const VMStateDescription vmstate_virtio_net_device = {
-                          vmstate_virtio_net_tx_waiting),
-         VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
-                             has_ctrl_guest_offloads),
-+        VMSTATE_STRUCT(rss_data, VirtIONet, 1, vmstate_rss, VirtioNetRssData),
-         VMSTATE_END_OF_LIST()
-    },
- };
--- 
-2.17.1
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+for HMP.
+
+Dave
+
+
+> Thanks,
+>=20
+> --=20
+> Peter Xu
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
