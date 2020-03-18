@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA69189B4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 12:52:55 +0100 (CET)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD74189AE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 12:43:24 +0100 (CET)
+Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEXFm-0007Xn-Rp
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 07:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55510)
+	id 1jEX6Z-00045J-GD
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 07:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEXDt-0006Gy-3d
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:50:58 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jEX5d-0003Rm-UJ
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:42:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEXDr-00077Q-U5
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:50:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48906)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEXDr-00073g-O7
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:50:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEXDp-0002Pj-8n
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 11:50:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C13A2E80E7
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 11:50:53 +0000 (UTC)
+ (envelope-from <cohuck@redhat.com>) id 1jEX5c-0004my-I3
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:42:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47189)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEX5c-0004bB-88
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:42:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584531743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NoF2tXLL+2rmnbX9do3XUmMoNsslmXyv5OuhY+nKjBo=;
+ b=OxTBl86+V7MMxAfbJ6trIwacein+jNqkpynYYV2C4V5yF8Vu7VGnCqRhjgS87Nfb1VlhSL
+ NI4DFnbpd+qeNzEpyeThAeE/4OwPznvuR/8TlnS7QEm5qLCnCZuumCl2amBP1vmS+HXbmo
+ 8tOgx9GDYyKle6T2fdwNRSQQvOmX7+E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-8x4xAT3OPIq6INNMAgqwVw-1; Wed, 18 Mar 2020 07:42:21 -0400
+X-MC-Unique: 8x4xAT3OPIq6INNMAgqwVw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8952A107ACC7;
+ Wed, 18 Mar 2020 11:42:20 +0000 (UTC)
+Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A7435D9C5;
+ Wed, 18 Mar 2020 11:42:16 +0000 (UTC)
+Date: Wed, 18 Mar 2020 12:42:14 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 04/15] s390x: protvirt: Inhibit balloon when
+ switching to protected mode
+Message-ID: <20200318124214.15778f76.cohuck@redhat.com>
+In-Reply-To: <20200311132151.172389-5-frankja@linux.ibm.com>
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-5-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Mar 2020 11:40:59 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1867519@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange mohamadh paelzer
-X-Launchpad-Bug-Reporter: Mohammad Heib (mohamadh)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <158428174672.11238.3583143675239092561.malonedeb@soybean.canonical.com>
-Message-Id: <158453165993.10911.7176415910889479830.malone@soybean.canonical.com>
-Subject: [Bug 1867519] Re: qemu 4.2 segfaults on VF detach
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b9031127b8da96f6e6a70f50bd4a18e464f8a6fd
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,86 +72,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867519 <1867519@bugs.launchpad.net>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Might be
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D0446f8121723b134ca1d1ed0b=
-73e96d4a0a8689d
+On Wed, 11 Mar 2020 09:21:40 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-This would also match the backtrace path.
+> Ballooning in protected VMs can only be done when the guest shares the
+> pages it gives to the host. If pages are not shared, the integrity
+> checks will fail once those pages have been altered and are given back
+> to the guest.
+> 
+> As we currently do not yet have a solution for this we will continue
+> like this:
+> 
+> 1. We block ballooning now in QEMU (with this patch)
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+add trailing '.'
 
--- =
+> 
+> 2. Later we will provide a change to virtio that removes the blocker
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867519
+s/Later/Later,/
 
-Title:
-  qemu 4.2 segfaults on VF detach
+> and adds VIRTIO_F_IOMMU_PLATFORM automatically by QEMU when doing the
+> protvirt switch. This is ok as the guest balloon driver will reject to
+> work with the IOMMU change
 
-Status in QEMU:
-  Fix Committed
-Status in qemu package in Ubuntu:
-  Confirmed
+"This is OK, as the balloon driver in Linux (the only supported guest)
+will refuse to work with the IOMMU_PLATFORM feature bit set."
 
-Bug description:
-  After updating Ubuntu 20.04 to the Beta version, we get the following
-  error and the virtual machines stucks when detaching PCI devices using
-  virsh command:
+?
 
-  Error:
-  error: Failed to detach device from /tmp/vf_interface_attached.xml
-  error: internal error: End of file from qemu monitor
+> 
+> 3. Later we can fix the guest balloon driver to accept the IOMMU
 
-  steps to reproduce:
-   1. create a VM over Ubuntu 20.04 (5.4.0-14-generic)
-   2. attach PCI device to this VM (Mellanox VF for example)
-   3. try to detaching  the PCI device using virsh command:
-     a. create a pci interface xml file:
-          =
+"Later, we can fix the Linux guest balloon driver..."
 
-        <hostdev mode=3D'subsystem' type=3D'pci' managed=3D'yes'>
-        <driver name=3D'vfio'/>
-        <source>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x11' slot=3D'0x00' =
-function=3D'0x2' />
-        </source>
-        </hostdev>
-      =
+> feature bit and correctly exercise sharing and unsharing of balloon
+> pages
 
-     b.  #virsh detach-device <VM-Doman-name> <pci interface xml file>
+again, missing trailing '.'
 
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index deb31e060052d279..066e01f303c35671 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -41,6 +41,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/s390x/tod.h"
+>  #include "sysemu/sysemu.h"
+> +#include "sysemu/balloon.h"
+>  #include "hw/s390x/pv.h"
+>  #include "migration/blocker.h"
+>  
+> @@ -326,6 +327,7 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
+>      ms->pv = false;
+>      migrate_del_blocker(pv_mig_blocker);
+>      error_free_or_abort(&pv_mig_blocker);
+> +    qemu_balloon_inhibit(false);
+>  }
+>  
+>  static int s390_machine_protect(S390CcwMachineState *ms)
+> @@ -333,10 +335,12 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+>      Error *local_err = NULL;
+>      int rc;
+>
 
-  - Ubuntu release:
-    Description:    Ubuntu Focal Fossa (development branch)
-    Release:        20.04
+Maybe add a comment?
 
-  - Package ver:
-    libvirt0:
-    Installed: 6.0.0-0ubuntu3
-    Candidate: 6.0.0-0ubuntu5
-    Version table:
-       6.0.0-0ubuntu5 500
-          500 http://il.archive.ubuntu.com/ubuntu focal/main amd64 Packages
-   *** 6.0.0-0ubuntu3 100
-          100 /var/lib/dpkg/status
+/*
+ * Ballooning on protected VMs needs support in the guest for
+ * sharing and unsharing balloon pages. Block ballooning for
+ * now, until we have a solution to make at least Linux guests
+ * either support it or fail gracefully.
+ */
+  
+> +    qemu_balloon_inhibit(true);
+>      error_setg(&pv_mig_blocker,
+>                 "protected VMs are currently not migrateable.");
+>      rc = migrate_add_blocker(pv_mig_blocker, &local_err);
+>      if (local_err) {
+> +        qemu_balloon_inhibit(false);
+>          error_report_err(local_err);
+>          error_free_or_abort(&pv_mig_blocker);
+>          return rc;
+> @@ -345,6 +349,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+>      /* Create SE VM */
+>      rc = s390_pv_vm_enable();
+>      if (rc) {
+> +        qemu_balloon_inhibit(false);
+>          error_report_err(local_err);
+>          migrate_del_blocker(pv_mig_blocker);
+>          error_free_or_abort(&pv_mig_blocker);
 
-  - What you expected to happen: =
-
-    PCI device detached without any errors.
-
-  - What happened instead:
-    getting the errors above and he VM stuck
-
-  additional info:
-  after downgrading the libvirt0 package and all the dependent packages to =
-5.4 the previous, version, seems that the issue disappeared
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867519/+subscriptions
 
