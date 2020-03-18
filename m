@@ -2,46 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1197B189604
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 07:52:02 +0100 (CET)
-Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B908B189615
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 08:00:32 +0100 (CET)
+Received: from localhost ([::1]:46304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jESYa-0001AG-TH
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 02:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39963)
+	id 1jESgp-0003mb-Or
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 03:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1jESXC-0000Gq-Ql
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:35 -0400
+ (envelope-from <armbru@redhat.com>) id 1jESfp-0003M4-9k
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:59:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1jESXB-0005nP-LO
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:34 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60410 helo=huawei.com)
+ (envelope-from <armbru@redhat.com>) id 1jESfn-0004ce-4a
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:59:28 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:29646)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>) id 1jESXB-0004x8-97
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:33 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9D82CAEB364FF751143C;
- Wed, 18 Mar 2020 14:50:26 +0800 (CST)
-Received: from linux-kDCJWP.huawei.com (10.175.104.212) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 18 Mar 2020 14:50:19 +0800
-From: Heyi Guo <guoheyi@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v4 2/2] tests/bios-tables-test: add smbios cpu speed test
-Date: Wed, 18 Mar 2020 14:48:20 +0800
-Message-ID: <20200318064820.19363-3-guoheyi@huawei.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200318064820.19363-1-guoheyi@huawei.com>
-References: <20200318064820.19363-1-guoheyi@huawei.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jESfm-0004Tc-UE
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:59:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584514766;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=65EaxWF/UaSsGsnIDRqtZZG6yU0n4m7tttOmDa9hXEM=;
+ b=cCPtZ13SHPNvUAFLfDOr+lVlSFUS9Qb7y9+BEFbId7+57uTmXp6f5qaZm6etK3G/dyCdfU
+ 7G4V4etnbK5/WOdCmRAjx7RrAj28b3de+u055Rdd6W9Y43j/X+YkS+yzdOU96EhLtzplCz
+ CZXHYMh1HUy5Mnv3RKmTkEf4ZhJHh+g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-IuBNTobkPLuHEW7-AVO4xg-1; Wed, 18 Mar 2020 02:59:23 -0400
+X-MC-Unique: IuBNTobkPLuHEW7-AVO4xg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1C40477;
+ Wed, 18 Mar 2020 06:59:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
+ [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A6D95D9E2;
+ Wed, 18 Mar 2020 06:59:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id ACB6E1138404; Wed, 18 Mar 2020 07:59:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v4 27/34] qemu-options: New -compat to set policy for
+ deprecated interfaces
+References: <20200317115459.31821-1-armbru@redhat.com>
+ <20200317115459.31821-28-armbru@redhat.com>
+ <f2466af3-a20d-94f7-950c-2d2cd2e919ae@redhat.com>
+Date: Wed, 18 Mar 2020 07:59:20 +0100
+In-Reply-To: <f2466af3-a20d-94f7-950c-2d2cd2e919ae@redhat.com> (Eric Blake's
+ message of "Tue, 17 Mar 2020 16:05:47 -0500")
+Message-ID: <87wo7icfnb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.175.104.212]
-X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,123 +78,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
- wanghaibin.wang@huawei.com
+Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add smbios type 4 CPU speed check for we added new options to set
-smbios type 4 "max speed" and "current speed". The default value
-should be 2000 when no option is specified, just as the old version
-did.
+Eric Blake <eblake@redhat.com> writes:
 
-We add the test case to one machine of each architecture, though it
-doesn't really run on aarch64 platform for smbios test can't run on
-uefi only platform yet.
+> On 3/17/20 6:54 AM, Markus Armbruster wrote:
+>> Policy is separate for input and output.
+>>
+>> Input policy can be "accept" (accept silently), or "reject" (reject
+>> the request with an error).
+>>
+>> Output policy can be "accept" (pass on unchanged), or "hide" (filter
+>> out the deprecated parts).
+>>
+>> Default is "accept".  Policies other than "accept" are implemented
+>> later in this series.
+>>
+>> For now, -compat covers only syntactic aspects of QMP, i.e. stuff
+>> tagged with feature 'deprecated'.  We may want to extend it to cover
+>> semantic aspects, CLI, and experimental features.
+>>
+>> The option is experimental.
+>
+> On IRC, we decided that it's probably not worth shoe-horning this (and
+> the rest of the series) into 5.0, given the experimental nature.
 
-Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Yes.  I can't wait for having test suites try this, but releases and
+impatience are not a good mix.
 
----
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/qtest/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+> Still, I'll go ahead and review, so we can settle on things early in
+> 5.1.
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-tes=
-t.c
-index 0a597bbacf..f2d2e97b4a 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -77,6 +77,8 @@ typedef struct {
-     GArray *tables;
-     uint32_t smbios_ep_addr;
-     struct smbios_21_entry_point smbios_ep_table;
-+    uint16_t smbios_cpu_max_speed;
-+    uint16_t smbios_cpu_curr_speed;
-     uint8_t *required_struct_types;
-     int required_struct_types_len;
-     QTestState *qts;
-@@ -560,6 +562,31 @@ static inline bool smbios_single_instance(uint8_t ty=
-pe)
-     }
- }
-=20
-+static bool smbios_cpu_test(test_data *data, uint32_t addr)
-+{
-+    uint16_t expect_speed[2];
-+    uint16_t real;
-+    int offset[2];
-+    int i;
-+
-+    /* Check CPU speed for backward compatibility */
-+    offset[0] =3D offsetof(struct smbios_type_4, max_speed);
-+    offset[1] =3D offsetof(struct smbios_type_4, current_speed);
-+    expect_speed[0] =3D data->smbios_cpu_max_speed ? : 2000;
-+    expect_speed[1] =3D data->smbios_cpu_curr_speed ? : 2000;
-+
-+    for (i =3D 0; i < 2; i++) {
-+        real =3D qtest_readw(data->qts, addr + offset[i]);
-+        if (real !=3D expect_speed[i]) {
-+            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect=
- %u\n",
-+                    real, expect_speed[i]);
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
- static void test_smbios_structs(test_data *data)
- {
-     DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) =3D { 0 };
-@@ -582,6 +609,10 @@ static void test_smbios_structs(test_data *data)
-         }
-         set_bit(type, struct_bitmap);
-=20
-+        if (type =3D=3D 4) {
-+            g_assert(smbios_cpu_test(data, addr));
-+        }
-+
-         /* seek to end of unformatted string area of this struct ("\0\0"=
-) */
-         prv =3D crt =3D 1;
-         while (prv || crt) {
-@@ -716,6 +747,11 @@ static void test_acpi_q35_tcg(void)
-     data.required_struct_types_len =3D ARRAY_SIZE(base_required_struct_t=
-ypes);
-     test_acpi_one(NULL, &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed =3D 3000;
-+    data.smbios_cpu_curr_speed =3D 2600;
-+    test_acpi_one("-smbios type=3D4,max-speed=3D3000,current-speed=3D260=
-0", &data);
-+    free_test_data(&data);
- }
-=20
- static void test_acpi_q35_tcg_bridge(void)
-@@ -1017,6 +1053,12 @@ static void test_acpi_virt_tcg(void)
-=20
-     test_acpi_one("-cpu cortex-a57", &data);
-     free_test_data(&data);
-+
-+    data.smbios_cpu_max_speed =3D 2900;
-+    data.smbios_cpu_curr_speed =3D 2700;
-+    test_acpi_one("-cpu cortex-a57 "
-+                  "-smbios type=3D4,max-speed=3D2900,current-speed=3D270=
-0", &data);
-+    free_test_data(&data);
- }
-=20
- int main(int argc, char *argv[])
---=20
-2.19.1
+Appreciated!
+
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> +++ b/qapi/compat.json
+>> @@ -0,0 +1,51 @@
+>> +# -*- Mode: Python -*-
+>> +
+>> +##
+>> +# =3D Compatibility policy
+>> +##
+>> +
+>> +##
+>> +# @CompatPolicyInput:
+>> +#
+>> +# Policy for handling "funny" input.
+>> +#
+>> +# @accept: Accept silently
+>> +# @reject: Reject with an error
+>> +#
+>> +# Since: 5.0
+>
+> Of course, now that we're slipping this, you'll have to s/5.0/5.1/g
+> over the remaining patches.  I won't point it out further.
+
+Acknowledged.
+
+>> +##
+>> +# @CompatPolicy:
+>> +#
+>> +# Policy for handling deprecated management interfaces.
+>> +#
+>> +# This is intended for testing users of the management interfaces.
+>> +#
+>> +# Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
+>> +# with feature 'deprecated'.  We may want to extend it to cover
+>> +# semantic aspects, CLI, and experimental features.
+>
+> Hiding/rejecting x- interfaces is probably the easiest of these, but I
+> agree that leaving this open-ended to add further coverage (or even
+> additional modes) is still reasonable.
+
+Apropos experimental: we may choose to move from the x- naming
+convention to a special feature flag "experimental".  That way, we don't
+have to rename when we declare the thing stable.
+
+>> +#
+>> +# @deprecated-input: how to handle deprecated input (default 'accept')
+>> +# @deprecated-output: how to handle deprecated output (default 'accept'=
+)
+>> +#
+>> +# Since: 5.0
+>> +##
+>> +{ 'struct': 'CompatPolicy',
+>> +  'data': { '*deprecated-input': 'CompatPolicyInput',
+>> +            '*deprecated-output': 'CompatPolicyOutput' } }
+>
+> For example, adding
+> '*experimental-input': 'CompatPolicyInput'
+> would make it easy to hard-code failure on attempt to use x-* commands.
+
+Exactly.
+
+>> +++ b/include/qapi/compat-policy.h
+>> @@ -0,0 +1,20 @@
+>> +/*
+>> + * Policy for handling "funny" management interfaces
+>> + *
+>> + * Copyright (C) 2019 Red Hat, Inc.
+>
+> You've had this in-tree for a while. I'll leave it up to you if you
+> want to add 2020.
+
+I want to.  Hope I remember when I respin.
+
+>> + *
+>> + * Authors:
+>> + *  Markus Armbruster <armbru@redhat.com>,
+>> + *
+>
+> Ending with a comma is odd.  Is the Authors: snippet even necessary,
+> or are we better off relying on git history (which tends to be more
+> accurate anyway)?
+
+The comma is an accident.
+
+The Authors section is custom, not necessity.
+
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or
+>> + * later.  See the COPYING file in the top-level directory.
+>> + */
+>
+> Are we trying to use SPDX tags in more files?
+
+No idea :)
+
+>> +++ b/qemu-options.hx
+>> @@ -3357,6 +3357,26 @@ DEFHEADING()
+>>     DEFHEADING(Debug/Expert options:)
+>>   +DEF("compat", HAS_ARG, QEMU_OPTION_compat,
+>> +    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Dac=
+cept|hide]\n"
+>> +    "                Policy for handling deprecated management interfac=
+es\n",
+>> +    QEMU_ARCH_ALL)
+>> +SRST
+>> +``-compat [deprecated-input=3D@var{input-policy}][,deprecated-output=3D=
+@var{output-policy}]``
+>> +    Set policy for handling deprecated management interfaces (experimen=
+tal):
+>
+> We'll eventually want to drop (experimental), especially if we get all
+> the rest of this into 5.1.
+>
+> But for now this looks like a good start.
+
+Thanks!
 
 
