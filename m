@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F081892D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 01:23:59 +0100 (CET)
-Received: from localhost ([::1]:43618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D4B1892D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 01:25:24 +0100 (CET)
+Received: from localhost ([::1]:43635 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEMV4-00084S-7N
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 20:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
+	id 1jEMWR-00014N-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 20:25:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1jEMRC-0004L3-7X
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:19:59 -0400
+ (envelope-from <crosa@redhat.com>) id 1jEMRE-0004PV-Bm
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1jEMRA-00084Y-Ly
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:19:58 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44451)
+ (envelope-from <crosa@redhat.com>) id 1jEMRD-0008QK-5f
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:20:00 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:28260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1jEMRA-000821-HR
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:19:56 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1jEMRC-0008Nj-VN
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 20:19:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584490796;
+ s=mimecast20190719; t=1584490798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zoD/z+A1PszJF4eckXJDLUHboiQsadxXrSrIBOl8OZI=;
- b=Ah8Ycxix+VguO9iyLXbqfjU74JEMQ24FzUSWuAZY+PFtE8+mkyl8+UCl6yF19yZjjkraUv
- 0KvMtkcM1no6SopSuht78U0d4bI7uO93RJ2t4OkSkSEWv9hfXHgUF0TpUIhJMpNoAH1PAJ
- C8kxoG+tEH280cTWiyim4vStHviB3SM=
+ bh=7GTfeyMlA9NY0+2uIEce259/4FRhvDkYKEV84F8mWe8=;
+ b=BKY/t5oyLzhQpve1KkohiMqMtJ6zB2aOnv/vdaZJ1Rzl0DwKLKZbPwrS9jeTU9dLMwZTj7
+ gLJ1EIdauXXoyNk2Lz2s3qMsZ7Dt3sXwVyiDNJA92NIhnOMUJt7rtAxqPt8SueDJaSHFVL
+ vvv5dm1cmXkAr/q1Fc7UI2AsMYC6+J8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-fr6DtnFUMteppFoCqIbDoA-1; Tue, 17 Mar 2020 20:19:54 -0400
-X-MC-Unique: fr6DtnFUMteppFoCqIbDoA-1
+ us-mta-276-O-ACXTFsOVGqdOCI7pPYPA-1; Tue, 17 Mar 2020 20:19:56 -0400
+X-MC-Unique: O-ACXTFsOVGqdOCI7pPYPA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B719013E2;
- Wed, 18 Mar 2020 00:19:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22FCA800D50;
+ Wed, 18 Mar 2020 00:19:55 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-2.rdu2.redhat.com
  [10.10.117.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F92210016EB;
- Wed, 18 Mar 2020 00:19:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA4C610016EB;
+ Wed, 18 Mar 2020 00:19:52 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/6] Acceptance tests: add make targets to download images
-Date: Tue, 17 Mar 2020 20:19:30 -0400
-Message-Id: <20200318001932.180617-5-crosa@redhat.com>
+Subject: [PULL 5/6] tests/docker: add CentOS 8 Dockerfile
+Date: Tue, 17 Mar 2020 20:19:31 -0400
+Message-Id: <20200318001932.180617-6-crosa@redhat.com>
 In-Reply-To: <20200318001932.180617-1-crosa@redhat.com>
 References: <20200318001932.180617-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,7 +73,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>, Willian Rampazzo <willianr@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -85,81 +84,57 @@ Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The newly introduced "boot linux" tests make use of Linux images that
-are larger than usual, and fall into what Avocado calls "vmimages",
-and can be referred to by name, version and architecture.
-
-The images can be downloaded automatically during the test. But, to
-make for more reliable test results, this introduces a target that
-will download the vmimages for the architectures that have been
-configured and are available for the currently used distro (Fedora
-31).
+Which is currenly missing, and will be referenced later in the
+contributed CI playbooks.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-[Cleber: implemented suggestions by Alex, download message, check-venv targ=
-et]
-Message-Id: <20200317141654.29355-4-crosa@redhat.com>
+Message-Id: <20200312193616.438922-2-crosa@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ tests/docker/dockerfiles/centos8.docker | 32 +++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/centos8.docker
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 67e8fcddda..68c5d73d28 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -20,6 +20,8 @@ check-help:
- =09@echo " $(MAKE) check-venv           Creates a Python venv for tests"
- =09@echo " $(MAKE) check-clean          Clean the tests and related data"
- =09@echo
-+=09@echo " $(MAKE) get-vm-images        Downloads all images used by accep=
-tance tests, according to configured targets (~350 MB each, 1.5 GB max)"
-+=09@echo
- =09@echo
- =09@echo "The variable SPEED can be set to control the gtester speed setti=
-ng."
- =09@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; they c=
-an be"
-@@ -889,7 +891,21 @@ $(TESTS_RESULTS_DIR):
-=20
- check-venv: $(TESTS_VENV_DIR)
-=20
--check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-+FEDORA_31_ARCHES_CANDIDATES=3D$(patsubst ppc64,ppc64le,$(TARGETS))
-+FEDORA_31_ARCHES :=3D x86_64 aarch64 ppc64le s390x
-+FEDORA_31_DOWNLOAD=3D$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDI=
-DATES))
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerf=
+iles/centos8.docker
+new file mode 100644
+index 0000000000..bfa0d33c9c
+--- /dev/null
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -0,0 +1,32 @@
++FROM centos:8.1.1911
 +
-+# download one specific Fedora 31 image
-+get-vm-image-fedora-31-%: check-venv
-+=09$(call quiet-command, \
-+             $(TESTS_VENV_DIR)/bin/python -m avocado vmimage get \
-+             --distro=3Dfedora --distro-version=3D31 --arch=3D$*, \
-+=09"AVOCADO", "Downloading acceptance tests VM image for $*")
++RUN dnf -y update
++ENV PACKAGES \
++    SDL-devel \
++    bison \
++    bzip2 \
++    bzip2-devel \
++    dbus-daemon \
++    flex \
++    gcc \
++    gcc-c++ \
++    gettext \
++    git \
++    glib2-devel \
++    libaio-devel \
++    libepoxy-devel \
++    lzo-devel \
++    make \
++    mesa-libEGL-devel \
++    nettle-devel \
++    perl-Test-Harness \
++    pixman-devel \
++    python36 \
++    rdma-core-devel \
++    spice-glib-devel \
++    spice-server \
++    tar \
++    zlib-devel
 +
-+# download all vm images, according to defined targets
-+get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_=
-31_DOWNLOAD))
-+
-+check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- =09$(call quiet-command, \
-             $(TESTS_VENV_DIR)/bin/python -m avocado \
-             --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RESUL=
-TS_DIR) \
-@@ -900,7 +916,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-=20
- # Consolidated targets
-=20
--.PHONY: check-block check-qapi-schema check-qtest check-unit check check-c=
-lean
-+.PHONY: check-block check-qapi-schema check-qtest check-unit check check-c=
-lean get-vm-images
- check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-schem=
-a/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- ifeq ($(CONFIG_TOOLS),y)
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
 --=20
 2.25.1
 
