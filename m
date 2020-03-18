@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D28D189E1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:42:40 +0100 (CET)
-Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36146189E2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:44:27 +0100 (CET)
+Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEZu3-0002X0-3f
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:42:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
+	id 1jEZvm-000557-AB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bharatb.linux@gmail.com>) id 1jEZn2-00085M-AJ
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:35:25 -0400
+ (envelope-from <eblake@redhat.com>) id 1jEZql-000683-RG
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharatb.linux@gmail.com>) id 1jEZn0-0005xE-Rw
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:35:24 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34711)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bharatb.linux@gmail.com>)
- id 1jEZn0-0005vD-KZ; Wed, 18 Mar 2020 10:35:22 -0400
-Received: by mail-qk1-x741.google.com with SMTP id f3so39032980qkh.1;
- Wed, 18 Mar 2020 07:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1zY6kt8FtxFx7OpmNp1j1dQSSVOqMnX77gpHTli89F0=;
- b=i4LT7HcuPZVbM06C35VOsyxaF0plNxj18vgib2KXessROmC4E3r2oKZKy3xDedMksu
- LOFXs3Y1i2cl0g9n+rYMjDY1mbYOFXUG40pVhsj2kFstfmUoXzCtfLDJ4I75PgJIPSHI
- MHIxIm1YlTc77NvewiUlOEeJGFSV3VEMT20zqe7ucH3CMgVGc4HfEZFx3JE0TmUVUovq
- itiFEUPMloJEn9ArUKIzkugT8u6VXhImHfoGLYIb39845Ifo8GIEpdeSVJehEJ8EMr0N
- czObGYGSnDp6F3TtN4pAUaxxuiR6Evmc7GShDQeyD7qBavzOox0AdHyv7V+Ioieepj+U
- HxHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1zY6kt8FtxFx7OpmNp1j1dQSSVOqMnX77gpHTli89F0=;
- b=rNzU7O3uxiAaw8l5Gty3ztJu2xLK48zwHIUo4QIpJAIrY+6/qC4k3+NBvWJGLC/g74
- fM5amvFKvkzD7h0BMnbnai1Zs1E8C4rKf7My12zqh/aL9C+px/LOG3vvIvVP/glO9JbW
- 28lZcJyx5Bxzj8Qh+eY3l3W3NnlO6Fl3krV9+MIPaLXv7RJbjA6DIoRB33Kmbq9Li+to
- egQEOAI1fi03AKFOy2V8y70pcRplHN8kW1BX5Fr5mJ1mopdrSBp/FZ397iwSVw9yKAzP
- N0k3tWGovpVgzbKfr56bosHkGMl4Wg/t4ELklfVmuwAJMebKzrYPKmMBzSkgEM9WwNyK
- yEzA==
-X-Gm-Message-State: ANhLgQ0OhoziZS1xMtYLQRZKDEm2ptiSLbWWoThpAJWUf66W0CNeI19e
- MBRm37sCvsk9GA6A3Uokmzrl8HhTGjSPo1vOXMk=
-X-Google-Smtp-Source: ADFU+vusiyGPAGQOstrIA7xDWI9EuMeODcv7g4YecrEeKHfiLAeLUCdzgSVn1AaPaeXglI55q2uOw4WG9Wvgj6HDXDo=
-X-Received: by 2002:a05:620a:10ae:: with SMTP id
- h14mr4305427qkk.170.1584542121798; 
- Wed, 18 Mar 2020 07:35:21 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jEZqk-0004fq-Km
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:15 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33701)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jEZqk-0004de-Gq
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584542354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9kZQwjmQy0wRv9ytBq/y9fO7Pf7M8IAux1EHXGFKnvI=;
+ b=DkKToPyGVnUQVkTFqXvPQgtZreA6cMzLVKDVE70TqLK0oBZPhh++sL2nWQFuzbnwiJEJGR
+ w2wOrMdDfAWB5CjPjPS5VeXbU+sFisGFWQMdjSszPTBZJAsiZDe1En+73BbXziBjl0EWDI
+ Z5rfzhY+soGlaqR0o/iofp1zMICy19U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-w0jYwtHWMiebnn8Lp-nlVA-1; Wed, 18 Mar 2020 10:39:07 -0400
+X-MC-Unique: w0jYwtHWMiebnn8Lp-nlVA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02AA818B9FC1;
+ Wed, 18 Mar 2020 14:39:06 +0000 (UTC)
+Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 637465D9E5;
+ Wed, 18 Mar 2020 14:39:02 +0000 (UTC)
+Subject: Re: [RFC (fix for 5.0?)] block/io: do not do pointer arithmetic on
+ void *
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20200318142253.2809-1-vsementsov@virtuozzo.com>
+ <20200318142654.GH2173309@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <bd88b8eb-d4d2-cd53-f61a-7fab95f28812@redhat.com>
+Date: Wed, 18 Mar 2020 09:39:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200318101159.8767-1-bbhushan2@marvell.com>
- <20200318101159.8767-5-bbhushan2@marvell.com>
- <3da60c1b-6897-7ab1-3a67-bec44fa00a54@redhat.com>
-In-Reply-To: <3da60c1b-6897-7ab1-3a67-bec44fa00a54@redhat.com>
-From: Bharat Bhushan <bharatb.linux@gmail.com>
-Date: Wed, 18 Mar 2020 20:05:10 +0530
-Message-ID: <CAAeCc_nVJXsvEw6iqcs9UEvLJNFyPmHnPnN0VUvzUFtVvjCQsQ@mail.gmail.com>
-Subject: Re: [PATCH v8 4/8] virtio-iommu: set supported page size mask
-To: Auger Eric <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+In-Reply-To: <20200318142654.GH2173309@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,86 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhong, Yang" <yang.zhong@intel.com>,
- Peter Maydell <peter.maydell@linaro.org>, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, drjones@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, alex.williamson@redhat.com, qemu-arm@nongnu.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>, linuc.decode@gmail.com,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On 3/18/20 9:26 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Mar 18, 2020 at 05:22:53PM +0300, Vladimir Sementsov-Ogievskiy wr=
+ote:
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>
+>> Hi all!
+>>
+>> C standard doesn't allow pointer arithmetic on void *.
+>> Still, gcc allows it as an extension:
+>>   https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/Pointer-Arith.html
+>>
+>> I can create a series of patches like this. Do we need it?
+>=20
+> I don't think so, we only care about gcc & clang.
 
-On Wed, Mar 18, 2020 at 4:58 PM Auger Eric <eric.auger@redhat.com> wrote:
->
-> Hi Bharat,
->
-> On 3/18/20 11:11 AM, Bharat Bhushan wrote:
-> > Add optional interface to set page size mask.
-> > Currently this is set global configuration and not
-> > per endpoint.
-> >
-> > Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> > ---
-> > v7->v8:
-> >  - new patch
-> >
-> >  hw/virtio/virtio-iommu.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >
-> > diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> > index 4cee8083bc..c00a55348d 100644
-> > --- a/hw/virtio/virtio-iommu.c
-> > +++ b/hw/virtio/virtio-iommu.c
-> > @@ -650,6 +650,15 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
-> >      return (ua > ub) - (ua < ub);
-> >  }
-> >
-> > +static void virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
-> > +                                            uint64_t page_size_mask)
-> > +{
-> > +    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
-> > +    VirtIOIOMMU *s = sdev->viommu;
-> > +
-> > +    s->config.page_size_mask = page_size_mask;
-> The problem is page_size_mask is global to the VIRTIO-IOMMU.
->
-> - Can't different VFIO containers impose different/inconsistent settings?
-> - VFIO devices can be hotplugged.
+Still, if all supported compilers support the extension, then our=20
+CODING_STYLE.rst should mention that it is safe to rely on the extension.
 
-This is possible if we different iommu's, which we support. correct?
+>=20
+>> Also, where is documented which compilers are supported by Qemu?
+>=20
+> It is checked in configure - gcc 4.8 or clang 3.4 or xcode clang 5.1
+>=20
 
-> So we may start with some default
-> page_size_mask which is latter overriden by a host imposed one. Assume
-> you first launch the VM with a virtio NIC. This uses 64K. Then you
-> hotplug a VFIO device behind a physical IOMMU which only supports 4K
-> pages. Isn't it a valid scenario?
 
-So we need to expose page_size_mask per endpoint?
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Thanks
--Bharat
-
->
-> Thanks
->
-> Eric
->
-> > +}
-> > +
-> >  static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> > @@ -865,6 +874,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
-> >      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
-> >
-> >      imrc->translate = virtio_iommu_translate;
-> > +    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
-> >  }
-> >
-> >  static const TypeInfo virtio_iommu_info = {
-> >
->
 
