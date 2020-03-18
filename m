@@ -2,104 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F4518A36A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 20:59:40 +0100 (CET)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BC118A39D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:16:03 +0100 (CET)
+Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEeqp-0001X3-Td
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 15:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
+	id 1jEf6g-00067k-6q
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jEepw-0000K7-1X
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 15:58:45 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jEf5V-0005Ba-71
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:14:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jEepu-0005H9-D4
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 15:58:43 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:53995)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jEepu-0004xq-2b
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 15:58:42 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MZCX1-1ik0rJ4AtN-00VCV4; Wed, 18 Mar 2020 20:58:33 +0100
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200317155116.1227513-1-laurent@vivier.eu>
- <CAFEAcA9Pd6D6xaqN7XfOwRANxm=4uOYmdaBoeQiX4_Z-bXEi9g@mail.gmail.com>
- <610f250b-64b8-1cf4-00fe-5bf2f2eba864@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PULL v2 00/37] Linux user for 5.0 patches
-Message-ID: <b0055b37-a381-095a-a7c9-8b1327be3cce@vivier.eu>
-Date: Wed, 18 Mar 2020 20:58:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <kwankhede@nvidia.com>) id 1jEf5S-0006uC-Qr
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:14:48 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19236)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1jEf5S-0006tZ-I1
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:14:46 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e7281270002>; Wed, 18 Mar 2020 13:14:31 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 18 Mar 2020 13:14:45 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 18 Mar 2020 13:14:45 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Mar
+ 2020 20:14:44 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 18 Mar 2020 20:14:38 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v14 Kernel 0/7] KABIs to support migration for VFIO devices
+Date: Thu, 19 Mar 2020 01:11:07 +0530
+Message-ID: <1584560474-19946-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <610f250b-64b8-1cf4-00fe-5bf2f2eba864@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2i/sxhJyHFPEZUObx+B6xCsAxo3+ZVRWYRbZgBLXRolIEKrJzH6
- hym+yjgFBjr6g92eWbkMsBo94DPGta788dNj76/uzY9ZVd5eqkv0hko0J2h9sjsVWLdzAGw
- dpyfHYAfk4PN/Li9MlNsuJ0S/naxScIfyz1F5cLdMcoJgpkc0M5c2z0ouCi8QbwMsStVNiB
- lttuZJZs4ati5nKoC1jaw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VWD5vVRhw4A=:zHqbf8MEo+890PsCJT6U8g
- daUSKgMjCLocHO/fL96Nkb4//ElR1sbbkzoShNEqgmT4Zb9oc/t++23f7R4RWgr8oDzSwIPpr
- FG5q2GZgC2tKkSm+ZDEqz43HKqOWV/5E6qHA/PctT6Nq4gWhrSfWNNHUZY3jqP2wV6RBBEcVh
- vui2ERSxo7Zw7zRVnZAHsKcZvoJn63bNMkEG8seyP2s/RX/HQZL+SPDVh8AxCiCw/p7G6bHqP
- /oArbjN5FC/gHq5ZhPpDHvRh4hv5Zw6zGutwBelJxFi8AtKjWDnT6cmw4B98NtzRijkFUcqJ3
- KfU+pdwVwbbtclfAmOcB0DD7wZBxjeyIV7RmR3aqdO4LUCgc2gikXigGO+SguILnNrINxM+dL
- 1ByzISuI5nqkcQbXPxSAjlWL/n/0iDsAF3BcTkH/hCsstra6thobWTaofdF929GQ1rQelKR+Q
- 9ZMDzMrzwVOfy2IY4/fe6qBWxvgsA5lanlTRsX+xPw+z548WYCZcwMxZyY7hKQNxPVLvtMVfz
- WO0Qn448bzDY28FoJnu4hX48r+bzTORnvlagb6hnN8FFdciHI1nLppoyx3ublftT58ufXsn1A
- w0ktR0GOB1etyMVeYFaoa4gzk94H5a2upipw09CfGiY64VYhdnukGWMG9IcOd3/R6FR9F2jPw
- AqVdQnCAq3VuqdE7Spq7ozvuwAJbIgEKf9PdRv27Isx8xuhEKDCqUokN1IvRcTNLZW2nBwoZK
- PvWfTN+UBhkFBJRWPiD+OgXGBUAKoY2tKXsugUARfWAfR+4TCCXMswHjy10l85WZ0gzyTNXqv
- nkGYYuduTtm/CWyimN6t2a+UgOQb653Sr9+Tpbpm3q/Rcbzk38pXmHixV+KOc5ngstJDMdJ
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584562472; bh=ZrueuZTFqaYO2Tyxu8ekQbb5H0RhZW6vUFkSFnd4d8k=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=SRTUjqRc5MTOgYB8n1wT5ApTRru71ZwyssTwNhfEiTP84dTTrbJjjuiwZG5BYwVCK
+ fZz3ud54iYmALv1k5YqBFGhkcuctkoBl2Cz7WPMYaRTRE6P9Bey2cxpRtaYlKhv+Xv
+ S9BI61TNsplX58MWxGlmMIJNN1AxaaZfsAeDfHMriZqoBug9gZSIc6alNfWvKGiE/n
+ 3sahWwYoLFeMBIKoseZKezIidA9GS4UeKlxC2J91Az8UW4lpeX08ZelsVzNXTAEH9o
+ zZ0EeiMsU5Q/UHAQTNFozOztsdAlQHgnrnz4ARZ5K2TNrmPn0diCaaQOuhEaWoTaKW
+ w/RgT5UpJ3xqw==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,98 +67,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/03/2020 à 20:46, Richard Henderson a écrit :
-> On 3/18/20 6:57 AM, Peter Maydell wrote:
->> My set of "run ls for various architectures" linux-user tests
->> https://people.linaro.org/~peter.maydell/linux-user-test-pmm-20200114.tgz
->> fails with this pullreq:
->>
->> e104462:bionic:linux-user-test-0.3$
->> /home/petmay01/linaro/qemu-for-merges/build/all-linux-static/x86_64-linux-user/qemu-x86_64
->> -L ./gnemul/qemu-x86_64 x86_64/ls -l dummyfile
->> qemu: 0x40008117e9: unhandled CPU exception 0x101 - aborting
-> 
-> 
-> I replicated this on aarch64 host, with an existing build tree and merging in
-> the pull request.  It does not occur when building the same merged tree from
-> scratch.
-> 
-> I have no idea what the reason for this is.  Laurent suggested a file in the
-> build tree that is shadowed by one in the source tree, but to me that makes no
-> sense for this case:
-> 
-> It's target/i386/cpu.h that defines EXCP_SYSCALL (renumbered in this series
-> from 0x100 to 0x101), which is not in the build tree.  It is
-> linux-user/i386/cpu_loop.c that consumes EXCP_SYSCALL, and it is also not in
-> the build tree.
-> 
-> However, from the error message above, it's clear that cpu_loop.o has not been
-> rebuilt properly.
-> 
+Hi,
 
-In the series merged here syscall_nr.h are moved from source directory
-to build directory.
+This patch set adds:
+* New IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration. When IOMMU capable device is present in the
+  container and all pages are pinned and mapped, then all pages are marked
+  dirty.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned should be considered
+  as dirty.
+  This ioctl is also used to start/stop dirty pages tracking for pinned and
+  unpinned pages while migration is active.
 
-The include path of the files is based on the dependecy files (*.d), and
-to force the update of this path PATCH 13 removes all the .d files that
-have a dependecy on the syscall_nr.h file in the source path.
+* Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+  unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
 
-This is added in configure:
-
---- a/configure
-+++ b/configure
-@@ -1887,6 +1887,17 @@ fi
- # Remove old dependency files to make sure that they get properly
-regenerated
- rm -f */config-devices.mak.d
-
-+# Remove syscall_nr.h to be sure they will be regenerated in the build
-+# directory, not in the source directory
-+for arch in ; do
-+    # remove the file if it has been generated in the source directory
-+    rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
-+    # remove the dependency files
-+    find . -name "*.d" \
-+           -exec grep -q
-"${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
-+           -exec rm {} \;
-+done
-+
- if test -z "$python"
- then
-     error_exit "Python not found. Use --python=/path/to/python"
-
-For the use of the dependency see for instance PATCH 14:
-
---- a/configure
-+++ b/configure
-@@ -1889,7 +1889,7 @@ rm -f */config-devices.mak.d
-
- # Remove syscall_nr.h to be sure they will be regenerated in the build
- # directory, not in the source directory
--for arch in ; do
-+for arch in alpha ; do
-     # remove the file if it has been generated in the source directory
-     rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
-     # remove the dependency file
-+++ b/linux-user/alpha/Makefile.objs
-@@ -0,0 +1,5 @@
-+generated-files-y += linux-user/alpha/syscall_nr.h
-+
-+syshdr := $(SRC_PATH)/linux-user/alpha/syscallhdr.sh
-+%/syscall_nr.h: $(SRC_PATH)/linux-user/alpha/syscall.tbl $(syshdr)
-+	$(call quiet-command, sh $(syshdr) $< $@ $(TARGET_SYSTBL_ABI),"GEN","$@")
+* Patch 7 detect if IOMMU capable device driver is smart to report pages
+  to be marked dirty by pinning pages using vfio_pin_pages() API.
 
 
-%/syscall_nr.h is expanded with the absolute path found in the .d file.
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
 
-Perhaps it removes a dependency that should trigger the rebuild of
-cpu_loop.o?
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
+
+v13 -> v14
+- Added struct vfio_bitmap to kabi. updated structure
+  vfio_iommu_type1_dirty_bitmap_get and vfio_iommu_type1_dma_unmap.
+- All small changes suggested by Alex.
+- Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+  https://lkml.org/lkml/2020/3/12/1255
+
+v12 -> v13
+- Changed bitmap allocation in vfio_iommu_type1 to per vfio_dma
+- Changed VFIO_IOMMU_DIRTY_PAGES ioctl behaviour to be per vfio_dma range.
+- Changed vfio_iommu_type1_dirty_bitmap structure to have separate data
+  field.
+
+v11 -> v12
+- Changed bitmap allocation in vfio_iommu_type1.
+- Remove atomicity of ref_count.
+- Updated comments for migration device state structure about error
+  reporting.
+- Nit picks from v11 reviews
+
+v10 -> v11
+- Fix pin pages API to free vpfn if it is marked as unpinned tracking page.
+- Added proposal to detect if IOMMU capable device calls external pin pages
+  API to mark pages dirty.
+- Nit picks from v10 reviews
+
+v9 -> v10:
+- Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+  during unmap while migration is active
+- Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+  tracking.
+- If iommu_mapped, mark all pages dirty.
+- Added unpinned pages tracking while migration is active.
+- Updated comments for migration device state structure with bit
+  combination table and state transition details.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
 
 Thanks,
-Laurent
+Kirti
+
+
+Kirti Wankhede (7):
+  vfio: KABI for migration interface for device state
+  vfio iommu: Remove atomicity of ref_count of pinned pages
+  vfio iommu: Add ioctl definition for dirty pages tracking.
+  vfio iommu: Implementation of ioctl for dirty pages tracking.
+  vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+  vfio iommu: Adds flag to indicate dirty pages tracking capability
+    support
+  vfio: Selective dirty page tracking if IOMMU backed device pins pages
+
+ drivers/vfio/vfio.c             |  13 +-
+ drivers/vfio/vfio_iommu_type1.c | 345 ++++++++++++++++++++++++++++++++++++++--
+ include/linux/vfio.h            |   4 +-
+ include/uapi/linux/vfio.h       | 298 +++++++++++++++++++++++++++++++++-
+ 4 files changed, 642 insertions(+), 18 deletions(-)
+
+-- 
+2.7.0
+
 
