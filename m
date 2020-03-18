@@ -2,71 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D6218A109
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 18:01:00 +0100 (CET)
-Received: from localhost ([::1]:55910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6B018A11A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 18:06:30 +0100 (CET)
+Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEc3v-0004Xm-Es
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 13:00:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52521)
+	id 1jEc9F-00014y-QU
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 13:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEc2u-00040d-0L
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:59:57 -0400
+ (envelope-from <vfazio@xes-inc.com>) id 1jEc5o-0006dm-CW
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:02:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEc2r-0000Xg-Vj
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:59:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24685)
+ (envelope-from <vfazio@xes-inc.com>) id 1jEc5m-0001AZ-TR
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:02:56 -0400
+Received: from xes-mad.com ([162.248.234.2]:51539 helo=mail.xes-mad.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEc2r-0000WH-It
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 12:59:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584550793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=owdXQjGkNmw1HYhSSNmoz0HYc13IaE+76lrSK5+LSHQ=;
- b=LNNDbc/NEzH273IgTbJXTBah4mO4DE1nlXq2l7n+mwuVROzMqVpV2LJvaPPYjFisPX5rfa
- RwWy/jYoN+IuvWtNWc5AaIMrlE8Jk1ju4FekQemdxPkwI/u2GCEIIbT14pvU0ODRxnubx6
- houn1Xd9WGkIDhZCYoH79suypQHY6zI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-rBRTgbubMk-uDyTlcK2V-Q-1; Wed, 18 Mar 2020 12:59:36 -0400
-X-MC-Unique: rBRTgbubMk-uDyTlcK2V-Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DB97800D4E;
- Wed, 18 Mar 2020 16:59:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
- [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C20B6EF85;
- Wed, 18 Mar 2020 16:59:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AAB991138404; Wed, 18 Mar 2020 17:59:31 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v4 29/34] qapi: Implement deprecated-output=hide for QMP
- events
-References: <20200317115459.31821-1-armbru@redhat.com>
- <20200317115459.31821-30-armbru@redhat.com>
- <c8b780c9-8a82-bea2-61b5-14aab90f476d@redhat.com>
-Date: Wed, 18 Mar 2020 17:59:31 +0100
-In-Reply-To: <c8b780c9-8a82-bea2-61b5-14aab90f476d@redhat.com> (Eric Blake's
- message of "Wed, 18 Mar 2020 07:29:03 -0500")
-Message-ID: <87v9n138gc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <vfazio@xes-inc.com>)
+ id 1jEc5m-00019Q-PC; Wed, 18 Mar 2020 13:02:54 -0400
+Received: from vfazio1.xes-mad.com (vfazio1.xes-mad.com [10.52.16.140])
+ by mail.xes-mad.com (Postfix) with ESMTP id AD86F201BE;
+ Wed, 18 Mar 2020 12:02:53 -0500 (CDT)
+From: Vincent Fazio <vfazio@xes-inc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/1] target/ppc: don't byte swap ELFv2 signal handler
+Date: Wed, 18 Mar 2020 12:01:16 -0500
+Message-Id: <20200318170116.1922-1-vfazio@xes-inc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 162.248.234.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,96 +45,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Vincent Fazio <vfazio@gmail.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+From: Vincent Fazio <vfazio@gmail.com>
 
-> On 3/17/20 6:54 AM, Markus Armbruster wrote:
->> This policy suppresses deprecated bits in output, and thus permits
->> "testing the future".  Implement it for QMP events: suppress
->> deprecated ones.
->>
->> No QMP event is deprecated right now.
->>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
->> @@ -140,6 +141,23 @@ static void test_event_d(TestEventData *data,
->>       qobject_unref(data->expect);
->>   }
->>   +static void test_event_deprecated(TestEventData *data, const void
->> *unused)
->> +{
->> +    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FE=
-ATURES1' }");
->> +
->> +    memset(&compat_policy, 0, sizeof(compat_policy));
->> +
->> +    qapi_event_send_test_event_features1();
->> +    g_assert(data->emitted);
->> +
->> +    compat_policy.deprecated_output =3D COMPAT_POLICY_OUTPUT_HIDE;
->
-> Umm, did you forget to set compat_policy.has_deprecated_output =3D true?
+Previously, the signal handler would be byte swapped if the target and
+host CPU used different endianness. This would cause a SIGSEGV when
+attempting to translate the opcode pointed to by the swapped address.
 
-I did.  Works anyway, because I don't bother checking it.  I'll clean it
-up.
+ Thread 1 "qemu-ppc64" received signal SIGSEGV, Segmentation fault.
+ 0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/includ=
+e/qemu/bswap.h:351
+ 351        __builtin_memcpy(&r, ptr, sizeof(r));
 
-> (proof that we really want QAPI defaults to be working, to get rid of
-> pointless has_* members...)
->
->> +    data->emitted =3D false;
->> +    qapi_event_send_test_event_features1();
->> +    g_assert(!data->emitted);
->> +
->> +    qobject_unref(data->expect);
->> +}
->> +
->
->> +++ b/scripts/qapi/events.py
->> @@ -61,7 +61,8 @@ def gen_param_var(typ):
->>       return ret
->>     -def gen_event_send(name, arg_type, boxed, event_enum_name,
->> event_emit):
->> +def gen_event_send(name, arg_type, features, boxed,
->> +                   event_enum_name, event_emit):
->>       # FIXME: Our declaration of local variables (and of 'errp' in the
->>       # parameter list) can collide with exploded members of the event's
->>       # data type passed in as parameters.  If this collision ever hits =
-in
->> @@ -86,6 +87,14 @@ def gen_event_send(name, arg_type, boxed, event_enum_=
-name, event_emit):
->>           if not boxed:
->>               ret +=3D gen_param_var(arg_type)
->>   +    if 'deprecated' in [f.name for f in features]:
->> +        ret +=3D mcgen('''
->> +
->> +    if (compat_policy.deprecated_output =3D=3D COMPAT_POLICY_OUTPUT_HID=
-E) {
->> +        return;
->
-> Here, you took the shortcut that if we always 0-initialize,
-> deprecated_output will never be true except when has_deprecated_output
-> is also true.  But the test above violated that rule of thumb.
+ #0  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/in=
+clude/qemu/bswap.h:351
+ #1  0x00000000600a92fe in ldl_be_p (ptr=3D0x4c2c061000000000) at qemu/in=
+clude/qemu/bswap.h:449
+ #2  0x00000000600c0790 in translator_ldl_swap at qemu/include/exec/trans=
+lator.h:201
+ #3  0x000000006011c1ab in ppc_tr_translate_insn at qemu/target/ppc/trans=
+late.c:7856
+ #4  0x000000006005ae70 in translator_loop at qemu/accel/tcg/translator.c=
+:102
 
-Generated code ensures FOO is zero when !has_FOO.  Manual code should do
-the same.
+Now, no swap is performed and execution continues properly.
 
-The pedantically correct check
+Signed-off-by: Vincent Fazio <vfazio@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+Changes since v1:
+- Drop host/target endianness callouts
+- Drop unnecessary pointer cast
+- Clarify commit message
 
-    has_FOO && FOO =3D=3D some_non_zero_value
+ linux-user/ppc/signal.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-can then safely be abbreviated to just
-
-    FOO =3D=3D some_non_zero_value
-
-which I find less turing and more more legible.
-
-> Otherwise, this patch makes sense.
-
-Thanks!
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index 5b82af6cb6..b8613c5e1b 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -567,10 +567,8 @@ void setup_rt_frame(int sig, struct target_sigaction=
+ *ka,
+         env->nip =3D tswapl(handler->entry);
+         env->gpr[2] =3D tswapl(handler->toc);
+     } else {
+-        /* ELFv2 PPC64 function pointers are entry points, but R12
+-         * must also be set */
+-        env->nip =3D tswapl((target_ulong) ka->_sa_handler);
+-        env->gpr[12] =3D env->nip;
++        /* ELFv2 PPC64 function pointers are entry points. R12 must also=
+ be set. */
++        env->gpr[12] =3D env->nip =3D ka->_sa_handler;
+     }
+ #else
+     env->nip =3D (target_ulong) ka->_sa_handler;
+--=20
+2.25.1
 
 
