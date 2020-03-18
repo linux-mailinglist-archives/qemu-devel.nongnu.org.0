@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589AC18991C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 11:18:37 +0100 (CET)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA12318990C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 11:16:27 +0100 (CET)
+Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEVmW-0002S3-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 06:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37401)
+	id 1jEVkQ-00086B-TP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 06:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2346c1f04e=bbhushan2@marvell.com>)
- id 1jEVgw-0002pP-7G
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 06:12:51 -0400
+ id 1jEVgz-0002wn-PX
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 06:12:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2346c1f04e=bbhushan2@marvell.com>)
- id 1jEVgu-00055w-VP
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 06:12:50 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:50972)
+ id 1jEVgy-0005Cy-AK
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 06:12:53 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:7028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2346c1f04e=bbhushan2@marvell.com>)
- id 1jEVgu-00055J-QP; Wed, 18 Mar 2020 06:12:48 -0400
+ id 1jEVgy-0005AF-4k; Wed, 18 Mar 2020 06:12:52 -0400
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02IABn5a030628; Wed, 18 Mar 2020 03:12:46 -0700
+ 02IACGVT031196; Wed, 18 Mar 2020 03:12:49 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0818; bh=EPTWRH4j/7+vQYg4JTRs7Id0RV8zi4mhxOYnQxamw9E=;
- b=WknkTaD9KiEVbj4ysm+kpXckxeLvVwT+/C1G9Ww3cj2J8pu0BwQpnfIO6xHIv2hiYNXq
- TVbO4nhjq6MZszgcvV+aWbL1yDWyXEir3VoESYKga3dLOGIMeu0YKipRgYN404nJVJmu
- 0vVaNm6DML6J/HtxXV4UIjRxfZ1Nt4mPVjq+/sU7dmp1u4uRbTCB6IKcHunS8x7TFMUU
- kSo7H+zB9Ld8o3/zQAXGVZtLqh2RoM5COwbLKTeMPZyPfi3kQHk3OC1XnoGekiiKRis0
- sudlzQd3QSwOZB5b64B1cGMgI2I6RurEPkfAW4LfekeMtgcIp6KjsZSpH4Yr3CB3NDAt rQ== 
+ content-type; s=pfpt0818; bh=H70ira2xI4tp3d4NOT3PQrNRuE9cpJhM0WachNeWQc4=;
+ b=RMqK6DZROWHvl415vE9qM1Y3H+cAuz51UAMzxajdb3zmL3iA5DLt6h7B2zzruLgio+Ka
+ Tb8/SF2BUf3ZN+uKta38tThj+LXPz2VMpe9lO0Vgyts3+u5gBGW/E0aXy1cAHoMrNEmS
+ HsTggBaKXxZT4CuIISSLyMcErku15DTadEUyA6FCmCgc06bUKLYd7nHaK2DSxH05odHY
+ 3XuD9Uc0V8ga+JLawhBWI67iXbAa+CNxsfKn8j28VsL/lAfh5fS4B9M9UAsPsOh9Td6q
+ Yl6rFWsVtMmAbX2Q1MSWs2sDGjnQajT4ajCiZSroteArRaIRxBg1wNHJQ44nrrs0z1Jw KA== 
 Received: from sc-exch03.marvell.com ([199.233.58.183])
- by mx0b-0016f401.pphosted.com with ESMTP id 2yu9rp9tvp-2
+ by mx0b-0016f401.pphosted.com with ESMTP id 2yu9rp9tw1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 18 Mar 2020 03:12:46 -0700
+ Wed, 18 Mar 2020 03:12:49 -0700
 Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH03.marvell.com
  (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 Mar
- 2020 03:12:41 -0700
+ 2020 03:12:47 -0700
 Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH03.marvell.com
  (10.93.176.83) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 18 Mar 2020 03:12:37 -0700
+ Transport; Wed, 18 Mar 2020 03:12:42 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
@@ -52,9 +52,9 @@ To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
  <bharatb.linux@gmail.com>, <jean-philippe@linaro.org>,
  <yang.zhong@intel.com>
-Subject: [PATCH v8 6/8] virtio-iommu: Call iommu notifier for attach/detach
-Date: Wed, 18 Mar 2020 15:41:57 +0530
-Message-ID: <20200318101159.8767-7-bbhushan2@marvell.com>
+Subject: [PATCH v8 7/8] virtio-iommu: add iommu replay
+Date: Wed, 18 Mar 2020 15:41:58 +0530
+Message-ID: <20200318101159.8767-8-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200318101159.8767-1-bbhushan2@marvell.com>
 References: <20200318101159.8767-1-bbhushan2@marvell.com>
@@ -80,115 +80,86 @@ Cc: Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-iommu-notifier are called when a device is attached
-or detached to as address-space.
-This is needed for VFIO.
+Default replay does not work with virtio-iommu,
+so this patch provide virtio-iommu replay functionality.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 ---
- hw/virtio/virtio-iommu.c | 49 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ hw/virtio/virtio-iommu.c | 44 ++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/trace-events   |  1 +
+ 2 files changed, 45 insertions(+)
 
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 623b477b9c..4d522a636a 100644
+index 4d522a636a..b68644f7c3 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -49,6 +49,7 @@ typedef struct VirtIOIOMMUEndpoint {
-     uint32_t id;
-     VirtIOIOMMUDomain *domain;
-     QLIST_ENTRY(VirtIOIOMMUEndpoint) next;
-+    VirtIOIOMMU *viommu;
- } VirtIOIOMMUEndpoint;
- 
- typedef struct VirtIOIOMMUInterval {
-@@ -155,11 +156,48 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr iova,
-     memory_region_notify_iommu(mr, 0, entry);
+@@ -771,6 +771,49 @@ static void virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
+     s->config.page_size_mask = page_size_mask;
  }
  
-+static gboolean virtio_iommu_mapping_unmap(gpointer key, gpointer value,
-+                                           gpointer data)
-+{
-+    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
-+    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
-+
-+    virtio_iommu_notify_unmap(mr, interval->low,
-+                              interval->high - interval->low + 1);
-+
-+    return false;
-+}
-+
-+static gboolean virtio_iommu_mapping_map(gpointer key, gpointer value,
-+                                         gpointer data)
++static gboolean virtio_iommu_remap(gpointer key, gpointer value, gpointer data)
 +{
 +    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
 +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
 +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
 +
++    trace_virtio_iommu_remap(interval->low, mapping->phys_addr,
++                             interval->high - interval->low + 1);
++    /* unmap previous entry and map again */
++    virtio_iommu_notify_unmap(mr, interval->low,
++                              interval->high - interval->low + 1);
++
 +    virtio_iommu_notify_map(mr, interval->low, mapping->phys_addr,
 +                            interval->high - interval->low + 1);
-+
 +    return false;
 +}
 +
- static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
++static void virtio_iommu_replay(IOMMUMemoryRegion *mr, IOMMUNotifier *n)
++{
++    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
++    VirtIOIOMMU *s = sdev->viommu;
++    uint32_t sid;
++    VirtIOIOMMUEndpoint *ep;
++
++    sid = virtio_iommu_get_bdf(sdev);
++
++    qemu_mutex_lock(&s->mutex);
++
++    if (!s->endpoints) {
++        goto unlock;
++    }
++
++    ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(sid));
++    if (!ep || !ep->domain) {
++        goto unlock;
++    }
++
++    g_tree_foreach(ep->domain->mappings, virtio_iommu_remap, mr);
++
++unlock:
++    qemu_mutex_unlock(&s->mutex);
++}
++
+ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
  {
-+    VirtIOIOMMU *s = ep->viommu;
-+    VirtIOIOMMUDomain *domain = ep->domain;
-+    IOMMUDevice *sdev;
-+
-     if (!ep->domain) {
-         return;
-     }
-+
-+    QLIST_FOREACH(sdev, &s->notifiers_list, next) {
-+        if (ep->id == sdev->devfn) {
-+            g_tree_foreach(domain->mappings, virtio_iommu_mapping_unmap,
-+                           &sdev->iommu_mr);
-+        }
-+    }
-+
-     QLIST_REMOVE(ep, next);
-     ep->domain = NULL;
- }
-@@ -178,6 +216,7 @@ static VirtIOIOMMUEndpoint *virtio_iommu_get_endpoint(VirtIOIOMMU *s,
-     }
-     ep = g_malloc0(sizeof(*ep));
-     ep->id = ep_id;
-+    ep->viommu = s;
-     trace_virtio_iommu_get_endpoint(ep_id);
-     g_tree_insert(s->endpoints, GUINT_TO_POINTER(ep_id), ep);
-     return ep;
-@@ -274,6 +313,7 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
-     uint32_t ep_id = le32_to_cpu(req->endpoint);
-     VirtIOIOMMUDomain *domain;
-     VirtIOIOMMUEndpoint *ep;
-+    IOMMUDevice *sdev;
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+@@ -989,6 +1032,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
  
-     trace_virtio_iommu_attach(domain_id, ep_id);
- 
-@@ -299,6 +339,14 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
- 
-     ep->domain = domain;
- 
-+    /* Replay domain mappings on the associated memory region */
-+    QLIST_FOREACH(sdev, &s->notifiers_list, next) {
-+        if (ep_id == sdev->devfn) {
-+            g_tree_foreach(domain->mappings, virtio_iommu_mapping_map,
-+                           &sdev->iommu_mr);
-+        }
-+    }
-+
-     return VIRTIO_IOMMU_S_OK;
+     imrc->translate = virtio_iommu_translate;
+     imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
++    imrc->replay = virtio_iommu_replay;
  }
  
-@@ -873,6 +921,7 @@ static gboolean reconstruct_endpoints(gpointer key, gpointer value,
- 
-     QLIST_FOREACH(iter, &d->endpoint_list, next) {
-         iter->domain = d;
-+        iter->viommu = s;
-         g_tree_insert(s->endpoints, GUINT_TO_POINTER(iter->id), iter);
-     }
-     return false; /* continue the domain traversal */
+ static const TypeInfo virtio_iommu_info = {
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index d94a1cd8a3..8bae651191 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -75,3 +75,4 @@ virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid)
+ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
+ virtio_iommu_notify_map(const char *name, uint64_t iova, uint64_t paddr, uint64_t map_size) "mr=%s iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64
+ virtio_iommu_notify_unmap(const char *name, uint64_t iova, uint64_t map_size) "mr=%s iova=0x%"PRIx64" size=0x%"PRIx64
++virtio_iommu_remap(uint64_t iova, uint64_t pa, uint64_t size) "iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64""
 -- 
 2.17.1
 
