@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B1118A3B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:21:42 +0100 (CET)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F03C18A3AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:19:55 +0100 (CET)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEfCA-0005NG-35
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55721)
+	id 1jEfAQ-0002yh-7s
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEfBF-0004dc-Rx
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:20:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jEf8Z-0001Jf-RV
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:18:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEfBE-0005gi-DG
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:20:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54748)
+ (envelope-from <richard.henderson@linaro.org>) id 1jEf8X-0007r9-N3
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:17:59 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:43295)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEfBD-0005VS-Ht
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:20:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEfBC-0003AH-6R
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 20:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F4242E80C0
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 20:20:42 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jEf8X-0007oG-Ek
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:17:57 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id f206so66281pfa.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 13:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PtD+Ytj03L6FatBW9ZOnhIlPXUPpkuk4Dbn0wPchRg0=;
+ b=iMhI/NkO/twmkgmC5N/LVfEefn0Rp0xCUEVt0DjntyG5XaArYm5CldqcfG/jAtsocR
+ 371kbphvNJBdyf/L8gOypv9cHOwITrCiWvgJbONH3QJszi/zm9zvHdaHpbPJFnJWnwhh
+ E1fbKeafulUVf89ARrhOpOQUwnEwFsOJMUD5VryOTqYLMbhPnGWkA+pUKRZjT2JnGOGu
+ KJL/+C87tW0/dPstomE22z8JCI5NMPsRB2PnQma82zyRdjnIHyb1SGtytLzLZqJOt7Vo
+ UiDneoxleeaHa15wD32+SDlSKJE1nJmilZH4W5nHdZxqbhx6Mg0ZWh9FsCzITn7+wF8K
+ +8YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PtD+Ytj03L6FatBW9ZOnhIlPXUPpkuk4Dbn0wPchRg0=;
+ b=pB5m3CoX02dUgoRmj5sayN/OQ1zqoxyoF7h55yBz2XX8VuTWc9TgwKVG0xkyVpKCSf
+ Hao/Ch3LwBr2Dr40yGftxN3UNFPHqGZUB7i/47xoesKni8v04uj2lRVoiuaXr+6Bd/WL
+ 7nF9ksj7YcSNsDOUztEMo9zFpImgOgvGfqLgJtuFRWWtiLcFeXUMEzdHrfyRVDXMIury
+ mLjSlY0lAZwJcU3CTiSbrKAQVbmlX8njfpOEzuA7nQwGbFvSI8SisPCkMMj5xiol7HSY
+ LVHqqOLfpYGPil41uij3LFuRZjcigRMNWZex8zZiCv/ur608MeL9iGPLlhZ0FAIrJaed
+ F4Ag==
+X-Gm-Message-State: ANhLgQ2P3FVyewDh21bS4Staw4FcUj05GJ4xr9cassGnJIwqTesiWSLA
+ TrYdH+30G+V5X6ZbFYZICRrJnim/Sj0=
+X-Google-Smtp-Source: ADFU+vt43mWtzVFMliiJumGojwVE3t+kvSIamgxPXNMkfLfyPpJFMCHTGbyagVsWl9DJuAzerAFqJQ==
+X-Received: by 2002:a63:5549:: with SMTP id f9mr6290574pgm.118.1584562675553; 
+ Wed, 18 Mar 2020 13:17:55 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ w6sm7334323pfn.104.2020.03.18.13.17.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Mar 2020 13:17:54 -0700 (PDT)
+Subject: Re: [PULL v2 00/37] Linux user for 5.0 patches
+To: Laurent Vivier <laurent@vivier.eu>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200317155116.1227513-1-laurent@vivier.eu>
+ <CAFEAcA9Pd6D6xaqN7XfOwRANxm=4uOYmdaBoeQiX4_Z-bXEi9g@mail.gmail.com>
+ <610f250b-64b8-1cf4-00fe-5bf2f2eba864@linaro.org>
+ <b0055b37-a381-095a-a7c9-8b1327be3cce@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <95ebdfda-de48-8a44-ec86-8dd384fc98a3@linaro.org>
+Date: Wed, 18 Mar 2020 13:17:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Mar 2020 20:12:45 -0000
-From: Ottavio Caruso <1743191@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr philmd stefanha
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
- <158350109449.12121.2672684123892693893.malone@soybean.canonical.com>
-Message-Id: <CAEJNuHz1nsNkGcJ=Vkm1y7Q5n4gBmoBFz_Gi3qp3vM=+hLe5zA@mail.gmail.com>
-Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
- blocks no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: afa0d7952a2233145eeb1751e9ad57e84c6cc1e6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <b0055b37-a381-095a-a7c9-8b1327be3cce@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,81 +86,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Mar 2020 at 13:24, Gerd Hoffmann <1743191@bugs.launchpad.net> wro=
-te:
-> So one option is to turn off seabios sercon: "qemu -nographic -machine
-> graphics=3Don".
+On 3/18/20 12:58 PM, Laurent Vivier wrote:
+>> However, from the error message above, it's clear that cpu_loop.o has not been
+>> rebuilt properly.
+>>
+> 
+> In the series merged here syscall_nr.h are moved from source directory
+> to build directory.
+> 
+> The include path of the files is based on the dependecy files (*.d), and
+> to force the update of this path PATCH 13 removes all the .d files that
+> have a dependecy on the syscall_nr.h file in the source path.
+> 
+> This is added in configure:
+> 
+> --- a/configure
+> +++ b/configure
+> @@ -1887,6 +1887,17 @@ fi
+>  # Remove old dependency files to make sure that they get properly
+> regenerated
+>  rm -f */config-devices.mak.d
+> 
+> +# Remove syscall_nr.h to be sure they will be regenerated in the build
+> +# directory, not in the source directory
+> +for arch in ; do
+> +    # remove the file if it has been generated in the source directory
+> +    rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
+> +    # remove the dependency files
+> +    find . -name "*.d" \
+> +           -exec grep -q
+> "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
+> +           -exec rm {} \;
+> +done
+...
+> Perhaps it removes a dependency that should trigger the rebuild of
+> cpu_loop.o?
 
-This works for me, but only if I turn off "q35", therefore changing
-from a sata disk to a plain ide:
+Ah, yes indeed. It removes *all* dependencies for cpu_loop.o, so unless we
+touch the cpu_loop.c source file, nothing gets done.
 
-qemu-system-x86_64 \
--drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3Ddi=
-sk \
--drive if=3Dvirtio,file=3D/home/oc/VM/img/newdisk2.img,index=3D1,media=3Ddi=
-sk \
--m 300M -cpu host -smp $(nproc) \
--nic user,hostfwd=3Dtcp::6665-:22,model=3Dvirtio-net-pci,ipv6=3Doff \
--nographic -machine accel=3Dkvm,graphics=3Don
+I think you're trying to be too fine grained here, since the *.o file has to go
+away with the *.d file.  Why not just
 
--- =
+  make ${arch}-linux-user/clean
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
+?
 
-Title:
-  Interacting with NetBSD serial console boot blocks no longer works
-
-Status in QEMU:
-  New
-
-Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
-
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
-
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
-
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
-
-  To reproduce the problem, run:
-
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
-
-  During the 30-second countdown, press 4
-
-  Expected behavior: The countdown stops and you get a ">" prompt
-
-  Incorrect behavior: The countdown continues
-
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
-
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
-
-  Credit for discovering this bug goes to Paul Goyette.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
+r~
 
