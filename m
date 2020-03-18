@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05411897CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 10:19:48 +0100 (CET)
-Received: from localhost ([::1]:47434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C3B1897D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 10:21:12 +0100 (CET)
+Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEUrc-0007Ow-2H
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 05:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
+	id 1jEUsx-0000pY-9u
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 05:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jEUno-0003Dp-H3
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:53 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jEUnp-0003F5-MP
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jEUnm-0004j6-Fq
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36864)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jEUno-0004sR-LG
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:53 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40613)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jEUnm-0004db-9p
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:50 -0400
-Received: by mail-wr1-x443.google.com with SMTP id w10so459067wrm.4
- for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 02:15:50 -0700 (PDT)
+ id 1jEUno-0004ml-EQ
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 05:15:52 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z12so2335115wmf.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 02:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iSTHopC4uU4kCN0tyvTPrIHil1hTQrwxVdvmrqy4gWI=;
- b=iVi20NzLZuFLq14Y4QKwctB5HM/MiBsnCU+HI+sDEqncEk2nN6/In3kXqGHXC+4Xa7
- ad89QvTDKdpAh7CJbDkGfmbCzxEMI+LlqfXWBq0sjAY3J2rrkv82w9dcKnyzKhjyGjMu
- ciUGBF6J2o2aOxUpz8017tYcBfdrAToJIWdDg8HF7/gSZPrEmFnoPRctEQPEoTY7qg/2
- Ml1SItowVAtyxyz2fkzFISl1wEs6sV1KyR12tHXNhRxb0o6W3NORvJIJryu+rNxqV6AN
- 57s1OxSiqMQC114fu7OxOhyvkYFnO7ZJltUewYGjNeeUd1Ldvlkv5gy+haUFTi9pt2HC
- Boew==
+ bh=v8SYlyFWHibMbzw5x9/Oky71TcnVdLOahGjn4df4QAU=;
+ b=YjjS6EfjtvisDjroCFTSc9vhLIDSTXCO3bilV6VM/f8t6RAgU5+tg4LCUPe0u3vroj
+ Q4WiCXdNzdEMqwF0pB6pkdAIikKKqqkzHrVEAzDr94CT/oO3/iIVqtrP4X+OKRD/Z0lw
+ VqCyMBo0CKX4rojQUUGVXOQeU2zco5qMBiEiBMtRGnatoiQ8OompkgnufzuXICyTnNvH
+ ri0Xqocmn837S28LWGWfI1UqQxOoXjHwifrfRH/dOWN+g8Kq/6E93gyt8MSAe2g8ASg5
+ SGCOXDCWGtuVneqq7EQu7PyXVlrsSLnd64hXNUqAAMGNqLytclqHGE6OoiZQzDXaCtx5
+ 4DNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=iSTHopC4uU4kCN0tyvTPrIHil1hTQrwxVdvmrqy4gWI=;
- b=HJPzUsYS06qku408t+4WF6/Hv3G0Hkt0qSKjICDWS3myf7kdG+qNqRE7liTlzni5TD
- VSfX7PQyMq819yPCDXksTz/bKbH1bq6V+RgzqD47qBeEB9jQffU5lPygBqAA1O3aqZvB
- dmcPNeripUQGh3xUYZcMrbXO+NUYFla8ridAk2bv7ppBDirrqTwUiSkua2kcDo9DY0Og
- tdyYrnKgfKI5MbK5elw3OZea7fxH86iWcwSOAMn2JtaQs80U7Y6BbNGwQL2x+52PSkAO
- Fue5VsIZ1DUoG8elKgh4SHlUOqpMzzp8skNAdNEZGbZE/lxstgsa5Z/QiQgMowqbFnZx
- fHfA==
-X-Gm-Message-State: ANhLgQ3AfwqPo/pSm9gUi2XMOF7mOdxWPG5pNHDl2GbTrVECHErhsxFX
- /RvcaMMyAFVCAkGtzEzJ0WPP0fmAqXt2mA==
-X-Google-Smtp-Source: ADFU+vtWtAAYpwPWG8NLxGEOhQ0Rb8TFwwrJkAsNnPmkcMelNuqS9jyM06A472DUutmncSNMhfPXBg==
-X-Received: by 2002:adf:eac7:: with SMTP id o7mr4739785wrn.292.1584522949109; 
- Wed, 18 Mar 2020 02:15:49 -0700 (PDT)
+ bh=v8SYlyFWHibMbzw5x9/Oky71TcnVdLOahGjn4df4QAU=;
+ b=uNtHK4kjk1IS39jq4U3f0exTaxkSoiU95rC7Ys0I2u/j0z3K6HbZAwxjvjPPWcb2Hh
+ AK4iL1Bj1gKK9eZZqkhbyXCSZo6OxWKbina00/kpv9XFCZIS01tu7z2sjaWtngL8nFH9
+ H4CNmHdSQ+M5rvt1LHhWJgwyP7ExhQhSw/RV2WRnjggnSYBH7BBRXOZ/8bSJuDyadIrW
+ RTTzajAqz2DkB1KrhHxT2ZHruHvW5Hkskb2haTSsrLcjN7fZjLCYwHcyH+tVmsXAdJOB
+ IIs7yPI2fT1EBL0jOZ4vTM8MORThyWxH2cQD0Wy38f+rqGdCvdOydUj02Fa8pXp8S0yf
+ VrXw==
+X-Gm-Message-State: ANhLgQ0ydjT0+5h95IKaQNHgPToxEUZ5yNZ8ZD4pEL2LvUQaYblCYLpO
+ ZV+AOTnVwvkA05JY5XMA7Z+7nJc2r1AQ0A==
+X-Google-Smtp-Source: ADFU+vvfcYVmUqX5mlgjYgUP1miBwlrf413OxxZJv3oiHJKUYYK4A4DPlrsVQ/XLz2Pnvr5IP020vQ==
+X-Received: by 2002:a1c:2dc7:: with SMTP id t190mr4254586wmt.137.1584522950384; 
+ Wed, 18 Mar 2020 02:15:50 -0700 (PDT)
 Received: from f2.redhat.com (bzq-79-183-43-120.red.bezeqint.net.
  [79.183.43.120])
- by smtp.gmail.com with ESMTPSA id z22sm3062342wmi.1.2020.03.18.02.15.47
+ by smtp.gmail.com with ESMTPSA id z22sm3062342wmi.1.2020.03.18.02.15.49
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 18 Mar 2020 02:15:48 -0700 (PDT)
+ Wed, 18 Mar 2020 02:15:49 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH v5 6/7] vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
-Date: Wed, 18 Mar 2020 11:15:24 +0200
-Message-Id: <20200318091525.27044-7-yuri.benditovich@daynix.com>
+Subject: [PATCH v5 7/7] virtio-net: add migration support for RSS and hash
+ report
+Date: Wed, 18 Mar 2020 11:15:25 +0200
+Message-Id: <20200318091525.27044-8-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200318091525.27044-1-yuri.benditovich@daynix.com>
 References: <20200318091525.27044-1-yuri.benditovich@daynix.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,35 +82,64 @@ Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to VMSTATE_VARRAY_UINT32_ALLOC, but the size is
-16-bit field.
+Save and restore RSS/hash report configuration.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
- include/migration/vmstate.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 30667631bc..baaefb6b9b 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -432,6 +432,16 @@ extern const VMStateInfo vmstate_info_qlist;
-     .offset     = vmstate_offset_pointer(_state, _field, _type),     \
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index a0614ad4e6..0b058aae9f 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+         }
+     }
+ 
++    if (n->rss_data.enabled) {
++        trace_virtio_net_rss_enable(n->rss_data.hash_types,
++                                    n->rss_data.indirections_len,
++                                    sizeof(n->rss_data.key));
++    } else {
++        trace_virtio_net_rss_disable();
++    }
+     return 0;
  }
  
-+#define VMSTATE_VARRAY_UINT16_ALLOC(_field, _state, _field_num, _version, _info, _type) {\
-+    .name       = (stringify(_field)),                               \
-+    .version_id = (_version),                                        \
-+    .num_offset = vmstate_offset_value(_state, _field_num, uint16_t),\
-+    .info       = &(_info),                                          \
-+    .size       = sizeof(_type),                                     \
-+    .flags      = VMS_VARRAY_UINT16 | VMS_POINTER | VMS_ALLOC,       \
-+    .offset     = vmstate_offset_pointer(_state, _field, _type),     \
-+}
+@@ -3019,6 +3026,24 @@ static const VMStateDescription vmstate_virtio_net_has_vnet = {
+     },
+ };
+ 
++static const VMStateDescription vmstate_rss = {
++    .name      = "vmstate_rss",
++    .fields = (VMStateField[]) {
++        VMSTATE_BOOL(enabled, VirtioNetRssData),
++        VMSTATE_BOOL(redirect, VirtioNetRssData),
++        VMSTATE_BOOL(populate_hash, VirtioNetRssData),
++        VMSTATE_UINT32(hash_types, VirtioNetRssData),
++        VMSTATE_UINT16(indirections_len, VirtioNetRssData),
++        VMSTATE_UINT16(default_queue, VirtioNetRssData),
++        VMSTATE_UINT8_ARRAY(key, VirtioNetRssData,
++                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
++        VMSTATE_VARRAY_UINT16_ALLOC(indirections_table, VirtioNetRssData,
++                                    indirections_len, 0,
++                                    vmstate_info_uint16, uint16_t),
++        VMSTATE_END_OF_LIST()
++    },
++};
 +
- #define VMSTATE_VARRAY_UINT16_UNSAFE(_field, _state, _field_num, _version, _info, _type) {\
-     .name       = (stringify(_field)),                               \
-     .version_id = (_version),                                        \
+ static const VMStateDescription vmstate_virtio_net_device = {
+     .name = "virtio-net-device",
+     .version_id = VIRTIO_NET_VM_VERSION,
+@@ -3067,6 +3092,7 @@ static const VMStateDescription vmstate_virtio_net_device = {
+                          vmstate_virtio_net_tx_waiting),
+         VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
+                             has_ctrl_guest_offloads),
++        VMSTATE_STRUCT(rss_data, VirtIONet, 1, vmstate_rss, VirtioNetRssData),
+         VMSTATE_END_OF_LIST()
+    },
+ };
 -- 
 2.17.1
 
