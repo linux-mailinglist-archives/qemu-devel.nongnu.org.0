@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EBF189A1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 12:01:34 +0100 (CET)
-Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DD8189A49
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 12:11:07 +0100 (CET)
+Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEWS4-0001Y4-SG
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 07:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60237)
+	id 1jEWbK-00041k-6Q
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 07:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jEWR3-00016h-Cm
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:00:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEWa0-0003Dv-Nm
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:09:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jEWR1-00015d-Rq
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:00:28 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22597)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jEWR1-0000yi-NT
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:00:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584529226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9XYb3HI7zD6mZDL1h2ysEyurazsxOSWJDpj4aaHSNrc=;
- b=HQ9hmOTNRdW1XYmXNFbxGBfDXnkvn+54ny/qqLkbIDJSurC6oWHVvnLEhrlWXmm5kgMfrO
- 0mPx7aRkJxc0l3R37ktBFy6CpclMm9yA0WQ3GUSznJDxDTr82m1+oALM0i1j2ZBP5RMt6/
- JAz1Yo2LNnlbVBbdBT27Nym8D/5k+Ms=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-2jF2fm-vOymVg2Z2eR73hg-1; Wed, 18 Mar 2020 07:00:24 -0400
-X-MC-Unique: 2jF2fm-vOymVg2Z2eR73hg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC633800D53;
- Wed, 18 Mar 2020 11:00:23 +0000 (UTC)
-Received: from work-vm (ovpn-115-3.ams2.redhat.com [10.36.115.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6550C5D9E2;
- Wed, 18 Mar 2020 11:00:19 +0000 (UTC)
-Date: Wed, 18 Mar 2020 11:00:11 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v5 6/7] vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC
- macro
-Message-ID: <20200318110011.GG2850@work-vm>
-References: <20200318091525.27044-1-yuri.benditovich@daynix.com>
- <20200318091525.27044-7-yuri.benditovich@daynix.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jEWZz-0004Xf-H4
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:09:44 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33281)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jEWZz-0004TV-B6
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 07:09:43 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id r7so25312489oij.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 04:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=s24WxfQvEVkHP2kPgJUrFy0280e8Ok8/CjojyQnaqVw=;
+ b=K13xdzTle0wK+SMLY5+Fekb9A14QZrZtX5SnVbx7ILkO/deXWWhgcIN6wLkdRcjZpq
+ 8dWHmCBym4bqL+N76nSeIHG5v/LyyzI6M3Ybs0cKb1m+UkMxjB23VgQZf/f4DMSpzsGE
+ /9VA4SijRWwBrEY1cDgtpheRJdvxbXk62CvXGLkTmaKUmYWd5+WpMzraQjmVpz6XXIHE
+ LAOMNa1xcoYN0W4hGXssM0JxLwx279fXB5CkTeO05mSOF5+zzRv/Pd8wKhRXA37klsrn
+ 5OlmE2cNJOYbxY+XBJsX7IkTWK9dgurq/W+RusLTfB/JDoq1I4qzgQRokNRIaLMIMk74
+ B0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=s24WxfQvEVkHP2kPgJUrFy0280e8Ok8/CjojyQnaqVw=;
+ b=KyN3vbKTIPgL0LV7QvG9w4sfrcnT4etPQVnFscFKL6v99ZyL4Jpyq3NNF6Jry+OoTi
+ tjHJWqTL+JzKZFO0CGk7OXGBnDz+iA2CWhIdFUUFv/YiMJxuGjKZsoaoeZOwifpqEYmI
+ O+5ekaReOUSjPOUNa9PZAk1NZ9o+v9dWYoMRtoLYee8MmU+A5aqJuYMeZZcc066mM26I
+ IEdW123dC2ghan635Ts9ZOtT9Ycy6CE9PlmAKxQTVEzn2ToJX8suw/q1pRhw4+814CXZ
+ KGnqQd99ohNilhJtHOqJYx6ErT+tJq5BvMdmO5zFZlWWk13+ROFUeSFM+ZWOWpPnAfrM
+ NhLg==
+X-Gm-Message-State: ANhLgQ1FrAI/RCAotWteEHXNTU4ierbfXFuMT5f7Zs1drqBLfRge8Mmc
+ eIbqYSUXH0SqzOZHrSkf4cRj+G+H5VnZC9QHDELHcQ==
+X-Google-Smtp-Source: ADFU+vv7VvN0etNC4q3zmXCmruXCUAzPOXk7izuMR7rtKfDz38ymu8j78fmQQbQ0BeJl5Bz4MK4Gv72IxPJ8UW3uhDk=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr2608082oib.146.1584529782065; 
+ Wed, 18 Mar 2020 04:09:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200318091525.27044-7-yuri.benditovich@daynix.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <CAPV47zcqvNekcUN=fKu1-dN=Sip3XR3+ohaG22-oNDm1dceJkQ@mail.gmail.com>
+In-Reply-To: <CAPV47zcqvNekcUN=fKu1-dN=Sip3XR3+ohaG22-oNDm1dceJkQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 18 Mar 2020 11:09:31 +0000
+Message-ID: <CAFEAcA_CeGozr3MUA6N=cMQVXLjoLD0ca-gywm+MLU4unfgwGg@mail.gmail.com>
+Subject: Re: Qemu API documentation
+To: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,52 +71,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, jasowang@redhat.com, quintela@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yuri Benditovich (yuri.benditovich@daynix.com) wrote:
-> Similar to VMSTATE_VARRAY_UINT32_ALLOC, but the size is
-> 16-bit field.
->=20
-> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> ---
->  include/migration/vmstate.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 30667631bc..baaefb6b9b 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -432,6 +432,16 @@ extern const VMStateInfo vmstate_info_qlist;
->      .offset     =3D vmstate_offset_pointer(_state, _field, _type),     \
->  }
-> =20
-> +#define VMSTATE_VARRAY_UINT16_ALLOC(_field, _state, _field_num, _version=
-, _info, _type) {\
-> +    .name       =3D (stringify(_field)),                               \
-> +    .version_id =3D (_version),                                        \
-> +    .num_offset =3D vmstate_offset_value(_state, _field_num, uint16_t),\
-> +    .info       =3D &(_info),                                          \
-> +    .size       =3D sizeof(_type),                                     \
-> +    .flags      =3D VMS_VARRAY_UINT16 | VMS_POINTER | VMS_ALLOC,       \
-> +    .offset     =3D vmstate_offset_pointer(_state, _field, _type),     \
-> +}
-> +
+On Wed, 18 Mar 2020 at 09:55, Priyamvad Acharya
+<priyamvad.agnisys@gmail.com> wrote:
+>
+> Hello developer community,
+>
+> I am working on implementing a custom device in Qemu, so to implement it I need documentation of functions which are used to emulate a hardware model in Qemu.
+>
+> What are the references to get it ?
 
-Once you agree attribution with mst,
+QEMU has very little documentation of its internals;
+the usual practice is to figure things out by
+reading the source code. What we do have is in
+docs/devel. There are also often documentation comments
+for specific functions in the include files where
+those functions are declared, which form the API
+documentation for them.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
->  #define VMSTATE_VARRAY_UINT16_UNSAFE(_field, _state, _field_num, _versio=
-n, _info, _type) {\
->      .name       =3D (stringify(_field)),                               \
->      .version_id =3D (_version),                                        \
-> --=20
-> 2.17.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
