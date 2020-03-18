@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E651893A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:19:40 +0100 (CET)
-Received: from localhost ([::1]:43976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D57C1893A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:21:48 +0100 (CET)
+Received: from localhost ([::1]:44014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jENMx-0005KQ-UD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34035)
+	id 1jENP1-00006a-IE
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jENLJ-0003sG-GU
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:58 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jENLM-0003sx-0K
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jENLI-0000NZ-G0
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54617)
+ (envelope-from <ehabkost@redhat.com>) id 1jENLK-0000da-Rv
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:59 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56774)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENLI-0000N0-CS
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:56 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENLK-0000cG-O0
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584494276;
+ s=mimecast20190719; t=1584494278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CK5kzJ8d8O/59rh7LEbO3PEtQpsX5CEGwc3ZD2EiWog=;
- b=GRYPZxRLTIyfCafhbFCPZtPMLAiyF40oSnrl7DvIFn5hGwsSEIeSy9V8ZFIKk5e74F6mX0
- LUYvduTdmB35SZ3NHwgo67c0mhaKNXDevPAl+vdemON17LpytVTGctT5HQQa+yBZr8Wvne
- KJPAnfTBNuMkoMbbYG4vMkxiBMJ1Cyw=
+ bh=6sdTixl3XvFiBYSntPyXi7dFn3qA9pvkmLi2kk9CoQg=;
+ b=cITuwTKQIz44GO7g0LnFgroVnItXo7LBlaTZdOmPvEeHzjfVRfpC2TkOe/ojUAkEZK2ax5
+ rCF8Wo6nC+BcfTJUHr5IATFKX45fcOVJsh2REUkgckiiyddNdc6e9z5v+YwNBHWTyPlyQi
+ MSGB4iBW/mhg6Em0steD7QdNIorikRc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-i-Xv86HyNEKb93M2Fw5RgA-1; Tue, 17 Mar 2020 21:17:54 -0400
-X-MC-Unique: i-Xv86HyNEKb93M2Fw5RgA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-318-qkcd4dzvMgqcR21qo2gXCQ-1; Tue, 17 Mar 2020 21:17:56 -0400
+X-MC-Unique: qkcd4dzvMgqcR21qo2gXCQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C721E477;
- Wed, 18 Mar 2020 01:17:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F7C2107ACC7;
+ Wed, 18 Mar 2020 01:17:55 +0000 (UTC)
 Received: from localhost (ovpn-118-148.rdu2.redhat.com [10.10.118.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BBFD1001938;
- Wed, 18 Mar 2020 01:17:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D335B8FBE9;
+ Wed, 18 Mar 2020 01:17:54 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/13] target/i386: Add Denverton-v2 (no MPX) CPU model
-Date: Tue, 17 Mar 2020 21:17:36 -0400
-Message-Id: <20200318011748.2104336-2-ehabkost@redhat.com>
+Subject: [PULL 02/13] target/i386: Add new property note to versioned CPU
+ models
+Date: Tue, 17 Mar 2020 21:17:37 -0400
+Message-Id: <20200318011748.2104336-3-ehabkost@redhat.com>
 In-Reply-To: <20200318011748.2104336-1-ehabkost@redhat.com>
 References: <20200318011748.2104336-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,39 +78,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tao Xu <tao3.xu@intel.com>
 
-Because MPX is being removed from the linux kernel, remove MPX feature
-from Denverton.
+Add additional information for -cpu help to indicate the changes in this
+version of CPU model.
 
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Message-Id: <20200212081328.7385-2-tao3.xu@intel.com>
+Message-Id: <20200212081328.7385-4-tao3.xu@intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/i386/cpu.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 92fafa2659..c3b5cf1369 100644
+index c3b5cf1369..dc78494167 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3592,6 +3592,18 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-         .features[FEAT_VMX_VMFUNC] =3D MSR_VMX_VMFUNC_EPT_SWITCHING,
-         .xlevel =3D 0x80000008,
-         .model_id =3D "Intel Atom Processor (Denverton)",
-+        .versions =3D (X86CPUVersionDefinition[]) {
-+            { .version =3D 1 },
-+            {
-+                .version =3D 2,
-+                .props =3D (PropValue[]) {
-+                    { "monitor", "off" },
-+                    { "mpx", "off" },
-+                    { /* end of list */ },
-+                },
-+            },
-+            { /* end of list */ },
-+        },
-     },
-     {
-         .name =3D "Snowridge",
+@@ -1690,6 +1690,7 @@ typedef struct PropValue {
+ typedef struct X86CPUVersionDefinition {
+     X86CPUVersion version;
+     const char *alias;
++    const char *note;
+     PropValue *props;
+ } X86CPUVersionDefinition;
+=20
+@@ -1720,6 +1721,7 @@ struct X86CPUModel {
+     X86CPUDefinition *cpudef;
+     /* CPU model version */
+     X86CPUVersion version;
++    const char *note;
+     /*
+      * If true, this is an alias CPU model.
+      * This matters only for "-cpu help" and query-cpu-definitions
+@@ -4861,6 +4863,7 @@ static void x86_cpu_list_entry(gpointer data, gpointe=
+r user_data)
+     g_autofree char *name =3D x86_cpu_class_get_model_name(cc);
+     g_autofree char *desc =3D g_strdup(cc->model_description);
+     g_autofree char *alias_of =3D x86_cpu_class_get_alias_of(cc);
++    g_autofree char *model_id =3D x86_cpu_class_get_model_id(cc);
+=20
+     if (!desc && alias_of) {
+         if (cc->model && cc->model->version =3D=3D CPU_VERSION_AUTO) {
+@@ -4869,11 +4872,14 @@ static void x86_cpu_list_entry(gpointer data, gpoin=
+ter user_data)
+             desc =3D g_strdup_printf("(alias of %s)", alias_of);
+         }
+     }
++    if (!desc && cc->model && cc->model->note) {
++        desc =3D g_strdup_printf("%s [%s]", model_id, cc->model->note);
++    }
+     if (!desc) {
+-        desc =3D x86_cpu_class_get_model_id(cc);
++        desc =3D g_strdup_printf("%s", model_id);
+     }
+=20
+-    qemu_printf("x86 %-20s  %-48s\n", name, desc);
++    qemu_printf("x86 %-20s  %-58s\n", name, desc);
+ }
+=20
+ /* list available CPU models and flags */
+@@ -5350,6 +5356,7 @@ static void x86_register_cpudef_types(X86CPUDefinitio=
+n *def)
+             x86_cpu_versioned_model_name(def, vdef->version);
+         m->cpudef =3D def;
+         m->version =3D vdef->version;
++        m->note =3D vdef->note;
+         x86_register_cpu_model_type(name, m);
+=20
+         if (vdef->alias) {
 --=20
 2.24.1
 
