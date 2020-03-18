@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36146189E2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:44:27 +0100 (CET)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519E4189E18
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 15:42:05 +0100 (CET)
+Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEZvm-000557-AB
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36185)
+	id 1jEZtU-0001b7-C7
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 10:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jEZql-000683-RG
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:17 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jEZsB-0008QT-A6
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:40:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jEZqk-0004fq-Km
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:15 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33701)
+ (envelope-from <cohuck@redhat.com>) id 1jEZsA-0000MI-7U
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:40:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:53171)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jEZqk-0004de-Gq
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:39:14 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEZsA-0000LE-37
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 10:40:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584542354;
+ s=mimecast20190719; t=1584542441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9kZQwjmQy0wRv9ytBq/y9fO7Pf7M8IAux1EHXGFKnvI=;
- b=DkKToPyGVnUQVkTFqXvPQgtZreA6cMzLVKDVE70TqLK0oBZPhh++sL2nWQFuzbnwiJEJGR
- w2wOrMdDfAWB5CjPjPS5VeXbU+sFisGFWQMdjSszPTBZJAsiZDe1En+73BbXziBjl0EWDI
- Z5rfzhY+soGlaqR0o/iofp1zMICy19U=
+ bh=9g6aTtMIBpxVqX2f0AwVQ0to+z2O5QEEUca45vdkCxM=;
+ b=dOSjkxt6L+BkJJesCfJBAj4sgcvJxUnwF+XTU+/twvtPMpBYTAanKeIXNDbg5IzD+Zz3rx
+ jNiTBzffIqrW0K4ZNK2hecaXJTpamhLf4Y2XRhNYA0uK9S5WyumWnZsFZTm6Cc5SrPy/Jm
+ E5BxetIdzweuLDEcpg4DeAvPp2U1YOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-w0jYwtHWMiebnn8Lp-nlVA-1; Wed, 18 Mar 2020 10:39:07 -0400
-X-MC-Unique: w0jYwtHWMiebnn8Lp-nlVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-409-fMNZgNwmNeCIxjxkgD5N8A-1; Wed, 18 Mar 2020 10:40:40 -0400
+X-MC-Unique: fMNZgNwmNeCIxjxkgD5N8A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02AA818B9FC1;
- Wed, 18 Mar 2020 14:39:06 +0000 (UTC)
-Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 637465D9E5;
- Wed, 18 Mar 2020 14:39:02 +0000 (UTC)
-Subject: Re: [RFC (fix for 5.0?)] block/io: do not do pointer arithmetic on
- void *
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20200318142253.2809-1-vsementsov@virtuozzo.com>
- <20200318142654.GH2173309@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <bd88b8eb-d4d2-cd53-f61a-7fab95f28812@redhat.com>
-Date: Wed, 18 Mar 2020 09:39:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2001A0CBF;
+ Wed, 18 Mar 2020 14:40:38 +0000 (UTC)
+Received: from gondolin (ovpn-113-129.ams2.redhat.com [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92F5B17B91;
+ Wed, 18 Mar 2020 14:40:37 +0000 (UTC)
+Date: Wed, 18 Mar 2020 15:40:32 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: Re: [PATCH] Documentation: create/move s390x documentation
+Message-ID: <20200318154032.6636c449.cohuck@redhat.com>
+In-Reply-To: <20200318103940.1169-1-cohuck@redhat.com>
+References: <20200318103940.1169-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200318142654.GH2173309@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/18/20 9:26 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Wed, Mar 18, 2020 at 05:22:53PM +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>
->> Hi all!
->>
->> C standard doesn't allow pointer arithmetic on void *.
->> Still, gcc allows it as an extension:
->>   https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/Pointer-Arith.html
->>
->> I can create a series of patches like this. Do we need it?
->=20
-> I don't think so, we only care about gcc & clang.
+On Wed, 18 Mar 2020 11:39:40 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-Still, if all supported compilers support the extension, then our=20
-CODING_STYLE.rst should mention that it is safe to rely on the extension.
+> Create a subdirectory for s390x under docs/system/ and move the
+> existing vfio-ap documentation there.
+> 
+> Create an initial document describing s390x system emulation.
+> 
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> Mostly an initial version so that Janosch can base his protected virt
+> documentation on something; there's room for more here :)
+> 
+> If this looks good, I'll queue it on my s390-next branch for 5.1.
+> 
+> ---
+>  MAINTAINERS                         |  5 +++--
+>  docs/system/index.rst               |  1 -
+>  docs/system/{ => s390x}/vfio-ap.rst |  0
+>  docs/system/target-s390x.rst        | 26 ++++++++++++++++++++++++++
+>  docs/system/targets.rst             |  1 +
+>  5 files changed, 30 insertions(+), 3 deletions(-)
+>  rename docs/system/{ => s390x}/vfio-ap.rst (100%)
+>  create mode 100644 docs/system/target-s390x.rst
 
->=20
->> Also, where is documented which compilers are supported by Qemu?
->=20
-> It is checked in configure - gcc 4.8 or clang 3.4 or xcode clang 5.1
->=20
-
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Queued to s390-fixes.
 
 
