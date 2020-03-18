@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454431895FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 07:47:47 +0100 (CET)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA0C189609
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 07:53:36 +0100 (CET)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jESUT-0007Jj-T0
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 02:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36750)
+	id 1jESa7-0002U5-4l
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 02:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jESTF-0006pR-Gv
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:46:31 -0400
+ (envelope-from <guoheyi@huawei.com>) id 1jESXC-0000Gp-QP
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jESTE-00071c-3P
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:46:29 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35633 helo=ozlabs.org)
+ (envelope-from <guoheyi@huawei.com>) id 1jESXB-0005mF-IO
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:57264 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jESTD-0006GB-3T; Wed, 18 Mar 2020 02:46:28 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48j0tc3h5wz9sPk; Wed, 18 Mar 2020 17:46:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1584513976;
- bh=vWp+EtJMhTVOzgQShgzk7GeNE5zG/RZ2mTWG9WBuVaI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yo0Ev3R0oq1pkKw5RNbTrJu82xu9HHHhnpcrr1Y2ktX+tiTUpbvMc5YbriDriii3O
- qKvxHcvz2aOww4iJaYVMiugQCRE6VyO8grodoo6OaJ/n1p/yM0hHFc1pPLViNmwucD
- n+0Gmgftmafz7+Gm9P0Qmq2XIGNKvenA9gV++lL8=
-Date: Wed, 18 Mar 2020 16:46:54 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PULL 00/45] ppc-for-5.0 queue 20200317
-Message-ID: <20200318054654.GA628315@umbus.fritz.box>
-References: <20200317100423.622643-1-david@gibson.dropbear.id.au>
- <bc2dc429-0c54-2a36-b901-97b14d4c9ce7@redhat.com>
- <20200317223305.GN20264@umbus.fritz.box>
- <eb78a310-fa30-cf50-7fe0-c2f7b7d63d9e@ozlabs.ru>
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>) id 1jESXB-0004x2-71
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 02:50:33 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 678E35DAE9A951D0D0E9;
+ Wed, 18 Mar 2020 14:50:26 +0800 (CST)
+Received: from linux-kDCJWP.huawei.com (10.175.104.212) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 18 Mar 2020 14:50:18 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v4 0/2] add new options to set smbios type 4 fields
+Date: Wed, 18 Mar 2020 14:48:18 +0800
+Message-ID: <20200318064820.19363-1-guoheyi@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
-Content-Disposition: inline
-In-Reply-To: <eb78a310-fa30-cf50-7fe0-c2f7b7d63d9e@ozlabs.ru>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.175.104.212]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,70 +51,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Common VM users sometimes care about CPU speed, so we add two new
+options to allow VM vendors to present CPU speed to their users.
+Normally these information can be fetched from host smbios.
 
---+HP7ph2BbKc20aGI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v3 -> v4:
+- Fix the default value when not specifying "-smbios type=3D4" option;
+  it would be 0 instead of 2000 in previous versions
+- Use uint64_t type to check value overflow
+- Add test case to check smbios type 4 CPU speed
 
-On Wed, Mar 18, 2020 at 10:58:46AM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 18/03/2020 09:33, David Gibson wrote:
-> > On Tue, Mar 17, 2020 at 11:30:31AM +0100, Paolo Bonzini wrote:
-> >> On 17/03/20 11:03, David Gibson wrote:
-> >>>       pseries: Update SLOF firmware image
-> >>>       ppc/spapr: Move GPRs setup to one place
-> >>>       pseries: Update SLOF firmware image
-> >>>       spapr/rtas: Reserve space for RTAS blob and log
-> >>>       pseries: Update SLOF firmware image
-> >>
-> >> Oh, no fake-OF patches?
-> >=20
-> > Apart from some prelims that make sense on their own, no.
-> >=20
-> > Not quite ready to go ahead with that, I'm afraid.
->=20
-> You reviewed and found problems or you did not have time for that?
-> Either is fine, just curious.
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 
-Mostly the second.  It's not just the time to actually review the
-patches, either.  Paolo made some good points about what it's safe to
-move into qemu proper.  That means I need to thoroughly rethink where
-I really want to go with these SLOF removal ideas, and I haven't had
-time to do that.
+Heyi Guo (2):
+  hw/smbios: add options for type 4 max-speed and current-speed
+  tests/bios-tables-test: add smbios cpu speed test
+
+ hw/smbios/smbios.c             | 36 +++++++++++++++++++++++++----
+ qemu-options.hx                |  3 ++-
+ tests/qtest/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 76 insertions(+), 5 deletions(-)
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.19.1
 
---+HP7ph2BbKc20aGI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5xtcwACgkQbDjKyiDZ
-s5I9jg/+LlyQfH/3M1RDDhmTSkoeKnhxchYPNTFKD2qJzczCOfKuq9Kol75FRvGl
-A4u/1GKHqoVCleQhdwkrjL/mKewnYXVMkXQ5T9Jv5bgbdEBxVaQrFEVb+TU0GMpF
-9Xosf1vJ7hKqgXPo1jR8lB+TKNVsPZLqPBt9jLu85LdAQDFIxyLLgnYhgGPD8Uv7
-ZrhbQMUIyg9gpjE7LLeYqxV1ugsDNifUISvIe/knGMuweSKgmQX3furW+0znLqHk
-0njb0oeg15u0rFOjcya1sZ2YCuAcuFhZlp5ONaS8C7AATXL0ANNcQmTZX7MnpPEs
-tnuhrD0jOpNa0f84R4O2m8TYbNVjNqokFX57CND25xX2HL8a8qS2JKrYjRM2fOlh
-TjHVdcNEHwjz3FtLfOXvG+yGxN800Gx2ELqEOnAie9056UmdjEhdI7NG6uvca3Km
-+vyXgcVXG10YyHvF3SoCFHeMKiAchmoh3c2JWkaxD51WdPFyHP9SfqNsHZaBQ7p3
-eOemvkIth3qLKyU+OCPBMhLfMTZwOX3dQKQ4PTH70OSr5SrVxtoS97yX2jVXw/Pe
-CsrpzUZXDbXxl0fil8nncaH1w0OLCy4sF3b0BzdfAeHCqeFV0Hwglz7PrSRFKRmZ
-16uiTa26R4SozipJB90pKZWnHJ6lKJRX1oO97Vzr3D0XzbIPN6g=
-=IjTS
------END PGP SIGNATURE-----
-
---+HP7ph2BbKc20aGI--
 
