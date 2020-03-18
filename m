@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DB518A3CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:33:48 +0100 (CET)
-Received: from localhost ([::1]:58288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA08A18A3D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:36:09 +0100 (CET)
+Received: from localhost ([::1]:58332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEfNr-0002me-9N
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57443)
+	id 1jEfQ8-0005tk-Ie
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jEfFl-00084p-QN
+ (envelope-from <jsnow@redhat.com>) id 1jEfFl-00084W-Kw
  for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jEfFj-0004Nf-7g
+ (envelope-from <jsnow@redhat.com>) id 1jEfFj-0004N3-14
  for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:52288)
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48291)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfFj-0004MM-1s
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:23 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfFi-0004MA-QA
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:25:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1584563122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hJmvqTqXqTMPCSVQr1qy1e1SoPh13NTfRknUTlZehjg=;
- b=IevrudePlJrzJCKfoz+svm//Ozwigku+jnBSU2Y+INPgFUdcitmrs4/3rjhTpa6TtLQF7j
- PJPm5SlsdgrgY7kk4Lz+KL+GX82Br4YFWHYhjLalb9xDQ+MaoDUzKjN59txYLSS0fAZ0Pp
- RLykAf5o2Fr3hCZyglwo8AyDiyPO7iQ=
+ bh=W2SZloJALWARRXQrRWIcseEswJ8GCx7hIkZZF9kViZ0=;
+ b=VNRvSnLYOm3XFnnKmrc7tbqY2w6DtZbMlijnI+DtaQKzSPNj4U7EGsKd10MJlyw0k3Ok76
+ C+dnmnHEO7t0pI4EaDis0F8l38SBxOaTeD3F5mvj9fsVzK5V8UKwnD+YzbXnF6UIeefpgt
+ lTIXXxs/+50aRS2SM7dveh2zNViUBEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-nQbVeop2MUiF2va8ZQnT0w-1; Wed, 18 Mar 2020 16:25:20 -0400
-X-MC-Unique: nQbVeop2MUiF2va8ZQnT0w-1
+ us-mta-474-G3E_0nHuOfqcHmQqXvPhuw-1; Wed, 18 Mar 2020 16:25:19 -0400
+X-MC-Unique: G3E_0nHuOfqcHmQqXvPhuw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A96691137846;
- Wed, 18 Mar 2020 20:25:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A649C100726D;
+ Wed, 18 Mar 2020 20:25:11 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD25460BF1;
- Wed, 18 Mar 2020 20:25:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA32D60BF1;
+ Wed, 18 Mar 2020 20:25:09 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org, jsnow@redhat.com,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 08/11] block/dirty-bitmap: improve _next_dirty_area API
-Date: Wed, 18 Mar 2020 16:23:38 -0400
-Message-Id: <20200318202341.6961-9-jsnow@redhat.com>
+Subject: [PULL v2 09/11] nbd/server: introduce NBDExtentArray
+Date: Wed, 18 Mar 2020 16:23:39 -0400
+Message-Id: <20200318202341.6961-10-jsnow@redhat.com>
 In-Reply-To: <20200318202341.6961-1-jsnow@redhat.com>
 References: <20200318202341.6961-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -81,299 +81,347 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Firstly, _next_dirty_area is for scenarios when we may contiguously
-search for next dirty area inside some limited region, so it is more
-comfortable to specify "end" which should not be recalculated on each
-iteration.
-
-Secondly, let's add a possibility to limit resulting area size, not
-limiting searching area. This will be used in NBD code in further
-commit. (Note that now bdrv_dirty_bitmap_next_dirty_area is unused)
+Introduce NBDExtentArray class, to handle extents list creation in more
+controlled way and with fewer OUT parameters in functions.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-id: 20200205112041.6003-8-vsementsov@virtuozzo.com
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20200205112041.6003-9-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/block/dirty-bitmap.h |  3 ++-
- include/qemu/hbitmap.h       | 23 ++++++++++--------
- block/dirty-bitmap.c         |  6 +++--
- tests/test-hbitmap.c         | 45 +++++++++++++++++++++++-------------
- util/hbitmap.c               | 44 +++++++++++++++++++++--------------
- 5 files changed, 75 insertions(+), 46 deletions(-)
+ nbd/server.c | 210 +++++++++++++++++++++++++++++----------------------
+ 1 file changed, 118 insertions(+), 92 deletions(-)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index b1f0de12db..8a10029418 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -110,7 +110,8 @@ int64_t bdrv_dirty_bitmap_next_dirty(BdrvDirtyBitmap *b=
-itmap, int64_t offset,
- int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, int64_t offse=
-t,
-                                     int64_t bytes);
- bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
--                                       int64_t *offset, int64_t *bytes);
-+        int64_t start, int64_t end, int64_t max_dirty_count,
-+        int64_t *dirty_start, int64_t *dirty_count);
- BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
-                                                   Error **errp);
-=20
-diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 6e9ae51ed3..5e71b6d6f7 100644
---- a/include/qemu/hbitmap.h
-+++ b/include/qemu/hbitmap.h
-@@ -324,18 +324,21 @@ int64_t hbitmap_next_zero(const HBitmap *hb, int64_t =
-start, int64_t count);
-=20
- /* hbitmap_next_dirty_area:
-  * @hb: The HBitmap to operate on
-- * @start: in-out parameter.
-- *         in: the offset to start from
-- *         out: (if area found) start of found area
-- * @count: in-out parameter.
-- *         in: length of requested region
-- *         out: length of found area
-+ * @start: the offset to start from
-+ * @end: end of requested area
-+ * @max_dirty_count: limit for out parameter dirty_count
-+ * @dirty_start: on success: start of found area
-+ * @dirty_count: on success: length of found area
-  *
-- * If dirty area found within [@start, @start + @count), returns true and =
-sets
-- * @offset and @bytes appropriately. Otherwise returns false and leaves @o=
-ffset
-- * and @bytes unchanged.
-+ * If dirty area found within [@start, @end), returns true and sets
-+ * @dirty_start and @dirty_count appropriately. @dirty_count will not exce=
-ed
-+ * @max_dirty_count.
-+ * If dirty area was not found, returns false and leaves @dirty_start and
-+ * @dirty_count unchanged.
-  */
--bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t *start, int64_t *c=
-ount);
-+bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end=
-,
-+                             int64_t max_dirty_count,
-+                             int64_t *dirty_start, int64_t *dirty_count);
-=20
- /**
-  * hbitmap_iter_next:
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 1b14c8eb26..063793e316 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -873,9 +873,11 @@ int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *b=
-itmap, int64_t offset,
+diff --git a/nbd/server.c b/nbd/server.c
+index 3106aaf3b4..f90bb33a75 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1909,27 +1909,98 @@ static int coroutine_fn nbd_co_send_sparse_read(NBD=
+Client *client,
+     return ret;
  }
 =20
- bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
--                                       int64_t *offset, int64_t *bytes)
-+        int64_t start, int64_t end, int64_t max_dirty_count,
-+        int64_t *dirty_start, int64_t *dirty_count)
- {
--    return hbitmap_next_dirty_area(bitmap->bitmap, offset, bytes);
-+    return hbitmap_next_dirty_area(bitmap->bitmap, start, end, max_dirty_c=
-ount,
-+                                   dirty_start, dirty_count);
- }
-=20
- /**
-diff --git a/tests/test-hbitmap.c b/tests/test-hbitmap.c
-index 8905b8a351..b6726cf76b 100644
---- a/tests/test-hbitmap.c
-+++ b/tests/test-hbitmap.c
-@@ -920,18 +920,19 @@ static void test_hbitmap_next_x_after_truncate(TestHB=
-itmapData *data,
-     test_hbitmap_next_x_check(data, 0);
- }
-=20
--static void test_hbitmap_next_dirty_area_check(TestHBitmapData *data,
--                                               int64_t offset,
--                                               int64_t count)
-+static void test_hbitmap_next_dirty_area_check_limited(TestHBitmapData *da=
-ta,
-+                                                       int64_t offset,
-+                                                       int64_t count,
-+                                                       int64_t max_dirty)
- {
-     int64_t off1, off2;
-     int64_t len1 =3D 0, len2;
-     bool ret1, ret2;
-     int64_t end;
-=20
--    off1 =3D offset;
--    len1 =3D count;
--    ret1 =3D hbitmap_next_dirty_area(data->hb, &off1, &len1);
-+    ret1 =3D hbitmap_next_dirty_area(data->hb,
-+            offset, count =3D=3D INT64_MAX ? INT64_MAX : offset + count, m=
-ax_dirty,
-+            &off1, &len1);
-=20
-     end =3D offset > data->size || data->size - offset < count ? data->siz=
-e :
-                                                                offset + co=
-unt;
-@@ -940,21 +941,25 @@ static void test_hbitmap_next_dirty_area_check(TestHB=
-itmapData *data,
-         ;
-     }
-=20
--    for (len2 =3D 1; off2 + len2 < end && hbitmap_get(data->hb, off2 + len=
-2);
--         len2++) {
-+    for (len2 =3D 1; (off2 + len2 < end && len2 < max_dirty &&
-+                    hbitmap_get(data->hb, off2 + len2)); len2++)
-+    {
-         ;
-     }
-=20
-     ret2 =3D off2 < end;
--    if (!ret2) {
--        /* leave unchanged */
--        off2 =3D offset;
--        len2 =3D count;
--    }
--
-     g_assert_cmpint(ret1, =3D=3D, ret2);
--    g_assert_cmpint(off1, =3D=3D, off2);
--    g_assert_cmpint(len1, =3D=3D, len2);
++typedef struct NBDExtentArray {
++    NBDExtent *extents;
++    unsigned int nb_alloc;
++    unsigned int count;
++    uint64_t total_length;
++    bool can_add;
++    bool converted_to_be;
++} NBDExtentArray;
 +
-+    if (ret2) {
-+        g_assert_cmpint(off1, =3D=3D, off2);
-+        g_assert_cmpint(len1, =3D=3D, len2);
++static NBDExtentArray *nbd_extent_array_new(unsigned int nb_alloc)
++{
++    NBDExtentArray *ea =3D g_new0(NBDExtentArray, 1);
++
++    ea->nb_alloc =3D nb_alloc;
++    ea->extents =3D g_new(NBDExtent, nb_alloc);
++    ea->can_add =3D true;
++
++    return ea;
++}
++
++static void nbd_extent_array_free(NBDExtentArray *ea)
++{
++    g_free(ea->extents);
++    g_free(ea);
++}
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
++
++/* Further modifications of the array after conversion are abandoned */
++static void nbd_extent_array_convert_to_be(NBDExtentArray *ea)
++{
++    int i;
++
++    assert(!ea->converted_to_be);
++    ea->can_add =3D false;
++    ea->converted_to_be =3D true;
++
++    for (i =3D 0; i < ea->count; i++) {
++        ea->extents[i].flags =3D cpu_to_be32(ea->extents[i].flags);
++        ea->extents[i].length =3D cpu_to_be32(ea->extents[i].length);
 +    }
 +}
 +
-+static void test_hbitmap_next_dirty_area_check(TestHBitmapData *data,
-+                                               int64_t offset, int64_t cou=
-nt)
+ /*
+- * Populate @extents from block status. Update @bytes to be the actual
+- * length encoded (which may be smaller than the original), and update
+- * @nb_extents to the number of extents used.
+- *
+- * Returns zero on success and -errno on bdrv_block_status_above failure.
++ * Add extent to NBDExtentArray. If extent can't be added (no available sp=
+ace),
++ * return -1.
++ * For safety, when returning -1 for the first time, .can_add is set to fa=
+lse,
++ * further call to nbd_extent_array_add() will crash.
++ * (to avoid the situation, when after failing to add an extent (returned =
+-1),
++ * user miss this failure and add another extent, which is successfully ad=
+ded
++ * (array is full, but new extent may be squashed into the last one), then=
+ we
++ * have invalid array with skipped extent)
+  */
++static int nbd_extent_array_add(NBDExtentArray *ea,
++                                uint32_t length, uint32_t flags)
 +{
-+    test_hbitmap_next_dirty_area_check_limited(data, offset, count, INT64_=
-MAX);
- }
-=20
- static void test_hbitmap_next_dirty_area_do(TestHBitmapData *data,
-@@ -964,6 +969,7 @@ static void test_hbitmap_next_dirty_area_do(TestHBitmap=
-Data *data,
-     test_hbitmap_next_dirty_area_check(data, 0, INT64_MAX);
-     test_hbitmap_next_dirty_area_check(data, 0, 1);
-     test_hbitmap_next_dirty_area_check(data, L3 - 1, 1);
-+    test_hbitmap_next_dirty_area_check_limited(data, 0, INT64_MAX, 1);
-=20
-     hbitmap_set(data->hb, L2, 1);
-     test_hbitmap_next_dirty_area_check(data, 0, 1);
-@@ -976,6 +982,8 @@ static void test_hbitmap_next_dirty_area_do(TestHBitmap=
-Data *data,
-     test_hbitmap_next_dirty_area_check(data, L2, INT64_MAX);
-     test_hbitmap_next_dirty_area_check(data, L2, 1);
-     test_hbitmap_next_dirty_area_check(data, L2 + 1, 1);
-+    test_hbitmap_next_dirty_area_check_limited(data, 0, INT64_MAX, 1);
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 - 1, 2, 1);
-=20
-     hbitmap_set(data->hb, L2 + 5, L1);
-     test_hbitmap_next_dirty_area_check(data, 0, INT64_MAX);
-@@ -988,6 +996,8 @@ static void test_hbitmap_next_dirty_area_do(TestHBitmap=
-Data *data,
-     test_hbitmap_next_dirty_area_check(data, L2 + L1, L1);
-     test_hbitmap_next_dirty_area_check(data, L2, 0);
-     test_hbitmap_next_dirty_area_check(data, L2 + 1, 0);
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 + 3, INT64_MAX, 3)=
-;
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 + 3, 7, 10);
-=20
-     hbitmap_set(data->hb, L2 * 2, L3 - L2 * 2);
-     test_hbitmap_next_dirty_area_check(data, 0, INT64_MAX);
-@@ -997,6 +1007,9 @@ static void test_hbitmap_next_dirty_area_do(TestHBitma=
-pData *data,
-     test_hbitmap_next_dirty_area_check(data, L2 + 5 + L1, 5);
-     test_hbitmap_next_dirty_area_check(data, L2 * 2 - L1, L1 + 1);
-     test_hbitmap_next_dirty_area_check(data, L2 * 2, L2);
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 * 2 + 1, INT64_MAX=
-, 5);
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 * 2 + 1, 10, 5);
-+    test_hbitmap_next_dirty_area_check_limited(data, L2 * 2 + 1, 2, 5);
-=20
-     hbitmap_set(data->hb, 0, L3);
-     test_hbitmap_next_dirty_area_check(data, 0, INT64_MAX);
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 883ca48fa6..305b894a63 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -270,22 +270,33 @@ int64_t hbitmap_next_zero(const HBitmap *hb, int64_t =
-start, int64_t count)
-     return res;
- }
-=20
--bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t *start, int64_t *c=
-ount)
-+bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end=
-,
-+                             int64_t max_dirty_count,
-+                             int64_t *dirty_start, int64_t *dirty_count)
- {
--    int64_t area_start, area_end;
-+    int64_t next_zero;
-=20
--    area_start =3D hbitmap_next_dirty(hb, *start, *count);
--    if (area_start < 0) {
-+    assert(start >=3D 0 && end >=3D 0 && max_dirty_count > 0);
++    assert(ea->can_add);
 +
-+    end =3D MIN(end, hb->orig_size);
-+    if (start >=3D end) {
-         return false;
-     }
-=20
--    area_end =3D hbitmap_next_zero(hb, area_start, *start + *count - area_=
-start);
--    if (area_end < 0) {
--        area_end =3D MIN(hb->orig_size, *start + *count);
-+    start =3D hbitmap_next_dirty(hb, start, end - start);
-+    if (start < 0) {
-+        return false;
++    if (!length) {
++        return 0;
 +    }
 +
-+    end =3D start + MIN(end - start, max_dirty_count);
++    /* Extend previous extent if flags are the same */
++    if (ea->count > 0 && flags =3D=3D ea->extents[ea->count - 1].flags) {
++        uint64_t sum =3D (uint64_t)length + ea->extents[ea->count - 1].len=
+gth;
 +
-+    next_zero =3D hbitmap_next_zero(hb, start, end - start);
-+    if (next_zero >=3D 0) {
-+        end =3D next_zero;
-     }
-=20
--    *start =3D area_start;
--    *count =3D area_end - area_start;
-+    *dirty_start =3D start;
-+    *dirty_count =3D end - start;
-=20
-     return true;
- }
-@@ -841,16 +852,15 @@ bool hbitmap_can_merge(const HBitmap *a, const HBitma=
-p *b)
-  */
- static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
++        if (sum <=3D UINT32_MAX) {
++            ea->extents[ea->count - 1].length =3D sum;
++            ea->total_length +=3D length;
++            return 0;
++        }
++    }
++
++    if (ea->count >=3D ea->nb_alloc) {
++        ea->can_add =3D false;
++        return -1;
++    }
++
++    ea->total_length +=3D length;
++    ea->extents[ea->count] =3D (NBDExtent) {.length =3D length, .flags =3D=
+ flags};
++    ea->count++;
++
++    return 0;
++}
++
+ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
+-                                  uint64_t *bytes, NBDExtent *extents,
+-                                  unsigned int *nb_extents)
++                                  uint64_t bytes, NBDExtentArray *ea)
  {
--    int64_t offset =3D 0;
--    int64_t count =3D src->orig_size;
-+    int64_t offset;
-+    int64_t count;
+-    uint64_t remaining_bytes =3D *bytes;
+-    NBDExtent *extent =3D extents, *extents_end =3D extents + *nb_extents;
+-    bool first_extent =3D true;
+-
+-    assert(*nb_extents);
+-    while (remaining_bytes) {
++    while (bytes) {
+         uint32_t flags;
+         int64_t num;
+-        int ret =3D bdrv_block_status_above(bs, NULL, offset, remaining_by=
+tes,
+-                                          &num, NULL, NULL);
++        int ret =3D bdrv_block_status_above(bs, NULL, offset, bytes, &num,
++                                          NULL, NULL);
 =20
--    while (hbitmap_next_dirty_area(src, &offset, &count)) {
-+    for (offset =3D 0;
-+         hbitmap_next_dirty_area(src, offset, src->orig_size, INT64_MAX,
-+                                 &offset, &count);
-+         offset +=3D count)
-+    {
-         hbitmap_set(dst, offset, count);
--        offset +=3D count;
--        if (offset >=3D src->orig_size) {
--            break;
--        }
--        count =3D src->orig_size - offset;
+         if (ret < 0) {
+             return ret;
+@@ -1938,60 +2009,37 @@ static int blockstatus_to_extents(BlockDriverState =
+*bs, uint64_t offset,
+         flags =3D (ret & BDRV_BLOCK_ALLOCATED ? 0 : NBD_STATE_HOLE) |
+                 (ret & BDRV_BLOCK_ZERO      ? NBD_STATE_ZERO : 0);
+=20
+-        if (first_extent) {
+-            extent->flags =3D flags;
+-            extent->length =3D num;
+-            first_extent =3D false;
+-        } else if (flags =3D=3D extent->flags) {
+-            /* extend current extent */
+-            extent->length +=3D num;
+-        } else {
+-            if (extent + 1 =3D=3D extents_end) {
+-                break;
+-            }
+-
+-            /* start new extent */
+-            extent++;
+-            extent->flags =3D flags;
+-            extent->length =3D num;
++        if (nbd_extent_array_add(ea, num, flags) < 0) {
++            return 0;
+         }
++
+         offset +=3D num;
+-        remaining_bytes -=3D num;
++        bytes -=3D num;
      }
+=20
+-    extents_end =3D extent + 1;
+-
+-    for (extent =3D extents; extent < extents_end; extent++) {
+-        extent->flags =3D cpu_to_be32(extent->flags);
+-        extent->length =3D cpu_to_be32(extent->length);
+-    }
+-
+-    *bytes -=3D remaining_bytes;
+-    *nb_extents =3D extents_end - extents;
+-
+     return 0;
  }
 =20
+-/* nbd_co_send_extents
++/*
++ * nbd_co_send_extents
+  *
+- * @length is only for tracing purposes (and may be smaller or larger
+- * than the client's original request). @last controls whether
+- * NBD_REPLY_FLAG_DONE is sent. @extents should already be in
+- * big-endian format.
++ * @ea is converted to BE by the function
++ * @last controls whether NBD_REPLY_FLAG_DONE is sent.
+  */
+ static int nbd_co_send_extents(NBDClient *client, uint64_t handle,
+-                               NBDExtent *extents, unsigned int nb_extents=
+,
+-                               uint64_t length, bool last,
+-                               uint32_t context_id, Error **errp)
++                               NBDExtentArray *ea,
++                               bool last, uint32_t context_id, Error **err=
+p)
+ {
+     NBDStructuredMeta chunk;
+-
+     struct iovec iov[] =3D {
+         {.iov_base =3D &chunk, .iov_len =3D sizeof(chunk)},
+-        {.iov_base =3D extents, .iov_len =3D nb_extents * sizeof(extents[0=
+])}
++        {.iov_base =3D ea->extents, .iov_len =3D ea->count * sizeof(ea->ex=
+tents[0])}
+     };
+=20
+-    trace_nbd_co_send_extents(handle, nb_extents, context_id, length, last=
+);
++    nbd_extent_array_convert_to_be(ea);
++
++    trace_nbd_co_send_extents(handle, ea->count, context_id, ea->total_len=
+gth,
++                              last);
+     set_be_chunk(&chunk.h, last ? NBD_REPLY_FLAG_DONE : 0,
+                  NBD_REPLY_TYPE_BLOCK_STATUS,
+                  handle, sizeof(chunk) - sizeof(chunk.h) + iov[1].iov_len)=
+;
+@@ -2009,39 +2057,27 @@ static int nbd_co_send_block_status(NBDClient *clie=
+nt, uint64_t handle,
+ {
+     int ret;
+     unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_E=
+XTENTS;
+-    NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
+-    uint64_t final_length =3D length;
++    g_autoptr(NBDExtentArray) ea =3D nbd_extent_array_new(nb_extents);
+=20
+-    ret =3D blockstatus_to_extents(bs, offset, &final_length, extents,
+-                                 &nb_extents);
++    ret =3D blockstatus_to_extents(bs, offset, length, ea);
+     if (ret < 0) {
+-        g_free(extents);
+         return nbd_co_send_structured_error(
+                 client, handle, -ret, "can't get block status", errp);
+     }
+=20
+-    ret =3D nbd_co_send_extents(client, handle, extents, nb_extents,
+-                              final_length, last, context_id, errp);
+-
+-    g_free(extents);
+-
+-    return ret;
++    return nbd_co_send_extents(client, handle, ea, last, context_id, errp)=
+;
+ }
+=20
+ /*
+- * Populate @extents from a dirty bitmap. Unless @dont_fragment, the
+- * final extent may exceed the original @length. Store in @length the
+- * byte length encoded (which may be smaller or larger than the
+- * original), and return the number of extents used.
++ * Populate @ea from a dirty bitmap. Unless @dont_fragment, the
++ * final extent may exceed the original @length.
+  */
+-static unsigned int bitmap_to_extents(BdrvDirtyBitmap *bitmap, uint64_t of=
+fset,
+-                                      uint64_t *length, NBDExtent *extents=
+,
+-                                      unsigned int nb_extents,
+-                                      bool dont_fragment)
++static void bitmap_to_extents(BdrvDirtyBitmap *bitmap,
++                              uint64_t offset, uint64_t length,
++                              NBDExtentArray *ea, bool dont_fragment)
+ {
+     uint64_t begin =3D offset, end =3D offset;
+-    uint64_t overall_end =3D offset + *length;
+-    unsigned int i =3D 0;
++    uint64_t overall_end =3D offset + length;
+     BdrvDirtyBitmapIter *it;
+     bool dirty;
+=20
+@@ -2050,8 +2086,7 @@ static unsigned int bitmap_to_extents(BdrvDirtyBitmap=
+ *bitmap, uint64_t offset,
+     it =3D bdrv_dirty_iter_new(bitmap);
+     dirty =3D bdrv_dirty_bitmap_get_locked(bitmap, offset);
+=20
+-    assert(begin < overall_end && nb_extents);
+-    while (begin < overall_end && i < nb_extents) {
++    while (begin < overall_end) {
+         bool next_dirty =3D !dirty;
+=20
+         if (dirty) {
+@@ -2071,9 +2106,10 @@ static unsigned int bitmap_to_extents(BdrvDirtyBitma=
+p *bitmap, uint64_t offset,
+             end =3D overall_end;
+         }
+=20
+-        extents[i].length =3D cpu_to_be32(end - begin);
+-        extents[i].flags =3D cpu_to_be32(dirty ? NBD_STATE_DIRTY : 0);
+-        i++;
++        if (nbd_extent_array_add(ea, end - begin,
++                                 dirty ? NBD_STATE_DIRTY : 0) < 0) {
++            break;
++        }
+         begin =3D end;
+         dirty =3D next_dirty;
+     }
+@@ -2083,8 +2119,6 @@ static unsigned int bitmap_to_extents(BdrvDirtyBitmap=
+ *bitmap, uint64_t offset,
+     bdrv_dirty_bitmap_unlock(bitmap);
+=20
+     assert(offset < end);
+-    *length =3D end - offset;
+-    return i;
+ }
+=20
+ static int nbd_co_send_bitmap(NBDClient *client, uint64_t handle,
+@@ -2092,20 +2126,12 @@ static int nbd_co_send_bitmap(NBDClient *client, ui=
+nt64_t handle,
+                               uint32_t length, bool dont_fragment, bool la=
+st,
+                               uint32_t context_id, Error **errp)
+ {
+-    int ret;
+     unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_E=
+XTENTS;
+-    NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
+-    uint64_t final_length =3D length;
++    g_autoptr(NBDExtentArray) ea =3D nbd_extent_array_new(nb_extents);
+=20
+-    nb_extents =3D bitmap_to_extents(bitmap, offset, &final_length, extent=
+s,
+-                                   nb_extents, dont_fragment);
++    bitmap_to_extents(bitmap, offset, length, ea, dont_fragment);
+=20
+-    ret =3D nbd_co_send_extents(client, handle, extents, nb_extents,
+-                              final_length, last, context_id, errp);
+-
+-    g_free(extents);
+-
+-    return ret;
++    return nbd_co_send_extents(client, handle, ea, last, context_id, errp)=
+;
+ }
+=20
+ /* nbd_co_receive_request
 --=20
 2.21.1
 
