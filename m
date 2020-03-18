@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA151893A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:23:44 +0100 (CET)
-Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EDA1893AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:26:50 +0100 (CET)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jENQt-0002h8-FD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34638)
+	id 1jENTt-0006ey-Ep
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jENLl-0004Y6-Nk
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:27 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jENLn-0004aI-Ij
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jENLk-0002eS-DO
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35816)
+ (envelope-from <ehabkost@redhat.com>) id 1jENLl-0002no-Nc
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:27 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENLk-0002Zi-90
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:24 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENLl-0002ld-IW
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:18:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584494303;
+ s=mimecast20190719; t=1584494305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KXPYI74UUQLKfuswF4jeS8KuX070oe1Vo0knYTlRAvE=;
- b=LyxqXN0Nj67FLzIBZk2QAxIFJrQXL0zhKTdwv8ygCvZVLw530R/meXBw1ZX9v3H8kQToMJ
- +diGLIKClB4epmJ/iEgaeL8pHxYl9Oe5oCx/yStLDfoAYOmHhC0T4X0OWMIPPhvxPk5U0w
- UD/qdLuaRYHCkzNBRga91aXfku2wkCw=
+ bh=xj0koGR1OOWTs/7O6WlMBbzTU6PRJEmOAi0wJCQpdTY=;
+ b=a7MH6+ToTluuJ+tlCpCh1WTEiMylQXFHLvltSOooXEMyxHGyjjFEkDCho+pJnzMKVPlehS
+ N6rYwBZ0lVTjZCHoEnUJ7BqEO3d6cS/G0QUmLNJwz/vxiBsQwh9Y9Yu3/YR3zrlba4ze9l
+ yuBBfTsTf7IwKzz4Xdo1zeyU9L3XjSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-bu98x6YYO9-7J4_KFYQlSw-1; Tue, 17 Mar 2020 21:18:18 -0400
-X-MC-Unique: bu98x6YYO9-7J4_KFYQlSw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-71-GUY6RpzSPbiFRrIvkTDnSw-1; Tue, 17 Mar 2020 21:18:23 -0400
+X-MC-Unique: GUY6RpzSPbiFRrIvkTDnSw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95431DB60;
- Wed, 18 Mar 2020 01:18:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03BBF800D50;
+ Wed, 18 Mar 2020 01:18:22 +0000 (UTC)
 Received: from localhost (ovpn-118-148.rdu2.redhat.com [10.10.118.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79BCC19C58;
- Wed, 18 Mar 2020 01:18:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9A1E10016EB;
+ Wed, 18 Mar 2020 01:18:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/13] machine: Add SMP Sockets in CpuTopology
-Date: Tue, 17 Mar 2020 21:17:45 -0400
-Message-Id: <20200318011748.2104336-11-ehabkost@redhat.com>
+Subject: [PULL 11/13] hw/i386: Remove unnecessary initialization in x86_cpu_new
+Date: Tue, 17 Mar 2020 21:17:46 -0400
+Message-Id: <20200318011748.2104336-12-ehabkost@redhat.com>
 In-Reply-To: <20200318011748.2104336-1-ehabkost@redhat.com>
 References: <20200318011748.2104336-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,78 +80,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Babu Moger <babu.moger@amd.com>
 
-Store the  smp sockets in CpuTopology. The socket information required to
-build the apic id in EPYC mode. Right now socket information is not passed
-to down when decoding the apic id. Add the socket information here.
+The function pc_cpu_pre_plug takes care of initialization of CPUX86State.
+So, remove the initialization here.
 
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <158396718647.58170.2278448323151215741.stgit@naples-babu.amd.c=
-om>
+Message-Id: <158396719336.58170.11951852360759449871.stgit@naples-babu.amd.=
+com>
 ---
- hw/core/machine.c   | 1 +
- hw/i386/pc.c        | 1 +
- include/hw/boards.h | 2 ++
- softmmu/vl.c        | 1 +
- 4 files changed, 5 insertions(+)
+ hw/i386/x86.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 4778bc6b08..b958cd1b99 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -757,6 +757,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
-         ms->smp.cpus =3D cpus;
-         ms->smp.cores =3D cores;
-         ms->smp.threads =3D threads;
-+        ms->smp.sockets =3D sockets;
-     }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index b7d94e8dfe..41b884605f 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -103,13 +103,9 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_=
+id, Error **errp)
+ {
+     Object *cpu =3D NULL;
+     Error *local_err =3D NULL;
+-    CPUX86State *env =3D NULL;
 =20
-     if (ms->smp.cpus > 1) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 662abb549d..05e7f1090f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -781,6 +781,7 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-         ms->smp.cpus =3D cpus;
-         ms->smp.cores =3D cores;
-         ms->smp.threads =3D threads;
-+        ms->smp.sockets =3D sockets;
-         x86ms->smp_dies =3D dies;
-     }
+     cpu =3D object_new(MACHINE(x86ms)->cpu_type);
 =20
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index c96120d15f..236d239c19 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -236,12 +236,14 @@ typedef struct DeviceMemoryState {
-  * @cpus: the number of present logical processors on the machine
-  * @cores: the number of cores in one package
-  * @threads: the number of threads in one core
-+ * @sockets: the number of sockets on the machine
-  * @max_cpus: the maximum number of logical processors on the machine
-  */
- typedef struct CpuTopology {
-     unsigned int cpus;
-     unsigned int cores;
-     unsigned int threads;
-+    unsigned int sockets;
-     unsigned int max_cpus;
- } CpuTopology;
+-    env =3D &X86_CPU(cpu)->env;
+-    env->nr_dies =3D x86ms->smp_dies;
+-
+     object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+     object_property_set_bool(cpu, true, "realized", &local_err);
 =20
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6a285925b3..1d33a28340 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3946,6 +3946,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     current_machine->smp.max_cpus =3D machine_class->default_cpus;
-     current_machine->smp.cores =3D 1;
-     current_machine->smp.threads =3D 1;
-+    current_machine->smp.sockets =3D 1;
-=20
-     machine_class->smp_parse(current_machine,
-         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
 --=20
 2.24.1
 
