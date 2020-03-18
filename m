@@ -2,101 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0B518A112
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 18:04:56 +0100 (CET)
-Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0709118A122
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 18:07:05 +0100 (CET)
+Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEc7j-0008Ns-BY
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 13:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54787)
+	id 1jEc9o-0001ny-2v
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 13:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEc5h-0006Rn-OI
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:02:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1jEc85-0000bO-Sj
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:05:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jEc5f-0000pc-Kx
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:02:48 -0400
-Received: from mail-am5eur02on0713.outbound.protection.outlook.com
- ([2a01:111:f400:fe07::713]:5947
- helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jEc5f-0000ip-2e
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:02:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P0nag3UT/d1Ds+16IIG799ahjRLWK+B9YuwlaUfWgdENkaMkUCchpgfiWipqUh0TquPMB3mAOXDF9ITrfZ/DvAZdynU2UnkpyZUcMYcDHLJIVITuQgrPVaxP+hHy2yO9dHIcqYQBR041HDX9gr6TNPsNnV8Ccf/gBuonU5hKUWX5+Ytn9hUdDkCYQjY+k4sX3fzmAhfJaHEkRW7p6p9+yTIZDOK8Tw1J02sbzO7mrKfKLy93bZQLHzH3DO/HlMcORiPb0BXarWeNnaE5kqMDCksVEDghzFFzquHaKraRR0N5bDuZlZsnAbOw27FcSICU+MIjmjECMDdpMJaKQE80Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vg5ar+ehNaWrbJ84xx+aPsd8VPvc588j5QUYY5bOdO0=;
- b=FZrWSDFfTcBjeCPF8fTT3tHlMR1ezzb3rGhFyoKwd+iiq4S7KhHTGtuLx+Gbc7cEIuvVRakOAua+vm/qw0r09O0cKBsgUHRScQYLDE2B8kqwYON1Ga2Ok9+Z2ofCzHuMIGmfhlx4FCkHaVGVAayQOrcPc/xlOBxkX3q8Df053CJjPxUA/kTdO8B8HeaZqva0KnQ7nIY6exfNTEIQat2XMIOcprA3iZGUMWt7fO6c0n73Xd/voJJjjQHkN+QNBROKYiOnnjtDy8YPvsj7KUJQ8su4WLXXqR2PHwcysE77nb238U8U3fV2n8ou5VKA+9v+mSLW2JwnPT8PLfcxHod5bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vg5ar+ehNaWrbJ84xx+aPsd8VPvc588j5QUYY5bOdO0=;
- b=lxWwDozDWY2pGjdMyy67NMfBV/K7E12lr1PWYM69QrjzAe6xzM8DvpfWTPmfzZ/85/kG1vrtmNYeMyM3vqdzgnAScgF0KC0nM4e7a8tQQD6eCezanD10fZZ10au9f7NTL2vvN+LHWRo3EG4raBx4zXV4H0yUgv8YlT1Tr+IU0G0=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com (10.175.35.136) by
- HE1PR0802MB2313.eurprd08.prod.outlook.com (10.172.127.146) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.18; Wed, 18 Mar 2020 17:02:43 +0000
-Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com
- ([fe80::4d32:e4e1:5b9f:240f]) by HE1PR0802MB2507.eurprd08.prod.outlook.com
- ([fe80::4d32:e4e1:5b9f:240f%12]) with mapi id 15.20.2835.017; Wed, 18 Mar
- 2020 17:02:43 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/4] scripts/simplebench: fix python script ! headers
-Date: Wed, 18 Mar 2020 20:02:26 +0300
-Message-ID: <20200318170226.12186-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200318011217.2102748-1-ehabkost@redhat.com>
-References: <20200318011217.2102748-1-ehabkost@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: HE1PR0901CA0045.eurprd09.prod.outlook.com
- (2603:10a6:3:45::13) To HE1PR0802MB2507.eurprd08.prod.outlook.com
- (2603:10a6:3:e1::8)
+ (envelope-from <philmd@redhat.com>) id 1jEc84-0003a7-Jk
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:05:17 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:32544)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEc84-0003XA-FM
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 13:05:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584551115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yz6s7OGNS0gQr5dFC4tq6cQBkUuQsqMnzUOy8dyCtao=;
+ b=X8LzMkT6JHMeXzi32tNciV5HmbfYlAEPEOWTWO02StvXxcvP+Vk+Kj7uN1tlxtbnTlhTM9
+ 9CBYly3wDBhgX0DEqyVIwGcIuDphDOfAw+HQasIEmQIx12cc8hPowuOlLD67jvnGOg1Lgc
+ WFsXyOI9zdEcsuiCLNn5Oe4o8QeQWXY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-O7J0Ev_WOUWYkJPlrm7UxA-1; Wed, 18 Mar 2020 13:05:13 -0400
+X-MC-Unique: O7J0Ev_WOUWYkJPlrm7UxA-1
+Received: by mail-wm1-f69.google.com with SMTP id m4so1370114wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Mar 2020 10:05:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FXEtm75uJowv1shWPJjciTkR89dWOBGDPaoW0Qe92Wg=;
+ b=CIHT5kGdz/hZjm7m12ljDzOpeEBrw5W/JbIOucbftshY8ECvnVFXsTB1do1XkQzGMe
+ 9rsy65VwGQzZxQHDNdHI/LAmA2bfbUa/q0NqRRlE2ISWsgKOugQv0p7Uio9CfCXUzsaQ
+ iUVFfr83zEebr2lB0HuBMn826L0Tp3C1/1jVK9gHJTnNAeJnyO4BvhvJTewRdFeY4EoX
+ ubckMtpKS0+JoIMvep2/FOFp5HpPsOq8i799iSVGlTosxUgC9kk4OZReKX6xrRfjbmcM
+ btfE4ohSN4xbpp+vxX+A63/PMmedf4cDERlAg2YZdGNjcwco7HRQcDRGlf4+4M3mwkjq
+ SjAQ==
+X-Gm-Message-State: ANhLgQ0WgOdzzaxeZG2MeVyFOf7JSaeNgaWDMlpAtBHaSe2Gs7Kh9TZ0
+ gx7w2UN6W17CVYI0e7kLfL98DSOXV6Zm95bFLjav3kkO1g5dr/9v7obAoY8qDlz0Y3VZXZ636LU
+ mPfNAJlzVIVNbB6g=
+X-Received: by 2002:adf:fc8c:: with SMTP id g12mr6846003wrr.277.1584551112493; 
+ Wed, 18 Mar 2020 10:05:12 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtGeRquTFXJVqJjjh3S07KP2PynRJnjCKm3QPGFxhynTx8kwTBg+V5x2hhCUfVdervLkr4TTw==
+X-Received: by 2002:adf:fc8c:: with SMTP id g12mr6845982wrr.277.1584551112274; 
+ Wed, 18 Mar 2020 10:05:12 -0700 (PDT)
+Received: from [192.168.1.34] (96.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.96])
+ by smtp.gmail.com with ESMTPSA id o133sm2360650wme.35.2020.03.18.10.05.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Mar 2020 10:05:11 -0700 (PDT)
+Subject: Re: [PATCH for-5.0] compat: disable edid on correct virtio-gpu device
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+References: <20200318093919.24942-1-cohuck@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d2cf4311-5f67-db16-5719-03bf770889f1@redhat.com>
+Date: Wed, 18 Mar 2020 18:05:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.249) by
- HE1PR0901CA0045.eurprd09.prod.outlook.com (2603:10a6:3:45::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.15 via Frontend Transport; Wed, 18 Mar 2020 17:02:42 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.249]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e820e28-77f2-44b9-db90-08d7cb5e2ca4
-X-MS-TrafficTypeDiagnostic: HE1PR0802MB2313:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0802MB2313809B00C6A7D7DA440DABC1F70@HE1PR0802MB2313.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 03468CBA43
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(199004)(81156014)(81166006)(8676002)(4326008)(5660300002)(8936002)(6486002)(86362001)(36756003)(52116002)(498600001)(2616005)(4744005)(66946007)(2906002)(1076003)(6916009)(956004)(6512007)(26005)(6666004)(6506007)(66476007)(66556008)(186003)(16526019);
- DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0802MB2313;
- H:HE1PR0802MB2507.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u3nAQnhRKf7FSwQxA9lrCQ+9lC7E1gFfn+hf+JgWJiRYWgEfx9qnwPJzKzIs/eCN0PIhlouD902Ns2UNTW1fTD3plOG6qp5h/nXjGv4foT/NFilQzbnrmBtz5X+/ylT+o+Gq6pAZG6J/156Tg0S0TqFaVbL9LQ2ipWLuOyh0IOs4v7e89EilA1JvLmn0zeKq8Vxpf43n9Fv0SkarG/IfJXhKMwR0i334WWWS+QDawjh6fEf90h3uG9zssbHP11E+z6cLBeeDN6wZpq+1VwDUKeVR8UMK8Q36Gq9XHP288GieykJegQu/OGlGWR4WspSWFfQrgHt5GK+SYb6neGE6tRRb0/Ls9r6N0618SLAx6+dFFidyQv4ip8X1ec7POn9aIxXYOyCqlB1/C6kdgMfjtybyOPKs0kLneZTLPqDLLkztTVn523asUz9pjyvteQaj
-X-MS-Exchange-AntiSpam-MessageData: fvr0CLjl4iltkFFnGv2H6tIF4kfHogx0A7+CDa/jZR8Rly99v7mDF8i9WVbhFxwgCxh0EmB4TKL2eNzI+hBRSiSOHTs+YbDy7tkW/JzuZZeM4cauo/Ly0U11+NzxFkFNvgIrRUFYlzNI9NJGOFIsDQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e820e28-77f2-44b9-db90-08d7cb5e2ca4
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2020 17:02:43.6178 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kpoUMtlMNTaPAGFn9xrBTmdcConOkkDBVp5EQnaE4hPO/vut7oE1v2R2gGUbIheufNbFf0w8myFg3gKyS8yceR7pdscOcFjbhNwxN23jxuM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2313
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe07::713
+In-Reply-To: <20200318093919.24942-1-cohuck@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,43 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, aleksandar.qemu.devel@gmail.com,
- vsementsov@virtuozzo.com, ehabkost@redhat.com, crosa@redhat.com
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- simplebench.py is not for executing by itself, so drop the header
-- in bench_block_job.py fix python to python3
+On 3/18/20 10:39 AM, Cornelia Huck wrote:
+> Commit bb15791166c1 ("compat: disable edid on virtio-gpu base
+> device") tried to disable 'edid' on the virtio-gpu base device.
+> However, that device is not 'virtio-gpu', but 'virtio-gpu-device'.
+> Fix it.
+>=20
+> Fixes: bb15791166c1 ("compat: disable edid on virtio-gpu base device")
+> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+> Tested-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- scripts/simplebench/bench_block_job.py | 2 +-
- scripts/simplebench/simplebench.py     | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/b=
-ench_block_job.py
-index 9808d696cf..a0dda1dc4e 100755
---- a/scripts/simplebench/bench_block_job.py
-+++ b/scripts/simplebench/bench_block_job.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python
-+#!/usr/bin/env python3
- #
- # Benchmark block jobs
- #
-diff --git a/scripts/simplebench/simplebench.py b/scripts/simplebench/simpl=
-ebench.py
-index 59e7314ff6..7e25f3590b 100644
---- a/scripts/simplebench/simplebench.py
-+++ b/scripts/simplebench/simplebench.py
-@@ -1,5 +1,3 @@
--#!/usr/bin/env python
--#
- # Simple benchmarking framework
- #
- # Copyright (c) 2019 Virtuozzo International GmbH.
---=20
-2.21.0
+> ---
+>=20
+> Sorry about my testing failure on the original patch, and thanks
+> to Luk=C3=A1=C5=A1 for finding this.
+>=20
+> ---
+>   hw/core/machine.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 9e8c06036faf..fa9f50db186e 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -53,7 +53,7 @@ GlobalProperty hw_compat_4_0[] =3D {
+>       { "secondary-vga",  "edid", "false" },
+>       { "bochs-display",  "edid", "false" },
+>       { "virtio-vga",     "edid", "false" },
+> -    { "virtio-gpu",     "edid", "false" },
+> +    { "virtio-gpu-device", "edid", "false" },
+>       { "virtio-device", "use-started", "false" },
+>       { "virtio-balloon-device", "qemu-4-0-config-size", "true" },
+>       { "pl031", "migrate-tick-offset", "false" },
+>=20
 
 
