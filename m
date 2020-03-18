@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D352218939C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:15:27 +0100 (CET)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65EE1893A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 02:19:44 +0100 (CET)
+Received: from localhost ([::1]:43980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jENIs-0002P1-Tq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57423)
+	id 1jENN1-0005RZ-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 17 Mar 2020 21:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jENG6-0007TW-Ud
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:12:35 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1jENLJ-0003sF-C3
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jENG6-0004in-0G
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:12:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33173)
+ (envelope-from <ehabkost@redhat.com>) id 1jENLI-0000Mt-6D
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:57 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:49262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENG5-0004hP-Sd
- for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:12:33 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jENLI-0000Kc-22
+ for qemu-devel@nongnu.org; Tue, 17 Mar 2020 21:17:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584493951;
+ s=mimecast20190719; t=1584494275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NvsIcJn+vDR+XVp29U5PoUNWI6fz3PjojaW3lFBTsCU=;
- b=FNa5LXeUgaRREFt8s1sEdwTjCNrMNDkRxjpB042F2xfjPv/mLWgnKhOtHE63yZqw2IfdA1
- obRMoqn9weO9uvv/sysR51/jNhcnMzLpf3hJ3+IXXMntsRJFjOamXO/cJz1bQdZrn5wPcs
- WzoX9e6+Ux0yEgXLGRUA5uGcBFoUByk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=n3vXWA71thEPHzEm/7ME7X4i4ktgY7bp3bBJMm9AakA=;
+ b=KhHjjAh3rn74ECtJa13PAR74MPI+iLDNF8WBCh6O3JJ1EzzrlktFdj8Lc0pr/+amxsvB7j
+ UKwF9JhHuYSQb1DOFdNLGernmjkw7sIreCisDoGDPUwRzsuafdC6cT1hlmdj0RBsE550t/
+ tjl/345e/UAv++DgwVzZX5+3ZXp0rnw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-Wglkl5ALPTWuiDcEsnk0Vg-1; Tue, 17 Mar 2020 21:12:29 -0400
-X-MC-Unique: Wglkl5ALPTWuiDcEsnk0Vg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-338-nlGzVTuAPmiKO899HvhA2A-1; Tue, 17 Mar 2020 21:17:51 -0400
+X-MC-Unique: nlGzVTuAPmiKO899HvhA2A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 336AC8017CC;
- Wed, 18 Mar 2020 01:12:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DAD0107ACC9;
+ Wed, 18 Mar 2020 01:17:50 +0000 (UTC)
 Received: from localhost (ovpn-118-148.rdu2.redhat.com [10.10.118.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95D945C1BB;
- Wed, 18 Mar 2020 01:12:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E68D8AC30;
+ Wed, 18 Mar 2020 01:17:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/4] MAINTAINERS: add simplebench
-Date: Tue, 17 Mar 2020 21:12:17 -0400
-Message-Id: <20200318011217.2102748-5-ehabkost@redhat.com>
-In-Reply-To: <20200318011217.2102748-1-ehabkost@redhat.com>
-References: <20200318011217.2102748-1-ehabkost@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/13] x86 and machine queue for 5.0 soft freeze
+Date: Tue, 17 Mar 2020 21:17:35 -0400
+Message-Id: <20200318011748.2104336-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +67,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200228071914.11746-5-vsementsov@virtuozzo.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7364af0d8b..9b462ef009 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2142,6 +2142,11 @@ F: python/qemu/*py
- F: scripts/*.py
- F: tests/*.py
-=20
-+Benchmark util
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+S: Maintained
-+F: scripts/simplebench/
-+
- QAPI
- M: Markus Armbruster <armbru@redhat.com>
- M: Michael Roth <mdroth@linux.vnet.ibm.com>
---=20
-2.24.1
+The following changes since commit d649689a8ecb2e276cc20d3af6d416e3c299cb17=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into sta=
+ging (2020-03-17 18:33:05 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/ehabkost/qemu.git tags/x86-and-machine-pull-request=0D
+=0D
+for you to fetch changes up to 3c6712eca07255803b61ca3d632f61a65c078c36:=0D
+=0D
+  hw/i386: Rename apicid_from_topo_ids to x86_apicid_from_topo_ids (2020-03=
+-17 19:48:10 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+x86 and machine queue for 5.0 soft freeze=0D
+=0D
+Bug fixes:=0D
+* memory encryption: Disable mem merge=0D
+  (Dr. David Alan Gilbert)=0D
+=0D
+Features:=0D
+* New EPYC CPU definitions (Babu Moger)=0D
+* Denventon-v2 CPU model (Tao Xu)=0D
+* New 'note' field on versioned CPU models (Tao Xu)=0D
+=0D
+Cleanups:=0D
+* x86 CPU topology cleanups (Babu Moger)=0D
+* cpu: Use DeviceClass reset instead of a special CPUClass reset=0D
+  (Peter Maydell)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Babu Moger (7):=0D
+  hw/i386: Rename X86CPUTopoInfo structure to X86CPUTopoIDs=0D
+  hw/i386: Introduce X86CPUTopoInfo to contain topology info=0D
+  hw/i386: Consolidate topology functions=0D
+  machine: Add SMP Sockets in CpuTopology=0D
+  hw/i386: Remove unnecessary initialization in x86_cpu_new=0D
+  hw/i386: Update structures to save the number of nodes per package=0D
+  hw/i386: Rename apicid_from_topo_ids to x86_apicid_from_topo_ids=0D
+=0D
+Dr. David Alan Gilbert (1):=0D
+  machine/memory encryption: Disable mem merge=0D
+=0D
+Moger, Babu (2):=0D
+  i386: Add missing cpu feature bits in EPYC model=0D
+  i386: Add 2nd Generation AMD EPYC processors=0D
+=0D
+Peter Maydell (1):=0D
+  cpu: Use DeviceClass reset instead of a special CPUClass reset=0D
+=0D
+Tao Xu (2):=0D
+  target/i386: Add Denverton-v2 (no MPX) CPU model=0D
+  target/i386: Add new property note to versioned CPU models=0D
+=0D
+ hw/core/cpu.c                      |  19 +---=0D
+ hw/core/machine.c                  |   9 ++=0D
+ hw/i386/pc.c                       |  53 +++++----=0D
+ hw/i386/x86.c                      |  51 +++++----=0D
+ include/hw/boards.h                |   2 +=0D
+ include/hw/core/cpu.h              |   6 -=0D
+ include/hw/i386/topology.h         | 113 +++++++++----------=0D
+ include/hw/i386/x86.h              |   3 +=0D
+ scripts/coccinelle/cpu-reset.cocci |  47 ++++++++=0D
+ softmmu/vl.c                       |   1 +=0D
+ target/alpha/cpu-qom.h             |   2 +-=0D
+ target/arm/cpu-qom.h               |   2 +-=0D
+ target/arm/cpu.c                   |   8 +-=0D
+ target/cris/cpu-qom.h              |   2 +-=0D
+ target/cris/cpu.c                  |   8 +-=0D
+ target/hppa/cpu-qom.h              |   2 +-=0D
+ target/i386/cpu-qom.h              |   2 +-=0D
+ target/i386/cpu.c                  | 174 +++++++++++++++++++++++++----=0D
+ target/i386/cpu.h                  |   3 +=0D
+ target/lm32/cpu-qom.h              |   2 +-=0D
+ target/lm32/cpu.c                  |   8 +-=0D
+ target/m68k/cpu-qom.h              |   2 +-=0D
+ target/m68k/cpu.c                  |   8 +-=0D
+ target/microblaze/cpu-qom.h        |   2 +-=0D
+ target/microblaze/cpu.c            |   8 +-=0D
+ target/mips/cpu-qom.h              |   2 +-=0D
+ target/mips/cpu.c                  |   8 +-=0D
+ target/moxie/cpu.c                 |   7 +-=0D
+ target/moxie/cpu.h                 |   2 +-=0D
+ target/nios2/cpu.c                 |   8 +-=0D
+ target/nios2/cpu.h                 |   2 +-=0D
+ target/openrisc/cpu.c              |   8 +-=0D
+ target/openrisc/cpu.h              |   2 +-=0D
+ target/ppc/cpu-qom.h               |   2 +-=0D
+ target/ppc/translate_init.inc.c    |   8 +-=0D
+ target/riscv/cpu.c                 |   7 +-=0D
+ target/riscv/cpu.h                 |   2 +-=0D
+ target/s390x/cpu-qom.h             |   2 +-=0D
+ target/s390x/cpu.c                 |   8 +-=0D
+ target/sh4/cpu-qom.h               |   2 +-=0D
+ target/sh4/cpu.c                   |   8 +-=0D
+ target/sparc/cpu-qom.h             |   2 +-=0D
+ target/sparc/cpu.c                 |   8 +-=0D
+ target/tilegx/cpu.c                |   7 +-=0D
+ target/tilegx/cpu.h                |   2 +-=0D
+ target/tricore/cpu-qom.h           |   2 +-=0D
+ target/tricore/cpu.c               |   7 +-=0D
+ target/xtensa/cpu-qom.h            |   2 +-=0D
+ target/xtensa/cpu.c                |   8 +-=0D
+ tests/test-x86-cpuid.c             | 116 +++++++++++--------=0D
+ 50 files changed, 490 insertions(+), 279 deletions(-)=0D
+ create mode 100644 scripts/coccinelle/cpu-reset.cocci=0D
+=0D
+--=20=0D
+2.24.1=0D
+=0D
 
 
