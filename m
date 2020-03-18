@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86AB18A3BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:25:27 +0100 (CET)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D3718A3C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Mar 2020 21:29:37 +0100 (CET)
+Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEfFm-0007N6-KF
-	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56957)
+	id 1jEfJo-0005e8-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 18 Mar 2020 16:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jEfEZ-0006Oi-Uf
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:13 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jEfEz-0006sg-Oh
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jEfEU-0001uk-5M
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:08 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32123)
+ (envelope-from <jsnow@redhat.com>) id 1jEfEy-0002Lv-JI
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:37 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39273)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfEU-0001tE-1e
- for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:06 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jEfEy-0002KT-FK
+ for qemu-devel@nongnu.org; Wed, 18 Mar 2020 16:24:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584563045;
+ s=mimecast20190719; t=1584563073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6aff+Oexu8GVzCGh8guZeMHgCwLBh5qD/PMA5J0MUKg=;
- b=bj/WjY2SNf5RgOhkOFM8cL30rcX/mS6Z0UvJY3X4WXJqdaPy7vfAtR6VW8R9zxssLj92OA
- pUlg2vjqYVOpci1gzf6F4lxBgLXxl7Hd+CPwNu5I0uqCIeVT7W3yG4RAwYsT8d/BCdXbYp
- B2jy4Spe7zWPe/fSjXFamAuU4bx2YL8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q9lbwOKLskc4XpV5HM+gjc7F18xWnZPhhhsdSKTCVGE=;
+ b=L3k8O6nTgtjKvMdTlQqapzVPYStWrDtpbyPisQTMGiURiFeyStgrtpYOlkk7JJ+4OeC+yJ
+ geUZZMoqQqAyB7ar/alPJfiX2ZhRoMeG0PwnY/1L2yAe014SmVXNDrwPRe7pUMaOgk4Cyg
+ u6CAXzMHPNtsnCcMQXr62rLNCE9JZSY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-LLekJM49PZexRwOn_RWaSw-1; Wed, 18 Mar 2020 16:24:01 -0400
-X-MC-Unique: LLekJM49PZexRwOn_RWaSw-1
+ us-mta-138-rNHVvXVtMCy7NZ3bjgOG1g-1; Wed, 18 Mar 2020 16:24:30 -0400
+X-MC-Unique: rNHVvXVtMCy7NZ3bjgOG1g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92BFE18C35A0;
- Wed, 18 Mar 2020 20:24:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D3C78024DA;
+ Wed, 18 Mar 2020 20:24:27 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FD48619A9;
- Wed, 18 Mar 2020 20:23:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D31FB6106D;
+ Wed, 18 Mar 2020 20:24:00 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org, jsnow@redhat.com,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/11] Bitmaps patches
-Date: Wed, 18 Mar 2020 16:23:30 -0400
-Message-Id: <20200318202341.6961-1-jsnow@redhat.com>
+Subject: [PULL v2 01/11] build: Silence clang warning on older glib autoptr
+ usage
+Date: Wed, 18 Mar 2020 16:23:31 -0400
+Message-Id: <20200318202341.6961-2-jsnow@redhat.com>
+In-Reply-To: <20200318202341.6961-1-jsnow@redhat.com>
+References: <20200318202341.6961-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,51 +80,54 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d649689a8ecb2e276cc20d3af6d416e3c299cb17=
-:
+From: Eric Blake <eblake@redhat.com>
 
-  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into sta=
-ging (2020-03-17 18:33:05 +0000)
+glib's G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro defines several static
+inline functions, often with some of them unused, but prior to 2.57.2
+did not mark the functions as such.  As a result, clang (but not gcc)
+fails to build with older glib unless -Wno-unused-function is enabled.
 
-are available in the Git repository at:
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20200317175534.196295-1-eblake@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ configure | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-  https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
-
-for you to fetch changes up to 2d00cbd8e222a4adc08f415c399e84590ee8ff9a:
-
-  block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty (2020-03-18 14:03:46=
- -0400)
-
-----------------------------------------------------------------
-Pull request
-
-----------------------------------------------------------------
-
-Eric Blake (1):
-  build: Silence clang warning on older glib autoptr usage
-
-Vladimir Sementsov-Ogievskiy (10):
-  hbitmap: assert that we don't create bitmap larger than INT64_MAX
-  hbitmap: move hbitmap_iter_next_word to hbitmap.c
-  hbitmap: unpublish hbitmap_iter_skip_words
-  hbitmap: drop meta bitmaps as they are unused
-  block/dirty-bitmap: switch _next_dirty_area and _next_zero to int64_t
-  block/dirty-bitmap: add _next_dirty API
-  block/dirty-bitmap: improve _next_dirty_area API
-  nbd/server: introduce NBDExtentArray
-  nbd/server: use bdrv_dirty_bitmap_next_dirty_area
-  block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty
-
- configure                    |  20 +++
- include/block/dirty-bitmap.h |   9 +-
- include/qemu/hbitmap.h       |  95 +++--------
- block/dirty-bitmap.c         |  16 +-
- block/qcow2-bitmap.c         |  15 +-
- nbd/server.c                 | 251 ++++++++++++++--------------
- tests/test-hbitmap.c         | 316 +++++++++++++----------------------
- util/hbitmap.c               | 134 +++++++++------
- 8 files changed, 395 insertions(+), 461 deletions(-)
-
+diff --git a/configure b/configure
+index 06fcd070fb..479336bf6e 100755
+--- a/configure
++++ b/configure
+@@ -3851,6 +3851,26 @@ if ! compile_prog "$glib_cflags -Werror" "$glib_libs=
+" ; then
+     fi
+ fi
+=20
++# Silence clang warnings triggered by glib < 2.57.2
++cat > $TMPC << EOF
++#include <glib.h>
++typedef struct Foo {
++    int i;
++} Foo;
++static void foo_free(Foo *f)
++{
++    g_free(f);
++}
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(Foo, foo_free);
++int main(void) { return 0; }
++EOF
++if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
++    if cc_has_warning_flag "-Wno-unused-function"; then
++        glib_cflags=3D"$glib_cflags -Wno-unused-function"
++        CFLAGS=3D"$CFLAGS -Wno-unused-function"
++    fi
++fi
++
+ #########################################
+ # zlib check
+=20
 --=20
 2.21.1
 
