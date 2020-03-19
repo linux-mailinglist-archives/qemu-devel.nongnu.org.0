@@ -2,63 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBC518B729
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 14:31:40 +0100 (CET)
-Received: from localhost ([::1]:38051 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EB218B77E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 14:34:14 +0100 (CET)
+Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEvGt-0002L8-KT
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 09:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36917)
+	id 1jEvJO-0004Xg-0w
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 09:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jEvFv-0001PL-Tb
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:30:41 -0400
+ (envelope-from <vfazio@xes-inc.com>) id 1jEvIG-0003sA-Ua
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:33:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jEvFu-0005Xs-IM
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:30:39 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:60168)
+ (envelope-from <vfazio@xes-inc.com>) id 1jEvIF-0007bh-KJ
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:33:04 -0400
+Received: from xes-mad.com ([162.248.234.2]:16735 helo=mail.xes-mad.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jEvFu-0005XU-Dm
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:30:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584624638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VvKR+5gfMPOKCtgcftmiYAtC1EXz/tV0uO8Ho7CaiqQ=;
- b=G9u149uI94Up9+wmlyf+nbZnQj0/YMuEDUAxVZXc63BLaB8nJARpEB0gGo5opWwV7cQKyd
- CGwg1miHTlIrEPX/JTSc4yDCOB/3gZrI59Twiy7bowqa6vZ322Lvyx2ilzhLBTU0QRDeHl
- Lwcy+DUZ6+P/O59a0vrrrv7t63pB7oM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-bo1VjekXMzGtLmZH69C12w-1; Thu, 19 Mar 2020 09:30:36 -0400
-X-MC-Unique: bo1VjekXMzGtLmZH69C12w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7689E8010EB;
- Thu, 19 Mar 2020 13:30:35 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 990041001925;
- Thu, 19 Mar 2020 13:30:30 +0000 (UTC)
-Date: Thu, 19 Mar 2020 14:30:28 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Heyi Guo <guoheyi@huawei.com>
-Subject: Re: [PATCH v4 2/2] tests/bios-tables-test: add smbios cpu speed test
-Message-ID: <20200319143028.491b2f09@redhat.com>
-In-Reply-To: <20200318064820.19363-3-guoheyi@huawei.com>
-References: <20200318064820.19363-1-guoheyi@huawei.com>
- <20200318064820.19363-3-guoheyi@huawei.com>
+ (Exim 4.71) (envelope-from <vfazio@xes-inc.com>)
+ id 1jEvIF-0007af-GO; Thu, 19 Mar 2020 09:33:03 -0400
+Received: from vfazio1.xes-mad.com (vfazio1.xes-mad.com [10.52.16.140])
+ by mail.xes-mad.com (Postfix) with ESMTP id 75A3B201E3;
+ Thu, 19 Mar 2020 08:33:01 -0500 (CDT)
+From: Vincent Fazio <vfazio@xes-inc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/1] target/ppc: don't byte swap ELFv2 signal handler
+Date: Thu, 19 Mar 2020 08:32:44 -0500
+Message-Id: <20200319133244.8818-1-vfazio@xes-inc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 162.248.234.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,122 +45,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Vincent Fazio <vfazio@gmail.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Mar 2020 14:48:20 +0800
-Heyi Guo <guoheyi@huawei.com> wrote:
+From: Vincent Fazio <vfazio@gmail.com>
 
-> Add smbios type 4 CPU speed check for we added new options to set
-> smbios type 4 "max speed" and "current speed". The default value
-> should be 2000 when no option is specified, just as the old version
-> did.
-> 
-> We add the test case to one machine of each architecture, though it
-> doesn't really run on aarch64 platform for smbios test can't run on
-> uefi only platform yet.
-I suggest to drop aarch64 part then as it just wastes resources,
-alternatively you can enable smbios tests with UEFI.
-(Not sure if uefi already exposes smbios entry point in test structure,
-CCing Lazslo)
+Previously, the signal handler would be byte swapped if the target and
+host CPU used different endianness. This would cause a SIGSEGV when
+attempting to translate the opcode pointed to by the swapped address.
 
-> 
-> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-> 
-> ---
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 42 ++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 0a597bbacf..f2d2e97b4a 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -77,6 +77,8 @@ typedef struct {
->      GArray *tables;
->      uint32_t smbios_ep_addr;
->      struct smbios_21_entry_point smbios_ep_table;
-> +    uint16_t smbios_cpu_max_speed;
-> +    uint16_t smbios_cpu_curr_speed;
->      uint8_t *required_struct_types;
->      int required_struct_types_len;
->      QTestState *qts;
-> @@ -560,6 +562,31 @@ static inline bool smbios_single_instance(uint8_t type)
->      }
->  }
->  
-> +static bool smbios_cpu_test(test_data *data, uint32_t addr)
-> +{
-> +    uint16_t expect_speed[2];
-> +    uint16_t real;
-> +    int offset[2];
-> +    int i;
-> +
-> +    /* Check CPU speed for backward compatibility */
-> +    offset[0] = offsetof(struct smbios_type_4, max_speed);
-> +    offset[1] = offsetof(struct smbios_type_4, current_speed);
-> +    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
-> +    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
-> +
-> +    for (i = 0; i < 2; i++) {
-> +        real = qtest_readw(data->qts, addr + offset[i]);
-> +        if (real != expect_speed[i]) {
-> +            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
-> +                    real, expect_speed[i]);
-> +            return false;
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  static void test_smbios_structs(test_data *data)
->  {
->      DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
-> @@ -582,6 +609,10 @@ static void test_smbios_structs(test_data *data)
->          }
->          set_bit(type, struct_bitmap);
->  
-> +        if (type == 4) {
-> +            g_assert(smbios_cpu_test(data, addr));
-> +        }
-> +
->          /* seek to end of unformatted string area of this struct ("\0\0") */
->          prv = crt = 1;
->          while (prv || crt) {
-> @@ -716,6 +747,11 @@ static void test_acpi_q35_tcg(void)
->      data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
->      test_acpi_one(NULL, &data);
->      free_test_data(&data);
-> +
-> +    data.smbios_cpu_max_speed = 3000;
-> +    data.smbios_cpu_curr_speed = 2600;
-> +    test_acpi_one("-smbios type=4,max-speed=3000,current-speed=2600", &data);
-> +    free_test_data(&data);
->  }
->  
->  static void test_acpi_q35_tcg_bridge(void)
-> @@ -1017,6 +1053,12 @@ static void test_acpi_virt_tcg(void)
->  
->      test_acpi_one("-cpu cortex-a57", &data);
->      free_test_data(&data);
-> +
-> +    data.smbios_cpu_max_speed = 2900;
-> +    data.smbios_cpu_curr_speed = 2700;
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-smbios type=4,max-speed=2900,current-speed=2700", &data);
-> +    free_test_data(&data);
->  }
->  
->  int main(int argc, char *argv[])
+ Thread 1 "qemu-ppc64" received signal SIGSEGV, Segmentation fault.
+ 0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/includ=
+e/qemu/bswap.h:351
+ 351        __builtin_memcpy(&r, ptr, sizeof(r));
+
+ #0  0x00000000600a9257 in ldl_he_p (ptr=3D0x4c2c061000000000) at qemu/in=
+clude/qemu/bswap.h:351
+ #1  0x00000000600a92fe in ldl_be_p (ptr=3D0x4c2c061000000000) at qemu/in=
+clude/qemu/bswap.h:449
+ #2  0x00000000600c0790 in translator_ldl_swap at qemu/include/exec/trans=
+lator.h:201
+ #3  0x000000006011c1ab in ppc_tr_translate_insn at qemu/target/ppc/trans=
+late.c:7856
+ #4  0x000000006005ae70 in translator_loop at qemu/accel/tcg/translator.c=
+:102
+
+The signal handler will be byte swapped as a result of the __get_user()
+call in sigaction() if it is necessary, no additional swap is required.
+
+Signed-off-by: Vincent Fazio <vfazio@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+Changes since v2:
+- Explain why the swap is not necessary
+
+Changes since v1:
+- Drop host/target endianness callouts
+- Drop unnecessary pointer cast
+- Clarify commit message
+
+ linux-user/ppc/signal.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index 5b82af6cb6..b8613c5e1b 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -567,10 +567,8 @@ void setup_rt_frame(int sig, struct target_sigaction=
+ *ka,
+         env->nip =3D tswapl(handler->entry);
+         env->gpr[2] =3D tswapl(handler->toc);
+     } else {
+-        /* ELFv2 PPC64 function pointers are entry points, but R12
+-         * must also be set */
+-        env->nip =3D tswapl((target_ulong) ka->_sa_handler);
+-        env->gpr[12] =3D env->nip;
++        /* ELFv2 PPC64 function pointers are entry points. R12 must also=
+ be set. */
++        env->gpr[12] =3D env->nip =3D ka->_sa_handler;
+     }
+ #else
+     env->nip =3D (target_ulong) ka->_sa_handler;
+--=20
+2.25.1
 
 
