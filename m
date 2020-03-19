@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABE718B139
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:25:36 +0100 (CET)
-Received: from localhost ([::1]:35792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B8118B1AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:45:33 +0100 (CET)
+Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEsMp-0007hV-SP
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54705)
+	id 1jEsg8-00041I-4j
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:45:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jEsLa-0007Hg-Lm
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:24:19 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jEsfJ-0003b2-VF
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:44:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jEsLY-0004Ck-NO
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:24:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:56249)
+ (envelope-from <imammedo@redhat.com>) id 1jEsfI-0008De-8S
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:44:41 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36938)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jEsLY-0004CO-J5
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:24:16 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jEsfI-0008CA-4s
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:44:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584613456;
+ s=mimecast20190719; t=1584614679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZeEHvyOEzV7UknhV+kHyQaHcSffrXe73mM/Vrq4m28Y=;
- b=ajtenxmXcTXbJSQRiRFOam4q5v68fxtN3PLrpXUtDX1WCIN4rRHyWkcWbWd8WC7TpIedLA
- Bp24noiN5rKU8KR0sRYjH+BrlSgxaY9tRVZtUHj9Am5HYdb5TsG8PF6YXCdoRjBkQBP/gK
- 2PIxRUiEBh8XPuMMgnChgJjTyX4/SS4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-pKM8sFslODaiIyIXHtpJxg-1; Thu, 19 Mar 2020 06:24:12 -0400
-X-MC-Unique: pKM8sFslODaiIyIXHtpJxg-1
-Received: by mail-ed1-f69.google.com with SMTP id b100so1511117edf.15
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 03:24:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZeEHvyOEzV7UknhV+kHyQaHcSffrXe73mM/Vrq4m28Y=;
- b=Dn9+lNqnMs5PhrYsNVmuyt9Uzf74fxdI0mpuhufKwuYCT3FYzKE0BOI7GafVP6/rw7
- Ur0F3XTQkq+YTxre1z1oqWaAz+Aa0U5f9T/2NVgg6inK1Bbydv3mCJBpAznYus1IBkP5
- 4N0VVgLnaL2JcPHTwtZ9Xs71qV5IqCiHSe6AghHq0CaSGSuH7VEQpYmlV/eY/WnLkF1F
- EfijDkNPPiqQFpgEFd2bXr5VkDxmvsW2gih6qSMXScyqwZ6yuhrvTQgNkcsW7Lh26w+c
- eXK25NbCGvRXliDpkLx4uVPKckxkwwErI0flllsiuJysaFX62xj3l+mkuWghX3WYy1sb
- OSbw==
-X-Gm-Message-State: ANhLgQ1iIOu92OoPhX5OKLl8AiiThr0el49npzSdyXJgl4klLe1j/h4B
- kV9dOfiQBBWMkTnFOAxyZMoB2DcbNcy6OJsGJ9QF0/4nAQtZEzzsWapfvughV92TUpr10hDavqb
- CdRRBWOYOkvZHD8U=
-X-Received: by 2002:a17:906:2cd5:: with SMTP id
- r21mr2563171ejr.222.1584613451342; 
- Thu, 19 Mar 2020 03:24:11 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuX22ciqKNY3bL98b5YXpK5uieEpGguUMQapkGZYv6ZnFqzfZ4RqvUinmi5c9/AL9DJvEzhRg==
-X-Received: by 2002:a17:906:2cd5:: with SMTP id
- r21mr2563155ejr.222.1584613451078; 
- Thu, 19 Mar 2020 03:24:11 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id r21sm94732edc.29.2020.03.19.03.24.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Mar 2020 03:24:10 -0700 (PDT)
-Subject: Re: [PATCH v4 2/3] net: tulip: add .can_recieve routine
-To: P J P <ppandit@redhat.com>, Jason Wang <jasowang@redhat.com>
-References: <20200319095211.741445-1-ppandit@redhat.com>
- <20200319095211.741445-3-ppandit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ceb92631-f9f9-52bf-a5b3-87c01370d6c3@redhat.com>
-Date: Thu, 19 Mar 2020 11:24:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=O0G4ggsIxgsTQF5+6KzWEw9V9XrZRzCYzW7huAb/pqQ=;
+ b=Pcq8ILcTQ0HSuHjzNzZ7WO7H+nyBpW1Qt5IuszkR+xoA1Xypbd6xVgUmhnLorYwkwc3vLx
+ PxVnkz42m4yMt4eEB0YLnLQSWDuBGp/UcTQUOuSqyQdwzixfA7RtJDIgVa3F1q4tQIBmVy
+ wfi7Kb+lL5Wu9WRedz2Y25aOgo1hnZ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-ZnhHTB2mNKiByuCwMlxpfQ-1; Thu, 19 Mar 2020 06:44:38 -0400
+X-MC-Unique: ZnhHTB2mNKiByuCwMlxpfQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A9DA477;
+ Thu, 19 Mar 2020 10:44:37 +0000 (UTC)
+Received: from office.mammed.net (unknown [10.40.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B883660BEC;
+ Thu, 19 Mar 2020 10:44:26 +0000 (UTC)
+Date: Thu, 19 Mar 2020 11:44:24 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.0 1/2] hw/acpi/piix4: Add 'system-hotplug-support'
+ property
+Message-ID: <20200319114424.5723e777@office.mammed.net>
+In-Reply-To: <20200318221531.22910-2-philmd@redhat.com>
+References: <20200318221531.22910-1-philmd@redhat.com>
+ <20200318221531.22910-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200319095211.741445-3-ppandit@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -93,69 +72,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Li Qiang <pangpei.lq@antfin.com>, Sven Schnelle <svens@stackframe.org>,
- Ziming Zhang <ezrakiez@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Typo "can_recieve" -> "can_receive" in subject.
+On Wed, 18 Mar 2020 23:15:30 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-On 3/19/20 10:52 AM, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
-> 
-> Define .can_receive routine to do sanity checks before receiving
-> packet data.
-> 
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> The I/O ranges registered by the piix4_acpi_system_hot_add_init()
+> function are not documented in the PIIX4 datasheet.
+> This appears to be a PC-only feature added in commit 5e3cb5347e
+> ("initialize hot add system / acpi gpe") which was then moved
+> to the PIIX4 device model in commit 9d5e77a22f ("make
+> qemu_system_device_hot_add piix independent")
+> Add a property (default enabled, to not modify the current
+> behavior) to allow machines wanting to model a simple PIIX4
+> to disable this feature.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+it's already pretty twisted code and adding one more knob
+to workaround other compat knobs makes it worse.
+
+Even though it's not really welcomed approach,
+we can ifdef all hotplug parts and compile them out for mips
+dropping along the way linking with not needed dependencies
+or
+more often used, make stubs from hotplug parts for mips
+and link with them.
+
 > ---
->   hw/net/tulip.c | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> Update v3: define .can_receive routine
->    -> https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg06275.html
-> 
-> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-> index fbe40095da..757f12c710 100644
-> --- a/hw/net/tulip.c
-> +++ b/hw/net/tulip.c
-> @@ -229,6 +229,18 @@ static bool tulip_filter_address(TULIPState *s, const uint8_t *addr)
->       return ret;
->   }
->   
-> +static int
-> +tulip_can_receive(NetClientState *nc)
-> +{
-> +    TULIPState *s = qemu_get_nic_opaque(nc);
-> +
-> +    if (s->rx_frame_len || tulip_rx_stopped(s)) {
-> +        return false;
+> Should I squash this with the next patch and start with
+> default=3Dfalse, which is closer to the hardware model?
+> ---
+>  hw/acpi/piix4.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 964d6f5990..9c970336ac 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
+> =20
+>      AcpiPciHpState acpi_pci_hotplug;
+>      bool use_acpi_pci_hotplug;
+> +    bool use_acpi_system_hotplug;
+> =20
+>      uint8_t disable_s3;
+>      uint8_t disable_s4;
+> @@ -503,8 +504,10 @@ static void piix4_pm_realize(PCIDevice *dev, Error *=
+*errp)
+>      s->machine_ready.notify =3D piix4_pm_machine_ready;
+>      qemu_add_machine_init_done_notifier(&s->machine_ready);
+> =20
+> -    piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
+> -                                   pci_get_bus(dev), s);
+> +    if (s->use_acpi_system_hotplug) {
+> +        piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
+> +                                       pci_get_bus(dev), s);
 > +    }
-> +
-> +    return true;
-> +}
-> +
->   static ssize_t tulip_receive(TULIPState *s, const uint8_t *buf, size_t size)
->   {
->       struct tulip_descriptor desc;
-> @@ -236,7 +248,7 @@ static ssize_t tulip_receive(TULIPState *s, const uint8_t *buf, size_t size)
->       trace_tulip_receive(buf, size);
->   
->       if (size < 14 || size > sizeof(s->rx_frame) - 4
-> -        || s->rx_frame_len || tulip_rx_stopped(s)) {
-> +        || !tulip_can_receive(s->nic->ncs)) {
->           return 0;
->       }
->   
-> @@ -288,6 +300,7 @@ static NetClientInfo net_tulip_info = {
->       .type = NET_CLIENT_DRIVER_NIC,
->       .size = sizeof(NICState),
->       .receive = tulip_receive_nc,
-> +    .can_receive = tulip_can_receive,
->   };
->   
->   static const char *tulip_reg_name(const hwaddr addr)
-> 
+>      qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s), &error_ab=
+ort);
+> =20
+>      piix4_pm_add_propeties(s);
+> @@ -635,6 +638,8 @@ static Property piix4_pm_properties[] =3D {
+>                       use_acpi_pci_hotplug, true),
+>      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+>                       acpi_memory_hotplug.is_enabled, true),
+> +    DEFINE_PROP_BOOL("system-hotplug-support", PIIX4PMState,
+> +                     use_acpi_system_hotplug, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
 
 
