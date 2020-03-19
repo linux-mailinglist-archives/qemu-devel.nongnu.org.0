@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3DA18C1F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:54:41 +0100 (CET)
-Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C094718C1FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:59:46 +0100 (CET)
+Received: from localhost ([::1]:43200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF2Bc-0006Iw-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42945)
+	id 1jF2GX-0003vd-R6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jF2AP-00051l-Lv
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:53:26 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jF2BU-0006iS-8L
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:54:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jF2AO-0004NT-8z
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:53:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:34912)
+ (envelope-from <alex.williamson@redhat.com>) id 1jF2BS-0005I6-Vx
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:54:32 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:57554)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jF2AO-0004NP-5V
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:53:24 -0400
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jF2BS-0005Hw-S4
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:54:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584651203;
+ s=mimecast20190719; t=1584651270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MewPVfiDuxFNqh/JVlM7h5mKRw1l12myAOHcbLDqwNM=;
- b=B2PnfwHOnmRIVf0CKLdAVRqzn75VUdxKgpvNAAfyeMyPh1eBvp7+kdHhYdxSBE1cON0Ad3
- PxkwraxQDeIiTyGAeN8pd64DohrNJghdDK2rtIU34qyeST6oWvRKMUmWZ65UbL+CFx+CY1
- zs3O7DsCRdzFf+Z56tMU//puKIuYbx4=
+ bh=hjYV+wyQpR7B3d18pGkcaBgDOBTqUbQeqCdfhG5P9bo=;
+ b=bxRQax2KOIvVQ8vCVGS2SgaQuwAMYHMkknuSolDAvevK95u+NMjCd71TmUS1CZ0VhdSu35
+ pV0APy0kNcEmVqVdCGErKwq8qGi6Xfr+LIUiGaHeOwCbDTgB+COeVzGB6Y4y+A3hjk36C0
+ O1MwnUiS9czP95Sgz7CCNe8sGTY1NJE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-S2gzw_yKNkWT4UsVaWbHOQ-1; Thu, 19 Mar 2020 16:53:20 -0400
-X-MC-Unique: S2gzw_yKNkWT4UsVaWbHOQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-237-p0LYqKLYNvCQK8jTVjAaFQ-1; Thu, 19 Mar 2020 16:54:26 -0400
+X-MC-Unique: p0LYqKLYNvCQK8jTVjAaFQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D6BE18C35A0;
- Thu, 19 Mar 2020 20:53:19 +0000 (UTC)
-Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CBFC6269F;
- Thu, 19 Mar 2020 20:53:10 +0000 (UTC)
-Subject: Re: [PATCH] lockable: replaced locks with lock guard macros where
- appropriate
-To: qemu-devel@nongnu.org, dnbrdsky@gmail.com
-References: <158464628614.8795.7072935999807888220@39012742ff91>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d734a44f-b2d6-150f-ca82-160e334d99c8@redhat.com>
-Date: Thu, 19 Mar 2020 15:53:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCD30800D4E;
+ Thu, 19 Mar 2020 20:54:23 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09B57BBBFD;
+ Thu, 19 Mar 2020 20:54:21 +0000 (UTC)
+Date: Thu, 19 Mar 2020 14:54:21 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v14 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+Message-ID: <20200319145421.4b8bd4eb@w520.home>
+In-Reply-To: <8e537411-b60e-cc45-498c-5e516382206e@nvidia.com>
+References: <1584560474-19946-1-git-send-email-kwankhede@nvidia.com>
+ <1584560474-19946-5-git-send-email-kwankhede@nvidia.com>
+ <20200318214500.1a0cb985@w520.home>
+ <e0070cf4-af58-2906-b427-0888ecb89538@nvidia.com>
+ <20200319102238.77686a08@w520.home>
+ <8e537411-b60e-cc45-498c-5e516382206e@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <158464628614.8795.7072935999807888220@39012742ff91>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -75,50 +75,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, quintela@redhat.com, pl@kamp.de,
- armbru@redhat.com, mreitz@redhat.com, alex.williamson@redhat.com,
- kraxel@redhat.com, ronniesahlberg@gmail.com, pbonzini@redhat.com,
- dgilbert@redhat.com
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/20 2:31 PM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200319161925.1818377-2-dnbrdsky@gmail.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the asan build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> export ARCH=x86_64
-> make docker-image-fedora V=1 NETWORK=1
-> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
->    CC      trace-root.o
->    CC      accel/kvm/trace.o
->    CC      accel/tcg/trace.o
-> /tmp/qemu-test/src/util/thread-pool.c:213:5: error: unused variable 'qemu_lockable_auto__COUNTER__' [-Werror,-Wunused-variable]
->      QEMU_LOCK_GUARD(&pool->lock);
->      ^
-> /tmp/qemu-test/src/include/qemu/lockable.h:173:29: note: expanded from macro 'QEMU_LOCK_GUARD'
+On Fri, 20 Mar 2020 01:55:10 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Hmm. This one is a different failure than the other patchew warnings 
-about variable redefinition; but is still evidence that it is missing 
-your "[PATCH] misc: fix __COUNTER__ macro to be referenced properly". 
-At any rate, the fact that we have a compiler warning about an unused 
-variable (when in reality it IS used by the auto-cleanup attribute) is 
-annoying; we may have to further tweak QEMU_LOCK_GUARD to add an 
-__attribute__((unused)) to shut up this particular compiler false positive.
+> On 3/19/2020 9:52 PM, Alex Williamson wrote:
+> > On Thu, 19 Mar 2020 20:22:41 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >   
+> >> On 3/19/2020 9:15 AM, Alex Williamson wrote:  
+> >>> On Thu, 19 Mar 2020 01:11:11 +0530
+> >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >>>      
+> 
+> <snip>
+> 
+> >>>> +
+> >>>> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+> >>>> +{
+> >>>> +	uint64_t bsize;
+> >>>> +
+> >>>> +	if (!npages || !bitmap_size || bitmap_size > UINT_MAX)  
+> >>>
+> >>> As commented previously, how do we derive this UINT_MAX limitation?
+> >>>      
+> >>
+> >> Sorry, I missed that earlier
+> >>  
+> >>   > UINT_MAX seems arbitrary, is this specified in our API?  The size of a
+> >>   > vfio_dma is limited to what the user is able to pin, and therefore
+> >>   > their locked memory limit, but do we have an explicit limit elsewhere
+> >>   > that results in this limit here.  I think a 4GB bitmap would track
+> >>   > something like 2^47 bytes of memory, that's pretty excessive, but still
+> >>   > an arbitrary limit.  
+> >>
+> >> There has to be some upper limit check. In core KVM, in
+> >> virt/kvm/kvm_main.c there is max number of pages check:
+> >>
+> >> if (new.npages > KVM_MEM_MAX_NR_PAGES)
+> >>
+> >> Where
+> >> /*
+> >>    * Some of the bitops functions do not support too long bitmaps.
+> >>    * This number must be determined not to exceed such limits.
+> >>    */
+> >> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+> >>
+> >> Though I don't know which bitops functions do not support long bitmaps.
+> >>
+> >> Something similar as above can be done or same as you also mentioned of
+> >> 4GB bitmap limit? that is U32_MAX instead of UINT_MAX?  
+> > 
+> > Let's see, we use bitmap_set():
+> > 
+> > void bitmap_set(unsigned long *map, unsigned int start, unsigned int nbits)
+> > 
+> > So we're limited to an unsigned int number of bits, but for an
+> > unaligned, multi-bit operation this will call __bitmap_set():
+> > 
+> > void __bitmap_set(unsigned long *map, unsigned int start, int len)
+> > 
+> > So we're down to a signed int number of bits (seems like an API bug in
+> > bitops there), so it makes sense that KVM is testing against MAX_INT
+> > number of pages, ie. number of bits.  But that still suggests a bitmap
+> > size of MAX_UINT is off by a factor of 16.  So we can have 2^31 bits
+> > divided by 2^3 bits/byte yields a maximum bitmap size of 2^28 (ie.
+> > 256MB), which maps 2^31 * 2^12 = 2^43 (8TB) on a 4K system.
+> > 
+> > Let's fix the limit check and put a nice comment explaining it.  Thanks,
+> >   
+> 
+> Agreed. Adding DIRTY_BITMAP_SIZE_MAX macro and comment as below.
+> 
+> /*
+>   * Input argument of number of bits to bitmap_set() is unsigned 
+> integer, which
+>   * further casts to signed integer for unaligned multi-bit operation,
+>   * __bitmap_set().
+>   * Then maximum bitmap size supported is 2^31 bits divided by 2^3 
+> bits/byte,
+>   * that is 2^28 (256 MB) which maps to 2^31 * 2^12 = 2^43 (8TB) on 4K page
+>   * system.
+>   */
+> #define DIRTY_BITMAP_PAGES_MAX  ((1UL << 31) - 1)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+nit, can we just use INT_MAX here?
+
+> #define DIRTY_BITMAP_SIZE_MAX 	\
+> 			DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
+> 
+> 
+> Thanks,
+> Kirti
+> 
 
 
