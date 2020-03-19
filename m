@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03A918AF7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 10:17:34 +0100 (CET)
-Received: from localhost ([::1]:35158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F92018B037
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 10:29:35 +0100 (CET)
+Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jErIz-0003M3-HR
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 05:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
+	id 1jErUc-000216-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 05:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jErHR-0002Bu-RH
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:15:59 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jErRs-0005HD-V7
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:26:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jErHQ-00033i-9d
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:15:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49086)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jErHQ-00033A-2w
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:15:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jErHO-0005OQ-PQ
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 09:15:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B31652E80D7
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 09:15:54 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 09:08:14 -0000
-From: Launchpad Bug Tracker <1867519@bugs.launchpad.net>
+ (envelope-from <laurent@vivier.eu>) id 1jErRr-0004C1-Qc
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:26:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:43937)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jErRr-0004Bf-Hs
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:26:43 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MzTCy-1jSFT54AS0-00vPiz; Thu, 19 Mar 2020 10:26:32 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange mohamadh paelzer
-X-Launchpad-Bug-Reporter: Mohammad Heib (mohamadh)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158428174672.11238.3583143675239092561.malonedeb@soybean.canonical.com>
-Message-Id: <158460889603.22814.14939901222344516617.launchpad@ackee.canonical.com>
-Subject: [Bug 1867519] Re: qemu 4.2 segfaults on VF detach
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cf665d9c0de2030b430750e29a482f7d581b1c63
+Subject: [PULL v3 00/16] Linux user for 5.0 patches
+Date: Thu, 19 Mar 2020 10:26:11 +0100
+Message-Id: <20200319092627.51487-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:c1M9r1eB1prs0FrJzZNHQwP4jA0U2EIuxOFTZp7JkIvFI6asImf
+ u3ZbBC6j5jRGUBUgev5UHW/p616J72dsxrBwnxHx8C+3mlwX+4juQNqjXYSwAUCp8hoeVyl
+ QkLiuNaxz1a7PpPk1Sp+oA39cyf5XZx/PnD7qsJix8INEvDYQBFjae1xDjq0zPBuJ7qGqHE
+ weaU0VglvCH4LxoMu4pDg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qie6hs6ShXw=:5kMEaujtzTaqE8d/SvogDV
+ kB0VCKS2LC6fdJComIb/xDRO5zHcAs0K/OW+V3MF8cwK+O0fGY/nwHkbpg7cNCop0GXR7NptC
+ Z6RFPwR775ZuDduyZLw5cKHYa6/vtHFGKMdqjs5tWi2Vy5EXDZzdgnaM01JJIdSb6GIwNO7oD
+ L6YsZXgh1i0UbFU2mhzOAnUx+3VIPT3Qk9tXf28AeZFK5CPxhV4d27fre1td/7i8SLqxdyToa
+ gtzmeaTv9wCdVNOe6IxCfl0tdql6k5QRdWuMkO6od41Zf/a2pnc0Fp1KkbgRmpIjQ/5wWOcgj
+ QC96EubkebMsmAx9PfvFbuj4C+VS2N0jpaFBiRfMq5mUJNmBkVlycg3In3DjMTdhtwjKYslPZ
+ 8JS7K8hzbSY+snBzW3GNFzndQROcL4wKuHIseAFJ8bXdEsWuayBFFVwoRZmESpL8BWC8avFsh
+ xZ0R+QVaBFitN8FrPvDzAQr3wemuPwWVJeRAnV14a+jKRKdsB/aTuKRhtzYcpVUmtxXXG0Y6L
+ 0JFES3+EvsaysE3w8+3qUGUtWuDo3zzij+XSzusmsgM1iGsnAMSnY/lkScuzTN1HWSJ3ZO2Vu
+ cEZjmf0PQyAftygOqRKNXRo2LPOIpjNnEJQA/JX+HMBaIgHfGbWkCND/zlQD1NEiG+suKsliG
+ eVo0TwmWzZdrT/tqsdK2Unn9o3pX9/Fo4EhlUb+UsUDqCdmnDR6iBkXwzGQ6yQLT3qL0mG7eR
+ a50dWhAPXRrkbNC7HlcGF1ArHwrRpaJDSEoNr2LjTeL6hr18iSa9yzKfxon9R/mgcCIE6cEmz
+ esgoG8FRbf3DLdPJ+pe82smIXsNXdBVKtUp7AGmg7wmx54eDRDb0Futhu6gUM063fR7fYqM
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,81 +62,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1867519 <1867519@bugs.launchpad.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Merge proposal linked:
-   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
-/380874
+The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
 
--- =
+  qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1867519
+are available in the Git repository at:
 
-Title:
-  qemu 4.2 segfaults on VF detach
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
 
-Status in QEMU:
-  Fix Committed
-Status in qemu package in Ubuntu:
-  Confirmed
+for you to fetch changes up to c91518bb0649f09e2c636790603907ef93ea95d4:
 
-Bug description:
-  After updating Ubuntu 20.04 to the Beta version, we get the following
-  error and the virtual machines stucks when detaching PCI devices using
-  virsh command:
+  linux-user, openrisc: sync syscall numbers with kernel v5.5 (2020-03-19 09:22:21 +0100)
 
-  Error:
-  error: Failed to detach device from /tmp/vf_interface_attached.xml
-  error: internal error: End of file from qemu monitor
+----------------------------------------------------------------
+update syscall numbers to linux 5.5 (with scripts)
+add futex_time64/clock_gettime64/clock_settime64
+add AT_EXECFN
+Emulate x86_64 vsyscalls
 
-  steps to reproduce:
-   1. create a VM over Ubuntu 20.04 (5.4.0-14-generic)
-   2. attach PCI device to this VM (Mellanox VF for example)
-   3. try to detaching  the PCI device using virsh command:
-     a. create a pci interface xml file:
-          =
+v3: remove syscall.tbl series
+v2: guard copy_to_user_timezone() with TARGET_NR_gettimeofday
+    remove "Support futex_time64" patch
+    guard sys_futex with TARGET_NR_exit
 
-        <hostdev mode=3D'subsystem' type=3D'pci' managed=3D'yes'>
-        <driver name=3D'vfio'/>
-        <source>
-        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x11' slot=3D'0x00' =
-function=3D'0x2' />
-        </source>
-        </hostdev>
-      =
+----------------------------------------------------------------
 
-     b.  #virsh detach-device <VM-Doman-name> <pci interface xml file>
+Alistair Francis (3):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
 
+Laurent Vivier (5):
+  linux-user: fix socket() strace
+  scripts: add a script to generate syscall_nr.h
+  linux-user, aarch64: sync syscall numbers with kernel v5.5
+  linux-user, nios2: sync syscall numbers with kernel v5.5
+  linux-user, openrisc: sync syscall numbers with kernel v5.5
 
-  - Ubuntu release:
-    Description:    Ubuntu Focal Fossa (development branch)
-    Release:        20.04
+Lirong Yuan (2):
+  linux-user: Add AT_EXECFN auxval
+  linux-user: Update TASK_UNMAPPED_BASE for aarch64
 
-  - Package ver:
-    libvirt0:
-    Installed: 6.0.0-0ubuntu3
-    Candidate: 6.0.0-0ubuntu5
-    Version table:
-       6.0.0-0ubuntu5 500
-          500 http://il.archive.ubuntu.com/ubuntu focal/main amd64 Packages
-   *** 6.0.0-0ubuntu3 100
-          100 /var/lib/dpkg/status
+Richard Henderson (5):
+  target/i386: Renumber EXCP_SYSCALL
+  linux-user/i386: Split out gen_signal
+  linux-user/i386: Emulate x86_64 vsyscalls
+  linux-user: Add x86_64 vsyscall page to /proc/self/maps
+  linux-user: Flush out implementation of gettimeofday
 
-  - What you expected to happen: =
+Tobias Koch (1):
+  linux-user: do prlimit selectively
 
-    PCI device detached without any errors.
+ MAINTAINERS                      |   1 +
+ linux-user/aarch64/syscall_nr.h  |  34 +-
+ linux-user/elfload.c             |   3 +-
+ linux-user/i386/cpu_loop.c       | 201 +++++++---
+ linux-user/mmap.c                |   4 +
+ linux-user/nios2/syscall_nr.h    | 650 +++++++++++++++----------------
+ linux-user/openrisc/syscall_nr.h | 309 +++------------
+ linux-user/riscv/syscall32_nr.h  | 295 ++++++++++++++
+ linux-user/riscv/syscall64_nr.h  | 301 ++++++++++++++
+ linux-user/riscv/syscall_nr.h    | 294 +-------------
+ linux-user/strace.c              |  10 +-
+ linux-user/syscall.c             | 153 +++++++-
+ scripts/gensyscalls.sh           | 102 +++++
+ target/i386/cpu.h                |  12 +-
+ target/i386/translate.c          |  14 +-
+ 15 files changed, 1437 insertions(+), 946 deletions(-)
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
+ create mode 100755 scripts/gensyscalls.sh
 
-  - What happened instead:
-    getting the errors above and he VM stuck
+-- 
+2.25.1
 
-  additional info:
-  after downgrading the libvirt0 package and all the dependent packages to =
-5.4 the previous, version, seems that the issue disappeared
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1867519/+subscriptions
 
