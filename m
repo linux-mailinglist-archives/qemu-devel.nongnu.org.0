@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4A818B92C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 15:18:39 +0100 (CET)
-Received: from localhost ([::1]:38608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B239018B94C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 15:23:18 +0100 (CET)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEw0M-0001Nm-0C
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 10:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
+	id 1jEw4q-00046J-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 10:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jEvzK-0000a0-Tc
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:17:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jEw3a-0003be-DC
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:21:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jEvzI-00076j-1m
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:17:33 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:51015)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jEvzG-000755-Iu
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:17:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584627449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jxWAHYhZDe9XHoK1UjIs4KL+3FKzl7JdL1wm4si9IS4=;
- b=eS2JEkfp5dHJqyyKutaUyt66t/9xslvzBqfyA+czW4jA0Lb9TCbRJZOdzyvy9bR7iFje4S
- z+XpsUtJRH+iB76c5pmZQFKOotXsc8I2q/Dvg5KLNj4KR4pmTPAvoRRzwZN1Jb+PL72b2H
- 0CYpz/mQSdmDwcM8aSTgtXPynJOgAs4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-RT5gb8wHNC2sCXaH_3AhOA-1; Thu, 19 Mar 2020 10:17:27 -0400
-X-MC-Unique: RT5gb8wHNC2sCXaH_3AhOA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 872DC800D5C;
- Thu, 19 Mar 2020 14:17:25 +0000 (UTC)
-Received: from work-vm (ovpn-113-31.ams2.redhat.com [10.36.113.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 24D10100164D;
- Thu, 19 Mar 2020 14:17:19 +0000 (UTC)
-Date: Thu, 19 Mar 2020 14:17:17 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.0 v2 3/4] tests/migration: Reduce autoconverge
- initial bandwidth
-Message-ID: <20200319141717.GC2833@work-vm>
-References: <20200318222717.24676-1-philmd@redhat.com>
- <20200318222717.24676-4-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jEw3Z-0000Ce-36
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:21:58 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45586)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jEw3Y-0000Bh-Tl
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 10:21:57 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id 9so2780583oiq.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 07:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aG77IBpCC5KAmVM1iJaZi746c9+NcIaVm6mQq0nvxaU=;
+ b=tPLGzJZp7cfr/IvmbKC1nveqbxI/bFKeX2NdPp08I8AwwNSqrHdh5w0DrsS/tdzgy+
+ Zeba1bYx19sEscq2W2VmDgIm15Z5Z6Q+imXzFL40GcX2d4AZUgUc/9aGutxPBCq/S280
+ rKEuwssb312vmWfvWCmxweQtd9XqjxwNcYeNbC4KoKWXqZALp5M+45fXlDunBc0Bbj0a
+ NwOU0DrTbzraAcFmHIAAcKYcK/+8q17tQmp6N97vu2sKu4K0I760CN6l6ZxY2rwbzsSh
+ 1rTCGRU3x3nTVa6/sb728J0GsikKOSTvuLtMz+k4l6gZuMRlEpf0F7MyoYS2GHWif876
+ wCkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aG77IBpCC5KAmVM1iJaZi746c9+NcIaVm6mQq0nvxaU=;
+ b=nhynGBHqgaDqlbHpA4+/kba4shBLswVT445qAZuPU6W/DGppfjGX83XYOd1dvnJ0m5
+ keGVJog5LtuqXqAp9x+XXUF0WjY9bz4XUMJIp0fe8ggXTkWyyffE8kJTFJY1B8MYEfgp
+ QrNWgCtEiFDuqFwwRngl50hLf+8s7NIldwf0IfEIsoYcpK5RWNQ1yC7QoilxXcmUywuD
+ Ud2n6gm+rUrZGpurwMeGD32D4ri6pZGeGtR5C9CMrAIAj7P+MbAK6+3uqr8JxEBJU4Zm
+ xs3d250j3RStqrIBGohIX7IMt7EIfklwGX1cLyA6yaxX8iInXOM6H4cwy8rrDZ9hbk/Q
+ dgQw==
+X-Gm-Message-State: ANhLgQ3uYzYqyjs0UkN4d0Q05eZY2R60Pt1otvqDSaZMZuuD96E5sA+Y
+ /T5evwqkJ8OINNnBQKpCAKCGVuHWrvoIkmg7QaUGjg==
+X-Google-Smtp-Source: ADFU+vvhu7yjCaT6+1I0F0BBqpaBFrrPPne6Y75WRr5NIi/CFJhmmByH/w/pCxvkmu14vd+2JLxJuultyeZh3X1mHg4=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr2540498oif.163.1584627715604; 
+ Thu, 19 Mar 2020 07:21:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200318222717.24676-4-philmd@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200318001932.180617-1-crosa@redhat.com>
+In-Reply-To: <20200318001932.180617-1-crosa@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Mar 2020 14:21:44 +0000
+Message-ID: <CAFEAcA_5z6-rkgOwsCNQC6sXun6Qj205=TnJOdrX8S-bRR6UBQ@mail.gmail.com>
+Subject: Re: [PULL 0/6] Python and tests (mostly acceptance) patches 2020-03-17
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,84 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> When using max-bandwidth=3D~100Mb/s, this test fails on Travis-CI
-> s390x when configured with --disable-tcg:
->=20
->   $ make check-qtest
->     TEST    check-qtest-s390x: tests/qtest/boot-serial-test
->   qemu-system-s390x: -accel tcg: invalid accelerator tcg
->   qemu-system-s390x: falling back to KVM
->     TEST    check-qtest-s390x: tests/qtest/pxe-test
->     TEST    check-qtest-s390x: tests/qtest/test-netfilter
->     TEST    check-qtest-s390x: tests/qtest/test-filter-mirror
->     TEST    check-qtest-s390x: tests/qtest/test-filter-redirector
->     TEST    check-qtest-s390x: tests/qtest/drive_del-test
->     TEST    check-qtest-s390x: tests/qtest/device-plug-test
->     TEST    check-qtest-s390x: tests/qtest/virtio-ccw-test
->     TEST    check-qtest-s390x: tests/qtest/cpu-plug-test
->     TEST    check-qtest-s390x: tests/qtest/migration-test
->   **
->   ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'go=
-t_stop' should be FALSE
->   ERROR - Bail out! ERROR:tests/qtest/migration-test.c:1229:test_migrate_=
-auto_converge: 'got_stop' should be FALSE
->   make: *** [tests/Makefile.include:633: check-qtest-s390x] Error 1
->=20
-> Per David Gilbert, "it could just be the writing is slow on s390
-> and the migration thread fast; in which case the autocomplete
-> wouldn't be needed. Perhaps we just need to reduce the bandwidth
-> limit."
->=20
-> Tuning the threshold by reducing the initial bandwidth makes the
-> autoconverge test pass.
->=20
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 3d6cc83b88..727a97cf87 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
->       * without throttling.
->       */
->      migrate_set_parameter_int(from, "downtime-limit", 1);
-> -    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100=
-Mb/s */
-> +    migrate_set_parameter_int(from, "max-bandwidth", 10000000000); /* ~1=
-0Gb/s */
+On Wed, 18 Mar 2020 at 00:19, Cleber Rosa <crosa@redhat.com> wrote:
+>
+> The following changes since commit d649689a8ecb2e276cc20d3af6d416e3c299cb17:
+>
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-03-17 18:33:05 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/clebergnu/qemu.git tags/python-next-pull-request
+>
+> for you to fetch changes up to a51d6a549361fd1a20dd2ac1d6a42ac0a4c708c7:
+>
+>   tests/docker: make "buildah bud" output similar to "docker build" (2020-03-17 19:16:16 -0400)
+>
+> ----------------------------------------------------------------
+> Python and tests (mostly acceptance) patches 2020-03-17
+>
+> ----------------------------------------------------------------
+>
+> Cleber Rosa (5):
+>   Acceptance tests: introduce BUILD_DIR and SOURCE_DIR
+>   Acceptance test: add "boot_linux" tests
+>   Acceptance tests: add make targets to download images
+>   tests/docker: add CentOS 8 Dockerfile
+>   tests/docker: make "buildah bud" output similar to "docker build"
+>
+> Oksana Vohchana (1):
+>   python/qemu/qmp.py: QMP debug with VM label
 
 
-Hmm - I was expecting you to need to *reduce* the speed;
-now I'm very confused.
-You should get 'stop' if the migration completed too soon - surely
-incresing the bandwidth would make that *more* likely to happen.
+Applied, thanks.
 
-Dave
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-
->      /* To check remaining size after precopy */
->      migrate_set_capability(from, "pause-before-switchover", true);
-> --=20
-> 2.21.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
