@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C24718B314
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 13:13:22 +0100 (CET)
-Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0687218B349
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 13:22:11 +0100 (CET)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEu37-0000e6-FN
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 08:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48468)
+	id 1jEuBe-0003o8-2w
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 08:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jEu27-0008D0-Ga
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:12:20 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEuAW-0002zD-2w
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:21:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jEu26-0007Qw-I7
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:12:19 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:27919)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jEu26-0007Qo-Eq
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:12:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584619938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mqKiKB2hRn1TYxDxl4/PlUppsRNoYD8Y6jh7UyD/0+I=;
- b=N/7bzsY5a+uhfAJcpQOJHIwaQD/IJb7NJMaq8Q7z6sP8Fyf3Aady3CXt3XtPNxzTsQ0NcG
- HJRfXJfejB7p7HJDUSvLnq4/1ElKzfxKHQYNeW34Tm6Uk5p6mUTcPCinRlBO/2jsOlzcsn
- TBVW2N4nh46dQFANCFSOo3dQBjQCBgk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-C6R90UyWNNOfarfQJ8922A-1; Thu, 19 Mar 2020 08:12:16 -0400
-X-MC-Unique: C6R90UyWNNOfarfQJ8922A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97ACE8017CC;
- Thu, 19 Mar 2020 12:12:15 +0000 (UTC)
-Received: from gondolin (ovpn-113-188.ams2.redhat.com [10.36.113.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA2FF62673;
- Thu, 19 Mar 2020 12:12:11 +0000 (UTC)
-Date: Thu, 19 Mar 2020 13:12:09 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v10 11/16] s390x: protvirt: Move diag 308 data over SIDA
-Message-ID: <20200319131209.0e4e8092.cohuck@redhat.com>
-In-Reply-To: <20200318143047.2335-12-frankja@linux.ibm.com>
-References: <20200318143047.2335-1-frankja@linux.ibm.com>
- <20200318143047.2335-12-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <bounces@canonical.com>) id 1jEuAU-0003lx-RP
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:21:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56658)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jEuAU-0003lK-LS
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 08:20:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jEuAT-0001PY-BP
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 12:20:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 555082E80C3
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 12:20:57 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Mar 2020 12:13:22 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=seabios; component=main;
+ status=Triaged; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158462000226.18802.1627546758991831089.malone@chaenomeles.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3bf651b07b3b3637818ee9f7902aa23bbe9ec3b1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,25 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Mar 2020 10:30:42 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+Sent to seabios for their consideration:
+=3D> https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/I=
+XAWMA2HWW75LSR3NBBYQKWT3TI5WVVP/
 
-> For protected guests the IPIB is written/read to/from the SIDA, so we
-> need those accesses to go through s390_cpu_pv_mem_read/write().
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> ---
->  target/s390x/diag.c | 27 +++++++++++++++++++++------
->  1 file changed, 21 insertions(+), 6 deletions(-)
+I deleted the experimental PPAs that we had and created a new one with a ne=
+w seabios:
+=3D> https://launchpad.net/~ci-train-ppa-service/+archive/ubuntu/3982
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+An MP is open to fix this in Focal:
+=3D> https://code.launchpad.net/~paelzer/ubuntu/+source/seabios/+git/seabio=
+s/+merge/380881
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  Invalid
+Status in qemu package in Ubuntu:
+  Invalid
+Status in seabios package in Ubuntu:
+  Triaged
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
