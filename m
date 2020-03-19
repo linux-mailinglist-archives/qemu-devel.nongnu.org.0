@@ -2,65 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900D018BE31
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 18:38:03 +0100 (CET)
-Received: from localhost ([::1]:41114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A52018BE11
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 18:32:44 +0100 (CET)
+Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEz7K-00014H-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 13:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
+	id 1jEz2B-0004YO-6r
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 13:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jEz6W-0000Sj-T4
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:37:15 -0400
+ (envelope-from <david@redhat.com>) id 1jEz0s-00046R-7y
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jEz6T-0004kI-Om
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:37:12 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:32872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jEz6T-0004jY-Hu; Thu, 19 Mar 2020 13:37:09 -0400
-Received: by mail-ua1-x942.google.com with SMTP id i7so1141483uap.0;
- Thu, 19 Mar 2020 10:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lVsTFAY0TJyKe8KOt5ouQtBDBJLmEhUyhDy1IHfLLDY=;
- b=Jz92k76+Ar2JTjWiOnt6GalfiY6wwZSwxTAmJ2cvCQMGVtlOHgM0CqPBUCzPam//bT
- DNgLTClPufGaKQHigg2triWk88iX7Pnm21vmQUN+FXlb/E1ESXPApJ99f1fC2rxgM89Z
- xstxAe0rKba/4i8MqYlN8MN1b2sbR9WWLvmpUPvRbnY62y6ibxARzt/muz5O1d3mUC9j
- +BrcZcNFhD3dtNxbShWPiimVEC2zzBnQD1Tdn5IPi4QwB/COHI3rry4VWkeGhuMbmRog
- 8WA91p/EaVG9/9SXOVMv5BcxvlrtGAdAUwS3N9lB8uL9zo9T9XhpBVZX2xOsrRO3QjjT
- PPMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lVsTFAY0TJyKe8KOt5ouQtBDBJLmEhUyhDy1IHfLLDY=;
- b=qqEnMaNssbD89hIwdvBXhtJAOWP1sNd9VCxZ5dwOqlb3tgzCTT2nQOt2++B/Vu81HD
- U8GU7+3Wn6Lh/q+fO5V2nzDG3+om2VkNfQXms3Ew3lNO76rYRLWBXjtv9wjgDXeV3aqz
- ZvI2yFjzi1KnMRkqC6B4mbRNCCIJk00gt7Vwpv7pOOOWqX/ji2VOJOoX1MQa2q8OSFcX
- HW0vhRGS5Hf5eovrZQGMa125hZ30gaYY0BWrqGuPLwADoNiNPLCAt1qWuG2ridGR47Ov
- xeBPcIzrtH5ufdCsxoIpPB0kkdUjKI8JJTFDpnHlWbG5SIs4TNfMOrWE7q7NqNlL0n3j
- 2cPg==
-X-Gm-Message-State: ANhLgQ3GAILlE+O7JTKULFLTcePrK+QC3Fwj3Hss2ep05QrtMJaEuTaB
- VN1nbZcnLGw4pq9Kw09lP4JLV+eGPez/4rGhua0=
-X-Google-Smtp-Source: ADFU+vsL8s5X7/DYTy6GVDvvENviwNdAGlzYks27sN4+7XfMg3QRJgHWDRMZ0ue9tzbxQJtVtIr6Cp/e0D1b+P4G4ls=
-X-Received: by 2002:ab0:2881:: with SMTP id s1mr2777445uap.8.1584639428534;
- Thu, 19 Mar 2020 10:37:08 -0700 (PDT)
+ (envelope-from <david@redhat.com>) id 1jEz0q-0006h6-Nn
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:31:22 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43928)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jEz0q-0006h1-KP
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:31:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584639080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=sYU9WefBc9hoNylAozNUNuf/iSqiqKEmWRZlK7efFFI=;
+ b=MRockSys0NAKWnWrmRY7dzwyxCMYTnHdjDONDQxS73NCfaEJtM5J1oxU1/91BdRVS3oiQg
+ p/Lb/aILkJDaDnGe56XmBRdaj2pgmtvc3cH7hq4QwkOye6n7U9nl1MoXjgkA0/1OaNnQM6
+ SrkOVRwQQ+ilMO/1NSWMoa2iHCpXgsE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-NRsMY-IYPNiUpbsAK4aJ4g-1; Thu, 19 Mar 2020 13:31:18 -0400
+X-MC-Unique: NRsMY-IYPNiUpbsAK4aJ4g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ECDC1005300;
+ Thu, 19 Mar 2020 17:31:17 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD7BB9CA3;
+ Thu, 19 Mar 2020 17:31:12 +0000 (UTC)
+Subject: Re: [PATCH v5 07/18] s390x: protvirt: Inhibit balloon when switching
+ to protected mode
+To: Halil Pasic <pasic@linux.ibm.com>
+References: <20200226122038.61481-1-frankja@linux.ibm.com>
+ <20200226122038.61481-8-frankja@linux.ibm.com>
+ <ed51d194-1b63-1c54-953a-d2031336a90e@redhat.com>
+ <58a51f40-21c7-5737-4f4c-568fdd2477fa@linux.ibm.com>
+ <20200227132402.67a38047.pasic@linux.ibm.com>
+ <8622efeb-1a4a-338f-d363-53818b00d195@redhat.com>
+ <20200319164050.78a01702.pasic@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMFCQlmAYAGCwkIBwMCBhUI
+ AgkKCwQWAgMBAh4BAheAFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl3pImkCGQEACgkQTd4Q
+ 9wD/g1o+VA//SFvIHUAvul05u6wKv/pIR6aICPdpF9EIgEU448g+7FfDgQwcEny1pbEzAmiw
+ zAXIQ9H0NZh96lcq+yDLtONnXk/bEYWHHUA014A1wqcYNRY8RvY1+eVHb0uu0KYQoXkzvu+s
+ Dncuguk470XPnscL27hs8PgOP6QjG4jt75K2LfZ0eAqTOUCZTJxA8A7E9+XTYuU0hs7QVrWJ
+ jQdFxQbRMrYz7uP8KmTK9/Cnvqehgl4EzyRaZppshruKMeyheBgvgJd5On1wWq4ZUV5PFM4x
+ II3QbD3EJfWbaJMR55jI9dMFa+vK7MFz3rhWOkEx/QR959lfdRSTXdxs8V3zDvChcmRVGN8U
+ Vo93d1YNtWnA9w6oCW1dnDZ4kgQZZSBIjp6iHcA08apzh7DPi08jL7M9UQByeYGr8KuR4i6e
+ RZI6xhlZerUScVzn35ONwOC91VdYiQgjemiVLq1WDDZ3B7DIzUZ4RQTOaIWdtXBWb8zWakt/
+ ztGhsx0e39Gvt3391O1PgcA7ilhvqrBPemJrlb9xSPPRbaNAW39P8ws/UJnzSJqnHMVxbRZC
+ Am4add/SM+OCP0w3xYss1jy9T+XdZa0lhUvJfLy7tNcjVG/sxkBXOaSC24MFPuwnoC9WvCVQ
+ ZBxouph3kqc4Dt5X1EeXVLeba+466P1fe1rC8MbcwDkoUo65Ag0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAGJAiUEGAECAA8FAlXLn5ECGwwFCQlmAYAACgkQTd4Q
+ 9wD/g1qA6w/+M+ggFv+JdVsz5+ZIc6MSyGUozASX+bmIuPeIecc9UsFRatc91LuJCKMkD9Uv
+ GOcWSeFpLrSGRQ1Z7EMzFVU//qVs6uzhsNk0RYMyS0B6oloW3FpyQ+zOVylFWQCzoyyf227y
+ GW8HnXunJSC+4PtlL2AY4yZjAVAPLK2l6mhgClVXTQ/S7cBoTQKP+jvVJOoYkpnFxWE9pn4t
+ H5QIFk7Ip8TKr5k3fXVWk4lnUi9MTF/5L/mWqdyIO1s7cjharQCstfWCzWrVeVctpVoDfJWp
+ 4LwTuQ5yEM2KcPeElLg5fR7WB2zH97oI6/Ko2DlovmfQqXh9xWozQt0iGy5tWzh6I0JrlcxJ
+ ileZWLccC4XKD1037Hy2FLAjzfoWgwBLA6ULu0exOOdIa58H4PsXtkFPrUF980EEibUp0zFz
+ GotRVekFAceUaRvAj7dh76cToeZkfsjAvBVb4COXuhgX6N4pofgNkW2AtgYu1nUsPAo+NftU
+ CxrhjHtLn4QEBpkbErnXQyMjHpIatlYGutVMS91XTQXYydCh5crMPs7hYVsvnmGHIaB9ZMfB
+ njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
+ FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
+Organization: Red Hat GmbH
+Message-ID: <d7d91f47-19d3-06cf-879c-c9556a924a2f@redhat.com>
+Date: Thu, 19 Mar 2020 18:31:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-13-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-13-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Mar 2020 10:29:12 -0700
-Message-ID: <CAKmqyKNm+kZQXJz0GUDwnK7hWK5A1yOacXy+A4TprSP7Ad=TCQ@mail.gmail.com>
-Subject: Re: [PATCH v6 12/61] target/riscv: vector integer add-with-carry /
- subtract-with-borrow instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::942
+In-Reply-To: <20200319164050.78a01702.pasic@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,349 +124,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 8:31 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+[...]
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>
+>> I asked this question already to Michael (cc) via a different channel,
+>> but hare is it again:
+>>
+>> Why does the balloon driver not support VIRTIO_F_IOMMU_PLATFORM? It is
+>> absolutely not clear to me. The introducing commit mentioned that it
+>> "bypasses DMA". I fail to see that.
+>>
+>> At least the communication via the SG mechanism should work perfectly
+>> fine with an IOMMU enabled. So I assume it boils down to the pages that
+>> we inflate/deflate not being referenced via IOVA?
+>=20
+> AFAIU the IOVA/GPA stuff is not the problem here. You have said it
+> yourself, the SG mechanism would work for balloon out of the box, as it
+> does for the other virtio devices.=20
+>=20
+> But VIRTIO_F_ACCESS_PLATFORM (aka VIRTIO_F_IOMMU_PLATFORM)  not presented
+> means according to Michael that the device has full access to the entire
+> guest RAM. If VIRTIO_F_ACCESS_PLATFORM is negotiated this may or may not
+> be the case.
 
-Alistair
+So you say
 
-> ---
->  target/riscv/helper.h                   |  33 ++++++
->  target/riscv/insn32.decode              |  11 ++
->  target/riscv/insn_trans/trans_rvv.inc.c |  78 +++++++++++++
->  target/riscv/vector_helper.c            | 148 ++++++++++++++++++++++++
->  4 files changed, 270 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 1256defb6c..72c733bf49 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -339,3 +339,36 @@ DEF_HELPER_6(vwadd_wx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vwsub_wx_b, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vwsub_wx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vwsub_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vadc_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vvm_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vvm_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vvm_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vvm_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vadc_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsbc_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmadc_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmsbc_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 4bdbfd16fa..022c8ea18b 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -70,6 +70,7 @@
->  @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
->  @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
->  @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
-> +@r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
->  @r_wdvm  ..... wd:1 vm:1 ..... ..... ... ..... ....... &rwdvm %rs2 %rs1 %rd
->  @r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
->
-> @@ -300,6 +301,16 @@ vwsubu_wv       110110 . ..... ..... 010 ..... 1010111 @r_vm
->  vwsubu_wx       110110 . ..... ..... 110 ..... 1010111 @r_vm
->  vwsub_wv        110111 . ..... ..... 010 ..... 1010111 @r_vm
->  vwsub_wx        110111 . ..... ..... 110 ..... 1010111 @r_vm
-> +vadc_vvm        010000 1 ..... ..... 000 ..... 1010111 @r_vm_1
-> +vadc_vxm        010000 1 ..... ..... 100 ..... 1010111 @r_vm_1
-> +vadc_vim        010000 1 ..... ..... 011 ..... 1010111 @r_vm_1
-> +vmadc_vvm       010001 1 ..... ..... 000 ..... 1010111 @r_vm_1
-> +vmadc_vxm       010001 1 ..... ..... 100 ..... 1010111 @r_vm_1
-> +vmadc_vim       010001 1 ..... ..... 011 ..... 1010111 @r_vm_1
-> +vsbc_vvm        010010 1 ..... ..... 000 ..... 1010111 @r_vm_1
-> +vsbc_vxm        010010 1 ..... ..... 100 ..... 1010111 @r_vm_1
-> +vmsbc_vvm       010011 1 ..... ..... 000 ..... 1010111 @r_vm_1
-> +vmsbc_vxm       010011 1 ..... ..... 100 ..... 1010111 @r_vm_1
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index 8f17faa3f3..4562d5f14f 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -1169,3 +1169,81 @@ GEN_OPIWX_WIDEN_TRANS(vwaddu_wx)
->  GEN_OPIWX_WIDEN_TRANS(vwadd_wx)
->  GEN_OPIWX_WIDEN_TRANS(vwsubu_wx)
->  GEN_OPIWX_WIDEN_TRANS(vwsub_wx)
-> +
-> +/* Vector Integer Add-with-Carry / Subtract-with-Borrow Instructions */
-> +/* OPIVV without GVEC IR */
-> +#define GEN_OPIVV_TRANS(NAME, CHECK)                               \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-> +{                                                                  \
-> +    if (CHECK(s, a)) {                                             \
-> +        uint32_t data = 0;                                         \
-> +        static gen_helper_gvec_4_ptr * const fns[4] = {            \
-> +            gen_helper_##NAME##_b, gen_helper_##NAME##_h,          \
-> +            gen_helper_##NAME##_w, gen_helper_##NAME##_d,          \
-> +        };                                                         \
-> +        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> +        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> +            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),              \
-> +            cpu_env, 0, s->vlen / 8, data, fns[s->sew]);           \
-> +        return true;                                               \
-> +    }                                                              \
-> +    return false;                                                  \
-> +}
-> +
-> +/*
-> + * For vadc and vsbc, an illegal instruction exception is raised if the
-> + * destination vector register is v0 and LMUL > 1. (Section 12.3)
-> + */
-> +static bool opivv_vadc_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_reg(s, a->rd, false) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_reg(s, a->rs1, false) &&
-> +            ((a->rd != 0) || (s->lmul == 0)));
-> +}
-> +
-> +GEN_OPIVV_TRANS(vadc_vvm, opivv_vadc_check)
-> +GEN_OPIVV_TRANS(vsbc_vvm, opivv_vadc_check)
-> +
-> +/*
-> + * For vmadc and vmsbc, an illegal instruction exception is raised if the
-> + * destination vector register overlaps a source vector register group.
-> + */
-> +static bool opivv_vmadc_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_reg(s, a->rs1, false) &&
-> +            vext_check_overlap_group(a->rd, 1, a->rs1, 1 << s->lmul) &&
-> +            vext_check_overlap_group(a->rd, 1, a->rs2, 1 << s->lmul));
-> +}
-> +
-> +GEN_OPIVV_TRANS(vmadc_vvm, opivv_vmadc_check)
-> +GEN_OPIVV_TRANS(vmsbc_vvm, opivv_vmadc_check)
-> +
-> +static bool opivx_vadc_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_reg(s, a->rd, false) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            ((a->rd != 0) || (s->lmul == 0)));
-> +}
-> +
-> +GEN_OPIVX_TRANS(vadc_vxm, opivx_vadc_check)
-> +GEN_OPIVX_TRANS(vsbc_vxm, opivx_vadc_check)
-> +
-> +static bool opivx_vmadc_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_overlap_group(a->rd, 1, a->rs2, 1 << s->lmul));
-> +}
-> +
-> +GEN_OPIVX_TRANS(vmadc_vxm, opivx_vmadc_check)
-> +GEN_OPIVX_TRANS(vmsbc_vxm, opivx_vmadc_check)
-> +
-> +GEN_OPIVI_TRANS(vadc_vim, 0, vadc_vxm, opivx_vadc_check)
-> +GEN_OPIVI_TRANS(vmadc_vim, 0, vmadc_vxm, opivx_vmadc_check)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index d0e6f12f43..9913dcbea2 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -186,6 +186,14 @@ static void clearq(void *vd, uint32_t idx, uint32_t cnt, uint32_t tot)
->      vext_clear(cur, cnt, tot);
->  }
->
-> +static inline void vext_set_elem_mask(void *v0, int mlen, int index,
-> +        uint8_t value)
-> +{
-> +    int idx = (index * mlen) / 64;
-> +    int pos = (index * mlen) % 64;
-> +    uint64_t old = ((uint64_t *)v0)[idx];
-> +    ((uint64_t *)v0)[idx] = deposit64(old, pos, mlen, value);
-> +}
->
->  static inline int vext_elem_mask(void *v0, int mlen, int index)
->  {
-> @@ -1087,3 +1095,143 @@ GEN_VEXT_VX(vwadd_wx_w, 4, 8, clearq)
->  GEN_VEXT_VX(vwsub_wx_b, 1, 2, clearh)
->  GEN_VEXT_VX(vwsub_wx_h, 2, 4, clearl)
->  GEN_VEXT_VX(vwsub_wx_w, 4, 8, clearq)
-> +
-> +#define DO_VADC(N, M, C) (N + M + C)
-> +#define DO_VSBC(N, M, C) (N - M - C)
-> +
-> +#define GEN_VEXT_VADC_VVM(NAME, ETYPE, H, DO_OP, CLEAR_FN)    \
-> +void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-> +                  CPURISCVState *env, uint32_t desc)          \
-> +{                                                             \
-> +    uint32_t mlen = vext_mlen(desc);                          \
-> +    uint32_t vl = env->vl;                                    \
-> +    uint32_t esz = sizeof(ETYPE);                             \
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;                  \
-> +    uint32_t i;                                               \
-> +                                                              \
-> +    if (vl == 0) {                                            \
-> +        return;                                               \
-> +    }                                                         \
-> +    for (i = 0; i < vl; i++) {                                \
-> +        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-> +        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
-> +        uint8_t carry = vext_elem_mask(v0, mlen, i);          \
-> +                                                              \
-> +        *((ETYPE *)vd + H(i)) = DO_OP(s2, s1, carry);         \
-> +    }                                                         \
-> +    CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                  \
-> +}
-> +
-> +GEN_VEXT_VADC_VVM(vadc_vvm_b, uint8_t,  H1, DO_VADC, clearb)
-> +GEN_VEXT_VADC_VVM(vadc_vvm_h, uint16_t, H2, DO_VADC, clearh)
-> +GEN_VEXT_VADC_VVM(vadc_vvm_w, uint32_t, H4, DO_VADC, clearl)
-> +GEN_VEXT_VADC_VVM(vadc_vvm_d, uint64_t, H8, DO_VADC, clearq)
-> +
-> +GEN_VEXT_VADC_VVM(vsbc_vvm_b, uint8_t,  H1, DO_VSBC, clearb)
-> +GEN_VEXT_VADC_VVM(vsbc_vvm_h, uint16_t, H2, DO_VSBC, clearh)
-> +GEN_VEXT_VADC_VVM(vsbc_vvm_w, uint32_t, H4, DO_VSBC, clearl)
-> +GEN_VEXT_VADC_VVM(vsbc_vvm_d, uint64_t, H8, DO_VSBC, clearq)
-> +
-> +#define GEN_VEXT_VADC_VXM(NAME, ETYPE, H, DO_OP, CLEAR_FN)               \
-> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-> +                  CPURISCVState *env, uint32_t desc)                     \
-> +{                                                                        \
-> +    uint32_t mlen = vext_mlen(desc);                                     \
-> +    uint32_t vl = env->vl;                                               \
-> +    uint32_t esz = sizeof(ETYPE);                                        \
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;                             \
-> +    uint32_t i;                                                          \
-> +                                                                         \
-> +    if (vl == 0) {                                                       \
-> +        return;                                                          \
-> +    }                                                                    \
-> +    for (i = 0; i < vl; i++) {                                           \
-> +        ETYPE s2 = *((ETYPE *)vs2 + H(i));                               \
-> +        uint8_t carry = vext_elem_mask(v0, mlen, i);                     \
-> +                                                                         \
-> +        *((ETYPE *)vd + H(i)) = DO_OP(s2, (ETYPE)(target_long)s1, carry);\
-> +    }                                                                    \
-> +    CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                             \
-> +}
-> +
-> +GEN_VEXT_VADC_VXM(vadc_vxm_b, uint8_t,  H1, DO_VADC, clearb)
-> +GEN_VEXT_VADC_VXM(vadc_vxm_h, uint16_t, H2, DO_VADC, clearh)
-> +GEN_VEXT_VADC_VXM(vadc_vxm_w, uint32_t, H4, DO_VADC, clearl)
-> +GEN_VEXT_VADC_VXM(vadc_vxm_d, uint64_t, H8, DO_VADC, clearq)
-> +
-> +GEN_VEXT_VADC_VXM(vsbc_vxm_b, uint8_t,  H1, DO_VSBC, clearb)
-> +GEN_VEXT_VADC_VXM(vsbc_vxm_h, uint16_t, H2, DO_VSBC, clearh)
-> +GEN_VEXT_VADC_VXM(vsbc_vxm_w, uint32_t, H4, DO_VSBC, clearl)
-> +GEN_VEXT_VADC_VXM(vsbc_vxm_d, uint64_t, H8, DO_VSBC, clearq)
-> +
-> +#define DO_MADC(N, M, C) (C ? (__typeof(N))(N + M + 1) <= N :           \
-> +                          (__typeof(N))(N + M) < N)
-> +#define DO_MSBC(N, M, C) (C ? N <= M : N < M)
-> +
-> +#define GEN_VEXT_VMADC_VVM(NAME, ETYPE, H, DO_OP)             \
-> +void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-> +                  CPURISCVState *env, uint32_t desc)          \
-> +{                                                             \
-> +    uint32_t mlen = vext_mlen(desc);                          \
-> +    uint32_t vl = env->vl;                                    \
-> +    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
-> +    uint32_t i;                                               \
-> +                                                              \
-> +    if (vl == 0) {                                            \
-> +        return;                                               \
-> +    }                                                         \
-> +    for (i = 0; i < vl; i++) {                                \
-> +        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-> +        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
-> +        uint8_t carry = vext_elem_mask(v0, mlen, i);          \
-> +                                                              \
-> +        vext_set_elem_mask(vd, mlen, i, DO_OP(s2, s1, carry));\
-> +    }                                                         \
-> +    for (; i < vlmax; i++) {                                  \
-> +        vext_set_elem_mask(vd, mlen, i, 0);                   \
-> +    }                                                         \
-> +}
-> +
-> +GEN_VEXT_VMADC_VVM(vmadc_vvm_b, uint8_t,  H1, DO_MADC)
-> +GEN_VEXT_VMADC_VVM(vmadc_vvm_h, uint16_t, H2, DO_MADC)
-> +GEN_VEXT_VMADC_VVM(vmadc_vvm_w, uint32_t, H4, DO_MADC)
-> +GEN_VEXT_VMADC_VVM(vmadc_vvm_d, uint64_t, H8, DO_MADC)
-> +
-> +GEN_VEXT_VMADC_VVM(vmsbc_vvm_b, uint8_t,  H1, DO_MSBC)
-> +GEN_VEXT_VMADC_VVM(vmsbc_vvm_h, uint16_t, H2, DO_MSBC)
-> +GEN_VEXT_VMADC_VVM(vmsbc_vvm_w, uint32_t, H4, DO_MSBC)
-> +GEN_VEXT_VMADC_VVM(vmsbc_vvm_d, uint64_t, H8, DO_MSBC)
-> +
-> +#define GEN_VEXT_VMADC_VXM(NAME, ETYPE, H, DO_OP)               \
-> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
-> +                  void *vs2, CPURISCVState *env, uint32_t desc) \
-> +{                                                               \
-> +    uint32_t mlen = vext_mlen(desc);                            \
-> +    uint32_t vl = env->vl;                                      \
-> +    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);          \
-> +    uint32_t i;                                                 \
-> +                                                                \
-> +    if (vl == 0) {                                              \
-> +        return;                                                 \
-> +    }                                                           \
-> +    for (i = 0; i < vl; i++) {                                  \
-> +        ETYPE s2 = *((ETYPE *)vs2 + H(i));                      \
-> +        uint8_t carry = vext_elem_mask(v0, mlen, i);            \
-> +                                                                \
-> +        vext_set_elem_mask(vd, mlen, i,                         \
-> +                DO_OP(s2, (ETYPE)(target_long)s1, carry));      \
-> +    }                                                           \
-> +    for (; i < vlmax; i++) {                                    \
-> +        vext_set_elem_mask(vd, mlen, i, 0);                     \
-> +    }                                                           \
-> +}
-> +
-> +GEN_VEXT_VMADC_VXM(vmadc_vxm_b, uint8_t,  H1, DO_MADC)
-> +GEN_VEXT_VMADC_VXM(vmadc_vxm_h, uint16_t, H2, DO_MADC)
-> +GEN_VEXT_VMADC_VXM(vmadc_vxm_w, uint32_t, H4, DO_MADC)
-> +GEN_VEXT_VMADC_VXM(vmadc_vxm_d, uint64_t, H8, DO_MADC)
-> +
-> +GEN_VEXT_VMADC_VXM(vmsbc_vxm_b, uint8_t,  H1, DO_MSBC)
-> +GEN_VEXT_VMADC_VXM(vmsbc_vxm_h, uint16_t, H2, DO_MSBC)
-> +GEN_VEXT_VMADC_VXM(vmsbc_vxm_w, uint32_t, H4, DO_MSBC)
-> +GEN_VEXT_VMADC_VXM(vmsbc_vxm_d, uint64_t, H8, DO_MSBC)
-> --
-> 2.23.0
->
+"The virtio specification tells that the device is to present
+VIRTIO_F_ACCESS_PLATFORM (a.k.a. VIRTIO_F_IOMMU_PLATFORM) when the
+device "can only access certain memory addresses with said access
+specified and/or granted by the platform"."
+
+So, AFAIU, *any* virtio device (hypervisor side) has to present this
+flag when PV is enabled. In that regard, your patch makes perfect sense
+(although I am not sure it's a good idea to overwrite these feature bits
+- maybe they should be activated on the cmdline permanently instead when
+PV is to be used? (or enable )).
+
+>=20
+> The actual problem is that the pages denoted by the buffer transmitted
+> via the virtqueue are normally not shared pages. I.e. the hypervisor
+> can not reuse them (what is the point of balloon inflate). To make this
+> work, the guest would need to share the pages before saying 'host these
+> are in my balloon, so you can use them'. This is a piece of logic we
+
+What exactly would have to be done in the hypervisor to support it?
+
+Assume we have to trigger sharing/unsharing - this sounds like a very
+architecture specific thing? Or is this e.g., doing a map/unmap
+operation like mapping/unmapping the SG?
+
+Right now it sounds to me "we have to do $ARCHSPECIFIC when
+inflating/deflating in the guest", which feels wrong.
+
+> need only if the host/the device does not have full access to the
+> guest RAM. That is in my opinion why the balloon driver fences
+> VIRTIO_F_ACCESS_PLATFORM.> Does that make sense?
+
+Yeah, I understood the "device has to set VIRTIO_F_ACCESS_PLATFORM"
+part. Struggling with the "what can the guest driver actually do" part.
+
+>=20
+>>
+>> I don't think they have to be IOVA addresses. We're neither reading nor
+>> writing these pages. We really speak about "physical memory in the
+>> system" when ballooning. Everything else doesn't really make sense.
+>> There is no need to map/unmap pages we inflate/deflate AFAIKs.
+>>
+>> IMHO, we should not try to piggy-back on VIRTIO_F_IOMMU_PLATFORM here,
+>> but instead explicitly disable it either in the hypervisor or the guest.
+>>
+>=20
+> We need a feature bit here. We can say fencing VIRTIO_F_ACCESS_PLATFORM
+> was a bug, fix that bug, and then invent another 'the guest RAM is
+> somehow different' feature bit specific to the balloon, and then create
+> arch hooks in the driver that get active if this feature is negotiated.
+>=20
+> I assumed the fact that the balloon driver fences
+> VIRTIO_F_ACCESS_PLATFORM is not a bug.
+>=20
+>> I hope someone can clarify what the real issue with an IOMMU and
+>> ballooning is, because I'll be having the same "issue" with
+> virtio-mem.
+>>
+>=20
+> The issue is not with the IOMMU, the issue is with restricted access
+> to guest RAM. The definition of VIRTIO_F_ACCESS_PLATFORM is such that we
+> pretty much know what's up when VIRTIO_F_ACCESS_PLATFORM is not
+> presented, but VIRTIO_F_ACCESS_PLATFORM presented can mean a couple of
+> things.
+
+Understood.
+
+--=20
+Thanks,
+
+David / dhildenb
+
 
