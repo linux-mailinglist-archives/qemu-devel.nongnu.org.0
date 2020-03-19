@@ -2,61 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E0B18AE4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:27:52 +0100 (CET)
-Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A44C18AE3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:20:32 +0100 (CET)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEqWt-00008v-Oh
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1jEqPn-00024G-3N
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEqUw-00066H-Qr
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:52 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jEqOp-0001P5-M2
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:19:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEqUv-0004Po-LL
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37936)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEqUv-0004Om-Fa
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEqUu-0007Vb-MS
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:25:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A904D2E80C7
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:25:48 +0000 (UTC)
+ (envelope-from <frankja@linux.ibm.com>) id 1jEqOo-0003Tp-95
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:19:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1682
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1jEqOo-0003Td-3W
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:19:30 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02J83BjX110928
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 04:19:29 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2yu98u64bh-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 04:19:29 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Thu, 19 Mar 2020 08:19:27 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 19 Mar 2020 08:19:24 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02J8JN3v56819868
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Mar 2020 08:19:23 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32150A4040;
+ Thu, 19 Mar 2020 08:19:23 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D6C2AA4051;
+ Thu, 19 Mar 2020 08:19:22 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.146.136])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Mar 2020 08:19:22 +0000 (GMT)
+Subject: Re: [PATCH v10 10/16] s390x: protvirt: Set guest IPL PSW
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200318143047.2335-1-frankja@linux.ibm.com>
+ <20200318143047.2335-11-frankja@linux.ibm.com>
+ <20200318190043.1ba42bb2.cohuck@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Thu, 19 Mar 2020 09:19:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 08:16:50 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eastson83 laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: Dongwhan Kim (eastson83)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158460432256.11238.315491712700748145.malonedeb@soybean.canonical.com>
-Message-Id: <158460581031.28790.2035061969383472694.malone@gac.canonical.com>
-Subject: [Bug 1868055] Re: cannot run golang app with docker,
- version 17.09.1-ce, disabling core 0 and qemu-arm, version 2.7.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d73aa4d7c4dd9f2a5f15b7b626d251b582f30ffb
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20200318190043.1ba42bb2.cohuck@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3fvWbHxlfF1DCAo1MEpkWRc0d5s4GVxvk"
+X-TM-AS-GCONF: 00
+x-cbid: 20031908-0016-0000-0000-000002F3B787
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031908-0017-0000-0000-000033574023
+Message-Id: <96d9fb59-bc7f-4e85-beb5-27ff2f49169a@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-19_01:2020-03-18,
+ 2020-03-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ adultscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003190034
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,108 +138,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868055 <1868055@bugs.launchpad.net>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LP:1696773 is the old bug that I think is probably the cause here,
-though 2.7 is old enough it has a bunch of other linux-user race
-condition bugs that we've since fixed.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3fvWbHxlfF1DCAo1MEpkWRc0d5s4GVxvk
+Content-Type: multipart/mixed; boundary="icM2dA8YcXFlGnI8Vij9J9useEJya3dIP"
 
--- =
+--icM2dA8YcXFlGnI8Vij9J9useEJya3dIP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868055
+On 3/18/20 7:00 PM, Cornelia Huck wrote:
+> On Wed, 18 Mar 2020 10:30:41 -0400
+> Janosch Frank <frankja@linux.ibm.com> wrote:
+>=20
+>> Handling of CPU reset and setting of the IPL psw from guest storage at=
 
-Title:
-  cannot run golang app with docker, version 17.09.1-ce, disabling core
-  0 and qemu-arm, version 2.7.
+>> offset 0 is done by a Ultravisor call. Let's only fetch it if
+>> necessary.
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+>> ---
+>>  target/s390x/cpu.c | 26 +++++++++++++++++---------
+>>  1 file changed, 17 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+>> index 84029f14814b4980..3ec7d4b2ec1e938f 100644
+>> --- a/target/s390x/cpu.c
+>> +++ b/target/s390x/cpu.c
+>> @@ -78,16 +78,24 @@ static bool s390_cpu_has_work(CPUState *cs)
+>>  static void s390_cpu_load_normal(CPUState *s)
+>>  {
+>>      S390CPU *cpu =3D S390_CPU(s);
+>> -    uint64_t spsw =3D ldq_phys(s->as, 0);
+>> -
+>> -    cpu->env.psw.mask =3D spsw & PSW_MASK_SHORT_CTRL;
+>> -    /*
+>> -     * Invert short psw indication, so SIE will report a specificatio=
+n
+>> -     * exception if it was not set.
+>> -     */
+>> -    cpu->env.psw.mask ^=3D PSW_MASK_SHORTPSW;
+>> -    cpu->env.psw.addr =3D spsw & PSW_MASK_SHORT_ADDR;
+>> +    uint64_t spsw;
+>> =20
+>> +    if (!s390_is_pv()) {
+>> +        spsw =3D ldq_phys(s->as, 0);
+>> +        cpu->env.psw.mask =3D spsw & PSW_MASK_SHORT_CTRL;
+>> +        /*
+>> +         * Invert short psw indication, so SIE will report a specific=
+ation
+>> +         * exception if it was not set.
+>> +         */
+>> +        cpu->env.psw.mask ^=3D PSW_MASK_SHORTPSW;
+>> +        cpu->env.psw.addr =3D spsw & PSW_MASK_SHORT_ADDR;
+>> +    } else {
+>> +        /*
+>> +         * Firmware requires us to set the load state before we set
+>> +         * the cpu to operating on protected guests.
+>> +         */
+>> +        s390_cpu_set_state(S390_CPU_STATE_LOAD, cpu);
+>=20
+> We probably could do that unconditionally, but this is fine.
 
-Status in QEMU:
-  New
+As far as I know the load state is only used by lpar and for a normal
+KVM guest it doesn't really make sense.
 
-Bug description:
-  Hello!
-  I figure out that sometimes simple go application is not working.
-  I am using docker + qemu-arm + go( for armv7l).
+Specification for that state is however a bit sparse.
 
-  These are version info below.
+>=20
+>> +    }
+>>      s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+>>  }
+>>  #endif
+>=20
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-  root@VDBS1535:~# docker -v
-  Docker version 17.09.1-ce, build 19e2cf6
+Thanks!
 
-  bash-3.2# qemu-arm --version
-  qemu-arm version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the Q=
-EMU Project developers
 
-  $ go version
-  go version go1.12.6 linux/arm
-  $ go env
-  GOARCH=3D"arm"
-  GOBIN=3D""
-  GOCACHE=3D"/home/quickbuild/.cache/go-build"
-  GOEXE=3D""
-  GOFLAGS=3D""
-  GOHOSTARCH=3D"arm"
-  GOHOSTOS=3D"linux"
-  GOOS=3D"linux"
-  GOPATH=3D"/home/quickbuild/go"
-  GOPROXY=3D""
-  GORACE=3D""
-  GOROOT=3D"/usr/lib/golang"
-  GOTMPDIR=3D""
-  GOTOOLDIR=3D"/usr/lib/golang/pkg/tool/linux_arm"
-  GCCGO=3D"gccgo"
-  GOARM=3D"7"
-  CC=3D"gcc"
-  CXX=3D"g++"
-  CGO_ENABLED=3D"1"
-  GOMOD=3D""
-  CGO_CFLAGS=3D"-g -O2"
-  CGO_CPPFLAGS=3D""
-  CGO_CXXFLAGS=3D"-g -O2"
-  CGO_FFLAGS=3D"-g -O2"
-  CGO_LDFLAGS=3D"-g -O2"
-  PKG_CONFIG=3D"pkg-config"
-  GOGCCFLAGS=3D"-fPIC -marm -pthread -fmessage-length=3D0 -fdebug-prefix-ma=
-p=3D/tmp/go-build242285369=3D/tmp/go-build -gno-record-gcc-switches"
 
-  This issue is come only when I disable core 0 using a command below.
-  please check "--cpuset-cpus=3D1-55" option.
+--icM2dA8YcXFlGnI8Vij9J9useEJya3dIP--
 
-  sudo docker run --privileged -d -i -t --cpuset-cpus=3D1-55 --mount
-  type=3Dbind,source=3D"/home/dw83kim/mnt",destination=3D"/mnt" --network h=
-ost
-  --name=3D"ubuntu_core1" ubuntu:xenial-20200212
+--3fvWbHxlfF1DCAo1MEpkWRc0d5s4GVxvk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  =
+-----BEGIN PGP SIGNATURE-----
 
-  This is what I have tested in the environment above.
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5zKwoACgkQ41TmuOI4
+ufgoIBAAriHZy13xUyOb73f+MV/ibOSAR8kdNEYVmVyMIukLN8ItJeXlckysr9cU
+bSvPhzOG6oOzyh6fIbYiWAHawzPZ3F0chJDH+gYtadpDDhk8pl3heQH85dW682Ds
+xxRUdkyefmq0MKsRuerXAy38GkhpI3DN4+dFP1HvLf/tpnWbtSdgTzKK7a0MCu0H
+HLxEMKVl3oxKOlZdRfrq5q8JFPhEywcLdsncsz9HsEr0G5PpTeW6DZZ0xAtiPVUQ
+KIVjtJbXvGqLh/T3AwdYzq1TJh6DDa3n7N3wgiLf6+WkXQUPwE2TcPiBcuWxpbkR
+l0vMSCLZ3WlyDA2685FTKKQ0Sd12eJTuhWvIF9dQdNxPeTSj6SNwDKGPcDHlauzl
+mCZE1hsaqGoEQ5cgBbR30/WIGpulNO18zONNqNR/G9jHTCxYPNLH4F+Wx57fhEmg
+C9z7yCsdU7Bjnr80XwwkGMQsSaIsVarfjLyjChzufnfDLgmEV6bE2jm1IALjkxr6
+CabB3PcrO4J97L1Fkuxn6LL1fR4T/Vy3EsB79VrCHXsQPNIONh0lBcwcUixJu8aG
+33kAo/R5cvZ1KE6BfOQvINEJ1UwQURdsLnqCZW4TAlnFSotVf+Tnn0vJNLDPzbB4
+psKFaokPX/71L0OKknVQ99qwXeFwlt6/nTa6pVg3HF2mRnNHVCU=
+=z3IV
+-----END PGP SIGNATURE-----
 
-  package main
-  func main(){
-      for i:=3D0; i<1000; i++ {
-          println("Hello world")
-      }
-  }
+--3fvWbHxlfF1DCAo1MEpkWRc0d5s4GVxvk--
 
-  This is one of the error logs have faced sometimes not always.
-
-  bash-3.2# go run test.go
-  fatal error: schedule: holding locks
-  panic during panic
-  SIGILL: illegal instruction
-  PC=3D0xc9ec4c m=3D3 sigcode=3D2
-
-  goroutine 122 [runnable]:
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
-  bash-3.2#
-
-  Please check it.
-  Thanks in advance.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868055/+subscriptions
 
