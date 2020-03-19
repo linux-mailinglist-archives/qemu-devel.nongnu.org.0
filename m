@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F1F18B0E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:06:42 +0100 (CET)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189B418B0EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:07:35 +0100 (CET)
+Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEs4X-0002mj-Di
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51576)
+	id 1jEs5O-00048W-5x
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEs3f-0001we-DR
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:48 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEs3h-0001yk-D9
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEs3d-0005yw-R4
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34408)
+ (envelope-from <bounces@canonical.com>) id 1jEs3g-00060h-1M
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34530)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEs3d-0005yK-Kn
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:45 -0400
+ id 1jEs3f-00060S-SN
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEs3c-0004Qu-Kt
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:44 +0000
+ id 1jEs3e-0004bP-Uz
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 995772E80C0
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E70A12E80AB
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 09:58:24 -0000
+Date: Thu, 19 Mar 2020 09:59:02 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -46,7 +46,7 @@ X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158461190476.19072.9894986932203561030.malone@chaenomeles.canonical.com>
+Message-Id: <158461194220.11915.10998512141124771787.malone@soybean.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -54,7 +54,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4b3d3a371665e6cd6ca3cf81ccfa888c6aa3ae96
+X-Launchpad-Hash: c2c8bd268b8eca6cbb5b580977c3b676445878ee
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,21 +71,32 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With that confirmed I checked if I can just point to a bios to break it, an=
-d indeed adding =
+Turns out 1.12 is a fairly old build and the working version in Ubuntu was =
+from in Disco, therefore about a year ago.
+=3D> https://launchpad.net/ubuntu/+source/seabios/1.12.0-1/+build/16284605
 
-  -bios /root/seabios_1.12.0-1/usr/share/seabios/bios.bin
-  -bios /root/seabios_1.13.0-1/usr/share/seabios/bios.bin
-respectively is a make or break change.
+Therefore I built it in Eoan and even Disco.
+As an overview:
+Disco: gcc 4:8.3.0-1ubuntu3   binutils 2.32-7ubuntu4
+Eoan:  gcc 4:9.2.1-3.1ubuntu1 binutils 2.33-2ubuntu1.2
+Focal: gcc 4:9.2.1-3.1ubuntu1 binutils 2.34-4ubuntu1
 
+I ended up with these binaries to test:
+./git-built-in-eoan/rel-1.12/bios.bin Breaks
+./git-built-in-eoan/rel-1.13/bios.bin Breaks
+./git-built-in-disco/rel-1.13/bios.bin Works
+./git-built-in-disco/rel-1.12/bios.bin Works
+./git-built-in-focal/head/bios.bin Breaks
+./git-built-in-focal/rel-1.12/bios.bin Breaks
+./git-built-in-focal/rel-1.13/bios.bin Breaks
+./packaging/disco-seabios_1.12.0-1/bios.bin Works
+./packaging/focal-seabios_1.13.0-1/bios.bin Breaks
 
-As a next step I reproduced the error with seabios rel-1.13.0 from https://=
-review.coreboot.org/seabios.git.
-It crashes as well.
-
-But to make this puzzle even more interesting rel-1.12.0 from the same git =
-crashes as well.
-I wonder where this trip might end, from qemu to seabios to ... compiler?
+To summarize:
+- qemu breaks on chips of the Penryn generation
+- it only breaks if the seabios bios is executed
+- does not really depend on seabios or qemu version
+- but it depends on seabios build environment
 
 -- =
 
