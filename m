@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A81718BBD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 17:05:12 +0100 (CET)
-Received: from localhost ([::1]:40182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D61218BC4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 17:21:34 +0100 (CET)
+Received: from localhost ([::1]:40340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jExfT-0006bo-1m
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 12:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44460)
+	id 1jExvI-0001Jd-I4
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 12:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jExdU-0004kP-U1
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:03:10 -0400
+ (envelope-from <jtomko@redhat.com>) id 1jExuO-0000ss-Od
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:20:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jExdT-0002XW-1q
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:03:08 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:55310)
+ (envelope-from <jtomko@redhat.com>) id 1jExuN-00056e-Dy
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:20:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33963)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jExdS-0002W5-S5
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:03:06 -0400
+ (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1jExuN-00055v-9K
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:20:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584633785;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1584634834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IbS7SLjD7Faf6qt6eGitAyBeqI++CSyOi3O6bGrZ2cg=;
- b=PhbJbDgoimTadIO8osYV8IgZr5WQyIimfVq+y4o/fglmNRt5k/T7zcJclpCZGqyCXDojBC
- NcqQu8a9tLtxcZhSV2sVIIJvb21Wl0egzM9UDzd4QdnM+vLwsIAJRbAHZkkWhrBr94ebiu
- t59N1cXELfb5aGx2DdyGYmsOuuDAcvs=
+ bh=/qu3hW6S/HYoudYInkk/CJ6ouZXNipK3CSzwIF5mWAQ=;
+ b=KOevhMBnZwpnxdnU/GRGB4e7hZHCRIA2mXyi9UfBoqFhGGvHx1N+ErwQ8InWhIxI9/OjHf
+ ASHqECfNYj+Vpc/2VK3s9vr+Oj3aXvc7RAOFCscXHys/J33VRuB0YWPWlqDP9+ExbNvgZg
+ bmNxEl+yIW8aslR0q4tyBk8BONZlNW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-TJSl3VydMr23DlDqISh4eQ-1; Thu, 19 Mar 2020 12:02:30 -0400
-X-MC-Unique: TJSl3VydMr23DlDqISh4eQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-367-9hp5ruJlNPyhxPK3uBTFMQ-1; Thu, 19 Mar 2020 12:20:32 -0400
+X-MC-Unique: 9hp5ruJlNPyhxPK3uBTFMQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ACAF1922961;
- Thu, 19 Mar 2020 16:02:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2658310016EB;
- Thu, 19 Mar 2020 16:02:24 +0000 (UTC)
-Date: Thu, 19 Mar 2020 16:02:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56D271085988;
+ Thu, 19 Mar 2020 16:19:44 +0000 (UTC)
+Received: from lpt (unknown [10.40.208.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08F5F91290;
+ Thu, 19 Mar 2020 16:19:39 +0000 (UTC)
+Date: Thu, 19 Mar 2020 17:19:37 +0100
+From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Subject: Re: [PATCH 1/1] conf: qemu 9pfs: add 'multidevs' option
-Message-ID: <20200319160221.GF2322997@redhat.com>
+Message-ID: <20200319161937.GB2150275@lpt>
 References: <E1jEFpH-00028X-1c@lizzy.crudebyte.com>
  <E1jEFpL-00028n-Qj@lizzy.crudebyte.com>
  <20200319131026.GA2150275@lpt> <1876644.SqPMx7qSmg@silver>
 MIME-Version: 1.0
 In-Reply-To: <1876644.SqPMx7qSmg@silver>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yNb1oOkm5a9FJOVX"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,67 +72,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 19, 2020 at 04:57:41PM +0100, Christian Schoenebeck wrote:
-> On Donnerstag, 19. M=C3=A4rz 2020 14:10:26 CET J=C3=A1n Tomko wrote:
-> > On a Tuesday in 2020, Christian Schoenebeck wrote:
-> > >Introduce new 'multidevs' option for filesystem.
-> > >
-> > >  <filesystem type=3D'mount' accessmode=3D'mapped' multidevs=3D'remap'=
+--yNb1oOkm5a9FJOVX
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On a Thursday in 2020, Christian Schoenebeck wrote:
+>On Donnerstag, 19. M=E4rz 2020 14:10:26 CET J=E1n Tomko wrote:
+>> On a Tuesday in 2020, Christian Schoenebeck wrote:
+>> >Introduce new 'multidevs' option for filesystem.
+>> >
+>> >  <filesystem type=3D'mount' accessmode=3D'mapped' multidevs=3D'remap'>
+>>
+>> I don't like the 'multidevs' name, but cannot think of anything
+>> beter.
+>>
+>> 'collisions' maybe?
 >
-> >=20
-> > I don't like the 'multidevs' name, but cannot think of anything
-> > beter.
-> >=20
-> > 'collisions' maybe?
->=20
-> Not sure if 'collisions' is better, e.g. collisions=3D'remap' sounds scar=
-y. :)
-> And which collision would that be? At least IMO 'multidevs' is less ambig=
-ious.
-> I have no problem though to change it to whatever name you might come up =
-with.=20
-> Just keep the resulting key-value pair set in mind:
->=20
-> multidevs=3D'default'
-> multidevs=3D'remap'
-> multidevs=3D'forbid'
-> multidevs=3D'warn'
->=20
-> vs.
->=20
-> collisions=3D'default'
-> collisions=3D'remap' <- probably misleading what 'remap' means in this ca=
-se
-> collisions=3D'forbid'
-> collisions=3D'warn' <- wrong, it warns about multiple devices, not about =
-file ID=20
-> collisions.
->=20
-> So different key-name might also require different value-names.
->=20
-> Another option would be the long form 'multi-devices=3D...'
+>Not sure if 'collisions' is better, e.g. collisions=3D'remap' sounds scary=
+. :)
+>And which collision would that be? At least IMO 'multidevs' is less ambigi=
+ous.
+>I have no problem though to change it to whatever name you might come up w=
+ith.
+>Just keep the resulting key-value pair set in mind:
+>
+>multidevs=3D'default'
+>multidevs=3D'remap'
+>multidevs=3D'forbid'
+>multidevs=3D'warn'
+>
+>vs.
+>
+>collisions=3D'default'
+>collisions=3D'remap' <- probably misleading what 'remap' means in this cas=
+e
+>collisions=3D'forbid'
+>collisions=3D'warn' <- wrong, it warns about multiple devices, not about f=
+ile ID
+>collisions.
+>
+>So different key-name might also require different value-names.
+>
+>Another option would be the long form 'multi-devices=3D...'
 
-I tried to come up with names when this was posted to QEMU, but didn't
-think of much better than multidevs, so I think that's acceptable for
-libvirt usage.
+Okay, let's leave it at 'multidevs'.
 
-"collisions" isn't better enough to justify different naming from QEMU
+>
+>> >    <source dir=3D'/path'/>
+>> >    <target dir=3D'mount_tag'>
+>> >
+>> >  </filesystem>
+>> >
+>> >This option prevents misbheaviours on guest if a 9pfs export
+>> >contains multiple devices, due to the potential file ID collisions
+>> >this otherwise may cause.
+>> >
+>> >Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+>> >---
+>> >
+>> > docs/formatdomain.html.in     | 47 ++++++++++++++++++++++++++++++++++-
+>> > docs/schemas/domaincommon.rng | 10 ++++++++
+>> > src/conf/domain_conf.c        | 30 ++++++++++++++++++++++
+>> > src/conf/domain_conf.h        | 13 ++++++++++
+>> > src/qemu/qemu_command.c       |  7 ++++++
+>> > 5 files changed, 106 insertions(+), 1 deletion(-)
+>>
+>> Please split the XML changes from the qemu driver changes.
+>
+>Ok
+>
+>> Also missing:
+>> * qemu_capabilities addition
+>
+>AFAICS the common procedure is to add new capabilities always to the end o=
+f
+>the enum list. So I guess I will do that as well.
+>
+>> * qemuDomainDeviceDefValidateFS in qemu_domain.c - check for the capabil=
+ity,
+>> reject this setting for virtiofs
+>
+>Good to know where that check is supposed to go to, thanks!
+>
+>> * qemuxml2xmltest addition
+>> * qemuxml2argvtest addition
+>
+>Ok, I have to read up how those tests work. AFAICS I need to add xml files=
+ to
+>their data subdirs.
+>
+>Separate patches required for those 2 tests?
 
+Usually xml2xmltest is in the same test as the XML parser/formatter
+and xml2argvtest is a part of the qemu driver patch.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Jano
+
+--yNb1oOkm5a9FJOVX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl5zm5UACgkQ+YPwO/Ma
+t50mjwf+MForC0B+csloaTXRq8y4Yeqsybsl39EL/sqUfm7tSvzuDRgmgUJ3wJ4z
+woJ3XMBdGIVEOORSWCp64tKIpvKQkD9torcFFzSsuLRkWNwltuYkuNmMfUNB18b1
+PSnywo7ARNC0z7gNi8qEmWhsPmZXidl/q4ae7z8yCFxGkomJDrDMhoJeZRlmKbPz
+7mjJlpt60IvMo/+1sh1nbDohp5kHZrgLlfht4YXskSf9rLBx8lCNLQEEsMWmUe1M
+oRVWsZS9pF8q1Jvgkx+kIW7AfeTDaZ6xosTCWfSVEY/N0siVhoCWpzX5nqQ8/OOu
+3d6m/fvb2wd20mo+xu3Ve37u9ncZLA==
+=wrZK
+-----END PGP SIGNATURE-----
+
+--yNb1oOkm5a9FJOVX--
 
 
