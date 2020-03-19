@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189B418B0EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:07:35 +0100 (CET)
-Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1127F18B0BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 11:00:55 +0100 (CET)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEs5O-00048W-5x
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51589)
+	id 1jEryv-0006yi-1a
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 06:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEs3h-0001yk-D9
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:50 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jErxO-0006DC-EF
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:59:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEs3g-00060h-1M
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34530)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEs3f-00060S-SN
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 06:05:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEs3e-0004bP-Uz
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E70A12E80AB
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:05:46 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1jErxN-0005ss-E8
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:59:18 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58660)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jErxN-0005rk-9s
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 05:59:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584611957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hg6xiXsyt2G5qWjLQhubwzMIa1N9Eg9U0DhDi0LP56Y=;
+ b=NJLHMjJT/ncXY47pvP2oEpUU8ZPT9qQkyIodYIF1OATZ6dqDnTEMHt1MfURPy/4XF2Hlid
+ RYvpF/51lHcQxhHLysuTXZH7rWLOe6MO3Y7J4ibWjTwwbcUablk4Dn7j8XYl0bOHmUAM0O
+ WTbDefR6XRBfp0Dl0MkGHVvI/P2cBho=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-dWEfYzwFOLmsRybQdazDjw-1; Thu, 19 Mar 2020 05:59:15 -0400
+X-MC-Unique: dWEfYzwFOLmsRybQdazDjw-1
+Received: by mail-wr1-f71.google.com with SMTP id f13so731480wro.23
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 02:59:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hg6xiXsyt2G5qWjLQhubwzMIa1N9Eg9U0DhDi0LP56Y=;
+ b=ckiqgHioWXn24j8sD1stCPo1yvQpwdJ9Lpx5XmqdiyKehXt3L69e5dDExgEULNzFnH
+ HcprVBgle+8Y1L6QrKjzAeNQ1ai5Ho2gw5EZGjNmAv6A/efawVh8ubqWibTKdJfc6q/W
+ 56xFeK6XQp7SDc8v5aenm8zu9YiqUxUwoh0vpgv2ca8e656xl99EvrUwpOak8M9gImut
+ OXe7mz2kwz/gniJt3A9ckFvegKdmxt0q858GFk2RPOL7tHOGidolHRTTkLlADwNNjcnI
+ p2VpScaNOnxHHQKgH+/IfL+nPG54FcX5Ms7vAZrlFPcuJNJz8gXE5v6MwIztsXaFhi5f
+ lT2w==
+X-Gm-Message-State: ANhLgQ2e98hVJIJfjQ8iqgxqv6Eny0mwU268BftpMeZCHG2zyfmCy2pl
+ Ij3Q5tmctod8SmF9xWr4epDN5nBbplYFnzPA6srfY1uAbghMlGmXWua1igW2YbssTP4TwBejQ2z
+ KZDSFvh3obo4wpuI=
+X-Received: by 2002:adf:8341:: with SMTP id 59mr3166499wrd.314.1584611954533; 
+ Thu, 19 Mar 2020 02:59:14 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsIPCU4CBTFF9g0gao1YT5KDT1sJSMSxIUqU0GrU+H9qPXRr/jLvDKpJuMATeFZHCMkEI3fJQ==
+X-Received: by 2002:adf:8341:: with SMTP id 59mr3166468wrd.314.1584611954298; 
+ Thu, 19 Mar 2020 02:59:14 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.15.43])
+ by smtp.gmail.com with ESMTPSA id c4sm2437472wml.7.2020.03.19.02.59.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Mar 2020 02:59:13 -0700 (PDT)
+Subject: Re: [PATCH 00/13] microvm: add acpi support
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200319080117.7725-1-kraxel@redhat.com>
+ <2ed586e7-d7a1-77b2-ecc6-01b6fb38d72e@redhat.com>
+ <20200319093342.m6fppq4y2qoqefpa@sirius.home.kraxel.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c93e28a0-80ec-a986-cb8f-426b84947844@redhat.com>
+Date: Thu, 19 Mar 2020 10:59:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 09:59:02 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1866870@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h paelzer tstrike34
-X-Launchpad-Bug-Reporter: tstrike (tstrike34)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158461194220.11915.10998512141124771787.malone@soybean.canonical.com>
-Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c2c8bd268b8eca6cbb5b580977c3b676445878ee
+In-Reply-To: <20200319093342.m6fppq4y2qoqefpa@sirius.home.kraxel.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,91 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turns out 1.12 is a fairly old build and the working version in Ubuntu was =
-from in Disco, therefore about a year ago.
-=3D> https://launchpad.net/ubuntu/+source/seabios/1.12.0-1/+build/16284605
+On 19/03/20 10:33, Gerd Hoffmann wrote:
+> On Thu, Mar 19, 2020 at 09:49:55AM +0100, Paolo Bonzini wrote:
+>> On 19/03/20 09:01, Gerd Hoffmann wrote:
+>>> I know that not supporting ACPI in microvm is intentional.  If you still
+>>> don't want ACPI this is perfectly fine, you can use the usual -no-acpi
+>>> switch to toggle ACPI support.
+>>
+>> Could we change -no-acpi into a "-machine acpi=..." property?  Then it
+>> can have type OnOffAuto and we can decide whether to enable it by
+>> default or not for microvm.
+> 
+> For all machine types not just microvm I guess?
 
-Therefore I built it in Eoan and even Disco.
-As an overview:
-Disco: gcc 4:8.3.0-1ubuntu3   binutils 2.32-7ubuntu4
-Eoan:  gcc 4:9.2.1-3.1ubuntu1 binutils 2.33-2ubuntu1.2
-Focal: gcc 4:9.2.1-3.1ubuntu1 binutils 2.34-4ubuntu1
+Yes, please.  Strange that no one has noticed it for all this time!
 
-I ended up with these binaries to test:
-./git-built-in-eoan/rel-1.12/bios.bin Breaks
-./git-built-in-eoan/rel-1.13/bios.bin Breaks
-./git-built-in-disco/rel-1.13/bios.bin Works
-./git-built-in-disco/rel-1.12/bios.bin Works
-./git-built-in-focal/head/bios.bin Breaks
-./git-built-in-focal/rel-1.12/bios.bin Breaks
-./git-built-in-focal/rel-1.13/bios.bin Breaks
-./packaging/disco-seabios_1.12.0-1/bios.bin Works
-./packaging/focal-seabios_1.13.0-1/bios.bin Breaks
+The main reason for not having ACPI was the time that it took to start;
+this is also why I preferred having device tree, but indeed that would
+mean no distro kernels (we could probably use U-Boot as the firmware,
+but still with a custom kernel).
 
-To summarize:
-- qemu breaks on chips of the Penryn generation
-- it only breaks if the seabios bios is executed
-- does not really depend on seabios or qemu version
-- but it depends on seabios build environment
+Paolo
 
--- =
+>> Also, can you confirm that it builds without CONFIG_I440FX and
+>> CONFIG_Q35?  You probably need to add "imply ACPI" and possibly some
+>> '#include "config-devices.h"' and '#ifdef CONFIG_ACPI' here and there.
+> 
+> Didn't try that yet, will do.
+> 
+> cheers,
+>   Gerd
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866870
-
-Title:
-  KVM Guest pauses after upgrade to Ubuntu 20.04
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Symptom:
-  Error unpausing domain: internal error: unable to execute QEMU command 'c=
-ont': Resetting the Virtual Machine is required
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
- in resume
-      self._backend.resume()
-    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
-      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
-t': Resetting the Virtual Machine is required
-
-  =
-
-  ---
-
-  As outlined here:
-  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
-
-  After upgrade, all KVM guests are in a default pause state. Even after
-  forcing them off via virsh, and restarting them the guests are paused.
-
-  These Guests are not nested.
-
-  A lot of diganostic information are outlined in the previous bug
-  report link provided. The solution mentioned in previous report had
-  been allegedly integrated into the downstream updates.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
