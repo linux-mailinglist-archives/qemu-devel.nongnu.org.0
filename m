@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2C818ADEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:07:14 +0100 (CET)
-Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821E118ADDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:03:12 +0100 (CET)
+Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEqCv-0001u6-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40947)
+	id 1jEq91-00033W-0f
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEqBd-0000Oq-7t
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:54 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jEq7Q-0001T3-6L
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEqBb-0004if-QP
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34506)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEqBa-0004gb-T9
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEqBZ-0005Ek-Ch
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:05:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5DF132E80C3
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:05:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 07:52:02 -0000
-From: Dongwhan Kim <1868055@bugs.launchpad.net>
+ (envelope-from <kraxel@redhat.com>) id 1jEq7O-0004jJ-Lt
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:31 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21677)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jEq7O-0004hG-HD
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584604890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qj3ejEU/gg4P+5ykUB0xuJBRDxEeKLVjS9+jxbSd/RI=;
+ b=IMVdpA4jP2aBBKfU/LFhuW/HTrYobPxLF2Orz4ukjqVCtoqrgKdvDeYAL0T5r5REw49iWv
+ k3Pbenvl+LFjjl1qqumYZb3b/9qu8n3y48hZhSjtlk+aMPtlOCRLf5t1beZexZk0mrhpAR
+ Q0qVAHYIdAf0gZopV+9aTHY0l6BMFWo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-5NAKUms_Oaal70I_alPGAg-1; Thu, 19 Mar 2020 04:01:27 -0400
+X-MC-Unique: 5NAKUms_Oaal70I_alPGAg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A85C800D4E;
+ Thu, 19 Mar 2020 08:01:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
+ [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60F0E5D9E2;
+ Thu, 19 Mar 2020 08:01:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9E6823BD; Thu, 19 Mar 2020 09:01:17 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eastson83
-X-Launchpad-Bug-Reporter: Dongwhan Kim (eastson83)
-X-Launchpad-Bug-Modifier: Dongwhan Kim (eastson83)
-Message-Id: <158460432256.11238.315491712700748145.malonedeb@soybean.canonical.com>
-Subject: [Bug 1868055] [NEW] cannot run golang app with docker,
- version 17.09.1-ce, disabling core 0 and qemu-arm, version 2.7.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6ce65e275262c616683a65c8cc56dc78a36ef6db
+Subject: [PATCH 00/13] microvm: add acpi support
+Date: Thu, 19 Mar 2020 09:01:04 +0100
+Message-Id: <20200319080117.7725-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,188 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868055 <1868055@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+I know that not supporting ACPI in microvm is intentional.  If you still
+don't want ACPI this is perfectly fine, you can use the usual -no-acpi
+switch to toggle ACPI support.
 
-Hello!
-I figure out that sometimes simple go application is not working.
-I am using docker + qemu-arm + go( for armv7l).
+These are the advantages you are going to loose then:
 
-These are version info below.
+  (1) virtio-mmio device discovery without command line hacks (tweaking
+      the command line is a problem when not using direct kernel boot).
+  (2) Better IO-APIC support, we can use IRQ lines 16-23.
+  (3) ACPI power button (aka powerdown request) works.
+  (4) machine poweroff (aka S5 state) works.
 
-root@VDBS1535:~# docker -v
-Docker version 17.09.1-ce, build 19e2cf6
+Together with seabios patches for virtio-mmio support this allows to
+boot standard fedora images (cloud, coreos, workstation live) with the
+microvm machine type.
 
-bash-3.2# qemu-arm --version
-qemu-arm version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the QEM=
-U Project developers
+cheers,
+  Gerd
 
-$ go version
-go version go1.12.6 linux/arm
-$ go env
-GOARCH=3D"arm"
-GOBIN=3D""
-GOCACHE=3D"/home/quickbuild/.cache/go-build"
-GOEXE=3D""
-GOFLAGS=3D""
-GOHOSTARCH=3D"arm"
-GOHOSTOS=3D"linux"
-GOOS=3D"linux"
-GOPATH=3D"/home/quickbuild/go"
-GOPROXY=3D""
-GORACE=3D""
-GOROOT=3D"/usr/lib/golang"
-GOTMPDIR=3D""
-GOTOOLDIR=3D"/usr/lib/golang/pkg/tool/linux_arm"
-GCCGO=3D"gccgo"
-GOARM=3D"7"
-CC=3D"gcc"
-CXX=3D"g++"
-CGO_ENABLED=3D"1"
-GOMOD=3D""
-CGO_CFLAGS=3D"-g -O2"
-CGO_CPPFLAGS=3D""
-CGO_CXXFLAGS=3D"-g -O2"
-CGO_FFLAGS=3D"-g -O2"
-CGO_LDFLAGS=3D"-g -O2"
-PKG_CONFIG=3D"pkg-config"
-GOGCCFLAGS=3D"-fPIC -marm -pthread -fmessage-length=3D0 -fdebug-prefix-map=
-=3D/tmp/go-build242285369=3D/tmp/go-build -gno-record-gcc-switches"
+Gerd Hoffmann (13):
+  acpi: make build_madt() more generic.
+  acpi: factor out acpi_dsdt_add_fw_cfg()
+  microvm: add isa-acpi device
+  microvm: add minimal acpi support.
+  microvm: add acpi_dsdt_add_virtio() for x86
+  microvm: disable virtio-mmio cmdline hack
+  [testing] seabios: update submodule to experimental microvm branch
+  [testing] seabios: update config & build rules
+  [testing] seabios: update binaries to experimental microvm branch
+  microvm/acpi: add rtc
+  microvm/acpi: add serial
+  microvm: make virtio irq base runtime configurable
+  microvm/acpi: use GSI 16-23 for virtio
 
-This issue is come only when I disable core 0 using a command below.
-please check "--cpuset-cpus=3D1-55" option.
+ include/hw/i386/microvm.h   |   8 +-
+ hw/acpi/isa-acpi.c          | 114 +++++++++++++++
+ hw/i386/acpi-build.c        | 278 +++++++++++++++++++++++++++++-------
+ hw/i386/microvm.c           |  32 +++--
+ hw/acpi/Makefile.objs       |   1 +
+ pc-bios/bios-256k.bin       | Bin 262144 -> 262144 bytes
+ pc-bios/bios-microvm.bin    | Bin 65536 -> 131072 bytes
+ pc-bios/bios.bin            | Bin 131072 -> 131072 bytes
+ roms/Makefile               |   5 +-
+ roms/config.seabios-128k    |   2 +
+ roms/config.seabios-microvm |  25 ++++
+ roms/seabios                |   2 +-
+ 12 files changed, 403 insertions(+), 64 deletions(-)
+ create mode 100644 hw/acpi/isa-acpi.c
+ create mode 100644 roms/config.seabios-microvm
 
-sudo docker run --privileged -d -i -t --cpuset-cpus=3D1-55 --mount
-type=3Dbind,source=3D"/home/dw83kim/mnt",destination=3D"/mnt" --network host
---name=3D"ubuntu_core1" ubuntu:xenial-20200212
+--=20
+2.18.2
 
-
-This is what I have tested in the environment above.
-
-package main
-func main(){
-    for i:=3D0; i<1000; i++ {
-        println("Hello world")
-    }
-}
-
-This is one of the error logs have faced sometimes not always.
-
-bash-3.2# go run test.go
-fatal error: schedule: holding locks
-panic during panic
-SIGILL: illegal instruction
-PC=3D0xc9ec4c m=3D3 sigcode=3D2
-
-goroutine 122 [runnable]:
-qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-Segmentation fault (core dumped)
-bash-3.2#
-
-Please check it.
-Thanks in advance.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868055
-
-Title:
-  cannot run golang app with docker, version 17.09.1-ce, disabling core
-  0 and qemu-arm, version 2.7.
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello!
-  I figure out that sometimes simple go application is not working.
-  I am using docker + qemu-arm + go( for armv7l).
-
-  These are version info below.
-
-  root@VDBS1535:~# docker -v
-  Docker version 17.09.1-ce, build 19e2cf6
-
-  bash-3.2# qemu-arm --version
-  qemu-arm version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the Q=
-EMU Project developers
-
-  $ go version
-  go version go1.12.6 linux/arm
-  $ go env
-  GOARCH=3D"arm"
-  GOBIN=3D""
-  GOCACHE=3D"/home/quickbuild/.cache/go-build"
-  GOEXE=3D""
-  GOFLAGS=3D""
-  GOHOSTARCH=3D"arm"
-  GOHOSTOS=3D"linux"
-  GOOS=3D"linux"
-  GOPATH=3D"/home/quickbuild/go"
-  GOPROXY=3D""
-  GORACE=3D""
-  GOROOT=3D"/usr/lib/golang"
-  GOTMPDIR=3D""
-  GOTOOLDIR=3D"/usr/lib/golang/pkg/tool/linux_arm"
-  GCCGO=3D"gccgo"
-  GOARM=3D"7"
-  CC=3D"gcc"
-  CXX=3D"g++"
-  CGO_ENABLED=3D"1"
-  GOMOD=3D""
-  CGO_CFLAGS=3D"-g -O2"
-  CGO_CPPFLAGS=3D""
-  CGO_CXXFLAGS=3D"-g -O2"
-  CGO_FFLAGS=3D"-g -O2"
-  CGO_LDFLAGS=3D"-g -O2"
-  PKG_CONFIG=3D"pkg-config"
-  GOGCCFLAGS=3D"-fPIC -marm -pthread -fmessage-length=3D0 -fdebug-prefix-ma=
-p=3D/tmp/go-build242285369=3D/tmp/go-build -gno-record-gcc-switches"
-
-  This issue is come only when I disable core 0 using a command below.
-  please check "--cpuset-cpus=3D1-55" option.
-
-  sudo docker run --privileged -d -i -t --cpuset-cpus=3D1-55 --mount
-  type=3Dbind,source=3D"/home/dw83kim/mnt",destination=3D"/mnt" --network h=
-ost
-  --name=3D"ubuntu_core1" ubuntu:xenial-20200212
-
-  =
-
-  This is what I have tested in the environment above.
-
-  package main
-  func main(){
-      for i:=3D0; i<1000; i++ {
-          println("Hello world")
-      }
-  }
-
-  This is one of the error logs have faced sometimes not always.
-
-  bash-3.2# go run test.go
-  fatal error: schedule: holding locks
-  panic during panic
-  SIGILL: illegal instruction
-  PC=3D0xc9ec4c m=3D3 sigcode=3D2
-
-  goroutine 122 [runnable]:
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
-  bash-3.2#
-
-  Please check it.
-  Thanks in advance.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868055/+subscriptions
 
