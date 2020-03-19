@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9664B18AD15
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 08:02:40 +0100 (CET)
-Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2C818ADEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:07:14 +0100 (CET)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEpCR-0001GG-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 03:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
+	id 1jEqCv-0001u6-Ra
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jEpBL-0000q3-4X
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 03:01:32 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEqBd-0000Oq-7t
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jEpBJ-0003a0-E2
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 03:01:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54040)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jEpBJ-0003Y6-99
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 03:01:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584601288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HQGnhuPWkiyxBaYlw7XMm3vhxrUCyibzC+CGqCTjaRE=;
- b=J5ystxaYkc9GI1Lg2QLry9GPGeAR9WcoClpFRrbdW9dFv4DMrTc6o/+rwZciQ0MYiIpUQS
- hEV0YK8ozuq8+MqHxIIabeeSKbuN9kAYih82laOB0Mrs4jogertQXQ7s/WvqRXqrRUwGgs
- 6T6F974iLwIeBxFthYSMWlkxTwAATno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-5fVzutVBNUyyZmE9VvWFKQ-1; Thu, 19 Mar 2020 03:01:24 -0400
-X-MC-Unique: 5fVzutVBNUyyZmE9VvWFKQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A0F9107ACCA;
- Thu, 19 Mar 2020 07:01:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
- [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 478E862673;
- Thu, 19 Mar 2020 07:01:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9EF041138404; Thu, 19 Mar 2020 08:01:19 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
- in mac_via
-References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <20200305065422.12707-3-pannengyuan@huawei.com>
- <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
- <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
- <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
- <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
- <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
- <871rq08tn9.fsf@dusky.pond.sub.org>
- <eca27715-554d-2c2e-5e58-ffd01abb654c@ilande.co.uk>
- <e1ae65dd-f9cd-b0ee-0ea6-f3c2b010fdab@redhat.com>
- <87tv2p8y5j.fsf@dusky.pond.sub.org>
- <3f512e33-5875-eee4-bbe8-61e7b313743d@redhat.com>
- <87mu8g3kgj.fsf@dusky.pond.sub.org>
- <bd83fe53-6541-b04d-04d9-76ddd29e2b99@redhat.com>
- <875zf1ak9e.fsf@dusky.pond.sub.org>
- <d94927af-eb46-f704-6658-e3f321c4d8ed@redhat.com>
- <87d0997lei.fsf@dusky.pond.sub.org>
- <37da8765-267e-948b-a96f-24c43be7573f@redhat.com>
-Date: Thu, 19 Mar 2020 08:01:19 +0100
-In-Reply-To: <37da8765-267e-948b-a96f-24c43be7573f@redhat.com> (Paolo
- Bonzini's message of "Wed, 18 Mar 2020 17:44:36 +0100")
-Message-ID: <87v9n025hc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1jEqBb-0004if-QP
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34506)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jEqBa-0004gb-T9
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:05:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jEqBZ-0005Ek-Ch
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:05:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5DF132E80C3
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:05:49 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Mar 2020 07:52:02 -0000
+From: Dongwhan Kim <1868055@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eastson83
+X-Launchpad-Bug-Reporter: Dongwhan Kim (eastson83)
+X-Launchpad-Bug-Modifier: Dongwhan Kim (eastson83)
+Message-Id: <158460432256.11238.315491712700748145.malonedeb@soybean.canonical.com>
+Subject: [Bug 1868055] [NEW] cannot run golang app with docker,
+ version 17.09.1-ce, disabling core 0 and qemu-arm, version 2.7.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6ce65e275262c616683a65c8cc56dc78a36ef6db
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,108 +64,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pan Nengyuan <pannengyuan@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1868055 <1868055@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Public bug reported:
 
-> On 18/03/20 16:06, Markus Armbruster wrote:
->>> - object initialization should cause no side effects outside the subtre=
-e
->>> of the object
->>=20
->> object_initialize_child() and its users like sysbus_init_child_obj()
->> violate this rule: they add a child property to the subtree's parent.
->> Correct?
->
-> At least object_initialize_child() adds the property to the object
-> itself, so it's fine.
+Hello!
+I figure out that sometimes simple go application is not working.
+I am using docker + qemu-arm + go( for armv7l).
 
-It seems to
+These are version info below.
 
-1. Initialize @childobj
-2. Set a bunch of properties
-3. Add the child property to @parentobj
-4. Call .complete() if it's a TYPE_USER_CREATABLE
-5. Adjust reference count
+root@VDBS1535:~# docker -v
+Docker version 17.09.1-ce, build 19e2cf6
 
-Step 3. modifies outside the sub-tree rooted at @childobj.  What am I
-missing?
+bash-3.2# qemu-arm --version
+qemu-arm version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the QEM=
+U Project developers
 
-Hmm, maybe this: using object_initialize_child() when initializing
-@parentobj is fine; while object_initialize_child() leaves the sub-tree
-rooted at @childobj, it still stays within the sub-tree rooted at
-@parentobj.
+$ go version
+go version go1.12.6 linux/arm
+$ go env
+GOARCH=3D"arm"
+GOBIN=3D""
+GOCACHE=3D"/home/quickbuild/.cache/go-build"
+GOEXE=3D""
+GOFLAGS=3D""
+GOHOSTARCH=3D"arm"
+GOHOSTOS=3D"linux"
+GOOS=3D"linux"
+GOPATH=3D"/home/quickbuild/go"
+GOPROXY=3D""
+GORACE=3D""
+GOROOT=3D"/usr/lib/golang"
+GOTMPDIR=3D""
+GOTOOLDIR=3D"/usr/lib/golang/pkg/tool/linux_arm"
+GCCGO=3D"gccgo"
+GOARM=3D"7"
+CC=3D"gcc"
+CXX=3D"g++"
+CGO_ENABLED=3D"1"
+GOMOD=3D""
+CGO_CFLAGS=3D"-g -O2"
+CGO_CPPFLAGS=3D""
+CGO_CXXFLAGS=3D"-g -O2"
+CGO_FFLAGS=3D"-g -O2"
+CGO_LDFLAGS=3D"-g -O2"
+PKG_CONFIG=3D"pkg-config"
+GOGCCFLAGS=3D"-fPIC -marm -pthread -fmessage-length=3D0 -fdebug-prefix-map=
+=3D/tmp/go-build242285369=3D/tmp/go-build -gno-record-gcc-switches"
 
-If this is how the function must be used, its contract should spell it
-out!
+This issue is come only when I disable core 0 using a command below.
+please check "--cpuset-cpus=3D1-55" option.
 
-A review of existing uses for misuses may be in order.
+sudo docker run --privileged -d -i -t --cpuset-cpus=3D1-55 --mount
+type=3Dbind,source=3D"/home/dw83kim/mnt",destination=3D"/mnt" --network host
+--name=3D"ubuntu_core1" ubuntu:xenial-20200212
 
-> sysbus_init_child_obj() adds a link to the object to the sysbus object
-> (via qdev_set_parent_bus/bus_add_child).  This does violate the rule.
-> However, currently we have:
->
-> - create link on qdev_set_parent_bus, before realizing
->
-> - remove link on device_unparent, after unrealizing
 
-By "create link", do you mean bus_add_child() in qdev_set_parent_bus()?
+This is what I have tested in the environment above.
 
-By "remove link", do you mean bus_remove_child() in device_unparent()?
+package main
+func main(){
+    for i:=3D0; i<1000; i++ {
+        println("Hello world")
+    }
+}
 
-> which makes the device setup even more complicated than necessary.  In
-> other words I don't think the bug is in the function, instead it
-> probably makes sense to do something else:
->
-> - create link in device_set_realized, before calling ->pre_plug (undo on
-> failure)
->
-> - remove link in device_set_realized, after calling ->unrealize (if it
-> succeeds)
->
-> and leave sysbus_init_child_obj() as is.
+This is one of the error logs have faced sometimes not always.
 
-I'm barely following you.  Me reviewing an actual patch could help.
+bash-3.2# go run test.go
+fatal error: schedule: holding locks
+panic during panic
+SIGILL: illegal instruction
+PC=3D0xc9ec4c m=3D3 sigcode=3D2
 
->>> - setting properties can cause side effects outside the subtree of the
->>> object (e.g. marking an object as "in use"), but they must be undone by
->>> finalization.
->>=20
->> Textbook example is the 1:1 connection between device frontend and
->> backend: block frontend's property "drive", char frontend's property
->> "chardev", NIC frontend property "netdev", ...
->>=20
->> Can we come up with some guardrails for what property setting may do?
->> Affecting guest-visible state is off limits.  What else is?
->
-> Yes, guest-visible state is off limits until realization.
->
->>> - realization can also cause side effects outside the subtree of the
->>> object, but if unrealization is possible, they must be undone by
->>> unrealization. if an object is realized and unrealization is not
->>> possible, finalization will never run (and in that case, side effects o=
-f
->>> realization need not be undone at all).
->>=20
->> One possible answer the question what should be done in realize() is
->> whatever must not be done earlier.  Is that the best we can do?
->
-> That's the lower bound of descriptivity.  The upper bound is anything
-> that is visible from the guest.  The truth could be in the middle.
+goroutine 122 [runnable]:
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+Segmentation fault (core dumped)
+bash-3.2#
 
-Can we set aside a bit of time to write docs/devel/qom.rst together?  I
-know object.h is lovingly commented, but unless you already know how QOM
-works, you're drowning in detail there.  You'd have to provide most of
-the contents, I'm afraid, because you know so much more about it.  Could
-save you time in the long run, though: fewer questions to answer, fewer
-mistakes to correct.
+Please check it.
+Thanks in advance.
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868055
+
+Title:
+  cannot run golang app with docker, version 17.09.1-ce, disabling core
+  0 and qemu-arm, version 2.7.
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello!
+  I figure out that sometimes simple go application is not working.
+  I am using docker + qemu-arm + go( for armv7l).
+
+  These are version info below.
+
+  root@VDBS1535:~# docker -v
+  Docker version 17.09.1-ce, build 19e2cf6
+
+  bash-3.2# qemu-arm --version
+  qemu-arm version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the Q=
+EMU Project developers
+
+  $ go version
+  go version go1.12.6 linux/arm
+  $ go env
+  GOARCH=3D"arm"
+  GOBIN=3D""
+  GOCACHE=3D"/home/quickbuild/.cache/go-build"
+  GOEXE=3D""
+  GOFLAGS=3D""
+  GOHOSTARCH=3D"arm"
+  GOHOSTOS=3D"linux"
+  GOOS=3D"linux"
+  GOPATH=3D"/home/quickbuild/go"
+  GOPROXY=3D""
+  GORACE=3D""
+  GOROOT=3D"/usr/lib/golang"
+  GOTMPDIR=3D""
+  GOTOOLDIR=3D"/usr/lib/golang/pkg/tool/linux_arm"
+  GCCGO=3D"gccgo"
+  GOARM=3D"7"
+  CC=3D"gcc"
+  CXX=3D"g++"
+  CGO_ENABLED=3D"1"
+  GOMOD=3D""
+  CGO_CFLAGS=3D"-g -O2"
+  CGO_CPPFLAGS=3D""
+  CGO_CXXFLAGS=3D"-g -O2"
+  CGO_FFLAGS=3D"-g -O2"
+  CGO_LDFLAGS=3D"-g -O2"
+  PKG_CONFIG=3D"pkg-config"
+  GOGCCFLAGS=3D"-fPIC -marm -pthread -fmessage-length=3D0 -fdebug-prefix-ma=
+p=3D/tmp/go-build242285369=3D/tmp/go-build -gno-record-gcc-switches"
+
+  This issue is come only when I disable core 0 using a command below.
+  please check "--cpuset-cpus=3D1-55" option.
+
+  sudo docker run --privileged -d -i -t --cpuset-cpus=3D1-55 --mount
+  type=3Dbind,source=3D"/home/dw83kim/mnt",destination=3D"/mnt" --network h=
+ost
+  --name=3D"ubuntu_core1" ubuntu:xenial-20200212
+
+  =
+
+  This is what I have tested in the environment above.
+
+  package main
+  func main(){
+      for i:=3D0; i<1000; i++ {
+          println("Hello world")
+      }
+  }
+
+  This is one of the error logs have faced sometimes not always.
+
+  bash-3.2# go run test.go
+  fatal error: schedule: holding locks
+  panic during panic
+  SIGILL: illegal instruction
+  PC=3D0xc9ec4c m=3D3 sigcode=3D2
+
+  goroutine 122 [runnable]:
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault (core dumped)
+  bash-3.2#
+
+  Please check it.
+  Thanks in advance.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868055/+subscriptions
 
