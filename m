@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8797F18C1D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:51:46 +0100 (CET)
-Received: from localhost ([::1]:43036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55BD18C1F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:57:01 +0100 (CET)
+Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF28n-0001Fp-Ib
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42577)
+	id 1jF2Dt-0000fw-0N
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jF27a-00085z-5G
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:31 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jF27h-0008K2-6O
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jF27Z-0003Ah-3D
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:30 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16425)
+ (envelope-from <kwankhede@nvidia.com>) id 1jF27f-0003Ng-Q3
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:37 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15272)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jF27Y-00038M-Ti
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:29 -0400
+ id 1jF27f-0003Kz-Ik
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:50:35 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e73db060000>; Thu, 19 Mar 2020 13:50:14 -0700
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e73dae80001>; Thu, 19 Mar 2020 13:49:44 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 19 Mar 2020 13:50:27 -0700
+ Thu, 19 Mar 2020 13:50:34 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 13:50:27 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
- 2020 20:50:27 +0000
+ by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 13:50:34 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
+ 2020 20:50:34 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 19 Mar 2020 20:50:21 +0000
+ Transport; Thu, 19 Mar 2020 20:50:27 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v15 Kernel 2/7] vfio iommu: Remove atomicity of ref_count of
- pinned pages
-Date: Fri, 20 Mar 2020 01:46:39 +0530
-Message-ID: <1584649004-8285-3-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v15 Kernel 3/7] vfio iommu: Add ioctl definition for dirty
+ pages tracking.
+Date: Fri, 20 Mar 2020 01:46:40 +0530
+Message-ID: <1584649004-8285-4-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1584649004-8285-1-git-send-email-kwankhede@nvidia.com>
 References: <1584649004-8285-1-git-send-email-kwankhede@nvidia.com>
@@ -48,18 +48,18 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1584651014; bh=FmWokxxjiCUtfWFsp/qhJhc5S4LlTS5Wm3eAxSnwrTA=;
+ t=1584650984; bh=I7YWs8dDZjl3NY6xpUPXFsPSPCyfndS53bY0A+n0xfs=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=fwAiUI1hZ0/nPvWTEtZeUftmL1+m/vDXGkQTiX1O+YT4VfIgLB5gHIdVqisDufLJZ
- 05VP3+cW6RbLaObx3w8Y8HoSjKn0DqTGuWOx44wAfDfBMoQGbkIIODrU9VJrd41Plp
- unHw2RgBL541yCgXMPM1BwunEUbwfn7jrTeg2kixeQWvKHMcX31D3bxJD5pkfI+lNu
- XJhBrZgfGUTj3thUPzheor2eg77JkChjN0Le787bqbliV8m7eksN6CmFFMJhFiTE47
- cwVHma5LV1Koc+oLIOh/j71SXAr63b+Uf4jOMykF+Axhv8nJa35pZ3F3wQF1/hADoA
- Csg5JDnFYZe6A==
+ b=IgfGjZvRgk4O+GaWK+CXiYQPaLOl/viNpXPwWv0CkjNlOC8hbgf96gAhTNJ6hTjWs
+ RXpCwknUwIhJB1/nOCuR9/xE/+lTqL7AJPRXNDixZEuQ9p9C6dRF+vsNf7bZkCb57t
+ O5eGeci0xFrx26uMBGXqswWbyguiDvG7sdT1FKA7GQn0tTirZYF3ZIZI3NKw2WYLFQ
+ FsunIaNhvyYnRqHQ7QSctLm7TmPw6SXOb3RfklRQev+3CEptDAr3Yzi5Q8sUUNxF3r
+ xOqUuAxs2RYEBiFHJqtV6loDa5jy5pLrozAMUQ0K7bMCepzeMHGkOoZkJ/PL6uwn1S
+ 3bLPAtIa2R+/g==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.65
+X-Received-From: 216.228.121.64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,56 +81,92 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vfio_pfn.ref_count is always updated by holding iommu->lock, using atomic
-variable is overkill.
+IOMMU container maintains a list of all pages pinned by vfio_pin_pages API.
+All pages pinned by vendor driver through this API should be considered as
+dirty during migration. When container consists of IOMMU capable device and
+all pages are pinned and mapped, then all pages are marked dirty.
+Added support to start/stop dirtied pages tracking and to get bitmap of all
+dirtied pages for requested IO virtual address range.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- drivers/vfio/vfio_iommu_type1.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/uapi/linux/vfio.h | 55 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 9fdfae1cb17a..70aeab921d0f 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -112,7 +112,7 @@ struct vfio_pfn {
- 	struct rb_node		node;
- 	dma_addr_t		iova;		/* Device address */
- 	unsigned long		pfn;		/* Host pfn */
--	atomic_t		ref_count;
-+	unsigned int		ref_count;
- };
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index d0021467af53..8138f94cac15 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -995,6 +995,12 @@ struct vfio_iommu_type1_dma_map {
  
- struct vfio_regions {
-@@ -233,7 +233,7 @@ static int vfio_add_to_pfn_list(struct vfio_dma *dma, dma_addr_t iova,
+ #define VFIO_IOMMU_MAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 13)
  
- 	vpfn->iova = iova;
- 	vpfn->pfn = pfn;
--	atomic_set(&vpfn->ref_count, 1);
-+	vpfn->ref_count = 1;
- 	vfio_link_pfn(dma, vpfn);
- 	return 0;
- }
-@@ -251,7 +251,7 @@ static struct vfio_pfn *vfio_iova_get_vfio_pfn(struct vfio_dma *dma,
- 	struct vfio_pfn *vpfn = vfio_find_vpfn(dma, iova);
++struct vfio_bitmap {
++	__u64        pgsize;	/* page size for bitmap */
++	__u64        size;	/* in bytes */
++	__u64 __user *data;	/* one bit per page */
++};
++
+ /**
+  * VFIO_IOMMU_UNMAP_DMA - _IOWR(VFIO_TYPE, VFIO_BASE + 14,
+  *							struct vfio_dma_unmap)
+@@ -1021,6 +1027,55 @@ struct vfio_iommu_type1_dma_unmap {
+ #define VFIO_IOMMU_ENABLE	_IO(VFIO_TYPE, VFIO_BASE + 15)
+ #define VFIO_IOMMU_DISABLE	_IO(VFIO_TYPE, VFIO_BASE + 16)
  
- 	if (vpfn)
--		atomic_inc(&vpfn->ref_count);
-+		vpfn->ref_count++;
- 	return vpfn;
- }
++/**
++ * VFIO_IOMMU_DIRTY_PAGES - _IOWR(VFIO_TYPE, VFIO_BASE + 17,
++ *                                     struct vfio_iommu_type1_dirty_bitmap)
++ * IOCTL is used for dirty pages tracking. Caller sets argsz, which is size of
++ * struct vfio_iommu_type1_dirty_bitmap. Caller set flag depend on which
++ * operation to perform, details as below:
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_START set, indicates
++ * migration is active and IOMMU module should track pages which are dirtied or
++ * potentially dirtied by device.
++ * Dirty pages are tracked until tracking is stopped by user application by
++ * setting VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP flag.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP set, indicates
++ * IOMMU should stop tracking dirtied pages.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set,
++ * IOCTL returns dirty pages bitmap for IOMMU container during migration for
++ * given IOVA range. User must provide data[] as the structure
++ * vfio_iommu_type1_dirty_bitmap_get through which user provides IOVA range and
++ * pgsize. This interface supports to get bitmap of smallest supported pgsize
++ * only and can be modified in future to get bitmap of specified pgsize.
++ * User must allocate memory for bitmap, zero the bitmap memory and set size
++ * of allocated memory in bitmap_size field. One bit is used to represent one
++ * page consecutively starting from iova offset. User should provide page size
++ * in 'pgsize'. Bit set in bitmap indicates page at that offset from iova is
++ * dirty. Caller must set argsz including size of structure
++ * vfio_iommu_type1_dirty_bitmap_get.
++ *
++ * Only one of the flags _START, STOP and _GET may be specified at a time.
++ *
++ */
++struct vfio_iommu_type1_dirty_bitmap {
++	__u32        argsz;
++	__u32        flags;
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_START	(1 << 0)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP	(1 << 1)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP	(1 << 2)
++	__u8         data[];
++};
++
++struct vfio_iommu_type1_dirty_bitmap_get {
++	__u64              iova;	/* IO virtual address */
++	__u64              size;	/* Size of iova range */
++	struct vfio_bitmap bitmap;
++};
++
++#define VFIO_IOMMU_DIRTY_PAGES             _IO(VFIO_TYPE, VFIO_BASE + 17)
++
+ /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
  
-@@ -259,7 +259,8 @@ static int vfio_iova_put_vfio_pfn(struct vfio_dma *dma, struct vfio_pfn *vpfn)
- {
- 	int ret = 0;
- 
--	if (atomic_dec_and_test(&vpfn->ref_count)) {
-+	vpfn->ref_count--;
-+	if (!vpfn->ref_count) {
- 		ret = put_pfn(vpfn->pfn, dma->prot);
- 		vfio_remove_from_pfn_list(dma, vpfn);
- 	}
+ /*
 -- 
 2.7.0
 
