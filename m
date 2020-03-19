@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D7418BED8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 19:00:01 +0100 (CET)
-Received: from localhost ([::1]:41400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E84818BF23
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 19:15:23 +0100 (CET)
+Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEzSa-0001Dn-Oj
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 14:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40981)
+	id 1jEzhS-0002qL-FU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 14:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1jEzRb-0000lL-9y
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:59:00 -0400
+ (envelope-from <imbrenda@linux.ibm.com>) id 1jEzgJ-0002Gt-Vs
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 14:14:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1jEzRa-000815-2B
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:58:59 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:60927)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1jEzRZ-0007zV-Ua
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:58:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584640737;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ttjd02UuqlmcqFt8C88E+IiGbJtota4iold6BuQL+Ik=;
- b=AeVTAqNbVTOFl0UYiI86IcHdrr/w3zYINMPpkcNN+ayNpsVG0qpYuNNv7K5V7da40vBDl/
- A0Ck2IVOKkfOWm7/yHXFBbNosrrCJSUt119oOJmarxI3MdBsWK0G0K+/MxsBO9LMtG1WMf
- KLAV6OGIRIjf+gcZWwTLSrg1UcE3/cM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-Ln9yMNrLO4mUrBQOQI3U0w-1; Thu, 19 Mar 2020 13:58:54 -0400
-X-MC-Unique: Ln9yMNrLO4mUrBQOQI3U0w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A426E107ACC9;
- Thu, 19 Mar 2020 17:58:53 +0000 (UTC)
-Received: from redhat.com (ovpn-114-9.ams2.redhat.com [10.36.114.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E2E919C58;
- Thu, 19 Mar 2020 17:58:50 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v5 7/7] virtio-net: add migration support for RSS and hash
- report
-In-Reply-To: <CAOEp5Odhjr6h7erYz_VchjRF98-SNt27RW_T_ao7P0nwc-0ebg@mail.gmail.com>
- (Yuri Benditovich's message of "Thu, 19 Mar 2020 19:19:26 +0200")
-References: <20200318091525.27044-1-yuri.benditovich@daynix.com>
- <20200318091525.27044-8-yuri.benditovich@daynix.com>
- <20200318104826.GF2850@work-vm>
- <CAOEp5Odhjr6h7erYz_VchjRF98-SNt27RW_T_ao7P0nwc-0ebg@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Thu, 19 Mar 2020 18:58:46 +0100
-Message-ID: <87y2rwdy5l.fsf@secure.laptop>
+ (envelope-from <imbrenda@linux.ibm.com>) id 1jEzgI-0005jI-RH
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 14:14:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2732)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1jEzgI-0005ij-Ic
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 14:14:10 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02JI2rHv069070
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 14:14:09 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yu8aepd2n-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 14:14:08 -0400
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <imbrenda@linux.ibm.com>;
+ Thu, 19 Mar 2020 18:14:06 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 19 Mar 2020 18:14:02 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02JIE1WY29491704
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Mar 2020 18:14:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6878CAE045;
+ Thu, 19 Mar 2020 18:14:01 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0C96EAE04D;
+ Thu, 19 Mar 2020 18:14:01 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.145.97.199])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Mar 2020 18:14:00 +0000 (GMT)
+Date: Thu, 19 Mar 2020 13:42:33 +0100
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v10 01/16] s390x: Move diagnose 308 subcodes and rcs
+ into ipl.h
+In-Reply-To: <20200318143047.2335-2-frankja@linux.ibm.com>
+References: <20200318143047.2335-1-frankja@linux.ibm.com>
+ <20200318143047.2335-2-frankja@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031918-0028-0000-0000-000003E7B4F9
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031918-0029-0000-0000-000024AD1141
+Message-Id: <20200319134233.238a60fe@p-imbrenda>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-19_06:2020-03-19,
+ 2020-03-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ malwarescore=0 impostorscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003190074
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,101 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 18 Mar 2020 10:30:32 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Hi Yuri
+> They are part of the IPL process, so let's put them into the ipl
+> header.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 
-Yuri Benditovich <yuri.benditovich@daynix.com> wrote:
-> On Wed, Mar 18, 2020 at 12:48 PM Dr. David Alan Gilbert <dgilbert@redhat.=
-com>
-> wrote:
->
->  * Yuri Benditovich (yuri.benditovich@daynix.com) wrote:
->  > Save and restore RSS/hash report configuration.
->  >=20
->  > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
->  > ---
->  >  hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
->  >  1 file changed, 26 insertions(+)
->  >=20
->  > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->  > index a0614ad4e6..0b058aae9f 100644
->  > --- a/hw/net/virtio-net.c
->  > +++ b/hw/net/virtio-net.c
->  > @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void
->  *opaque, int version_id)
->  >          }
->  >      }
->  > =20
->  > +    if (n->rss_data.enabled) {
->  > +        trace_virtio_net_rss_enable(n->rss_data.hash_types,
->  > +                                    n->rss_data.indirections_len,
->  > +                                    sizeof(n->rss_data.key));
->  > +    } else {
->  > +        trace_virtio_net_rss_disable();
->  > +    }
 
-This is the bigger "abuser" that I have ever seen for a post_load
-function.  Just to add a trace depending on a value O:-)
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
->  >      return 0;
->  >  }
->  > =20
->  > @@ -3019,6 +3026,24 @@ static const VMStateDescription
->  vmstate_virtio_net_has_vnet =3D {
->  >      },
->  >  };
->  > =20
->  > +static const VMStateDescription vmstate_rss =3D {
->  > +    .name      =3D "vmstate_rss",
->
->  You need to do something to avoid breaking migration compatibility
->  from/to old QEMU's and from/to QEMU's on hosts without the new virtio
->  features.
->  Probably adding a .needed =3D   here pointing to a function that
->  checks 'enabled' might do it.
->
-> Does VMSTATE_STRUCT_TEST(..,..,checker_procedure,...) result the same thi=
-ng?
 
-It is just a similar thing, not the same.
-If you add a new field, you need to increase the version number.  And
-that make backward compatibility really annoying.
-With subsections, you can make it work correctly with old versions
-always that you don't use rss.
-
-> Another question about migration support:
-> What is expected/required behavior?
-> Possible cases:
-> old qemu -> new qemu
-
-That should always work.
-If you use an optional subsection this works for free.  Old qemu has no
-rss subsection.
-
-> new qemu (new feature off) -> old qemu
-
-This is desirable.  And with the optional subsection it just works, no
-chang eneeded.
-
-> new qemu (new feature on) -> old qemu
-
-This obviosly will not work, and we are fine.  There will appear a new
-subsection that old qemu don't undertand.  Destination will give one
-error and give up.
-
-For one example, just look at something like:
-
-hw/virtio/virtio.c:: vmstate_virtio
-
-There are lots of subscitnsios there.
-
-Later, Juan.
+> ---
+>  hw/s390x/ipl.h      | 11 +++++++++++
+>  target/s390x/diag.c | 11 -----------
+>  2 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+> index 3e44abe1c651d8a0..a5665e6bfde2e8cf 100644
+> --- a/hw/s390x/ipl.h
+> +++ b/hw/s390x/ipl.h
+> @@ -159,6 +159,17 @@ struct S390IPLState {
+>  typedef struct S390IPLState S390IPLState;
+>  QEMU_BUILD_BUG_MSG(offsetof(S390IPLState, iplb) & 3, "alignment of
+> iplb wrong"); 
+> +#define DIAG_308_RC_OK              0x0001
+> +#define DIAG_308_RC_NO_CONF         0x0102
+> +#define DIAG_308_RC_INVALID         0x0402
+> +
+> +#define DIAG308_RESET_MOD_CLR       0
+> +#define DIAG308_RESET_LOAD_NORM     1
+> +#define DIAG308_LOAD_CLEAR          3
+> +#define DIAG308_LOAD_NORMAL_DUMP    4
+> +#define DIAG308_SET                 5
+> +#define DIAG308_STORE               6
+> +
+>  #define S390_IPL_TYPE_FCP 0x00
+>  #define S390_IPL_TYPE_CCW 0x02
+>  #define S390_IPL_TYPE_QEMU_SCSI 0xff
+> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+> index 54e5670b3fd6d960..8aba6341f94848e1 100644
+> --- a/target/s390x/diag.c
+> +++ b/target/s390x/diag.c
+> @@ -49,17 +49,6 @@ int handle_diag_288(CPUS390XState *env, uint64_t
+> r1, uint64_t r3) return diag288_class->handle_timer(diag288, func,
+> timeout); }
+>  
+> -#define DIAG_308_RC_OK              0x0001
+> -#define DIAG_308_RC_NO_CONF         0x0102
+> -#define DIAG_308_RC_INVALID         0x0402
+> -
+> -#define DIAG308_RESET_MOD_CLR       0
+> -#define DIAG308_RESET_LOAD_NORM     1
+> -#define DIAG308_LOAD_CLEAR          3
+> -#define DIAG308_LOAD_NORMAL_DUMP    4
+> -#define DIAG308_SET                 5
+> -#define DIAG308_STORE               6
+> -
+>  static int diag308_parm_check(CPUS390XState *env, uint64_t r1,
+> uint64_t addr, uintptr_t ra, bool write)
+>  {
 
 
