@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C7118C135
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:20:06 +0100 (CET)
-Received: from localhost ([::1]:42564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C314E18C157
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:26:38 +0100 (CET)
+Received: from localhost ([::1]:42631 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF1e9-0000y5-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36777)
+	id 1jF1kT-0003tw-SH
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:26:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jF1d8-0000YH-Ft
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:19:04 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jF1jN-0003Cv-Tw
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:25:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jF1d6-0000CY-NT
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:19:02 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:42389)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jF1d6-0000CI-JS; Thu, 19 Mar 2020 16:19:00 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id i25so2565021vsq.9;
- Thu, 19 Mar 2020 13:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RLUle+BrXsLKU1wdhS9fqQe6Wxwvu4uf/cuSQFm9c/w=;
- b=jQvY1BWo+hmKYqdY3WjQ2reu6zwMfxYnQDCD4/1oOuuW2URCfNMlOV7ZyLsRZwjIjA
- YvZuj8HuLA/x+8DP9nHRzN8tIuYxtYTOuiB0/8AOiXOVzrrBf8BkvseiWuLjfhMZafI3
- u4EM49ILrYho0fJih48TAwfG9BWPTw7T/z11nwjCGBAolUfRs4vGkTbRK5K8seKdJws9
- wEndq/JRwDoUIqkFIy/GQVZHboDJUKDHLgKM50paoU0jk5FclcP3y0xpM+s8PnzVm7ab
- 7Dbiw/bU1JGaFpchb9lGSahjpMgTeo6b/v9xt021ZLop4PA+j/tRAxMXXNkbnVy/Ua7m
- 7APw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RLUle+BrXsLKU1wdhS9fqQe6Wxwvu4uf/cuSQFm9c/w=;
- b=LbDS31C1dUZfOGy0vTzi2Jy+DBPvrEF7TRpjT9vNT0a++3XCuua8DnF7UxyWIfTaNY
- /ekkupudIK68ZCOcnQ7G+GL1eyDvadMiQuXj6vXg6XGP5g/m/WpB00oJjJ1b80km/s3Y
- seZhDyqJTsPNLUD+CEcAE54c2tLh2knFWrVRXg++FJXhWk1DGnnSTNazZmK536wDqYkT
- GdZZZKcVsk0dJ1zZrbPTykpX4BCa2JiIpV4772jfqRH/L86RMNmi9SIkX/1aSZ8268An
- x2mxpX4bz7TUcEqjIWccNRCvl6QXJJFJq6khj8bB1FeN61hfRahR+eMNPevEqdPCy9jj
- f0Nw==
-X-Gm-Message-State: ANhLgQ0mT2jaEjh/G8gMgpLchDFWxXl8VMDXer/V24HtCa7I2dJzJdwF
- txIyUSHSIPSSJFHE6BcgFESNxdWv+yEC7uM8Bng=
-X-Google-Smtp-Source: ADFU+vuqgkolwrQTdi9sT20jOtSh3YbNgNTA8kRyL5eLgZ0DTsriQguF9nh9snbnCCoYE9K1dUVsXbSfj9BD4rbXXBQ=
-X-Received: by 2002:a67:26c2:: with SMTP id m185mr3857812vsm.180.1584649139720; 
- Thu, 19 Mar 2020 13:18:59 -0700 (PDT)
+ (envelope-from <kwankhede@nvidia.com>) id 1jF1jK-0000Td-U6
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:25:29 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9024)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1jF1jJ-0000GG-50
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:25:26 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e73d5260000>; Thu, 19 Mar 2020 13:25:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 19 Mar 2020 13:25:23 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 13:25:23 -0700
+Received: from [10.40.102.54] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
+ 2020 20:25:14 +0000
+Subject: Re: [PATCH v14 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1584560474-19946-1-git-send-email-kwankhede@nvidia.com>
+ <1584560474-19946-5-git-send-email-kwankhede@nvidia.com>
+ <20200318214500.1a0cb985@w520.home>
+ <e0070cf4-af58-2906-b427-0888ecb89538@nvidia.com>
+ <20200319102238.77686a08@w520.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <8e537411-b60e-cc45-498c-5e516382206e@nvidia.com>
+Date: Fri, 20 Mar 2020 01:55:10 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-15-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-15-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Mar 2020 13:10:57 -0700
-Message-ID: <CAKmqyKNQQS0GmZS-8T52uOfPoadrX4pTg4AepKRf235zWDLT7A@mail.gmail.com>
-Subject: Re: [PATCH v6 14/61] target/riscv: vector single-width bit shift
- instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e43
+In-Reply-To: <20200319102238.77686a08@w520.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584649510; bh=x7i8QtLfAseF52v4fyGyBaaNiiKUfP8Yw3d6ILWuXNA=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=ceHPQzEf0GB16z5/jaC/mJzemnbL0F6IBcSzY2P/hXjR7AhKY3HAJ/Vju57U7NIqR
+ +F0DLxcSASh5BHLKrbj/tr9N5WunMK9/7Ey3SfW7WeAF0RmEz09eLEZPXdkhQIrRkP
+ iOZ+pjJvn0WPjWSt+SC1J4thsZNFSA5iPXWe+/DiSU9d32zBJ0iB3EdTXraFObvibN
+ bSGqMMHxGtSlTniJaQG8ce6/L0BSPJ6v2U3wyxI953gC2Dr/ixaqGwdPKpLiheY0d3
+ n6jYRDRwxwI66ED4vj7jeS0EhzJdTqXl0slf9wS5Gd/If1XkrH/arjaQEpj/nGVJfB
+ qv+X9SPuunQ8A==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,239 +79,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 8:35 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Alistair
+On 3/19/2020 9:52 PM, Alex Williamson wrote:
+> On Thu, 19 Mar 2020 20:22:41 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> On 3/19/2020 9:15 AM, Alex Williamson wrote:
+>>> On Thu, 19 Mar 2020 01:11:11 +0530
+>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>    
 
-> ---
->  target/riscv/helper.h                   | 25 ++++++++
->  target/riscv/insn32.decode              |  9 +++
->  target/riscv/insn_trans/trans_rvv.inc.c | 54 ++++++++++++++++
->  target/riscv/vector_helper.c            | 85 +++++++++++++++++++++++++
->  4 files changed, 173 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 4373e9e8c2..47284c7476 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -397,3 +397,28 @@ DEF_HELPER_6(vxor_vx_b, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vxor_vx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vxor_vx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vxor_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vsll_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsll_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsrl_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vsra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 3ad6724632..f6d0f5aec5 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -320,6 +320,15 @@ vor_vi          001010 . ..... ..... 011 ..... 1010111 @r_vm
->  vxor_vv         001011 . ..... ..... 000 ..... 1010111 @r_vm
->  vxor_vx         001011 . ..... ..... 100 ..... 1010111 @r_vm
->  vxor_vi         001011 . ..... ..... 011 ..... 1010111 @r_vm
-> +vsll_vv         100101 . ..... ..... 000 ..... 1010111 @r_vm
-> +vsll_vx         100101 . ..... ..... 100 ..... 1010111 @r_vm
-> +vsll_vi         100101 . ..... ..... 011 ..... 1010111 @r_vm
-> +vsrl_vv         101000 . ..... ..... 000 ..... 1010111 @r_vm
-> +vsrl_vx         101000 . ..... ..... 100 ..... 1010111 @r_vm
-> +vsrl_vi         101000 . ..... ..... 011 ..... 1010111 @r_vm
-> +vsra_vv         101001 . ..... ..... 000 ..... 1010111 @r_vm
-> +vsra_vx         101001 . ..... ..... 100 ..... 1010111 @r_vm
-> +vsra_vi         101001 . ..... ..... 011 ..... 1010111 @r_vm
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index b4ba6d83f3..6ed2466e75 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -1258,3 +1258,57 @@ GEN_OPIVX_GVEC_TRANS(vxor_vx, xors)
->  GEN_OPIVI_GVEC_TRANS(vand_vi, 0, vand_vx, andi)
->  GEN_OPIVI_GVEC_TRANS(vor_vi, 0, vor_vx,  ori)
->  GEN_OPIVI_GVEC_TRANS(vxor_vi, 0, vxor_vx, xori)
-> +
-> +/* Vector Single-Width Bit Shift Instructions */
-> +GEN_OPIVV_GVEC_TRANS(vsll_vv,  shlv)
-> +GEN_OPIVV_GVEC_TRANS(vsrl_vv,  shrv)
-> +GEN_OPIVV_GVEC_TRANS(vsra_vv,  sarv)
-> +
-> +typedef void GVecGen2sFn32(unsigned, uint32_t, uint32_t, TCGv_i32,
-> +                           uint32_t, uint32_t);
-> +
-> +static inline bool
-> +do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
-> +                    gen_helper_opivx *fn)
-> +{
-> +    if (!opivx_check(s, a)) {
-> +        return false;
-> +    }
-> +
-> +    if (a->vm && s->vl_eq_vlmax) {
-> +        TCGv_i32 src1 = tcg_temp_new_i32();
-> +        TCGv tmp = tcg_temp_new();
-> +
-> +        gen_get_gpr(tmp, a->rs1);
-> +        tcg_gen_trunc_tl_i32(src1, tmp);
-> +        tcg_gen_extract_i32(src1, src1, 0, s->sew + 3);
-> +        gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
-> +                src1, MAXSZ(s), MAXSZ(s));
-> +
-> +        tcg_temp_free_i32(src1);
-> +        tcg_temp_free(tmp);
-> +        return true;
-> +    } else {
-> +        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-> +    }
-> +    return true;
-> +}
-> +
-> +#define GEN_OPIVX_GVEC_SHIFT_TRANS(NAME, SUF) \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                    \
-> +{                                                                         \
-> +    static gen_helper_opivx * const fns[4] = {                            \
-> +        gen_helper_##NAME##_b, gen_helper_##NAME##_h,                     \
-> +        gen_helper_##NAME##_w, gen_helper_##NAME##_d,                     \
-> +    };                                                                    \
-> +                                                                          \
-> +    return do_opivx_gvec_shift(s, a, tcg_gen_gvec_##SUF, fns[s->sew]);    \
-> +}
-> +
-> +GEN_OPIVX_GVEC_SHIFT_TRANS(vsll_vx,  shls)
-> +GEN_OPIVX_GVEC_SHIFT_TRANS(vsrl_vx,  shrs)
-> +GEN_OPIVX_GVEC_SHIFT_TRANS(vsra_vx,  sars)
-> +
-> +GEN_OPIVI_GVEC_TRANS(vsll_vi, 1, vsll_vx,  shli)
-> +GEN_OPIVI_GVEC_TRANS(vsrl_vi, 1, vsrl_vx,  shri)
-> +GEN_OPIVI_GVEC_TRANS(vsra_vi, 1, vsra_vx,  sari)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 470bf079b2..c3518516f0 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -1286,3 +1286,88 @@ GEN_VEXT_VX(vxor_vx_b, 1, 1, clearb)
->  GEN_VEXT_VX(vxor_vx_h, 2, 2, clearh)
->  GEN_VEXT_VX(vxor_vx_w, 4, 4, clearl)
->  GEN_VEXT_VX(vxor_vx_d, 8, 8, clearq)
-> +
-> +/* Vector Single-Width Bit Shift Instructions */
-> +#define DO_SLL(N, M)  (N << (M))
-> +#define DO_SRL(N, M)  (N >> (M))
-> +
-> +/* generate the helpers for shift instructions with two vector operators */
-> +#define GEN_VEXT_SHIFT_VV(NAME, TS1, TS2, HS1, HS2, OP, MASK, CLEAR_FN)   \
-> +void HELPER(NAME)(void *vd, void *v0, void *vs1,                          \
-> +        void *vs2, CPURISCVState *env, uint32_t desc)                     \
-> +{                                                                         \
-> +    uint32_t mlen = vext_mlen(desc);                                      \
-> +    uint32_t vm = vext_vm(desc);                                          \
-> +    uint32_t vl = env->vl;                                                \
-> +    uint32_t esz = sizeof(TS1);                                           \
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;                              \
-> +    uint32_t i;                                                           \
-> +                                                                          \
-> +    if (vl == 0) {                                                        \
-> +        return;                                                           \
-> +    }                                                                     \
-> +    for (i = 0; i < vl; i++) {                                            \
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-> +            continue;                                                     \
-> +        }                                                                 \
-> +        TS1 s1 = *((TS1 *)vs1 + HS1(i));                                  \
-> +        TS2 s2 = *((TS2 *)vs2 + HS2(i));                                  \
-> +        *((TS1 *)vd + HS1(i)) = OP(s2, s1 & MASK);                        \
-> +    }                                                                     \
-> +    CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                              \
-> +}
-> +
-> +GEN_VEXT_SHIFT_VV(vsll_vv_b, uint8_t,  uint8_t, H1, H1, DO_SLL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VV(vsll_vv_h, uint16_t, uint16_t, H2, H2, DO_SLL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VV(vsll_vv_w, uint32_t, uint32_t, H4, H4, DO_SLL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VV(vsll_vv_d, uint64_t, uint64_t, H8, H8, DO_SLL, 0x3f, clearq)
-> +
-> +GEN_VEXT_SHIFT_VV(vsrl_vv_b, uint8_t, uint8_t, H1, H1, DO_SRL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VV(vsrl_vv_h, uint16_t, uint16_t, H2, H2, DO_SRL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VV(vsrl_vv_w, uint32_t, uint32_t, H4, H4, DO_SRL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VV(vsrl_vv_d, uint64_t, uint64_t, H8, H8, DO_SRL, 0x3f, clearq)
-> +
-> +GEN_VEXT_SHIFT_VV(vsra_vv_b, uint8_t,  int8_t, H1, H1, DO_SRL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VV(vsra_vv_h, uint16_t, int16_t, H2, H2, DO_SRL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VV(vsra_vv_w, uint32_t, int32_t, H4, H4, DO_SRL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f, clearq)
-> +
-> +/* generate the helpers for shift instructions with one vector and one scalar */
-> +#define GEN_VEXT_SHIFT_VX(NAME, TD, TS2, HD, HS2, OP, MASK, CLEAR_FN) \
-> +void HELPER(NAME)(void *vd, void *v0, target_ulong s1,                \
-> +        void *vs2, CPURISCVState *env, uint32_t desc)                 \
-> +{                                                                     \
-> +    uint32_t mlen = vext_mlen(desc);                                  \
-> +    uint32_t vm = vext_vm(desc);                                      \
-> +    uint32_t vl = env->vl;                                            \
-> +    uint32_t esz = sizeof(TD);                                        \
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;                          \
-> +    uint32_t i;                                                       \
-> +                                                                      \
-> +    if (vl == 0) {                                                    \
-> +        return;                                                       \
-> +    }                                                                 \
-> +    for (i = 0; i < vl; i++) {                                        \
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {                    \
-> +            continue;                                                 \
-> +        }                                                             \
-> +        TS2 s2 = *((TS2 *)vs2 + HS2(i));                              \
-> +        *((TD *)vd + HD(i)) = OP(s2, s1 & MASK);                      \
-> +    }                                                                 \
-> +    CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                          \
-> +}
-> +
-> +GEN_VEXT_SHIFT_VX(vsll_vx_b, uint8_t, int8_t, H1, H1, DO_SLL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VX(vsll_vx_h, uint16_t, int16_t, H2, H2, DO_SLL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VX(vsll_vx_w, uint32_t, int32_t, H4, H4, DO_SLL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VX(vsll_vx_d, uint64_t, int64_t, H8, H8, DO_SLL, 0x3f, clearq)
-> +
-> +GEN_VEXT_SHIFT_VX(vsrl_vx_b, uint8_t, uint8_t, H1, H1, DO_SRL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VX(vsrl_vx_h, uint16_t, uint16_t, H2, H2, DO_SRL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VX(vsrl_vx_w, uint32_t, uint32_t, H4, H4, DO_SRL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VX(vsrl_vx_d, uint64_t, uint64_t, H8, H8, DO_SRL, 0x3f, clearq)
-> +
-> +GEN_VEXT_SHIFT_VX(vsra_vx_b, int8_t, int8_t, H1, H1, DO_SRL, 0x7, clearb)
-> +GEN_VEXT_SHIFT_VX(vsra_vx_h, int16_t, int16_t, H2, H2, DO_SRL, 0xf, clearh)
-> +GEN_VEXT_SHIFT_VX(vsra_vx_w, int32_t, int32_t, H4, H4, DO_SRL, 0x1f, clearl)
-> +GEN_VEXT_SHIFT_VX(vsra_vx_d, int64_t, int64_t, H8, H8, DO_SRL, 0x3f, clearq)
-> --
-> 2.23.0
->
+<snip>
+
+>>>> +
+>>>> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+>>>> +{
+>>>> +	uint64_t bsize;
+>>>> +
+>>>> +	if (!npages || !bitmap_size || bitmap_size > UINT_MAX)
+>>>
+>>> As commented previously, how do we derive this UINT_MAX limitation?
+>>>    
+>>
+>> Sorry, I missed that earlier
+>>
+>>   > UINT_MAX seems arbitrary, is this specified in our API?  The size of a
+>>   > vfio_dma is limited to what the user is able to pin, and therefore
+>>   > their locked memory limit, but do we have an explicit limit elsewhere
+>>   > that results in this limit here.  I think a 4GB bitmap would track
+>>   > something like 2^47 bytes of memory, that's pretty excessive, but still
+>>   > an arbitrary limit.
+>>
+>> There has to be some upper limit check. In core KVM, in
+>> virt/kvm/kvm_main.c there is max number of pages check:
+>>
+>> if (new.npages > KVM_MEM_MAX_NR_PAGES)
+>>
+>> Where
+>> /*
+>>    * Some of the bitops functions do not support too long bitmaps.
+>>    * This number must be determined not to exceed such limits.
+>>    */
+>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+>>
+>> Though I don't know which bitops functions do not support long bitmaps.
+>>
+>> Something similar as above can be done or same as you also mentioned of
+>> 4GB bitmap limit? that is U32_MAX instead of UINT_MAX?
+> 
+> Let's see, we use bitmap_set():
+> 
+> void bitmap_set(unsigned long *map, unsigned int start, unsigned int nbits)
+> 
+> So we're limited to an unsigned int number of bits, but for an
+> unaligned, multi-bit operation this will call __bitmap_set():
+> 
+> void __bitmap_set(unsigned long *map, unsigned int start, int len)
+> 
+> So we're down to a signed int number of bits (seems like an API bug in
+> bitops there), so it makes sense that KVM is testing against MAX_INT
+> number of pages, ie. number of bits.  But that still suggests a bitmap
+> size of MAX_UINT is off by a factor of 16.  So we can have 2^31 bits
+> divided by 2^3 bits/byte yields a maximum bitmap size of 2^28 (ie.
+> 256MB), which maps 2^31 * 2^12 = 2^43 (8TB) on a 4K system.
+> 
+> Let's fix the limit check and put a nice comment explaining it.  Thanks,
+> 
+
+Agreed. Adding DIRTY_BITMAP_SIZE_MAX macro and comment as below.
+
+/*
+  * Input argument of number of bits to bitmap_set() is unsigned 
+integer, which
+  * further casts to signed integer for unaligned multi-bit operation,
+  * __bitmap_set().
+  * Then maximum bitmap size supported is 2^31 bits divided by 2^3 
+bits/byte,
+  * that is 2^28 (256 MB) which maps to 2^31 * 2^12 = 2^43 (8TB) on 4K page
+  * system.
+  */
+#define DIRTY_BITMAP_PAGES_MAX  ((1UL << 31) - 1)
+#define DIRTY_BITMAP_SIZE_MAX 	\
+			DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
+
+
+Thanks,
+Kirti
 
