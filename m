@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CA918AE1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:10:07 +0100 (CET)
-Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670EF18ADE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:05:12 +0100 (CET)
+Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEqFi-00055G-3E
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39771)
+	id 1jEqAx-0006dq-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39701)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jEq7e-0001mX-F5
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:47 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jEq7Y-0001fm-2P
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jEq7b-0005gv-9E
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:46 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20801)
+ (envelope-from <kraxel@redhat.com>) id 1jEq7W-0005N0-U8
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:39 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24006)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jEq7a-0005bU-0C
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:42 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jEq7W-0005KC-Oq
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:01:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584604901;
+ s=mimecast20190719; t=1584604898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E9hfy3vdBCnyEY97AeX6cPqCQtaybV53wcmgVyMvvIk=;
- b=U0ji4ZJMexqYUkaDZKltf+D3EFD5AqPstBDBZxQS93RRh3vssNNkfDpLyLPRukLCNYhA9g
- UsiJrVLwTw3qdmAVBkLXqHJMuJSEGZZrE+9o8Abwh4Pgl/fDDWKUpVA+d7DA79ua4CebPq
- EridEjULU1KJPTutoPWgVcDTy0YGBsg=
+ bh=Ssy9iYBYNdlyaM+qTxCdmrI48NkNzUMw9zb+KooWCBc=;
+ b=AT+8vAnVk8MPy0viq7Mf7tZPAHX48+tBerSzFzc6SO9UNE7mjpaEEKAJtiVp8zGXJhoDIO
+ Yo4JrqBRyQWNM+2XsqEsBEXgiDXKIwgzgr1ewrE0J6rihIyE0t6GtYHhj8URKUDKrwHHuA
+ hRNhfNGDsikPEK40uGAm/wEy0LDrTF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-XiL95cPsNp6bCCFWkWNjEg-1; Thu, 19 Mar 2020 04:01:36 -0400
-X-MC-Unique: XiL95cPsNp6bCCFWkWNjEg-1
+ us-mta-259-uo82Brs9O6CaKmy7Sa_LBg-1; Thu, 19 Mar 2020 04:01:36 -0400
+X-MC-Unique: uo82Brs9O6CaKmy7Sa_LBg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96C658010C4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9174C18B9FC4;
  Thu, 19 Mar 2020 08:01:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
  [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8375119756;
- Thu, 19 Mar 2020 08:01:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5A719757;
+ Thu, 19 Mar 2020 08:01:28 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E00D931FAA; Thu, 19 Mar 2020 09:01:17 +0100 (CET)
+ id EB5B03EBB9; Thu, 19 Mar 2020 09:01:17 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/13] [testing] seabios: update submodule to experimental
- microvm branch
-Date: Thu, 19 Mar 2020 09:01:11 +0100
-Message-Id: <20200319080117.7725-8-kraxel@redhat.com>
+Subject: [PATCH 08/13] [testing] seabios: update config & build rules
+Date: Thu, 19 Mar 2020 09:01:12 +0100
+Message-Id: <20200319080117.7725-9-kraxel@redhat.com>
 In-Reply-To: <20200319080117.7725-1-kraxel@redhat.com>
 References: <20200319080117.7725-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -60,7 +59,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,20 +79,77 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://git.kraxel.org/cgit/seabios/log/?h=3Dmicrovm
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- roms/seabios | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ roms/Makefile               |  5 ++++-
+ roms/config.seabios-128k    |  2 ++
+ roms/config.seabios-microvm | 25 +++++++++++++++++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 roms/config.seabios-microvm
 
-diff --git a/roms/seabios b/roms/seabios
-index f21b5a4aeb02..81a6f4b87318 160000
---- a/roms/seabios
-+++ b/roms/seabios
-@@ -1 +1 @@
--Subproject commit f21b5a4aeb020f2a5e2c6503f906a9349dd2f069
-+Subproject commit 81a6f4b87318a945e3a4cd014c2efa89482a0cd0
+diff --git a/roms/Makefile b/roms/Makefile
+index f9acf39954dc..c0dde0a063c6 100644
+--- a/roms/Makefile
++++ b/roms/Makefile
+@@ -72,9 +72,12 @@ default help:
+ =09@echo "  clean              -- delete the files generated by the previo=
+us" \
+ =09                              "build targets"
+=20
+-bios: build-seabios-config-seabios-128k build-seabios-config-seabios-256k
++bios: build-seabios-config-seabios-128k \
++=09=09build-seabios-config-seabios-256k \
++=09=09build-seabios-config-seabios-microvm
+ =09cp seabios/builds/seabios-128k/bios.bin ../pc-bios/bios.bin
+ =09cp seabios/builds/seabios-256k/bios.bin ../pc-bios/bios-256k.bin
++=09cp seabios/builds/seabios-microvm/bios.bin ../pc-bios/bios-microvm.bin
+=20
+ vgabios seavgabios: $(patsubst %,seavgabios-%,$(vgabios_variants))
+=20
+diff --git a/roms/config.seabios-128k b/roms/config.seabios-128k
+index c43912bf9de4..bbed77cfc5c5 100644
+--- a/roms/config.seabios-128k
++++ b/roms/config.seabios-128k
+@@ -11,6 +11,8 @@ CONFIG_USB_UAS=3Dn
+ CONFIG_SDCARD=3Dn
+ CONFIG_TCGBIOS=3Dn
+ CONFIG_MPT_SCSI=3Dn
++CONFIG_ESP_SCSI=3Dn
++CONFIG_MEGASAS=3Dn
+ CONFIG_PVSCSI=3Dn
+ CONFIG_NVME=3Dn
+ CONFIG_USE_SMM=3Dn
+diff --git a/roms/config.seabios-microvm b/roms/config.seabios-microvm
+new file mode 100644
+index 000000000000..46bb019ada68
+--- /dev/null
++++ b/roms/config.seabios-microvm
+@@ -0,0 +1,25 @@
++CONFIG_QEMU=3Dy
++CONFIG_QEMU_HARDWARE=3Dy
++CONFIG_PERMIT_UNALIGNED_PCIROM=3Dy
++CONFIG_ROM_SIZE=3D128
++CONFIG_XEN=3Dn
++CONFIG_BOOTSPLASH=3Dn
++CONFIG_ATA=3Dn
++CONFIG_AHCI=3Dn
++CONFIG_SDCARD=3Dn
++CONFIG_PVSCSI=3Dn
++CONFIG_ESP_SCSI=3Dn
++CONFIG_LSI_SCSI=3Dn
++CONFIG_MEGASAS=3Dn
++CONFIG_MPT_SCSI=3Dn
++CONFIG_FLOPPY=3Dn
++CONFIG_FLASH_FLOPPY=3Dn
++CONFIG_NVME=3Dn
++CONFIG_PS2PORT=3Dn
++CONFIG_USB=3Dn
++CONFIG_LPT=3Dn
++CONFIG_RTC_TIMER=3Dn
++CONFIG_USE_SMM=3Dn
++CONFIG_PMTIMER=3Dn
++CONFIG_TCGBIOS=3Dn
++CONFIG_HARDWARE_IRQ=3Dn
 --=20
 2.18.2
 
