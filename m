@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183EC18BDEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 18:24:43 +0100 (CET)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C694518BEC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 18:50:37 +0100 (CET)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEyuQ-0001kt-5T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 13:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32983)
+	id 1jEzJU-0002ix-Rm
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 13:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jEytb-0001M4-Nx
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:23:52 -0400
+ (envelope-from <dnbrdsky@gmail.com>) id 1jExtR-0000UQ-Sw
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:19:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jEytZ-0006ep-Ce
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:23:50 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:41711)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jEytZ-0006eI-4R
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:23:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584638628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hujIgjl5k2ahPadE6Be+4RwWo7WflkKU+ukT2FuozqA=;
- b=jDLk/txHugD4LTJ8mSPN0HEinXutgj//udxulRtPto+8oJTW9Ov65IzoLAOePGmiisuaO+
- lItcW7LDO3bz94tRrl8hheDDERuG4Fturdy5z8inhHAYIahLurQbdzAboZZvXANVP1+vEJ
- uB4jRUAUAkLDanKdcZNHD0Gg+H5BARQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-_nxNgmUMN6arTzsKbxeoGA-1; Thu, 19 Mar 2020 13:23:46 -0400
-X-MC-Unique: _nxNgmUMN6arTzsKbxeoGA-1
-Received: by mail-wr1-f70.google.com with SMTP id q18so1344633wrw.5
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 10:23:46 -0700 (PDT)
+ (envelope-from <dnbrdsky@gmail.com>) id 1jExtQ-0004BL-RO
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:19:37 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37255)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dnbrdsky@gmail.com>) id 1jExtQ-0004B9-Jo
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:19:36 -0400
+Received: by mail-pg1-x541.google.com with SMTP id a32so1531221pga.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 09:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BAEUxQ7rRU51jZ5YssMQdXfJ3giCUEq60r8fzA4c57c=;
+ b=qEZLO5R9IxxBbHOmkv6IxvzqHrVXDwmKXH/l1b3lR89OWH6TsTUm2833xCNhL84wlk
+ nsMmBVGYFibRwzftK/JZrxiKunc7FPh0guRKPlHr6+taFStGzoYmk/h0kogT3Z0zA7me
+ OW4Qxo5kJQnXBG4jMtP7yI4s50MtqFDdPn0xow7FNdn/p1lxTjucghyhubdX7kONQfH9
+ SqV1l2TAYSsKwBHOenGa1Y0E48J6EKDNHcyN8WG4AJPlD9QKPLxK+xqJFmlzw6BFEDyF
+ 7/FSZeP11C5RqA0Zx5Pdcvm19MMp3SJwY3hB4IW3UGbFWdk9Hg4K0ZH5RsGktL+YrQ35
+ aSSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=9dIVQRdx/yeocKG2+s0Ni8SU+lcTYTKeAojt7RvOWoI=;
- b=ge8o6yNe2g9jAs12jGP+5ChstWbEGsKXiPqNGfP1MQeXwIPGGujfnnJEi5n5wShgGY
- LTTwU7ZRTC5CqCxY/Fs5nsc+BBDSIbCFlzdFzfnPOd7U5JnQaavtuOXgcrF6Xyh/Wu/j
- 5GLb2ue8yHZAllr0bhAbAfTi7zUPcGXOTrby0J2ehBnNQKreZ6UrC3o9pTP8K7zxluxQ
- hbFdL8PVeKCaKud6d3sLDaV1nApIlJrJtYbKM4/fv0yWb/pTWojMXAD6tnkq3m+n2e+M
- A7nv5Megh3W+zzxXn2tC5jM23WhOghW/sWPmJIjhNW4WHx5dYWa6+Rx+Y0WvuFUHPGFk
- 1UXA==
-X-Gm-Message-State: ANhLgQ0qufd09UF9DDjTO/a545fO4hpucvdjbjZAP93JUo+v4pV47Fk1
- xD/4WLjb++FsiZKduwohuq1GfA/GTr2F2HNLl40uoy/3vM5nzBoBREL3lMXF2IUJQBnv6yf/+l6
- jyRJuLwaBpAj2GRI=
-X-Received: by 2002:a5d:56c5:: with SMTP id m5mr5461476wrw.35.1584638624977;
- Thu, 19 Mar 2020 10:23:44 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsyF3CV0SqwbxcfjOR6owE2rDhTrtqHjq40yvOVNzfQzX0hnZWeqJkS957smLXofnzdeuVFTQ==
-X-Received: by 2002:a5d:56c5:: with SMTP id m5mr5461453wrw.35.1584638624765;
- Thu, 19 Mar 2020 10:23:44 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-39-109.red.bezeqint.net. [109.66.39.109])
- by smtp.gmail.com with ESMTPSA id h13sm4400630wrv.39.2020.03.19.10.23.42
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BAEUxQ7rRU51jZ5YssMQdXfJ3giCUEq60r8fzA4c57c=;
+ b=H4gMm+y5RB2Tnz+kWzlXnkXkO1Qg3Hs4FoeDk2hzSgvYQHDxf+m/UY3vR6pez6Zkvc
+ tHaVCEYX3c8DeHS+h1FCGWXgio6xefY6hcpLICP+GS51T3EzsF5IypZRRv3cIizByaY0
+ pfJkpdcM95AoKmIsKsPHWjbTuIMFX2CS4ewrkXNjlCEBRD9fHE1On0dN1bCwdrhcDTpG
+ f9DMMsL8XOlYXgxna4x/efNduGnWSjAsFVRK/B8oHpT1G/E3X0fG7/2x5dnx/4MNVWyr
+ oCuG1N6sCdMMcuSrqodj7b5eU8iQYa8mb91oOOFKxKUbLf2Lf5tSYut1sjUBxksVsp7Z
+ PPmg==
+X-Gm-Message-State: ANhLgQ3GpRwlRNurFrapl777SClxulouH6Z/HwZancyGKWlk5CKitaEm
+ +TUSelK2PO44+guSNLkyaw3+9W9KbacZwg==
+X-Google-Smtp-Source: ADFU+vtFieKyGNJ9KqnN3EoCxQgsVBEmvfaOunccLZ1q8zCqOqETx65ETyKQrf42+chQDK1+tHk1iw==
+X-Received: by 2002:a62:fc07:: with SMTP id e7mr4906771pfh.299.1584634775181; 
+ Thu, 19 Mar 2020 09:19:35 -0700 (PDT)
+Received: from esc.telus (node-1w7jr9qmilj27lake3duljaz9.ipv6.telus.net.
+ [2001:569:75e3:4100:12ba:ab1b:8ad3:bb55])
+ by smtp.gmail.com with ESMTPSA id e9sm2978894pfl.179.2020.03.19.09.19.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Mar 2020 10:23:44 -0700 (PDT)
-Date: Thu, 19 Mar 2020 13:23:41 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v5 7/7] virtio-net: add migration support for RSS and
- hash report
-Message-ID: <20200319132300-mutt-send-email-mst@kernel.org>
-References: <20200318091525.27044-1-yuri.benditovich@daynix.com>
- <20200318091525.27044-8-yuri.benditovich@daynix.com>
- <20200318104826.GF2850@work-vm>
- <CAOEp5Odhjr6h7erYz_VchjRF98-SNt27RW_T_ao7P0nwc-0ebg@mail.gmail.com>
+ Thu, 19 Mar 2020 09:19:34 -0700 (PDT)
+From: dnbrdsky@gmail.com
+To: stefanha@gmail.com
+Subject: [PATCH] misc: fix __COUNTER__ macro to be referenced properly
+Date: Thu, 19 Mar 2020 09:19:24 -0700
+Message-Id: <20200319161925.1818377-1-dnbrdsky@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Odhjr6h7erYz_VchjRF98-SNt27RW_T_ao7P0nwc-0ebg@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+X-Mailman-Approved-At: Thu, 19 Mar 2020 13:49:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,128 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- quintela@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org
+Cc: danbrodsky <dnbrdsky@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 19, 2020 at 07:19:26PM +0200, Yuri Benditovich wrote:
->=20
->=20
-> On Wed, Mar 18, 2020 at 12:48 PM Dr. David Alan Gilbert <dgilbert@redhat.=
-com>
-> wrote:
->=20
->     * Yuri Benditovich (yuri.benditovich@daynix.com) wrote:
->     > Save and restore RSS/hash report configuration.
->     >
->     > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
->     > ---
->     >=A0 hw/net/virtio-net.c | 26 ++++++++++++++++++++++++++
->     >=A0 1 file changed, 26 insertions(+)
->     >
->     > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->     > index a0614ad4e6..0b058aae9f 100644
->     > --- a/hw/net/virtio-net.c
->     > +++ b/hw/net/virtio-net.c
->     > @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void
->     *opaque, int version_id)
->     >=A0 =A0 =A0 =A0 =A0 }
->     >=A0 =A0 =A0 }
->     >=A0
->     > +=A0 =A0 if (n->rss_data.enabled) {
->     > +=A0 =A0 =A0 =A0 trace_virtio_net_rss_enable(n->rss_data.hash_types=
-,
->     > +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 n->rss_data.indirections_len,
->     > +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 sizeof(n->rss_data.key));
->     > +=A0 =A0 } else {
->     > +=A0 =A0 =A0 =A0 trace_virtio_net_rss_disable();
->     > +=A0 =A0 }
->     >=A0 =A0 =A0 return 0;
->     >=A0 }
->     >=A0
->     > @@ -3019,6 +3026,24 @@ static const VMStateDescription
->     vmstate_virtio_net_has_vnet =3D {
->     >=A0 =A0 =A0 },
->     >=A0 };
->     >=A0
->     > +static const VMStateDescription vmstate_rss =3D {
->     > +=A0 =A0 .name=A0 =A0 =A0 =3D "vmstate_rss",
->=20
->     You need to do something to avoid breaking migration compatibility
->     from/to old QEMU's and from/to QEMU's on hosts without the new virtio
->     features.
->     Probably adding a .needed =3D=A0 =A0here pointing to a function that
->     checks 'enabled' might do it.
->=20
->=20
-> Does VMSTATE_STRUCT_TEST(..,..,checker_procedure,...) result the same thi=
-ng?
->=20
-> Another question about migration support:
-> What is expected/required behavior?
-> Possible cases:
-> old qemu -> new qemu
-> new qemu (new feature off) -> old qemu
+From: danbrodsky <dnbrdsky@gmail.com>
 
-works
+- __COUNTER__ doesn't work with ## concat
+- replaced ## with glue() macro so __COUNTER__ is evaluated
 
-> new qemu (new feature on) -> old qemu
->
+Signed-off-by: danbrodsky <dnbrdsky@gmail.com>
+---
+ include/qemu/lockable.h | 2 +-
+ include/qemu/rcu.h      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-fails gracefully
-
->=20
->     Dave
->=20
->=20
->     > +=A0 =A0 .fields =3D (VMStateField[]) {
->     > +=A0 =A0 =A0 =A0 VMSTATE_BOOL(enabled, VirtioNetRssData),
->     > +=A0 =A0 =A0 =A0 VMSTATE_BOOL(redirect, VirtioNetRssData),
->     > +=A0 =A0 =A0 =A0 VMSTATE_BOOL(populate_hash, VirtioNetRssData),
->     > +=A0 =A0 =A0 =A0 VMSTATE_UINT32(hash_types, VirtioNetRssData),
->     > +=A0 =A0 =A0 =A0 VMSTATE_UINT16(indirections_len, VirtioNetRssData)=
-,
->     > +=A0 =A0 =A0 =A0 VMSTATE_UINT16(default_queue, VirtioNetRssData),
->     > +=A0 =A0 =A0 =A0 VMSTATE_UINT8_ARRAY(key, VirtioNetRssData,
->     > +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 VIRTIO_NET=
-_RSS_MAX_KEY_SIZE),
->     > +=A0 =A0 =A0 =A0 VMSTATE_VARRAY_UINT16_ALLOC(indirections_table,
->     VirtioNetRssData,
->     > +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 indirections_len, 0,
->     > +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 vmstate_info_uint16, uint16_t),
->     > +=A0 =A0 =A0 =A0 VMSTATE_END_OF_LIST()
->     > +=A0 =A0 },
->     > +};
->     > +
->     >=A0 static const VMStateDescription vmstate_virtio_net_device =3D {
->     >=A0 =A0 =A0 .name =3D "virtio-net-device",
->     >=A0 =A0 =A0 .version_id =3D VIRTIO_NET_VM_VERSION,
->     > @@ -3067,6 +3092,7 @@ static const VMStateDescription
->     vmstate_virtio_net_device =3D {
->     >=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0vmstate_virti=
-o_net_tx_waiting),
->     >=A0 =A0 =A0 =A0 =A0 VMSTATE_UINT64_TEST(curr_guest_offloads, VirtION=
-et,
->     >=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 has_ctrl=
-_guest_offloads),
->     > +=A0 =A0 =A0 =A0 VMSTATE_STRUCT(rss_data, VirtIONet, 1, vmstate_rss=
-,
->     VirtioNetRssData),
->     >=A0 =A0 =A0 =A0 =A0 VMSTATE_END_OF_LIST()
->     >=A0 =A0 =A0},
->     >=A0 };
->     > --
->     > 2.17.1
->     >
->     --
->     Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->=20
->=20
+diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
+index 1aeb2cb1a6..a9258f2c2c 100644
+--- a/include/qemu/lockable.h
++++ b/include/qemu/lockable.h
+@@ -170,7 +170,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(QemuLockable, qemu_lockable_auto_unlock)
+  *   }
+  */
+ #define QEMU_LOCK_GUARD(x) \
+-    g_autoptr(QemuLockable) qemu_lockable_auto##__COUNTER__ = \
++    g_autoptr(QemuLockable) glue(qemu_lockable_auto, __COUNTER__) = \
+             qemu_lockable_auto_lock(QEMU_MAKE_LOCKABLE((x)))
+ 
+ #endif
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 9c82683e37..570aa603eb 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -170,7 +170,7 @@ static inline void rcu_read_auto_unlock(RCUReadAuto *r)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
+ 
+ #define WITH_RCU_READ_LOCK_GUARD() \
+-    WITH_RCU_READ_LOCK_GUARD_(_rcu_read_auto##__COUNTER__)
++    WITH_RCU_READ_LOCK_GUARD_(glue(_rcu_read_auto, __COUNTER__))
+ 
+ #define WITH_RCU_READ_LOCK_GUARD_(var) \
+     for (g_autoptr(RCUReadAuto) var = rcu_read_auto_lock(); \
+-- 
+2.25.1
 
 
