@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197DB18C184
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:36:57 +0100 (CET)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D318C1A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 21:47:09 +0100 (CET)
+Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF1uR-0007eI-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1jF24J-0005d1-RU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 16:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jF1tU-00079B-4M
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:35:57 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jF230-0004MR-Ty
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:45:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jF1tS-0007Gt-3h
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:35:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:38463)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jF1tR-00077P-98
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:35:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584650152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0uPhlXn+ve+3FM5jp2ChiVgqmYZE4AlzB5UVncc/Kco=;
- b=ix9j369C8xxeZaWCCmbcvX3tPVfMgEkdQQJsh3yZmgRrsf0nBf8VrOLDbUUAWSAwwzE7i6
- KGAIg5EQI2hbcqj9jXxC0VJATO1w7Hu8QlOTOzG1wU2y2xxHIWGEQs+6RFi2xbL61LKXC2
- WH5Px9IERYOnEeOgxxqq/a2g15U0Vvc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-XX6rTzV9MvWNXjyX1taL5Q-1; Thu, 19 Mar 2020 16:35:44 -0400
-X-MC-Unique: XX6rTzV9MvWNXjyX1taL5Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75039800D53;
- Thu, 19 Mar 2020 20:35:43 +0000 (UTC)
-Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19BBA1001B07;
- Thu, 19 Mar 2020 20:35:43 +0000 (UTC)
-Subject: Re: [PATCH] misc: fix __COUNTER__ macro to be referenced properly
-To: dnbrdsky@gmail.com, stefanha@gmail.com
-References: <20200319161925.1818377-1-dnbrdsky@gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <43c25451-f7f9-41ee-749f-1e73d5b46f9c@redhat.com>
-Date: Thu, 19 Mar 2020 15:35:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jF22z-0003s6-M1
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:45:46 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:36601)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jF22z-0003rp-G7
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 16:45:45 -0400
+Received: by mail-oi1-x231.google.com with SMTP id k18so4247549oib.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 13:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u8i+STaYIVMKJpdw0yrvzes4GxekyH6+mEdvx45gyUE=;
+ b=UYUVEMJXZboEpZAUnNLpweVgdpo4v6tQCjjtN/bRj0hdS1zmGi1+RYYPpO8XEi4nTN
+ SbKQFVwT8WNRQVh1Q4KmgstPP09MVGcBSTXIsGncSEJH8VqEiz2mB5geIQGgkPGHPElT
+ mhYK6n/OJ88oo4MHOrbRi9tmiTgdjEzJYS6A6KB25248UNLmBeejr3keWAl0hlJ+GEtY
+ jmtyYDvhp4QrCaFfpH9Cb6wkQcHAT6TZKvP1nZR8HY8DnO7AnzxPBF6Zp250IDkilqaX
+ ZnYQLLnvzUStzI5QAIm4ekntNj/z52wUiHnmNANkmpG8nJXDW8o9lxLtjMFmgeiXyMKl
+ UbMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u8i+STaYIVMKJpdw0yrvzes4GxekyH6+mEdvx45gyUE=;
+ b=HGqsH4GvPIRfr+LlBtK+LP+qFnk8w/Y4rDDNALQ6gO0VQkq9Hyw06q1pKOhKGd7va0
+ vMkLgM+uUenXVZNi0hVYUfokbX/rPhL1MZHm9v/HJhQlgg0ubW/SPBmqu4zt21fP+SLz
+ Qo9sXWbTL94SU7ux0LPAl1xgXE9y7ImBVQ+LxNRG8U7GvJihDvMKJyMadIDIVQuxengq
+ virn5IjJil3J0jfQ8iqhS4TkRqW5AjQzvqthQvmuaAAMPOXpI2zEOuyjI1IZzaR90LML
+ pdFCZ41/rIeDIQCLlyWoOiI1LoEllCoPH8elEQrSzynzPU2JvlaiNByxV9R4QcJzVXhH
+ eUcg==
+X-Gm-Message-State: ANhLgQ3q5l5UuJFUS2YAwRrepU0D3Zyn/BsnVD9fxPs66vsfesikn8WZ
+ d+DUDJxvRJmuJAAHaxtI3uSeHXGKa6njHaSt8f9GRQ==
+X-Google-Smtp-Source: ADFU+vtxT4gsdf4BmMJYz2x7lBvHIeiXx2Y7YzWjC89o6urJ5vQBdvBBDO9r9BHBjP26FVMlyvyQDsnqBJmRstzvGEs=
+X-Received: by 2002:aca:190f:: with SMTP id l15mr3721504oii.48.1584650744411; 
+ Thu, 19 Mar 2020 13:45:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200319161925.1818377-1-dnbrdsky@gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200319092627.51487-1-laurent@vivier.eu>
+In-Reply-To: <20200319092627.51487-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Mar 2020 20:45:33 +0000
+Message-ID: <CAFEAcA_rHYVD35BGjHLv9vbevj9dX8FM+H-ctiYVvwiwrkabyg@mail.gmail.com>
+Subject: Re: [PULL v3 00/16] Linux user for 5.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::231
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,68 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/20 11:19 AM, dnbrdsky@gmail.com wrote:
-> From: danbrodsky <dnbrdsky@gmail.com>
-> 
-> - __COUNTER__ doesn't work with ## concat
-> - replaced ## with glue() macro so __COUNTER__ is evaluated
-> 
-> Signed-off-by: danbrodsky <dnbrdsky@gmail.com>
+On Thu, 19 Mar 2020 at 09:29, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
+>
+>   qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
+>
+> for you to fetch changes up to c91518bb0649f09e2c636790603907ef93ea95d4:
+>
+>   linux-user, openrisc: sync syscall numbers with kernel v5.5 (2020-03-19 09:22:21 +0100)
+>
+> ----------------------------------------------------------------
+> update syscall numbers to linux 5.5 (with scripts)
+> add futex_time64/clock_gettime64/clock_settime64
+> add AT_EXECFN
+> Emulate x86_64 vsyscalls
+>
+> v3: remove syscall.tbl series
+> v2: guard copy_to_user_timezone() with TARGET_NR_gettimeofday
+>     remove "Support futex_time64" patch
+>     guard sys_futex with TARGET_NR_exit
+>
+> ----------------------------------------------------------------
 
-Thanks - this appears to be your first contribution to qemu.
+Still fails:
 
-Typically, the S-o-b should match how you would spell your legal name, 
-rather than being a single-word computer user name.
+/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/x86_64-linux-user/qemu-x86_64
+-L ./gnemul/qemu-x86_64 x86_64/ls -l dummyfile
+qemu: 0x40008117e9: unhandled CPU exception 0x101 - aborting
+RAX=000000000000003f RBX=000000006ffffe34 RCX=0000004000800b18
+RDX=0000004000813180
+RSI=0000000000000064 RDI=0000004000800670 RBP=000000006fffff40
+RSP=0000004000800668
+R8 =0000000000000000 R9 =0000004000800b45 R10=0000004000801a18
+R11=0000004000801260
+R12=00000040008008c0 R13=0000000000000008 R14=0000000000400040
+R15=00000040008032d0
+RIP=00000040008117e9 RFL=00000246 [---Z-P-] CPL=3 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 00000000 00000000
+CS =0033 0000000000000000 ffffffff 00effb00 DPL=3 CS64 [-RA]
+SS =002b 0000000000000000 ffffffff 00cff300 DPL=3 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 0000000000000000 00000000 00000000
+GS =0000 0000000000000000 00000000 00000000
+LDT=0000 0000000000000000 0000ffff 00008200 DPL=0 LDT
+TR =0000 0000000000000000 0000ffff 00008b00 DPL=0 TSS64-busy
+GDT=     000000400091a000 0000007f
+IDT=     0000004000919000 000001ff
+CR0=80010001 CR2=0000000000000000 CR3=0000000000000000 CR4=00000220
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000
+DR3=0000000000000000
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000500
+Makefile:6: recipe for target 'test' failed
+make: *** [test] Error 127
 
-It looks like you threaded another message to this one:
-Message-Id: <20200319161925.1818377-2-dnbrdsky@gmail.com>
-Subject: [PATCH] lockable: replaced locks with lock guard macros where
-  appropriate
-but without a 0/2 cover letter, or even a 1/2 or 2/2 indicator on the 
-individual patches.  This makes it more likely that the second patch may 
-be overlooked by our CI tools.
-
-Since this patch is fixing an issue that just went into the tree 
-recently, it would be useful to add mention of that in the commit message:
-Fixes: 3284c3ddc4
-
-In fact, using 'lockable:' rather than 'misc:' as your subject prefix 
-makes it more obvious that you are fixing an issue in the same area as 
-where it was introduced.
-
-More patch submission hints at https://wiki.qemu.org/Contribute/SubmitAPatch
-
-> ---
->   include/qemu/lockable.h | 2 +-
->   include/qemu/rcu.h      | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-> index 1aeb2cb1a6..a9258f2c2c 100644
-> --- a/include/qemu/lockable.h
-> +++ b/include/qemu/lockable.h
-> @@ -170,7 +170,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(QemuLockable, qemu_lockable_auto_unlock)
->    *   }
->    */
->   #define QEMU_LOCK_GUARD(x) \
-> -    g_autoptr(QemuLockable) qemu_lockable_auto##__COUNTER__ = \
-> +    g_autoptr(QemuLockable) glue(qemu_lockable_auto, __COUNTER__) = \
-
-That said, the patch itself is correct.
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-I'll leave it up to the maintainer for this file whether they can 
-improve your commit message (although the hardest part of that would be 
-knowing a full proper name to use in place of your username), or if you 
-will need to send a v2.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+thanks
+-- PMM
 
