@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D07A18BCB2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 17:37:07 +0100 (CET)
-Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCF218BCA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 17:32:57 +0100 (CET)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEyAM-0000Ty-9A
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 12:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
+	id 1jEy6K-0005l1-LX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 12:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jEy9X-0008Pd-Ed
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:36:17 -0400
+ (envelope-from <clg@kaod.org>) id 1jEy5L-0005LF-CG
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:31:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jEy9U-0004Ch-3Z
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:36:15 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:45765)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jEy9T-0004BP-UQ; Thu, 19 Mar 2020 12:36:12 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id x82so2022789vsc.12;
- Thu, 19 Mar 2020 09:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZZS94slV67J1dYmXmt8iKQlv16Ntn00WElDK7E41sjM=;
- b=G1d88KlFfzfHiiGn2Bp+HBlk6ncKlVAZnxzDhL0OnaR/uVdj7S1wUnyPgpLoHcQ2Wz
- qJOU9nEot8z2ESLICE+QUGYwU4MIXUTkv75d5KcUhEnT2ohdK5kyd7LMexraCzKcJDqP
- DznS84Br/hE89dI+u4eaRo/5zIk4PdkEc3M1JW55HFtnHATfO6bTCaDtGgbtTHu5iFd+
- Iah2VebEY/e8bACIRsayFf/xQPy9v4GdaJbada4rn082iPqHh+EgZ9s+IameJMNro2QP
- NL/s+5R8VXIoSdPW3AcipSdju+rV3vHjg5tG3IQ2PG+AR7W1KZPjzvdTkhQtFuVVLjIJ
- KVnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZZS94slV67J1dYmXmt8iKQlv16Ntn00WElDK7E41sjM=;
- b=SRTNUaIZj5ahA1lQTdw5WmqjUVVFiSq+yRWAnGkal+KmwOQ1RApwPsbsQB76EJTxBB
- HVB/vaVPX8A/XwcWkDssUl4oxYlKaGAjp5nk1bOle8S6CxZMZ858tmjTZQE09Og9ae2y
- B4l4nSNndyH+aQVUZ4zSWuWrVKv8UJGHXKs0sUxE6ryaZauv2o2wLnedADZXcAR3DUF+
- uF/WlydTtB+LQyam/Ro7oV8LkZECfyTXYqZ+TTO1lkYwD77pOJ150FGexkTsdBuLbbsp
- kGkPl03qvZVQfEaxaO07wT4F7kISUcB8P/2rdD6U6RVIs/Y5BalEPtJAQu+8otf8Zb0G
- //aQ==
-X-Gm-Message-State: ANhLgQ3t8Lw8oTRUY4kkEmN/98Xv/YiBAOXzVbRTyzgmJFa/fHy6Y5Oq
- V/DjI/NML9QCRB6+XItMxbuCu15MtaCQBC6GTpA=
-X-Google-Smtp-Source: ADFU+vsXo7VE0imgxKunrE32lFQwAMCgWMUpqLwEgYl3qkATCRy/U3BZDTdpw7c9n74nhhAEaVls54aq8kGRqSuB/rM=
-X-Received: by 2002:a67:902:: with SMTP id 2mr3024177vsj.133.1584635770914;
- Thu, 19 Mar 2020 09:36:10 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1jEy5I-00083C-Ay
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:31:54 -0400
+Received: from 5.mo177.mail-out.ovh.net ([46.105.39.154]:50106)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jEy5H-0007yv-2K
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:31:51 -0400
+Received: from player168.ha.ovh.net (unknown [10.108.57.150])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 158A81260A0
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 17:31:47 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player168.ha.ovh.net (Postfix) with ESMTPSA id 9893B109379D2;
+ Thu, 19 Mar 2020 16:31:41 +0000 (UTC)
+Subject: Re: [EXTERNAL] [PATCH v2] target/ppc: Fix ISA v3.0 (POWER9) slbia
+ implementation
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200319064439.1020571-1-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <c960f9d5-1019-38a4-4005-e3dc058e4648@kaod.org>
+Date: Thu, 19 Mar 2020 17:31:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-12-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-12-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Mar 2020 09:28:15 -0700
-Message-ID: <CAKmqyKOR=3f97bqu9BjeK3UHb=+d5VmBhJWZ--H5zgQ4w_k=4g@mail.gmail.com>
-Subject: Re: [PATCH v6 11/61] target/riscv: vector widening integer add and
- subtract
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e43
+In-Reply-To: <20200319064439.1020571-1-npiggin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 11417469480740555673
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudefledgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinheplhhishhtrdhtrghrghgvthenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduieekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.39.154
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,427 +58,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 8:29 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+On 3/19/20 7:44 AM, Nicholas Piggin wrote:
+> The new ISA v3.0 slbia variants have not been implemented for TCG,
+> which can lead to crashing when a POWER9 machine boots Linux using
+> the hash MMU, for example ("disable_radix" kernel command line).
+>=20
+> Add them.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  target/riscv/helper.h                   |  49 +++++++
->  target/riscv/insn32.decode              |  16 +++
->  target/riscv/insn_trans/trans_rvv.inc.c | 178 ++++++++++++++++++++++++
->  target/riscv/vector_helper.c            | 111 +++++++++++++++
->  4 files changed, 354 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index e73701d4bb..1256defb6c 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -290,3 +290,52 @@ DEF_HELPER_6(vrsub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vrsub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vrsub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vrsub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vwaddu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwaddu_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsubu_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwadd_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwsub_wx_w, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index d1034a0e61..4bdbfd16fa 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -284,6 +284,22 @@ vsub_vv         000010 . ..... ..... 000 ..... 1010111 @r_vm
->  vsub_vx         000010 . ..... ..... 100 ..... 1010111 @r_vm
->  vrsub_vx        000011 . ..... ..... 100 ..... 1010111 @r_vm
->  vrsub_vi        000011 . ..... ..... 011 ..... 1010111 @r_vm
-> +vwaddu_vv       110000 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwaddu_vx       110000 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwadd_vv        110001 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwadd_vx        110001 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwsubu_vv       110010 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwsubu_vx       110010 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwsub_vv        110011 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwsub_vx        110011 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwaddu_wv       110100 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwaddu_wx       110100 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwadd_wv        110101 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwadd_wx        110101 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwsubu_wv       110110 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwsubu_wx       110110 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwsub_wv        110111 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwsub_wx        110111 . ..... ..... 110 ..... 1010111 @r_vm
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index c68f6ffe3b..8f17faa3f3 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -128,6 +128,14 @@ static bool vext_check_nf(DisasContext *s, uint32_t nf)
->      return (1 << s->lmul) * nf <= 8;
+> Changes in v2:
+> - Rewrite changelog.
+> - Remove stray slbie hunk that crept in
+>=20
+> I don't think the slbie invalidation is necessary, as explained on the
+> list.
+>=20
+>  target/ppc/helper.h     |  2 +-
+>  target/ppc/mmu-hash64.c | 56 +++++++++++++++++++++++++++++++++++------
+>  target/ppc/translate.c  |  5 +++-
+>  3 files changed, 54 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index ee1498050d..2dfa1c6942 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -615,7 +615,7 @@ DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void=
+, env, tl, tl)
+>  DEF_HELPER_2(load_slb_esid, tl, env, tl)
+>  DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+>  DEF_HELPER_2(find_slb_vsid, tl, env, tl)
+> -DEF_HELPER_FLAGS_1(slbia, TCG_CALL_NO_RWG, void, env)
+> +DEF_HELPER_FLAGS_2(slbia, TCG_CALL_NO_RWG, void, env, i32)
+>  DEF_HELPER_FLAGS_2(slbie, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_2(slbieg, TCG_CALL_NO_RWG, void, env, tl)
+>  #endif
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 373d44de74..e5baabf0e1 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -95,9 +95,10 @@ void dump_slb(PowerPCCPU *cpu)
+>      }
 >  }
->
-> +/*
-> + * The destination vector register group cannot overlap a source vector register
-> + * group of a different element width. (Section 11.2)
-> + */
-> +static inline bool vext_check_overlap_group(int rd, int dlen, int rs, int slen)
-> +{
-> +    return ((rd >= rs + slen) || (rs >= rd + dlen));
-> +}
->  /* common translation macro */
->  #define GEN_VEXT_TRANS(NAME, SEQ, ARGTYPE, OP, CHECK)      \
->  static bool trans_##NAME(DisasContext *s, arg_##ARGTYPE *a)\
-> @@ -991,3 +999,173 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
+>=20
+> -void helper_slbia(CPUPPCState *env)
+> +void helper_slbia(CPUPPCState *env, uint32_t ih)
+>  {
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+> +    int starting_entry;
+>      int n;
+>=20
+>      /*
+> @@ -111,18 +112,59 @@ void helper_slbia(CPUPPCState *env)
+>       * expected that slbmte is more common than slbia, and slbia is us=
+ually
+>       * going to evict valid SLB entries, so that tradeoff is unlikely =
+to be a
+>       * good one.
+> +     *
+> +     * ISA v2.05 introduced IH field with values 0,1,2,6. These all in=
+validate
+> +     * the same SLB entries (everything but entry 0), but differ in wh=
+at
+> +     * "lookaside information" is invalidated. TCG can ignore this and=
+ flush
+> +     * everything.
+> +     *
+> +     * ISA v3.0 introduced additional values 3,4,7, which change what =
+SLBs are
+> +     * invalidated.
+>       */
+>=20
+> -    /* XXX: Warning: slbia never invalidates the first segment */
+> -    for (n =3D 1; n < cpu->hash64_opts->slb_size; n++) {
+> -        ppc_slb_t *slb =3D &env->slb[n];
+> +    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+> +
+> +    starting_entry =3D 1; /* default for IH=3D0,1,2,6 */
+> +
+> +    if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +        switch (ih) {
+> +        case 0x7:
+> +            /* invalidate no SLBs, but all lookaside information */
+> +            return;
+>=20
+> -        if (slb->esid & SLB_ESID_V) {
+> -            slb->esid &=3D ~SLB_ESID_V;
+> +        case 0x3:
+> +        case 0x4:
+> +            /* also considers SLB entry 0 */
+> +            starting_entry =3D 0;
+> +            break;
+> +
+> +        case 0x5:
+> +            /* treat undefined values as ih=3D=3D0, and warn */
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "slbia undefined IH field %u.\n", ih);
+> +            break;
+> +
+> +        default:
+> +            /* 0,1,2,6 */
+> +            break;
+>          }
+>      }
+>=20
+> -    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+> +    for (n =3D starting_entry; n < cpu->hash64_opts->slb_size; n++) {
+> +        ppc_slb_t *slb =3D &env->slb[n];
+> +
+> +        if (!(slb->esid & SLB_ESID_V)) {
+> +            continue;
+> +        }
+> +        if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +            if (ih =3D=3D 0x3 && (slb->vsid & SLB_VSID_C) =3D=3D 0) {
+> +                /* preserves entries with a class value of 0 */
+> +                continue;
+> +            }
+> +        }
+> +
+> +        slb->esid &=3D ~SLB_ESID_V;
+> +    }
 >  }
->
->  GEN_OPIVI_TRANS(vrsub_vi, 0, vrsub_vx, opivx_check)
+>=20
+>  static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index eb0ddba850..e514732a09 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -5027,12 +5027,15 @@ static void gen_tlbsync(DisasContext *ctx)
+>  /* slbia */
+>  static void gen_slbia(DisasContext *ctx)
+>  {
+> +    uint32_t ih =3D (ctx->opcode >> 21) & 0x7;
+> +    TCGv_i32 t0 =3D tcg_const_i32(ih);
 > +
-> +/* Vector Widening Integer Add/Subtract */
-> +
-> +/* OPIVV with WIDEN */
-> +static bool opivv_widen_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, true) &&
-> +            vext_check_reg(s, a->rd, true) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_reg(s, a->rs1, false) &&
-> +            vext_check_overlap_group(a->rd, 2 << s->lmul, a->rs2,
-> +                                     1 << s->lmul) &&
-> +            vext_check_overlap_group(a->rd, 2 << s->lmul, a->rs1,
-> +                                     1 << s->lmul) &&
-> +            (s->lmul < 0x3) && (s->sew < 0x3));
-> +}
-> +
-> +static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
-> +                           gen_helper_gvec_4_ptr *fn,
-> +                           bool (*checkfn)(DisasContext *, arg_rmrr *))
-> +{
-> +    if (checkfn(s, a)) {
-> +        uint32_t data = 0;
-> +        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-> +                           vreg_ofs(s, a->rs1),
-> +                           vreg_ofs(s, a->rs2),
-> +                           cpu_env, 0, s->vlen / 8,
-> +                           data, fn);
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
-> +#define GEN_OPIVV_WIDEN_TRANS(NAME, CHECK) \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
-> +{                                                            \
-> +    static gen_helper_gvec_4_ptr * const fns[3] = {          \
-> +        gen_helper_##NAME##_b,                               \
-> +        gen_helper_##NAME##_h,                               \
-> +        gen_helper_##NAME##_w                                \
-> +    };                                                       \
-> +    return do_opivv_widen(s, a, fns[s->sew], CHECK);         \
-> +}
-> +
-> +GEN_OPIVV_WIDEN_TRANS(vwaddu_vv, opivv_widen_check)
-> +GEN_OPIVV_WIDEN_TRANS(vwadd_vv, opivv_widen_check)
-> +GEN_OPIVV_WIDEN_TRANS(vwsubu_vv, opivv_widen_check)
-> +GEN_OPIVV_WIDEN_TRANS(vwsub_vv, opivv_widen_check)
-> +
-> +/* OPIVX with WIDEN */
-> +static bool opivx_widen_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, true) &&
-> +            vext_check_reg(s, a->rd, true) &&
-> +            vext_check_reg(s, a->rs2, false) &&
-> +            vext_check_overlap_group(a->rd, 2 << s->lmul, a->rs2,
-> +                                     1 << s->lmul) &&
-> +            (s->lmul < 0x3) && (s->sew < 0x3));
-> +}
-> +
-> +static bool do_opivx_widen(DisasContext *s, arg_rmrr *a,
-> +                           gen_helper_opivx *fn)
-> +{
-> +    if (opivx_widen_check(s, a)) {
-> +        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-> +    }
-> +    return true;
-> +}
-> +
-> +#define GEN_OPIVX_WIDEN_TRANS(NAME) \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
-> +{                                                            \
-> +    static gen_helper_opivx * const fns[3] = {               \
-> +        gen_helper_##NAME##_b,                               \
-> +        gen_helper_##NAME##_h,                               \
-> +        gen_helper_##NAME##_w                                \
-> +    };                                                       \
-> +    return do_opivx_widen(s, a, fns[s->sew]);                \
-> +}
-> +
-> +GEN_OPIVX_WIDEN_TRANS(vwaddu_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwadd_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwsubu_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwsub_vx)
-> +
-> +/* WIDEN OPIVV with WIDEN */
-> +static bool opiwv_widen_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, true) &&
-> +            vext_check_reg(s, a->rd, true) &&
-> +            vext_check_reg(s, a->rs2, true) &&
-> +            vext_check_reg(s, a->rs1, false) &&
-> +            vext_check_overlap_group(a->rd, 2 << s->lmul, a->rs1,
-> +                                     1 << s->lmul) &&
-> +            (s->lmul < 0x3) && (s->sew < 0x3));
-> +}
-> +
-> +static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
-> +                           gen_helper_gvec_4_ptr *fn)
-> +{
-> +    if (opiwv_widen_check(s, a)) {
-> +        uint32_t data = 0;
-> +        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-> +        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-> +                           vreg_ofs(s, a->rs1),
-> +                           vreg_ofs(s, a->rs2),
-> +                           cpu_env, 0, s->vlen / 8, data, fn);
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
-> +#define GEN_OPIWV_WIDEN_TRANS(NAME) \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
-> +{                                                            \
-> +    static gen_helper_gvec_4_ptr * const fns[3] = {          \
-> +        gen_helper_##NAME##_b,                               \
-> +        gen_helper_##NAME##_h,                               \
-> +        gen_helper_##NAME##_w                                \
-> +    };                                                       \
-> +    return do_opiwv_widen(s, a, fns[s->sew]);                \
-> +}
-> +
-> +GEN_OPIWV_WIDEN_TRANS(vwaddu_wv)
-> +GEN_OPIWV_WIDEN_TRANS(vwadd_wv)
-> +GEN_OPIWV_WIDEN_TRANS(vwsubu_wv)
-> +GEN_OPIWV_WIDEN_TRANS(vwsub_wv)
-> +
-> +/* WIDEN OPIVX with WIDEN */
-> +static bool opiwx_widen_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return (vext_check_isa_ill(s) &&
-> +            vext_check_overlap_mask(s, a->rd, a->vm, true) &&
-> +            vext_check_reg(s, a->rd, true) &&
-> +            vext_check_reg(s, a->rs2, true) &&
-> +            (s->lmul < 0x3) && (s->sew < 0x3));
-> +}
-> +
-> +static bool do_opiwx_widen(DisasContext *s, arg_rmrr *a,
-> +                           gen_helper_opivx *fn)
-> +{
-> +    if (opiwx_widen_check(s, a)) {
-> +        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-> +    }
-> +    return false;
-> +}
-> +
-> +#define GEN_OPIWX_WIDEN_TRANS(NAME) \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
-> +{                                                            \
-> +    static gen_helper_opivx * const fns[3] = {               \
-> +        gen_helper_##NAME##_b,                               \
-> +        gen_helper_##NAME##_h,                               \
-> +        gen_helper_##NAME##_w                                \
-> +    };                                                       \
-> +    return do_opiwx_widen(s, a, fns[s->sew]);                \
-> +}
-> +
-> +GEN_OPIWX_WIDEN_TRANS(vwaddu_wx)
-> +GEN_OPIWX_WIDEN_TRANS(vwadd_wx)
-> +GEN_OPIWX_WIDEN_TRANS(vwsubu_wx)
-> +GEN_OPIWX_WIDEN_TRANS(vwsub_wx)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 27934e291b..d0e6f12f43 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -976,3 +976,114 @@ GEN_VEXT_VX(vrsub_vx_b, 1, 1, clearb)
->  GEN_VEXT_VX(vrsub_vx_h, 2, 2, clearh)
->  GEN_VEXT_VX(vrsub_vx_w, 4, 4, clearl)
->  GEN_VEXT_VX(vrsub_vx_d, 8, 8, clearq)
-> +
-> +/* Vector Widening Integer Add/Subtract */
-> +#define WOP_UUU_B uint16_t, uint8_t, uint8_t, uint16_t, uint16_t
-> +#define WOP_UUU_H uint32_t, uint16_t, uint16_t, uint32_t, uint32_t
-> +#define WOP_UUU_W uint64_t, uint32_t, uint32_t, uint64_t, uint64_t
-> +#define WOP_SSS_B int16_t, int8_t, int8_t, int16_t, int16_t
-> +#define WOP_SSS_H int32_t, int16_t, int16_t, int32_t, int32_t
-> +#define WOP_SSS_W int64_t, int32_t, int32_t, int64_t, int64_t
-> +#define WOP_WUUU_B  uint16_t, uint8_t, uint16_t, uint16_t, uint16_t
-> +#define WOP_WUUU_H  uint32_t, uint16_t, uint32_t, uint32_t, uint32_t
-> +#define WOP_WUUU_W  uint64_t, uint32_t, uint64_t, uint64_t, uint64_t
-> +#define WOP_WSSS_B  int16_t, int8_t, int16_t, int16_t, int16_t
-> +#define WOP_WSSS_H  int32_t, int16_t, int32_t, int32_t, int32_t
-> +#define WOP_WSSS_W  int64_t, int32_t, int64_t, int64_t, int64_t
-> +RVVCALL(OPIVV2, vwaddu_vv_b, WOP_UUU_B, H2, H1, H1, DO_ADD)
-> +RVVCALL(OPIVV2, vwaddu_vv_h, WOP_UUU_H, H4, H2, H2, DO_ADD)
-> +RVVCALL(OPIVV2, vwaddu_vv_w, WOP_UUU_W, H8, H4, H4, DO_ADD)
-> +RVVCALL(OPIVV2, vwsubu_vv_b, WOP_UUU_B, H2, H1, H1, DO_SUB)
-> +RVVCALL(OPIVV2, vwsubu_vv_h, WOP_UUU_H, H4, H2, H2, DO_SUB)
-> +RVVCALL(OPIVV2, vwsubu_vv_w, WOP_UUU_W, H8, H4, H4, DO_SUB)
-> +RVVCALL(OPIVV2, vwadd_vv_b, WOP_SSS_B, H2, H1, H1, DO_ADD)
-> +RVVCALL(OPIVV2, vwadd_vv_h, WOP_SSS_H, H4, H2, H2, DO_ADD)
-> +RVVCALL(OPIVV2, vwadd_vv_w, WOP_SSS_W, H8, H4, H4, DO_ADD)
-> +RVVCALL(OPIVV2, vwsub_vv_b, WOP_SSS_B, H2, H1, H1, DO_SUB)
-> +RVVCALL(OPIVV2, vwsub_vv_h, WOP_SSS_H, H4, H2, H2, DO_SUB)
-> +RVVCALL(OPIVV2, vwsub_vv_w, WOP_SSS_W, H8, H4, H4, DO_SUB)
-> +RVVCALL(OPIVV2, vwaddu_wv_b, WOP_WUUU_B, H2, H1, H1, DO_ADD)
-> +RVVCALL(OPIVV2, vwaddu_wv_h, WOP_WUUU_H, H4, H2, H2, DO_ADD)
-> +RVVCALL(OPIVV2, vwaddu_wv_w, WOP_WUUU_W, H8, H4, H4, DO_ADD)
-> +RVVCALL(OPIVV2, vwsubu_wv_b, WOP_WUUU_B, H2, H1, H1, DO_SUB)
-> +RVVCALL(OPIVV2, vwsubu_wv_h, WOP_WUUU_H, H4, H2, H2, DO_SUB)
-> +RVVCALL(OPIVV2, vwsubu_wv_w, WOP_WUUU_W, H8, H4, H4, DO_SUB)
-> +RVVCALL(OPIVV2, vwadd_wv_b, WOP_WSSS_B, H2, H1, H1, DO_ADD)
-> +RVVCALL(OPIVV2, vwadd_wv_h, WOP_WSSS_H, H4, H2, H2, DO_ADD)
-> +RVVCALL(OPIVV2, vwadd_wv_w, WOP_WSSS_W, H8, H4, H4, DO_ADD)
-> +RVVCALL(OPIVV2, vwsub_wv_b, WOP_WSSS_B, H2, H1, H1, DO_SUB)
-> +RVVCALL(OPIVV2, vwsub_wv_h, WOP_WSSS_H, H4, H2, H2, DO_SUB)
-> +RVVCALL(OPIVV2, vwsub_wv_w, WOP_WSSS_W, H8, H4, H4, DO_SUB)
-> +GEN_VEXT_VV(vwaddu_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwaddu_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwaddu_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwsubu_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwsubu_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwsubu_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwadd_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwadd_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwadd_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwsub_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwsub_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwsub_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwaddu_wv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwaddu_wv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwaddu_wv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwsubu_wv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwsubu_wv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwsubu_wv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwadd_wv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwadd_wv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwadd_wv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwsub_wv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwsub_wv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwsub_wv_w, 4, 8, clearq)
-> +
-> +RVVCALL(OPIVX2, vwaddu_vx_b, WOP_UUU_B, H2, H1, DO_ADD)
-> +RVVCALL(OPIVX2, vwaddu_vx_h, WOP_UUU_H, H4, H2, DO_ADD)
-> +RVVCALL(OPIVX2, vwaddu_vx_w, WOP_UUU_W, H8, H4, DO_ADD)
-> +RVVCALL(OPIVX2, vwsubu_vx_b, WOP_UUU_B, H2, H1, DO_SUB)
-> +RVVCALL(OPIVX2, vwsubu_vx_h, WOP_UUU_H, H4, H2, DO_SUB)
-> +RVVCALL(OPIVX2, vwsubu_vx_w, WOP_UUU_W, H8, H4, DO_SUB)
-> +RVVCALL(OPIVX2, vwadd_vx_b, WOP_SSS_B, H2, H1, DO_ADD)
-> +RVVCALL(OPIVX2, vwadd_vx_h, WOP_SSS_H, H4, H2, DO_ADD)
-> +RVVCALL(OPIVX2, vwadd_vx_w, WOP_SSS_W, H8, H4, DO_ADD)
-> +RVVCALL(OPIVX2, vwsub_vx_b, WOP_SSS_B, H2, H1, DO_SUB)
-> +RVVCALL(OPIVX2, vwsub_vx_h, WOP_SSS_H, H4, H2, DO_SUB)
-> +RVVCALL(OPIVX2, vwsub_vx_w, WOP_SSS_W, H8, H4, DO_SUB)
-> +RVVCALL(OPIVX2, vwaddu_wx_b, WOP_WUUU_B, H2, H1, DO_ADD)
-> +RVVCALL(OPIVX2, vwaddu_wx_h, WOP_WUUU_H, H4, H2, DO_ADD)
-> +RVVCALL(OPIVX2, vwaddu_wx_w, WOP_WUUU_W, H8, H4, DO_ADD)
-> +RVVCALL(OPIVX2, vwsubu_wx_b, WOP_WUUU_B, H2, H1, DO_SUB)
-> +RVVCALL(OPIVX2, vwsubu_wx_h, WOP_WUUU_H, H4, H2, DO_SUB)
-> +RVVCALL(OPIVX2, vwsubu_wx_w, WOP_WUUU_W, H8, H4, DO_SUB)
-> +RVVCALL(OPIVX2, vwadd_wx_b, WOP_WSSS_B, H2, H1, DO_ADD)
-> +RVVCALL(OPIVX2, vwadd_wx_h, WOP_WSSS_H, H4, H2, DO_ADD)
-> +RVVCALL(OPIVX2, vwadd_wx_w, WOP_WSSS_W, H8, H4, DO_ADD)
-> +RVVCALL(OPIVX2, vwsub_wx_b, WOP_WSSS_B, H2, H1, DO_SUB)
-> +RVVCALL(OPIVX2, vwsub_wx_h, WOP_WSSS_H, H4, H2, DO_SUB)
-> +RVVCALL(OPIVX2, vwsub_wx_w, WOP_WSSS_W, H8, H4, DO_SUB)
-> +GEN_VEXT_VX(vwaddu_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwaddu_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwaddu_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwsubu_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwsubu_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwsubu_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwadd_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwadd_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwadd_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwsub_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwsub_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwsub_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwaddu_wx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwaddu_wx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwaddu_wx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwsubu_wx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwsubu_wx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwsubu_wx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwadd_wx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwadd_wx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwadd_wx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwsub_wx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwsub_wx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwsub_wx_w, 4, 8, clearq)
-> --
-> 2.23.0
->
+>  #if defined(CONFIG_USER_ONLY)
+>      GEN_PRIV;
+>  #else
+>      CHK_SV;
+>=20
+> -    gen_helper_slbia(cpu_env);
+> +    gen_helper_slbia(cpu_env, t0);
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+>=20
+
 
