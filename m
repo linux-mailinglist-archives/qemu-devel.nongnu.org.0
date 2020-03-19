@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5333918C2E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 23:16:33 +0100 (CET)
-Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C84218C2F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 23:24:38 +0100 (CET)
+Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF3Sq-000710-9H
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 18:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59877)
+	id 1jF3af-0000iG-8K
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 18:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dnbrdsky@gmail.com>) id 1jF3Rf-0006RY-EJ
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 18:15:20 -0400
+ (envelope-from <linus.walleij@linaro.org>) id 1jF3Zt-0000J2-FI
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 18:23:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dnbrdsky@gmail.com>) id 1jF3Re-0006Yr-DG
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 18:15:19 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:37506)
+ (envelope-from <linus.walleij@linaro.org>) id 1jF3Zs-0001fL-1l
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 18:23:49 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:38581)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dnbrdsky@gmail.com>)
- id 1jF3Re-0006WP-87; Thu, 19 Mar 2020 18:15:18 -0400
-Received: by mail-il1-x134.google.com with SMTP id a6so3827554ilc.4;
- Thu, 19 Mar 2020 15:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1jF3Zr-0001ew-PI
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 18:23:48 -0400
+Received: by mail-lj1-x243.google.com with SMTP id w1so4371423ljh.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 15:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LcnwlyBQyo7WyHhuzHgKrrtRZZVJkWSUf60FChgZuJk=;
- b=maPa+TM3X42gv/Oo1PT24bQNlhZrVqj3lxf4UCE9ahq3xOzvTt+xfDTCq+Db4hjFzh
- 4Gw8gvirNSj1ujFKmEt5RA69mub/mLIX/0+mCdQSQihnG+WtnZl2ujLAaKPjrXfwjhN7
- XLmIE1sIdqwY62eOUmZNA4UIJTKiWMN4yMAOrbiHnnHmCIBgOk+3CZ5tl+BT8eCrbOcF
- l23o5JdOSx4dW+LipJu1U9JurVBcoJgMfcle+tYjquN583wTDKIwIqk2SJTTRMPiWDaK
- 5sx/t+WWt/zHvPQ8IBLcXU/WeBfL50broylNLAwC1KOi1VvzZDV9ikPqu2UvjEUmPbu0
- uDXA==
+ :cc; bh=WJ6MzhtWalH0hDBYxWzZFJvnUo/A0DOitGKj0UfdYo8=;
+ b=XBqh7pWnTmUlqQohZOg/HeJr0gQHAIeXOwQCGzJ5OwLz0JntySiWzUQk/bbyBsqGm9
+ AOagPLaBdiW1PMwWYNG62+YPygcjxUIjKZCSAWI7Y+gXGQmEpDRx5s4L6A86L4QjzPhm
+ g1WliO6jBKgCaK0bZjyFPxJo1T1kZceLM4t/lRH12iiIppbgjzQ3iyFeIrW4qK58Nko5
+ lbNS0FS7GU3iUIH68IUAikInyw3mSaCNwFQaUwVoTXF/SPEBXD79mERRqpVxClHgzlbO
+ LuBZhWaZGVlUhSTRyD/NNbgZlWYzqDYTxbQym6CawlmhMV6GI3Nb15UmNwRMlI/s0Tib
+ EF6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LcnwlyBQyo7WyHhuzHgKrrtRZZVJkWSUf60FChgZuJk=;
- b=ZANo2sPHoYwksm+5eKI7Plv0yFXTDdIn6Fg8NxWEWXoJkFYrDYGDRg/2J4ipMNPQEw
- JiigK/uOcqVCv19WXKZIe948XhjDROYqrbwTHp8w2Ln1v3XpKlskdbmbOHt7ACGyz8SW
- xncBCzVo6jDk/dOuyVu5DevjmTOUcvi/HiSMHAgBdvmmyUWGPIrNQFmQLHT7NUJ1rZC9
- k79zzhBNPAA9uHFGR788ylK3kkdvAohhLqNt+KLGT1HyTHgLHxwygK6nwWUMW/1gSrRX
- XwTdvTIBk8MRZ75o23b/dD86bz359aLCLhpbTYd1lDCOGVg+uC7fxAskxHNUYOl05reW
- xDyw==
-X-Gm-Message-State: ANhLgQ3g5JbzTp6AOoDKjuULq5bSzWgzQp/n8eRNCn8shuKw2Gzvmfwq
- dwzg+OIPP11q/pxGgKqcGEhW1DzXuuYHupoXWp0=
-X-Google-Smtp-Source: ADFU+vuQOrpcDgu21yPSoaTW+0GyN/w9pS27lqAyNhEdOqN1Mz+gJyIN2wSk3Exv634c1L1+qtoPQ2ffOg0X1S/45xE=
-X-Received: by 2002:a92:da51:: with SMTP id p17mr5425472ilq.254.1584656117486; 
- Thu, 19 Mar 2020 15:15:17 -0700 (PDT)
+ bh=WJ6MzhtWalH0hDBYxWzZFJvnUo/A0DOitGKj0UfdYo8=;
+ b=NAlsmpo8eXiL356SMWzSis0CWAjDbPjot4tgqzfjNXrAZWVyU/amHTbW1yw1Sc7Lzm
+ JWZZo1b0JhbliygL953HYACUJq28AoTWwKXBle6YmV8e316wVDbXBFTVov8e3KIeqobR
+ 2u9AQrVRYNOgbAPEmt7xsrWFeCsZO3puj97x4PmfTYyTGCa8lVtGmCYkcgnd5a31pKZq
+ IqBlnupQ+LcT4KzrqOwRXF7JCoVqNtnYE9m8ot+Cy3/PG6UbsL8JSPYtkq8TUnRU9uF+
+ gOeqWi/PHV2BqRSgez7dPBJ6jmp6lCkCsGx0GYlcyIlFWnV/cVWzkR0Dka1Ilx5U2MZj
+ 0OQg==
+X-Gm-Message-State: ANhLgQ2DxIn67qJktb/58vZJHlTrdOjwqg7nSsIeWnHQABOYlnMghs7G
+ t6drwvff0hPkJ6XVi98Dz7LeGtLqXZZk1HodNeP5sw==
+X-Google-Smtp-Source: ADFU+vsNGI4DJxjB5f7C7tgGloRNRzSoDi/T/uXs4OR8cIg4QaTNXgqQeL/rC2Yz+GqKJZUSlth8pWewRRKx9U7JH3M=
+X-Received: by 2002:a05:651c:1026:: with SMTP id
+ w6mr3408670ljm.168.1584656625715; 
+ Thu, 19 Mar 2020 15:23:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <158464628614.8795.7072935999807888220@39012742ff91>
- <d734a44f-b2d6-150f-ca82-160e334d99c8@redhat.com>
-In-Reply-To: <d734a44f-b2d6-150f-ca82-160e334d99c8@redhat.com>
-From: Daniel Brodsky <dnbrdsky@gmail.com>
-Date: Thu, 19 Mar 2020 15:15:06 -0700
-Message-ID: <CA+ZmoZXiH5o09xkD9aLhh3K55xh_kA5fG--06WdUk7pkZW2LSg@mail.gmail.com>
-Subject: Re: [PATCH] lockable: replaced locks with lock guard macros where
- appropriate
-To: Eric Blake <eblake@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f957d505a13c80bb"
+References: <20200317113153.7945-1-linus.walleij@linaro.org>
+ <CAFEAcA9mXE+gPnvM6HZ-w0+BhbpeuH=osFH-9NUzCLv=w-c7HQ@mail.gmail.com>
+ <CACRpkdZtLNUwiZEMiJEoB0ojOBckyGcZeyFkR6MC69qv-ry9EA@mail.gmail.com>
+ <CAFEAcA-gdwi=KSW6LqVdEJWSo9VEL5abYQs9LoHd4mKE_-h=Aw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-gdwi=KSW6LqVdEJWSo9VEL5abYQs9LoHd4mKE_-h=Aw@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 19 Mar 2020 23:23:33 +0100
+Message-ID: <CACRpkdYuZgZUznVxt1AHCSJa_GAXy8N0SduE5OrjDnE1s_L7Zg@mail.gmail.com>
+Subject: Re: [PATCH] ext4: Give 32bit personalities 32bit hashes
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::134
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,58 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:iSCSI" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Peter Lieven <pl@kamp.de>,
- Markus Armbruster <armbru@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Theodore Ts'o <tytso@mit.edu>, "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+ Linux API <linux-api@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ stable <stable@vger.kernel.org>, Florian Weimer <fw@deneb.enyo.de>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f957d505a13c80bb
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Mar 19, 2020 at 1:53 PM Eric Blake <eblake@redhat.com> wrote:
-
+On Thu, Mar 19, 2020 at 4:25 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Thu, 19 Mar 2020 at 15:13, Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Tue, Mar 17, 2020 at 12:58 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > What in particular does this personality setting affect?
+> > > My copy of the personality(2) manpage just says:
+> > >
+> > >        PER_LINUX32 (since Linux 2.2)
+> > >               [To be documented.]
+> > >
+> > > which isn't very informative.
+> >
+> > It's not a POSIX thing (not part of the Single Unix Specification)
+> > so as with most Linux things it has some fuzzy semantics
+> > defined by the community...
+> >
+> > I usually just go to the source.
 >
-> Hmm. This one is a different failure than the other patchew warnings
-> about variable redefinition; but is still evidence that it is missing
-> your "[PATCH] misc: fix __COUNTER__ macro to be referenced properly".
-> At any rate, the fact that we have a compiler warning about an unused
-> variable (when in reality it IS used by the auto-cleanup attribute) is
-> annoying; we may have to further tweak QEMU_LOCK_GUARD to add an
-> __attribute__((unused)) to shut up this particular compiler false positive.
->
-> This might fix itself once I revise the patch to properly reference the
-prior patch
-before this one. If not then I can add another patch to get rid of the
-false positive.
+> If we're going to decide that this is the way to say
+> "give me 32-bit semantics" we need to actually document
+> that and define in at least broad terms what we mean
+> by it, so that when new things are added that might or
+> might not check against the setting there is a reference
+> defining whether they should or not, and so that
+> userspace knows what it's opting into by setting the flag.
+> The kernel loves undocumented APIs but userspace
+> consumers of them are not so enamoured :-)
 
---000000000000f957d505a13c80bb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+OK I guess we can at least take this opportunity to add
+some kerneldoc to the include file.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Mar 19, 2020 at 1:53 PM Eric Blak=
-e &lt;<a href=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wrote:=
-<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><br>
-Hmm. This one is a different failure than the other patchew warnings <br>
-about variable redefinition; but is still evidence that it is missing <br>
-your &quot;[PATCH] misc: fix __COUNTER__ macro to be referenced properly&qu=
-ot;. <br>
-At any rate, the fact that we have a compiler warning about an unused <br>
-variable (when in reality it IS used by the auto-cleanup attribute) is <br>
-annoying; we may have to further tweak QEMU_LOCK_GUARD to add an <br>
-__attribute__((unused)) to shut up this particular compiler false positive.=
-<br>
-<br></blockquote><div>This might fix itself once I revise the patch to prop=
-erly reference the prior patch<br></div><div>before this one. If not then I=
- can add another patch to get rid of the false positive.<br></div></div></d=
-iv>
+> As a concrete example, should "give me 32-bit semantics
+> via PER_LINUX32" mean "mmap should always return addresses
+> within 4GB" ? That would seem like it would make sense --
 
---000000000000f957d505a13c80bb--
+Incidentally that thing in particular has its own personality
+flag (personalities are additive, it's a bit schizophrenic)
+so PER_LINUX_32BIT is defined as:
+PER_LINUX_32BIT =       0x0000 | ADDR_LIMIT_32BIT,
+and that is specifically for limiting the address space to
+32bit.
+
+There is also PER_LINUX32_3GB for a 3GB lowmem
+limit.
+
+Since the personality is kind of additive, if
+we want a flag *specifically* for indicating that we want
+32bit hashes from the file system, there are bits left so we
+can provide that.
+
+Is this what we want to do? I just think we shouldn't
+decide on that lightly as we will be using up personality
+bug bits, but sometimes you have to use them.
+
+PER_LINUX32 as it stands means 32bit personality
+but very specifically does not include memory range
+limitations since that has its own flags.
+
+Yours,
+Linus Walleij
 
