@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67AC18BD3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 17:58:44 +0100 (CET)
-Received: from localhost ([::1]:40638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AB118BDA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 18:11:03 +0100 (CET)
+Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEyVH-0005tC-Hf
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 12:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55982)
+	id 1jEyhA-0001zW-2b
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 13:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58524)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jEyUP-0005Td-Aq
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:57:51 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jEyg8-00015a-9c
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:09:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jEyUM-0007sv-Fl
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:57:48 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13029)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jEyUM-0007qN-55
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 12:57:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e73a47a0000>; Thu, 19 Mar 2020 09:57:30 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 19 Mar 2020 09:57:43 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 09:57:43 -0700
-Received: from [10.40.102.54] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
- 2020 16:57:34 +0000
-Subject: Re: [PATCH v14 Kernel 4/7] vfio iommu: Implementation of ioctl for
- dirty pages tracking.
-To: Alex Williamson <alex.williamson@redhat.com>, Yan Zhao
- <yan.y.zhao@intel.com>
-References: <1584560474-19946-1-git-send-email-kwankhede@nvidia.com>
- <1584560474-19946-5-git-send-email-kwankhede@nvidia.com>
- <20200319030639.GD4641@joy-OptiPlex-7040> <20200318220100.1aac12fa@w520.home>
- <20200319041533.GE4641@joy-OptiPlex-7040> <20200318224053.3651c818@w520.home>
- <20200319061534.GG4641@joy-OptiPlex-7040> <20200319070635.2ff5db56@x1.home>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <31621b70-02a9-2ea5-045f-f72b671fe703@nvidia.com>
-Date: Thu, 19 Mar 2020 22:27:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <alistair23@gmail.com>) id 1jEyg5-0002AB-SI
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 13:09:56 -0400
+Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:43747)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jEyg5-00029o-Mc; Thu, 19 Mar 2020 13:09:53 -0400
+Received: by mail-vs1-xe42.google.com with SMTP id 7so2116516vsr.10;
+ Thu, 19 Mar 2020 10:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0JzAPL3k4v7k1+NFEOxNTlqLCnyk/P4uNyCHBAyrC8U=;
+ b=SnRI1Ud02K6oqIunZ6UBK3WnxyWz8dibg9C4ekYdFU8vaEpcZ9L2XkbOCbUpGrfxnS
+ ouU2Gc9kbq5SebodII9IXGnJ0iKkWCBTVrxg6xQoqUl3qLV6wtWMqQfMxpBM3RxWjnRQ
+ O2xwqy0+H85NZWEEmIkE31zp9x4eDdipATTTuYkzYcSQIQJ77n9Qvb8/wKO/asS4+vpz
+ jArkWfQACtunIFgV0OQcCVc1bl4RSMbwksf6HJElk8b4FTRuTeb5AVwkCUqKP2WbSk6W
+ JQDMvBD/56zlYo4qSWjl8NVPouMeFpVs/jqRwWtuImtO0cEr0A22k6GBtIjdhFRdPyG+
+ SiZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0JzAPL3k4v7k1+NFEOxNTlqLCnyk/P4uNyCHBAyrC8U=;
+ b=DAdG3UJLjJi1ZqFPpMPqczPbalIO7wqF3W/5pDIfcRq+D2zbno0heDc18JSWBsZ1LM
+ jy/Ye4Pymq3jMb8ydMN8+pVoRqGTY9nIO+RNYXpTNVnhyz3O3iJDUfXi1WNZ7qqx6Awv
+ TsmY2UMxFTX72Th82B0dugz5dACrYLnLxvsvKssvvo26raA3/8vi0jrjtXhfY3kaDRmK
+ 2ncVQ9/8yf3r4ZPvoyrkhYFQeOK8KjN7BolcZBGa5OVos2XRQz29q1l/GV1sfr7ota4G
+ CkbS3o/kSeie0Rc2JnP+dc9pDrIfoQetH1azRoy0jMeyw3MCc80JUo01UrgK1xcoWANx
+ cLVg==
+X-Gm-Message-State: ANhLgQ1eQWNzr7mpnOkkIPcCeTYdO0UzzGNQHmsIm+M8T+nGgLKk+EAh
+ yof+4nvcllhjlZtFKCXG7sNLWh0pSWyOLxCArXE=
+X-Google-Smtp-Source: ADFU+vvPhK0uESOwpGP+ssN5bX7NImJtt/cdyzM+ScGMwcNKTFlVVI6Cr1KnsEJ2ChgKVaboX8NrMI3+9hQWM1YJoOo=
+X-Received: by 2002:a67:cd8e:: with SMTP id r14mr2986483vsl.172.1584637792755; 
+ Thu, 19 Mar 2020 10:09:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200319070635.2ff5db56@x1.home>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1584637051; bh=62CL+wODth/gDOK49qpDu8R0PAcg4lyTPHNwJ/3/nAw=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=PBk9/vHpjeM4lwhXil64m1csKiKT89xHx4ghm2jwU8/IeDP6bHI57dDsDEPNZdPLp
- 5/hJC+0NKl0Wa+2D9TYNxhwxsg7DjblwkuYY9X15yTRyEZd+vvSWWUXZyWrnRtlDA+
- JXOHEGJt4bhLoea76sYEvhSyZWECmSF2WBcT1J+gl1/o0z42HRDdylAKKivMkrIQlx
- Z3wzQXsN1ZwU9k9MgtO/REOUQ3kglw2x7biPK0IqU7wjOE9Tg9vFc+uFfMvg87yyRg
- sK4VDGjLtS4UrU5uPNwU3poFiXcR2/iwwlwl4HcsujEmGQneVdF237US5dy66PPOlU
- yr5AwTZER4MKw==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.65
+References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+ <20200317150653.9008-10-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200317150653.9008-10-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 19 Mar 2020 10:01:56 -0700
+Message-ID: <CAKmqyKM+dD2G1BGKQjzL7m8H1MEdti1pcPFFFqZytYpd8hnV4w@mail.gmail.com>
+Subject: Re: [PATCH v6 09/61] target/riscv: add vector amo operations
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,402 +71,444 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 17, 2020 at 8:25 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Vector AMOs operate as if aq and rl bits were zero on each element
+> with regard to ordering relative to other instructions in the same hart.
+> Vector AMOs provide no ordering guarantee between element operations
+> in the same vector AMO instruction
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On 3/19/2020 6:36 PM, Alex Williamson wrote:
-> On Thu, 19 Mar 2020 02:15:34 -0400
-> Yan Zhao <yan.y.zhao@intel.com> wrote:
-> 
->> On Thu, Mar 19, 2020 at 12:40:53PM +0800, Alex Williamson wrote:
->>> On Thu, 19 Mar 2020 00:15:33 -0400
->>> Yan Zhao <yan.y.zhao@intel.com> wrote:
->>>    
->>>> On Thu, Mar 19, 2020 at 12:01:00PM +0800, Alex Williamson wrote:
->>>>> On Wed, 18 Mar 2020 23:06:39 -0400
->>>>> Yan Zhao <yan.y.zhao@intel.com> wrote:
->>>>>      
->>>>>> On Thu, Mar 19, 2020 at 03:41:11AM +0800, Kirti Wankhede wrote:
->>>>>>> VFIO_IOMMU_DIRTY_PAGES ioctl performs three operations:
->>>>>>> - Start dirty pages tracking while migration is active
->>>>>>> - Stop dirty pages tracking.
->>>>>>> - Get dirty pages bitmap. Its user space application's responsibility to
->>>>>>>    copy content of dirty pages from source to destination during migration.
->>>>>>>
->>>>>>> To prevent DoS attack, memory for bitmap is allocated per vfio_dma
->>>>>>> structure. Bitmap size is calculated considering smallest supported page
->>>>>>> size. Bitmap is allocated for all vfio_dmas when dirty logging is enabled
->>>>>>>
->>>>>>> Bitmap is populated for already pinned pages when bitmap is allocated for
->>>>>>> a vfio_dma with the smallest supported page size. Update bitmap from
->>>>>>> pinning functions when tracking is enabled. When user application queries
->>>>>>> bitmap, check if requested page size is same as page size used to
->>>>>>> populated bitmap. If it is equal, copy bitmap, but if not equal, return
->>>>>>> error.
->>>>>>>
->>>>>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->>>>>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
->>>>>>> ---
->>>>>>>   drivers/vfio/vfio_iommu_type1.c | 205 +++++++++++++++++++++++++++++++++++++++-
->>>>>>>   1 file changed, 203 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
->>>>>>> index 70aeab921d0f..d6417fb02174 100644
->>>>>>> --- a/drivers/vfio/vfio_iommu_type1.c
->>>>>>> +++ b/drivers/vfio/vfio_iommu_type1.c
->>>>>>> @@ -71,6 +71,7 @@ struct vfio_iommu {
->>>>>>>   	unsigned int		dma_avail;
->>>>>>>   	bool			v2;
->>>>>>>   	bool			nesting;
->>>>>>> +	bool			dirty_page_tracking;
->>>>>>>   };
->>>>>>>   
->>>>>>>   struct vfio_domain {
->>>>>>> @@ -91,6 +92,7 @@ struct vfio_dma {
->>>>>>>   	bool			lock_cap;	/* capable(CAP_IPC_LOCK) */
->>>>>>>   	struct task_struct	*task;
->>>>>>>   	struct rb_root		pfn_list;	/* Ex-user pinned pfn list */
->>>>>>> +	unsigned long		*bitmap;
->>>>>>>   };
->>>>>>>   
->>>>>>>   struct vfio_group {
->>>>>>> @@ -125,7 +127,10 @@ struct vfio_regions {
->>>>>>>   #define IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)	\
->>>>>>>   					(!list_empty(&iommu->domain_list))
->>>>>>>   
->>>>>>> +#define DIRTY_BITMAP_BYTES(n)	(ALIGN(n, BITS_PER_TYPE(u64)) / BITS_PER_BYTE)
->>>>>>> +
->>>>>>>   static int put_pfn(unsigned long pfn, int prot);
->>>>>>> +static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu);
->>>>>>>   
->>>>>>>   /*
->>>>>>>    * This code handles mapping and unmapping of user data buffers
->>>>>>> @@ -175,6 +180,55 @@ static void vfio_unlink_dma(struct vfio_iommu *iommu, struct vfio_dma *old)
->>>>>>>   	rb_erase(&old->node, &iommu->dma_list);
->>>>>>>   }
->>>>>>>   
->>>>>>> +static int vfio_dma_bitmap_alloc(struct vfio_iommu *iommu, uint64_t pgsize)
->>>>>>> +{
->>>>>>> +	struct rb_node *n = rb_first(&iommu->dma_list);
->>>>>>> +
->>>>>>> +	for (; n; n = rb_next(n)) {
->>>>>>> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
->>>>>>> +		struct rb_node *p;
->>>>>>> +		unsigned long npages = dma->size / pgsize;
->>>>>>> +
->>>>>>> +		dma->bitmap = kvzalloc(DIRTY_BITMAP_BYTES(npages), GFP_KERNEL);
->>>>>>> +		if (!dma->bitmap) {
->>>>>>> +			struct rb_node *p = rb_prev(n);
->>>>>>> +
->>>>>>> +			for (; p; p = rb_prev(p)) {
->>>>>>> +				struct vfio_dma *dma = rb_entry(n,
->>>>>>> +							struct vfio_dma, node);
->>>>>>> +
->>>>>>> +				kfree(dma->bitmap);
->>>>>>> +				dma->bitmap = NULL;
->>>>>>> +			}
->>>>>>> +			return -ENOMEM;
->>>>>>> +		}
->>>>>>> +
->>>>>>> +		if (RB_EMPTY_ROOT(&dma->pfn_list))
->>>>>>> +			continue;
->>>>>>> +
->>>>>>> +		for (p = rb_first(&dma->pfn_list); p; p = rb_next(p)) {
->>>>>>> +			struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn,
->>>>>>> +							 node);
->>>>>>> +
->>>>>>> +			bitmap_set(dma->bitmap,
->>>>>>> +					(vpfn->iova - dma->iova) / pgsize, 1);
->>>>>>> +		}
->>>>>>> +	}
->>>>>>> +	return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static void vfio_dma_bitmap_free(struct vfio_iommu *iommu)
->>>>>>> +{
->>>>>>> +	struct rb_node *n = rb_first(&iommu->dma_list);
->>>>>>> +
->>>>>>> +	for (; n; n = rb_next(n)) {
->>>>>>> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
->>>>>>> +
->>>>>>> +		kfree(dma->bitmap);
->>>>>>> +		dma->bitmap = NULL;
->>>>>>> +	}
->>>>>>> +}
->>>>>>> +
->>>>>>>   /*
->>>>>>>    * Helper Functions for host iova-pfn list
->>>>>>>    */
->>>>>>> @@ -567,6 +621,14 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
->>>>>>>   			vfio_unpin_page_external(dma, iova, do_accounting);
->>>>>>>   			goto pin_unwind;
->>>>>>>   		}
->>>>>>> +
->>>>>>> +		if (iommu->dirty_page_tracking) {
->>>>>>> +			unsigned long pgshift =
->>>>>>> +					 __ffs(vfio_pgsize_bitmap(iommu));
->>>>>>> +
->>>>>>> +			bitmap_set(dma->bitmap,
->>>>>>> +				   (vpfn->iova - dma->iova) >> pgshift, 1);
->>>>>>> +		}
->>>>>>>   	}
->>>>>>>   
->>>>>>>   	ret = i;
->>>>>>> @@ -801,6 +863,7 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
->>>>>>>   	vfio_unmap_unpin(iommu, dma, true);
->>>>>>>   	vfio_unlink_dma(iommu, dma);
->>>>>>>   	put_task_struct(dma->task);
->>>>>>> +	kfree(dma->bitmap);
->>>>>>>   	kfree(dma);
->>>>>>>   	iommu->dma_avail++;
->>>>>>>   }
->>>>>>> @@ -831,6 +894,50 @@ static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
->>>>>>>   	return bitmap;
->>>>>>>   }
->>>>>>>   
->>>>>>> +static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
->>>>>>> +				  size_t size, uint64_t pgsize,
->>>>>>> +				  unsigned char __user *bitmap)
->>>>>>> +{
->>>>>>> +	struct vfio_dma *dma;
->>>>>>> +	unsigned long pgshift = __ffs(pgsize);
->>>>>>> +	unsigned int npages, bitmap_size;
->>>>>>> +
->>>>>>> +	dma = vfio_find_dma(iommu, iova, 1);
->>>>>>> +
->>>>>>> +	if (!dma)
->>>>>>> +		return -EINVAL;
->>>>>>> +
->>>>>>> +	if (dma->iova != iova || dma->size != size)
->>>>>>> +		return -EINVAL;
->>>>>>> +
->>>>>> looks this size is passed from user. how can it ensure size always
->>>>>> equals to dma->size ?
->>>>>>
->>>>>> shouldn't we iterate dma tree to look for dirty for whole range if a
->>>>>> single dma cannot meet them all?
->>>>>
->>>>> Please see the discussion on v12[1], the problem is with the alignment
->>>>> of DMA mapped regions versus the bitmap.  A DMA mapping only requires
->>>>> page alignment, so for example imagine a user requests the bitmap from
->>>>> page zero to 4GB, but we have a DMA mapping starting at 4KB.  We can't
->>>>> efficiently copy the bitmap tracked by the vfio_dma structure to the
->>>>> user buffer when it's shifted by 1 bit.  Adjacent mappings can also
->>>>> make for a very complicated implementation.  In the discussion linked
->>>>> we decided to compromise on a more simple implementation that requires
->>>>> the user to ask for a bitmap which exactly matches a single DMA
->>>>> mapping, which Kirti indicates is what we require to support QEMU.
->>>>> Later in the series, the unmap operation also makes this requirement
->>>>> when used with the flags to retrieve the dirty bitmap.  Thanks,
->>>>>     
->>>>
->>>> so, what about for vIOMMU enabling case?
->>>> if IOVAs are mapped per page, then there's a log_sync in qemu,
->>>> it's supposed for range from 0-U64MAX, qemu has to find out which
->>>> ones are mapped and cut them into pages before calling this IOCTL?
->>>> And what if those IOVAs are mapped for len more than one page?
->>>
->>> Good question.  Kirti?
->>>
+Alistair
 
-In log_sync with vIOMMU, loop for range such that:
-
-- find iotlb entry for iova, get iova_xlat
-- size = iotlb.addr_mask + 1; This is same caculation as when mapping 
-are created from vfio_iommu_map_notify()
-- use the <iova_xlat, size> for VFIO_IOMMU_DIRTY_PAGES ioctl
-- increment iova: iova += size
-- iterate above steps till end of range.
-
->>>>> [1] https://lore.kernel.org/kvm/20200218215330.5bc8fc6a@w520.home/
->>>>>       
->>>>>>> +	npages = dma->size >> pgshift;
->>>>>>> +	bitmap_size = DIRTY_BITMAP_BYTES(npages);
->>>>>>> +
->>>>>>> +	/* mark all pages dirty if all pages are pinned and mapped. */
->>>>>>> +	if (dma->iommu_mapped)
->>>>>>> +		bitmap_set(dma->bitmap, 0, npages);
->>>>>>> +
->>>>>>> +	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
->>>>>>> +		return -EFAULT;
->>>>>>> +
->> Here, dma->bitmap needs to be cleared. right?
-> 
-> Ah, I missed re-checking this in my review.  v13 did clear it, but I
-> noted that we need to re-populate any currently pinned pages.  This
-> neither clears nor repopulates.  That's wrong.  Thanks,
-> 
-
-Why re-populate when there will be no change since 
-vfio_iova_dirty_bitmap() is called holding iommu->lock? If there is any 
-pin request while vfio_iova_dirty_bitmap() is still working, it will 
-wait till iommu->lock is released. Bitmap will be populated when page is 
-pinned.
-
-Thanks,
-Kirti
-
-> Alex
->   
->>>>>>> +	return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
->>>>>>> +{
->>>>>>> +	uint64_t bsize;
->>>>>>> +
->>>>>>> +	if (!npages || !bitmap_size || bitmap_size > UINT_MAX)
->>>>>>> +		return -EINVAL;
->>>>>>> +
->>>>>>> +	bsize = DIRTY_BITMAP_BYTES(npages);
->>>>>>> +
->>>>>>> +	if (bitmap_size < bsize)
->>>>>>> +		return -EINVAL;
->>>>>>> +
->>>>>>> +	return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>>   static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>>>>>>   			     struct vfio_iommu_type1_dma_unmap *unmap)
->>>>>>>   {
->>>>>>> @@ -2278,6 +2385,93 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
->>>>>>>   
->>>>>>>   		return copy_to_user((void __user *)arg, &unmap, minsz) ?
->>>>>>>   			-EFAULT : 0;
->>>>>>> +	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
->>>>>>> +		struct vfio_iommu_type1_dirty_bitmap dirty;
->>>>>>> +		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
->>>>>>> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
->>>>>>> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
->>>>>>> +		int ret = 0;
->>>>>>> +
->>>>>>> +		if (!iommu->v2)
->>>>>>> +			return -EACCES;
->>>>>>> +
->>>>>>> +		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
->>>>>>> +				    flags);
->>>>>>> +
->>>>>>> +		if (copy_from_user(&dirty, (void __user *)arg, minsz))
->>>>>>> +			return -EFAULT;
->>>>>>> +
->>>>>>> +		if (dirty.argsz < minsz || dirty.flags & ~mask)
->>>>>>> +			return -EINVAL;
->>>>>>> +
->>>>>>> +		/* only one flag should be set at a time */
->>>>>>> +		if (__ffs(dirty.flags) != __fls(dirty.flags))
->>>>>>> +			return -EINVAL;
->>>>>>> +
->>>>>>> +		if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
->>>>>>> +			uint64_t pgsize = 1 << __ffs(vfio_pgsize_bitmap(iommu));
->>>>>>> +
->>>>>>> +			mutex_lock(&iommu->lock);
->>>>>>> +			if (!iommu->dirty_page_tracking) {
->>>>>>> +				ret = vfio_dma_bitmap_alloc(iommu, pgsize);
->>>>>>> +				if (!ret)
->>>>>>> +					iommu->dirty_page_tracking = true;
->>>>>>> +			}
->>>>>>> +			mutex_unlock(&iommu->lock);
->>>>>>> +			return ret;
->>>>>>> +		} else if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
->>>>>>> +			mutex_lock(&iommu->lock);
->>>>>>> +			if (iommu->dirty_page_tracking) {
->>>>>>> +				iommu->dirty_page_tracking = false;
->>>>>>> +				vfio_dma_bitmap_free(iommu);
->>>>>>> +			}
->>>>>>> +			mutex_unlock(&iommu->lock);
->>>>>>> +			return 0;
->>>>>>> +		} else if (dirty.flags &
->>>>>>> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
->>>>>>> +			struct vfio_iommu_type1_dirty_bitmap_get range;
->>>>>>> +			unsigned long pgshift;
->>>>>>> +			size_t data_size = dirty.argsz - minsz;
->>>>>>> +			uint64_t iommu_pgsize =
->>>>>>> +					 1 << __ffs(vfio_pgsize_bitmap(iommu));
->>>>>>> +
->>>>>>> +			if (!data_size || data_size < sizeof(range))
->>>>>>> +				return -EINVAL;
->>>>>>> +
->>>>>>> +			if (copy_from_user(&range, (void __user *)(arg + minsz),
->>>>>>> +					   sizeof(range)))
->>>>>>> +				return -EFAULT;
->>>>>>> +
->>>>>>> +			/* allow only min supported pgsize */
->>>>>>> +			if (range.bitmap.pgsize != iommu_pgsize)
->>>>>>> +				return -EINVAL;
->>>>>>> +			if (range.iova & (iommu_pgsize - 1))
->>>>>>> +				return -EINVAL;
->>>>>>> +			if (!range.size || range.size & (iommu_pgsize - 1))
->>>>>>> +				return -EINVAL;
->>>>>>> +			if (range.iova + range.size < range.iova)
->>>>>>> +				return -EINVAL;
->>>>>>> +			if (!access_ok((void __user *)range.bitmap.data,
->>>>>>> +				       range.bitmap.size))
->>>>>>> +				return -EINVAL;
->>>>>>> +
->>>>>>> +			pgshift = __ffs(range.bitmap.pgsize);
->>>>>>> +			ret = verify_bitmap_size(range.size >> pgshift,
->>>>>>> +						 range.bitmap.size);
->>>>>>> +			if (ret)
->>>>>>> +				return ret;
->>>>>>> +
->>>>>>> +			mutex_lock(&iommu->lock);
->>>>>>> +			if (iommu->dirty_page_tracking)
->>>>>>> +				ret = vfio_iova_dirty_bitmap(iommu, range.iova,
->>>>>>> +					 range.size, range.bitmap.pgsize,
->>>>>>> +				    (unsigned char __user *)range.bitmap.data);
->>>>>>> +			else
->>>>>>> +				ret = -EINVAL;
->>>>>>> +			mutex_unlock(&iommu->lock);
->>>>>>> +
->>>>>>> +			return ret;
->>>>>>> +		}
->>>>>>>   	}
->>>>>>>   
->>>>>>>   	return -ENOTTY;
->>>>>>> @@ -2345,10 +2539,17 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
->>>>>>>   
->>>>>>>   	vaddr = dma->vaddr + offset;
->>>>>>>   
->>>>>>> -	if (write)
->>>>>>> +	if (write) {
->>>>>>>   		*copied = __copy_to_user((void __user *)vaddr, data,
->>>>>>>   					 count) ? 0 : count;
->>>>>>> -	else
->>>>>>> +		if (*copied && iommu->dirty_page_tracking) {
->>>>>>> +			unsigned long pgshift =
->>>>>>> +				__ffs(vfio_pgsize_bitmap(iommu));
->>>>>>> +
->>>>>>> +			bitmap_set(dma->bitmap, offset >> pgshift,
->>>>>>> +				   *copied >> pgshift);
->>>>>>> +		}
->>>>>>> +	} else
->>>>>>>   		*copied = __copy_from_user(data, (void __user *)vaddr,
->>>>>>>   					   count) ? 0 : count;
->>>>>>>   	if (kthread)
->>>>>>> -- 
->>>>>>> 2.7.0
->>>>>>>        
->>>>>>      
->>>>>      
->>>>    
->>>    
->>
-> 
+> ---
+>  target/riscv/helper.h                   |  29 +++++
+>  target/riscv/insn32-64.decode           |  11 ++
+>  target/riscv/insn32.decode              |  13 +++
+>  target/riscv/insn_trans/trans_rvv.inc.c | 134 ++++++++++++++++++++++
+>  target/riscv/internals.h                |   1 +
+>  target/riscv/vector_helper.c            | 143 ++++++++++++++++++++++++
+>  6 files changed, 331 insertions(+)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 72ba4d9bdb..70a4b05f75 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -240,3 +240,32 @@ DEF_HELPER_5(vlhuff_v_w, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlhuff_v_d, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlwuff_v_w, void, ptr, ptr, tl, env, i32)
+>  DEF_HELPER_5(vlwuff_v_d, void, ptr, ptr, tl, env, i32)
+> +#ifdef TARGET_RISCV64
+> +DEF_HELPER_6(vamoswapw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoswapd_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxorw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxord_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoorw_v_d,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoord_v_d,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomind_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxd_v_d,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominud_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxud_v_d, void, ptr, ptr, tl, ptr, env, i32)
+> +#endif
+> +DEF_HELPER_6(vamoswapw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoaddw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoxorw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoandw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamoorw_v_w,   void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamominuw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> +DEF_HELPER_6(vamomaxuw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+> diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
+> index 380bf791bc..86153d93fa 100644
+> --- a/target/riscv/insn32-64.decode
+> +++ b/target/riscv/insn32-64.decode
+> @@ -57,6 +57,17 @@ amomax_d   10100 . . ..... ..... 011 ..... 0101111 @atom_st
+>  amominu_d  11000 . . ..... ..... 011 ..... 0101111 @atom_st
+>  amomaxu_d  11100 . . ..... ..... 011 ..... 0101111 @atom_st
+>
+> +#*** Vector AMO operations (in addition to Zvamo) ***
+> +vamoswapd_v     00001 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoaddd_v      00000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoxord_v      00100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoandd_v      01100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamoord_v       01000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomind_v      10000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+> +
+>  # *** RV64F Standard Extension (in addition to RV32F) ***
+>  fcvt_l_s   1100000  00010 ..... ... ..... 1010011 @r2_rm
+>  fcvt_lu_s  1100000  00011 ..... ... ..... 1010011 @r2_rm
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index b76c09c8c0..1330703720 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -44,6 +44,7 @@
+>  &u    imm rd
+>  &shift     shamt rs1 rd
+>  &atomic    aq rl rs2 rs1 rd
+> +&rwdvm     vm wd rd rs1 rs2
+>  &r2nfvm    vm rd rs1 nf
+>  &rnfvm     vm rd rs1 rs2 nf
+>
+> @@ -67,6 +68,7 @@
+>  @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
+>  @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
+>  @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
+> +@r_wdvm  ..... wd:1 vm:1 ..... ..... ... ..... ....... &rwdvm %rs2 %rs1 %rd
+>  @r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
+>
+>  @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
+> @@ -261,6 +263,17 @@ vsxh_v     ... -11 . ..... ..... 101 ..... 0100111 @r_nfvm
+>  vsxw_v     ... -11 . ..... ..... 110 ..... 0100111 @r_nfvm
+>  vsxe_v     ... -11 . ..... ..... 111 ..... 0100111 @r_nfvm
+>
+> +#*** Vector AMO operations are encoded under the standard AMO major opcode ***
+> +vamoswapw_v     00001 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoaddw_v      00000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoxorw_v      00100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoandw_v      01100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamoorw_v       01000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamominw_v      10000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamomaxw_v      10100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamominuw_v     11000 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +vamomaxuw_v     11100 . . ..... ..... 110 ..... 0101111 @r_wdvm
+> +
+>  # *** new major opcode OP-V ***
+>  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index ce0fafde92..a8722ed9d2 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -606,3 +606,137 @@ GEN_VEXT_TRANS(vleff_v, 3, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlbuff_v, 4, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlhuff_v, 5, r2nfvm, ldff_op, ld_us_check)
+>  GEN_VEXT_TRANS(vlwuff_v, 6, r2nfvm, ldff_op, ld_us_check)
+> +
+> +/*
+> + *** vector atomic operation
+> + */
+> +typedef void gen_helper_amo(TCGv_ptr, TCGv_ptr, TCGv, TCGv_ptr,
+> +        TCGv_env, TCGv_i32);
+> +
+> +static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
+> +        uint32_t data, gen_helper_amo *fn, DisasContext *s)
+> +{
+> +    TCGv_ptr dest, mask, index;
+> +    TCGv base;
+> +    TCGv_i32 desc;
+> +
+> +    dest = tcg_temp_new_ptr();
+> +    mask = tcg_temp_new_ptr();
+> +    index = tcg_temp_new_ptr();
+> +    base = tcg_temp_new();
+> +    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
+> +
+> +    gen_get_gpr(base, rs1);
+> +    tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
+> +    tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
+> +    tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
+> +
+> +    fn(dest, mask, base, index, cpu_env, desc);
+> +
+> +    tcg_temp_free_ptr(dest);
+> +    tcg_temp_free_ptr(mask);
+> +    tcg_temp_free_ptr(index);
+> +    tcg_temp_free(base);
+> +    tcg_temp_free_i32(desc);
+> +    return true;
+> +}
+> +
+> +static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+> +{
+> +    uint32_t data = 0;
+> +    gen_helper_amo *fn;
+> +    static gen_helper_amo *const fnsw[9] = {
+> +        /* no atomic operation */
+> +        gen_helper_vamoswapw_v_w,
+> +        gen_helper_vamoaddw_v_w,
+> +        gen_helper_vamoxorw_v_w,
+> +        gen_helper_vamoandw_v_w,
+> +        gen_helper_vamoorw_v_w,
+> +        gen_helper_vamominw_v_w,
+> +        gen_helper_vamomaxw_v_w,
+> +        gen_helper_vamominuw_v_w,
+> +        gen_helper_vamomaxuw_v_w
+> +    };
+> +#ifdef TARGET_RISCV64
+> +    static gen_helper_amo *const fnsd[18] = {
+> +        gen_helper_vamoswapw_v_d,
+> +        gen_helper_vamoaddw_v_d,
+> +        gen_helper_vamoxorw_v_d,
+> +        gen_helper_vamoandw_v_d,
+> +        gen_helper_vamoorw_v_d,
+> +        gen_helper_vamominw_v_d,
+> +        gen_helper_vamomaxw_v_d,
+> +        gen_helper_vamominuw_v_d,
+> +        gen_helper_vamomaxuw_v_d,
+> +        gen_helper_vamoswapd_v_d,
+> +        gen_helper_vamoaddd_v_d,
+> +        gen_helper_vamoxord_v_d,
+> +        gen_helper_vamoandd_v_d,
+> +        gen_helper_vamoord_v_d,
+> +        gen_helper_vamomind_v_d,
+> +        gen_helper_vamomaxd_v_d,
+> +        gen_helper_vamominud_v_d,
+> +        gen_helper_vamomaxud_v_d
+> +    };
+> +#endif
+> +
+> +    if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+> +        gen_helper_exit_atomic(cpu_env);
+> +        s->base.is_jmp = DISAS_NORETURN;
+> +        return true;
+> +    } else {
+> +        if (s->sew == 3) {
+> +#ifdef TARGET_RISCV64
+> +            fn = fnsd[seq];
+> +#else
+> +            /* Check done in amo_check(). */
+> +            g_assert_not_reached();
+> +#endif
+> +        } else {
+> +            fn = fnsw[seq];
+> +        }
+> +    }
+> +
+> +    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
+> +    data = FIELD_DP32(data, VDATA, VM, a->vm);
+> +    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, WD, a->wd);
+> +    return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+> +}
+> +/*
+> + * There are two rules check here.
+> + *
+> + * 1. SEW must be at least as wide as the AMO memory element size.
+> + *
+> + * 2. If SEW is greater than XLEN, an illegal instruction exception is raised.
+> + */
+> +static bool amo_check(DisasContext *s, arg_rwdvm* a)
+> +{
+> +    return (!s->vill && has_ext(s, RVA) &&
+> +            (!a->wd || vext_check_overlap_mask(s, a->rd, a->vm, false)) &&
+> +            vext_check_reg(s, a->rd, false) &&
+> +            vext_check_reg(s, a->rs2, false) &&
+> +            ((1 << s->sew) <= sizeof(target_ulong)) &&
+> +            ((1 << s->sew) >= 4));
+> +}
+> +
+> +GEN_VEXT_TRANS(vamoswapw_v, 0, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoaddw_v, 1, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoxorw_v, 2, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoandw_v, 3, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoorw_v, 4, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominw_v, 5, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxw_v, 6, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominuw_v, 7, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxuw_v, 8, rwdvm, amo_op, amo_check)
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_TRANS(vamoswapd_v, 9, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoaddd_v, 10, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoxord_v, 11, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoandd_v, 12, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoord_v, 13, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomind_v, 14, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxd_v, 15, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominud_v, 16, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxud_v, 17, rwdvm, amo_op, amo_check)
+> +#endif
+> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+> index 614e41437d..6a27d7c716 100644
+> --- a/target/riscv/internals.h
+> +++ b/target/riscv/internals.h
+> @@ -26,4 +26,5 @@ FIELD(VDATA, MLEN, 0, 8)
+>  FIELD(VDATA, VM, 8, 1)
+>  FIELD(VDATA, LMUL, 9, 2)
+>  FIELD(VDATA, NF, 11, 4)
+> +FIELD(VDATA, WD, 11, 1)
+>  #endif
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index f72831a523..45da43ade9 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -95,6 +95,11 @@ static inline uint32_t vext_lmul(uint32_t desc)
+>      return FIELD_EX32(simd_data(desc), VDATA, LMUL);
+>  }
+>
+> +static uint32_t vext_wd(uint32_t desc)
+> +{
+> +    return (simd_data(desc) >> 11) & 0x1;
+> +}
+> +
+>  /*
+>   * Get vector group length in bytes. Its range is [64, 2048].
+>   *
+> @@ -684,3 +689,141 @@ GEN_VEXT_LDFF(vlhuff_v_w, uint16_t, uint32_t, MO_LEUW, ldhu_w, clearl)
+>  GEN_VEXT_LDFF(vlhuff_v_d, uint16_t, uint64_t, MO_LEUW, ldhu_d, clearq)
+>  GEN_VEXT_LDFF(vlwuff_v_w, uint32_t, uint32_t, MO_LEUL, ldwu_w, clearl)
+>  GEN_VEXT_LDFF(vlwuff_v_d, uint32_t, uint64_t, MO_LEUL, ldwu_d, clearq)
+> +
+> +/*
+> + *** Vector AMO Operations (Zvamo)
+> + */
+> +typedef void vext_amo_noatomic_fn(void *vs3, target_ulong addr,
+> +        uint32_t wd, uint32_t idx, CPURISCVState *env, uintptr_t retaddr);
+> +
+> +/* no atomic opreation for vector atomic insructions */
+> +#define DO_SWAP(N, M) (M)
+> +#define DO_AND(N, M)  (N & M)
+> +#define DO_XOR(N, M)  (N ^ M)
+> +#define DO_OR(N, M)   (N | M)
+> +#define DO_ADD(N, M)  (N + M)
+> +
+> +#define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ESZ, MSZ, H, DO_OP, SUF) \
+> +static void vext_##NAME##_noatomic_op(void *vs3,                \
+> +            target_ulong addr, uint32_t wd, uint32_t idx,       \
+> +                CPURISCVState *env, uintptr_t retaddr)          \
+> +{                                                               \
+> +    typedef int##ESZ##_t ETYPE;                                 \
+> +    typedef int##MSZ##_t MTYPE;                                 \
+> +    typedef uint##MSZ##_t UMTYPE __attribute__((unused));       \
+> +    ETYPE *pe3 = (ETYPE *)vs3 + H(idx);                         \
+> +    MTYPE a = *pe3, b = cpu_ld##SUF##_data(env, addr);          \
+> +    a = DO_OP(a, b);                                            \
+> +    cpu_st##SUF##_data(env, addr, a);                           \
+> +    if (wd) {                                                   \
+> +        *pe3 = a;                                               \
+> +    }                                                           \
+> +}
+> +
+> +/* Signed min/max */
+> +#define DO_MAX(N, M)  ((N) >= (M) ? (N) : (M))
+> +#define DO_MIN(N, M)  ((N) >= (M) ? (M) : (N))
+> +
+> +/* Unsigned min/max */
+> +#define DO_MAXU(N, M) DO_MAX((UMTYPE)N, (UMTYPE)M)
+> +#define DO_MINU(N, M) DO_MIN((UMTYPE)N, (UMTYPE)M)
+> +
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapw_v_w, 32, 32, H4, DO_SWAP, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddw_v_w,  32, 32, H4, DO_ADD,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxorw_v_w,  32, 32, H4, DO_XOR,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandw_v_w,  32, 32, H4, DO_AND,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoorw_v_w,   32, 32, H4, DO_OR,   l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominw_v_w,  32, 32, H4, DO_MIN,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxw_v_w,  32, 32, H4, DO_MAX,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_w, 32, 32, H4, DO_MINU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_w, 32, 32, H4, DO_MAXU, l)
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapw_v_d, 64, 32, H8, DO_SWAP, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoswapd_v_d, 64, 64, H8, DO_SWAP, q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddw_v_d,  64, 32, H8, DO_ADD,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoaddd_v_d,  64, 64, H8, DO_ADD,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxorw_v_d,  64, 32, H8, DO_XOR,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoxord_v_d,  64, 64, H8, DO_XOR,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandw_v_d,  64, 32, H8, DO_AND,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoandd_v_d,  64, 64, H8, DO_AND,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoorw_v_d,   64, 32, H8, DO_OR,   l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamoord_v_d,   64, 64, H8, DO_OR,   q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominw_v_d,  64, 32, H8, DO_MIN,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomind_v_d,  64, 64, H8, DO_MIN,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxw_v_d,  64, 32, H8, DO_MAX,  l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxd_v_d,  64, 64, H8, DO_MAX,  q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_d, 64, 32, H8, DO_MINU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamominud_v_d, 64, 64, H8, DO_MINU, q)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_d, 64, 32, H8, DO_MAXU, l)
+> +GEN_VEXT_AMO_NOATOMIC_OP(vamomaxud_v_d, 64, 64, H8, DO_MAXU, q)
+> +#endif
+> +
+> +static inline void vext_amo_noatomic(void *vs3, void *v0, target_ulong base,
+> +        void *vs2, CPURISCVState *env, uint32_t desc,
+> +        vext_get_index_addr get_index_addr,
+> +        vext_amo_noatomic_fn *noatomic_op,
+> +        clear_fn *clear_elem,
+> +        uint32_t esz, uint32_t msz, uintptr_t ra)
+> +{
+> +    uint32_t i;
+> +    target_long addr;
+> +    uint32_t wd = vext_wd(desc);
+> +    uint32_t vm = vext_vm(desc);
+> +    uint32_t mlen = vext_mlen(desc);
+> +    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +
+> +    for (i = 0; i < env->vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
+> +            continue;
+> +        }
+> +        probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_LOAD);
+> +        probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_STORE);
+> +    }
+> +    for (i = 0; i < env->vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
+> +            continue;
+> +        }
+> +        addr = get_index_addr(base, i, vs2);
+> +        noatomic_op(vs3, addr, wd, i, env, ra);
+> +    }
+> +    clear_elem(vs3, env->vl, env->vl * esz, vlmax * esz);
+> +}
+> +
+> +#define GEN_VEXT_AMO(NAME, MTYPE, ETYPE, INDEX_FN, CLEAR_FN)    \
+> +void HELPER(NAME)(void *vs3, void *v0, target_ulong base,       \
+> +        void *vs2, CPURISCVState *env, uint32_t desc)           \
+> +{                                                               \
+> +    vext_amo_noatomic(vs3, v0, base, vs2, env, desc,            \
+> +        INDEX_FN, vext_##NAME##_noatomic_op, CLEAR_FN,          \
+> +        sizeof(ETYPE), sizeof(MTYPE), GETPC());                 \
+> +}
+> +
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_AMO(vamoswapw_v_d, int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoswapd_v_d, int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoaddw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoaddd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoxorw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoxord_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoandw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoandd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoorw_v_d,   int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamoord_v_d,   int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamominw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomind_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxw_v_d,  int32_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxd_v_d,  int64_t,  int64_t,  idx_d, clearq)
+> +GEN_VEXT_AMO(vamominuw_v_d, uint32_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamominud_v_d, uint64_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxuw_v_d, uint32_t, uint64_t, idx_d, clearq)
+> +GEN_VEXT_AMO(vamomaxud_v_d, uint64_t, uint64_t, idx_d, clearq)
+> +#endif
+> +GEN_VEXT_AMO(vamoswapw_v_w, int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoaddw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoxorw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoandw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamoorw_v_w,   int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamominw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamomaxw_v_w,  int32_t,  int32_t,  idx_w, clearl)
+> +GEN_VEXT_AMO(vamominuw_v_w, uint32_t, uint32_t, idx_w, clearl)
+> +GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
+> --
+> 2.23.0
+>
 
