@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D24818B84B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 14:43:55 +0100 (CET)
-Received: from localhost ([::1]:38168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8153918B84E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 14:44:49 +0100 (CET)
+Received: from localhost ([::1]:38182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEvSk-000873-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 09:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38591)
+	id 1jEvTc-0001NG-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 09:44:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jEvRT-0007Hi-EO
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:42:36 -0400
+ (envelope-from <r.bolshakov@yadro.com>) id 1jEvSj-0000HS-I8
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:43:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jEvRS-0007Tg-3B
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:42:35 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25980)
+ (envelope-from <r.bolshakov@yadro.com>) id 1jEvSi-0000BZ-KA
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:43:53 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:43402 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jEvRR-0007TY-VC
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:42:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584625353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2aNf0xbp6H0wxrFeV7ocaqMSNmxjVyAC5poBuwcdJa8=;
- b=Ndt+YJRYWl4JsB0BM5214vmuTiZdc6MHEd0I96RZSYwOmOcgTFj6rbpeYDfdnJOfutwXX/
- PM151/xC3J3FCkOtm0xkaWBSCqsQN1RApeXKYf+yAGjiAZIDqWmwyjdPgjZnfbll92bqq9
- m/mUeEshhb85tzZML9shN+cZ10uFYRA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-TcMdyWbZPHyNLeudf52R-Q-1; Thu, 19 Mar 2020 09:42:32 -0400
-X-MC-Unique: TcMdyWbZPHyNLeudf52R-Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jEvSi-00009l-Cn
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 09:43:52 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 82C1C411FC;
+ Thu, 19 Mar 2020 13:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1584625429;
+ x=1586439830; bh=vQI1FxZXL2w53zWytULJXKTbzO7Q7XiTJbl9+PTT7YU=; b=
+ mb+2cuhKBjLXLt79s3l6iEVA94DFH6CHbeLtyc+iWX+ZTrXBZSgQDt1pKi18fYkW
+ KEfRywOWC4X5kpxEbrLTx2XM5rB/NHdzAHlCaq7bViyvEKyn4rw2tNYEc7r7AKEb
+ R1EDlOiX9W7D7b1X9Xsnq2y1xqWW/jUYX2sJJTkpzkA=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OXDFBeegz_e0; Thu, 19 Mar 2020 16:43:49 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5785800D53;
- Thu, 19 Mar 2020 13:42:30 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CC635C219;
- Thu, 19 Mar 2020 13:42:20 +0000 (UTC)
-Date: Thu, 19 Mar 2020 14:42:18 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 03/13] microvm: add isa-acpi device
-Message-ID: <20200319144218.5d2f8fd3@redhat.com>
-In-Reply-To: <20200319080117.7725-4-kraxel@redhat.com>
-References: <20200319080117.7725-1-kraxel@redhat.com>
- <20200319080117.7725-4-kraxel@redhat.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id 457FF41291;
+ Thu, 19 Mar 2020 16:43:48 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 19
+ Mar 2020 16:43:48 +0300
+Date: Thu, 19 Mar 2020 16:43:48 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Add an entry for the HVF accelerator
+Message-ID: <20200319134348.GB77771@SPB-NB-133.local>
+References: <20200316171825.42544-1-r.bolshakov@yadro.com>
+ <cb70fb93-7b2d-b684-c25f-f2fe6774381c@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cb70fb93-7b2d-b684-c25f-f2fe6774381c@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 89.207.88.252
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,164 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Laurent Vivier <laurent@vivier.eu>,
+ Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
+ Patrick Colp <patrick.colp@oracle.com>, Liran Alon <liran.alon@oracle.com>,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Heiher <r@hev.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Mar 2020 09:01:07 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> Minimal ACPI device for PCI-less machines like microvm.
-it seems that x86 kernel is able to boot on hw-reduced acpi systems
-(but I haven't really tested any distro kernel, not sure how usable NEMU is)
-
-Maybe reusing hw/acpi/generic_event_device.c (which was borrowed
-for NEMU effort) would be better since guest won't have to initialize
-not necessary interfaces and QEMU could implement simpler hw impl
-compared to full ACPI with GPEs, SCIs & co.
-
-
+On Wed, Mar 18, 2020 at 11:47:15AM +0100, Paolo Bonzini wrote:
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/acpi/isa-acpi.c    | 114 ++++++++++++++++++++++++++++++++++++++++++
->  hw/acpi/Makefile.objs |   1 +
->  2 files changed, 115 insertions(+)
->  create mode 100644 hw/acpi/isa-acpi.c
+> Queued, thanks.
 > 
-> diff --git a/hw/acpi/isa-acpi.c b/hw/acpi/isa-acpi.c
-> new file mode 100644
-> index 000000000000..5d7d770a5c0b
-> --- /dev/null
-> +++ b/hw/acpi/isa-acpi.c
-> @@ -0,0 +1,114 @@
-> +#include "qemu/osdep.h"
-> +#include "hw/i386/pc.h"
-> +#include "hw/acpi/acpi.h"
-> +#include "sysemu/runstate.h"
-> +
-> +typedef struct ISAACPI {
-> +    ISADevice base;
-> +
-> +    uint32_t io_base;
-> +    uint16_t sci_irq;
-> +    uint32_t gpe_base;
-> +    uint32_t gpe_len;
-> +
-> +    qemu_irq irq;
-> +    MemoryRegion io;
-> +    ACPIREGS acpi;
-> +    Notifier powerdown_req;
-> +} ISAACPI;
-> +
-> +#define TYPE_ISA_ACPI "isa-acpi"
-> +#define ISA_ACPI(obj) \
-> +    OBJECT_CHECK(ISAACPI, (obj), TYPE_ISA_ACPI)
-> +
-> +static void isa_acpi_timer(ACPIREGS *acpi)
-> +{
-> +    ISAACPI *s = container_of(acpi, ISAACPI, acpi);
-> +    acpi_update_sci(&s->acpi, s->irq);
-> +}
-> +
-> +static void isa_acpi_init(Object *obj)
-> +{
-> +    ISAACPI *s = ISA_ACPI(obj);
-> +
-> +    s->io_base = 0x600;
-> +    s->sci_irq = 9;
-> +    s->gpe_base = 0x680;
-> +    s->gpe_len = 4;
-> +}
-> +
-> +static void isa_acpi_powerdown_req(Notifier *n, void *opaque)
-> +{
-> +    ISAACPI *s = container_of(n, ISAACPI, powerdown_req);
-> +
-> +    acpi_pm1_evt_power_down(&s->acpi);
-> +}
-> +
-> +static void isa_acpi_add_propeties(ISAACPI *s)
-> +{
-> +    static const uint8_t zero;
-> +
-> +    object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_ACPI_ENABLE_CMD,
-> +                                  &zero, NULL);
-> +    object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_ACPI_DISABLE_CMD,
-> +                                  &zero, NULL);
-> +    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK,
-> +                                   &s->gpe_base, NULL);
-> +    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK_LEN,
-> +                                   &s->gpe_len, NULL);
-> +    object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
-> +                                   &s->sci_irq, NULL);
-> +    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
-> +                                   &s->io_base, NULL);
-> +}
-> +
-> +static void isa_acpi_realize(DeviceState *dev, Error **errp)
-> +{
-> +    ISADevice *isa = ISA_DEVICE(dev);
-> +    ISAACPI *s = ISA_ACPI(dev);
-> +
-> +    memory_region_init(&s->io, OBJECT(s), "isa-acpi", 64);
-> +    memory_region_set_enabled(&s->io, true);
-> +    isa_register_ioport(isa, &s->io, s->io_base);
-> +    isa_init_irq(isa, &s->irq, s->sci_irq);
-> +
-> +    acpi_pm_tmr_init(&s->acpi, isa_acpi_timer, &s->io);
-> +    acpi_pm1_evt_init(&s->acpi, isa_acpi_timer, &s->io);
-> +    acpi_pm1_cnt_init(&s->acpi, &s->io, true, true, 0);
-> +    acpi_gpe_init(&s->acpi, 4);
-> +
-> +    s->powerdown_req.notify = isa_acpi_powerdown_req;
-> +    qemu_register_powerdown_notifier(&s->powerdown_req);
-> +
-> +    isa_acpi_add_propeties(s);
-> +}
-> +
-> +static void isa_acpi_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_CLASS(klass);
-> +
-> +    dc->realize = isa_acpi_realize;
-> +    dc->user_creatable = false;
-> +    dc->hotpluggable = false;
-> +    adevc->madt_cpu = pc_madt_cpu_entry;
-> +}
-> +
-> +static const TypeInfo isa_acpi_info = {
-> +    .name          = TYPE_ISA_ACPI,
-> +    .parent        = TYPE_ISA_DEVICE,
-> +    .instance_size = sizeof(ISAACPI),
-> +    .instance_init = isa_acpi_init,
-> +    .class_init    = isa_acpi_class_init,
-> +    .interfaces = (InterfaceInfo[]) {
-> +        { TYPE_ACPI_DEVICE_IF },
-> +        { }
-> +    }
-> +};
-> +
-> +static void register_types(void)
-> +{
-> +    type_register_static(&isa_acpi_info);
-> +}
-> +
-> +type_init(register_types)
-> diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-> index 777da07f4d70..aae53c73ebbd 100644
-> --- a/hw/acpi/Makefile.objs
-> +++ b/hw/acpi/Makefile.objs
-> @@ -14,6 +14,7 @@ common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
->  common-obj-y += acpi_interface.o
->  common-obj-y += bios-linker-loader.o
->  common-obj-y += aml-build.o utils.o
-> +common-obj-$(CONFIG_PC) += isa-acpi.o
->  common-obj-$(CONFIG_ACPI_PCI) += pci.o
->  common-obj-$(CONFIG_TPM) += tpm.o
->  
 
+Hi Paolo,
+
+I'm going to send v3 shortly to include Cameron as maintainer.
+
+Thanks,
+Roman
 
