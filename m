@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D125D18AE4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:26:51 +0100 (CET)
-Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E0B18AE4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 09:27:52 +0100 (CET)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jEqVu-0006wN-TV
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45544)
+	id 1jEqWt-00008v-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 04:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jEqUw-00066G-H6
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1jEqUw-00066H-Qr
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jEqUv-0004P0-7u
+ (envelope-from <bounces@canonical.com>) id 1jEqUv-0004Po-LL
  for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37898)
+Received: from indium.canonical.com ([91.189.90.7]:37936)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jEqUv-0004Ns-2M
+ id 1jEqUv-0004Om-Fa
  for qemu-devel@nongnu.org; Thu, 19 Mar 2020 04:25:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jEqUu-0007Vb-4u
+ id 1jEqUu-0007Vb-MS
  for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:25:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1E5462E80C9
+ by loganberry.canonical.com (Postfix) with ESMTP id A904D2E80C7
  for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 08:25:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 08:13:41 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
+Date: Thu, 19 Mar 2020 08:16:50 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: eastson83 laurent-vivier pmaydell
 X-Launchpad-Bug-Reporter: Dongwhan Kim (eastson83)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <158460432256.11238.315491712700748145.malonedeb@soybean.canonical.com>
-Message-Id: <158460562173.19438.10277285474903549428.malone@chaenomeles.canonical.com>
+Message-Id: <158460581031.28790.2035061969383472694.malone@gac.canonical.com>
 Subject: [Bug 1868055] Re: cannot run golang app with docker,
  version 17.09.1-ce, disabling core 0 and qemu-arm, version 2.7.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5abe5e211a1448b03785f928b29718a7955eab46
+X-Launchpad-Hash: d73aa4d7c4dd9f2a5f15b7b626d251b582f30ffb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,7 +69,9 @@ Reply-To: Bug 1868055 <1868055@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could you retest with latest version (4.2.0) of QEMU?
+LP:1696773 is the old bug that I think is probably the cause here,
+though 2.7 is old enough it has a bunch of other linux-user race
+condition bugs that we've since fixed.
 
 -- =
 
