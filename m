@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4782A18C0BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 20:51:36 +0100 (CET)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D32418C08F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Mar 2020 20:40:46 +0100 (CET)
+Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jF1CZ-0005nn-CM
-	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 15:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60738)
+	id 1jF125-0002t1-CY
+	for lists+qemu-devel@lfdr.de; Thu, 19 Mar 2020 15:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jF1Br-0005NC-J3
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 15:50:53 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jF118-0002Pg-Ik
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 15:39:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jF1Bq-00066X-3S
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 15:50:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41720)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jF1Bp-00066N-U7
- for qemu-devel@nongnu.org; Thu, 19 Mar 2020 15:50:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jF1Bn-0000TJ-Oi
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 19:50:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B9E352E80C8
- for <qemu-devel@nongnu.org>; Thu, 19 Mar 2020 19:50:47 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1jF117-0002Vi-Di
+ for qemu-devel@nongnu.org; Thu, 19 Mar 2020 15:39:46 -0400
+Resent-Date: Thu, 19 Mar 2020 15:39:46 -0400
+Resent-Message-Id: <E1jF117-0002Vi-Di@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21191)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jF114-0002Tg-Ir; Thu, 19 Mar 2020 15:39:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1584646765; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YMRMfFgrPDaQrTuA9jU2PizAA1zX7Z18qsj/KZkukMfYyuOaYFrWJuOkJaz/mBsjTm0+kKFbSUTGQbHpql594DMmc8ts94HPG2cGc2eL8YZ0YDlvKF/wUAELxB4mjbMpyVH6jZewc7KpffeFN4gBBS8VppOYLzdSslDarjowDjs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1584646765;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=PpjOlKC9eBj8js4QMmhUMZcOpnRcJuw+B9cUG4lUceY=; 
+ b=J1mq7tmxDB5KHr7E1XRV1a1PmcH/f+hkxlWTDxNqvFhyrAZ7WfbPIUyMWFS9MEG8gb8yANYcB2CUf3WzWgzW75NZiuD0srZn++/52hDce6pVMRdwJGHyQlc0bzkI/BmN/8il3CLYn8wPFSwggjGbQc4eIW4bdhm1ty0spWn8ht0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1584646762709698.89267632852;
+ Thu, 19 Mar 2020 12:39:22 -0700 (PDT)
+In-Reply-To: <20200319161925.1818377-2-dnbrdsky@gmail.com>
+Subject: Re: [PATCH] lockable: replaced locks with lock guard macros where
+ appropriate
+Message-ID: <158464676094.8988.14433696028016433212@39012742ff91>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Mar 2020 19:38:29 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mhodog pmaydell
-X-Launchpad-Bug-Reporter: Robert Henry (mhodog)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158386917575.11737.1131406657888792626.malonedeb@soybean.canonical.com>
-Message-Id: <158464671008.11669.8976163055427912134.malone@soybean.canonical.com>
-Subject: [Bug 1866892] Re: guest OS catches a page fault bug when running
- dotnet
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 19797e66b416f7ea1773d196e7937999242d1ee1
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dnbrdsky@gmail.com
+Date: Thu, 19 Mar 2020 12:39:22 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,146 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866892 <1866892@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
+ stefanha@gmail.com, pl@kamp.de, armbru@redhat.com, qemu-devel@nongnu.org,
+ dnbrdsky@gmail.com, alex.williamson@redhat.com, kraxel@redhat.com,
+ ronniesahlberg@gmail.com, pbonzini@redhat.com, mreitz@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is dotnet intentionally doing an iret? It seems like an odd thing for a
-userspace program to do, given it's basically "return from interrupt".
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866892
-
-Title:
-  guest OS catches a page  fault bug when running dotnet
-
-Status in QEMU:
-  New
-
-Bug description:
-  The linux guest OS catches a page fault bug when running the dotnet
-  application.
-
-  host =3D metal =3D x86_64
-  host OS =3D ubuntu 19.10
-  qemu emulation, without KVM, with "tiny code generator" tcg; no plugins; =
-built from head/master
-  guest emulation =3D x86_64
-  guest OS =3D ubuntu 19.10
-  guest app =3D dotnet, running any program
-
-  qemu sha=3D7bc4d1980f95387c4cc921d7a066217ff4e42b70 (head/master Mar 10,
-  2020)
-
-  qemu invocation is:
-
-  qemu/build/x86_64-softmmu/qemu-system-x86_64 \
-    -m size=3D4096 \
-    -smp cpus=3D1 \
-    -machine type=3Dpc-i440fx-5.0,accel=3Dtcg \
-    -cpu Skylake-Server-v1 \
-    -nographic \
-    -bios OVMF-pure-efi.fd \
-    -drive if=3Dnone,id=3Dhd0,file=3Dubuntu-19.10-server-cloudimg-amd64.img=
- \
-    -device virtio-blk,drive=3Dhd0 \
-    -drive if=3Dnone,id=3Dcloud,file=3Dlinux_cloud_config.img \
-    -device virtio-blk,drive=3Dcloud \
-    -netdev user,id=3Duser0,hostfwd=3Dtcp::2223-:22 \
-    -device virtio-net,netdev=3Duser0
-
-  =
-
-  Here's the guest kernel console output:
-
-  =
-
-  [ 2834.005449] BUG: unable to handle page fault for address: 00007fffffff=
-c2c0
-  [ 2834.009895] #PF: supervisor read access in user mode
-  [ 2834.013872] #PF: error_code(0x0001) - permissions violation
-  [ 2834.018025] IDT: 0xfffffe0000000000 (limit=3D0xfff) GDT: 0xfffffe00000=
-01000 (limit=3D0x7f)
-  [ 2834.022242] LDTR: NULL
-  [ 2834.026306] TR: 0x40 -- base=3D0xfffffe0000003000 limit=3D0x206f
-  [ 2834.030395] PGD 80000000360d0067 P4D 80000000360d0067 PUD 36105067 PMD=
- 36193067 PTE 8000000076d8e867
-  [ 2834.038672] Oops: 0001 [#4] SMP PTI
-  [ 2834.042707] CPU: 0 PID: 13537 Comm: dotnet Tainted: G      D          =
- 5.3.0-29-generic #31-Ubuntu
-  [ 2834.050591] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S 0.0.0 02/06/2015
-  [ 2834.054785] RIP: 0033:0x1555547eaeda
-  [ 2834.059017] Code: d0 00 00 00 4c 8b a7 d8 00 00 00 4c 8b af e0 00 00 0=
-0 4c 8b b7 e8 00 00 00 4c 8b bf f0 00 00 00 48 8b bf b0 00 00 00 9d 74 02 <=
-48> cf 48 8d 64 24 30 5d c3 90 cc c3 66 90 55 4c 8b a7 d8 00 00 00
-  [ 2834.072103] RSP: 002b:00007fffffffc2c0 EFLAGS: 00000202
-  [ 2834.076507] RAX: 0000000000000000 RBX: 00001554b401af38 RCX: 000000000=
-0000001
-  [ 2834.080832] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007ffff=
-fffcfb0
-  [ 2834.085010] RBP: 00007fffffffd730 R08: 0000000000000000 R09: 00007ffff=
-fffd1b0
-  [ 2834.089184] R10: 0000155555331dd5 R11: 00001555553ad8d0 R12: 000000000=
-0000002
-  [ 2834.093350] R13: 0000000000000001 R14: 0000000000000001 R15: 00001554b=
-401d388
-  [ 2834.097309] FS:  0000155554fa5740 GS:  0000000000000000
-  [ 2834.101131] Modules linked in: isofs nls_iso8859_1 dm_multipath scsi_d=
-h_rdac scsi_dh_emc scsi_dh_alua ppdev input_leds serio_raw parport_pc parpo=
-rt sch_fq_codel ip_tables x_tables autofs4 btrfs zstd_compress raid10 raid4=
-56 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq =
-libcrc32c raid1 raid0 multipath linear crct10dif_pclmul crc32_pclmul ghash_=
-clmulni_intel aesni_intel aes_x86_64 crypto_simd cryptd glue_helper virtio_=
-net psmouse net_failover failover virtio_blk floppy
-  [ 2834.122539] CR2: 00007fffffffc2c0
-  [ 2834.126867] ---[ end trace dfae51f1d9432708 ]---
-  [ 2834.131239] RIP: 0033:0x14d793262eda
-  [ 2834.135715] Code: Bad RIP value.
-  [ 2834.140243] RSP: 002b:00007ffddb4e2980 EFLAGS: 00000202
-  [ 2834.144615] RAX: 0000000000000000 RBX: 000014d6f402acb8 RCX: 000000000=
-0000002
-  [ 2834.148943] RDX: 0000000001cd6950 RSI: 0000000000000000 RDI: 00007ffdd=
-b4e3670
-  [ 2834.153335] RBP: 00007ffddb4e3df0 R08: 0000000000000001 R09: 00007ffdd=
-b4e3870
-  [ 2834.157774] R10: 000014d793da9dd5 R11: 000014d793e258d0 R12: 000000000=
-0000002
-  [ 2834.162132] R13: 0000000000000001 R14: 0000000000000001 R15: 000014d6f=
-402d040
-  [ 2834.166239] FS:  0000155554fa5740(0000) GS:ffff97213ba00000(0000) knlG=
-S:0000000000000000
-  [ 2834.170529] CS:  0033 DS: 0000 ES: 0000 CR0: 0000000080050033
-  [ 2834.174751] CR2: 000014d793262eb0 CR3: 0000000036130000 CR4: 000000000=
-07406f0
-  [ 2834.178892] PKRU: 55555554
-
-  I run the application from a shell with `ulimit -s unlimited`
-  (unlimited stack to size).
-
-  The application creates a number of threads, and those threads make a
-  lot of calls to sigaltstack() and mprotect(); see the relevant source
-  for dotnet here
-  https://github.com/dotnet/runtime/blob/15ec69e47b4dc56098e6058a11ccb6ae4d=
-5d4fa1/src/coreclr/src/pal/src/thread/thread.cpp#L2467
-
-  using strace -f on the app shows that no alt stacks come anywhere near
-  the failing address; all alt stacks are in the heap, as expected.
-  None of the mmap/mprotect/munmap syscalls were given arguments in the
-  high memory 0x7fffffff0000 and up.
-
-  gdb (with default signal stop/print/pass semantics) does not report
-  any signals prior to the kernel bug being tripped, so I doubt the
-  alternate signal stack is actually used.
-
-  When I run the same dotnet binary on the host (eg, on "bare metal"),
-  the host kernel seems happy and dotnet runs as expected.
-
-  I have not tried different qemu or guest or host O/S.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866892/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxOTE2MTkyNS4xODE4
+Mzc3LTItZG5icmRza3lAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
+Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
+bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBody9pMmMv
+dHJhY2UubwpJbiBmaWxlIGluY2x1ZGVkIGZyb20gL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwvcmN1
+LmM6MzQ6MDoKL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwvcmN1LmM6IEluIGZ1bmN0aW9uICdzeW5j
+aHJvbml6ZV9yY3UnOgovdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6
+MTczOjI5OiBlcnJvcjogcmVkZWZpbml0aW9uIG9mICdxZW11X2xvY2thYmxlX2F1dG9fX0NPVU5U
+RVJfXycKICAgICBnX2F1dG9wdHIoUWVtdUxvY2thYmxlKSBxZW11X2xvY2thYmxlX2F1dG8jI19f
+Q09VTlRFUl9fID0gXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRl
+c3Qvc3JjL3V0aWwvcmN1LmM6MTUyOjU6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAnUUVN
+VV9MT0NLX0dVQVJEJwotLS0KL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwvcmN1LmM6MTQ1OjU6IG5v
+dGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyAnUUVNVV9MT0NLX0dVQVJEJwogICAgIFFFTVVfTE9D
+S19HVUFSRCgmcmN1X3N5bmNfbG9jayk7CiAgICAgXgptYWtlOiAqKiogW3V0aWwvcmN1Lm9dIEVy
+cm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBDQyAgICAg
+IGh3L2kzODYvdHJhY2UubwpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQog
+ICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxs
+ZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywg
+Jy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1hOTMzZmUxM2VlMjY0MmQ0YmM4MGE2
+ZmEyZTgxMTA0MycsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5j
+b25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05G
+SUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAn
+LWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICct
+dicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2Nj
+YWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC11ZWEyZnZ2Mi9zcmMv
+ZG9ja2VyLXNyYy4yMDIwLTAzLTE5LTE1LjM3LjQwLjE2OTIzOi92YXIvdG1wL3FlbXU6eixybycs
+ICdxZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1
+cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFl
+bXUuaW5zdGFuY2UudXVpZD1hOTMzZmUxM2VlMjY0MmQ0YmM4MGE2ZmEyZTgxMTA0MwptYWtlWzFd
+OiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92
+YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC11ZWEyZnZ2Mi9zcmMnCm1ha2U6ICoqKiBbZG9ja2Vy
+LXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9yIDIKCnJlYWwgICAgMW00MC45NjNzCnVzZXIg
+ICAgMG04LjIzM3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
+Lm9yZy9sb2dzLzIwMjAwMzE5MTYxOTI1LjE4MTgzNzctMi1kbmJyZHNreUBnbWFpbC5jb20vdGVz
+dGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
+c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
