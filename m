@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904DA18D560
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:09:55 +0100 (CET)
-Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8D418D572
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:14:04 +0100 (CET)
+Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL9e-0002hd-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
+	id 1jFLDf-00006P-5X
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL3K-0000kI-0Z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:22 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFL3W-000148-3T
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL3I-00009X-Vq
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:21 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35473)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL3U-0000Ca-QT
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:20658)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL3I-00009K-S9
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:20 -0400
+ id 1jFL3U-0000CR-Ln
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723800;
+ s=mimecast20190719; t=1584723812;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NX8HKyEsatBbWDR9Z0wfxPmbo5XQFgUJgUXFvqqYIuY=;
- b=Hs2xGnrw/TvXAj9LZivMsrZUKbJ/PdsHKyJz3VZd+rwYWzv1DrR05O+L3Ir5mts8OTI+lD
- OTULEPq8q1KcQq/sKYSumKFPygv7PxlmxBtfwrGAasSo20S4FkepsLEC87euc5A83R4fBX
- IS++oagfxeZc4ZzVUnQ40b/Q8XeinAI=
+ bh=1vzp+F6vAldmJw6exxR9tZgfk3Xr/nfVts1Z1VwA0O4=;
+ b=XW/6ULhRWRDvK8C5uCzO2IanBJBEHJHQWp7fLCgTGr59eN30/eSciynf1bTs4bMfrAyb++
+ I+Y25AsCG5es9reA0tyd6B9i7qgWfxgThgmXT0KgGNaHv0OXLKh3PF9Zk2tRJjkl5mLdN8
+ 16JaHv/nK7n26/LjlVq/KEz4+0G/1hk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-d9i-CxyIPHOl53C4nLsOUw-1; Fri, 20 Mar 2020 13:03:19 -0400
-X-MC-Unique: d9i-CxyIPHOl53C4nLsOUw-1
+ us-mta-247-vZZY1qEpMFqQ6-rAUBm-9Q-1; Fri, 20 Mar 2020 13:03:30 -0400
+X-MC-Unique: vZZY1qEpMFqQ6-rAUBm-9Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3ED2100550D;
- Fri, 20 Mar 2020 17:03:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FF98100550D;
+ Fri, 20 Mar 2020 17:03:28 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82AF316D22;
- Fri, 20 Mar 2020 17:03:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46FB016D22;
+ Fri, 20 Mar 2020 17:03:17 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 20/24] hw/arm/smmuv3: Fill the IOTLBEntry arch_id on NH_VA
+Subject: [RFC v6 21/24] hw/arm/smmuv3: Fill the IOTLBEntry leaf field on NH_VA
  invalidation
-Date: Fri, 20 Mar 2020 17:58:36 +0100
-Message-Id: <20200320165840.30057-21-eric.auger@redhat.com>
+Date: Fri, 20 Mar 2020 17:58:37 +0100
+Message-Id: <20200320165840.30057-22-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -82,28 +82,102 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the guest invalidates one S1 entry, it passes the asid.
-When propagating this invalidation downto the host, the asid
-information also must be passed. So let's fill the arch_id field
-introduced for that purpose.
+Let's propagate the leaf attribute throughout the invalidation path.
+This hint is used to reduce the scope of the invalidations to the
+last level of translation. Not enforcing it induces large performance
+penalties in nested mode.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- hw/arm/smmuv3.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/smmuv3.c     | 16 +++++++++-------
+ hw/arm/trace-events |  2 +-
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 1424e08c31..66603c1fde 100644
+index 66603c1fde..edd76bce4c 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -838,6 +838,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
-     entry.iova =3D iova;
+@@ -811,8 +811,7 @@ epilogue:
+  */
+ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+                                IOMMUNotifier *n,
+-                               int asid,
+-                               dma_addr_t iova)
++                               int asid, dma_addr_t iova, bool leaf)
+ {
+     SMMUDevice *sdev =3D container_of(mr, SMMUDevice, iommu);
+     SMMUEventInfo event =3D {.inval_ste_allowed =3D true};
+@@ -839,12 +838,14 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
      entry.addr_mask =3D (1 << tt->granule_sz) - 1;
      entry.perm =3D IOMMU_NONE;
-+    entry.arch_id =3D asid;
+     entry.arch_id =3D asid;
++    entry.leaf =3D leaf;
 =20
      memory_region_notify_one(n, &entry);
  }
+=20
+ /* invalidate an asid/iova tuple in all mr's */
+-static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t i=
+ova)
++static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid,
++                                      dma_addr_t iova, bool leaf)
+ {
+     SMMUDevice *sdev;
+=20
+@@ -855,7 +856,7 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int=
+ asid, dma_addr_t iova)
+         trace_smmuv3_inv_notifiers_iova(mr->parent_obj.name, asid, iova);
+=20
+         IOMMU_NOTIFIER_FOREACH(n, mr) {
+-            smmuv3_notify_iova(mr, n, asid, iova);
++            smmuv3_notify_iova(mr, n, asid, iova, leaf);
+         }
+     }
+ }
+@@ -993,9 +994,10 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+         {
+             dma_addr_t addr =3D CMD_ADDR(&cmd);
+             uint16_t vmid =3D CMD_VMID(&cmd);
++            bool leaf =3D CMD_LEAF(&cmd);
+=20
+-            trace_smmuv3_cmdq_tlbi_nh_vaa(vmid, addr);
+-            smmuv3_inv_notifiers_iova(bs, -1, addr);
++            trace_smmuv3_cmdq_tlbi_nh_vaa(vmid, addr, leaf);
++            smmuv3_inv_notifiers_iova(bs, -1, addr, leaf);
+             smmu_iotlb_inv_all(bs);
+             break;
+         }
+@@ -1007,7 +1009,7 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+             bool leaf =3D CMD_LEAF(&cmd);
+=20
+             trace_smmuv3_cmdq_tlbi_nh_va(vmid, asid, addr, leaf);
+-            smmuv3_inv_notifiers_iova(bs, asid, addr);
++            smmuv3_inv_notifiers_iova(bs, asid, addr, leaf);
+             smmu_iotlb_inv_iova(bs, asid, addr);
+             break;
+         }
+diff --git a/hw/arm/trace-events b/hw/arm/trace-events
+index 0acedcedc6..3809005cba 100644
+--- a/hw/arm/trace-events
++++ b/hw/arm/trace-events
+@@ -43,7 +43,7 @@ smmuv3_cmdq_cfgi_cd(uint32_t sid) "streamid =3D %d"
+ smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint=
+32_t perc) "Config cache HIT for sid %d (hits=3D%d, misses=3D%d, hit rate=
+=3D%d)"
+ smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uin=
+t32_t perc) "Config cache MISS for sid %d (hits=3D%d, misses=3D%d, hit rate=
+=3D%d)"
+ smmuv3_cmdq_tlbi_nh_va(int vmid, int asid, uint64_t addr, bool leaf) "vmid=
+ =3D%d asid =3D%d addr=3D0x%"PRIx64" leaf=3D%d"
+-smmuv3_cmdq_tlbi_nh_vaa(int vmid, uint64_t addr) "vmid =3D%d addr=3D0x%"PR=
+Ix64
++smmuv3_cmdq_tlbi_nh_vaa(int vmid, uint64_t addr, bool leaf) "vmid =3D%d ad=
+dr=3D0x%"PRIx64" leaf=3D%d"
+ smmuv3_cmdq_tlbi_nh(void) ""
+ smmuv3_cmdq_tlbi_nh_asid(uint16_t asid) "asid=3D%d"
+ smmu_iotlb_cache_hit(uint16_t asid, uint64_t addr, uint32_t hit, uint32_t =
+miss, uint32_t p) "IOTLB cache HIT asid=3D%d addr=3D0x%"PRIx64" hit=3D%d mi=
+ss=3D%d hit rate=3D%d"
 --=20
 2.20.1
 
