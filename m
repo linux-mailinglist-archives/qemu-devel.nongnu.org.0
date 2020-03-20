@@ -2,42 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A782A18D0F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:34:17 +0100 (CET)
-Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7A418D10A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:36:45 +0100 (CET)
+Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFIj2-0000jJ-P4
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:34:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49497)
+	id 1jFIlQ-0003Qm-RN
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFIhg-0000K0-6v
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:32:53 -0400
+ (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFIjN-0001Ca-CI
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFIhd-0006JR-OX
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:32:50 -0400
-Received: from cmccmta2.chinamobile.com ([221.176.66.80]:9345)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFIhd-0006Hi-2g
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:32:49 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.9]) by
- rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee65e74d3f60ef-45e64;
- Fri, 20 Mar 2020 22:32:24 +0800 (CST)
-X-RM-TRANSID: 2ee65e74d3f60ef-45e64
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from maozy-host.mshome.net (unknown[112.25.154.146])
- by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee55e74d3f155d-03a5a;
- Fri, 20 Mar 2020 22:32:24 +0800 (CST)
-X-RM-TRANSID: 2ee55e74d3f155d-03a5a
-From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] xbzrle: update xbzrle doc
-Date: Fri, 20 Mar 2020 22:32:16 +0800
-Message-Id: <20200320143216.423374-1-maozhongyi@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 221.176.66.80
+ (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFIjM-0006zJ-9d
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34094)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuval.shaia.ml@gmail.com>)
+ id 1jFIjM-0006yn-4I
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:36 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 26so3173931wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 07:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MSy2m9Hc8R9mimywtmcC2XkgYtSZ8HfEQRcayL/1MSs=;
+ b=p/KXe7LgQGNBDE20R2vbhSKypXHBlAA0fUw0CTaqpoqdNbKILwBvSc6uyuTpMzlKwE
+ pDz8O9juY5GK1PyqN8gsqdOYRHnP4ChctX0+c2S8EIMRfPy5IbPqM55w7TSBWbeX3V5Q
+ 16X0kMk3eQVCz7WzGltId6bE0fyy6jylYp8oRvy9EfVYP/Q/rhQdPtoXwwgoVq/jVURh
+ 92hkb12iH0kv/nsDpP0aJOvBtZFm79vbiTUc3Kdf3VV5obHqngC28xppLEyeAk/kiRyv
+ nY+DOm8dTnPK9GBnwA9kB0w6VAFKKHyXjP7VB9W8EegXkSGTBCVzPpC8zLntuTcbNkUo
+ fLYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MSy2m9Hc8R9mimywtmcC2XkgYtSZ8HfEQRcayL/1MSs=;
+ b=VmulNoMvM+laHR6BA0xKLBoDEqYmtQWoGxcOFwtfYlQM5ZJKzNk31NgHt2zc0Xdp7W
+ +WztU4fMmnLUkZkKV3tqK9UHQVi4uVr3v9+p8wCklxWewbPB32m5KevGzj361LXBrcUJ
+ gMiMuvuv3IJ5owHMfMbZODxJ68L1cSBWzrUqQ2WhErFcqgrZTinMz5X10KDI4ZGw8cfh
+ qPO57bzpl5k5GhNtyFUX9QpUr92MCwp52TSK+M3Yf5CjeRvNla69bc55xy7Cqmu52xjA
+ 5cwvYKC190V1Ygttsyfbhjz15aWSVWYAtWWBVjuSt2CJoghdIRGUu4cyn1vpMi3j+anf
+ +RhQ==
+X-Gm-Message-State: ANhLgQ23+sIF2zSPaXgrvKxti23ajcK8efOlHuydRXO5Ulqn6rHV2UEX
+ S/N4jgVHS1FjF2dkZBSoML0+jsox
+X-Google-Smtp-Source: ADFU+vvS9P2ORhhlRTlNVJ5y93oRwifHfKl5Ix48qQBKmLe9UCR+IUTUulft4F8Az/JkE9pv7Mp9yA==
+X-Received: by 2002:a1c:a5d4:: with SMTP id o203mr1801522wme.47.1584714874638; 
+ Fri, 20 Mar 2020 07:34:34 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:a040:186:a1ad:5254:ff:fe84:1be0])
+ by smtp.gmail.com with ESMTPSA id
+ s22sm7336694wmc.16.2020.03.20.07.34.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Mar 2020 07:34:34 -0700 (PDT)
+From: Yuval Shaia <yuval.shaia.ml@gmail.com>
+To: qemu-devel@nongnu.org, yuval.shaia.ml@gmail.com, marcel.apfelbaum@gmail.com
+Subject: [PATCH v1 0/2] hw/rdma: Last step in eliminating data-path processing
+Date: Fri, 20 Mar 2020 16:34:27 +0200
+Message-Id: <20200320143429.9490-1-yuval.shaia.ml@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,76 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgilbert@redhat.com, Mao Zhongyi <maozhongyi@cmss.chinamobile.com>,
- quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new parameter description, also:
-1. Remove unsociable space.
-2. Nit picking: s/two/2 in report
+With emulated device we have the luxury of doing things in data-path.
+Considering a future virtio-rdma device we no longer have this luxury. The
+driver will directly post WQEs to HW queues, bypassing the device emulator
+in qemu. These WQEs will consist of addresses known to the device (even if
+it is guest addresses) and ID of an HW memory region (mr).
 
-Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
----
- docs/xbzrle.txt       | 7 ++++++-
- migration/migration.c | 2 +-
- monitor/hmp-cmds.c    | 2 +-
- 3 files changed, 8 insertions(+), 3 deletions(-)
+Commit 68b89aee71 ("Utilize ibv_reg_mr_iova for memory registration") did
+the first important step of utilizing a new rdma API so addresses
+translation is no longer needed.
+This patch-set continues and remove entirely the processing in data-path by
+eliminating the need to translate emulated mr_id to backend device mr_id.
 
-diff --git a/docs/xbzrle.txt b/docs/xbzrle.txt
-index c0a7dfd44c..b431bdaf0f 100644
---- a/docs/xbzrle.txt
-+++ b/docs/xbzrle.txt
-@@ -92,6 +92,11 @@ Usage
- power of 2. The cache default value is 64MBytes. (on source only)
-     {qemu} migrate_set_cache_size 256m
- 
-+Commit 73af8dd8d7 "migration: Make xbzrle_cache_size a migration parameter"
-+(v2.11.0) deprecated migrate-set-cache-size, therefore, the new parameter
-+is recommended.
-+    {qemu} migrate_set_parameter xbzrle-cache-size 256m
-+
- 4. Start outgoing migration
-     {qemu} migrate -d tcp:destination.host:4444
-     {qemu} info migrate
-@@ -108,7 +113,7 @@ power of 2. The cache default value is 64MBytes. (on source only)
-     xbzrle transferred: I kbytes
-     xbzrle pages: J pages
-     xbzrle cache miss: K
--    xbzrle overflow : L
-+    xbzrle overflow: L
- 
- xbzrle cache-miss: the number of cache misses to date - high cache-miss rate
- indicates that the cache size is set too low.
-diff --git a/migration/migration.c b/migration/migration.c
-index c1d88ace7f..4b26110d57 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1243,7 +1243,7 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    "xbzrle_cache_size",
-                    "is invalid, it should be bigger than target page size"
--                   " and a power of two");
-+                   " and a power of 2");
-         return false;
-     }
- 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index f8be6bbb16..dbfb121eb2 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -303,7 +303,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-                        info->xbzrle_cache->cache_miss);
-         monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
-                        info->xbzrle_cache->cache_miss_rate);
--        monitor_printf(mon, "xbzrle overflow : %" PRIu64 "\n",
-+        monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
-                        info->xbzrle_cache->overflow);
-     }
- 
+v0 -> v1:
+	* Accept comment from Marcel
+
+Yuval Shaia (2):
+  hw/rdma: Cosmetic change - no need for two sge arrays
+  hw/rdma: Skip data-path mr_id translation
+
+ hw/rdma/rdma_backend.c | 61 +++++++++++++++++++++---------------------
+ hw/rdma/rdma_backend.h |  5 ----
+ hw/rdma/rdma_rm.c      | 13 +++++----
+ 3 files changed, 36 insertions(+), 43 deletions(-)
+
 -- 
-2.17.1
-
-
+2.20.1
 
 
