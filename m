@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063B618CD4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 12:56:39 +0100 (CET)
-Received: from localhost ([::1]:51362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0D718CD52
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 12:59:18 +0100 (CET)
+Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFGGU-0006N8-32
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 07:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
+	id 1jFGJ3-0000hs-C8
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 07:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFGFU-0005ao-BE
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:37 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jFGHp-0007h0-J9
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFGFS-000793-TC
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:36 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39135)
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jFGHo-0000El-HC
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:01 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44655)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1jFGFS-00075f-Kx
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:34 -0400
-Received: by mail-oi1-x242.google.com with SMTP id d63so6147671oig.6
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 04:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2v1VP1pn6KKeVELtTQGZhYsszk2I5oz59zd85NU98wg=;
- b=Vguzii/O5sgHZEtp/By5FynG5S8vjLsHugwDFsg6VMSCPJnQf0IzUW9c09eRSUfLfi
- si4dWg8dx4kt75PrDhkjBgyDHp43rp0clzosNPztHqQ09u+OtF7l8bCL5leCDtlJt8gH
- QRBo9dgHdx4tsF7+fWOC6UqUgHS3yNQ0qc4SacEmq2bSnaaiKGJANlemHXnu6crTRbqN
- XK/znHYWzr7RU17D2R10Wt9C3h0SXU7G2/xoGYTnREavs6R4Tm2Ud08iDRZar4Nd4/qB
- TqtvOTTauN7Ziqi/KAAHRlj/q8CunCsL2mG4zA/J2gYbsjWwfKd3Qmx8Mu2mHEEnfPXS
- 5G5g==
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jFGHo-0000DD-34
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:00 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id o12so6548652wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 04:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=nDVUfE5qp5/dOvSz6UOOSa8GHDGJmO0y7HWrNxsmL/E=;
+ b=EekNPaM0uDdUVsxqz7CxycxGrqLYQXN9DG3OVoCfy1/voMW7Z1E2eFywav05enHw+G
+ 5ZBWSGtQlH8A+rhU067hL6GlcO3M+YP6cpvrSgqG4DaL/2pz/y04l2SsyEPnn+8jf9Rs
+ C7ncBMIA/fZphBpGk72QyOfVk4dOx1lFOyO3bpilL3gtxwnwFv+kbrdPcdCNs5AA0ljA
+ 8npSrkGlQWLmECJFu5fNh0AQHo3S13ipkyUAubj8hrXjq08V5lv3iLX2sHxInt0D1cEj
+ gHVxogZBJMf1zQxB7vjgKzgfKSizjYuS0DdEftriWnBodNb1+R8u3yugTWzp8fVInAUU
+ fKCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2v1VP1pn6KKeVELtTQGZhYsszk2I5oz59zd85NU98wg=;
- b=uXaZ4/GWg8Y0RY8w3MS235O5W/f6PQpQBuC4kKECHAseZCG2N8v+BNoDRqEGGc8gLJ
- +J/YjenTU4wJdRszGZivrjPRu7z+seo/aNfMEyWGmlAeEvwVkx2xuky6vH/sMpLWXuAw
- 09BK0Af1kr3h83ggRLTiJG2UFdVtzqGbKgXiVaYbfDPPtitrgXJo+9Q/q0P7URfIsBKr
- IyQqMWBYnSp4pxSizD/uq/V93Sdu3dovcsMbzqqFWgpiY6lAdeLxDuu8jgjEwInGnKgJ
- iZl1WfI7o4WD7mxuu8iKZhI166lTy4FtN7h9EOMPXaKbacNldYno6dL1d8hcRK/VbGsO
- 8sZQ==
-X-Gm-Message-State: ANhLgQ3Fc0x1UEsAjq4PfGJcFIxDGltlbjJf/vw5r4zGunVKy4kx4rFZ
- e5Ha/g1rw6pu7YoFCd7bpu5IgL5J+5YIvC9Zc+I=
-X-Google-Smtp-Source: ADFU+vveHpzCdf1GYjieQ21T8xSh4zB0vaOy7DMD6SgDP+q8UHsdBeF+/1EthTmsyGo/8ABjC6Wlp/YK+K8m9NoTzR4=
-X-Received: by 2002:aca:56c2:: with SMTP id k185mr5761709oib.141.1584705333710; 
- Fri, 20 Mar 2020 04:55:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200316160702.478964-1-stefanha@redhat.com>
- <20200316160702.478964-3-stefanha@redhat.com>
-In-Reply-To: <20200316160702.478964-3-stefanha@redhat.com>
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Date: Fri, 20 Mar 2020 13:55:22 +0200
-Message-ID: <CAMPkWoMFD+-zbt1Xb-0M-MQWJ_QonQxUkJWBRoLUdJzfC49VfA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/rdma: avoid suspicious strncpy() use
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007d536905a147f6c2"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=nDVUfE5qp5/dOvSz6UOOSa8GHDGJmO0y7HWrNxsmL/E=;
+ b=pEBqT3ARsynwkbOUFeN3wH9+RCJo6d57WLx4f0rX8H2lqD7Z3gdirFj+l7GCe0z5MU
+ R3MiJfi/xuQpHUJ1STs5pe6nB8jWsXa31QGp/psyelo9EsaTF5fYE1K5HNLGy4TefitY
+ qfNnqXfbK7UdU0mg/vCbn61lc/I8g6i2IDwthmic6Jh/lBbSgqpwkSlzwYElnYAkUtvO
+ X3fpM1QJEQ5BKdZWF/BSQJdazYvFsO81sKnTrD0QUpkfXCE55kDS93DCQ6RUCf49bkB+
+ zs+aNSIMAv07C32LGti93JpbNwvUv2LF9T6b5a5ldrjulcU+35SP9w4xpBr9VAT8hicI
+ CKLw==
+X-Gm-Message-State: ANhLgQ3tEOFgPb45/L4jeGlx6l9HZr/3Ka8TWd2MHk11wpl9cXimDu2i
+ adj8Q0L6SeUO39ry2uFUR1B+r0u6PlJtbw==
+X-Google-Smtp-Source: ADFU+vuWXrHBFgZXu6OJVWGxCTo/6ARb7eC6PxiT5M5jE9ltcB4m3N9c6nM1fY9Nx2Ve4LEarFDbIw==
+X-Received: by 2002:a5d:5545:: with SMTP id g5mr10325535wrw.290.1584705478558; 
+ Fri, 20 Mar 2020 04:57:58 -0700 (PDT)
+Received: from f2.redhat.com (bzq-79-179-79-224.red.bezeqint.net.
+ [79.179.79.224])
+ by smtp.gmail.com with ESMTPSA id c18sm6637645wrx.5.2020.03.20.04.57.56
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 20 Mar 2020 04:57:57 -0700 (PDT)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com
+Subject: [PATCH v6 0/7] reference implementation of RSS and hash report
+Date: Fri, 20 Mar 2020 13:57:44 +0200
+Message-Id: <20200320115751.19446-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,147 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007d536905a147f6c2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
+features in QEMU for reference purpose.
+Implements Toeplitz hash calculation for incoming
+packets according to configuration provided by driver.
+Uses calculated hash for decision on receive virtqueue
+and/or reports the hash in the virtio header
 
-On Mon, 16 Mar 2020 at 18:07, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+Changes from v5:
+RSS migration state moved to subsection and migrated
+only if enabled (patch 7)
+Updated sign off (patch 6)
 
-> gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled
-> reports the following error:
->
->   CC      x86_64-softmmu/hw/rdma/vmw/pvrdma_dev_ring.o
-> In file included from /usr/include/string.h:495,
->                  from include/qemu/osdep.h:101,
->                  from hw/rdma/vmw/pvrdma_dev_ring.c:16:
-> In function =E2=80=98strncpy=E2=80=99,
->     inlined from =E2=80=98pvrdma_ring_init=E2=80=99 at hw/rdma/vmw/pvrdma=
-_dev_ring.c:33:5:
-> /usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_st=
-rncpy=E2=80=99
-> specified bound 32 equals destination size [-Werror=3Dstringop-truncation=
-]
->   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos
-> (__dest));
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Use pstrcpy() instead of strncpy().  It is guaranteed to NUL-terminate
-> strings.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/rdma/vmw/pvrdma_dev_ring.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.=
-c
-> index d7bc7f5ccc..74b8fa834c 100644
-> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
-> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-> @@ -14,6 +14,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->  #include "hw/pci/pci.h"
->  #include "cpu.h"
->
-> @@ -30,8 +31,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name=
-,
-> PCIDevice *dev,
->      int i;
->      int rc =3D 0;
->
-> -    strncpy(ring->name, name, MAX_RING_NAME_SZ);
-> -    ring->name[MAX_RING_NAME_SZ - 1] =3D 0;
-> +    pstrcpy(ring->name, MAX_RING_NAME_SZ, name);
->      ring->dev =3D dev;
->      ring->ring_state =3D ring_state;
->      ring->max_elems =3D max_elems;
-> --
-> 2.24.1
->
->
-Thanks,
+Yuri Benditovich (7):
+  virtio-net: introduce RSS and hash report features
+  virtio-net: implement RSS configuration command
+  virtio-net: implement RX RSS processing
+  tap: allow extended virtio header with hash info
+  virtio-net: reference implementation of hash report
+  vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
+  virtio-net: add migration support for RSS and hash report
 
-Reviewed-by: Yuval Shaia <yuval.shaia.ml.gmail.com>
+ hw/net/trace-events            |   3 +
+ hw/net/virtio-net.c            | 448 +++++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-net.h |  16 ++
+ include/migration/vmstate.h    |  10 +
+ net/tap.c                      |  11 +-
+ 5 files changed, 460 insertions(+), 28 deletions(-)
 
---0000000000007d536905a147f6c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.17.1
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div><br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 16 Mar 2020 at 18:=
-07, Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1) with sanitizers enabled<b=
-r>
-reports the following error:<br>
-<br>
-=C2=A0 CC=C2=A0 =C2=A0 =C2=A0 x86_64-softmmu/hw/rdma/vmw/pvrdma_dev_ring.o<=
-br>
-In file included from /usr/include/string.h:495,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from include/=
-qemu/osdep.h:101,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from hw/rdma/=
-vmw/pvrdma_dev_ring.c:16:<br>
-In function =E2=80=98strncpy=E2=80=99,<br>
-=C2=A0 =C2=A0 inlined from =E2=80=98pvrdma_ring_init=E2=80=99 at hw/rdma/vm=
-w/pvrdma_dev_ring.c:33:5:<br>
-/usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_strn=
-cpy=E2=80=99 specified bound 32 equals destination size [-Werror=3Dstringop=
--truncation]<br>
-=C2=A0 106 |=C2=A0 =C2=A0return __builtin___strncpy_chk (__dest, __src, __l=
-en, __bos (__dest));<br>
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
-<br>
-Use pstrcpy() instead of strncpy().=C2=A0 It is guaranteed to NUL-terminate=
-<br>
-strings.<br>
-<br>
-Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" t=
-arget=3D"_blank">stefanha@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/rdma/vmw/pvrdma_dev_ring.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c<=
-br>
-index d7bc7f5ccc..74b8fa834c 100644<br>
---- a/hw/rdma/vmw/pvrdma_dev_ring.c<br>
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c<br>
-@@ -14,6 +14,7 @@<br>
-=C2=A0 */<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu/cutils.h&quot;<br>
-=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
-=C2=A0#include &quot;cpu.h&quot;<br>
-<br>
-@@ -30,8 +31,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, =
-PCIDevice *dev,<br>
-=C2=A0 =C2=A0 =C2=A0int i;<br>
-=C2=A0 =C2=A0 =C2=A0int rc =3D 0;<br>
-<br>
--=C2=A0 =C2=A0 strncpy(ring-&gt;name, name, MAX_RING_NAME_SZ);<br>
--=C2=A0 =C2=A0 ring-&gt;name[MAX_RING_NAME_SZ - 1] =3D 0;<br>
-+=C2=A0 =C2=A0 pstrcpy(ring-&gt;name, MAX_RING_NAME_SZ, name);<br>
-=C2=A0 =C2=A0 =C2=A0ring-&gt;dev =3D dev;<br>
-=C2=A0 =C2=A0 =C2=A0ring-&gt;ring_state =3D ring_state;<br>
-=C2=A0 =C2=A0 =C2=A0ring-&gt;max_elems =3D max_elems;<br>
--- <br>
-2.24.1<br>
-<br></blockquote><div><br></div><div>Thanks,</div><div><br></div><div>Revie=
-wed-by: Yuval Shaia &lt;<a href=3D"http://yuval.shaia.ml.gmail.com">yuval.s=
-haia.ml.gmail.com</a>&gt;=C2=A0=C2=A0</div><div>=C2=A0</div></div></div>
-
---0000000000007d536905a147f6c2--
 
