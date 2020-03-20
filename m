@@ -2,71 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F13F18D2B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:21:24 +0100 (CET)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA50918D2DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:27:28 +0100 (CET)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJSd-0004Qz-3i
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
+	id 1jFJYV-0001zm-T7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jFJRk-0003tJ-AO
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:20:29 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jFJVZ-0005Ia-MT
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jFJRj-0005cc-Bp
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:20:28 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50259)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1jFJRj-0005ac-2o; Fri, 20 Mar 2020 11:20:27 -0400
-Received: by mail-wm1-x342.google.com with SMTP id d198so1193713wmd.0;
- Fri, 20 Mar 2020 08:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UjdZKPXiUWUEicE+z/OuFQfCMXvdDVk6kxJN6ZvZQ9Y=;
- b=IRKRFu/9RrqQV003gJUzvQXwwgkVX+N4mtby/veWgZxdnoK/4fMZqm57gAc67PcAUh
- 17oDETCxLOvH7BvbF82cPah9gavkPE+fMmRaqHZtbWwjlH7Nl4te2IF971jbX+wyA5ef
- PKYwootRF4CgifOAjEGYBCeiTjplRyoUmpj7oB8jcjEYeZNtHlM2C1G59kvgBFhNIZfZ
- WEchns5rayYCC3AHdVLg1DUeP243Ri/UjNxA0Hs5vJCsFw+cWnumTxFnGL9JYy/xVJLI
- rQVPOx0WvYYD33FIrF0kCE6Qibe37CgzRSWa72EDmL4XZUDEPo9UIhiKFPyk/4TLplGy
- eA5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UjdZKPXiUWUEicE+z/OuFQfCMXvdDVk6kxJN6ZvZQ9Y=;
- b=gF9XTrhuAenDjvX3p0gM+tnoN/pHe0oZ6mneYG/ve5Dqg9cCGHqTb/4sZln8bks4yX
- mNq8+lh3nCItCytHt0Q6F0cEw+JtBC4LjzxgF8kTSVLcPqKRYNvSwLhBs3AB+or+Rt+Z
- lJ0+/5aMjnokRbUepilQFgjT5+Oy1qvCi0YN8+mEL1dO17mJSTJwTW/VNpOWPFsqkltO
- 4Rk2JBdvDSjTx+aY4ySOoKA92BH2JFczwJTDdXpe10L2TlYlinBwEdhVCuLvAie63OJJ
- NdDokDEoLNKHkCDSI5J5jxrwXKZjufx15bISBo/fV+k4op2uGMktrSdRwEP3Zpwq2n+f
- gMpQ==
-X-Gm-Message-State: ANhLgQ14RXeZOHABlt0Oo4+ipRZmDw0m1MwMe5WoyfVQcpHBsVoY6mpB
- 7U7VXRiKr3SWl/rzrH8eAWw=
-X-Google-Smtp-Source: ADFU+vt1p90o3dOblFxxY3aEFSPwOpJZRgZAjvY6AaRiMeNeIaCwNuOBbeYukMc7jzdeNUSgODrang==
-X-Received: by 2002:a05:600c:2947:: with SMTP id
- n7mr11367154wmd.13.1584717624963; 
- Fri, 20 Mar 2020 08:20:24 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id q13sm8610120wrs.91.2020.03.20.08.20.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 08:20:24 -0700 (PDT)
-Date: Fri, 20 Mar 2020 15:20:22 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH] hw/rdma/vmw/pvrdma_dev_ring: Replace strncpy with pstrcpy
-Message-ID: <20200320152022.GC138042@stefanha-x1.localdomain>
-References: <20200318134849.237011-1-jusual@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1jFJVX-0007Tj-NJ
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:25 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:44539)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJVX-0007SY-Em
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:23 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MNbxN-1iwIg10x5v-00P7Mv; Fri, 20 Mar 2020 16:24:14 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL v4 00/32] Linux user for 5.0 patches
+Date: Fri, 20 Mar 2020 16:23:36 +0100
+Message-Id: <20200320152408.182899-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
-Content-Disposition: inline
-In-Reply-To: <20200318134849.237011-1-jusual@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:MDwMxqVLxj2CaCsIfYPlVwmSC3RA3z0bLHyMtPm0SqNd5CGvZNT
+ 916+fgHBk2Jdp6EKRU3eSVaQ9Xxqg+291IsqAHz8mSs5+ukL+DiyZB1aKm/ZAnDWpKuVTX8
+ 4wugI0RkkQl6UALVZFByeudI7MZruAH5lJkOeO14d3ISmw7IrHmFmsi6Gar460EzEJJd7Cw
+ VPxc3ao2VwMi1MWkRtklg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:P6SgCt64UsE=:2YRuS4Atl8d7FF54eQGmZ2
+ RajHHKMA6W2S5w9DSmOehLGeHfRgtXOz6pvFHjOzIG/SJXd0O9vbck29uuXagVH2+tVvfLhJ/
+ FOD4+y5fg/MxRhy6aMvE1qvYSRqgzhs1L8ocHkzZgLye8tfY7aOUJ2x565VFfeGgTS+XSDuko
+ JsURpRUP0rijaWmrayKcpaDo9XQbTRi7eA1UZPwfVMTjDVxFagWsROSEOK68zYmWEBgqsh8jd
+ Uvy+5y3S5RIwjAglzobOjW/b+IVUJrXCaPzpHyeoZDG9oJwNqY/t/C6J+7doETykJM9KKNniC
+ N2fvorz7YE1ydQpHWA8c/QfnE+5Sl+X4TqmhzLyu1h/H5b+AzyYmHX0Su+HRZEFmIXghajS4H
+ y7PpJEUqZiDAjZvYX73jHzHuQfUHxOectwFde4JyiuBq/IACUgPL3JMkPFQfCuz1wufs7DwC8
+ 2/ZTlL4T1AoGJAQ/2m8H17plO1gLluDEYqBPSc2UePjn6CGwqNJugGVnhwJtXkrGPFRxJaSYi
+ R8cFxX7IJPubhLJQD8EAuyY8jxev2xn0ZR2d0qAiRD3AqtS+dxGzmBV0NMAqVF6YsdecGpayx
+ abkGYxWujyGxOd0/AwHHUMQYrSgq/cZOhQjCufslianaAplJhmKtiyIY11ObV2rePMCUuBCEv
+ rQjLYZX5Hzha/X8XP+uEeTVl09Nhb8iAwyxUaruuycd9cjBcWVcQ4GGWCgjdUypTBnytJOIGd
+ pzEat3TcXAhW/Vo1EvPP5/EN/CPggLz/2xnFCafCgZyg36Z7SQx+BMrvIEdE9bumAEjra4SNS
+ FmglAaa9NnKKqBru3zVDBM+FCbD91fhACh8CBOoYakFVqbuloclyMLwLC5ASSJlf7KZ1rQ5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +62,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
 
---Izn7cH1Com+I3R9J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
 
-On Wed, Mar 18, 2020 at 02:48:49PM +0100, Julia Suvorova wrote:
-> ring->name is defined as 'char name[MAX_RING_NAME_SZ]'. Replace untruncat=
-ed
-> strncpy with QEMU function.
-> This case prevented QEMU from compiling with --enable-sanitizers.
->=20
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
->  hw/rdma/vmw/pvrdma_dev_ring.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-Here is my equivalent patch
-<20200316160702.478964-3-stefanha@redhat.com> but feel free to merge
-this.
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+for you to fetch changes up to a64ddbb03acf1ee916c826ae89e0e1aa6500d5ae:
 
---Izn7cH1Com+I3R9J
-Content-Type: application/pgp-signature; name="signature.asc"
+  linux-user, openrisc: sync syscall numbers with kernel v5.5 (2020-03-20 16:02:00 +0100)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+update syscall numbers to linux 5.5 (with scripts)
+add clock_gettime64/clock_settime64
+add AT_EXECFN
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl503zYACgkQnKSrs4Gr
-c8jheQf9HA1iCTM/WkiNOjSVOp8hXbM26YCCYKH1uetfSd5qSDmFs8iHPNRESuMN
-56Jdi5mI7oeJYtj/1niU9OFZrhgbdfQQkiU4gzwdqQw/N21e6cQTD+VlYsHD4PRs
-ZgpJprNPxbu9RM82L4NAJLZq/uQGER/n59flQndWBJS68cpBx+R7nR0p3inpH7QR
-STBQ0GKvf8rRqEwsVztUsCE809SsLSix6+OV42OylomvtO9CsR4s5ugPMNwefhl3
-WuF5b4Lc5kSZhC0BasCLribZnhLWtoEC/BxIMmzhy30s0WcBzAMPgGBmPtsY7m/M
-v/ZhACAqo4gdiqkbY/QqbdY+8dhWSA==
-=Of2S
------END PGP SIGNATURE-----
+v4: restore syscall.tbl series but remove vsyscall series
+v3: remove syscall.tbl series
+v2: guard copy_to_user_timezone() with TARGET_NR_gettimeofday
+    remove "Support futex_time64" patch
+    guard sys_futex with TARGET_NR_exit
 
---Izn7cH1Com+I3R9J--
+----------------------------------------------------------------
+
+Alistair Francis (3):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
+
+Laurent Vivier (26):
+  linux-user: fix socket() strace
+  linux-user: introduce parameters to generate syscall_nr.h
+  linux-user, alpha: add syscall table generation support
+  linux-user, hppa: add syscall table generation support
+  linux-user, m68k: add syscall table generation support
+  linux-user, xtensa: add syscall table generation support
+  linux-user, sh4: add syscall table generation support
+  linux-user, microblaze: add syscall table generation support
+  linux-user, arm: add syscall table generation support
+  linux-user, ppc: add syscall table generation support
+  linux-user, s390x: remove syscall definitions for !TARGET_S390X
+  linux-user, s390x: add syscall table generation support
+  linux-user, sparc, sparc64: add syscall table generation support
+  linux-user, x86_64, i386: cleanup TARGET_NR_arch_prctl
+  linux-user, i386: add syscall table generation support
+  linux-user, x86_64: add syscall table generation support
+  linux-user, mips: add syscall table generation support
+  linux-user, mips64: add syscall table generation support
+  linux-user, scripts: add a script to update syscall.tbl
+  linux-user: update syscall.tbl from linux 0bf999f9c5e7
+  linux-user,mips: move content of mips_syscall_args
+  linux-user,mips: update syscall-args-o32.c.inc
+  scripts: add a script to generate syscall_nr.h
+  linux-user, aarch64: sync syscall numbers with kernel v5.5
+  linux-user, nios2: sync syscall numbers with kernel v5.5
+  linux-user, openrisc: sync syscall numbers with kernel v5.5
+
+Lirong Yuan (2):
+  linux-user: Add AT_EXECFN auxval
+  linux-user: Update TASK_UNMAPPED_BASE for aarch64
+
+Tobias Koch (1):
+  linux-user: do prlimit selectively
+
+ MAINTAINERS                            |   3 +
+ Makefile.target                        |   3 +-
+ configure                              |  35 ++
+ linux-user/Makefile.objs               |  19 +-
+ linux-user/aarch64/syscall_nr.h        |  34 +-
+ linux-user/alpha/Makefile.objs         |   5 +
+ linux-user/alpha/syscall.tbl           | 479 ++++++++++++++++
+ linux-user/alpha/syscall_nr.h          | 492 -----------------
+ linux-user/alpha/syscallhdr.sh         |  32 ++
+ linux-user/arm/Makefile.objs           |   8 +
+ linux-user/arm/syscall.tbl             | 453 +++++++++++++++
+ linux-user/arm/syscall_nr.h            | 447 ---------------
+ linux-user/arm/syscallhdr.sh           |  31 ++
+ linux-user/elfload.c                   |   3 +-
+ linux-user/hppa/Makefile.objs          |   5 +
+ linux-user/hppa/syscall.tbl            | 437 +++++++++++++++
+ linux-user/hppa/syscall_nr.h           | 358 ------------
+ linux-user/hppa/syscallhdr.sh          |  32 ++
+ linux-user/i386/Makefile.objs          |   5 +
+ linux-user/i386/syscall_32.tbl         | 444 +++++++++++++++
+ linux-user/i386/syscall_nr.h           | 387 -------------
+ linux-user/i386/syscallhdr.sh          |  28 +
+ linux-user/i386/target_cpu.h           |   4 +-
+ linux-user/m68k/Makefile.objs          |   5 +
+ linux-user/m68k/syscall.tbl            | 439 +++++++++++++++
+ linux-user/m68k/syscall_nr.h           | 434 ---------------
+ linux-user/m68k/syscallhdr.sh          |  32 ++
+ linux-user/microblaze/Makefile.objs    |   5 +
+ linux-user/microblaze/syscall.tbl      | 445 +++++++++++++++
+ linux-user/microblaze/syscall_nr.h     | 442 ---------------
+ linux-user/microblaze/syscallhdr.sh    |  32 ++
+ linux-user/mips/Makefile.objs          |   5 +
+ linux-user/mips/cpu_loop.c             | 440 +--------------
+ linux-user/mips/syscall-args-o32.c.inc | 436 +++++++++++++++
+ linux-user/mips/syscall_nr.h           | 425 ---------------
+ linux-user/mips/syscall_o32.tbl        | 427 +++++++++++++++
+ linux-user/mips/syscallhdr.sh          |  36 ++
+ linux-user/mips64/Makefile.objs        |  12 +
+ linux-user/mips64/syscall_n32.tbl      | 378 +++++++++++++
+ linux-user/mips64/syscall_n64.tbl      | 354 ++++++++++++
+ linux-user/mips64/syscall_nr.h         | 725 -------------------------
+ linux-user/mips64/syscallhdr.sh        |  33 ++
+ linux-user/mmap.c                      |   4 +
+ linux-user/nios2/syscall_nr.h          | 650 +++++++++++-----------
+ linux-user/openrisc/syscall_nr.h       | 309 +++--------
+ linux-user/ppc/Makefile.objs           |   6 +
+ linux-user/ppc/signal.c                |   2 +-
+ linux-user/ppc/syscall.tbl             | 521 ++++++++++++++++++
+ linux-user/ppc/syscall_nr.h            | 402 --------------
+ linux-user/ppc/syscallhdr.sh           |  34 ++
+ linux-user/riscv/syscall32_nr.h        | 295 ++++++++++
+ linux-user/riscv/syscall64_nr.h        | 301 ++++++++++
+ linux-user/riscv/syscall_nr.h          | 294 +---------
+ linux-user/s390x/Makefile.objs         |   5 +
+ linux-user/s390x/syscall.tbl           | 442 +++++++++++++++
+ linux-user/s390x/syscall_nr.h          | 398 --------------
+ linux-user/s390x/syscallhdr.sh         |  32 ++
+ linux-user/sh4/Makefile.objs           |   5 +
+ linux-user/sh4/syscall.tbl             | 442 +++++++++++++++
+ linux-user/sh4/syscall_nr.h            | 441 ---------------
+ linux-user/sh4/syscallhdr.sh           |  32 ++
+ linux-user/sparc/Makefile.objs         |   5 +
+ linux-user/sparc/syscall.tbl           | 485 +++++++++++++++++
+ linux-user/sparc/syscall_nr.h          | 363 -------------
+ linux-user/sparc/syscallhdr.sh         |  32 ++
+ linux-user/sparc64/Makefile.objs       |   5 +
+ linux-user/sparc64/syscall.tbl         | 485 +++++++++++++++++
+ linux-user/sparc64/syscall_nr.h        | 366 -------------
+ linux-user/sparc64/syscallhdr.sh       |  32 ++
+ linux-user/strace.c                    |  10 +-
+ linux-user/syscall.c                   | 139 ++++-
+ linux-user/x86_64/Makefile.objs        |   5 +
+ linux-user/x86_64/syscall_64.tbl       | 404 ++++++++++++++
+ linux-user/x86_64/syscall_nr.h         | 356 ------------
+ linux-user/x86_64/syscallhdr.sh        |  28 +
+ linux-user/xtensa/Makefile.objs        |   5 +
+ linux-user/xtensa/syscall.tbl          | 410 ++++++++++++++
+ linux-user/xtensa/syscall_nr.h         | 469 ----------------
+ linux-user/xtensa/syscallhdr.sh        |  32 ++
+ scripts/gensyscalls.sh                 | 102 ++++
+ scripts/update-mips-syscall-args.sh    |  57 ++
+ scripts/update-syscalltbl.sh           |  49 ++
+ 82 files changed, 9465 insertions(+), 7838 deletions(-)
+ create mode 100644 linux-user/alpha/Makefile.objs
+ create mode 100644 linux-user/alpha/syscall.tbl
+ delete mode 100644 linux-user/alpha/syscall_nr.h
+ create mode 100644 linux-user/alpha/syscallhdr.sh
+ create mode 100644 linux-user/arm/Makefile.objs
+ create mode 100644 linux-user/arm/syscall.tbl
+ delete mode 100644 linux-user/arm/syscall_nr.h
+ create mode 100644 linux-user/arm/syscallhdr.sh
+ create mode 100644 linux-user/hppa/Makefile.objs
+ create mode 100644 linux-user/hppa/syscall.tbl
+ delete mode 100644 linux-user/hppa/syscall_nr.h
+ create mode 100644 linux-user/hppa/syscallhdr.sh
+ create mode 100644 linux-user/i386/Makefile.objs
+ create mode 100644 linux-user/i386/syscall_32.tbl
+ delete mode 100644 linux-user/i386/syscall_nr.h
+ create mode 100644 linux-user/i386/syscallhdr.sh
+ create mode 100644 linux-user/m68k/Makefile.objs
+ create mode 100644 linux-user/m68k/syscall.tbl
+ delete mode 100644 linux-user/m68k/syscall_nr.h
+ create mode 100644 linux-user/m68k/syscallhdr.sh
+ create mode 100644 linux-user/microblaze/Makefile.objs
+ create mode 100644 linux-user/microblaze/syscall.tbl
+ delete mode 100644 linux-user/microblaze/syscall_nr.h
+ create mode 100644 linux-user/microblaze/syscallhdr.sh
+ create mode 100644 linux-user/mips/Makefile.objs
+ create mode 100644 linux-user/mips/syscall-args-o32.c.inc
+ delete mode 100644 linux-user/mips/syscall_nr.h
+ create mode 100644 linux-user/mips/syscall_o32.tbl
+ create mode 100644 linux-user/mips/syscallhdr.sh
+ create mode 100644 linux-user/mips64/Makefile.objs
+ create mode 100644 linux-user/mips64/syscall_n32.tbl
+ create mode 100644 linux-user/mips64/syscall_n64.tbl
+ delete mode 100644 linux-user/mips64/syscall_nr.h
+ create mode 100644 linux-user/mips64/syscallhdr.sh
+ create mode 100644 linux-user/ppc/Makefile.objs
+ create mode 100644 linux-user/ppc/syscall.tbl
+ delete mode 100644 linux-user/ppc/syscall_nr.h
+ create mode 100644 linux-user/ppc/syscallhdr.sh
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
+ create mode 100644 linux-user/s390x/Makefile.objs
+ create mode 100644 linux-user/s390x/syscall.tbl
+ delete mode 100644 linux-user/s390x/syscall_nr.h
+ create mode 100755 linux-user/s390x/syscallhdr.sh
+ create mode 100644 linux-user/sh4/Makefile.objs
+ create mode 100644 linux-user/sh4/syscall.tbl
+ delete mode 100644 linux-user/sh4/syscall_nr.h
+ create mode 100644 linux-user/sh4/syscallhdr.sh
+ create mode 100644 linux-user/sparc/Makefile.objs
+ create mode 100644 linux-user/sparc/syscall.tbl
+ delete mode 100644 linux-user/sparc/syscall_nr.h
+ create mode 100644 linux-user/sparc/syscallhdr.sh
+ create mode 100644 linux-user/sparc64/Makefile.objs
+ create mode 100644 linux-user/sparc64/syscall.tbl
+ delete mode 100644 linux-user/sparc64/syscall_nr.h
+ create mode 100644 linux-user/sparc64/syscallhdr.sh
+ create mode 100644 linux-user/x86_64/Makefile.objs
+ create mode 100644 linux-user/x86_64/syscall_64.tbl
+ delete mode 100644 linux-user/x86_64/syscall_nr.h
+ create mode 100644 linux-user/x86_64/syscallhdr.sh
+ create mode 100644 linux-user/xtensa/Makefile.objs
+ create mode 100644 linux-user/xtensa/syscall.tbl
+ delete mode 100644 linux-user/xtensa/syscall_nr.h
+ create mode 100644 linux-user/xtensa/syscallhdr.sh
+ create mode 100755 scripts/gensyscalls.sh
+ create mode 100755 scripts/update-mips-syscall-args.sh
+ create mode 100755 scripts/update-syscalltbl.sh
+
+-- 
+2.25.1
+
 
