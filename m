@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEFE18D650
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:58:33 +0100 (CET)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FF618D67B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:02:54 +0100 (CET)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFLui-0001A1-6L
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38630)
+	id 1jFLyv-00058y-7J
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39492)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jFLtr-0000ak-0Z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:57:39 -0400
+ (envelope-from <77bfe734689fb2242218674195e202a6757a1644@lizzy.crudebyte.com>)
+ id 1jFLxz-0004SZ-PC
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:01:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jFLtp-0006Dj-Gd
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:57:38 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35909)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jFLtp-00069w-AY
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:57:37 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k18so7465345oib.3
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZG8Y4pZ11pcMWaVI05Vqi/9+7qaLwwiAuSzMiyot2i4=;
- b=MU+BV7kfspeYndeX4RJVhAtfjLOY42z4rzROhwPQ5BRZwMiErKyavSeJM1XNdtDg2R
- m8kUT6vGiCo/H4+lk7AkxKTn7C7dKdy7LzImcYg/PQtglmxqWjENuu1uTip+N3dQ0d7v
- T2ehK0H6R3bjsqEJHrqVTHpMPUPAx9zYiR130OmJ4yE5te9eCGpJBnskyp3C3rv/b8/m
- oCQ7PnVR6Ix+vyz3sd5D0Wn/8JdB08Q9fBH7z8M/s450I/vii+jcwtzcyT2ha6xh8AIq
- Dvk2CgQNaI4M2l4yuzUE2pN5+ReYtpaBgxkYJpHNzZ3USszCdkBT7bG5QERRbq2cFTTC
- 6Q6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZG8Y4pZ11pcMWaVI05Vqi/9+7qaLwwiAuSzMiyot2i4=;
- b=p2bqI4YgMpEBTjIi7MGnKp+VVEqn/bVlvMo6goey/85xJhpuVTuiJOR0csxPd1EBme
- 4SvA91Nu3lq7DFLBq2wT0e8J3bxtpoNX9e1u79drwZh5NnKtU+WoWAleYkOiM3HZodS+
- +TYMqgfa4l5ih86otMQv+rnHY1iSyiNhpwxIzIiTIC0Fd1d3NYtiGKJGVGReiSceMTva
- PeN5p0LZ17uFHdx0diy4JhcuREvzPDwj+B0MrjV8VDFJtSgyF7QvDjdtCTTVmclslPxo
- DBNyZRudtjzDWg74/TYLLDpjBsaTnIhXuVAbA1uiTsJDvQL8JzsNHv0KRcvbLOjnGTBC
- hHzA==
-X-Gm-Message-State: ANhLgQ0W9HlhZukjqoRoYICexOBdEfp5fkOr8XJ9J3xblLDowUuHaZQr
- GtFwUCX3kIAA1B2/ccBcW8gaCaOkka/wOWBkfFC+9A==
-X-Google-Smtp-Source: ADFU+vskut/UBQn/ymrO3POB90ToVZxRL69CPR4eYZQOuIuaO86BOfQSwRtGMruevayj89TGErmuwPBz6X5k5gn91iw=
-X-Received: by 2002:aca:190f:: with SMTP id l15mr7233325oii.48.1584727056324; 
- Fri, 20 Mar 2020 10:57:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190211205128.27146-1-eblake@redhat.com>
- <20190211205128.27146-4-eblake@redhat.com>
-In-Reply-To: <20190211205128.27146-4-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Mar 2020 17:57:24 +0000
-Message-ID: <CAFEAcA9wDiKKfL67B7cH1X=Wm_ayDJb6b0L-Pgiqcp2SkDNBAw@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PULL 3/4] qcow2: Add list of bitmaps to
- ImageInfoSpecificQCow2
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+ (envelope-from <77bfe734689fb2242218674195e202a6757a1644@lizzy.crudebyte.com>)
+ id 1jFLxy-0001ID-Qb
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:01:55 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53025)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <77bfe734689fb2242218674195e202a6757a1644@lizzy.crudebyte.com>)
+ id 1jFLxy-0000Ik-KD
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:01:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=B9RoK2aLNCCKJGUIXCo19T7dVfKYtpjQkK39vXd2DP0=; b=XpZar
+ uFq7XuCEK2jWXWhYOjk29Ph4j8Vuad0vq4azYhFq6/ZkcluxTaYDjQc8oyXE/tpSRsVm1Dl4w96Qd
+ gPAVEFuCF6XrHFgncJ18F7fMJECpn2m+SwUU9gzPvQpn8el4DWRlCn+43hXbUf9b7RLJXUJT89Xb+
+ VPfN1Oc1gDm3ViCPsQa1vs9Dv41JTCfe9jdOlQzKfAawlFcbF+807aNaTyAupRPURqgpEKjZrt58M
+ zs4EiXtN3j7DC/G8fdXkVAbsAQ2PB5FVygIsyQKRMaWg0/F6fOdIv3L78PIpZrEMJoMJOmOo5N9v/
+ qh1J9kx3VwiAAMquY/5tZLI4kqC/Q==;
+Message-Id: <77bfe734689fb2242218674195e202a6757a1644.1584723662.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1584723662.git.qemu_oss@crudebyte.com>
+References: <cover.1584723662.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 20 Mar 2020 17:46:38 +0100
+Subject: [PATCH v2 1/4] docs: virtfs: add section separators
+To: libvir-list@redhat.com
+Cc: qemu-devel@nongnu.org,
+    Greg Kurz <groug@kaod.org>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.194.90.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,68 +55,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:qcow2" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Feb 2019 at 20:57, Eric Blake <eblake@redhat.com> wrote:
->
-> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->
-> In the 'Format specific information' section of the 'qemu-img info'
-> command output, the supplemental information about existing QCOW2
-> bitmaps will be shown, such as a bitmap name, flags and granularity:
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ docs/formatdomain.html.in | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Hi; Coverity has just noticed an issue (CID 1421894) with this change:
+diff --git a/docs/formatdomain.html.in b/docs/formatdomain.html.in
+index 594146009d..cc2c671c14 100644
+--- a/docs/formatdomain.html.in
++++ b/docs/formatdomain.html.in
+@@ -4084,13 +4084,20 @@
+         </dd>
+         </dl>
+ 
++      <p>
+       <span class="since">Since 5.2.0</span>, the filesystem element
+       has an optional attribute <code>model</code> with supported values
+       "virtio-transitional", "virtio-non-transitional", or "virtio".
+       See <a href="#elementsVirtioTransitional">Virtio transitional devices</a>
+       for more details.
++      </p>
++
+       </dd>
+ 
++      <p>
++      The <code>filesystem</code> element may contain the following subelements:
++      </p>
++
+       <dt><code>driver</code></dt>
+       <dd>
+         The optional driver element allows specifying further details
+-- 
+2.20.1
 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index bcb80d0270c..65a54c9ac65 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -4387,7 +4387,7 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
->      spec_info = g_new(ImageInfoSpecific, 1);
->      *spec_info = (ImageInfoSpecific){
->          .type  = IMAGE_INFO_SPECIFIC_KIND_QCOW2,
-> -        .u.qcow2.data = g_new(ImageInfoSpecificQCow2, 1),
-> +        .u.qcow2.data = g_new0(ImageInfoSpecificQCow2, 1),
->      };
->      if (s->qcow_version == 2) {
->          *spec_info->u.qcow2.data = (ImageInfoSpecificQCow2){
-> @@ -4395,6 +4395,13 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
->              .refcount_bits      = s->refcount_bits,
->          };
->      } else if (s->qcow_version == 3) {
-> +        Qcow2BitmapInfoList *bitmaps;
-> +        bitmaps = qcow2_get_bitmap_info_list(bs, &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            qapi_free_ImageInfoSpecific(spec_info);
-> +            return NULL;
-
-If we take this error-exit codepath, then we never free the
-memory allocated by the earlier call to qcrypto_block_get_info().
-
-> +        }
->          *spec_info->u.qcow2.data = (ImageInfoSpecificQCow2){
->              .compat             = g_strdup("1.1"),
->              .lazy_refcounts     = s->compatible_features &
-> @@ -4404,6 +4411,8 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
->                                    QCOW2_INCOMPAT_CORRUPT,
->              .has_corrupt        = true,
->              .refcount_bits      = s->refcount_bits,
-> +            .has_bitmaps        = !!bitmaps,
-> +            .bitmaps            = bitmaps,
->          };
->      } else {
->          /* if this assertion fails, this probably means a new version was
-> --
-> 2.20.1
-
-thanks
--- PMM
 
