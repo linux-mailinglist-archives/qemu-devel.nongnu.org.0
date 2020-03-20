@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CC218D11E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:37:39 +0100 (CET)
-Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B1318D1E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:56:15 +0100 (CET)
+Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFImI-00057L-W7
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50015)
+	id 1jFJ4I-0001Oz-8Q
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:56:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jFIlD-0003iJ-Pa
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:36:33 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jFJ3G-0000nM-VZ
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:55:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jFIlB-0000pG-Cv
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:36:31 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46335)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jFIlB-0000n7-64
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:36:29 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j17so4340027wru.13
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 07:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=uGGGqQcX+K5z8RVQc5V4M1PpO+4xmpbqkPeyuEjlhDA=;
- b=LzuOFCGdbKXTgfDmCuEoPkIgp+dTfAPoEA/EV3Mg3nuREII2GJH/+2aGxTO8rwva/k
- +VF6jY9TjKNP2rFXqwvbQwGwoSn2Eb4v8fCzEgWnmJdVQ2cXnC5qkloZ7j21/0UXlCMV
- 9u/e19SyI9W06UKFnPAYti8QVgw0JT0u9qWlrsubOTwHOTUT8kNTHEnMElXqiV597o1l
- /eYTGYA4yf98+U9qwm9Pguo9hQsYt0p5uOikGjXm62pplXvPB6IaZn+H02Dn9d2GSrZQ
- 3iq10vHMQSqRpJ+O4urm1G3bte4r4+G4yjlBv0xjDfvsVOuRDAblOhebe5qOxm0jzg5B
- AFag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=uGGGqQcX+K5z8RVQc5V4M1PpO+4xmpbqkPeyuEjlhDA=;
- b=oW9FPo0FdMBVNNkNTmS2Csh5E2XJG4nXQWAAtdeFOB1XbenZ59vUqbqj78stPg/WbC
- aq2ij4C5iLzuievBV26R0kS0knCHmCQV2z+yIUVLEkmH8QbKI0i1n3YH//hccN9w2IPI
- HnOY/MHjfgXUgwNQ9A+z6tyWu36EdnG0hmqKlJD4pkeUy7FCS9nD2mJ1zckPYwRpv0nE
- p/JWXV2tX31f3ZGK5+hic7v49EOYm5/KWQeSg0nB1km1+fjwjh/axFL76W8u3GUIwbjY
- YeEwFcKxZLW40l9/kMeujh1jfgdcCVS9TYQVnnSBmKVSxmzA/9rfPZ3IDie86orEVWQm
- l73w==
-X-Gm-Message-State: ANhLgQ1jA4lrxumvB+mSbSWpzsgwfBAjandCautVO4k7ERLLqqGjbGGw
- 5hK4Rt8G8C/ny2Z/1rtMxys6KQ==
-X-Google-Smtp-Source: ADFU+vscXlV7AE4ydx6d0nDAg2RcCrMig82ExEWP017gPgWQC45HD68e6eD4Sjo9lveKKJSYt0jxgw==
-X-Received: by 2002:a5d:464e:: with SMTP id j14mr11474483wrs.339.1584714987788; 
- Fri, 20 Mar 2020 07:36:27 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w204sm8456262wma.1.2020.03.20.07.36.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 07:36:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 885761FF7E;
- Fri, 20 Mar 2020 14:36:25 +0000 (GMT)
-References: <20200316112006.19107-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.10; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] Update copyright date for user-facing copyright strings
-In-reply-to: <20200316112006.19107-1-peter.maydell@linaro.org>
-Date: Fri, 20 Mar 2020 14:36:25 +0000
-Message-ID: <874kujhz4m.fsf@linaro.org>
+ (envelope-from <imammedo@redhat.com>) id 1jFJ3E-0002aE-MW
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:55:10 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:41709)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jFJ3E-0002Xs-IN
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:55:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584716107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gmy8Jyk7jCQ5s4ZmTl4sevzlWrK45wSmOumju3DXl0M=;
+ b=I/l46ybJxC/Alh4g3bwaJ4nj3U/Rbouiuz0PtCRMoDYQWqsKL+JkVRpnjQcYv6+rgduica
+ TUv2a6h170L2Zjzgm8sfVULINw3gWja5GIhaMa6+CgCw4ZRpKvX4wPwySbmsL2AzSYXvTs
+ UjGOqbHIXPRznbh1Bs3/qbx+xhoZH/g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-cGjff7zWMXypVYnqntgBVw-1; Fri, 20 Mar 2020 10:55:05 -0400
+X-MC-Unique: cGjff7zWMXypVYnqntgBVw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43E03800D4E;
+ Fri, 20 Mar 2020 14:55:04 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEFC99B91E;
+ Fri, 20 Mar 2020 14:54:35 +0000 (UTC)
+Date: Fri, 20 Mar 2020 15:54:33 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 03/13] microvm: add isa-acpi device
+Message-ID: <20200320155433.68461e7b@redhat.com>
+In-Reply-To: <20200320082258.fm4prxr6fac336ua@sirius.home.kraxel.org>
+References: <20200319080117.7725-1-kraxel@redhat.com>
+ <20200319080117.7725-4-kraxel@redhat.com>
+ <20200319144218.5d2f8fd3@redhat.com>
+ <20200320082258.fm4prxr6fac336ua@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,56 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Arbuckle <programmingkidx@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 20 Mar 2020 09:22:58 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> Update the copyright date to 2020 for the copyright strings which are
-> user-facing and represent overall copyright info for all of QEMU.
->
-> Reported-by: John Arbuckle <programmingkidx@gmail.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  include/qemu-common.h | 2 +-
->  docs/conf.py          | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index 082da59e852..d0142f29ac1 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -13,7 +13,7 @@
->  #define TFR(expr) do { if ((expr) !=3D -1) break; } while (errno =3D=3D =
-EINTR)
->=20=20
->  /* Copyright string for -version arguments, About dialogs, etc */
-> -#define QEMU_COPYRIGHT "Copyright (c) 2003-2019 " \
-> +#define QEMU_COPYRIGHT "Copyright (c) 2003-2020 " \
->      "Fabrice Bellard and the QEMU Project developers"
->=20=20
->  /* Bug reporting information for --help arguments, About dialogs, etc */
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 960043cb860..af55f506d5d 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -80,7 +80,7 @@ master_doc =3D 'index'
->=20=20
->  # General information about the project.
->  project =3D u'QEMU'
-> -copyright =3D u'2019, The QEMU Project Developers'
-> +copyright =3D u'2020, The QEMU Project Developers'
->  author =3D u'The QEMU Project Developers'
->=20=20
->  # The version info for the project you're documenting, acts as replaceme=
-nt for
+> On Thu, Mar 19, 2020 at 02:42:18PM +0100, Igor Mammedov wrote:
+> > On Thu, 19 Mar 2020 09:01:07 +0100
+> > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >  =20
+> > > Minimal ACPI device for PCI-less machines like microvm. =20
+> > it seems that x86 kernel is able to boot on hw-reduced acpi systems
+> > (but I haven't really tested any distro kernel, not sure how usable NEM=
+U is)
+> >=20
+> > Maybe reusing hw/acpi/generic_event_device.c (which was borrowed
+> > for NEMU effort) would be better since guest won't have to initialize
+> > not necessary interfaces and QEMU could implement simpler hw impl
+> > compared to full ACPI with GPEs, SCIs & co. =20
+>=20
+> I see the generic event device has support for powerdown request events,
+> good.  But I'm wondering how entering S5 state (aka poweroff) would
+> work then?
 
 
---=20
-Alex Benn=C3=A9e
+Relevant parts from spec:
+ACPI6.1:
+16.1.7 Transitioning from the Working to the Soft Off State
+...
+4.
+or writes the HW-reduced ACPI Sleep Type value for S5 and the SLP_EN bit to=
+ the
+Sleep Control Register.
+
+4.8.3.7 Sleep Control and Status Registers
+
+in kernel handled by acpi_hw_extended_sleep()
+
+
+From QEMU:
+
+build_fadt_rev5()
+  build_fadt()
+    ...
+    /* SLEEP_CONTROL_REG */
+    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
+    /* SLEEP_STATUS_REG */
+    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
+    ...
+    this is what board should implement (we cloud add an optional MMIO regi=
+ster to
+    GED to hanlde shutdown on QEMU side)
+    (ARM doesn't use it as it's using arch specific, PSCI method to shutdow=
+n machine),
+    I'd add relevant fields to AcpiFadtData, fill it in build_fadt_rev5() a=
+nd use them in build_fadt()
+
+
+virt_powerdown_req()
+  acpi_send_event(s->acpi_dev, ACPI_POWER_DOWN_STATUS)
+
+triggers in guest AML generated by:
+
+acpi_dsdt_add_power_button()
+
+build_ged_aml()
+  ...ACPI_POWER_BUTTON_DEVICE... -> tells OSPM to do 16.1.7 using 4.8.3.7
+
+
+
+
+>=20
+> cheers,
+>   Gerd
+>=20
+>=20
+
 
