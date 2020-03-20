@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C042318D358
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:52:46 +0100 (CET)
-Received: from localhost ([::1]:54720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099A618D361
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:54:18 +0100 (CET)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJwz-0004a5-Qk
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36391)
+	id 1jFJyT-0006M4-4m
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1jFJvi-0003S5-8Y
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:51:27 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFJxV-0005jp-J2
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:53:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1jFJvg-0000xn-UD
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:51:26 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:29549)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jFJvd-0000wj-7B
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:51:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584719480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o9jEYFzZyU5mkTXeI/TPzEERTY1+3h8adet6+ZVKksk=;
- b=MM+nO2VmoY4hDo9IQajpWmCeOtnqajp3gLxypKsOAZSxdwooPUv2K3SNwq9uITHIjoeu3F
- JJwLK3S2wYn8Mab7b1PYergi+UnCgbRg6ehqVzSOPwF+1lqbaDdJhiceQSQej+M/hc3+04
- IHegiqFRnuybiq7kI4lKesaqg+FKYw0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-QsquwZ6-Mp2e6cZjY9PYeQ-1; Fri, 20 Mar 2020 11:51:19 -0400
-X-MC-Unique: QsquwZ6-Mp2e6cZjY9PYeQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240D88017CC;
- Fri, 20 Mar 2020 15:51:18 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFA695DA75;
- Fri, 20 Mar 2020 15:51:14 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 1/1] slirp: update submodule to v4.2.0+
-Date: Fri, 20 Mar 2020 16:51:06 +0100
-Message-Id: <20200320155106.549514-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20200320155106.549514-1-marcandre.lureau@redhat.com>
-References: <20200320155106.549514-1-marcandre.lureau@redhat.com>
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFJxU-0001pq-8q
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:53:17 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46111)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jFJxU-0001p2-36
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:53:16 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j17so4679417wru.13
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 08:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eCJqdy4lQnsVrkn6WM4N9GFa0OUSfsOg/iYSPDxW8KI=;
+ b=A+sjbXEMH0ttD7lqBdaYWatmp6joSjUv+ZcC6D9C5j4XquysI63D6EECLFro1MNk6y
+ FK7415vu1uea/joKLSkASgcjAcJLdpH7QiRW3IzkVfhCcO6GG/1nCG5N4+G2ia5j029J
+ 1h5F5JhLbtIZCn9sPstYNBjJFK/Edio8wSkcSi0bOhrCFAUSS3mcrlyhJ0HRbp6Lh3OJ
+ cfvav6vLUI3gT+aOoTch3f6yLKcpnsNueOtMQ918GWu2fHfmyGV4mmhXlWOCSr/01Yp6
+ tKRXaLrNnxB6ayb9ad5O08/dv4O+guOTW7Hvkb65GVf/0hQJvgLvoareCwlaF7r4wGAz
+ P4kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eCJqdy4lQnsVrkn6WM4N9GFa0OUSfsOg/iYSPDxW8KI=;
+ b=UI4PXft341e1fJRMhZemgrypzmUxG/wdDAm0r+msxzhryYEGmSrK3viSPSGL3JJNIm
+ 7KSRqn34H7SgZ5MpHRM525KcBnsQGgWRvYxpEKCcs/mYYtDjSQer4wKbSYZnrmTXcoma
+ yukZi9suNAaOqQR7x6LgBw3xgEbrBOWgbZvT0Guw7Uy1uQEBMEAkE+Y1RONQScjP+rYu
+ 3WljDlliMxIP36Ut76jBHKI/+fYy7bVk4Wenb8ulW5IQxp4dZH7bO9sI5BbWZXApN+CE
+ biUYge54qHVY7gpQgvc9RTyQ53x02XTg2UK5axpDkLend3BQhC2ghPAZ31wQ3Gawmwh7
+ atTg==
+X-Gm-Message-State: ANhLgQ3wkVyHlFQQ7aWo3bPOmA1fKZsPKC2pB0PgLnxTebg6EX59hvK4
+ ZaCUyHoTbOVt1//n6LvAqTFMtsIitu69GfSjMR8=
+X-Google-Smtp-Source: ADFU+vsR+ZhpPJupR18kaUPw24aW78VcyKAVI/5wWeoRZFMnSyzcvrOQWJFN1+nY/6T/8Z1IcZY/4e1YgrrsnxoUiSU=
+X-Received: by 2002:adf:ba48:: with SMTP id t8mr11930884wrg.329.1584719594603; 
+ Fri, 20 Mar 2020 08:53:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+References: <20200320114522.16273-1-alex.bennee@linaro.org>
+In-Reply-To: <20200320114522.16273-1-alex.bennee@linaro.org>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 20 Mar 2020 16:53:02 +0100
+Message-ID: <CAHiYmc4uskWbmVo0c_TuKLP_vM1WQ-w+UBW-EdHE8rp+eV+9Vg@mail.gmail.com>
+Subject: Re: [RFC PATCH for 5.0] configure: disable MTTCG for MIPS guests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,146 +73,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- samuel.thibault@ens-lyon.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-git shortlog
-126c04acbabd7ad32c2b018fe10dfac2a3bc1210..99e9d4d9e6695d2f41b178d6ae03aaba8=
-42fb562
+=D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 12:45 Alex Benn=C3=
+=A9e <alex.bennee@linaro.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
+=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> While debugging check-acceptance failures I found an instability in
+> the mips64el test case. Briefly the test case:
+>
 
-5eraph (1):
-      Use specific outbound IP address
+Alex, following up Philippe's hint, do you see failures while using
+32-bit targets?
 
-Akihiro Suda (8):
-      remove confusing comment that exists from ancient slirp
-      add slirp_new(SlirpConfig *, SlirpCb *, void *)
-      allow custom MTU
-      add disable_host_loopback (prohibit connections to 127.0.0.1)
-      add SlirpConfig version
-      emu: remove dead code
-      emu: disable by default
-      fix a typo in a comment
+Thanks,
+Aleksandar
 
-Anders Waldenborg (1):
-      state: fix loading of guestfwd state
-
-Giuseppe Scrivano (1):
-      socket: avoid getpeername after shutdown(SHUT_WR)
-
-Jindrich Novy (1):
-      Don't leak memory when reallocation fails.
-
-Jordi Pujol Palomer (1):
-      fork_exec: correctly parse command lines that contain spaces
-
-Marc-Andr=C3=A9 Lureau (59):
-      Merge branch 'AkihiroSuda/libslirp-slirp4netns'
-      Merge branch 'fix-typo' into 'master'
-      meson: make it subproject friendly
-      Merge branch 'meson' into 'master'
-      misc: fix compilation warnings
-      Merge branch 'fix-shutdown-wr' into 'master'
-      sbuf: remove unused and undefined sbcopy() path
-      sbuf: check more strictly sbcopy() bounds with offset
-      sbuf: replace a comment with a runtime warning
-      Replace remaining malloc/free user with glib
-      tcp_attach() can no longer fail
-      state: can't ENOMEM
-      sbuf: use unsigned types
-      sbuf: simplify sbreserve()
-      dnssearch: use g_strv_length()
-      vmstate: silence scan-build warning
-      gitlab-ci: run scan-build
-      Merge branch 'mem-cleanups' into 'master'
-      libslirp.map: bind slirp_new to SLIRP_4.1 version
-      meson: fix libtool versioning
-      Release v4.1.0
-      Merge branch '4.1.0' into 'master'
-      CHANGELOG: start unreleased section
-      Merge branch 'add-unix' into 'master'
-      util: add G_SIZEOF_MEMBER() macro
-      Check bootp_filename is not going to be truncated
-      bootp: remove extra cast
-      bootp: replace simple snprintf() with strcpy()
-      tftp: clarify what is actually OACK m_len
-      tcp_emu: add more fixme/warnings comments
-      util: add slirp_fmt() helpers
-      dhcpv6: use slirp_fmt()
-      misc: use slirp_fmt0()
-      tftp: use slirp_fmt0()
-      tcp_ctl: use slirp_fmt()
-      tcp_emu: fix unsafe snprintf() usages
-      misc: improve error report
-      Use g_snprintf()
-      util: add gnuc format function attribute to slirp_fmt*
-      Merge branch 'aw-guestfwd-state' into 'master'
-      Merge branch 'slirp-fmt' into 'master'
-      socket: remove extra label and variable
-      socket: factor out sotranslate ipv4/ipv6 handling
-      socket: remove need for extra scope_id variable
-      socket: do not fallback on host loopback if get_dns_addr() failed
-      socket: do not fallback on loopback addr for addresses in our mask/pr=
-efix
-      Prepare for v4.2.0 release
-      Merge branch 'translate-fix' into 'master'
-      Merge branch 'release-v4.2.0' into 'master'
-      changelog: post-release
-      changelog: fix link
-      .gitlab-ci: add --werror, treat CI build warnings as errors
-      Revert "socket: remove need for extra scope_id variable"
-      Teach slirp_version_string() to return vcs version
-      Merge branch 'mingw-fix' into 'master'
-      Merge branch 'vcs-version' into 'master'
-      meson: bump required version to 0.49
-      build-sys: fix NetBSD build regression
-      Merge branch 'netbsd-fix' into 'master'
-
-PanNengyuan (1):
-      libslirp: fix NULL pointer dereference in tcp_sockclosed
-
-Philippe Mathieu-Daud=C3=A9 (1):
-      Add a git-publish configuration file
-
-Prasad J Pandit (4):
-      slirp: ncsi: compute checksum for valid data length
-      slirp: use correct size while emulating IRC commands
-      slirp: use correct size while emulating commands
-      slirp: tftp: restrict relative path access
-
-Renzo Davoli (2):
-      Add slirp_remove_guestfwd()
-      Add slirp_add_unix()
-
-Samuel Thibault (14):
-      ip_reass: explain why we should not always update the q pointer
-      Merge branch 'comment' into 'master'
-      Merge branch 'no-emu' into 'master'
-      Fix bogus indent, no source change
-      ip_reass: Fix use after free
-      Merge branch 'reass2' into 'master'
-      Make host receive broadcast packets
-      arp: Allow 0.0.0.0 destination address
-      Merge branch 'warnings' into 'master'
-      Merge branch 'arp_0' into 'master'
-      Merge branch 'broadcast' into 'master'
-      tcp_emu: Fix oob access
-      Merge branch 'oob' into 'master'
-      Merge branch 'master' into 'master'
----
- slirp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/slirp b/slirp
-index 126c04acba..99e9d4d9e6 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210
-+Subproject commit 99e9d4d9e6695d2f41b178d6ae03aaba842fb562
---=20
-2.25.0.rc2.1.g09a9a1a997
-
+>   retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
+>     -display none -vga none -serial mon:stdio \
+>     -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
+>     -cpu I6400 -smp 8 -vga std \
+>     -append "printk.time=3D0 clocksource=3DGIC console=3Dtty0 console=3Dt=
+tyS0 panic=3D-1" \
+>     --no-reboot
+>
+> Reports about a 9% failure rate:
+>
+>   Results summary:
+>   0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
+>   -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
+>   Ran command 100 times, 91 passes
+>
+> When re-run with "--accel tcg,thread=3Dsingle" the instability goes
+> away.
+>
+>   Results summary:
+>   0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 deviatio=
+n)
+>   Ran command 100 times, 100 passes
+>
+> Which seems to indicate there is some aspect of the MIPS MTTCG fixes
+> that has been missed. Ideally we would fix that but I'm afraid I don't
+> have time to investigate and am not super familiar with the
+> architecture anyway.
+>
+> I've disabled all the mips guests as I assume it's a fundamental
+> synchronisation primitive that is broken but I haven't tested them all
+> (there are a lot!).
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> Cc: Aurelien Jarno <aurelien@aurel32.net>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  configure | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 206d22c5153..002792d21dc 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7832,19 +7832,19 @@ case "$target_name" in
+>      echo "TARGET_ABI32=3Dy" >> $config_target_mak
+>    ;;
+>    mips|mipsel)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSO32=3Dy" >> $config_target_mak
+>    ;;
+>    mipsn32|mipsn32el)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips64
+>      TARGET_BASE_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSN32=3Dy" >> $config_target_mak
+>      echo "TARGET_ABI32=3Dy" >> $config_target_mak
+>    ;;
+>    mips64|mips64el)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips64
+>      TARGET_BASE_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSN64=3Dy" >> $config_target_mak
+> --
+> 2.20.1
+>
 
