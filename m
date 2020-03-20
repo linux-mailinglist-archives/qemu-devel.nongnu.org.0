@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC8218C924
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 09:46:41 +0100 (CET)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36C318C934
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 09:51:55 +0100 (CET)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFDIe-0006qc-8N
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 04:46:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47362)
+	id 1jFDNi-0000tL-F4
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 04:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jFDHD-0006EU-1z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:45:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jFDMb-0007zP-Oj
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:50:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jFDHA-00053M-S0
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:45:10 -0400
-Received: from mga07.intel.com ([134.134.136.100]:36767)
+ (envelope-from <dgibson@ozlabs.org>) id 1jFDMa-0002r4-33
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:50:45 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53395 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jFDHA-0004mS-Hf
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:45:08 -0400
-IronPort-SDR: tbS4a8gmQG7Xrt7iXVESxwuBt+A2Yu8xkLI2mabh9kvtSX1CHK7PrXB83C+vv5yrU2+0VyyXLg
- Kn2H90ey3ekA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2020 01:45:04 -0700
-IronPort-SDR: nNrMH6GPses5RmUwVIeFI9qYGCkVUMZMviDujdJLGKnIa+DslPz8GvrMZt5RkP5pUkrTuQB53C
- 2OlWn0A3GdrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,283,1580803200"; d="scan'208";a="444901022"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2020 01:44:59 -0700
-Date: Fri, 20 Mar 2020 04:35:29 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v14 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
- dirty bitmap before unmap
-Message-ID: <20200320083529.GA5456@joy-OptiPlex-7040>
-References: <1584560474-19946-1-git-send-email-kwankhede@nvidia.com>
- <1584560474-19946-6-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jFDMZ-0002h0-0p; Fri, 20 Mar 2020 04:50:44 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48kHY73bh2z9sSN; Fri, 20 Mar 2020 19:50:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584694235;
+ bh=joyYpIWAtsYaCGLoDXyLrFrtPpTupBaYcHdFyMVkTa4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z/xhzbzDVm2SpYxEPKgONlXfU2yDS6qF9rVlpQi6r35ynAXxhnYC2U1kfy3tCMUZE
+ st0LAJrHU5OTvvHMZ5mAUFJYt6r9ooUOzc/7TiMsKcN7DIKlGdvwjr0Zc5UpEJvOO6
+ NLqrOqxP/4ZzWTfZd1hOmFZoBXZtyhxVP7xV5kQI=
+Date: Fri, 20 Mar 2020 19:49:44 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2] target/ppc: Fix ISA v3.0 (POWER9) slbia implementation
+Message-ID: <20200320084944.GC781112@umbus.fritz.box>
+References: <20200319064439.1020571-1-npiggin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DIOMP1UsTsWJauNi"
 Content-Disposition: inline
-In-Reply-To: <1584560474-19946-6-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.100
+In-Reply-To: <20200319064439.1020571-1-npiggin@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,191 +54,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 19, 2020 at 03:41:12AM +0800, Kirti Wankhede wrote:
-> DMA mapped pages, including those pinned by mdev vendor drivers, might
-> get unpinned and unmapped while migration is active and device is still
-> running. For example, in pre-copy phase while guest driver could access
-> those pages, host device or vendor driver can dirty these mapped pages.
-> Such pages should be marked dirty so as to maintain memory consistency
-> for a user making use of dirty page tracking.
-> 
-> To get bitmap during unmap, user should set flag
-> VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP, bitmap memory should be allocated and
-> zeroed by user space application. Bitmap size and page size should be set
-> by user application.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
+
+--DIOMP1UsTsWJauNi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 19, 2020 at 04:44:39PM +1000, Nicholas Piggin wrote:
+> The new ISA v3.0 slbia variants have not been implemented for TCG,
+> which can lead to crashing when a POWER9 machine boots Linux using
+> the hash MMU, for example ("disable_radix" kernel command line).
+>=20
+> Add them.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+
+Applied to ppc-for-5.0.
+
 > ---
->  drivers/vfio/vfio_iommu_type1.c | 55 ++++++++++++++++++++++++++++++++++++++---
->  include/uapi/linux/vfio.h       | 11 +++++++++
->  2 files changed, 62 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index d6417fb02174..aa1ac30f7854 100644
-> --- a/drivers/vfio/vfio_iommu_type1.c
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -939,7 +939,8 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+> Changes in v2:
+> - Rewrite changelog.
+> - Remove stray slbie hunk that crept in
+>=20
+> I don't think the slbie invalidation is necessary, as explained on the
+> list.
+>=20
+>  target/ppc/helper.h     |  2 +-
+>  target/ppc/mmu-hash64.c | 56 +++++++++++++++++++++++++++++++++++------
+>  target/ppc/translate.c  |  5 +++-
+>  3 files changed, 54 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index ee1498050d..2dfa1c6942 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -615,7 +615,7 @@ DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, =
+env, tl, tl)
+>  DEF_HELPER_2(load_slb_esid, tl, env, tl)
+>  DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+>  DEF_HELPER_2(find_slb_vsid, tl, env, tl)
+> -DEF_HELPER_FLAGS_1(slbia, TCG_CALL_NO_RWG, void, env)
+> +DEF_HELPER_FLAGS_2(slbia, TCG_CALL_NO_RWG, void, env, i32)
+>  DEF_HELPER_FLAGS_2(slbie, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_2(slbieg, TCG_CALL_NO_RWG, void, env, tl)
+>  #endif
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 373d44de74..e5baabf0e1 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -95,9 +95,10 @@ void dump_slb(PowerPCCPU *cpu)
+>      }
 >  }
->  
->  static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
-> -			     struct vfio_iommu_type1_dma_unmap *unmap)
-> +			     struct vfio_iommu_type1_dma_unmap *unmap,
-> +			     struct vfio_bitmap *bitmap)
+> =20
+> -void helper_slbia(CPUPPCState *env)
+> +void helper_slbia(CPUPPCState *env, uint32_t ih)
 >  {
->  	uint64_t mask;
->  	struct vfio_dma *dma, *dma_last = NULL;
-> @@ -990,6 +991,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->  	 * will be returned if these conditions are not met.  The v2 interface
->  	 * will only return success and a size of zero if there were no
->  	 * mappings within the range.
-> +	 *
-> +	 * When VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP flag is set, unmap request
-> +	 * must be for single mapping. Multiple mappings with this flag set is
-> +	 * not supported.
->  	 */
->  	if (iommu->v2) {
->  		dma = vfio_find_dma(iommu, unmap->iova, 1);
-> @@ -997,6 +1002,13 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->  			ret = -EINVAL;
->  			goto unlock;
->  		}
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+> +    int starting_entry;
+>      int n;
+> =20
+>      /*
+> @@ -111,18 +112,59 @@ void helper_slbia(CPUPPCState *env)
+>       * expected that slbmte is more common than slbia, and slbia is usua=
+lly
+>       * going to evict valid SLB entries, so that tradeoff is unlikely to=
+ be a
+>       * good one.
+> +     *
+> +     * ISA v2.05 introduced IH field with values 0,1,2,6. These all inva=
+lidate
+> +     * the same SLB entries (everything but entry 0), but differ in what
+> +     * "lookaside information" is invalidated. TCG can ignore this and f=
+lush
+> +     * everything.
+> +     *
+> +     * ISA v3.0 introduced additional values 3,4,7, which change what SL=
+Bs are
+> +     * invalidated.
+>       */
+> =20
+> -    /* XXX: Warning: slbia never invalidates the first segment */
+> -    for (n =3D 1; n < cpu->hash64_opts->slb_size; n++) {
+> -        ppc_slb_t *slb =3D &env->slb[n];
+> +    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
 > +
-> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
-> +		    (dma->iova != unmap->iova || dma->size != unmap->size)) {
-dma is probably NULL here!
+> +    starting_entry =3D 1; /* default for IH=3D0,1,2,6 */
+> +
+> +    if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +        switch (ih) {
+> +        case 0x7:
+> +            /* invalidate no SLBs, but all lookaside information */
+> +            return;
+> =20
+> -        if (slb->esid & SLB_ESID_V) {
+> -            slb->esid &=3D ~SLB_ESID_V;
+> +        case 0x3:
+> +        case 0x4:
+> +            /* also considers SLB entry 0 */
+> +            starting_entry =3D 0;
+> +            break;
+> +
+> +        case 0x5:
+> +            /* treat undefined values as ih=3D=3D0, and warn */
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "slbia undefined IH field %u.\n", ih);
+> +            break;
+> +
+> +        default:
+> +            /* 0,1,2,6 */
+> +            break;
+>          }
+>      }
+> =20
+> -    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+> +    for (n =3D starting_entry; n < cpu->hash64_opts->slb_size; n++) {
+> +        ppc_slb_t *slb =3D &env->slb[n];
+> +
+> +        if (!(slb->esid & SLB_ESID_V)) {
+> +            continue;
+> +        }
+> +        if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +            if (ih =3D=3D 0x3 && (slb->vsid & SLB_VSID_C) =3D=3D 0) {
+> +                /* preserves entries with a class value of 0 */
+> +                continue;
+> +            }
+> +        }
+> +
+> +        slb->esid &=3D ~SLB_ESID_V;
+> +    }
+>  }
+> =20
+>  static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index eb0ddba850..e514732a09 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -5027,12 +5027,15 @@ static void gen_tlbsync(DisasContext *ctx)
+>  /* slbia */
+>  static void gen_slbia(DisasContext *ctx)
+>  {
+> +    uint32_t ih =3D (ctx->opcode >> 21) & 0x7;
+> +    TCGv_i32 t0 =3D tcg_const_i32(ih);
+> +
+>  #if defined(CONFIG_USER_ONLY)
+>      GEN_PRIV;
+>  #else
+>      CHK_SV;
+> =20
+> -    gen_helper_slbia(cpu_env);
+> +    gen_helper_slbia(cpu_env, t0);
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
 
-And this restriction on UNMAP would make some UNMAP operations of vIOMMU
-fail.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-e.g. below condition indeed happens in reality.
-an UNMAP ioctl comes for IOVA range from 0xff800000, of size 0x200000
-However, IOVAs in this range are mapped page by page.i.e., dma->size is 0x1000.
+--DIOMP1UsTsWJauNi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Previous, this UNMAP ioctl could unmap successfully as a whole.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks
-Yan
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl50g6cACgkQbDjKyiDZ
+s5KUnBAAnj8OKTxmPvPMDvR5hDpZAEPmIaa0cUlw59hsFj+Upqvht58gXrNu+/at
+veVeMfmAhqeFOrjAuagzbde5mTQYLrSatkcMO03zOMSzKr9/Donyti1GSE11Tpop
+To+iv92Qiq98r4FEtCwcXDHs1jvRBpFy7MsJslPQlEwpsi2tOeuBeFj7lUl3n7FY
+DcC8E7Fza60OtSvsyARN4IElRI1hY50luBUrTqJm/Sx1zRafO9ND7wHtXGUnIxWd
+syw5qWhAQwWppF2PFAqvYf47WOFRQWHnAVeHdnijegm4/Zt1xYV30hAQSgPRQQ2S
+M1vLeFJzPevNgJchkqd4DPXvNtxG1sKLvbR7/AZaBmepUvPoaHMsakHfwd3rTzRK
+8xDiGOoYnZmnpdk8fFkagaJEbyqq0lF2SC6oBMp97S0TvrIgzQ3bHIBE0m2Ap/Y/
+rOlbcxbomdJ5st37eliQP2heYiW63f8IH7WntWQzhP6ZC7fAHosq0Ukpm7jm4zsm
+BgLH26u/NzxMCKVo/tP8eNxoOyZFR2YTwjdEZMSFN1uJbUkWoUkMJZ90rV0yGNLR
+vRo4NygQJy2OH5PnVPQTSqM4VPmWqEJ/4iEZpO2c2ArI9ge8McDoMugP7nKpmtf2
+QqFqsdDwd0Yq7/+cmUk96KPdusi5Y6vja5V5k6GBSTpnYxofbFA=
+=oI3P
+-----END PGP SIGNATURE-----
 
-> +			ret = -EINVAL;
-> +			goto unlock;
-> +		}
-> +
->  		dma = vfio_find_dma(iommu, unmap->iova + unmap->size - 1, 0);
->  		if (dma && dma->iova + dma->size != unmap->iova + unmap->size) {
->  			ret = -EINVAL;
-> @@ -1014,6 +1026,12 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->  		if (dma->task->mm != current->mm)
->  			break;
->  
-> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
-> +		     iommu->dirty_page_tracking)
-> +			vfio_iova_dirty_bitmap(iommu, dma->iova, dma->size,
-> +					bitmap->pgsize,
-> +					(unsigned char __user *) bitmap->data);
-> +
->  		if (!RB_EMPTY_ROOT(&dma->pfn_list)) {
->  			struct vfio_iommu_type1_dma_unmap nb_unmap;
->  
-> @@ -2369,17 +2387,46 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
->  
->  	} else if (cmd == VFIO_IOMMU_UNMAP_DMA) {
->  		struct vfio_iommu_type1_dma_unmap unmap;
-> -		long ret;
-> +		struct vfio_bitmap bitmap = { 0 };
-> +		int ret;
->  
->  		minsz = offsetofend(struct vfio_iommu_type1_dma_unmap, size);
->  
->  		if (copy_from_user(&unmap, (void __user *)arg, minsz))
->  			return -EFAULT;
->  
-> -		if (unmap.argsz < minsz || unmap.flags)
-> +		if (unmap.argsz < minsz ||
-> +		    unmap.flags & ~VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)
->  			return -EINVAL;
->  
-> -		ret = vfio_dma_do_unmap(iommu, &unmap);
-> +		if (unmap.flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
-> +			unsigned long pgshift;
-> +			uint64_t iommu_pgsize =
-> +					 1 << __ffs(vfio_pgsize_bitmap(iommu));
-> +
-> +			if (unmap.argsz < (minsz + sizeof(bitmap)))
-> +				return -EINVAL;
-> +
-> +			if (copy_from_user(&bitmap,
-> +					   (void __user *)(arg + minsz),
-> +					   sizeof(bitmap)))
-> +				return -EFAULT;
-> +
-> +			/* allow only min supported pgsize */
-> +			if (bitmap.pgsize != iommu_pgsize)
-> +				return -EINVAL;
-> +			if (!access_ok((void __user *)bitmap.data, bitmap.size))
-> +				return -EINVAL;
-> +
-> +			pgshift = __ffs(bitmap.pgsize);
-> +			ret = verify_bitmap_size(unmap.size >> pgshift,
-> +						 bitmap.size);
-> +			if (ret)
-> +				return ret;
-> +
-> +		}
-> +
-> +		ret = vfio_dma_do_unmap(iommu, &unmap, &bitmap);
->  		if (ret)
->  			return ret;
->  
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 043e9eafb255..a704e5380f04 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -1010,12 +1010,23 @@ struct vfio_bitmap {
->   * field.  No guarantee is made to the user that arbitrary unmaps of iova
->   * or size different from those used in the original mapping call will
->   * succeed.
-> + * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get dirty bitmap
-> + * before unmapping IO virtual addresses. When this flag is set, user must
-> + * provide data[] as structure vfio_bitmap. User must allocate memory to get
-> + * bitmap, clear the bitmap memory by setting zero and must set size of
-> + * allocated memory in vfio_bitmap.size field. One bit in bitmap
-> + * represents per page, page of user provided page size in 'pgsize',
-> + * consecutively starting from iova offset. Bit set indicates page at that
-> + * offset from iova is dirty. Bitmap of pages in the range of unmapped size is
-> + * returned in vfio_bitmap.data
->   */
->  struct vfio_iommu_type1_dma_unmap {
->  	__u32	argsz;
->  	__u32	flags;
-> +#define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
->  	__u64	iova;				/* IO virtual address */
->  	__u64	size;				/* Size of mapping (bytes) */
-> +	__u8    data[];
->  };
->  
->  #define VFIO_IOMMU_UNMAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 14)
-> -- 
-> 2.7.0
-> 
+--DIOMP1UsTsWJauNi--
 
