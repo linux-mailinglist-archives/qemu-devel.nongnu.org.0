@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1598518CD75
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 13:07:22 +0100 (CET)
-Received: from localhost ([::1]:52036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DDA18CD7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 13:09:02 +0100 (CET)
+Received: from localhost ([::1]:52064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFGQr-0002D1-3h
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 08:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54877)
+	id 1jFGST-0004XF-LI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 08:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jFGPm-0000kO-Ru
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:06:15 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jFGRb-0003oi-L9
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:08:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jFGPl-0008Sv-Hc
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:06:14 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35408)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jFGPl-0008SB-7v
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:06:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584705972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KyageVHFLlucRCOL9WpJFdJbfg3cTxlHsP9HnluO+cI=;
- b=WtbFiKjtok5YO46IM2Aot26Gn/n8DkmN8dcTwOreFsYVlxJpLewLfTnQuU4h7PNkqtG+xc
- f9YD8nSER3j/WNaZfjllKuMrwy6gETf61zsCCeTStzvqCbYtkDbpKj4TlaKBrpFZn7HJCI
- Mnb5U/i9w9vYsUZ7NS2QNSHntrDGtOM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-GNa91q4DPVqqRpXaR2uc3w-1; Fri, 20 Mar 2020 08:06:08 -0400
-X-MC-Unique: GNa91q4DPVqqRpXaR2uc3w-1
-Received: by mail-wm1-f70.google.com with SMTP id w12so2290930wmc.3
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 05:06:08 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1jFGRZ-0001XN-Ns
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:08:07 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43875)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jFGRZ-0001X6-8g
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:08:05 -0400
+Received: by mail-ot1-x342.google.com with SMTP id a6so5652393otb.10
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 05:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gh3bW1J9ApWmULJ2Foue4aVHIIPc8LXbL3Bsggcekc8=;
+ b=wkadWTT08oFZH2k6ux6zMFJpPIjZj8+uU7O2pPZncrRJt0got7D2SghdPHPfQcKeYm
+ n2TksuXOBzI4FD2RlPsm6jaaGZK5JznIHcqaeFR1mePeAG1/nsMCtmdIh5CgrJ8EijOu
+ QWe7POUqt0hrFhytUYbmXzBsMJ2YUSLtPXLF+owmpRagU42sAmRiqLLyGyLtnrrKcO0z
+ qT76in8qRtBrtvxKalw21+BGZD/+AcEqCVVCS5hDmnQIWFOoYmHpk4ZWqTBcHXIHzAEU
+ uY5Ahq0SSk/OHYeFiQW69kx+75YibVhq2j+Jw/3jU9EzfE9A7pgSqjZOQK4Mk1eJe9+1
+ EjPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KyageVHFLlucRCOL9WpJFdJbfg3cTxlHsP9HnluO+cI=;
- b=egaahHMsoHcdgH1+LZXRnBXgB7uGAn+AYI0qO+AjWYZf4IY69i1DLqSKdUefcERujV
- Mm1NEbVWvwEBPxc7wgaTOSZ1sjCkwSluZMrrtGITnI5hxaYRbYLrpJyjSBwRJeekd1zb
- Bu3jWFKGJvuUfnUhG+uxgHXAfjnVDMWSE2jnruNhcc1VEKpflSYrJ2fGq4IhBX8xN55h
- /B1s45dFWvtok+RRRo1X3Qxch4kQrkz3+hzZVvduuc7h9uGavvnehB3Ep814L9ErB0g+
- 2nCM3uD+NfbYVjhKQXzli21wI68O7UaEJo9sJHfU2pgT5+pRQl2BB7UJf9RcZGo2puTd
- EAnw==
-X-Gm-Message-State: ANhLgQ27huwZ54hYRI5lUD1sPw8Zk+ssTfZYnLSkRaTOmJyjdcN7Hlqk
- v0Sh7irfK9XYRpwC6xbdM80VaPIJVB43k5KrcanjccPYDSQ3m67Ph/IVVMtCaPmMKmxlRWjDz/r
- hApMfsJMCF38YwJk=
-X-Received: by 2002:a05:600c:2c10:: with SMTP id
- q16mr9969274wmg.69.1584705967054; 
- Fri, 20 Mar 2020 05:06:07 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvCPBvPnNSc/V77QPkHCBAVaVaJQQUARCRFiIpgnjrKb97t3vFWvjgEu3TTO/qNz8BXM2LVGQ==
-X-Received: by 2002:a05:600c:2c10:: with SMTP id
- q16mr9969223wmg.69.1584705966663; 
- Fri, 20 Mar 2020 05:06:06 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.15.43])
- by smtp.gmail.com with ESMTPSA id s8sm3624039wrv.97.2020.03.20.05.06.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Mar 2020 05:06:05 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] lockable: replaced locks with lock guard macros
- where appropriate
-To: dnbrdsky@gmail.com
-References: <20200319233454.1856568-1-dnbrdsky@gmail.com>
- <20200319233454.1856568-3-dnbrdsky@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7f5383d0-7bba-607e-93ae-f79e5c959d0e@redhat.com>
-Date: Fri, 20 Mar 2020 13:06:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gh3bW1J9ApWmULJ2Foue4aVHIIPc8LXbL3Bsggcekc8=;
+ b=s1TI49B9U3xxMOcyE21tCyvxu18knoXEOFVHSo6xRjo6EKKmKAAeEjWm/IonNsf70F
+ XFV+bTVoPeVGt61iKHBFjyl07qy3IxiDOSKMXGNQQ0JHi0bMEjkEXn0WAJsUeAsUhRBY
+ cDwXpDRW3SyPjPba4EWgys+742ikrEjCmnC//MDzFsl/RJ1iTHJB05m4+ORJrsJEPJ71
+ OapvArRL6pD4U29rZJLoyfeEtRPRcdq7BlgDRLf17qS3Wnbg7BclQw36egp4mc5xCdtv
+ w3WTycyfcWIxn7r8oRZ6D7AGN0BdJlIoebBE47T5f61dyztftyeRx+ujY4LY2eQhGCFk
+ XBvQ==
+X-Gm-Message-State: ANhLgQ1ewHj96sXywQhJFhnHMejjoN8zKsaH2OgOv5+k6/0zOwsTJzyt
+ dLIcWSDRAFIhlErO3n2K7rDqsN014ua8SxShtbqxGg==
+X-Google-Smtp-Source: ADFU+vsYxWqvtBz920StPHCKdl0MiAZeAtNLiuXcS9abIYZnCx3QEwg3V4cxYipnQNfm+PXsoCkC12QdP/7+T1cCQXA=
+X-Received: by 2002:a05:6830:20c8:: with SMTP id
+ z8mr6344662otq.135.1584706084168; 
+ Fri, 20 Mar 2020 05:08:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200319233454.1856568-3-dnbrdsky@gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200312164459.25924-1-peter.maydell@linaro.org>
+ <20200312164459.25924-22-peter.maydell@linaro.org>
+In-Reply-To: <20200312164459.25924-22-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Mar 2020 12:07:52 +0000
+Message-ID: <CAFEAcA-F85aJ4yigDdEMd4=kAEaPV+f4zn9cuyhyoO-xhEcAng@mail.gmail.com>
+Subject: Re: [PULL 21/36] hw/arm/allwinner-h3: add Boot ROM support
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,71 +75,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:iSCSI" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/03/20 00:34, dnbrdsky@gmail.com wrote:
-> index 682abd8e09..89f8a656a4 100644
-> --- a/block/iscsi.c
-> +++ b/block/iscsi.c
-> @@ -1086,7 +1086,7 @@ static BlockAIOCB *iscsi_aio_ioctl(BlockDriverState *bs,
->      acb->task->expxferlen = acb->ioh->dxfer_len;
->  
->      data.size = 0;
-> -    qemu_mutex_lock(&iscsilun->mutex);
-> +    QEMU_LOCK_GUARD(&iscsilun->mutex);
->      if (acb->task->xfer_dir == SCSI_XFER_WRITE) {
->          if (acb->ioh->iovec_count == 0) {
->              data.data = acb->ioh->dxferp;
-> @@ -1102,7 +1102,6 @@ static BlockAIOCB *iscsi_aio_ioctl(BlockDriverState *bs,
->                                   iscsi_aio_ioctl_cb,
->                                   (data.size > 0) ? &data : NULL,
->                                   acb) != 0) {
-> -        qemu_mutex_unlock(&iscsilun->mutex);
->          scsi_free_scsi_task(acb->task);
->          qemu_aio_unref(acb);
->          return NULL;
+On Thu, 12 Mar 2020 at 16:45, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
+>
+> From: Niek Linnenbank <nieklinnenbank@gmail.com>
+>
+> A real Allwinner H3 SoC contains a Boot ROM which is the
+> first code that runs right after the SoC is powered on.
+> The Boot ROM is responsible for loading user code (e.g. a bootloader)
+> from any of the supported external devices and writing the downloaded
+> code to internal SRAM. After loading the SoC begins executing the code
+> written to SRAM.
+>
+> This commits adds emulation of the Boot ROM firmware setup functionality
+> by loading user code from SD card in the A1 SRAM. While the A1 SRAM is
+> 64KiB, we limit the size to 32KiB because the real H3 Boot ROM also rejec=
+ts
+> sizes larger than 32KiB. For reference, this behaviour is documented
+> by the Linux Sunxi project wiki at:
+>
+>   https://linux-sunxi.org/BROM#U-Boot_SPL_limitations
+>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-id: 20200311221854.30370-11-nieklinnenbank@gmail.com
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Not exactly the same, should be okay but it also should be noted in the
-changelog.
+Hi; Coverity (CID 1421882) points out a possible NULL
+pointer dereference in this change:
 
->  void cpu_list_remove(CPUState *cpu)
->  {
-> -    qemu_mutex_lock(&qemu_cpu_list_lock);
-> +    QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
->      if (!QTAILQ_IN_USE(cpu, node)) {
->          /* there is nothing to undo since cpu_exec_init() hasn't been called */
->          qemu_mutex_unlock(&qemu_cpu_list_lock);
+> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
+> index d65bbf8a2fe..b8ebcb08b76 100644
+> --- a/hw/arm/orangepi.c
+> +++ b/hw/arm/orangepi.c
+> @@ -97,6 +97,11 @@ static void orangepi_init(MachineState *machine)
+>      memory_region_add_subregion(get_system_memory(), h3->memmap[AW_H3_SD=
+RAM],
+>                                  machine->ram);
+>
+> +    /* Load target kernel or start using BootROM */
+> +    if (!machine->kernel_filename && blk_is_available(blk)) {
+> +        /* Use Boot ROM to copy data from SD card to SRAM */
+> +        allwinner_h3_bootrom_setup(h3, blk);
+> +    }
 
-Missed unlock.
+blk_is_available() assumes its argument is non-NULL, but
+earlier in the function we set up blk with:
+   b=EF=BB=BF=EF=BB=BF=EF=BB=BF=EF=BB=BF=EF=BB=BF=EF=BB=BF=EF=BB=BFlk =3D d=
+i ? blk_by_legacy_dinfo(di) : NULL;
 
-> 
-> @@ -667,14 +668,13 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
->          .size = QEMU_VFIO_IOVA_MAX - s->high_water_mark,
->      };
->      trace_qemu_vfio_dma_reset_temporary(s);
-> -    qemu_mutex_lock(&s->lock);
-> +    QEMU_LOCK_GUARD(&s->lock);
->      if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
->          error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
->          qemu_mutex_unlock(&s->lock);
->          return -errno;
->      }
->      s->high_water_mark = QEMU_VFIO_IOVA_MAX;
-> -    qemu_mutex_unlock(&s->lock);
->      return 0;
+so it can be NULL here.
 
-Missed unlock.
+Could you send a patch to fix this, please? Probably
+just adding '&& blk' in the middle of the condition
+is sufficient.
 
-Otherwise looks good.
-
-Paolo
-
+thanks
+-- PMM
 
