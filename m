@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EB518D772
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:40:32 +0100 (CET)
-Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D19E18D771
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:40:18 +0100 (CET)
+Received: from localhost ([::1]:57660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFMZL-0000OX-2a
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46126)
+	id 1jFMZ7-0008QH-84
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jFMY2-0007oR-P1
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:39:11 -0400
+ (envelope-from <eblake@redhat.com>) id 1jFMXl-0007af-Il
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jFMY1-0007c0-Q7
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:39:10 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:38029)
+ (envelope-from <eblake@redhat.com>) id 1jFMXj-0007Yq-Pu
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58787)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jFMY1-0007bs-MR
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:39:09 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jFMXj-0007Yd-HE
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584729549;
+ s=mimecast20190719; t=1584729530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EutNwFsyjeaXeA3EhXfpOGaVfEBZjcEDXfgqw2Lku1s=;
- b=VwuHfOnrEAKg9Arnn/3aTe6/87BFnvPEgRVr++15fUO60IpfQHH7VpSJO+wcG9xOlytpL8
- 5MHRngIuCl8MtkwmDyUlP8Xol2TSUH4E2RE2wEOnonMXRm38BViW/mPCbx7VUsU0DCFEoc
- gTL/Q5E3supS7RSZ/OP3Jz/G3iK9p20=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J2jbYCYdauWN2Xf5KOvKo5QlHLFGs95eAP3XKdE869w=;
+ b=PUNWPuSWWZMf5wJeBk5oExXdR2wpHjIdj4S9fpk5tKrjLEg1YXYporoZz7ObjMPlNrNUJy
+ 8PozDI6+W48o1lN7MKoz3opBCY+SmWpSpuGtWeOFxL9AqWta5OqnmC4xlAb0+kKYggd0fM
+ 1Rs6keBJG8yIbskZmSfjkPGl02Or0wo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-1dN82exbOIavQ4Di44cGTw-1; Fri, 20 Mar 2020 14:36:24 -0400
-X-MC-Unique: 1dN82exbOIavQ4Di44cGTw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-214-4L2o98QRMdGtIOaUf2aShg-1; Fri, 20 Mar 2020 14:38:40 -0400
+X-MC-Unique: 4L2o98QRMdGtIOaUf2aShg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4799D100550D;
- Fri, 20 Mar 2020 18:36:23 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B681460BFB;
- Fri, 20 Mar 2020 18:36:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30DC6107ACC4;
+ Fri, 20 Mar 2020 18:38:39 +0000 (UTC)
+Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8857419756;
+ Fri, 20 Mar 2020 18:38:38 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PULL 3/4] qcow2: Add list of bitmaps to
+ ImageInfoSpecificQCow2
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190211205128.27146-1-eblake@redhat.com>
+ <20190211205128.27146-4-eblake@redhat.com>
+ <CAFEAcA9wDiKKfL67B7cH1X=Wm_ayDJb6b0L-Pgiqcp2SkDNBAw@mail.gmail.com>
 From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block: Avoid memleak on qcow2 image info failure
-Date: Fri, 20 Mar 2020 13:36:20 -0500
-Message-Id: <20200320183620.1112123-1-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b902c895-7ba9-9825-69cf-f8277ce26d05@redhat.com>
+Date: Fri, 20 Mar 2020 13:38:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAFEAcA9wDiKKfL67B7cH1X=Wm_ayDJb6b0L-Pgiqcp2SkDNBAw@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,35 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- Max Reitz <mreitz@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
- andrey.shinkevich@virtuozzo.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:qcow2" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we fail to get bitmap info, we must not leak the encryption info.
+On 3/20/20 12:57 PM, Peter Maydell wrote:
+> On Mon, 11 Feb 2019 at 20:57, Eric Blake <eblake@redhat.com> wrote:
+>>
+>> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>
+>> In the 'Format specific information' section of the 'qemu-img info'
+>> command output, the supplemental information about existing QCOW2
+>> bitmaps will be shown, such as a bitmap name, flags and granularity:
+> 
+> Hi; Coverity has just noticed an issue (CID 1421894) with this change:
+> 
 
-Fixes: b8968c875f403
-Fixes: Coverity CID 1421894
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/qcow2.c | 1 +
- 1 file changed, 1 insertion(+)
+>> +        Qcow2BitmapInfoList *bitmaps;
+>> +        bitmaps = qcow2_get_bitmap_info_list(bs, &local_err);
+>> +        if (local_err) {
+>> +            error_propagate(errp, local_err);
+>> +            qapi_free_ImageInfoSpecific(spec_info);
+>> +            return NULL;
+> 
+> If we take this error-exit codepath, then we never free the
+> memory allocated by the earlier call to qcrypto_block_get_info().
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index d44b45633dbb..e08917ed8462 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4811,6 +4811,7 @@ static ImageInfoSpecific *qcow2_get_specific_info(Blo=
-ckDriverState *bs,
-         if (local_err) {
-             error_propagate(errp, local_err);
-             qapi_free_ImageInfoSpecific(spec_info);
-+            qapi_free_QCryptoBlockInfo(encrypt_info);
-             return NULL;
-         }
-         *spec_info->u.qcow2.data =3D (ImageInfoSpecificQCow2){
---=20
-2.25.1
+Fix sent.
+
+Hmm - it would be nice if the QAPI generator could declare all QAPI 
+types as g_autoptr compatible, so we could simplify our cleanup paths to 
+not have to worry about calling qapi_free_FOO() on all paths.  But while 
+the memory leak fix is a one-liner safe for 5.0, switching to g_autoptr 
+is a bigger task that would be 5.1 material.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
