@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8717E18D538
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:03:04 +0100 (CET)
-Received: from localhost ([::1]:56292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAFB18D54D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:03:40 +0100 (CET)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL30-0007No-DW
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
+	id 1jFL3b-0008KJ-OF
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFKzx-0003ZN-Cz
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 12:59:54 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0C-000444-Ma
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFKzw-0004PU-Fi
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 12:59:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36864)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0B-0004iS-CS
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:08 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:28736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFKzw-0004P0-Bf
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 12:59:52 -0400
+ id 1jFL0B-0004i5-92
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723592;
+ s=mimecast20190719; t=1584723607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WL0ZvBoB0+XeBxLRP2xltK9U+qv+Rol4ZQFL6ezhHPc=;
- b=gfPTA4NUel/YKaWx23b9cpEKJFRqUvJ6+AbtZdq3B8B5c8t2TuJ5vuHmSzethVIcMJXyHP
- MQ2iiB3icI1jaZGD4OEs5LdS8gahlaD/PG1BhGTFaq2x1gg/mi8Bh7/TkAQcYvlrrHsqQ6
- EMtc7p9l4H4zvvLVklPosTcWj2FDN3Q=
+ bh=ggBCH4KbYoRRY5++PE97RwvQs2b7za6HcsagnGf9BLc=;
+ b=EhIXRR5e1B8XWQjl1O6ldCt//gb8b2O4w6T5c2rCejr8yF2HzkzftCGw3TUJE054T0o6zs
+ s0BVheDdjTcQfaDq0jF1iKQ7A3AZyaB6piQrAy94IZP7GANfhWKJpNYvrL4uXX8lSMETWr
+ MSShRYrqIusmrRlmtIRTT1CFq6S7AiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-uswLVvt5Od6fSxHijmEw1Q-1; Fri, 20 Mar 2020 12:59:50 -0400
-X-MC-Unique: uswLVvt5Od6fSxHijmEw1Q-1
+ us-mta-265-PXv0Bjr5MW2rX4EcPnsXfQ-1; Fri, 20 Mar 2020 13:00:03 -0400
+X-MC-Unique: PXv0Bjr5MW2rX4EcPnsXfQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 375FB108E442;
- Fri, 20 Mar 2020 16:59:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D3F108E441;
+ Fri, 20 Mar 2020 17:00:00 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97A8719757;
- Fri, 20 Mar 2020 16:59:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9131B16D22;
+ Fri, 20 Mar 2020 16:59:48 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 04/24] memory: Add IOMMU_ATTR_MSI_TRANSLATE IOMMU memory
- region attribute
-Date: Fri, 20 Mar 2020 17:58:20 +0100
-Message-Id: <20200320165840.30057-5-eric.auger@redhat.com>
+Subject: [RFC v6 05/24] memory: Introduce IOMMU Memory Region inject_faults API
+Date: Fri, 20 Mar 2020 17:58:21 +0100
+Message-Id: <20200320165840.30057-6-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -82,28 +81,89 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We introduce a new IOMMU Memory Region attribute, IOMMU_ATTR_MSI_TRANSLATE
-which tells whether the virtual IOMMU translates MSIs. ARM SMMU
-will expose this attribute since, as opposed to Intel DMAR, MSIs
-are translated as any other DMA requests.
+This new API allows to inject @count iommu_faults into
+the IOMMU memory region.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/exec/memory.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/exec/memory.h | 25 +++++++++++++++++++++++++
+ memory.c              | 10 ++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index b9d2f0a437..f2c773163f 100644
+index f2c773163f..141a5dc197 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -215,6 +215,7 @@ typedef struct MemoryRegionClass {
- enum IOMMUMemoryRegionAttr {
-     IOMMU_ATTR_SPAPR_TCE_FD,
-     IOMMU_ATTR_VFIO_NESTED,
-+    IOMMU_ATTR_MSI_TRANSLATE,
+@@ -57,6 +57,8 @@ struct MemoryRegionMmio {
+     CPUWriteMemoryFunc *write[3];
  };
 =20
++struct iommu_fault;
++
+ typedef struct IOMMUTLBEntry IOMMUTLBEntry;
+=20
+ /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+@@ -357,6 +359,19 @@ typedef struct IOMMUMemoryRegionClass {
+      * @iommu: the IOMMUMemoryRegion
+      */
+     int (*num_indexes)(IOMMUMemoryRegion *iommu);
++
++    /*
++     * Inject @count faults into the IOMMU memory region
++     *
++     * Optional method: if this method is not provided, then
++     * memory_region_injection_faults() will return -ENOENT
++     *
++     * @iommu: the IOMMU memory region to inject the faults in
++     * @count: number of faults to inject
++     * @buf: fault buffer
++     */
++    int (*inject_faults)(IOMMUMemoryRegion *iommu, int count,
++                         struct iommu_fault *buf);
+ } IOMMUMemoryRegionClass;
+=20
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+@@ -1365,6 +1380,16 @@ int memory_region_iommu_attrs_to_index(IOMMUMemoryRe=
+gion *iommu_mr,
+  */
+ int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
+=20
++/**
++ * memory_region_inject_faults : inject @count faults stored in @buf
++ *
++ * @iommu_mr: the IOMMU memory region
++ * @count: number of faults to be injected
++ * @buf: buffer containing the faults
++ */
++int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
++                                struct iommu_fault *buf);
++
  /**
+  * memory_region_name: get a memory region's name
+  *
+diff --git a/memory.c b/memory.c
+index 09be40edd2..9cdd77e0de 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2001,6 +2001,16 @@ int memory_region_iommu_num_indexes(IOMMUMemoryRegio=
+n *iommu_mr)
+     return imrc->num_indexes(iommu_mr);
+ }
+=20
++int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
++                                struct iommu_fault *buf)
++{
++    IOMMUMemoryRegionClass *imrc =3D IOMMU_MEMORY_REGION_GET_CLASS(iommu_m=
+r);
++    if (!imrc->inject_faults) {
++        return -ENOENT;
++    }
++    return imrc->inject_faults(iommu_mr, count, buf);
++}
++
+ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+ {
+     uint8_t mask =3D 1 << client;
 --=20
 2.20.1
 
