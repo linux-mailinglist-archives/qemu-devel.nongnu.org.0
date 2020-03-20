@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1597D18CD32
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 12:46:46 +0100 (CET)
-Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35BD18CD4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 12:56:41 +0100 (CET)
+Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFG6u-0007hg-U9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 07:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
+	id 1jFGGW-0006S3-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 07:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jFG60-0007H4-Ck
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:45:49 -0400
+ (envelope-from <bounces@canonical.com>) id 1jFGFW-0005b9-Sq
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jFG5z-0008DP-1r
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:45:48 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59823)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jFG5y-0008CR-TI
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:45:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584704745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6dwvZQz1H6BNGdYtvFKFror0gWCuZYwBYr6FYRHceiM=;
- b=dPoY2PZAJvOTvurUEHH90zADUMtCGcRfVf1bQ8NwlkCO2VX7CWuIyU0z5sYwRUX8DkHLUd
- VeKIqox7PJDBbmMQgzrIINEyVjwdUTF/odjUdNFaDGnxl7ZLMH8DUvxeXGb0TkbYKKZgr1
- WoQWWALU9ZMHtaOjDwS9iEZtkKoyxKc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-tMXJgk4rPL6e0ty66oSJSg-1; Fri, 20 Mar 2020 07:45:42 -0400
-X-MC-Unique: tMXJgk4rPL6e0ty66oSJSg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64BBB8017CE;
- Fri, 20 Mar 2020 11:45:41 +0000 (UTC)
-Received: from gondolin (ovpn-113-89.ams2.redhat.com [10.36.113.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E4B18AC30;
- Fri, 20 Mar 2020 11:45:33 +0000 (UTC)
-Date: Fri, 20 Mar 2020 12:45:30 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 4/4] .travis.yml: Add a KVM-only s390x job
-Message-ID: <20200320124530.0254531a.cohuck@redhat.com>
-In-Reply-To: <20200318222717.24676-5-philmd@redhat.com>
-References: <20200318222717.24676-1-philmd@redhat.com>
- <20200318222717.24676-5-philmd@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <bounces@canonical.com>) id 1jFGFV-0007FS-O5
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37872)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jFGFV-0007C3-IO
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:55:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jFGFU-0006CQ-4Q
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 11:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FEC92E80C3
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 11:55:36 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Mar 2020 11:46:41 -0000
+From: Daniel Berrange <1868221@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: gui usability
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange lockywolf
+X-Launchpad-Bug-Reporter: Lockywolf (lockywolf)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <158469084688.19486.16271224237247905413.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158470480184.11071.219527546993725305.malone@soybean.canonical.com>
+Subject: [Bug 1868221] Re: /usr/share/applications/qemu.desktop should have an
+ "Exec=" key.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3a8056e37cd4e69aee4a7d04bebe99920868f25a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,32 +66,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Reply-To: Bug 1868221 <1868221@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Mar 2020 23:27:17 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+Note that  QEMU sets the NoDisplay=3Dtrue property to tell desktops not to
+display this entry. I don't think KDE should be warning about missing
+Exec entry in this case.
 
-> Add a job to build QEMU on s390x with TCG disabled, so
-> this configuration won't bitrot over time.
->=20
-> This job is quick, running check-unit: Ran for 4 min 48 sec
-> https://travis-ci.org/github/philmd/qemu/jobs/663659486
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .travis.yml | 42 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
+-- =
 
-That looks like a good idea.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868221
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+Title:
+  /usr/share/applications/qemu.desktop should have an "Exec=3D" key.
 
+Status in QEMU:
+  New
+
+Bug description:
+  According to the www.freedesktop.org .desktop-file specification, all
+  "Application" desktop files should have an "Exec=3D" key. The one in
+  qemu doesn't.
+
+  This can be easily verified by running kbuildsycoca4 if KDE4 is
+  present, but the issue is not DE-dependent.
+
+  Which binary exactly should be assigned as the default one, I don't
+  know.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868221/+subscriptions
 
