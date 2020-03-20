@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD69818CD68
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 13:02:48 +0100 (CET)
-Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B3018CD73
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 13:06:57 +0100 (CET)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFGMR-0005cs-PP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 08:02:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52666)
+	id 1jFGQS-0001Du-B0
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 08:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jFGHw-0007lc-Qw
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:09 -0400
+ (envelope-from <dnbrdsky@gmail.com>) id 1jFGPI-0000Ck-17
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:05:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jFGHv-0000LC-Ts
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:08 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37834)
+ (envelope-from <dnbrdsky@gmail.com>) id 1jFGPG-0008Hn-Ue
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:05:43 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36829)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jFGHv-0000KY-O6
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 07:58:07 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d1so5987226wmb.2
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 04:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=bKbcDZF4VvCdwc1Z3LgA0n0/o1l3SD8mbWQhoT1XpcI=;
- b=KUfOlH05cZMFhpAA+7tZvez+zR989Mxvm2TMXdK/iXYrhe4m2bAdFgT8LeAq6Jbdwi
- gncQmGBRVg+oHp2BCaAmkenyHYIaBh+Idvgen2SL0Ed+XEqb3gsi3rTnHkEJgcPCSHt1
- 5+YHku7BFU2oVqraq3eLhleJ3PmGer5KFE6xkl0yOO+mW7PkiLlmiweBFal7ymWYLti0
- OPprc9NG7+D4fQO9Dk4FLtQyJU/pNjFH0+5ck9wJLESVr2pvqzLvXrdqYvAM+CoYi57d
- 7oYte8SXdDYtyPIng+y28I/dzkGdRFZdbMclM6cxIzUnuqNs0tnvM56VosBLwBZvez5B
- i42A==
+ (Exim 4.71) (envelope-from <dnbrdsky@gmail.com>) id 1jFGPG-0008HN-PF
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 08:05:42 -0400
+Received: by mail-pf1-x442.google.com with SMTP id i13so3137063pfe.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 05:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PMS/HT90PAKRMWfiQdAD+nmjuV+Lj/mKrnJ66GdRunI=;
+ b=H4d4Q/ga9fiIG6t3JVM5cv6vl3BXAyaNJGZPrzLU5GA8Zl7F5FssXDVWqrPnFj84wp
+ YbS6TrjHnQXLaUSV4KiwSFEOEoVWDDY7NMdqYqZwu1Mwt6jF6zv9XVhYJGW/Znw+Zhor
+ 7mhcXGtzNQwVdOGATb1S5cp1Ja6Sea0mkejTMuuWCnNwpad782Lch37ApdkCr3AfTKGq
+ XMjSGNzHoEXZsJGsxhb//sRP69g1Yz0DFwFYwqsRk8spg+QLdWpux6StT9UKqFTVRITE
+ /b4zdZRvHjVUSyyCl0/8ybjpdFdjsdL2N+RxSrhyyuR+kH+xqvFK3BaZ33Tbeda7PLtV
+ 1dVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=bKbcDZF4VvCdwc1Z3LgA0n0/o1l3SD8mbWQhoT1XpcI=;
- b=TG6iskAH+SWjLlE2B7WbTcTvnvs/66f/UGymN9QnaAIdWzu9Aeut1msXODpz8vAAxM
- XNW5VXMqUYd+785lY/GoGy6gDpU0NHNi93zwo76Uy6kijNz46ub6AiOfUmyW98B20fIa
- DIrpA5EZeNLBHypoVyufJlhXXNP22kJDWtgwh/TfK4I9JRb/VTXhx7L+WmlspbvzSYGD
- 6ygEgymPScNQntSXHUn/9eQnJ75jCA1Xs+nSAklkNYX4H5B46unjpA3ahwfV4YdMu/d9
- HRrvzUSlhdR3mqLzIdqwlItneZDVosanzjsK1FGw1nd4boLIf5mzLsxMJ34aMes+76si
- EDNg==
-X-Gm-Message-State: ANhLgQ2mFCxcsQ3p8wLPjfvW4qgWV1GxCuVXbVacZQU7x/+97niCAAzb
- XQi3HSljF3blQkrZc3SIm7okSxsuNklDkA==
-X-Google-Smtp-Source: ADFU+vuu9lTd6iZFTm0b7Asl0ZbQhcg72oVB41DSOFTcaGKm5Fnd7aJHW3zCnv0FTMrNM/bC1uKHLg==
-X-Received: by 2002:a05:600c:4145:: with SMTP id
- h5mr9664567wmm.3.1584705486512; 
- Fri, 20 Mar 2020 04:58:06 -0700 (PDT)
-Received: from f2.redhat.com (bzq-79-179-79-224.red.bezeqint.net.
- [79.179.79.224])
- by smtp.gmail.com with ESMTPSA id c18sm6637645wrx.5.2020.03.20.04.58.05
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 20 Mar 2020 04:58:06 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH v6 6/7] vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
-Date: Fri, 20 Mar 2020 13:57:50 +0200
-Message-Id: <20200320115751.19446-7-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200320115751.19446-1-yuri.benditovich@daynix.com>
-References: <20200320115751.19446-1-yuri.benditovich@daynix.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PMS/HT90PAKRMWfiQdAD+nmjuV+Lj/mKrnJ66GdRunI=;
+ b=Jn62gmuxXZwmYsJ2xKNr8ZrfgnjCTbdueXVUGCTUJKsdhXpWaA32CVVCHfqZ2tHW6x
+ Wiz5aLqF/mneHcMZOOiJC+/OV9BcBH6H1a5jYKypZomZ+JW6U7aaMY1u+lWgMx3reISp
+ 0loD7h/FsRFEAvW1SeKU91N9wj6JFlOsbwkunD9rRyyS9HN95ehDVjqD1XFH2eKQHNoc
+ SHJZ1xJaB46miUhQBJFmbPBeLxrprkv6sWIzrmdgFOdaOZJrkTvFEcu4zghDa/Ob2jWi
+ uiWSnijx7sxMU1hXfhOtFhXY1NkD+9PLK7wXikLk9kiOw3cVui9dJpOCQgqktjkwLoNb
+ C/9Q==
+X-Gm-Message-State: ANhLgQ2w8/zKeJa44EaE51jwR5GVZo42wWE+c4UZblxDzZhjpL+0sdih
+ aylnr/eDfP+FO8gPFTfz8WY=
+X-Google-Smtp-Source: ADFU+vvH5hVs4lIkTrUbSFps+pLLhg2vNRHyDaFlQBUV0Y2zQVdnp8ExlC/F5DCcdHFlnhjiNl/fHg==
+X-Received: by 2002:a63:4e4e:: with SMTP id o14mr8220453pgl.228.1584705941632; 
+ Fri, 20 Mar 2020 05:05:41 -0700 (PDT)
+Received: from esc.telus (node-1w7jr9qmilj27lake3duljaz9.ipv6.telus.net.
+ [2001:569:75e3:4100:12ba:ab1b:8ad3:bb55])
+ by smtp.gmail.com with ESMTPSA id z125sm5617660pfz.92.2020.03.20.05.05.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Mar 2020 05:05:41 -0700 (PDT)
+From: dnbrdsky@gmail.com
+To: dnbrdsky@gmail.com
+Subject: [PATCH v3 0/2] Replaced locks with lock guard macros
+Date: Fri, 20 Mar 2020 05:04:54 -0700
+Message-Id: <20200320120456.1931482-1-dnbrdsky@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,41 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to VMSTATE_VARRAY_UINT32_ALLOC, but the size is
-16-bit field.
+From: Daniel Brodsky <dnbrdsky@gmail.com>
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- include/migration/vmstate.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+This patch set adds:
+- a fix for lock guard macros so they can be used multiple times in
+the same function
+- replacement of locks with lock guards where appropriate
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 30667631bc..baaefb6b9b 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -432,6 +432,16 @@ extern const VMStateInfo vmstate_info_qlist;
-     .offset     = vmstate_offset_pointer(_state, _field, _type),     \
- }
- 
-+#define VMSTATE_VARRAY_UINT16_ALLOC(_field, _state, _field_num, _version, _info, _type) {\
-+    .name       = (stringify(_field)),                               \
-+    .version_id = (_version),                                        \
-+    .num_offset = vmstate_offset_value(_state, _field_num, uint16_t),\
-+    .info       = &(_info),                                          \
-+    .size       = sizeof(_type),                                     \
-+    .flags      = VMS_VARRAY_UINT16 | VMS_POINTER | VMS_ALLOC,       \
-+    .offset     = vmstate_offset_pointer(_state, _field, _type),     \
-+}
-+
- #define VMSTATE_VARRAY_UINT16_UNSAFE(_field, _state, _field_num, _version, _info, _type) {\
-     .name       = (stringify(_field)),                               \
-     .version_id = (_version),                                        \
+v2 -> v3:
+- added __COUNTER__ fix for additional lock guard macro
+- added missing include header in platform.c
+
+v1 -> v2:
+- fixed whitespace churn
+- added cover letter so patch set referenced correctly
+
+Daniel Brodsky (2):
+  lockable: fix __COUNTER__ macro to be referenced properly
+  lockable: replaced locks with lock guard macros where appropriate
+
+ block/iscsi.c           | 11 +++------
+ block/nfs.c             | 51 +++++++++++++++++++----------------------
+ cpus-common.c           | 13 ++++-------
+ hw/display/qxl.c        | 43 ++++++++++++++++------------------
+ hw/vfio/platform.c      |  5 ++--
+ include/qemu/lockable.h |  4 ++--
+ include/qemu/rcu.h      |  2 +-
+ migration/migration.c   |  3 +--
+ migration/multifd.c     |  8 +++----
+ migration/ram.c         |  3 +--
+ monitor/misc.c          |  4 +---
+ ui/spice-display.c      | 14 +++++------
+ util/log.c              |  4 ++--
+ util/qemu-timer.c       | 17 +++++++-------
+ util/rcu.c              |  8 +++----
+ util/thread-pool.c      |  3 +--
+ util/vfio-helpers.c     |  4 ++--
+ 17 files changed, 87 insertions(+), 110 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
 
