@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A153D18C940
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 09:54:58 +0100 (CET)
-Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8167C18CA03
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 10:18:17 +0100 (CET)
+Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFDQf-0003ZI-FC
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 04:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48721)
+	id 1jFDnE-0007bv-2K
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 05:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jFDPv-0003AS-GC
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:54:13 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jFDmT-0007C6-RZ
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:17:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jFDPt-0005uL-TB
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:54:11 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33627)
+ (envelope-from <alex.bennee@linaro.org>) id 1jFDmS-000795-7z
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:17:29 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41913)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jFDPt-0005pg-C8
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:54:09 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a25so6440434wrd.0
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 01:54:09 -0700 (PDT)
+ id 1jFDmR-00077F-Td
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:17:28 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h9so6470067wrc.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 02:17:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=fyB1unt4xfL/kEjHUAYtxL9MN6H5RQcX9r9Wyrd56Ck=;
- b=lZHVs/tk9Tr3ac/avnEj71PJ90rPV9DwL0vNgWwJ8fH45uybzL4NlEMY7JDEes1Unv
- UgNuNetMIeGMV1aHBf1Zur75wXU22zei5JA5lsT8nwAOwfBPISKGAVDm5qTAm7QkqNfP
- Fs0x1vISQHEnRaGYkMpBy5MvKqVZG3XKRI7y3Unu7TfcP8JdpNH4fL57EYD6f/t+ZSJM
- F1aL23rj/XhVU5OCuXXUxaMYc1pfP3sBGIsq/N7zDhUm+gzNdlTtPszGIhTNzfLeA84j
- v73OUFXzlbymqxX1XvG6obUuzCsKOKYmvRWWkJVCAkzHFyhdNg7AImJcDPI0ckPuWmJI
- ArIQ==
+ bh=h3vMhOANxcPsV31YqVmNqQFw9idOpZWiwbHYTPT56yc=;
+ b=xOICcVZ8iB77qwsxSASDO76QttylmRwuXV3t4H3Fxz37tZ7d0dS1BFPYdWPgHfFT0K
+ 1zvTxeoXQ4nK+vkD4Aod5yN+FN3hmmkd+dPLDb5rYtegFlMyIYkzkBGWLODkb9do+kuc
+ jVYSzVyo4ol3UxaaU3n/hYAz0e1eUW/CWZD0Dh+5e/LCCf886Bj45gKlgKY/GEg/Qhpb
+ 8HD5rutgG4+KlxOYuR0mTOhswE4F9u0F+vypiom+hJnmtCjEIGuJoBaDqKisU7J0rSbb
+ ewBZ5ox0cfmKKQTOQuOhmiZ7Sea+jAqoy1yPn4BwG5DGBIo5aZRpyxSywGN/3U1oj4kw
+ OZGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=fyB1unt4xfL/kEjHUAYtxL9MN6H5RQcX9r9Wyrd56Ck=;
- b=SmjGE0gtvZp9TqIVLqK/ZZQEZdWrX/csnyQJ3P4QL9ugJakK1LtX9MG1QjZl+z0ziE
- QHh99aWb2l/KjM+nJ2kX7XoZe0kXYeLy57kMlpx6TBahMQ6gejJb8yzmDZ1GkhsGPByT
- CXR4yXDzGUAjYX3kea3c+NnPhxeo+RklFw5VQlKXm/iDmExuaZReUn9B3J9l5wgTcI2H
- EkNeCEiKFx6QrOLfklEw7fpkaMIuyxGsgCfq6GI9HbY85eDNjGYq0ZX6uJ6eTIg5jAE3
- Uiiy0ZM/rls5QMFrWw+4gkKj/dLq63dieCdydYMBXG3WehTQ3YYByU+pbDQ401i2vcsa
- JBOQ==
-X-Gm-Message-State: ANhLgQ08I1tQSY3O9J03Pez5EMAseZp2xQA73Lb1/pMwY6GNj1UNLOPl
- ma9DFDpv0M01SJu9hyFFlqXaLg==
-X-Google-Smtp-Source: ADFU+vtQ6sPlKQ7T4g43CtjtHundpgHwwn6HBHcsgvyi21OuizfuhgzAH+/yH+btBKUAsTH8zfD7MA==
-X-Received: by 2002:adf:cc86:: with SMTP id p6mr10200642wrj.56.1584694447664; 
- Fri, 20 Mar 2020 01:54:07 -0700 (PDT)
+ bh=h3vMhOANxcPsV31YqVmNqQFw9idOpZWiwbHYTPT56yc=;
+ b=FauqbXse+FGJ6uxeqpkg9jDzRiK2t+y7GpL0uZmrETmepAyG+dM/+Pwt/8vu1SLq/0
+ hkHD7124ucL55tmrIX0QWujLqYgiif2KGL70SGCvQM4XGxjtBIWLXrF9FbFTI93dDxJP
+ ICoDr+G5Yn+J/3GJcI1bGgVE/br1A559m/8u6tuuSpgnU/RvDjtsVvaZCucIioGc6nUV
+ rMYGtW7N6zom5LtivFKuNJmKyRW8VVagMpx/Xjjcm5GOLzfk6USsuYLbfdU7Hm++Eol/
+ FVyCeB9szti/UpGXbB6k+SUBtVrKMldN1gqxlIUYCqRjlgPo1PSekEFbyBfVk1Hnu/GE
+ b2vQ==
+X-Gm-Message-State: ANhLgQ0M28m8s2Uecs7cNqNW1BHAZdBBHTvw52cbUGo1msp5bLwTkvsT
+ uGd3jA9eUFr5iW0Tx57z/OHGNw==
+X-Google-Smtp-Source: ADFU+vvH3TUmRpULgXd2X6EYtmdBaO6WI7IJOv6lYEMp+JlumW0jcUOnevbk9QQd+FSZ1/Ayp4Pz0w==
+X-Received: by 2002:adf:f58c:: with SMTP id f12mr10136802wro.207.1584695846262; 
+ Fri, 20 Mar 2020 02:17:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f22sm8482902wmf.2.2020.03.20.01.54.06
+ by smtp.gmail.com with ESMTPSA id f14sm6237866wmb.3.2020.03.20.02.17.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 01:54:06 -0700 (PDT)
+ Fri, 20 Mar 2020 02:17:24 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C29541FF7E;
- Fri, 20 Mar 2020 08:54:05 +0000 (GMT)
-References: <CAPV47zcqvNekcUN=fKu1-dN=Sip3XR3+ohaG22-oNDm1dceJkQ@mail.gmail.com>
- <CAFEAcA_CeGozr3MUA6N=cMQVXLjoLD0ca-gywm+MLU4unfgwGg@mail.gmail.com>
- <39f82991-6d80-ba42-c7e8-4f6120a196ac@redhat.com>
- <CAPV47zfQKCaKS3BQ4+zbFJ1KyATqgOZvtaY9n-Gh_wtFCn4trQ@mail.gmail.com>
- <871rpojto4.fsf@linaro.org>
- <CAPV47zeQFEUhFmE6jgsehUUQKrYqjtqnfUfBdaKqaEy_e=fM=g@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id D1E3E1FF7E;
+ Fri, 20 Mar 2020 09:17:23 +0000 (GMT)
+References: <20200307010051.97022-1-yuanzi@google.com>
+ <CADjx4CKDPY9J7Zr1YTLv78Ku6mQS6zrMu7oX7-ujU3PGxvHA4w@mail.gmail.com>
 User-agent: mu4e 1.3.10; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
-Subject: Re: Qemu API documentation
-In-reply-to: <CAPV47zeQFEUhFmE6jgsehUUQKrYqjtqnfUfBdaKqaEy_e=fM=g@mail.gmail.com>
-Date: Fri, 20 Mar 2020 08:54:05 +0000
-Message-ID: <87lfnviez6.fsf@linaro.org>
+To: Lirong Yuan <yuanzi@google.com>
+Subject: Re: [PATCH] gdbstub: add support to Xfer:auxv:read: packet
+In-reply-to: <CADjx4CKDPY9J7Zr1YTLv78Ku6mQS6zrMu7oX7-ujU3PGxvHA4w@mail.gmail.com>
+Date: Fri, 20 Mar 2020 09:17:23 +0000
+Message-ID: <87imizidwc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,171 +82,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Josh Kunz <jkz@google.com>,
+ Philippe =?utf-8?Q?Mathieu-Da?= =?utf-8?Q?ud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Priyamvad Acharya <priyamvad.agnisys@gmail.com> writes:
+Lirong Yuan <yuanzi@google.com> writes:
 
-> Thanks Alex, I will check it out.
-> Have you look at below issue which I mention in my previous email?
-
-Without seeing the full code changes it's hard to make a determination.
-But it looks like you haven't followed the template of defining the
-device type.
-
-Also have a look at tests/tcg/*/Makefile.softmmu-target for examples on
-how we build executables suitable for loading into system emulation.
-
+> On Fri, Mar 6, 2020 at 5:01 PM Lirong Yuan <yuanzi@google.com> wrote:
 >
->
->>>> *>> qemu-system-arm: Unknown device 'soc' for default sysbusAborted
->>>> (core>> dumped)**
->>>>
->>>
->
-> On Thu, 19 Mar 2020 at 20:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
+>> This allows gdb to access the target=E2=80=99s auxiliary vector,
+>> which can be helpful for telling system libraries important details
+>> about the hardware, operating system, and process.
 >>
->> Priyamvad Acharya <priyamvad.agnisys@gmail.com> writes:
+>> Signed-off-by: Lirong Yuan <yuanzi@google.com>
+>> ---
+>>  gdbstub.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 55 insertions(+)
 >>
->> > Thanks John and Peter for guiding me, but still it will be hard to
->> > understand from source code for a newbie.
->> >
->> > I basically want to implement a trivial device for arm architecture wh=
-ich
->> > basically contains register for read/write operation with a program.So
->> what
->> > are the references?
+>> diff --git a/gdbstub.c b/gdbstub.c
+>> index 22a2d630cd..a946af7007 100644
+>> --- a/gdbstub.c
+>> +++ b/gdbstub.c
+>> @@ -2105,6 +2105,12 @@ static void handle_query_supported(GdbCmdContext
+>> *gdb_ctx, void *user_ctx)
+>>          pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
+>>                  ";qXfer:features:read+");
+>>      }
+>> +#ifdef CONFIG_USER_ONLY
+>> +    if (gdb_ctx->s->c_cpu->opaque) {
+>> +        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
+>> +                ";qXfer:auxv:read+");
+>> +    }
+>> +#endif
 >>
->> I would look at hw/misc/unimp.c as a useful template for implementing a
->> new device. Many boards instantiate the unimp devices for areas of SoC's
->> that are not yet implemented ;-)
+>>      if (gdb_ctx->num_params &&
+>>          strstr(gdb_ctx->params[0].data, "multiprocess+")) {
+>> @@ -2166,6 +2172,47 @@ static void
+>> handle_query_xfer_features(GdbCmdContext *gdb_ctx, void *user_ctx)
+>>      put_packet_binary(gdb_ctx->s, gdb_ctx->str_buf, len + 1, true);
+>>  }
 >>
->> >
->> > I am providing pointers about my device which I am trying to implement:
->> >  - I am implementing a device which will be attached to *versatilepb*
->> > board, that board has* ARM926 CPU*.
->> > - My device name is "*soc*" , whose description is in
->> *qemu/hw/misc/soc.c*
->> > file attached below.
->> > - I have written below line to make my device available to qemu in
->> > *qemu/hw/misc/Makefile.objs*.
->> >
->> >> *$ common-obj-$(CONFIG_SOC) +=3D soc.o *
->> >>
->> > - I added following lines in *qemu/hw/arm/versatilepb.c* to attach my
->> > device to board.
->> >
->> >>
->> >> *#define DES_BASEADDR        0x101f5000*
->> >>
->> >>
->> >>
->> >> *    soc=3Dqdev_create(NULL, "soc");// +    qdev_init_nofail(soc);// +
->> >> sysbus_mmio_map(SYS_BUS_DEVICE(soc), 0, DES_BASEADDR);// +*
->> >>
->> >
->> > - Run below commands to build my device
->> >
->> >> *$ make distclean*
->> >> *$ make -j8 -C build *
->> >>
->> >
->> > - Run below command to run a bare metal program on device.
->> >
->> >> *$ ./qemu-system-arm -M versatilepb -nographic -kernel
->> >> /lhome/priyamvad/debian_qemu_arm32/c_application/DES/des_demo.elf*
->> >>
->> >
->> > -I get following output in terminal shown below
->> >
->> >>
->> >>
->> >> *[priyamvad@predator arm-softmmu]$ ./qemu-system-arm -M versatilepb
->> >> -nographic -kernel
->> >> /lhome/priyamvad/debian_qemu_arm32/c_application/DES/des_demo.elf
->> >> qemu-system-arm: Unknown device 'soc' for default sysbusAborted (core
->> >> dumped)*
->> >>
->> >
->> > -Here des_demo.elf is our *bare metal program* executable for
->> *arm(926ej-s)*
->> > processor.
->> >
->> > So how to resolve below issue to run executable
->> >
->> >>
->> >>
->> >> *[priyamvad@predator arm-softmmu]$ ./qemu-system-arm -M versatilepb
->> >> -nographic -kernel
->> >> /lhome/priyamvad/debian_qemu_arm32/c_application/DES/des_demo.elf
->> >> qemu-system-arm: Unknown device 'soc' for default sysbusAborted (core
->> >> dumped)*
->> >>
->> >
->> > test.s,test.ld,startup.S,Makefile,des_demo.c are files required for ba=
-re
->> >> metal program
->> >>
->> >
->> > References:
->> >
->> >
->> https://devkail.wordpress.com/2014/12/16/emulation-of-des-encryption-dev=
-ice-in-qemu/
->> >
->> > Thanks,
->> > Priyamvad
->> >
->> > On Thu, 19 Mar 2020 at 01:19, John Snow <jsnow@redhat.com> wrote:
->> >
->> >>
->> >>
->> >> On 3/18/20 7:09 AM, Peter Maydell wrote:
->> >> > On Wed, 18 Mar 2020 at 09:55, Priyamvad Acharya
->> >> > <priyamvad.agnisys@gmail.com> wrote:
->> >> >>
->> >> >> Hello developer community,
->> >> >>
->> >> >> I am working on implementing a custom device in Qemu, so to implem=
-ent
->> >> it I need documentation of functions which are used to emulate a
->> hardware
->> >> model in Qemu.
->> >> >>
->> >> >> What are the references to get it ?
->> >> >
->> >> > QEMU has very little documentation of its internals;
->> >> > the usual practice is to figure things out by
->> >> > reading the source code. What we do have is in
->> >> > docs/devel. There are also often documentation comments
->> >> > for specific functions in the include files where
->> >> > those functions are declared, which form the API
->> >> > documentation for them.
->> >> >
->> >>
->> >> ^ Unfortunately true. One thing you can do is try to pick an existing
->> >> device that's close to yours -- some donor PCI, USB etc device and st=
-art
->> >> using that as a reference.
->> >>
->> >> If you can share (broad) details of what device you are trying to
->> >> implement, we might be able to point you to relevant examples to use =
-as
->> >> a reference.
->> >>
->> >> --js
->> >>
->> >>
->>
->>
+>> +#ifdef CONFIG_USER_ONLY
+>> +static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_c=
+tx)
+>> +{
+>> +    TaskState *ts;
+>> +    unsigned long offset, len, saved_auxv, auxv_len;
+>> +    const char *mem;
+>> +
+>> +    if (gdb_ctx->num_params < 2) {
+>> +        put_packet(gdb_ctx->s, "E22");
+>> +        return;
+>> +    }
+>> +
+>> +    offset =3D gdb_ctx->params[0].val_ul;
+>> +    len =3D gdb_ctx->params[1].val_ul;
+>> +
+>> +    ts =3D gdb_ctx->s->c_cpu->opaque;
+>> +    saved_auxv =3D ts->info->saved_auxv;
+>> +    auxv_len =3D ts->info->auxv_len;
+>> +    mem =3D (const char *)(saved_auxv + offset);
+>> +
+>> +    if (offset >=3D auxv_len) {
+>> +        put_packet(gdb_ctx->s, "E22");
+>> +        return;
+>> +    }
+>> +
+>> +    if (len > (MAX_PACKET_LENGTH - 5) / 2) {
+>> +        len =3D (MAX_PACKET_LENGTH - 5) / 2;
+>> +    }
+>> +
+>> +    if (len < auxv_len - offset) {
+>> +        gdb_ctx->str_buf[0] =3D 'm';
+>> +        len =3D memtox(gdb_ctx->str_buf + 1, mem, len);
+>> +    } else {
+>> +        gdb_ctx->str_buf[0] =3D 'l';
+>> +        len =3D memtox(gdb_ctx->str_buf + 1, mem, auxv_len - offset);
+>> +    }
+>> +
+>> +    put_packet_binary(gdb_ctx->s, gdb_ctx->str_buf, len + 1, true);
+>> +}
+>> +#endif
+>> +
+>>  static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ct=
+x)
+>>  {
+>>      put_packet(gdb_ctx->s, GDB_ATTACHED);
+>> @@ -2271,6 +2318,14 @@ static GdbCmdParseEntry gdb_gen_query_table[] =3D=
+ {
+>>          .cmd_startswith =3D 1,
+>>          .schema =3D "s:l,l0"
+>>      },
+>> +#ifdef CONFIG_USER_ONLY
+>> +    {
+>> +        .handler =3D handle_query_xfer_auxv,
+>> +        .cmd =3D "Xfer:auxv:read:",
+>> +        .cmd_startswith =3D 1,
+>> +        .schema =3D "l,l0"
+>> +    },
+>> +#endif
+>>      {
+>>          .handler =3D handle_query_attached,
+>>          .cmd =3D "Attached:",
 >> --
->> Alex Benn=C3=A9e
+>> 2.25.1.481.gfbce0eb801-goog
 >>
+>>
+> Friendly ping~
+
+Sorry I missed this on my radar. There was a minor re-factor of gdbstub
+that was just merged which will mean this patch needs a re-base to use
+g_string_* functions to expand stings.
+
+Also we have some simple gdbstub tests now - could we come up with a
+multiarch gdbstub test to verify this is working properly?
+
+>
+> Link to the patchwork page:
+> http://patchwork.ozlabs.org/patch/1250727/
 
 
 --=20
