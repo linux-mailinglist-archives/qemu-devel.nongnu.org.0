@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9AE18D30B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:37:18 +0100 (CET)
-Received: from localhost ([::1]:54398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0422A18D325
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:42:22 +0100 (CET)
+Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJi1-0008R5-FV
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58191)
+	id 1jFJmv-0007re-22
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58217)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jFJWK-0006og-MG
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:14 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jFJWM-0006ua-LN
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jFJWJ-0008Rw-5l
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:57981)
+ (envelope-from <laurent@vivier.eu>) id 1jFJWL-00005e-7s
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:14 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:50647)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJWI-0008PN-S6
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:11 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJWK-0008VM-VB
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:25:13 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MV6Bs-1ioGip1xpe-00S9ls; Fri, 20 Mar 2020 16:25:01 +0100
+ id 1Mo73N-1jeC9d1i0J-00pcOn; Fri, 20 Mar 2020 16:25:02 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 29/32] scripts: add a script to generate syscall_nr.h
-Date: Fri, 20 Mar 2020 16:24:05 +0100
-Message-Id: <20200320152408.182899-30-laurent@vivier.eu>
+Subject: [PULL v4 30/32] linux-user,
+ aarch64: sync syscall numbers with kernel v5.5
+Date: Fri, 20 Mar 2020 16:24:06 +0100
+Message-Id: <20200320152408.182899-31-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200320152408.182899-1-laurent@vivier.eu>
 References: <20200320152408.182899-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+dG9ALLWDDKJODKGbawtSLBOxshlb43TP/shuH8IjThBhn5aQA6
- YYXV9BcBddxY5NodmOThrHNe/QBWADzLvNXfJkM3FlZuAwW+tCg/+k7TI179qJDWwp2WEOX
- 6iXbMeazNfjAtIkT4u0+kNMvIQ+4aF3Psw63AlYyQiL2gJXTX46b3FaKMMWI29j5bg2SSX/
- iitAm6CJ374khd/FPqXkQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xWDdSvqkBDI=:sUcT1Xfggg0kjUZzR3IPgh
- onwkmtucWRbF9l968itpA7tN7qmNym7CtagQqQw4LIzV1yGzk7R9ZEt4ZQLnAAJLNrpR2lFtJ
- dSF0cNEuuGgqXBEoDmdlNNAm8BwJ+ROrUO6ZEBA83vuybMuhR4kmjTaZvmrGR5MLW4q2Tteg3
- KmobFKsQQMoEv3KJPN46NeVDsKmAsC8m0H7KwFunTiXtsDtTwG41Iqcb9VjfKbmSVVDEneZjh
- t54amHlKzFyYMcn4sGLezVA9oxpQF8YqM8kpwnWIeCiPIWxmEDhjz46ZHESZUORl0E308pR10
- SIck3oCrEKVmWZ51kzVPhevGhnrn1qmllJrPKe0o3GeSLiD6EWc+D+qthxHp/xqBy8uOmr5Qg
- oK3doSZMCL9h/JhbvjNpEFd1ePsandIectyU+HiDztm5SNblHlAxJ7IuIkgt0feq5jUsBMvIW
- dQxCb3GUAmAimJ2ilsRB3IWzvdiDklAaPqv21FLhH/PqqRhv30XSqOuQDHNd9h0XEjsVVS9Iz
- 4LoK4vaH+9jYn6AgVzBggZzXcNlDUtq7dRatpE8tJN0OrbsHl3pFGz3Bkgw1Yb712rEfve7q6
- ZC5HGhcIRsGFW1jizUXN4D503Y6KovivEp2y2Lqja6+U708VE97qb4pRPMhBWQ+FtQTv9LNFn
- CRckesUF+ufZxwqI9AqcGd0MS6djo+C+rBAwK1LFYKRigLZAHY+VXjQd9f2pexPCEAyIf8EXI
- PKRLoNXVQDPzD/FRKFFp+ug8hc8RG6iU20+pHP+XcW/SvqeVr4ijNrxgqqnOP9GiyHQXiMQ1l
- eDEVGloLzsP9lXTiR5s72BETBTpP5fKd2e0jLj3yFDokCgJq809SX8c/0tkHV+1+WsCb8R+
+X-Provags-ID: V03:K1:ZlHhap4iMVRxw7J2qaHqzFVVUaD8cEiEpmCXqIQXI3dIPBJi281
+ Si5SI4e/Zf5ag3zYaE7zDdXNuFElqhHVLbguhWOXEWLkJ/zEXoAmnnV+X1KzL4uKO743jSh
+ 1/OxdBD67LJc/fmREOLlzvTedhHEaw7Yl1mndc7UrcMiU4RkvtdddOaXrHwKFULPyaJAs5X
+ BKcjNPcO6KNiIn6uDUJpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IECLQbH+M+0=:bT0lMysktn7ZLGX/eDDj7R
+ zrd/vctCp4aXtfc0T9G5M3SxQf4EW4LwxGhqWWCjHqZBW5cr4zKLSLVpTJzRLY50JNmEGLRVB
+ uOcPFoBr65WK1ZU42g3k3Oz92SKgmxg07PrGajdrtPPchiQLMq2yC95vqlLEXJWlUH7hUTd07
+ bnMhQAM/iFZJ93pWEu2CZXI2wY63PaXvbdhLaOhIf3e6laNergKXqOKmgr0rq/FUSZJPLSvai
+ Kx3Zt6u3qg50GxUlBb9L2DRxNW79VKBM5s0Tfpt879oAq2M27WOj6RBoWKR1Bouuxk8Rf2mWi
+ yz/K+K3rM0GN5crHkF9HsB4qSp+fZ36+ZR+BJP4dveydZ87t5qfRctRzw2nOo30ydNuGkW2yU
+ VLxLDPrGrbk6/Qes+dF9rFMQpHyNgEvm4yLED7LwhjEX3+PAWwUq9dW7kg2WCC4i92lX5tHys
+ evORYd4VMyo/acSk4SgOQT9odrU/s9QjLCUMse5gH/0N5bwYhwRjskw2vPSe0NTzZvory2Zl+
+ 2QUBgseHJmDS6C562WgVTqpzyIXZDqfmadwmweAECzcedLKcNRMU8Ro5Z/O/GBAeOwkFITQlJ
+ aRQK87V94+y1vnGs6Oj7TnIUa9i/p9Gv28LpjxzbcP6yLp9799TGLwdtxEjF6B3HttkZhJ92W
+ ISx1iuqJTCHkb9LEsZUVD2hyVEF3AuhZPIeEq6uz4DrktLN/G4luHuqny1XsJVNdxlOrhymDC
+ Of4/kANlGEoZ+yUqhy8nVIFuBEb+W0f3/ZC7AzGILeWFVlqob/5v+IouwaFa0x7BYhYXfwylH
+ Z7lnU08thVJOJlkghwvw+/wtf4vwXTTs9dK/XesfDbXx7VM0csYD43XhL48bUFvpqgzKkAW
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,146 +65,111 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
- Alistair Francis <alistair.francis@wdc.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Alistair Francis <alistair.francis@wdc.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This script is needed for targets based on asm-generic syscall numbers generation
+Use helper script scripts/gensyscalls.sh to generate the file.
+
+This change TARGET_NR_fstatat64 by TARGET_NR_newfstatat that is correct
+because definitions from linux are:
+
+arch/arm64/include/uapi/asm/unistd.h
+
+  #define __ARCH_WANT_NEW_STAT
+
+include/uapi/asm-generic/unistd.h
+
+  #if defined(__ARCH_WANT_NEW_STAT) || defined(__ARCH_WANT_STAT64)
+  #define __NR3264_fstatat 79
+  __SC_3264(__NR3264_fstatat, sys_fstatat64, sys_newfstatat)
+  #define __NR3264_fstat 80
+  __SC_3264(__NR3264_fstat, sys_fstat64, sys_newfstat)
+  #endif
+  ...
+  #if __BITS_PER_LONG == 64 && !defined(__SYSCALL_COMPAT)
+  ...
+  #if defined(__ARCH_WANT_NEW_STAT) || defined(__ARCH_WANT_STAT64)
+  #define __NR_newfstatat __NR3264_fstatat
+  #define __NR_fstat __NR3264_fstat
+  #endif
+  ...
+
+Add syscalls 286 (preadv2) to 435 (clone3).
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200316085620.309769-2-laurent@vivier.eu>
-[lv: added file in MAINTAINERS]
+Message-Id: <20200316085620.309769-3-laurent@vivier.eu>
 ---
- MAINTAINERS            |   1 +
- scripts/gensyscalls.sh | 102 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100755 scripts/gensyscalls.sh
+ linux-user/aarch64/syscall_nr.h | 34 ++++++++++++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 958e05b27f15..45d48992b13c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2450,6 +2450,7 @@ F: default-configs/*-linux-user.mak
- F: scripts/qemu-binfmt-conf.sh
- F: scripts/update-syscalltbl.sh
- F: scripts/update-mips-syscall-args.sh
-+F: scripts/gensyscalls.sh
+diff --git a/linux-user/aarch64/syscall_nr.h b/linux-user/aarch64/syscall_nr.h
+index f00ffd7fb82f..85de000b2490 100644
+--- a/linux-user/aarch64/syscall_nr.h
++++ b/linux-user/aarch64/syscall_nr.h
+@@ -1,7 +1,8 @@
+ /*
+  * This file contains the system call numbers.
++ * Do not modify.
++ * This file is generated by scripts/gensyscalls.sh
+  */
+-
+ #ifndef LINUX_USER_AARCH64_SYSCALL_NR_H
+ #define LINUX_USER_AARCH64_SYSCALL_NR_H
  
- Tiny Code Generator (TCG)
- -------------------------
-diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
-new file mode 100755
-index 000000000000..b7b8456f6312
---- /dev/null
-+++ b/scripts/gensyscalls.sh
-@@ -0,0 +1,102 @@
-+#!/bin/sh
-+#
-+# Update syscall_nr.h files from linux headers asm-generic/unistd.h
-+#
-+# This code is licensed under the GPL version 2 or later.  See
-+# the COPYING file in the top-level directory.
-+#
+@@ -84,7 +85,7 @@
+ #define TARGET_NR_splice 76
+ #define TARGET_NR_tee 77
+ #define TARGET_NR_readlinkat 78
+-#define TARGET_NR_fstatat64 79
++#define TARGET_NR_newfstatat 79
+ #define TARGET_NR_fstat 80
+ #define TARGET_NR_sync 81
+ #define TARGET_NR_fsync 82
+@@ -254,8 +255,8 @@
+ #define TARGET_NR_prlimit64 261
+ #define TARGET_NR_fanotify_init 262
+ #define TARGET_NR_fanotify_mark 263
+-#define TARGET_NR_name_to_handle_at         264
+-#define TARGET_NR_open_by_handle_at         265
++#define TARGET_NR_name_to_handle_at 264
++#define TARGET_NR_open_by_handle_at 265
+ #define TARGET_NR_clock_adjtime 266
+ #define TARGET_NR_syncfs 267
+ #define TARGET_NR_setns 268
+@@ -276,5 +277,28 @@
+ #define TARGET_NR_membarrier 283
+ #define TARGET_NR_mlock2 284
+ #define TARGET_NR_copy_file_range 285
++#define TARGET_NR_preadv2 286
++#define TARGET_NR_pwritev2 287
++#define TARGET_NR_pkey_mprotect 288
++#define TARGET_NR_pkey_alloc 289
++#define TARGET_NR_pkey_free 290
++#define TARGET_NR_statx 291
++#define TARGET_NR_io_pgetevents 292
++#define TARGET_NR_rseq 293
++#define TARGET_NR_kexec_file_load 294
++#define TARGET_NR_pidfd_send_signal 424
++#define TARGET_NR_io_uring_setup 425
++#define TARGET_NR_io_uring_enter 426
++#define TARGET_NR_io_uring_register 427
++#define TARGET_NR_open_tree 428
++#define TARGET_NR_move_mount 429
++#define TARGET_NR_fsopen 430
++#define TARGET_NR_fsconfig 431
++#define TARGET_NR_fsmount 432
++#define TARGET_NR_fspick 433
++#define TARGET_NR_pidfd_open 434
++#define TARGET_NR_clone3 435
++#define TARGET_NR_syscalls 436
 +
-+linux="$1"
-+output="$2"
-+
-+TMP=$(mktemp -d)
-+
-+if [ "$linux" = "" ] ; then
-+    echo "Needs path to linux source tree" 1>&2
-+    exit 1
-+fi
-+
-+if [ "$output" = "" ] ; then
-+    output="$PWD"
-+fi
-+
-+upper()
-+{
-+    echo "$1" | tr "[:lower:]" "[:upper:]" | tr "[:punct:]" "_"
-+}
-+
-+qemu_arch()
-+{
-+    case "$1" in
-+    arm64)
-+        echo "aarch64"
-+        ;;
-+    *)
-+        echo "$1"
-+        ;;
-+    esac
-+}
-+
-+read_includes()
-+{
-+    arch=$1
-+    bits=$2
-+
-+     cpp -P -nostdinc -fdirectives-only \
-+        -D_UAPI_ASM_$(upper ${arch})_BITSPERLONG_H \
-+        -D__BITS_PER_LONG=${bits} \
-+        -I${linux}/arch/${arch}/include/uapi/ \
-+        -I${linux}/include/uapi \
-+        -I${TMP} \
-+        "${linux}/arch/${arch}/include/uapi/asm/unistd.h"
-+}
-+
-+filter_defines()
-+{
-+    grep -e "#define __NR_" -e "#define __NR3264"
-+}
-+
-+rename_defines()
-+{
-+    sed "s/ __NR_/ TARGET_NR_/g;s/(__NR_/(TARGET_NR_/g"
-+}
-+
-+evaluate_values()
-+{
-+    sed "s/#define TARGET_NR_/QEMU TARGET_NR_/" | \
-+    cpp -P -nostdinc | \
-+    sed "s/^QEMU /#define /"
-+}
-+
-+generate_syscall_nr()
-+{
-+    arch=$1
-+    bits=$2
-+    file="$3"
-+    guard="$(upper LINUX_USER_$(qemu_arch $arch)_$(basename "$file"))"
-+
-+    (echo "/*"
-+    echo " * This file contains the system call numbers."
-+    echo " * Do not modify."
-+    echo " * This file is generated by scripts/gensyscalls.sh"
-+    echo " */"
-+    echo "#ifndef ${guard}"
-+    echo "#define ${guard}"
-+    echo
-+    read_includes $arch $bits | filter_defines | rename_defines | \
-+                                evaluate_values | sort -n -k 3
-+    echo
-+    echo "#endif /* ${guard} */"
-+    echo) > "$file"
-+}
-+
-+mkdir "$TMP/asm"
-+> "$TMP/asm/bitsperlong.h"
-+
-+generate_syscall_nr arm64 64 "$output/linux-user/aarch64/syscall_nr.h"
-+generate_syscall_nr nios2 32 "$output/linux-user/nios2/syscall_nr.h"
-+generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
-+
-+generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
-+generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
-+rm -fr "$TMP"
++#endif /* LINUX_USER_AARCH64_SYSCALL_NR_H */
+ 
+-#endif
 -- 
 2.25.1
 
