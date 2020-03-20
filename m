@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D19E18D771
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:40:18 +0100 (CET)
-Received: from localhost ([::1]:57660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA07418D785
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:43:30 +0100 (CET)
+Received: from localhost ([::1]:57715 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFMZ7-0008QH-84
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46091)
+	id 1jFMcE-0002vL-0V
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jFMXl-0007af-Il
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:54 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jFMb8-0002Pu-Uw
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:42:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jFMXj-0007Yq-Pu
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58787)
+ (envelope-from <kwankhede@nvidia.com>) id 1jFMb6-0000Ul-R8
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:42:22 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14500)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jFMXj-0007Yd-HE
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:38:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584729530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J2jbYCYdauWN2Xf5KOvKo5QlHLFGs95eAP3XKdE869w=;
- b=PUNWPuSWWZMf5wJeBk5oExXdR2wpHjIdj4S9fpk5tKrjLEg1YXYporoZz7ObjMPlNrNUJy
- 8PozDI6+W48o1lN7MKoz3opBCY+SmWpSpuGtWeOFxL9AqWta5OqnmC4xlAb0+kKYggd0fM
- 1Rs6keBJG8yIbskZmSfjkPGl02Or0wo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-4L2o98QRMdGtIOaUf2aShg-1; Fri, 20 Mar 2020 14:38:40 -0400
-X-MC-Unique: 4L2o98QRMdGtIOaUf2aShg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30DC6107ACC4;
- Fri, 20 Mar 2020 18:38:39 +0000 (UTC)
-Received: from [10.3.112.193] (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8857419756;
- Fri, 20 Mar 2020 18:38:38 +0000 (UTC)
-Subject: Re: [Qemu-devel] [PULL 3/4] qcow2: Add list of bitmaps to
- ImageInfoSpecificQCow2
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190211205128.27146-1-eblake@redhat.com>
- <20190211205128.27146-4-eblake@redhat.com>
- <CAFEAcA9wDiKKfL67B7cH1X=Wm_ayDJb6b0L-Pgiqcp2SkDNBAw@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b902c895-7ba9-9825-69cf-f8277ce26d05@redhat.com>
-Date: Fri, 20 Mar 2020 13:38:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1jFMb6-0000UO-Js
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:42:20 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e750e7d0001>; Fri, 20 Mar 2020 11:42:06 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 20 Mar 2020 11:42:19 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 20 Mar 2020 11:42:19 -0700
+Received: from [10.40.103.10] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 20 Mar
+ 2020 18:42:09 +0000
+Subject: Re: [PATCH v15 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1584649004-8285-1-git-send-email-kwankhede@nvidia.com>
+ <1584649004-8285-5-git-send-email-kwankhede@nvidia.com>
+ <20200319165704.1f4eb36a@w520.home>
+ <bc48ae5c-67f9-d95e-5d60-6c42359bb790@nvidia.com>
+ <20200320120137.6acd89ee@x1.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <cf0ee134-c1c7-f60c-afc2-8948268d8880@nvidia.com>
+Date: Sat, 21 Mar 2020 00:12:04 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9wDiKKfL67B7cH1X=Wm_ayDJb6b0L-Pgiqcp2SkDNBAw@mail.gmail.com>
+In-Reply-To: <20200320120137.6acd89ee@x1.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1584729726; bh=hWqEMqGjcjLbX1dudD5jfb/W5JW8uQKkE5TYekIBFFs=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=jkYZVcTIRXZJ2TlcNLaDDZzURzyQC3Ed07iBXv8NPBU8wu2+pSvV5j8/p0/SUnXED
+ Ap/kTUh1gx41kfezG5vb1TQc3vf9Da1HVUA8up3daKw5ot4J37fnXGYj2rjcx2IYkE
+ IMe545G2jYUrkOvYPXiVHu+z5CMhNjjgKyh47Ct6eecb4x36rXjpTJeimBFCR7kXn0
+ 57wlRg1nIDa8BfgVcTWduoAlK31c2V5Q9fhC+PrY1dmeUZcWM/D1rbCX1O30EgCSrS
+ gmiIpWpiJfKzmf2lC8a7svO79PQTCiFWEQ2luHMMCyVWgFtMuKo5weKtgMyCsUmSHw
+ Zex3jh4TV0vVQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,48 +79,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:qcow2" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/20/20 12:57 PM, Peter Maydell wrote:
-> On Mon, 11 Feb 2019 at 20:57, Eric Blake <eblake@redhat.com> wrote:
+
+
+On 3/20/2020 11:31 PM, Alex Williamson wrote:
+> On Fri, 20 Mar 2020 23:19:14 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> On 3/20/2020 4:27 AM, Alex Williamson wrote:
+>>> On Fri, 20 Mar 2020 01:46:41 +0530
+>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>    
+
+<snip>
+
+>>>> +static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
+>>>> +				  size_t size, uint64_t pgsize,
+>>>> +				  u64 __user *bitmap)
+>>>> +{
+>>>> +	struct vfio_dma *dma;
+>>>> +	unsigned long pgshift = __ffs(pgsize);
+>>>> +	unsigned int npages, bitmap_size;
+>>>> +
+>>>> +	dma = vfio_find_dma(iommu, iova, 1);
+>>>> +
+>>>> +	if (!dma)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (dma->iova != iova || dma->size != size)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	npages = dma->size >> pgshift;
+>>>> +	bitmap_size = DIRTY_BITMAP_BYTES(npages);
+>>>> +
+>>>> +	/* mark all pages dirty if all pages are pinned and mapped. */
+>>>> +	if (dma->iommu_mapped)
+>>>> +		bitmap_set(dma->bitmap, 0, npages);
+>>>> +
+>>>> +	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
+>>>> +		return -EFAULT;
+>>>
+>>> We still need to reset the bitmap here, clearing and re-adding the
+>>> pages that are still pinned.
+>>>
+>>> https://lore.kernel.org/kvm/20200319070635.2ff5db56@x1.home/
+>>>    
 >>
->> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> I thought you agreed on my reply to it
+>> https://lore.kernel.org/kvm/31621b70-02a9-2ea5-045f-f72b671fe703@nvidia.com/
 >>
->> In the 'Format specific information' section of the 'qemu-img info'
->> command output, the supplemental information about existing QCOW2
->> bitmaps will be shown, such as a bitmap name, flags and granularity:
+>>   > Why re-populate when there will be no change since
+>>   > vfio_iova_dirty_bitmap() is called holding iommu->lock? If there is any
+>>   > pin request while vfio_iova_dirty_bitmap() is still working, it will
+>>   > wait till iommu->lock is released. Bitmap will be populated when page is
+>>   > pinned.
 > 
-> Hi; Coverity has just noticed an issue (CID 1421894) with this change:
+> As coded, dirty bits are only ever set in the bitmap, never cleared.
+> If a page is unpinned between iterations of the user recording the
+> dirty bitmap, it should be marked dirty in the iteration immediately
+> after the unpinning and not marked dirty in the following iteration.
+> That doesn't happen here.  We're reporting cumulative dirty pages since
+> logging was enabled, we need to be reporting dirty pages since the user
+> last retrieved the dirty bitmap.  The bitmap should be cleared and
+> currently pinned pages re-added after copying to the user.  Thanks,
 > 
 
->> +        Qcow2BitmapInfoList *bitmaps;
->> +        bitmaps = qcow2_get_bitmap_info_list(bs, &local_err);
->> +        if (local_err) {
->> +            error_propagate(errp, local_err);
->> +            qapi_free_ImageInfoSpecific(spec_info);
->> +            return NULL;
-> 
-> If we take this error-exit codepath, then we never free the
-> memory allocated by the earlier call to qcrypto_block_get_info().
+Does that mean, we have to track every iteration? do we really need that 
+tracking?
 
-Fix sent.
+Generally the flow is:
+- vendor driver pin x pages
+- Enter pre-copy-phase where vCPUs are running - user starts dirty pages 
+tracking, then user asks dirty bitmap, x pages reported dirty by 
+VFIO_IOMMU_DIRTY_PAGES ioctl with _GET flag
+- In pre-copy phase, vendor driver pins y more pages, now bitmap 
+consists of x+y bits set
+- In pre-copy phase, vendor driver unpins z pages, but bitmap is not 
+updated, so again bitmap consists of x+y bits set.
+- Enter in stop-and-copy phase, vCPUs are stopped, mdev devices are stopped
+- user asks dirty bitmap - Since here vCPU and mdev devices are stopped, 
+pages should not get dirty by guest driver or the physical device. 
+Hence, x+y dirty pages would be reported.
 
-Hmm - it would be nice if the QAPI generator could declare all QAPI 
-types as g_autoptr compatible, so we could simplify our cleanup paths to 
-not have to worry about calling qapi_free_FOO() on all paths.  But while 
-the memory leak fix is a one-liner safe for 5.0, switching to g_autoptr 
-is a bigger task that would be 5.1 material.
+I don't think we need to track every iteration of bitmap reporting.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks,
+Kirti
+
+
 
 
