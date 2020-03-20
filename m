@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5212A18D2A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:15:39 +0100 (CET)
-Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4CA18D2A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:15:42 +0100 (CET)
+Received: from localhost ([::1]:54046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJN4-0000c1-Dp
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55971)
+	id 1jFJN7-0000hD-GX
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1jFJLm-000897-Rq
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:20 -0400
+ (envelope-from <ovoshcha@redhat.com>) id 1jFJLt-0008E7-Kb
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1jFJLl-0003HX-KN
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:18 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40842)
+ (envelope-from <ovoshcha@redhat.com>) id 1jFJLs-0003Jg-Iw
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:26605)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jFJLl-0003Gg-B4
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:17 -0400
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jFJLs-0003JS-Fj
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:14:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584717255;
+ s=mimecast20190719; t=1584717263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pIAxnqLbBPi8HGVHGPcFX+gvFTpwFK4hEINmy/jM51U=;
- b=aINOAAguubHLWsIEJOwRa+uGndv3AQGlL552XN0SF8j4223oaqtxoCxYjD043QUeGLrJ6Y
- EiIj5Xm5nvznchyBh4ko2Bwgcxs6/nVoYVBk2p67R5U9DVPRyGLVvZd/FrpxR00S6IwmDP
- Or6r5ybmqRicgfN4C/BVsNQ2wELwih0=
+ bh=o1hj3jjxnIgr5QAPOoV7dIk1rBSKlElTSizMfMRJ5h8=;
+ b=FbpCvalNbBVgn//Wu93CkuVFivFey+sOYhl5K5RnUnZKnaH8G99TM/iaHKGORpCVVN631p
+ ROy85cAALr+l5WzEl67EYoI8xBg06Fs+3nWq6oYzCBII1mDn/2wRrl9Y+AOeY6xMlhHhyi
+ qsUG7d7Bt7SnN/fHfOXL5Nbo8l1tjyw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-Vv3wbVEWPaOS3-wdUo5hRQ-1; Fri, 20 Mar 2020 11:14:10 -0400
-X-MC-Unique: Vv3wbVEWPaOS3-wdUo5hRQ-1
+ us-mta-140-ha1bPiMcPPCDjggQYmCDnw-1; Fri, 20 Mar 2020 11:14:22 -0400
+X-MC-Unique: ha1bPiMcPPCDjggQYmCDnw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BF2A9A3FF
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 15:13:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0DA018A5505
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 15:13:39 +0000 (UTC)
 Received: from kh066.redhat.com (unknown [10.40.193.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B20810016EB;
- Fri, 20 Mar 2020 15:13:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6ACF10372C1;
+ Fri, 20 Mar 2020 15:13:34 +0000 (UTC)
 From: Oksana Vohchana <ovoshcha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] Acceptance test: adds param 'address' in _get_free_port
-Date: Fri, 20 Mar 2020 17:12:52 +0200
-Message-Id: <20200320151254.16766-2-ovoshcha@redhat.com>
+Subject: [PATCH v3 2/3] Acceptance test: provides new functions
+Date: Fri, 20 Mar 2020 17:12:53 +0200
+Message-Id: <20200320151254.16766-3-ovoshcha@redhat.com>
 In-Reply-To: <20200320151254.16766-1-ovoshcha@redhat.com>
 References: <20200320151254.16766-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
@@ -74,31 +74,70 @@ Cc: ovoshcha@redhat.com, philmd@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the migration test function _get_free_port works only for localhost,
-but in the case to use migration through an RDMA we need to get a free port
-on the configured network RDMA-interface.
-This patch is the start for another migration option
+Provides new functions related to the rdma migration test
+Adds functions to check if service RDMA is enabled and gets
+the ip address on the interface where it was configured
 
 Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
 ---
- tests/acceptance/migration.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/acceptance/migration.py | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index a8367ca023..e4c39b85a1 100644
+index e4c39b85a1..a783f3915b 100644
 --- a/tests/acceptance/migration.py
 +++ b/tests/acceptance/migration.py
-@@ -52,8 +52,8 @@ class Migration(Test):
-         source_vm.qmp('migrate', uri=3Dsrc_uri)
-         self.assert_migration(source_vm, dest_vm)
+@@ -11,12 +11,17 @@
 =20
--    def _get_free_port(self):
--        port =3D network.find_free_port()
-+    def _get_free_port(self, address=3D'localhost'):
-+        port =3D network.find_free_port(address=3Daddress)
-         if port is None:
+=20
+ import tempfile
++import json
+ from avocado_qemu import Test
+ from avocado import skipUnless
+=20
+ from avocado.utils import network
+ from avocado.utils import wait
+ from avocado.utils.path import find_command
++from avocado.utils.network.interfaces import NetworkInterface
++from avocado.utils.network.hosts import LocalHost
++from avocado.utils import service
++from avocado.utils import process
+=20
+=20
+ class Migration(Test):
+@@ -58,6 +63,31 @@ class Migration(Test):
              self.cancel('Failed to find a free port')
          return port
+=20
++    def _if_rdma_enable(self):
++        rdma_stat =3D service.ServiceManager()
++        rdma =3D rdma_stat.status('rdma')
++        return rdma
++
++    def _get_interface_rdma(self):
++        cmd =3D 'rdma link show -j'
++        out =3D json.loads(process.getoutput(cmd))
++        try:
++            for i in out:
++                if i['state'] =3D=3D 'ACTIVE':
++                    return i['netdev']
++        except KeyError:
++            return None
++
++    def _get_ip_rdma(self, interface):
++        local =3D LocalHost()
++        network_in =3D NetworkInterface(interface, local)
++        try:
++            ip =3D network_in._get_interface_details()
++            if ip:
++                return ip[0]['addr_info'][0]['local']
++        except:
++            self.cancel("Incorrect interface configuration or device name"=
+)
++
+=20
+     def test_migration_with_tcp_localhost(self):
+         dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
 --=20
 2.21.1
 
