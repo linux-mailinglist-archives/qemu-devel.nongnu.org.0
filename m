@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCF018D682
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:05:26 +0100 (CET)
-Received: from localhost ([::1]:57346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1850D18D671
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:00:55 +0100 (CET)
+Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFM1N-0007uW-Fc
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39939)
+	id 1jFLx0-0003F9-4x
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <765dc71935420b8f517ffb72100e8b3fec8e4c9b@lizzy.crudebyte.com>)
- id 1jFLzy-0006bZ-IO
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:03:59 -0400
+ (envelope-from <680df3de98cf66c7637fec5274761b535b9f4918@lizzy.crudebyte.com>)
+ id 1jFLw1-0002n5-Mi
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:59:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <765dc71935420b8f517ffb72100e8b3fec8e4c9b@lizzy.crudebyte.com>)
- id 1jFLzx-00048O-6z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:03:58 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:35947)
+ (envelope-from <680df3de98cf66c7637fec5274761b535b9f4918@lizzy.crudebyte.com>)
+ id 1jFLvz-0007Z2-Q8
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:59:53 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53895)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <765dc71935420b8f517ffb72100e8b3fec8e4c9b@lizzy.crudebyte.com>)
- id 1jFLzx-0002qd-0B
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:03:57 -0400
+ (envelope-from <680df3de98cf66c7637fec5274761b535b9f4918@lizzy.crudebyte.com>)
+ id 1jFLvz-0007FB-AW
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:59:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=waLIntpzbDuSwKzCLHhytuC1f3yRX6jYMW8l3WUmV68=; b=po4vQ
- 8SdSuDFGht0NckrRMVXhFLITe49upClW+dFzkyLTvk/34VMic/VBk5B7pe7RAn0/O56n8jSeSOnGB
- ubKtRsGOUdDEQ5P0S4OK7J/Guj89J8rj9dw4SWZ9K/KTeIPcJoCVRhm9COJGVnG50uDZIxXIlUUa6
- Daz2of6+FF87hFEmKSZqINot09uktUGHEmzRpgt3TI4RbG9K2aN5aQ59BGz4e+1cXAbqvhMmhc6kh
- GORpGUDGuj7iUQ9S/JzpxkvIceiK/1war7p9vjnsqNPE8GCrL1tVdGY+AC5GxpssrxzmeXakULMiw
- /tE3ynUlP7dgCYRyqX8tbrZPkLx5g==;
-Message-Id: <765dc71935420b8f517ffb72100e8b3fec8e4c9b.1584723662.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=aSFPumI060vrsGGcam3KjHjMgS6gIvm9ZtHfi26NJs8=; b=cQXO7
+ vK6ab9eDWETUGmfOuQKuFBGkqN5twrZXWMNV+DxbaaLMESY0zdXzEgJDSdV4TX1JqUJ03AyxL8EZm
+ 1b87zJXMqYe39W5+bpBEtBN6TJclv/ues21sEVyFMjEyJmKNFLJT9G8bTd9Nspsq8daYEzyRW5ii6
+ 4VQA0ywfuOtawV/jRG8vpRq9LIhJNtB+pmkbCDK6yWLoC7Ozan/uh3U8uuYfWGzE7jZuDjPk2ytzZ
+ HHWN6Rgg6AByIbkaP2cEAhDuO0a9cNL9JLeY8tZFRsAHUhvRM2Rh/oTdNGPRqD/YLxLuD33hwpvGb
+ PYep29VbE+46TIyeG0uZNPnstiw0w==;
+Message-Id: <680df3de98cf66c7637fec5274761b535b9f4918.1584723662.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1584723662.git.qemu_oss@crudebyte.com>
 References: <cover.1584723662.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 20 Mar 2020 17:48:53 +0100
-Subject: [PATCH v2 2/4] qemu: capabilities: add QEMU_CAPS_VIRTFS_MULTIDEVS
+Date: Fri, 20 Mar 2020 17:51:35 +0100
+Subject: [PATCH v2 3/4] conf: add 'multidevs' option
 To: libvir-list@redhat.com
 Cc: qemu-devel@nongnu.org,
     Greg Kurz <groug@kaod.org>
@@ -58,89 +58,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU 9pfs 'multidevs' option exists since QEMU 4.2, so just
-set this capability based on that QEMU version.
+Introduce new 'multidevs' option for filesystem.
+
+  <filesystem type='mount' accessmode='mapped' multidevs='remap'>
+    <source dir='/path'/>
+    <target dir='mount_tag'>
+  </filesystem>
+
+This option prevents misbehaviours on guest if a qemu 9pfs export
+contains multiple devices, due to the potential file ID collisions
+this otherwise may cause.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- src/qemu/qemu_capabilities.c                      | 5 +++++
- src/qemu/qemu_capabilities.h                      | 1 +
- tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml  | 1 +
- tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml | 1 +
- tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml  | 1 +
- 5 files changed, 9 insertions(+)
+ docs/formatdomain.html.in     | 40 ++++++++++++++++++++++++++++++++++-
+ docs/schemas/domaincommon.rng | 10 +++++++++
+ src/conf/domain_conf.c        | 29 +++++++++++++++++++++++++
+ src/conf/domain_conf.h        | 13 ++++++++++++
+ 4 files changed, 91 insertions(+), 1 deletion(-)
 
-diff --git a/src/qemu/qemu_capabilities.c b/src/qemu/qemu_capabilities.c
-index a95a60c36a..68b6e166e9 100644
---- a/src/qemu/qemu_capabilities.c
-+++ b/src/qemu/qemu_capabilities.c
-@@ -567,6 +567,7 @@ VIR_ENUM_IMPL(virQEMUCaps,
-               "query-named-block-nodes.flat",
-               "blockdev-snapshot.allow-write-only-overlay",
-               "blockdev-reopen",
-+              "virtfs-multidevs",
-     );
+diff --git a/docs/formatdomain.html.in b/docs/formatdomain.html.in
+index cc2c671c14..13c506988b 100644
+--- a/docs/formatdomain.html.in
++++ b/docs/formatdomain.html.in
+@@ -3967,7 +3967,7 @@
+     &lt;source name='my-vm-template'/&gt;
+     &lt;target dir='/'/&gt;
+   &lt;/filesystem&gt;
+-  &lt;filesystem type='mount' accessmode='passthrough'&gt;
++  &lt;filesystem type='mount' accessmode='passthrough' multidevs='remap'&gt;
+     &lt;driver type='path' wrpolicy='immediate'/&gt;
+     &lt;source dir='/export/to/guest'/&gt;
+     &lt;target dir='/import/from/host'/&gt;
+@@ -4092,6 +4092,44 @@
+       for more details.
+       </p>
  
- 
-@@ -4837,6 +4838,10 @@ virQEMUCapsInitQMPVersionCaps(virQEMUCapsPtr qemuCaps)
-         ARCH_IS_PPC64(qemuCaps->arch)) {
-         virQEMUCapsSet(qemuCaps, QEMU_CAPS_MACHINE_PSERIES_MAX_CPU_COMPAT);
-     }
++      <p>
++      The filesystem element has an optional attribute <code>multidevs</code>
++      which specifies how to deal with a filesystem export containing more than
++      one device, in order to avoid file ID collisions on guest when using 9pfs
++      (<span class="since">since 6.2.0, requires QEMU 4.2</span>).
++      This attribute is not available for virtiofs. The possible values are:
++      </p>
 +
-+    /* -virtfs multidevs option is supported since QEMU 4.2 */
-+    if (qemuCaps->version >= 4002000)
-+        virQEMUCapsSet(qemuCaps, QEMU_CAPS_VIRTFS_MULTIDEVS);
- }
++        <dl>
++        <dt><code>default</code></dt>
++        <dd>
++        Use QEMU's default setting (which currently is <code>warn</code>).
++        </dd>
++        <dt><code>remap</code></dt>
++        <dd>
++        This setting allows guest to access multiple devices per export without
++        encountering misbehaviours. Inode numbers from host are automatically
++        remapped on guest to actively prevent file ID collisions if guest
++        accesses one export containing multiple devices.
++        </dd>
++        <dt><code>forbid</code></dt>
++        <dd>
++        Only allow to access one device per export by guest. Attempts to access
++        additional devices on the same export will cause the individual
++        filesystem access by guest to fail with an error and being logged (once)
++        as error on host side.
++        </dd>
++        <dt><code>warn</code></dt>
++        <dd>
++        This setting resembles the behaviour of 9pfs prior to QEMU 4.2, that is
++        no action is performed to prevent any potential file ID collisions if an
++        export contains multiple devices, with the only exception: a warning is
++        logged (once) on host side now. This setting may lead to misbehaviours
++        on guest side if more than one device is exported per export, due to the
++        potential file ID collisions this may cause on guest side in that case.
++        </dd>
++        </dl>
++
+       </dd>
  
+       <p>
+diff --git a/docs/schemas/domaincommon.rng b/docs/schemas/domaincommon.rng
+index 6805420451..9b37740e30 100644
+--- a/docs/schemas/domaincommon.rng
++++ b/docs/schemas/domaincommon.rng
+@@ -2676,6 +2676,16 @@
+             </choice>
+           </attribute>
+         </optional>
++        <optional>
++          <attribute name="multidevs">
++            <choice>
++              <value>default</value>
++              <value>remap</value>
++              <value>forbid</value>
++              <value>warn</value>
++            </choice>
++          </attribute>
++        </optional>
+         <optional>
+           <element name='readonly'>
+             <empty/>
+diff --git a/src/conf/domain_conf.c b/src/conf/domain_conf.c
+index 71535f53f5..6a9a7dd0bb 100644
+--- a/src/conf/domain_conf.c
++++ b/src/conf/domain_conf.c
+@@ -501,6 +501,14 @@ VIR_ENUM_IMPL(virDomainFSModel,
+               "virtio-non-transitional",
+ );
  
-diff --git a/src/qemu/qemu_capabilities.h b/src/qemu/qemu_capabilities.h
-index f0961e273c..a6025312be 100644
---- a/src/qemu/qemu_capabilities.h
-+++ b/src/qemu/qemu_capabilities.h
-@@ -548,6 +548,7 @@ typedef enum { /* virQEMUCapsFlags grouping marker for syntax-check */
-     QEMU_CAPS_QMP_QUERY_NAMED_BLOCK_NODES_FLAT, /* query-named-block-nodes supports the 'flat' option */
-     QEMU_CAPS_BLOCKDEV_SNAPSHOT_ALLOW_WRITE_ONLY, /* blockdev-snapshot has the 'allow-write-only-overlay' feature */
-     QEMU_CAPS_BLOCKDEV_REOPEN, /* 'blockdev-reopen' qmp command is supported */
-+    QEMU_CAPS_VIRTFS_MULTIDEVS, /* -virtfs multidevs supported by virtio-9p */
++VIR_ENUM_IMPL(virDomainFSMultidevs,
++              VIR_DOMAIN_FS_MULTIDEVS_LAST,
++              "default",
++              "remap",
++              "forbid",
++              "warn",
++);
++
+ VIR_ENUM_IMPL(virDomainFSCacheMode,
+               VIR_DOMAIN_FS_CACHE_MODE_LAST,
+               "default",
+@@ -11376,6 +11384,7 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
+     g_autofree char *usage = NULL;
+     g_autofree char *units = NULL;
+     g_autofree char *model = NULL;
++    g_autofree char *multidevs = NULL;
  
-     QEMU_CAPS_LAST /* this must always be the last item */
- } virQEMUCapsFlags;
-diff --git a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-index 83e804ea36..d8b0de46cd 100644
---- a/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-+++ b/tests/qemucapabilitiesdata/caps_4.2.0.x86_64.xml
-@@ -223,6 +223,7 @@
-   <flag name='rng-builtin'/>
-   <flag name='virtio-net.failover'/>
-   <flag name='vhost-user-fs'/>
-+  <flag name='virtfs-multidevs'/>
-   <version>4002000</version>
-   <kvmVersion>0</kvmVersion>
-   <microcodeVersion>43100242</microcodeVersion>
-diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-index e52c60607d..3a695fbe79 100644
---- a/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-+++ b/tests/qemucapabilitiesdata/caps_5.0.0.aarch64.xml
-@@ -181,6 +181,7 @@
-   <flag name='virtio-net.failover'/>
-   <flag name='cpu.kvm-no-adjvtime'/>
-   <flag name='vhost-user-fs'/>
-+  <flag name='virtfs-multidevs'/>
-   <version>4002050</version>
-   <kvmVersion>0</kvmVersion>
-   <microcodeVersion>61700241</microcodeVersion>
-diff --git a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-index d773f7e356..95fa0813dd 100644
---- a/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-+++ b/tests/qemucapabilitiesdata/caps_5.0.0.x86_64.xml
-@@ -226,6 +226,7 @@
-   <flag name='vhost-user-fs'/>
-   <flag name='query-named-block-nodes.flat'/>
-   <flag name='blockdev-snapshot.allow-write-only-overlay'/>
-+  <flag name='virtfs-multidevs'/>
-   <version>4002050</version>
-   <kvmVersion>0</kvmVersion>
-   <microcodeVersion>43100241</microcodeVersion>
+     ctxt->node = node;
+ 
+@@ -11414,6 +11423,17 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
+         }
+     }
+ 
++    multidevs = virXMLPropString(node, "multidevs");
++    if (multidevs) {
++        if ((def->multidevs = virDomainFSMultidevsTypeFromString(multidevs)) < 0) {
++            virReportError(VIR_ERR_CONFIG_UNSUPPORTED,
++                           _("unknown multidevs '%s'"), multidevs);
++            goto error;
++        }
++    } else {
++        def->multidevs = VIR_DOMAIN_FS_MULTIDEVS_DEFAULT;
++    }
++
+     if (virDomainParseScaledValue("./space_hard_limit[1]",
+                                   NULL, ctxt, &def->space_hard_limit,
+                                   1, ULLONG_MAX, false) < 0)
+@@ -25397,6 +25417,7 @@ virDomainFSDefFormat(virBufferPtr buf,
+     const char *accessmode = virDomainFSAccessModeTypeToString(def->accessmode);
+     const char *fsdriver = virDomainFSDriverTypeToString(def->fsdriver);
+     const char *wrpolicy = virDomainFSWrpolicyTypeToString(def->wrpolicy);
++    const char *multidevs = virDomainFSMultidevsTypeToString(def->multidevs);
+     const char *src = def->src->path;
+     g_auto(virBuffer) driverAttrBuf = VIR_BUFFER_INITIALIZER;
+     g_auto(virBuffer) driverBuf = VIR_BUFFER_INIT_CHILD(buf);
+@@ -25415,6 +25436,12 @@ virDomainFSDefFormat(virBufferPtr buf,
+         return -1;
+     }
+ 
++    if (!multidevs) {
++        virReportError(VIR_ERR_INTERNAL_ERROR,
++                       _("unexpected multidevs %d"), def->multidevs);
++        return -1;
++    }
++
+     virBufferAsprintf(buf,
+                       "<filesystem type='%s' accessmode='%s'",
+                       type, accessmode);
+@@ -25422,6 +25449,8 @@ virDomainFSDefFormat(virBufferPtr buf,
+         virBufferAsprintf(buf, " model='%s'",
+                           virDomainFSModelTypeToString(def->model));
+     }
++    if (def->multidevs)
++        virBufferAsprintf(buf, " multidevs='%s'", multidevs);
+     virBufferAddLit(buf, ">\n");
+ 
+     virBufferAdjustIndent(buf, 2);
+diff --git a/src/conf/domain_conf.h b/src/conf/domain_conf.h
+index 91b776c28a..23b7924781 100644
+--- a/src/conf/domain_conf.h
++++ b/src/conf/domain_conf.h
+@@ -796,6 +796,18 @@ typedef enum {
+     VIR_DOMAIN_FS_WRPOLICY_LAST
+ } virDomainFSWrpolicy;
+ 
++/* How to handle exports containing multiple devices. */
++typedef enum {
++    VIR_DOMAIN_FS_MULTIDEVS_DEFAULT = 0, /* Use QEMU's default setting */
++    VIR_DOMAIN_FS_MULTIDEVS_REMAP, /* Remap inodes from host to guest */
++    VIR_DOMAIN_FS_MULTIDEVS_FORBID, /* Prohibit more than one device */
++    VIR_DOMAIN_FS_MULTIDEVS_WARN, /* Just log a warning if multiple devices */
++
++    VIR_DOMAIN_FS_MULTIDEVS_LAST
++} virDomainFSMultidevs;
++
++VIR_ENUM_DECL(virDomainFSMultidevs);
++
+ typedef enum {
+     VIR_DOMAIN_FS_MODEL_DEFAULT = 0,
+     VIR_DOMAIN_FS_MODEL_VIRTIO,
+@@ -820,6 +832,7 @@ struct _virDomainFSDef {
+     int wrpolicy; /* enum virDomainFSWrpolicy */
+     int format; /* virStorageFileFormat */
+     int model; /* virDomainFSModel */
++    int multidevs; /* virDomainFSMultidevs */
+     unsigned long long usage; /* in bytes */
+     virStorageSourcePtr src;
+     char *dst;
 -- 
 2.20.1
 
