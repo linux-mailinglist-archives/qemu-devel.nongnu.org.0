@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFBB18D343
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:48:10 +0100 (CET)
-Received: from localhost ([::1]:54612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D32F18D317
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:39:11 +0100 (CET)
+Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJsX-00078Y-P0
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59083)
+	id 1jFJjq-0003u6-3O
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jFJZ3-0003zH-U8
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:28:03 -0400
+ (envelope-from <konrad.wilk@oracle.com>) id 1jFJbI-0007uV-Qd
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:30:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jFJZ2-00038b-41
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:28:01 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:42742)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jFJZ1-00035V-Rk
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:28:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584718076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ltFfa9DdLZo30+HLiB2iUWN2mJLROqQ5//bR9A5Hns=;
- b=NtQbiph3yStxfwskeF+e0z/mrBbmbOmd97wrIF5c8gqzxQeDyO+GqQRCImFvYRnwNi15/O
- qxhUvk8wT7+odkoBPlcoQtB6ebOawJjUsFwpM2y64KcZJz7Z+a26hTDpPrulO3Xj3jpjAP
- UnUhDN4pj7yc+4w+F1iLugn8FtG1e88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-xmpxT2bEPVaYkh-duUMumg-1; Fri, 20 Mar 2020 11:27:54 -0400
-X-MC-Unique: xmpxT2bEPVaYkh-duUMumg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A04ABDBE5;
- Fri, 20 Mar 2020 15:27:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-130.ams2.redhat.com
- [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA31A9B936;
- Fri, 20 Mar 2020 15:27:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5B05A1138404; Fri, 20 Mar 2020 16:27:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Subject: Re: [PATCH] monitor/hmp-cmds: fix bad indentation in 'info
- migrate_parameters' cmd output
-References: <20200320130013.418557-1-maozhongyi@cmss.chinamobile.com>
-Date: Fri, 20 Mar 2020 16:27:49 +0100
-In-Reply-To: <20200320130013.418557-1-maozhongyi@cmss.chinamobile.com> (Mao
- Zhongyi's message of "Fri, 20 Mar 2020 21:00:13 +0800")
-Message-ID: <878sjv11xm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <konrad.wilk@oracle.com>) id 1jFJbH-0005jz-K5
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:30:20 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:36546)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <konrad.wilk@oracle.com>)
+ id 1jFJbH-0005ir-Ah
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:30:19 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02KFO4Ap127250;
+ Fri, 20 Mar 2020 15:30:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=etDS1RdG8ZHZ9bwLSzxE7kro9u06Ld287oKPRC6z3r8=;
+ b=s+mMehN3vKSxM/pTnF5vmgk8AQyNmNd8ZFnXUnKcUMMcrMOeTPCaazJuc/t+wA2asW3i
+ pv8ZMjvc/ajU3qlq3rXiLwqBqdFUF+tzl/+N+oD2biQqjRgTXGRDo518oHHEBOHRGHZ8
+ 0OpwIejPIrup4In39IeSwgfSFEuWp6XZCOThU4YfwC//PONFLo1AkDz7dJT6IFv4hMaN
+ DpMqU8xYeWQaAvQS7EbzUUghi0DiTC8viCwtaT4vldzzqL++RpQB3LrTs31DmruqnJCa
+ 1xcR38/+skTlz1iLDYSwFcqLS8NsSvlyj1Ks9+vSMx4VR1qVaC9QAKW+n4nZCXcVfJt8 zQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2yub27e602-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Mar 2020 15:30:16 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02KFMrLU078224;
+ Fri, 20 Mar 2020 15:30:15 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 2ys8ty9wq9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Mar 2020 15:30:15 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02KFUDg1027210;
+ Fri, 20 Mar 2020 15:30:13 GMT
+Received: from char.us.oracle.com (/10.152.32.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 20 Mar 2020 08:30:12 -0700
+Received: by char.us.oracle.com (Postfix, from userid 1000)
+ id 83F816A00F1; Fri, 20 Mar 2020 11:30:16 -0400 (EDT)
+Date: Fri, 20 Mar 2020 11:30:16 -0400
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 13/13] microvm/acpi: use GSI 16-23 for virtio
+Message-ID: <20200320153016.GK4541@char.us.oracle.com>
+References: <20200319080117.7725-1-kraxel@redhat.com>
+ <20200319080117.7725-14-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319080117.7725-14-kraxel@redhat.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9566
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003200064
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9566
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ impostorscore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0 suspectscore=0
+ clxscore=1011 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003200064
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,106 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mao Zhongyi <maozhongyi@cmss.chinamobile.com> writes:
+On Thu, Mar 19, 2020 at 09:01:17AM +0100, Gerd Hoffmann wrote:
+> With ACPI enabled and IO-APIC being properly declared in the ACPI tables
+> we can use interrupt lines 16-23 for virtio and avoid shared interrupts.
 
-> run:
-> (qemu) info migrate_parameters
-> announce-initial: 50 ms
-> ...
-> announce-max: 550 ms
-> multifd-compression: none
-> xbzrle-cache-size: 4194304
-> max-postcopy-bandwidth: 0
->  tls-authz: '(null)'
->
-> The last line seems a bit out of place, fix it.
+7 interrupt lines? Is there a specific requirements of which
+ones should be assigned to what device?
 
-Yes, indentation is off, and your patch fixes that.  But there's also
-the '(null)', which emanates a certain bug smell.  Let's have a look at
-the code:
+Or perhaps - could you include /proc/interrupts in the commit if that is OK?
 
-> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+> 
+> With acpi disabled we continue to use lines 8-15.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  monitor/hmp-cmds.c | 2 +-
+>  hw/i386/microvm.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 58724031ea..f8be6bbb16 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -459,7 +459,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const =
-QDict *qdict)
-   void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-   {
-       MigrationParameters *params;
-
-       params =3D qmp_query_migrate_parameters(NULL);
-
-       if (params) {
-           [...]
->          monitor_printf(mon, "%s: %" PRIu64 "\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_MAX_POSTCOPY_BAND=
-WIDTH),
->              params->max_postcopy_bandwidth);
-> -        monitor_printf(mon, " %s: '%s'\n",
-> +        monitor_printf(mon, "%s: '%s'\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_TLS_AUTHZ),
->              params->has_tls_authz ? params->tls_authz : "");
->      }
-
-Here, params->tls_authz is null even though params->has_tls_authz is
-true.
-
-GNU Libc is nice enough not to crash when you attempt to print a null
-pointer, but other libcs are not.
-
-Where does the null pointer come from?
-
-   MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-   {
-       MigrationParameters *params;
-       MigrationState *s =3D migrate_get_current();
-
-       /* TODO use QAPI_CLONE() instead of duplicating it inline */
-       params =3D g_malloc0(sizeof(*params));
-       [...]
---->   params->has_tls_authz =3D true;
---->   params->tls_authz =3D g_strdup(s->parameters.tls_authz);
-       [...]
-
-       return params;
-   }
-
-Note we ignore s->parameters.has_tls_authz.
-
-If @tls_authz is should be present in params exactly when it is present
-in s->params, we should do this:
-
-       params->has_tls_authz =3D s->parameters.has_tls_authz;
-       params->tls_authz =3D g_strdup(s->parameters.tls_authz);
-
-If @tls_authz is should be present exactly when it's not null, we should
-do this:
-
-       params->has_tls_authz =3D !!s->parameters.tls_authz;
-       params->tls_authz =3D g_strdup(s->parameters.tls_authz);
-
-If @tls_authz should always be present, we need to substitute the null
-pointer by a suitable string, like this:
-
-       params->has_tls_authz =3D true;
-       params->tls_authz =3D s->parameters.tls_authz
-           ? g_strdup(s->parameters.tls_authz) : "";
-
-The /* TODO use QAPI_CLONE() instead of duplicating it inline */
-suggests yet another possible fix.
-
-David (cc'ed) should be able to tell us which fix is right.
-
-@tls_creds and @tls_hostname look like they could have the same issue.
-
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 834b10aee0a2..139181daed06 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -122,7 +122,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+>  
+>      kvmclock_create();
+>  
+> -    mms->virtio_irq_base = 8;
+> +    mms->virtio_irq_base = acpi_enabled ? 16 : 8;
+>      for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
+>          sysbus_create_simple("virtio-mmio",
+>                               VIRTIO_MMIO_BASE + i * 512,
+> -- 
+> 2.18.2
+> 
 
