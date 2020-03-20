@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9A218D552
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:06:00 +0100 (CET)
-Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9B618D54E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:04:44 +0100 (CET)
+Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL5r-0003U9-IG
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54423)
+	id 1jFL4d-0001lQ-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0m-00056O-7t
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:45 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0z-0005Hj-Az
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0k-0005I4-Jf
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:44 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:42439)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0y-0005Rg-1v
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:57 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:30153)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL0k-0005Hl-C7
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:42 -0400
+ id 1jFL0x-0005Q5-Tc
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723642;
+ s=mimecast20190719; t=1584723654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eXqZqMdUFIUhWl71MmF8+CJ055zhySGzb9wnV/1DUWQ=;
- b=WBKs+WbUgjVC4n7ch56EzsBMHJFvAphVh1893SLaHWDumE7au3jbeOfMQ8onKmUk8abhgc
- rDYAeMKGkkD8ToQugXgJyZzvccIDuGsux9VY1jW36h/PDBfeg0y4bXgm4NulQ1mpMjkI09
- oN0YEBPEo/suy2CrYgyJK88n4Lm7Xuc=
+ bh=02BJtmu2O0MAYVDAv96+wX90SDBllBZ9UcQUnCwYiy8=;
+ b=SDK4i9XcVAu2wkMc5rz7Tit+ybg+nupzpD5Vn46/LkIWvebzCbJLJWTbptKUN7avpSWhTK
+ sZqmi0hwvw9a86yU/nOLfQx0a1Cs0tyjY5rL6kAD01fbYVry01IbTkgSgF9kwWbqcqaQs4
+ hMHrrpA78LO1dbU0EUqFWOHhr/w0r0M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-fS9mFgAwPiezxTUfjG5Jkw-1; Fri, 20 Mar 2020 13:00:37 -0400
-X-MC-Unique: fS9mFgAwPiezxTUfjG5Jkw-1
+ us-mta-81-rANHI_eKMNCKKY8lghVg3w-1; Fri, 20 Mar 2020 13:00:50 -0400
+X-MC-Unique: rANHI_eKMNCKKY8lghVg3w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F5518C8C00;
- Fri, 20 Mar 2020 17:00:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50457800D5A;
+ Fri, 20 Mar 2020 17:00:48 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DDDE16D22;
- Fri, 20 Mar 2020 17:00:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8A916D22;
+ Fri, 20 Mar 2020 17:00:35 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 08/24] pci: introduce PCIPASIDOps to PCIDevice
-Date: Fri, 20 Mar 2020 17:58:24 +0100
-Message-Id: <20200320165840.30057-9-eric.auger@redhat.com>
+Subject: [RFC v6 09/24] vfio: Force nested if iommu requires it
+Date: Fri, 20 Mar 2020 17:58:25 +0100
+Message-Id: <20200320165840.30057-10-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -81,130 +81,110 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+In case we detect the address space is translated by
+a virtual IOMMU which requires HW nested paging to
+integrate with VFIO, let's set up the container with
+the VFIO_TYPE1_NESTING_IOMMU iommu_type.
 
-This patch introduces PCIPASIDOps for IOMMU related operations.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00078.html
-https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00940.html
-
-So far, to setup virt-SVA for assigned SVA capable device, needs to
-configure host translation structures for specific pasid. (e.g. bind
-guest page table to host and enable nested translation in host).
-Besides, vIOMMU emulator needs to forward guest's cache invalidation
-to host since host nested translation is enabled. e.g. on VT-d, guest
-owns 1st level translation table, thus cache invalidation for 1st
-level should be propagated to host.
-
-This patch adds two functions: alloc_pasid and free_pasid to support
-guest pasid allocation and free. The implementations of the callbacks
-would be device passthru modules. Like vfio.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 ---
- hw/pci/pci.c         | 34 ++++++++++++++++++++++++++++++++++
- include/hw/pci/pci.h | 11 +++++++++++
- 2 files changed, 45 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e1ed6677e1..67e03b8db1 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2695,6 +2695,40 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, v=
-oid *opaque)
-     bus->iommu_opaque =3D opaque;
+v4 -> v5:
+- fail immediatly if nested is wanted but not supported
+
+v2 -> v3:
+- add "nested only is selected if requested by @force_nested"
+  comment in this patch
+---
+ hw/vfio/common.c | 36 ++++++++++++++++++++++++++++--------
+ 1 file changed, 28 insertions(+), 8 deletions(-)
+
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 0b3593b3c0..ac417b5dbd 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1155,27 +1155,38 @@ static void vfio_put_address_space(VFIOAddressSpace=
+ *space)
+  * vfio_get_iommu_type - selects the richest iommu_type (v2 first)
+  */
+ static int vfio_get_iommu_type(VFIOContainer *container,
++                               bool want_nested,
+                                Error **errp)
+ {
+-    int iommu_types[] =3D { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
++    int iommu_types[] =3D { VFIO_TYPE1_NESTING_IOMMU,
++                          VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+                           VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
+-    int i;
++    int i, ret =3D -EINVAL;
+=20
+     for (i =3D 0; i < ARRAY_SIZE(iommu_types); i++) {
+         if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
+-            return iommu_types[i];
++            if (iommu_types[i] =3D=3D VFIO_TYPE1_NESTING_IOMMU && !want_ne=
+sted) {
++                continue;
++            }
++            ret =3D iommu_types[i];
++            break;
+         }
+     }
+-    error_setg(errp, "No available IOMMU models");
+-    return -EINVAL;
++    if (ret < 0) {
++        error_setg(errp, "No available IOMMU models");
++    } else if (want_nested && ret !=3D VFIO_TYPE1_NESTING_IOMMU) {
++        error_setg(errp, "Nested mode requested but not supported");
++        ret =3D -EINVAL;
++    }
++    return ret;
  }
 =20
-+void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
-+{
-+    assert(ops && !dev->pasid_ops);
-+    dev->pasid_ops =3D ops;
-+}
-+
-+bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn)
-+{
-+    PCIDevice *dev;
-+
-+    if (!bus) {
-+        return false;
-+    }
-+
-+    dev =3D bus->devices[devfn];
-+    return !!(dev && dev->pasid_ops);
-+}
-+
-+int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn,
-+                               IOMMUConfig *config)
-+{
-+    PCIDevice *dev;
-+
-+    if (!bus) {
-+        return -EINVAL;
-+    }
-+
-+    dev =3D bus->devices[devfn];
-+    if (dev && dev->pasid_ops && dev->pasid_ops->set_pasid_table) {
-+        return dev->pasid_ops->set_pasid_table(bus, devfn, config);
-+    }
-+    return -ENOENT;
-+}
-+
- static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ static int vfio_init_container(VFIOContainer *container, int group_fd,
+-                               Error **errp)
++                               bool want_nested, Error **errp)
  {
-     Range *range =3D opaque;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index cfedf5a995..2146cb7519 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -8,6 +8,7 @@
- #include "hw/isa/isa.h"
+     int iommu_type, ret;
 =20
- #include "hw/pci/pcie.h"
-+#include "hw/iommu/iommu.h"
-=20
- extern bool pci_available;
-=20
-@@ -264,6 +265,11 @@ struct PCIReqIDCache {
- };
- typedef struct PCIReqIDCache PCIReqIDCache;
-=20
-+struct PCIPASIDOps {
-+    int (*set_pasid_table)(PCIBus *bus, int32_t devfn, IOMMUConfig *config=
-);
-+};
-+typedef struct PCIPASIDOps PCIPASIDOps;
+-    iommu_type =3D vfio_get_iommu_type(container, errp);
++    iommu_type =3D vfio_get_iommu_type(container, want_nested, errp);
+     if (iommu_type < 0) {
+         return iommu_type;
+     }
+@@ -1211,6 +1222,14 @@ static int vfio_connect_container(VFIOGroup *group, =
+AddressSpace *as,
+     VFIOContainer *container;
+     int ret, fd;
+     VFIOAddressSpace *space;
++    IOMMUMemoryRegion *iommu_mr;
++    bool nested =3D false;
 +
- struct PCIDevice {
-     DeviceState qdev;
-     bool partially_hotplugged;
-@@ -357,6 +363,7 @@ struct PCIDevice {
-=20
-     /* ID of standby device in net_failover pair */
-     char *failover_pair_id;
-+    PCIPASIDOps *pasid_ops;
- };
-=20
- void pci_register_bar(PCIDevice *pci_dev, int region_num,
-@@ -490,6 +497,10 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void *=
-, int);
- AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
- void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
-=20
-+void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops);
-+bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn);
-+int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn, IOMMUConfig *co=
-nfig);
-+
- static inline void
- pci_set_byte(uint8_t *config, uint8_t val)
++    if (as !=3D &address_space_memory && memory_region_is_iommu(as->root))=
  {
++        iommu_mr =3D IOMMU_MEMORY_REGION(as->root);
++        memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
++                                     (void *)&nested);
++    }
+=20
+     space =3D vfio_get_address_space(as);
+=20
+@@ -1272,12 +1291,13 @@ static int vfio_connect_container(VFIOGroup *group,=
+ AddressSpace *as,
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+=20
+-    ret =3D vfio_init_container(container, group->fd, errp);
++    ret =3D vfio_init_container(container, group->fd, nested, errp);
+     if (ret) {
+         goto free_container_exit;
+     }
+=20
+     switch (container->iommu_type) {
++    case VFIO_TYPE1_NESTING_IOMMU:
+     case VFIO_TYPE1v2_IOMMU:
+     case VFIO_TYPE1_IOMMU:
+     {
 --=20
 2.20.1
 
