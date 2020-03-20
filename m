@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166A418D533
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:02:36 +0100 (CET)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B678718D550
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:05:51 +0100 (CET)
+Received: from localhost ([::1]:56380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL2Z-0006Xp-25
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
+	id 1jFL5i-0003OF-Pc
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0O-0004M0-74
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:21 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0e-0004ti-VR
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0N-0004uT-3V
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:20 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:35149)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL0c-0005Di-QW
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35761)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL0M-0004tX-Vi
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:19 -0400
+ id 1jFL0c-0005CZ-Mt
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723618;
+ s=mimecast20190719; t=1584723634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l6Iye2O0XeOvISQpSx0b3JOnod6GRILdsZET6zD1a4o=;
- b=hk4m9aVIYRRM8qqDmPJz8EN3CORP3fRaFHVZ2atoTkMVzsjki6B39rFRST3Sub3VTTJITp
- VZxJ50UvmPlDGaYjTuQqjeL554zKLFIB9Dlt3gnqiidL67FGDB9hT45buX04r2vZiBL7uz
- H5hYX42H1LNtGjJHzh2mU0beC5Az5Cw=
+ bh=nXtzXlFbaPFXfG384F8tfefUNvNBuBevl6Fv5zyuq1Y=;
+ b=gQe6ZKMQ/rjCIPrXDfU8cThNYkBOQfBrC+MBJdtHEf636m02650x4Nr2HXkVact0VL2AHF
+ xAEXKQUQ5ITIxQBK+FdG5V33PjFIk6qD6FB9FD10dth6Z1tvOXJd5wDJqlJir0NHZWrPr3
+ gn0oCn+Vq5WQr1izbKcP+Y+vdX2b8kI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-51cwJ6uuMnCoWoNlHftSUg-1; Fri, 20 Mar 2020 13:00:14 -0400
-X-MC-Unique: 51cwJ6uuMnCoWoNlHftSUg-1
+ us-mta-446-ez1_SjPKNGW3nqASzyE1lg-1; Fri, 20 Mar 2020 13:00:27 -0400
+X-MC-Unique: ez1_SjPKNGW3nqASzyE1lg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E9DDDB25;
- Fri, 20 Mar 2020 17:00:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE79210CE780;
+ Fri, 20 Mar 2020 17:00:25 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28BAF19757;
- Fri, 20 Mar 2020 17:00:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2A2A19757;
+ Fri, 20 Mar 2020 17:00:12 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 06/24] memory: Add arch_id and leaf fields in IOTLBEntry
-Date: Fri, 20 Mar 2020 17:58:22 +0100
-Message-Id: <20200320165840.30057-7-eric.auger@redhat.com>
+Subject: [RFC v6 07/24] iommu: Introduce generic header
+Date: Fri, 20 Mar 2020 17:58:23 +0100
+Message-Id: <20200320165840.30057-8-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -61,8 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,57 +80,50 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TLB entries are usually tagged with some ids such as the asid
-or pasid. When propagating an invalidation command from the
-guest to the host, we need to pass this id.
-
-Also we add a leaf field which indicates, in case of invalidation
-notification, whether only cache entries for the last level of
-translation are required to be invalidated.
+This header is meant to exposes data types used by
+several IOMMU devices such as struct for SVA and
+nested stage configuration.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/exec/memory.h | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ include/hw/iommu/iommu.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 include/hw/iommu/iommu.h
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 141a5dc197..d61311aeba 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -71,12 +71,30 @@ typedef enum {
-=20
- #define IOMMU_ACCESS_FLAG(r, w) (((r) ? IOMMU_RO : 0) | ((w) ? IOMMU_WO : =
-0))
-=20
-+/**
-+ * IOMMUTLBEntry - IOMMU TLB entry
+diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
+new file mode 100644
+index 0000000000..12092bda7b
+--- /dev/null
++++ b/include/hw/iommu/iommu.h
+@@ -0,0 +1,28 @@
++/*
++ * common header for iommu devices
 + *
-+ * Structure used when performing a translation or when notifying MAP or
-+ * UNMAP (invalidation) events
++ * Copyright Red Hat, Inc. 2019
 + *
-+ * @target_as: target address space
-+ * @iova: IO virtual address (input)
-+ * @translated_addr: translated address (output)
-+ * @addr_mask: address mask (0xfff means 4K binding), must be multiple of =
-2
-+ * @perm: permission flag of the mapping (NONE encodes no mapping or
-+ * invalidation notification)
-+ * @arch_id: architecture specific ID tagging the TLB
-+ * @leaf: when @perm is NONE, indicates whether only caches for the last
-+ * level of translation need to be invalidated.
++ * Authors:
++ *  Eric Auger <eric.auger@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
 + */
- struct IOMMUTLBEntry {
-     AddressSpace    *target_as;
-     hwaddr           iova;
-     hwaddr           translated_addr;
--    hwaddr           addr_mask;  /* 0xfff =3D 4k translation */
-+    hwaddr           addr_mask;
-     IOMMUAccessFlags perm;
-+    uint32_t         arch_id;
-+    bool             leaf;
- };
-=20
- /*
++
++#ifndef QEMU_HW_IOMMU_IOMMU_H
++#define QEMU_HW_IOMMU_IOMMU_H
++#ifdef __linux__
++#include <linux/iommu.h>
++#endif
++
++typedef struct IOMMUConfig {
++    union {
++#ifdef __linux__
++        struct iommu_pasid_table_config pasid_cfg;
++#endif
++          };
++} IOMMUConfig;
++
++
++#endif /* QEMU_HW_IOMMU_IOMMU_H */
 --=20
 2.20.1
 
