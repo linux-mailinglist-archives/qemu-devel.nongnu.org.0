@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727A018D586
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:16:47 +0100 (CET)
-Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5678918D58D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:18:09 +0100 (CET)
+Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFLGI-0003oz-IH
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55811)
+	id 1jFLHc-0005WO-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL3v-0001k2-Qn
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:04:00 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFL8W-000244-Ee
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL3u-0000y3-PG
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:59 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43482)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL3u-0000x7-Kh
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:03:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=psjz1JkEPDzbgw40zVxga+1pFGlV/HqwjFnEQXSpxHQ=;
- b=DEuMWubpEVIIMDz3ZrftdeJz2aAJG4c9wFCWxpg1b0SOtFND/07sW45lhTVSwyVO4qmeQu
- gMZFQw/90pexrqLYUhiqvlcMeJUsunSOnyDNuKZC1yjyMs5HOK+R63vfr4SsdFVo8eroF9
- U4956TPhxh4/yDnh7pF1J6vxTUp+skg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-v2rx7beiPNGatQrQDJvcJg-1; Fri, 20 Mar 2020 13:03:57 -0400
-X-MC-Unique: v2rx7beiPNGatQrQDJvcJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB90DB60;
- Fri, 20 Mar 2020 17:03:55 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 954F319757;
- Fri, 20 Mar 2020 17:03:48 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
- alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
- yi.l.liu@intel.com
-Subject: [RFC v6 24/24] hw/arm/smmuv3: Allow MAP notifiers
-Date: Fri, 20 Mar 2020 17:58:40 +0100
-Message-Id: <20200320165840.30057-25-eric.auger@redhat.com>
-In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
-References: <20200320165840.30057-1-eric.auger@redhat.com>
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFL8U-0007JY-86
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:44 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46858)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jFL8U-0007JF-1z
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:42 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j17so5003637wru.13
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GR0UTAF/Clv7ls39gaksMwQ42Pl3ImHp8fPMwpUaxE8=;
+ b=UqGT2CYfAl3rC0YQjTuCdFTqz6VT2swiDsxrg7IzGHFejdYGYOaPAa+So8jx7gClRN
+ /oQ5lBd01t0jRJopWe/G12fu23GIeuImawl72Bf7PKsCf2D+RRKN2954kKucA0iiG5MB
+ dabEtNOP25TGRmhEcXMCskLlc7QRZOO3Gsa3rP32LcGNjkRbglHCv6yK4xDS9d9ljMoL
+ NllNjBpNFCBdeMUC2gffunxUVkAV0yu+RtbcglSFKeTBhIIPO/NoYN1grvIZcAXgVDok
+ FsTEZIr4W0mJLgD61FnAAnAyvp2B7XYwqvNPrikVxixHHa34V/5STnddVsFpRKJBYgro
+ d+Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GR0UTAF/Clv7ls39gaksMwQ42Pl3ImHp8fPMwpUaxE8=;
+ b=gbYmjcnAbeFGoEDxzGwbSqof+dlN4QCqL67g3dhb2aMl660vSxF2LHE6Hj2EVsmi4Y
+ xUAc4xJjb93r4iEkmS6SHz1H1yFY/h3Y6X1Uln4574USXa5XUofR05fLrOquGAEFk5MO
+ tcCeKlmglFUpZDjP74ssA5yL8kcUuF8UTxCm3ymNavX0XCaiOCQIUN55sRdt5lMTwdbr
+ 08KqMuUzBEzFWQClhrRDAYXu8jYvB8gRSC6zIhlv9l88Z+egn7gmRM+rJfXCIr7DGaib
+ NwkfnjFpLrufZrrbXxVkTUZFGOkQAb4p6WwzrYHkb9tQhVQi7yre1GsNjnjXvnlGxe5E
+ C6WA==
+X-Gm-Message-State: ANhLgQ38yxhpQbs2eiWvGqTlCkZipVOXgEnCVY3fjh22qIHk6/coQhMA
+ diCySyG4qQ/w7rP0fULNorFsbTNKF1gLJItU2gQ=
+X-Google-Smtp-Source: ADFU+vsEA+WWz/7AlzDmVzaXdNA79YwIcXJwbMW/YoAUmy/Nc5M2211YlZmTXNuJPliTAGLRMcv7vzOdz03jIn2vBGs=
+X-Received: by 2002:a5d:6091:: with SMTP id w17mr12151450wrt.402.1584724120888; 
+ Fri, 20 Mar 2020 10:08:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <20200320114522.16273-1-alex.bennee@linaro.org>
+In-Reply-To: <20200320114522.16273-1-alex.bennee@linaro.org>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 20 Mar 2020 18:08:28 +0100
+Message-ID: <CAHiYmc7vOK=DD0Cb623x3PDJW_NS2H+Y79jcWT1Kujxij5Jsrg@mail.gmail.com>
+Subject: Re: [RFC PATCH for 5.0] configure: disable MTTCG for MIPS guests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +73,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
- zhangfei.gao@foxmail.com, peterx@redhat.com,
- shameerali.kolothum.thodi@huawei.com, zhangfei.gao@linaro.org,
- bbhushan2@marvell.com, will@kernel.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have all bricks to support nested paging. This
-uses MAP notifiers to map the MSIs. So let's allow MAP
-notifiers to be registered.
+=D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 12:45 Alex Benn=C3=
+=A9e <alex.bennee@linaro.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
+=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> While debugging check-acceptance failures I found an instability in
+> the mips64el test case. Briefly the test case:
+>
+>   retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
+>     -display none -vga none -serial mon:stdio \
+>     -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
+>     -cpu I6400 -smp 8 -vga std \
+>     -append "printk.time=3D0 clocksource=3DGIC console=3Dtty0 console=3Dt=
+tyS0 panic=3D-1" \
+>     --no-reboot
+>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/arm/smmuv3.c | 8 --------
- 1 file changed, 8 deletions(-)
+Thank for the findings!
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 6db3d2f218..dc716d7d59 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1537,14 +1537,6 @@ static int smmuv3_notify_flag_changed(IOMMUMemoryReg=
-ion *iommu,
-     SMMUv3State *s3 =3D sdev->smmu;
-     SMMUState *s =3D &(s3->smmu_state);
-=20
--    if (new & IOMMU_NOTIFIER_MAP) {
--        error_setg(errp,
--                   "device %02x.%02x.%x requires iommu MAP notifier which =
-is "
--                   "not currently supported", pci_bus_num(sdev->bus),
--                   PCI_SLOT(sdev->devfn), PCI_FUNC(sdev->devfn));
--        return -EINVAL;
--    }
--
-     if (old =3D=3D IOMMU_NOTIFIER_NONE) {
-         trace_smmuv3_notify_flag_add(iommu->parent_obj.name);
-         QLIST_INSERT_HEAD(&s->devices_with_notifiers, sdev, next);
---=20
-2.20.1
+Could you perhaps attach or link to "retry.py"?
 
+Did you run this particular test for the first time now, or it used to
+pass before?
+
+Thanks,
+Aleksandar
+
+> Reports about a 9% failure rate:
+>
+>   Results summary:
+>   0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
+>   -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
+>   Ran command 100 times, 91 passes
+>
+> When re-run with "--accel tcg,thread=3Dsingle" the instability goes
+> away.
+>
+>   Results summary:
+>   0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 deviatio=
+n)
+>   Ran command 100 times, 100 passes
+>
+> Which seems to indicate there is some aspect of the MIPS MTTCG fixes
+> that has been missed. Ideally we would fix that but I'm afraid I don't
+> have time to investigate and am not super familiar with the
+> architecture anyway.
+>
+> I've disabled all the mips guests as I assume it's a fundamental
+> synchronisation primitive that is broken but I haven't tested them all
+> (there are a lot!).
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> Cc: Aurelien Jarno <aurelien@aurel32.net>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  configure | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 206d22c5153..002792d21dc 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7832,19 +7832,19 @@ case "$target_name" in
+>      echo "TARGET_ABI32=3Dy" >> $config_target_mak
+>    ;;
+>    mips|mipsel)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSO32=3Dy" >> $config_target_mak
+>    ;;
+>    mipsn32|mipsn32el)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips64
+>      TARGET_BASE_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSN32=3Dy" >> $config_target_mak
+>      echo "TARGET_ABI32=3Dy" >> $config_target_mak
+>    ;;
+>    mips64|mips64el)
+> -    mttcg=3D"yes"
+> +    mttcg=3D"no"
+>      TARGET_ARCH=3Dmips64
+>      TARGET_BASE_ARCH=3Dmips
+>      echo "TARGET_ABI_MIPSN64=3Dy" >> $config_target_mak
+> --
+> 2.20.1
+>
 
