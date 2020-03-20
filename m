@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5678918D58D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:18:09 +0100 (CET)
-Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F6118D56B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:11:48 +0100 (CET)
+Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFLHc-0005WO-Bz
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
+	id 1jFLBT-0005ab-62
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFL8W-000244-Ee
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jFLA3-0003yw-PP
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:10:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFL8U-0007JY-86
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:44 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46858)
+ (envelope-from <richard.henderson@linaro.org>) id 1jFLA2-00080J-9C
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:10:19 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:54039)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jFL8U-0007JF-1z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:08:42 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j17so5003637wru.13
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GR0UTAF/Clv7ls39gaksMwQ42Pl3ImHp8fPMwpUaxE8=;
- b=UqGT2CYfAl3rC0YQjTuCdFTqz6VT2swiDsxrg7IzGHFejdYGYOaPAa+So8jx7gClRN
- /oQ5lBd01t0jRJopWe/G12fu23GIeuImawl72Bf7PKsCf2D+RRKN2954kKucA0iiG5MB
- dabEtNOP25TGRmhEcXMCskLlc7QRZOO3Gsa3rP32LcGNjkRbglHCv6yK4xDS9d9ljMoL
- NllNjBpNFCBdeMUC2gffunxUVkAV0yu+RtbcglSFKeTBhIIPO/NoYN1grvIZcAXgVDok
- FsTEZIr4W0mJLgD61FnAAnAyvp2B7XYwqvNPrikVxixHHa34V/5STnddVsFpRKJBYgro
- d+Dw==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jFLA1-0007vT-Qv
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:10:18 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id l36so2769585pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=D+i1jAFfg9AwrpQyj3ava42UGKo902FzmsPePOfKEco=;
+ b=P96J4UjOLn12KzweIP0VpOFXt89+pTA40nQBIURGdE0hQ4jH8X+2kOjCCkPDdyt5pT
+ d5EasbCI9GqHCCoLQqfN+Bnq6aq4szQiNw/Og/2C5TtBwLII+J3W6V+vR+0y7VanZpYx
+ loY/j7LR7I5jy62J1S+hR+/8uRXZ9Ton8/vCVmh3SvO8cxrCGvh0ZtP35ZEQJF95yQy9
+ +T1LH/BzvWquRxaTvzuwnsBpWZm31fOZQr6HgbYyOKw2xK5Ei16R16kf7v0u5APMAVjP
+ IPziXhh5Gxara/ySbO867G8iccD+4o0EVFJ/zKHikRgl0PNFBjtw3xekSqsJN2Edtgvn
+ 2hTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GR0UTAF/Clv7ls39gaksMwQ42Pl3ImHp8fPMwpUaxE8=;
- b=gbYmjcnAbeFGoEDxzGwbSqof+dlN4QCqL67g3dhb2aMl660vSxF2LHE6Hj2EVsmi4Y
- xUAc4xJjb93r4iEkmS6SHz1H1yFY/h3Y6X1Uln4574USXa5XUofR05fLrOquGAEFk5MO
- tcCeKlmglFUpZDjP74ssA5yL8kcUuF8UTxCm3ymNavX0XCaiOCQIUN55sRdt5lMTwdbr
- 08KqMuUzBEzFWQClhrRDAYXu8jYvB8gRSC6zIhlv9l88Z+egn7gmRM+rJfXCIr7DGaib
- NwkfnjFpLrufZrrbXxVkTUZFGOkQAb4p6WwzrYHkb9tQhVQi7yre1GsNjnjXvnlGxe5E
- C6WA==
-X-Gm-Message-State: ANhLgQ38yxhpQbs2eiWvGqTlCkZipVOXgEnCVY3fjh22qIHk6/coQhMA
- diCySyG4qQ/w7rP0fULNorFsbTNKF1gLJItU2gQ=
-X-Google-Smtp-Source: ADFU+vsEA+WWz/7AlzDmVzaXdNA79YwIcXJwbMW/YoAUmy/Nc5M2211YlZmTXNuJPliTAGLRMcv7vzOdz03jIn2vBGs=
-X-Received: by 2002:a5d:6091:: with SMTP id w17mr12151450wrt.402.1584724120888; 
- Fri, 20 Mar 2020 10:08:40 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D+i1jAFfg9AwrpQyj3ava42UGKo902FzmsPePOfKEco=;
+ b=cOAyqSTCyBh2RJ8U7bfb1T4M2YssKCe2Z2mWjxt/9UEqrUcGuOM7be3llq/1NnS3jp
+ qEdOBL6cPmOzwi+3vmt/YpzYcZ94KLUonScV+1PB1Y8nsM4uUl5iu8/+3b1mLP13MJrS
+ a8jfGxHoO5zv7rHSjgtnO/8sGxa6Go+0UBtBPBaZsnAxYke55lj7fVkFxNdiOZBcB7lg
+ E+IrALh0M7SfGo0yQGkUaP1e1zA/jKcv3n2f9iOweJLTHyvu+/X0sjQk4ZwXG0w5KguZ
+ L6RNj6jINe96xEs87+4tqMTV9Sv74nJgevVMit7fltOm217tMWUNjzgzwa2YMCgz0oQS
+ cudA==
+X-Gm-Message-State: ANhLgQ1jhYq6z20vzwvROdlIfwpbJstYRQUIta/vhukqj/bOolnTcdc+
+ vEX7WDei+5BI7RI+wOsePgK26BbOBFs=
+X-Google-Smtp-Source: ADFU+vtIwaiOGabQsHkmX8rSdzRU7CC1iaa0tntmPe9Nd+3gPS5KDw3mOcLL9jLBnnINNWPKFSMTlg==
+X-Received: by 2002:a17:902:a502:: with SMTP id
+ s2mr9435860plq.204.1584724215547; 
+ Fri, 20 Mar 2020 10:10:15 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ v1sm5242252pjy.35.2020.03.20.10.10.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Mar 2020 10:10:13 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] lockable: fix __COUNTER__ macro to be referenced
+ properly
+To: dnbrdsky@gmail.com
+References: <20200319233454.1856568-1-dnbrdsky@gmail.com>
+ <20200319233454.1856568-2-dnbrdsky@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <77474770-f223-a85e-bb99-461c5be97841@linaro.org>
+Date: Fri, 20 Mar 2020 10:10:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200320114522.16273-1-alex.bennee@linaro.org>
-In-Reply-To: <20200320114522.16273-1-alex.bennee@linaro.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 20 Mar 2020 18:08:28 +0100
-Message-ID: <CAHiYmc7vOK=DD0Cb623x3PDJW_NS2H+Y79jcWT1Kujxij5Jsrg@mail.gmail.com>
-Subject: Re: [RFC PATCH for 5.0] configure: disable MTTCG for MIPS guests
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200319233454.1856568-2-dnbrdsky@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,99 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 12:45 Alex Benn=C3=
-=A9e <alex.bennee@linaro.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> While debugging check-acceptance failures I found an instability in
-> the mips64el test case. Briefly the test case:
->
->   retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
->     -display none -vga none -serial mon:stdio \
->     -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
->     -cpu I6400 -smp 8 -vga std \
->     -append "printk.time=3D0 clocksource=3DGIC console=3Dtty0 console=3Dt=
-tyS0 panic=3D-1" \
->     --no-reboot
->
-
-Thank for the findings!
-
-Could you perhaps attach or link to "retry.py"?
-
-Did you run this particular test for the first time now, or it used to
-pass before?
-
-Thanks,
-Aleksandar
-
-> Reports about a 9% failure rate:
->
->   Results summary:
->   0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
->   -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
->   Ran command 100 times, 91 passes
->
-> When re-run with "--accel tcg,thread=3Dsingle" the instability goes
-> away.
->
->   Results summary:
->   0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 deviatio=
-n)
->   Ran command 100 times, 100 passes
->
-> Which seems to indicate there is some aspect of the MIPS MTTCG fixes
-> that has been missed. Ideally we would fix that but I'm afraid I don't
-> have time to investigate and am not super familiar with the
-> architecture anyway.
->
-> I've disabled all the mips guests as I assume it's a fundamental
-> synchronisation primitive that is broken but I haven't tested them all
-> (there are a lot!).
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 3/19/20 4:34 PM, dnbrdsky@gmail.com wrote:
+> From: Daniel Brodsky <dnbrdsky@gmail.com>
+> 
+> - __COUNTER__ doesn't work with ## concat
+> - replaced ## with glue() macro so __COUNTER__ is evaluated
+> 
+> Fixes: 3284c3ddc4
+> 
+> Signed-off-by: Daniel Brodsky <dnbrdsky@gmail.com>
 > ---
->  configure | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/configure b/configure
-> index 206d22c5153..002792d21dc 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7832,19 +7832,19 @@ case "$target_name" in
->      echo "TARGET_ABI32=3Dy" >> $config_target_mak
->    ;;
->    mips|mipsel)
-> -    mttcg=3D"yes"
-> +    mttcg=3D"no"
->      TARGET_ARCH=3Dmips
->      echo "TARGET_ABI_MIPSO32=3Dy" >> $config_target_mak
->    ;;
->    mipsn32|mipsn32el)
-> -    mttcg=3D"yes"
-> +    mttcg=3D"no"
->      TARGET_ARCH=3Dmips64
->      TARGET_BASE_ARCH=3Dmips
->      echo "TARGET_ABI_MIPSN32=3Dy" >> $config_target_mak
->      echo "TARGET_ABI32=3Dy" >> $config_target_mak
->    ;;
->    mips64|mips64el)
-> -    mttcg=3D"yes"
-> +    mttcg=3D"no"
->      TARGET_ARCH=3Dmips64
->      TARGET_BASE_ARCH=3Dmips
->      echo "TARGET_ABI_MIPSN64=3Dy" >> $config_target_mak
-> --
-> 2.20.1
->
+>  include/qemu/lockable.h | 2 +-
+>  include/qemu/rcu.h      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
