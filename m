@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14ED618D2DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:27:27 +0100 (CET)
-Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2D118D2D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:25:47 +0100 (CET)
+Received: from localhost ([::1]:54192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJYU-0001v4-2b
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57835)
+	id 1jFJWs-0006s1-HI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jFJVc-0005KC-JX
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:29 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jFJVZ-0005Ib-R2
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jFJVb-0007WJ-JW
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:28 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:57157)
+ (envelope-from <laurent@vivier.eu>) id 1jFJVY-0007UU-TN
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:25 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:54219)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJVb-0007Vf-Av
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:27 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJVY-0007Tg-LD
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:24 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MPXlM-1itoeJ1A94-00MdSq; Fri, 20 Mar 2020 16:24:18 +0100
+ id 1MnpwC-1jdv0z1jT8-00pLPs; Fri, 20 Mar 2020 16:24:20 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 02/32] linux-user: do prlimit selectively
-Date: Fri, 20 Mar 2020 16:23:38 +0100
-Message-Id: <20200320152408.182899-3-laurent@vivier.eu>
+Subject: [PULL v4 03/32] linux-user: fix socket() strace
+Date: Fri, 20 Mar 2020 16:23:39 +0100
+Message-Id: <20200320152408.182899-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200320152408.182899-1-laurent@vivier.eu>
 References: <20200320152408.182899-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bnwVjysfey4/Hw/cNsxeK7+oIrp934ZV+iOIvIUpIo11btSUk7C
- SVs0lQasihp8TQiT6xZsZeKybX+bDSktvPKjgblxQkL4DYGM/c46f2VAIoCix+amJ3we7El
- FZkrxzpOI9KO3vsX5MoUAdOZXW3yy3Is7z7IlHnEehop2fjkomCt6542m5L+6XJbv1njWFZ
- s/b0xb7Y++1D9g5VQSFTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MkeHn26e3DA=:NyedpBi3ClJe3UcUq+3G6p
- WcvWENTl9cIFWXysZUK5tsUNF0+okiAtY5wCvOJQbK6xMusfGYlWOZKR70MDTtBdNdKNnJyfi
- WGweJxF0tzhA9JFfGHb4hBw9Dy+IXo13SPYxQcASbZLGLm95177AozA4nRPQKbH4cDO7WQE0d
- 6r1It1In2AYKvmYQ+d/tWle6fC/nVNzysUdUsUfOkkOIatF4i7Qh7WmaCgPq9C2T0a+YaRwgu
- siOf+ATdo5YLZc1ZQzbD7J3Y0UajUUkwqFolLDQOA27p2FD1eHDIjsH3IeqMWjhOM1MMA+rXY
- pq2ANaSxFW/BgZszc93zGrcrVMeUxKj9dzGcVPeipVg6hY5P3Lobul+rR5ZSeVSNHBuVDLeqA
- 6JV9FtbUkjHsmW1PSJBi78d5MX9PUpdKF+bU4BNggNv5A6/bhcIc6xocxQy/Fjv8pRlksug1Z
- KyZ27HRMj56xqCXLG1R7uJGkcr9YpS0KVi0qboM5ACll0G5PiznbxIx2iKcBQdSzp9cfttEXT
- ZeR5STVTM6D7o+D/rDubcrbxzlVCRZHdmMehGGc2Z7BdBqY6S5+JC7UxowJwuuG3pKUrlLljY
- gH9om8B6HLpuXAM9826yoelCSCu1me1RMp/Y527d8y/AI+0SXM7tTvU6q3j/SR8OrPzyVyJtY
- VY8P+G+IvutaNqAJwJ3YeLBmf65WHALqA1Xq/NSYIsdy/8dObBMGXVLhUflwY6H7/FFhxvAVQ
- 81jBvna2LMzgTwm4lZ9/M+kHu9iuXOnLsBi3pZwhQqf8zjq75tUzC7lM85vOJSTt5O6sEi0wv
- DvJurPVCv/XDFmPXg3Wfqvhnpzc+/vw9Gidl8N9nwSbs0muV7fZJWLFbTaT4wN+0MCwsh5P
+X-Provags-ID: V03:K1:yxnzI9EYV6zAR6V6lYODWVrjh3HQYvpZ7N/VUa3Q3VJ+lJMlock
+ paswI31yuAh77mEpdHPHWSao+BGmGlnomEyjsxqoTQXSTcdaxBLnhiJ5E64eAYKKw8Br+hY
+ EnzaZDvt2ji5lN3/v56w24UATbkfVaQH/dKO/pgYbJ1bDWk0RBtXF4BfsdZ0ZB6m/Vc+qWu
+ Md/ESIi6mtYpdS/MN6jkg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZJxNRXW50ys=:+x25o3LJhkiSxIvw2AeOYi
+ 1Ak+LsbxVEzbtJojyjyEU9tU6AAxaV2h8qtUv0PJFInX8cDlGW9AHk8QF3J1/h6yeK0HARp4J
+ /F9rsm4ArHJYRqteVJ/dbvNK/p8q5JRqHexzJZwWXyewWD0SveMqh71/hkF+T14vVY5j6/2tb
+ 6GINbtBXxgh3WZN7pc49DRc9OfqtBieXqh+nr6oUfC+4tnZIfOUcVWYTCdws29eyLnSo1nnrQ
+ gv3YiR4HauRrPqftU3sOssCPoKBxNidh8syTUkDrxarBqecIK9JL5TGEIwb/EFCU+JTyqZKJR
+ utSISLpq+jWK8xsetADYifg1fPmmh/XFqtW6zi2BkOciKj0EUyejP2Ptp387UIGiHsxAiewr1
+ OpZ8spRRHRxNd5dOQHcAodjXpZbT3t4kbv1k4ct1Iq1rT0WRnKb5kkU2wLPbE7ELUerxThsu2
+ 9eoZVaiiA8xYglcPPbLzwnBmHLPOcuJKOAZkmX/+Cj/P8tC9YVRaT+H3pERIgqMdMH/h3iW8Y
+ MVjOCrLafhg5GJlxzqCjxYfQ4fGRuctZoPKqnxK5X0ZcZIN8Rdx3iSvPCnE01SV3ZlxSiRvlm
+ quJoE27LtquuEdJwz55JYEF+2DhshCGtBNIZNOSH2zc9GFaQCTUt82QU1+fiXg77zdG5sbCeJ
+ 4q29h4K5EerK+WpDr9lYbuceJp+Fm9CCn+gR0JOsZ/eTt8Y8Ndsfdwk/1euWZu/T6gaL8hqi5
+ veNp0cTrbRGCI5CC+5OnDYru5y2o3GLwm2wQMbFpoPfG/zHVosUXHW4cv7rHvMkplr+6AdNE6
+ Bp7G4Vx0cWI77L29Cm84N8MWS9iiMe8kzJwhOwL1CB5vwxonHzNHYfn4KLK4wdiuDUkF57u
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,42 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Tobias Koch <tobias.koch@nonterra.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tobias Koch <tobias.koch@nonterra.com>
+print_socket_type() doesn't manage flags and the correct type cannot
+be displayed
 
-Analogous to what commit 5dfa88f7 did for setrlimit, this commit
-selectively ignores limits for memory-related resources in prlimit64
-calls. This is to prevent too restrictive limits from causing QEMU
-itself to malfunction.
-
-Signed-off-by: Tobias Koch <tobias.koch@nonterra.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200305202400.27574-1-tobias.koch@nonterra.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200312165530.53450-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/strace.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8d27d1080752..4f2f9eb12b59 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11871,7 +11871,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         struct target_rlimit64 *target_rnew, *target_rold;
-         struct host_rlimit64 rnew, rold, *rnewp = 0;
-         int resource = target_to_host_resource(arg2);
--        if (arg3) {
-+
-+        if (arg3 && (resource != RLIMIT_AS &&
-+                     resource != RLIMIT_DATA &&
-+                     resource != RLIMIT_STACK)) {
-             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
-                 return -TARGET_EFAULT;
-             }
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 4f7130b2ff63..69232f7e27b8 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -444,7 +444,7 @@ print_socket_domain(int domain)
+ static void
+ print_socket_type(int type)
+ {
+-    switch (type) {
++    switch (type & TARGET_SOCK_TYPE_MASK) {
+     case TARGET_SOCK_DGRAM:
+         qemu_log("SOCK_DGRAM");
+         break;
+@@ -464,6 +464,12 @@ print_socket_type(int type)
+         qemu_log("SOCK_PACKET");
+         break;
+     }
++    if (type & TARGET_SOCK_CLOEXEC) {
++        qemu_log("|SOCK_CLOEXEC");
++    }
++    if (type & TARGET_SOCK_NONBLOCK) {
++        qemu_log("|SOCK_NONBLOCK");
++    }
+ }
+ 
+ static void
 -- 
 2.25.1
 
