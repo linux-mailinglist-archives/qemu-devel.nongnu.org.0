@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEE118C876
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 09:01:48 +0100 (CET)
-Received: from localhost ([::1]:49144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C0718C8E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 09:21:24 +0100 (CET)
+Received: from localhost ([::1]:49263 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFCbD-0004Ww-IT
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 04:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40391)
+	id 1jFCuB-0000d3-P2
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 04:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jFCaJ-000480-8i
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:00:52 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jFCsy-000873-Rc
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:20:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jFCaI-0002Ez-40
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:00:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60656)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jFCaH-0002EJ-UK
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:00:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jFCaH-0006ep-5B
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 08:00:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 226742E8041
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 08:00:49 +0000 (UTC)
+ (envelope-from <kraxel@redhat.com>) id 1jFCsx-00051U-IZ
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:20:08 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:43364)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jFCsx-0004yT-Ar
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 04:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584692406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bkG2+19fBYk7D8HpztfMfOw3iDQjeTzsIxNZpQ1K5r8=;
+ b=SYBBqiD4Ais3AoFx0EL3dLmzqNWCNmSA/TzwJcKWgdh+owtKssF3CujN6u1zMa5BQsBI3Y
+ eu5CR4CDQrRwn5GJb0KeM6/y6W1+TXWmA/NN/oOT1QUv6pkAc5z8XJjPgejyE5g8UIUSo1
+ Yc2uTrLPV4A0f204oRt6oLRXJucQyrs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-CHiWLQ4eNge1AnbsgSmPow-1; Fri, 20 Mar 2020 04:20:04 -0400
+X-MC-Unique: CHiWLQ4eNge1AnbsgSmPow-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CCA58024D5;
+ Fri, 20 Mar 2020 08:19:51 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
+ [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A50675D9CA;
+ Fri, 20 Mar 2020 08:19:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 68A089DB3; Fri, 20 Mar 2020 09:19:48 +0100 (CET)
+Date: Fri, 20 Mar 2020 09:19:48 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 05/13] microvm: add acpi_dsdt_add_virtio() for x86
+Message-ID: <20200320081948.plaeuihbr33qgvzj@sirius.home.kraxel.org>
+References: <20200319080117.7725-1-kraxel@redhat.com>
+ <20200319080117.7725-6-kraxel@redhat.com>
+ <20200319153015.43f29fe0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200319153015.43f29fe0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Mar 2020 07:55:03 -0000
-From: Lockywolf <1868221@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: gui usability
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lockywolf
-X-Launchpad-Bug-Reporter: Lockywolf (lockywolf)
-X-Launchpad-Bug-Modifier: Lockywolf (lockywolf)
-References: <158469084688.19486.16271224237247905413.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158469090326.28364.13207787126727493333.malone@gac.canonical.com>
-Subject: [Bug 1868221] Re: /usr/share/applications/qemu.desktop should have an
- "Exec=" key.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f9018eaba16b61b38009d710bbc081b59bee0c24
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,38 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868221 <1868221@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The specification can be seen here:
+  Hi,
 
-https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-
-spec-latest.html#exec-variables
+> > +            uint32_t irq =3D VIRTIO_IRQ_BASE + index;
+> > +            hwaddr base =3D VIRTIO_MMIO_BASE + index * 512;
+> > +            hwaddr size =3D 512;
+> is it possible to fish these values out from device without poking in its=
+ guts
+> like using sysbus_get_connected_irq() and make up something to do get mmi=
+o parameters from sysbus device
 
--- =
+Had a brief look at this while making VIRTIO_IRQ_BASE configurable.
+The virtio-mmio proxy gets passed an qemu_irq struct on initialization,
+so it doesn't know what the irq number is ...
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868221
+cheers,
+  Gerd
 
-Title:
-  /usr/share/applications/qemu.desktop should have an "Exec=3D" key.
-
-Status in QEMU:
-  New
-
-Bug description:
-  According to the www.freedesktop.org .desktop-file specification, all
-  "Application" desktop files should have an "Exec=3D" key. The one in
-  qemu doesn't.
-
-  This can be easily verified by running kbuildsycoca4 if KDE4 is
-  present, but the issue is not DE-dependent.
-
-  Which binary exactly should be assigned as the default one, I don't
-  know.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868221/+subscriptions
 
