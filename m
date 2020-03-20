@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E8718CE5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 14:02:17 +0100 (CET)
-Received: from localhost ([::1]:52776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34E918CF1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 14:39:15 +0100 (CET)
+Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFHHz-0004ZC-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 09:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
+	id 1jFHrm-0003l2-CQ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 09:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFHGu-00049G-52
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:01:09 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jFHqv-0003HO-Ks
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:38:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFHGs-0008L9-Pq
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:01:07 -0400
-Received: from cmccmta2.chinamobile.com ([221.176.66.80]:9344)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jFHGs-0008Hg-5b
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:01:06 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.13]) by
- rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee65e74be6a32b-450a0;
- Fri, 20 Mar 2020 21:00:26 +0800 (CST)
-X-RM-TRANSID: 2ee65e74be6a32b-450a0
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from maozy-host.mshome.net (unknown[112.25.154.146])
- by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee75e74be6208f-f8bef;
- Fri, 20 Mar 2020 21:00:26 +0800 (CST)
-X-RM-TRANSID: 2ee75e74be6208f-f8bef
-From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] monitor/hmp-cmds: fix bad indentation in 'info
- migrate_parameters' cmd output
-Date: Fri, 20 Mar 2020 21:00:13 +0800
-Message-Id: <20200320130013.418557-1-maozhongyi@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 221.176.66.80
+ (envelope-from <peter.maydell@linaro.org>) id 1jFHqu-0003gx-0F
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:38:21 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42854)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jFHqt-0003gQ-Ne
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 09:38:19 -0400
+Received: by mail-oi1-x243.google.com with SMTP id 13so6463855oiy.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 06:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=z7ygtvweL5WEtEK6CAkGQWD05ToYeFfW+Ycw1W6PnwQ=;
+ b=STj4vS2pQ02x5+5Y+DgXYRcy/ZotzrNQkrNgMBHfP1YGxcLNmPwBV2Q8ihqxTTgfIy
+ 0GE3AuOLUGokg8upfykwNuxrGw9oBXN+UQWmnDQYeFxxtOwPmVQO0+sJc8kCOpGXRIxU
+ K5++L8vP3Sv6V8ijIgrq+89AAeVpoQUnk0L1ehD+PGBxDZSUl+gBn2DI9ML2wKKO6MpO
+ qOg+SmnzpkhnZhDxPTgXwf1D50c9g3hzVIOFW8wocKr8wtpsrxZeS339KneuhL+gDBFu
+ OWgZbB+Y1F0AHZkElySlmW1droHaN/Bg7pHpn4yLW1DiuBHF65FGOfm1/hNOY5xl12nQ
+ Rccw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=z7ygtvweL5WEtEK6CAkGQWD05ToYeFfW+Ycw1W6PnwQ=;
+ b=R9TdX+jFRmqHRnmxH3eat+f07SMXwqY+VyDTj+kF2z7Qb4UMxqgoyutc0DPsG60BWq
+ 5t8XacAZ1dy3lT9kFFw58h0jJdjU3TWPjYfNJRMpYNnDMeZoz/p6zDSFgnDvDFu+8VMn
+ W1lqeKpgm4q6HbWovduCH1SzxF05wsXYEIJ5eQzuJJjkZbsHqruiUSh4UVEP3wMCeI5n
+ WuTqyt07uw+Brf4sN1643eDfKjgS6jJhIZ77gfGCdJ7ZUWuBqNgLkYpHjNVBKN/spg26
+ +rQb/vtVVp5bQ9L1jkwEezogFhqVARSCv4JDJLP2jJKis6M7OW5Y0HKgkrCQqQT+Jurw
+ 7EXA==
+X-Gm-Message-State: ANhLgQ2KzNxo9zYufPgwRh3yRcwxg2UPe3KMVL5dxH2zUkkfD+ObCPkA
+ e7pkNHlXNrXXnj+KYI9DGr0PuqJOPjr9jWC4Ju9UGg==
+X-Google-Smtp-Source: ADFU+vsliWcGzjVVskW6IQVv+dBCm4SJ/uRkJ+MWiTPq9BuPvVAxksTA4EdP5WoH8TLQiK955t3hvFbTXZXLlRkW6Vw=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr6518467oif.163.1584711498686; 
+ Fri, 20 Mar 2020 06:38:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200123164630.91498-1-dgilbert@redhat.com>
+ <20200123164630.91498-38-dgilbert@redhat.com>
+In-Reply-To: <20200123164630.91498-38-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Mar 2020 13:38:07 +0000
+Message-ID: <CAFEAcA9+uFmPSfkjBHgcsQprMZwOh_Fe-5BAyH7brg4e-mb8hg@mail.gmail.com>
+Subject: Re: [PULL 037/108] virtiofsd: passthrough_ll: add dirp_map to hide
+ lo_dirp pointers
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,43 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgilbert@redhat.com, Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-run:
-(qemu) info migrate_parameters
-announce-initial: 50 ms
-...
-announce-max: 550 ms
-multifd-compression: none
-xbzrle-cache-size: 4194304
-max-postcopy-bandwidth: 0
- tls-authz: '(null)'
+On Thu, 23 Jan 2020 at 19:41, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Do not expose lo_dirp pointers to clients.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 103 +++++++++++++++++++++++--------
+>  1 file changed, 76 insertions(+), 27 deletions(-)
 
-The last line seems a bit out of place, fix it.
+Hi; Coverity reports (CID 1421933) an issue introduced
+by this patch:
 
-Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
----
- monitor/hmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> @@ -873,6 +881,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino=
+,
+>      struct lo_data *lo =3D lo_data(req);
+>      struct lo_dirp *d;
+>      int fd;
+> +    ssize_t fh;
+>
+>      d =3D calloc(1, sizeof(struct lo_dirp));
+>      if (d =3D=3D NULL) {
+> @@ -892,7 +901,14 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t in=
+o,
+>      d->offset =3D 0;
+>      d->entry =3D NULL;
+>
+> -    fi->fh =3D (uintptr_t)d;
+> +    pthread_mutex_lock(&lo->mutex);
+> +    fh =3D lo_add_dirp_mapping(req, d);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +    if (fh =3D=3D -1) {
+> +        goto out_err;
+> +    }
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 58724031ea..f8be6bbb16 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -459,7 +459,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "%s: %" PRIu64 "\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_MAX_POSTCOPY_BANDWIDTH),
-             params->max_postcopy_bandwidth);
--        monitor_printf(mon, " %s: '%s'\n",
-+        monitor_printf(mon, "%s: '%s'\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_TLS_AUTHZ),
-             params->has_tls_authz ? params->tls_authz : "");
-     }
--- 
-2.17.1
+This change introduces a new code path which
+leads to out_err that can be taken after the
+call to fdopendir(fd) succeeds...
 
+> +
+> +    fi->fh =3D fh;
+>      if (lo->cache =3D=3D CACHE_ALWAYS) {
+>          fi->keep_cache =3D 1;
+>      }
+> @@ -903,6 +919,9 @@ out_errno:
+>      error =3D errno;
+>  out_err:
+>      if (d) {
+> +        if (d->dp) {
+> +            closedir(d->dp);
+> +        }
+>          if (fd !=3D -1) {
+>              close(fd);
+>          }
 
+...but here we close(fd), which is an error if
+fdopendir() succeeded, because that function takes
+over ownership of the fd it is passed and we should
+make no more calls on it.
 
+An easy fix would be to add 'fd =3D -1;' after the call
+to fdopendir() has succeeded (but that would probably
+deserve a comment explaining why it's being done); or
+you might prefer to separate out the error flows so
+we only call close() for error paths before the fdopendir()
+succeeds and only call closedir() afterwards. Or
+you could make the error path
+
+   if (d->dp) {
+       closedir(d->dp);
+   } else if (fd !=3D -1) {
+       close(fd);
+   }
+
+thanks
+-- PMM
 
