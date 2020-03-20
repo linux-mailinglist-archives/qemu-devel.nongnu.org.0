@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0966218CA51
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 10:26:32 +0100 (CET)
-Received: from localhost ([::1]:49848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F48718CA5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 10:28:10 +0100 (CET)
+Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFDvD-0007wP-1z
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 05:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53266)
+	id 1jFDwn-0002S1-D8
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 05:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFDtc-0005sf-Uf
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:53 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFDtd-0005uK-Uj
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFDtb-000862-TX
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43815)
+ (envelope-from <eric.auger@redhat.com>) id 1jFDtc-0008B5-Od
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43517)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFDtb-00081U-Q3
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:51 -0400
+ id 1jFDtc-00088G-Kr
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 05:24:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584696291;
+ s=mimecast20190719; t=1584696292;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g1Y7SAIkQ6YKL70iv+PevVOHVnPkk+5bW/+E3fVVoME=;
- b=EVj2yIPy8rteNL7CY5jD/DxtIhQtNLZZ9yfD4bQIhFKs8GExsWJcj7yN5r0XkVw2gGxmkF
- ffgaLt/kCDhJeTSbDPNREyF23zYu1ViCgWuo/WxZzbxLwyKYuIXo6gz0ymuh745Rk7w+9X
- SK6JeRdiLzOx8aT6dBLo8HyHU7ZgCzg=
+ bh=jUPGPmIvaDDGzVaAE49y1ve21avwQxlD6sBJrt5aqiw=;
+ b=C40Mb12fMWE+H/hz8N/lo1KVGRnwKkpK2F7LC6K14azTD7NmlhRwxhIrzQ6j9qFZCu6Z2C
+ 2dNXe0B+LUAy+hqheaMcQW5dvyoCEiTncvHqsH+dkGX++q+NNBujmzS8ZrUOOSPaB8g0HQ
+ rMfeWTb18SwW1g1DGEr2/yj7CsjfExQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-YlwQy-4nODS1Pey_klco2g-1; Fri, 20 Mar 2020 05:24:47 -0400
-X-MC-Unique: YlwQy-4nODS1Pey_klco2g-1
+ us-mta-398-OsWFrT5gNDeelXWk7ftxug-1; Fri, 20 Mar 2020 05:24:50 -0400
+X-MC-Unique: OsWFrT5gNDeelXWk7ftxug-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C092E1083E80;
- Fri, 20 Mar 2020 09:24:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F4311005514;
+ Fri, 20 Mar 2020 09:24:49 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C0785C1D8;
- Fri, 20 Mar 2020 09:24:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 240475C1D8;
+ Fri, 20 Mar 2020 09:24:45 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v7 01/13] libcflat: Add other size defines
-Date: Fri, 20 Mar 2020 10:24:16 +0100
-Message-Id: <20200320092428.20880-2-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v7 02/13] page_alloc: Introduce get_order()
+Date: Fri, 20 Mar 2020 10:24:17 +0100
+Message-Id: <20200320092428.20880-3-eric.auger@redhat.com>
 In-Reply-To: <20200320092428.20880-1-eric.auger@redhat.com>
 References: <20200320092428.20880-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -74,30 +74,49 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce additional SZ_256, SZ_8K, SZ_16K macros that will
-be used by ITS tests.
+Compute the power of 2 order of a size. Use it in
+page_memalign. Other users are looming.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- lib/libcflat.h | 3 +++
- 1 file changed, 3 insertions(+)
+ lib/alloc_page.c | 7 ++++++-
+ lib/alloc_page.h | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/lib/libcflat.h b/lib/libcflat.h
-index ea19f61..7092af2 100644
---- a/lib/libcflat.h
-+++ b/lib/libcflat.h
-@@ -36,7 +36,10 @@
- #define ALIGN(x, a)		__ALIGN((x), (a))
- #define IS_ALIGNED(x, a)	(((x) & ((typeof(x))(a) - 1)) =3D=3D 0)
+diff --git a/lib/alloc_page.c b/lib/alloc_page.c
+index ed23638..7c8461a 100644
+--- a/lib/alloc_page.c
++++ b/lib/alloc_page.c
+@@ -155,7 +155,7 @@ static void *page_memalign(size_t alignment, size_t s=
+ize)
+ 	if (!size)
+ 		return NULL;
 =20
-+#define SZ_256			(1 << 8)
- #define SZ_4K			(1 << 12)
-+#define SZ_8K			(1 << 13)
-+#define SZ_16K			(1 << 14)
- #define SZ_64K			(1 << 16)
- #define SZ_2M			(1 << 21)
- #define SZ_1G			(1 << 30)
+-	order =3D is_power_of_2(n) ? fls(n) : fls(n) + 1;
++	order =3D get_order(n);
+=20
+ 	return alloc_pages(order);
+ }
+@@ -175,3 +175,8 @@ void page_alloc_ops_enable(void)
+ {
+ 	alloc_ops =3D &page_alloc_ops;
+ }
++
++int get_order(size_t size)
++{
++	return is_power_of_2(size) ? fls(size) : fls(size) + 1;
++}
+diff --git a/lib/alloc_page.h b/lib/alloc_page.h
+index 739a91d..e6a51d2 100644
+--- a/lib/alloc_page.h
++++ b/lib/alloc_page.h
+@@ -15,5 +15,6 @@ void *alloc_pages(unsigned long order);
+ void free_page(void *page);
+ void free_pages(void *mem, unsigned long size);
+ void free_pages_by_order(void *mem, unsigned long order);
++int get_order(size_t size);
+=20
+ #endif
 --=20
 2.20.1
 
