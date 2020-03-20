@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB6F18D2D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:25:50 +0100 (CET)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54CE18D2E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 16:29:25 +0100 (CET)
+Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFJWv-0006zG-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
+	id 1jFJaO-0005Pr-QV
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 11:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jFJVa-0005Id-Nx
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:27 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jFJVf-0005Rk-Tp
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jFJVZ-0007Uy-GM
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:26 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:33409)
+ (envelope-from <laurent@vivier.eu>) id 1jFJVe-0007Zk-PB
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:31 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58275)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJVZ-0007UG-8H
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:25 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jFJVe-0007YZ-GZ
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 11:24:30 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M9Fvl-1jAfD80ZZH-006LV7; Fri, 20 Mar 2020 16:24:22 +0100
+ id 1MacWq-1jr8Qk3fGU-00c5su; Fri, 20 Mar 2020 16:24:25 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 04/32] linux-user: Update TASK_UNMAPPED_BASE for aarch64
-Date: Fri, 20 Mar 2020 16:23:40 +0100
-Message-Id: <20200320152408.182899-5-laurent@vivier.eu>
+Subject: [PULL v4 06/32] linux-user/syscall: Add support for
+ clock_gettime64/clock_settime64
+Date: Fri, 20 Mar 2020 16:23:42 +0100
+Message-Id: <20200320152408.182899-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200320152408.182899-1-laurent@vivier.eu>
 References: <20200320152408.182899-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:K0+EDF4+N6CLAt5XB/+SPTU0b5zH6ARXRKD+CHNHjm8JoJ7jFmr
- hp7W4/1SayBYCAlznLiPNo9ECERuaNNjUfFz9AyKfiLb//rLadddr37SUmNlUwXksvcN1zM
- Gv0ZhILaTBX0HjSnyuvXemRgGbDgVfNvu7ZEDQPeH+KD3bGxErdUqieH4I/xL4xVOemjLEp
- LSLyddCqlJg8IxmQzTcvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mMxHi3Vi/qw=:4/KMThh4XemcSXpbtDi/j/
- Isdy/JP6RCkKltDnFoJte0pc/330Y3aH7IFsfcHFVxi6bkcs3VbYI5sZTl5zuWsKVmc0La+fG
- 956GQ1Nyf2hQ68TJQj6mU1y4WxavUgYVJjO5v8UsYdkYDH6IZiDkXfS92Sv/M97OBmGlA6K25
- xxqYhHrFQJeH3al4karo8c05N2eZ2twa5yGMDDmn7sP/2YpCZt/k7SJ+QE5vL8l8ZaFpJPaEg
- vDzts3+Xh3r3tNxCzne8PTHv7BKkjZ/c5OqU2YRdNsmMAgD7jYZMDVoExLgyN6R6zPsapZx4g
- rfwmRfjxdoOxpP1UhR2nyUlQYlNGU/OqnlxF55QiIGIcAX7yhAy0cyUTNjgnW+fpxY0K0u1OV
- /jqv7JTGH2UZghpn4xi+cekZj4aG6VJgNgbWDIwuGxZzbIfyCl8FxEGe/rxXWTR+/05Tpe8a0
- tggGnHioWkErHotQZvKt20W3VZP95GFCD2F6z2yfTcJWXNSjkzySq62KubVreGFUSJ4FF9Rjq
- ewqWT4pnd9WCxmh2uJhOzbPBzz2s2Jfhp+2igUOPsmEaS3DdLJs3AVLH+qEQ6gqcB2vRlXqO6
- +C82LV6NcKcMsaprcl43ux2Iu5QA4+QIUwFOPNCr7oya3XTKcBWqYaTNgmwoxEditKezFyrHq
- bC1A0Ia9nzrTmIOsYMewyVauVNcCSLUn1/fECWkI/tDiC9AUybHzp4h/hTfRLgZznguD3QfWt
- Lq3Ev2k1WixTqYBeFGZi+Ud4LCQ7zhxhMCNy1mV238vNQvZA8Cr7A5P2mdpSqCwJ/KQbRTjap
- ylBZWmAq0ZAI+Rs25D+t3ixtd9I6ypIVXhuP7EiLLiFC50bXrf9nuDsxQ1eMapIWJrvh3Tk
+X-Provags-ID: V03:K1:DTDJ+5XQk5oBvCVEN7gZQK+dIxGbkSlXKoLb10otPKhfidF3W3j
+ wgkXcrKd0VGz/1rXBPgrzBqpw/iaBWCBtfv3rVepiXnQEy1/rLgyrfYzaTfXg+6KLaraqwo
+ 7El8cwM8zIUq5V++9Jt4ZsAdYQllxz/5BTf3kIMhlFHdTSEaSNoUF3mq1S2U36IpoZwxSbP
+ zLzgBKxprI/KAW2lfnvsg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y4VVYfoboBg=:/W6TsWcKtajaOeRkXAXXxa
+ XjS9PnbNqPcNe2aCg5xX7GPH6OzBvOC7JE/HpidzCCEFSJdbRpvdXZrYYLmWmGBEeEbGr2x5W
+ 7FZ3vkCLKt26Gargge6vgjRcPu+6KxK/5VRpanEEiOdzpqoKHxB/ZBYcxIOS2nNp/26GiMfVX
+ ouV1NGNYwHb3JaFDFiC10n02h4zKDfmFo1eBEgNujoV1njXBFBcy6R0xCZtZsL3Mw0+YmRy5g
+ 95s23+/lkVIDf7U1uy/uWmFWqMfcpRkCqvdxA53osjWKJQVfoPWVUxtTGQqAKsEOKmxaQKsKc
+ enrQzw4QJhgkRQdIeJJmx4awjcEjr+siquvlhS6GufX5bNkhPPmj31BYjKe6iQmX8BjUX5LZi
+ Y24zgagzzLyalzz4LJ4j4Urf+f5dGWI5wu69mq+mfq3oFmVyxvuYAMll6ooPCwmy5wNr5ZZV2
+ e1Tih0JHOQQH9s3UHNF7XylUQoNwz2bbm+v13bPQqWujl0n7qZ+taPFazMClxDnj28FCUbgaa
+ Y6mUyazlfcxDGEdotHhiKFRkGEUwYlQU655EcjvN1K3nACEJqBRrWjhVN0rUsm33wwoReaAva
+ yuxnGqHK8K3Zn+dtWZW6TYAzUC5f+760P7BaQh02WNFc+t/MZVZkfzAK9NWJG1ozvg4IwhdjK
+ WOiRujOXqeB30CDK0tsvDp3/ai18W7X5CXcKTNC4Pj59Bu4bwGybFlbJM3C3kTHTcdCBGs4fi
+ r8hSU/MPzcsOkNtrj0oP5QLUkgA3YcqHMjRBYnHg2eeJcODZd24r/dpNkspU9TZ/nUP/qGdQB
+ 2/ioTl2+brsNgKyO8G6oaJizWXfdmVHPV9iJa7OeYH0Ul6nAGbm17Kdvn6al4UyfjH0a/hm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,40 +64,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Lirong Yuan <yuanzi@google.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lirong Yuan <yuanzi@google.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-This change updates TASK_UNMAPPED_BASE (the base address for guest programs) for aarch64. It is needed to allow qemu to work with Thread Sanitizer (TSan), which has specific boundary definitions for memory mappings on different platforms:
-https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_platform.h
+Add support for the clock_gettime64/clock_settime64 syscalls.
 
-Signed-off-by: Lirong Yuan <yuanzi@google.com>
+If your host is 64-bit or is 32-bit with the *_time64 syscall then the
+timespec will correctly be a 64-bit time_t. Otherwise the host will
+return a 32-bit time_t which will be rounded to 64-bits. This will be
+incorrect after y2038.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200313002813.3857-1-yuanzi@google.com>
+Message-Id: <4a7fd05532400d10aa0f684c9043e2ac7b34d91c.1584051142.git.alistair.francis@wdc.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/mmap.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/syscall.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 8685f02e7e90..e37803379747 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -184,7 +184,11 @@ static int mmap_frag(abi_ulong real_start,
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ae279702b2ee..be5f524e0af8 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1229,6 +1229,22 @@ static inline abi_long target_to_host_timespec(struct timespec *host_ts,
  }
- 
- #if HOST_LONG_BITS == 64 && TARGET_ABI_BITS == 64
-+#ifdef TARGET_AARCH64
-+# define TASK_UNMAPPED_BASE  0x5500000000
-+#else
- # define TASK_UNMAPPED_BASE  (1ul << 38)
-+#endif
- #else
- # define TASK_UNMAPPED_BASE  0x40000000
  #endif
+ 
++#if defined(TARGET_NR_clock_settime64)
++static inline abi_long target_to_host_timespec64(struct timespec *host_ts,
++                                                 abi_ulong target_addr)
++{
++    struct target__kernel_timespec *target_ts;
++
++    if (!lock_user_struct(VERIFY_READ, target_ts, target_addr, 1)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_ts->tv_sec, &target_ts->tv_sec);
++    __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    unlock_user_struct(target_ts, target_addr, 0);
++    return 0;
++}
++#endif
++
+ static inline abi_long host_to_target_timespec(abi_ulong target_addr,
+                                                struct timespec *host_ts)
+ {
+@@ -11458,6 +11474,18 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     }
+ #endif
++#ifdef TARGET_NR_clock_settime64
++    case TARGET_NR_clock_settime64:
++    {
++        struct timespec ts;
++
++        ret = target_to_host_timespec64(&ts, arg2);
++        if (!is_error(ret)) {
++            ret = get_errno(clock_settime(arg1, &ts));
++        }
++        return ret;
++    }
++#endif
+ #ifdef TARGET_NR_clock_gettime
+     case TARGET_NR_clock_gettime:
+     {
+@@ -11469,6 +11497,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     }
+ #endif
++#ifdef TARGET_NR_clock_gettime64
++    case TARGET_NR_clock_gettime64:
++    {
++        struct timespec ts;
++        ret = get_errno(clock_gettime(arg1, &ts));
++        if (!is_error(ret)) {
++            ret = host_to_target_timespec64(arg2, &ts);
++        }
++        return ret;
++    }
++#endif
+ #ifdef TARGET_NR_clock_getres
+     case TARGET_NR_clock_getres:
+     {
 -- 
 2.25.1
 
