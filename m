@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BC318D67F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:04:24 +0100 (CET)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEF418D675
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 19:02:08 +0100 (CET)
+Received: from localhost ([::1]:57280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFM0N-0006Uk-P0
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39709)
+	id 1jFLyB-0004GT-F7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 14:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <db76c7042cf249ca51ef0269c824213eb73452b0@lizzy.crudebyte.com>)
- id 1jFLyz-0005VG-1i
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:02:57 -0400
+ id 1jFLx2-0003dG-EP
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:00:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <db76c7042cf249ca51ef0269c824213eb73452b0@lizzy.crudebyte.com>)
- id 1jFLyx-0002qU-W2
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:02:56 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38081)
+ id 1jFLwz-0000IT-NH
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:00:56 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49491)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
  (envelope-from <db76c7042cf249ca51ef0269c824213eb73452b0@lizzy.crudebyte.com>)
- id 1jFLyx-0001IN-Nr
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:02:55 -0400
+ id 1jFLwz-0007Z6-5r
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 14:00:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=KPesT1KlQk2GePUADf96n6O82LMG+9/pKpM7fc0jnRU=; b=YDS0A
- nm83IqfBM4pYlm5HvgC8ljcE5CegmWfqlSPR5sKPCZKUNPgaNX8omsCGbZCrt+okHTQffOSmq6dZj
- LUZkOi7BKTYCXOyD+wZNlOnujgY+MB0AyKFRPvLnEVxaVMPEwdXD1YAu888TxmccSurxcu6en3h3z
- MmnY/TIoSFXYqGb0IcKg+33puUi9pp9DDZxSk1uTvNC+mWNvJClQgxAF7W1MHny7/KRLS7GdVXkM5
- pGKgBZNTwlTSQDfvO5a3exAqJG+dXbBpdwkXluzNqmN1dPhm9YIL7CgQuXyXYRzzwdwvv1LrBdLtH
- JhrU8vCplG4jYljU/uGx9JoUNRR+w==;
-Message-Id: <db76c7042cf249ca51ef0269c824213eb73452b0.1584723663.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1584723662.git.qemu_oss@crudebyte.com>
-References: <cover.1584723662.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=zP/O9dNFAwWU85LXtneEDXITdC18w33LH28i7aVy9Gg=; b=hvo8z
+ TUbyCYACIgd2N8gQ61N6rRQ7ftubru30Hk94MrGFPMLRZStSAAF6hfmKRyFFcP6lH7kpTAL+Yg3mO
+ xbk4wR93MKhhGd30BtuPww/XhQpgcnfP1ILY52+UoFPzSZ6j1t1NOXlK5047YXbP9M/EuwaDuE1CZ
+ iEQ/7Hr2I918qkeBcW+34yfa8Fshsybhdjsv/Fq3Hk8PMrQDmoeRnPYzSMNJG4hljqisMTY8gEbUD
+ HAYHhmsRmSJJCmSw9uFnd5+ulexpkAAdOX5Stj5/DAcIxeKKPgl9nWHlHdq6zTxsZGx9YkGjF04sc
+ veb2xkGoOB7IXF58hu0lYwAmLnqQA==;
+Message-Id: <cover.1584723662.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 20 Mar 2020 17:54:32 +0100
-Subject: [PATCH v2 4/4] qemu: add support for 'multidevs' option
+Date: Fri, 20 Mar 2020 18:01:02 +0100
+Subject: [PATCH v2 0/4] add support for QEMU 9pfs 'multidevs' option
 To: libvir-list@redhat.com
 Cc: qemu-devel@nongnu.org,
     Greg Kurz <groug@kaod.org>
@@ -58,64 +56,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This option prevents misbehaviours on guest if a qemu 9pfs export
-contains multiple devices, due to the potential file ID collisions
-this otherwise may cause.
+QEMU 4.2 added a new option 'multidevs' for 9pfs. The following patch adds
+support for this new option to libvirt.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- src/qemu/qemu_command.c |  7 +++++++
- src/qemu/qemu_domain.c  | 12 ++++++++++++
- 2 files changed, 19 insertions(+)
+In short, what is this about: to distinguish files uniquely from each other
+in general, numeric file IDs are typically used for comparison, which in
+practice is the combination of a file's device ID and the file's inode
+number. Unfortunately 9p protocol's QID field used for this purpose,
+currently is too small to fit both the device ID and inode number in, which
+hence is a problem if one 9pfs export contains multiple devices and may
+thus lead to misbheaviours on guest (e.g. with SAMBA file servers) in that
+case due to potential file ID collisions.
 
-diff --git a/src/qemu/qemu_command.c b/src/qemu/qemu_command.c
-index 9790c92cf8..7020e5448c 100644
---- a/src/qemu/qemu_command.c
-+++ b/src/qemu/qemu_command.c
-@@ -2632,6 +2632,13 @@ qemuBuildFSStr(virDomainFSDefPtr fs)
-         } else if (fs->accessmode == VIR_DOMAIN_FS_ACCESSMODE_SQUASH) {
-             virBufferAddLit(&opt, ",security_model=none");
-         }
-+        if (fs->multidevs == VIR_DOMAIN_FS_MULTIDEVS_REMAP) {
-+            virBufferAddLit(&opt, ",multidevs=remap");
-+        } else if (fs->multidevs == VIR_DOMAIN_FS_MULTIDEVS_FORBID) {
-+            virBufferAddLit(&opt, ",multidevs=forbid");
-+        } else if (fs->multidevs == VIR_DOMAIN_FS_MULTIDEVS_WARN) {
-+            virBufferAddLit(&opt, ",multidevs=warn");
-+        }
-     } else if (fs->fsdriver == VIR_DOMAIN_FS_DRIVER_TYPE_HANDLE) {
-         /* removed since qemu 4.0.0 see v3.1.0-29-g93aee84f57 */
-         virBufferAddLit(&opt, "handle");
-diff --git a/src/qemu/qemu_domain.c b/src/qemu/qemu_domain.c
-index edc8ba2ddb..c54c64fadb 100644
---- a/src/qemu/qemu_domain.c
-+++ b/src/qemu/qemu_domain.c
-@@ -8529,6 +8529,13 @@ qemuDomainDeviceDefValidateFS(virDomainFSDefPtr fs,
-                        _("only supports mount filesystem type"));
-         return -1;
-     }
-+    if (fs->multidevs != VIR_DOMAIN_FS_MODEL_DEFAULT &&
-+        !virQEMUCapsGet(qemuCaps, QEMU_CAPS_VIRTFS_MULTIDEVS))
-+    {
-+        virReportError(VIR_ERR_CONFIG_UNSUPPORTED, "%s",
-+                       _("multidevs is not supported with this QEMU binary"));
-+        return -1;
-+    }
- 
-     switch ((virDomainFSDriverType) fs->fsdriver) {
-     case VIR_DOMAIN_FS_DRIVER_TYPE_DEFAULT:
-@@ -8581,6 +8588,11 @@ qemuDomainDeviceDefValidateFS(virDomainFSDefPtr fs,
-                            _("virtiofs is not supported with this QEMU binary"));
-             return -1;
-         }
-+        if (fs->multidevs != VIR_DOMAIN_FS_MULTIDEVS_DEFAULT) {
-+            virReportError(VIR_ERR_CONFIG_UNSUPPORTED, "%s",
-+                           _("virtiofs does not support multidevs"));
-+            return -1;
-+        }
-         if (qemuDomainDefValidateVirtioFSSharedMemory(def) < 0)
-             return -1;
-         break;
+To mitigate this problem with 9pfs a 'multidevs' option was introduced in
+QEMU 4.2 for defining how to deal with this, e.g. multidevs=remap will cause
+QEMU's 9pfs implementation to remap all inodes from host side to different
+inode numbers on guest side in a way that prevents file ID collisions.
+
+NOTE: In the libvirt docs changes of this libvirt patch I simply assumed
+"since 6.2.0". So the final libvirt version number would need to be adjusted
+in that text if necessary.
+
+See QEMU discussion with following Message-ID for details:
+8a2ffe17fda3a86b9a5a437e1245276881f1e235.1567680121.git.qemu_oss@crudebyte.com
+
+v1->v2:
+
+  * Unrelated docs/formatdomain.html.in changes to separate patch.
+    [patch 1]
+
+  * Added new capability QEMU_CAPS_VIRTFS_MULTIDEVS.
+    [patch 2]
+
+  * XML changes as isolated patch.
+    [patch 3]
+
+  * Code style fix.
+    [patch 3]
+
+  * QEMU 'multidevs' command handling as isolated patch.
+    [patch 4]
+
+  * Error out if not QEMU_CAPS_VIRTFS_MULTIDEVS capability.
+    [patch 4]
+
+  * Error out on virtiofs (since it does not have the 'multidevs' option).
+    [patch 4]
+
+TODO:
+
+  * Capabilities test cases would fail if <flag name='virtfs-multidevs'/>
+    was added to the other architectures' test case xml files, why?
+    [patch 2]
+
+  * The requested test cases to add: Sorry, the libvirt test case
+    environment is yet a mystery to me, I would not even know where to
+    start here.
+
+Message-ID of v1: E1jEFpL-00028n-Qj@lizzy.crudebyte.com
+
+Christian Schoenebeck (4):
+  docs: virtfs: add section separators
+  qemu: capabilities: add QEMU_CAPS_VIRTFS_MULTIDEVS
+  conf: add 'multidevs' option
+  qemu: add support for 'multidevs' option
+
+ docs/formatdomain.html.in                     | 47 ++++++++++++++++++-
+ docs/schemas/domaincommon.rng                 | 10 ++++
+ src/conf/domain_conf.c                        | 29 ++++++++++++
+ src/conf/domain_conf.h                        | 13 +++++
+ src/qemu/qemu_capabilities.c                  |  5 ++
+ src/qemu/qemu_capabilities.h                  |  1 +
+ src/qemu/qemu_command.c                       |  7 +++
+ src/qemu/qemu_domain.c                        | 12 +++++
+ .../caps_4.2.0.x86_64.xml                     |  1 +
+ .../caps_5.0.0.aarch64.xml                    |  1 +
+ .../caps_5.0.0.x86_64.xml                     |  1 +
+ 11 files changed, 126 insertions(+), 1 deletion(-)
+
 -- 
 2.20.1
 
