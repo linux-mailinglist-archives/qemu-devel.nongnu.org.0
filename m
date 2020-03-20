@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A56718D58C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:17:23 +0100 (CET)
-Received: from localhost ([::1]:56648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641C318D58E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:18:37 +0100 (CET)
+Received: from localhost ([::1]:56679 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFLGs-0004RK-66
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58310)
+	id 1jFLI4-0006Fm-Di
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFLFY-0003Qz-6A
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:16:02 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jFLH1-0005GJ-FD
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:17:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFLFW-00029w-D9
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:16:00 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41918)
+ (envelope-from <richard.henderson@linaro.org>) id 1jFLH0-0004Cl-5k
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:17:31 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:36458)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jFLFW-00028E-5b
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:15:58 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h9so8432176wrc.8
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YdWr2z2d5hGPRmCBX3Lg6f4pIOW/5rrz9zQawyJdXuE=;
- b=N78WDKkc/STHdeKy0wrsBzTWr0VcMv1rYkg0pgZEFYR7+nX3Mn9dtgNnTxhYEUyuEl
- v90FWHt8nVccSPQlt3ux7LaJo4tlZaAYaEGRS8ODnUvtMcWlDVZSFUs3hyXY1uUiz0pv
- byea79tlNsKivrQk0q3b14en6RGSr/c9GDeL0K0NzV/2OjO5WiD9DNQuw1/seUj4nOyY
- Vtq1Zr68YAhEZKuC7z+TZnHYKb8AvdbasKidufzJtjyB7GC7VgLt8S25gx3goDJhjtaN
- uXSRfPfR0wylXTr0V+kl2+u0yu1V2N8ghHAxoiq9IPog9gqH2H0iEC9HYtqTaq1wTgrs
- Xkqg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jFLGz-00048A-LH
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:17:30 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id nu11so2772467pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 10:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7JTHRMfHywWyYBPVxQdb7LryXqakWzkxz0lvmHeCtKI=;
+ b=G3pmr4vZ9KTAwUB5SJ8CZB1f9QYOs7jIKDcSU0Q5mSVe1qxnfpyNwCd63apB+KvxC2
+ ZU1a1NZBOkXp6eAEpmHxO0ezDrNF35/Il8q8Q9sL2Ksri7C6mvFM8jqwuvD9XSeM8Rbh
+ CxtYtexzf+L0Hb1JaKNkc65HilWJV3W6qmLsfQh8m88G6NHASo7Xbm6hcN6Vgb4c3FUZ
+ PyTMPrDA6KtcDmapIRvGjzIsaGSmU21qNeD3Qpj675OqVFbIBUXUPzFkr38tbMIJn+zn
+ RZfnTWTZHPbMEZAh/gb/+SZ5hkzUhvSpJGKV/+hL9/7ackDieTyCHBTXOfdSH9pCxtWB
+ UxWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YdWr2z2d5hGPRmCBX3Lg6f4pIOW/5rrz9zQawyJdXuE=;
- b=rFk5bLEovMgHv8Y10NB8oNOvAJ3QoTdAohPX16PE40ZepzBGjwfdwHtyxkphU6qQ3J
- zQGWCvSe1FVLVWuqk5CrDuT23DQckpLZx38FqmHkOXddazUP+fXTckilD1EBGNfpA/O3
- OKoY6PWtwaKSbnqa7Y9LUx7UAkJlxOr8RgdcHNc/xAb3LyUX1e2zuJzpNme4DKXCmMbs
- TpHcweYxksFcGly6qpTWX2EYshN3+0+U+6AHF/m9MBKw6sz5wQkL93jQR/SRXQMWZV9F
- PUFsOAW1tlLwpoNNN6gikq+gdYbh7xfIOktbPOSrmux2VSNl7tVltRms0PGN3SpQyocH
- KxlQ==
-X-Gm-Message-State: ANhLgQ1XZY5JWrs5pWrma+TiwNpnKbhN5bHFR61TFM3IvMGbppd3YqJa
- KCvzAa9bffMG6ZNUqwy8M194MCryktmHqBlF9+k=
-X-Google-Smtp-Source: ADFU+vuUsL6yWD4b9suaqAc18Smmxwl0EhOpCCrLJPqRuIDrpInmVdHTxrg/wppkY8Njxj91tFk9DYow27Agweali6U=
-X-Received: by 2002:adf:f24c:: with SMTP id b12mr150963wrp.162.1584724553761; 
- Fri, 20 Mar 2020 10:15:53 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7JTHRMfHywWyYBPVxQdb7LryXqakWzkxz0lvmHeCtKI=;
+ b=KJN/ghKOsoSHktwKzrHLnKPq19bWFyD1NG4r+7rHb9XfTqWcGLKzBKTR+MG9iuz+4x
+ 5GOGqA7DsGvlxSHH3wSASHM/fkj+Or/bo/LVAlw1vs+JON0b93VGxE+0f+/RJCGolyWd
+ spTw5lm/pS4Jbsrwq1H3ZRGzcssh6N8PAMRrzNaPvRvQ1yyRmh3ez2+rDpXNk9/DSY0+
+ M0j5pwGWeewFcWOmKXe/K04x7VZYWuCjnomiNlh4IB65NQ2OgFAjlsWrk46XXh4y71NE
+ uIa+42fhxPHpKgALA/Qnjqa5OjnKItUJfevQGoLlLmbu5cKsGpwH/+2urKuxRUyINBSO
+ bMIw==
+X-Gm-Message-State: ANhLgQ2Us1YlgU0gtiyy742xZhDQEVQpkRisWHch70j5Y+/HHaOOSr6M
+ tFxKNVCSdqce1Pqif892Ii9hZg==
+X-Google-Smtp-Source: ADFU+vu6ZVdLTLgrvl1y4bNK8//cMIxGFd+FEBGb+GrBvmYEOYsbd2bCw9PmQVwKftNPNmw6gPM2tg==
+X-Received: by 2002:a17:902:342:: with SMTP id
+ 60mr9199103pld.206.1584724648106; 
+ Fri, 20 Mar 2020 10:17:28 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ e30sm5815790pga.6.2020.03.20.10.17.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Mar 2020 10:17:27 -0700 (PDT)
+Subject: Re: [PATCH v2 1/6] osdep.h: Drop no-longer-needed Coverity workarounds
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200319193323.2038-1-peter.maydell@linaro.org>
+ <20200319193323.2038-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <28ff6fac-c3d9-90a5-27f4-6d0d84e09633@linaro.org>
+Date: Fri, 20 Mar 2020 10:17:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200320114522.16273-1-alex.bennee@linaro.org>
- <CAHiYmc7vOK=DD0Cb623x3PDJW_NS2H+Y79jcWT1Kujxij5Jsrg@mail.gmail.com>
-In-Reply-To: <CAHiYmc7vOK=DD0Cb623x3PDJW_NS2H+Y79jcWT1Kujxij5Jsrg@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 20 Mar 2020 18:15:42 +0100
-Message-ID: <CAHiYmc4ZMArN=HU8ZWqBJvt5GgeuN3XJbgMcQf65CVdbgyAQJw@mail.gmail.com>
-Subject: Re: [RFC PATCH for 5.0] configure: disable MTTCG for MIPS guests
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000018099505a14c7070"
+In-Reply-To: <20200319193323.2038-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,189 +84,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000018099505a14c7070
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/19/20 12:33 PM, Peter Maydell wrote:
+> In commit a1a98357e3fd in 2018 we added some workarounds for Coverity
+> not being able to handle the _Float* types introduced by recent
+> glibc.  Newer versions of the Coverity scan tools have support for
+> these types, and will fail with errors about duplicate typedefs if we
+> have our workaround.  Remove our copy of the typedefs.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-=D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 18:08 Aleksandar Ma=
-rkovic <
-aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> =D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 12:45 Alex Benn=
-=C3=A9e <alex.bennee@linaro.org> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> >
-> > While debugging check-acceptance failures I found an instability in
-> > the mips64el test case. Briefly the test case:
-> >
-> >   retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
-> >     -display none -vga none -serial mon:stdio \
-> >     -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
-> >     -cpu I6400 -smp 8 -vga std \
-> >     -append "printk.time=3D0 clocksource=3DGIC console=3Dtty0 console=
-=3DttyS0
-panic=3D-1" \
-> >     --no-reboot
-> >
->
-> Thank for the findings!
->
-> Could you perhaps attach or link to "retry.py"?
->
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Is this the script you used:
-
-https://github.com/stsquad/retry/blob/master/retry.py
-
-> Did you run this particular test for the first time now, or it used to
-> pass before?
->
-> Thanks,
-> Aleksandar
->
-> > Reports about a 9% failure rate:
-> >
-> >   Results summary:
-> >   0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
-> >   -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
-> >   Ran command 100 times, 91 passes
-> >
-> > When re-run with "--accel tcg,thread=3Dsingle" the instability goes
-> > away.
-> >
-> >   Results summary:
-> >   0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80
-deviation)
-> >   Ran command 100 times, 100 passes
-> >
-> > Which seems to indicate there is some aspect of the MIPS MTTCG fixes
-> > that has been missed. Ideally we would fix that but I'm afraid I don't
-> > have time to investigate and am not super familiar with the
-> > architecture anyway.
-> >
-> > I've disabled all the mips guests as I assume it's a fundamental
-> > synchronisation primitive that is broken but I haven't tested them all
-> > (there are a lot!).
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > Cc: Aurelien Jarno <aurelien@aurel32.net>
-> > Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> > Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> >  configure | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/configure b/configure
-> > index 206d22c5153..002792d21dc 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -7832,19 +7832,19 @@ case "$target_name" in
-> >      echo "TARGET_ABI32=3Dy" >> $config_target_mak
-> >    ;;
-> >    mips|mipsel)
-> > -    mttcg=3D"yes"
-> > +    mttcg=3D"no"
-> >      TARGET_ARCH=3Dmips
-> >      echo "TARGET_ABI_MIPSO32=3Dy" >> $config_target_mak
-> >    ;;
-> >    mipsn32|mipsn32el)
-> > -    mttcg=3D"yes"
-> > +    mttcg=3D"no"
-> >      TARGET_ARCH=3Dmips64
-> >      TARGET_BASE_ARCH=3Dmips
-> >      echo "TARGET_ABI_MIPSN32=3Dy" >> $config_target_mak
-> >      echo "TARGET_ABI32=3Dy" >> $config_target_mak
-> >    ;;
-> >    mips64|mips64el)
-> > -    mttcg=3D"yes"
-> > +    mttcg=3D"no"
-> >      TARGET_ARCH=3Dmips64
-> >      TARGET_BASE_ARCH=3Dmips
-> >      echo "TARGET_ABI_MIPSN64=3Dy" >> $config_target_mak
-> > --
-> > 2.20.1
-> >
-
---00000000000018099505a14c7070
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>=D0=BF=D0=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =
-=D1=83 18:08 Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemu.deve=
-l@gmail.com">aleksandar.qemu.devel@gmail.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=
-=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>&gt;<br>&gt; =D0=BF=D0=
-=B5=D1=82, 20. =D0=BC=D0=B0=D1=80 2020. =D1=83 12:45 Alex Benn=C3=A9e &lt;<=
-a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; =D1=
-=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>&gt; =
-&gt;<br>&gt; &gt; While debugging check-acceptance failures I found an inst=
-ability in<br>&gt; &gt; the mips64el test case. Briefly the test case:<br>&=
-gt; &gt;<br>&gt; &gt; =C2=A0 retry.py -n 100 -c -- ./mips64el-softmmu/qemu-=
-system-mips64el \<br>&gt; &gt; =C2=A0 =C2=A0 -display none -vga none -seria=
-l mon:stdio \<br>&gt; &gt; =C2=A0 =C2=A0 -machine malta -kernel ./vmlinux-4=
-.7.0-rc1.I6400 \<br>&gt; &gt; =C2=A0 =C2=A0 -cpu I6400 -smp 8 -vga std \<br=
->&gt; &gt; =C2=A0 =C2=A0 -append &quot;printk.time=3D0 clocksource=3DGIC co=
-nsole=3Dtty0 console=3DttyS0 panic=3D-1&quot; \<br>&gt; &gt; =C2=A0 =C2=A0 =
---no-reboot<br>&gt; &gt;<br>&gt;<br>&gt; Thank for the findings!<br>&gt;<br=
->&gt; Could you perhaps attach or link to &quot;retry.py&quot;?<br>&gt;<br>=
-<br>Is this the script you used:<br><br><a href=3D"https://github.com/stsqu=
-ad/retry/blob/master/retry.py">https://github.com/stsquad/retry/blob/master=
-/retry.py</a><br><br>&gt; Did you run this particular test for the first ti=
-me now, or it used to<br>&gt; pass before?<br>&gt;<br>&gt; Thanks,<br>&gt; =
-Aleksandar<br>&gt;<br>&gt; &gt; Reports about a 9% failure rate:<br>&gt; &g=
-t;<br>&gt; &gt; =C2=A0 Results summary:<br>&gt; &gt; =C2=A0 0: 91 times (91=
-.00%), avg time 5.547 (0.45 varience/0.67 deviation)<br>&gt; &gt; =C2=A0 -6=
-: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)<br>&gt; &g=
-t; =C2=A0 Ran command 100 times, 91 passes<br>&gt; &gt;<br>&gt; &gt; When r=
-e-run with &quot;--accel tcg,thread=3Dsingle&quot; the instability goes<br>=
-&gt; &gt; away.<br>&gt; &gt;<br>&gt; &gt; =C2=A0 Results summary:<br>&gt; &=
-gt; =C2=A0 0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 d=
-eviation)<br>&gt; &gt; =C2=A0 Ran command 100 times, 100 passes<br>&gt; &gt=
-;<br>&gt; &gt; Which seems to indicate there is some aspect of the MIPS MTT=
-CG fixes<br>&gt; &gt; that has been missed. Ideally we would fix that but I=
-&#39;m afraid I don&#39;t<br>&gt; &gt; have time to investigate and am not =
-super familiar with the<br>&gt; &gt; architecture anyway.<br>&gt; &gt;<br>&=
-gt; &gt; I&#39;ve disabled all the mips guests as I assume it&#39;s a funda=
-mental<br>&gt; &gt; synchronisation primitive that is broken but I haven&#3=
-9;t tested them all<br>&gt; &gt; (there are a lot!).<br>&gt; &gt;<br>&gt; &=
-gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linar=
-o.org">alex.bennee@linaro.org</a>&gt;<br>&gt; &gt; Cc: Aleksandar Markovic =
-&lt;<a href=3D"mailto:aleksandar.qemu.devel@gmail.com">aleksandar.qemu.deve=
-l@gmail.com</a>&gt;<br>&gt; &gt; Cc: Aurelien Jarno &lt;<a href=3D"mailto:a=
-urelien@aurel32.net">aurelien@aurel32.net</a>&gt;<br>&gt; &gt; Cc: Aleksand=
-ar Rikalo &lt;<a href=3D"mailto:aleksandar.rikalo@rt-rk.com">aleksandar.rik=
-alo@rt-rk.com</a>&gt;<br>&gt; &gt; Cc: Philippe Mathieu-Daud=C3=A9 &lt;<a h=
-ref=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>&gt; &gt; ---<br>=
-&gt; &gt; =C2=A0configure | 6 +++---<br>&gt; &gt; =C2=A01 file changed, 3 i=
-nsertions(+), 3 deletions(-)<br>&gt; &gt;<br>&gt; &gt; diff --git a/configu=
-re b/configure<br>&gt; &gt; index 206d22c5153..002792d21dc 100755<br>&gt; &=
-gt; --- a/configure<br>&gt; &gt; +++ b/configure<br>&gt; &gt; @@ -7832,19 +=
-7832,19 @@ case &quot;$target_name&quot; in<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0echo &quot;TARGET_ABI32=3Dy&quot; &gt;&gt; $config_target_mak<br>&gt; &g=
-t; =C2=A0 =C2=A0;;<br>&gt; &gt; =C2=A0 =C2=A0mips|mipsel)<br>&gt; &gt; - =
-=C2=A0 =C2=A0mttcg=3D&quot;yes&quot;<br>&gt; &gt; + =C2=A0 =C2=A0mttcg=3D&q=
-uot;no&quot;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0TARGET_ARCH=3Dmips<br>&gt; &g=
-t; =C2=A0 =C2=A0 =C2=A0echo &quot;TARGET_ABI_MIPSO32=3Dy&quot; &gt;&gt; $co=
-nfig_target_mak<br>&gt; &gt; =C2=A0 =C2=A0;;<br>&gt; &gt; =C2=A0 =C2=A0mips=
-n32|mipsn32el)<br>&gt; &gt; - =C2=A0 =C2=A0mttcg=3D&quot;yes&quot;<br>&gt; =
-&gt; + =C2=A0 =C2=A0mttcg=3D&quot;no&quot;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0TARGET_ARCH=3Dmips64<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0TARGET_BASE_ARCH=
-=3Dmips<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0echo &quot;TARGET_ABI_MIPSN32=3Dy&=
-quot; &gt;&gt; $config_target_mak<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0echo &qu=
-ot;TARGET_ABI32=3Dy&quot; &gt;&gt; $config_target_mak<br>&gt; &gt; =C2=A0 =
-=C2=A0;;<br>&gt; &gt; =C2=A0 =C2=A0mips64|mips64el)<br>&gt; &gt; - =C2=A0 =
-=C2=A0mttcg=3D&quot;yes&quot;<br>&gt; &gt; + =C2=A0 =C2=A0mttcg=3D&quot;no&=
-quot;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0TARGET_ARCH=3Dmips64<br>&gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0TARGET_BASE_ARCH=3Dmips<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0echo &quot;TARGET_ABI_MIPSN64=3Dy&quot; &gt;&gt; $config_target_mak<br>&=
-gt; &gt; --<br>&gt; &gt; 2.20.1<br>&gt; &gt;</div>
-
---00000000000018099505a14c7070--
+r~
 
