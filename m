@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9B618D54E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:04:44 +0100 (CET)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCDC18D557
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:07:43 +0100 (CET)
+Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL4d-0001lQ-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54565)
+	id 1jFL7W-0007KD-M7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:07:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0z-0005Hj-Az
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:58 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jFL17-0005VD-9y
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:01:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL0y-0005Rg-1v
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:30153)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL15-0005Zr-Hz
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:01:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:53570)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL0x-0005Q5-Tc
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:00:55 -0400
+ id 1jFL15-0005Zk-En
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:01:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723654;
+ s=mimecast20190719; t=1584723663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=02BJtmu2O0MAYVDAv96+wX90SDBllBZ9UcQUnCwYiy8=;
- b=SDK4i9XcVAu2wkMc5rz7Tit+ybg+nupzpD5Vn46/LkIWvebzCbJLJWTbptKUN7avpSWhTK
- sZqmi0hwvw9a86yU/nOLfQx0a1Cs0tyjY5rL6kAD01fbYVry01IbTkgSgF9kwWbqcqaQs4
- hMHrrpA78LO1dbU0EUqFWOHhr/w0r0M=
+ bh=t4JEo38OsoTleYSz1Ap6y5BLad8jF4RnSdlo4s9LBd0=;
+ b=SNIUTJm2S+bOWaa5DoBXtqwmT6PwxX/NY0T6ETYast1xweZuiAGylY/qe6XrVxV1gLLqoc
+ hxhrCb0XcASwluqQKEw3E8QV2TNl1KnNLbnX3HYrWkwWgf4W5MV+pnK1EZLUohoTUVIoxD
+ EhgrHPbIg8q23Fo89T5oyeJT8bDlbzI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-rANHI_eKMNCKKY8lghVg3w-1; Fri, 20 Mar 2020 13:00:50 -0400
-X-MC-Unique: rANHI_eKMNCKKY8lghVg3w-1
+ us-mta-265-6KUtMsyxMlyVBsuuqZFzig-1; Fri, 20 Mar 2020 13:00:59 -0400
+X-MC-Unique: 6KUtMsyxMlyVBsuuqZFzig-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50457800D5A;
- Fri, 20 Mar 2020 17:00:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EF5D108E446;
+ Fri, 20 Mar 2020 17:00:57 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8A916D22;
- Fri, 20 Mar 2020 17:00:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0EEB19757;
+ Fri, 20 Mar 2020 17:00:48 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 09/24] vfio: Force nested if iommu requires it
-Date: Fri, 20 Mar 2020 17:58:25 +0100
-Message-Id: <20200320165840.30057-10-eric.auger@redhat.com>
+Subject: [RFC v6 10/24] vfio: Introduce hostwin_from_range helper
+Date: Fri, 20 Mar 2020 17:58:26 +0100
+Message-Id: <20200320165840.30057-11-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -81,110 +81,93 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case we detect the address space is translated by
-a virtual IOMMU which requires HW nested paging to
-integrate with VFIO, let's set up the container with
-the VFIO_TYPE1_NESTING_IOMMU iommu_type.
+Let's introduce a hostwin_from_range() helper that returns the
+hostwin encapsulating an IOVA range or NULL if none is found.
+
+This improves the readibility of callers and removes the usage
+of hostwin_found.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
-
-v4 -> v5:
-- fail immediatly if nested is wanted but not supported
-
-v2 -> v3:
-- add "nested only is selected if requested by @force_nested"
-  comment in this patch
----
- hw/vfio/common.c | 36 ++++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+ hw/vfio/common.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 0b3593b3c0..ac417b5dbd 100644
+index ac417b5dbd..f20b37fbee 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1155,27 +1155,38 @@ static void vfio_put_address_space(VFIOAddressSpace=
- *space)
-  * vfio_get_iommu_type - selects the richest iommu_type (v2 first)
-  */
- static int vfio_get_iommu_type(VFIOContainer *container,
-+                               bool want_nested,
-                                Error **errp)
- {
--    int iommu_types[] =3D { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
-+    int iommu_types[] =3D { VFIO_TYPE1_NESTING_IOMMU,
-+                          VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
-                           VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
--    int i;
-+    int i, ret =3D -EINVAL;
-=20
-     for (i =3D 0; i < ARRAY_SIZE(iommu_types); i++) {
-         if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
--            return iommu_types[i];
-+            if (iommu_types[i] =3D=3D VFIO_TYPE1_NESTING_IOMMU && !want_ne=
-sted) {
-+                continue;
-+            }
-+            ret =3D iommu_types[i];
-+            break;
-         }
-     }
--    error_setg(errp, "No available IOMMU models");
--    return -EINVAL;
-+    if (ret < 0) {
-+        error_setg(errp, "No available IOMMU models");
-+    } else if (want_nested && ret !=3D VFIO_TYPE1_NESTING_IOMMU) {
-+        error_setg(errp, "Nested mode requested but not supported");
-+        ret =3D -EINVAL;
-+    }
-+    return ret;
+@@ -499,6 +499,19 @@ out:
+     rcu_read_unlock();
  }
 =20
- static int vfio_init_container(VFIOContainer *container, int group_fd,
--                               Error **errp)
-+                               bool want_nested, Error **errp)
- {
-     int iommu_type, ret;
-=20
--    iommu_type =3D vfio_get_iommu_type(container, errp);
-+    iommu_type =3D vfio_get_iommu_type(container, want_nested, errp);
-     if (iommu_type < 0) {
-         return iommu_type;
-     }
-@@ -1211,6 +1222,14 @@ static int vfio_connect_container(VFIOGroup *group, =
-AddressSpace *as,
-     VFIOContainer *container;
-     int ret, fd;
-     VFIOAddressSpace *space;
-+    IOMMUMemoryRegion *iommu_mr;
-+    bool nested =3D false;
++static VFIOHostDMAWindow *
++hostwin_from_range(VFIOContainer *container, hwaddr iova, hwaddr end)
++{
++    VFIOHostDMAWindow *hostwin;
 +
-+    if (as !=3D &address_space_memory && memory_region_is_iommu(as->root))=
- {
-+        iommu_mr =3D IOMMU_MEMORY_REGION(as->root);
-+        memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
-+                                     (void *)&nested);
++    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
++        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
++            return hostwin;
++        }
 +    }
++    return NULL;
++}
++
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
+ {
+@@ -508,7 +521,6 @@ static void vfio_listener_region_add(MemoryListener *li=
+stener,
+     void *vaddr;
+     int ret;
+     VFIOHostDMAWindow *hostwin;
+-    bool hostwin_found;
+     Error *err =3D NULL;
 =20
-     space =3D vfio_get_address_space(as);
-=20
-@@ -1272,12 +1291,13 @@ static int vfio_connect_container(VFIOGroup *group,=
- AddressSpace *as,
-     QLIST_INIT(&container->giommu_list);
-     QLIST_INIT(&container->hostwin_list);
-=20
--    ret =3D vfio_init_container(container, group->fd, errp);
-+    ret =3D vfio_init_container(container, group->fd, nested, errp);
-     if (ret) {
-         goto free_container_exit;
+     if (vfio_listener_skipped_section(section)) {
+@@ -593,15 +605,8 @@ static void vfio_listener_region_add(MemoryListener *l=
+istener,
+ #endif
      }
 =20
-     switch (container->iommu_type) {
-+    case VFIO_TYPE1_NESTING_IOMMU:
-     case VFIO_TYPE1v2_IOMMU:
-     case VFIO_TYPE1_IOMMU:
-     {
+-    hostwin_found =3D false;
+-    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
+-            hostwin_found =3D true;
+-            break;
+-        }
+-    }
+-
+-    if (!hostwin_found) {
++    hostwin =3D hostwin_from_range(container, iova, end);
++    if (!hostwin) {
+         error_setg(&err, "Container %p can't map guest IOVA region"
+                    " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, e=
+nd);
+         goto fail;
+@@ -774,16 +779,9 @@ static void vfio_listener_region_del(MemoryListener *l=
+istener,
+=20
+     if (memory_region_is_ram_device(section->mr)) {
+         hwaddr pgmask;
+-        VFIOHostDMAWindow *hostwin;
+-        bool hostwin_found =3D false;
++        VFIOHostDMAWindow *hostwin =3D hostwin_from_range(container, iova,=
+ end);
+=20
+-        QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-            if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova)=
+ {
+-                hostwin_found =3D true;
+-                break;
+-            }
+-        }
+-        assert(hostwin_found); /* or region_add() would have failed */
++        assert(hostwin); /* or region_add() would have failed */
+=20
+         pgmask =3D (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+         try_unmap =3D !((iova & pgmask) || (int128_get64(llsize) & pgmask)=
+);
 --=20
 2.20.1
 
