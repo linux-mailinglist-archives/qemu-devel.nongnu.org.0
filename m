@@ -2,71 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E118D122
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:37:58 +0100 (CET)
-Received: from localhost ([::1]:53658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CC318D11B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 15:37:34 +0100 (CET)
+Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFImb-0005qh-Nq
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:37:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49673)
+	id 1jFImD-0004sr-VY
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 10:37:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFIjQ-0001E6-6R
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:41 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jFIl1-0003TT-J7
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:36:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuval.shaia.ml@gmail.com>) id 1jFIjO-00071T-T9
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:40 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52791)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1jFIjO-000713-MO
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:34:38 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 11so6768320wmo.2
- for <qemu-devel@nongnu.org>; Fri, 20 Mar 2020 07:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=WLRGw4TSyydbZUMf9i34H/3aemcOZ131iJAvNdj19K4=;
- b=nKbMEjXGyV8iMZUq+EK3PWV1ztetGErh4sfJi/xGAbTLdvdqZ5WPVOq2SzewfEIQbF
- miEckaPOg76xvKJ4rFd1wwuWjVmEjRokzsptzrE7k5wDPB3497dOdAMznRWu11mytGTD
- JjW7PFiRcn8OS84U0iCNKBNzJ9GbAp+N2YAi+cqJJYqK8ZM6ZmZoDPuptTsW+yOMtnvm
- KYnARP/JY8nkyUT2U3bp+tCKvJMb+sTKZAifxuxlNvY2bWuaSNM2kyxa1KKv+cbTuRlc
- P0TXRwDMaCF+z+t0kGrZsHcQ2KZBmc2CmEBNkTY+06S1h0b2f84EnmPRzyOGvSS07TP1
- yFuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WLRGw4TSyydbZUMf9i34H/3aemcOZ131iJAvNdj19K4=;
- b=snQIpaHb/VYa+kk0qKwFGXZuXeRByefE7r3w/V+RHUplMw80qJWFxcfw2vcR+oGC11
- lDIVLlwTfHSfF/VwGKvu17EwD2Wc/uDC2apePvAWaSI9Em6aa3RxFNINR7awh1fOeYKB
- vgHS3YNfkCIatvnnetP5VYjZKYZUPMOh4N2f3FO42gb1nkkIL8jaV6sZtlrB+sRiCwaM
- c4H+jAuEQDkYVasxxb4ce1/TnJkjbgfkjYCPS3uKVpc+buQtBQPcuXodO93fLQYMvZWq
- vUzOEkiN4rkN3kj1X5UzgEFQUst0wNwKbUWs2FKlDvTU2ifeQ0vW7pWUO2AkJgvZgv3/
- T/QQ==
-X-Gm-Message-State: ANhLgQ2kpgmb5htDXwiM7iYpy8UZaauOy6mMebteD4V1ms8V1n8tT5bK
- wWPUTkLf6N2OGnWw7mQqHQbtkDJA
-X-Google-Smtp-Source: ADFU+vvZmSxcF+dvFo1sy+d9FdbkiOKpG3CLOPhQIyLqcytS4uL8zrsPwwFadPVNFLKTqRcvMf+xhQ==
-X-Received: by 2002:a7b:c0c7:: with SMTP id s7mr10316393wmh.187.1584714877341; 
- Fri, 20 Mar 2020 07:34:37 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:a040:186:a1ad:5254:ff:fe84:1be0])
- by smtp.gmail.com with ESMTPSA id
- s22sm7336694wmc.16.2020.03.20.07.34.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Mar 2020 07:34:36 -0700 (PDT)
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-To: qemu-devel@nongnu.org, yuval.shaia.ml@gmail.com, marcel.apfelbaum@gmail.com
-Subject: [PATCH v1 2/2] hw/rdma: Skip data-path mr_id translation
-Date: Fri, 20 Mar 2020 16:34:29 +0200
-Message-Id: <20200320143429.9490-3-yuval.shaia.ml@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200320143429.9490-1-yuval.shaia.ml@gmail.com>
-References: <20200320143429.9490-1-yuval.shaia.ml@gmail.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jFIl0-0000cz-C2
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 10:36:19 -0400
+Received: from mail-am6eur05on20710.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1b::710]:3885
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jFIkv-0000F4-Rl; Fri, 20 Mar 2020 10:36:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bTlX7fSIlMPQcyJvYh1huyeXcvuYTt2c5t/un/Ezwdsf9DNhGHQje+dkKlJDgiNSovq2CPNaIA5qr+/3e52C31MP5hMmDc3XGrQnSfateTpriRW6rwi/K0nsFRR2/SppHDRzPNqtAeTUsDQ2n0hviVS+yKawTrdjJa1JwmlttMDAJwDScr2HLdMuP3c9XFZPIZPlD4DD2YFvXZEZ/HX7s8mDK0+xfxAgINAvYvfZSgsOWXhI/6rM9qYld2vKkH72UhsaVqWh3PtYhoh5G+hvf0OPXY4blLxZdlQEe0cMf2LQS9lREuX7gzv6oUgFnyHGfR2jONmNshkpDpPtoXU+hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=34AhENEb0d098ZBr/mcpGzFLrlTMIPtl1CvxOlcCMFQ=;
+ b=oGV0jkrCINTddwVqKmROYcB5RO4Qj1EUg/z7whgkEmfTzTBgvby3ENfn5ldofaK/EMPWY2Q/3kH1sAIoij7+T0EvsrNkIeMKdaVQ7tK+Y2Ndy//qbemUujhNjyyMh80aTdBxft/3r0neKCueR6e7LcOx/RZOPMAJr/uIj3of5KHl8cXpD0QesoiO507RJ3ktoDSljaYo5K30THgm9XJcjBQGAUXWDNYvvFrihxJwx3SEXgrj0CnZWICw6MG1MWL0d9FokxlG6oJJ8vvAdn62S+ZhzvoFuR2dAe5lKgAEWwGpozy3oMnS6hUBIbKkfDHgudEP1EjSArGa8j1n+HFGJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=34AhENEb0d098ZBr/mcpGzFLrlTMIPtl1CvxOlcCMFQ=;
+ b=vPOKd3x5QPNiCM66dx/51+hLgDM8dKlqi9S5vQYQRfpcRlIGzG0AEjkWsB9PKD6D371PdwW5TeyykJxn8zRiU4wWS8CVItSh2HJ4GRXA86okA+rARs0WxZV7LA/kBCfvn6G/ncJafK3fkLfPq8evVbOk/psLiCh6OCyceF0h3jw=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com (10.175.35.136) by
+ HE1PR0802MB2153.eurprd08.prod.outlook.com (10.172.126.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.18; Fri, 20 Mar 2020 14:36:10 +0000
+Received: from HE1PR0802MB2507.eurprd08.prod.outlook.com
+ ([fe80::4d32:e4e1:5b9f:240f]) by HE1PR0802MB2507.eurprd08.prod.outlook.com
+ ([fe80::4d32:e4e1:5b9f:240f%12]) with mapi id 15.20.2835.017; Fri, 20 Mar
+ 2020 14:36:10 +0000
+Subject: Re: [PATCH v9 02/10] scripts: Coccinelle script to use
+ ERRP_AUTO_PROPAGATE()
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200312085936.9552-1-vsementsov@virtuozzo.com>
+ <20200312085936.9552-3-vsementsov@virtuozzo.com>
+ <874kuto7hq.fsf@dusky.pond.sub.org>
+ <4a70c6ee-10a2-fdc3-f8df-88c05340398b@virtuozzo.com>
+ <875zf8gt2m.fsf@dusky.pond.sub.org>
+ <7c6f9a91-76cf-242d-8166-0693ec14b24d@virtuozzo.com>
+ <87blozex9v.fsf@dusky.pond.sub.org>
+ <f9c8de73-38d8-a14c-632a-8e57d18e00c8@virtuozzo.com>
+ <87o8swk8wc.fsf@dusky.pond.sub.org>
+ <db2fa8a3-48cc-51aa-a3d5-eba88fb29f66@virtuozzo.com>
+ <87wo7jqn8m.fsf@dusky.pond.sub.org>
+ <c944511d-0a10-0840-258f-8e0bac19eb47@virtuozzo.com>
+ <87wo7gd3nb.fsf@dusky.pond.sub.org>
+ <d7bc3318-2d39-ce6f-1bd0-4165084458a2@virtuozzo.com>
+ <87r1xn2kmf.fsf@dusky.pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200320173606653
+Message-ID: <28ac8e37-6b43-3755-61d7-41dc2d45ed94@virtuozzo.com>
+Date: Fri, 20 Mar 2020 17:36:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <87r1xn2kmf.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR0502CA0010.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::20) To HE1PR0802MB2507.eurprd08.prod.outlook.com
+ (2603:10a6:3:e1::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.10) by
+ HE1PR0502CA0010.eurprd05.prod.outlook.com (2603:10a6:3:e3::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.18 via Frontend Transport; Fri, 20 Mar 2020 14:36:07 +0000
+X-Tagtoolbar-Keys: D20200320173606653
+X-Originating-IP: [185.215.60.10]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e7c830a1-ca81-49f0-9937-08d7ccdc07a1
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2153:
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB215306A69EA82E699A0897DEC1F50@HE1PR0802MB2153.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 03484C0ABF
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(376002)(346002)(366004)(396003)(39850400004)(199004)(4326008)(54906003)(36756003)(316002)(16526019)(186003)(2906002)(478600001)(6916009)(6486002)(16576012)(86362001)(66946007)(66476007)(81156014)(66556008)(52116002)(31696002)(8676002)(31686004)(8936002)(2616005)(7416002)(26005)(956004)(5660300002)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR0802MB2153;
+ H:HE1PR0802MB2507.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bZfQQmLCOAMy+rpGZ/WgtuRzEGOzAyfy49c47NZH/hQkE5FYjH1WoSc/GD5NaFhAsp/DtqzoCWFujTnSNsJJTt/hHWz/zA97i2XaFfpQcLI2rfqKvKqaeryxKTyQ80ZskHFsySIWweGW1bTMfg5ZJe8rJHW+f/f33oGPosNO7oAito/hVTi9cEgT3uwYQVqC8+LeRJKMiQiVPxgsMXwF9JcUEQ8MJdKJBMbbfsoT2GC0Mjx6Ga3KSUeepEK2a6IoOXARdJX3w0/vqObbXx9hk8WWvh4eC/5+hdIVp/z6ZjHY0xCaTq/PWNSYpHFIsXKIFs9xbxqfE+1y9mET3ZWHILutx+mrjiaoUPV3sAi5EJRfKR2l21Pqxr2kMJ9/tvKmVf0YA03XxpQ//McxCIQ8ogxVHybFfDEZPdz2CPdXjAlp2V6RQkAcnyHXuhklrfSq
+X-MS-Exchange-AntiSpam-MessageData: BDHh+g1zr1JC7sgRMOTgprSSaqhP/+3drIS0yaFYkeWWd1phKWoLEK2bmfB4asLYydWcQIeO5ezTuepxZEJWoaJw/yq4zEItJ4wlEQX+3IJqGDSmEByPXqWaYdlbC7dnsGs+lDQiF8RI+7YEltIMaQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7c830a1-ca81-49f0-9937-08d7ccdc07a1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 14:36:09.9092 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gaYMKZvZvmskDmApuBp+3RRRg+LKyY9dgG7uF9cFj9GbM4ErSzLIaUlZw7bXjTkAr1Lxydxbd7eP59zpAQEhRoe/m9Ab9gQYHPgXMMhiowQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2153
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a01:111:f400:7e1b::710
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,138 +125,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ Laszlo Ersek <lersek@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the change made in commit 68b89aee71 ("Utilize ibv_reg_mr_iova for
-memory registration") the MR emulation is no longer needed in order to
-translate the guest addresses into host addresses.
-With that, the next obvious step is to skip entirely the processing in
-data-path.
-To accomplish this, return the backend's lkey to driver so we will not
-need to do the emulated mr_id to backend mr_id translation in data-path.
+20.03.2020 16:58, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+> 
+>> 19.03.2020 13:45, Markus Armbruster wrote:
+>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+> [...]
+>>>> So, understanding that there no such cases in the whole tree, and even
+>>>> if your patch works faster on the whole tree, I still don't want to
+>>>> drop inheritance, because it's just a correct thing to do. Yes, we've
+>>>> added ____ helper. It helps to avoid some problems. Pair-inheritance
+>>>> helps to avoid another problems. I understand, that there still may
+>>>> other, not-covered problems, but better to be as safe as possible. And
+>>>> inheritance here is native and correct thing to do, even with our ____
+>>>> additional helper. What do you think?
+>>>
+>>> I wouldn't call it correct.  It's still unreliable, but less so than
+>>> without the function name constraint.  That makes it less wrong.
+>>
+>> Agree.
+>>
+>>>
+>>> 100% reliable would be nice, but not at any cost.  Something we're
+>>> reasonably confident to get right should be good enough.
+>>>
+>>> To be confident, we need to understand the script's limitations, and how
+>>> to compensate for them.  I figure we do now.  You too?
+>>>
+>>
+>> I will not be surprised, if we missed some more interesting cases :)
+>> But we should proceed. What is our plan? Will you queue v10 for 5.1?
+> 
+> v10's PATCH 1+2 look ready.  The error.h comment update could perhaps
+> use some polish; I've focused my attention elsewhere.
+> 
+> PATCH 8-9 are generated.  They should never be rebased, always be
+> regenerated.  We compare regenerated patches to posted ones to make sure
+> they are still sane, and the R-bys are still valid.  I can take care of
+> the comparing.
+> 
+> I'd like to have a pull request ready when the tree reopens for general
+> development.  Let's use the time until then to get more generated
+> patches out for review.
+> 
+> If I queue up patches in my tree, we shift the responsibility for
+> regenerating patches from you to me, and create a coordination issue:
+> you'll want to base patch submissions on the branch I use to queue this
+> work, and that's going to be awkward when I rebase / regenerate that
+> branch.  I think it's simpler to queue up in your tree until we're ready
+> for a pull request.
+> 
+> When you post more patches, use
+> 
+>      Based-on: <20200317151625.20797-1-vsementsov@virtuozzo.com>
+> 
+> so that Patchew applies them on top of this series.  Hmm, probably won't
+> do, as PATCH 9 already conflicts.
+> 
+> You could instead repost PATCH 1+2 with each batch.  I hope that's not
+> too confusing.
+> 
+> I trust you'll keep providing a tag reviewers can pull.
+> 
+> I suggest to ask maintainers to leave merging these patches to me, in
+> cover letters.
+> 
+> Makes sense?
+> 
 
-The function build_host_sge_array is still called in data-path but only
-for backward computability with statistics collection.
+Hmm.
 
-While there, as a cosmetic change to make the code cleaner - make one
-copy of the function rdma_backend_create_mr and leave the redundant
-guest_start argument in the legacy code.
+I remember what Kevin said about freeze period: maintainers will queue
+a lot of patches in their "next" branches, and send pull requests at start
+of next developing period. This highly possible will drop r-bs I can get now.
+And reviewers will have to review twice.
 
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
----
- hw/rdma/rdma_backend.c | 21 ++++++++++++++-------
- hw/rdma/rdma_backend.h |  5 -----
- hw/rdma/rdma_rm.c      | 13 ++++++-------
- 3 files changed, 20 insertions(+), 19 deletions(-)
+And for the same reason, it's bad idea to queue in your branch a lot of patches
+from different subsystems during freeze.
 
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-index b7ffbef9c0..3dd39fe1a7 100644
---- a/hw/rdma/rdma_backend.c
-+++ b/hw/rdma/rdma_backend.c
-@@ -377,6 +377,7 @@ static void ah_cache_init(void)
-                                     destroy_ah_hash_key, destroy_ah_hast_data);
- }
- 
-+#ifdef LEGACY_RDMA_REG_MR
- static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-                                 struct ibv_sge *sge, uint8_t num_sge,
-                                 uint64_t *total_length)
-@@ -391,9 +392,7 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-             return VENDOR_ERR_INVLKEY | sge[idx].lkey;
-         }
- 
--#ifdef LEGACY_RDMA_REG_MR
-         sge[idx].addr = (uintptr_t)mr->virt + sge[idx].addr - mr->start;
--#endif
-         sge[idx].lkey = rdma_backend_mr_lkey(&mr->backend_mr);
- 
-         *total_length += sge[idx].length;
-@@ -401,6 +400,19 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
- 
-     return 0;
- }
-+#else
-+static inline int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-+                                       struct ibv_sge *sge, uint8_t num_sge,
-+                                       uint64_t *total_length)
-+{
-+    int idx;
-+
-+    for (idx = 0; idx < num_sge; idx++) {
-+        *total_length += sge[idx].length;
-+    }
-+    return 0;
-+}
-+#endif
- 
- static void trace_mad_message(const char *title, char *buf, int len)
- {
-@@ -731,13 +743,8 @@ void rdma_backend_destroy_pd(RdmaBackendPD *pd)
-     }
- }
- 
--#ifdef LEGACY_RDMA_REG_MR
--int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
--                           size_t length, int access)
--#else
- int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-                            size_t length, uint64_t guest_start, int access)
--#endif
- {
- #ifdef LEGACY_RDMA_REG_MR
-     mr->ibmr = ibv_reg_mr(pd->ibpd, addr, length, access);
-diff --git a/hw/rdma/rdma_backend.h b/hw/rdma/rdma_backend.h
-index 127f96e2d5..225af481e0 100644
---- a/hw/rdma/rdma_backend.h
-+++ b/hw/rdma/rdma_backend.h
-@@ -78,13 +78,8 @@ int rdma_backend_query_port(RdmaBackendDev *backend_dev,
- int rdma_backend_create_pd(RdmaBackendDev *backend_dev, RdmaBackendPD *pd);
- void rdma_backend_destroy_pd(RdmaBackendPD *pd);
- 
--#ifdef LEGACY_RDMA_REG_MR
--int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
--                           size_t length, int access);
--#else
- int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-                            size_t length, uint64_t guest_start, int access);
--#endif
- void rdma_backend_destroy_mr(RdmaBackendMR *mr);
- 
- int rdma_backend_create_cq(RdmaBackendDev *backend_dev, RdmaBackendCQ *cq,
-diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
-index 1524dfaeaa..7e9ea283c9 100644
---- a/hw/rdma/rdma_rm.c
-+++ b/hw/rdma/rdma_rm.c
-@@ -227,21 +227,20 @@ int rdma_rm_alloc_mr(RdmaDeviceResources *dev_res, uint32_t pd_handle,
-         mr->length = guest_length;
-         mr->virt += (mr->start & (TARGET_PAGE_SIZE - 1));
- 
--#ifdef LEGACY_RDMA_REG_MR
--        ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
--                                     mr->length, access_flags);
--#else
-         ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
-                                      mr->length, guest_start, access_flags);
--#endif
-         if (ret) {
-             ret = -EIO;
-             goto out_dealloc_mr;
-         }
-+#ifdef LEGACY_RDMA_REG_MR
-+        /* We keep mr_handle in lkey so send and recv get get mr ptr */
-+        *lkey = *mr_handle;
-+#else
-+        *lkey = rdma_backend_mr_lkey(&mr->backend_mr);
-+#endif
-     }
- 
--    /* We keep mr_handle in lkey so send and recv get get mr ptr */
--    *lkey = *mr_handle;
-     *rkey = -1;
- 
-     mr->pd_handle = pd_handle;
+So, just postpone this all up to next development phase?
+
+
 -- 
-2.20.1
-
+Best regards,
+Vladimir
 
