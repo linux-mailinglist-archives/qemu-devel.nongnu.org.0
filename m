@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A22A18D556
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:07:42 +0100 (CET)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB11A18D551
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Mar 2020 18:05:54 +0100 (CET)
+Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFL7V-0007Dc-JJ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55211)
+	id 1jFL5l-0003Rf-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Mar 2020 13:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jFL2s-0008S1-GN
+ (envelope-from <eric.auger@redhat.com>) id 1jFL2t-0008Tm-6q
  for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:02:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jFL2r-00086J-0Z
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:02:54 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32764)
+ (envelope-from <eric.auger@redhat.com>) id 1jFL2r-00086i-K6
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:02:55 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:41223)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jFL2q-00086D-Sr
- for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:02:52 -0400
+ id 1jFL2r-00086T-Fi
+ for qemu-devel@nongnu.org; Fri, 20 Mar 2020 13:02:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584723772;
+ s=mimecast20190719; t=1584723773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRCYvNyp6k+qiCSb86uDVd7Udi0kz2LeIPXWk7Yjpd8=;
- b=PgGYJK4x3Ox4ddmnDlTfWLs5LELXc6ujbsCMNgtwaE9lV14iwgPyVMQYH4lXSr8zPt8zHo
- nssnsNSaVA8jvWK0ZHITcZVD4dZQW/3cl95UPc8YixZ5IVJOuYUEfyON/s81v1cb6eHZu6
- yIV33lGoW7pEQ6YjRn7CbPAAqFO+X54=
+ bh=DD005dd9XYq9ejeZfv7EejWiYQNyMFKKOlHMcCHP6e8=;
+ b=hJINlfe5a61C25a/EaVU5UTa3QO7XFfL9PO75V4nTc8uZsQUZOj3QZj95Ufb+Hd2F9+jBb
+ 8k40IddcE4DEvS0nHp2pE8ArBYS++QMXKAoRqJPUPa+HLKETIDtIeViQ8fYvjN4/VHvd0n
+ gsIIs2oLDQ4MIx3GqxtDCYg1fKrO9mk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-jAqFT69jNhSSmEhFlqzApA-1; Fri, 20 Mar 2020 13:02:51 -0400
-X-MC-Unique: jAqFT69jNhSSmEhFlqzApA-1
+ us-mta-200-P2-9E2bsOc2yW9dalUZa4Q-1; Fri, 20 Mar 2020 13:02:51 -0400
+X-MC-Unique: P2-9E2bsOc2yW9dalUZa4Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE6288E249E;
- Fri, 20 Mar 2020 17:02:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2B8F801F85;
+ Fri, 20 Mar 2020 17:02:27 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EACB1CFC5;
- Fri, 20 Mar 2020 17:02:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4343216D22;
+ Fri, 20 Mar 2020 17:02:16 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v6 14/24] vfio: Helper to get IRQ info including capabilities
-Date: Fri, 20 Mar 2020 17:58:30 +0100
-Message-Id: <20200320165840.30057-15-eric.auger@redhat.com>
+Subject: [RFC v6 15/24] vfio/pci: Register handler for iommu fault
+Date: Fri, 20 Mar 2020 17:58:31 +0100
+Message-Id: <20200320165840.30057-16-eric.auger@redhat.com>
 In-Reply-To: <20200320165840.30057-1-eric.auger@redhat.com>
 References: <20200320165840.30057-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -61,8 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,192 +80,183 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As done for vfio regions, add helpers to retrieve irq info
-including their optional capabilities.
+We use the new extended IRQ VFIO_IRQ_TYPE_NESTED type and
+VFIO_IRQ_SUBTYPE_DMA_FAULT subtype to set/unset
+a notifier for physical DMA faults. The associated eventfd is
+triggered, in nested mode, whenever a fault is detected at IOMMU
+physical level.
+
+The actual handler will be implemented in subsequent patches.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/vfio/common.c              | 97 +++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events          |  1 +
- include/hw/vfio/vfio-common.h |  7 +++
- 3 files changed, 105 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 4d51b1f63b..327fedf7e4 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1014,6 +1014,25 @@ vfio_get_region_info_cap(struct vfio_region_info *in=
-fo, uint16_t id)
-     return NULL;
- }
+---
+
+v4 -> v5:
+- index_to_str now returns the index name, ie. DMA_FAULT
+- use the extended IRQ
+
+v3 -> v4:
+- check VFIO_PCI_DMA_FAULT_IRQ_INDEX is supported at kernel level
+  before attempting to set signaling for it.
+---
+ hw/vfio/pci.c | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ hw/vfio/pci.h |  7 +++++
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 6f2d5696c3..7579f476b0 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2780,6 +2780,76 @@ static PCIPASIDOps vfio_pci_pasid_ops =3D {
+     .set_pasid_table =3D vfio_iommu_set_pasid_table,
+ };
 =20
-+struct vfio_info_cap_header *
-+vfio_get_irq_info_cap(struct vfio_irq_info *info, uint16_t id)
++static void vfio_dma_fault_notifier_handler(void *opaque)
 +{
-+    struct vfio_info_cap_header *hdr;
-+    void *ptr =3D info;
++    VFIOPCIExtIRQ *ext_irq =3D opaque;
 +
-+    if (!(info->flags & VFIO_IRQ_INFO_FLAG_CAPS)) {
-+        return NULL;
++    if (!event_notifier_test_and_clear(&ext_irq->notifier)) {
++        return;
 +    }
-+
-+    for (hdr =3D ptr + info->cap_offset; hdr !=3D ptr; hdr =3D ptr + hdr->=
-next) {
-+        if (hdr->id =3D=3D id) {
-+            return hdr;
-+        }
-+    }
-+
-+    return NULL;
 +}
 +
- static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
-                                           struct vfio_region_info *info)
- {
-@@ -1842,6 +1861,33 @@ retry:
-     return 0;
- }
-=20
-+int vfio_get_irq_info(VFIODevice *vbasedev, int index,
-+                      struct vfio_irq_info **info)
++static int vfio_register_ext_irq_handler(VFIOPCIDevice *vdev,
++                                         uint32_t type, uint32_t subtype,
++                                         IOHandler *handler)
 +{
-+    size_t argsz =3D sizeof(struct vfio_irq_info);
++    int32_t fd, ext_irq_index, index;
++    struct vfio_irq_info *irq_info;
++    Error *err =3D NULL;
++    EventNotifier *n;
++    int ret;
 +
-+    *info =3D g_malloc0(argsz);
++    ret =3D vfio_get_dev_irq_info(&vdev->vbasedev, type, subtype, &irq_inf=
+o);
++    if (ret) {
++        return ret;
++    }
++    index =3D irq_info->index;
++    ext_irq_index =3D irq_info->index - VFIO_PCI_NUM_IRQS;
++    g_free(irq_info);
 +
-+    (*info)->index =3D index;
-+retry:
-+    (*info)->argsz =3D argsz;
++    vdev->ext_irqs[ext_irq_index].vdev =3D vdev;
++    vdev->ext_irqs[ext_irq_index].index =3D index;
++    n =3D &vdev->ext_irqs[ext_irq_index].notifier;
 +
-+    if (ioctl(vbasedev->fd, VFIO_DEVICE_GET_IRQ_INFO, *info)) {
-+        g_free(*info);
-+        *info =3D NULL;
-+        return -errno;
++    ret =3D event_notifier_init(n, 0);
++    if (ret) {
++        error_report("vfio: Unable to init event notifier for ext irq %d(%=
+d)",
++                     ext_irq_index, ret);
++        return ret;
 +    }
 +
-+    if ((*info)->argsz > argsz) {
-+        argsz =3D (*info)->argsz;
-+        *info =3D g_realloc(*info, argsz);
++    fd =3D event_notifier_get_fd(n);
++    qemu_set_fd_handler(fd, vfio_dma_fault_notifier_handler, NULL,
++                        &vdev->ext_irqs[ext_irq_index]);
 +
-+        goto retry;
++    ret =3D vfio_set_irq_signaling(&vdev->vbasedev, index, 0,
++                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err);
++    if (ret) {
++        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++        qemu_set_fd_handler(fd, NULL, NULL, vdev);
++        event_notifier_cleanup(n);
 +    }
-+
-+    return 0;
-+}
-+
- int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
-                              uint32_t subtype, struct vfio_region_info **i=
-nfo)
- {
-@@ -1877,6 +1923,42 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, u=
-int32_t type,
-     return -ENODEV;
- }
-=20
-+int vfio_get_dev_irq_info(VFIODevice *vbasedev, uint32_t type,
-+                          uint32_t subtype, struct vfio_irq_info **info)
-+{
-+    int i;
-+
-+    for (i =3D 0; i < vbasedev->num_irqs; i++) {
-+        struct vfio_info_cap_header *hdr;
-+        struct vfio_irq_info_cap_type *cap_type;
-+
-+        if (vfio_get_irq_info(vbasedev, i, info)) {
-+            continue;
-+        }
-+
-+        hdr =3D vfio_get_irq_info_cap(*info, VFIO_IRQ_INFO_CAP_TYPE);
-+        if (!hdr) {
-+            g_free(*info);
-+            continue;
-+        }
-+
-+        cap_type =3D container_of(hdr, struct vfio_irq_info_cap_type, head=
-er);
-+
-+        trace_vfio_get_dev_irq(vbasedev->name, i,
-+                               cap_type->type, cap_type->subtype);
-+
-+        if (cap_type->type =3D=3D type && cap_type->subtype =3D=3D subtype=
-) {
-+            return 0;
-+        }
-+
-+        g_free(*info);
-+    }
-+
-+    *info =3D NULL;
-+    return -ENODEV;
-+}
-+
-+
- bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_ty=
-pe)
- {
-     struct vfio_region_info *info =3D NULL;
-@@ -1892,6 +1974,21 @@ bool vfio_has_region_cap(VFIODevice *vbasedev, int r=
-egion, uint16_t cap_type)
-     return ret;
- }
-=20
-+bool vfio_has_irq_cap(VFIODevice *vbasedev, int region, uint16_t cap_type)
-+{
-+    struct vfio_region_info *info =3D NULL;
-+    bool ret =3D false;
-+
-+    if (!vfio_get_region_info(vbasedev, region, &info)) {
-+        if (vfio_get_region_info_cap(info, cap_type)) {
-+            ret =3D true;
-+        }
-+        g_free(info);
-+    }
-+
 +    return ret;
 +}
 +
- /*
-  * Interfaces for IBM EEH (Enhanced Error Handling)
-  */
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 5de97a8882..c04a8c12d8 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -114,6 +114,7 @@ vfio_region_mmaps_set_enabled(const char *name, bool en=
-abled) "Region %s mmaps e
- vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) =
-"Device %s region %d: %d sparse mmap entries"
- vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long en=
-d) "sparse entry %d [0x%lx - 0x%lx]"
- vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t s=
-ubtype) "%s index %d, %08x/%0x8"
-+vfio_get_dev_irq(const char *name, int index, uint32_t type, uint32_t subt=
-ype) "%s index %d, %08x/%0x8"
- vfio_dma_unmap_overflow_workaround(void) ""
- vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size, uint64_t=
- nb_granules, bool leaf) "nested IOTLB invalidate asid=3D%d, addr=3D0x%"PRI=
-x64" granule_size=3D0x%"PRIx64" nb_granules=3D0x%"PRIx64" leaf=3D%d"
- vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate asid=3D%d"
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 8ca34146d7..2ef39cbbc3 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -200,6 +200,13 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uin=
-t32_t type,
- bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_ty=
-pe);
- struct vfio_info_cap_header *
- vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id);
-+int vfio_get_irq_info(VFIODevice *vbasedev, int index,
-+                      struct vfio_irq_info **info);
-+int vfio_get_dev_irq_info(VFIODevice *vbasedev, uint32_t type,
-+                          uint32_t subtype, struct vfio_irq_info **info);
-+bool vfio_has_irq_cap(VFIODevice *vbasedev, int irq, uint16_t cap_type);
-+struct vfio_info_cap_header *
-+vfio_get_irq_info_cap(struct vfio_irq_info *info, uint16_t id);
- #endif
- extern const MemoryListener vfio_prereg_listener;
++static void vfio_unregister_ext_irq_notifiers(VFIOPCIDevice *vdev)
++{
++    VFIODevice *vbasedev =3D &vdev->vbasedev;
++    Error *err =3D NULL;
++    int i;
++
++    for (i =3D 0; i < vbasedev->num_irqs - VFIO_PCI_NUM_IRQS; i++) {
++        if (vfio_set_irq_signaling(vbasedev, i + VFIO_PCI_NUM_IRQS , 0,
++                                   VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err))=
+ {
++            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++        }
++        qemu_set_fd_handler(event_notifier_get_fd(&vdev->ext_irqs[i].notif=
+ier),
++                            NULL, NULL, vdev);
++        event_notifier_cleanup(&vdev->ext_irqs[i].notifier);
++    }
++    g_free(vdev->ext_irqs);
++}
++
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
+     VFIOPCIDevice *vdev =3D PCI_VFIO(pdev);
+@@ -2790,7 +2860,7 @@ static void vfio_realize(PCIDevice *pdev, Error **err=
+p)
+     ssize_t len;
+     struct stat st;
+     int groupid;
+-    int i, ret;
++    int i, ret, nb_ext_irqs;
+     bool is_mdev;
 =20
+     if (!vdev->vbasedev.sysfsdev) {
+@@ -2890,6 +2960,11 @@ static void vfio_realize(PCIDevice *pdev, Error **er=
+rp)
+         goto error;
+     }
+=20
++    nb_ext_irqs =3D vdev->vbasedev.num_irqs - VFIO_PCI_NUM_IRQS;
++    if (nb_ext_irqs > 0) {
++        vdev->ext_irqs =3D g_new0(VFIOPCIExtIRQ, nb_ext_irqs);
++    }
++
+     vfio_populate_device(vdev, &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -3094,6 +3169,9 @@ static void vfio_realize(PCIDevice *pdev, Error **err=
+p)
+=20
+     vfio_register_err_notifier(vdev);
+     vfio_register_req_notifier(vdev);
++    vfio_register_ext_irq_handler(vdev, VFIO_IRQ_TYPE_NESTED,
++                                  VFIO_IRQ_SUBTYPE_DMA_FAULT,
++                                  vfio_dma_fault_notifier_handler);
+     vfio_setup_resetfn_quirk(vdev);
+=20
+     pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+@@ -3145,6 +3223,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+=20
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
++    vfio_unregister_ext_irq_notifiers(vdev);
+     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+     if (vdev->irqchip_change_notifier.notify) {
+         kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier)=
+;
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 0da7a20a7e..56f0fabb33 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -113,6 +113,12 @@ typedef struct VFIOMSIXInfo {
+     unsigned long *pending;
+ } VFIOMSIXInfo;
+=20
++typedef struct VFIOPCIExtIRQ {
++    struct VFIOPCIDevice *vdev;
++    EventNotifier notifier;
++    uint32_t index;
++} VFIOPCIExtIRQ;
++
+ typedef struct VFIOPCIDevice {
+     PCIDevice pdev;
+     VFIODevice vbasedev;
+@@ -134,6 +140,7 @@ typedef struct VFIOPCIDevice {
+     PCIHostDeviceAddress host;
+     EventNotifier err_notifier;
+     EventNotifier req_notifier;
++    VFIOPCIExtIRQ *ext_irqs;
+     int (*resetfn)(struct VFIOPCIDevice *);
+     uint32_t vendor_id;
+     uint32_t device_id;
 --=20
 2.20.1
 
