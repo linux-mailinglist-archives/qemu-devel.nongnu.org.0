@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB2518E227
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:47:59 +0100 (CET)
-Received: from localhost ([::1]:37704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC86018E22C
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:50:04 +0100 (CET)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFfPq-0005X3-Pv
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59957)
+	id 1jFfRr-0008Mz-Oo
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFfK0-0005Yu-LQ
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:41:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFfK6-0005jT-KE
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFfJz-0007Zl-Kc
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:41:56 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25476)
+ (envelope-from <philmd@redhat.com>) id 1jFfK5-0007cm-Fk
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:02 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:39494)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFfJz-0007ZL-GC
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:41:55 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFfK5-0007cW-Be
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584801715;
+ s=mimecast20190719; t=1584801721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aNR2u2S6oJHTNfAafS+3cPQs0kK7tiu5/JdDcxGLqd4=;
- b=J23Jpr+i+XZcnmyU70T26P+itVo75sFH0xtJPsj4P8ByWDSLHDix84VL5/eUCHN0XpT/1D
- Vnl/Q3mumgh+tYO6R/8c//nxTrfsJAUpNP+C60SFRW6P4drUhzs9oyNiQCNnZdyVUgTqZ2
- 2ZX88+sguFVbZp6qleecm9jqSdtXQ/c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-1mltPEi_MDKPWsG2tQ7e-w-1; Sat, 21 Mar 2020 10:41:53 -0400
-X-MC-Unique: 1mltPEi_MDKPWsG2tQ7e-w-1
-Received: by mail-wr1-f70.google.com with SMTP id b11so4354747wru.21
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 07:41:53 -0700 (PDT)
+ bh=Wabz9ShZfSLuxIv0MTXDbxATC0FT6q8THWUJCXN/WkY=;
+ b=XZaZT9Kv1kzu7sGM8bfJcaa0BGUWav1tr2dRp9uLV4k/w2LxoFp5hsF5HStBV99vEw6Wey
+ 7Z0joxoWn/asczC6AsCzFO4rhYt+3TdWJu/HOoSGJqJGms7rfH7frlBgT67M4u5H8lEje7
+ /2sw0Z5cBo1y5knW3KG6F/PbA6qa/9w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-kPHGW_RPPMSK83UAxrRCVQ-1; Sat, 21 Mar 2020 10:41:59 -0400
+X-MC-Unique: kPHGW_RPPMSK83UAxrRCVQ-1
+Received: by mail-wr1-f71.google.com with SMTP id w11so4360004wrp.20
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 07:41:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=10vzrd1KB4hBe4ZZMwH09166mQI1VXUjkd4JvuSfJzs=;
- b=TGFgkEK+TcwdN96KXqKFwH/aOvkcscxu+SFIXNHfdRudWMkIQPtYgZAvAAd9pCm+Zx
- Ab/i5ne9PR2mTlD1fgbl1x4MnqmonALAV7dHM+DW9+jBRAJ723ipaaQ2ywAcgvLbjeqX
- oEO8nmPBDGWUtkK5NdlbWkwFrAsZI+JbEZqkYYCVmzrxhPqlZ4a22R4aJEI9Wh5XBdws
- GDZo3VpYJYyXK169zEKuvoEMW3UuZcqxDgwDMN+1T7Ee9EN9O7i7ab/VV2/Mk17Mr2Xf
- X1dx7Og0jNvWLCd9+aUe6yPr4mXSYd7jEep2V5zRLV6meaqrfmDv/tTrhNw4A7JVhS5H
- Lyxw==
-X-Gm-Message-State: ANhLgQ0uVe85fhdrTWCRkbQUnt4pN3tXU57su8TEXBzUDy6Z/huj90wg
- Ygql+f7+4auXorKcJkQxg2MokcfubZQC5fg9CEWMRjKGdSBEd2Y23BYM+y96cBz79FvMvLqurCh
- 8PP3TCt4hKFUtxXU=
-X-Received: by 2002:adf:a490:: with SMTP id g16mr17744341wrb.42.1584801712171; 
- Sat, 21 Mar 2020 07:41:52 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvcdshd1gb0Sq4YqL62+G+0WKhBXbND0XSvaVf2BglTV01faEbdjx+USFWF7c7rg/A6yGHbRQ==
-X-Received: by 2002:adf:a490:: with SMTP id g16mr17744313wrb.42.1584801711853; 
- Sat, 21 Mar 2020 07:41:51 -0700 (PDT)
+ bh=eDep/UAh9LxMQ+p+ZbiwORp8mGO979hnIy8cu0Ibo6A=;
+ b=Xm6VtI2hdnrze/8QtMlErKhf8eGAtuTk7+ubMBdcocH0hYeODVp/PKmiuOFmonJr9V
+ yhoO7HM/enVtyFwqO7F49yjV3PL0pc3ex5gsdMuatOpfJO3iJR8blrBLvHbQJjM5zQtd
+ tMFfKROtoO5RNb+/WgQPCmhSwJivDVrgqqcJUinz6xVOXfhKh0yIjBbrtpC5zueuoBDi
+ LeQxc1qPjE/E2s4NjEYwPKzRCmYO6Nwh2smiijN3MjXdNZbvp0GC7sROqFsK4BaZWYKR
+ 980UTTI6sVWFvF8PAOWbYa/Rcx/nNO4yhKga9ZAPQ8wel06G6P6XWyGvKx+mdm8tdreX
+ 8C6Q==
+X-Gm-Message-State: ANhLgQ3+MKXvUV3KGmkzM4y0q6FulobEM6K6TRwIiuPTgjahNSQDr6hs
+ OdUVJe3PiCrWChhVIefnrhhKQYDdS8xe58tBvSgdvGmuEbv4ebeo1mRomWzF7FtB3mlyC9PmRFI
+ /RQNzQgI/n/b4WVQ=
+X-Received: by 2002:adf:b307:: with SMTP id j7mr18622715wrd.128.1584801718379; 
+ Sat, 21 Mar 2020 07:41:58 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtfnFMlK5o2AUliKihnwwfvHrClOE3oeCNEnuVDhJ9fRMly5LXyQNqsh5zSzzZ49D+7xGs/WA==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr18622686wrd.128.1584801718221; 
+ Sat, 21 Mar 2020 07:41:58 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id l83sm12694424wmf.43.2020.03.21.07.41.49
+ by smtp.gmail.com with ESMTPSA id l8sm12553155wmj.2.2020.03.21.07.41.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 07:41:51 -0700 (PDT)
+ Sat, 21 Mar 2020 07:41:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 06/11] hw/isa/i82378: Remove dead assignment
-Date: Sat, 21 Mar 2020 15:41:05 +0100
-Message-Id: <20200321144110.5010-7-philmd@redhat.com>
+Subject: [PATCH-for-5.0 v2 07/11] hw/gpio/aspeed_gpio: Remove dead assignment
+Date: Sat, 21 Mar 2020 15:41:06 +0100
+Message-Id: <20200321144110.5010-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200321144110.5010-1-philmd@redhat.com>
 References: <20200321144110.5010-1-philmd@redhat.com>
@@ -75,7 +75,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,52 +105,36 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the unique variable assigned as 'pit' which better
-represents what it holds, to fix a warning reported by the
-Clang static code analyzer:
+Fix warning reported by Clang static code analyzer:
 
-    CC      hw/isa/i82378.o
-  hw/isa/i82378.c:108:5: warning: Value stored to 'isa' is never read
-      isa =3D isa_create_simple(isabus, "i82374");
-      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/gpio/aspeed_gpio.c:717:18: warning: Value stored to 'g_idx' during its=
+ initialization is never read
+      int set_idx, g_idx =3D *group_idx;
+                   ^~~~~   ~~~~~~~~~~
 
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/i82378.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+v2: Do not declare g_idx in for() (Zoltan)
+---
+ hw/gpio/aspeed_gpio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index dcb6b479ea..d9e6c7fa00 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -67,7 +67,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     I82378State *s =3D I82378(dev);
-     uint8_t *pci_conf;
-     ISABus *isabus;
--    ISADevice *isa;
-+    ISADevice *pit;
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index 41e11ea9b0..bd19db31f4 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -714,7 +714,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offs=
+et, uint64_t data,
+ static int get_set_idx(AspeedGPIOState *s, const char *group, int *group_i=
+dx)
+ {
+     AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
+-    int set_idx, g_idx =3D *group_idx;
++    int set_idx, g_idx;
 =20
-     pci_conf =3D pci->config;
-     pci_set_word(pci_conf + PCI_COMMAND,
-@@ -99,13 +99,13 @@ static void i82378_realize(PCIDevice *pci, Error **errp=
-)
-     isa_bus_irqs(isabus, s->i8259);
-=20
-     /* 1 82C54 (pit) */
--    isa =3D i8254_pit_init(isabus, 0x40, 0, NULL);
-+    pit =3D i8254_pit_init(isabus, 0x40, 0, NULL);
-=20
-     /* speaker */
--    pcspk_init(isabus, isa);
-+    pcspk_init(isabus, pit);
-=20
-     /* 2 82C37 (dma) */
--    isa =3D isa_create_simple(isabus, "i82374");
-+    isa_create_simple(isabus, "i82374");
- }
-=20
- static void i82378_init(Object *obj)
+     for (set_idx =3D 0; set_idx < agc->nr_gpio_sets; set_idx++) {
+         const GPIOSetProperties *set_props =3D &agc->props[set_idx];
 --=20
 2.21.1
 
