@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B2F18E482
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 21:39:33 +0100 (CET)
-Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4164518E48B
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 21:52:08 +0100 (CET)
+Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFku4-0001Y2-Eh
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 16:39:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49749)
+	id 1jFl6D-0005tp-TG
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 16:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jFktC-0000rF-FV
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:38:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jFl52-0004tU-6C
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:50:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jFktA-0000Ro-Vd
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:38:38 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:43002)
+ (envelope-from <peter.maydell@linaro.org>) id 1jFl50-0006wU-Oy
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:50:51 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:38965)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jFktA-0000Qw-NB
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:38:36 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id 13so10526218oiy.9
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 13:38:36 -0700 (PDT)
+ id 1jFl50-0006vP-Er
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 16:50:50 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id d63so10527129oig.6
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 13:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kx65IdiqY0Rve+8pstLZqhopWGMDHOmptSRxaSeY7qY=;
- b=BE5yM0ROaiKCzZIy/gODWeyYZZ/CuTkYeGFpEnHPW3KQApmfiPWFFu/aRFszy37pS7
- x1OC6zhK4tSeuhUz5OAfz+7oeJmTOm3tgSXi+YMDoYtyW2lFukdrTGVkK8e8MfCeap7g
- 3XFeBVLlE+np0ekOvZvehyVCOKZwcIQGhvTrpWM3a/O9aF/CiCkxJgfH6qSP6s8lLI6x
- CWNR47tm4JqDUe9PaqyCFWOxclsz8YL1C9Eh6Rkzkd+gJRmAE+5YWCSGx/Kz//XPZat1
- i1IPW4Ij+BZVyGux8QmJGFiosEYuVz4SYQ4IX3zY66vUXJR5EWBLtLkJUc8G1VvnHvkC
- N6gw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=sWnqZE9uT1vmDyBo8aw3hK2K4I8vlaQG0yYSU/ctzGQ=;
+ b=Vg1u5aOhg9pwwd8DJYO/f3vjLVkobxjKGkX7cqDMesHwDC9MKDeW4BsFu2wYAYVMGt
+ CldCQQdZxZcc75y59FusrVn2VP1nCWCcIkHg9QkLInf530p2lSG7LwI+PB3lRgyJbEMR
+ DvWe70HaFArhq9NmzU68rU5w1vkNUPUEmhcDfCHjbRCR0LiG+6gUKSLClDYyxC72VKWY
+ lsi0k6gOQJKcCvahQfiw2oxYYH5SWYUxP1wEk2rDnPXiuNLSnGPZJSY63a1yAnnbnsVI
+ 30Kdud7PFMSLrPUz0lajNSLC/eleL14p+8299CxYbzZX6HOlZ/JY35kLEE554mYlMpsu
+ ECug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kx65IdiqY0Rve+8pstLZqhopWGMDHOmptSRxaSeY7qY=;
- b=VvJ+48psl+r7p+2XP161Gdv7zuxdkWVCk0mvtThkIjVzjOYJo7oQOlDFj2s7yyex9y
- j6zCzUdHDGImfEWxrSZBnolLgqg57arvssXT3tkyBfEyh/xez7Xnsu3aFPCQP9nPkPdF
- LyUDm7BoEnLXJCYE9U9KTXC5hUx6qyiKl6b9c1nEe6I+ZCLVBicz/phgs9oXCfJnR5fu
- hFEsZxZlSeflW/uSTnZWVP8BhwnK5d8fNlVZktL8Dzjxd66+st0XiMm/eMd2BSRI5YB3
- jd6BH/r8bsqtrtOJIDwIHCV/3AJTjqoXgoP3TpTW72ZKYlicNIG4eON9yghD7m6vX0yu
- afbQ==
-X-Gm-Message-State: ANhLgQ2jrmpH6TBMnYZ22l1y/zs+IUM7HscteXF9WpPYitcy5yUF3lKx
- Kbf7R/gcg+wy0qH7ckWvaruYa80v9hyeShtRTOJgTQ==
-X-Google-Smtp-Source: ADFU+vsTRQ6XOk+BrN6Vnr9Dh81jwtesfykU10k7t+6svQo+ozeBQ5D7sOsmL1SVLWD4jMsaC+8UeL+rvAUkDxjAXgw=
-X-Received: by 2002:aca:c608:: with SMTP id w8mr11924644oif.163.1584823115476; 
- Sat, 21 Mar 2020 13:38:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=sWnqZE9uT1vmDyBo8aw3hK2K4I8vlaQG0yYSU/ctzGQ=;
+ b=q5yenIKQoCMFXl4BpiIK4l4+4J3tL1j5/pXX1tCu4RftYjJFJyW6CudjvCXcayFUej
+ peLsSULyLWq076QfskV2x98HPb8WMAbfLFnayDwdpZdloPoUbCk3rp5xSly7hqZEvsif
+ +Lw1C6RkDfAbINCayixHgkjuLMCmdDiadZ1opOPwAOi6VQpgl+StmHth2bEeU7vi+U10
+ MKl0WDVPUK5gXlzfM9pPSXvKTyjJgJkQdtC8v79r1WNxDB/cPBeiJAW9l1Ram8yf+C9g
+ YFfnN0CD+UEz28Hf5xRZqwgxz4chVZrIj36amAQfgiId/dMf2XxrhfF17WyOgfQocWaS
+ VIiw==
+X-Gm-Message-State: ANhLgQ1rpGI1kcZWWCebolM+gyCxroQRn9uXvgq1eDe0T0qvHwQI4IzL
+ n0CCB4Y3HlfAPmnc0J7yWMJi+VDYWpNKym7YJUkSnla5Dija0g==
+X-Google-Smtp-Source: ADFU+vtFXPQp2K51GoZT/6fZAdmXJKN52LwOG0Fy0xUq3LK8d0KTiCMMKFcZYYUIo+2T8wK1oGAKkCkUjgLWY8xLFoM=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr11951680oif.163.1584823845564; 
+ Sat, 21 Mar 2020 13:50:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200320215916.3054194-1-alistair.francis@wdc.com>
-In-Reply-To: <20200320215916.3054194-1-alistair.francis@wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 21 Mar 2020 20:38:24 +0000
-Message-ID: <CAFEAcA-eUnNuK7sf99C4nWmfH8HS9uOGhRzV59=1Vqy3v+7_jA@mail.gmail.com>
-Subject: Re: [PULL 0/1] DTC queue for 5.0
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Sat, 21 Mar 2020 20:50:34 +0000
+Message-ID: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+Subject: deprecation of in-tree builds
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22a
+X-Received-From: 2607:f8b0:4864:20::22d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,37 +69,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Mar 2020 at 22:06, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit 3d0ac346032a1fa9afafcaedc979a99f670e077e:
->
->   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2020-03-20 13:54:23 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-dtc-next-20200320-1
->
-> for you to fetch changes up to 9f252c7c88eacbf21dadcfe117b0d08f2e88ceeb:
->
->   device_tree: Add info message when dumping dtb to file (2020-03-20 14:55:44 -0700)
->
-> ----------------------------------------------------------------
-> DTC patches for 5.0
->
-> ----------------------------------------------------------------
-> Leonardo Bras (1):
->       device_tree: Add info message when dumping dtb to file
+AIUI from Paolo, the intention is to deprecate and eventually
+stop supporting "in-tree" builds, so that the only option is
+building in a separate build directory. I thought we should
+probably mention that in the 5.0 changelog, so I wrote up some
+text:
 
+https://wiki.qemu.org/ChangeLog/5.0#Build_Information
 
-Applied, thanks.
+Suggestions for changes/comments etc welcome.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+(One thing we will need to fix before we can do separate build
+tree is the Coverity Scan build process, which (a) does an
+in-tree build (b) can't be easily switched to a builddir because
+all the source paths get baked into the scan results and moving
+to a builddir changes them all...)
 
+We could also make configure actively warn if used in
+the source tree.
+
+thanks
 -- PMM
 
