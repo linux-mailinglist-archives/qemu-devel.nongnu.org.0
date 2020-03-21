@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E8518E3DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 20:14:15 +0100 (CET)
-Received: from localhost ([::1]:39876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6ACC18E3E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 20:15:10 +0100 (CET)
+Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFjZV-00068h-Ie
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 15:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39551)
+	id 1jFjaP-0007Y5-Py
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 15:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jFjYc-0005Pp-51
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:19 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jFjYd-0005Pv-Js
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jFjYa-0005kc-Vz
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:18 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34490)
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jFjYc-0005lq-Il
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39241)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jFjYa-0005jR-Q7
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:16 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z15so11610991wrl.1
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 12:13:16 -0700 (PDT)
+ id 1jFjYc-0005lR-DG
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 15:13:18 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id h6so11584098wrs.6
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 12:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=8gkd+GdKBzH+wNfGQaNS3YPTshXHCvuQpMzwqvS7Fq4=;
- b=IQpi1KXz4ZTBFMAg575mHxGcETK98BhhZVmic2hbVtqZ7wpiCQzQETeLp9pT8uKyh0
- sq6o5q5vP/NeQ20qi6nexWkJ28/Ihbqdj6Prn+3zR7OEH2K/4BfVY4XB0zHLD9Hoz5po
- o7D0OaYigWDL5pu0ZtKYsuVW55+RwUf5HmCtdN5Gk9Wr1IePuVdgkX+6+dLbNRbJ5rr/
- CF88cLOhbaIhOcBitiuv3IF99NQMVchyuT8Zf4Io6rEgGIHlABSkx2TyiRnrhDEXGHpv
- Lfr3Xhanv5kTY/dSEV8966Vdnhca7oqMbNOiX//1CNL080/v5rqk9oUw+q+JfeyNRFv6
- uZ2A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=m5gz0JlOnw+UpHFzqPtGTuq9wcw2D7Vvrwm78V+zTTA=;
+ b=Spczl3WShUBDAAAiGAH+IkAENIeXGMdDUPKjyyVMgfI519Tx/7gS79lH84TjFFqoFk
+ 2ZZ9MI4XVzkyTkHkfiRek7OGK/R6gwJiKaZQ7kwUCPx+beP9uxm5OpVih//esfENKcFr
+ mWxogw5I0FkPUVan4aOZakQehte/YuFgOmj69Z1AVjwjfN4zcNCPxq1AWSzbzazSmwkt
+ TCItf2BKQpMUvC40wUBDecFUpb0gv4lSKFHBNyC750zhZJenGfwCRINbmso2+Fm/AnBt
+ RV7zp1LQmqBU1/usFZZ1FIdymopU5y/KgirEqJbIiI0ulIlUYcIJYT5qyJNQTUNPPRxN
+ MRng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=8gkd+GdKBzH+wNfGQaNS3YPTshXHCvuQpMzwqvS7Fq4=;
- b=nhmmmOOGIuSqtOv0x+b/N+sR+MfhyIHhXUKkeICrqxRhXMc8kNe+7FxQUjtYYiTVcK
- mKymAbA1ygGmQ6X14+Nh1/JizueYNU2aiVbwHBTNXZhT1uF1JhoOalYKxmaQgjaos6qv
- OcoNpPJKv7dOxIPIEoaVcvAclmLaOylqOpYtiDQBnvMZafvk9taO2Z19DAtisOlIreRP
- 4Mdqi1/5ogc/FqLyCf6wQ7kcySdqaIqrewMB/VtIJWAYKtWqzdiqecWjb+zdCi4yjSfq
- 7r6LO4YD7fBXHqJ8HVblTqJA2H8Q0WsHJxlkC6SC7v2yfpbkAKB0NP2OJSlI28GSjFm0
- cGBg==
-X-Gm-Message-State: ANhLgQ19S1eKjNDWHjR8kSE1x8q+PB17LaiXKH27pd7Euao4jxEJPFFo
- RsKUym+S+DyvLMXDeFku0XVxZZ24
-X-Google-Smtp-Source: ADFU+vuKxl3rfNTyCazUjtAUJMDTrBbs/U2/4hy1Wdj60KHqfUSbqtvmEgsNHSLp16LdaUhYJpkR8A==
-X-Received: by 2002:a5d:5092:: with SMTP id a18mr19134256wrt.202.1584817995365; 
- Sat, 21 Mar 2020 12:13:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=m5gz0JlOnw+UpHFzqPtGTuq9wcw2D7Vvrwm78V+zTTA=;
+ b=lZmbYgo4avr8B9U/rLr8WntIWBxMOkz9lWO2uEGula1/SlX6jQES8vL98FKnBhzH2L
+ /zOrsEY2p4lIVGUzeZZN7Vfd/GJsXJ3t9wpKx6fewfD0v6fVDWzqxUJNIebXhfdU519D
+ SPnHFhTEXIme4ptOK23WKXieMIVaYf27IRuGzjrQdDhfGvjygztZAWLBavgJtpUiEBD0
+ DQCbczSwneIC3sHd0Rs5AsJ3GjIcw9VpnpKtqcHRjIdkf1NiHIF4lGhVU0yfJuPq2HBT
+ Vo8R4mGNT9Jv99ppDS5WKnLiipuPX8SAVP7vwlD8CLYWp2o60P3BvmWCVSn57IeGFJOp
+ KQVw==
+X-Gm-Message-State: ANhLgQ343M7GFnYjoF4AdQmLatjwa0sLtjBmmJcm3s9LJ0Wd9oYKOdJn
+ /Ogd6P+X4sNv/L6tVl3IQ0SjRZ4D
+X-Google-Smtp-Source: ADFU+vv9GSFIqG6UcxLJQW/zlCVT1FdtUstZ3Nl/GHHBgwiCrhEnate9bzidEAy5Nu7ddzY6iRQwzw==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr18629386wro.193.1584817997161; 
+ Sat, 21 Mar 2020 12:13:17 -0700 (PDT)
 Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id i1sm15226252wrs.18.2020.03.21.12.13.13
+ by smtp.gmail.com with ESMTPSA id i1sm15226252wrs.18.2020.03.21.12.13.15
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 21 Mar 2020 12:13:14 -0700 (PDT)
+ Sat, 21 Mar 2020 12:13:16 -0700 (PDT)
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [Qemu-devel] [PATCH PULL 0/4] RDMA queue
-Date: Sat, 21 Mar 2020 21:13:07 +0200
-Message-Id: <20200321191311.31537-1-marcel.apfelbaum@gmail.com>
+Subject: [Qemu-devel] [PATCH PULL 1/4] hw/rdma/vmw/pvrdma_dev_ring: Replace
+ strncpy with pstrcpy
+Date: Sat, 21 Mar 2020 21:13:08 +0200
+Message-Id: <20200321191311.31537-2-marcel.apfelbaum@gmail.com>
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200321191311.31537-1-marcel.apfelbaum@gmail.com>
+References: <20200321191311.31537-1-marcel.apfelbaum@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,42 +81,43 @@ Cc: jusual@redhat.com, stefanha@redhat.com, yuval.shaia.ml@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 52a96afaa23d883d281bc7b95b9e69db7d6d3d3f:
+From: Julia Suvorova <jusual@redhat.com>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pull-request' into staging (2020-03-20 16:00:21 +0000)
+ring->name is defined as 'char name[MAX_RING_NAME_SZ]'. Replace untruncated
+strncpy with QEMU function.
+This case prevented QEMU from compiling with --enable-sanitizers.
 
-are available in the Git repository at:
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Message-Id: <20200318134849.237011-1-jusual@redhat.com>
+Reviewed-by: Yuval Shaia <yuval.shaia.ml.gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+---
+ hw/rdma/vmw/pvrdma_dev_ring.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  https://github.com/marcel-apf/qemu tags/rdma-pull-request
-
-for you to fetch changes up to f93cfdc583d4c26b2a878642adf574e11909863c:
-
-  hw/rdma: avoid suspicious strncpy() use (2020-03-21 19:21:20 +0200)
-
-----------------------------------------------------------------
-RDMA queue
-
-* hw/rdma: fix gcc 9.2 warnings
-* hw/rdma: eliminate data-path processing
-* hw/rdma: Replace strncpy with pstrcpy
-
-----------------------------------------------------------------
-Julia Suvorova (1):
-      hw/rdma/vmw/pvrdma_dev_ring: Replace strncpy with pstrcpy
-
-Stefan Hajnoczi (1):
-      hw/rdma: avoid suspicious strncpy() use
-
-Yuval Shaia (2):
-      hw/rdma: Cosmetic change - no need for two sge arrays
-      hw/rdma: Skip data-path mr_id translation
-
- hw/rdma/rdma_backend.c        | 61 +++++++++++++++++++++----------------------
- hw/rdma/rdma_backend.h        |  5 ----
- hw/rdma/rdma_rm.c             | 13 +++++----
- hw/rdma/vmw/pvrdma_dev_ring.c |  5 ++--
- 4 files changed, 39 insertions(+), 45 deletions(-)
-
+diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
+index d7bc7f5ccc..c2b3dd70a9 100644
+--- a/hw/rdma/vmw/pvrdma_dev_ring.c
++++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+@@ -16,6 +16,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
+ #include "cpu.h"
++#include "qemu/cutils.h"
+ 
+ #include "trace.h"
+ 
+@@ -30,8 +31,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
+     int i;
+     int rc = 0;
+ 
+-    strncpy(ring->name, name, MAX_RING_NAME_SZ);
+-    ring->name[MAX_RING_NAME_SZ - 1] = 0;
++    pstrcpy(ring->name, MAX_RING_NAME_SZ, name);
+     ring->dev = dev;
+     ring->ring_state = ring_state;
+     ring->max_elems = max_elems;
 -- 
 2.17.2
 
