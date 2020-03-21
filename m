@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C058718E228
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:49:15 +0100 (CET)
-Received: from localhost ([::1]:37727 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682A518E236
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:55:00 +0100 (CET)
+Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFfR4-0007Vr-NV
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60307)
+	id 1jFfWd-00077A-Ej
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFfKX-0006Qp-UY
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:31 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFfLm-0000Lk-VL
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:43:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFfKV-000859-Uw
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:29 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:60308)
+ (envelope-from <philmd@redhat.com>) id 1jFfLk-0000Ot-O8
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:43:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:22309)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFfKV-00084m-RO
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:42:27 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFfLk-0000NZ-JO
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:43:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584801747;
+ s=mimecast20190719; t=1584801824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GEdgbG/luCssALBIqG8TygafayDXTkEa0M3aN0ohCNI=;
- b=cIp5SluX0y6SYadZfm4elMxH1AqbOHUsOt7nvn8wQPeAXviD+qC2AmiV0llvNvEJbwLesG
- pt7DE/6RdaHQ51569nra/GvikVAyv1kftzz7fum9098KQKmvF1E5DUYOkXbyPanq/JN+7E
- KUGrWDZ4+71AhhBv/StlS9nQF+ifxoE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-Luqkr_GVP6GEeIhEFks8Jw-1; Sat, 21 Mar 2020 10:42:25 -0400
-X-MC-Unique: Luqkr_GVP6GEeIhEFks8Jw-1
-Received: by mail-wr1-f69.google.com with SMTP id v7so4414691wrp.0
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 07:42:25 -0700 (PDT)
+ bh=xP1X/vYsg9JeRGG0cK/lMXeLtyzTis334aQojn7RlgE=;
+ b=E0tXE7pUdhEsfcITnzt0Z5Q/3N4qRIG4X9JBeGMe7/8qcehnzxDNulS+54udCqRykfOKzC
+ Gyzor8eyo6sxD+0C3Hk8xvHipXcTKwbbSCe4+15e7lQDyd+K3dj+j3ICvNPmwA/8uLZ/8m
+ bzTyO2khsJX/ti1fxlt8mTrIA+FKWDs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-gch8ub5pN-21tDMLvvDhkg-1; Sat, 21 Mar 2020 10:43:40 -0400
+X-MC-Unique: gch8ub5pN-21tDMLvvDhkg-1
+Received: by mail-ed1-f72.google.com with SMTP id i10so7610048edk.13
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 07:43:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RNYtNktAqDdDAs+EFJozo/fN2JmmaPRaAB7IeiBu7pw=;
- b=p+bYtzVNOWkHTXvsHJEyMFrEM+4HN2MxUN9+M5ysX9cdVG+FSeOSfuFfo6bsftTi9+
- mAhwrcvRF781VHtpKQWisBuiHOxQhK78esNlHieOkw6xgP4cd3RkYeI6rERJZZppU94B
- 9QgfDKYNMzN9S+hhKUWqUh4gGwMYJJWQ+WC5+XV48ukPs8cSLT7qIg+G4pXWknowN4Cy
- WR31f3AkJWGWzLMNS5TSlK4Xf8QdePthMo0iGbG19S80rP5mj7cm2FLhUIWXz+PdiEbI
- hFlW8wtqtfR8dAo5UEdydMk/Vgm4GGVWQqlSXqKPX3UECXyR+LsShyig14qm0gFysRVe
- 3Kdw==
-X-Gm-Message-State: ANhLgQ1AgYoTeGqlV0PQbQW/2iKkpRAb5oI4LniYHKQnYMcXvL/dYfEs
- qLPRMxZC0R8nifGeCmBfLKXCBjEfeKpuE/Ebnt+jtlaEYyM41gscSzawUU+Gby0dWFuKWzJO3D3
- 4PER80HdVwWLhNvM=
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr16751344wmb.93.1584801744191; 
- Sat, 21 Mar 2020 07:42:24 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsKPDyLXi8pa8eig6PFPmkwgoDRyetmzS36AEYiO2EqK8vpko5c519XDDmnXRQ0gyQY3H9VPw==
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr16751309wmb.93.1584801743946; 
- Sat, 21 Mar 2020 07:42:23 -0700 (PDT)
-Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F/OLVnoElxwEF3rlTbyB1ANgms+SlUxPt5Z/ioqo0ws=;
+ b=GsWsEWzgFg3RJIEoxg2zeDDv0NG4UG5jJAHYNOrcRjVY28vYpebRDRJVKCttqdbwUy
+ S1fEWp60EJ/hSrgsif/7dvqzODhiy/7izT1XRwdEMkaMHh6pv0suN21R+xH3ea2uAaFC
+ 393/lJAbtlZr/tc2Io0gF56g2cbKzYak/m4pWd+LDWy7Ogg0Wxh5Md9Zbp3UnTZ/IIRw
+ 4x4KbH7/xGrLsRaQgLh/UM6LAa9sawXqlW9Z8fGrwxYyLmeimfSR74FLXGleDnrYu3l3
+ iFECP9ea8O7fid8nP57mydQS4mTcE4e8NFcV/oSbijgIrJbnck1YhFjwBRIZz7zq4+5H
+ 66aw==
+X-Gm-Message-State: ANhLgQ2waURtdS4yrRiauHZISgPStutbcS7G1bC8jX5OUNI0yjlkqTRZ
+ DualJ6uEZFoPVVQFP47RCxTC/zLl/JVVsYXpndntJnx2wCqGGnxqDu59UJEOP75hTZbdiA1/OJ3
+ hfIRHMqCqUCiukR4=
+X-Received: by 2002:a17:906:9451:: with SMTP id
+ z17mr12858635ejx.176.1584801818843; 
+ Sat, 21 Mar 2020 07:43:38 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuQpSBay0NoE2JtF/dbQw/BKYEI/H2jAJkkC81gLLfWpRUJt8dIypFXtrHpnZV46cFcJZPGng==
+X-Received: by 2002:a17:906:9451:: with SMTP id
+ z17mr12858601ejx.176.1584801818627; 
+ Sat, 21 Mar 2020 07:43:38 -0700 (PDT)
+Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id v7sm13472822wml.18.2020.03.21.07.42.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 07:42:23 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id t13sm613293edw.49.2020.03.21.07.43.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Mar 2020 07:43:38 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0 v2 00/11] misc: Trivial static code analyzer fixes
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 11/11] hw/scsi/esp-pci: Remove dead assignment
-Date: Sat, 21 Mar 2020 15:41:10 +0100
-Message-Id: <20200321144110.5010-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200321144110.5010-1-philmd@redhat.com>
 References: <20200321144110.5010-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f16abe6b-f0d5-60f1-71e4-f4c40e08aa33@redhat.com>
+Date: Sat, 21 Mar 2020 15:43:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200321144110.5010-1-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
@@ -91,45 +95,56 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-block@nongnu.org,
  qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
  Joel Stanley <joel@jms.id.au>, Michael Tokarev <mjt@tls.msk.ru>,
  Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix warning reported by Clang static code analyzer:
+On 3/21/20 3:40 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Fix trivial warnings reported by the Clang static code analyzer.
 
-    CC      hw/scsi/esp-pci.o
-  hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
-          size =3D 4;
-          ^      ~
+I forgot to add the official Clang static code analyzer documentation is=20
+on https://clang-analyzer.llvm.org/ and on Fedora I simply used it as:
 
-Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/scsi/esp-pci.c | 1 -
- 1 file changed, 1 deletion(-)
+$ sudo dnf install clang-analyzer
+$ ../configure
+$ scan-build make
 
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index d5a1f9e017..2e6cc07d4e 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -195,7 +195,6 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
-         val <<=3D shift;
-         val |=3D current & ~(mask << shift);
-         addr &=3D ~3;
--        size =3D 4;
-     }
-=20
-     if (addr < 0x40) {
---=20
-2.21.1
+>=20
+> Since v1:
+> - Addressed Markus/Zoltan/Aleksandar review comments
+>=20
+> Philippe Mathieu-Daud=C3=A9 (11):
+>    block: Avoid dead assignment
+>    blockdev: Remove dead assignment
+>    hw/i2c/pm_smbus: Remove dead assignment
+>    hw/input/adb-kbd: Remove dead assignment
+>    hw/ide/sii3112: Remove dead assignment
+>    hw/isa/i82378: Remove dead assignment
+>    hw/gpio/aspeed_gpio: Remove dead assignment
+>    hw/timer/exynos4210_mct: Remove dead assignments
+>    hw/timer/stm32f2xx_timer: Remove dead assignment
+>    hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning
+>    hw/scsi/esp-pci: Remove dead assignment
+>=20
+>   block.c                    | 2 +-
+>   blockdev.c                 | 2 +-
+>   hw/gpio/aspeed_gpio.c      | 2 +-
+>   hw/i2c/pm_smbus.c          | 1 -
+>   hw/ide/sii3112.c           | 5 +++--
+>   hw/input/adb-kbd.c         | 6 +-----
+>   hw/isa/i82378.c            | 8 ++++----
+>   hw/scsi/esp-pci.c          | 1 -
+>   hw/timer/exynos4210_mct.c  | 3 ---
+>   hw/timer/pxa2xx_timer.c    | 1 +
+>   hw/timer/stm32f2xx_timer.c | 1 -
+>   11 files changed, 12 insertions(+), 20 deletions(-)
+>=20
 
 
