@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960B118E0D2
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:48:47 +0100 (CET)
-Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF2818E0D7
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:50:17 +0100 (CET)
+Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFccQ-0003n3-J2
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34629)
+	id 1jFcds-0007DM-VM
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:50:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFcaQ-0000fN-AI
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:43 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFcaW-0000zE-RS
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFcaP-0006MT-8t
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33854)
+ (envelope-from <philmd@redhat.com>) id 1jFcaV-0006RQ-SE
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:48 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33888)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcaP-0006M2-4o
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:41 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcaV-0006R4-Ns
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584791200;
+ s=mimecast20190719; t=1584791207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2U6ARuvMvLKS+fqGTEoijz7r0B3fBwOwTnOOBFQNRAw=;
- b=hG0rl2bjnZjvxE4P50y5Ax9avstqt+14e6VKPuifVfdsJmMbHwnwA8mnytOUZ8uCHC0XF6
- AuC3kiLod4yzLfr5p9ID183qnCizLkHOUUXufosbiP/VT7j7DaOuTnTJ1rFSE9jQ18yXH0
- RyNxrcSnUmn9azrARJnwHwPW5nlGTeQ=
+ bh=kQDd9EbUfb0uuK6iIsTzZMSp5qbZytglJrEh2QYroHU=;
+ b=LhhPvsHqd+9gdTRral+5RxEjZBb55LkoxKF+M+4woFoWlVl+baD2C8ezh9bEWIunzAXSje
+ O/orR9E5XjJosjOliB1f/hibVjX1f6VjNcsja31nVJ4ebaoLz4XzBg6dbHAM1v0SM7fqVZ
+ KMeqTee5qLPCkZE4k7fTRcyuGG0l7OM=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-ejGea2KcNeS8ugV50Xp4-g-1; Sat, 21 Mar 2020 07:46:39 -0400
-X-MC-Unique: ejGea2KcNeS8ugV50Xp4-g-1
-Received: by mail-wr1-f70.google.com with SMTP id e10so2409633wru.6
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:38 -0700 (PDT)
+ us-mta-462-9XMnFl3QMz24FJrC1AOHUQ-1; Sat, 21 Mar 2020 07:46:45 -0400
+X-MC-Unique: 9XMnFl3QMz24FJrC1AOHUQ-1
+Received: by mail-wr1-f70.google.com with SMTP id b12so4215754wro.4
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ez+E9s5mwrT8B9y8nVUYgFPf3iN6ckUcWWVa90evmD4=;
- b=h1HXJq6o/kWdlm1TUOUYqbKYW84Eu6HeARjkBCrMoQO0JDUX0RWk96GvsvyFWW6cJy
- 6yfbi/eI7opMcaFW7/oeogLVK4codu/a0wTjokedRNQ1zj/1cPfZ9bSWyzsOiCk0J/Y+
- p6hq8jutRJP7LEPcXOmOxSPYIk9XMVsmlmAWY6+xVjNHUFXAyfchc2CR6vi9k7Qxngmn
- j9d9+ZcbcpreCwN/mAlhNc4VbibXtMlIPG5aW48mfkq+BiquHuiFNVyWNla8I0mIrpLS
- Olya3+c2LFzun+cCRKj1c1n/HiUfNk9nDP5U4hvjed6GUBFuNZZywyCxOddwC8P9kQ77
- idDw==
-X-Gm-Message-State: ANhLgQ1OBrY97SqE3VA92y+QDjn01ViQnpcYOWZl0TR6gE7BhzowFVHf
- e9z886qMbX8zeaGRWIkwohYFts2hqAN6RMJ29seLmebrwEX8D3sbnpjNjEGKW59AewydEdELyja
- DmWIdlrFZzAejg8o=
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr17443690wrs.96.1584791197954; 
- Sat, 21 Mar 2020 04:46:37 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vve8rRdAc9j+mXkmu1X1eacNa+hVewhm4BXzBkCSSJNfv/v/it6Xfe4h3p5TbOBoIKzQ44UBQ==
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr17443653wrs.96.1584791197777; 
- Sat, 21 Mar 2020 04:46:37 -0700 (PDT)
+ bh=7jHPzgLUxabSngeicFYbktzokTE6KbRJJJ5XQsCuGXA=;
+ b=fFSjHh4f0tzltGK6FCynw8xMGYrJyqFIsBgy9zrOkgaibK6PmpxJBCw2qyDEaQOqno
+ XXyM6siefXXfM7JdplhjLAXZXlCdHDaLRG8hNJy4WDvKOz6aeoFgOb8jATMqY2AtTUKv
+ PZ+2BmHUy8XxtHefjwcOWkOcjI2vbBUzzMczw+BYx3paNhguMfd2rxiYSolc+Sqt6Pma
+ yw6RZKZGAJA5PbA/YkHw+XmkTAnUJXcrDesVX3Pqay0bXUJVce5NuhfU9gC20s6RyXHO
+ FvKQE7EyL9fpxN63FoGL235H3z7VXRT9rNBjTGmYTE1uz+xs+p5/HuYdzzBZlZ8eQID/
+ GlWA==
+X-Gm-Message-State: ANhLgQ0NON0Dl0x+4r0Y87OyDGiyuhEO6QeafGPrHEgGRlj0zaVGFFQS
+ hSOL37MjtYdosEHgBfnVBjqqzJGrd+rxfwiJMfUjmmjy+dSap3QVW6/SX1fl0pEyyQ7+e1OTuQG
+ fbcK0pKDmPz2dYCs=
+X-Received: by 2002:a5d:66c2:: with SMTP id k2mr16786078wrw.408.1584791204442; 
+ Sat, 21 Mar 2020 04:46:44 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuFSW+CXcA6YfLipptcKR9ABiJniuj3MZjBTWYLGZb0p+0Bf/8+S0d9XoeCUTxe7T9qj4FMdg==
+X-Received: by 2002:a5d:66c2:: with SMTP id k2mr16786051wrw.408.1584791204274; 
+ Sat, 21 Mar 2020 04:46:44 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id c5sm15737698wma.3.2020.03.21.04.46.35
+ by smtp.gmail.com with ESMTPSA id i67sm13424296wri.50.2020.03.21.04.46.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 04:46:37 -0700 (PDT)
+ Sat, 21 Mar 2020 04:46:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 02/11] blockdev: Remove dead assignment
-Date: Sat, 21 Mar 2020 12:46:06 +0100
-Message-Id: <20200321114615.5360-3-philmd@redhat.com>
+Subject: [PATCH-for-5.0 03/11] hw/i2c/pm_smbus: Remove dead assignment
+Date: Sat, 21 Mar 2020 12:46:07 +0100
+Message-Id: <20200321114615.5360-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200321114615.5360-1-philmd@redhat.com>
 References: <20200321114615.5360-1-philmd@redhat.com>
@@ -75,8 +75,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,31 +107,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      blockdev.o
-  blockdev.c:2744:5: warning: Value stored to 'ret' is never read
-      ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CC      hw/i2c/pm_smbus.o
+  hw/i2c/pm_smbus.c:187:17: warning: Value stored to 'ret' is never read
+                  ret =3D 0;
+                  ^     ~
 
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- blockdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i2c/pm_smbus.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index fa8630cb41..6effd5afaa 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2741,7 +2741,7 @@ void qmp_block_resize(bool has_device, const char *de=
-vice,
-     }
-=20
-     bdrv_drained_begin(bs);
--    ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-+    blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-     bdrv_drained_end(bs);
-=20
- out:
+diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
+index 36994ff585..4728540c37 100644
+--- a/hw/i2c/pm_smbus.c
++++ b/hw/i2c/pm_smbus.c
+@@ -184,7 +184,6 @@ static void smb_transaction(PMSMBus *s)
+                 s->smb_stat |=3D STS_HOST_BUSY | STS_BYTE_DONE;
+                 s->smb_data[0] =3D s->smb_blkdata;
+                 s->smb_index =3D 0;
+-                ret =3D 0;
+             }
+             goto out;
+         }
 --=20
 2.21.1
 
