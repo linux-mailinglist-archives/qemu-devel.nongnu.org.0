@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF2818E0D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:50:17 +0100 (CET)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0038518E0DA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:52:04 +0100 (CET)
+Received: from localhost ([::1]:35668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFcds-0007DM-VM
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34675)
+	id 1jFcfc-0002VT-19
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFcaW-0000zE-RS
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFcai-0001Le-7U
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFcaV-0006RQ-SE
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:48 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33888)
+ (envelope-from <philmd@redhat.com>) id 1jFcah-0006ae-50
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:00 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21483)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcaV-0006R4-Ns
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:47 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcah-0006aG-1l
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584791207;
+ s=mimecast20190719; t=1584791218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQDd9EbUfb0uuK6iIsTzZMSp5qbZytglJrEh2QYroHU=;
- b=LhhPvsHqd+9gdTRral+5RxEjZBb55LkoxKF+M+4woFoWlVl+baD2C8ezh9bEWIunzAXSje
- O/orR9E5XjJosjOliB1f/hibVjX1f6VjNcsja31nVJ4ebaoLz4XzBg6dbHAM1v0SM7fqVZ
- KMeqTee5qLPCkZE4k7fTRcyuGG0l7OM=
+ bh=c4GCDGuXxVBz+Q5fzhTo9pG6tPh9hgrqUC7e1TLGPOU=;
+ b=hPY3AvL/rn5OmGMQn6XFbJUp9MOxmkHpe7cJH4dzYGQ0j30UQCT443H7iOlLVP6qsCc8AU
+ oPW0bOxhRvOcRSxWgNGUECuXa2dXc2Mu2Gtt9Anlwqrn9lwmIOcLkbDVa5dYnGQodgl7ht
+ tSXOXFv5v2fBmet2IGzIrJYZWs6emZc=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-9XMnFl3QMz24FJrC1AOHUQ-1; Sat, 21 Mar 2020 07:46:45 -0400
-X-MC-Unique: 9XMnFl3QMz24FJrC1AOHUQ-1
-Received: by mail-wr1-f70.google.com with SMTP id b12so4215754wro.4
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:45 -0700 (PDT)
+ us-mta-485--yLcort2PHGRixcSt5MazA-1; Sat, 21 Mar 2020 07:46:57 -0400
+X-MC-Unique: -yLcort2PHGRixcSt5MazA-1
+Received: by mail-wr1-f70.google.com with SMTP id o18so767824wrx.9
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7jHPzgLUxabSngeicFYbktzokTE6KbRJJJ5XQsCuGXA=;
- b=fFSjHh4f0tzltGK6FCynw8xMGYrJyqFIsBgy9zrOkgaibK6PmpxJBCw2qyDEaQOqno
- XXyM6siefXXfM7JdplhjLAXZXlCdHDaLRG8hNJy4WDvKOz6aeoFgOb8jATMqY2AtTUKv
- PZ+2BmHUy8XxtHefjwcOWkOcjI2vbBUzzMczw+BYx3paNhguMfd2rxiYSolc+Sqt6Pma
- yw6RZKZGAJA5PbA/YkHw+XmkTAnUJXcrDesVX3Pqay0bXUJVce5NuhfU9gC20s6RyXHO
- FvKQE7EyL9fpxN63FoGL235H3z7VXRT9rNBjTGmYTE1uz+xs+p5/HuYdzzBZlZ8eQID/
- GlWA==
-X-Gm-Message-State: ANhLgQ0NON0Dl0x+4r0Y87OyDGiyuhEO6QeafGPrHEgGRlj0zaVGFFQS
- hSOL37MjtYdosEHgBfnVBjqqzJGrd+rxfwiJMfUjmmjy+dSap3QVW6/SX1fl0pEyyQ7+e1OTuQG
- fbcK0pKDmPz2dYCs=
-X-Received: by 2002:a5d:66c2:: with SMTP id k2mr16786078wrw.408.1584791204442; 
- Sat, 21 Mar 2020 04:46:44 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuFSW+CXcA6YfLipptcKR9ABiJniuj3MZjBTWYLGZb0p+0Bf/8+S0d9XoeCUTxe7T9qj4FMdg==
-X-Received: by 2002:a5d:66c2:: with SMTP id k2mr16786051wrw.408.1584791204274; 
- Sat, 21 Mar 2020 04:46:44 -0700 (PDT)
+ bh=EI7aeJF1EJiZnbf/LHlroG4oQCKwaeGXEJr4kT4GssI=;
+ b=OJzs3Ak+bznNkJUhuKVOoJ4T/TKfubwRcdDgvlUOAu7utbnV/Ju8D0OsrVcQ3cWezO
+ Yon2d1dF4JjK73rKwwyHszisVv8zoPVauH74Gj8CWXFg+TanUFyIs/n6b31yVI4u/FQ7
+ mR4TIV2KVcl5hwQnHJvTLvIjFk43XA9qRYuWD6054k52+qzJZX18ynnVllIQOTjQmiD0
+ /WPD85dAKcWAWs+ybjKGJGhzIeyYIrumm8fQLtoNyIsKwLESR/5+PwPdDOyS03ZxlnJT
+ jsswP7vqm/96d2Stdd1W0pgnhGpFtusmzfPIKn5S3qtvClVnhhz3NPXVfcqgFBKIHhbY
+ Vahw==
+X-Gm-Message-State: ANhLgQ3nXWf24Irp6+PiBlGv4nC1E7dyRQ1+hdiyFvEV06umKcx5CCTw
+ /PKBvFQZNXd3su3ZYbSsZga3e49rMMPdo+DOiT78RzaBLyXFx2W+kwJSqWekKILZHBPVAeYDtnt
+ Lx5A8cQBUdI5mBh8=
+X-Received: by 2002:a1c:a950:: with SMTP id s77mr15599448wme.176.1584791215862; 
+ Sat, 21 Mar 2020 04:46:55 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvfQ4vrBm8KBgyUaD+hLChCbh5Ae2/d75e8M+xeE+5T8Oik5ZY2x5rINBu/X0yrYPRPHas5yw==
+X-Received: by 2002:a1c:a950:: with SMTP id s77mr15599432wme.176.1584791215666; 
+ Sat, 21 Mar 2020 04:46:55 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id i67sm13424296wri.50.2020.03.21.04.46.41
+ by smtp.gmail.com with ESMTPSA id y189sm12549500wmb.26.2020.03.21.04.46.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 04:46:43 -0700 (PDT)
+ Sat, 21 Mar 2020 04:46:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 03/11] hw/i2c/pm_smbus: Remove dead assignment
-Date: Sat, 21 Mar 2020 12:46:07 +0100
-Message-Id: <20200321114615.5360-4-philmd@redhat.com>
+Subject: [PATCH-for-5.0 04/11] hw/input/adb-kbd: Remove dead assignment
+Date: Sat, 21 Mar 2020 12:46:08 +0100
+Message-Id: <20200321114615.5360-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200321114615.5360-1-philmd@redhat.com>
 References: <20200321114615.5360-1-philmd@redhat.com>
@@ -75,7 +75,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,29 +108,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      hw/i2c/pm_smbus.o
-  hw/i2c/pm_smbus.c:187:17: warning: Value stored to 'ret' is never read
-                  ret =3D 0;
-                  ^     ~
+    CC      hw/input/adb-kbd.o
+  hw/input/adb-kbd.c:200:5: warning: Value stored to 'olen' is never read
+      olen =3D 0;
+      ^      ~
 
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i2c/pm_smbus.c | 1 -
+ hw/input/adb-kbd.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
-index 36994ff585..4728540c37 100644
---- a/hw/i2c/pm_smbus.c
-+++ b/hw/i2c/pm_smbus.c
-@@ -184,7 +184,6 @@ static void smb_transaction(PMSMBus *s)
-                 s->smb_stat |=3D STS_HOST_BUSY | STS_BYTE_DONE;
-                 s->smb_data[0] =3D s->smb_blkdata;
-                 s->smb_index =3D 0;
--                ret =3D 0;
-             }
-             goto out;
-         }
+diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
+index 0ba8207589..b0565be21b 100644
+--- a/hw/input/adb-kbd.c
++++ b/hw/input/adb-kbd.c
+@@ -197,7 +197,6 @@ static int adb_kbd_poll(ADBDevice *d, uint8_t *obuf)
+     int keycode;
+     int olen;
+=20
+-    olen =3D 0;
+     if (s->count =3D=3D 0) {
+         return 0;
+     }
 --=20
 2.21.1
 
