@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6230918E1D0
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:27:32 +0100 (CET)
-Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D2F18E231
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 15:53:23 +0100 (CET)
+Received: from localhost ([::1]:37818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFf63-0003W4-6y
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
+	id 1jFfV4-0004tt-Aj
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 10:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFf53-0002Xj-E3
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:26:30 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jFcEb-0003qq-HF
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:24:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFf52-00084X-50
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:26:29 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:42652)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFf51-00083s-VA
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 10:26:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584800787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Z4ixueJjJ4ubeAjWuW5nAjaqvlbdw9Nl7/+fHva+CU=;
- b=RkRi+LdoW0teX4WOpkhzqGk6sT+x2Ub9wCDdo6K06kApI+wv/4E6VrcXP+CBiwOPTIDCAc
- xT36QdTJ/7EBFrkqhou+icLQkIi3zh1TRhR8i/1WYBwF19Sjz/cPahFXZAX9EX08yd5bV/
- qFnzDXSv7KKIDdVnma1bvP+ztNF0ZsI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-J64oPEH0PTCxjiWdGyZKQQ-1; Sat, 21 Mar 2020 10:26:25 -0400
-X-MC-Unique: J64oPEH0PTCxjiWdGyZKQQ-1
-Received: by mail-ed1-f69.google.com with SMTP id ce13so7572196edb.11
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 07:26:25 -0700 (PDT)
+ (envelope-from <chenhuacai@gmail.com>) id 1jFcEa-0004YM-5m
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:24:09 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:42293)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chenhuacai@gmail.com>)
+ id 1jFcEZ-0004YE-Vj
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:24:08 -0400
+Received: by mail-io1-xd44.google.com with SMTP id q128so8956948iof.9
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jsA8oWlz1kDaWXTqh7SXMjVmDqnfEOCpGP3ek5sr+Vg=;
+ b=JOmMhKGMwLYkP/0HrThYhZRjNMSXzcKLoZdlIMPBWG5LAVZsPc6hGhHVm1aEaM+1b/
+ MMMN8yiMEtLs6bF+qjfDGCYPYzAMQmSjvmK9C8jKWDH5EMfj6HygwJGDy2refkZVXUG+
+ 13TYJVCtNVvmnCZ5yRT1QuOAR4/3B/gdnA/CmfSS+TNtPKRAnYsQ4UNH3FwGVTOrlyNA
+ +nX5XBKAUIv27JjoYimyE+PHwbJtDlw82XjgZnfpRRGEHZSUneqL5vxP96yM8MvSbMyC
+ vTTo92pqSXT3VmmK8oJJJ4U3wzwwpzd+WvO7/a1b6habdVyOg2XSwLTZrD1KAJOwc+69
+ ZhYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8fXzrylgCR5TsnuGN9CDtaZ0d54miYJjDG0GGxm3NPM=;
- b=l9puv85jNPp7etKSlqdV8ct7ul59HUYJ+EtUMht3hne1cqCoiDdl9oikdC9/ncKLnk
- N5w7kdFNYyNv7Oqk0gXSGBYoZzUOkieMjxIiJA392VKFZTlCWgkLc1wnn1z8LiaQfVKd
- Is9bYAXzrh4+O/49TcA5fZSsxvdfkzNNwwXjZnNFfr4sm7DK0zBfjtzUDdXVbZYupDiN
- bMbeGk+Uf8gyNJET0cyAtmVzIbQHaLgHnR+ZOGPT5mWmKtWI3Xo20JB6S+af36SoBN6x
- T4XOvhPNh/KTja6gBNKZ9yeiBOcm1rKG6QczXzuFzoyMN/f32cHQlglNuYtoc5RrDwro
- RNNQ==
-X-Gm-Message-State: ANhLgQ14rDh5ZVdHytzFRtJDL1OQUSKMc3WCwHnRfz6QcdhpULi73nmq
- EeQpwOMYvsu5Pamcg3pY7DuDsV+lp+DNNWX+7UNtAO+3TpnZoYXPoAsry3LJMH/lAataNktnQF6
- TtJNxFIFkhkT1n/E=
-X-Received: by 2002:a05:6402:14da:: with SMTP id
- f26mr7073504edx.96.1584800784463; 
- Sat, 21 Mar 2020 07:26:24 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvOjHNr3YDvQ1Nz9kZ8HTQvl+KMrHaw9aJwXFXslPTJtiGj+E5C1hcJrPqz8a8sAbtOS5MLcg==
-X-Received: by 2002:a05:6402:14da:: with SMTP id
- f26mr7073462edx.96.1584800784104; 
- Sat, 21 Mar 2020 07:26:24 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id e16sm563771ejx.53.2020.03.21.07.26.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Mar 2020 07:26:23 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0 05/11] hw/ide/sii3112: Remove dead assignment
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20200321114615.5360-1-philmd@redhat.com>
- <20200321114615.5360-6-philmd@redhat.com>
- <CAL1e-=hQPwJ3XKrt4ip2S92ScjyjS63-A4REDeXzyiCt1Phx6A@mail.gmail.com>
- <02375897-b520-fefb-a141-c013d29bde28@redhat.com>
-Message-ID: <7117b1dd-074b-04bf-61f5-da215faa0b7b@redhat.com>
-Date: Sat, 21 Mar 2020 15:26:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jsA8oWlz1kDaWXTqh7SXMjVmDqnfEOCpGP3ek5sr+Vg=;
+ b=b37qnM++tV3+18apq9Jt59PthpWkIF23e34h18Mn+iKVgTX58oA9mhkxO0oj9uAM3W
+ J4iA/cGGKOJp3Dv5yL77HBepxkvu6iMvS6LTEmxiZjgwA57wCUGuKSujNA9Yu+kl0Kqh
+ S7SL3VUHEqezjRVVQMUjYnNaLWx5KkOcCmIU+hUMAW+XpYJyjwj0V1iOHapbRagT/zEG
+ rmK57BukaMsz1X/8c3cjLqrqbN6dxLQHKPZtZOGe4X1KDvY39Z82+288byKS33B5nUtU
+ AbzEhTENFQnLV/C1Yte+5sK51AnT68cKY3wX4rRlI0lGgO6TMcNE90IomIFvJUSpCyKd
+ UpzA==
+X-Gm-Message-State: ANhLgQ1CjDct1CziRLpb4U/BSBN5hWfBOt8mJprbuy/Ix7y1p6bBztcT
+ 7yISA6BBH57T8irdxe97DxMJrxRdWK6HjXCRe+I=
+X-Google-Smtp-Source: ADFU+vvry7bYGT8v1AVH9OkDh3ncc5I5dPP/sneCMh8pNR8eYa3vu8qPaMqwQvr9lq+EmiPnS+l3KPPRPnHKgbMAPxE=
+X-Received: by 2002:a05:6638:19a:: with SMTP id
+ a26mr12439734jaq.137.1584789846796; 
+ Sat, 21 Mar 2020 04:24:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <02375897-b520-fefb-a141-c013d29bde28@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <20200321045621.2139953-1-jiaxun.yang@flygoat.com>
+ <3a52de21-180b-9f85-e33d-563752151017@redhat.com>
+ <A9E2018B-82A0-4889-B311-DD5D5D59D90F@flygoat.com>
+ <CF83865C-3904-4144-A68C-89804599EA38@flygoat.com>
+In-Reply-To: <CF83865C-3904-4144-A68C-89804599EA38@flygoat.com>
+From: Huacai Chen <chenhuacai@gmail.com>
+Date: Sat, 21 Mar 2020 19:30:46 +0800
+Message-ID: <CAAhV-H4o87s8zMP=7VYpzH7HgkhcTnWGfZ3H=FbMzZoE2_OpYQ@mail.gmail.com>
+Subject: Re: [PATCH] target/mips: Fix loongson multimedia condition
+ instructions
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d44
+X-Mailman-Approved-At: Sat, 21 Mar 2020 10:43:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,93 +79,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goate?= =?UTF-8?Q?r?= <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: aleksandar.qemu.devel@gmail.com, aleksandar.rikalo@rt-rk.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/21/20 3:14 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 3/21/20 2:39 PM, Aleksandar Markovic wrote:
->>
->>
->> On Saturday, March 21, 2020, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com=20
->> <mailto:philmd@redhat.com>> wrote:
->>
->> =C2=A0=C2=A0=C2=A0 Fix warning reported by Clang static code analyzer:
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 CC=C2=A0 =C2=A0 =C2=A0 hw/ide/sii=
-3112.o
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 hw/ide/sii3112.c:204:9: warning: Value s=
-tored to 'val' is never=20
->> read
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D 0;
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^=C2=A0 =C2=
-=A0 =C2=A0~
->>
->> =C2=A0=C2=A0=C2=A0 Reported-by: Clang Static Analyzer
->> =C2=A0=C2=A0=C2=A0 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@re=
-dhat.com
->> =C2=A0=C2=A0=C2=A0 <mailto:philmd@redhat.com>>
->> =C2=A0=C2=A0=C2=A0 ---
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0hw/ide/sii3112.c | 2 +-
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletio=
-n(-)
->>
->> =C2=A0=C2=A0=C2=A0 diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
->> =C2=A0=C2=A0=C2=A0 index 06605d7af2..36f1905ddb 100644
->> =C2=A0=C2=A0=C2=A0 --- a/hw/ide/sii3112.c
->> =C2=A0=C2=A0=C2=A0 +++ b/hw/ide/sii3112.c
->> =C2=A0=C2=A0=C2=A0 @@ -125,7 +125,7 @@ static uint64_t sii3112_reg_read(=
-void *opaque,
->> =C2=A0=C2=A0=C2=A0 hwaddr addr,
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0val =3D (uint=
-32_t)d->regs[1].sien << 16;
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0default:
->> =C2=A0=C2=A0=C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D 0;
->> =C2=A0=C2=A0=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
->>
->>
->> There is another function in the same file, having a similar switch=20
->> statement. There is no warning for that second tunction, since "val"=20
->> is its parameter, not a local varioble, like is the case here. This=20
->> means that the proposed change introduces inconsistency between two=20
->> functions, therefore it is better to remove the initialization of=20
->> "val" to 0, than to remove this line in "default" section.
->=20
-> No clue why there is no warnings emitted for sii3112_reg_write()...
->=20
-> Do you mind sending a patch?
+On Sat, Mar 21, 2020 at 7:17 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote=
+:
+>
+>
+>
+> =E4=BA=8E 2020=E5=B9=B43=E6=9C=8821=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=88=
+6:57:54, Jiaxun Yang <jiaxun.yang@flygoat.com> =E5=86=99=E5=88=B0:
+> >
+> >
+> >=E4=BA=8E 2020=E5=B9=B43=E6=9C=8821=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=
+=886:39:21, "Philippe Mathieu-Daud=C3=A9"
+> ><philmd@redhat.com> =E5=86=99=E5=88=B0:
+> >>On 3/21/20 5:56 AM, Jiaxun Yang wrote:
+> >>> Loongson multimedia condition instructions were previously
+> >>implemented as
+> >>> write 0 to rd due to lack of documentation. So I just confirmed with
+> >>Loongson
+> >>> about their encoding and implemented them correctly.
+> >>
+> >>Can you refer to the datasheet in the commit message, or have someone
+> >>from Loongson Technology, Lemote Tech or with access to the specs ack
+> >>your patch?
+> >
+> >I just confirmed with Loongson guys on IM.
+> >
+> >+ Huacai
+>
+> +Huacai's Gmail as his Lemote mail rejected my bounce.
+>
+> >
+> >Hi Huacai,
+> >
+> >Could you please acknowledge this change,
+> >Thanks.
+> >
+> >--
+> >Jiaxun Yang
+Acked-by: Huacai Chen <chenhc@lemote.com>
 
-Don't worry I'll follow up.
-
->=20
->>
->> Regards,
->> Aleksandar
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0}
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0trace_sii3112_read(size, ad=
-dr, val);
->> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0return val;
->> =C2=A0=C2=A0=C2=A0 -- =C2=A0=C2=A0=C2=A0 2.21.1
->>
->>
-
+> >
+> >>
+> >>>
+> >>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> >>> ---
+> >>>   target/mips/translate.c | 40
+> >>++++++++++++++++++++++++++++++++++------
+> >>>   1 file changed, 34 insertions(+), 6 deletions(-)
+> >>>
+> >>> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> >>> index d745bd2803..43be8d27b5 100644
+> >>> --- a/target/mips/translate.c
+> >>> +++ b/target/mips/translate.c
+> >>> @@ -5529,6 +5529,8 @@ static void
+> >>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> >>>   {
+> >>>       uint32_t opc, shift_max;
+> >>>       TCGv_i64 t0, t1;
+> >>> +    TCGCond cond;
+> >>> +    TCGLabel *lab;
+> >>>
+> >>>       opc =3D MASK_LMI(ctx->opcode);
+> >>>       switch (opc) {
+> >>> @@ -5816,7 +5818,7 @@ static void
+> >>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> >>>       case OPC_DADD_CP2:
+> >>>           {
+> >>>               TCGv_i64 t2 =3D tcg_temp_new_i64();
+> >>> -            TCGLabel *lab =3D gen_new_label();
+> >>> +            lab =3D gen_new_label();
+> >>>
+> >>>               tcg_gen_mov_i64(t2, t0);
+> >>>               tcg_gen_add_i64(t0, t1, t2);
+> >>> @@ -5837,7 +5839,7 @@ static void
+> >>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> >>>       case OPC_DSUB_CP2:
+> >>>           {
+> >>>               TCGv_i64 t2 =3D tcg_temp_new_i64();
+> >>> -            TCGLabel *lab =3D gen_new_label();
+> >>> +            lab =3D gen_new_label();
+> >>>
+> >>>               tcg_gen_mov_i64(t2, t0);
+> >>>               tcg_gen_sub_i64(t0, t1, t2);
+> >>> @@ -5862,14 +5864,39 @@ static void
+> >>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> >>>
+> >>>       case OPC_SEQU_CP2:
+> >>>       case OPC_SEQ_CP2:
+> >>> +        cond =3D TCG_COND_EQ;
+> >>> +        goto do_cc_cond;
+> >>> +        break;
+> >>> +
+> >>>       case OPC_SLTU_CP2:
+> >>> +        cond =3D TCG_COND_LTU;
+> >>> +        goto do_cc_cond;
+> >>> +        break;
+> >>> +
+> >>>       case OPC_SLT_CP2:
+> >>> +        cond =3D TCG_COND_LT;
+> >>> +        goto do_cc_cond;
+> >>> +        break;
+> >>> +
+> >>>       case OPC_SLEU_CP2:
+> >>> +        cond =3D TCG_COND_LEU;
+> >>> +        goto do_cc_cond;
+> >>> +        break;
+> >>> +
+> >>>       case OPC_SLE_CP2:
+> >>> -        /*
+> >>> -         * ??? Document is unclear: Set FCC[CC].  Does that mean
+> >the
+> >>> -         * FD field is the CC field?
+> >>> -         */
+> >>> +        cond =3D TCG_COND_LE;
+> >>> +    do_cc_cond:
+> >>> +        {
+> >>> +            int cc =3D (ctx->opcode >> 8) & 0x7;
+> >>> +            lab =3D gen_new_label();
+> >>> +            tcg_gen_ori_i32(fpu_fcr31, fpu_fcr31, 1 <<
+> >>get_fp_bit(cc));
+> >>> +            tcg_gen_brcond_i64(cond, t0, t1, lab);
+> >>> +            tcg_gen_xori_i32(fpu_fcr31, fpu_fcr31, 1 <<
+> >>get_fp_bit(cc));
+> >>> +            gen_set_label(lab);
+> >>> +        }
+> >>> +        goto no_rd;
+> >>> +        break;
+> >>> +
+> >>>       default:
+> >>>           MIPS_INVAL("loongson_cp2");
+> >>>           generate_exception_end(ctx, EXCP_RI);
+> >>> @@ -5878,6 +5905,7 @@ static void
+> >>gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+> >>>
+> >>>       gen_store_fpr64(ctx, t0, rd);
+> >>>
+> >>> +no_rd:
+> >>>       tcg_temp_free_i64(t0);
+> >>>       tcg_temp_free_i64(t1);
+> >>>   }
+> >>>
+>
+> --
+> Jiaxun Yang
 
