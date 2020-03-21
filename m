@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876FE18E96F
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 15:48:23 +0100 (CET)
-Received: from localhost ([::1]:46909 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD3718E9A4
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 16:30:44 +0100 (CET)
+Received: from localhost ([::1]:47356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG1tm-0007Gy-JI
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 10:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54498)
+	id 1jG2Yk-0005Ux-MN
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 11:30:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eyal.moscovici@oracle.com>) id 1jFwdy-0005pc-F8
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 05:11:43 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jG2XN-0004tv-1d
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eyal.moscovici@oracle.com>) id 1jFwdv-00015o-PL
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 05:11:41 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:56660)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eyal.moscovici@oracle.com>)
- id 1jFwds-000149-H7; Sun, 22 Mar 2020 05:11:36 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02M9AEI1121158;
- Sun, 22 Mar 2020 09:11:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=4TKHpg48FG+WYR853DyAmnpjVBnplNSfECTD8ZLEO7A=;
- b=lEHlu2uB8/uxEUErYkUkN+z+5aLsWugZPcIEjbZwTAvaN5PchXoT6nYxwIyI1Tnuod7X
- hYSYW3b0FkObTXVmYY3ejByDFK6NG7CjPYa0bduJ3MUa5yzKV84iBIPSE4VbgDppJytH
- bdRI24QSBkcfgD37kxPqKkSI3dM/nnZgM1GCaXelq+S9cvmOW+uSOu5thLkk2c5AbFNe
- fikgfshhxT1r0nSjiChhuKduy1L8XGGBS/0xSpMc7mtYIRipn9+KXuTq8FT7mMnp3/eL
- tBQjfQhODw2mdoSt2iFZfc0UX9GOKcZ4Nio2cC+C5IeCs29kWF7lJABTYqWBipefBGkc fw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2ywbjmtm0c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 22 Mar 2020 09:11:35 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02M92gNC068686;
- Sun, 22 Mar 2020 09:11:35 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2ywvmtye8g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 22 Mar 2020 09:11:35 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02M9BY3n003697;
- Sun, 22 Mar 2020 09:11:34 GMT
-Received: from localhost.localdomain (/10.74.126.182)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 22 Mar 2020 02:11:33 -0700
-From: Eyal Moscovici <eyal.moscovici@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qemu-img: Add --start-offset and --max-length to map
-Date: Sun, 22 Mar 2020 11:11:17 +0200
-Message-Id: <20200322091117.79443-3-eyal.moscovici@oracle.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20200322091117.79443-1-eyal.moscovici@oracle.com>
-References: <20200322091117.79443-1-eyal.moscovici@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9567
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- suspectscore=1 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003220053
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9567
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 bulkscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 suspectscore=1 impostorscore=0
- clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003220053
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
-X-Mailman-Approved-At: Sun, 22 Mar 2020 10:44:45 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1jG2XL-0004e7-JY
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:16 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:45479)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jG2XL-0004dh-EL
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:15 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id c9so706692otl.12
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 08:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FjAwZgJxyyLaNTWKQSHb81pCA4RTXYwnLvZfpgKOShE=;
+ b=hqDP8vrq09JuhkeVD+TVmCBe66Q6Ym6AWpmEkWkvOSUEkWykNidFgENntNYN+DlLG+
+ lug8DJvP5lbxZW6zT5n+CSb+ulLoe6IBlgJKoEtdRlMTiGvi0Sn9gAXsXSgYYHtn8wJ8
+ zCSqa89hOT7jdmGM81Hpwfk1nNF1k6Fb3hu0baWTPFGxTgTN64YVGd9DdogrXxDVns0T
+ StlcbfqTT/ZK+0n/xdrBkB0ROA67F1Ot2DprIAnBmTvDaEN0KjUVl+Iux1eX/fnppsdY
+ 9Wjnq3GlDK8WiZ+a0xH8jzynzgoNZiDJZAQZ5TXv4mBWzyI8Q/R0X0vmdH+CpkweMmOy
+ 0vvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FjAwZgJxyyLaNTWKQSHb81pCA4RTXYwnLvZfpgKOShE=;
+ b=SmISExWNpiEe3XirMISe7D1uXWPB3UtrJqpElIBgEi/CVhnCiqEOaetrj4M6+2tvyr
+ sLzgydyq2JqZ1eW6nAx36Jawx3IeMx16+InW2JfIcWrCY5yh5Rh9bgHs/oQcxxroeLfQ
+ cV75O8olm1kZutHazQ7OPslcQEgviffoLGoGoDryFHJqzJKGuNFrxJlyJ6kFtWpeFbs8
+ kt4SOIg8ZislSlREr+WD6TZ2eOh3iuSx7s2K85Bh7vp+M9mwlXnZtHGmdn9SKlExhPuk
+ wSo2WS+KMXfR46AeLyjhy1rCtNgeefVaoiDawoXIj4n+UVCHsvnfUm2EL2HFe7+we9Wc
+ 4BFg==
+X-Gm-Message-State: ANhLgQ0o/dohZGcENlxpEFT0JElR2YmmnAZfr2v9840qrN4EnoN2dchh
+ +fvmo2hK0g9xB+beHDyWAZDPPG1utZPdq/hfImQ=
+X-Google-Smtp-Source: ADFU+vuyKFGuJNjnVRwqIPYgM2PHvDrtBbeiJsIPRFxCbRsExOko7gNbXoAY3bls/cGQvNLcofFbIUV0EAFs49MLirg=
+X-Received: by 2002:a9d:7a47:: with SMTP id z7mr15178988otm.341.1584890953537; 
+ Sun, 22 Mar 2020 08:29:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+In-Reply-To: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Sat, 21 Mar 2020 23:45:12 +0100
+Message-ID: <CAL1e-=gKB0qRxGntXrU0im2gjMh1tq_SLGTm+HsmgBRGXQ9+Bg@mail.gmail.com>
+Subject: Re: deprecation of in-tree builds
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000004b1e4f05a1732e00"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,125 +71,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eyal Moscovici <eyal.moscovici@oracle.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>, liran.alon@oracle.com,
- Yoav Elnekave <yoav.elnekave@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mapping operation of large disks especially ones stored over a
-long chain of QCOW2 files can take a long time to finish.
-Additionally when mapping fails there was no way recover by
-restarting the mapping from the failed location.
+--0000000000004b1e4f05a1732e00
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The new options, --start-offset and --max-length allows the user to
-divide these type of map operations into shorter independent tasks.
+9:51 PM Sub, 21.03.2020. Peter Maydell <peter.maydell@linaro.org> =D1=98=D0=
+=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> AIUI from Paolo, the intention is to deprecate and eventually
+> stop supporting "in-tree" builds, so that the only option is
+> building in a separate build directory. I thought we should
+> probably mention that in the 5.0 changelog, so I wrote up some
+> text:
+>
+> https://wiki.qemu.org/ChangeLog/5.0#Build_Information
+>
+> Suggestions for changes/comments etc welcome.
+>
+> (One thing we will need to fix before we can do separate build
+> tree is the Coverity Scan build process, which (a) does an
+> in-tree build (b) can't be easily switched to a builddir because
+> all the source paths get baked into the scan results and moving
+> to a builddir changes them all...)
+>
+> We could also make configure actively warn if used in
+> the source tree.
+>
 
-Acked-by: Mark Kanda <mark.kanda@oracle.com>
-Co-developed-by: Yoav Elnekave <yoav.elnekave@oracle.com>
-Signed-off-by: Yoav Elnekave <yoav.elnekave@oracle.com>
-Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
----
- docs/tools/qemu-img.rst |  2 +-
- qemu-img-cmds.hx        |  4 ++--
- qemu-img.c              | 30 +++++++++++++++++++++++++++++-
- 3 files changed, 32 insertions(+), 4 deletions(-)
+I don't intend to complain too much about removing in-tree builds, but
+there may be some not-so-visible, but valuable features that right now work
+in in-tree builds only, and I think we should make them work in out-of-tree
+builds as well.
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 0080f83a76..924e89f679 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -519,7 +519,7 @@ Command description:
-     ``ImageInfoSpecific*`` QAPI object (e.g. ``ImageInfoSpecificQCow2``
-     for qcow2 images).
- 
--.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [-U] FILENAME
-+.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--start-offset=offset] [--max-length=len] [--output=OFMT] [-U] FILENAME
- 
-   Dump the metadata of image *FILENAME* and its backing file chain.
-   In particular, this commands dumps the allocation state of every sector
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index c9c54de1df..35f832816f 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -63,9 +63,9 @@ SRST
- ERST
- 
- DEF("map", img_map,
--    "map [--object objectdef] [--image-opts] [-f fmt] [--output=ofmt] [-U] filename")
-+    "map [--object objectdef] [--image-opts] [-f fmt] [--start-offset=offset] [--max-length=len] [--output=ofmt] [-U] filename")
- SRST
--.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [-U] FILENAME
-+.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--start-offset=OFFSET] [--max-length=LEN] [--output=OFMT] [-U] FILENAME
- ERST
- 
- DEF("measure", img_measure,
-diff --git a/qemu-img.c b/qemu-img.c
-index 9cf8576217..cd365b275e 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2967,6 +2967,8 @@ static int img_map(int argc, char **argv)
-     int ret = 0;
-     bool image_opts = false;
-     bool force_share = false;
-+    int64_t start_offset = 0;
-+    int64_t max_length = -1;
- 
-     fmt = NULL;
-     output = NULL;
-@@ -2979,9 +2981,11 @@ static int img_map(int argc, char **argv)
-             {"object", required_argument, 0, OPTION_OBJECT},
-             {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-             {"force-share", no_argument, 0, 'U'},
-+            {"start-offset", required_argument, 0, 's'},
-+            {"max-length", required_argument, 0, 'l'},
-             {0, 0, 0, 0}
-         };
--        c = getopt_long(argc, argv, ":f:hU",
-+        c = getopt_long(argc, argv, ":f:s:l:hU",
-                         long_options, &option_index);
-         if (c == -1) {
-             break;
-@@ -3005,6 +3009,26 @@ static int img_map(int argc, char **argv)
-         case OPTION_OUTPUT:
-             output = optarg;
-             break;
-+        case 's':
-+            start_offset = cvtnum(optarg);
-+            if (start_offset < 0) {
-+                error_report("Invalid start offset specified! You may use "
-+                             "k, M, G, T, P or E suffixes for ");
-+                error_report("kilobytes, megabytes, gigabytes, terabytes, "
-+                             "petabytes and exabytes.");
-+                return 1;
-+            }
-+            break;
-+        case 'l':
-+            max_length = cvtnum(optarg);
-+            if (max_length < 0) {
-+                error_report("Invalid max length specified! You may use "
-+                             "k, M, G, T, P or E suffixes for ");
-+                error_report("kilobytes, megabytes, gigabytes, terabytes, "
-+                             "petabytes and exabytes.");
-+                return 1;
-+            }
-+            break;
-         case OPTION_OBJECT: {
-             QemuOpts *opts;
-             opts = qemu_opts_parse_noisily(&qemu_object_opts,
-@@ -3050,7 +3074,11 @@ static int img_map(int argc, char **argv)
-         printf("[");
-     }
- 
-+    curr.start = start_offset;
-     length = blk_getlength(blk);
-+    if (max_length != -1) {
-+        length = MIN(start_offset + max_length, length);
-+    }
-     while (curr.start + curr.length < length) {
-         int64_t offset = curr.start + curr.length;
-         int64_t n;
--- 
-2.17.2 (Apple Git-113)
+For example, I noticed that gcov builds have some problems finding
+directories if built in out-of-tree, leading to no coverage report output
+at all, if applied to some external test executables (for some strange
+reasons, "make check" works for out-of-tree anf in-tree builds though). I
+think we should fix that and similar problems before removing in-tree
+builds.
 
+In general, I also think we should not have overly lax treatment of
+features that may be effectively removed with any particular deprecation.
+Just because a feature is less-known or less-used is not a sufficient
+reason IMHO to drop it just for the sake of "progress".
+
+If the "progress" (in the form of deprecation) is so impotrant, than the
+authors should devise it so that there is no dammage to existing features,
+and no adverse effects.
+
+In this light, perhaps in-tree builds deorecation is 5.0 is little
+premature.
+
+Regards,
+Aleksandar
+
+> thanks
+> -- PMM
+>
+
+--0000000000004b1e4f05a1732e00
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">9:51 PM Sub, 21.03.2020. Peter Maydell &lt;<a href=3D"mailto=
+:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; AIUI from Paolo, the intention is to deprecate and eventually<br>
+&gt; stop supporting &quot;in-tree&quot; builds, so that the only option is=
+<br>
+&gt; building in a separate build directory. I thought we should<br>
+&gt; probably mention that in the 5.0 changelog, so I wrote up some<br>
+&gt; text:<br>
+&gt;<br>
+&gt; <a href=3D"https://wiki.qemu.org/ChangeLog/5.0#Build_Information">http=
+s://wiki.qemu.org/ChangeLog/5.0#Build_Information</a><br>
+&gt;<br>
+&gt; Suggestions for changes/comments etc welcome.<br>
+&gt;<br>
+&gt; (One thing we will need to fix before we can do separate build<br>
+&gt; tree is the Coverity Scan build process, which (a) does an<br>
+&gt; in-tree build (b) can&#39;t be easily switched to a builddir because<b=
+r>
+&gt; all the source paths get baked into the scan results and moving<br>
+&gt; to a builddir changes them all...)<br>
+&gt;<br>
+&gt; We could also make configure actively warn if used in<br>
+&gt; the source tree.<br>
+&gt;</p>
+<p dir=3D"ltr">I don&#39;t intend to complain too much about removing in-tr=
+ee builds, but there may be some not-so-visible, but valuable features that=
+ right now work in in-tree builds only, and I think we should make them wor=
+k in out-of-tree builds as well.</p>
+<p dir=3D"ltr">For example, I noticed that gcov builds have some problems f=
+inding directories if built in out-of-tree, leading to no coverage report o=
+utput at all, if applied to some external test executables (for some strang=
+e reasons, &quot;make check&quot; works for out-of-tree anf in-tree builds =
+though). I think we should fix that and similar problems before removing in=
+-tree builds.</p>
+<p dir=3D"ltr">In general, I also think we should not have overly lax treat=
+ment of features that may be effectively removed with any particular deprec=
+ation. Just because a feature is less-known or less-used is not a sufficien=
+t<br>
+reason IMHO to drop it just for the sake of &quot;progress&quot;.</p>
+<p dir=3D"ltr">If the &quot;progress&quot; (in the form of deprecation) is =
+so impotrant, than the authors should devise it so that there is no dammage=
+ to existing features, and no adverse effects.</p>
+<p dir=3D"ltr">In this light, perhaps in-tree builds deorecation is 5.0 is =
+little premature.</p>
+<p dir=3D"ltr">Regards,<br>
+Aleksandar<br></p>
+<p dir=3D"ltr">&gt; thanks<br>
+&gt; -- PMM<br>
+&gt;<br>
+</p>
+
+--0000000000004b1e4f05a1732e00--
 
