@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9C18E0CF
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:48:22 +0100 (CET)
-Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5F018E0D6
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:50:02 +0100 (CET)
+Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFcc0-0002kf-SH
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34455)
+	id 1jFcdd-0006d6-OP
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFcaE-0000EY-Eb
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:31 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFcaK-0000Pj-6H
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFcaC-0006Gs-Ro
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:29 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31794)
+ (envelope-from <philmd@redhat.com>) id 1jFcaJ-0006JM-6U
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:36 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcaC-0006Gf-No
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:28 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcaJ-0006J4-3N
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:46:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584791188;
+ s=mimecast20190719; t=1584791194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H/kvBiPyxCh595bpD+FYmGkaOOWay12gFZX+EGKqT6I=;
- b=MK282tFuILqCW9uBZTiJ9UmKJep/iJrOqYIhu3bjL+KwG1pTbI+zvcPhhDDZZNdYEB2HdU
- V/6zBSA8qMZXp02EVDdePaawTl5JEP8wBt/GJNYdaoqZSdOfYgC3JjLpOGcXKwFvKYuSUo
- hz5GQaYoE67V4MboctMwEcD026oVjc8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-Cmo7EbVWOc6SrN1Sd8-r7Q-1; Sat, 21 Mar 2020 07:46:26 -0400
-X-MC-Unique: Cmo7EbVWOc6SrN1Sd8-r7Q-1
-Received: by mail-wr1-f71.google.com with SMTP id v6so4136683wrg.22
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:26 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eMQ8dVIZnYJPrg4MRf01ROr1UWOuRMuavJ9h1G8fyNE=;
+ b=OMfDhfGBrTPSZDPZ4Nl3XO6mYEV3Jrt7wwV5TCeZ+x/9mcmvnOl3S9mDiI3gFXGEasxOtI
+ 2OKm0MQyWlCNueHVHDb8DNbZmznUcNuVTy09RkDq7zIXR4cjlecwchWfEA25IvCSAIZl51
+ FWjIqfMW/VBcspyTY5xM2r9TAdBMGas=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-p52w7N_xNnq_aS2t7NQ9Ag-1; Sat, 21 Mar 2020 07:46:33 -0400
+X-MC-Unique: p52w7N_xNnq_aS2t7NQ9Ag-1
+Received: by mail-wr1-f70.google.com with SMTP id l17so3771852wro.3
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:46:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9dXP4N8TyULZAzjZYqxK/uANHHgjWwDCR4io6WeB96U=;
- b=P8thVm3LCOD/EDqX9NA4Uwjy06hFwDLUqKXVHXs5ozxlp1/wRfS9EGdxhS+7Pp37JD
- N6H/f5snQ3jG4UUp3kblvEPj7MLLc30knLQi51+DXWC+5lpPKgB3CsvHKvC8HQNDzZW6
- 9BQrYIgQEdu9DcKYeprdqCDdPpKKHWNZ+pGbMhvVuYfZ462qQFS+x3l17JQ2LWJFy+op
- qyYX1g/BwgSH2jPkQwaahg3ZLmmIMoWLLqHNzfA920CDsSrK68kw18Y4DqBjk8lceaLy
- eVlyKYv12PBYcL7R0+W0yHdA5Jtv0qNRpOUix9MCTxhMh1ge6r4uUKri2zUOmkZWA5l1
- 9JBA==
-X-Gm-Message-State: ANhLgQ0yxwCvgUmXLsMRK1j8R9sJdbMgUYH1Cxy1g0fT7S9iCRouydRp
- msLyQvz8tLMejBn2Dxt87FNk9nPSJoU5KOl1MQY+sXkLjVeiPEU1BAF0lZuy6CaBNxVVI4hQRFf
- dKfAZc8jPD3G7xHY=
-X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr16445004wmk.160.1584791185043; 
- Sat, 21 Mar 2020 04:46:25 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsSWCMAhwipawfBMfkPl4+F8HWrgcbof15lyslD5n9fBr4SnAzQxKtSsuZj7e5L0nZTE/KW3g==
-X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr16444963wmk.160.1584791184820; 
- Sat, 21 Mar 2020 04:46:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kX8C0eEcHvhI8rcexY79cvumv+xMMYTkKA4klDytxcc=;
+ b=MlWXlhqwC4Hbe4Wrz4ihkn6Tam3e4nLMZp1LGyY6kRhXF++lLX+d670Y6NFqCBtvKX
+ F/ezyxNouIYJpu7V24Bt0I2HYB3x3l3psJ3VpBt80v+1U7c4xDpM5Owya3Z31xHxTwk0
+ uySwJZX0R1IMgOhwYOG4Sov2qEqLknTSFcVYSe7H8wGC6MZISq/USlHxt6zGLmJs4bBz
+ ZLKWxBwIPgFlPYHIDGrexaF0bHFdg9yGwlZhINv46KxTx0UtgkfzTcHvjWEs5vHND2Ag
+ NiT0xA9oO54yWCMQozzOp8T3B0Qc4XBszAtqtIE1E6wmJk0qCINDAgZi92/3qgpxl9Fe
+ ihIg==
+X-Gm-Message-State: ANhLgQ2/p3P0CY04awKHFfKxmWK/rSfMelSN3GBiEq2/wcmK5Oat7E6Y
+ 6+9WKXaJj3k3uksDjeI47TgV4eIbJRPnXRcPtYEo+DMptlXB5Oe1VCbt/DUR/9JJaZsQzCpcIoJ
+ CkISgQyu+05bm0xQ=
+X-Received: by 2002:adf:c44c:: with SMTP id a12mr17986423wrg.172.1584791191385; 
+ Sat, 21 Mar 2020 04:46:31 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuT3XdAAValv75OTSe0ODvom2WIFeUB+FFeo0vbikqEyZ6JXGrJZ1M3aU7NlUmOl7P+zQMFFA==
+X-Received: by 2002:adf:c44c:: with SMTP id a12mr17986387wrg.172.1584791191199; 
+ Sat, 21 Mar 2020 04:46:31 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id d21sm12882125wrb.51.2020.03.21.04.46.21
+ by smtp.gmail.com with ESMTPSA id d5sm2667163wrh.40.2020.03.21.04.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 04:46:24 -0700 (PDT)
+ Sat, 21 Mar 2020 04:46:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 00/11] misc: Trivial static code analyzer fixes
-Date: Sat, 21 Mar 2020 12:46:04 +0100
-Message-Id: <20200321114615.5360-1-philmd@redhat.com>
+Subject: [PATCH-for-5.0 01/11] block: Remove dead assignment
+Date: Sat, 21 Mar 2020 12:46:05 +0100
+Message-Id: <20200321114615.5360-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200321114615.5360-1-philmd@redhat.com>
+References: <20200321114615.5360-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,34 +106,32 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix trivial warnings reported by the Clang static code analyzer.
+Fix warning reported by Clang static code analyzer:
 
-Philippe Mathieu-Daud=C3=A9 (11):
-  block: Remove dead assignment
-  blockdev: Remove dead assignment
-  hw/i2c/pm_smbus: Remove dead assignment
-  hw/input/adb-kbd: Remove dead assignment
-  hw/ide/sii3112: Remove dead assignment
-  hw/isa/i82378: Remove dead assignment
-  hw/gpio/aspeed_gpio: Remove dead assignment
-  hw/timer/exynos4210_mct: Remove dead assignments
-  hw/timer/stm32f2xx_timer: Remove dead assignment
-  hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning
-  hw/scsi/esp-pci: Remove dead assignment
+  block.c:3167:5: warning: Value stored to 'ret' is never read
+      ret =3D bdrv_fill_options(&options, filename, &flags, &local_err);
+      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- block.c                    | 2 +-
- blockdev.c                 | 2 +-
- hw/gpio/aspeed_gpio.c      | 4 ++--
- hw/i2c/pm_smbus.c          | 1 -
- hw/ide/sii3112.c           | 2 +-
- hw/input/adb-kbd.c         | 1 -
- hw/isa/i82378.c            | 8 ++++----
- hw/scsi/esp-pci.c          | 1 -
- hw/timer/exynos4210_mct.c  | 3 ---
- hw/timer/pxa2xx_timer.c    | 1 +
- hw/timer/stm32f2xx_timer.c | 1 -
- 11 files changed, 10 insertions(+), 16 deletions(-)
+Reported-by: Clang Static Analyzer
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ block.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/block.c b/block.c
+index a2542c977b..908c109a8c 100644
+--- a/block.c
++++ b/block.c
+@@ -3164,7 +3164,7 @@ static BlockDriverState *bdrv_open_inherit(const char=
+ *filename,
+                                     parent->open_flags, parent->options);
+     }
+=20
+-    ret =3D bdrv_fill_options(&options, filename, &flags, &local_err);
++    bdrv_fill_options(&options, filename, &flags, &local_err);
+     if (local_err) {
+         goto fail;
+     }
 --=20
 2.21.1
 
