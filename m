@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBE218E0E3
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:56:07 +0100 (CET)
-Received: from localhost ([::1]:35774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E463B18E0D5
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:49:57 +0100 (CET)
+Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFcjX-0000Wv-14
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1jFcdY-0006T6-VP
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFcbN-0002UU-OD
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:42 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFcbS-0002gC-4s
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFcbL-00075l-LG
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:41 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:53047)
+ (envelope-from <philmd@redhat.com>) id 1jFcbR-00079m-0u
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31367)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcbK-00074l-QP
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:38 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcbQ-00079Q-Td
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584791258;
+ s=mimecast20190719; t=1584791264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TG3vD6dCJich6pAeWRU+T1xBswh8CnNUpTlBwJ1yiQM=;
- b=IIsiUhjIIPDOHbDbXlsn8XNlj4D/zh+WPObtHyVu7N9yLNl03wjZR46B+/E7O9RLD7af4a
- 3GYwK+BmhSRkUTLogWHk6VVwsPydCej2/ya5YCtlqZyQcVUH3Gx4D4x4pPxQKvbzcxRf16
- 3AQENERAc5wJ4yIg47j1CVdgTISTaI8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-SXinkYuBMxq6LSNOlwq-4A-1; Sat, 21 Mar 2020 07:47:37 -0400
-X-MC-Unique: SXinkYuBMxq6LSNOlwq-4A-1
-Received: by mail-wr1-f69.google.com with SMTP id g4so4176999wrv.12
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:47:36 -0700 (PDT)
+ bh=GEdgbG/luCssALBIqG8TygafayDXTkEa0M3aN0ohCNI=;
+ b=Aeljr/TqdJrW03xZZM4tOGzYDFf5As6//+5Re/GwqhLvD5Cgv3jid2fyazmOmVyB/nVB60
+ xGZtFcaR+E99CtezBFa7GZbTHPw8g1t8PZjFnLwvjVM4+ZCws6mcUNbQWsFccZxM0Op5M5
+ q7Yrze7/IACBLVJN6nlycx2OSeItuJA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-fcAJNDnGOVC85t8A2lqXXw-1; Sat, 21 Mar 2020 07:47:42 -0400
+X-MC-Unique: fcAJNDnGOVC85t8A2lqXXw-1
+Received: by mail-wr1-f70.google.com with SMTP id b12so4216770wro.4
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:47:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zAAolWyXSH1ZCqRxa+9EfzNPi+VU6uagizFc7cEyMYQ=;
- b=RUQs/+PMTSfhcmnQfPScAkY3umfgUyAqdYqyCqcVnVXYhg0J0GwuxBEQXVotV81wjM
- 5VGqP7MtCaXV0TrBehC+rkCm6sVLEFO0cwPlnpwRyrTPJX2Ygh7LCKoLNnPzxO35K6GM
- F5C7GKYlq6T6Baq2l8jfMQYiuPh5MVuk0iYSnSdTf9Z0yWXExr86ODA1iskxBjtuxtL3
- ozJgyMIVZeJfcQAmIYy8K6jCL7t4i6brbRCs78Fjsr50l0KWbub0K60cZc6WROLZ5BQ8
- FnrfJ94EH8Bt5cIzxC7eozzGAscyQ+IUMLlJMxHwTThZ3LmdhOcd3YMSmSahRwtybb0j
- jZ4g==
-X-Gm-Message-State: ANhLgQ0IRmO7Czwsh322vSTnbuveTJGHpRWeRX6j7ZgCOQxcYG9Sds3T
- HTzJdm002OMXC26mNe04qojJnRmhk1xHWExetCrqHMD76kYTngmdpnBtF7Es7JoNjdffMIreXfc
- wu4vwjyhOsOafSLI=
-X-Received: by 2002:a5d:628f:: with SMTP id k15mr10384655wru.404.1584791254910; 
- Sat, 21 Mar 2020 04:47:34 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vunMup0EkhHY5Z4VqmUt/VLtiE0tE9EtlCM6177KdVJaaGEx8Tohte6eaOFXmY60+p5L/3iMQ==
-X-Received: by 2002:a5d:628f:: with SMTP id k15mr10384613wru.404.1584791254676; 
- Sat, 21 Mar 2020 04:47:34 -0700 (PDT)
+ bh=RNYtNktAqDdDAs+EFJozo/fN2JmmaPRaAB7IeiBu7pw=;
+ b=XCXIVJFKvlqgByKspJcVE2JU3nVTV6GMtpAPH1VxOr0SVXcjK0WsbvF1j2fRlChC0S
+ Zpb3Wlsfo1nfuYfXqBdnbqR4b8+LxCQ3xRWMImG2JLYSDTugvYNjl3/TVfqRvE///Ou+
+ xYzjomCBLl6bB1uWaZEbHepjcko5dlcQsFRucwS4C1+jjCzyXkF9szw0Rb4bwqVS/n3A
+ +4YSaB1d6lrXC7t9FU6sckeSs6VrIvHgtWA5BkoedchiDFPJ3CmCaSTAsvlzMiLsaogN
+ KQE+n4++ok38PBq9/Bsmo9HLq6vdiPj/wZsUKIY/dRtlVPWn/CDokG0K5+ExuGbHjb07
+ Au6Q==
+X-Gm-Message-State: ANhLgQ0ESlNsyr7Dj2tYxaRWgSnEVD+KDn11Lw1Dgxvo7k1XX1Pjws2l
+ 6gp2wJOQe75RJqPHzL9v6AeQO1kqYCQPQsVqA165stKeLSM71ncCydhInwFtqjdMZ8Xi8u/m6O2
+ IrAbCwXo0mc5tTm0=
+X-Received: by 2002:adf:82f7:: with SMTP id 110mr16733195wrc.373.1584791261269; 
+ Sat, 21 Mar 2020 04:47:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vubbmq/qIpJmOqmMG8os2wSMw39sfHglC6xWNohsFGnLp3+N7OMkezA8fRZyCRCUVesI83LnA==
+X-Received: by 2002:adf:82f7:: with SMTP id 110mr16733166wrc.373.1584791261035; 
+ Sat, 21 Mar 2020 04:47:41 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id q13sm12849850wrs.91.2020.03.21.04.47.32
+ by smtp.gmail.com with ESMTPSA id a11sm13098686wrx.54.2020.03.21.04.47.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 04:47:34 -0700 (PDT)
+ Sat, 21 Mar 2020 04:47:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 10/11] hw/timer/pxa2xx_timer: Add assertion to silent
- static analyzer warning
-Date: Sat, 21 Mar 2020 12:46:14 +0100
-Message-Id: <20200321114615.5360-11-philmd@redhat.com>
+Subject: [PATCH-for-5.0 11/11] hw/scsi/esp-pci: Remove dead assignment
+Date: Sat, 21 Mar 2020 12:46:15 +0100
+Message-Id: <20200321114615.5360-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200321114615.5360-1-philmd@redhat.com>
 References: <20200321114615.5360-1-philmd@redhat.com>
@@ -76,8 +75,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,59 +105,31 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pxa2xx_timer_tick4() takes an opaque pointer, then calls
-pxa2xx_timer_update4(), so the static analyzer can not
-verify that the 'n < 8':
+Fix warning reported by Clang static code analyzer:
 
-  425 static void pxa2xx_timer_tick4(void *opaque)
-  426 {
-  427     PXA2xxTimer4 *t =3D (PXA2xxTimer4 *) opaque;
-  428     PXA2xxTimerInfo *i =3D (PXA2xxTimerInfo *) t->tm.info;
-  429
-  430     pxa2xx_timer_tick(&t->tm);
-  433     if (t->control & (1 << 6))
-  434         pxa2xx_timer_update4(i, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)=
-, t->tm.num - 4);
-
-  135 static void pxa2xx_timer_update4(void *opaque, uint64_t now_qemu, int=
- n)
-  136 {
-  137     PXA2xxTimerInfo *s =3D (PXA2xxTimerInfo *) opaque;
-  140     static const int counters[8] =3D { 0, 0, 0, 0, 4, 4, 6, 6 };
-  142
-  143     if (s->tm4[n].control & (1 << 7))
-  144         counter =3D n;
-  145     else
-  146         counter =3D counters[n];
-
-Add an assert() to give the static analyzer a hint, this fixes a
-warning reported by Clang static code analyzer:
-
-    CC      hw/timer/pxa2xx_timer.o
-  hw/timer/pxa2xx_timer.c:146:17: warning: Assigned value is garbage or und=
-efined
-          counter =3D counters[n];
-                  ^ ~~~~~~~~~~~
+    CC      hw/scsi/esp-pci.o
+  hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
+          size =3D 4;
+          ^      ~
 
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/timer/pxa2xx_timer.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/scsi/esp-pci.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/timer/pxa2xx_timer.c b/hw/timer/pxa2xx_timer.c
-index cd172cc1e9..944c165889 100644
---- a/hw/timer/pxa2xx_timer.c
-+++ b/hw/timer/pxa2xx_timer.c
-@@ -140,6 +140,7 @@ static void pxa2xx_timer_update4(void *opaque, uint64_t=
- now_qemu, int n)
-     static const int counters[8] =3D { 0, 0, 0, 0, 4, 4, 6, 6 };
-     int counter;
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index d5a1f9e017..2e6cc07d4e 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -195,7 +195,6 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
+         val <<=3D shift;
+         val |=3D current & ~(mask << shift);
+         addr &=3D ~3;
+-        size =3D 4;
+     }
 =20
-+    assert(n < ARRAY_SIZE(counters));
-     if (s->tm4[n].control & (1 << 7))
-         counter =3D n;
-     else
+     if (addr < 0x40) {
 --=20
 2.21.1
 
