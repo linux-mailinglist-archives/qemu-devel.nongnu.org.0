@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E463B18E0D5
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:49:57 +0100 (CET)
-Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D72C18E0E0
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Mar 2020 12:54:35 +0100 (CET)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFcdY-0006T6-VP
-	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35295)
+	id 1jFci2-0006nZ-9k
+	for lists+qemu-devel@lfdr.de; Sat, 21 Mar 2020 07:54:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFcbS-0002gC-4s
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:47 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFccK-0004m1-HK
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:48:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFcbR-00079m-0u
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:46 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31367)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFcbQ-00079Q-Td
- for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:47:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584791264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GEdgbG/luCssALBIqG8TygafayDXTkEa0M3aN0ohCNI=;
- b=Aeljr/TqdJrW03xZZM4tOGzYDFf5As6//+5Re/GwqhLvD5Cgv3jid2fyazmOmVyB/nVB60
- xGZtFcaR+E99CtezBFa7GZbTHPw8g1t8PZjFnLwvjVM4+ZCws6mcUNbQWsFccZxM0Op5M5
- q7Yrze7/IACBLVJN6nlycx2OSeItuJA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-fcAJNDnGOVC85t8A2lqXXw-1; Sat, 21 Mar 2020 07:47:42 -0400
-X-MC-Unique: fcAJNDnGOVC85t8A2lqXXw-1
-Received: by mail-wr1-f70.google.com with SMTP id b12so4216770wro.4
- for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:47:42 -0700 (PDT)
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jFccJ-0007Sq-4k
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:48:40 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36970)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jFccI-0007SQ-TX
+ for qemu-devel@nongnu.org; Sat, 21 Mar 2020 07:48:39 -0400
+Received: by mail-wm1-x334.google.com with SMTP id d1so9175033wmb.2
+ for <qemu-devel@nongnu.org>; Sat, 21 Mar 2020 04:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XQd8pmNhhI+eQ94v2/2BihPN+z4AUMekdyJKkYZBzdU=;
+ b=t7QgK3UioOTCZqaykPfc1r/Asr7Ae9KZMKvvZOb/1Nr6mKG8Vgv5/0KMPzpxNCoOST
+ qzfAkuZxXoshLnCDzflpi7VOUHLJxrqBpRDVjzOagZHB7QRZMgLdhbD1lBcFSrULpm3M
+ 7HCEefnsttoYZoH260MlpyNwP84jkkLeAejYZEP5ns4kG7JLHm6qvbonGIc/W414WCw8
+ rZJpOAovXjaOhMnwqCx0kKnwGt/FeAa3wPa9C61hl3OKFJYGg6rLjZZg8Ah1sltbwG2+
+ NnR5h/Fz4zP+fD3UhVKNRd+z2gSvowF2E8ocZnesYLoeMVLHgKfxWF8vaF4rOLHTN/0I
+ N7Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RNYtNktAqDdDAs+EFJozo/fN2JmmaPRaAB7IeiBu7pw=;
- b=XCXIVJFKvlqgByKspJcVE2JU3nVTV6GMtpAPH1VxOr0SVXcjK0WsbvF1j2fRlChC0S
- Zpb3Wlsfo1nfuYfXqBdnbqR4b8+LxCQ3xRWMImG2JLYSDTugvYNjl3/TVfqRvE///Ou+
- xYzjomCBLl6bB1uWaZEbHepjcko5dlcQsFRucwS4C1+jjCzyXkF9szw0Rb4bwqVS/n3A
- +4YSaB1d6lrXC7t9FU6sckeSs6VrIvHgtWA5BkoedchiDFPJ3CmCaSTAsvlzMiLsaogN
- KQE+n4++ok38PBq9/Bsmo9HLq6vdiPj/wZsUKIY/dRtlVPWn/CDokG0K5+ExuGbHjb07
- Au6Q==
-X-Gm-Message-State: ANhLgQ0ESlNsyr7Dj2tYxaRWgSnEVD+KDn11Lw1Dgxvo7k1XX1Pjws2l
- 6gp2wJOQe75RJqPHzL9v6AeQO1kqYCQPQsVqA165stKeLSM71ncCydhInwFtqjdMZ8Xi8u/m6O2
- IrAbCwXo0mc5tTm0=
-X-Received: by 2002:adf:82f7:: with SMTP id 110mr16733195wrc.373.1584791261269; 
- Sat, 21 Mar 2020 04:47:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vubbmq/qIpJmOqmMG8os2wSMw39sfHglC6xWNohsFGnLp3+N7OMkezA8fRZyCRCUVesI83LnA==
-X-Received: by 2002:adf:82f7:: with SMTP id 110mr16733166wrc.373.1584791261035; 
- Sat, 21 Mar 2020 04:47:41 -0700 (PDT)
-Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id a11sm13098686wrx.54.2020.03.21.04.47.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Mar 2020 04:47:40 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 11/11] hw/scsi/esp-pci: Remove dead assignment
-Date: Sat, 21 Mar 2020 12:46:15 +0100
-Message-Id: <20200321114615.5360-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200321114615.5360-1-philmd@redhat.com>
-References: <20200321114615.5360-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XQd8pmNhhI+eQ94v2/2BihPN+z4AUMekdyJKkYZBzdU=;
+ b=KpL+u8RPspnCPIAVRbK7ytmKnlQ4FXawczpdZoODoRI7jR/cjTR+FwEgoSifA/6lK5
+ 24Evq3Ah1hyipQqRiuBeLHSjOJZiJ45mpc0xn1vzsuGNKdTWOsxS65IeO7oTFPYkaYRe
+ yVedsy7z2Ktcij5V3M0N6jOCPKVKwhisSsemkiKikMPnjiFXOnTCYteT8cCDFj1KRYVI
+ p58c/ngo03BFTZ0LiBRUUAAaPXlbYQ8giinbD0YNXehD9llykK2FOXehFT1QdeuCcPck
+ ITW7y+a7drxwd/Miv+uXPgudjqNk1/i9q5pxCoQiuqDHS/tnfQYu6gSxAiB1T6eBYAJz
+ 5VNA==
+X-Gm-Message-State: ANhLgQ1Y+FUiFh+xEHMJQaj00mldXdil11VUr5oZg61rb31XhwGCHLWN
+ Lr31IuRCeIcFMTEGUjghXa91SJX68Yg7iOxiM9k=
+X-Google-Smtp-Source: ADFU+vufErNA73U15u/x6xaM8MkKM0INGJwrMhnFbHEq/mpqtYrm9mmR5LHLJ4VpSkkm6Q9Zfw5bbTXH7yLQ7i3oSNs=
+X-Received: by 2002:a1c:4987:: with SMTP id
+ w129mr14732616wma.168.1584791317303; 
+ Sat, 21 Mar 2020 04:48:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200320190553.9363-1-philmd@redhat.com>
+ <20200320190553.9363-3-philmd@redhat.com>
+In-Reply-To: <20200320190553.9363-3-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Sat, 21 Mar 2020 12:48:20 +0100
+Message-ID: <CAHiYmc4qm+zvty8TbbYmwaPBP1gYpz97rq6gmAxNA08cAEQ4dQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 2/4] tests/docker: Install gcrypt devel package in
+ Debian image
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000082d91105a15bfb5d"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,50 +74,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix warning reported by Clang static code analyzer:
+--00000000000082d91105a15bfb5d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    CC      hw/scsi/esp-pci.o
-  hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
-          size =3D 4;
-          ^      ~
+8:06 PM Pet, 20.03.2020. Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =
+=D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> Apparently Debian Stretch was listing gcrypt as a QEMU dependency,
+> but this is not the case anymore in Buster, so we need to install
+> it manually (it it not listed by 'apt-get -s build-dep qemu' in
+> the common debian10.docker anymore).
+>
+>  $ ../configure $QEMU_CONFIGURE_OPTS
+>
+>   ERROR: User requested feature gcrypt
+>          configure was not able to find it.
+>          Install gcrypt devel >=3D 1.5.0
+>
+> Fixes: 698a71edbed & 6f8bbb374be
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
 
-Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/scsi/esp-pci.c | 1 -
- 1 file changed, 1 deletion(-)
+If the problem is caused by Debian Buster change in behavior, I think you
+should not enumerate QEMU commits as something that is fixed by this patch.
+That implies that something was wrong with these commits, while they were,
+I suppose, fine at the moment of their integration.
 
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index d5a1f9e017..2e6cc07d4e 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -195,7 +195,6 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
-         val <<=3D shift;
-         val |=3D current & ~(mask << shift);
-         addr &=3D ~3;
--        size =3D 4;
-     }
-=20
-     if (addr < 0x40) {
---=20
-2.21.1
+Very confusing!
 
+If you think that these commit ids deserve to be mentioned, you should say:
+"Related commits are..." or similar.
+
+Regards,
+Aleksandar
+
+>  tests/docker/dockerfiles/debian-amd64.docker | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/docker/dockerfiles/debian-amd64.docker
+b/tests/docker/dockerfiles/debian-amd64.docker
+> index d4849f509f..957f0bc2e7 100644
+> --- a/tests/docker/dockerfiles/debian-amd64.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64.docker
+> @@ -16,6 +16,7 @@ RUN apt update && \
+>      apt install -y --no-install-recommends \
+>          libbz2-dev \
+>          liblzo2-dev \
+> +        libgcrypt20-dev \
+>          librdmacm-dev \
+>          libsasl2-dev \
+>          libsnappy-dev \
+> --
+> 2.21.1
+>
+>
+
+--00000000000082d91105a15bfb5d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">8:06 PM Pet, 20.03.2020. Philippe Mathieu-Daud=C3=A9 &lt;<a =
+href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; =D1=98=D0=B5 =
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; Apparently Debian Stretch was listing gcrypt as a QEMU dependency,<br>
+&gt; but this is not the case anymore in Buster, so we need to install<br>
+&gt; it manually (it it not listed by &#39;apt-get -s build-dep qemu&#39; i=
+n<br>
+&gt; the common debian10.docker anymore).<br>
+&gt;<br>
+&gt; =C2=A0$ ../configure $QEMU_CONFIGURE_OPTS<br>
+&gt;<br>
+&gt; =C2=A0 ERROR: User requested feature gcrypt<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0configure was not able to find it.<b=
+r>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Install gcrypt devel &gt;=3D 1.5.0<b=
+r>
+&gt;<br>
+&gt; Fixes: 698a71edbed &amp; 6f8bbb374be<br>
+&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philm=
+d@redhat.com">philmd@redhat.com</a>&gt;<br>
+&gt; ---</p>
+<p dir=3D"ltr">If the problem is caused by Debian Buster change in behavior=
+, I think you should not enumerate QEMU commits as something that is fixed =
+by this patch. That implies that something was wrong with these commits, wh=
+ile they were, I suppose, fine at the moment of their integration.</p>
+<p dir=3D"ltr">Very confusing!</p>
+<p dir=3D"ltr">If you think that these commit ids deserve to be mentioned, =
+you should say: &quot;Related commits are...&quot; or similar.</p>
+<p dir=3D"ltr">Regards,<br>
+Aleksandar</p>
+<p dir=3D"ltr">&gt; =C2=A0tests/docker/dockerfiles/debian-amd64.docker | 1 =
++<br>
+&gt; =C2=A01 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/dock=
+er/dockerfiles/debian-amd64.docker<br>
+&gt; index d4849f509f..957f0bc2e7 100644<br>
+&gt; --- a/tests/docker/dockerfiles/debian-amd64.docker<br>
+&gt; +++ b/tests/docker/dockerfiles/debian-amd64.docker<br>
+&gt; @@ -16,6 +16,7 @@ RUN apt update &amp;&amp; \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0apt install -y --no-install-recommends \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libbz2-dev \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0liblzo2-dev \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 libgcrypt20-dev \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0librdmacm-dev \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libsasl2-dev \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libsnappy-dev \<br>
+&gt; -- <br>
+&gt; 2.21.1<br>
+&gt;<br>
+&gt;<br>
+</p>
+
+--00000000000082d91105a15bfb5d--
 
