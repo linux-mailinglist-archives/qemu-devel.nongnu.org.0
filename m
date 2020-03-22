@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5782118ECAB
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 22:25:03 +0100 (CET)
-Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CBD18ECA4
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 22:23:39 +0100 (CET)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG85e-0000vO-DD
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 17:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42841)
+	id 1jG84I-0007Ul-UF
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 17:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1jG80O-0002tX-HP
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:37 -0400
+ (envelope-from <groeck7@gmail.com>) id 1jG80O-0002tW-HQ
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1jG80M-0002ke-4D
+ (envelope-from <groeck7@gmail.com>) id 1jG80M-0002kx-Lk
  for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:36 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35973)
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37566)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1jG80K-0002jf-Q9; Sun, 22 Mar 2020 17:19:32 -0400
-Received: by mail-pl1-x643.google.com with SMTP id g2so5002201plo.3;
- Sun, 22 Mar 2020 14:19:31 -0700 (PDT)
+ id 1jG80M-0002jy-44; Sun, 22 Mar 2020 17:19:34 -0400
+Received: by mail-pl1-x643.google.com with SMTP id x1so978053plm.4;
+ Sun, 22 Mar 2020 14:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/KJgg3GQUYAWBtiiHqyoNKWjmdOXcRV798ZDLG19ILg=;
- b=e80G1yMo8g4WpgqVlt8ECnyB1a18hfmd19HHCr/2hV9y3jpmb2WLC7/QgEKqTGv9gJ
- pfWgsxsMFHixa6ISPY96SXO+FVAhq4w67Owz3J9josn6Se37FBDSnUDsm6w/jsRDQamc
- dBouPjVwcuNt6cK851fSYqwlwgPWsYMfFRzpCdUz9On1GUNcwadE42hMyhTw1Ps80vYq
- DH4gVKAeBtsxMjScDvqW1E+gJa+qBG32WQFWt0dtIBGRsCaNqs6lAfUHnDGLeeSoATot
- yxiw14lHKxovQklVVmBsPJsKYZ+xqCcslrfGOEsuvXsE55c22pb5dbXkZ8FopKIH3d8K
- AdFQ==
+ bh=yJSNMH7F2JV82ctJF/qnhkJrlNBkApOpJ7cdZGhHOO8=;
+ b=VugeFxnjOCdQElNIcmmGZWHigkfdENFH70/Qhq41d1VWtv/BFrHz4NPUl90PT348yP
+ 4sjLSYOZktLgum6p84RfhpK10agrmOtsOxjNGa4q2OraQcw9s0U2p6q5FtjunfDqaDDj
+ sCIlzXCK3QHgV1wzXcQg41VYm46NTomO4V6fnC8oypVMc9WUrUWBDJ+ZRfaHMPTUM13X
+ lIthN+Ffc6cMf6tuMuR3s96NfozAA2eK9gKb4k2WNuMJMd1ffqgIWArj//OvuXbou9TL
+ kiySJLBRnykO9l8dqSnnwMXWmAwLEAUKCoRSsDktMVgxtGAAwnGrFk1/Ixp0myiT7dk8
+ 3IKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/KJgg3GQUYAWBtiiHqyoNKWjmdOXcRV798ZDLG19ILg=;
- b=smDldahdZIF4nChogucUIXHewBa5f0tjxoSrpZ1jGk8IQ7LJixdRVppbbEl0HoKxWz
- bQSbhjW0qZyN/fkLUzN80CActB2qTmn2sQMT+98XkdhyCnvzYW/E6E7GLtuvDXmfV8mD
- 0qKTFelGM2gCVYVxpDLg1EEu6VboHR7G3K52hqUF+eL4+prSfFxJcEciBH7AFhzgtAkv
- ih8Hz43dkcRRkW4ZuEN9fUO6tdlhG6g6421ejYpnVWfa2p2d3Z/BJs9OWg9kNPCDi8yA
- 7kDEZyBM9UHyh8lXCF4ePWN6JX416aIsoMlokSOuYtlRa+P4PvHBI8wVMw6XEJBMapJY
- ntGg==
-X-Gm-Message-State: ANhLgQ29trN5x14qxxFhfLY8tTJpXaez9rK6kiScRIOfN2d3xYDhVQ6Q
- h1Ubp9ydkZ1RNX0k0yIHEfc=
-X-Google-Smtp-Source: ADFU+vvjZy8hNuOyN8RNJriCJgNggK+iD8o7l4o7e3y/aSjt1iKrhBv6rCd+JhHut9k9X0W6H9tDzA==
-X-Received: by 2002:a17:90a:2149:: with SMTP id
- a67mr21943829pje.190.1584911970883; 
- Sun, 22 Mar 2020 14:19:30 -0700 (PDT)
+ bh=yJSNMH7F2JV82ctJF/qnhkJrlNBkApOpJ7cdZGhHOO8=;
+ b=NlX7tn/7+PovQ0MeV3T8Qt0u7jSpNAP0dZqh5VWSDVGFSiBVOjyReAQQPAGpZJ2dYV
+ F7fTBy8HVI11kmtubAwitm1tUmU2PU7z0I4Ej7MldrZ0d307g5way1cW7i962mqwl1Fu
+ cedL4CrzGb7cdfx3lNW6IbCPq8dTjsd0UBpu5mPFBvkRJmNrfCeNZ63ELGRzrJZ/FwhO
+ Ei/c5mrfv8gLMkx9rfsi5agHt98vpZtISosRmPKvTZehF6+bi+LO6pSj2cJkhakmJey3
+ yUNjKBAfGdAKvP/HiybtlKNyaFgTATZuPXaxJ9mUarCCp4evZUquCrUyS5ffY8N64e2a
+ 53Gg==
+X-Gm-Message-State: ANhLgQ13fPYfiI1s7d/EL8ujuPjwxayLl71LkswIG+iNEZcLLqIhxx87
+ FfHDIYO7VKiCcQ7Qr+PAw34=
+X-Google-Smtp-Source: ADFU+vtZDA6xcJllt8OlY89q2EtKeMMijLLy8Osov68QCMZh2dIZ3T+m+2R3csFBu5HCP0XFXJE0GQ==
+X-Received: by 2002:a17:90a:3589:: with SMTP id
+ r9mr21582090pjb.196.1584911972250; 
+ Sun, 22 Mar 2020 14:19:32 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id y30sm11707064pff.67.2020.03.22.14.19.30
+ by smtp.gmail.com with ESMTPSA id f64sm12030420pfb.72.2020.03.22.14.19.31
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 22 Mar 2020 14:19:30 -0700 (PDT)
+ Sun, 22 Mar 2020 14:19:31 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 3/8] hw/arm/fsl-imx25: Wire up watchdog
-Date: Sun, 22 Mar 2020 14:19:14 -0700
-Message-Id: <20200322211919.11335-4-linux@roeck-us.net>
+Subject: [PATCH v2 4/8] hw/arm/fsl-imx31: Wire up watchdog
+Date: Sun, 22 Mar 2020 14:19:15 -0700
+Message-Id: <20200322211919.11335-5-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200322211919.11335-1-linux@roeck-us.net>
 References: <20200322211919.11335-1-linux@roeck-us.net>
@@ -84,8 +84,7 @@ Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this commit, the watchdog on imx25-pdk is fully operational,
-including pretimeout support.
+With this patch, the watchdog on i.MX31 emulations is fully operational.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
@@ -93,87 +92,76 @@ Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 v2: Select WDT_IMX2 explicitly
     Added Philippe's Reviewed-by: tag
 
- hw/arm/Kconfig             |  1 +
- hw/arm/fsl-imx25.c         | 10 ++++++++++
- include/hw/arm/fsl-imx25.h |  5 +++++
- 3 files changed, 16 insertions(+)
+ hw/arm/Kconfig             | 1 +
+ hw/arm/fsl-imx31.c         | 6 ++++++
+ include/hw/arm/fsl-imx31.h | 4 ++++
+ 3 files changed, 11 insertions(+)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index adf401e827..54a49aeabd 100644
+index 54a49aeabd..9c77f4cbb4 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -358,6 +358,7 @@ config FSL_IMX25
+@@ -366,6 +366,7 @@ config FSL_IMX31
+     select SERIAL
      select IMX
-     select IMX_FEC
      select IMX_I2C
 +    select WDT_IMX2
-     select DS1338
+     select LAN9118
  
- config FSL_IMX31
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 6f1a82ce3d..cdaa79c26b 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -87,6 +87,7 @@ static void fsl_imx25_init(Object *obj)
-                               TYPE_CHIPIDEA);
+ config FSL_IMX6
+diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
+index 8472d2e911..1e7959863d 100644
+--- a/hw/arm/fsl-imx31.c
++++ b/hw/arm/fsl-imx31.c
+@@ -63,6 +63,8 @@ static void fsl_imx31_init(Object *obj)
+         sysbus_init_child_obj(obj, "gpio[*]", &s->gpio[i], sizeof(s->gpio[i]),
+                               TYPE_IMX_GPIO);
      }
- 
++
 +    sysbus_init_child_obj(obj, "wdt", &s->wdt, sizeof(s->wdt), TYPE_IMX2_WDT);
  }
  
- static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-@@ -302,6 +303,15 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                             usb_table[i].irq));
+ static void fsl_imx31_realize(DeviceState *dev, Error **errp)
+@@ -205,6 +207,10 @@ static void fsl_imx31_realize(DeviceState *dev, Error **errp)
+                                             gpio_table[i].irq));
      }
  
 +    /* Watchdog */
-+    object_property_set_bool(OBJECT(&s->wdt), true, "pretimeout-support",
-+                             &error_abort);
 +    object_property_set_bool(OBJECT(&s->wdt), true, "realized", &error_abort);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt), 0, FSL_IMX25_WDT_ADDR);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->wdt), 0,
-+                                      qdev_get_gpio_in(DEVICE(&s->avic),
-+                                                       FSL_IMX25_WDT_IRQ));
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt), 0, FSL_IMX31_WDT_ADDR);
 +
-     /* initialize 2 x 16 KB ROM */
-     memory_region_init_rom(&s->rom[0], OBJECT(dev), "imx25.rom0",
-                            FSL_IMX25_ROM0_SIZE, &err);
-diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index 5e196bbf05..9e228dacea 100644
---- a/include/hw/arm/fsl-imx25.h
-+++ b/include/hw/arm/fsl-imx25.h
-@@ -29,6 +29,7 @@
+     /* On a real system, the first 16k is a `secure boot rom' */
+     memory_region_init_rom(&s->secure_rom, OBJECT(dev), "imx31.secure_rom",
+                            FSL_IMX31_SECURE_ROM_SIZE, &err);
+diff --git a/include/hw/arm/fsl-imx31.h b/include/hw/arm/fsl-imx31.h
+index ac5ca9826a..dd8561b309 100644
+--- a/include/hw/arm/fsl-imx31.h
++++ b/include/hw/arm/fsl-imx31.h
+@@ -25,6 +25,7 @@
+ #include "hw/timer/imx_epit.h"
+ #include "hw/i2c/imx_i2c.h"
  #include "hw/gpio/imx_gpio.h"
- #include "hw/sd/sdhci.h"
- #include "hw/usb/chipidea.h"
 +#include "hw/watchdog/wdt_imx2.h"
  #include "exec/memory.h"
  #include "target/arm/cpu.h"
  
-@@ -60,6 +61,7 @@ typedef struct FslIMX25State {
-     IMXGPIOState   gpio[FSL_IMX25_NUM_GPIOS];
-     SDHCIState     esdhc[FSL_IMX25_NUM_ESDHCS];
-     ChipideaState  usb[FSL_IMX25_NUM_USBS];
+@@ -49,6 +50,7 @@ typedef struct FslIMX31State {
+     IMXEPITState   epit[FSL_IMX31_NUM_EPITS];
+     IMXI2CState    i2c[FSL_IMX31_NUM_I2CS];
+     IMXGPIOState   gpio[FSL_IMX31_NUM_GPIOS];
 +    IMX2WdtState   wdt;
-     MemoryRegion   rom[2];
+     MemoryRegion   secure_rom;
+     MemoryRegion   rom;
      MemoryRegion   iram;
-     MemoryRegion   iram_alias;
-@@ -229,6 +231,8 @@ typedef struct FslIMX25State {
- #define FSL_IMX25_GPIO1_SIZE    0x4000
- #define FSL_IMX25_GPIO2_ADDR    0x53FD0000
- #define FSL_IMX25_GPIO2_SIZE    0x4000
-+#define FSL_IMX25_WDT_ADDR      0x53FDC000
-+#define FSL_IMX25_WDT_SIZE      0x4000
- #define FSL_IMX25_USB1_ADDR     0x53FF4000
- #define FSL_IMX25_USB1_SIZE     0x0200
- #define FSL_IMX25_USB2_ADDR     0x53FF4400
-@@ -268,5 +272,6 @@ typedef struct FslIMX25State {
- #define FSL_IMX25_ESDHC2_IRQ    8
- #define FSL_IMX25_USB1_IRQ      37
- #define FSL_IMX25_USB2_IRQ      35
-+#define FSL_IMX25_WDT_IRQ       55
- 
- #endif /* FSL_IMX25_H */
+@@ -87,6 +89,8 @@ typedef struct FslIMX31State {
+ #define FSL_IMX31_GPIO1_SIZE            0x4000
+ #define FSL_IMX31_GPIO2_ADDR            0x53FD0000
+ #define FSL_IMX31_GPIO2_SIZE            0x4000
++#define FSL_IMX31_WDT_ADDR              0x53FDC000
++#define FSL_IMX31_WDT_SIZE              0x4000
+ #define FSL_IMX31_AVIC_ADDR             0x68000000
+ #define FSL_IMX31_AVIC_SIZE             0x100
+ #define FSL_IMX31_SDRAM0_ADDR           0x80000000
 -- 
 2.17.1
 
