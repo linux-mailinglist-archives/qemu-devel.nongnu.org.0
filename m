@@ -2,46 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5345718EA03
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 17:07:14 +0100 (CET)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A13C18EA1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 17:16:07 +0100 (CET)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG384-000193-UE
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 12:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44626)
+	id 1jG3Gf-0006Hi-RS
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 12:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45105)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <teawaterz@linux.alibaba.com>) id 1jG36j-0000AF-Ph
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1jG3DB-0004u6-4d
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:12:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <teawaterz@linux.alibaba.com>) id 1jG36f-0007Bl-Q7
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:47 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:57268)
+ (envelope-from <philmd@redhat.com>) id 1jG3D9-00009P-8p
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:12:28 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <teawaterz@linux.alibaba.com>)
- id 1jG36e-0007Au-1U
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:45 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=teawaterz@linux.alibaba.com;
- NM=1; PH=DS; RN=14; SR=0; TI=SMTPD_---0TtH5FIv_1584893121; 
-Received: from localhost(mailfrom:teawaterz@linux.alibaba.com
- fp:SMTPD_---0TtH5FIv_1584893121) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 23 Mar 2020 00:05:28 +0800
-From: Hui Zhu <teawater@gmail.com>
-To: mst@redhat.com, jasowang@redhat.com, akpm@linux-foundation.org,
- mojha@codeaurora.org, pagupta@redhat.com, aquini@redhat.com,
- namit@vmware.com, david@redhat.com,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, qemu-devel@nongnu.org
-Subject: [PATCH for QEMU v2] virtio-balloon: Add option cont-pages to set
- VIRTIO_BALLOON_VQ_INFLATE_CONT
-Date: Mon, 23 Mar 2020 00:04:57 +0800
-Message-Id: <1584893097-12317-2-git-send-email-teawater@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1584893097-12317-1-git-send-email-teawater@gmail.com>
-References: <1584893097-12317-1-git-send-email-teawater@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 47.88.44.36
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jG3D9-00009I-2k
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584893546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ji4ipok2gvXfKtww6JdtgIfCEym4oZt3Md4BqZnYqnM=;
+ b=MQqyMUIQyl7PbRij7c6h5Xrfxdwl+kjpQsZPRnWAaIGXx1D8HC/Vc08s3yHgV26SuzgYT2
+ yFPYR+X4VfLnMMh8Q9V+xhTQ4lpCLtI9Xwzia+zTOv4/8CRuBMjZagRPA8EcadGYOwBCTT
+ zyHHG/0Uj5HXNzyVfk69gAJJtHBsIX8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-5hyZBY9gOiGNVLT-b5Oi7Q-1; Sun, 22 Mar 2020 12:12:24 -0400
+X-MC-Unique: 5hyZBY9gOiGNVLT-b5Oi7Q-1
+Received: by mail-wr1-f71.google.com with SMTP id t4so6007563wrr.1
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 09:12:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yDGS28nvZoUiQCU5JnG8noL5Ya4dg0T5NJrmni0R0iY=;
+ b=AfxaIfTCQqYfcOyFXG91ZGkoZlraxUMEfHUR/ukzX0xPhJ1ewrNdDtu73ub/uDvHfQ
+ zapBd96Lekja+McU/uQUVpeKS1+joSjyD11k6ed9zQ67AbEsA9TyaoeMUYfa3fqNmRov
+ LsJ/L2dQd3L5nrcqjjUtCqMggiY33pmgJG3gcEp3/LvzHhV1w+SZGMEtRbRvgSH3/DVg
+ 7/iIQTDDYl98JoTrGZpg9o91t+GWw7X6tAJ+OgM9wgzrAw8EUppZOSiz84idlApQ5p3j
+ 8gH05fwcXk4VLaTBoxCAEYpwknyl9QQ6Dmxa/TXQJs24pwXK/NuzLfYp/hV1huGG5h3D
+ BNhQ==
+X-Gm-Message-State: ANhLgQ1J8jqAoVHxjNVU97a0fPvX/A9CT/9QJruPKa4ScCgQoCpm505G
+ G15c9h7+JaGSm/U+1oT6Yj9AYplw9G2kItpHYREhamZwvjnd6YDsValSzLAr+5BeIA/qFrEXyWf
+ HVAzzXmGeYC+Ls/k=
+X-Received: by 2002:a05:6000:105:: with SMTP id
+ o5mr581699wrx.395.1584893543100; 
+ Sun, 22 Mar 2020 09:12:23 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsuKejBF+92qLKR9S9cyzaC24W+xTS0hSQD8O2kT5eVnsh4B5wcJfnbBsuQzpT8Mz9aC0m6Cg==
+X-Received: by 2002:a05:6000:105:: with SMTP id
+ o5mr581677wrx.395.1584893542844; 
+ Sun, 22 Mar 2020 09:12:22 -0700 (PDT)
+Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id i2sm342367wrx.22.2020.03.22.09.12.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Mar 2020 09:12:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0] ui/input-linux: Do not ignore ioctl() return value
+Date: Sun, 22 Mar 2020 17:12:19 +0100
+Message-Id: <20200322161219.17757-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,166 +87,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hui Zhu <teawaterz@linux.alibaba.com>, Hui Zhu <teawater@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the guest kernel has many fragmentation pages, use virtio_balloon
-will split THP of QEMU when it calls MADV_DONTNEED madvise to release
-the balloon pages.
-Set option cont-pages to on will open flags VIRTIO_BALLOON_VQ_INFLATE_CONT
-and set continuous pages order to THP order.
-Then It will get continuous pages PFN from VQ icvq use use madvise
-MADV_DONTNEED release the THP page.
-This will handle the THP split issue.
+Fix warnings reported by Clang static code analyzer:
 
-Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
+    CC      ui/input-linux.o
+      ui/input-linux.c:343:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_REL, sizeof(relmap)), &relmap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:351:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_ABS, sizeof(absmap)), &absmap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:354:13: warning: Value stored to 'rc' is never read
+              rc =3D ioctl(il->fd, EVIOCGABS(ABS_X), &absinfo);
+              ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:357:13: warning: Value stored to 'rc' is never read
+              rc =3D ioctl(il->fd, EVIOCGABS(ABS_Y), &absinfo);
+              ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:365:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_KEY, sizeof(keymap)), keymap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:366:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGKEY(sizeof(keystate)), keystate);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reported-by: Clang Static Analyzer
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/virtio/virtio-balloon.c                      | 32 +++++++++++++++++++++----
- include/hw/virtio/virtio-balloon.h              |  4 +++-
- include/standard-headers/linux/virtio_balloon.h |  4 ++++
- 3 files changed, 35 insertions(+), 5 deletions(-)
+ ui/input-linux.c | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index a4729f7..88bdaca 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -34,6 +34,7 @@
- #include "hw/virtio/virtio-access.h"
- 
- #define BALLOON_PAGE_SIZE  (1 << VIRTIO_BALLOON_PFN_SHIFT)
-+#define CONT_PAGES_ORDER   9
- 
- typedef struct PartiallyBalloonedPage {
-     ram_addr_t base_gpa;
-@@ -65,7 +66,8 @@ static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
- 
- static void balloon_inflate_page(VirtIOBalloon *balloon,
-                                  MemoryRegion *mr, hwaddr mr_offset,
--                                 PartiallyBalloonedPage *pbp)
-+                                 PartiallyBalloonedPage *pbp, 
-+                                 bool is_cont_pages)
- {
-     void *addr = memory_region_get_ram_ptr(mr) + mr_offset;
-     ram_addr_t rb_offset, rb_aligned_offset, base_gpa;
-@@ -76,6 +78,13 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-     /* XXX is there a better way to get to the RAMBlock than via a
-      * host address? */
-     rb = qemu_ram_block_from_host(addr, false, &rb_offset);
-+
-+    if (is_cont_pages) {
-+        ram_block_discard_range(rb, rb_offset,
-+                                BALLOON_PAGE_SIZE << CONT_PAGES_ORDER);
-+        return;
-+    }
-+
-     rb_page_size = qemu_ram_pagesize(rb);
- 
-     if (rb_page_size == BALLOON_PAGE_SIZE) {
-@@ -361,9 +370,10 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-             trace_virtio_balloon_handle_output(memory_region_name(section.mr),
-                                                pa);
-             if (!qemu_balloon_is_inhibited()) {
--                if (vq == s->ivq) {
-+                if (vq == s->ivq || vq == s->icvq) {
-                     balloon_inflate_page(s, section.mr,
--                                         section.offset_within_region, &pbp);
-+                                         section.offset_within_region, &pbp,
-+                                         vq == s->icvq);
-                 } else if (vq == s->dvq) {
-                     balloon_deflate_page(s, section.mr, section.offset_within_region);
-                 } else {
-@@ -618,9 +628,12 @@ static size_t virtio_balloon_config_size(VirtIOBalloon *s)
-     if (s->qemu_4_0_config_size) {
-         return sizeof(struct virtio_balloon_config);
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index a7b280b25b..ef37b14d6f 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -334,13 +334,15 @@ static void input_linux_complete(UserCreatable *uc, E=
+rror **errp)
+=20
+     rc =3D ioctl(il->fd, EVIOCGBIT(0, sizeof(evtmap)), &evtmap);
+     if (rc < 0) {
+-        error_setg(errp, "%s: failed to read event bits", il->evdev);
+-        goto err_close;
++        goto err_read_event_bits;
      }
--    if (virtio_has_feature(features, VIRTIO_BALLOON_F_PAGE_POISON)) {
-+    if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_CONT_PAGES)) {
-         return sizeof(struct virtio_balloon_config);
-     }
-+    if (virtio_has_feature(features, VIRTIO_BALLOON_F_PAGE_POISON)) {
-+        return offsetof(struct virtio_balloon_config, pages_order);
-+    }
-     if (virtio_has_feature(features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
-         return offsetof(struct virtio_balloon_config, poison_val);
-     }
-@@ -646,6 +659,10 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
-                        cpu_to_le32(VIRTIO_BALLOON_CMD_ID_DONE);
-     }
- 
-+    if (virtio_has_feature(dev->host_features, VIRTIO_BALLOON_F_CONT_PAGES)) {
-+        config.pages_order = cpu_to_le32(CONT_PAGES_ORDER);
-+    }
-+
-     trace_virtio_balloon_get_config(config.num_pages, config.actual);
-     memcpy(config_data, &config, virtio_balloon_config_size(dev));
- }
-@@ -816,6 +833,11 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-             virtio_error(vdev, "iothread is missing");
+=20
+     if (evtmap & (1 << EV_REL)) {
+         relmap =3D 0;
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_REL, sizeof(relmap)), &relmap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         if (relmap & (1 << REL_X)) {
+             il->has_rel_x =3D true;
          }
-     }
+@@ -349,12 +351,25 @@ static void input_linux_complete(UserCreatable *uc, E=
+rror **errp)
+     if (evtmap & (1 << EV_ABS)) {
+         absmap =3D 0;
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_ABS, sizeof(absmap)), &absmap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         if (absmap & (1 << ABS_X)) {
+             il->has_abs_x =3D true;
+             rc =3D ioctl(il->fd, EVIOCGABS(ABS_X), &absinfo);
++            if (rc < 0) {
++                error_setg(errp, "%s: failed to get get absolute X value",
++                           il->evdev);
++                goto err_close;
++            }
+             il->abs_x_min =3D absinfo.minimum;
+             il->abs_x_max =3D absinfo.maximum;
+             rc =3D ioctl(il->fd, EVIOCGABS(ABS_Y), &absinfo);
++            if (rc < 0) {
++                error_setg(errp, "%s: failed to get get absolute Y value",
++                           il->evdev);
++                goto err_close;
++            }
+             il->abs_y_min =3D absinfo.minimum;
+             il->abs_y_max =3D absinfo.maximum;
+         }
+@@ -363,7 +378,14 @@ static void input_linux_complete(UserCreatable *uc, Er=
+ror **errp)
+     if (evtmap & (1 << EV_KEY)) {
+         memset(keymap, 0, sizeof(keymap));
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_KEY, sizeof(keymap)), keymap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         rc =3D ioctl(il->fd, EVIOCGKEY(sizeof(keystate)), keystate);
++        if (rc < 0) {
++            error_setg(errp, "%s: failed to get global key state", il->evd=
+ev);
++            goto err_close;
++        }
+         for (i =3D 0; i < KEY_CNT; i++) {
+             if (keymap[i / 8] & (1 << (i % 8))) {
+                 if (linux_is_button(i)) {
+@@ -390,6 +412,9 @@ static void input_linux_complete(UserCreatable *uc, Err=
+or **errp)
+     il->initialized =3D true;
+     return;
+=20
++err_read_event_bits:
++    error_setg(errp, "%s: failed to read event bits", il->evdev);
 +
-+    if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_CONT_PAGES)) {
-+        s->icvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-+    }
-+
-     reset_stats(s);
- }
- 
-@@ -916,6 +938,8 @@ static Property virtio_balloon_properties[] = {
-                     VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
-     DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
-                     VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
-+    DEFINE_PROP_BIT("cont-pages", VirtIOBalloon, host_features,
-+                    VIRTIO_BALLOON_F_CONT_PAGES, false),
-     /* QEMU 4.0 accidentally changed the config size even when free-page-hint
-      * is disabled, resulting in QEMU 3.1 migration incompatibility.  This
-      * property retains this quirk for QEMU 4.1 machine types.
-diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
-index d1c968d..61d2419 100644
---- a/include/hw/virtio/virtio-balloon.h
-+++ b/include/hw/virtio/virtio-balloon.h
-@@ -42,7 +42,7 @@ enum virtio_balloon_free_page_report_status {
- 
- typedef struct VirtIOBalloon {
-     VirtIODevice parent_obj;
--    VirtQueue *ivq, *dvq, *svq, *free_page_vq;
-+    VirtQueue *ivq, *dvq, *svq, *free_page_vq, *icvq;
-     uint32_t free_page_report_status;
-     uint32_t num_pages;
-     uint32_t actual;
-@@ -70,6 +70,8 @@ typedef struct VirtIOBalloon {
-     uint32_t host_features;
- 
-     bool qemu_4_0_config_size;
-+
-+    uint32_t pages_order;
- } VirtIOBalloon;
- 
- #endif
-diff --git a/include/standard-headers/linux/virtio_balloon.h b/include/standard-headers/linux/virtio_balloon.h
-index 9375ca2..ee18be7 100644
---- a/include/standard-headers/linux/virtio_balloon.h
-+++ b/include/standard-headers/linux/virtio_balloon.h
-@@ -36,6 +36,8 @@
- #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM	2 /* Deflate balloon on OOM */
- #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free pages */
- #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page poisoning */
-+#define VIRTIO_BALLOON_F_CONT_PAGES	5 /* VQ to report continuous pages */
-+
- 
- /* Size of a PFN in the balloon interface. */
- #define VIRTIO_BALLOON_PFN_SHIFT 12
-@@ -51,6 +53,8 @@ struct virtio_balloon_config {
- 	uint32_t free_page_report_cmd_id;
- 	/* Stores PAGE_POISON if page poisoning is in use */
- 	uint32_t poison_val;
-+	/* Pages order if VIRTIO_BALLOON_F_CONT_PAGES is set */
-+	uint32_t pages_order;
- };
- 
- #define VIRTIO_BALLOON_S_SWAP_IN  0   /* Amount of memory swapped in */
--- 
-2.7.4
+ err_close:
+     close(il->fd);
+     return;
+--=20
+2.21.1
 
 
