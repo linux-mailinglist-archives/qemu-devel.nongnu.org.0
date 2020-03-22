@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D4318EC57
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1E918EC56
 	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 21:55:54 +0100 (CET)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG7dS-0002mk-1s
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 16:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
+	id 1jG7dR-0002lK-8O
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 16:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cN-0001Tg-O1
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:48 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cO-0001VA-5B
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cM-00017y-N0
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:47 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38132)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cN-00018N-5u
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36838)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1jG7cM-00017c-F5; Sun, 22 Mar 2020 16:54:46 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s1so14434449wrv.5;
+ id 1jG7cN-00017m-06; Sun, 22 Mar 2020 16:54:47 -0400
+Received: by mail-wr1-x444.google.com with SMTP id 31so8420576wrs.3;
  Sun, 22 Mar 2020 13:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=b+iEG6NgD+qJY3iETm1Vxe+CjvjfGQQXFzkKx5oalXs=;
- b=fL99Mj4itHablf4yOqJowsf9KdMGkIcmSWuqgDR3gmi3BdOYcb66f30IAKjdK93A5+
- IUmA5FxiZ36oj1t51P76lQSGJn2kFRovvTg0Vn4hqEjiMqedoSt95RLE8Lx8JdAYlAvR
- MjnDdxGq7rCUW1QImwj0NwXwyygsN8kRO6xMnJit16m4YAIrTMUPMQeH3DoxOoXXw9Ir
- 6iFXsySjeY8lvMtKdphbuDvzmvIxj0vIr+NLVqSe6+O90uET+Zll8wxpH9oPoft+XU9K
- 960/FvqjzU2Rf9zPhC/s6u445CN4muGvFmyloqPm/1PCa6qqrYL5yF5KO/iC4c0vL1nr
- /Esg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Zzy2hYvjYn3wSBM6sGEj1OgFy+nH1+JEHvHfIqt2Yq0=;
+ b=l6V2qEsIMwaUc71z0WJb5Sp19aP4RK37tnYt4DmjWM3YxVyiNKD4lwzj/Q+10lBzeI
+ YB3we+rfS/rRmn8Jn8s74oWClQsKlwZBiSknwo1J+O4jStt5/u/bIfU+oRUbfN310ZlK
+ e5Gko56c1BFryFUyTNnqrppqbh+66DUmGdjrAzFyKzOSv8K/FhTWB/z3wqqk3SD7vJkD
+ oRTsCfxzJV2yX02AeIs1ypuRg3soGISYeF5QYcAdvb/FLJdRTxCN4ilpZlxDkMRuhTCd
+ Fsh+17W9kO7NBI5OSyklppmCAauCE3nYlljt+sE6SM8IHcDh3B15zytD85Xd6GLIVIsd
+ KmtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=b+iEG6NgD+qJY3iETm1Vxe+CjvjfGQQXFzkKx5oalXs=;
- b=R/ALg+xXB9msm8Gzcvydunan3Kv/ynybZmUKzwzt7lKMX0ZL9UEL1Bs/enisTuGEpU
- Lsi7OQN9noe0wTgTwz8NUzcgveVx+kFgLeqMD2ZvrS/HNCtaG1LbrNh3dCJD3ayrGyHH
- wEyI6a5MmONa8bFhqQV816ZN6vIvm8e4oD1kquVL4pz53s34zEsASHZT8uZnoR/qLnxT
- alBPSeOy50JqtIFx+kX6HSiMZDTdUpYifmhMQ2xszE6xEJbObccTF9+hhuYvWyuW7x7w
- 3Lrr5z+Pt0bM4bxESNGmkF+lCWipwp9NhbrDn+5PeoNpnsJ3LD6HAdfB0d8QLP1/SJac
- rKkQ==
-X-Gm-Message-State: ANhLgQ37WOUq2s4AxZ2dLxwRS9WOQWOZMPx7bSz3lnQ5TpwzSi97D/XG
- ou54Y7XRAcKoH/RvNV7iQrSAP1C+
-X-Google-Smtp-Source: ADFU+vvSWMM/f+/rGtKAaYxszqy2hysaJoO+UGJa2Fy9CwjuUOzKBfyQdsfYq12El773n9KKfQ6OzQ==
-X-Received: by 2002:adf:dd86:: with SMTP id x6mr19047071wrl.169.1584910485010; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=Zzy2hYvjYn3wSBM6sGEj1OgFy+nH1+JEHvHfIqt2Yq0=;
+ b=mgEzH/xs5e1XzeoniK96mDhjB8H+NEj5pVtMpBey9iHerEPKDM9jpC5MSYs4lDes+6
+ BpzxwD6Wcmkv0PTHtBgdzEHOuBZa1/iJH3chFDGIbemgYq8lVAhp9C8wEmtQQ3C8xBDX
+ gwO4edEupG3EJFSdbiwWWmxelFyxMASGLzmVrL8wnQB4DoW50HUDHyZCicLW7gnn7fuS
+ 3brQvDVFQXHSf+1+2iVTyq8ylT9BjFZ5LP9bkD1gfgcBWrM3DfCA9OaWsszaWkPvYjru
+ RTjT0hARQ9/85DxwpN/cuscouCwvRahjxExs71LrbCP3DpGVTEejMGyNC0eAdo8sQAk/
+ Z4Vg==
+X-Gm-Message-State: ANhLgQ2cYMpKROlHn5edON97L1bq+BboWF6j03mRPx+7j8wfwTprRi9/
+ zjIIUz7np/7NWlj2P+nkFykH/Kn6
+X-Google-Smtp-Source: ADFU+vvE920e1KPDRAa4ZwBYPZTJmg3+1k0Rg4pMnvW9VnwmUDTwT4Pziif/F8lVUOx2VW9ugyOFBQ==
+X-Received: by 2002:adf:f6c7:: with SMTP id y7mr26054380wrp.269.1584910485802; 
  Sun, 22 Mar 2020 13:54:45 -0700 (PDT)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id w7sm21083875wrr.60.2020.03.22.13.54.44
+ by smtp.gmail.com with ESMTPSA id w7sm21083875wrr.60.2020.03.22.13.54.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Mar 2020 13:54:44 -0700 (PDT)
+ Sun, 22 Mar 2020 13:54:45 -0700 (PDT)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/arm/orangepi: check for potential NULL pointer when
- calling blk_is_available
-Date: Sun, 22 Mar 2020 21:54:38 +0100
-Message-Id: <20200322205439.15231-1-nieklinnenbank@gmail.com>
+Subject: [PATCH 2/2] hw/misc/allwinner-h3-dramc: enforce 64-bit multiply when
+ calculating row mirror address
+Date: Sun, 22 Mar 2020 21:54:39 +0100
+Message-Id: <20200322205439.15231-2-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200322205439.15231-1-nieklinnenbank@gmail.com>
+References: <20200322205439.15231-1-nieklinnenbank@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,30 +79,35 @@ Cc: peter.maydell@linaro.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Orange Pi PC initialization function needs to verify that the SD card
-block backend is usable before calling the Boot ROM setup routine. When
-calling blk_is_available() the input parameter should not be NULL.
-This commit ensures that blk_is_available is only called with non-NULL input.
+The allwinner_h3_dramc_map_rows function simulates row addressing behavior
+when bootloader software attempts to detect the amount of available SDRAM.
+
+Currently the line that calculates the 64-bit address of the mirrored row
+uses a signed 32-bit multiply operation that in theory could result in the
+upper 32-bit be all 1s. This commit ensures that the row mirror address
+is calculated using only 64-bit operations.
 
 Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- hw/arm/orangepi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/misc/allwinner-h3-dramc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index 181f5badab..a9f64c5680 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -104,7 +104,7 @@ static void orangepi_init(MachineState *machine)
-                                 machine->ram);
+diff --git a/hw/misc/allwinner-h3-dramc.c b/hw/misc/allwinner-h3-dramc.c
+index 2b5260260e..f9f05b5384 100644
+--- a/hw/misc/allwinner-h3-dramc.c
++++ b/hw/misc/allwinner-h3-dramc.c
+@@ -85,8 +85,8 @@ static void allwinner_h3_dramc_map_rows(AwH3DramCtlState *s, uint8_t row_bits,
  
-     /* Load target kernel or start using BootROM */
--    if (!machine->kernel_filename && blk_is_available(blk)) {
-+    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
-         /* Use Boot ROM to copy data from SD card to SRAM */
-         allwinner_h3_bootrom_setup(h3, blk);
-     }
+     } else if (row_bits_actual) {
+         /* Row bits not matching ram_size, install the rows mirror */
+-        hwaddr row_mirror = s->ram_addr + ((1 << (row_bits_actual +
+-                                                  bank_bits)) * page_size);
++        hwaddr row_mirror = s->ram_addr + ((1UL << (row_bits_actual +
++                                                    bank_bits)) * page_size);
+ 
+         memory_region_set_enabled(&s->row_mirror_alias, true);
+         memory_region_set_address(&s->row_mirror_alias, row_mirror);
 -- 
 2.17.1
 
