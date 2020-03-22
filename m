@@ -2,49 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD2518EC46
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 21:47:26 +0100 (CET)
-Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D4318EC57
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 21:55:54 +0100 (CET)
+Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG7VF-0008J3-Nd
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 16:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40033)
+	id 1jG7dS-0002mk-1s
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 16:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jG7U0-0007Ry-R3
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:46:09 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cN-0001Tg-O1
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jG7Tz-0006rr-3K
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:46:08 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49216)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1jG7Ty-0006qD-Te
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:46:07 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 40300747DF7;
- Sun, 22 Mar 2020 21:46:03 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1E732747DCF; Sun, 22 Mar 2020 21:46:03 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 1CDB87476D5;
- Sun, 22 Mar 2020 21:46:03 +0100 (CET)
-Date: Sun, 22 Mar 2020 21:46:03 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: deprecation of in-tree builds
-In-Reply-To: <CAFEAcA_hfhusu8n8OXLg=vjiMSw09HVy2zhVr=R2hmGdEQJtew@mail.gmail.com>
-Message-ID: <alpine.BSF.2.22.395.2003222134560.60771@zero.eik.bme.hu>
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
- <CAL1e-=gKB0qRxGntXrU0im2gjMh1tq_SLGTm+HsmgBRGXQ9+Bg@mail.gmail.com>
- <CAFEAcA-Yn_O=G-63O1Ug9=HYqN0_o_NH_nLpWmBv2bjk2Y_85A@mail.gmail.com>
- <CAHiYmc4Qv4yL8LMp_nFqx20bq-hRO-umh5R899H6hdSyKrpNBA@mail.gmail.com>
- <CAFEAcA_hfhusu8n8OXLg=vjiMSw09HVy2zhVr=R2hmGdEQJtew@mail.gmail.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jG7cM-00017y-N0
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 16:54:47 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38132)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1jG7cM-00017c-F5; Sun, 22 Mar 2020 16:54:46 -0400
+Received: by mail-wr1-x443.google.com with SMTP id s1so14434449wrv.5;
+ Sun, 22 Mar 2020 13:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=b+iEG6NgD+qJY3iETm1Vxe+CjvjfGQQXFzkKx5oalXs=;
+ b=fL99Mj4itHablf4yOqJowsf9KdMGkIcmSWuqgDR3gmi3BdOYcb66f30IAKjdK93A5+
+ IUmA5FxiZ36oj1t51P76lQSGJn2kFRovvTg0Vn4hqEjiMqedoSt95RLE8Lx8JdAYlAvR
+ MjnDdxGq7rCUW1QImwj0NwXwyygsN8kRO6xMnJit16m4YAIrTMUPMQeH3DoxOoXXw9Ir
+ 6iFXsySjeY8lvMtKdphbuDvzmvIxj0vIr+NLVqSe6+O90uET+Zll8wxpH9oPoft+XU9K
+ 960/FvqjzU2Rf9zPhC/s6u445CN4muGvFmyloqPm/1PCa6qqrYL5yF5KO/iC4c0vL1nr
+ /Esg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=b+iEG6NgD+qJY3iETm1Vxe+CjvjfGQQXFzkKx5oalXs=;
+ b=R/ALg+xXB9msm8Gzcvydunan3Kv/ynybZmUKzwzt7lKMX0ZL9UEL1Bs/enisTuGEpU
+ Lsi7OQN9noe0wTgTwz8NUzcgveVx+kFgLeqMD2ZvrS/HNCtaG1LbrNh3dCJD3ayrGyHH
+ wEyI6a5MmONa8bFhqQV816ZN6vIvm8e4oD1kquVL4pz53s34zEsASHZT8uZnoR/qLnxT
+ alBPSeOy50JqtIFx+kX6HSiMZDTdUpYifmhMQ2xszE6xEJbObccTF9+hhuYvWyuW7x7w
+ 3Lrr5z+Pt0bM4bxESNGmkF+lCWipwp9NhbrDn+5PeoNpnsJ3LD6HAdfB0d8QLP1/SJac
+ rKkQ==
+X-Gm-Message-State: ANhLgQ37WOUq2s4AxZ2dLxwRS9WOQWOZMPx7bSz3lnQ5TpwzSi97D/XG
+ ou54Y7XRAcKoH/RvNV7iQrSAP1C+
+X-Google-Smtp-Source: ADFU+vvSWMM/f+/rGtKAaYxszqy2hysaJoO+UGJa2Fy9CwjuUOzKBfyQdsfYq12El773n9KKfQ6OzQ==
+X-Received: by 2002:adf:dd86:: with SMTP id x6mr19047071wrl.169.1584910485010; 
+ Sun, 22 Mar 2020 13:54:45 -0700 (PDT)
+Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
+ by smtp.gmail.com with ESMTPSA id w7sm21083875wrr.60.2020.03.22.13.54.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Mar 2020 13:54:44 -0700 (PDT)
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] hw/arm/orangepi: check for potential NULL pointer when
+ calling blk_is_available
+Date: Sun, 22 Mar 2020 21:54:38 +0100
+Message-Id: <20200322205439.15231-1-nieklinnenbank@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,51 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: peter.maydell@linaro.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 Mar 2020, Peter Maydell wrote:
-> On Sun, 22 Mar 2020 at 19:52, Aleksandar Markovic
-> <aleksandar.qemu.devel@gmail.com> wrote:
->> If an end-user feature works only in in-tree builds (so,
->> explitely said: not in out-of-tree builds), this is not
->> a build-time stuff, but user-facing feature issue.
->
-> gprof is a developer feature, not an end-user-facing
-> feature. By the latter I mean "some feature that users
-> who have installed a built binary might be using":
-> command line stuff, actual functionality in the QEMU
-> binary, QMP protocol, that kind of thing.
->
->> If someone is keen on removing any feature (as is truly in this case), I expect at least some moderate investigation being done on what could be affected (prior to announcing deprecation), rather than attitude "ok, let's announce deprecation, see if someone start clamoring, and, if not, we are good to go with removing". For me, this slightly disappointing.
->
-> Before you told me about the gprof issue, the *only* thing
+The Orange Pi PC initialization function needs to verify that the SD card
+block backend is usable before calling the Boot ROM setup routine. When
+calling blk_is_available() the input parameter should not be NULL.
+This commit ensures that blk_is_available is only called with non-NULL input.
 
-Was that gprof or gcov?
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+---
+ hw/arm/orangepi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I was aware of that might break was the coverity scan build,
-> which is a purely project internal bit of infrastructure.
+diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
+index 181f5badab..a9f64c5680 100644
+--- a/hw/arm/orangepi.c
++++ b/hw/arm/orangepi.c
+@@ -104,7 +104,7 @@ static void orangepi_init(MachineState *machine)
+                                 machine->ram);
+ 
+     /* Load target kernel or start using BootROM */
+-    if (!machine->kernel_filename && blk_is_available(blk)) {
++    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
+         /* Use Boot ROM to copy data from SD card to SRAM */
+         allwinner_h3_bootrom_setup(h3, blk);
+     }
+-- 
+2.17.1
 
-Plus potentially any scripts people might use to build stuff and distro 
-packagers that might use in-tree build. They would suddently find their 
-previously working scripts are now broken and they need to adapt. While 
-making sure running configure; make; make install in source tree even if 
-it actually does a build in a new build dir it creates automatically would 
-be less annoying change than having to manually manage out-of-tree build 
-dirs by those who did not do that so far.
-
-Is it really that difficult to add a CI job to do a git clone then 
-configure; make; make install in it to make sure it breaks less often? And 
-to make sure this still works after in-tree builds are deprecated and 
-removed? I think we can't check every distro packager or don't know what 
-users do but supporting the usual way of building packages used by many 
-may worth the little extra effort to not annoy users/developers 
-unnecessarily.
-
-Regards,
-BALATON Zoltan
 
