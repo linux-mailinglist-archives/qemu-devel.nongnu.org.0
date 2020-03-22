@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D54818E9C4
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 16:41:17 +0100 (CET)
-Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44D918EA0B
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 17:12:06 +0100 (CET)
+Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG2iy-0008KH-5s
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 11:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41467)
+	id 1jG3Cn-0003vV-Nw
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 12:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34452)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jG2i9-0007sm-Oo
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:26 -0400
+ (envelope-from <dereksu@qnap.com>) id 1jG1uw-0000xt-NJ
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:49:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jG2i7-0007fp-Vn
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:59370)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jG2i7-0007el-Jn
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584891622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AprzRelsVnK8LG/ddLpIr5SAFM0Yk78HQF1QxA7i7jg=;
- b=IWLayCkqJfEAEUOXBkkwXzBE0t2MhUFJGh+SgTsHQqGycXJBcnBeVrAKwCaxUSrDpIL9ry
- 6vnN0asrb12FvghhK/ZrfKnaDMUunILBUsml/XObfIZGbKBEVRsoSToFU8XNsUFlPssZmq
- Ft16XSu0hhTscmm12/UTpaqyY2PH1xM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-4csfvQv9P6mP5wkB1y-PHA-1; Sun, 22 Mar 2020 11:40:19 -0400
-X-MC-Unique: 4csfvQv9P6mP5wkB1y-PHA-1
-Received: by mail-ed1-f71.google.com with SMTP id dn10so9393457edb.6
- for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 08:40:19 -0700 (PDT)
+ (envelope-from <dereksu@qnap.com>) id 1jG1uv-0000CT-Bh
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:49:34 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36189)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dereksu@qnap.com>) id 1jG1uu-0000B8-Vx
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:49:33 -0400
+Received: by mail-wr1-x431.google.com with SMTP id 31so7390964wrs.3
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 07:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=7Y0gFAVQDb+CW+AtEWTo4S2fF2OVzdCUPlftLvNJ+iw=;
+ b=kTdNfdhTJi7+rtlEVtzDmapJAcKPnI5nyD+9U8eRedxOG8z2ABGCo22vubDhspJaFi
+ sncnOzsNPX83MCfntBparP9nlY8U/8JE+MWGZCtUgwWWOzX22tbPWCs3Ht7j7NQ+F6+p
+ B1Lgs5kmZV6IkwtrUrflCv1I4QxYQB7c6U3+w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+27kCCzaDfbx5r1Qo00ZcewVyjPJ3FCR88ldK5F9xjs=;
- b=iUk9M723WnW91YKsQ+H904ZCDZpHwXjE7EoaxjuZDL2hm/NZ+treHT2QBhJ9iSz2Lv
- Zg4Ncb43xf//FLk78A8SUBMR6kWOJs+fguRZsu0ktl6Tv6u2XBv3Q/3ARJk5NxJ35JaM
- J7ag2F6dyAfCuctKbjVZUkmUC7HsNj6+KMfkBBC97jZUMrQeteuFUNZGJnw30UL74uad
- RuNpLnM0Pvuhu55ix4wzzqntns6vj8fcy46mla4GLktfdRrY/rOctc8Zqu7nn9pzsX+V
- /wgr//OcJmWyE+uu2ZVsBYmZ2uO4nlYn3/LoIcWbBJJZwVOeV1CqGUzDuKTVj/8BvERy
- kaXA==
-X-Gm-Message-State: ANhLgQ0c31S4SxJjM9pM6H8eclYEFVPU7e3XWnuDymc23tdYCYl0jyDg
- UdXCQ6olrOF7+3xcm6ppE9meb6cQFb8EkP1ak7dRn0fxezo5dncyKUiXpPy+QYWaM6qYRd5GZNu
- FTw6qAdonzKlntSw=
-X-Received: by 2002:aa7:cac3:: with SMTP id l3mr17689181edt.90.1584891618095; 
- Sun, 22 Mar 2020 08:40:18 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtTZQ/5Novv6ht0jKmOeIHftuzi09mg6igFFYKLmHKlA/OViNXGXP7o6txpVZzuolUEa7PDZw==
-X-Received: by 2002:aa7:cac3:: with SMTP id l3mr17689151edt.90.1584891617766; 
- Sun, 22 Mar 2020 08:40:17 -0700 (PDT)
-Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id y62sm832778ede.5.2020.03.22.08.40.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Mar 2020 08:40:16 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] .travis.yml: Add a KVM-only s390x job
-Date: Sun, 22 Mar 2020 16:40:15 +0100
-Message-Id: <20200322154015.25358-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=7Y0gFAVQDb+CW+AtEWTo4S2fF2OVzdCUPlftLvNJ+iw=;
+ b=efpBPZUSjHAu58f0+jGPqG+aKslFOnX9l603/gVeHrVOrMGPVDv1lLGPm5tn1CcNCT
+ n7AkncE23XRbepCBhgUQbxxXtLxGs7m7YJ6JnuBt1pXJFXq0MkUW2l76NYs1LSKPCBON
+ 6dGGHGSYhWTCk+QdWPwqNyAz4NpX4KeT4M5xBih7iJ7aMGFa2hiZj6tCCboIGFsAWALI
+ suQPTnsAk1AuT7WIxJHSvG6QDIkgOfWAHzeppWalaSEYocup5wx+9DnvJW9lzJ2cWoxE
+ c2J5otr3NUCm+UjY2jpizTFj5MGQhkvwns4QSrMS7kOT1FPDXxlQQOFDQilif0j8/Dms
+ JJHQ==
+X-Gm-Message-State: ANhLgQ2w7oPP0awqETWxxMgMduIvFOKw1g+uI08ae1HRu2CN65LItGyo
+ GPnFnUDdsJRUzba/qJS5fGTcLK1F1VP6sepXjxNwVQGugGjpfg==
+X-Google-Smtp-Source: ADFU+vudwoRiyvwLjZcRHuiZQQiMI0cvTX7MPk+5jjRrIfUpaa/BtRFU4+umnEf46/mwVCsY7HfG2UVsIt8+YVfXrVQ=
+X-Received: by 2002:adf:8b1b:: with SMTP id n27mr23650433wra.349.1584888571258; 
+ Sun, 22 Mar 2020 07:49:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+From: Derek Su <dereksu@qnap.com>
+Date: Sun, 22 Mar 2020 22:49:20 +0800
+Message-ID: <CAKEOLWXi1o_jCHTvAEU69S0nMGXdUgpa_AqZhn9zzP=wb8d15w@mail.gmail.com>
+Subject: [PATCH 0/1] COLO: Fix memory leak in packet_enqueue()
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000004c830a05a172a0f5"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
+X-Mailman-Approved-At: Sun, 22 Mar 2020 12:10:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,81 +65,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: chen.zhang@intel.com, jasowang@redhat.com, lizhijian@cn.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to build QEMU on s390x with TCG disabled, so
-this configuration won't bitrot over time.
+--0000000000004c830a05a172a0f5
+Content-Type: text/plain; charset="UTF-8"
 
-This job is quick, running check-unit: Ran for 5 min 30 sec
-https://travis-ci.org/github/philmd/qemu/jobs/665456423
+The patch is to fix the memory leak in packet_enqueue().
+The allocated "pkt" needs to be freed if the colo compare
+primary or secondary queue is too big to insert.
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- .travis.yml | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+Reproduce steps:
+(1) Setup PVM and SVM both with NIC e1000 by the steps descripted
 
-diff --git a/.travis.yml b/.travis.yml
-index 5672d129ec..e0c72210b7 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -525,6 +525,48 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
-=20
-+    - name: "[s390x] GCC check (KVM)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - TEST_CMD=3D"make check-unit"
-+        - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm --disa=
-ble-tools"
-+      script:
-+        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-+        - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
-+        - |
-+          if [ "$BUILD_RC" -eq 0 ] ; then
-+              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              ${TEST_CMD} ;
-+          else
-+              $(exit $BUILD_RC);
-+          fi
-+
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start=
- with a 'v'.
-     # This is the case when release candidate tags are created.
---=20
-2.21.1
 
+    in the wiki qemu/COLO
+(2) Run "iperf3 -s" in PVM
+(3) Run "iperfs -c <PVM-IP> -t 7200"
+
+The memory usage of qemu-system-x86_64 increases as
+the PVM's QMP shows "qemu-system-x86_64: colo compare
+secondary queue size too big,drop packet".
+
+
+Derek Su (1):
+  net/colo-compare.c: Fix memory leak in packet_enqueue()
+
+ net/colo-compare.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
+--0000000000004c830a05a172a0f5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_signature" data-smart=
+mail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"=
+><div>The patch is to fix the memory leak in packet_enqueue().<br>The alloc=
+ated &quot;pkt&quot; needs to be freed if the colo compare<br>primary or se=
+condary queue is too big to insert.<br><br>Reproduce steps:<br>(1) Setup PV=
+M and SVM both with NIC e1000 by the steps descripted =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>=C2=
+=A0 =C2=A0 in the wiki qemu/COLO<br>(2) Run &quot;iperf3 -s&quot; in PVM<br=
+>(3) Run &quot;iperfs -c &lt;PVM-IP&gt; -t 7200&quot;<br><br>The memory usa=
+ge of qemu-system-x86_64 increases as<br>the PVM&#39;s QMP shows &quot;qemu=
+-system-x86_64: colo compare<br>secondary queue size too big,drop packet&qu=
+ot;.<br><br><br>Derek Su (1):<br>=C2=A0 net/colo-compare.c: Fix memory leak=
+ in packet_enqueue()<br><br>=C2=A0net/colo-compare.c | 23 +++++++++++++++--=
+------<br>=C2=A01 file changed, 15 insertions(+), 8 deletions(-)<br><br>-- =
+<br>2.17.1<br><br></div></div></div></div></div></div></div>
+
+--0000000000004c830a05a172a0f5--
 
