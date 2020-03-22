@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3118E87F
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 13:02:47 +0100 (CET)
-Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6444818E881
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 13:04:38 +0100 (CET)
+Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jFzJV-0001HU-Rw
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 08:02:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
+	id 1jFzLJ-0003EV-G3
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 08:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44702)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jFzI1-0000Qk-38
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1jFzI7-0000V9-6h
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jFzHz-0001Np-Ih
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51942)
+ (envelope-from <philmd@redhat.com>) id 1jFzI6-0001QB-5d
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:19 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFzHz-0001Na-Ed
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:11 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jFzI6-0001Q5-2U
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 08:01:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584878471;
+ s=mimecast20190719; t=1584878477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=loVZkCaGgvHWmWy+LABlV061e4AvFKYcIsAkccwDWKQ=;
- b=FA3Az5JXqOr+IIjjjcJw8OXWhwsokr2FXX0cn9INb6qyS+wE4+nsM7rodPrqSODtsJj+Bh
- XVfpTWdDDHJTc19nqST30XieBt909MQWHqdh+D5c8jPXZk2KhVQMev7OAIApcYgV7ql+vO
- CkRp5RfkweXmAgHBe5GiICNFpRhagYc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-4lLMkqxqMV6S_IlE81bVdw-1; Sun, 22 Mar 2020 08:01:08 -0400
-X-MC-Unique: 4lLMkqxqMV6S_IlE81bVdw-1
-Received: by mail-wm1-f70.google.com with SMTP id g9so1124829wmh.1
- for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 05:01:08 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=64m8B2UB0OQtPH/xPaPLPPNVBYf+7O3z70ZNwLaWtY8=;
+ b=g9upL+omL+j4/fMk1w4hPlqIxPYYjgHJCCnBEGNpSUtsYnPwajQ+C+YndnWHIy6YW7PRfC
+ 0NdbJvb/ZIjgdPpLMtV1ndANOefBImYamgxjPhKzafVpnmN3CyycRe3HxPDZENEntJBeU/
+ 3Yihd8oNg7Ugxj6OLzoDLWmjKveMGz4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-b8Mh4N9VNval4RYMWhjGAQ-1; Sun, 22 Mar 2020 08:01:13 -0400
+X-MC-Unique: b8Mh4N9VNval4RYMWhjGAQ-1
+Received: by mail-wr1-f71.google.com with SMTP id w11so5708372wrp.20
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 05:01:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=22TtJgPLggWAOyBtUGWkiB5PJ0wnCA+37RwflFV65XI=;
- b=RYv5OMvLaNmMS3OpoA+kV+9cuPysomGrKy0zsOSgyYsP8nIYt8bWaaMgYEf/J2M6uq
- B4UfzrGDxfZ9C4CXp/tNgjpzMGhxIfXlbL8c51izcNzo30hoROHi5AppFNc7yK05d06K
- CMrjDZb81ftxiZWCSbpb73ZzS61TstcEAE9fxVFXkU1ABTS88DAKcaIePf+DQU7oc4yv
- hCq1qDBUhMl5jvzbWZ7LLjuamcjCa5LFJ0a2skkeApUwo0RQFc/O5UFx1Eeipw6y9JbH
- pQlgAO5nQMU65K4FN69Pkaja87zDaVjoHvsZdTLBojEWsDyzrCIk0BtKud6Eyv0Y/8Sj
- oB+A==
-X-Gm-Message-State: ANhLgQ33R1nUS0pXuP4wv4N20NQQBiSzRzbWXaGibe4Tm5c01dRvYw9y
- dcKxKLD/+Z09zbbC11IhJU9w8E+9al+nv1tgVIpEwmolKE/gpaXcWNgIzVvl2n5bbWl/6yzKY71
- 3ivLVDni6QHGqadw=
-X-Received: by 2002:a1c:9c49:: with SMTP id f70mr12195668wme.15.1584878467519; 
- Sun, 22 Mar 2020 05:01:07 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvgYt13FWv+jLT2fL0znoiBmqfFeUjp77kSD/ehs022CpYQifds82UtSzaLTwK5niaCSfAyEA==
-X-Received: by 2002:a1c:9c49:: with SMTP id f70mr12195646wme.15.1584878467264; 
- Sun, 22 Mar 2020 05:01:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Fs7lcEzn6cPhH2KxpoF9rs1jMY7joUqJZjQQkVjATH4=;
+ b=k3Dvm81T74OlxSIZYZKSiEjHAVy1k7VCUdGScSo9juTdPoRCZ14b7Me4BM69zGZ/7+
+ whKp1cpVXO8vDOgr9Ag2u69MaVukpCN6ecMHBinq2ewFquLW3bv3fIfgQOe8G+no3CIj
+ WYSiL6HmCDlbdiPyJTl/X3aC4gAIGGp/AQeQzVTSq50sWAOz4x1hc4FHhfZy2+kkrpiP
+ 18WSepv0IbJVYfegJttPhOft8sFxJdne8CUQJZaiViWizdKtiHC/JCtbHHyHi6ebcYxZ
+ h58M3l98G1zMraqVUTTdtLgkSaZnQEh9/wvdptCe7DIOfr2cFon/TxvYykBAPjvxpI67
+ 5x+A==
+X-Gm-Message-State: ANhLgQ3anodZwcaMjudC2ZiuYKD1/l2mn1P3BgxvJZr0CsatZl7aDKvL
+ yshxUGmHZ3yP7YjjLjQhw/dWlbing9FWmMU4dtOgbA14YK0k6uykRa6b221wzf8clZw1y6Rn/nU
+ vFTJXSe6YjU3+OH8=
+X-Received: by 2002:a05:600c:286:: with SMTP id
+ 6mr21774706wmk.56.1584878472396; 
+ Sun, 22 Mar 2020 05:01:12 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsoI+SEbtgLQD0x06tR8tKC6SLXumVTaig0LwrWcvwkgrUuJnZp1uj/xk6WsiEfTyyvi+4bLA==
+X-Received: by 2002:a05:600c:286:: with SMTP id
+ 6mr21774693wmk.56.1584878472208; 
+ Sun, 22 Mar 2020 05:01:12 -0700 (PDT)
 Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
  [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id b67sm16807205wmh.29.2020.03.22.05.01.06
+ by smtp.gmail.com with ESMTPSA id b80sm17430663wme.24.2020.03.22.05.01.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Mar 2020 05:01:06 -0700 (PDT)
+ Sun, 22 Mar 2020 05:01:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 0/4] tests/docker: Fixes for 5.0
-Date: Sun, 22 Mar 2020 13:01:00 +0100
-Message-Id: <20200322120104.21267-1-philmd@redhat.com>
+Subject: [PATCH-for-5.0 v2 1/4] tests/docker: Keep package list sorted
+Date: Sun, 22 Mar 2020 13:01:01 +0100
+Message-Id: <20200322120104.21267-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200322120104.21267-1-philmd@redhat.com>
+References: <20200322120104.21267-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,22 +96,76 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Easy fixes for our Docker images.
+Keep package list sorted, this eases rebase/cherry-pick.
 
-Since v1:
-- Reword gcrypt patch description (requested by Aleksandar)
+Fixes: 3a6784813
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/docker/dockerfiles/centos7.docker | 6 ++++--
+ tests/docker/dockerfiles/fedora.docker  | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Philippe Mathieu-Daud=C3=A9 (4):
-  tests/docker: Keep package list sorted
-  tests/docker: Install gcrypt devel package in Debian image
-  tests/docker: Use Python3 PyYAML in the Fedora image
-  tests/docker: Add libepoxy and libudev packages to the Fedora image
-
- tests/docker/dockerfiles/centos7.docker      |  6 ++++--
- tests/docker/dockerfiles/debian-amd64.docker |  1 +
- tests/docker/dockerfiles/fedora.docker       | 10 +++++++---
- 3 files changed, 12 insertions(+), 5 deletions(-)
-
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerf=
+iles/centos7.docker
+index cdd72de7eb..9a2a2e515d 100644
+--- a/tests/docker/dockerfiles/centos7.docker
++++ b/tests/docker/dockerfiles/centos7.docker
+@@ -2,6 +2,8 @@ FROM centos:7
+ RUN yum install -y epel-release centos-release-xen-48
+=20
+ RUN yum -y update
++
++# Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bison \
+     bzip2 \
+@@ -19,6 +21,7 @@ ENV PACKAGES \
+     libepoxy-devel \
+     libfdt-devel \
+     librdmacm-devel \
++    libzstd-devel \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
+@@ -33,7 +36,6 @@ ENV PACKAGES \
+     tar \
+     vte-devel \
+     xen-devel \
+-    zlib-devel \
+-    libzstd-devel
++    zlib-devel
+ RUN yum install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfi=
+les/fedora.docker
+index a6522228c0..019eb12dcb 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,6 @@
+ FROM fedora:30
++
++# Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bc \
+     bison \
+@@ -38,6 +40,7 @@ ENV PACKAGES \
+     libubsan \
+     libusbx-devel \
+     libxml2-devel \
++    libzstd-devel \
+     llvm \
+     lzo-devel \
+     make \
+@@ -92,8 +95,7 @@ ENV PACKAGES \
+     vte291-devel \
+     which \
+     xen-devel \
+-    zlib-devel \
+-    libzstd-devel
++    zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3
+=20
+ RUN dnf install -y $PACKAGES
 --=20
 2.21.1
 
