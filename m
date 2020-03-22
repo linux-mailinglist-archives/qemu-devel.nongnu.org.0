@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8290518EC9E
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 22:21:43 +0100 (CET)
-Received: from localhost ([::1]:49946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5782118ECAB
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 22:25:03 +0100 (CET)
+Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG82Q-0004hU-Jb
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 17:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42823)
+	id 1jG85e-0000vO-DD
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 17:25:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1jG80M-0002sR-L0
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:36 -0400
+ (envelope-from <groeck7@gmail.com>) id 1jG80O-0002tX-HP
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1jG80K-0002k8-Qe
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:34 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:37564)
+ (envelope-from <groeck7@gmail.com>) id 1jG80M-0002ke-4D
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 17:19:36 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35973)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1jG80J-0002j6-1v; Sun, 22 Mar 2020 17:19:31 -0400
-Received: by mail-pl1-x641.google.com with SMTP id x1so978020plm.4;
- Sun, 22 Mar 2020 14:19:30 -0700 (PDT)
+ id 1jG80K-0002jf-Q9; Sun, 22 Mar 2020 17:19:32 -0400
+Received: by mail-pl1-x643.google.com with SMTP id g2so5002201plo.3;
+ Sun, 22 Mar 2020 14:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ZgsMGDELhEF4+TgSqBXZBt/v6x4+MShoKiq5mNYxWWg=;
- b=A25hrsUrd/dKrtFHB5tKa2BzGOw5+Hx3G87LBJdA0z3XnaKrWzxAVg+0j5XHIXyVYu
- n7w9rgv3mvOr7VQSkulLA8prfYEfUNEQZY+QbFjQ6tBJ5tGrHOzo2LhiHmb7xl4HvenT
- m+CaVpfn8K60oGL4+S25dhDG1i4hF1FGGg9InVXB/1rdIpDHMZKHxtKD3dA3GSG0WYKQ
- q+9+jztvBMdlSCeI8wfkSXDUPrAA9rhbsQYhRXlW0CWev7WCzQAFabQkdve8eCnbzSCV
- ke4qr+ZtO0Hea9X6ndC/LNGLmfgcJnq1uo9vMQ5PoyvrmZ10TkkT+lmPTPNmP4ZnnO5S
- tLIQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/KJgg3GQUYAWBtiiHqyoNKWjmdOXcRV798ZDLG19ILg=;
+ b=e80G1yMo8g4WpgqVlt8ECnyB1a18hfmd19HHCr/2hV9y3jpmb2WLC7/QgEKqTGv9gJ
+ pfWgsxsMFHixa6ISPY96SXO+FVAhq4w67Owz3J9josn6Se37FBDSnUDsm6w/jsRDQamc
+ dBouPjVwcuNt6cK851fSYqwlwgPWsYMfFRzpCdUz9On1GUNcwadE42hMyhTw1Ps80vYq
+ DH4gVKAeBtsxMjScDvqW1E+gJa+qBG32WQFWt0dtIBGRsCaNqs6lAfUHnDGLeeSoATot
+ yxiw14lHKxovQklVVmBsPJsKYZ+xqCcslrfGOEsuvXsE55c22pb5dbXkZ8FopKIH3d8K
+ AdFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=ZgsMGDELhEF4+TgSqBXZBt/v6x4+MShoKiq5mNYxWWg=;
- b=oonyrJDho8VzeLLmJTnTfRmMagcAE3c+c7wt0Jf8kGhkwAXD3nv4fpOCLsEKcAEN30
- yCN2dqe6Ykci0Az+mPKEnCP8V8zSIwrDp960NeprvC8gl6j/WyKcQFIGBgGppVsKJo15
- N8OGReAnDk+MFEG0mdeS8+iLgWA+F3AZE6mmQXcfMy8MYoT32ib/5PlKSjuwaTSgfgV+
- 1Vk6DcZQmCsFwdCF6zNyFjWAFRk6hb4QaiNXkhYbTlOtOfeRbMB0OKKK43YbSGFNP+5d
- kmOARQhQbvxxDcorLEIoRw3kaZsuQnRaFqd63h40kfrRfkdEmGsesSDkYk1oKqB6zsjM
- eE3w==
-X-Gm-Message-State: ANhLgQ1vjIOiclyfgi757J/dHtoIH3xwZmSpNMcSEiLk8lNFIBeKvq4f
- qbpdGduAXKdQwL/uOKJzZYk=
-X-Google-Smtp-Source: ADFU+vstY6i3J5txkInGpGH7IwzCdYCiRYZgT5fAwYYG20/u08QYVju2dkW1ACorAMIC3tkWccReHQ==
-X-Received: by 2002:a17:90b:1b05:: with SMTP id
- nu5mr8439811pjb.110.1584911969517; 
- Sun, 22 Mar 2020 14:19:29 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=/KJgg3GQUYAWBtiiHqyoNKWjmdOXcRV798ZDLG19ILg=;
+ b=smDldahdZIF4nChogucUIXHewBa5f0tjxoSrpZ1jGk8IQ7LJixdRVppbbEl0HoKxWz
+ bQSbhjW0qZyN/fkLUzN80CActB2qTmn2sQMT+98XkdhyCnvzYW/E6E7GLtuvDXmfV8mD
+ 0qKTFelGM2gCVYVxpDLg1EEu6VboHR7G3K52hqUF+eL4+prSfFxJcEciBH7AFhzgtAkv
+ ih8Hz43dkcRRkW4ZuEN9fUO6tdlhG6g6421ejYpnVWfa2p2d3Z/BJs9OWg9kNPCDi8yA
+ 7kDEZyBM9UHyh8lXCF4ePWN6JX416aIsoMlokSOuYtlRa+P4PvHBI8wVMw6XEJBMapJY
+ ntGg==
+X-Gm-Message-State: ANhLgQ29trN5x14qxxFhfLY8tTJpXaez9rK6kiScRIOfN2d3xYDhVQ6Q
+ h1Ubp9ydkZ1RNX0k0yIHEfc=
+X-Google-Smtp-Source: ADFU+vvjZy8hNuOyN8RNJriCJgNggK+iD8o7l4o7e3y/aSjt1iKrhBv6rCd+JhHut9k9X0W6H9tDzA==
+X-Received: by 2002:a17:90a:2149:: with SMTP id
+ a67mr21943829pje.190.1584911970883; 
+ Sun, 22 Mar 2020 14:19:30 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id f6sm11992971pfk.99.2020.03.22.14.19.28
+ by smtp.gmail.com with ESMTPSA id y30sm11707064pff.67.2020.03.22.14.19.30
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 22 Mar 2020 14:19:29 -0700 (PDT)
+ Sun, 22 Mar 2020 14:19:30 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 2/8] hw/watchdog: Implement full i.MX watchdog support
-Date: Sun, 22 Mar 2020 14:19:13 -0700
-Message-Id: <20200322211919.11335-3-linux@roeck-us.net>
+Subject: [PATCH v2 3/8] hw/arm/fsl-imx25: Wire up watchdog
+Date: Sun, 22 Mar 2020 14:19:14 -0700
+Message-Id: <20200322211919.11335-4-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200322211919.11335-1-linux@roeck-us.net>
 References: <20200322211919.11335-1-linux@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,334 +84,96 @@ Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement full support for the watchdog in i.MX systems.
-Pretimeout support is optional because the watchdog hardware on i.MX31
-does not support pretimeouts.
+With this commit, the watchdog on imx25-pdk is fully operational,
+including pretimeout support.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
-v2: Fixup of CONFIG_WDT_IMX -> CONFIG_WDT_IMX2 moved to patch 1/8
+v2: Select WDT_IMX2 explicitly
+    Added Philippe's Reviewed-by: tag
 
- hw/watchdog/wdt_imx2.c         | 196 +++++++++++++++++++++++++++++++--
- include/hw/watchdog/wdt_imx2.h |  49 ++++++++-
- 2 files changed, 231 insertions(+), 14 deletions(-)
+ hw/arm/Kconfig             |  1 +
+ hw/arm/fsl-imx25.c         | 10 ++++++++++
+ include/hw/arm/fsl-imx25.h |  5 +++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/hw/watchdog/wdt_imx2.c b/hw/watchdog/wdt_imx2.c
-index ad1ef02e9e..f5339f3590 100644
---- a/hw/watchdog/wdt_imx2.c
-+++ b/hw/watchdog/wdt_imx2.c
-@@ -13,24 +13,157 @@
- #include "qemu/bitops.h"
- #include "qemu/module.h"
- #include "sysemu/watchdog.h"
-+#include "migration/vmstate.h"
-+#include "hw/qdev-properties.h"
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index adf401e827..54a49aeabd 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -358,6 +358,7 @@ config FSL_IMX25
+     select IMX
+     select IMX_FEC
+     select IMX_I2C
++    select WDT_IMX2
+     select DS1338
  
- #include "hw/watchdog/wdt_imx2.h"
- 
--#define IMX2_WDT_WCR_WDA    BIT(5)      /* -> External Reset WDOG_B */
--#define IMX2_WDT_WCR_SRS    BIT(4)      /* -> Software Reset Signal */
-+static void imx2_wdt_interrupt(void *opaque)
-+{
-+    IMX2WdtState *s = IMX2_WDT(opaque);
-+
-+    s->wicr |= IMX2_WDT_WICR_WTIS;
-+    qemu_set_irq(s->irq, 1);
-+}
- 
--static uint64_t imx2_wdt_read(void *opaque, hwaddr addr,
--                              unsigned int size)
-+static void imx2_wdt_expired(void *opaque)
- {
-+    IMX2WdtState *s = IMX2_WDT(opaque);
-+
-+    s->wrsr = IMX2_WDT_WRSR_TOUT;
-+
-+    /* Perform watchdog action if watchdog is enabled */
-+    if (s->wcr & IMX2_WDT_WCR_WDE) {
-+        watchdog_perform_action();
-+    }
-+}
-+
-+static void imx2_wdt_reset(DeviceState *dev)
-+{
-+    IMX2WdtState *s = IMX2_WDT(dev);
-+
-+    s->wcr = IMX2_WDT_WCR_WDA | IMX2_WDT_WCR_SRS;
-+    s->wsr = 0;
-+    s->wrsr &= ~(IMX2_WDT_WRSR_TOUT | IMX2_WDT_WRSR_SFTW);
-+    s->wicr = 4;
-+    s->wmcr = IMX2_WDT_WMCR_PDE;
-+}
-+
-+static uint64_t imx2_wdt_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    IMX2WdtState *s = IMX2_WDT(opaque);
-+
-+    switch (addr) {
-+    case IMX2_WDT_WCR:
-+        return s->wcr;
-+    case IMX2_WDT_WSR:
-+        return s->wsr;
-+    case IMX2_WDT_WRSR:
-+        return s->wrsr;
-+    case IMX2_WDT_WICR:
-+        return s->wicr;
-+    case IMX2_WDT_WMCR:
-+        return s->wmcr;
-+    }
-     return 0;
- }
- 
-+static void imx_wdt2_update_itimer(IMX2WdtState *s, bool start)
-+{
-+    bool running = (s->wcr & IMX2_WDT_WCR_WDE) && (s->wcr & IMX2_WDT_WCR_WT);
-+    bool enabled = s->wicr & IMX2_WDT_WICR_WIE;
-+
-+    ptimer_transaction_begin(s->itimer);
-+    if (start || !enabled) {
-+        ptimer_stop(s->itimer);
-+    }
-+    if (running && enabled) {
-+        int count = ptimer_get_count(s->timer);
-+        int pretimeout = s->wicr & IMX2_WDT_WICR_WICT;
-+
-+        /*
-+         * Only (re-)start pretimeout timer if its counter value is larger
-+         * than 0. Otherwise it will fire right away and we'll get an
-+         * interrupt loop.
-+         */
-+        if (count > pretimeout) {
-+            ptimer_set_count(s->itimer, count - pretimeout);
-+            if (start) {
-+                ptimer_run(s->itimer, 1);
-+            }
-+        }
-+    }
-+    ptimer_transaction_commit(s->itimer);
-+}
-+
-+static void imx_wdt2_update_timer(IMX2WdtState *s, bool start)
-+{
-+    ptimer_transaction_begin(s->timer);
-+    if (start) {
-+        ptimer_stop(s->timer);
-+    }
-+    if ((s->wcr & IMX2_WDT_WCR_WDE) && (s->wcr & IMX2_WDT_WCR_WT)) {
-+        int count = (s->wcr & IMX2_WDT_WCR_WT) >> 8;
-+
-+        ptimer_set_count(s->timer, count);
-+        if (start) {
-+            ptimer_run(s->timer, 1);
-+        }
-+    }
-+    ptimer_transaction_commit(s->timer);
-+    if (s->pretimeout_support) {
-+        imx_wdt2_update_itimer(s, start);
-+    }
-+}
-+
- static void imx2_wdt_write(void *opaque, hwaddr addr,
-                            uint64_t value, unsigned int size)
- {
--    if (addr == IMX2_WDT_WCR &&
--        (~value & (IMX2_WDT_WCR_WDA | IMX2_WDT_WCR_SRS))) {
--        watchdog_perform_action();
-+    IMX2WdtState *s = IMX2_WDT(opaque);
-+
-+    switch (addr) {
-+    case IMX2_WDT_WCR:
-+        s->wcr = value;
-+        if (!(value & IMX2_WDT_WCR_SRS)) {
-+            s->wrsr = IMX2_WDT_WRSR_SFTW;
-+        }
-+        if (!(value & (IMX2_WDT_WCR_WDA | IMX2_WDT_WCR_SRS)) ||
-+            (!(value & IMX2_WDT_WCR_WT) && (value & IMX2_WDT_WCR_WDE))) {
-+            watchdog_perform_action();
-+        }
-+        s->wcr |= IMX2_WDT_WCR_SRS;
-+        imx_wdt2_update_timer(s, true);
-+        break;
-+    case IMX2_WDT_WSR:
-+        if (s->wsr == IMX2_WDT_SEQ1 && value == IMX2_WDT_SEQ2) {
-+            imx_wdt2_update_timer(s, false);
-+        }
-+        s->wsr = value;
-+        break;
-+    case IMX2_WDT_WRSR:
-+        break;
-+    case IMX2_WDT_WICR:
-+        if (!s->pretimeout_support) {
-+            return;
-+        }
-+        /* The pretimeout value is write-once */
-+        if (s->pretimeout_locked) {
-+            value &= ~IMX2_WDT_WICR_WICT;
-+            s->wicr &= (IMX2_WDT_WICR_WTIS | IMX2_WDT_WICR_WICT);
-+        } else {
-+            s->wicr &= IMX2_WDT_WICR_WTIS;
-+        }
-+        s->wicr |= value & (IMX2_WDT_WICR_WIE | IMX2_WDT_WICR_WICT);
-+        if (value & IMX2_WDT_WICR_WTIS) {
-+            s->wicr &= ~IMX2_WDT_WICR_WTIS;
-+            qemu_set_irq(s->irq, 0);
-+        }
-+        imx_wdt2_update_itimer(s, true);
-+        s->pretimeout_locked = true;
-+        break;
-+    case IMX2_WDT_WMCR:
-+        s->wmcr = value & IMX2_WDT_WMCR_PDE;
-+        break;
+ config FSL_IMX31
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index 6f1a82ce3d..cdaa79c26b 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -87,6 +87,7 @@ static void fsl_imx25_init(Object *obj)
+                               TYPE_CHIPIDEA);
      }
+ 
++    sysbus_init_child_obj(obj, "wdt", &s->wdt, sizeof(s->wdt), TYPE_IMX2_WDT);
  }
  
-@@ -45,28 +178,67 @@ static const MemoryRegionOps imx2_wdt_ops = {
-          * real device but in practice there is no reason for a guest
-          * to access this device unaligned.
-          */
--        .min_access_size = 4,
--        .max_access_size = 4,
-+        .min_access_size = 2,
-+        .max_access_size = 2,
-         .unaligned = false,
-     },
- };
+ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
+@@ -302,6 +303,15 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
+                                             usb_table[i].irq));
+     }
  
-+static const VMStateDescription vmstate_imx2_wdt = {
-+    .name = "imx2.wdt",
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PTIMER(timer, IMX2WdtState),
-+        VMSTATE_PTIMER(itimer, IMX2WdtState),
-+        VMSTATE_BOOL(pretimeout_locked, IMX2WdtState),
-+        VMSTATE_UINT16(wcr, IMX2WdtState),
-+        VMSTATE_UINT16(wsr, IMX2WdtState),
-+        VMSTATE_UINT16(wrsr, IMX2WdtState),
-+        VMSTATE_UINT16(wmcr, IMX2WdtState),
-+        VMSTATE_UINT16(wicr, IMX2WdtState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++    /* Watchdog */
++    object_property_set_bool(OBJECT(&s->wdt), true, "pretimeout-support",
++                             &error_abort);
++    object_property_set_bool(OBJECT(&s->wdt), true, "realized", &error_abort);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt), 0, FSL_IMX25_WDT_ADDR);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->wdt), 0,
++                                      qdev_get_gpio_in(DEVICE(&s->avic),
++                                                       FSL_IMX25_WDT_IRQ));
 +
- static void imx2_wdt_realize(DeviceState *dev, Error **errp)
- {
-     IMX2WdtState *s = IMX2_WDT(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     /* initialize 2 x 16 KB ROM */
+     memory_region_init_rom(&s->rom[0], OBJECT(dev), "imx25.rom0",
+                            FSL_IMX25_ROM0_SIZE, &err);
+diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
+index 5e196bbf05..9e228dacea 100644
+--- a/include/hw/arm/fsl-imx25.h
++++ b/include/hw/arm/fsl-imx25.h
+@@ -29,6 +29,7 @@
+ #include "hw/gpio/imx_gpio.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/usb/chipidea.h"
++#include "hw/watchdog/wdt_imx2.h"
+ #include "exec/memory.h"
+ #include "target/arm/cpu.h"
  
-     memory_region_init_io(&s->mmio, OBJECT(dev),
-                           &imx2_wdt_ops, s,
--                          TYPE_IMX2_WDT".mmio",
--                          IMX2_WDT_REG_NUM * sizeof(uint16_t));
--    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-+                          TYPE_IMX2_WDT,
-+                          IMX2_WDT_MMIO_SIZE);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+    sysbus_init_irq(sbd, &s->irq);
-+
-+    s->timer = ptimer_init(imx2_wdt_expired, s, PTIMER_POLICY_DEFAULT);
-+    ptimer_transaction_begin(s->timer);
-+    ptimer_set_freq(s->timer, 2);
-+    ptimer_set_limit(s->timer, 0xff, 1);
-+    ptimer_transaction_commit(s->timer);
-+    if (s->pretimeout_support) {
-+        s->itimer = ptimer_init(imx2_wdt_interrupt, s, PTIMER_POLICY_DEFAULT);
-+        ptimer_transaction_begin(s->itimer);
-+        ptimer_set_freq(s->itimer, 2);
-+        ptimer_set_limit(s->itimer, 0xff, 1);
-+        ptimer_transaction_commit(s->itimer);
-+    }
- }
+@@ -60,6 +61,7 @@ typedef struct FslIMX25State {
+     IMXGPIOState   gpio[FSL_IMX25_NUM_GPIOS];
+     SDHCIState     esdhc[FSL_IMX25_NUM_ESDHCS];
+     ChipideaState  usb[FSL_IMX25_NUM_USBS];
++    IMX2WdtState   wdt;
+     MemoryRegion   rom[2];
+     MemoryRegion   iram;
+     MemoryRegion   iram_alias;
+@@ -229,6 +231,8 @@ typedef struct FslIMX25State {
+ #define FSL_IMX25_GPIO1_SIZE    0x4000
+ #define FSL_IMX25_GPIO2_ADDR    0x53FD0000
+ #define FSL_IMX25_GPIO2_SIZE    0x4000
++#define FSL_IMX25_WDT_ADDR      0x53FDC000
++#define FSL_IMX25_WDT_SIZE      0x4000
+ #define FSL_IMX25_USB1_ADDR     0x53FF4000
+ #define FSL_IMX25_USB1_SIZE     0x0200
+ #define FSL_IMX25_USB2_ADDR     0x53FF4400
+@@ -268,5 +272,6 @@ typedef struct FslIMX25State {
+ #define FSL_IMX25_ESDHC2_IRQ    8
+ #define FSL_IMX25_USB1_IRQ      37
+ #define FSL_IMX25_USB2_IRQ      35
++#define FSL_IMX25_WDT_IRQ       55
  
-+static Property imx2_wdt_properties[] = {
-+    DEFINE_PROP_BOOL("pretimeout-support", IMX2WdtState, pretimeout_support,
-+                     false),
-+};
-+
- static void imx2_wdt_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    device_class_set_props(dc, imx2_wdt_properties);
-     dc->realize = imx2_wdt_realize;
-+    dc->reset = imx2_wdt_reset;
-+    dc->vmsd = &vmstate_imx2_wdt;
-+    dc->desc = "i.MX watchdog timer";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
- }
- 
-diff --git a/include/hw/watchdog/wdt_imx2.h b/include/hw/watchdog/wdt_imx2.h
-index b91b002528..bed7aa6835 100644
---- a/include/hw/watchdog/wdt_imx2.h
-+++ b/include/hw/watchdog/wdt_imx2.h
-@@ -12,22 +12,67 @@
- #ifndef IMX2_WDT_H
- #define IMX2_WDT_H
- 
-+#include "qemu/bitops.h"
- #include "hw/sysbus.h"
-+#include "hw/irq.h"
-+#include "hw/ptimer.h"
- 
- #define TYPE_IMX2_WDT "imx2.wdt"
- #define IMX2_WDT(obj) OBJECT_CHECK(IMX2WdtState, (obj), TYPE_IMX2_WDT)
- 
- enum IMX2WdtRegisters {
--    IMX2_WDT_WCR     = 0x0000,
--    IMX2_WDT_REG_NUM = 0x0008 / sizeof(uint16_t) + 1,
-+    IMX2_WDT_WCR  = 0x0000, /* Control Register */
-+    IMX2_WDT_WSR  = 0x0002, /* Service Register */
-+    IMX2_WDT_WRSR = 0x0004, /* Reset Status Register */
-+    IMX2_WDT_WICR = 0x0006, /* Interrupt Control Register */
-+    IMX2_WDT_WMCR = 0x0008, /* Misc Register */
- };
- 
-+#define IMX2_WDT_MMIO_SIZE 0x000a
-+
-+/* Control Register definitions */
-+#define IMX2_WDT_WCR_WT         (0xFF << 8) /* Watchdog Timeout Field */
-+#define IMX2_WDT_WCR_WDA        BIT(5)      /* WDOG Assertion */
-+#define IMX2_WDT_WCR_SRS        BIT(4)      /* Software Reset Signal */
-+#define IMX2_WDT_WCR_WDT        BIT(3)      /* WDOG Timeout Assertion */
-+#define IMX2_WDT_WCR_WDE        BIT(2)      /* Watchdog Enable */
-+#define IMX2_WDT_WCR_WDZST      BIT(0)      /* Watchdog Timer Suspend */
-+
-+/* Service Register definitions */
-+#define IMX2_WDT_SEQ1           0x5555      /* service sequence 1 */
-+#define IMX2_WDT_SEQ2           0xAAAA      /* service sequence 2 */
-+
-+/* Reset Status Register definitions */
-+#define IMX2_WDT_WRSR_TOUT      BIT(1)      /* Reset due to Timeout */
-+#define IMX2_WDT_WRSR_SFTW      BIT(0)      /* Reset due to Timeout */
-+
-+/* Interrupt Control Register definitions */
-+#define IMX2_WDT_WICR_WIE       BIT(15)     /* Interrupt Enable */
-+#define IMX2_WDT_WICR_WTIS      BIT(14)     /* Interrupt Status */
-+#define IMX2_WDT_WICR_WICT      0xff        /* Interrupt Timeout */
-+
-+/* Misc Control Register definitions */
-+#define IMX2_WDT_WMCR_PDE       BIT(0)      /* Power-Down Enable */
- 
- typedef struct IMX2WdtState {
-     /* <private> */
-     SysBusDevice parent_obj;
- 
-+    /*< public >*/
-     MemoryRegion mmio;
-+    qemu_irq irq;
-+
-+    struct ptimer_state *timer;
-+    struct ptimer_state *itimer;
-+
-+    bool pretimeout_support;
-+    bool pretimeout_locked;
-+
-+    uint16_t wcr;
-+    uint16_t wsr;
-+    uint16_t wrsr;
-+    uint16_t wicr;
-+    uint16_t wmcr;
- } IMX2WdtState;
- 
- #endif /* IMX2_WDT_H */
+ #endif /* FSL_IMX25_H */
 -- 
 2.17.1
 
