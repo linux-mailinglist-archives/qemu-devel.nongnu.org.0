@@ -2,58 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B53518EA0C
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 17:12:07 +0100 (CET)
-Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A2C18EA04
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 17:07:25 +0100 (CET)
+Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG3Co-0003vW-4Y
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 12:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34601)
+	id 1jG38G-0001Zj-P4
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 12:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dereksu@qnap.com>) id 1jG1wR-0001Qu-Ta
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:51:09 -0400
+ (envelope-from <teawaterz@linux.alibaba.com>) id 1jG36j-000097-Tr
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dereksu@qnap.com>) id 1jG1wQ-00019l-R6
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:51:07 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52329)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dereksu@qnap.com>) id 1jG1wQ-00019f-KW
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 10:51:06 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z18so2737162wmk.2
- for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 07:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=Y1e3vEeZseg8+tffx8tXcU2nLzJtVJ2tC5obRSC3QGo=;
- b=LI7bVyKe5czWJsGV+uRQF9JWbJDmo5KgN5iLT/+y/8AoTgRHfgkMW2Gh7Tf8VFGTmb
- czY0O6NKhslwx+ydK16GwBvdBnVwZxUolPlh8Nvy6G69SkeTPy6w+JF3qVEGAr8CUJLL
- zjuY4C3kWbYoXS6kcvXa3+jBij94eo4g0WKFc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Y1e3vEeZseg8+tffx8tXcU2nLzJtVJ2tC5obRSC3QGo=;
- b=JyeJxzMaxm1m5ZN7KzqQTAl7Xs73N7+1iqVBNFKOnjmuG4G+QxUPJGcN8TStaowgw2
- HTFa1noy4r9lYLqJ1IXf0feK1y+FqFZL2QdE0mPMQSKmj1p8drvtmDG7dSKy2AGunJiy
- 5H0eJGLyW5eTHhQnJdaaysfLsjZQu7sbuQ7AvV91EJZbQihCgqfAFtKC9GfYV7mScubf
- LtfHqpLN8cFMGnIUUzunMVcbWE1w1Y3Wfs85NNgfOS496YsC1hchCUwM7pBh0a/qzzRq
- PkGosjLfu6xdQwATr4isCkH+rWP4eOIZTQJPTh7gUmJ68VZ72r63WIQtFogoOeFoOQYz
- 3Vlw==
-X-Gm-Message-State: ANhLgQ2CbXd7vmWWKuUPZlsGEFPSwHgrQ3yFKo3uvAI5gSLgPepxmpmP
- BK3G31fRbiwuAehU8Q5pUmfpi3+72J1+a7lAXTDR5BaKmg91EQ==
-X-Google-Smtp-Source: ADFU+vty1ni2gML7F3qqZEYl0RIGp5SKsdo4foVPyDZdlZdKRNSjcKZzBPZi7KyZ7TOwMIrEnQIA3oKaU0FPZn1Fqv4=
-X-Received: by 2002:a1c:a70f:: with SMTP id q15mr22370775wme.66.1584888664940; 
- Sun, 22 Mar 2020 07:51:04 -0700 (PDT)
-MIME-Version: 1.0
-From: Derek Su <dereksu@qnap.com>
-Date: Sun, 22 Mar 2020 22:50:53 +0800
-Message-ID: <CAKEOLWV5DknQdp4QzR4c1P-Qp+_h6j9MdvamxUP=c=G2CFsm1A@mail.gmail.com>
-Subject: [PATCH 1/1] COLO: Fix memory leak in packet_enqueue()
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000e1f42f05a172a56a"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-X-Mailman-Approved-At: Sun, 22 Mar 2020 12:10:47 -0400
+ (envelope-from <teawaterz@linux.alibaba.com>) id 1jG36d-0007BD-UW
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:46 -0400
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:64399)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <teawaterz@linux.alibaba.com>)
+ id 1jG36c-00077D-Oq
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 12:05:43 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07417; MF=teawaterz@linux.alibaba.com;
+ NM=1; PH=DS; RN=14; SR=0; TI=SMTPD_---0TtGnxaN_1584893107; 
+Received: from localhost(mailfrom:teawaterz@linux.alibaba.com
+ fp:SMTPD_---0TtGnxaN_1584893107) by smtp.aliyun-inc.com(127.0.0.1);
+ Mon, 23 Mar 2020 00:05:14 +0800
+From: Hui Zhu <teawater@gmail.com>
+To: mst@redhat.com, jasowang@redhat.com, akpm@linux-foundation.org,
+ mojha@codeaurora.org, pagupta@redhat.com, aquini@redhat.com,
+ namit@vmware.com, david@redhat.com,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, qemu-devel@nongnu.org
+Subject: [PATCH for Linux v2] virtio_balloon: Add
+ VIRTIO_BALLOON_VQ_INFLATE_CONT to handle THP split issue
+Date: Mon, 23 Mar 2020 00:04:56 +0800
+Message-Id: <1584893097-12317-1-git-send-email-teawater@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,123 +51,406 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen.zhang@intel.com, jasowang@redhat.com, lizhijian@cn.fujitsu.com
+Cc: Hui Zhu <teawaterz@linux.alibaba.com>, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e1f42f05a172a56a
-Content-Type: text/plain; charset="UTF-8"
+The first version is in [1].
+According to the comments from Michael and David, I updated the patch.
+1. Added a separate vq inflate_cont_vq to transport inflate continuous
+   pages.
+2. Set all the pages in the continuous pages movable then they can be
+   compaction.
+3. Added a new element pages_order to virtio_balloon_config.  It is the
+   inflate pages order that is set by the QEMU.
+4. If the balloon cannot get any continuous pages from the system.
+   Go back to use the single page to fill the balloon.
+5.  Use balloon_pages_alloc to allocate the single page and continuous
+    pages.  Replace __GFP_NORETRY with __GFP_RETRY_MAYFAIL when allocating
+    the continuous pages because it can increase the success rate of
+    allocating large chunks of memory.
 
-The patch is to fix the "pkt" memory leak in packet_enqueue().
-The allocated "pkt" needs to be freed if the colo compare
-primary or secondary queue is too big.
+Following is the introduction of the function.
+If the guest kernel has many fragmentation pages, use virtio_balloon
+will split THP of QEMU when it calls MADV_DONTNEED madvise to release
+the balloon pages.
+This is an example in a VM with 1G memory 1CPU:
+// This is the THP number before VM execution in the host.
+// None use THP.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:         0 kB
 
-Signed-off-by: Derek Su <dereksu@qnap.com>
+// After VM start, use usemem
+// (https://git.kernel.org/pub/scm/linux/kernel/git/wfg/vm-scalability.git)
+// punch-holes function generates 400m fragmentation pages in the guest
+// kernel.
+usemem --punch-holes -s -1 800m &
+
+// This is the THP number after this command in the host.
+// Some THP is used by VM because usemem will access 800M memory
+// in the guest.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:    976896 kB
+
+// Connect to the QEMU monitor, setup balloon, and set it size to 600M.
+(qemu) device_add virtio-balloon-pci,id=balloon1
+(qemu) info balloon
+balloon: actual=1024
+(qemu) balloon 600
+(qemu) info balloon
+balloon: actual=600
+
+// This is the THP number after inflate the balloon in the host.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:    151552 kB
+
+THP number decreased more than 800M.
+The reason is usemem with punch-holes option will free every other
+page after allocation.  Then 400M free memory inside the guest kernel
+is fragmentation pages.
+The guest kernel will use them to inflate the balloon.  When these
+fragmentation pages are freed, THP will be split.
+
+This commit tries to handle this with add a new flag
+VIRTIO_BALLOON_VQ_INFLATE_CONT.
+When this flag is set, the balloon will try to use continuous pages
+inflate the balloon.  And the pages order is set to THP order.
+Then THP pages will be freed together in the host.
+This is an example in a VM with 1G memory 1CPU:
+// This is the THP number before VM execution in the host.
+// None use THP.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:         0 kB
+
+// After VM start, use usemem punch-holes function generates 400M
+// fragmentation pages in the guest kernel.
+usemem --punch-holes -s -1 800m &
+
+// This is the THP number after this command in the host.
+// Some THP is used by VM because usemem will access 800M memory
+// in the guest.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:    976896 kB
+
+// Connect to the QEMU monitor, setup balloon, and set it size to 600M.
+(qemu) device_add virtio-balloon-pci,id=balloon1,cont-pages=on
+(qemu) info balloon
+balloon: actual=1024
+(qemu) balloon 600
+(qemu) info balloon
+balloon: actual=600
+
+// This is the THP number after inflate the balloon in the host.
+cat /proc/meminfo | grep AnonHugePages:
+AnonHugePages:    610304 kB
+
+The THP number decreases 358M.  This shows that
+VIRTIO_BALLOON_VQ_INFLATE_CONT can help handle the THP split issue.
+
+[1] https://lkml.org/lkml/2020/3/12/144
+
+Signed-off-by: Hui Zhu <teawaterz@linux.alibaba.com>
 ---
- net/colo-compare.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/virtio/virtio_balloon.c     | 78 ++++++++++++++++++++++++++++++-------
+ include/linux/balloon_compaction.h  |  9 ++++-
+ include/uapi/linux/virtio_balloon.h |  3 ++
+ mm/balloon_compaction.c             | 40 +++++++++++++++----
+ 4 files changed, 109 insertions(+), 21 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 7ee17f2cf8..cdd87b2aa8 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -120,6 +120,10 @@ enum {
-     SECONDARY_IN,
+diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
+index 341458f..fbd2b02f 100644
+--- a/drivers/virtio/virtio_balloon.c
++++ b/drivers/virtio/virtio_balloon.c
+@@ -47,6 +47,7 @@ enum virtio_balloon_vq {
+ 	VIRTIO_BALLOON_VQ_DEFLATE,
+ 	VIRTIO_BALLOON_VQ_STATS,
+ 	VIRTIO_BALLOON_VQ_FREE_PAGE,
++	VIRTIO_BALLOON_VQ_INFLATE_CONT,
+ 	VIRTIO_BALLOON_VQ_MAX
  };
-
-+static const char *colo_mode[] = {
-+    [PRIMARY_IN] = "primary",
-+    [SECONDARY_IN] = "secondary",
-+};
-
- static int compare_chr_send(CompareState *s,
-                             const uint8_t *buf,
-@@ -215,6 +219,7 @@ static int packet_enqueue(CompareState *s, int mode,
-Connection **con)
-     ConnectionKey key;
-     Packet *pkt = NULL;
-     Connection *conn;
-+    int ret;
-
-     if (mode == PRIMARY_IN) {
-         pkt = packet_new(s->pri_rs.buf,
-@@ -243,16 +248,18 @@ static int packet_enqueue(CompareState *s, int mode,
-Connection **con)
-     }
-
-     if (mode == PRIMARY_IN) {
--        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
--            error_report("colo compare primary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
-     } else {
--        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
--            error_report("colo compare secondary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
-     }
+ 
+@@ -56,7 +57,8 @@ enum virtio_balloon_config_read {
+ 
+ struct virtio_balloon {
+ 	struct virtio_device *vdev;
+-	struct virtqueue *inflate_vq, *deflate_vq, *stats_vq, *free_page_vq;
++	struct virtqueue *inflate_vq, *deflate_vq, *stats_vq, *free_page_vq,
++			 *inflate_cont_vq;
+ 
+ 	/* Balloon's own wq for cpu-intensive work items */
+ 	struct workqueue_struct *balloon_wq;
+@@ -114,6 +116,12 @@ struct virtio_balloon {
+ 
+ 	/* To register a shrinker to shrink memory upon memory pressure */
+ 	struct shrinker shrinker;
 +
-+    if (!ret) {
-+        error_report("colo compare %s queue size too big,"
-+                     "drop packet", colo_mode[mode]);
-+        packet_destroy(pkt, NULL);
-+        pkt = NULL;
-+    }
++	/* Pages order if VIRTIO_BALLOON_F_CONT_PAGES is set.
++	 * if VIRTIO_BALLOON_F_CONT_PAGES is not set,
++	 * pages_order will be set to 0.
++	 */
++	__u32 pages_order;
+ };
+ 
+ static struct virtio_device_id id_table[] = {
+@@ -169,10 +177,11 @@ static void set_page_pfns(struct virtio_balloon *vb,
+ 					  page_to_balloon_pfn(page) + i);
+ }
+ 
+-static unsigned fill_balloon(struct virtio_balloon *vb, size_t num)
++static unsigned int fill_balloon_order(struct virtio_balloon *vb, size_t num,
++				       unsigned int order)
+ {
+-	unsigned num_allocated_pages;
+-	unsigned num_pfns;
++	unsigned int num_allocated_pages;
++	unsigned int num_pfns;
+ 	struct page *page;
+ 	LIST_HEAD(pages);
+ 
+@@ -181,12 +190,12 @@ static unsigned fill_balloon(struct virtio_balloon *vb, size_t num)
+ 
+ 	for (num_pfns = 0; num_pfns < num;
+ 	     num_pfns += VIRTIO_BALLOON_PAGES_PER_PAGE) {
+-		struct page *page = balloon_page_alloc();
++		struct page *page = balloon_pages_alloc(order);
+ 
+ 		if (!page) {
+ 			dev_info_ratelimited(&vb->vdev->dev,
+-					     "Out of puff! Can't get %u pages\n",
+-					     VIRTIO_BALLOON_PAGES_PER_PAGE);
++				"Out of puff! Can't get %u pages\n",
++				VIRTIO_BALLOON_PAGES_PER_PAGE << order);
+ 			/* Sleep for at least 1/5 of a second before retry. */
+ 			msleep(200);
+ 			break;
+@@ -200,25 +209,48 @@ static unsigned fill_balloon(struct virtio_balloon *vb, size_t num)
+ 	vb->num_pfns = 0;
+ 
+ 	while ((page = balloon_page_pop(&pages))) {
+-		balloon_page_enqueue(&vb->vb_dev_info, page);
++		balloon_pages_enqueue(&vb->vb_dev_info, page, order);
+ 
+ 		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
+-		vb->num_pages += VIRTIO_BALLOON_PAGES_PER_PAGE;
++		vb->num_pages += VIRTIO_BALLOON_PAGES_PER_PAGE << order;
+ 		if (!virtio_has_feature(vb->vdev,
+ 					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
+-			adjust_managed_page_count(page, -1);
++			adjust_managed_page_count(page, -(1 << order));
+ 		vb->num_pfns += VIRTIO_BALLOON_PAGES_PER_PAGE;
+ 	}
+ 
+-	num_allocated_pages = vb->num_pfns;
++	num_allocated_pages = vb->num_pfns << order;
+ 	/* Did we get any? */
+-	if (vb->num_pfns != 0)
+-		tell_host(vb, vb->inflate_vq);
++	if (vb->num_pfns != 0) {
++		if (order)
++			tell_host(vb, vb->inflate_cont_vq);
++		else
++			tell_host(vb, vb->inflate_vq);
++	}
+ 	mutex_unlock(&vb->balloon_lock);
+ 
+ 	return num_allocated_pages;
+ }
+ 
++static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
++{
++	unsigned int num_allocated_pages = 0;
 +
-     *con = conn;
-
-     return 0;
++	if (vb->pages_order) {
++		num_allocated_pages = fill_balloon_order(vb, num,
++							 vb->pages_order);
++		if (!num_allocated_pages)
++			dev_info_ratelimited(&vb->vdev->dev,
++				"Fail get any continuous pages in order %u\n",
++				vb->pages_order);
++	}
++
++	if (!num_allocated_pages)
++		num_allocated_pages = fill_balloon_order(vb, num, 0);
++
++	return num_allocated_pages;
++}
++
+ static void release_pages_balloon(struct virtio_balloon *vb,
+ 				 struct list_head *pages)
+ {
+@@ -481,6 +513,8 @@ static int init_vqs(struct virtio_balloon *vb)
+ 	names[VIRTIO_BALLOON_VQ_STATS] = NULL;
+ 	callbacks[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
+ 	names[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
++	callbacks[VIRTIO_BALLOON_VQ_INFLATE_CONT] = NULL;
++	names[VIRTIO_BALLOON_VQ_INFLATE_CONT] = NULL;
+ 
+ 	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_STATS_VQ)) {
+ 		names[VIRTIO_BALLOON_VQ_STATS] = "stats";
+@@ -492,6 +526,11 @@ static int init_vqs(struct virtio_balloon *vb)
+ 		callbacks[VIRTIO_BALLOON_VQ_FREE_PAGE] = NULL;
+ 	}
+ 
++	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_CONT_PAGES)) {
++		names[VIRTIO_BALLOON_VQ_INFLATE_CONT] = "inflate_cont";
++		callbacks[VIRTIO_BALLOON_VQ_INFLATE_CONT] = balloon_ack;
++	}
++
+ 	err = vb->vdev->config->find_vqs(vb->vdev, VIRTIO_BALLOON_VQ_MAX,
+ 					 vqs, callbacks, names, NULL, NULL);
+ 	if (err)
+@@ -524,6 +563,10 @@ static int init_vqs(struct virtio_balloon *vb)
+ 	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_FREE_PAGE_HINT))
+ 		vb->free_page_vq = vqs[VIRTIO_BALLOON_VQ_FREE_PAGE];
+ 
++	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_CONT_PAGES))
++		vb->inflate_cont_vq
++			= vqs[VIRTIO_BALLOON_VQ_INFLATE_CONT];
++
+ 	return 0;
+ }
+ 
+@@ -945,6 +988,14 @@ static int virtballoon_probe(struct virtio_device *vdev)
+ 		if (err)
+ 			goto out_del_balloon_wq;
+ 	}
++	if (virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_CONT_PAGES)) {
++		virtio_cread(vb->vdev, struct virtio_balloon_config,
++			     pages_order, &vb->pages_order);
++		if (!virtio_has_feature(vb->vdev, VIRTIO_F_VERSION_1))
++			vb->pages_order
++				= le32_to_cpu((__force __le32)vb->pages_order);
++	} else
++		vb->pages_order = 0;
+ 	virtio_device_ready(vdev);
+ 
+ 	if (towards_target(vb))
+@@ -1058,6 +1109,7 @@ static unsigned int features[] = {
+ 	VIRTIO_BALLOON_F_DEFLATE_ON_OOM,
+ 	VIRTIO_BALLOON_F_FREE_PAGE_HINT,
+ 	VIRTIO_BALLOON_F_PAGE_POISON,
++	VIRTIO_BALLOON_F_CONT_PAGES,
+ };
+ 
+ static struct virtio_driver virtio_balloon_driver = {
+diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
+index 338aa27..8180bbf 100644
+--- a/include/linux/balloon_compaction.h
++++ b/include/linux/balloon_compaction.h
+@@ -60,15 +60,22 @@ struct balloon_dev_info {
+ 	struct inode *inode;
+ };
+ 
+-extern struct page *balloon_page_alloc(void);
++extern struct page *balloon_pages_alloc(unsigned int order);
+ extern void balloon_page_enqueue(struct balloon_dev_info *b_dev_info,
+ 				 struct page *page);
++extern void balloon_pages_enqueue(struct balloon_dev_info *b_dev_info,
++				  struct page *page, unsigned int order);
+ extern struct page *balloon_page_dequeue(struct balloon_dev_info *b_dev_info);
+ extern size_t balloon_page_list_enqueue(struct balloon_dev_info *b_dev_info,
+ 				      struct list_head *pages);
+ extern size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
+ 				     struct list_head *pages, size_t n_req_pages);
+ 
++static inline struct page *balloon_page_alloc(void)
++{
++	return balloon_pages_alloc(0);
++}
++
+ static inline void balloon_devinfo_init(struct balloon_dev_info *balloon)
+ {
+ 	balloon->isolated_pages = 0;
+diff --git a/include/uapi/linux/virtio_balloon.h b/include/uapi/linux/virtio_balloon.h
+index a1966cd7..e21b0aa 100644
+--- a/include/uapi/linux/virtio_balloon.h
++++ b/include/uapi/linux/virtio_balloon.h
+@@ -36,6 +36,7 @@
+ #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM	2 /* Deflate balloon on OOM */
+ #define VIRTIO_BALLOON_F_FREE_PAGE_HINT	3 /* VQ to report free pages */
+ #define VIRTIO_BALLOON_F_PAGE_POISON	4 /* Guest is using page poisoning */
++#define VIRTIO_BALLOON_F_CONT_PAGES	5 /* VQ to report continuous pages */
+ 
+ /* Size of a PFN in the balloon interface. */
+ #define VIRTIO_BALLOON_PFN_SHIFT 12
+@@ -51,6 +52,8 @@ struct virtio_balloon_config {
+ 	__u32 free_page_report_cmd_id;
+ 	/* Stores PAGE_POISON if page poisoning is in use */
+ 	__u32 poison_val;
++	/* Pages order if VIRTIO_BALLOON_F_CONT_PAGES is set */
++	__u32 pages_order;
+ };
+ 
+ #define VIRTIO_BALLOON_S_SWAP_IN  0   /* Amount of memory swapped in */
+diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
+index 26de020..87df4b2 100644
+--- a/mm/balloon_compaction.c
++++ b/mm/balloon_compaction.c
+@@ -112,8 +112,8 @@ size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
+ EXPORT_SYMBOL_GPL(balloon_page_list_dequeue);
+ 
+ /*
+- * balloon_page_alloc - allocates a new page for insertion into the balloon
+- *			page list.
++ * balloon_pages_alloc - allocates a new page for insertion into the balloon
++ *			 page list.
+  *
+  * Driver must call this function to properly allocate a new balloon page.
+  * Driver must call balloon_page_enqueue before definitively removing the page
+@@ -121,14 +121,21 @@ EXPORT_SYMBOL_GPL(balloon_page_list_dequeue);
+  *
+  * Return: struct page for the allocated page or NULL on allocation failure.
+  */
+-struct page *balloon_page_alloc(void)
++struct page *balloon_pages_alloc(unsigned int order)
+ {
+-	struct page *page = alloc_page(balloon_mapping_gfp_mask() |
+-				       __GFP_NOMEMALLOC | __GFP_NORETRY |
+-				       __GFP_NOWARN);
++	gfp_t gfp_mask;
++
++	if (order > 1)
++		gfp_mask = __GFP_RETRY_MAYFAIL;
++	else
++		gfp_mask = __GFP_NORETRY;
++
++	struct page *page = alloc_pages(balloon_mapping_gfp_mask() |
++					gfp_mask | __GFP_NOMEMALLOC |
++					__GFP_NOWARN, order);
+ 	return page;
+ }
+-EXPORT_SYMBOL_GPL(balloon_page_alloc);
++EXPORT_SYMBOL_GPL(balloon_pages_alloc);
+ 
+ /*
+  * balloon_page_enqueue - inserts a new page into the balloon page list.
+@@ -155,6 +162,25 @@ void balloon_page_enqueue(struct balloon_dev_info *b_dev_info,
+ EXPORT_SYMBOL_GPL(balloon_page_enqueue);
+ 
+ /*
++ * balloon_pages_enqueue - inserts continuous pages into the balloon page list.
++ */
++void balloon_pages_enqueue(struct balloon_dev_info *b_dev_info,
++			   struct page *page, unsigned int order)
++{
++	unsigned long flags;
++	unsigned long pfn = page_to_pfn(page);
++	unsigned long last_pfn = pfn + (1 << order) - 1;
++
++	spin_lock_irqsave(&b_dev_info->pages_lock, flags);
++	for (; pfn <= last_pfn; pfn++) {
++		page = pfn_to_page(pfn);
++		balloon_page_enqueue_one(b_dev_info, page);
++	}
++	spin_unlock_irqrestore(&b_dev_info->pages_lock, flags);
++}
++EXPORT_SYMBOL_GPL(balloon_pages_enqueue);
++
++/*
+  * balloon_page_dequeue - removes a page from balloon's page list and returns
+  *			  its address to allow the driver to release the page.
+  * @b_dev_info: balloon device decriptor where we will grab a page from.
 -- 
-2.17.1
+2.7.4
 
---000000000000e1f42f05a172a56a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The patch is to fix the &quot;pkt&quot; memory leak in pac=
-ket_enqueue().<br>The allocated &quot;pkt&quot; needs to be freed if the co=
-lo compare<br>primary or secondary queue is too big.<br><br>Signed-off-by: =
-Derek Su &lt;<a href=3D"mailto:dereksu@qnap.com">dereksu@qnap.com</a>&gt;<b=
-r>---<br>=C2=A0net/colo-compare.c | 23 +++++++++++++++--------<br>=C2=A01 f=
-ile changed, 15 insertions(+), 8 deletions(-)<br><br>diff --git a/net/colo-=
-compare.c b/net/colo-compare.c<br>index 7ee17f2cf8..cdd87b2aa8 100644<br>--=
-- a/net/colo-compare.c<br>+++ b/net/colo-compare.c<br>@@ -120,6 +120,10 @@ =
-enum {<br>=C2=A0 =C2=A0 =C2=A0SECONDARY_IN,<br>=C2=A0};<br><br>+static cons=
-t char *colo_mode[] =3D {<br>+ =C2=A0 =C2=A0[PRIMARY_IN] =3D &quot;primary&=
-quot;,<br>+ =C2=A0 =C2=A0[SECONDARY_IN] =3D &quot;secondary&quot;,<br>+};<b=
-r><br>=C2=A0static int compare_chr_send(CompareState *s,<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0const uint8_t *buf,<br>@@ -215,6 +219,7 @@ static int pack=
-et_enqueue(CompareState *s, int mode, Connection **con)<br>=C2=A0 =C2=A0 =
-=C2=A0ConnectionKey key;<br>=C2=A0 =C2=A0 =C2=A0Packet *pkt =3D NULL;<br>=
-=C2=A0 =C2=A0 =C2=A0Connection *conn;<br>+ =C2=A0 =C2=A0int ret;<br><br>=C2=
-=A0 =C2=A0 =C2=A0if (mode =3D=3D PRIMARY_IN) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0pkt =3D packet_new(s-&gt;pri_rs.buf,<br>@@ -243,16 +248,18 @@ sta=
-tic int packet_enqueue(CompareState *s, int mode, Connection **con)<br>=C2=
-=A0 =C2=A0 =C2=A0}<br><br>=C2=A0 =C2=A0 =C2=A0if (mode =3D=3D PRIMARY_IN) {=
-<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!colo_insert_packet(&amp;conn-&gt;prim=
-ary_list, pkt, &amp;conn-&gt;pack)) {<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0error_report(&quot;colo compare primary queue size too big,&quot;=
-<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 &quot;drop packet&quot;);<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0}<=
-br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D colo_insert_packet(&amp;conn-&gt;pr=
-imary_list, pkt, &amp;conn-&gt;pack);<br>=C2=A0 =C2=A0 =C2=A0} else {<br>- =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!colo_insert_packet(&amp;conn-&gt;secondary_=
-list, pkt, &amp;conn-&gt;sack)) {<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0error_report(&quot;colo compare secondary queue size too big,&quot;<b=
-r>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 &quot;drop packet&quot;);<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0}<b=
-r>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D colo_insert_packet(&amp;conn-&gt;sec=
-ondary_list, pkt, &amp;conn-&gt;sack);<br>=C2=A0 =C2=A0 =C2=A0}<br>+<br>+ =
-=C2=A0 =C2=A0if (!ret) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot=
-;colo compare %s queue size too big,&quot;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;drop packet&quot;, colo_mo=
-de[mode]);<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0packet_destroy(pkt, NULL);<br>+ =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0pkt =3D NULL;<br>+ =C2=A0 =C2=A0}<br>+<br>=C2=A0=
- =C2=A0 =C2=A0*con =3D conn;<br><br>=C2=A0 =C2=A0 =C2=A0return 0;<br>-- <br=
->2.17.1<br><br></div>
-
---000000000000e1f42f05a172a56a--
 
