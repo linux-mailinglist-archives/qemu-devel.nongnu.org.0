@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD3718E9A4
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 16:30:44 +0100 (CET)
-Received: from localhost ([::1]:47356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D54818E9C4
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 16:41:17 +0100 (CET)
+Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG2Yk-0005Ux-MN
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 11:30:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
+	id 1jG2iy-0008KH-5s
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 11:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1jG2XN-0004tv-1d
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1jG2i9-0007sm-Oo
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1jG2XL-0004e7-JY
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:16 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:45479)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jG2XL-0004dh-EL
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:29:15 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id c9so706692otl.12
- for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 08:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FjAwZgJxyyLaNTWKQSHb81pCA4RTXYwnLvZfpgKOShE=;
- b=hqDP8vrq09JuhkeVD+TVmCBe66Q6Ym6AWpmEkWkvOSUEkWykNidFgENntNYN+DlLG+
- lug8DJvP5lbxZW6zT5n+CSb+ulLoe6IBlgJKoEtdRlMTiGvi0Sn9gAXsXSgYYHtn8wJ8
- zCSqa89hOT7jdmGM81Hpwfk1nNF1k6Fb3hu0baWTPFGxTgTN64YVGd9DdogrXxDVns0T
- StlcbfqTT/ZK+0n/xdrBkB0ROA67F1Ot2DprIAnBmTvDaEN0KjUVl+Iux1eX/fnppsdY
- 9Wjnq3GlDK8WiZ+a0xH8jzynzgoNZiDJZAQZ5TXv4mBWzyI8Q/R0X0vmdH+CpkweMmOy
- 0vvA==
+ (envelope-from <philmd@redhat.com>) id 1jG2i7-0007fp-Vn
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:59370)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jG2i7-0007el-Jn
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 11:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584891622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AprzRelsVnK8LG/ddLpIr5SAFM0Yk78HQF1QxA7i7jg=;
+ b=IWLayCkqJfEAEUOXBkkwXzBE0t2MhUFJGh+SgTsHQqGycXJBcnBeVrAKwCaxUSrDpIL9ry
+ 6vnN0asrb12FvghhK/ZrfKnaDMUunILBUsml/XObfIZGbKBEVRsoSToFU8XNsUFlPssZmq
+ Ft16XSu0hhTscmm12/UTpaqyY2PH1xM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-4csfvQv9P6mP5wkB1y-PHA-1; Sun, 22 Mar 2020 11:40:19 -0400
+X-MC-Unique: 4csfvQv9P6mP5wkB1y-PHA-1
+Received: by mail-ed1-f71.google.com with SMTP id dn10so9393457edb.6
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 08:40:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FjAwZgJxyyLaNTWKQSHb81pCA4RTXYwnLvZfpgKOShE=;
- b=SmISExWNpiEe3XirMISe7D1uXWPB3UtrJqpElIBgEi/CVhnCiqEOaetrj4M6+2tvyr
- sLzgydyq2JqZ1eW6nAx36Jawx3IeMx16+InW2JfIcWrCY5yh5Rh9bgHs/oQcxxroeLfQ
- cV75O8olm1kZutHazQ7OPslcQEgviffoLGoGoDryFHJqzJKGuNFrxJlyJ6kFtWpeFbs8
- kt4SOIg8ZislSlREr+WD6TZ2eOh3iuSx7s2K85Bh7vp+M9mwlXnZtHGmdn9SKlExhPuk
- wSo2WS+KMXfR46AeLyjhy1rCtNgeefVaoiDawoXIj4n+UVCHsvnfUm2EL2HFe7+we9Wc
- 4BFg==
-X-Gm-Message-State: ANhLgQ0o/dohZGcENlxpEFT0JElR2YmmnAZfr2v9840qrN4EnoN2dchh
- +fvmo2hK0g9xB+beHDyWAZDPPG1utZPdq/hfImQ=
-X-Google-Smtp-Source: ADFU+vuyKFGuJNjnVRwqIPYgM2PHvDrtBbeiJsIPRFxCbRsExOko7gNbXoAY3bls/cGQvNLcofFbIUV0EAFs49MLirg=
-X-Received: by 2002:a9d:7a47:: with SMTP id z7mr15178988otm.341.1584890953537; 
- Sun, 22 Mar 2020 08:29:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+27kCCzaDfbx5r1Qo00ZcewVyjPJ3FCR88ldK5F9xjs=;
+ b=iUk9M723WnW91YKsQ+H904ZCDZpHwXjE7EoaxjuZDL2hm/NZ+treHT2QBhJ9iSz2Lv
+ Zg4Ncb43xf//FLk78A8SUBMR6kWOJs+fguRZsu0ktl6Tv6u2XBv3Q/3ARJk5NxJ35JaM
+ J7ag2F6dyAfCuctKbjVZUkmUC7HsNj6+KMfkBBC97jZUMrQeteuFUNZGJnw30UL74uad
+ RuNpLnM0Pvuhu55ix4wzzqntns6vj8fcy46mla4GLktfdRrY/rOctc8Zqu7nn9pzsX+V
+ /wgr//OcJmWyE+uu2ZVsBYmZ2uO4nlYn3/LoIcWbBJJZwVOeV1CqGUzDuKTVj/8BvERy
+ kaXA==
+X-Gm-Message-State: ANhLgQ0c31S4SxJjM9pM6H8eclYEFVPU7e3XWnuDymc23tdYCYl0jyDg
+ UdXCQ6olrOF7+3xcm6ppE9meb6cQFb8EkP1ak7dRn0fxezo5dncyKUiXpPy+QYWaM6qYRd5GZNu
+ FTw6qAdonzKlntSw=
+X-Received: by 2002:aa7:cac3:: with SMTP id l3mr17689181edt.90.1584891618095; 
+ Sun, 22 Mar 2020 08:40:18 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtTZQ/5Novv6ht0jKmOeIHftuzi09mg6igFFYKLmHKlA/OViNXGXP7o6txpVZzuolUEa7PDZw==
+X-Received: by 2002:aa7:cac3:: with SMTP id l3mr17689151edt.90.1584891617766; 
+ Sun, 22 Mar 2020 08:40:17 -0700 (PDT)
+Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id y62sm832778ede.5.2020.03.22.08.40.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Mar 2020 08:40:16 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] .travis.yml: Add a KVM-only s390x job
+Date: Sun, 22 Mar 2020 16:40:15 +0100
+Message-Id: <20200322154015.25358-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
-In-Reply-To: <CAFEAcA8E6goDHb-7kKCTp=wSpBsuJcfjMmLP0EgymiEL348r4A@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 21 Mar 2020 23:45:12 +0100
-Message-ID: <CAL1e-=gKB0qRxGntXrU0im2gjMh1tq_SLGTm+HsmgBRGXQ9+Bg@mail.gmail.com>
-Subject: Re: deprecation of in-tree builds
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000004b1e4f05a1732e00"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,127 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004b1e4f05a1732e00
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add a job to build QEMU on s390x with TCG disabled, so
+this configuration won't bitrot over time.
 
-9:51 PM Sub, 21.03.2020. Peter Maydell <peter.maydell@linaro.org> =D1=98=D0=
-=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> AIUI from Paolo, the intention is to deprecate and eventually
-> stop supporting "in-tree" builds, so that the only option is
-> building in a separate build directory. I thought we should
-> probably mention that in the 5.0 changelog, so I wrote up some
-> text:
->
-> https://wiki.qemu.org/ChangeLog/5.0#Build_Information
->
-> Suggestions for changes/comments etc welcome.
->
-> (One thing we will need to fix before we can do separate build
-> tree is the Coverity Scan build process, which (a) does an
-> in-tree build (b) can't be easily switched to a builddir because
-> all the source paths get baked into the scan results and moving
-> to a builddir changes them all...)
->
-> We could also make configure actively warn if used in
-> the source tree.
->
+This job is quick, running check-unit: Ran for 5 min 30 sec
+https://travis-ci.org/github/philmd/qemu/jobs/665456423
 
-I don't intend to complain too much about removing in-tree builds, but
-there may be some not-so-visible, but valuable features that right now work
-in in-tree builds only, and I think we should make them work in out-of-tree
-builds as well.
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ .travis.yml | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-For example, I noticed that gcov builds have some problems finding
-directories if built in out-of-tree, leading to no coverage report output
-at all, if applied to some external test executables (for some strange
-reasons, "make check" works for out-of-tree anf in-tree builds though). I
-think we should fix that and similar problems before removing in-tree
-builds.
+diff --git a/.travis.yml b/.travis.yml
+index 5672d129ec..e0c72210b7 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -525,6 +525,48 @@ jobs:
+               $(exit $BUILD_RC);
+           fi
+=20
++    - name: "[s390x] GCC check (KVM)"
++      arch: s390x
++      dist: bionic
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libbrlapi-dev
++          - libcap-ng-dev
++          - libgcrypt20-dev
++          - libgnutls28-dev
++          - libgtk-3-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - libncurses5-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libpng-dev
++          - librados-dev
++          - libsdl2-dev
++          - libseccomp-dev
++          - liburcu-dev
++          - libusb-1.0-0-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++          # Tests dependencies
++          - genisoimage
++      env:
++        - TEST_CMD=3D"make check-unit"
++        - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm --disa=
+ble-tools"
++      script:
++        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
++        - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
++        - |
++          if [ "$BUILD_RC" -eq 0 ] ; then
++              mv pc-bios/s390-ccw/*.img pc-bios/ ;
++              ${TEST_CMD} ;
++          else
++              $(exit $BUILD_RC);
++          fi
++
+     # Release builds
+     # The make-release script expect a QEMU version, so our tag must start=
+ with a 'v'.
+     # This is the case when release candidate tags are created.
+--=20
+2.21.1
 
-In general, I also think we should not have overly lax treatment of
-features that may be effectively removed with any particular deprecation.
-Just because a feature is less-known or less-used is not a sufficient
-reason IMHO to drop it just for the sake of "progress".
-
-If the "progress" (in the form of deprecation) is so impotrant, than the
-authors should devise it so that there is no dammage to existing features,
-and no adverse effects.
-
-In this light, perhaps in-tree builds deorecation is 5.0 is little
-premature.
-
-Regards,
-Aleksandar
-
-> thanks
-> -- PMM
->
-
---0000000000004b1e4f05a1732e00
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">9:51 PM Sub, 21.03.2020. Peter Maydell &lt;<a href=3D"mailto=
-:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt;<br>
-&gt; AIUI from Paolo, the intention is to deprecate and eventually<br>
-&gt; stop supporting &quot;in-tree&quot; builds, so that the only option is=
-<br>
-&gt; building in a separate build directory. I thought we should<br>
-&gt; probably mention that in the 5.0 changelog, so I wrote up some<br>
-&gt; text:<br>
-&gt;<br>
-&gt; <a href=3D"https://wiki.qemu.org/ChangeLog/5.0#Build_Information">http=
-s://wiki.qemu.org/ChangeLog/5.0#Build_Information</a><br>
-&gt;<br>
-&gt; Suggestions for changes/comments etc welcome.<br>
-&gt;<br>
-&gt; (One thing we will need to fix before we can do separate build<br>
-&gt; tree is the Coverity Scan build process, which (a) does an<br>
-&gt; in-tree build (b) can&#39;t be easily switched to a builddir because<b=
-r>
-&gt; all the source paths get baked into the scan results and moving<br>
-&gt; to a builddir changes them all...)<br>
-&gt;<br>
-&gt; We could also make configure actively warn if used in<br>
-&gt; the source tree.<br>
-&gt;</p>
-<p dir=3D"ltr">I don&#39;t intend to complain too much about removing in-tr=
-ee builds, but there may be some not-so-visible, but valuable features that=
- right now work in in-tree builds only, and I think we should make them wor=
-k in out-of-tree builds as well.</p>
-<p dir=3D"ltr">For example, I noticed that gcov builds have some problems f=
-inding directories if built in out-of-tree, leading to no coverage report o=
-utput at all, if applied to some external test executables (for some strang=
-e reasons, &quot;make check&quot; works for out-of-tree anf in-tree builds =
-though). I think we should fix that and similar problems before removing in=
--tree builds.</p>
-<p dir=3D"ltr">In general, I also think we should not have overly lax treat=
-ment of features that may be effectively removed with any particular deprec=
-ation. Just because a feature is less-known or less-used is not a sufficien=
-t<br>
-reason IMHO to drop it just for the sake of &quot;progress&quot;.</p>
-<p dir=3D"ltr">If the &quot;progress&quot; (in the form of deprecation) is =
-so impotrant, than the authors should devise it so that there is no dammage=
- to existing features, and no adverse effects.</p>
-<p dir=3D"ltr">In this light, perhaps in-tree builds deorecation is 5.0 is =
-little premature.</p>
-<p dir=3D"ltr">Regards,<br>
-Aleksandar<br></p>
-<p dir=3D"ltr">&gt; thanks<br>
-&gt; -- PMM<br>
-&gt;<br>
-</p>
-
---0000000000004b1e4f05a1732e00--
 
