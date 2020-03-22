@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2EE18EB05
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 18:49:40 +0100 (CET)
-Received: from localhost ([::1]:48600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50C918EBC1
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Mar 2020 20:06:56 +0100 (CET)
+Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jG4jD-0000u4-L7
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 13:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53971)
+	id 1jG5vz-00023f-6x
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 15:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jwsu1986@gmail.com>) id 1jG4hp-0008Lx-KB
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 13:48:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jG5vG-0001dy-FJ
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 15:06:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jwsu1986@gmail.com>) id 1jG4ho-0005yQ-HW
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 13:48:13 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33005)
+ (envelope-from <peter.maydell@linaro.org>) id 1jG5vE-0001i8-VQ
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 15:06:09 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40218)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jwsu1986@gmail.com>) id 1jG4ho-0005xp-C4
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 13:48:12 -0400
-Received: by mail-pl1-x642.google.com with SMTP id g18so4874961plq.0
- for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 10:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=f6sHN97Z5k0H0NePRruYOF0pxNWEQGvMVIWCmlh8Qaw=;
- b=o+fVZLKb4Ww9+uxkUvNJcwuPxpurrzDwhubdccAbY4dj2pZ7JGVnw1fxMylCafYmH7
- zPu8keQea/UO/808JQhIhQffE9/dG3Om1L54Ae1YFKco7FjRZSZTYxA00HfKal7UzaW0
- R2fpXAAXYGjuZfyEdvdSfeD9JlvLHZR3jFIN3nMj/m+LybWpbKLL1QuAHT/lnLVqnT8f
- eTP+LaviHLQ7dS0ITWkVksBKD8iZvYzymPITFfhVaUbx2+NHDFvplVJC4oZkRH99jJg4
- dBLDjZD70OuroiXfGyMOpBOuscyyQ1JOGshnUUFlzioNx0w3K31eokCUYAufDj8cNHWR
- 9ZWQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jG5vE-0001hk-Mq
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 15:06:08 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y71so12487950oia.7
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 12:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YGGWRLXTps296CBDtR66YrGGNfWn436sID+1Gr0Aah4=;
+ b=ST2eUwOok8wOKB+iZHG9PSzc5gexDTRA30HXjcBJmCP5aEZLdocIuEtmK29LvXmM9M
+ cTFXjjQv8dE8uTIaTZXB1lPETITLjrm+zPSQhDebr/4btkgAGgKli0/h1Fj+nggIDkV0
+ nXYFJnBWYDra3h05hoUEivlCNF6axUaLOi+Cs8KhQPvKDcqzpWbHkeWT3819oiHIkq5y
+ 70Y4fRmFwlDjhHO+LPp5m9OV4VydWaqVqaSygQigd1jBkQPaC4/0E2rdqVQ0xuYmRjnF
+ sbHIrOn74qpRjsm+XfjIrFWpoAn5VW2pOnN0HaYz5kn4C8fDJeOMKJtlG9rE5pu2k9ms
+ 0JaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=f6sHN97Z5k0H0NePRruYOF0pxNWEQGvMVIWCmlh8Qaw=;
- b=OW0Vo40c93qPIk9v8d1JdbUfpb6+xeCj6p8UY3sS2umqHkU0tPlUp+/JlOn82Axa8H
- GKapvL6Unohw4MzyESFO//590VNQK4i8msZOaYXAIKaZ1cKNOMc9xixT+YWLvAvCwW3Y
- SfND94TfUuwh3VOuW6qLueFKvirCcjsgCzRab5LlUMY4a2LSr06jtQU+9yQMsGfDhRK7
- QHJmT7UyVYUexGKr8bAaiusz4UboXSzZc7SelCNymFANR3DLIq6B6Y/DSQ6wF+Rb/j0X
- XTs/sWZKNh5vZyhjcAwTht0gE1Kv3JGWhy8m9qEkmXeqT1VRx+bje5SIWIpG/PUEr3qc
- kyPA==
-X-Gm-Message-State: ANhLgQ1ya9UJmMzhd801ddVBLrUIRXWeONE+eREbNKKXK6obe93+/He5
- Np+QDitWULUyjNxIzdeRuRSgXpoGP6Bf0g==
-X-Google-Smtp-Source: ADFU+vtNKajIGzjlUJutSCCfnnl3TDtujJghpX55vdm0+ULF7j6DR4itYV6MqNThWDv3PDkZyrmYDA==
-X-Received: by 2002:a17:902:7c86:: with SMTP id
- y6mr5714234pll.49.1584899291171; 
- Sun, 22 Mar 2020 10:48:11 -0700 (PDT)
-Received: from localhost.localdomain (1-161-253-93.dynamic-ip.hinet.net.
- [1.161.253.93])
- by smtp.gmail.com with ESMTPSA id w19sm10460410pgm.27.2020.03.22.10.48.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Mar 2020 10:48:10 -0700 (PDT)
-From: Derek Su <jwsu1986@gmail.com>
-X-Google-Original-From: Derek Su <dereksu@qnap.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] net/colo-compare.c: Fix memory leak in packet_enqueue()
-Date: Mon, 23 Mar 2020 01:47:51 +0800
-Message-Id: <20200322174751.12559-2-dereksu@qnap.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200322174751.12559-1-dereksu@qnap.com>
-References: <20200322174751.12559-1-dereksu@qnap.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YGGWRLXTps296CBDtR66YrGGNfWn436sID+1Gr0Aah4=;
+ b=SD0VDO/VjBrg5fWzFZQoJvJPBNcerrK+Es68I/psaUmDWU15YetNzdO/Hxr7YeWxVu
+ qcVxnZtVA6JGh0nsmSdHrZg1uGNM0g8YggWE1dQiKjRis5pRr0eXuIpEAyYFRYhlvPP0
+ L4F0OwMtFzgbZPo3eZojNne4mZ8uN39euJofR9SgMn6YLqEgspjTAJCcAJ7FEV2Bqhpr
+ L+7c53z+4mZPIjN2FSNWtMe+ykm54Maf+JPI/FQfCu19lRIkyDaSNjWeuzY/rfsfoZSP
+ Gsfvs0Jr/X64tDwnStWIQKcFNLO/vZdE5wuSqhyHFtl9Bf4APhxVmVH3GApavID9aduI
+ U8TA==
+X-Gm-Message-State: ANhLgQ0BIZg/guZovuwBYWEbhIySS6BocKscCjdo9oyTbsvvh/ftZM5e
+ VcMJMmhBL67o3O20qzUeNLdXecF/qZ8t8klfBvSa/U/EgPg=
+X-Google-Smtp-Source: ADFU+vsq+WXrJBcSPVJqzQe48FElPm5o+AiZtoMjEk8LxPR7ejT9a5eDPfwZnnwhoSPSHnYzCxWdaWZnKNQ10l9wTKg=
+X-Received: by 2002:a54:4614:: with SMTP id p20mr129215oip.48.1584903967345;
+ Sun, 22 Mar 2020 12:06:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200316112006.19107-1-peter.maydell@linaro.org>
+In-Reply-To: <20200316112006.19107-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 22 Mar 2020 19:05:55 +0000
+Message-ID: <CAFEAcA_wZncDdTbtfu=+p4mwukXxfNmfwV1gnwSHjb9YWYwUCw@mail.gmail.com>
+Subject: Re: [PATCH] Update copyright date for user-facing copyright strings
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,71 +71,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dereksu@qnap.com, chen.zhang@intel.com, jasowang@redhat.com,
- lizhijian@cn.fujitsu.com
+Cc: John Arbuckle <programmingkidx@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch is to fix the "pkt" memory leak in packet_enqueue().
-The allocated "pkt" needs to be freed if the colo compare
-primary or secondary queue is too big.
+On Mon, 16 Mar 2020 at 11:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Update the copyright date to 2020 for the copyright strings which are
+> user-facing and represent overall copyright info for all of QEMU.
+>
+> Reported-by: John Arbuckle <programmingkidx@gmail.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/qemu-common.h | 2 +-
+>  docs/conf.py          | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Signed-off-by: Derek Su <dereksu@qnap.com>
----
- net/colo-compare.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+Applied to master.
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 7ee17f2cf8..cdd87b2aa8 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -120,6 +120,10 @@ enum {
-     SECONDARY_IN,
- };
- 
-+static const char *colo_mode[] = {
-+    [PRIMARY_IN] = "primary",
-+    [SECONDARY_IN] = "secondary",
-+};
- 
- static int compare_chr_send(CompareState *s,
-                             const uint8_t *buf,
-@@ -215,6 +219,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     ConnectionKey key;
-     Packet *pkt = NULL;
-     Connection *conn;
-+    int ret;
- 
-     if (mode == PRIMARY_IN) {
-         pkt = packet_new(s->pri_rs.buf,
-@@ -243,16 +248,18 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     }
- 
-     if (mode == PRIMARY_IN) {
--        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
--            error_report("colo compare primary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
-     } else {
--        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
--            error_report("colo compare secondary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
-     }
-+
-+    if (!ret) {
-+        error_report("colo compare %s queue size too big,"
-+                     "drop packet", colo_mode[mode]);
-+        packet_destroy(pkt, NULL);
-+        pkt = NULL;
-+    }
-+
-     *con = conn;
- 
-     return 0;
--- 
-2.17.1
-
+-- PMM
 
