@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EED18F12F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:48:51 +0100 (CET)
-Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181C718F12E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:48:47 +0100 (CET)
+Received: from localhost ([::1]:58644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGIlO-0001SU-Jw
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48377)
+	id 1jGIlK-0001LR-2Z
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjP-00085r-7g
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:50 -0400
+ id 1jGIjT-0008EB-9n
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjN-00036M-UR
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:47 -0400
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:43406
- helo=mx0b-0016f401.pphosted.com)
+ id 1jGIjS-00037M-7g
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:51 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:37044)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjL-00034t-4u; Mon, 23 Mar 2020 04:46:43 -0400
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02N8eAKB010842; Mon, 23 Mar 2020 01:46:40 -0700
+ id 1jGIjQ-00036x-6K; Mon, 23 Mar 2020 04:46:50 -0400
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02N8eL98013746; Mon, 23 Mar 2020 01:46:45 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0818; bh=Yu7U+IO1rJyPwcaDXc5BvMtX+sxoPo9svPD67aq7oOo=;
- b=KYp/SFJ7rH3N7EY41c2vYIa4JUd5vnIaAOIvT4t+SLgMOkw4a9k7PmU/vHcjb/lOOYXk
- 4C+m3p3yTil04bUb8aD2CaySpJ8h7hqGWBTs4LGXA8529f5Lh4f1gRyyTaioQViMWxqi
- OHmLO7S2aK5Il6WL3hLknKThibQAWIv2CN36wWUOOLi1WooVpK5VbTE/9Ik2KdI+eM8t
- FVFfm74EwMWSaMydvZmberdPZwKSZh+Yra15ucpN5pCWQtAaFHRdyohEv7GSQDGQqACQ
- 3BzO7ODlNfUj/Gh1j7cYrbEw3PXVjC2ARK0xWToXbmTfGr5wvGmrUNAkruC6WQvrn6j9 iA== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
- by mx0a-0016f401.pphosted.com with ESMTP id 2ywg9ndrvy-1
+ content-type; s=pfpt0818; bh=WEugmL+w41y9WSds0AUf8b6EHXZir+QEns7Vh2avFLc=;
+ b=LAMKq5QuG4kK1ioaWD6GeDh51nj7vFAW9UY81y0rHx6XQhd/eSg9KfuuLTjVKiezo2Ku
+ 5heCYmp31pcEOZSqvYw0IqImQnUqUBjvolwEWKnfTJWWP72OuMg0O2jg5ajdPxtqkZXx
+ qP4srqJQZL4wws9mtKz2QUvc3inoqusQ/3cYs0yBKVeh6OrTZoW2C6pso0WVskoF4uir
+ t1eLYWAJGgNZpdH/AZTr4doMl/AmIlW5UtiLNsL+wJ/++xP9rpP3A3auZN23pgFfhOaw
+ oZ5ABcCvXjXjt4nP0lkrgZ/UPaf06AoHM6RZbL7/pidTtX45tL9uY0hC4OoiJ5YqJlvH EA== 
+Received: from sc-exch04.marvell.com ([199.233.58.184])
+ by mx0b-0016f401.pphosted.com with ESMTP id 2ywvkqkxc4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Mon, 23 Mar 2020 01:46:40 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 23 Mar 2020 01:46:38 -0700
-Received: from SC-EXCH03.marvell.com (10.93.176.83) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 23 Mar 2020 01:46:38 -0700
+ Mon, 23 Mar 2020 01:46:45 -0700
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Mar
+ 2020 01:46:43 -0700
 Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH03.marvell.com
  (10.93.176.83) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 23 Mar 2020 01:46:33 -0700
+ Transport; Mon, 23 Mar 2020 01:46:39 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
@@ -56,9 +52,10 @@ To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
  <bharatb.linux@gmail.com>, <jean-philippe@linaro.org>,
  <yang.zhong@intel.com>
-Subject: [PATCH v9 2/9] memory: Add interface to set iommu page size mask
-Date: Mon, 23 Mar 2020 14:16:10 +0530
-Message-ID: <20200323084617.1782-3-bbhushan2@marvell.com>
+Subject: [PATCH v9 3/9] vfio: set iommu page size as per host supported page
+ size
+Date: Mon, 23 Mar 2020 14:16:11 +0530
+Message-ID: <20200323084617.1782-4-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200323084617.1782-1-bbhushan2@marvell.com>
 References: <20200323084617.1782-1-bbhushan2@marvell.com>
@@ -68,7 +65,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
  definitions=2020-03-23_02:2020-03-21,
  2020-03-23 signatures=0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 67.231.148.174
+X-Received-From: 67.231.156.173
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,75 +81,28 @@ Cc: Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow to set page size mask to be supported by iommu.
-This is required to expose page size mask compatible with
-host with virtio-iommu.
+Set iommu supported page size mask same as host Linux
+supported page size mask.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 ---
- include/exec/memory.h | 20 ++++++++++++++++++++
- memory.c              | 10 ++++++++++
- 2 files changed, 30 insertions(+)
+ hw/vfio/common.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e85b7de99a..063c424854 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -355,6 +355,16 @@ typedef struct IOMMUMemoryRegionClass {
-      * @iommu: the IOMMUMemoryRegion
-      */
-     int (*num_indexes)(IOMMUMemoryRegion *iommu);
-+
-+    /*
-+     * Set supported IOMMU page size
-+     *
-+     * Optional method: if this is supported then set page size that
-+     * can be supported by IOMMU. This is called to set supported page
-+     * size as per host Linux.
-+     */
-+     void (*iommu_set_page_size_mask)(IOMMUMemoryRegion *iommu,
-+                                      uint64_t page_size_mask);
- } IOMMUMemoryRegionClass;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index c586edf47a..6ea50d696f 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -635,6 +635,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                             int128_get64(llend),
+                             iommu_idx);
  
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
-@@ -1363,6 +1373,16 @@ int memory_region_iommu_attrs_to_index(IOMMUMemoryRegion *iommu_mr,
-  */
- int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
- 
-+/**
-+ * memory_region_iommu_set_page_size_mask: set the supported pages
-+ * size by iommu.
-+ *
-+ * @iommu_mr: the memory region
-+ * @page_size_mask: supported page size mask
-+ */
-+void memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
-+                                            uint64_t page_size_mask);
++        memory_region_iommu_set_page_size_mask(giommu->iommu,
++                                               container->pgsizes);
 +
- /**
-  * memory_region_name: get a memory region's name
-  *
-diff --git a/memory.c b/memory.c
-index aeaa8dcc9e..14c8783084 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1833,6 +1833,16 @@ static int memory_region_update_iommu_notify_flags(IOMMUMemoryRegion *iommu_mr,
-     return ret;
- }
- 
-+void memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
-+                                            uint64_t page_size_mask)
-+{
-+    IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-+
-+    if (imrc->iommu_set_page_size_mask) {
-+        imrc->iommu_set_page_size_mask(iommu_mr, page_size_mask);
-+    }
-+}
-+
- int memory_region_register_iommu_notifier(MemoryRegion *mr,
-                                           IOMMUNotifier *n, Error **errp)
- {
+         ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
+                                                     &err);
+         if (ret) {
 -- 
 2.17.1
 
