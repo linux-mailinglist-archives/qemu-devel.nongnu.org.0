@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181C718F12E
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:48:47 +0100 (CET)
-Received: from localhost ([::1]:58644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CFE18F133
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:51:04 +0100 (CET)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGIlK-0001LR-2Z
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48395)
+	id 1jGInX-0004aY-N4
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjT-0008EB-9n
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:52 -0400
+ id 1jGIja-0008T2-4M
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjS-00037M-7g
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:51 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:37044)
+ id 1jGIjY-00039U-U9
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:57 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:35584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjQ-00036x-6K; Mon, 23 Mar 2020 04:46:50 -0400
+ id 1jGIjY-00039L-PN; Mon, 23 Mar 2020 04:46:56 -0400
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02N8eL98013746; Mon, 23 Mar 2020 01:46:45 -0700
+ 02N8eL99013746; Mon, 23 Mar 2020 01:46:52 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0818; bh=WEugmL+w41y9WSds0AUf8b6EHXZir+QEns7Vh2avFLc=;
- b=LAMKq5QuG4kK1ioaWD6GeDh51nj7vFAW9UY81y0rHx6XQhd/eSg9KfuuLTjVKiezo2Ku
- 5heCYmp31pcEOZSqvYw0IqImQnUqUBjvolwEWKnfTJWWP72OuMg0O2jg5ajdPxtqkZXx
- qP4srqJQZL4wws9mtKz2QUvc3inoqusQ/3cYs0yBKVeh6OrTZoW2C6pso0WVskoF4uir
- t1eLYWAJGgNZpdH/AZTr4doMl/AmIlW5UtiLNsL+wJ/++xP9rpP3A3auZN23pgFfhOaw
- oZ5ABcCvXjXjt4nP0lkrgZ/UPaf06AoHM6RZbL7/pidTtX45tL9uY0hC4OoiJ5YqJlvH EA== 
-Received: from sc-exch04.marvell.com ([199.233.58.184])
- by mx0b-0016f401.pphosted.com with ESMTP id 2ywvkqkxc4-1
+ content-type; s=pfpt0818; bh=RiNtP0lrtaA2ZggFVaFqGet0PIqt/tlcLob6DvD3BIo=;
+ b=xPsIXPFZH1oBDFsmhrf4vd1qjKM+gRvSsYTpuGTLutwgM7aCvKuU1+Lgutt5N4zcrJgQ
+ yUSMhQ4PRW97XYPXqfG73NELAFSyBEYLViw0AkZfNfPtCUy4N6+m9YainsvFkgoXz2Dr
+ Z2jFZQBkzfhznDLi/LPGD+sDv7w5ogXuAYimPhC0Ks7sXiOQoRGxOoUlQMUhQg2dzf5Q
+ 5C7yXBz+6rvKilU8ualk7AGCRU0NDwY9sX7kqNFCEbA59cFYHNEO0YOxXgRS8ZHiSZcP
+ faM5/b9Z7OU2PnCBpkzbINye+E/KKOd9YhAFXHW6p5/A8BDaiRvJICJ2H+qVBO41t6g7 RA== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+ by mx0b-0016f401.pphosted.com with ESMTP id 2ywvkqkxcc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Mon, 23 Mar 2020 01:46:45 -0700
-Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Mar
- 2020 01:46:43 -0700
+ Mon, 23 Mar 2020 01:46:51 -0700
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Mar
+ 2020 01:46:49 -0700
 Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH03.marvell.com
  (10.93.176.83) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 23 Mar 2020 01:46:39 -0700
+ Transport; Mon, 23 Mar 2020 01:46:45 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
@@ -52,10 +52,9 @@ To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
  <bharatb.linux@gmail.com>, <jean-philippe@linaro.org>,
  <yang.zhong@intel.com>
-Subject: [PATCH v9 3/9] vfio: set iommu page size as per host supported page
- size
-Date: Mon, 23 Mar 2020 14:16:11 +0530
-Message-ID: <20200323084617.1782-4-bbhushan2@marvell.com>
+Subject: [PATCH v9 4/9] virtio-iommu: set supported page size mask
+Date: Mon, 23 Mar 2020 14:16:12 +0530
+Message-ID: <20200323084617.1782-5-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200323084617.1782-1-bbhushan2@marvell.com>
 References: <20200323084617.1782-1-bbhushan2@marvell.com>
@@ -81,28 +80,55 @@ Cc: Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set iommu supported page size mask same as host Linux
-supported page size mask.
+Add optional interface to set page size mask.
+Currently this is set global configuration and not
+per endpoint.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 ---
- hw/vfio/common.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/hw/virtio/virtio-iommu.h | 1 +
+ hw/virtio/virtio-iommu.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c586edf47a..6ea50d696f 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -635,6 +635,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                             int128_get64(llend),
-                             iommu_idx);
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+index 6f67f1020a..4efa09610a 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -35,6 +35,7 @@ typedef struct IOMMUDevice {
+     void         *viommu;
+     PCIBus       *bus;
+     int           devfn;
++    uint64_t      page_size_mask;
+     IOMMUMemoryRegion  iommu_mr;
+     AddressSpace  as;
+ } IOMMUDevice;
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 4cee8083bc..a28818202c 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -650,6 +650,14 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+     return (ua > ub) - (ua < ub);
+ }
  
-+        memory_region_iommu_set_page_size_mask(giommu->iommu,
-+                                               container->pgsizes);
++static void virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
++                                            uint64_t page_size_mask)
++{
++    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
 +
-         ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
-                                                     &err);
-         if (ret) {
++    sdev->page_size_mask = page_size_mask;
++}
++
+ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+@@ -865,6 +873,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
+     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
+ 
+     imrc->translate = virtio_iommu_translate;
++    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
+ }
+ 
+ static const TypeInfo virtio_iommu_info = {
 -- 
 2.17.1
 
