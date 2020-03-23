@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFA918FBB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:42:10 +0100 (CET)
-Received: from localhost ([::1]:37618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE82418FBB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:43:53 +0100 (CET)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGR5V-0005zy-Uu
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52223)
+	id 1jGR7B-00013w-0p
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jGR3h-0004OJ-KZ
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:18 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jGR4j-0005m6-L6
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:41:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jGR3g-0003hU-In
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:17 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40433)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jGR3g-0003gR-AA
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:16 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f3so18165960wrw.7
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 10:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=RITZnDTDn/38AGh+VF4YqFkEzRJU1Dvi8yVVJIkiyIw=;
- b=lNkaiIsVZhLVcfdrXM4QCWv+fiqLXAVpWEFSgeHNunyKPwaNWSjxEdhEcEF5Fe+Y94
- j3MwJx/6lw2BWdkpGTeTid2999JpgNZBiz/hpCsJI4RxxsLE+GX+XYSBX9kp54ciXy4L
- 3vkPHoMdPJThMiJZYF/OOk7P4LIv5/mpxkTmUwCRmW35p9cUwhPHbXZHRA4PrahETYOk
- Y/cfX50oE+N0ZmGxmkMvyWjQ9FDpBjxKSuKJanX+HVOJz70GCv6N8uxntPh5KT0Ghntq
- /Xr/9qhN0OB6LgbBIxUbQnZvvRP1qYXNorK2RNIpqfb55qqQy/ICHZ4tvEDwdgP6usrT
- rEPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RITZnDTDn/38AGh+VF4YqFkEzRJU1Dvi8yVVJIkiyIw=;
- b=R6La5c63tk31zb/Pn3jP4vCnJOJjIn0lnTQCU78NQFjkgkS0VYDL5GE6/lZoB4eTKD
- QSZjGLKsbSoOTH3nnHOLrdH5tlQeyJEASLiK1WjF7hIHwT9jLBqfQKS57PzQ54A0gxdn
- bKnc4xBF4sG+1F8f9EfUzOelo+2lfd9iahWWcJS0RMsCMVa9SoBef+mLrOHRPos6yheF
- yyg5DOi9eKstLovTjA8/8H1lqAmFTPk+P460WHy+GJktzp/7Ts0ENbO0qvJeB+83R7qh
- p3+zCYVKok0K66hYBJvnUgxAz/SyI1rs3UCgJW64Ri7nSw0m/qbLttfLYaIHpsY86cFq
- 9z3w==
-X-Gm-Message-State: ANhLgQ0hvkMaHZfbCuVGAarf1PrkR3Fi00WACFdoxGKoENVE+7GuKUmB
- +BDPHnD9n5lUzh+4RJQTL77CMRwngh5kAg==
-X-Google-Smtp-Source: ADFU+vsmZGxFB5z5Uiu9MVKsO2O71aEuPDYr7aiXhSBFs26P679sf7zIMwgvek9tgqaXz+ui62MyQA==
-X-Received: by 2002:adf:80cb:: with SMTP id 69mr29927986wrl.320.1584985215054; 
- Mon, 23 Mar 2020 10:40:15 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o9sm25145282wrw.20.2020.03.23.10.40.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 10:40:14 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] target/arm: Move computation of index in handle_simd_dupe
-Date: Mon, 23 Mar 2020 17:40:06 +0000
-Message-Id: <20200323174006.8468-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200323174006.8468-1-peter.maydell@linaro.org>
-References: <20200323174006.8468-1-peter.maydell@linaro.org>
+ (envelope-from <kwolf@redhat.com>) id 1jGR4h-0004jQ-C8
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:41:20 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:60640)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jGR4h-0004hl-0t
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:41:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584985278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HphUaKrtUqOxdbT9Ia8tkqJHdcS2my5hGgZmindu1AE=;
+ b=KX9cbGARIYmci2MK1NSQnQKe+blXqf+TuYojkF3fckVJZ4Q8OBv20Cx9OZoJRlLLEQ/aNw
+ 2tmVkj7ZEGnRmunDx+/ht6nUheApfd8TwUBiYwFABuEIJ/I4GVXrtDrGSsMoYLgFnp9hMM
+ wutF90zvFd3NZpXSWKSJRs/I9MJGKR0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-LsjM0ydUOX-PU_1e9IB41A-1; Mon, 23 Mar 2020 13:41:13 -0400
+X-MC-Unique: LsjM0ydUOX-PU_1e9IB41A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E817496F01;
+ Mon, 23 Mar 2020 17:41:10 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-85.ams2.redhat.com [10.36.114.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9E235C1AD;
+ Mon, 23 Mar 2020 17:41:09 +0000 (UTC)
+Date: Mon, 23 Mar 2020 18:41:08 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v5 3/4] qmp: Move dispatcher to a coroutine
+Message-ID: <20200323174108.GD8049@linux.fritz.box>
+References: <20200218154036.28562-1-kwolf@redhat.com>
+ <20200218154036.28562-4-kwolf@redhat.com>
+ <87d09965g3.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+In-Reply-To: <87d09965g3.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,48 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Am 18.03.2020 um 16:36 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > This moves the QMP dispatcher to a coroutine and runs all QMP command
+> > handlers that declare 'coroutine': true in coroutine context so they
+> > can avoid blocking the main loop while doing I/O or waiting for other
+> > events.
+> >
+> > For commands that are not declared safe to run in a coroutine, the
+> > dispatcher drops out of coroutine context by calling the QMP command
+> > handler from a bottom half.
+> >
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>=20
+> Uh, what about @cur_mon?
+>=20
+> @cur_mon points to the current monitor while a command executes.
+> Initial value is null.  It is set in three places (not counting unit
+> tests), and all three save, set, do something that may use @cur_mon,
+> restore:
+>=20
+> * monitor_qmp_dispatch(), for use within qmp_dispatch()
+> * monitor_read(), for use within handle_hmp_command()
+> * qmp_human_monitor_command(), also for use within handle_hmp_command()
+>=20
+> Therefore, @cur_mon is null unless we're running within qmp_dispatch()
+> or handle_hmp_command().
 
-Coverity reports a BAD_SHIFT with ctz32(imm5), with imm5 == 0.
-This is an invalid encoding, but we diagnose that just below
-by rejecting size > 3.  Avoid the warning by sinking the
-computation of index below the check.
+Can we make it NULL for coroutine-enabled handlers?
 
-Reported-by: Coverity (CID 1421965)
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200320160622.8040-4-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate-a64.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> Example of use: error_report() & friends print "to current monitor if we
+> have one, else to stderr."  Makes sharing code between HMP and CLI
+> easier.  Uses @cur_mon under the hood.
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 032478614c4..7580e463674 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -7422,7 +7422,7 @@ static void handle_simd_dupe(DisasContext *s, int is_q, int rd, int rn,
-                              int imm5)
- {
-     int size = ctz32(imm5);
--    int index = imm5 >> (size + 1);
-+    int index;
- 
-     if (size > 3 || (size == 3 && !is_q)) {
-         unallocated_encoding(s);
-@@ -7433,6 +7433,7 @@ static void handle_simd_dupe(DisasContext *s, int is_q, int rd, int rn,
-         return;
-     }
- 
-+    index = imm5 >> (size + 1);
-     tcg_gen_gvec_dup_mem(size, vec_full_reg_offset(s, rd),
-                          vec_reg_offset(s, rn, index, size),
-                          is_q ? 16 : 8, vec_full_reg_size(s));
--- 
-2.20.1
+error_report() eventually prints to stderr both for cur_mon =3D=3D NULL and
+for QMP monitors. Is there an important difference between both cases?
+
+There is error_vprintf_unless_qmp(), which behaves differently for both
+cases. However, it is only used in VNC code, so that code would have to
+keep coroutines disabled.
+
+Is cur_mon used much in other functions called by QMP handlers?
+
+> @cur_mon is thread-local.
+>=20
+> I'm afraid we have to save, clear and restore @cur_mon around a yield.
+
+That sounds painful enough that I'd rather avoid it.
+
+Kevin
 
 
