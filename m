@@ -2,46 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB23D18F8DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 16:42:56 +0100 (CET)
-Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C6918F912
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 16:58:01 +0100 (CET)
+Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGPE7-0000Yo-Se
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 11:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
+	id 1jGPSj-0008BO-2L
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 11:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jGPDN-0008UP-Ti
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:42:11 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jGPRZ-0007DK-He
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:56:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jGPDM-0005bT-SA
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:42:09 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:15593)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jGPDH-0005XF-MQ; Mon, 23 Mar 2020 11:42:05 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AE4B1746381;
- Mon, 23 Mar 2020 16:42:01 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8874974637F; Mon, 23 Mar 2020 16:42:01 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 86B8C74637E;
- Mon, 23 Mar 2020 16:42:01 +0100 (CET)
-Date: Mon, 23 Mar 2020 16:42:01 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] ide/sii3112: Avoid leaking irqs array
-In-Reply-To: <9dd18e5b-d1f1-7c3b-428f-0e549616a9d6@redhat.com>
-Message-ID: <alpine.BSF.2.22.395.2003231635490.61044@zero.eik.bme.hu>
-References: <20200323143514.DB3B4747E04@zero.eik.bme.hu>
- <9dd18e5b-d1f1-7c3b-428f-0e549616a9d6@redhat.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <alistair23@gmail.com>) id 1jGPRY-0003hH-ED
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:56:49 -0400
+Received: from mail-ua1-x941.google.com ([2607:f8b0:4864:20::941]:36388)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jGPRY-0003gE-7A; Mon, 23 Mar 2020 11:56:48 -0400
+Received: by mail-ua1-x941.google.com with SMTP id o15so3297539ual.3;
+ Mon, 23 Mar 2020 08:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9sdYk+m9VIBNOHQO5FBubdeWBpMknt0oInCQuRCvabk=;
+ b=HcvVC9rSVzeRmghwV0dJsoagZ9/o/EtcUICpPdEIItvD2CqprcMlHNhVhCnPJJc5Tx
+ 3KOABXPct/V6qgxgaWbeDQzF3wmc+p90p0SfGgCKsHr1WzlXcq23piVpb+ec2qkDNljR
+ kW+b5UlTu44XqnxCgwSQhU116gSDExzlDkwzciQK4y8hN41rAr9ETxr4dY8DDWUSFFD+
+ Q8zR8vUkJLDb8SIT+EboUmo+QwO1Fqfaq+LpSv8gCPnsPnDOdBuffmdhM3aYVB354Koq
+ iQ5zOQrKZPQY0ioj6PmUQIl7ahzn7ohtnG+6QijI8n/hcVbEZtmjbHNTa8wLxFsw2yf+
+ hw6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9sdYk+m9VIBNOHQO5FBubdeWBpMknt0oInCQuRCvabk=;
+ b=uGGR7pdo/lPhesTzHc7maVYJiL4IEOd0WI4iGjtz+b0xXvxLE/tH7HOO+9rByErCin
+ bUy32z3O3T3J8N67Bq29HV9IuCV/Gv0uPrEfCCWs1htCiqf1A25CRHEp+8vvfoUNLQ+P
+ O+zAAIjDMRH5G/TzNPxmAVxRoudac65zuf8zjSlNQyNY453/a8MnC3ZeJIX8mHitlGEU
+ tEM56F/RtBmS50MkWc/r7hzAURSMFu1ZV6djhDIXNBGqByo2y6vjBB0+mmw0pHy7yxK1
+ x2SVHNBwunQ2tV3TfjeM7AYG5EefGkzwZIViysPWz0CfLZDOWsGso68PERjYHV/MUNTR
+ puhw==
+X-Gm-Message-State: ANhLgQ1e+CPpsiJOHeLqDB4lsdO4No9Z5vHwn2T26mbhJJoElu5lkTpi
+ GzYfCT3JPqqt9mLzHMmrN7fYybPZq5wjJ5hQtfI=
+X-Google-Smtp-Source: ADFU+vtOwLMb9HGc6CN/cWNb7fSM7pmdgHKEIBBxBnPDn2LA/MTGjSUMAZ/YRuwR1jOpP1uIuVhfxe5ZMREElC5HTMg=
+X-Received: by 2002:a9f:2964:: with SMTP id t91mr7715691uat.21.1584979005734; 
+ Mon, 23 Mar 2020 08:56:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1599095249-1584978121=:61044"
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+References: <20200321144110.5010-1-philmd@redhat.com>
+ <20200321144110.5010-2-philmd@redhat.com>
+In-Reply-To: <20200321144110.5010-2-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Mar 2020 08:48:47 -0700
+Message-ID: <CAKmqyKNRs-ARh9vcV_TywnM1dBfQtMfUXV94sHTjY2BSE7=4hQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 v2 01/11] block: Avoid dead assignment
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::941
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1599095249-1584978121=:61044
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 23 Mar 2020, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 3/23/20 3:32 PM, BALATON Zoltan wrote:
->> Coverity CID 1421984 reports a leak in allocated irqs, this patch
->> attempts to plug that.
->>=20
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ide/sii3112.c | 14 +++++++++++---
->>   1 file changed, 11 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
->> index 06605d7af2..c886916873 100644
->> --- a/hw/ide/sii3112.c
->> +++ b/hw/ide/sii3112.c
->> @@ -31,6 +31,7 @@ typedef struct SiI3112Regs {
->>   typedef struct SiI3112PCIState {
->>       PCIIDEState i;
->>       MemoryRegion mmio;
->> +    qemu_irq *irqs;
->>       SiI3112Regs regs[2];
->>   } SiI3112PCIState;
->>   @@ -252,7 +253,6 @@ static void sii3112_pci_realize(PCIDevice *dev, =
-Error=20
->> **errp)
->>       SiI3112PCIState *d =3D SII3112_PCI(dev);
->>       PCIIDEState *s =3D PCI_IDE(dev);
->>       MemoryRegion *mr;
->> -    qemu_irq *irq;
->>       int i;
->>         pci_config_set_interrupt_pin(dev->config, 1);
->> @@ -280,10 +280,10 @@ static void sii3112_pci_realize(PCIDevice *dev, =
-Error=20
->> **errp)
->>       memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio=
-, 0,=20
->> 16);
->>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>   -    irq =3D qemu_allocate_irqs(sii3112_set_irq, d, 2);
->> +    d->irqs =3D qemu_allocate_irqs(sii3112_set_irq, d, 2);
->>       for (i =3D 0; i < 2; i++) {
->>           ide_bus_new(&s->bus[i], sizeof(s->bus[i]), DEVICE(dev), i, 1=
-);
->> -        ide_init2(&s->bus[i], irq[i]);
->> +        ide_init2(&s->bus[i], d->irqs[i]);
->>             bmdma_init(&s->bus[i], &s->bmdma[i], s);
->>           s->bmdma[i].bus =3D &s->bus[i];
->> @@ -291,6 +291,13 @@ static void sii3112_pci_realize(PCIDevice *dev, E=
-rror=20
->> **errp)
->>       }
->>   }
->>   +static void sii3112_unrealize(DeviceState *dev, Error **errp)
->> +{
->> +    SiI3112PCIState *d =3D SII3112_PCI(dev);
->> +
->> +    qemu_free_irqs(d->irqs, 2);
+On Sat, Mar 21, 2020 at 7:42 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> You can't do that without calling unrealize() on all the devices in eac=
-h=20
-> IDEBus.
+> Fix warning reported by Clang static code analyzer:
+>
+>   block.c:3167:5: warning: Value stored to 'ret' is never read
+>       ret =3D bdrv_fill_options(&options, filename, &flags, &local_err);
+>       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Fixes: 462f5bcf6
+> Reported-by: Clang Static Analyzer
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-What? Those devices are not created in this object so whoever adds them=20
-later is supposed to free them before this object is unrelaized. Or is=20
-ownership of those devices silently passed to the the controller when=20
-adding devices? Anyway, Peter's patch is simpler and should also fix the=20
-issue so this does not matter any more (other than maybe showing we might=
-=20
-also leak the devices if their ownership is not clear).
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> Apparently there is no code available to do that. Maybe easier to not=20
-> add any sii3112_unrealize(). Keeping a reference in the state should be=
-=20
-> enough to silent Coverity.
+Alistair
 
-The idea was to fix the problem not to hide it from Coverity so if it=20
-can't be fixed it's probably better to be reminded about it than hiding=20
-it.
-
-Regards,
-BALATON Zoltan
---3866299591-1599095249-1584978121=:61044--
+> ---
+> v2: Keep 'ret' assigned and check it (Markus)
+> ---
+>  block.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/block.c b/block.c
+> index a2542c977b..a6f069d8bd 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -3165,7 +3165,7 @@ static BlockDriverState *bdrv_open_inherit(const ch=
+ar *filename,
+>      }
+>
+>      ret =3D bdrv_fill_options(&options, filename, &flags, &local_err);
+> -    if (local_err) {
+> +    if (ret < 0) {
+>          goto fail;
+>      }
+>
+> --
+> 2.21.1
+>
+>
 
