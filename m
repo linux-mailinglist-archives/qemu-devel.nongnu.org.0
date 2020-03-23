@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4181518F5B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:27:07 +0100 (CET)
-Received: from localhost ([::1]:33808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9195D18F5B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:28:06 +0100 (CET)
+Received: from localhost ([::1]:33824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGN6f-0001kv-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58981)
+	id 1jGN7d-0003gj-MB
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jGN5d-00012f-Hl
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:02 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jGN5n-00019o-13
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jGN5c-00026D-FO
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:47063)
+ (envelope-from <stefanha@gmail.com>) id 1jGN5l-00027X-Oc
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:10 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39295)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jGN5c-000264-91
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:00 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j17so13651957wru.13
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 06:26:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1jGN5l-00027N-HS; Mon, 23 Mar 2020 09:26:09 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a9so11744082wmj.4;
+ Mon, 23 Mar 2020 06:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=+U3k//tRnKAvz6cyP6MqawOsw/SfHGOeBaKQbLPZeCg=;
- b=BF5YBBFA/Wkqm60F4OQYBbkdImJCEE0IFiYqOYdVWvmOSJqL9wsiakgB9kaNR4Z1eb
- yDS96W7yMpiS1AI62Bd9guEUZglaQGwtluqSiG9ioKGRxcbjdSIo6izcr3Gggi5xTYzl
- shqW8Tj6u5UE5CpM1wCn++0PHr0Xf7J2X3x6H97sOcpi2QT6JXQXk+/ojEGGI/LSTuQR
- 6Ug2lTLeD5zzmyJC1pFj4M7OdO/6g0v3xaek+cadfEp0jZCHuCGEvfM0rFcTyYm9dR5r
- wfHRVFGH30U3QBt+eazwDdyjJGP+6H5HsPRGIM/TELl91evoE+WE4pmCrLrz4uMB+iv9
- kV6w==
+ bh=AlVbfZyfry4HH76oqXAvvMsG0TvaD4a+KK6s4EEalSI=;
+ b=m/psC284EmGgWk0FP9uZDt6lCarlgi1F0x9aUkBZVLH3/ZcYH4j2nPJho4XxXyssW+
+ PlsMF6Pv1Qav27/Dq2fi3+c3Q2y9yQqHLqst5xd6yWuKecZvsqs+l+KBFCkiolEJdkQa
+ zTbtcMSXqj0eiyI1r9ZjfqbB/pMZHcBXqmp4yuGB75Pee/mmJJ7ChkQR7X5o5adXk1tR
+ GQKW3IZipaQThNzxm8bkh81R0Kq04T5M9wrXjOMSE95qacge2s+p9Gvq7XIJXzaL/f/l
+ I59y6+zwqCKx8bx0lddFCMtGY6JACX8ElK1/gNoyVAU+MRlQxA4YiH8x/LI+1q28xk/U
+ grAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=+U3k//tRnKAvz6cyP6MqawOsw/SfHGOeBaKQbLPZeCg=;
- b=HPk3U/uN8y7GV/DanuhPKNJHNd6LxAJbYnmCe6BTtPTRaTWAdobAEQtwiW2YoZ/6g4
- 72xdVZw8k/tUOkpNkexXzFMSk83KR4UIe25f2OqP6xTtkcxhqJP2H351C6rrKfJ5tiMb
- oq4X6Twn3MQv2DHrnLbQFFqfHLxsph1PN7AOohXg46LEP09gto0HSIC0WAei6T+P4itu
- NLXSZ49oQgJvMMMw1Diju8AAgXC5vWbehZaGHfPNLGe21l4ee0WJECacz83ct5Q43yPW
- kuQXKcvh4NqgEg+TrVtzEVAOd2L20SwiK2s/tto0QkEVFA6DGx2dA/H/X8BKTHsp71gi
- AFFQ==
-X-Gm-Message-State: ANhLgQ1VCMRivwHuI7Jf6XCNWkJhsGQi4OJHV0JbK8NcNHw3NvM2YJth
- aU7xtaiK3Wb3Uzjs8EiJugRpPSRCESA=
-X-Google-Smtp-Source: ADFU+vvOa3wPM7saT1L3TFBa/zJpZHh+HppyJwufkG8fF3VRSQHQrtPAI5rSqsI94pvb7//ZDwjKvw==
-X-Received: by 2002:a05:6000:114f:: with SMTP id
- d15mr30886553wrx.143.1584969958578; 
- Mon, 23 Mar 2020 06:25:58 -0700 (PDT)
+ bh=AlVbfZyfry4HH76oqXAvvMsG0TvaD4a+KK6s4EEalSI=;
+ b=NhBDtjBiSyzPddgRjZ4uPDNQZ25Db5AqTfdjHGnTW1EXSOjzZ0vNvbhJkvy1NinfN+
+ NXicjArTdemQjhTzpGSzvzcyRRk0CbzPoeQekz9ntn1rv8dvWf9D8jhMady/ji+8z87M
+ JCFslDOV+lq2N6JinYZPalZkcK0MsKKAHKO3Gumu6OQuv5VHN+aupTofN5rSOB5YKk7S
+ C+aqDyLFd4+VGPDCkfSEaXkeUoY7XPi25ex/mm6dGqmIaoQg6cKynNxcbvOwGzSFIauS
+ UJYHudvD9+WUOk0oSoQek50inrNVREyiGpoQLd7Wt8sM4bP6FpdzISMnLRd9/B2xsSWy
+ 110Q==
+X-Gm-Message-State: ANhLgQ1eXZtumW6I/3D5HLBEmA7M5ufXARuBDOSynj8DhqmxdIa+BwzQ
+ FpU5wh7/pDoM7mvP74KV0Po=
+X-Google-Smtp-Source: ADFU+vvs1nZ2M/I1hK/Mudxi2XBB90wkqD2FZB2iHFYzArxVA0bD1q7u1/3YQTBzqhjO22v/pAOmcA==
+X-Received: by 2002:a7b:cc04:: with SMTP id f4mr18769310wmh.187.1584969968472; 
+ Mon, 23 Mar 2020 06:26:08 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id t12sm7210107wrm.0.2020.03.23.06.25.57
+ by smtp.gmail.com with ESMTPSA id b7sm2946627wrn.67.2020.03.23.06.26.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 06:25:57 -0700 (PDT)
-Date: Mon, 23 Mar 2020 13:25:56 +0000
+ Mon, 23 Mar 2020 06:26:07 -0700 (PDT)
+Date: Mon, 23 Mar 2020 13:26:05 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 0/2] Replaced locks with lock guard macros
-Message-ID: <20200323132556.GG261260@stefanha-x1.localdomain>
+To: dnbrdsky@gmail.com
+Subject: Re: [PATCH v4 2/2] lockable: replaced locks with lock guard macros
+ where appropriate
+Message-ID: <20200323132605.GH261260@stefanha-x1.localdomain>
 References: <20200320123137.1937091-1-dnbrdsky@gmail.com>
- <158471180295.15515.1369533827289907154@39012742ff91>
+ <20200320123137.1937091-3-dnbrdsky@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EDJsL2R9iCFAt7IV"
+ protocol="application/pgp-signature"; boundary="mhjHhnbe5PrRcwjY"
 Content-Disposition: inline
-In-Reply-To: <158471180295.15515.1369533827289907154@39012742ff91>
+In-Reply-To: <20200320123137.1937091-3-dnbrdsky@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,53 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dnbrdsky@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:iSCSI" <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---EDJsL2R9iCFAt7IV
+--mhjHhnbe5PrRcwjY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 20, 2020 at 06:43:23AM -0700, no-reply@patchew.org wrote:
-> /tmp/qemu-test/src/util/thread-pool.c:213:5: error: unused variable 'qemu_lockable_auto1' [-Werror,-Wunused-variable]
->     QEMU_LOCK_GUARD(&pool->lock);
->     ^
-> /tmp/qemu-test/src/include/qemu/lockable.h:173:29: note: expanded from macro 'QEMU_LOCK_GUARD'
+On Fri, Mar 20, 2020 at 05:31:37AM -0700, dnbrdsky@gmail.com wrote:
+> From: Daniel Brodsky <dnbrdsky@gmail.com>
+>=20
+> - ran regexp "qemu_mutex_lock\(.*\).*\n.*if" to find targets
+> - replaced result with QEMU_LOCK_GUARD if all unlocks at function end
+> - replaced result with WITH_QEMU_LOCK_GUARD if unlock not at end
+>=20
+> Signed-off-by: Daniel Brodsky <dnbrdsky@gmail.com>
+> ---
+>  block/iscsi.c         |  7 ++----
+>  block/nfs.c           | 51 ++++++++++++++++++++-----------------------
+>  cpus-common.c         | 14 +++++-------
+>  hw/display/qxl.c      | 43 +++++++++++++++++-------------------
+>  hw/vfio/platform.c    |  5 ++---
+>  migration/migration.c |  3 +--
+>  migration/multifd.c   |  8 +++----
+>  migration/ram.c       |  3 +--
+>  monitor/misc.c        |  4 +---
+>  ui/spice-display.c    | 14 ++++++------
+>  util/log.c            |  4 ++--
+>  util/qemu-timer.c     | 17 +++++++--------
+>  util/rcu.c            |  8 +++----
+>  util/thread-pool.c    |  3 +--
+>  util/vfio-helpers.c   |  5 ++---
+>  15 files changed, 83 insertions(+), 106 deletions(-)
 
-Apparently gcc suppresses "unused variable" warnings with g_autoptr() so
-we didn't see this warning before.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-clang does report them so let's silence the warning manually.  Please
-add G_GNUC_UNUSED onto the g_autoptr variable definition in the
-QEMU_LOCK_GUARD() macro:
-
-  #define QEMU_LOCK_GUARD(x) \
-      g_autoptr(QemuLockable) qemu_lockable_auto##__COUNTER__ G_GNUC_UNUSED = \
-              qemu_lockable_auto_lock(QEMU_MAKE_LOCKABLE((x)))
-
-The WITH_*_LOCK_GUARD() macros should not require changes because the
-variable is both read and written.
-
-You can test locally by building with clang (llvm) instead of gcc:
-
-  ./configure --cc=clang
-
---EDJsL2R9iCFAt7IV
+--mhjHhnbe5PrRcwjY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uOQACgkQnKSrs4Gr
-c8gVpgf9E/kkDZp9Dw8MEwUhKoVRpJV5y4QsZ8cb9aSjfzUEBcwLNf/IEUBUBXTX
-7epsRxB8Go3Q2TTyntWWNbyA2a9528k/SKAylLAlwIS/8jwLgYWJXu55atMhAUrJ
-TPZi/H4yG9kuT8jReqAuLK9iAEnqK4qzAxbEHbL2YcfsienOXX+aTaeaXrSPakNf
-9POMbdS6VikX0YZMVPw1tKmq1RqgW2rcWbzpqE3iz2MjEAtq2XvI3FOTJI0IEOn/
-pySWtFLmALBgTeji3WB9wAX7y+y8jxU2uFu1YrXb+GsDgKaUvjraT+jcTDIzF24L
-6iMxv1Sb4qjhQAT8Ar/PDJfrCFbPpg==
-=lsut
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uO0ACgkQnKSrs4Gr
+c8iteAf/dHmQ61vXsdKrzTjsOgTg7mhRYrUZ0VOwSPLMl51FOlk235EDB7s4yL30
+AU+BINLWq1WTmXJcfs4NW9P9Jy7kvlF1EmakVbWJUCjEHHfjey9ANt9DNGq5EpvI
+C1GBmrq60hgFlQG15KUrZxLble8hiI6qnjQn/6El3oQBChAJD2Ms+JYU9y8W9ZsA
+AS7c93p9ldphEFl33Iss0yF5iwq0Lfrgw7/qPRk2lckMQRqV4CAcKLsXapwCoup9
+4OXSTKbP4Dj3FwYLnuLNK5I+MhWMtsrltGlCwMC/H4B3guJak4O22iALrt4jxKkm
+qkZnRtkM08hEfMob48EKxwxAzUpW7A==
+=EdtV
 -----END PGP SIGNATURE-----
 
---EDJsL2R9iCFAt7IV--
+--mhjHhnbe5PrRcwjY--
 
