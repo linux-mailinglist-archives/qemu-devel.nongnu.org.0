@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FCE18F35D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:05:45 +0100 (CET)
-Received: from localhost ([::1]:60204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69FC18F394
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:19:51 +0100 (CET)
+Received: from localhost ([::1]:60336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGKts-00046z-Ie
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39439)
+	id 1jGL7W-0001Ze-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGKsp-0003CO-Eg
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:04:40 -0400
+ (envelope-from <mtosatti@redhat.com>) id 1jGL6n-0001B9-Le
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:19:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGKso-0004LW-8t
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:04:39 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:51578)
+ (envelope-from <mtosatti@redhat.com>) id 1jGL6m-0001XB-Jc
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:19:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58743)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGKso-0004LI-4v
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:04:38 -0400
+ (Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1jGL6m-0001X3-FU
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:19:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584961477;
+ s=mimecast20190719; t=1584962344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Ig74dzz5S101YH2m7OjZvHoCb6f5iJR941tNAoR4F0=;
- b=J59t/j/G/x3//pygNE8zg4g9+L7pDDQ91DwlKpYMMTn51lRJqKV9d6VXJO/IehCgBIEg0W
- Q3ULpDBviN5ElYtnu6GILN0M5AP91yVc2lezHQ76ZtaCA71Amrh7aDNrU1FAoxt98wF5ve
- 8NZh6Pvin9ggWT4xheAo5UEddVDl+5E=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-XkoJFUNCOYKowntINIgPZA-1; Mon, 23 Mar 2020 07:04:36 -0400
-X-MC-Unique: XkoJFUNCOYKowntINIgPZA-1
-Received: by mail-ed1-f71.google.com with SMTP id m24so11251824edq.8
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:04:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h7UE/S47UgdAtUXsbORIuW/u9EYW59EaTTzt6CN0ZFQ=;
- b=FYs9prqM7FxYz+QitEiTDN2X/1wq8n28dE+nu0DYG5v785r96g+4XfbVYEIKRGHvKG
- Ki+KosuDX82vptWQtFN6MQwoJH2tf7K6a7t08vxXdGaUcYapkb6x9v1O5MRsKLj/GkGh
- eg1O0pB/ZuL9P3A1BMrNtCFcNO0rwPUzoUyW8Li7f4uQm+6Thkht5/XLxBTvESdJ5JxY
- E+dQu5EK/tZr50QjJBUENJMps6QHgUJJ/0LvVZeJDI7MQGKg8I0lIzhliXK2kZTOte4G
- iNVgMKRw6HuVVnc3JfS1/pFOv+9yddIVJ/ObqPEbPus6R2WGHeCXIUBvTPvWDa8idUDE
- Ld/Q==
-X-Gm-Message-State: ANhLgQ1WXm1jL8O0lLPPkoWtj2wRgXzz/Y9WmYSnEYz3ACJT6R769OVa
- V8XOajeK+K4pbpCOnt/SV2Tby0YMRLZ7WyQqLki976CHqe2TCa/blNH/9TweURpWl2oYpYF4x4r
- a46l14ptjFgM9YTI=
-X-Received: by 2002:a50:bb67:: with SMTP id y94mr17499603ede.213.1584961475094; 
- Mon, 23 Mar 2020 04:04:35 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuV/SVq6MJ4EkAXhODFcUU/NZpU8vGD9yZ/JG7yZ9s8CL/fgaRoDTP2IRPUzvDy6wr+KnzYyw==
-X-Received: by 2002:a50:bb67:: with SMTP id y94mr17499579ede.213.1584961474884; 
- Mon, 23 Mar 2020 04:04:34 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id e25sm801535ejl.4.2020.03.23.04.04.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 04:04:34 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PULL 5/9] contrib: add vhost-user-gpu
-To: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20190529044020.27003-1-kraxel@redhat.com>
- <20190529044020.27003-6-kraxel@redhat.com>
- <CAFEAcA_+3w+ctCE5Bm_LVNi+xWmgSmOudRsSQp0O5OfWkme7MQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <70362380-a0a8-348f-93b6-bc03f0772d1b@redhat.com>
-Date: Mon, 23 Mar 2020 12:04:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=I6iz++xDyWIMkLvemm1M+2robOQPUjlgI3SUvSgLd7o=;
+ b=EwYSdz8ZWZEGk5SgUgcUVDnEav+YQaHvMqO/s+Ap8N+K/wTAW4rSEGspaYFEewLutvc/5S
+ Wvk6UWQ84vFcZMmB4XdOJcrTsV+BBMWX7Dyvt8xxeSw315PplQDRjXEqtwHm+5waO5w6aX
+ EwaUv2S3V7MAhETVzrMCAolPM0p2pOI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-dywiY5z6ONeRnMNNQgVxNg-1; Mon, 23 Mar 2020 07:17:57 -0400
+X-MC-Unique: dywiY5z6ONeRnMNNQgVxNg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6420010CE78A;
+ Mon, 23 Mar 2020 11:17:56 +0000 (UTC)
+Received: from fuller.cnet (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9B3810027AF;
+ Mon, 23 Mar 2020 11:17:52 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+ id 7EE8F418CC0C; Mon, 23 Mar 2020 08:04:52 -0300 (-03)
+Date: Mon, 23 Mar 2020 08:04:52 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH-for-5.0 1/2] hw/acpi/piix4: Add 'system-hotplug-support'
+ property
+Message-ID: <20200323110452.GA14031@fuller.cnet>
+References: <20200318221531.22910-1-philmd@redhat.com>
+ <20200318221531.22910-2-philmd@redhat.com>
+ <20200319114424.5723e777@office.mammed.net>
+ <4d42697e-ba84-e5af-3a17-a2cc52cf0dbc@redhat.com>
+ <20200319160800.614de5fb@redhat.com>
+ <d6c0dc2f-5b0f-2e34-6c12-e9d9cd7402c6@redhat.com>
+ <3f70d63d-e9ae-6676-edd5-20613b4b8856@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_+3w+ctCE5Bm_LVNi+xWmgSmOudRsSQp0O5OfWkme7MQ@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <3f70d63d-e9ae-6676-edd5-20613b4b8856@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -92,76 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/20 11:11 AM, Peter Maydell wrote:
-> On Wed, 29 May 2019 at 05:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
->>
->> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> Add a vhost-user gpu backend, based on virtio-gpu/3d device. It is
->> associated with a vhost-user-gpu device.
->>
->> Various TODO and nice to have items:
->> - multi-head support
->> - crash & resume handling
->> - accelerated rendering/display that avoids the waiting round trips
->> - edid support
->>
->> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> Message-id: 20190524130946.31736-6-marcandre.lureau@redhat.com
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+On Mon, Mar 23, 2020 at 09:05:06AM +0100, Paolo Bonzini wrote:
+> On 22/03/20 17:27, Philippe Mathieu-Daud=E9 wrote:
+> >>>
+> >> That 'ugly' is typically used within QEMU to deal with such things
+> >> probably due to its low complexity.
+> >=20
+> > OK. Can you point me to the documentation for this feature? I can find
+> > reference of GPE in the ICH9, but I can't find where this IO address on
+> > the PIIX4 comes from:
+> >=20
+> > #define GPE_BASE 0xafe0
 >=20
-> Hi; the latest coverity run has spotted a mismatch of
-> memory allocate/free, where memory allocated with malloc()
-> is freed with g_free():
+> It's made up.  The implementation is placed in PIIX4_PM because it is
+> referenced by the ACPI tables.  Real hardware would probably place this
+> in the ACPI embedded controller or in the BMC.
 >=20
->> +static void
->> +vg_handle_cursor(VuDev *dev, int qidx)
->> +{
->> +    VuGpu *g =3D container_of(dev, VuGpu, dev.parent);
->> +    VuVirtq *vq =3D vu_get_queue(dev, qidx);
->> +    VuVirtqElement *elem;
->> +    size_t len;
->> +    struct virtio_gpu_update_cursor cursor;
->> +
->> +    for (;;) {
->> +        elem =3D vu_queue_pop(dev, vq, sizeof(VuVirtqElement));
->=20
-> vu_queue_pop() returns memory that must be freed with free()
-> (as documented in its API doc-comment; it calls vu_queue_map_desc()
-> which calls virtqueue_alloc_element() which calls malloc())...
->=20
->> +        if (!elem) {
->> +            break;
->> +        }
->> +        g_debug("cursor out:%d in:%d\n", elem->out_num, elem->in_num);
->> +
->> +        len =3D iov_to_buf(elem->out_sg, elem->out_num,
->> +                         0, &cursor, sizeof(cursor));
->> +        if (len !=3D sizeof(cursor)) {
->> +            g_warning("%s: cursor size incorrect %zu vs %zu\n",
->> +                      __func__, len, sizeof(cursor));
->> +        } else {
->> +            virtio_gpu_bswap_32(&cursor, sizeof(cursor));
->> +            vg_process_cursor_cmd(g, &cursor);
->> +        }
->> +        vu_queue_push(dev, vq, elem, 0);
->> +        vu_queue_notify(dev, vq);
->> +        g_free(elem);
->=20
-> ...but here we free it with g_free(), not free().
->=20
-> Coverity spotted this as CID 1421887. The use of vu_queue_pop()
-> in vg_handle_ctrl() also seem to have this issue, though Coverity
-> hasn't caught that one.
->=20
-> Would somebody like to write a patch?
+> Paolo
 
-OK.
+Yes, there was nothing at 0xafe0 at the time ACPI support was written.
 
 
