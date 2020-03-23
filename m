@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D673118F91B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 16:59:26 +0100 (CET)
-Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641F118F905
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 16:56:34 +0100 (CET)
+Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGPU5-0001h0-Ts
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 11:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59712)
+	id 1jGPRJ-0006jy-2K
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 11:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jGPSv-0000iE-0G
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:58:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1jGPQX-0006EO-0F
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:55:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jGPSu-0004dL-3R
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:58:12 -0400
-Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:45101)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jGPSt-0004bZ-VI; Mon, 23 Mar 2020 11:58:12 -0400
-Received: by mail-ua1-x943.google.com with SMTP id 9so5142504uav.12;
- Mon, 23 Mar 2020 08:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=M8YISYLxprjf1kzWXEpmDWYbQYJJMFlnRQMRu8MBWHM=;
- b=oXpHylHNOUaYSZg4fvvouJKGdNtzr/SSrOYYCcf7Q7Ptgln46YtSkXeZnTr1LCcCbH
- gBCntqBUz+MS2YdG6MTj1sTenrlTTJqnT7SEdbDHHmChJRfEX8oklwohLyUt/1zECjaF
- UgQNEfruFzk1mI+zCGCqCsffFep3PJmRYWZcF+vyIqMvLMVUvHmumB/iD8ncpGDptYlI
- cUYd8dGmfRYUKzWM4bbUCNacEGVHO7siMBbSUbyM6CfPeQUm/SWJbXV8C+Ex9ffGgF4f
- PVVAxv2xa/ybojMKz4099t+jOxK55TvVqIGo+fBGPrAinFeci+eNilikm6UMLe6G13xX
- dOvQ==
+ (envelope-from <philmd@redhat.com>) id 1jGPQV-0003BV-0w
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:55:44 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44223)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGPQU-0003AF-Q4
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 11:55:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584978941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H/Y0evudWYrHa3KtaSn/ya9VSReCg6vvubaw4Jr/GoQ=;
+ b=MB2CTn2UMLZ+Q98sac1hfh9xxMWg5bgiOAyVdR64FoOCXnA1DxOyqB4mCGerzqATcodOJA
+ i3SGYbxGfnSHcWmvnMQqBQicKF5+Y9F+vERNNl7H5YX2eDERwIQzfGuugz7x1Tu5C3iV2E
+ lkf5KfGZigSJYs9flshDtyWE018hVTI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-DhjTdMuMNlWGQjHFYWjG0Q-1; Mon, 23 Mar 2020 11:55:38 -0400
+X-MC-Unique: DhjTdMuMNlWGQjHFYWjG0Q-1
+Received: by mail-wr1-f72.google.com with SMTP id e10so4808140wrm.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 08:55:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=M8YISYLxprjf1kzWXEpmDWYbQYJJMFlnRQMRu8MBWHM=;
- b=B6MD1GZqnkdd7mpXijcTFugC2pF1bpogRFvchFKf+CQiaaBwDcqv0t75WxM9ea24M4
- 6BeOk1/v5xeVWuBLt5XnNVoIoazgUPde++suZiDK7MZCdh/Hp56IbbbYZ3GgT5TKSyWM
- 4ep71QfiryOzwnDZiFAo+o46zMC82qLhpMBNEw+dZwr5wXtu4GQj/jnEpZWGkLgFRXV1
- HpgTSPrEoux222DXLmQjbl/L2CcPFsWIrKizzUqZnR1FUNOfoW1oHSyng51J+TNV8vWf
- R1AGnn+z8xE7Mb1fkntUf8Ed4vViMZSpZa4F7kWwUgznEnXSQuY4w1UTSor9VF/bCy56
- wcMg==
-X-Gm-Message-State: ANhLgQ1NDXiDNJAbdWzLQl+Eoli/kP27zXMEZwBri9jL/N+oJakrrwDe
- CF9lIxmcta2QqUu6VDltVLZiWzpp1YHY1MIgk5w=
-X-Google-Smtp-Source: ADFU+vtwPJr/HYV2gQgxrd7bnlB0lHKb9By927CbfK4cdWUNAdaHGv1a4zuuQjB7YyFgCo6qM9Wke0eyf42ibeMGzqo=
-X-Received: by 2002:ab0:630b:: with SMTP id a11mr13904640uap.133.1584979091256; 
- Mon, 23 Mar 2020 08:58:11 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8Lszoxw25lP2CnL45qZpGSMh6SN2SwIybyVXjEvDtpY=;
+ b=l2X80mi5Kh30GMiN7Y18WBBPRj8c/wVplKtanOU9H9wnldjny0Zq4rH1Bu7zfMoD06
+ 0t0G662Ve8gUaDsXehT8yC3cVeZLqsNh8e1Ox9E3nLkEWAkcJ7mCLfZcY2kECRH14TPa
+ HIwW9ftnulBo0zVd6lqqRWTgU+zw2vK3qt1KCRsuR7K1s5aAsDvHPgo7ybgBJxP8Td+F
+ U1A1spX7yWETfeszXv2jpMngklpHjwvdqFHVOA6O3cI0LYw+eiC0GdCQR6t40V0ALTyt
+ EhZ6Xp2+UpvnvA7nLHKccBK99yoCe149gRMBiTboXW/oGrIJ9MW2vOajhvxtD4gXd4p8
+ nd6g==
+X-Gm-Message-State: ANhLgQ0nO+EqYX1NRrK0lElWeqjvVa7ttuzaoqKUG0I2ee0hHTh9dJH6
+ 8OZ5DKPckRecY/DP3jtUKnBZvdlXI3LabNvSjC1roQ83knDLYtKurUytwLdafS8RHo50rdrJKUZ
+ SSC40YDzMVs4nSfA=
+X-Received: by 2002:a5d:4b09:: with SMTP id v9mr29696179wrq.85.1584978937174; 
+ Mon, 23 Mar 2020 08:55:37 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu8zbCuhMkaBK8yqmUnj8Wus46w4qa9LkWGkHYgSHS8L+eu2GlSWgrNERH0I2mcEuVYG6bETw==
+X-Received: by 2002:a5d:4b09:: with SMTP id v9mr29696150wrq.85.1584978936885; 
+ Mon, 23 Mar 2020 08:55:36 -0700 (PDT)
+Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id k3sm3399405wro.39.2020.03.23.08.55.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Mar 2020 08:55:36 -0700 (PDT)
+Subject: Re: [PATCH v41 01/21] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20200118191416.19934-1-mrolnik@gmail.com>
+ <20200118191416.19934-2-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <80141c57-7fb7-6e95-4070-54f7cc23e166@redhat.com>
+Date: Mon, 23 Mar 2020 16:55:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200321144110.5010-1-philmd@redhat.com>
- <20200321144110.5010-4-philmd@redhat.com>
-In-Reply-To: <20200321144110.5010-4-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 23 Mar 2020 08:50:13 -0700
-Message-ID: <CAKmqyKNngiNFN7Q1+PRFSPKyg6xubmESFgtp7dkEjRM42bZs-Q@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 v2 03/11] hw/i2c/pm_smbus: Remove dead assignment
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200118191416.19934-2-mrolnik@gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::943
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,59 +92,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, me@xcancerberox.com.ar, richard.henderson@linaro.org,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, dovgaluk@ispras.ru, imammedo@redhat.com,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 21, 2020 at 7:45 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Fix warning reported by Clang static code analyzer:
->
->     CC      hw/i2c/pm_smbus.o
->   hw/i2c/pm_smbus.c:187:17: warning: Value stored to 'ret' is never read
->                   ret =3D 0;
->                   ^     ~
->
-> Reported-by: Clang Static Analyzer
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Hi Michael,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 1/18/20 8:13 PM, Michael Rolnik wrote:
+> This includes:
+> - CPU data structures
+> - object model classes and functions
+> - migration functions
+> - GDB hooks
+>=20
+> Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
+> Co-developed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/i2c/pm_smbus.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
-> index 36994ff585..4728540c37 100644
-> --- a/hw/i2c/pm_smbus.c
-> +++ b/hw/i2c/pm_smbus.c
-> @@ -184,7 +184,6 @@ static void smb_transaction(PMSMBus *s)
->                  s->smb_stat |=3D STS_HOST_BUSY | STS_BYTE_DONE;
->                  s->smb_data[0] =3D s->smb_blkdata;
->                  s->smb_index =3D 0;
-> -                ret =3D 0;
->              }
->              goto out;
->          }
-> --
-> 2.21.1
->
->
+>   target/avr/cpu-param.h |  37 ++
+>   target/avr/cpu-qom.h   |  54 +++
+>   target/avr/cpu.h       | 258 +++++++++++++
+>   target/avr/cpu.c       | 826 +++++++++++++++++++++++++++++++++++++++++
+>   target/avr/gdbstub.c   |  84 +++++
+>   target/avr/machine.c   | 121 ++++++
+>   gdb-xml/avr-cpu.xml    |  49 +++
+>   7 files changed, 1429 insertions(+)
+>   create mode 100644 target/avr/cpu-param.h
+>   create mode 100644 target/avr/cpu-qom.h
+>   create mode 100644 target/avr/cpu.h
+>   create mode 100644 target/avr/cpu.c
+>   create mode 100644 target/avr/gdbstub.c
+>   create mode 100644 target/avr/machine.c
+>   create mode 100644 gdb-xml/avr-cpu.xml
+>=20
+[...]> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+> new file mode 100644
+> index 0000000000..c74c5106fe
+> --- /dev/null
+> +++ b/target/avr/cpu.c
+> @@ -0,0 +1,826 @@
+> +/*
+> + * QEMU AVR CPU
+> + *
+> + * Copyright (c) 2019 Michael Rolnik
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see
+> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/qemu-print.h"
+> +#include "exec/exec-all.h"
+> +#include "cpu.h"
+> +#include "disas/dis-asm.h"
+> +
+> +static void avr_cpu_set_pc(CPUState *cs, vaddr value)
+> +{
+> +    AVRCPU *cpu =3D AVR_CPU(cs);
+> +
+> +    cpu->env.pc_w =3D value / 2; /* internally PC points to words */
+> +}
+> +
+> +static bool avr_cpu_has_work(CPUState *cs)
+> +{
+> +    AVRCPU *cpu =3D AVR_CPU(cs);
+> +    CPUAVRState *env =3D &cpu->env;
+> +
+> +    return (cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_=
+RESET))
+> +            && cpu_interrupts_enabled(env);
+> +}
+> +
+> +static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *=
+tb)
+> +{
+> +    AVRCPU *cpu =3D AVR_CPU(cs);
+> +    CPUAVRState *env =3D &cpu->env;
+> +
+> +    env->pc_w =3D tb->pc / 2; /* internally PC points to words */
+> +}
+> +
+> +static void avr_cpu_reset(CPUState *cs)
+> +{
+> +    AVRCPU *cpu =3D AVR_CPU(cs);
+> +    AVRCPUClass *mcc =3D AVR_CPU_GET_CLASS(cpu);
+> +    CPUAVRState *env =3D &cpu->env;
+> +
+> +    mcc->parent_reset(cs);
+> +
+> +    env->pc_w =3D 0;
+> +    env->sregI =3D 1;
+> +    env->sregC =3D 0;
+> +    env->sregZ =3D 0;
+> +    env->sregN =3D 0;
+> +    env->sregV =3D 0;
+> +    env->sregS =3D 0;
+> +    env->sregH =3D 0;
+> +    env->sregT =3D 0;
+> +
+> +    env->rampD =3D 0;
+> +    env->rampX =3D 0;
+> +    env->rampY =3D 0;
+> +    env->rampZ =3D 0;
+> +    env->eind =3D 0;
+> +    env->sp =3D 0;
+> +
+> +    env->skip =3D 0;
+> +
+> +    memset(env->r, 0, sizeof(env->r));
+> +
+> +    tlb_flush(cs);
+
+Why are you calling tlb_flush() here?
+
+> +}
+
 
