@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5171C18F3B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:32:49 +0100 (CET)
-Received: from localhost ([::1]:60490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F304D18F3BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:34:46 +0100 (CET)
+Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGLK4-0000eY-Cx
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
+	id 1jGLLy-0003lN-32
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:34:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGLHS-0006Em-6w
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:30:07 -0400
+ (envelope-from <beata.michalska@linaro.org>) id 1jGLJz-0001H9-6n
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:32:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGLHQ-0005sn-W4
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:30:06 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:32062)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGLHQ-0005sf-Rm
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:30:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584963004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YY5Hl1kxBgBTjqar9z4p8DPMscyXhhaOdjtagcypCqI=;
- b=Tazh16zmMbTHoxIWoyQASujWSsRowYAiYVxrugw0RAvmOoOz0q6FKrc6RhdN2bklRxzsuW
- al8CctnjRpEZYqPqx+58zo0Bl9kVzwnVYLqhNadA+rocpJ4HZC3kbmDBwln3338xYdd/DI
- z8xEjRo2uP5BNAHp+eP8RInbje9QxWc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-4duAdFn5MRWBaiBCn_K4GA-1; Mon, 23 Mar 2020 07:30:02 -0400
-X-MC-Unique: 4duAdFn5MRWBaiBCn_K4GA-1
-Received: by mail-wm1-f71.google.com with SMTP id h203so3282633wme.2
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:30:02 -0700 (PDT)
+ (envelope-from <beata.michalska@linaro.org>) id 1jGLJx-0006sP-KN
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:32:42 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34611)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1jGLJx-0006rQ-5a
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:32:41 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 26so8770793wmk.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=OFr1tIi8cNqRn/vqOmjCgvVbUW9BNVMVGSEGEidMUQo=;
+ b=w8JoIfan95I4XznIjXQzVeNo8l6Xh0dvD7b1TIGqibhY+C7dgyZ/uXfIkOs0/tLca3
+ mu5gXprM3b/6ukW0OSYSqSj2gDCyiKxXm4nAMftPVr0s4SNfld/kLo8Tt2Q7XnFf1JWc
+ VSLpLWnfJjB/LpDlmkuCEmW9fxNDKJw2TwyD9jhaROX0AHoKXWd98KK0p3YVV/VOIFVO
+ Xwi0Qi9/+noDPudjzi3zC1ALa+dYBodZl3uAsU6PxxIVp/Nz6O4Tr/4Y92ydDyzY6uZP
+ a4QUMBMN9CD8+8HMKbQ8QSgg5FMODQV8g6/I4ALDRRRB+xkMfJfqOvG4mc+EVC5gUtfi
+ 0NYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=b6LKcP8aR+D0NjOE1uN+dlp4t1btfpredi4xxYHm4B0=;
- b=IhvpTijbhe+tWmjvLxQVG/gJII56ew0RhmV2CaV6sDfPArFCS4nALoIOuE2IKUyQ3p
- TA/SijnMTvUJJHBQ55WVfSOsJVfNA+/4p5dud4MlUcAPTcjVnkDdheKFfev0e/0rBz7b
- ZXO9DxBGdULFhc/CQutCQ/7KCo2TMQERDH6iXXnZlde7eYJwaldYwtyvWzZVIA57Abkx
- S0wHh0aWMq2f8g29z2WrJs/ucJRiLbceBqUYtlNzdLnh/wiUgthhsnIchb2VfrlxREPX
- n//UG+tR/WiZ+ITcUL9FPBVSIom1/xkCEih3eKtwJLWWoilBZ0kdg+PPn+pPMisKoxqs
- vlTg==
-X-Gm-Message-State: ANhLgQ3VvacDlz7thzTtF5RYKG0oRyh4xL9q1jvwGBNMKn3XD3KItMFQ
- 1Y+3z+aIprKD2ZN8ZH75NIFFFHBZUKBcu1WjA69eUjmTNxhEd0J8oPhk28v83HImVHf9xufqLYm
- J8EDvuFLYV8xmZDM=
-X-Received: by 2002:a1c:23c8:: with SMTP id
- j191mr27194732wmj.117.1584963001169; 
- Mon, 23 Mar 2020 04:30:01 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsWMsjwRMBjwY8vtRTvSm/jolqOocJNusU/5uKsVzbfTgGmPDkKemiQxJnIaHHXXSyKdUKkAg==
-X-Received: by 2002:a1c:23c8:: with SMTP id
- j191mr27194709wmj.117.1584963000904; 
- Mon, 23 Mar 2020 04:30:00 -0700 (PDT)
-Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id f1sm13331081wrv.37.2020.03.23.04.29.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=OFr1tIi8cNqRn/vqOmjCgvVbUW9BNVMVGSEGEidMUQo=;
+ b=DbvepbadR5tx+iNXFwrNFqQ4E4jXBlXZnHy7f5HsLxYZkc+Il1QLXwAMKzLctVNLc2
+ V6YlCldYGaBwbRX6D4R1zHev11Fe1FybfTE2x1X9Im0sUlqc0EfJRCOWy4oWt7eqakFO
+ gvak584SSlFaSIAaYE4alA61cXdvjnwWG9WbWNXhk+3GRWIy1txdma3CohRT1o4qTl9k
+ udhO5HmsEySSyPSk9sYjedgZ/kMd1dk3MfVi/wtUL8LrnGerm1LVGdToOyX8KZ/lytXS
+ 8FK7UiWVm/qQO1cNc02IXBIdtyWOvtKnE5TvCtXSPqwb983E++rn2FNNpe33OOYe7FrP
+ +WRA==
+X-Gm-Message-State: ANhLgQ16T9kl6A5qEmnSCVzAm94gBi94fABUofD/bZnTU+tEpZCPvIUY
+ 6d58k7cfncbzHFhgWrxKjsecsAJb3A9dXQ==
+X-Google-Smtp-Source: ADFU+vs5uuL1ljUGZORUF1InMnoZRV6esXLM/Dyeo1IxxDurQzZriTdXiOenXhOSg3ZO2nbmBuSNIg==
+X-Received: by 2002:a1c:9904:: with SMTP id b4mr26621677wme.34.1584963159658; 
+ Mon, 23 Mar 2020 04:32:39 -0700 (PDT)
+Received: from moi-limbo-9350.home
+ (host86-177-220-180.range86-177.btcentralplus.com. [86.177.220.180])
+ by smtp.gmail.com with ESMTPSA id 98sm23288473wrk.52.2020.03.23.04.32.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 04:30:00 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Mon, 23 Mar 2020 04:32:39 -0700 (PDT)
+From: Beata Michalska <beata.michalska@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 3/3] virtio-gpu: Release memory returned by
- virtqueue_pop() with free()
-Date: Mon, 23 Mar 2020 12:29:43 +0100
-Message-Id: <20200323112943.12010-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200323112943.12010-1-philmd@redhat.com>
-References: <20200323112943.12010-1-philmd@redhat.com>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Subject: [PATCH v4 0/2] target/arm: kvm: Support for KVM DABT with no valid ISS
+Date: Mon, 23 Mar 2020 11:32:25 +0000
+Message-Id: <20200323113227.3169-1-beata.michalska@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,85 +71,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, Christoffer.Dall@arm.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As virtio_gpu_handle_ctrl() fills the cmdq calling virtqueue_pop(),
-we need to release it with free() in virtio_gpu_reset().
+Some of the ARMv7 & ARMv8 load/store instructions might trigger a data abort
+exception with no valid ISS info to be decoded. The lack of decode info
+makes it at least tricky to emulate the instruction which is one of the
+(many) reasons why KVM will not even try to do so.
 
-virtio_gpu_handle_ctrl() allocates memory calling virtqueue_pop(),
-release it in virtio_gpu_process_cmdq() with free().
+So far, if a guest made an attempt to access memory outside the memory slot,
+KVM reported vague ENOSYS. As a result QEMU exited with no useful information
+being provided or even a clue on what has just happened.
 
-virtio_gpu_process_cmdq() move commands from cmdq to fenceq, so
-we also have to release them with free().
+ARM KVM introduced support for notifying of an attempt to execute
+an instruction that resulted in dabt with no valid ISS decoding info.
+This still leaves QEMU to handle the case, but at least now it gives more
+control and a start point for more meaningful handling of such cases.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/display/virtio-gpu-3d.c | 2 +-
- hw/display/virtio-gpu.c    | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+This patchset relies on KVM to insert the external data abort into the guest.
 
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index 96621576c2..3a97d267e5 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -506,7 +506,7 @@ static void virgl_write_fence(void *opaque, uint32_t fe=
-nce)
-         trace_virtio_gpu_fence_resp(cmd->cmd_hdr.fence_id);
-         virtio_gpu_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA)=
-;
-         QTAILQ_REMOVE(&g->fenceq, cmd, next);
--        g_free(cmd);
-+        free(cmd);
-         g->inflight--;
-         if (virtio_gpu_stats_enabled(g->parent_obj.conf)) {
-             fprintf(stderr, "inflight: %3d (-)\r", g->inflight);
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 5f0dd7c150..f5fbb722ee 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -835,7 +835,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
-                 fprintf(stderr, "inflight: %3d (+)\r", g->inflight);
-             }
-         } else {
--            g_free(cmd);
-+            free(cmd);
-         }
-     }
- }
-@@ -921,7 +921,7 @@ static void virtio_gpu_handle_cursor(VirtIODevice *vdev=
-, VirtQueue *vq)
-         }
-         virtqueue_push(vq, elem, 0);
-         virtio_notify(vdev, vq);
--        g_free(elem);
-+        free(elem);
-     }
- }
-=20
-@@ -1157,14 +1157,14 @@ static void virtio_gpu_reset(VirtIODevice *vdev)
-     while (!QTAILQ_EMPTY(&g->cmdq)) {
-         cmd =3D QTAILQ_FIRST(&g->cmdq);
-         QTAILQ_REMOVE(&g->cmdq, cmd, next);
--        g_free(cmd);
-+        free(cmd);
-     }
-=20
-     while (!QTAILQ_EMPTY(&g->fenceq)) {
-         cmd =3D QTAILQ_FIRST(&g->fenceq);
-         QTAILQ_REMOVE(&g->fenceq, cmd, next);
-         g->inflight--;
--        g_free(cmd);
-+        free(cmd);
-     }
-=20
- #ifdef CONFIG_VIRGL
---=20
-2.21.1
+v4:
+ - Removing one of the patches as it is being picked-up separately
+     target/arm: kvm: Inject events at the last stage of sync
+ - Moving handling KVM issue to a separate patch
+ - Minor changes wrt the review comments
+
+v3:
+ - Fix setting KVM cap per vm not per vcpu
+ - Simplifying the handler to bare minimum with no default logging to address
+   the potential risk of overflooding the host (adding support for rate
+   limiting the logs turned out to be bit too invasive to justify the little
+   add-on value from logs in this particular case)
+ - Adding handling KVM bug (for small range of affected kernels):
+   little bit of trade-off between what's reasonable and what's effective:
+   aborting qemu when running on buggy host kernel
+
+v2:
+- Improving/re-phrasing messaging
+- Dropping messing around with forced sync (@see [PATCH v2 1/2])
+  and PC alignment
+
+Beata Michalska (2):
+  target/arm: kvm: Handle DABT with no valid ISS
+  target/arm: kvm: Handle potential issue with dabt injection
+
+ target/arm/cpu.h     |  3 ++
+ target/arm/kvm.c     | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/kvm32.c   | 25 ++++++++++++++++
+ target/arm/kvm64.c   | 34 ++++++++++++++++++++++
+ target/arm/kvm_arm.h | 21 ++++++++++++++
+ 5 files changed, 165 insertions(+)
+
+-- 
+2.7.4
 
 
