@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D7318F730
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 15:49:10 +0100 (CET)
-Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6788E18F784
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 15:51:31 +0100 (CET)
+Received: from localhost ([::1]:34954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGOO5-00012q-84
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 10:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43519)
+	id 1jGOQM-0003LH-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 10:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jGOM1-0007Q4-NV
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:47:02 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jGOP4-0002ad-QY
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:50:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jGOM0-0001X8-9F
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:47:01 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39695)
+ (envelope-from <stefanha@gmail.com>) id 1jGOP3-0002K8-PO
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:50:10 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36405)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jGOM0-0001WX-0r
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:47:00 -0400
-Received: by mail-ot1-x342.google.com with SMTP id x11so1513634otp.6
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 07:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9TUmqbKbO+Z1p85wdE0U6ljkhM1Fpg3g46pjbcSnIZI=;
- b=BQ4qsQp+BHO2wUjdlXo7pyBB0J2bMOg9d+9bjCu3hZmHob4hl/eTv5tLEAXOrdrWHS
- 9KD/2/k6TJEIUBCrOxzsTrw5oOf3aMU2pN0JmFUSgYw2sunnoW5R5TPH7WvNVL85WicZ
- MiwMjDBKgmHAgWKFnzE/F+P6UTBk6GjxdYJTgBHBAIIc58pjLEvPQ1ZiM9iAsyiktyrU
- cRgz20UY5guaHqxhBaPPJP+l1yrpGoRGAfmA9hyQz8/VCul2YemIs9bqsfvvINtHP1Cd
- /XtZ4nTTgFywBE3x7RUsI8Rlf4eWzZrHiQyxJ8ERaUoUzYsx2xYb4vhRqAi7HPxW1D3l
- f/1Q==
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jGOP3-0002J1-GL
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:50:09 -0400
+Received: by mail-wr1-x441.google.com with SMTP id 31so11416033wrs.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 07:50:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=g0+tPwdBRpPGcuPH/3R2+AnsW3DYs4XGmhemVGqcBvo=;
+ b=naCHOSZRwHC273ltDqnEiUAGc0RwAHqxWbxn2pYm4JpQbgrYUaI7AtW2PUg/AFbCqC
+ 6EVf/aTRszThhZxyshFLxw9tzVMf7tia4bppG+gAo9Vsfh0+78KAbdhy5eUaPG2hzoW3
+ xLTBQzLY15BHlT+5avUJdx/+am3V/QEdGHEsZOsSbMtED6fqR0xyRS09foj+CSz/h+F/
+ R+ppKCKKEk1NxBVrSOPTikk5ZDIjPLfSr2uEl+FGbdQpmwTavmB1sHANxBlg4AZ94/+A
+ 3NOD3QZDJsmEnI8EyFIHOasEB5WqFM4lMylNLo0KJBCI1OOKbgphvgcwVIqYP/ZBEzlH
+ bmqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9TUmqbKbO+Z1p85wdE0U6ljkhM1Fpg3g46pjbcSnIZI=;
- b=nZGCgBtKtNA9WxyVUoXbYEHh9jy2mxoeGoGAe49Xy9e7DbaqQEpiQcfCFm7dxN4dRF
- d72q07Qo8ZyOwuBy7BRCsb5Bu+P/vEvtRyxEBC3rRXNLeOCQKtSa/yRBQhPgWz8Yg/RK
- 1XtSXfSSGynt0MVprDVMLziy27rEfzpNrslIAu9ZZsKVC736Bj/xaS3iroGnHALVmOLL
- pv+SuhTbOusQuhl3OB0I6c3XQg6QNgRt4CuXefHaG1+y/f6cV5JE7xOMfxsVriilbJuS
- VW4OU7D5xEezAVj296QdFewdI/rkI7Q+mhDqxn3Gb9z2tr3FrReJbl284U5xGYFiZFWY
- bDGg==
-X-Gm-Message-State: ANhLgQ2XBvlnUmLnavUBQmX0ANdlwh5+BCSGNR2e4JGXPVBO39dqGK68
- p7I1XbKYvTdUghc2pr7Plep9p894MutlgkKp51KIKA==
-X-Google-Smtp-Source: ADFU+vuCQxnu7j4My8UTFsG2gEr5wVMoV0l8rvGovMzTQmLofqYmaNDfARYhIHogaUUR54KMWveut4CFWnZwthkKTyo=
-X-Received: by 2002:a9d:1d43:: with SMTP id m61mr18313168otm.91.1584974819174; 
- Mon, 23 Mar 2020 07:46:59 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=g0+tPwdBRpPGcuPH/3R2+AnsW3DYs4XGmhemVGqcBvo=;
+ b=aka/0effmHKhz5S8tZR9boN+6F3vUoJXi/npiMA78Ktm8I5QUH4seF+AXWuyiK61GC
+ GcDx3kT/ntmYRFJB/cDva2CodXNxbzTIMZ8Y8TJ9AxgBdqBqJ0rMN1+Q4xnBTylyHLzG
+ UwC21oRUdVyLx0m4EtGZJvnOM0DuzzB2ukCXcZliSMMjZi2Vjt7xUDXa9U3og6Sw9MMp
+ DEg0diDLjzZoUx5OH5U0DsdzJVpHSwO8i/wq/ytm6ouIDpStWCVn13j9ki5NEbuHboyJ
+ /w63ZCOccOG+1rciJQiZLbaEl+jVtdzB8WBhBlgxVnJI1+8WIph9Ra7eQAgB1VAOzmiy
+ Af/A==
+X-Gm-Message-State: ANhLgQ2aTS9NS/sAavJOMPVnyUlWA9A50kchgPl2WEhm6X0B638eYQB6
+ LT0YvE6C1J/bZ0MQ4sKiSs4=
+X-Google-Smtp-Source: ADFU+vs2RRIP4Lm+Rg6fq4EwQLO1ZnOY4uYlNhKLlWdlGZYcH5wzKfiKZKh6zO9YejiDkcbhZG3eXQ==
+X-Received: by 2002:adf:f7cf:: with SMTP id a15mr25435171wrq.224.1584975008415; 
+ Mon, 23 Mar 2020 07:50:08 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id w9sm1256676wrk.18.2020.03.23.07.50.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Mar 2020 07:50:06 -0700 (PDT)
+Date: Mon, 23 Mar 2020 14:50:05 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [PATCH v5 1/5] allow vu_message_read to be replaced
+Message-ID: <20200323145005.GA313555@stefanha-x1.localdomain>
+References: <20200309100342.14921-1-coiby.xu@gmail.com>
+ <20200309100342.14921-2-coiby.xu@gmail.com>
 MIME-Version: 1.0
-References: <d9b7d8d8-1640-7d69-cd16-66e6d9cef3d1@redhat.com>
- <88618db3-cb48-12bd-6152-b642b25a0287@redhat.com>
- <alpine.BSF.2.22.395.2003231359420.14974@zero.eik.bme.hu>
- <CAFEAcA9+WPxGYqk5_-v=oXPK=UcvngXGaOLY3njM5iNN2CFh2g@mail.gmail.com>
- <alpine.BSF.2.22.395.2003231459410.34482@zero.eik.bme.hu>
- <CAFEAcA9Ubue9Lk2jXJyZ+OUmk0j58ZKKnER1RxMi0b05FaN4QQ@mail.gmail.com>
- <alpine.BSF.2.22.395.2003231539160.47226@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.22.395.2003231539160.47226@zero.eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Mar 2020 14:46:47 +0000
-Message-ID: <CAFEAcA_R1i2L5Vgmq1frGbQQxggLtEfMwHa8V=+K2Wje2mkVVA@mail.gmail.com>
-Subject: Re: Coverity CID 1421984
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RnlQjJ0d97Da+TV1"
+Content-Disposition: inline
+In-Reply-To: <20200309100342.14921-2-coiby.xu@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Mar 2020 at 14:43, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Mon, 23 Mar 2020, Peter Maydell wrote:
-> > On Mon, 23 Mar 2020 at 14:06, BALATON Zoltan <balaton@eik.bme.hu> wrote:
-> >> On Mon, 23 Mar 2020, Peter Maydell wrote:
-> >>> Coverity has flagged up a lot of leaks involving qemu_allocate_irqs();
-> >>> most of them I've for the moment just set as "insignificant, fix
-> >>> required" because they're in called-once functions like board init.
-> >>> If this device can't be hot-unplugged and so we will only ever call
-> >>> realize once, it would fall in that category too. Otherwise I'd
-> >>> suggest conversion to qdev_init_gpio_in(). (This allocates arrays
-> >>> of IRQs under the hood too, but the device_finalize() function will
-> >>> automatically free them for you, so it's easier to use non-leakily.)
-> >>
-> >> I think I can't do that in sii3112 becuase I need to pass irq to this func:
-> >>
-> >> void ide_init2(IDEBus *bus, qemu_irq irq);
-> >
-> > ide_init2(bus, qdev_get_gpio_in(DEVICE(dev), i);
-> >
-> > should do what you want, I think.
->
-> I don't understand what you mean.
 
-I mean that if you allocate the IRQs with qdev_init_gpio_in()
-then the way to get a qemu_irq from within them to pass
-to another function is to call qdev_get_gpio_in(). So you
-just want to make your call to ide_init2() be the line I
-suggest above.
+--RnlQjJ0d97Da+TV1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Sent a patch that I think might fix this
-> warning for now. I'd leave qdevifying ide code to someone else.
+On Mon, Mar 09, 2020 at 06:03:38PM +0800, Coiby Xu wrote:
+> diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-use=
+r/libvhost-user.h
+> index 6fc8000e99..7e3f0c8598 100644
+> --- a/contrib/libvhost-user/libvhost-user.h
+> +++ b/contrib/libvhost-user/libvhost-user.h
+> @@ -30,6 +30,8 @@
+>=20
+>  #define VHOST_MEMORY_MAX_NREGIONS 8
+>=20
+> +#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
+> +
+>  typedef enum VhostSetConfigType {
+>      VHOST_SET_CONFIG_TYPE_MASTER =3D 0,
+>      VHOST_SET_CONFIG_TYPE_MIGRATION =3D 1,
+> @@ -205,6 +207,7 @@ typedef uint64_t (*vu_get_features_cb) (VuDev *dev);
+>  typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);
+>  typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
+>                                    int *do_reply);
+> +typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg=
+);
+>  typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool star=
+ted);
+>  typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx);
+>  typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t l=
+en);
+> @@ -373,6 +376,8 @@ struct VuDev {
+>      bool broken;
+>      uint16_t max_queues;
+>=20
+> +    /* allowing vu_read_msg_cb to be replaced */
+> +    vu_read_msg_cb read_msg;
 
-There's no need to qdevify IDE for this.
+Please document this function pointer fully so it's clear how custom
+implementations of this function should behave.  The return value should
+be explained.
 
-thanks
--- PMM
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--RnlQjJ0d97Da+TV1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54zJ0ACgkQnKSrs4Gr
+c8jCjwf9GywWNRVA/vYfR0T7Ru89m18jQPm0pvgBvdO28w33oZUD87xOrhAvJLrt
+d6IzDXZhCUjE3m4o0Gg7OIKqwJSuBy3KWUe5mxbxvp/bKFM1RJr+eGfI+WA9Rbry
+vUz26/X6DvzwctDeyBOtWSEko0pIuhqQvwlvDR2Ckm+2QrwdlhQmdG/imhQ9smr4
+sPACo/i6VbBKIhOjTSVgwtt6YC9sqDl3jdMQYC0EcjvKph4p9lTyO4cf6OzUuRrr
+g9PdBDoz/PtmWdpZx+AEL4zImdaqH5WFjt4wCGOQqYWQOkJwnFOh7aSwi8GA1EvJ
+Hz2QipAd1PAvg8JigppbsAQ5XWOPNQ==
+=vaDd
+-----END PGP SIGNATURE-----
+
+--RnlQjJ0d97Da+TV1--
 
