@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100AE18FC92
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:21:32 +0100 (CET)
-Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8FD18FC98
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:22:58 +0100 (CET)
+Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGRhb-0006QM-3C
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
+	id 1jGRiz-0008EQ-C5
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRfe-0005n0-4X
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:31 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRfq-0005tr-7E
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRfd-0008SE-78
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:30 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:45887)
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRfo-0008WS-5u
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:42 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36439)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jGRfc-0008Ru-W4
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:29 -0400
-Received: by mail-pf1-x435.google.com with SMTP id j10so7876019pfi.12
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:19:28 -0700 (PDT)
+ id 1jGRfn-0008WA-WD
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:40 -0400
+Received: by mail-pg1-x544.google.com with SMTP id j29so724965pgl.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EBAFoBhXznmQ+S7TFlWHG/ogli1SNKvySHKPWaJo7II=;
- b=uA+nAZVAJ/cl1r283UcBtAhQn+rW4kKoJp6crIe2210G3T4jlkPZwvS9nGzM2ySTiH
- dSTqJy3BX7IxU3oMmvJiumENabIvHpQq0qOpStSIkOS9LLrfyTVCV+DxPn1MGk4hcw1r
- 0rzyEDK0HYle73YSoGCdFanHkrhvdTRFy9lJC4O4A5qcbIeWGsaNYoQZDoVuYzIDqUjE
- Z1QunlTS8LuR9yhvTTQWweTxcT2wdg+utFtbbdKQPvDUovfzD8f/dVclVsbLJIVK2Buh
- mo7q6PO5J9mMc1cqW/GP8gTP3aW6FwcBPC/eyt/EgqJXWjDuym1qOtabkuzxIdJGea0l
- 8JKA==
+ bh=QIsGpO/C6XkhBsEjdZXlh6u93jnlAWM962BEGpA6+Oc=;
+ b=YLGkaVA5Kdh3qdzc/D25RO2xV27PfIXCGdccoGu65/uNU2Q0gYHjZC+F1MHzXx9arQ
+ hkRbI2glxolD1qG0q8isG5Dq81KUtwT81sgRsd//FdUpFY/QU3HxZ7O1PmmZVkjRUAfb
+ 87OS3awBTAnMaBQ75b0FTU0/PTvqHC1byMCfdk5Fzmm70u7/jpdLlrN7ZExPTK/1z1gL
+ qrfdv9RQBzvcS7ipuf+7NqmvH5n/msA6J4HF0YtJ+9fksHr9ysiCTjadW1BCGQqryyyO
+ 3SLi5hBZzMSxn2kh7OM1gmfcrBrJWtrfWjjP+Ud/3qdg9F7KW16YFUe+pJ0YFkzHIp9Z
+ 3eBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EBAFoBhXznmQ+S7TFlWHG/ogli1SNKvySHKPWaJo7II=;
- b=cGSqybZ9bgQMKFKkT0DNvpC5iRfZHG239GtsXJcBf3cD8CEvu02J+/kjkhw/lqpURE
- F2kKfdPwAJbkyyuBJreiu/uJkX0ZMX+oFQ1R4ZTal6WSvwbqUFMSpdAOl6D+lYBmk9i/
- a7GutzdDwkAKT4Eyz7vTQfbFJ9Ur0crHPfrD0QRLznpphAgKdj/lg7zqXqn1KFPwpOMc
- R2BNbuBOBwUginbhKaVCIekknI0QNMzadPF6l+aToT1Ey7DKjclx7x07VAZfJ9wc2ksp
- VMTUPDkXNwoqx6q7Aeq91IEAlIUIwRKIMHkH4aVeqk2CBdBNN38Dlo0SiQV3/Kn4xjI3
- MAqg==
-X-Gm-Message-State: ANhLgQ3P97eu6G8bGWL95llQgN7izlsUH8J7aKBXDcmr6vAPWqIRDoUh
- plAPiwgOaYB1xAl3dDvHBoL+0Q==
-X-Google-Smtp-Source: ADFU+vswzrs4tV1UsCKKW4Hpp/AvjlzgNjIgAh59cKOaunigUQr5zSW9gCoux+y/h2I26z7VFxE1vA==
-X-Received: by 2002:a63:7505:: with SMTP id q5mr18437364pgc.429.1584987567787; 
- Mon, 23 Mar 2020 11:19:27 -0700 (PDT)
+ bh=QIsGpO/C6XkhBsEjdZXlh6u93jnlAWM962BEGpA6+Oc=;
+ b=RKpzn9yCyKQ82shcm01mz9eTb2EpHYbECuVzJe2NAbOFjqxRXaBVX4HZNMxGrzL037
+ BVYpnq/OMMwUbu6Dt0LlEr/2TGJGTHw4E8jd7wTilswf/5GwASBdNnBUsfSReeuCYiZM
+ TCZrQ/iIPSGOwiJ7XgpKkpNq3rvfnGYUO8GoTDwtMASBUYwB0Tv/Nn8aWJhDamKIKMrX
+ QtnO3VMHYFdvk5yrMVwvaUWl+i34ac9PqEbKU+gYf8NUDNhdt8lTli4ZDeHd9wlqsd07
+ q2bmlt70daLjIQCFBhMUuTJjrnqCYoD+x9eavk2dqllqM/tQwZ6vQw328kW+DquSvWDt
+ sK+g==
+X-Gm-Message-State: ANhLgQ1BN0TA/qxTdxDA5/0EWCD1L+StZmY+6jhlsvMropta4oyLA63x
+ mDFu3weEhV+6juexN7SoJ150KQ==
+X-Google-Smtp-Source: ADFU+vv1jRBWH+ViL5LCGFY2SGowq9f6vniOl7DoVy/0BZHx/wWGc5n4qVLJPLMInAhiNvIPuEKbPQ==
+X-Received: by 2002:a63:2fc1:: with SMTP id v184mr22239797pgv.97.1584987579075; 
+ Mon, 23 Mar 2020 11:19:39 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- m9sm10367568pff.93.2020.03.23.11.19.26
+ o33sm252211pje.19.2020.03.23.11.19.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 11:19:27 -0700 (PDT)
-Subject: Re: [PATCH v1 07/11] tests/docker: Keep package list sorted
+ Mon, 23 Mar 2020 11:19:38 -0700 (PDT)
+Subject: Re: [PATCH v1 08/11] tests/docker: Install gcrypt devel package in
+ Debian image
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200323161514.23952-1-alex.bennee@linaro.org>
- <20200323161514.23952-8-alex.bennee@linaro.org>
+ <20200323161514.23952-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <55dea9ec-eb5f-7f71-45b5-4cb3bc2c2153@linaro.org>
-Date: Mon, 23 Mar 2020 11:19:25 -0700
+Message-ID: <cf7777ac-ffef-c410-be8d-ae1eaa71d6ac@linaro.org>
+Date: Mon, 23 Mar 2020 11:19:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200323161514.23952-8-alex.bennee@linaro.org>
+In-Reply-To: <20200323161514.23952-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::435
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,19 +93,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/23/20 9:15 AM, Alex Bennée wrote:
 > From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> Keep package list sorted, this eases rebase/cherry-pick.
+> In commit 6f8bbb374be we enabled building with the gcrypt library
+> on the the Debian 'x86 host', which was based on Debian Stretch.
+> Later in commit 698a71edbed we upgraded the Debian base image to
+> Buster.
 > 
-> Fixes: 3a6784813
+> Apparently Debian Stretch was listing gcrypt as a QEMU dependency,
+> but this is not the case anymore in Buster, so we need to install
+> it manually (it it not listed by 'apt-get -s build-dep qemu' in
+> the common debian10.docker anymore). This fixes:
+> 
+>  $ ../configure $QEMU_CONFIGURE_OPTS
+> 
+>   ERROR: User requested feature gcrypt
+>          configure was not able to find it.
+>          Install gcrypt devel >= 1.5.0
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20200322120104.21267-2-philmd@redhat.com>
+> Message-Id: <20200322120104.21267-3-philmd@redhat.com>
 > ---
->  tests/docker/dockerfiles/centos7.docker | 6 ++++--
->  tests/docker/dockerfiles/fedora.docker  | 6 ++++--
->  2 files changed, 8 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
