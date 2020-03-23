@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6618018FC49
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:06:37 +0100 (CET)
-Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A07E18FC3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:05:23 +0100 (CET)
+Received: from localhost ([::1]:37940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGRTA-0007eC-G0
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
+	id 1jGRRx-0006TC-SF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:05:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jGRPw-00052T-A7
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:17 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jGRPv-0000Do-2a
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRPv-00051U-CG
  for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36195)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRPu-0000D5-6I
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:14 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35883)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jGRPu-0000Cj-Rj; Mon, 23 Mar 2020 14:03:15 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g62so551738wme.1;
- Mon, 23 Mar 2020 11:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7KYBKX6fN1ua+Kp1UXMHMIKyhwuANwXA4Atc7qp5klQ=;
- b=MtfdrciwCe9Xr49I2o87nJR2yh5Kd8Y298OVI29e5Te6DnSWdpfzpQPBAyHzEkuD9r
- 7QbAqHMN4I92cUxFSkxEw3wmi7HjPcF6JfOYbWLejXp/dlMlJluwzjRG8hHRuSRhEsMC
- I5sNvHpGdpvu6rDXMUxS9+N+gc3b+3ZmXfLH6mFobZD1DHX1zb9GgWB1QwYU9sdC8bb+
- hvXamfsMD80Fgw0upIqrrvOmfbj0Dj95RXmGKob4rRvJ2lcgNydAXYgV3jqCGzI85Q9t
- hagWfsUyKr7zBwsIlYTuB8uBJq0epecHfmEv6a2/Hg31t5nfTrcpBauSxfWnJJtJUcpV
- Gdig==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jGRPt-0000C4-L8
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:14 -0400
+Received: by mail-pl1-x641.google.com with SMTP id g2so6239678plo.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qQCLNRCFeGSf3VUKwI3r3S5D4RJy/WPE0gr9VJXDOYo=;
+ b=KthxldHoHVi9LX4R5J6kFOkeMVZdpy15t5HCDlKoNJboQWHsbGh0qkJAfW/JRdgWGk
+ L9CgF0qyzDR/vNXjgiHB/E+9iaBYADpEVH967dtUunni1DfZpIbceHVMTaset9fZKykj
+ jiQXP+ZZ9vHsYlDR/4JfidaS7Wxj/ENRJT2cg4z2MntzAytx6YpqkThM1739eXYEI8wW
+ Mj6oTV2DJuky63wScNrTe/2A9VJDco3nrZT6g2Md+Xodc666dXEMwmxY9i5sWij9ksgo
+ JAlXtlwHbNBodPmKgr8SDjjCggYCBh2sIxtl6rGaGPzTFTsvfvAvm7QLGMdeAm3dzSWU
+ Pafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7KYBKX6fN1ua+Kp1UXMHMIKyhwuANwXA4Atc7qp5klQ=;
- b=Vvt8Fiic7/MEWvFGxnpOTVhsiw4HWr2q/K7yl5xEmnxAvZbUmS1REUhFRyyTzwtMDq
- fXo9lwtlrXxL9jCTBvE9tP4F4auAFPQfBHT4B/p4J/wOsudeDPY0Jy/Ihhv0QqWttDpV
- 65nlZ7+nWMh2PIeSxsITusf7+7oB2l8HiO3VBtqTIA9d6cU1gYMcWrEURHrLUb0B6+4a
- MOL28yEB7Zk7NBW4jRTUz7gj4b4nhntERpTTkPsIZGSTywEc3cpLbFyDXfmoKGpu3MZ7
- ybjQ2sR487B4WPR7mmCM0UWi+4lr4k6CTcJsQTxQlIUu6GwzSVcEvYQBa+uKzIzBkiL3
- NGrQ==
-X-Gm-Message-State: ANhLgQ1ycE/153V2U3CHRA9VbiUNTo+8cyExBF5HnkhnEI3NROEUqyfO
- 4G5qLJIqqLPa2uQp/ZBusZM+JzNep1nNplcj6rA=
-X-Google-Smtp-Source: ADFU+vvsPfyK8ybcW6fkHbwNf+Xr9lFsOconwc6aIDeVOLQCPlR78+n+2AZPwcexlmy1hqUhWtrR15l+egLmhSL8q5w=
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr595041wmf.4.1584986593434;
- Mon, 23 Mar 2020 11:03:13 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qQCLNRCFeGSf3VUKwI3r3S5D4RJy/WPE0gr9VJXDOYo=;
+ b=IUNkNLoqkk2lh27G08oGPyg8rJ3e56Y4LU0im8V8WkLzvDw1xHcMR2a00hg54m+7cr
+ IwGRqI/KbdzrYfHwK3FMFf/HmP+rgM1zOEAceXImSkyoR+QYS+WschOWcpTZ0J6jEK2S
+ qeW776XddNeQOduiq75omIcrDGRIHixyWHtPF8SOh9J9QYuzS9zs4R2eLY9EFmRvleiZ
+ Ql0pkMKSI3gZKa77c8Xa9fCch/GNNMvNLoQXUpX6nb3hAbwwZUUqEKQmu9FSUgwPRvIz
+ 9hQ3/3tt5IrxR4XgzRsZjtx45Nze4LoLG2625EBhhOo+Rc9K/CsgoKOgwvNf8ywDt9Dd
+ K9SQ==
+X-Gm-Message-State: ANhLgQ2yHd0zjjo1wZp9AsJ/qKIAeBllDg3kA4xBlGSFG8rPotY5jbrT
+ NGuK6iWz3bWHM49EExjRjFL7TA==
+X-Google-Smtp-Source: ADFU+vsq5UpWTjGI8bB5UqTuYWcSW6Nkf1RMv8PMwdJv9r6H04a/uvSYwh+V0uPhp1HmHjo894SKiw==
+X-Received: by 2002:a17:90a:7f01:: with SMTP id k1mr616317pjl.9.1584986591938; 
+ Mon, 23 Mar 2020 11:03:11 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ f127sm13638231pfa.112.2020.03.23.11.03.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Mar 2020 11:03:10 -0700 (PDT)
+Subject: Re: [PATCH v41 01/21] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200118191416.19934-1-mrolnik@gmail.com>
+ <20200118191416.19934-2-mrolnik@gmail.com>
+ <80141c57-7fb7-6e95-4070-54f7cc23e166@redhat.com>
+ <CAK4993ie33Awp=sqUOcubqCLFqTd5mTPAkWQfhh3zvorMwnSig@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8ac9a03a-a02f-1b48-c75d-77e4b8aea9ef@linaro.org>
+Date: Mon, 23 Mar 2020 11:03:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200218154036.28562-1-kwolf@redhat.com>
- <20200218154036.28562-4-kwolf@redhat.com>
- <87d09965g3.fsf@dusky.pond.sub.org> <20200323174108.GD8049@linux.fritz.box>
-In-Reply-To: <20200323174108.GD8049@linux.fritz.box>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 23 Mar 2020 19:03:01 +0100
-Message-ID: <CAJ+F1CJEey8T6DP1bxCPBKY9kbZmWKxGpFnD6LOmVy2te+1g8g@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] qmp: Move dispatcher to a coroutine
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAK4993ie33Awp=sqUOcubqCLFqTd5mTPAkWQfhh3zvorMwnSig@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,78 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 3/23/20 10:03 AM, Michael Rolnik wrote:
+> Hi Philippe.
+> 
+> It's been a while. let me think about it and get back to you. what is your
+> concern ? 
 
-On Mon, Mar 23, 2020 at 6:41 PM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 18.03.2020 um 16:36 hat Markus Armbruster geschrieben:
-> > Kevin Wolf <kwolf@redhat.com> writes:
-> >
-> > > This moves the QMP dispatcher to a coroutine and runs all QMP command
-> > > handlers that declare 'coroutine': true in coroutine context so they
-> > > can avoid blocking the main loop while doing I/O or waiting for other
-> > > events.
-> > >
-> > > For commands that are not declared safe to run in a coroutine, the
-> > > dispatcher drops out of coroutine context by calling the QMP command
-> > > handler from a bottom half.
-> > >
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >
-> > Uh, what about @cur_mon?
-> >
-> > @cur_mon points to the current monitor while a command executes.
-> > Initial value is null.  It is set in three places (not counting unit
-> > tests), and all three save, set, do something that may use @cur_mon,
-> > restore:
-> >
-> > * monitor_qmp_dispatch(), for use within qmp_dispatch()
-> > * monitor_read(), for use within handle_hmp_command()
-> > * qmp_human_monitor_command(), also for use within handle_hmp_command()
-> >
-> > Therefore, @cur_mon is null unless we're running within qmp_dispatch()
-> > or handle_hmp_command().
->
-> Can we make it NULL for coroutine-enabled handlers?
+It shouldn't be there.  See commit 1f5c00cfdb81.
 
-fwiw, I think /dev/fdset doesn't care about cur_mon. However, qmp
-handlers that use monitor_get_fd() usually depend on cur_mon.
-
-Note: I wonder if add-fd (fdsets) and getfd (monitor fds) deserve to co-exi=
-st.
-
->
-> > Example of use: error_report() & friends print "to current monitor if w=
-e
-> > have one, else to stderr."  Makes sharing code between HMP and CLI
-> > easier.  Uses @cur_mon under the hood.
->
-> error_report() eventually prints to stderr both for cur_mon =3D=3D NULL a=
-nd
-> for QMP monitors. Is there an important difference between both cases?
->
-> There is error_vprintf_unless_qmp(), which behaves differently for both
-> cases. However, it is only used in VNC code, so that code would have to
-> keep coroutines disabled.
->
-> Is cur_mon used much in other functions called by QMP handlers?
->
-> > @cur_mon is thread-local.
-> >
-> > I'm afraid we have to save, clear and restore @cur_mon around a yield.
->
-> That sounds painful enough that I'd rather avoid it.
->
-> Kevin
->
+>     > +    memset(env->r, 0, sizeof(env->r));
+>     > +
+>     > +    tlb_flush(cs);
+> 
+>     Why are you calling tlb_flush() here?
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+r~
 
