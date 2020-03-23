@@ -2,56 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB88218EE49
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 03:59:16 +0100 (CET)
-Received: from localhost ([::1]:56606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B01118EE80
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 04:23:49 +0100 (CET)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGDJ6-0003Rr-0r
-	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 22:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
+	id 1jGDgq-0004aq-NA
+	for lists+qemu-devel@lfdr.de; Sun, 22 Mar 2020 23:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51709)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xiaoyao.li@intel.com>) id 1jGDIF-0002zY-1u
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 22:58:23 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jGDeX-0001m2-BO
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 23:21:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xiaoyao.li@intel.com>) id 1jGDID-0007bd-SP
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 22:58:22 -0400
-Received: from mga14.intel.com ([192.55.52.115]:20239)
+ (envelope-from <dgibson@ozlabs.org>) id 1jGDeV-0005ps-QT
+ for qemu-devel@nongnu.org; Sun, 22 Mar 2020 23:21:25 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59595 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <xiaoyao.li@intel.com>)
- id 1jGDID-0007b8-Ks
- for qemu-devel@nongnu.org; Sun, 22 Mar 2020 22:58:21 -0400
-IronPort-SDR: SDe/YOf4YbqAYPmyFNpc8AKvIQQZmkSrY9Hj7en4988v10pKrO0HzkUDNC41I8X8pUrGfzTsLJ
- tq3jze5cjjTw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2020 19:58:19 -0700
-IronPort-SDR: hwH172pVtuk9wuD+IqdvNGtgGntADR8FOzh/bPS0vGbSlFLGngLKkNPOtt9NO2FoDlzcISa4gw
- 8JLmFIOSRvUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,294,1580803200"; d="scan'208";a="392767861"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.169.56])
- ([10.249.169.56])
- by orsmga004.jf.intel.com with ESMTP; 22 Mar 2020 19:58:16 -0700
-Subject: Re: [PATCH v2] target/i386: Add ARCH_CAPABILITIES related bits into
- Icelake-Server CPU model
-To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200316095605.12318-1-xiaoyao.li@intel.com>
- <38253eb8-059c-5020-50cd-e90f7e8e4ae5@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <8324d641-4a1d-cf64-5da5-9410eddc983c@intel.com>
-Date: Mon, 23 Mar 2020 10:58:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jGDeV-0005om-CK; Sun, 22 Mar 2020 23:21:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48m05p6Ntxz9sRN; Mon, 23 Mar 2020 14:21:18 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1584933678;
+ bh=Luzk66egtNPc/JwCC1EXH840Fv9M41gtqX9gvzKZzag=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jrz7Xfdn+uxk9qpN44dr44GKFKD+Z10USlNybciQ/ypg66QjKx7PZeNRr69jhbM8Y
+ M6NHmeDVNPO8Wtx6TIcFT1uuIkKOVgS5hgzTcikW83J7ziqIIjJsoYYM9WTUJfzOAH
+ yXA9JFOUfVBALHJX11z+IiO73KVsnA5EA4g414+0=
+Date: Mon, 23 Mar 2020 13:33:25 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-5.0] hw/ppc: Take QEMU lock when calling
+ ppc_dcr_read/write()
+Message-ID: <20200323023325.GA2213@umbus.fritz.box>
+References: <20200322192258.14039-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <38253eb8-059c-5020-50cd-e90f7e8e4ae5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.115
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+In-Reply-To: <20200322192258.14039-1-peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,71 +55,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tao Xu <tao3.xu@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Amit Lazar <abasarlaz@hotmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/2020 10:32 AM, Tao Xu wrote:
-> Hi Xiaoyao,
-> 
-> May be you can add .note for this new version.
-> 
-> for example:
-> 
-> +                .version = 3,
-> +                .note = "ARCH_CAPABILITIES",
-> +                .props = (PropValue[]) {
 
-Hi Paolo and Eduardo,
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Need I spin a new version to add the .note ?
-Maybe you can add it when queue?
+On Sun, Mar 22, 2020 at 07:22:58PM +0000, Peter Maydell wrote:
+> The ppc_dcr_read() and ppc_dcr_write() functions call into callbacks
+> in device code, so we need to hold the QEMU iothread lock while
+> calling them.  This is the case already for the callsites in
+> kvmppc_handle_dcr_read/write(), but we must also take the lock when
+> calling the helpers from TCG.
+>=20
+> This fixes a bug where attempting to initialise the PPC405EP
+> SDRAM will cause an assertion when sdram_map_bcr() attempts
+> to remap memory regions.
+>=20
+> Reported-by: Amit Lazar <abasarlaz@hotmail.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thanks,
--Xiaoyao
+Applied to ppc-for-5.0.
 
-> On 3/16/2020 5:56 PM, Xiaoyao Li wrote:
->> Current Icelake-Server CPU model lacks all the features enumerated by
->> MSR_IA32_ARCH_CAPABILITIES.
->>
->> Add them, so that guest of "Icelake-Server" can see all of them.
->>
->> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->> ---
->> v2:
->>   - Add it as a new version.
->> ---
->>   target/i386/cpu.c | 13 +++++++++++++
->>   1 file changed, 13 insertions(+)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 92fafa265914..5fba6a2ad6b3 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -3496,6 +3496,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>                       { /* end of list */ }
->>                   },
->>               },
->> +            {
->> +                .version = 3,
->> +                .props = (PropValue[]) {
->> +                    { "arch-capabilities", "on" },
->> +                    { "rdctl-no", "on" },
->> +                    { "ibrs-all", "on" },
->> +                    { "skip-l1dfl-vmentry", "on" },
->> +                    { "mds-no", "on" },
->> +                    { "pschange-mc-no", "on" },
->> +                    { "taa-no", "on" },
->> +                    { /* end of list */ }
->> +                },
->> +            },
->>               { /* end of list */ }
->>           }
->>       },
->> -- 
->> 2.20.1
->>
->>
+> ---
+> Amit reported this bug via IRC.
+>=20
+>  target/ppc/timebase_helper.c | 40 +++++++++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+> index 703bd9ed18b..d16360ab667 100644
+> --- a/target/ppc/timebase_helper.c
+> +++ b/target/ppc/timebase_helper.c
+> @@ -21,6 +21,7 @@
+>  #include "exec/helper-proto.h"
+>  #include "exec/exec-all.h"
+>  #include "qemu/log.h"
+> +#include "qemu/main-loop.h"
+> =20
+>  /***********************************************************************=
+******/
+>  /* SPR accesses */
+> @@ -167,13 +168,19 @@ target_ulong helper_load_dcr(CPUPPCState *env, targ=
+et_ulong dcrn)
+>          raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+>                                 POWERPC_EXCP_INVAL |
+>                                 POWERPC_EXCP_INVAL_INVAL, GETPC());
+> -    } else if (unlikely(ppc_dcr_read(env->dcr_env,
+> -                                     (uint32_t)dcrn, &val) !=3D 0)) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "DCR read error %d %03x\n",
+> -                      (uint32_t)dcrn, (uint32_t)dcrn);
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL |
+> -                               POWERPC_EXCP_PRIV_REG, GETPC());
+> +    } else {
+> +        int ret;
+> +
+> +        qemu_mutex_lock_iothread();
+> +        ret =3D ppc_dcr_read(env->dcr_env, (uint32_t)dcrn, &val);
+> +        qemu_mutex_unlock_iothread();
+> +        if (unlikely(ret !=3D 0)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "DCR read error %d %03x\n",
+> +                          (uint32_t)dcrn, (uint32_t)dcrn);
+> +            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                                   POWERPC_EXCP_INVAL |
+> +                                   POWERPC_EXCP_PRIV_REG, GETPC());
+> +        }
+>      }
+>      return val;
+>  }
+> @@ -185,12 +192,17 @@ void helper_store_dcr(CPUPPCState *env, target_ulon=
+g dcrn, target_ulong val)
+>          raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+>                                 POWERPC_EXCP_INVAL |
+>                                 POWERPC_EXCP_INVAL_INVAL, GETPC());
+> -    } else if (unlikely(ppc_dcr_write(env->dcr_env, (uint32_t)dcrn,
+> -                                      (uint32_t)val) !=3D 0)) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "DCR write error %d %03x\n",
+> -                      (uint32_t)dcrn, (uint32_t)dcrn);
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL |
+> -                               POWERPC_EXCP_PRIV_REG, GETPC());
+> +    } else {
+> +        int ret;
+> +        qemu_mutex_lock_iothread();
+> +        ret =3D ppc_dcr_write(env->dcr_env, (uint32_t)dcrn, (uint32_t)va=
+l);
+> +        qemu_mutex_unlock_iothread();
+> +        if (unlikely(ret !=3D 0)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "DCR write error %d %03x\n",
+> +                          (uint32_t)dcrn, (uint32_t)dcrn);
+> +            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                                   POWERPC_EXCP_INVAL |
+> +                                   POWERPC_EXCP_PRIV_REG, GETPC());
+> +        }
+>      }
+>  }
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl54H/MACgkQbDjKyiDZ
+s5JyhxAAiAEX2HT938jt3/C84OE79af6a7hRpgTYutbcgxtpqIKY2QhLhKuTlgiY
+AX1KSY9DgwQD+JwuafMDBE11dWomRRqVEPd8hQJJ9O4kHourVzXgK3/kV3P7Xl5X
+IwTbwnXjoS9HSImo5CGqBwj0giGgTo/liwLjr3zUBmj1YDL75XW5tmSNZ8OKrWZu
+IpCIP5OiN4f9h+oT72fmYQfzVCFxcaBAayQ1lD3jTz5i9FmbJbi9Nkvhj76ocD0j
+Oe7QQhmMYLkgcr01khK8i7WInk3fcWuzGqUuoTAeUwDtmDZ/jg9AjyBF+ILScy4o
+LBr+nCg0eWdCYa5VFFINb1xPnVK1roedx06mQglZcNFI183wT1f0+IXPUhwC3sJy
+zWXjbws7Xxa6F641TQ7sjZODba3+SAEgSjcBrwQdTxvhISa/lxR3HmPb7+3vVrk3
+x7+3xYxvHsM1MlGe8QNbFcFKi2lcKeax6X8Q21iiZGJuC2NjzVMTq9DlTcmeKgj6
+98waJFTTeaB30JaW0KrLmArO3kCW/FreI7LKg2vpe5hP22TTRY2lP+hiLtF1S/+H
+wqzGfLCV/WDyE1luOUoXuG/YTyX2Sq4qoy1j9NvVd1zKOklOe38N5DTogyCqY2B/
+kjKBptapWq4FJvFjicRjDjxVBavyqgVV0aMqh4lnVnNpTFRp5BQ=
+=EpUD
+-----END PGP SIGNATURE-----
+
+--ikeVEW9yuYc//A+q--
 
