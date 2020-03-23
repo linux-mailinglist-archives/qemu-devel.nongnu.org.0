@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAFB18FC93
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:21:50 +0100 (CET)
-Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA8D18FC9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:23:31 +0100 (CET)
+Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGRht-0006vW-0S
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60614)
+	id 1jGRjW-0000JH-RY
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRfy-0005ym-VB
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:52 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRgx-0006u7-QV
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:20:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRfx-00007k-Qy
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:50 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:37039)
+ (envelope-from <richard.henderson@linaro.org>) id 1jGRgw-00011P-Ue
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:20:51 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:55370)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jGRfx-00007W-DC
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:19:49 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id a32so7605347pga.4
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:19:49 -0700 (PDT)
+ id 1jGRgw-0000yJ-OQ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:20:50 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id mj6so209117pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7aQ9HV5f8qln/nyAe5i1wAhyAs0ZxuwxKagqp6qwae4=;
- b=peYtgGM1J6fY4ckqH8Ca5gRvr4FbBaA1bn6Il2t/sGvbvqUEv5hDnOk5iVWvjXO2tq
- nhx2aFRFKb4TyHay69vd6YEWf38RZnUm7alPODGjla7EYCgoz+d86KrZFlna/MUmz9jj
- gVXBdaVqV/mo6/R+szCaPQaVAbJAMr36EPnyswqAm2iYIwxA2FiNXyAGpAL3Uph56Ghz
- fnoA4s8OaRK/C37GdIYs7X3IG1jGt2q+4eBVnSWd4EhBcPvbLhYZPhnVlmrTPD2RGVOm
- youyttYpGm+HW3RD+jx5653LkkXxLOLJgtmxhKfPYk5mqrPibp87MHFkajW9Xq6MjFL9
- RraA==
+ bh=VKGjYs3oXHPnIkYWT1PFSmhGP9elsjAncbxy++ukncI=;
+ b=dV65+W2R7lxUorvXgJlNSkR0Rk83q6bKvRZdvnPfBDaX1BPTvCvMkDMO/ZPe+mFLGs
+ HxYEbWa5MppeDJ+wsrV2PW74e/FxoqagnBEoC0vNf2G129hcuegluSpEuHWxJUDXm6Md
+ 2JQ8eD3s7Ex9UU1bxL6E4iur/gWDJF51gA+XuCFFL2xAtYCiFJ3OXdQAAoxKDoNdv/fg
+ x/i0LtBYWgpj9VxHLc1gyXbr+f0XKu8yxDQ90Aoi5W1+OWyhSHWsgojFuFr3O1AWVsl+
+ S7zkcn8kY5yflh3ut82FO8I3xaVe1Au6iW+t2GbHv98r0n0DPnrpAZbjwMuIYkfbPlcL
+ 7ldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7aQ9HV5f8qln/nyAe5i1wAhyAs0ZxuwxKagqp6qwae4=;
- b=twquWM+STvtNanzborSvzapdhG6nKKTaGyhwog8htizO+Grcp3hAW9WjJKgeF91qYN
- SYK7O9yGkY4EuYk8X2J7dbe/PpP1v46hh1dteqBTUGh9aiNh6i2VCMkLb3UI9t4Rhhaj
- HYcY2hx5+I2hMeGGaPFJqEcpdAHZiUZhkMu8FFsHLT1zQDfo6yhRQurWh8mVdaZZ2oQk
- pCDHZHvehWymNYAn55wfA0dCZcTCF75uwcmTb6JEDZk9bBtBK1uvsewBGiuNg6IEH7eZ
- TQhNizEA5YDqd/Y3EgNlvvfuyCDSGtFc26MQgC+pr7Ifqx+eovXQiQ1h+zyzeJbsur2z
- GJfg==
-X-Gm-Message-State: ANhLgQ0A9Qyz5HU1yRnEhhf6iJTWjduH0xPs69JIyvhJaiKaaIA1PAkn
- lXXI4Zy171RkWULFTr/4yJx/0w==
-X-Google-Smtp-Source: ADFU+vujqDH8FbdHsP0Y3/1uml+OBX4aK3p0r8jj4HOtAb0A09GDPy7EAenB668gGhXhz1ICxadYlQ==
-X-Received: by 2002:a62:502:: with SMTP id 2mr25756827pff.324.1584987588361;
- Mon, 23 Mar 2020 11:19:48 -0700 (PDT)
+ bh=VKGjYs3oXHPnIkYWT1PFSmhGP9elsjAncbxy++ukncI=;
+ b=qiNoz5TUa9Klep2jaLMJ1kTexPNsIbZmlSeDbxHoBxhpVlaF00E9FYYQ79gXu02P6O
+ tr7RJpZmgf5O9uuDIRo8vswMP1RcQ5NyO2E+O2o0z9TIG3G6e4+K4K2kmQGZTEGGg915
+ WhJULV4OMU8PB2C9/DMNNUgJnR05nYgFjlV6tXLzOUThjVf36cJ83XKlC2/4W5nAlCa7
+ tMgx4jDpFrDswGwvsT8JjjgXQeiVz62waU8zjm6o1UAFELlurfYpcrTIheED6z9dcfcd
+ hP/UJsD+CSTwE2XQDVquKL2+cUTuabh6vAnrav1b7m1uZ+9UoKIB6LIfHiA7Y6vEV9i9
+ XIWQ==
+X-Gm-Message-State: ANhLgQ2wCzlQQ7uhnIHF3ZR7NHJfj8eSluGIpjaS0BHGZ5hbAla6UvWF
+ ilns7ZEjOnmKh7Jd9ovjAxv9BA==
+X-Google-Smtp-Source: ADFU+vs0tV5NKYmV6zfFk6GDBwRXeGycMgUWD+ipSAV2oq9T+qbgF7ltdJzNjVjiR/7quS5Yt0Wduw==
+X-Received: by 2002:a17:90b:292:: with SMTP id
+ az18mr687530pjb.126.1584987647709; 
+ Mon, 23 Mar 2020 11:20:47 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- l6sm13320343pff.173.2020.03.23.11.19.47
+ v59sm248760pjb.26.2020.03.23.11.20.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 11:19:47 -0700 (PDT)
-Subject: Re: [PATCH v1 09/11] tests/docker: Use Python3 PyYAML in the Fedora
- image
+ Mon, 23 Mar 2020 11:20:46 -0700 (PDT)
+Subject: Re: [PATCH v1 10/11] tests/docker: Add libepoxy and libudev packages
+ to the Fedora image
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200323161514.23952-1-alex.bennee@linaro.org>
- <20200323161514.23952-10-alex.bennee@linaro.org>
+ <20200323161514.23952-11-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b9e07c4-f354-3ff5-0d82-93e0ac77f4a2@linaro.org>
-Date: Mon, 23 Mar 2020 11:19:45 -0700
+Message-ID: <0cfedaef-2578-cbd4-5edf-4ca73c93f05e@linaro.org>
+Date: Mon, 23 Mar 2020 11:20:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200323161514.23952-10-alex.bennee@linaro.org>
+In-Reply-To: <20200323161514.23952-11-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52a
+X-Received-From: 2607:f8b0:4864:20::1029
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,7 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -93,15 +94,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/23/20 9:15 AM, Alex Bennée wrote:
 > From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> The Python2 PyYAML is now pointless, switch to the Python3 version.
+> Install optional dependencies of QEMU to get better coverage.
 > 
-> Fixes: bcbf27947 (docker: move tests from python2 to python3)
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20200322120104.21267-4-philmd@redhat.com>
+> Message-Id: <20200322120104.21267-5-philmd@redhat.com>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/docker/dockerfiles/fedora.docker | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
