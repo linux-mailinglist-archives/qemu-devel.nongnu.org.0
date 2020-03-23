@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554C418F3F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:56:01 +0100 (CET)
-Received: from localhost ([::1]:60774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3095218F3FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 13:00:12 +0100 (CET)
+Received: from localhost ([::1]:60814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGLgW-0000VV-Cz
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45766)
+	id 1jGLkZ-0003kC-8C
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 08:00:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1jGLfU-0007xp-RA
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:57 -0400
+ (envelope-from <philmd@redhat.com>) id 1jGLjT-00031o-93
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:59:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1jGLfT-0007EB-R6
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:56 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33938)
+ (envelope-from <philmd@redhat.com>) id 1jGLjS-0001Gr-79
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:59:03 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37973)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1jGLfT-0007E5-Nl
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:55 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGLjS-0001GK-2z
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:59:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584964495;
+ s=mimecast20190719; t=1584964741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CjiKVvMPF1l+adgNfLC+OUOIxAy0feOvV+N4qaLCaGM=;
- b=bnrI6MyJEgijuViKiM/yG0Bd2kgiLWLfAP5rN7oGYDI6UN4hIWgMotu5WPBozQ1E24Z31f
- Pd+W1houZ4knKJY2ZNalf9X7ccpqhzWwnduoV8z3n21/Og/hrdxgxRsRHQzQlIXY5D0BbH
- rzbrxJ3f769MKT5ze1xes3TQ2VX4Gj0=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-X1hfQGujPMGACO-RxMOU0w-1; Mon, 23 Mar 2020 07:54:54 -0400
-X-MC-Unique: X1hfQGujPMGACO-RxMOU0w-1
-Received: by mail-oi1-f200.google.com with SMTP id 11so1909695oii.8
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:54:53 -0700 (PDT)
+ bh=6Jtr+SrTZ4MtneIqpIbzEfHkTPd/POKT1GAxTxyrcs4=;
+ b=VWwsEmZOH8WDH+K1L7cJJioYhVBAzqmJ3aEif6iChS30Hgy8NfWTAwaPQ9nhKjqL3VTeXV
+ 3gN1uVUuQdADliR4fOPXrHQRO1keNXFgzHQYM1wP1Nhjvb8AQkpJjGFCmUF/Xls+2a3a33
+ w54K8Q5ThuPsWbecFTLms/wWeRpblgk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-a8JJ8nn4PkmfqHcO-axq4A-1; Mon, 23 Mar 2020 07:59:00 -0400
+X-MC-Unique: a8JJ8nn4PkmfqHcO-axq4A-1
+Received: by mail-ed1-f70.google.com with SMTP id a32so11341599edf.17
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:59:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CjiKVvMPF1l+adgNfLC+OUOIxAy0feOvV+N4qaLCaGM=;
- b=GqncvrDo5t7a81z/hPjaag6TZzJUFLiqNR78WYsVsEvhs/M+4oe9UhjTt3wyy71tfV
- nkJZIt0lwECl1vU/yOCLe8aPfdVF8wcEE8eAjonMVGHursAEuMM/AuFEW6d3adV2Qzn3
- tp2cVsV+SFRk4AQUeJqcyIQt02qmvtV6jK8oijBPl9j7zRZAPtR6TQcf6dLO/crq75by
- ptbWhzVID51s7zs+nW4sPVTNbJv1sBeOMcRu0iP5T7iIx6Oh+gW0QrcCX9jFWZqqbhSn
- ZJHhqSah2pdueK/zhm6nuJU1vL0Rm6hrQgHp6QxR1IrulAeAKh9SJ/NVjeSHG5MCprkB
- aJlg==
-X-Gm-Message-State: ANhLgQ0wccD670lGzcwwtCQnxuBqgkdzC4kRd3pLPCwoQ7Ab1h7d5rLX
- +fEYhLLClsrFV2G6dfW82pZoeNWbJtyAMlLnWuS2TiJbNJY45gVLo6rocx9BRA6+lqlbkRXuQHc
- dDr37WUZjwHKjOz7VenOegvU8y2oM4XI=
-X-Received: by 2002:a05:6830:1597:: with SMTP id
- i23mr16857576otr.368.1584964493132; 
- Mon, 23 Mar 2020 04:54:53 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtGZdsHCRtE9mMqXNyAp/w38JUT50zqnm/vFaKASsiZRvC2mr520d2ARSgEOd6PNbwmn9d0XGj7xn8JXVXqYCc=
-X-Received: by 2002:a05:6830:1597:: with SMTP id
- i23mr16857566otr.368.1584964492923; 
- Mon, 23 Mar 2020 04:54:52 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EOYX4xpk+QY4eUq3Zd49ycxvNXC8dFDfFPBPKwLGh70=;
+ b=MyqQ2qYRqjfergD9haqHKBLlhzHZ1rK97cbVhwFjyq/G3pmZlKUo2+ZSv2Ku9RjaBZ
+ qXAGhBDP5QdRw5CHhGIYGMcWe6g4pwvGnPz5qbRTKP7buKYnseHaiv7W7aeYqOfn6LxA
+ 6mRhD/m25LyuWwdNUDi1OCojvTVUBiBD79aC/6XSsFhpzcvhj1EmId6XkuDARumZ38NT
+ VcwNS4+fS0DE0g1EwK1qVIcxJAvUSnziiyFP86hzTG6B2mdyn9mli0oqN+9NvIhlrHyZ
+ pe0jmLJ/djC7vBc7mvtjbDS/Lyt4pSKo8WJVCMgjGQKpKhn9Mn/Vp7yxQRABPNBHVpCx
+ xizg==
+X-Gm-Message-State: ANhLgQ20vJVlbqQ/I6+eXwf1H4/SEj3y/h1z+Dn88cNrkVH9Ae8HlIed
+ jHJiOy3UFBxmCAfrPXT7fPj5DjBL0VvoLpGPU5dFWVJmEqpnT+bECvHQp15qJ484yo/A/xP9pYK
+ MNm409IZ4K5aJbQw=
+X-Received: by 2002:a17:906:6c91:: with SMTP id
+ s17mr4023313ejr.345.1584964738805; 
+ Mon, 23 Mar 2020 04:58:58 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsDmOY7/9pgovCV83g9SmaZurQ6UG++HLFVAoNPCcdhg6KaAIUeWbCN+CWV4YZ+zhjCtLKxmg==
+X-Received: by 2002:a17:906:6c91:: with SMTP id
+ s17mr4023298ejr.345.1584964738547; 
+ Mon, 23 Mar 2020 04:58:58 -0700 (PDT)
+Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id rl28sm869194ejb.28.2020.03.23.04.58.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Mar 2020 04:58:57 -0700 (PDT)
+Subject: Re: Coverity CID 1421984
+To: Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <d9b7d8d8-1640-7d69-cd16-66e6d9cef3d1@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <88618db3-cb48-12bd-6152-b642b25a0287@redhat.com>
+Date: Mon, 23 Mar 2020 12:58:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200323112943.12010-1-philmd@redhat.com>
- <20200323112943.12010-3-philmd@redhat.com>
-In-Reply-To: <20200323112943.12010-3-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 23 Mar 2020 12:54:41 +0100
-Message-ID: <CAMxuvazGfXXz0tc4DJpRecW1CYdT5WGO=t7VbjS9hLqhC2rO8Q@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 2/3] virtio: Document virtqueue_pop()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+In-Reply-To: <d9b7d8d8-1640-7d69-cd16-66e6d9cef3d1@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,50 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 23, 2020 at 12:30 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Document that virtqueue_pop() returned memory must be released
-> with free().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Cc'ing qemu-ppc since this is restricted to the aCube Sam460ex board.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 3/23/20 12:46 PM, Max Reitz wrote:
+> Hi,
+>=20
+> I was triaging new Coverity block layer reports today, and one that
+> seemed like a real bug was CID 1421984:
+>=20
+> It complains about a memleak in sii3112_pci_realize() in
+> hw/ide/sii3112.c, specifically about @irq being leaked (it=E2=80=99s allo=
+cated
+> by qemu_allocate_irqs(), but never put anywhere or freed).
+>=20
+> I=E2=80=99m not really well-versed in anything under hw/ide, so I was won=
+dering
+> whether you agree it=E2=80=99s a bug and whether you know the correct way=
+ to fix
+> it.  (I assume it=E2=80=99s just a g_free(irqs), but maybe there=E2=80=99=
+s a more
+> specific way that=E2=80=99s applicable here.)
 
+What does other devices is hold a reference in the DeviceState=20
+(SiI3112PCIState) to make static analyzers happy.
 
-> ---
->  include/hw/virtio/virtio.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index b69d517496..c6e3bfc500 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -199,6 +199,14 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueueEl=
-ement *elem,
->                      unsigned int len, unsigned int idx);
->
->  void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
-> +/**
-> + * virtqueue_pop:
-> + * @vq: a VirtQueue queue
-> + * @sz: the size of struct to return (must be >=3D VirtQueueElement)
-> + *
-> + * Returns: a VirtQueueElement filled from the queue or NULL.
-> + * The returned element must be free()-d by the caller.
-> + */
->  void *virtqueue_pop(VirtQueue *vq, size_t sz);
->  unsigned int virtqueue_drop_all(VirtQueue *vq);
->  void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t=
- sz);
-> --
-> 2.21.1
->
+Ideally we should free such memory in the DeviceUnrealize handler, but=20
+we in the reality we only care for hotunpluggable devices.
+PCI devices usually are. There is a trick however, you can mark=20
+overwrite the DeviceClass::hotpluggable field in sii3112_pci_class_init:
+
+   dc->hotpluggable =3D false;
 
 
