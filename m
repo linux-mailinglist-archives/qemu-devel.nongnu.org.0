@@ -2,103 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD46C18EFEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 07:52:31 +0100 (CET)
-Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCC018F024
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 08:11:42 +0100 (CET)
+Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGGwo-00048H-Bi
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 02:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35619)
+	id 1jGHFN-00080x-Bn
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 03:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGGve-0003EM-AM
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 02:51:19 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jGHEL-0007Jg-Nm
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 03:10:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGGvd-0002Fa-Bo
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 02:51:18 -0400
-Received: from mail-am6eur05on2109.outbound.protection.outlook.com
- ([40.107.22.109]:37057 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jGGvZ-0002Di-VR; Mon, 23 Mar 2020 02:51:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RwHe2/tao+3e5QsC1FBM/FtJfBoiikyeonjp7S6IoFH23omxJEP8VW7sA/XXGrdNzb8iRxRI2Tp+JQCfnB+3EPobPKk44Cbsi7gB6WmUcr7nmB7OKJLP0F430+8i/50X7BRHK0WuLZXdA98IBZY3CEvMdkkEUgqy3ljhawHEBAe2mMuPW8wf+t1325JGKpgWG55VJx1xNu79jiMBeA6nQmhHdz4r9BwAspl5SJmC8wY6Rk1a7zAujh769mKd5q2M4I0dTeDEz5QNDGK00MnbSbv6qfzNh7X7SlPVkPWioU6U2grg9FO2K6T5miNYU9KLdtp547Z90tYAGDPdYxgxbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GK691dGL3ZU9u1d3WNexJsWqlP3V2fO6Lxf7ihNu85Y=;
- b=P0hg3+4a9XAIRRyPsNAnLEq2I6zwVAzf6eO5Sy/2zmRnvuOItS2JTprE2RAFZofXPNKTWEhRFuGjbrVilNOwpb1Srfr7ePYr3PaMseF7PUICVVHC2T7i47wgS9jKuHVR5yzsQH9M/ue3E3p0v9XSp1lrBNtZ/SWTM3jRvI/Q5S7k+Rgf+dR5MwRzLk8ZUOX9Kjkw+5wcAXggR6unE9+acAl/OpTufqbh0PsgSOHbkflbKbHzJLK+TljpphoeU1O89UxWldiFTbW2kgSQjZSuIjfvABBrsjxqO6/wgM7juvrg6ApG4gxtajQExWO4adHjsc2sfJ1dgkBiwf6z1x7tyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GK691dGL3ZU9u1d3WNexJsWqlP3V2fO6Lxf7ihNu85Y=;
- b=rwF4CyXM3j0fVCqdcRcZRUlRC8mSExbNk8TDVe/3wKIc7p+GWw1xd2n3a2q+bpFVYrM+guLmvnO/XZZcU/PHX19kwQIpcGRQJwVm5gh3j7nxOIz1ixvIrZM0L2+l/0NSK37F5X5P2HaArpE1yGwzef3Ad5BHBvmaqKEwS/jfESY=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AM7PR08MB5463.eurprd08.prod.outlook.com (10.141.172.135) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Mon, 23 Mar 2020 06:51:10 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::9057:6f5a:378c:7533]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::9057:6f5a:378c:7533%6]) with mapi id 15.20.2835.021; Mon, 23 Mar 2020
- 06:51:10 +0000
-Subject: Re: [PATCH] block: Avoid memleak on qcow2 image info failure
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200320183620.1112123-1-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200323095108086
-Message-ID: <7420ada8-8892-c075-25fb-9ad8d28cd97a@virtuozzo.com>
-Date: Mon, 23 Mar 2020 09:51:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200320183620.1112123-1-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM3PR07CA0111.eurprd07.prod.outlook.com
- (2603:10a6:207:7::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jGHEK-0001Ca-8D
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 03:10:37 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:32998)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jGHEJ-0001C4-PT; Mon, 23 Mar 2020 03:10:36 -0400
+X-Alimail-AntiSpam: AC=SUSPECT; BC=0.6466425|-1; BR=01201311R941b1; CH=blue;
+ DM=||false|; DS=CONTINUE|ham_alarm|0.431571-0.000189887-0.568239;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03307; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=12; RT=12; SR=0; TI=SMTPD_---.H3rj3ad_1584947424; 
+Received: from 172.16.31.150(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.H3rj3ad_1584947424)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Mon, 23 Mar 2020 15:10:24 +0800
+Subject: Re: [PATCH v6 04/61] target/riscv: add vector configure instruction
+To: Kito Cheng <kito.cheng@gmail.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+ <20200317150653.9008-5-zhiwei_liu@c-sky.com>
+ <CA+yXCZCWS2fF+LOi-4bUgNXrGm=v9yuYUQR5gpk7+230Z86ykw@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <769218a3-5409-9b6b-974d-193daed48ce6@c-sky.com>
+Date: Mon, 23 Mar 2020 15:10:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.41) by
- AM3PR07CA0111.eurprd07.prod.outlook.com (2603:10a6:207:7::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.9 via Frontend Transport; Mon, 23 Mar 2020 06:51:09 +0000
-X-Tagtoolbar-Keys: D20200323095108086
-X-Originating-IP: [185.215.60.41]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0b5f372f-99c4-42cf-990d-08d7cef691bc
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5463:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5463093984012BC7DB74D737C1F00@AM7PR08MB5463.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:773;
-X-Forefront-PRVS: 0351D213B3
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(396003)(366004)(39840400004)(376002)(136003)(199004)(54906003)(26005)(31686004)(36756003)(8676002)(81166006)(81156014)(478600001)(52116002)(6486002)(66946007)(66476007)(5660300002)(66556008)(2616005)(4744005)(16576012)(8936002)(86362001)(2906002)(107886003)(4326008)(186003)(956004)(31696002)(16526019)(316002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM7PR08MB5463;
- H:AM7PR08MB5494.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K+P17qfcvMo9favedMpTsx9vU8WhxpVBD2jAN9QXe96IfyLxOnHx6w49PvifoJUoZYUmryFvsOk5KRN0LhGDAzqyV3gL1h2WDZQpDLAsRMs1YEsaSdrWc2sWJ0CrwUwkPP60qAWz60Yx2qESPasDKsq7Le5ZAhjmQKeYtC7jYq5Cckzbod73EK/KibT4FDKPENpGQTC/g2/nwJ0oVMiBKPU/57cui9yU1SQCCAEsMogvlQ7RCTsQff2SZdRBSZtGNSZaU30A13LPTE6uuELteuAT4KPrPku7CMVHCdNqIAJPSQRh0JZVpXUn2vWHQ7Kq3zck84jqEy5ioOBmAkCF5/1W3gaLR+j0fz9FoVQ9L//saeSoX6/+xTMtSjO9d/w1q67Yy7HO1l3suYD0OQBfrMn1y07W8WV6juXrR7I5zWsn3srDUo9W0eSK/xPdmIV8
-X-MS-Exchange-AntiSpam-MessageData: hG1+aRV4VOi0Ce7VPsJqtUqZnm8cIY7nQQcxIeUW142QZNUUajpemQAvctFWGWJk5ijfuI0pkyaoArXFDj6b4N6eLVS0nLK9wkBSJ/cFQkz2septcjyZY7Yq8RZgx/dDUoekbNqB1+NjYyQMRXVcMQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b5f372f-99c4-42cf-990d-08d7cef691bc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2020 06:51:10.0767 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AFh4Qzu+N3qhc/t2BnfXhdd4r8YwsGkBvQR5cJ0wNfDYD/3X5sSEVNxVVd1HjDsaYIwxu5IWoEecdhaGDhby48UOV10iAZnByDpuqbQxPK4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5463
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.22.109
+In-Reply-To: <CA+yXCZCWS2fF+LOi-4bUgNXrGm=v9yuYUQR5gpk7+230Z86ykw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,40 +56,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- andrey.shinkevich@virtuozzo.com, "open list:qcow2" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
+ alistair23@gmail.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.03.2020 21:36, Eric Blake wrote:
-> If we fail to get bitmap info, we must not leak the encryption info.
-> 
-> Fixes: b8968c875f403
-> Fixes: Coverity CID 1421894
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->   block/qcow2.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index d44b45633dbb..e08917ed8462 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -4811,6 +4811,7 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
->           if (local_err) {
->               error_propagate(errp, local_err);
->               qapi_free_ImageInfoSpecific(spec_info);
-> +            qapi_free_QCryptoBlockInfo(encrypt_info);
->               return NULL;
->           }
->           *spec_info->u.qcow2.data = (ImageInfoSpecificQCow2){
-> 
 
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On 2020/3/23 14:51, Kito Cheng wrote:
+> Hi Zhiwei:
+>
+> vsetvl and vsetvli seems like missing ISA checking before translate,
+> this cause those 2 instructions can be executed even RVV not enable.
+> My testing env is qemu riscv64-linux-user mode.
+Hi Kito,
 
--- 
-Best regards,
-Vladimir
+I think you are right. Thanks for pointing that.
+
+Zhiwei
+>> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+>> new file mode 100644
+>> index 0000000000..7381c24295
+>> --- /dev/null
+>> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+>> @@ -0,0 +1,69 @@
+>> +/*
+>> + * RISC-V translation routines for the RVV Standard Extension.
+>> + *
+>> + * Copyright (c) 2020 C-SKY Limited. All rights reserved.
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify it
+>> + * under the terms and conditions of the GNU General Public License,
+>> + * version 2 or later, as published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope it will be useful, but WITHOUT
+>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+>> + * more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License along with
+>> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>> +
+>> +static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl * a)
+>> +{
+> Missing vext_check_isa_ill(s) check?
+>
+>> +    TCGv s1, s2, dst;
+>> +    s2 = tcg_temp_new();
+>> +    dst = tcg_temp_new();
+>> +
+>> +    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+>> +    if (a->rs1 == 0) {
+>> +        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+>> +        s1 = tcg_const_tl(RV_VLEN_MAX);
+>> +    } else {
+>> +        s1 = tcg_temp_new();
+>> +        gen_get_gpr(s1, a->rs1);
+>> +    }
+>> +    gen_get_gpr(s2, a->rs2);
+>> +    gen_helper_vsetvl(dst, cpu_env, s1, s2);
+>> +    gen_set_gpr(a->rd, dst);
+>> +    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
+>> +    lookup_and_goto_ptr(ctx);
+>> +    ctx->base.is_jmp = DISAS_NORETURN;
+>> +
+>> +    tcg_temp_free(s1);
+>> +    tcg_temp_free(s2);
+>> +    tcg_temp_free(dst);
+>> +    return true;
+>> +}
+>> +
+>> +static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli * a)
+>> +{
+> Missing vext_check_isa_ill(s) check?
+>
+>
+>> +    TCGv s1, s2, dst;
+>> +    s2 = tcg_const_tl(a->zimm);
+>> +    dst = tcg_temp_new();
+>> +
+>> +    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
+>> +    if (a->rs1 == 0) {
+>> +        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
+>> +        s1 = tcg_const_tl(RV_VLEN_MAX);
+>> +    } else {
+>> +        s1 = tcg_temp_new();
+>> +        gen_get_gpr(s1, a->rs1);
+>> +    }
+>> +    gen_helper_vsetvl(dst, cpu_env, s1, s2);
+>> +    gen_set_gpr(a->rd, dst);
+>> +    gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
+>> +    ctx->base.is_jmp = DISAS_NORETURN;
+>> +
+>> +    tcg_temp_free(s1);
+>> +    tcg_temp_free(s2);
+>> +    tcg_temp_free(dst);
+>> +    return true;
+>> +}
+
 
