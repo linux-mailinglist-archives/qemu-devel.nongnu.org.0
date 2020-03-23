@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF5718F98D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:21:39 +0100 (CET)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D68518F99D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:24:21 +0100 (CET)
+Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGPpa-0001A1-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1jGPsC-0004Vr-BW
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPjj-00016R-5V
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:36 -0400
+ (envelope-from <sophian.yoma@gmail.com>) id 1jGPky-0003hc-E6
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:16:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPjh-0002VR-Q4
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:35 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35567)
+ (envelope-from <sophian.yoma@gmail.com>) id 1jGPku-0002xM-HQ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:16:50 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40837)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jGPjh-0002Ut-HD
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:33 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id m3so142358wmi.0
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RvjIJhPsdKWWNXjYUSDeq/ngJaUqsOKcgImX80kKZUM=;
- b=ucQMyWeFRcD4yd5Vj4eRVneYa750CMSWIRXfWumPLv//Xp2PISDOOEUU2hurpTMmnu
- 1zDUt/LCHi668suhM4807Cd0xh9+DFPoWoZdCZny60BB9xxwQTMFE9KCmvUaMIOFrbTJ
- ILmX2NBxFQExlknsFT2dUJ5TlBPq2ZDviVlPbMCotrIBkyJkfwZvuOmXpTHhMm7oJlr9
- Uj3lTKXRm5ivGDHCBfLOQEteRs/tnAznNNgI3GkdH4A80eaDYvZfQFbGtlz8/49jo/xu
- X/5ugeyJlou6FsZBT6GI3Hkw4bQy6WTrbN16LktdrjNUcaz1zfvpY2S8u51sdnff5j+c
- A7ZA==
+ (Exim 4.71) (envelope-from <sophian.yoma@gmail.com>)
+ id 1jGPks-0002wW-Lw
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:16:47 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id l184so7707351pfl.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ObpwbCPsmGPxY2YndmjlQTbJsSagd3XfNUjtzhI0/Ew=;
+ b=WKKqXhsEIRHWZSdD7rnZ1oDRFAk5ow7un7Doj76b9DZGw384rlhu7xe9W5eejldJKr
+ d3HOa+uOWlMjGGwyjX3DgKwsfrguoUG5YjBWXnZGUi5ZmkJ6GR6UQFgklcFQUJ7e3Xd/
+ 4wn77SjLrQ7eldluQg08sBVk/REzh7BC0mByAwawpeWSfzAz2U0cNeCtM6JrBPKHDZaq
+ prcRrIXrJkQsm4n4oUnaLv9YytPSHP/HYJlSPGLr52ib82Jwz966/LGdSALbSpF6JYJu
+ lQDmsq9jdkTEmXr2+UeO6+SE/anCbb/FXOzA+B8vBMKZnXEvuXz2NzZYQ5LTqEceTppR
+ KFjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RvjIJhPsdKWWNXjYUSDeq/ngJaUqsOKcgImX80kKZUM=;
- b=g2vWIbLhAR8pRMPCrG+a/KTdvaeA7lXyTJbs6IfzcRxr8tb8u9oHgNrbqtdWIaQhCb
- nV30BTRI3RZ8GcW9+d4ElRRULdy+mqenoMKQc7+XwtY8C9d8M3EGch88l1HT27DL3t17
- 2G6O6jgc5MPTIJJOTDfMs6G7Yk+3U5HqanU9ENKzMj6uwfCy4y8L7UsoXWUmVHEWbGeh
- CQmYuXeIc7Zfw6YafGVxiXVF+sQokIdHSBStIcOCVEmyRuei+w2JwuVFWtCcUkSOYj6/
- G9LHJRz18eXL1YdX5AHAK7UvXsVwH5jGA2/4QtRJsY2nO6mQNJrdPp7qHRoNqhNAhPxl
- B9xw==
-X-Gm-Message-State: ANhLgQ3AXuUzdwkCVXRuuft1o89wTlAwstT6lc2d9AXSEZQ0IiQzBku5
- etnfXpxcJux4H3ic3LhZJQOjEw==
-X-Google-Smtp-Source: ADFU+vvTXPuAW62P0H+70cobdY+W8/40wMhg7xPRQHAFlKfrjvwdr53Llo3qRY5k3SV8oGoLERWpDQ==
-X-Received: by 2002:a1c:c3c3:: with SMTP id t186mr20546wmf.118.1584980132418; 
- Mon, 23 Mar 2020 09:15:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k84sm101549wmk.2.2020.03.23.09.15.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 09:15:24 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B1A151FF7E;
- Mon, 23 Mar 2020 16:15:16 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 11/11] .travis.yml: Add a KVM-only s390x job
-Date: Mon, 23 Mar 2020 16:15:14 +0000
-Message-Id: <20200323161514.23952-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200323161514.23952-1-alex.bennee@linaro.org>
-References: <20200323161514.23952-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ObpwbCPsmGPxY2YndmjlQTbJsSagd3XfNUjtzhI0/Ew=;
+ b=L5Sbjk5nej4ZHLpuGjSih7Xc/uSD4IqN5fyMMO6WYO8yyFJd4LzUY38Zpgup0Sk5Sj
+ 3ABIkg0SMOSQMrhqJ/24PHQ7V6gzEM3YSghSV9uQHW3fjJuwrvLIPFRUUQvxmRGSrkKh
+ NS5SYyzSE0rzqyh0TwJp2DjQMaenKN3ku6eIwHJDqjlb1G1R0ai4olCUdUVixmoPGwq3
+ SM9cWUFEU0Br2lAYli7HsPVDFR000RrBhd3RYA64Zm1dQ5tRQYd6ACdxNc8vOiTJ7aRp
+ XSdop72rliB+SQAvEsU+AWbDGgP3zkV433Z7izZdDL/qwXXbmAmn2qk16frbmbuOoGGm
+ b/1A==
+X-Gm-Message-State: ANhLgQ3pZCEqxyzZIW7bgcFEySyLopnvUotZ7hRONneSqPq3BjsmlxUt
+ EsxTogVGFGl7JTSPEbzlJqefDXDHjChfkMcghpQ=
+X-Google-Smtp-Source: ADFU+vt5ZeTnNFn6KvnhbQjoYYdyyLTj0UbhpNAApAeCM+2O9jLCipTQCjPrMsoxh83qIjuKpJ/f1DKUi9XbQ4wYCFo=
+X-Received: by 2002:aa7:86ce:: with SMTP id h14mr24484206pfo.311.1584980204093; 
+ Mon, 23 Mar 2020 09:16:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CADUS3onjS+T-SSYC6ocKNm3oXsCpiQbDa0eJobhOnts3gZ_gEw@mail.gmail.com>
+ <CAFEAcA8tU58_Bdpp7tmpF+X4D5zyxpV4pA-wz97EpP41SQ7sqA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8tU58_Bdpp7tmpF+X4D5zyxpV4pA-wz97EpP41SQ7sqA@mail.gmail.com>
+From: yoma sophian <sophian.yoma@gmail.com>
+Date: Tue, 24 Mar 2020 00:16:33 +0800
+Message-ID: <CADUS3o=1XSzi-DdK2gNm4-WEwPsEWc8Tfn4j9Fxy92JAg9Lktw@mail.gmail.com>
+Subject: Re: qemu-system-aarch64 windows binary run Arm64 defconfig kernel not
+ working
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2607:f8b0:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +73,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+hi Peter:
+> Is it possible for you to try with a newer version of QEMU? That one
+> is a release candidate snapshot from before a release that we made
+> a year ago.
+With below qemu version, 4.2.0, the latest on the qemu windows download page,
+Synchronous External Abort still happen with the problem still hape
 
-Add a job to build QEMU on s390x with TCG disabled, so
-this configuration won't bitrot over time.
+Below is download page I tried and version number.
+thanks for ur kind suggestion.
 
-This job is quick, running check-unit: Ran for 5 min 30 sec
-https://travis-ci.org/github/philmd/qemu/jobs/665456423
-
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200322154015.25358-1-philmd@redhat.com>
----
- .travis.yml | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
-
-diff --git a/.travis.yml b/.travis.yml
-index 5672d129ec6..e0c72210b7a 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -525,6 +525,48 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
- 
-+    - name: "[s390x] GCC check (KVM)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - TEST_CMD="make check-unit"
-+        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-tools"
-+      script:
-+        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-+        - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-+        - |
-+          if [ "$BUILD_RC" -eq 0 ] ; then
-+              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              ${TEST_CMD} ;
-+          else
-+              $(exit $BUILD_RC);
-+          fi
-+
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
-     # This is the case when release candidate tags are created.
--- 
-2.20.1
-
+https://qemu.weilnetz.de/w64/2020/qemu-w64-setup-20200201.exe
+$ qemu-system-aarch64 --version
+QEMU emulator version 4.2.0 (v4.2.0-11797-g2890edc853-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
