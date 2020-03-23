@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F9118F5BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:29:17 +0100 (CET)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1C318F5B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:27:32 +0100 (CET)
+Received: from localhost ([::1]:33814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGN8m-0004nR-84
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59043)
+	id 1jGN75-0002Yc-S6
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGN60-0001Kn-GB
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:26 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jGN66-0001Wy-SF
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGN5y-0002CL-Oi
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:45428)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGN5y-0002By-KR
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584969981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=l5NcgyGNZC4upa0rMHDXqyY2EjbqnE6ZHwDiijcdglE=;
- b=GKUH0IwsQAQecUKPJGvP4GwlHwG1CMIqEhSdgFrtptbsB5TEwd8aKufXiPrEAHcSR5QZ7A
- l7+64E3kzEze3rjHwhHRXgUD14SnB4y2Efoz2ygvZ2Pn1XdKm9Yz1i6ygDmlzwUsPHNgPB
- vwD7l3znwLEpBGBO7DMhVZGQIElOJ7U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-YsIdbdO5O6KU9dp-vGDGDw-1; Mon, 23 Mar 2020 09:26:20 -0400
-X-MC-Unique: YsIdbdO5O6KU9dp-vGDGDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69FBB477;
- Mon, 23 Mar 2020 13:26:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-242.ams2.redhat.com
- [10.36.114.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACD3E65E80;
- Mon, 23 Mar 2020 13:26:15 +0000 (UTC)
-Subject: Re: Coverity CID 1421984
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <d9b7d8d8-1640-7d69-cd16-66e6d9cef3d1@redhat.com>
- <88618db3-cb48-12bd-6152-b642b25a0287@redhat.com>
- <alpine.BSF.2.22.395.2003231359420.14974@zero.eik.bme.hu>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4b6c74d7-6b3d-72a4-999a-1d97287fb324@redhat.com>
-Date: Mon, 23 Mar 2020 14:26:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <stefanha@gmail.com>) id 1jGN65-0002Dt-Tr
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:30 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54698)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jGN65-0002Di-N9
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:29 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c81so4212931wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 06:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5QE2+iCQw5Y6IXUWc37innqYLAmILnR3E+ex14S/YJ0=;
+ b=eVdnIt7POfl5YauGyYwoX61ifQSVGjYDO0WDtS+OGkAjj10QChGPiHhiIdADCrjIfQ
+ gynXoV1CDX/9BkX0lDBndSFXHtT3J/3tUH/foRMsE3XuQbvO8yNno3U/dLxAG0tPyEso
+ B/EuFfAHSVUSTkR9qdm0g8SYJyhT8MVgtlt1gY8oB918C19vtYMo9Xl64hKsW9zUnOxz
+ o38qDl7GwFhskIorpzXqX33zZTVIg6PjXvXje3GCntRYMUkkkZfX8O698Pk50mNWIED/
+ nWJYJRfZ1HsDRWmJuBtKLBLesf18k3Wy/gVy1JYRERrguB3jRkff1cdpPFw6dtjWwtVa
+ bR0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5QE2+iCQw5Y6IXUWc37innqYLAmILnR3E+ex14S/YJ0=;
+ b=NIhxIqW272o0VZZPKSQb5KnMkf064YJnkCzvAjaY6dxw3Di6mNOmTeTRzD2MAuvbXj
+ vdYkGQNdAsOgsXIEx/gVlF3oYre/+uB0QPgOam4AHv0/J+BwzOFwG+KWwYrdE13u3Mwy
+ cfNm0r7NhKruo+LeZfQPnOWfO9jdcrW0xz5s3U4dt+tmqy46PT29wdi8zXLSQGpZLLn7
+ HTAsueKnKJtDXAKZa20P5b94OuE2V/4fy6+HeUKGGnI3wlLSnjFNbez/+GB5YAMPiUYe
+ z1JkDoiubraOo8C+QGN3vfQVHL8bOPStZN2WeaoTUwsoUxidIIolVkQWfirnE/mIiyFb
+ AUkA==
+X-Gm-Message-State: ANhLgQ1tCSSd49cQmFUxbGr92AWIbap0vZZIfvvwFFawS9l8e4vJdXLQ
+ 86cuWg6HfCAgTj7POYYSv4M=
+X-Google-Smtp-Source: ADFU+vtHE2y/TNcFgeIfFm77VV8c0Vs8CJARRTVi0va6qlLXRhMnAyXEBOx7WidBjMF5BTOaO+lu4g==
+X-Received: by 2002:a1c:f213:: with SMTP id s19mr27086463wmc.116.1584969987451; 
+ Mon, 23 Mar 2020 06:26:27 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id s2sm5500833wru.68.2020.03.23.06.26.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Mar 2020 06:26:26 -0700 (PDT)
+Date: Mon, 23 Mar 2020 13:26:25 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: dnbrdsky@gmail.com
+Subject: Re: [PATCH v4 1/2] lockable: fix __COUNTER__ macro to be referenced
+ properly
+Message-ID: <20200323132625.GI261260@stefanha-x1.localdomain>
+References: <20200320123137.1937091-1-dnbrdsky@gmail.com>
+ <20200320123137.1937091-2-dnbrdsky@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.22.395.2003231359420.14974@zero.eik.bme.hu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="3xBcQWVf5hOidamHo3ReXEfVPpMIHFqkC"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+ protocol="application/pgp-signature"; boundary="wZdghQXYJzyo6AGC"
+Content-Disposition: inline
+In-Reply-To: <20200320123137.1937091-2-dnbrdsky@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,109 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, John Snow <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---3xBcQWVf5hOidamHo3ReXEfVPpMIHFqkC
-Content-Type: multipart/mixed; boundary="2bXRWpgtyG5oqMpZlvkoI4bcvW5MiOaJm"
 
---2bXRWpgtyG5oqMpZlvkoI4bcvW5MiOaJm
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--wZdghQXYJzyo6AGC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 23.03.20 14:11, BALATON Zoltan wrote:
-> On Mon, 23 Mar 2020, Philippe Mathieu-Daud=C3=A9 wrote:
->> Cc'ing qemu-ppc since this is restricted to the aCube Sam460ex board.
->> On 3/23/20 12:46 PM, Max Reitz wrote:
->>> Hi,
->>>
->>> I was triaging new Coverity block layer reports today, and one that
->>> seemed like a real bug was CID 1421984:
->>>
->>> It complains about a memleak in sii3112_pci_realize() in
->>> hw/ide/sii3112.c, specifically about @irq being leaked (it=E2=80=99s al=
-located
->>> by qemu_allocate_irqs(), but never put anywhere or freed).
->>>
->>> I=E2=80=99m not really well-versed in anything under hw/ide, so I was w=
-ondering
->>> whether you agree it=E2=80=99s a bug and whether you know the correct w=
-ay to fix
->>> it.=C2=A0 (I assume it=E2=80=99s just a g_free(irqs), but maybe there=
-=E2=80=99s a more
->>> specific way that=E2=80=99s applicable here.)
->>
->> What does other devices is hold a reference in the DeviceState
->> (SiI3112PCIState) to make static analyzers happy.
+On Fri, Mar 20, 2020 at 05:31:36AM -0700, dnbrdsky@gmail.com wrote:
+> From: Daniel Brodsky <dnbrdsky@gmail.com>
 >=20
-> Other IDE devices such as ahci and cmd646 seem to free it at the end of
-> the init function after calling ide_init2 with it. However it's not
-> clear to me how all this is supposed to work. Ahci does for example:
+> - __COUNTER__ doesn't work with ## concat
+> - replaced ## with glue() macro so __COUNTER__ is evaluated
 >=20
-> qemu_irq *irqs =3D qemu_allocate_irqs(ahci_irq_set, s, s->ports);
-> for (i =3D 0; i < s->ports; i++) {
-> =C2=A0=C2=A0=C2=A0 ide_init2(&ad->port, irqs[i]);
-> }
-> g_free(irqs);
+> Fixes: 3284c3ddc4
 >=20
-> So it allocates an array of s->ports irqs then only frees a single
-> element?
+> Signed-off-by: Daniel Brodsky <dnbrdsky@gmail.com>
+> ---
+>  include/qemu/lockable.h | 4 ++--
+>  include/qemu/rcu.h      | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-It doesn=E2=80=99t free a single element, it frees the array.
+Please see my comment on the Patchew CI error message in this email
+thread.
 
-> Also aren't these needed after ide_init2 to actually raise the
-> irq or are these end up copied to the irq field of the BMDMAState
-> sonehow? Where will that be freed?
+Stefan
 
-I don=E2=80=99t know where the array elements end up, but they aren=E2=80=
-=99t freed by
-the g_free().
-
-(irqs is an array of pointers, so freeing the array does not touch its
-elements, specifically it doesn=E2=80=99t free what those pointers point to=
-.)
-
->> Ideally we should free such memory in the DeviceUnrealize handler, but
->> we in the reality we only care for hotunpluggable devices.
->> PCI devices usually are. There is a trick however, you can mark
->> overwrite the DeviceClass::hotpluggable field in sii3112_pci_class_init:
->>
->> =C2=A0dc->hotpluggable =3D false;
->=20
-> If the above is correct then simply adding g_free(irq) after the loop at
-> end of sii3112_pci_realize should be enough but I can't tell if that's
-> correct. Setting hotpluggable to false does not seem to be a good fix.
-
-Well, if other code just uses g_free(irqs), it sounds good to me.  But
-again, I don=E2=80=99t know anything about this code so far.
-
-Max
-
-
---2bXRWpgtyG5oqMpZlvkoI4bcvW5MiOaJm--
-
---3xBcQWVf5hOidamHo3ReXEfVPpMIHFqkC
+--wZdghQXYJzyo6AGC
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl54uPUACgkQ9AfbAGHV
-z0CzhAf5AVhUVZ7sAcmjeNU4GBPnDBU6SGGK2RibzkbuV0FDXmH01+mKG+UM1kAE
-mIHTBRi3t+3fVpAGmo3nMmXZPdgfzDQ+EcWFCih/gsz55FHUtMUaaezUOngoNdls
-Lez1RXXy9I1ZzTxbQmmI36EnGchqBNIS3m8oPBLHHD+grGIc+7QW/tKYXWaezbNe
-yHfb9U9QSLj/8IntrAs1xpKgZF6V5hjhVAZ19Zn2BB4zsykSap8RE5m5ekpWiAD5
-cJYUrIlH7E0yM+By/absBjNDeh6hU/1VL3TuMLCMS5KCcWevuC9gL1VFkUGf6lSi
-n/kqG/zxComnIZDOMMCl16BgiOTqrQ==
-=YcBS
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uQEACgkQnKSrs4Gr
+c8jH7gf/XTZiNLdk7aDQTq0+mGXW6NFyPCdyjn5LS98I7VA5yotqrXYZ/oWJtCHm
+d24RelL8BowArCECyh78NNjByhqb3LZNaCw0P5fz7bIgygzNfaEGJyDJmI+375fb
+KbOQV4sQANjsd/OT5eb8LVAgRezjmLU1KVHlwFjNlCwFrRVYOx1mLrKdDm6lj+b7
+TGk7RFozYWw0EQLyleVxUi77H0S/wJ2ussibysf+75Q6tXLz22uReBT2wcCGu5vc
+f3KVuzjJfth0ctg1VhoRQhTziJqthUkC1NeuXe+k+qYpQnQY4xB12X4YV65AZXmp
+X4ZrElCdH4AqbsgiM144AHkl+OuFuQ==
+=ccV2
 -----END PGP SIGNATURE-----
 
---3xBcQWVf5hOidamHo3ReXEfVPpMIHFqkC--
-
+--wZdghQXYJzyo6AGC--
 
