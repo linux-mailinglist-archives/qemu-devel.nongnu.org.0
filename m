@@ -2,80 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A07E18FC3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:05:23 +0100 (CET)
-Received: from localhost ([::1]:37940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0219618FC7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 19:15:18 +0100 (CET)
+Received: from localhost ([::1]:38028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGRRx-0006TC-SF
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:05:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
+	id 1jGRbY-0003Ix-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 14:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRPv-00051U-CG
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:16 -0400
+ (envelope-from <dietmar@proxmox.com>) id 1jGRaR-0002YL-Rv
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:14:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jGRPu-0000D5-6I
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:14 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35883)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jGRPt-0000C4-L8
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:03:14 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g2so6239678plo.3
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 11:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qQCLNRCFeGSf3VUKwI3r3S5D4RJy/WPE0gr9VJXDOYo=;
- b=KthxldHoHVi9LX4R5J6kFOkeMVZdpy15t5HCDlKoNJboQWHsbGh0qkJAfW/JRdgWGk
- L9CgF0qyzDR/vNXjgiHB/E+9iaBYADpEVH967dtUunni1DfZpIbceHVMTaset9fZKykj
- jiQXP+ZZ9vHsYlDR/4JfidaS7Wxj/ENRJT2cg4z2MntzAytx6YpqkThM1739eXYEI8wW
- Mj6oTV2DJuky63wScNrTe/2A9VJDco3nrZT6g2Md+Xodc666dXEMwmxY9i5sWij9ksgo
- JAlXtlwHbNBodPmKgr8SDjjCggYCBh2sIxtl6rGaGPzTFTsvfvAvm7QLGMdeAm3dzSWU
- Pafw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qQCLNRCFeGSf3VUKwI3r3S5D4RJy/WPE0gr9VJXDOYo=;
- b=IUNkNLoqkk2lh27G08oGPyg8rJ3e56Y4LU0im8V8WkLzvDw1xHcMR2a00hg54m+7cr
- IwGRqI/KbdzrYfHwK3FMFf/HmP+rgM1zOEAceXImSkyoR+QYS+WschOWcpTZ0J6jEK2S
- qeW776XddNeQOduiq75omIcrDGRIHixyWHtPF8SOh9J9QYuzS9zs4R2eLY9EFmRvleiZ
- Ql0pkMKSI3gZKa77c8Xa9fCch/GNNMvNLoQXUpX6nb3hAbwwZUUqEKQmu9FSUgwPRvIz
- 9hQ3/3tt5IrxR4XgzRsZjtx45Nze4LoLG2625EBhhOo+Rc9K/CsgoKOgwvNf8ywDt9Dd
- K9SQ==
-X-Gm-Message-State: ANhLgQ2yHd0zjjo1wZp9AsJ/qKIAeBllDg3kA4xBlGSFG8rPotY5jbrT
- NGuK6iWz3bWHM49EExjRjFL7TA==
-X-Google-Smtp-Source: ADFU+vsq5UpWTjGI8bB5UqTuYWcSW6Nkf1RMv8PMwdJv9r6H04a/uvSYwh+V0uPhp1HmHjo894SKiw==
-X-Received: by 2002:a17:90a:7f01:: with SMTP id k1mr616317pjl.9.1584986591938; 
- Mon, 23 Mar 2020 11:03:11 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- f127sm13638231pfa.112.2020.03.23.11.03.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 11:03:10 -0700 (PDT)
-Subject: Re: [PATCH v41 01/21] target/avr: Add outward facing interfaces and
- core CPU logic
-To: Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200118191416.19934-1-mrolnik@gmail.com>
- <20200118191416.19934-2-mrolnik@gmail.com>
- <80141c57-7fb7-6e95-4070-54f7cc23e166@redhat.com>
- <CAK4993ie33Awp=sqUOcubqCLFqTd5mTPAkWQfhh3zvorMwnSig@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8ac9a03a-a02f-1b48-c75d-77e4b8aea9ef@linaro.org>
-Date: Mon, 23 Mar 2020 11:03:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <dietmar@proxmox.com>) id 1jGRaQ-00062n-OP
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:14:07 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:51927)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dietmar@proxmox.com>) id 1jGRaQ-0005xy-HY
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 14:14:06 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 6B84542887;
+ Mon, 23 Mar 2020 19:13:54 +0100 (CET)
+Date: Mon, 23 Mar 2020 19:13:52 +0100 (CET)
+From: Dietmar Maurer <dietmar@proxmox.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <1825818863.138.1584987232460@webmail.proxmox.com>
+In-Reply-To: <20200323170710.GC8049@linux.fritz.box>
+References: <1577640273.5.1584605618249@webmail.proxmox.com>
+ <20200323170710.GC8049@linux.fritz.box>
+Subject: Re: aio-context question
 MIME-Version: 1.0
-In-Reply-To: <CAK4993ie33Awp=sqUOcubqCLFqTd5mTPAkWQfhh3zvorMwnSig@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.2-Rev22
+X-Originating-Client: open-xchange-appsuite
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,28 +52,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Igor Mammedov <imammedo@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Reply-To: Dietmar Maurer <dietmar@proxmox.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/20 10:03 AM, Michael Rolnik wrote:
-> Hi Philippe.
+> If it doesn't have any effect because it just does what will be done
+> later anyway, it can be removed, but that doesn't buy us much.
+
+I think that code is simply unnecessary (no effect).
+But it is quite hard to read and understand, so I think removing
+that code helps to simplify things.
+
+> If it results in preventing some case (like the one fixed by 30dd65f3),
+> we need to check whether this case is actually safe. If it is safe, we
+> can remove the lines and get a new feature from it.
 > 
-> It's been a while. let me think about it and get back to you. what is your
-> concern ? 
+> In both cases, I think a test case should be written together with the
+> removal of the code. And if we find out that it's unsafe, we should even
+> more write a test case that makes sure that the operation fails.
 
-It shouldn't be there.  See commit 1f5c00cfdb81.
+Yes, a test case would be great. Especially one that test backups with
+io-threads. 
 
->     > +    memset(env->r, 0, sizeof(env->r));
->     > +
->     > +    tlb_flush(cs);
-> 
->     Why are you calling tlb_flush() here?
+I am hunting a bug for more than a week now. Seems bdrv_drain hangs 
+sometimes when running a backup job on drives using io-threads ...
 
+But I still haven't found a reliable way to reproduce it.
+Sometimes takes me several hours to trigger it again... 
 
-r~
+I will try to write a test case if I can really find that bug...
+
 
