@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A2E18FB9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:37:21 +0100 (CET)
-Received: from localhost ([::1]:37534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8DC18FBBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:46:58 +0100 (CET)
+Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGR0q-0002xb-77
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51614)
+	id 1jGRA9-0003tM-GG
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jGQzj-0002Wm-QB
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:12 -0400
+ (envelope-from <bounces@canonical.com>) id 1jGR92-0003SD-4j
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jGQzi-0001SH-K1
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:11 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40373)
+ (envelope-from <bounces@canonical.com>) id 1jGR90-00075C-SJ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jGQzi-0001RN-5X
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:10 -0400
-Received: by mail-pl1-x641.google.com with SMTP id h11so6200051plk.7
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 10:36:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yZUTVmgYw51H82cm4DpkH8NxJUhsYOxNVLcCAhDQeZw=;
- b=BAiTSYQ5Fk3xY3H73ikG44Vd8HOVsByQ/g14GUABVkUCD9iENEYKNr8qgzBbgbBjCY
- HF0yaRPMSkCf+UpG1S9lEvCoFRvDnlNhG1AOqHHktPeGqt6ex4mYFnhzku0YNlBBdgfe
- 0xRYSMTrC1fcZM+9BZvj/PSLgPgxToWpnWhEnpm+eD/LITotCxuMGr5x+bXukEX0L0xk
- XvCScgis2skbTGgkHoMADrPUAC9dpIW+V1xxH4BIPGMlGK5TzVYjR/PXHf39m0MUwj8C
- AvKWfrjgI3bOh2yvvUiCK7iz182DrPBNusO5sg/iJePiwWCr8G6vYCSlb3zGOxL35w16
- ewwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yZUTVmgYw51H82cm4DpkH8NxJUhsYOxNVLcCAhDQeZw=;
- b=m0X3aFTsPSV96BAriHEV38vlpvG4P5bd3kCeaHOh+r5Z4DARqJeFZyehTNFvPjMYVw
- jr6E0Wz17GGU9aJyPQG15Bt+IHrkCvPfOpOdI9vfsxCboiTJ4rYgjaDlka2fx0tFJZi5
- 9oOqHPmya+4qb4drapfcSE8eFuAK0JTN+WGFHNp6tMsKZGzrl9OYa0oKeTGBy4WvvpQH
- DzHMfm/A4rK0VfpMKQcGhWS6uZ6LIk3+B1USIkhvp++UrkMxhAKJBeFTzUgKvJW9veBm
- +Vm/1ohSeYD8LmAx5ajoWA22STTlssMRxF+vRQ8QDBXjoHir3obN9NwNdB/m5MM82XFb
- 5AvA==
-X-Gm-Message-State: ANhLgQ1GLZ9I4KtQrTtg3iuFN1ifB/X8j2a+ItVBASCE5zHC/vReH905
- yXYDZOFFc1tMCgNVOwMQWAvl3A==
-X-Google-Smtp-Source: ADFU+vu3DQBALhvkUUT6ORZNClf/qcGLfNJZLs3svrqbY7jBcEeSIl714WUmAYVdTxs0bLzGWr8r8Q==
-X-Received: by 2002:a17:902:8647:: with SMTP id
- y7mr22829507plt.224.1584984968231; 
- Mon, 23 Mar 2020 10:36:08 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- i23sm13868448pfq.157.2020.03.23.10.36.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 10:36:07 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: Fix loongson multimedia condition
- instructions
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20200321045621.2139953-1-jiaxun.yang@flygoat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0f0864ce-200c-dc0b-a1e0-5f4ddda29386@linaro.org>
-Date: Mon, 23 Mar 2020 10:36:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jGR90-00074q-Mv
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jGR8y-0006nQ-OA
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 17:45:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B55B82E806F
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 17:45:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200321045621.2139953-1-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Mar 2020 17:36:11 -0000
+From: Launchpad Bug Tracker <1866870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=seabios; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h janitor paelzer
+ tstrike34
+X-Launchpad-Bug-Reporter: tstrike (tstrike34)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
+Message-Id: <158498497540.22820.1119040587350029597.malone@ackee.canonical.com>
+Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a04da9e50bc230a66375334afeb2030c757eacbf
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,43 +70,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.qemu.devel@gmail.com, aleksandar.rikalo@rt-rk.com,
- aurelien@aurel32.net
+Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/20/20 9:56 PM, Jiaxun Yang wrote:
->      case OPC_SLE_CP2:
-> -        /*
-> -         * ??? Document is unclear: Set FCC[CC].  Does that mean the
-> -         * FD field is the CC field?
-> -         */
-> +        cond = TCG_COND_LE;
-> +    do_cc_cond:
-> +        {
-> +            int cc = (ctx->opcode >> 8) & 0x7;
-> +            lab = gen_new_label();
-> +            tcg_gen_ori_i32(fpu_fcr31, fpu_fcr31, 1 << get_fp_bit(cc));
-> +            tcg_gen_brcond_i64(cond, t0, t1, lab);
-> +            tcg_gen_xori_i32(fpu_fcr31, fpu_fcr31, 1 << get_fp_bit(cc));
-> +            gen_set_label(lab);
-> +        }
-> +        goto no_rd;
-> +        break;
+This bug was fixed in the package seabios - 1.13.0-1ubuntu1
 
-There is no need for a branch here.  This is a deposit operation.
+---------------
+seabios (1.13.0-1ubuntu1) focal; urgency=3Dmedium
 
-    TCGv_i64 t64 = tcg_temp_new_i64();
-    TCGv_i32 t32 = tcg_temp_new_i32();
+  * d/p/lp-1866870-build-use-fcf-protection-none-when-available.patch
+    fix breakage on older chips due to fcf-protection (LP: #1866870)
 
-    tcg_gen_setcond_i64(cond, t64, t0, t1);
-    tcg_gen_extrl_i64_i32(t32, t64);
-    tcg_gen_deposit_i32(cpu_fcr31, cpu_fcr31, t32,
-                        get_fp_bit(cc), 1);
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 19 Mar
+2020 13:10:10 +0100
 
-    tcg_temp_free_i32(t32);
-    tcg_temp_free_i64(t64);
+** Changed in: seabios (Ubuntu)
+       Status: Triaged =3D> Fix Released
 
+-- =
 
-r~
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866870
+
+Title:
+  KVM Guest pauses after upgrade to Ubuntu 20.04
+
+Status in QEMU:
+  Invalid
+Status in qemu package in Ubuntu:
+  Invalid
+Status in seabios package in Ubuntu:
+  Fix Released
+
+Bug description:
+  Symptom:
+  Error unpausing domain: internal error: unable to execute QEMU command 'c=
+ont': Resetting the Virtual Machine is required
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
+ in resume
+      self._backend.resume()
+    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
+t': Resetting the Virtual Machine is required
+
+  =
+
+  ---
+
+  As outlined here:
+  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
+
+  After upgrade, all KVM guests are in a default pause state. Even after
+  forcing them off via virsh, and restarting them the guests are paused.
+
+  These Guests are not nested.
+
+  A lot of diganostic information are outlined in the previous bug
+  report link provided. The solution mentioned in previous report had
+  been allegedly integrated into the downstream updates.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
 
