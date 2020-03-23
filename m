@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC58918F5BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:29:34 +0100 (CET)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998DC18F5CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:34:57 +0100 (CET)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGN93-0005GN-R7
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
+	id 1jGNEG-0000Os-8s
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jGN85-0004MK-PU
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:28:35 -0400
+ (envelope-from <fengli@smartx.com>) id 1jGFe4-0007jz-Vs
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 01:29:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jGN84-0002lv-GD
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:28:33 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41216)
+ (envelope-from <fengli@smartx.com>) id 1jGFe3-0001UJ-IP
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 01:29:04 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33594)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1jGN84-0002lh-95; Mon, 23 Mar 2020 09:28:32 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h9so17063364wrc.8;
- Mon, 23 Mar 2020 06:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=wu0Pst8qsNF6PrSvx6A5jOL5VHU873nOwjx/pikPcUo=;
- b=jvvR2VPwVXSM3F36lvSU80C+P5HhRxldxm58aZVzeDh3vel7RkFBUy5BCGaB19fXI0
- qFvcBuYBMSkFU6tjg+JUK/MDC82AlMmcsJ6SZZHniuOueuS01eXRV2UCak9+h1durytX
- avaTy8JcTt8wF4fAtsbWzdFnMQpCHgBTm0LO2Ylm//30unJK81+K7h6Iq2rvcWfk6hFR
- w5zsebE3u2c8c40z4t+lNUgdsJWU0TgPrVMCsg8HS5Rcivj/gQXoj8jycCQTbX5li2kd
- JvFctqjQnYJONaKxoNOsbjD5sfLJrjylmqnmgLILk9Kree0Ylxcb7sIGR86V6B4iVpl3
- BR7w==
+ (Exim 4.71) (envelope-from <fengli@smartx.com>) id 1jGFe3-0001TS-6K
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 01:29:03 -0400
+Received: by mail-pg1-x544.google.com with SMTP id d17so6049883pgo.0
+ for <qemu-devel@nongnu.org>; Sun, 22 Mar 2020 22:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:to:cc:subject:date:message-id
+ :content-transfer-encoding;
+ bh=rn1rzPyZjU/1uasX4nLAsRBp6Z3yrACVS7w/C5ZCX9E=;
+ b=B9kLgXi3vNJYNNkLfWhZnzynGcZLN8KTTOi8S+uISLsDOJcRwitaSnkEzROIMMeoLG
+ 58xy7wUshKtDWX0p3yk9rEFKtVu5tpJ6BANPa/D7Mxg9uDZce6unDBjZsxeRgr17ZmOu
+ KmV7mLqlJLXMRbzmbgSR9gILYafA3hHaoxYmR5g5/w4UHDEM06P2ekTmi+xfxg9BdFmF
+ NTx8fYak39FQyEcLGEV8F9X5/gUjkgikmgZyoXSQYhHUwXXZmH+cwKezXB3t/lDZj+1E
+ 0sJRbXvJy79ovmcsYirW4KiOYN10y+A5A7jQxr18/Am1cps9juRk/ZRP50aazcjJJ6NQ
+ sWSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wu0Pst8qsNF6PrSvx6A5jOL5VHU873nOwjx/pikPcUo=;
- b=nJJDQhmlE8E2XHdSkXbuUotAd9s+Hlf4LI47eiR+rFO2jRuC9ZFw0VmY65a6XInF6N
- ooVYG+u0A1cfl1sJgZOYUJ529C1bb82aTvBACAsr4mQSTfTvSdwPUo4WtA755bH0v3r1
- mmcDdeGTi7NURP3Vus87EKw7zQK7Q4cZBnDcNERCjCAi0pRdK0RtyRe1BReOz7WW6SNy
- ej3aNpeJGD30+0rFMu6iEkdh7/PHUrlrPEQnsTG8Cxbk4qos1uGRUC17ZigjmZNSAGCb
- tFe8Jz4vOwxztlnV2Baj30NsaDVMjoCk/ckMnxdEBjILtS0uNexmvQqHxENessfpcaTu
- vKVw==
-X-Gm-Message-State: ANhLgQ26czb9zkolDkdiobc6ADzqeD+KwSrTlY3UNDf7IETli/7aFqsW
- 2t/+D8uOF7sMPUX2lW1uiWw=
-X-Google-Smtp-Source: ADFU+vvbgEGsIOHgvFKA0K9KKNp5KyEn6ZPMRYnYhNd+jdYHK25SYZ6564xO25cBn6sjr/HWadyK3A==
-X-Received: by 2002:a5d:4081:: with SMTP id o1mr27252445wrp.114.1584970111202; 
- Mon, 23 Mar 2020 06:28:31 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id b15sm23323763wru.70.2020.03.23.06.28.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 06:28:30 -0700 (PDT)
-Date: Mon, 23 Mar 2020 13:28:29 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Subject: Re: [PATCH v4] block/nvme: introduce PMR support from NVMe 1.4 spec
-Message-ID: <20200323132829.GJ261260@stefanha-x1.localdomain>
-References: <20200320215029.32727-1-andrzej.jakowski@linux.intel.com>
+ h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :content-transfer-encoding;
+ bh=rn1rzPyZjU/1uasX4nLAsRBp6Z3yrACVS7w/C5ZCX9E=;
+ b=gD8qNpjyNB3a9xyA7D5EizXFF7KPkEphL1EaO6eh7akbMiKhViIbeYhwCRaq+GPP7J
+ KwaLX4NInBFJuSHHkgeuXxJPuvu39nuphWBO8SHSCXZxWfm9yujdSiZLnR9/h0Qsxy2U
+ iD5tZclcLk2u3QgSdpPCaBGsliJc1T7tfpKY2gcLq/XgzM/O/hDdcXMXDJ7JnCcWmWlZ
+ +VGr6C3NOSZZeKSI2HmwYTQnOL4G8EwRmR8mcTUnKcVmh0YQTvgagTW9FAEqeTTus4nR
+ jyo8+3KVJNC5REZsxGnj77/YgVHOpsWccNtBU0Y6ameGLsaImtVt9h1aPhKtJ5dgommG
+ vI8A==
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rwgQ89ZNnFUwFHTC"
-Content-Disposition: inline
-In-Reply-To: <20200320215029.32727-1-andrzej.jakowski@linux.intel.com>
+X-Gm-Message-State: ANhLgQ20QCZKqtRCMMJrkdFsGnAFoUieAbfHgi2em7nUzf8t8PGvEKmn
+ +FluWJPE3aGpnhPbRbn41Ya9aYQdPIhv39Q9mOzpwr/VOYShGGOr/ZsnJmsRxgRkkuMjpcg8JbH
+ OCRXduEEW
+X-Google-Smtp-Source: ADFU+vv8MuenS8R5ry2qx46wBcwxJrWPxc3S3Nn2FVeAf73oMUwG6iP99FeBCSokK4B8UY/nHoPA8A==
+X-Received: by 2002:aa7:8f3a:: with SMTP id y26mr22191464pfr.180.1584941341253; 
+ Sun, 22 Mar 2020 22:29:01 -0700 (PDT)
+Received: from 31_216.localdomain ([47.75.244.237])
+ by smtp.gmail.com with ESMTPSA id o14sm7905195pfh.147.2020.03.22.22.28.59
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 22 Mar 2020 22:29:00 -0700 (PDT)
+From: Li Feng <fengli@smartx.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org (open list:Block layer core),
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH] fix vhost_user_blk_watch crash
+Date: Mon, 23 Mar 2020 13:29:24 +0800
+Message-Id: <20200323052924.29286-1-fengli@smartx.com>
+X-Mailer: git-send-email 2.11.0
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::544
+X-Mailman-Approved-At: Mon, 23 Mar 2020 09:32:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,92 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, haozhong.zhang@intel.com, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, dgilbert@redhat.com,
- qemu-devel@nongnu.org, yi.z.zhang@linux.intel.com, junyan.he@intel.com,
- kbusch@kernel.org, mreitz@redhat.com
+Cc: Li Feng <fengli@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+the G_IO_HUP is watched in tcp_chr_connect, and the callback
+vhost_user_blk_watch is not needed, because tcp_chr_hup is registered as
+callback. And it will close the tcp link.
 
---rwgQ89ZNnFUwFHTC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Li Feng <fengli@smartx.com>
+---
+ hw/block/vhost-user-blk.c          | 19 -------------------
+ include/hw/virtio/vhost-user-blk.h |  1 -
+ 2 files changed, 20 deletions(-)
 
-On Fri, Mar 20, 2020 at 02:50:29PM -0700, Andrzej Jakowski wrote:
-> This patch introduces support for PMR that has been defined as part of NV=
-Me 1.4
-> spec. User can now specify a pmrdev option that should point to HostMemor=
-yBackend.
-> pmrdev memory region will subsequently be exposed as PCI BAR 2 in emulate=
-d NVMe
-> device. Guest OS can perform mmio read and writes to the PMR region that =
-will stay
-> persistent across system reboot.
->=20
-> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
-> v3:
->  - replaced qemu_msync() use with qemu_ram_writeback() to allow pmem_pers=
-ist()
->    or qemu_msync() be called depending on configuration [4] (Stefan)
->  - rephrased comments to improve clarity and fixed code style issues [4]
->    (Stefan, Klaus)
->=20
-> v2:
->  - reworked PMR to use HostMemoryBackend instead of directly mapping PMR
->    backend file into qemu [1] (Stefan)
->=20
-> v1:
->  - provided support for Bit 1 from PMRWBM register instead of Bit 0 to en=
-sure
->    improved performance in virtualized environment [2] (Stefan)
->=20
->  - added check if pmr size is power of two in size [3] (David)
->=20
->  - addressed cross compilation build problems reported by CI environment
->=20
-> [1]: https://lore.kernel.org/qemu-devel/20200306223853.37958-1-andrzej.ja=
-kowski@linux.intel.com/
-> [2]: https://nvmexpress.org/wp-content/uploads/NVM-Express-1_4-2019.06.10=
--Ratified.pdf
-> [3]: https://lore.kernel.org/qemu-devel/20200218224811.30050-1-andrzej.ja=
-kowski@linux.intel.com/
-> [4]: https://lore.kernel.org/qemu-devel/20200318200303.11322-1-andrzej.ja=
-kowski@linux.intel.com/
-> ---
-> Persistent Memory Region (PMR) is a new optional feature provided in NVMe=
- 1.4
-> specification. This patch implements initial support for it in NVMe drive=
-r.
-> ---
->  hw/block/Makefile.objs |   2 +-
->  hw/block/nvme.c        | 109 ++++++++++++++++++++++++++
->  hw/block/nvme.h        |   2 +
->  hw/block/trace-events  |   4 +
->  include/block/nvme.h   | 172 +++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 288 insertions(+), 1 deletion(-)
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 12925a47ec..17df5338e7 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -349,18 +349,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev=
+)
+     vhost_dev_cleanup(&s->dev);
+ }
+=20
+-static gboolean vhost_user_blk_watch(GIOChannel *chan, GIOCondition cond,
+-                                     void *opaque)
+-{
+-    DeviceState *dev =3D opaque;
+-    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+-    VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+-
+-    qemu_chr_fe_disconnect(&s->chardev);
+-
+-    return true;
+-}
+-
+ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+ {
+     DeviceState *dev =3D opaque;
+@@ -373,15 +361,9 @@ static void vhost_user_blk_event(void *opaque, QEMUChr=
+Event event)
+             qemu_chr_fe_disconnect(&s->chardev);
+             return;
+         }
+-        s->watch =3D qemu_chr_fe_add_watch(&s->chardev, G_IO_HUP,
+-                                         vhost_user_blk_watch, dev);
+         break;
+     case CHR_EVENT_CLOSED:
+         vhost_user_blk_disconnect(dev);
+-        if (s->watch) {
+-            g_source_remove(s->watch);
+-            s->watch =3D 0;
+-        }
+         break;
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+@@ -428,7 +410,6 @@ static void vhost_user_blk_device_realize(DeviceState *=
+dev, Error **errp)
+=20
+     s->inflight =3D g_new0(struct vhost_inflight, 1);
+     s->vhost_vqs =3D g_new0(struct vhost_virtqueue, s->num_queues);
+-    s->watch =3D 0;
+     s->connected =3D false;
+=20
+     qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, vhost_user_blk_even=
+t,
+diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost-u=
+ser-blk.h
+index 05ea0ad183..34ad6f0c0e 100644
+--- a/include/hw/virtio/vhost-user-blk.h
++++ b/include/hw/virtio/vhost-user-blk.h
+@@ -38,7 +38,6 @@ typedef struct VHostUserBlk {
+     VhostUserState vhost_user;
+     struct vhost_virtqueue *vhost_vqs;
+     VirtQueue **virtqs;
+-    guint watch;
+     bool connected;
+ } VHostUserBlk;
+=20
+--=20
+2.11.0
 
-Excellent, thank you!
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+--=20
+The SmartX email address is only for business purpose. Any sent message=20
+that is not related to the business is not authorized or permitted by=20
+SmartX.
+=B1=BE=D3=CA=CF=E4=CE=AA=B1=B1=BE=A9=D6=BE=C1=E8=BA=A3=C4=C9=BF=C6=BC=BC=D3=
+=D0=CF=DE=B9=AB=CB=BE=A3=A8SmartX=A3=A9=B9=A4=D7=F7=D3=CA=CF=E4. =C8=E7=B1=
+=BE=D3=CA=CF=E4=B7=A2=B3=F6=B5=C4=D3=CA=BC=FE=D3=EB=B9=A4=D7=F7=CE=DE=B9=D8=
+,=B8=C3=D3=CA=BC=FE=CE=B4=B5=C3=B5=BD=B1=BE=B9=AB=CB=BE=C8=CE=BA=CE=B5=C4=
+=C3=F7=CA=BE=BB=F2=C4=AC=CA=BE=B5=C4=CA=DA=C8=A8.
 
---rwgQ89ZNnFUwFHTC
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uX0ACgkQnKSrs4Gr
-c8iQEAf/cbnhoB/JEBlSPfj2Lx/tCkA3d+vEK4/EAxcnI+E08emGETV4Fq9fuxr8
-68ApWlJOWoUFzne8UEzY6rDSwXEgS9cGeIJm2RBBZOcL1yJzZFe3i+bxuSxAdjUT
-f6zRzU/yLBEjSd/X4xF0fCYziGRY402DqkMzymGfJSsdEjb/OWRsCwIZlRRT3520
-X4/kPLUNGS1QUyh3OyJeV2dtIBdTLi2FvNDe179KF2NjKnHvl22uZ7j8IKV9ya7j
-cw76qWwZiSm5VwA9o1t+nuBeEIzazqMLIqG/vr/+H62D4SNtMgCSI/opCmoppC4K
-O5A9hYOijPO6EfzQbbRFYhb44oyPvQ==
-=mB7y
------END PGP SIGNATURE-----
-
---rwgQ89ZNnFUwFHTC--
 
