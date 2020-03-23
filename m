@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3138E18F39A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:22:14 +0100 (CET)
-Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B25C18F3AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:31:07 +0100 (CET)
+Received: from localhost ([::1]:60470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGL9p-0004H7-8q
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41779)
+	id 1jGLIQ-0006ob-2S
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:31:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1jGL8s-0003Tl-93
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:21:15 -0400
+ (envelope-from <philmd@redhat.com>) id 1jGLHD-0005z5-8v
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:29:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1jGL8r-00031e-1K
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:21:14 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:31872)
+ (envelope-from <philmd@redhat.com>) id 1jGLHB-0005mj-SZ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:29:50 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37425)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jGL8q-00031T-TX
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:21:12 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGLHB-0005mQ-PD
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:29:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584962472;
+ s=mimecast20190719; t=1584962988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZNP1c6+bHJwei3vGv3ZqII30uVCJcfMsUZXRcFPu6vc=;
- b=G9nv2Xg5NJPhKi5jPfRP5UjRDtf24W59SydxDO+sYRQ23sxFevzjgx0PJe3GBV5r4Fljmh
- Pi7ahR+/qxI9Dk/kTKND9xALEp6UipD86BXE5zNEb4EWi8VhGSmELvXpdmlgqq+eSUkMYD
- g/C1U5X4SwPoZGMNEuwExovfRweY0iQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-UPuEO9-1OYGVwQwXPDoVWg-1; Mon, 23 Mar 2020 07:21:10 -0400
-X-MC-Unique: UPuEO9-1OYGVwQwXPDoVWg-1
-Received: by mail-wm1-f71.google.com with SMTP id n188so3437112wmf.0
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:21:10 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fhwJZtBwYRaXFzRSpXf/3TnXWyCgxPyzLYcnsmKwQB0=;
+ b=M7ihXijJQy+AvGqmlVzJZCK8JqPJ9qKVyL/sBA38RTjLpI7vvEhJRudID8LisgxJLb/C9Z
+ Q2c3rzF5GC2NentovxhKKU5cav5ZBIyZTCfV4TyyS4FEms1AFtxw1R6oH9qHPgUhWAkaLu
+ seLiDmXD/Q1IerOv9dLnEHfggQY6+hw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-cb-_RE3uMOicLWY9ZN7ggQ-1; Mon, 23 Mar 2020 07:29:47 -0400
+X-MC-Unique: cb-_RE3uMOicLWY9ZN7ggQ-1
+Received: by mail-wr1-f70.google.com with SMTP id p2so7217972wrw.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:29:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mObUTRaw+KePQ33hPVYSH54M+JuZb3oIo2D5/6oNVx4=;
- b=qmWw5HoXPOmKCuZo05+Hyzd5F9oSn8MtICB67bsYigIvEPF/XaP85DSNKsGhWnfs8U
- za0oyUtUrPX4U2U8H5vkydAbhPZSrTp2wqzapauF+UexYxAb2/PDyAmn/g507zsyWzDD
- rri/iBUFWF8Xe1eowpyCZVcSO+7i+Xr206Ee+Xe9jKm2uCIWXHd/wwShIIbCwo5DY3ZS
- lV6m8IbX2ippJqPNj+LroMstRJHMwYFKmzr22+z66xaCb2K+l7Xnn6HzBPc+IEkOKgfa
- BZS3FebuwLwXxr4IFJelKYbnwwwWp/1RAhFvejG2K8o+es6g/WD2bn4nWm5SQAlvYDq2
- ImWw==
-X-Gm-Message-State: ANhLgQ2tbYa2cvIrZFm3rmxa6rGSBZzq4pwuamochceT+mKQt3iprZhm
- qlR10U07yBTvA8nWRJTqaAYN6Bwyr6ip7RS/v1tEn/W+TyIeKI4b2KCIkf8uqwitLPPYoEh6hSA
- c1CRaCeU8XBWHgLo=
-X-Received: by 2002:a05:600c:278a:: with SMTP id
- l10mr25743492wma.45.1584962469816; 
- Mon, 23 Mar 2020 04:21:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtDpwKmpZg/BOLqIG+Vc75EVX8Ngqoekze/4A9eUiV6/V282ByYqBuIu8K+rienvQAfvJhQXg==
-X-Received: by 2002:a05:600c:278a:: with SMTP id
- l10mr25743456wma.45.1584962469518; 
- Mon, 23 Mar 2020 04:21:09 -0700 (PDT)
-Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.201.32])
- by smtp.gmail.com with ESMTPSA id l17sm16871983wrm.57.2020.03.23.04.21.07
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QE3YIhEKTc4mAtyc7f+TWuDURZezsFuVLw+5KrPb2pk=;
+ b=HGYPsbvK27SVuqFLtt/tdOAq77kro6Sx0WgI0p6KL2yCZMrvkMolTiYU2P3rSDQpek
+ 3UNp/5GTyZHlzop/xvg00aq8apoqLj6YNDIX+hXFwW5+hvqzOjpKvpxfZA16etKnheMA
+ SmLAuaN8GwSTAwltRF2fH+9hBGx9M12A9HMV4hABfuG43oi+8ikXBwBMyRi3R4V1xQvL
+ 5HeomYJbpYijHFiF2HA5pxoJr0e6Tt20Ie/h3UgELr78Juelr2AZka4egryohjfJVxML
+ saHdFKYuWPjJ6tOFvgLyii/tY0+t4Vhedg5fkphes4N/0VHkRKyJTw4Z/YhHFqrwr2FG
+ qUDA==
+X-Gm-Message-State: ANhLgQ142ZLB1X4wvwkS2P8Lfe6UgXXKb8cPhOaIIz9zTaksZpYT3uAj
+ gbKutWHkH02sOnncL9nP5rUU3ArYlc4PSI9ShWN7Bb4KMdqpKQkQY+FtQSp4wcNXa/D0CvUhkos
+ zghiwsDRibaBM89A=
+X-Received: by 2002:adf:ecc7:: with SMTP id s7mr30034804wro.386.1584962985763; 
+ Mon, 23 Mar 2020 04:29:45 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtfTXtWyH6cpsUMviBjHZxkD6T+5CgBUIxZPwW1jvWGxCCuuROtgAhBv8qApvmta6GhlcZwIQ==
+X-Received: by 2002:adf:ecc7:: with SMTP id s7mr30034778wro.386.1584962985551; 
+ Mon, 23 Mar 2020 04:29:45 -0700 (PDT)
+Received: from localhost.localdomain (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id w11sm23547796wrv.86.2020.03.23.04.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 04:21:08 -0700 (PDT)
-Date: Mon, 23 Mar 2020 12:21:06 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] qemu-ga: document vsock-listen in the man page
-Message-ID: <20200323112106.zhcir23sa4ipll7l@steredhat>
-References: <20200323110408.309111-1-stefanha@redhat.com>
+ Mon, 23 Mar 2020 04:29:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0 0/3] virtio,vhost-gpu: Release memory returned by
+ malloc() with free()
+Date: Mon, 23 Mar 2020 12:29:40 +0100
+Message-Id: <20200323112943.12010-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200323110408.309111-1-stefanha@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,70 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 23, 2020 at 11:04:08AM +0000, Stefan Hajnoczi wrote:
-> Although qemu-ga has supported vsock since 2016 it was not documented on
-> the man page.
->=20
-> Also add the socket address representation to the qga --help output.
->=20
-> Fixes: 586ef5dee77180fc32e33bc08051600030630239
->        ("qga: add vsock-listen method")
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  docs/interop/qemu-ga.rst | 5 +++--
->  qga/main.c               | 4 +++-
->  2 files changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
-> index 1313a4ae1c..3063357bb5 100644
-> --- a/docs/interop/qemu-ga.rst
-> +++ b/docs/interop/qemu-ga.rst
-> @@ -36,13 +36,14 @@ Options
->  .. option:: -m, --method=3DMETHOD
-> =20
->    Transport method: one of ``unix-listen``, ``virtio-serial``, or
-> -  ``isa-serial`` (``virtio-serial`` is the default).
-> +  ``isa-serial``, or ``vsock-listen`` (``virtio-serial`` is the default)=
-.
-> =20
->  .. option:: -p, --path=3DPATH
-> =20
->    Device/socket path (the default for virtio-serial is
->    ``/dev/virtio-ports/org.qemu.guest_agent.0``,
-> -  the default for isa-serial is ``/dev/ttyS0``)
-> +  the default for isa-serial is ``/dev/ttyS0``). Socket addresses for
-> +  vsock-listen are written as ``<cid>:<port>``.
-> =20
->  .. option:: -l, --logfile=3DPATH
-> =20
-> diff --git a/qga/main.c b/qga/main.c
-> index 8ee2736f8e..f0e454f28d 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -234,7 +234,9 @@ QEMU_COPYRIGHT "\n"
->  "  -p, --path        device/socket path (the default for virtio-serial i=
-s:\n"
->  "                    %s,\n"
->  "                    the default for isa-serial is:\n"
-> -"                    %s)\n"
-> +"                    %s).\n"
-> +"                    Socket addresses for vsock-listen are written as\n"
-> +"                    <cid>:<port>.\n"
->  "  -l, --logfile     set logfile path, logs to stderr by default\n"
->  "  -f, --pidfile     specify pidfile (default is %s)\n"
->  #ifdef CONFIG_FSFREEZE
-> --=20
-> 2.24.1
->=20
+Coverity reported a ALLOC_FREE_MISMATCH in vg_handle_cursor(),
+because the memory returned by vu_queue_pop() is allocated with
+malloc(). Fix it.
 
-Thanks to update it!
-I updated the wiki page some months ago, adding an example, but I forgot to
-check the most important man page and --help output.
+Similar error occurs with virtio. Document and fix.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Philippe Mathieu-Daud=C3=A9 (3):
+  vhost-user-gpu: Release memory returned by vu_queue_pop() with free()
+  virtio: Document virtqueue_pop()
+  virtio-gpu: Release memory returned by virtqueue_pop() with free()
+
+ include/hw/virtio/virtio.h              | 8 ++++++++
+ contrib/vhost-user-gpu/vhost-user-gpu.c | 4 ++--
+ contrib/vhost-user-gpu/virgl.c          | 2 +-
+ hw/display/virtio-gpu-3d.c              | 2 +-
+ hw/display/virtio-gpu.c                 | 8 ++++----
+ 5 files changed, 16 insertions(+), 8 deletions(-)
+
+--=20
+2.21.1
 
 
