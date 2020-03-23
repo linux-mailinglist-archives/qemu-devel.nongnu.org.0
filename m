@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DE718F986
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:19:56 +0100 (CET)
-Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075D018F995
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:23:04 +0100 (CET)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGPnv-0006RE-3X
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1jGPqx-0003PG-4U
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPjb-0000wa-Bm
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:29 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jGPji-00015e-M3
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPja-0002Sm-43
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:27 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38651)
+ (envelope-from <alex.bennee@linaro.org>) id 1jGPjh-0002VH-Ex
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:34 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38880)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jGPjZ-0002Sb-UZ
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:26 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l20so119861wmi.3
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:15:25 -0700 (PDT)
+ id 1jGPjh-0002UO-7J
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:33 -0400
+Received: by mail-wr1-x431.google.com with SMTP id s1so17841407wrv.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8P3sGDqi30dQIBWbHsRxQdWnqMEvDzwadX4cKsMTRfY=;
- b=ovsw7vOHGD5shxJ0DRvENojIpEzGgZBYCTE1rxOd2eRPgq3mSZ7QhuJPmYghFHBjVn
- 1+YXOP9w0NnZaXHmDviOj3rz37h3VPC8rEVCC8VuqhRXX9rLQMsD+eJQirWSbHRW1fgn
- hOr1FLoCtMbjplKnyrKLbLvyxSNBJULGylYFnsq4Vr9j8Col46UcWNGnqocKKAVJmSet
- 6YxRgRDqgahYX9sWAUvmqt2CmSALpcHaSN/5UfPUliwoUBscE/mHN4XVJ0VO94IOHIVh
- BYTNBY0p3z20iGu4z5521mg79jCBhNwAfayokkpOFn8cSGlm4nXzeY1weP5PCnHVq5Ck
- GNaw==
+ bh=GWpaGgJBBKHI2u82TdJ05zR+bPFqQ/v/yXnHLn6lLAk=;
+ b=HGatRUUi424vxqWstzhFt4pEox7tInipvJjE0U5Bi2fobsaU2Rwasw9e3gLw9R7dgW
+ nPwTI2oqR0BGjeW1WYD3F2NIBKcNDFqje7i7f0PrmQiTITFUr6Kyp+ao2vJkGucKX0ZD
+ gKB71wLeCoEjP+1Cz0eHjU/tI1JT9fsG61urZQS3vyQuGX54QKQBOSTMy5wO8c0BjAG8
+ ESQjG+muQV9f7EXFgN3PUF+9J29FOrm2S6kK6OglDsQCDALLrl4wo129TomlOSYrMuve
+ fWg63fQyFlBT/77Olb0RmzhXuG7XUE/Ooqv5l7dUlv2huYVklv3+EN2BhAnLiHMAY3un
+ QXGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8P3sGDqi30dQIBWbHsRxQdWnqMEvDzwadX4cKsMTRfY=;
- b=tfuCnbKW/4wTRTqm9bDURTaL6CR8Pw8yShNOt01bzn1iEviKWi01eeZlzvYRCiw8Zy
- tKs7/6Fx9NLhuWOqL0+E5Cw7CC+4AN6SvbB/8VSIvsxujTe2f7DyA6l3masEAtA6AW9J
- KopELP6toOGYPOP94v2hncstKJ8vQ5AVqor7uNub406HyulHSxgJM+JTCsCr/AbMtJEe
- 70f1yE2/+1BEbS0nbmm3tRNQzPaF7oIMqG/+oMd7QwEJjKWA9aIhnCKaeBNOC3fC+Uir
- mefbgazskcWEiTNFl6ngbB/c4QJ+uKd0B6BhL+jm7v63Ye4HluI23BlpZPy7D3IoU7yO
- 6TVA==
-X-Gm-Message-State: ANhLgQ23RkUEtCECI0oNWpBmaRFivPucegkGks2Umj9l5qVJ2C8Fl49U
- 6t1gj4rG1EYR9rgapJ1PaWKPLw==
-X-Google-Smtp-Source: ADFU+vsQHgpKM1jaKhc/J8UomdFBd0g4fTNMI8xSUSs4byCOwFCderP7fmxwsE5rhOomr2Ul7Gj9Ag==
-X-Received: by 2002:a05:600c:2193:: with SMTP id
- e19mr17151wme.142.1584980124816; 
- Mon, 23 Mar 2020 09:15:24 -0700 (PDT)
+ bh=GWpaGgJBBKHI2u82TdJ05zR+bPFqQ/v/yXnHLn6lLAk=;
+ b=ToXEmJ9qofooK1lNlLDunixELtOGD6jCililrRVi5kweWrGKeF4iatI6QEJupCY6zz
+ Nyd4ST2zAiHjuGJtYu3S40Dujp1FhXbPERIaXVuoiqlL/xAqn+YC+VPibZaCWwIq19Cd
+ xelUyIC+2jtnKoKlzkNQ4XwMPBbidlELMnUa21gclBode+JyhcjGRAZXhS1H1ZV5CSk0
+ HhrtzD3Y1kLVrS+iykG5c6rCozH0BzhNGgkdFrlpCG/8UJxpXOUrPu52ZmH1cKKrTbH7
+ TvqeiVLFLC+h3lQUKmc1XxMrs4Dd2Mkx4XG67rSCcIY+DewjY7DY79HMXsNLkEc6wxdr
+ rVhA==
+X-Gm-Message-State: ANhLgQ1aau78960WMoC4yi8kTBHTqBTZ4f+BYb8OEjr6ngiDu3NcFhdm
+ xFF4e8yeBHjayE5l+KAeUbbWVAQABos=
+X-Google-Smtp-Source: ADFU+vsWoc7N33ut8AjYWF9aXG2mJzsmQiKTRJIPnaVy2Z3cbIL4FSi25nAjxckJIUrL2GUHwt3Kmg==
+X-Received: by 2002:a5d:4e05:: with SMTP id p5mr31005646wrt.59.1584980131129; 
+ Mon, 23 Mar 2020 09:15:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s15sm25633956wrr.45.2020.03.23.09.15.17
+ by smtp.gmail.com with ESMTPSA id i67sm25000775wri.50.2020.03.23.09.15.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 09:15:17 -0700 (PDT)
+ Mon, 23 Mar 2020 09:15:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CEFF11FF92;
- Mon, 23 Mar 2020 16:15:15 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 03C151FF93;
+ Mon, 23 Mar 2020 16:15:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 06/11] configure: disable MTTCG for MIPS guests
-Date: Mon, 23 Mar 2020 16:15:09 +0000
-Message-Id: <20200323161514.23952-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 07/11] tests/docker: Keep package list sorted
+Date: Mon, 23 Mar 2020 16:15:10 +0000
+Message-Id: <20200323161514.23952-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200323161514.23952-1-alex.bennee@linaro.org>
 References: <20200323161514.23952-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,70 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While debugging check-acceptance failures I found an instability in
-the mips64el test case. Briefly the test case:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
-    -display none -vga none -serial mon:stdio \
-    -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
-    -cpu I6400 -smp 8 -vga std \
-    -append "printk.time=0 clocksource=GIC console=tty0 console=ttyS0 panic=-1" \
-    --no-reboot
+Keep package list sorted, this eases rebase/cherry-pick.
 
-Reports about a 9% failure rate:
-
-  Results summary:
-  0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
-  -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
-  Ran command 100 times, 91 passes
-
-When re-run with "--accel tcg,thread=single" the instability goes
-away.
-
-  Results summary:
-  0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 deviation)
-  Ran command 100 times, 100 passes
-
-Which seems to indicate there is some aspect of the MIPS MTTCG fixes
-that has been missed. Ideally we would fix that but I'm afraid I don't
-have time to investigate and am not super familiar with the
-architecture anyway. In lieu of someone tracking down the failure lets
-disable it for now.
-
+Fixes: 3a6784813
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-
+Message-Id: <20200322120104.21267-2-philmd@redhat.com>
 ---
-v2
-  - only drop mip64le
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/dockerfiles/centos7.docker | 6 ++++--
+ tests/docker/dockerfiles/fedora.docker  | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 4f12cd01777..a83c6450840 100755
---- a/configure
-+++ b/configure
-@@ -7885,7 +7885,7 @@ case "$target_name" in
-     TARGET_SYSTBL_ABI=n32
-   ;;
-   mips64|mips64el)
--    mttcg="yes"
-+    mttcg="no"
-     TARGET_ARCH=mips64
-     TARGET_BASE_ARCH=mips
-     echo "TARGET_ABI_MIPSN64=y" >> $config_target_mak
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+index cdd72de7ebf..9a2a2e515d7 100644
+--- a/tests/docker/dockerfiles/centos7.docker
++++ b/tests/docker/dockerfiles/centos7.docker
+@@ -2,6 +2,8 @@ FROM centos:7
+ RUN yum install -y epel-release centos-release-xen-48
+ 
+ RUN yum -y update
++
++# Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bison \
+     bzip2 \
+@@ -19,6 +21,7 @@ ENV PACKAGES \
+     libepoxy-devel \
+     libfdt-devel \
+     librdmacm-devel \
++    libzstd-devel \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
+@@ -33,7 +36,6 @@ ENV PACKAGES \
+     tar \
+     vte-devel \
+     xen-devel \
+-    zlib-devel \
+-    libzstd-devel
++    zlib-devel
+ RUN yum install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index a6522228c02..019eb12dcb1 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,6 @@
+ FROM fedora:30
++
++# Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     bc \
+     bison \
+@@ -38,6 +40,7 @@ ENV PACKAGES \
+     libubsan \
+     libusbx-devel \
+     libxml2-devel \
++    libzstd-devel \
+     llvm \
+     lzo-devel \
+     make \
+@@ -92,8 +95,7 @@ ENV PACKAGES \
+     vte291-devel \
+     which \
+     xen-devel \
+-    zlib-devel \
+-    libzstd-devel
++    zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
+ 
+ RUN dnf install -y $PACKAGES
 -- 
 2.20.1
 
