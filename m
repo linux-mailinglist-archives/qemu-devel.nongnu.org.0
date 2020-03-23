@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D3518F3E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:50:36 +0100 (CET)
-Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06A318F3F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 12:55:41 +0100 (CET)
+Received: from localhost ([::1]:60772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGLbH-0005KU-Au
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45127)
+	id 1jGLgC-0008PW-W7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 07:55:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jGLa2-0004ua-C4
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:49:19 -0400
+ (envelope-from <mlureau@redhat.com>) id 1jGLfH-0007gS-PJ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jGLa1-0005L3-9x
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:49:18 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53660)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jGLa1-0005Ki-4N
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:49:17 -0400
-Received: by mail-wm1-x331.google.com with SMTP id b12so1298504wmj.3
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6ugVyVHamM0S6zQ0REmf8yJDkXLxnl3i0L0vqbG9BsE=;
- b=QwECtmxszVvGx+VNrp0krL/7dETiKdCX9HjiDjy9VRB/T9M3jicSux7LiTPhB3+m10
- DM2rYgP0T49HFNK/1XX3b1nF8cn3WP1XeJQHCIauzrhfRn6QELdqwroYPMn8K9S8Jvoy
- zQfZIomuET8TzcMjtqqIRsDe2XxmA/wUkGbSlV6sS40XNR/tm5JWTrmQY/VPKoiaAfd6
- Sb40R6cIEMNkwOYUUc/ZvOhmkvCmZM/kpn2VjkDogvmyhNIym3Fwr2wlVU+MSVWOAG+P
- OgsAVtPbEK4G0wyxIZySGnVzKeyoYWO0cqKMg0YAUcbvcCgLfSdgIqtnQMQfhLJ/dvN+
- xBYg==
+ (envelope-from <mlureau@redhat.com>) id 1jGLfG-0007Al-Nl
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:31171)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1jGLfG-0007AV-Kg
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 07:54:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584964482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gKBLv5hrIQfASAmROd8gvaNOJ705AM65DBfbKWvDjC0=;
+ b=gzhkXW0cBd3K8iDqAPmSls4fXAyPH3lakIaakh9O0RqoQabB/du3WfMdVFvwjT74r3VVIe
+ 6Bx70AEg/VM8ggDn1s9SzZmwhf8GRbDUY1Y1yTTMKbmdEFF+QsrAzzQFuCtwpzKpoMo6IH
+ JSSjGR3KRfZwoBZguBVcAQkDiESWOp0=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-wixl5HJWMQOaFZEaMkYhDA-1; Mon, 23 Mar 2020 07:54:40 -0400
+X-MC-Unique: wixl5HJWMQOaFZEaMkYhDA-1
+Received: by mail-oi1-f198.google.com with SMTP id t12so10084815oih.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 04:54:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6ugVyVHamM0S6zQ0REmf8yJDkXLxnl3i0L0vqbG9BsE=;
- b=C0eAJ1CIkgH+X6cFwTs7AZAbSwKbP++3EIBMHFR+8sz3bHOSVe1vqwBPXCXmMBGkKb
- gc/6sEUwrevuAoZ/1iKTgc2kZVY3Nx3ToryEWhV6AsbmhF9yxPnk5U2NqtSazSd7+pNm
- X7bakVGRxAUJEdxVwdKwOjlpGfqUi/5Ed6cPhNkKytmj3uXzHoVT8uhYsia6/PgIQ6Io
- QHwGRL8wmpSYGN1jTV4Cn49oyFVPcBv5f3IFQRkz/43Jwtrtzxb1C8PXMTCDoMOZcNTn
- IER4rJFZXM4OndHTWrYATm/h+b3mpkJYP36msseZCE5hu6MXnSy9TcIyRShUQjthTxxX
- nkBA==
-X-Gm-Message-State: ANhLgQ3Rstk/eeazMG+dFy1JjZjAVBRjW/0mHTWBZz96w8GKSMNNgap0
- jH3ObeoFkuhkOeqLbzlHmcxDUHpzUReOYBhV7Gg=
-X-Google-Smtp-Source: ADFU+vuRpTuMpkqpEhwYtbEc/YFMVoG81HQTJcEBWEbcB0nQKvXO5qqXjM22FDjjf7BlMtAzxi5T5riLd62GekeF73U=
-X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr13320221wmd.26.1584964155984; 
- Mon, 23 Mar 2020 04:49:15 -0700 (PDT)
+ bh=gKBLv5hrIQfASAmROd8gvaNOJ705AM65DBfbKWvDjC0=;
+ b=TvmbPea8YuG8EpDgGu+vkCbV2zwvJSYU435AF3PXJJ9k9S55PZsi4GoZKhJ14ENvRF
+ QIwrGOQjbjFrAa4JMwUiBTFM8iPzzDH1C8Bhh6QuFS5LgD3PawZaCA2ZiUuXZrD18C/m
+ GOQfEQqb1iLwWjKPZ6gfNjXk3XRZ/PaaUD+GVde9TK5PiSRX4GxQbX4aaWAn7qahsqYy
+ IhOK9L6aZCcuv6BWMJT1N730m8GLW0QTDRa/BC28B8hHI4wQO8WM9D/kJ2CfdRy/UPDm
+ iSXURTacd/XcSPZ33TXO15pXp/raUhFEzGaT/VV7Wgnt5vpom0K9OcpKUFyaCbq4vGRG
+ wBAA==
+X-Gm-Message-State: ANhLgQ0MY2Fd3rR8SA385exrS+LS1fYwewtrHfdtJy38Da5r/wHw9tZ6
+ eCeGm2pHM1o6ZW0hQWiklwcTgQsx8X/ULWayDIvilaN2WsfQ2NXnWWU1ceDy4FkWT0HZ3ItuKhS
+ L/bd+E8gVMhsQl2RymdNCjwX+JnAnuQ4=
+X-Received: by 2002:a05:6830:1d4f:: with SMTP id
+ p15mr16649689oth.38.1584964479667; 
+ Mon, 23 Mar 2020 04:54:39 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vua3klCde2YzKOay3xDWKiz6c/RDthBkTkVFJ0/wwOgP+bbORT6YfsqIsaNIo9cjeekvvZPLr45fkBbX2AfXrY=
+X-Received: by 2002:a05:6830:1d4f:: with SMTP id
+ p15mr16649673oth.38.1584964479448; 
+ Mon, 23 Mar 2020 04:54:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200322171635.678219-1-marcandre.lureau@redhat.com>
- <20200322171635.678219-2-marcandre.lureau@redhat.com>
- <87h7yfb8qs.fsf@linaro.org>
-In-Reply-To: <87h7yfb8qs.fsf@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 23 Mar 2020 12:49:04 +0100
-Message-ID: <CAJ+F1CL1dRGRb0Yobk4H1Kyqrf0owB9HT7ZgHWus+1V4LVo+HQ@mail.gmail.com>
-Subject: Re: [PULL v3 1/1] slirp: update submodule to v4.2.0+
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20200323112943.12010-1-philmd@redhat.com>
+ <20200323112943.12010-2-philmd@redhat.com>
+In-Reply-To: <20200323112943.12010-2-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 23 Mar 2020 12:54:28 +0100
+Message-ID: <CAMxuvawOrkkiLZG4SPq-BdSmi6Ur9xt37AWgtPoVogpWPVuzrQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 1/3] vhost-user-gpu: Release memory returned by
+ vu_queue_pop() with free()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +84,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-stable <qemu-stable@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Mon, Mar 23, 2020 at 12:29 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> vu_queue_pop() returns memory that must be freed with free().
+>
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Coverity (CID 1421887 ALLOC_FREE_MISMATCH)
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-On Mon, Mar 23, 2020 at 12:40 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
->
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
->
-> > git shortlog
-> > 126c04acbabd7ad32c2b018fe10dfac2a3bc1210..55ab21c9a36852915b81f1b41ebaf=
-3b6509dd8ba
-> >
-> <snip>
-> >       build-sys: make libslirp-version.h depend on Makefile
->
-> FWIW I ran into a build error when I updated to the latest tree. It was
-> failing while building version.o. In the end I tracked it down to a
-> duplicate of slirp/src/libslirp-version.h (one in the build tree and one
-> in the src tree). I didn't spot it for a while because git was telling
-> me the tree was clean because of .gitignore:
->
->   /src/libslirp-version.h
->
-> Is this stale now? Is slirp always built out of tree?
->
-
-The rule to build libslirp-version.h hasn't changed much:
-https://gitlab.freedesktop.org/slirp/libslirp/-/blob/master/Makefile#L26
-
-I think this means that at some point, you built qemu/slirp in tree,
-and /src/libslirp-version.h was left, conflicting with out-of-tree
-version.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+> ---
+>  contrib/vhost-user-gpu/vhost-user-gpu.c | 4 ++--
+>  contrib/vhost-user-gpu/virgl.c          | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user=
+-gpu/vhost-user-gpu.c
+> index b45d2019b4..a019d0a9ac 100644
+> --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
+> +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
+> @@ -848,7 +848,7 @@ vg_handle_ctrl(VuDev *dev, int qidx)
+>              QTAILQ_INSERT_TAIL(&vg->fenceq, cmd, next);
+>              vg->inflight++;
+>          } else {
+> -            g_free(cmd);
+> +            free(cmd);
+>          }
+>      }
+>  }
+> @@ -939,7 +939,7 @@ vg_handle_cursor(VuDev *dev, int qidx)
+>          }
+>          vu_queue_push(dev, vq, elem, 0);
+>          vu_queue_notify(dev, vq);
+> -        g_free(elem);
+> +        free(elem);
+>      }
+>  }
+>
+> diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virg=
+l.c
+> index 43413e29df..b0bc22c3c1 100644
+> --- a/contrib/vhost-user-gpu/virgl.c
+> +++ b/contrib/vhost-user-gpu/virgl.c
+> @@ -519,7 +519,7 @@ virgl_write_fence(void *opaque, uint32_t fence)
+>          g_debug("FENCE %" PRIu64, cmd->cmd_hdr.fence_id);
+>          vg_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
+>          QTAILQ_REMOVE(&g->fenceq, cmd, next);
+> -        g_free(cmd);
+> +        free(cmd);
+>          g->inflight--;
+>      }
+>  }
+> --
+> 2.21.1
+>
 
---=20
-Marc-Andr=C3=A9 Lureau
 
