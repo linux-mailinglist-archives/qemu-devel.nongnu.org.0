@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869E918F731
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 15:49:14 +0100 (CET)
-Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D3E18F72F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 15:48:30 +0100 (CET)
+Received: from localhost ([::1]:34869 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGOO9-0001Bl-I5
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 10:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43236)
+	id 1jGONR-00007z-PW
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 10:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGOL8-0005uP-34
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:07 -0400
+ (envelope-from <wrampazz@redhat.com>) id 1jGOLG-00064o-DM
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGOL6-0001BC-6G
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:05 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40948)
+ (envelope-from <wrampazz@redhat.com>) id 1jGOLF-0001Fr-6T
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:14 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26425)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGOL6-0001AT-2I
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:04 -0400
+ (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jGOLF-0001Fk-1t
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 10:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584974763;
+ s=mimecast20190719; t=1584974772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8rbiNVhEwOTNTE5kCQAB4GuD6vGvYD7Ldckz1YJB6Cc=;
- b=DGnrMSQ79eAW3nk/IAVgMVpJkr4WY/iOAZcLTlXWuszDEupeuoTH/ezstpxArFkQl9C8H0
- 5HbUvt45qTpAidranEBqvOoafjGHyqKhjRkBETdGISfHilG+3/cVyc+KstnDqwG/9oDNoY
- OA8PfVnfKTjX+4V+iPnUXW8lLtjo6NM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-cWDwpw5zPACeDh0fkRl6YQ-1; Mon, 23 Mar 2020 10:45:58 -0400
-X-MC-Unique: cWDwpw5zPACeDh0fkRl6YQ-1
-Received: by mail-wm1-f71.google.com with SMTP id n188so3646522wmf.0
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 07:45:58 -0700 (PDT)
+ bh=bq/qMCEDRBtHrycFFa0eqvFbhbbxHXYnkWVuyjN+TmA=;
+ b=iKpbv/fvMH7Rm2imQiOClQZk7rBJi+/DyaS1auqeOjtICb01f7WgeFrp2YAwVxVBp641tn
+ GJ3oJNCp0Wy4+qYs4IIk9eeuCAHYAgoqIIgy31mw+ob7V25IgTCAqdmKiMeMalmjuHv47D
+ Ni8DTxuk0pXzReeuVyWARfx5WlXcviI=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-Zhxtoe45MoCMKjQbZy2qMQ-1; Mon, 23 Mar 2020 10:46:10 -0400
+X-MC-Unique: Zhxtoe45MoCMKjQbZy2qMQ-1
+Received: by mail-vk1-f197.google.com with SMTP id q65so5249904vka.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 07:46:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V2ANNl8/EtbHEsvrQEItRdzFbI+QSLZWoQl4H0q+yj8=;
- b=Oayw4IJjcrwecK78dcLJLgT9btDNc+VVNoWm62vxyZoytBKlXSPbqI2IZHWAl/RvJg
- xgquMldNyQT4ULW99PaH7k9emzy5Amtj0mpBTC8tVo2BOzKGVLM7gmMAW7qqtrERsd6U
- gQxemmnI4TJLwzVh2eMACU2I4xvqmERNnQYQyRogjn9qQuYoIU7hGydkaOA68lpS7ahl
- vj+H/LKp7YlTEjw+dFqMMkkJMMaP0moFe0oTIvsUV23g3hVdaSozXazYqEBR52rgu8br
- eym+DeqZKVM6XoPX6NCtn1cc3sIKL5u4JirrTJXITZpx01arw713KdpfeQhnRBbxp3u1
- 6pWA==
-X-Gm-Message-State: ANhLgQ0E5aq89rnf1czfTvvB08JpHUdmfYpNNELED8nWRo6OtbD8cY1f
- fR04tmcA2feLi4WO52Cyj4eOWT4GeqSU8hn4AekvMxTsEBW81lsNNKX9CNK7rdEZwhVK0a2s3tY
- j4dCufvEd/+Leq3k=
-X-Received: by 2002:a1c:4c19:: with SMTP id z25mr3837603wmf.46.1584974757514; 
- Mon, 23 Mar 2020 07:45:57 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsmMyws088pfHXqIv0W5NO5iVC88qGt3tp/WqmTR6UgKsOiFeVz1tOPDxjslsxdjPCaHAb9HA==
-X-Received: by 2002:a1c:4c19:: with SMTP id z25mr3837522wmf.46.1584974756932; 
- Mon, 23 Mar 2020 07:45:56 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id k84sm22270879wmk.2.2020.03.23.07.45.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 07:45:56 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0 v2 00/11] misc: Trivial static code analyzer fixes
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200321144110.5010-1-philmd@redhat.com>
- <1c711740-6166-c730-ef67-d07511add1e6@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <262f8318-1590-1c48-f4de-a6482fdc3071@redhat.com>
-Date: Mon, 23 Mar 2020 15:45:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3We6DcaiUowceXNyyKIGcg8niQTii8dUv2RcndUIbEE=;
+ b=FwwjYt5J7eDQWhop+pilhhhV2cVS63gLURaDrndFOoClBrmr2W4IwA/GJ90UswcwzE
+ hUNJFw4+P9K3wSmE6RO7SWcPvs2w2mFYDEDOe9v+vR9GpOpbIpeMHw+req7GNFdFQGFu
+ fPlOkEl86129UEAgXN44YQ3eCau/IEeZFTKJx8EVJpDi7pR3x/th+HsXJQkA15RHPwkj
+ COVi3UV3vjL+1Z173RB7C0M3pCpfQz5j+SGGm1hMVHBBvqd9eW2EXsIW0VMkxD+eTG0M
+ REq/OzUQjW4gbFsrk4ibypmCCyp2BmzET2mMe59g2bnydQALuBMs/lTQAd20vPj5UXyD
+ 2qbA==
+X-Gm-Message-State: ANhLgQ2IsywB1m2nWPfJVFACCjBUUVbxZT13eAn504QPjM8S7W073P3v
+ P7s9VLjXMWohcTBAoEx6LFUVIkl2VYraM7UCQrL0dUe4HhOAagKvnEfwmLn+CoprlfrJ6AABSfd
+ lc5nZPjmxke5EXG0CTOQiugwDU8MD3Q0=
+X-Received: by 2002:a05:6102:758:: with SMTP id
+ v24mr5136401vsg.28.1584974770216; 
+ Mon, 23 Mar 2020 07:46:10 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtQ16rUnXy0VCLJz4nl764qQJpWIXDmsxp1Hwig0+hoUhyib9Q+Teoo3FfZ+SjP719vBlQg3c/mSyfdY8SzQl4=
+X-Received: by 2002:a05:6102:758:: with SMTP id
+ v24mr5136382vsg.28.1584974769970; 
+ Mon, 23 Mar 2020 07:46:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1c711740-6166-c730-ef67-d07511add1e6@vivier.eu>
-Content-Language: en-US
+References: <20200323103016.17368-1-ovoshcha@redhat.com>
+ <20200323103016.17368-2-ovoshcha@redhat.com>
+In-Reply-To: <20200323103016.17368-2-ovoshcha@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 23 Mar 2020 11:45:58 -0300
+Message-ID: <CAKJDGDbVsnA2hstY_wQPnpkPoV2Vaf6wumMg==gpiOChh9BL3w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] Acceptance test: adds param 'address' in
+ _get_free_port
+To: Oksana Vohchana <ovoshcha@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,76 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Max Reitz <mreitz@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer Moschetta <wainersm@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/23/20 3:32 PM, Laurent Vivier wrote:
-> Le 21/03/2020 =C3=A0 15:40, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
->> Fix trivial warnings reported by the Clang static code analyzer.
->>
->> Since v1:
->> - Addressed Markus/Zoltan/Aleksandar review comments
->>
->> Philippe Mathieu-Daud=C3=A9 (11):
->>    block: Avoid dead assignment
->>    blockdev: Remove dead assignment
->>    hw/i2c/pm_smbus: Remove dead assignment
->>    hw/input/adb-kbd: Remove dead assignment
->>    hw/ide/sii3112: Remove dead assignment
->>    hw/isa/i82378: Remove dead assignment
->>    hw/gpio/aspeed_gpio: Remove dead assignment
->>    hw/timer/exynos4210_mct: Remove dead assignments
->>    hw/timer/stm32f2xx_timer: Remove dead assignment
->>    hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warnin=
-g
->>    hw/scsi/esp-pci: Remove dead assignment
->>
->>   block.c                    | 2 +-
->>   blockdev.c                 | 2 +-
->>   hw/gpio/aspeed_gpio.c      | 2 +-
->>   hw/i2c/pm_smbus.c          | 1 -
->>   hw/ide/sii3112.c           | 5 +++--
->>   hw/input/adb-kbd.c         | 6 +-----
->>   hw/isa/i82378.c            | 8 ++++----
->>   hw/scsi/esp-pci.c          | 1 -
->>   hw/timer/exynos4210_mct.c  | 3 ---
->>   hw/timer/pxa2xx_timer.c    | 1 +
->>   hw/timer/stm32f2xx_timer.c | 1 -
->>   11 files changed, 12 insertions(+), 20 deletions(-)
->>
->=20
-> I think your series covers cases already covered by:
->=20
-> [PATCH v3 00/12] redundant code: Fix warnings reported by Clang static
-> code analyzer
-> https://patchew.org/QEMU/20200302130715.29440-1-kuhn.ch
+On Mon, Mar 23, 2020 at 7:30 AM Oksana Vohchana <ovoshcha@redhat.com> wrote=
+:
+>
+> In the migration test function _get_free_port works only for localhost,
+> but in the case to use migration through an RDMA we need to get a free po=
+rt
+> on the configured network RDMA-interface.
+> This patch is the start for another migration option
+>
+> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+> ---
+>  tests/acceptance/migration.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.p=
+y
+> index a8367ca023..e4c39b85a1 100644
+> --- a/tests/acceptance/migration.py
+> +++ b/tests/acceptance/migration.py
+> @@ -52,8 +52,8 @@ class Migration(Test):
+>          source_vm.qmp('migrate', uri=3Dsrc_uri)
+>          self.assert_migration(source_vm, dest_vm)
+>
+> -    def _get_free_port(self):
+> -        port =3D network.find_free_port()
+> +    def _get_free_port(self, address=3D'localhost'):
+> +        port =3D network.find_free_port(address=3Daddress)
+>          if port is None:
+>              self.cancel('Failed to find a free port')
+>          return port
+> --
+> 2.21.1
+>
 
-Unfortunately [for me...] I don't have v3 in my INBOX... *sigh*
-This was 3 weeks ago. *sigh*.
+Just confirming,
 
-I can see the series in the archives:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg00219.html
-But I can't find the outcome, was it queued in the trivial tree?
-Any idea when this will be merged in the master tree?
-
-What a waste of time...
-
->=20
-> Thanks,
-> Laurent
->=20
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
