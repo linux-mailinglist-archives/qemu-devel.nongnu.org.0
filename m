@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8DC18FBBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:46:58 +0100 (CET)
-Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2627218FBAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:42:10 +0100 (CET)
+Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGRA9-0003tM-GG
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53713)
+	id 1jGR5V-00062Q-5p
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jGR92-0003SD-4j
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jGR3h-0004Ob-UE
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jGR90-00075C-SJ
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38106)
+ (envelope-from <peter.maydell@linaro.org>) id 1jGR3g-0003hM-IG
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:17 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54994)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jGR90-00074q-Mv
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:45:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jGR8y-0006nQ-OA
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 17:45:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B55B82E806F
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 17:45:44 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Mar 2020 17:36:11 -0000
-From: Launchpad Bug Tracker <1866870@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jGR3g-0003d2-5t
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:40:16 -0400
+Received: by mail-wm1-x335.google.com with SMTP id c81so301468wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 10:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+sdCGXZ0IH39nXvNC2u1iOLChVbNjxfhaAdkIpUlxus=;
+ b=ScG0nRMunN6UkHbL6ofwZGgl7PqEr+TpHwO3MZLIDEDykB0XrNU6JTAxrpgVOQOjCR
+ jgcXMJVvsJ2Cj7i4ZEBmTMc9x8xpLMbwqMqo4ouqeZnxzi8Cbg9iayl7jHvPTVXTOii1
+ ObYEqhratblHuedkRZdjwo1t9Ylqzbi99/8sp+NVjxwfHpmAxo3i8xhfi2hgRADk5RJ/
+ DWuJpkimojmgdDJ/kWdo9GSTUUKOE1c6WiF03Kk95VEpOS7TfG8g33Wc20KhXmzMq5hW
+ TbgtfYsNey1V3/AJnagr+lNmCXhUplGtJA9734N8TxXb5Sxm4mniFebo+wHvSa97hnp0
+ 4OdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+sdCGXZ0IH39nXvNC2u1iOLChVbNjxfhaAdkIpUlxus=;
+ b=djFq9ryczRksS0p9yL8MoNHQeoGg/voftoyhLHhgeLUEz6GNv1fgYxMGqqdViQWLNP
+ Rxbl7PaZrEAFofB30Fj0AFZ5JJU+8vs35+VUl9hdX6qXfJixyXUOaR5V1ksGoYBYcV09
+ JPO0/8P/0uTR1nXG5Yln/s2LXz1sJ3AOjxThhFHvMXt/2EwgtmrEF9/gHBjHuCaaOBFG
+ bv0FtBmtzBe0eERs399Ks4AwER6C5MgV+bMuaU5yK/lu957RR18QcCWyJt1HOXDGhzxh
+ 7C26Dg13PbXX3DiYBtoGzjYT2ryAhRkWRclRY4aJfMrClKtWOgONB+UwwHJzYVduP8ee
+ lnQQ==
+X-Gm-Message-State: ANhLgQ3lmgjFbcux+HX23uWj5rsrHRq7FLS/pVJM8EA+I4z1audhotuG
+ vsxqSkLAK1rcxm+WSGxOHJV8H7ZYRYzvFQ==
+X-Google-Smtp-Source: ADFU+vuFwQIj2laXeTCHAHOPYo1adea0RF/SDU9+nSlTxIV/IZiljXAoi94jVJ3sOCrs5uDwRCKGPQ==
+X-Received: by 2002:a05:600c:21d2:: with SMTP id
+ x18mr396725wmj.75.1584985209739; 
+ Mon, 23 Mar 2020 10:40:09 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o9sm25145282wrw.20.2020.03.23.10.40.08
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Mar 2020 10:40:08 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=seabios; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahasenack dbaxps0220 dgilbert-h janitor paelzer
- tstrike34
-X-Launchpad-Bug-Reporter: tstrike (tstrike34)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158498497540.22820.1119040587350029597.malone@ackee.canonical.com>
-Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a04da9e50bc230a66375334afeb2030c757eacbf
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PULL 0/5] target-arm queue
+Date: Mon, 23 Mar 2020 17:40:01 +0000
+Message-Id: <20200323174006.8468-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,80 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bug was fixed in the package seabios - 1.13.0-1ubuntu1
+Just a few minor bugfixes, but we might as well get them in
+for rc0 tomorrow.
 
----------------
-seabios (1.13.0-1ubuntu1) focal; urgency=3Dmedium
+-- PMM
 
-  * d/p/lp-1866870-build-use-fcf-protection-none-when-available.patch
-    fix breakage on older chips due to fcf-protection (LP: #1866870)
+The following changes since commit 787f82407c5056a8b1097e39e53d01dd1abe406b:
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 19 Mar
-2020 13:10:10 +0100
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200323' into staging (2020-03-23 15:38:30 +0000)
 
-** Changed in: seabios (Ubuntu)
-       Status: Triaged =3D> Fix Released
+are available in the Git repository at:
 
--- =
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200323
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866870
+for you to fetch changes up to 550a04893c2bd4442211b353680b9a6408d94dba:
 
-Title:
-  KVM Guest pauses after upgrade to Ubuntu 20.04
+  target/arm: Move computation of index in handle_simd_dupe (2020-03-23 17:22:30 +0000)
 
-Status in QEMU:
-  Invalid
-Status in qemu package in Ubuntu:
-  Invalid
-Status in seabios package in Ubuntu:
-  Fix Released
+----------------------------------------------------------------
+target-arm queue:
+ * target/arm: avoid undefined behaviour shift in watchpoint code
+ * target/arm: avoid undefined behaviour shift in handle_simd_dupe()
+ * target/arm: add assert that immh != 0 in disas_simd_shift_imm()
+ * aspeed/smc: Fix DMA support for AST2600
+ * hw/arm/bcm283x: Correct the license text ('and' vs 'or')
 
-Bug description:
-  Symptom:
-  Error unpausing domain: internal error: unable to execute QEMU command 'c=
-ont': Resetting the Virtual Machine is required
+----------------------------------------------------------------
+Cédric Le Goater (1):
+      aspeed/smc: Fix DMA support for AST2600
 
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311,=
- in resume
-      self._backend.resume()
-    File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
-      if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: unable to execute QEMU command 'con=
-t': Resetting the Virtual Machine is required
+Philippe Mathieu-Daudé (1):
+      hw/arm/bcm283x: Correct the license text
 
-  =
+Richard Henderson (3):
+      target/arm: Rearrange disabled check for watchpoints
+      target/arm: Assert immh != 0 in disas_simd_shift_imm
+      target/arm: Move computation of index in handle_simd_dupe
 
-  ---
-
-  As outlined here:
-  https://bugs.launchpad.net/qemu/+bug/1813165/comments/15
-
-  After upgrade, all KVM guests are in a default pause state. Even after
-  forcing them off via virsh, and restarting them the guests are paused.
-
-  These Guests are not nested.
-
-  A lot of diganostic information are outlined in the previous bug
-  report link provided. The solution mentioned in previous report had
-  been allegedly integrated into the downstream updates.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866870/+subscriptions
+ include/hw/arm/bcm2835_peripherals.h |  3 ++-
+ include/hw/arm/bcm2836.h             |  3 ++-
+ include/hw/char/bcm2835_aux.h        |  3 ++-
+ include/hw/display/bcm2835_fb.h      |  3 ++-
+ include/hw/dma/bcm2835_dma.h         |  4 +++-
+ include/hw/intc/bcm2835_ic.h         |  4 +++-
+ include/hw/intc/bcm2836_control.h    |  3 ++-
+ include/hw/misc/bcm2835_mbox.h       |  4 +++-
+ include/hw/misc/bcm2835_mbox_defs.h  |  4 +++-
+ include/hw/misc/bcm2835_property.h   |  4 +++-
+ hw/arm/aspeed_ast2600.c              |  6 ++++++
+ hw/arm/bcm2835_peripherals.c         |  3 ++-
+ hw/arm/bcm2836.c                     |  3 ++-
+ hw/arm/raspi.c                       |  3 ++-
+ hw/display/bcm2835_fb.c              |  1 -
+ hw/dma/bcm2835_dma.c                 |  4 +++-
+ hw/intc/bcm2835_ic.c                 |  4 ++--
+ hw/intc/bcm2836_control.c            |  4 +++-
+ hw/misc/bcm2835_mbox.c               |  4 +++-
+ hw/misc/bcm2835_property.c           |  4 +++-
+ hw/ssi/aspeed_smc.c                  | 15 +++++++++++++--
+ target/arm/helper.c                  | 11 ++++++-----
+ target/arm/translate-a64.c           |  6 +++++-
+ hw/ssi/trace-events                  |  1 +
+ 24 files changed, 76 insertions(+), 28 deletions(-)
 
