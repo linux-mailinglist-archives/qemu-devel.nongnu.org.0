@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1C318F5B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:27:32 +0100 (CET)
-Received: from localhost ([::1]:33814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC58918F5BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 14:29:34 +0100 (CET)
+Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGN75-0002Yc-S6
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59083)
+	id 1jGN93-0005GN-R7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 09:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jGN66-0001Wy-SF
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:31 -0400
+ (envelope-from <stefanha@gmail.com>) id 1jGN85-0004MK-PU
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:28:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jGN65-0002Dt-Tr
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:30 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54698)
+ (envelope-from <stefanha@gmail.com>) id 1jGN84-0002lv-GD
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:28:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41216)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jGN65-0002Di-N9
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 09:26:29 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c81so4212931wmd.4
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 06:26:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1jGN84-0002lh-95; Mon, 23 Mar 2020 09:28:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h9so17063364wrc.8;
+ Mon, 23 Mar 2020 06:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=5QE2+iCQw5Y6IXUWc37innqYLAmILnR3E+ex14S/YJ0=;
- b=eVdnIt7POfl5YauGyYwoX61ifQSVGjYDO0WDtS+OGkAjj10QChGPiHhiIdADCrjIfQ
- gynXoV1CDX/9BkX0lDBndSFXHtT3J/3tUH/foRMsE3XuQbvO8yNno3U/dLxAG0tPyEso
- B/EuFfAHSVUSTkR9qdm0g8SYJyhT8MVgtlt1gY8oB918C19vtYMo9Xl64hKsW9zUnOxz
- o38qDl7GwFhskIorpzXqX33zZTVIg6PjXvXje3GCntRYMUkkkZfX8O698Pk50mNWIED/
- nWJYJRfZ1HsDRWmJuBtKLBLesf18k3Wy/gVy1JYRERrguB3jRkff1cdpPFw6dtjWwtVa
- bR0Q==
+ bh=wu0Pst8qsNF6PrSvx6A5jOL5VHU873nOwjx/pikPcUo=;
+ b=jvvR2VPwVXSM3F36lvSU80C+P5HhRxldxm58aZVzeDh3vel7RkFBUy5BCGaB19fXI0
+ qFvcBuYBMSkFU6tjg+JUK/MDC82AlMmcsJ6SZZHniuOueuS01eXRV2UCak9+h1durytX
+ avaTy8JcTt8wF4fAtsbWzdFnMQpCHgBTm0LO2Ylm//30unJK81+K7h6Iq2rvcWfk6hFR
+ w5zsebE3u2c8c40z4t+lNUgdsJWU0TgPrVMCsg8HS5Rcivj/gQXoj8jycCQTbX5li2kd
+ JvFctqjQnYJONaKxoNOsbjD5sfLJrjylmqnmgLILk9Kree0Ylxcb7sIGR86V6B4iVpl3
+ BR7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=5QE2+iCQw5Y6IXUWc37innqYLAmILnR3E+ex14S/YJ0=;
- b=NIhxIqW272o0VZZPKSQb5KnMkf064YJnkCzvAjaY6dxw3Di6mNOmTeTRzD2MAuvbXj
- vdYkGQNdAsOgsXIEx/gVlF3oYre/+uB0QPgOam4AHv0/J+BwzOFwG+KWwYrdE13u3Mwy
- cfNm0r7NhKruo+LeZfQPnOWfO9jdcrW0xz5s3U4dt+tmqy46PT29wdi8zXLSQGpZLLn7
- HTAsueKnKJtDXAKZa20P5b94OuE2V/4fy6+HeUKGGnI3wlLSnjFNbez/+GB5YAMPiUYe
- z1JkDoiubraOo8C+QGN3vfQVHL8bOPStZN2WeaoTUwsoUxidIIolVkQWfirnE/mIiyFb
- AUkA==
-X-Gm-Message-State: ANhLgQ1tCSSd49cQmFUxbGr92AWIbap0vZZIfvvwFFawS9l8e4vJdXLQ
- 86cuWg6HfCAgTj7POYYSv4M=
-X-Google-Smtp-Source: ADFU+vtHE2y/TNcFgeIfFm77VV8c0Vs8CJARRTVi0va6qlLXRhMnAyXEBOx7WidBjMF5BTOaO+lu4g==
-X-Received: by 2002:a1c:f213:: with SMTP id s19mr27086463wmc.116.1584969987451; 
- Mon, 23 Mar 2020 06:26:27 -0700 (PDT)
+ bh=wu0Pst8qsNF6PrSvx6A5jOL5VHU873nOwjx/pikPcUo=;
+ b=nJJDQhmlE8E2XHdSkXbuUotAd9s+Hlf4LI47eiR+rFO2jRuC9ZFw0VmY65a6XInF6N
+ ooVYG+u0A1cfl1sJgZOYUJ529C1bb82aTvBACAsr4mQSTfTvSdwPUo4WtA755bH0v3r1
+ mmcDdeGTi7NURP3Vus87EKw7zQK7Q4cZBnDcNERCjCAi0pRdK0RtyRe1BReOz7WW6SNy
+ ej3aNpeJGD30+0rFMu6iEkdh7/PHUrlrPEQnsTG8Cxbk4qos1uGRUC17ZigjmZNSAGCb
+ tFe8Jz4vOwxztlnV2Baj30NsaDVMjoCk/ckMnxdEBjILtS0uNexmvQqHxENessfpcaTu
+ vKVw==
+X-Gm-Message-State: ANhLgQ26czb9zkolDkdiobc6ADzqeD+KwSrTlY3UNDf7IETli/7aFqsW
+ 2t/+D8uOF7sMPUX2lW1uiWw=
+X-Google-Smtp-Source: ADFU+vvbgEGsIOHgvFKA0K9KKNp5KyEn6ZPMRYnYhNd+jdYHK25SYZ6564xO25cBn6sjr/HWadyK3A==
+X-Received: by 2002:a5d:4081:: with SMTP id o1mr27252445wrp.114.1584970111202; 
+ Mon, 23 Mar 2020 06:28:31 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id s2sm5500833wru.68.2020.03.23.06.26.26
+ by smtp.gmail.com with ESMTPSA id b15sm23323763wru.70.2020.03.23.06.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Mar 2020 06:26:26 -0700 (PDT)
-Date: Mon, 23 Mar 2020 13:26:25 +0000
+ Mon, 23 Mar 2020 06:28:30 -0700 (PDT)
+Date: Mon, 23 Mar 2020 13:28:29 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: dnbrdsky@gmail.com
-Subject: Re: [PATCH v4 1/2] lockable: fix __COUNTER__ macro to be referenced
- properly
-Message-ID: <20200323132625.GI261260@stefanha-x1.localdomain>
-References: <20200320123137.1937091-1-dnbrdsky@gmail.com>
- <20200320123137.1937091-2-dnbrdsky@gmail.com>
+To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Subject: Re: [PATCH v4] block/nvme: introduce PMR support from NVMe 1.4 spec
+Message-ID: <20200323132829.GJ261260@stefanha-x1.localdomain>
+References: <20200320215029.32727-1-andrzej.jakowski@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wZdghQXYJzyo6AGC"
+ protocol="application/pgp-signature"; boundary="rwgQ89ZNnFUwFHTC"
 Content-Disposition: inline
-In-Reply-To: <20200320123137.1937091-2-dnbrdsky@gmail.com>
+In-Reply-To: <20200320215029.32727-1-andrzej.jakowski@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,49 +77,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, haozhong.zhang@intel.com, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, yi.z.zhang@linux.intel.com, junyan.he@intel.com,
+ kbusch@kernel.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wZdghQXYJzyo6AGC
+--rwgQ89ZNnFUwFHTC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 20, 2020 at 05:31:36AM -0700, dnbrdsky@gmail.com wrote:
-> From: Daniel Brodsky <dnbrdsky@gmail.com>
+On Fri, Mar 20, 2020 at 02:50:29PM -0700, Andrzej Jakowski wrote:
+> This patch introduces support for PMR that has been defined as part of NV=
+Me 1.4
+> spec. User can now specify a pmrdev option that should point to HostMemor=
+yBackend.
+> pmrdev memory region will subsequently be exposed as PCI BAR 2 in emulate=
+d NVMe
+> device. Guest OS can perform mmio read and writes to the PMR region that =
+will stay
+> persistent across system reboot.
 >=20
-> - __COUNTER__ doesn't work with ## concat
-> - replaced ## with glue() macro so __COUNTER__ is evaluated
->=20
-> Fixes: 3284c3ddc4
->=20
-> Signed-off-by: Daniel Brodsky <dnbrdsky@gmail.com>
+> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  include/qemu/lockable.h | 4 ++--
->  include/qemu/rcu.h      | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> v3:
+>  - replaced qemu_msync() use with qemu_ram_writeback() to allow pmem_pers=
+ist()
+>    or qemu_msync() be called depending on configuration [4] (Stefan)
+>  - rephrased comments to improve clarity and fixed code style issues [4]
+>    (Stefan, Klaus)
+>=20
+> v2:
+>  - reworked PMR to use HostMemoryBackend instead of directly mapping PMR
+>    backend file into qemu [1] (Stefan)
+>=20
+> v1:
+>  - provided support for Bit 1 from PMRWBM register instead of Bit 0 to en=
+sure
+>    improved performance in virtualized environment [2] (Stefan)
+>=20
+>  - added check if pmr size is power of two in size [3] (David)
+>=20
+>  - addressed cross compilation build problems reported by CI environment
+>=20
+> [1]: https://lore.kernel.org/qemu-devel/20200306223853.37958-1-andrzej.ja=
+kowski@linux.intel.com/
+> [2]: https://nvmexpress.org/wp-content/uploads/NVM-Express-1_4-2019.06.10=
+-Ratified.pdf
+> [3]: https://lore.kernel.org/qemu-devel/20200218224811.30050-1-andrzej.ja=
+kowski@linux.intel.com/
+> [4]: https://lore.kernel.org/qemu-devel/20200318200303.11322-1-andrzej.ja=
+kowski@linux.intel.com/
+> ---
+> Persistent Memory Region (PMR) is a new optional feature provided in NVMe=
+ 1.4
+> specification. This patch implements initial support for it in NVMe drive=
+r.
+> ---
+>  hw/block/Makefile.objs |   2 +-
+>  hw/block/nvme.c        | 109 ++++++++++++++++++++++++++
+>  hw/block/nvme.h        |   2 +
+>  hw/block/trace-events  |   4 +
+>  include/block/nvme.h   | 172 +++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 288 insertions(+), 1 deletion(-)
 
-Please see my comment on the Patchew CI error message in this email
-thread.
+Excellent, thank you!
 
-Stefan
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---wZdghQXYJzyo6AGC
+--rwgQ89ZNnFUwFHTC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uQEACgkQnKSrs4Gr
-c8jH7gf/XTZiNLdk7aDQTq0+mGXW6NFyPCdyjn5LS98I7VA5yotqrXYZ/oWJtCHm
-d24RelL8BowArCECyh78NNjByhqb3LZNaCw0P5fz7bIgygzNfaEGJyDJmI+375fb
-KbOQV4sQANjsd/OT5eb8LVAgRezjmLU1KVHlwFjNlCwFrRVYOx1mLrKdDm6lj+b7
-TGk7RFozYWw0EQLyleVxUi77H0S/wJ2ussibysf+75Q6tXLz22uReBT2wcCGu5vc
-f3KVuzjJfth0ctg1VhoRQhTziJqthUkC1NeuXe+k+qYpQnQY4xB12X4YV65AZXmp
-X4ZrElCdH4AqbsgiM144AHkl+OuFuQ==
-=ccV2
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl54uX0ACgkQnKSrs4Gr
+c8iQEAf/cbnhoB/JEBlSPfj2Lx/tCkA3d+vEK4/EAxcnI+E08emGETV4Fq9fuxr8
+68ApWlJOWoUFzne8UEzY6rDSwXEgS9cGeIJm2RBBZOcL1yJzZFe3i+bxuSxAdjUT
+f6zRzU/yLBEjSd/X4xF0fCYziGRY402DqkMzymGfJSsdEjb/OWRsCwIZlRRT3520
+X4/kPLUNGS1QUyh3OyJeV2dtIBdTLi2FvNDe179KF2NjKnHvl22uZ7j8IKV9ya7j
+cw76qWwZiSm5VwA9o1t+nuBeEIzazqMLIqG/vr/+H62D4SNtMgCSI/opCmoppC4K
+O5A9hYOijPO6EfzQbbRFYhb44oyPvQ==
+=mB7y
 -----END PGP SIGNATURE-----
 
---wZdghQXYJzyo6AGC--
+--rwgQ89ZNnFUwFHTC--
 
