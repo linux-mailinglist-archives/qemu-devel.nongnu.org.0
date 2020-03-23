@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787AC18FB18
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:15:07 +0100 (CET)
-Received: from localhost ([::1]:37282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A2E18FB9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 18:37:21 +0100 (CET)
+Received: from localhost ([::1]:37534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGQfK-0008Gv-H4
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:15:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47228)
+	id 1jGR0q-0002xb-77
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 13:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jGQeO-0007qw-6r
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:14:09 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jGQzj-0002Wm-QB
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1jGQeM-0006Ng-Hf
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:14:08 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:23192)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1jGQeM-0006ME-Az
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:14:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584983645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0G/nAXZEAXzpz+n0po8GWdShIDTPHmRr0vJRPpzjABU=;
- b=L8jkr1yCUyetjiEoOEmjMOMdfp/0+144Ci3tMWsM9KltlFksVzqcPdwc9gKgUP6jZU7FOB
- ZjgCxDwHKojvCF3VWTySoocwuR3jk+yIHDtvJgQ1qn64oxn4KtDd8veSdiBeYm9efXHevD
- nPEvVAGmV0yDLYqHiRh4LQU6Mt3+Gak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-xDNjG-ERMKe7LeGtQvDE5A-1; Mon, 23 Mar 2020 13:14:04 -0400
-X-MC-Unique: xDNjG-ERMKe7LeGtQvDE5A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA6751005F76;
- Mon, 23 Mar 2020 17:14:02 +0000 (UTC)
-Received: from gondolin (ovpn-113-18.ams2.redhat.com [10.36.113.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE3CE19C4F;
- Mon, 23 Mar 2020 17:13:58 +0000 (UTC)
-Date: Mon, 23 Mar 2020 18:13:56 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v11 00/16] s390x: Protected Virtualization support
-Message-ID: <20200323181356.38b3f15d.cohuck@redhat.com>
-In-Reply-To: <20200319131921.2367-1-frankja@linux.ibm.com>
-References: <20200319131921.2367-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <richard.henderson@linaro.org>) id 1jGQzi-0001SH-K1
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:11 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40373)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jGQzi-0001RN-5X
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 13:36:10 -0400
+Received: by mail-pl1-x641.google.com with SMTP id h11so6200051plk.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 10:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yZUTVmgYw51H82cm4DpkH8NxJUhsYOxNVLcCAhDQeZw=;
+ b=BAiTSYQ5Fk3xY3H73ikG44Vd8HOVsByQ/g14GUABVkUCD9iENEYKNr8qgzBbgbBjCY
+ HF0yaRPMSkCf+UpG1S9lEvCoFRvDnlNhG1AOqHHktPeGqt6ex4mYFnhzku0YNlBBdgfe
+ 0xRYSMTrC1fcZM+9BZvj/PSLgPgxToWpnWhEnpm+eD/LITotCxuMGr5x+bXukEX0L0xk
+ XvCScgis2skbTGgkHoMADrPUAC9dpIW+V1xxH4BIPGMlGK5TzVYjR/PXHf39m0MUwj8C
+ AvKWfrjgI3bOh2yvvUiCK7iz182DrPBNusO5sg/iJePiwWCr8G6vYCSlb3zGOxL35w16
+ ewwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yZUTVmgYw51H82cm4DpkH8NxJUhsYOxNVLcCAhDQeZw=;
+ b=m0X3aFTsPSV96BAriHEV38vlpvG4P5bd3kCeaHOh+r5Z4DARqJeFZyehTNFvPjMYVw
+ jr6E0Wz17GGU9aJyPQG15Bt+IHrkCvPfOpOdI9vfsxCboiTJ4rYgjaDlka2fx0tFJZi5
+ 9oOqHPmya+4qb4drapfcSE8eFuAK0JTN+WGFHNp6tMsKZGzrl9OYa0oKeTGBy4WvvpQH
+ DzHMfm/A4rK0VfpMKQcGhWS6uZ6LIk3+B1USIkhvp++UrkMxhAKJBeFTzUgKvJW9veBm
+ +Vm/1ohSeYD8LmAx5ajoWA22STTlssMRxF+vRQ8QDBXjoHir3obN9NwNdB/m5MM82XFb
+ 5AvA==
+X-Gm-Message-State: ANhLgQ1GLZ9I4KtQrTtg3iuFN1ifB/X8j2a+ItVBASCE5zHC/vReH905
+ yXYDZOFFc1tMCgNVOwMQWAvl3A==
+X-Google-Smtp-Source: ADFU+vu3DQBALhvkUUT6ORZNClf/qcGLfNJZLs3svrqbY7jBcEeSIl714WUmAYVdTxs0bLzGWr8r8Q==
+X-Received: by 2002:a17:902:8647:: with SMTP id
+ y7mr22829507plt.224.1584984968231; 
+ Mon, 23 Mar 2020 10:36:08 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ i23sm13868448pfq.157.2020.03.23.10.36.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Mar 2020 10:36:07 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Fix loongson multimedia condition
+ instructions
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20200321045621.2139953-1-jiaxun.yang@flygoat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0f0864ce-200c-dc0b-a1e0-5f4ddda29386@linaro.org>
+Date: Mon, 23 Mar 2020 10:36:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200321045621.2139953-1-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,130 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: aleksandar.qemu.devel@gmail.com, aleksandar.rikalo@rt-rk.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Mar 2020 09:19:05 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+On 3/20/20 9:56 PM, Jiaxun Yang wrote:
+>      case OPC_SLE_CP2:
+> -        /*
+> -         * ??? Document is unclear: Set FCC[CC].  Does that mean the
+> -         * FD field is the CC field?
+> -         */
+> +        cond = TCG_COND_LE;
+> +    do_cc_cond:
+> +        {
+> +            int cc = (ctx->opcode >> 8) & 0x7;
+> +            lab = gen_new_label();
+> +            tcg_gen_ori_i32(fpu_fcr31, fpu_fcr31, 1 << get_fp_bit(cc));
+> +            tcg_gen_brcond_i64(cond, t0, t1, lab);
+> +            tcg_gen_xori_i32(fpu_fcr31, fpu_fcr31, 1 << get_fp_bit(cc));
+> +            gen_set_label(lab);
+> +        }
+> +        goto no_rd;
+> +        break;
 
-> Most of the QEMU changes for PV are related to the new IPL type with
-> subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
-> IPL secure guests. Note that we can only boot into secure mode from
-> normal mode, i.e. stfle 161 is not active in secure mode.
-> 
-> The other changes related to data gathering for emulation and
-> disabling addressing checks in secure mode, as well as CPU resets.
-> 
-> v11:
-> 	* Review fixes
-> 
-> v10:
-> 	* Moved documentation into subfolder
-> 	* Added huge page fencing
-> 	* Cleared up IO questions that were remaining
-> 	* Added exits/abbort/assert for conditions where we can't recover
-> 
-> v9:
-> 	* Moved pv.h into include/hw/s390x/
-> 	* Replaced cmd strings with macro
-> 	* Moved s390_is_pv() to pv.h
-> 	* Added new copyright dates and authors
-> v8:
-> 	* Removed the iplb_valid changes as they are picked
-> 	* Checkpatch fixes
-> 	* Review fixes
-> 	* Replaced env/ms->pv with s390_is_pv()
-> v7:
-> 	* Merged the diag 308 subcode patches and the unpack
-> 	* Moved the SIDA memops into the sync patch
-> 	* Bailout for the none machien and fencing of CONFIG_USER_ONLY
-> 	* Changes due to review
-> 
-> v6:
-> 	* diag308 rc numbers were changed by architecture
-> 	* IPL pv block received one more reserved field by architecture
-> 	* Officially added the bios patch to the series
-> 	* Dropped picked constant rename patch
-> 
-> v5:
-> 	* Moved docs into docs/system
-> 	* Some more enable/disable changes
-> 	* Moved enablement/disablement of pv in separate functions
-> 	* Some review fixes
-> 
-> v4:
-> 	* Sync with KVM changes
-> 	* Review changes
-> 
-> V3:
-> 	* Use dedicated functions to access SIDA
-> 	* Smaller cleanups and segfault fixes
-> 	* Error reporting for Ultravisor calls
-> 	* Inject of RC of diag308 subcode 10 fails
-> 
-> V2:
-> 	* Split out cleanups
-> 	* Internal PV state tracking
-> 	* Review feedback
-> 
-> Christian Borntraeger (1):
->   s390x: Add unpack facility feature to GA1
-> 
-> Janosch Frank (15):
->   s390x: Move diagnose 308 subcodes and rcs into ipl.h
->   Sync pv
->   s390x: protvirt: Support unpack facility
->   s390x: protvirt: Add migration blocker
->   s390x: protvirt: Inhibit balloon when switching to protected mode
->   s390x: protvirt: KVM intercept changes
->   s390x: Add SIDA memory ops
->   s390x: protvirt: Move STSI data over SIDAD
->   s390x: protvirt: SCLP interpretation
->   s390x: protvirt: Set guest IPL PSW
->   s390x: protvirt: Move diag 308 data over SIDA
->   s390x: protvirt: Disable address checks for PV guest IO emulation
->   s390x: protvirt: Move IO control structures over SIDA
->   s390x: protvirt: Handle SIGP store status correctly
->   docs: system: Add protvirt docs
-> 
->  MAINTAINERS                         |   2 +
->  docs/system/s390x/protvirt.rst      |  60 +++++++++++
->  docs/system/target-s390x.rst        |   5 +
->  hw/s390x/Makefile.objs              |   1 +
->  hw/s390x/ipl.c                      |  59 ++++++++++-
->  hw/s390x/ipl.h                      | 102 ++++++++++++++++++-
->  hw/s390x/pv.c                       |  98 ++++++++++++++++++
->  hw/s390x/s390-virtio-ccw.c          | 148 +++++++++++++++++++++++++++-
->  hw/s390x/sclp.c                     |  56 ++++++++---
->  include/hw/s390x/pv.h               |  55 +++++++++++
->  include/hw/s390x/s390-virtio-ccw.h  |   1 +
->  include/hw/s390x/sclp.h             |   2 +
->  linux-headers/linux/kvm.h           |  45 ++++++++-
->  target/s390x/cpu.c                  |  27 +++--
->  target/s390x/cpu.h                  |   7 +-
->  target/s390x/cpu_features_def.inc.h |   1 +
->  target/s390x/diag.c                 |  77 +++++++++++----
->  target/s390x/gen-features.c         |   1 +
->  target/s390x/helper.c               |   6 ++
->  target/s390x/ioinst.c               |  96 +++++++++++++-----
->  target/s390x/kvm-stub.c             |   5 +
->  target/s390x/kvm.c                  |  79 +++++++++++++--
->  target/s390x/kvm_s390x.h            |   3 +
->  target/s390x/mmu_helper.c           |  14 +++
->  24 files changed, 870 insertions(+), 80 deletions(-)
->  create mode 100644 docs/system/s390x/protvirt.rst
->  create mode 100644 hw/s390x/pv.c
->  create mode 100644 include/hw/s390x/pv.h
-> 
+There is no need for a branch here.  This is a deposit operation.
 
-Thanks, queued to s390-next for 5.1 (with v12 of patch 3).
+    TCGv_i64 t64 = tcg_temp_new_i64();
+    TCGv_i32 t32 = tcg_temp_new_i32();
 
-Patch 2 will obviously need to be replaced by a proper headers update;
-I'll do that when 5.1 development opens up (I assume the kernel patches
-will have reached Linux master before that.)
+    tcg_gen_setcond_i64(cond, t64, t0, t1);
+    tcg_gen_extrl_i64_i32(t32, t64);
+    tcg_gen_deposit_i32(cpu_fcr31, cpu_fcr31, t32,
+                        get_fp_bit(cc), 1);
 
-(Any further s390x patches for 5.0 will go via s390-fixes, as usual.)
+    tcg_temp_free_i32(t32);
+    tcg_temp_free_i64(t64);
 
+
+r~
 
