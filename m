@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B0C18F984
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:19:53 +0100 (CET)
-Received: from localhost ([::1]:36590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BF718F98E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 17:21:40 +0100 (CET)
+Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGPns-0006Fd-9L
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35401)
+	id 1jGPpb-0001Be-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 12:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPje-0000yH-CC
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:31 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jGPjg-00011s-3y
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jGPjd-0002Tn-AA
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:30 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34356)
+ (envelope-from <alex.bennee@linaro.org>) id 1jGPje-0002UH-UX
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:32 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42040)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jGPjd-0002TS-3t
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:29 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id 65so1131018wrl.1
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:15:29 -0700 (PDT)
+ id 1jGPje-0002Tt-An
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 12:15:30 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h15so5618468wrx.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 09:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jwh2U1VHJxRVrhHOK85WLgBt5x8XbmkGGmHmSuT5roI=;
- b=s3kpGCuiiqF+o6I3pLEj+PjLWcOJx5I/r0/6uoRDmKSrF4xoDmEPzEYLQz8WsMHNwX
- 2EvP2lko8O5G3eeFiKkTZsLvIdBQajdaZ6W6SEt924rVN4MiojiRotcw/OTG775mhpmJ
- +I64TXHT43D1x9a34IRgvLDX2qjhvUjE/bXbs2DKgBd54pQ9E/ur/CE6WXgewVF1bHaR
- YFjDOhs7EZWxyMw73AJPMRso/a1EaMM5H19seWhFo0aY0r/nz6fGpoj5pv44d5lq2Iwh
- U7o4Y0yqm90DcFD/4ZirPfbDIeuh2Jp106D0/USWXUWbbp48YppkbegI6wGB7l67pQKK
- t0Gg==
+ bh=uu/UhD38gJ6eW0AaVvw7CVG5JlfdO8i7Z1wsvr8hc94=;
+ b=fNZHTZXnMy/JrT6BLwdIimu3nt9xL7jagfb8fftKM1ueESt6l8mdbzS4d48NE014r4
+ mnw72RzUjBYgvzW8OmETDKPvwKSXAvzzs7pP/ZpenXwV+lKFDOWhESME4Vjn2m/klAYA
+ L1sp1vPFmOrnnD2O85cNBXvFyKfQbvU1SQVQzvHI4DHtIExXHVPtLM+ET6gdnd0jkQmP
+ pxJylmV6BQBbnv1UOB9YIpySpDU77vlFBZ7PmykrPxwjWtwMPIwKOs33lIP92nqNLu90
+ Tenz+QiTSTR/vhY5TRQAzOwAJzK2cp5FjGwYc1qr4+yAui0eEBOdGa/7y8qxsf7qiywo
+ s6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jwh2U1VHJxRVrhHOK85WLgBt5x8XbmkGGmHmSuT5roI=;
- b=pLZBvmGJ2b4rWhaNjX2gy9YhqbOuGhenHNCHofRzCX4DE+rj/bZR0fEoXSbD+G1G34
- yAQJtB/gVNek2WkYLgkBTSxJIe0VdV9ll55b0y3P0D3ktBN9K6wrcqkYCTZwyQA6H7I+
- qrbUbeeJDM/sPL+83XE6upapW4BoYc17G0MFBb8DEmAsw2s1bJFHhBPzigemdVOHngXH
- 8rkKo0MIvt73JwI/XhswCkwtz2RLhMQB5+drHJQHdvbdmArrlulU+z2RX3y/5LVg2qSV
- TqhKgIbrXvnrjlVXGta1blXyK6rFfjjug1xHm4JXPCcz3GrdHvgyf9G0Ro+zZtB7UIkf
- u5Rg==
-X-Gm-Message-State: ANhLgQ2a4NidGkiVyypbZFeRFQEE6CzwL66Bi1TjqmZvhqgT56X21l9X
- d+lbZwv/pzxOkq8mhv9qrAno8g==
-X-Google-Smtp-Source: ADFU+vsDyDbFEqtYoa0j/GDxmk1jS3aGg/RQMo86MfsjghazcnF1esIRpUlHnAqHGw4zE41vxdjjQg==
-X-Received: by 2002:adf:cd0c:: with SMTP id w12mr29686943wrm.234.1584980128185; 
- Mon, 23 Mar 2020 09:15:28 -0700 (PDT)
+ bh=uu/UhD38gJ6eW0AaVvw7CVG5JlfdO8i7Z1wsvr8hc94=;
+ b=ejrRfcSWeAWDOx4t2xAWUN0msACpZbzCeevH9lYRQCmMAaAvRTHLXfF2XhQDM0Oa1d
+ 56/IPD7rAvvJHYRPIvtOQQlqfKaUD7QkpX7+cFP9sEhWgPo4EgcCLN8/o74a7Oejmakp
+ ipSLKJeo67sU/hVNljXgbhtKEdKyViRrY4VuvSASCX6dY1U+j44fPBOHtTZHNN4+on7p
+ MU0mZYo7Qhi07Q6y/mr5koxWLHwh9JNDC6yFpjoaNLJYm0vjjsB2cioSgciDgKOWRASG
+ RLprVa7SnlyNP/xGJtj3aM/NdZnIlI8CTUBjv7eqzLa06M5JOwcBGfj4IFCqa8edfckc
+ yQVw==
+X-Gm-Message-State: ANhLgQ3h6BIVpK7uG8m/bVKGcR+fivZhizW+ijFaaSbcOK4Y0FF8TFKh
+ /RYmYVMa6WDs4eKGWFkqRE4+hw==
+X-Google-Smtp-Source: ADFU+vs/xfnEisHn846jdbqBQ4vnfDIPp2erOFAhZkr1eYuSItYtU6/vFFj7XaDmZ5STGqx53KLd1w==
+X-Received: by 2002:a5d:6045:: with SMTP id j5mr29286186wrt.401.1584980129312; 
+ Mon, 23 Mar 2020 09:15:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q8sm25217706wrc.8.2020.03.23.09.15.20
+ by smtp.gmail.com with ESMTPSA id q8sm25217708wrc.8.2020.03.23.09.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 23 Mar 2020 09:15:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B0641FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 87FD11FF99;
  Mon, 23 Mar 2020 16:15:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/11] tests/docker: Use Python3 PyYAML in the Fedora image
-Date: Mon, 23 Mar 2020 16:15:12 +0000
-Message-Id: <20200323161514.23952-10-alex.bennee@linaro.org>
+Subject: [PATCH v1 10/11] tests/docker: Add libepoxy and libudev packages to
+ the Fedora image
+Date: Mon, 23 Mar 2020 16:15:13 +0000
+Message-Id: <20200323161514.23952-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200323161514.23952-1-alex.bennee@linaro.org>
 References: <20200323161514.23952-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,38 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The Python2 PyYAML is now pointless, switch to the Python3 version.
+Install optional dependencies of QEMU to get better coverage.
 
-Fixes: bcbf27947 (docker: move tests from python2 to python3)
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200322120104.21267-4-philmd@redhat.com>
+Message-Id: <20200322120104.21267-5-philmd@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/dockerfiles/fedora.docker | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 019eb12dcb1..174979c7af4 100644
+index 174979c7af4..4bd2c953af8 100644
 --- a/tests/docker/dockerfiles/fedora.docker
 +++ b/tests/docker/dockerfiles/fedora.docker
-@@ -79,8 +79,8 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     pixman-devel \
-     python3 \
-+    python3-PyYAML \
-     python3-sphinx \
--    PyYAML \
-     rdma-core-devel \
-     SDL2-devel \
-     snappy-devel \
+@@ -29,6 +29,7 @@ ENV PACKAGES \
+     libblockdev-mpath-devel \
+     libcap-ng-devel \
+     libcurl-devel \
++    libepoxy-devel \
+     libfdt-devel \
+     libiscsi-devel \
+     libjpeg-devel \
+@@ -38,6 +39,7 @@ ENV PACKAGES \
+     libseccomp-devel \
+     libssh-devel \
+     libubsan \
++    libudev-devel \
+     libusbx-devel \
+     libxml2-devel \
+     libzstd-devel \
 -- 
 2.20.1
 
