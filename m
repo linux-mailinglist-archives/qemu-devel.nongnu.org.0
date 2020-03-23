@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CFE18F133
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:51:04 +0100 (CET)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D2818F132
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Mar 2020 09:51:00 +0100 (CET)
+Received: from localhost ([::1]:58702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGInX-0004aY-N4
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48437)
+	id 1jGInT-0004QV-5L
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 04:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIja-0008T2-4M
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:59 -0400
+ id 1jGIjf-0008Vo-EM
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:47:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjY-00039U-U9
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:46:57 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:35584)
+ id 1jGIjc-0003Al-Fx
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 04:47:03 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:17568
+ helo=mx0b-0016f401.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2351ca747f=bbhushan2@marvell.com>)
- id 1jGIjY-00039L-PN; Mon, 23 Mar 2020 04:46:56 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02N8eL99013746; Mon, 23 Mar 2020 01:46:52 -0700
+ id 1jGIjc-0003AO-7n; Mon, 23 Mar 2020 04:47:00 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02N8dp6p010660; Mon, 23 Mar 2020 01:46:57 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0818; bh=RiNtP0lrtaA2ZggFVaFqGet0PIqt/tlcLob6DvD3BIo=;
- b=xPsIXPFZH1oBDFsmhrf4vd1qjKM+gRvSsYTpuGTLutwgM7aCvKuU1+Lgutt5N4zcrJgQ
- yUSMhQ4PRW97XYPXqfG73NELAFSyBEYLViw0AkZfNfPtCUy4N6+m9YainsvFkgoXz2Dr
- Z2jFZQBkzfhznDLi/LPGD+sDv7w5ogXuAYimPhC0Ks7sXiOQoRGxOoUlQMUhQg2dzf5Q
- 5C7yXBz+6rvKilU8ualk7AGCRU0NDwY9sX7kqNFCEbA59cFYHNEO0YOxXgRS8ZHiSZcP
- faM5/b9Z7OU2PnCBpkzbINye+E/KKOd9YhAFXHW6p5/A8BDaiRvJICJ2H+qVBO41t6g7 RA== 
-Received: from sc-exch03.marvell.com ([199.233.58.183])
- by mx0b-0016f401.pphosted.com with ESMTP id 2ywvkqkxcc-1
+ content-type; s=pfpt0818; bh=l3c+XiKS8WJssA8PHo8GKKWyszuBffSUYxnje2SlTA4=;
+ b=TJQQDE1riMkEiVPy6VdYwRyK9NOjzC6LcIC1W3mrHv0z0tuBsGv4KPPO08Dfw88MZDiz
+ o9H8S74L2wIeIRw9NWGOkc0m0UJ9iI4b7q9bldLhe/BmR2GupPnWBac7cvOa0xaWI8qO
+ ET7uAIS3l0jWdYqKih8uwHlLvVf3ccPd9tedbCVRfXIGESwVBQUK8UY6jec8mtC+MHMz
+ sNNHrwDOf4IK6K5oa+gnIarfdKYUkw7/n3iONJOIuIbUzokVifodnpwL9ISspDvB2tfC
+ gMGSppK1IerB3ODk9Il/ShWo3o0Qa1vRzPORxfGT8kjrMoLoSf6L1cDVZ8j5W68DLQ0E ag== 
+Received: from sc-exch01.marvell.com ([199.233.58.181])
+ by mx0a-0016f401.pphosted.com with ESMTP id 2ywg9ndrwq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Mon, 23 Mar 2020 01:46:51 -0700
-Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH03.marvell.com
- (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Mar
- 2020 01:46:49 -0700
+ Mon, 23 Mar 2020 01:46:57 -0700
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Mar
+ 2020 01:46:55 -0700
 Received: from bbhushan2.marvell.com (10.93.176.43) by SC-EXCH03.marvell.com
  (10.93.176.83) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 23 Mar 2020 01:46:45 -0700
+ Transport; Mon, 23 Mar 2020 01:46:50 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <eric.auger.pro@gmail.com>, <alex.williamson@redhat.com>,
@@ -52,9 +53,9 @@ To: <peter.maydell@linaro.org>, <peterx@redhat.com>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
  <bharatb.linux@gmail.com>, <jean-philippe@linaro.org>,
  <yang.zhong@intel.com>
-Subject: [PATCH v9 4/9] virtio-iommu: set supported page size mask
-Date: Mon, 23 Mar 2020 14:16:12 +0530
-Message-ID: <20200323084617.1782-5-bbhushan2@marvell.com>
+Subject: [PATCH v9 5/9] virtio-iommu: Add iommu notifier for map/unmap
+Date: Mon, 23 Mar 2020 14:16:13 +0530
+Message-ID: <20200323084617.1782-6-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200323084617.1782-1-bbhushan2@marvell.com>
 References: <20200323084617.1782-1-bbhushan2@marvell.com>
@@ -64,7 +65,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
  definitions=2020-03-23_02:2020-03-21,
  2020-03-23 signatures=0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 67.231.156.173
+X-Received-From: 67.231.148.174
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +77,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bharat Bhushan <bbhushan2@marvell.com>
+Cc: Eric Auger <eric.auger@redhat.com>, Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add optional interface to set page size mask.
-Currently this is set global configuration and not
-per endpoint.
+This patch extends VIRTIO_IOMMU_T_MAP/UNMAP request to
+notify registered iommu-notifier. Which will call vfio
+notifier to map/unmap region in iommu.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/hw/virtio/virtio-iommu.h | 1 +
- hw/virtio/virtio-iommu.c         | 9 +++++++++
- 2 files changed, 10 insertions(+)
+ include/hw/virtio/virtio-iommu.h |  2 +
+ hw/virtio/virtio-iommu.c         | 67 +++++++++++++++++++++++++++++++-
+ hw/virtio/trace-events           |  2 +
+ 3 files changed, 70 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
-index 6f67f1020a..4efa09610a 100644
+index 4efa09610a..e53586df70 100644
 --- a/include/hw/virtio/virtio-iommu.h
 +++ b/include/hw/virtio/virtio-iommu.h
-@@ -35,6 +35,7 @@ typedef struct IOMMUDevice {
-     void         *viommu;
-     PCIBus       *bus;
-     int           devfn;
-+    uint64_t      page_size_mask;
+@@ -38,6 +38,7 @@ typedef struct IOMMUDevice {
+     uint64_t      page_size_mask;
      IOMMUMemoryRegion  iommu_mr;
      AddressSpace  as;
++    QLIST_ENTRY(IOMMUDevice) next;
  } IOMMUDevice;
+ 
+ typedef struct IOMMUPciBus {
+@@ -57,6 +58,7 @@ typedef struct VirtIOIOMMU {
+     GTree *domains;
+     QemuMutex mutex;
+     GTree *endpoints;
++    QLIST_HEAD(, IOMMUDevice) notifiers_list;
+ } VirtIOIOMMU;
+ 
+ #endif
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 4cee8083bc..a28818202c 100644
+index a28818202c..bd464d4fb3 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -650,6 +650,14 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
-     return (ua > ub) - (ua < ub);
+@@ -123,6 +123,38 @@ static gint interval_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+     }
  }
  
-+static void virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
-+                                            uint64_t page_size_mask)
++static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr iova,
++                                    hwaddr paddr, hwaddr size)
 +{
-+    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
++    IOMMUTLBEntry entry;
 +
-+    sdev->page_size_mask = page_size_mask;
++    entry.target_as = &address_space_memory;
++    entry.addr_mask = size - 1;
++
++    entry.iova = iova;
++    trace_virtio_iommu_notify_map(mr->parent_obj.name, iova, paddr, size);
++    entry.perm = IOMMU_RW;
++    entry.translated_addr = paddr;
++
++    memory_region_notify_iommu(mr, 0, entry);
 +}
 +
- static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
++static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr iova,
++                                      hwaddr size)
++{
++    IOMMUTLBEntry entry;
++
++    entry.target_as = &address_space_memory;
++    entry.addr_mask = size - 1;
++
++    entry.iova = iova;
++    trace_virtio_iommu_notify_unmap(mr->parent_obj.name, iova, size);
++    entry.perm = IOMMU_NONE;
++    entry.translated_addr = 0;
++
++    memory_region_notify_iommu(mr, 0, entry);
++}
++
+ static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -865,6 +873,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
+     if (!ep->domain) {
+@@ -307,9 +339,12 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+     uint64_t virt_start = le64_to_cpu(req->virt_start);
+     uint64_t virt_end = le64_to_cpu(req->virt_end);
+     uint32_t flags = le32_to_cpu(req->flags);
++    hwaddr size = virt_end - virt_start + 1;
+     VirtIOIOMMUDomain *domain;
+     VirtIOIOMMUInterval *interval;
+     VirtIOIOMMUMapping *mapping;
++    VirtIOIOMMUEndpoint *ep;
++    IOMMUDevice *sdev;
  
-     imrc->translate = virtio_iommu_translate;
-+    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
+     if (flags & ~VIRTIO_IOMMU_MAP_F_MASK) {
+         return VIRTIO_IOMMU_S_INVAL;
+@@ -339,9 +374,38 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+ 
+     g_tree_insert(domain->mappings, interval, mapping);
+ 
++    /* All devices in an address-space share mapping */
++    QLIST_FOREACH(sdev, &s->notifiers_list, next) {
++        QLIST_FOREACH(ep, &domain->endpoint_list, next) {
++            if (ep->id == sdev->devfn) {
++                virtio_iommu_notify_map(&sdev->iommu_mr,
++                                        virt_start, phys_start, size);
++            }
++        }
++    }
++
+     return VIRTIO_IOMMU_S_OK;
  }
  
- static const TypeInfo virtio_iommu_info = {
++static void virtio_iommu_remove_mapping(VirtIOIOMMU *s,
++                                        VirtIOIOMMUDomain *domain,
++                                        VirtIOIOMMUInterval *interval)
++{
++    VirtIOIOMMUEndpoint *ep;
++    IOMMUDevice *sdev;
++
++    QLIST_FOREACH(sdev, &s->notifiers_list, next) {
++        QLIST_FOREACH(ep, &domain->endpoint_list, next) {
++            if (ep->id == sdev->devfn) {
++                virtio_iommu_notify_unmap(&sdev->iommu_mr,
++                                          interval->low,
++                                          interval->high - interval->low + 1);
++            }
++        }
++    }
++    g_tree_remove(domain->mappings, (gpointer)(interval));
++}
++
+ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+                               struct virtio_iommu_req_unmap *req)
+ {
+@@ -368,7 +432,7 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+         uint64_t current_high = iter_key->high;
+ 
+         if (interval.low <= current_low && interval.high >= current_high) {
+-            g_tree_remove(domain->mappings, iter_key);
++            virtio_iommu_remove_mapping(s, domain, iter_key);
+             trace_virtio_iommu_unmap_done(domain_id, current_low, current_high);
+         } else {
+             ret = VIRTIO_IOMMU_S_RANGE;
+@@ -663,6 +727,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+ 
++    QLIST_INIT(&s->notifiers_list);
+     virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
+                 sizeof(struct virtio_iommu_config));
+ 
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index e83500bee9..d94a1cd8a3 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -73,3 +73,5 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
+ virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
+ virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
+ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
++virtio_iommu_notify_map(const char *name, uint64_t iova, uint64_t paddr, uint64_t map_size) "mr=%s iova=0x%"PRIx64" pa=0x%" PRIx64" size=0x%"PRIx64
++virtio_iommu_notify_unmap(const char *name, uint64_t iova, uint64_t map_size) "mr=%s iova=0x%"PRIx64" size=0x%"PRIx64
 -- 
 2.17.1
 
