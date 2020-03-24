@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A531F190A4F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:10:46 +0100 (CET)
-Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCAA190A54
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:11:56 +0100 (CET)
+Received: from localhost ([::1]:45448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGgWD-0006hQ-NB
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:10:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
+	id 1jGgXL-0000ra-FS
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jGgP8-00062m-6J
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:27 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jGgPC-0006AP-Uo
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jGgP6-0000cl-VJ
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:26 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:49247)
+ (envelope-from <laurent@vivier.eu>) id 1jGgPB-0000fE-Qv
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:30 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:45343)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jGgP6-0000c6-MO
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:24 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jGgPB-0000ev-I1
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:29 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MvbO4-1jZj7a1vao-00sdVw; Tue, 24 Mar 2020 11:03:16 +0100
+ id 1MNbtF-1isfD40MKh-00P4OT; Tue, 24 Mar 2020 11:03:17 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] linux-user: Add x86_64 vsyscall page to /proc/self/maps
-Date: Tue, 24 Mar 2020 11:03:10 +0100
-Message-Id: <20200324100311.588288-5-laurent@vivier.eu>
+Subject: [PULL 5/5] linux-user: Flush out implementation of gettimeofday
+Date: Tue, 24 Mar 2020 11:03:11 +0100
+Message-Id: <20200324100311.588288-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200324100311.588288-1-laurent@vivier.eu>
 References: <20200324100311.588288-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ojp0y9ce1pIflhkVnGrS0924Kx1UvotZXiVdnzyaYLXbC7DHsby
- UTlu88LeDlEWaTFQAi6LmWeryTRiCczMUzFrsJwRPFcAo2WNu4ElLf7S2Pc/xJ7qm5Q4uAn
- QUTlAzn0xtXioZmfQEw6zpz8gTzTWkVq2X1yDUkJBEIL5lBUeRVza0Ou7HY585tb1sAabAL
- Ofr9gV6gVTUYOX74ZVLpA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wSua/9F1wzQ=:WNk5zu5Td8bhxYDdNTzI48
- l8rAmHPd9s1fvIiM6mB/jpovAvbD+ah367nupiBYKrIK5Kr9ctSyn55Xzw4AM1B0VI1RzbIkK
- WE5dNuHc2MXrDkpfhnFVoHlD8q8zgU7y/RQLgy18nGfp8VDbyTegcmheAxNj1HkVk3864zzC+
- fneEFTkjxfVVbkIubWOFBR/YWywGgh90yv0A357ikWO33OIdyyrqSfcG+m3NppDzGd4XUrLhf
- Hhxex2rMTiOjMSe27Mk85n+uBY/B4hEr6TFK9RgbnEOYppFETS3w7nibD48bQoz2og4vEByAs
- PBdEUQFVygztI/D2wLFXeepMBC14RN8lEbjcXapyWBWqM4jIUZ1/QUQQy1KFNex5ldxV7NU0+
- ZkLlVjEZUJ+DpnM3xQMJ0lBpEJwVa3hkILMNkZG3C5d8qZ/D2wDOrsPYvv9ZLNtYtzvNDKGjJ
- NmLXEOwWT+RMxT//LYoDIqzbEYH7zbn5cjw+K2NUNa/M68SlApho4RwcnEdnfeKIjVRq1ffm/
- 0cQoFzewMMFvyw2amasScdImuET3d45yVc9kSt1H99jeytqxCFir3nXUB5maxHrWmXLqixy8J
- yl46aW0vrV+2PerYnoZQ3AvPN56JWbFgpTpRzXq0TZFQX+rQ9TJ5a8hmCIYjD3XENhd06dHwt
- LjMlmltgI4envmSrbpED5PhWAIox1y5jQWxxyOe/dDjD1c9bSPNirk9tcAe29mPrlAbEJM3Ma
- xLYopaAd3ap/oOo3pol4Y37/3O4SX4yM5OnaG/EoTwWTU+kmN1uJJ3bft7sMG5akQKJ8K2Nya
- ion9N7Edgv4QfZsoJj5F1f2ar3F9xBPUCSB06wet6S2GVHzPdmjmWRyIbtor4L2GblpdMu4
+X-Provags-ID: V03:K1:BDgKtJ3PdH38sT4Jmsw0Fn45Lmg9valKYxqr6lfeLDh3VR6EOxW
+ QkdRhqFTqyMzdapPI1bsoGxPg/rh165/6KTEAAVh3U0C3UsBgIZQfiAwU9dChvEq956NInB
+ BKUY1n/9Niflk/85K9MiU+mTPhm53uSZfgFAAMLSRe00P7OxiLNCyhskWGaU0DBTdTZBCuE
+ 9Y5C3pzg1lyWAeXqe/p6g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YA3TI2wChNg=:Zvy9njpM/w82aGvMT1aNE9
+ v+sEmeupzbMp7WAjjkSfUWzP9VSu7vaHKDrfy7GclHAb7co5WQhxMwd3PNSmQYWUgEQURT5c6
+ kBH3uZKXzNfaSeEygsvXCC2zqHWCzvGmkCF1SQaADaNEHqnAi6tcm1PI0E44S0OQKOAxHzy5D
+ VBcPTAySslMqDnitHajcDdZgVcYHVkojPpWGhN/qI857fSmueWnb3nANxmokc+oTn4QROc3vI
+ tKQLzRUJPqPZoNL++nWxpKchUXKzLHojoglhuLZVY9ekyxxL31raiAmfmJa77aCsefj2Kx7SH
+ SaPDo4AmO/z1DI+MFOABzyXUberenh59lnLMpEp/YmXMFhE9u9BOw1lKU2QYs3GBkSFcdVN25
+ nR2333e5/rTnk41cHHkTkFd4gL0KpX62FSr77IVg4avzqGZPxv9/6IWftfWXB6XLF065Le5SA
+ 0971qXlNDRAsSXtPxPJe1467R1Oy4UOwCk1pIjZ456Vvjp1jo2YDfTfgOeojEIAhExFN8Dszj
+ ZSHhZu729beTG7Mc/XhOA+rNaLGywxKAXgCsH/jvx6FRNHO4pXSigAsSsprCGi1L/QXMyuQta
+ NJJVPxwIaPbxZgSeq/aNQUBctSiZp/bVvCOe2lc1XW+giZ8ZrX+x+zWZLG+iu/l6dzH3PGWdk
+ U9rEqawb+b1805Ml/KmAMet5pxY6VChaKebtOgf3LmTyjtfyPOm002MdKvoyxesgq+bAFutqc
+ WeeEp7E4SYBAIfkFToMqyALMwtK2X5tJifhPgp0dFdummiEzYyAyPeERWDmrzwdy90nJDU2rh
+ LT0tO1tbqlWAsPQT8C1/QnlvMtJiJq0t/4gTllO8yzZC9MEZq4QVR+3pWgDXAb1WceGJiMW
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,49 +64,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
  Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The page isn't (necessarily) present in the host /proc/self/maps,
-and even if it might be it isn't present in page_flags, and even
-if it was it might not have the same set of page permissions.
+The first argument, timeval, is allowed to be NULL.
 
-The easiest thing to do, particularly when it comes to the
-"[vsyscall]" note at the end of line, is to special case it.
+The second argument, timezone, was missing.  While its use is
+deprecated, it is still present in the syscall.
 
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200213032223.14643-5-richard.henderson@linaro.org>
+Message-Id: <20200213032223.14643-6-richard.henderson@linaro.org>
+[lv: add "#if defined(TARGET_NR_gettimeofday)"]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ linux-user/syscall.c | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 35f414666243..5675eca962d7 100644
+index 5675eca962d7..b7e8a98d4dc6 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7144,6 +7144,16 @@ static int open_self_maps(void *cpu_env, int fd)
-         }
-     }
+@@ -1273,6 +1273,25 @@ static inline abi_long host_to_target_timespec64(abi_ulong target_addr,
+     return 0;
+ }
  
-+#ifdef TARGET_VSYSCALL_PAGE
-+    /*
-+     * We only support execution from the vsyscall page.
-+     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=y from v5.3.
-+     */
-+    dprintf(fd, TARGET_FMT_lx "-" TARGET_FMT_lx 
-+            " --xp 00000000 00:00 0 [vsyscall]\n",
-+            TARGET_VSYSCALL_PAGE, TARGET_VSYSCALL_PAGE + TARGET_PAGE_SIZE);
++#if defined(TARGET_NR_gettimeofday)
++static inline abi_long copy_to_user_timezone(abi_ulong target_tz_addr,
++                                             struct timezone *tz)
++{
++    struct target_timezone *target_tz;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_tz, target_tz_addr, 1)) {
++        return -TARGET_EFAULT;
++    }
++
++    __put_user(tz->tz_minuteswest, &target_tz->tz_minuteswest);
++    __put_user(tz->tz_dsttime, &target_tz->tz_dsttime);
++
++    unlock_user_struct(target_tz, target_tz_addr, 1);
++
++    return 0;
++}
 +#endif
 +
-     free(line);
-     fclose(fp);
- 
+ #if defined(TARGET_NR_settimeofday)
+ static inline abi_long copy_from_user_timezone(struct timezone *tz,
+                                                abi_ulong target_tz_addr)
+@@ -8710,10 +8729,16 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_gettimeofday:
+         {
+             struct timeval tv;
+-            ret = get_errno(gettimeofday(&tv, NULL));
++            struct timezone tz;
++
++            ret = get_errno(gettimeofday(&tv, &tz));
+             if (!is_error(ret)) {
+-                if (copy_to_user_timeval(arg1, &tv))
++                if (arg1 && copy_to_user_timeval(arg1, &tv)) {
++                    return -TARGET_EFAULT;
++                }
++                if (arg2 && copy_to_user_timezone(arg2, &tz)) {
+                     return -TARGET_EFAULT;
++                }
+             }
+         }
+         return ret;
 -- 
 2.25.1
 
