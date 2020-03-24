@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91AF190D51
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 13:25:15 +0100 (CET)
-Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1037F190D47
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 13:22:45 +0100 (CET)
+Received: from localhost ([::1]:47896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGicM-0000sw-QO
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 08:25:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41226)
+	id 1jGiZw-0005kO-3C
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 08:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGiYN-0004EI-0F
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jGiYQ-0004Ji-KE
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGiYL-0007w0-S8
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:06 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:23359)
+ (envelope-from <mreitz@redhat.com>) id 1jGiYO-0007xZ-GC
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:09 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24789)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGiYL-0007vd-Nb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:05 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGiYN-0007xO-P0
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585052465;
+ s=mimecast20190719; t=1585052467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=llLnMhmoG5TK4ynfnTg6oU3Z5gaat0F1SGVz2j1BGnI=;
- b=ADjJJwxlHaDYsZU6RTV8+GcLZLB8vQ45PzT6dvnCizxksLCI+xeE6aWZiPRkejJ1kclIiC
- 144CssLcFgjRN05B5DuY0XifuNiZ8gOyNJwQ9sVuMpkCBguOPzS5cHN8wDiHDEvZapJ82i
- yO37zt4u98a+ad45sJZpYyoGQZz5tAc=
+ bh=sdgB1cGP4lrDOWYdtizKh5IPnMWCdKyq0DPNZtkoOt0=;
+ b=FtagiRGUJzFvLRDtCU+6WX1tGqUfEruSDBJ8m0iGNLRaGTpbpXzSN3mm7hnaDK8sstNjO0
+ Pj9cycn5TlYYGPjjz8uxPpP6qgBiMNHoFw9PJS5xwqaOLKNkNkxtBXEJz9FFZIxgWpkrnJ
+ N6pn4J7XZp8ouiicE/c2Dghrb8iuUBY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-JYgGq_RtMy2TOqkX2CgoiA-1; Tue, 24 Mar 2020 08:21:00 -0400
-X-MC-Unique: JYgGq_RtMy2TOqkX2CgoiA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-89-Ai3zRmdWM1WtxMhj3HlVuw-1; Tue, 24 Mar 2020 08:21:05 -0400
+X-MC-Unique: Ai3zRmdWM1WtxMhj3HlVuw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2FC718A8C86;
- Tue, 24 Mar 2020 12:20:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3B78017CC;
+ Tue, 24 Mar 2020 12:21:04 +0000 (UTC)
 Received: from localhost (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C6DE6EFB4;
- Tue, 24 Mar 2020 12:20:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6059C60BF3;
+ Tue, 24 Mar 2020 12:21:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 4/6] block/qcow2: zero data_file child after free
-Date: Tue, 24 Mar 2020 13:20:42 +0100
-Message-Id: <20200324122044.1131326-5-mreitz@redhat.com>
+Subject: [PULL 5/6] iotests: Fix cleanup path in some tests
+Date: Tue, 24 Mar 2020 13:20:43 +0100
+Message-Id: <20200324122044.1131326-6-mreitz@redhat.com>
 In-Reply-To: <20200324122044.1131326-1-mreitz@redhat.com>
 References: <20200324122044.1131326-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,40 +75,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Some iotests leave behind some external data file when run for qcow2
+with -o data_file.  Fix that.
 
-data_file being NULL doesn't seem to be a correct state, but it's
-better than dead pointer and simpler to debug.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200316060631.30052-3-vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200224171631.384314-1-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/qemu-iotests/085 | 1 +
+ tests/qemu-iotests/087 | 6 ++++++
+ tests/qemu-iotests/279 | 2 +-
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index e08917ed84..d1da3d91db 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1758,6 +1758,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverStat=
-e *bs, QDict *options,
-     g_free(s->image_data_file);
-     if (has_data_file(bs)) {
-         bdrv_unref_child(bs, s->data_file);
-+        s->data_file =3D NULL;
-     }
-     g_free(s->unknown_header_fields);
-     cleanup_unknown_header_ext(bs);
-@@ -2621,6 +2622,7 @@ static void qcow2_close(BlockDriverState *bs)
+diff --git a/tests/qemu-iotests/085 b/tests/qemu-iotests/085
+index 46981dbb64..dd3c993a2d 100755
+--- a/tests/qemu-iotests/085
++++ b/tests/qemu-iotests/085
+@@ -39,6 +39,7 @@ SNAPSHOTS=3D10
+ _cleanup()
+ {
+     _cleanup_qemu
++    _cleanup_test_img
+     for i in $(seq 1 ${SNAPSHOTS})
+     do
+         _rm_test_img "${TEST_DIR}/${i}-${snapshot_virt0}"
+diff --git a/tests/qemu-iotests/087 b/tests/qemu-iotests/087
+index d6c8613419..bdfdad3454 100755
+--- a/tests/qemu-iotests/087
++++ b/tests/qemu-iotests/087
+@@ -26,6 +26,12 @@ echo "QA output created by $seq"
 =20
-     if (has_data_file(bs)) {
-         bdrv_unref_child(bs, s->data_file);
-+        s->data_file =3D NULL;
-     }
+ status=3D1=09# failure is the default!
 =20
-     qcow2_refcount_close(bs);
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
+ # get standard environment, filters and checks
+ . ./common.rc
+ . ./common.filter
+diff --git a/tests/qemu-iotests/279 b/tests/qemu-iotests/279
+index 30d29b1cb2..75a4747e6b 100755
+--- a/tests/qemu-iotests/279
++++ b/tests/qemu-iotests/279
+@@ -26,7 +26,7 @@ status=3D1=09# failure is the default!
+ _cleanup()
+ {
+     _cleanup_test_img
+-    rm -f "$TEST_IMG.mid"
++    _rm_test_img "$TEST_IMG.mid"
+ }
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
 --=20
 2.25.1
 
