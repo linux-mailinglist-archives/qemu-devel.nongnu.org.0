@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DBB191C29
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 22:46:58 +0100 (CET)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0207F191C3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 22:50:45 +0100 (CET)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGrNx-0001sI-Km
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 17:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38917)
+	id 1jGrRc-0007ym-2R
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 17:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jGrLA-0007NZ-Ln
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:05 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1jGrLH-0007fV-CN
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jGrL9-0004vn-MZ
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:04 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6178)
+ (envelope-from <kwankhede@nvidia.com>) id 1jGrLG-0004zW-8N
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:11 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6595)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jGrL9-0004vX-Gb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:03 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7a7f150000>; Tue, 24 Mar 2020 14:43:49 -0700
+ id 1jGrLG-0004yx-2q
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:44:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e7a7ece0000>; Tue, 24 Mar 2020 14:42:38 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Tue, 24 Mar 2020 14:44:02 -0700
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 24 Mar 2020 14:44:08 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Tue, 24 Mar 2020 14:44:02 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 24 Mar
- 2020 21:44:02 +0000
+ by hqpgpgate101.nvidia.com on Tue, 24 Mar 2020 14:44:08 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 24 Mar
+ 2020 21:44:08 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 24 Mar 2020 21:43:56 +0000
+ Transport; Tue, 24 Mar 2020 21:44:02 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v16 QEMU 12/16] memory: Set DIRTY_MEMORY_MIGRATION when IOMMU
- is enabled
-Date: Wed, 25 Mar 2020 02:39:10 +0530
-Message-ID: <1585084154-29461-13-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v16 QEMU 13/16] vfio: Add function to start and stop dirty
+ pages tracking
+Date: Wed, 25 Mar 2020 02:39:11 +0530
+Message-ID: <1585084154-29461-14-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
 References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
@@ -48,18 +48,18 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585086229; bh=5enwOLQUs3mOZ9vXJXPKczJKjLtl0ueXpgpQhr+I2rU=;
+ t=1585086158; bh=wjRihxROOTpvB/Z5jHeyJNR8v5ig3rWfHPf4/d4XhVk=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=Q7b+HjzhcpRn3ZLnwp8cVvRgG/GXdobIfntleZocZhcuQnN736DZIa9BviBpkQjoy
- HVsC9R37OE6aHaLrFUNk0p87xF5BsCE5uvZqAiGkUtmZpVFU88IPmq4XPQagYteYdX
- DphOTDdqaq0qqx7iZgirV27xB663bD/Q4kw4/gw8hbgMYX1ocAauImG0GHDc4KP0Ca
- SnMYSMK1PXnSCncNyef5zUjmvEWvi0MD6kQh5qRPDHksYZSq8npG3CEQPXnhKHhoB+
- ejiBF/7CiFnwGEhRyr5aeFwF0rt4DWyrcLTKTbBWh07aSXum57Rm8Hnm+E23dFxQLc
- 7+HGKYnsNqflw==
+ b=Kg299gkiwT+BIKB+b9cqWQpbSk70NaNgFoO7dlD+NJBP5MI5mO/mhPf6PEtC2qX/N
+ 5NMenMVPCsrFD91RfJbu6fb2LeK8OfXsGmdB7qUkwRsS9zUziThTZgkofkfKR8l9Of
+ nxYhLdCaVmBF1W6RKrMdWd52VIKNQLTwraLZkOW47BX4KT3eadFjnits7A/3qPZA9s
+ uVphztZLx+i18ZLeOfGhXk8YmR3V21/26RFHE0wEeBx+umAYxFWAf2vaQ/a6F+hgxL
+ qeYRsqB8ZAcjwOJw7SDnb1DTHWrmZGzQAFPsMDIL4x6QPtzSQd00D8Ka/mGDYkQBzz
+ 3b7uEr6wnpoaA==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.65
+X-Received-From: 216.228.121.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,24 +81,89 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
+for VFIO devices.
+
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 ---
- memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/memory.c b/memory.c
-index acb7546971c3..285ca2ed6dd9 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1788,7 +1788,7 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
- uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
- {
-     uint8_t mask = mr->dirty_log_mask;
--    if (global_dirty_log && mr->ram_block) {
-+    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
-         mask |= (1 << DIRTY_MEMORY_MIGRATION);
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index ab295d25620e..1827b7cfb316 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -9,6 +9,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/main-loop.h"
++#include <sys/ioctl.h>
+ #include <linux/vfio.h>
+ 
+ #include "sysemu/runstate.h"
+@@ -296,6 +297,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
+ }
+ 
++static int vfio_start_dirty_page_tracking(VFIODevice *vbasedev, bool start)
++{
++    int ret;
++    VFIOContainer *container = vbasedev->group->container;
++    struct vfio_iommu_type1_dirty_bitmap dirty = {
++        .argsz = sizeof(dirty),
++    };
++
++    if (start) {
++        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
++            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
++        } else {
++            return 0;
++        }
++    } else {
++            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
++    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++    if (ret) {
++        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
++                     dirty.flags, errno);
++    }
++    return ret;
++}
++
+ /* ---------------------------------------------------------------------- */
+ 
+ static int vfio_save_setup(QEMUFile *f, void *opaque)
+@@ -330,6 +357,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+      */
+     qemu_put_be64(f, migration->region.size);
+ 
++    ret = vfio_start_dirty_page_tracking(vbasedev, true);
++    if (ret) {
++        return ret;
++    }
++
+     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+ 
+     ret = qemu_file_get_error(f);
+@@ -346,6 +378,8 @@ static void vfio_save_cleanup(void *opaque)
+     VFIODevice *vbasedev = opaque;
+     VFIOMigration *migration = vbasedev->migration;
+ 
++    vfio_start_dirty_page_tracking(vbasedev, false);
++
+     if (migration->region.mmaps) {
+         vfio_region_unmap(&migration->region);
      }
-     return mask;
+@@ -669,6 +703,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+         if (ret) {
+             error_report("%s: Failed to set state RUNNING", vbasedev->name);
+         }
++
++        vfio_start_dirty_page_tracking(vbasedev, false);
+     }
+ }
+ 
 -- 
 2.7.0
 
