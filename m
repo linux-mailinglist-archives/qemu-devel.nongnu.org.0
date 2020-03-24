@@ -2,62 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C5F190D52
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 13:25:36 +0100 (CET)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7589190D62
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 13:28:55 +0100 (CET)
+Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGich-0001Dw-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 08:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41288)
+	id 1jGift-0004uq-TX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 08:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGiYU-0004Sm-Ft
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:18 -0400
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jGibF-0008S3-7T
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:24:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGiYS-00082m-Jq
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:14 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:26131)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGiYS-00082c-Fb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:21:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585052472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ah8bOhnAqJ3nIIRfmGaTBRsQaL0HlDpJ9Py310uZSO4=;
- b=RwkpU1AJl5qZvwlyhM8EpumaHbg8v4Ey0R9cem9b2xqG5Py8QhK4RoyeJz472qo5uH8MWT
- hRGGT58gXXjLQIlDUfpX2EUoY1nPj/foXl7foMah3IP9bmc3emrnlf9bSwNoZaXT3TRw4F
- Ge/MqGIAKFE6QAcbuwQoIMr6EQVUDS8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-6SJ05763MaS7xeNv8LIvjA-1; Tue, 24 Mar 2020 08:21:08 -0400
-X-MC-Unique: 6SJ05763MaS7xeNv8LIvjA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 938228017CC;
- Tue, 24 Mar 2020 12:21:07 +0000 (UTC)
-Received: from localhost (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8B7FBBBC2;
- Tue, 24 Mar 2020 12:21:06 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 6/6] iotests/026: Move v3-exclusive test to new file
-Date: Tue, 24 Mar 2020 13:20:44 +0100
-Message-Id: <20200324122044.1131326-7-mreitz@redhat.com>
-In-Reply-To: <20200324122044.1131326-1-mreitz@redhat.com>
-References: <20200324122044.1131326-1-mreitz@redhat.com>
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jGibD-0000cg-Ov
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:24:05 -0400
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17872)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1jGibA-0000YW-0A
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 08:24:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585052553; 
+ s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
+ h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Transfer-Encoding:Content-Type;
+ bh=Te1pLNktjmg6b1Q72s5fbp/U+T2zhe94qT7V+emS51Y=;
+ b=eZ4cUNv7+5uASgdgEKKlf6D1/p3TiRXCDG/m5S5+RJ6hzPf5lkdwD7l0nHwCbFYB
+ 6HM8J4wvThe8W11O0eGkBSkpZklz3OIgypb6VCRPGmr1jLkQIDB9vE6jGmiR5eylcQi
+ pjTX1YWObV0qbUE6S4PT9YkzWOXOPd3aDIX1WY7M=
+Received: from localhost.localdomain (39.155.141.144 [39.155.141.144]) by
+ mx.zoho.com.cn with SMTPS id 1585052548839456.6551251032387;
+ Tue, 24 Mar 2020 20:22:28 +0800 (CST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH for-5.0,
+ v1] target/mips: Fix loongson multimedia condition instructions
+Date: Tue, 24 Mar 2020 20:22:12 +0800
+X-Mailer: git-send-email 2.26.0.rc2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-ZohoCNMailClient: External
+Content-Type: text/plain; charset=utf8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 124.251.121.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,230 +56,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: richard.henderson@linaro.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ aleksandar.qemu.devel@gmail.com, Huacai Chen <chenhc@lemote.com>,
+ aleksandar.rikalo@rt-rk.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-data_file does not work with v2, and we probably want 026 to keep
-working for v2 images.  Thus, open a new file for v3-exclusive error
-path test cases.
+Loongson multimedia condition instructions were previously implemented as
+write 0 to rd due to lack of documentation. So I just confirmed with Loongs=
+on
+about their encoding and implemented them correctly.
 
-Fixes: 81311255f217859413c94f2cd9cebf2684bbda94
-       (=E2=80=9Ciotests/026: Test EIO on allocation in a data-file=E2=80=
-=9D)
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200311140707.1243218-1-mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Tested-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Acked-by: Huacai Chen <chenhc@lemote.com>
 ---
- tests/qemu-iotests/026             | 31 -----------
- tests/qemu-iotests/026.out         |  6 --
- tests/qemu-iotests/026.out.nocache |  6 --
- tests/qemu-iotests/289             | 89 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/289.out         |  8 +++
- tests/qemu-iotests/group           |  1 +
- 6 files changed, 98 insertions(+), 43 deletions(-)
- create mode 100755 tests/qemu-iotests/289
- create mode 100644 tests/qemu-iotests/289.out
+v1: Use deposit opreations according to Richard's suggestion.
+---
+ target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
-index b05a4692cf..b9713eb591 100755
---- a/tests/qemu-iotests/026
-+++ b/tests/qemu-iotests/026
-@@ -240,37 +240,6 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG"=
- | _filter_qemu_io
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index d745bd2803..25b595a17d 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -5529,6 +5529,7 @@ static void gen_loongson_multimedia(DisasContext *ctx=
+, int rd, int rs, int rt)
+ {
+     uint32_t opc, shift_max;
+     TCGv_i64 t0, t1;
++    TCGCond cond;
 =20
- _check_test_img
+     opc =3D MASK_LMI(ctx->opcode);
+     switch (opc) {
+@@ -5862,14 +5863,39 @@ static void gen_loongson_multimedia(DisasContext *c=
+tx, int rd, int rs, int rt)
 =20
--echo
--echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--echo
--
--# Similar test as the last one, except we test what happens when there
--# is an error when writing to an external data file instead of when
--# writing to a preallocated zero cluster
--_make_test_img -o "data_file=3D$TEST_IMG.data_file" $CLUSTER_SIZE
--
--# Put blkdebug above the data-file, and a raw node on top of that so
--# that blkdebug will see a write_aio event and emit an error
--$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
--    "json:{
--         'driver': 'qcow2',
--         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
--         'data-file': {
--             'driver': 'raw',
--             'file': {
--                 'driver': 'blkdebug',
--                 'config': '$TEST_DIR/blkdebug.conf',
--                 'image': {
--                     'driver': 'file',
--                     'filename': '$TEST_IMG.data_file'
--                 }
--             }
--         }
--     }" \
--    | _filter_qemu_io
--
--_check_test_img
--
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
-index c1b3b58482..83989996ff 100644
---- a/tests/qemu-iotests/026.out
-+++ b/tests/qemu-iotests/026.out
-@@ -653,10 +653,4 @@ wrote 1024/1024 bytes at offset 0
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- write failed: Input/output error
- No errors were found on the image.
--
--=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--
--Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
-DIR/t.IMGFMT.data_file
--write failed: Input/output error
--No errors were found on the image.
- *** done
-diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.ou=
-t.nocache
-index 8d5001648a..9359d26d7e 100644
---- a/tests/qemu-iotests/026.out.nocache
-+++ b/tests/qemu-iotests/026.out.nocache
-@@ -661,10 +661,4 @@ wrote 1024/1024 bytes at offset 0
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- write failed: Input/output error
- No errors were found on the image.
--
--=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--
--Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
-DIR/t.IMGFMT.data_file
--write failed: Input/output error
--No errors were found on the image.
- *** done
-diff --git a/tests/qemu-iotests/289 b/tests/qemu-iotests/289
-new file mode 100755
-index 0000000000..1c11d4030e
---- /dev/null
-+++ b/tests/qemu-iotests/289
-@@ -0,0 +1,89 @@
-+#!/usr/bin/env bash
-+#
-+# qcow2 v3-exclusive error path testing
-+# (026 tests paths common to v2 and v3)
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+     case OPC_SEQU_CP2:
+     case OPC_SEQ_CP2:
++        cond =3D TCG_COND_EQ;
++        goto do_cc_cond;
++        break;
+     case OPC_SLTU_CP2:
++        cond =3D TCG_COND_LTU;
++        goto do_cc_cond;
++        break;
+     case OPC_SLT_CP2:
++        cond =3D TCG_COND_LT;
++        goto do_cc_cond;
++        break;
+     case OPC_SLEU_CP2:
++        cond =3D TCG_COND_LEU;
++        goto do_cc_cond;
++        break;
+     case OPC_SLE_CP2:
+-        /*
+-         * ??? Document is unclear: Set FCC[CC].  Does that mean the
+-         * FD field is the CC field?
+-         */
++        cond =3D TCG_COND_LE;
++    do_cc_cond:
++        {
++            int cc =3D (ctx->opcode >> 8) & 0x7;
++            TCGv_i64 t64 =3D tcg_temp_new_i64();
++            TCGv_i32 t32 =3D tcg_temp_new_i32();
 +
-+seq=3D$(basename $0)
-+echo "QA output created by $seq"
++            tcg_gen_setcond_i64(cond, t64, t0, t1);
++            tcg_gen_extrl_i64_i32(t32, t64);
++            tcg_gen_deposit_i32(fpu_fcr31, fpu_fcr31, t32,
++                                get_fp_bit(cc), 1);
 +
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm "$TEST_DIR/blkdebug.conf"
-+    rm -f "$TEST_IMG.data_file"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+# This is a v3-exclusive test;
-+# As for data_file, error paths often very much depend on whether
-+# there is an external data file or not; so we create one exactly when
-+# we want to test it
-+_unsupported_imgopts 'compat=3D0.10' data_file
-+
-+echo
-+echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-+echo
-+
-+cat > "$TEST_DIR/blkdebug.conf" <<EOF
-+[inject-error]
-+event =3D "write_aio"
-+errno =3D "5"
-+once =3D "on"
-+EOF
-+
-+# Test what happens when there is an error when writing to an external
-+# data file instead of when writing to a preallocated zero cluster
-+_make_test_img -o "data_file=3D$TEST_IMG.data_file" 64k
-+
-+# Put blkdebug above the data-file, and a raw node on top of that so
-+# that blkdebug will see a write_aio event and emit an error.  This
-+# will then trigger the alloc abort code, which we want to test here.
-+$QEMU_IO -c "write 0 64k" \
-+    "json:{
-+         'driver': 'qcow2',
-+         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
-+         'data-file': {
-+             'driver': 'raw',
-+             'file': {
-+                 'driver': 'blkdebug',
-+                 'config': '$TEST_DIR/blkdebug.conf',
-+                 'image': {
-+                     'driver': 'file',
-+                     'filename': '$TEST_IMG.data_file'
-+                 }
-+             }
-+         }
-+     }" \
-+    | _filter_qemu_io
-+
-+_check_test_img
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/289.out b/tests/qemu-iotests/289.out
-new file mode 100644
-index 0000000000..e54e2629d4
---- /dev/null
-+++ b/tests/qemu-iotests/289.out
-@@ -0,0 +1,8 @@
-+QA output created by 289
-+
-+=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536 data_file=3DTEST=
-_DIR/t.IMGFMT.data_file
-+write failed: Input/output error
-+No errors were found on the image.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index ec2b2302e5..79c6dfc85d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -295,3 +295,4 @@
- 284 rw
- 286 rw quick
- 288 quick
-+289 rw quick
++            tcg_temp_free_i32(t32);
++            tcg_temp_free_i64(t64);
++        }
++        goto no_rd;
++        break;
+     default:
+         MIPS_INVAL("loongson_cp2");
+         generate_exception_end(ctx, EXCP_RI);
+@@ -5878,6 +5904,7 @@ static void gen_loongson_multimedia(DisasContext *ctx=
+, int rd, int rs, int rt)
+=20
+     gen_store_fpr64(ctx, t0, rd);
+=20
++no_rd:
+     tcg_temp_free_i64(t0);
+     tcg_temp_free_i64(t1);
+ }
 --=20
-2.25.1
+2.26.0.rc2
+
 
 
