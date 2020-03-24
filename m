@@ -2,76 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C321905A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 07:18:09 +0100 (CET)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973361905A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 07:20:04 +0100 (CET)
+Received: from localhost ([::1]:43604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGct6-0001Gd-1n
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 02:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
+	id 1jGcux-0002Em-MW
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 02:20:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shannon.zhaosl@gmail.com>) id 1jGcs5-0000lV-1U
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 02:17:05 -0400
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jGcu6-0001q9-Fm
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 02:19:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shannon.zhaosl@gmail.com>) id 1jGcs4-0007Yl-4T
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 02:17:04 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36602)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <shannon.zhaosl@gmail.com>)
- id 1jGcs2-0007VT-0c; Tue, 24 Mar 2020 02:17:02 -0400
-Received: by mail-oi1-x242.google.com with SMTP id k18so17484524oib.3;
- Mon, 23 Mar 2020 23:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ntwu0iNk5SxCHAsBwOrQKWEafoKA9mB3OGWLeaqo74s=;
- b=ArxcFgzP4sznUBhNmRg2O6o4lVtFtUn0x/Tz3s6yChWB05s3YDIlNrx1081JchJ+BA
- qmGPzVlJ6YYVYdm11rXSyk4WMMUc8juLKSr2esDvElBzSnCq0YBAif2u8W2nF/G/un/r
- WMk8DGR0QDF604XADy/37yhQ7c9hFIyKlg7lxhw5liis5BILbsbIu+F/rLAtRw1onoU9
- GhzOJwNOZJXq8msaLHfPAyCONMyJ4QTivprAEDtIEEhTEeNVu7s1Omlom8r1kIjQJ2K9
- odIG62vHCzo1VEPzI71ZwH8Qbn1nkzfwLdZoaSfUUF99Leb3Axl4ACUJovuLWL1TTDqF
- Y6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ntwu0iNk5SxCHAsBwOrQKWEafoKA9mB3OGWLeaqo74s=;
- b=ZYBSzoXYO7Gs+3nX68xgiaZQV2GCHrG8iPKdsvTcQfm/Z5R5o12NEZfeAjLL4p3MLF
- HLfYr9UtEoXoUSqotcbgGG3LjGgUl4cRa8Y8jCpR0YAKL5uTOR9gICIPeG0RVuOUT6SP
- 7zUcGq6+APipEu/c3Y8+6dU/Pg1EJG6mC3T4N+zrJ42nbqmKoOethU9EBo3q1XpyIo19
- qbrZsJTEKNl2hRj32/Whr+ck7CC0rANYE5Bq73f40DsiOw6lr4SFOgVL75dUgruukrz9
- tTYpGbLcor9wP8XkQdPQuIAdWkIArPyxGbOYL/JGAl5o6uV0oCDoB12jMTnzbFz5VYJ1
- kGiA==
-X-Gm-Message-State: ANhLgQ2hmpds4ERJNA+R4GwSIBWEICYQiD3ylzwNgF8f9w/tqh7ZLPx3
- EGX1SoZKqJoPpxUdZI3B3PU=
-X-Google-Smtp-Source: ADFU+vseYXZS49aKQ9OW9Wpd4/BsiO/cnQIfMmooRrDJzBuPDknxv5PAP+PWIn/i3C0CTvO3UA2X3w==
-X-Received: by 2002:aca:3a83:: with SMTP id h125mr2236038oia.64.1585030620674; 
- Mon, 23 Mar 2020 23:17:00 -0700 (PDT)
-Received: from [30.43.122.30] ([47.89.83.57])
- by smtp.gmail.com with ESMTPSA id f3sm2815282oto.42.2020.03.23.23.16.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Mar 2020 23:16:59 -0700 (PDT)
-Subject: Re: [PATCH v3 07/10] hw/arm/virt: Add nvdimm hotplug support
-To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, eric.auger@redhat.com,
- imammedo@redhat.com
-References: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
- <20200311172014.33052-8-shameerali.kolothum.thodi@huawei.com>
-From: Shannon Zhao <shannon.zhaosl@gmail.com>
-Message-ID: <079d4ae2-4be1-feef-4729-d94c85431a6f@gmail.com>
-Date: Tue, 24 Mar 2020 14:16:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jGcu5-0000ng-Ck
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 02:19:10 -0400
+Received: from mailout04.t-online.de ([194.25.134.18]:34342)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1jGcu5-0000lT-6t
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 02:19:09 -0400
+Received: from fwd06.aul.t-online.de (fwd06.aul.t-online.de [172.20.26.150])
+ by mailout04.t-online.de (Postfix) with SMTP id 392CC41BADFA;
+ Tue, 24 Mar 2020 07:19:06 +0100 (CET)
+Received: from linpower.localnet
+ (TWfXKUZSgh-qC9Pqk75CBSp5AMWVhwG5RYzIRcAu35kWBp1YYHu1gDzjUk6inBgQ7S@[93.236.151.78])
+ by fwd06.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1jGcts-2IEPPU0; Tue, 24 Mar 2020 07:18:56 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id DA3E7200F49; Tue, 24 Mar 2020 07:18:55 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] hw/audio/fmopl: fix segmentation fault
+Date: Tue, 24 Mar 2020 07:18:55 +0100
+Message-Id: <20200324061855.5951-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-In-Reply-To: <20200311172014.33052-8-shameerali.kolothum.thodi@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+Content-Type: text/plain; charset=UTF-8
+X-ID: TWfXKUZSgh-qC9Pqk75CBSp5AMWVhwG5RYzIRcAu35kWBp1YYHu1gDzjUk6inBgQ7S
+X-TOI-MSGID: 61372906-d5a0-48ce-8152-3dbf625e179d
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 194.25.134.18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,26 +56,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
- david@redhat.com, linuxarm@huawei.com, xuwei5@hisilicon.com, lersek@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Current code allocates the memory for ENV_CURVE too late. Move
+allocation to OPLOpenTable() and deallocation to OPLCloseTable().
 
+To reproduce the bug start qemu with -soundhw adlib.
 
-On 2020/3/12 1:20, Shameer Kolothum wrote:
-> diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
-> index 911a98255b..e3abe975bf 100644
-> --- a/docs/specs/acpi_hw_reduced_hotplug.rst
-> +++ b/docs/specs/acpi_hw_reduced_hotplug.rst
-> @@ -63,6 +63,7 @@ GED IO interface (4 byte access)
->       bits:
->          0: Memory hotplug event
->          1: System power down event
-> +       2: NVDIMM hotplug event
->       2-31: Reserved
-should modify "2-31: Reserved"
+Fixes 2eea51bd01 "hw/audio/fmopl: Move ENV_CURVE to .heap to save
+32KiB of .bss"
 
-Thanks,
-Shannon
+Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+---
+ hw/audio/fmopl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
+index 356d4dfbca..8a71a569fa 100644
+--- a/hw/audio/fmopl.c
++++ b/hw/audio/fmopl.c
+@@ -627,6 +627,7 @@ static int OPLOpenTable( void )
+ 		free(AMS_TABLE);
+ 		return 0;
+ 	}
++    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
+ 	/* make total level table */
+ 	for (t =3D 0;t < EG_ENT-1 ;t++){
+ 		rate =3D ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);	/* dB -> voltage */
+@@ -694,6 +695,7 @@ static int OPLOpenTable( void )
+=20
+ static void OPLCloseTable( void )
+ {
++    g_free(ENV_CURVE);
+ 	free(TL_TABLE);
+ 	free(SIN_TABLE);
+ 	free(AMS_TABLE);
+@@ -1090,7 +1092,6 @@ FM_OPL *OPLCreate(int clock, int rate)
+ 	OPL->clock =3D clock;
+ 	OPL->rate  =3D rate;
+ 	OPL->max_ch =3D max_ch;
+-    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
+ 	/* init grobal tables */
+ 	OPL_initialize(OPL);
+ 	/* reset chip */
+@@ -1128,7 +1129,6 @@ void OPLDestroy(FM_OPL *OPL)
+ #endif
+ 	OPL_UnLockTable();
+ 	free(OPL);
+-    g_free(ENV_CURVE);
+ }
+=20
+ /* ----------  Option handlers ----------       */
+--=20
+2.16.4
+
 
