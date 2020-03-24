@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496A719138D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:49:35 +0100 (CET)
-Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C27B19139F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:51:28 +0100 (CET)
+Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGks2-0001Ia-A9
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60962)
+	id 1jGktr-0003Fg-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGkqg-0000P1-Cl
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:48:11 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jGksf-0002Vk-Pq
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:50:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGkqf-00077e-FL
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:48:10 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:53079)
+ (envelope-from <alex.williamson@redhat.com>) id 1jGkse-0000dw-H6
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:50:13 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33951)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGkqf-00077D-Bl
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:48:09 -0400
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jGkse-0000dW-Co
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:50:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585061289;
+ s=mimecast20190719; t=1585061412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=uF8d/Bf7NlDz3rD2n4ZdQFSZcntZJY9AgYeEq2AMMo0=;
- b=LYLRqyWQlmUQF4+StVent8RHEaYhlor0l/oEjxIWjMzEwLbukCZMCZJXVa4Uf4oiySOgpn
- Dk+TYCuFj7gCbYPKUBLMWCh9gRdGD2oaVZVoz2+VEhY/QzqOD3S/q7YTxu8ppLY0HY7/OR
- eJ58ZDp0XLNOwLs7pomN8b5gfSK31Is=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zI1iQYeYC9lt1kBrjAHropMSeNOxmOibl4mmPnXMvvM=;
+ b=ekq2UcYP+UPerQIq4lgF2ENtrMjxRPcI49yhNpx+yD0xmG0DyWFL+7WF6hEaYkwzVQPFAF
+ G5qiXLHQWdcwhUKLATWMkt9pzzH1EBubZhL9wcebnMSzjim1dNMVclR8/Q+UOENqlJDwr5
+ OtteiYk1fD3utmBepJswBqK1sR0lkoE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-J7-JNoo-PrmzjhpRzRfHGg-1; Tue, 24 Mar 2020 10:48:04 -0400
-X-MC-Unique: J7-JNoo-PrmzjhpRzRfHGg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-401-dxBHpPlMMnKjecfa07nMQw-1; Tue, 24 Mar 2020 10:50:08 -0400
+X-MC-Unique: dxBHpPlMMnKjecfa07nMQw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E8391005510;
- Tue, 24 Mar 2020 14:48:03 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-213.ams2.redhat.com
- [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF2F9B934;
- Tue, 24 Mar 2020 14:48:00 +0000 (UTC)
-Subject: Re: [PATCH v8 05/11] iotests: add pylintrc file
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200317004105.27059-1-jsnow@redhat.com>
- <20200317004105.27059-6-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <2913909d-3411-04cf-9cc4-47ea1e7e6749@redhat.com>
-Date: Tue, 24 Mar 2020 15:47:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41EB58018A2;
+ Tue, 24 Mar 2020 14:50:05 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A77B4171B1;
+ Tue, 24 Mar 2020 14:49:54 +0000 (UTC)
+Date: Tue, 24 Mar 2020 08:49:54 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v4 0/2] introduction of migration_version attribute for
+ VFIO live migration
+Message-ID: <20200324084954.0dd835e2@w520.home>
+In-Reply-To: <20200324092331.GA2645@work-vm>
+References: <20190531004438.24528-1-yan.y.zhao@intel.com>
+ <20190603132932.1b5dc7fe@x1.home>
+ <20190604003422.GA30229@joy-OptiPlex-7040>
+ <20200323152959.1c39e9a7@w520.home>
+ <20200324035316.GE5456@joy-OptiPlex-7040>
+ <20200324092331.GA2645@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20200317004105.27059-6-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WYn3oj8ixq3GKCTfWKIL8H0ssAnFbx3or"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,52 +75,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- philmd@redhat.com, armbru@redhat.com
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+ "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "Yang, Ziye" <ziye.yang@intel.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "dinechin@redhat.com" <dinechin@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+ Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WYn3oj8ixq3GKCTfWKIL8H0ssAnFbx3or
-Content-Type: multipart/mixed; boundary="POMmOI39VqP96LeCKHjUOSqPlwhlgvRBr"
+On Tue, 24 Mar 2020 09:23:31 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
---POMmOI39VqP96LeCKHjUOSqPlwhlgvRBr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > On Tue, Mar 24, 2020 at 05:29:59AM +0800, Alex Williamson wrote:  
+> > > On Mon, 3 Jun 2019 20:34:22 -0400
+> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > >   
+> > > > On Tue, Jun 04, 2019 at 03:29:32AM +0800, Alex Williamson wrote:  
+> > > > > On Thu, 30 May 2019 20:44:38 -0400
+> > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > >     
+> > > > > > This patchset introduces a migration_version attribute under sysfs of VFIO
+> > > > > > Mediated devices.
+> > > > > > 
+> > > > > > This migration_version attribute is used to check migration compatibility
+> > > > > > between two mdev devices of the same mdev type.
+> > > > > > 
+> > > > > > Patch 1 defines migration_version attribute in
+> > > > > > Documentation/vfio-mediated-device.txt
+> > > > > > 
+> > > > > > Patch 2 uses GVT as an example to show how to expose migration_version
+> > > > > > attribute and check migration compatibility in vendor driver.    
+> > > > > 
+> > > > > Thanks for iterating through this, it looks like we've settled on
+> > > > > something reasonable, but now what?  This is one piece of the puzzle to
+> > > > > supporting mdev migration, but I don't think it makes sense to commit
+> > > > > this upstream on its own without also defining the remainder of how we
+> > > > > actually do migration, preferably with more than one working
+> > > > > implementation and at least prototyped, if not final, QEMU support.  I
+> > > > > hope that was the intent, and maybe it's now time to look at the next
+> > > > > piece of the puzzle.  Thanks,
+> > > > > 
+> > > > > Alex    
+> > > > 
+> > > > Got it. 
+> > > > Also thank you and all for discussing and guiding all along:)
+> > > > We'll move to the next episode now.  
+> > > 
+> > > Hi Yan,
+> > > 
+> > > As we're hopefully moving towards a migration API, would it make sense
+> > > to refresh this series at the same time?  I think we're still expecting
+> > > a vendor driver implementing Kirti's migration API to also implement
+> > > this sysfs interface for compatibility verification.  Thanks,
+> > >  
+> > Hi Alex
+> > Got it!
+> > Thanks for reminding of this. And as now we have vfio-pci implementing
+> > vendor ops to allow live migration of pass-through devices, is it
+> > necessary to implement similar sysfs node for those devices?
+> > or do you think just PCI IDs of those devices are enough for libvirt to
+> > know device compatibility ?  
+> 
+> Wasn't the problem that we'd have to know how to check for things like:
+>   a) Whether different firmware versions in the device were actually
+> compatible
+>   b) Whether minor hardware differences were compatible - e.g. some
+> hardware might let you migrate to the next version of hardware up.
 
-On 17.03.20 01:40, John Snow wrote:
-> This allows others to get repeatable results with pylint. If you run
-> `pylint iotests.py`, you should see a 100% pass.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/pylintrc | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->  create mode 100644 tests/qemu-iotests/pylintrc
+Yes, minor changes in hardware or firmware that may not be represented
+in the device ID or hardware revision.  Also the version is as much for
+indicating the compatibility of the vendor defined migration protocol
+as it is for the hardware itself.  I certainly wouldn't be so bold as
+to create a protocol that is guaranteed compatible forever.  We'll need
+to expose the same sysfs attribute in some standard location for
+non-mdev devices.  I assume vfio-pci would provide the vendor ops some
+mechanism to expose these in a standard namespace of sysfs attributes
+under the device itself.  Perhaps that indicates we need to link the
+mdev type version under the mdev device as well to make this
+transparent to userspace tools like libvirt.  Thanks,
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---POMmOI39VqP96LeCKHjUOSqPlwhlgvRBr--
-
---WYn3oj8ixq3GKCTfWKIL8H0ssAnFbx3or
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl56HZ4ACgkQ9AfbAGHV
-z0AAzQgAitk2GjB2K/hsHN+0e77uplBO/F9KfuVtLr9iQzUfueDCYwFPNckyVZcY
-ZXYbS9hgGJU2D0KrM8UhtAin171DmZ6gQtiwo3bT6q7I9bYVRsKu5jRnD3prL42w
-K9JUUdwa7S5RCGUaf0DNuttveh2R8YACBGyO6lup1HA6QjkX4INloSrarVQFHBic
-IHB5i0WLxlWo7LTecraRr74po+vhd38HiQvnRgmCRtiApWMQnR+vi1sztKQxD2n2
-SsjS31MbTX/VZEqTrCe74YS0oBbPKWwrkhPdK306ceCDX3hD4KbXyqawBQqweaIV
-yE/n8A6vdj9Gz/t+tdkoCDvRJO8z3Q==
-=YHMc
------END PGP SIGNATURE-----
-
---WYn3oj8ixq3GKCTfWKIL8H0ssAnFbx3or--
+Alex
 
 
