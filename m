@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABCB1917EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:44:28 +0100 (CET)
-Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D1419180A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:46:45 +0100 (CET)
+Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGnbI-0006E8-0z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:44:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58734)
+	id 1jGndU-00010h-Ay
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jGnZa-0004cq-T0
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:44 -0400
+ (envelope-from <eblake@redhat.com>) id 1jGnZe-0004nG-Mb
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jGnZZ-0007US-Iz
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:21710)
+ (envelope-from <eblake@redhat.com>) id 1jGnZd-0007WC-DL
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:23133)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jGnZZ-0007UF-Du
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:41 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jGnZd-0007Vx-A3
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:42:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585071761;
+ s=mimecast20190719; t=1585071765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U6wtncJP3zO6sGz8kGxr5WteIftJyjdZ7Vd49Bzf7j0=;
- b=AcoquW/16y2ELatYbbTU+Y/YuRkpU9oJUyJNb7w/NF4xc3obU8AHh436VuMEFiSHYyhHQ7
- 3Zk3334auvW/um6tLqlj63MZTXLblMduDf3ZGGFiUKkHb+GRTPH3j7kGryHa/RHaCA8PwH
- 36K2sbA0Rk/8umZHHSDdWuv1xneDR1I=
+ bh=Os7shVWGnwyIrqpsGwPcel1dyMctuX/2vS68bUpjp3s=;
+ b=WvHj9CftMIxopi01pP35s03oRw8+EvqayWPxwHqUHJ0KtkDvE9Fi93sG/VdAlSgNWPggUr
+ yFjORvtgbZ0yBQJ2pbaqyqtISSYqjPnz8iqLt7Mtd4NOQTw4PJCPIdlTKqDXT35DIuYt/w
+ ZWy1ATORdXEjp0HJNc2gzxwzBUvmaqw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-cYBQkxDENz6vbF9BbQgegA-1; Tue, 24 Mar 2020 13:42:39 -0400
-X-MC-Unique: cYBQkxDENz6vbF9BbQgegA-1
+ us-mta-257-jtPHLTuANZ2abgNMvILVqw-1; Tue, 24 Mar 2020 13:42:40 -0400
+X-MC-Unique: jtPHLTuANZ2abgNMvILVqw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B7F800D53;
- Tue, 24 Mar 2020 17:42:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 835F0800D5B;
+ Tue, 24 Mar 2020 17:42:38 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 529FD1000322;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 041FB1001B0B;
  Tue, 24 Mar 2020 17:42:37 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] qcow2: List autoclear bit names in header
-Date: Tue, 24 Mar 2020 12:42:31 -0500
-Message-Id: <20200324174233.1622067-3-eblake@redhat.com>
+Subject: [PATCH v2 3/4] qcow2: Avoid feature name extension on small cluster
+ size
+Date: Tue, 24 Mar 2020 12:42:32 -0500
+Message-Id: <20200324174233.1622067-4-eblake@redhat.com>
 In-Reply-To: <20200324174233.1622067-1-eblake@redhat.com>
 References: <20200324174233.1622067-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,208 +72,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, mreitz@redhat.com
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The feature table is supposed to advertise the name of all feature
-bits that we support; however, we forgot to update the table for
-autoclear bits.  While at it, move the table to read-only memory in
-code, and tweak the qcow2 spec to name the second autoclear bit.
-Update iotests that are affected by the longer header length.
+As the feature name table can be quite large (over 9k if all 64 bits
+of all three feature fields have names; a mere 8 features leaves only
+8 bytes for a backing file name in a 512-byte cluster), it is unwise
+to emit this optional header in images with small cluster sizes.
 
-Fixes: 88ddffae
-Fixes: 93c24936
+Update iotest 036 to skip running on small cluster sizes; meanwhile,
+note that iotest 061 never passed on alternative cluster sizes
+(however, I limited this patch to tests with output affected by adding
+feature names, rather than auditing for other tests that are not
+robust to alternative cluster sizes).
+
 Signed-off-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 ---
-[v2] tweak name of "bitmaps" autoclear bit [Vladimir]
----
- docs/interop/qcow2.txt     |  3 ++-
- block/qcow2.c              | 12 +++++++++++-
- tests/qemu-iotests/031.out |  8 ++++----
- tests/qemu-iotests/036.out |  4 ++--
- tests/qemu-iotests/061.out | 14 +++++++-------
- 5 files changed, 26 insertions(+), 15 deletions(-)
-
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index 5597e244746e..640e0eca4000 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -143,7 +143,8 @@ the next fields through header_length.
-                                 bit is unset, the bitmaps extension data m=
-ust be
-                                 considered inconsistent.
-
--                    Bit 1:      If this bit is set, the external data file=
- can
-+                    Bit 1:      Raw external data bit
-+                                If this bit is set, the external data file=
- can
-                                 be read as a consistent standalone raw ima=
-ge
-                                 without looking at the qcow2 metadata.
+ block/qcow2.c          | 11 +++++++++--
+ tests/qemu-iotests/036 |  6 ++++--
+ tests/qemu-iotests/061 |  6 ++++--
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 5a7f30e692a2..67b0c214fba4 100644
+index 67b0c214fba4..9475ace57163 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -2825,7 +2825,7 @@ int qcow2_update_header(BlockDriverState *bs)
+@@ -2823,8 +2823,15 @@ int qcow2_update_header(BlockDriverState *bs)
+         buflen -=3D ret;
+     }
 
-     /* Feature table */
-     if (s->qcow_version >=3D 3) {
--        Qcow2Feature features[] =3D {
-+        static const Qcow2Feature features[] =3D {
+-    /* Feature table */
+-    if (s->qcow_version >=3D 3) {
++    /*
++     * Feature table.  A mere 8 feature names occupies 392 bytes, and
++     * when coupled with the v3 minimum header of 104 bytes plus the
++     * 8-byte end-of-extension marker, that would leave only 8 bytes
++     * for a backing file name in an image with 512-byte clusters.
++     * Thus, we choose to omit this header for cluster sizes 4k and
++     * smaller.
++     */
++    if (s->qcow_version >=3D 3 && s->cluster_size > 4096) {
+         static const Qcow2Feature features[] =3D {
              {
                  .type =3D QCOW2_FEAT_TYPE_INCOMPATIBLE,
-                 .bit  =3D QCOW2_INCOMPAT_DIRTY_BITNR,
-@@ -2846,6 +2846,16 @@ int qcow2_update_header(BlockDriverState *bs)
-                 .bit  =3D QCOW2_COMPAT_LAZY_REFCOUNTS_BITNR,
-                 .name =3D "lazy refcounts",
-             },
-+            {
-+                .type =3D QCOW2_FEAT_TYPE_AUTOCLEAR,
-+                .bit  =3D QCOW2_AUTOCLEAR_BITMAPS_BITNR,
-+                .name =3D "bitmaps",
-+            },
-+            {
-+                .type =3D QCOW2_FEAT_TYPE_AUTOCLEAR,
-+                .bit  =3D QCOW2_AUTOCLEAR_DATA_FILE_RAW_BITNR,
-+                .name =3D "raw external data",
-+            },
-         };
+diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
+index 512598421c20..cf522de7a1aa 100755
+--- a/tests/qemu-iotests/036
++++ b/tests/qemu-iotests/036
+@@ -44,8 +44,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ # Only qcow2v3 and later supports feature bits;
+-# qcow2.py does not support external data files
+-_unsupported_imgopts 'compat=3D0.10' data_file
++# qcow2.py does not support external data files;
++# this test requires a cluster size large enough for the feature table
++_unsupported_imgopts 'compat=3D0.10' data_file \
++=09=09     'cluster_size=3D\(512\|1024\|2048\|4096\)'
 
-         ret =3D header_ext_add(buf, QCOW2_EXT_MAGIC_FEATURE_TABLE,
-diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
-index d535e407bc30..46f97c5a4ea4 100644
---- a/tests/qemu-iotests/031.out
-+++ b/tests/qemu-iotests/031.out
-@@ -117,7 +117,7 @@ header_length             104
+ echo
+ echo =3D=3D=3D Image with unknown incompatible feature bit =3D=3D=3D
+diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+index 36b040491fef..ce285d308408 100755
+--- a/tests/qemu-iotests/061
++++ b/tests/qemu-iotests/061
+@@ -44,8 +44,10 @@ _supported_os Linux
+ # Conversion between different compat versions can only really work
+ # with refcount_bits=3D16;
+ # we have explicit tests for data_file here, but the whole test does
+-# not work with it
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
++# not work with it;
++# we have explicit tests for various cluster sizes, the remaining tests
++# require the default 64k cluster
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file cl=
+uster_size
 
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- Header extension:
-@@ -150,7 +150,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- Header extension:
-@@ -164,7 +164,7 @@ No errors were found on the image.
-
- magic                     0x514649fb
- version                   3
--backing_file_offset       0x178
-+backing_file_offset       0x1d8
- backing_file_size         0x17
- cluster_bits              16
- size                      67108864
-@@ -188,7 +188,7 @@ data                      'host_device'
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- Header extension:
-diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
-index 0b52b934e115..23b699ce0622 100644
---- a/tests/qemu-iotests/036.out
-+++ b/tests/qemu-iotests/036.out
-@@ -26,7 +26,7 @@ compatible_features       []
- autoclear_features        [63]
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
-
-@@ -38,7 +38,7 @@ compatible_features       []
- autoclear_features        []
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- *** done
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index 8b3091a412bc..413cc4e0f4ab 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -26,7 +26,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- magic                     0x514649fb
-@@ -84,7 +84,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- magic                     0x514649fb
-@@ -140,7 +140,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- ERROR cluster 5 refcount=3D0 reference=3D1
-@@ -195,7 +195,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- magic                     0x514649fb
-@@ -264,7 +264,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- read 65536/65536 bytes at offset 44040192
-@@ -298,7 +298,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- ERROR cluster 5 refcount=3D0 reference=3D1
-@@ -327,7 +327,7 @@ header_length             104
-
- Header extension:
- magic                     0x6803f857
--length                    192
-+length                    288
- data                      <binary>
-
- read 131072/131072 bytes at offset 0
+ echo
+ echo "=3D=3D=3D Testing version downgrade with zero expansion =3D=3D=3D"
 --=20
 2.26.0.rc2
 
