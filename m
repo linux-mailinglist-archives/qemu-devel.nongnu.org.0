@@ -2,99 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402D21914C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 16:39:40 +0100 (CET)
-Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F9F191557
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 16:51:45 +0100 (CET)
+Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGleV-0006NH-AF
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 11:39:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39653)
+	id 1jGlqC-0003o7-7q
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 11:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbt-0000iJ-DD
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jGlpN-0003If-57
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbs-0005kV-9b
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:57 -0400
-Received: from mail-eopbgr70127.outbound.protection.outlook.com
- ([40.107.7.127]:12801 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jGlbs-0005iH-1N; Tue, 24 Mar 2020 11:36:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IRB4VdmEGTfK/BfLIap+H8n9e8lnkg3TcvusOHLF91WigOIRQdb/X42oEXYVuwxzTFmVgC2Aiab/s+FHe5Q0AyvlU4285JaRnmdoRMd9d/3RHzgetuk7PIZaJYDQkSZ/Z5xKCcVx/zeivkVRYNDLD7qeadcE6MFGhjI0NXLThbJ/eRo8gMGKagZlkvDC4HPneE3TOVgAdR7xyw0zmLCuY05gBrQ02jp4mLg0BEzE/mm8yKMK+Wc29kkk6DjXzfx0b3EtX3GzqOPm0rt/nLHc8FrCV4R7WHdJkIEz089g+lh3Mca7ZDVEgIy/cmOCLNbhnRcmnh4HrXR+6DotGOFTuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IC8lq9+Zh1HMxH0rGLH6/fnwLrDvmfThUJgMeq3kQCE=;
- b=UzpFPuwRh0Mb9BmORfv61edYYYkS9j3fnR4FSiXC7Clwx5u0ClC6VqDILpkSLlhteHKoX6qkpiecu11NUQQaqV9hMjSympjpi714DKFa82tPanTXrIFO38jXE4j1OWbPgLO6Yzp8xtL2h7hR82y5M8nxoiYuhaY+MsJu+HlB3owmVA52HgMZ4M/MfSHBf6IDHJIVth0JbX+qJr+35aVE364nXUhXow/kwqgq+r3gLqKty8SqST6UE1wnTqyy5iT37foNFBcBtOHk1EO7/De8+0o/aoVIa3A9MBjTo5oGrgThMOieX4NfcDhCYmvQ6dE6JIA4ZsjT1BepHKjnklL3Vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IC8lq9+Zh1HMxH0rGLH6/fnwLrDvmfThUJgMeq3kQCE=;
- b=pBVPGYzwZAN1PG/X45AGVjBzWDRv/44LKI+mhQ0IB83R6m3oJj8TFI6rplBHE9z/Mo1V+I+2tHGn7KLjS1S6d4SW2PWmSKbklMhUDVUaa3tuejFejS7Pe2dJ3oesW/OW7AZU6798GSU8WoYEiElPuMESfEBtDpJt+g10pSwp7M0=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
- AM7PR08MB5336.eurprd08.prod.outlook.com (10.141.172.73) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Tue, 24 Mar 2020 15:36:54 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::9057:6f5a:378c:7533]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::9057:6f5a:378c:7533%6]) with mapi id 15.20.2835.021; Tue, 24 Mar 2020
- 15:36:54 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] qga/commands-posix: fix use after free of local_err
-Date: Tue, 24 Mar 2020 18:36:30 +0300
-Message-ID: <20200324153630.11882-7-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200324153630.11882-1-vsementsov@virtuozzo.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1jGlpL-0007nb-T5
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:50:52 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jGlpL-0007mw-IM
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:50:51 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id nu11so1619639pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 08:50:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eSVbIg6x3AEUYOba3BSh/q8fW0W+tNUPLoN4le5KbfI=;
+ b=x5hXsmn/uSL4L4BL7yV8j+di7L4pj9ae1zY/GaclSCU4XmrcGZp7jhvqs2McLfoREB
+ iido2AdxKanYnfK7z9fEki8i736WGEJFNqu2iu53UM5Gg1Oj3byQXiCSgeOILHgscgNC
+ KYsHcXr+O2qGN/VCBy4m0Ujrtrfo8GWbPNv1qZCrh0uqsFq3/Y7HizEUZF352v9Nht8c
+ sZYWcYTFwO+UZd8wj0HVntHD3fpMubVUu2JjAfR3FjgF9jIZSaf5pDiu6LCYkNMmBGF2
+ cpG8bFVA8eeNe6mo5fiTaJQjwSU2Qs89vFYkU2R8J4RiX+Q81MShJG3T2Z6lLDioVEDw
+ ZTFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eSVbIg6x3AEUYOba3BSh/q8fW0W+tNUPLoN4le5KbfI=;
+ b=LdjYLiiy5D3xWP0EWE9ohxZ3Z18tLC+BZ1KMA29QBNrG8q3YR5a4EUIAZdu0dLIoXM
+ QroZpR8pQ+Mk19dSQTAk2lstbcuftjbZZtWE8krXG2mumsrA48g28dMf9yunBD43B4Wn
+ ca8NAS9G3PK4ICzN1X5VCnYCQH/s8cFDiW++ZllKRSZL4kRRrtqxi+Wbto2TivWAuuDL
+ 69mwLmbfIkfDu1lKWsQ4mWzmPJUdGIH+h31HBmafGj6NdLx8v6zqRoNQx1VVXvZ4v0Cr
+ h8/fjIQfK9uNVJv+WBrsFdwq9q0VX2Y7WMjjBmO5t+hIfRyRPW0lG4z38kT2xI/rxY8N
+ 9Hmg==
+X-Gm-Message-State: ANhLgQ0VOvmwGq2OsIYGjez96u1BFsog1ZwalzzPPE10pPA5A2f3XZB6
+ TnAM2DAumvr4Ugei90dLYXSAag==
+X-Google-Smtp-Source: ADFU+vtI36Bel1rCSXvPXfi6o1Ov9T00BN8RcBscHZR76Kok1ru4QciJmiHW+cS4mItHDBldAi5lIQ==
+X-Received: by 2002:a17:90a:ad45:: with SMTP id
+ w5mr6147090pjv.179.1585065050032; 
+ Tue, 24 Mar 2020 08:50:50 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id k5sm2496342pju.29.2020.03.24.08.50.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Mar 2020 08:50:49 -0700 (PDT)
+Subject: Re: [PATCH for-5.0 0/6] Several error use-after-free
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
 References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: HE1PR0401CA0062.eurprd04.prod.outlook.com
- (2603:10a6:3:19::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6aabd257-d9fd-7511-fd49-6e746a5fd43b@linaro.org>
+Date: Tue, 24 Mar 2020 08:50:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.15) by
- HE1PR0401CA0062.eurprd04.prod.outlook.com (2603:10a6:3:19::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20 via Frontend Transport; Tue, 24 Mar 2020 15:36:53 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.15]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc7acb14-ef0d-4a2b-d3c8-08d7d0092e4c
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5336:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5336B5E06DA8C0F4D58D784FC1F10@AM7PR08MB5336.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-Forefront-PRVS: 03524FBD26
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(136003)(366004)(376002)(39850400004)(396003)(66946007)(81166006)(66556008)(5660300002)(4326008)(66476007)(2906002)(81156014)(8676002)(16526019)(6666004)(107886003)(26005)(8936002)(186003)(316002)(6512007)(6486002)(52116002)(36756003)(6506007)(1076003)(478600001)(956004)(86362001)(6916009)(2616005)(7416002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM7PR08MB5336;
- H:AM7PR08MB5494.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TzNDLaf+HH/XQjurnk+jQ6qBqzIZgSxcPGk6kasakbI4X2a20cZSaGmELLV8QJMlOcy/E1qsspC8EnnKOlC5eNFsdL1+DnPLNprB/P5v1mxreiSL9mKzCUJhW6Er8qIbOYMEHd1osB8HXX1Tlav1b7xf4lGydngRZkp/XKvalO+gJrbHghU9SJK8fTy+lfgn73OWFQOSEiWcaXSLnuLZmSlcfmL1QGvKuNSz/KlrjahERyQ3EYOnTy4jDgZ7IyEoa+n5d6QGWFCYdDN9XdahhB8Fq+BEdy3ex6QlaOIcbVgc2NJWMzvcubssz/ibTPqBDKrlFhGra6hvnDZWTtI3yKMb4ozA2IaZWAk5yCXBx+ek12aVwItwaA76hlQ43JxwG466SvPqh+gh126WgTfQhwX0NvF5HY4yVx+warqE/0LSclV6322/pN2I25q+6Brg
-X-MS-Exchange-AntiSpam-MessageData: bpkTu95P2ruhXb1d4THnE8u10/Te9ROwGP2vgpye5/bSrH11KPTaIPmRAixN8MUcOvaU3w7S2MZDtv0AjvmXUU95Q85fwplJWx0TPnCkYcCabCNncPR17iwlENsupNL2pZncmQY/T3ds0c/A/OPmuQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc7acb14-ef0d-4a2b-d3c8-08d7d0092e4c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 15:36:54.8335 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tPku4VizcRNx5F8/HBl415g5XNfVsoY9GWQcM/fXSGdjW590gMEmYgbZXpzmG9k8vvrIWDW/Cst8B8v+BIPFl7JnmemEpGRnOodBhfhrb/I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5336
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.127
+In-Reply-To: <20200324153630.11882-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::102a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,55 +83,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, zhang.zhanghailiang@huawei.com,
- qemu-block@nongnu.org, quintela@redhat.com, armbru@redhat.com,
- dgilbert@redhat.com, mreitz@redhat.com, den@openvz.org,
- marcandre.lureau@redhat.com, jsnow@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ quintela@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
+ marcandre.lureau@redhat.com, den@openvz.org, mreitz@redhat.com,
+ jsnow@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-local_err is used several times in guest_suspend(). Setting non-NULL
-local_err will crash, so let's zero it after freeing. Also fix possible
-leak of local_err in final if().
+On 3/24/20 8:36 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Vladimir Sementsov-Ogievskiy (6):
+>   scripts/coccinelle: add error-use-after-free.cocci
+>   block/mirror: fix use after free of local_err
+>   dump/win_dump: fix use after free of err
+>   migration/colo: fix use after free of local_err
+>   migration/ram: fix use after free of local_err
+>   qga/commands-posix: fix use after free of local_err
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- qga/commands-posix.c | 3 +++
- 1 file changed, 3 insertions(+)
+Whole series:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 93474ff770..cc69b82704 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1773,6 +1773,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     error_free(local_err);
-+    local_err =3D NULL;
-=20
-     if (pmutils_supports_mode(mode, &local_err)) {
-         mode_supported =3D true;
-@@ -1784,6 +1785,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     error_free(local_err);
-+    local_err =3D NULL;
-=20
-     if (linux_sys_state_supports_mode(mode, &local_err)) {
-         mode_supported =3D true;
-@@ -1791,6 +1793,7 @@ static void guest_suspend(SuspendMode mode, Error **e=
-rrp)
-     }
-=20
-     if (!mode_supported) {
-+        error_free(local_err);
-         error_setg(errp,
-                    "the requested suspend mode is not supported by the gue=
-st");
-     } else {
---=20
-2.21.0
 
+r~
 
