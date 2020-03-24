@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4C3191D83
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 00:27:09 +0100 (CET)
-Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525F9191D7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 00:24:39 +0100 (CET)
+Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGswu-0000XI-I3
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 19:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
+	id 1jGsuU-0003hc-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 19:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jGsrz-0007OL-Fa
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:04 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jGss1-0007QF-6l
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jGsry-0001um-Ez
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:03 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35141)
+ (envelope-from <jsnow@redhat.com>) id 1jGsrz-0001v8-2N
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:48511)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGsry-0001uN-BB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:02 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGsry-0001v0-Uw
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:22:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1585092122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6th2KXUCkzQob2JQhRnRr1jEfvNjxfK+wSIvI61wEd4=;
- b=MuOpLZqF7ZNMj8S93CtLeIsZbJ4HRV2El02Bdm3iWH4hIRnYkvtecJ4CkwUd3q6/aH2+ju
- 3DG9pLh7TqmzV9KooQHBPz50AwPaWIEW4qUr4GV0Bd7OU/53H1HhbO5dxYACKclRJ8Ng9X
- MjrSEk5uY+ATrqfN7kRXLAzNAQUJ69Y=
+ bh=aR9WPdND1kFuppdsbjcr5rUt22snmCbAjfGmA39BRns=;
+ b=Fo/a1UwSXQBu6/6t8CfsOOhwwtIXRIAe2OQtD9OcWhZeh5zwsAUF51lxxIn9IM/iO0MJJm
+ Tm2r5fNrfLJwBHfElKuEKBls9U+GOYb+HU0y20/rm0w/a1I7k9sTrAcPB9IIHXa/2FSQNt
+ wTD0QUggNoVHPqlLnAKyNWcmC/e7nRY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-zMaBxFDnNVyawznrXGs11w-1; Tue, 24 Mar 2020 19:21:58 -0400
-X-MC-Unique: zMaBxFDnNVyawznrXGs11w-1
+ us-mta-362-isKAgYW0M0mqSnGae_tcHA-1; Tue, 24 Mar 2020 19:22:01 -0400
+X-MC-Unique: isKAgYW0M0mqSnGae_tcHA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD832801F76;
- Tue, 24 Mar 2020 23:21:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CDE91005F92;
+ Tue, 24 Mar 2020 23:21:50 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1E205D9C5;
- Tue, 24 Mar 2020 23:21:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5D525D9C5;
+ Tue, 24 Mar 2020 23:21:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 05/14] iotests: add pylintrc file
-Date: Tue, 24 Mar 2020 19:20:54 -0400
-Message-Id: <20200324232103.4195-6-jsnow@redhat.com>
+Subject: [PATCH v9 06/14] iotests: alphabetize standard imports
+Date: Tue, 24 Mar 2020 19:20:55 -0400
+Message-Id: <20200324232103.4195-7-jsnow@redhat.com>
 In-Reply-To: <20200324232103.4195-1-jsnow@redhat.com>
 References: <20200324232103.4195-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -75,51 +75,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows others to get repeatable results with pylint. If you run
-`pylint iotests.py`, you should see a 100% pass.
+I had to fix a merge conflict, so do this tiny harmless thing while I'm
+here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/pylintrc | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 tests/qemu-iotests/pylintrc
+ tests/qemu-iotests/iotests.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-new file mode 100644
-index 0000000000..8720b6a0de
---- /dev/null
-+++ b/tests/qemu-iotests/pylintrc
-@@ -0,0 +1,22 @@
-+[MESSAGES CONTROL]
-+
-+# Disable the message, report, category or checker with the given id(s). Y=
-ou
-+# can either give multiple identifiers separated by comma (,) or put this
-+# option multiple times (only on the command line, not in the configuratio=
-n
-+# file where it should appear only once). You can also use "--disable=3Dal=
-l" to
-+# disable everything first and then reenable specific checks. For example,=
- if
-+# you want to run only the similarities checker, you can use "--disable=3D=
-all
-+# --enable=3Dsimilarities". If you want to run only the classes checker, b=
-ut have
-+# no Warning level messages displayed, use "--disable=3Dall --enable=3Dcla=
-sses
-+# --disable=3DW".
-+disable=3Dinvalid-name,
-+        no-else-return,
-+        too-many-lines,
-+        too-few-public-methods,
-+        too-many-arguments,
-+        too-many-locals,
-+        too-many-branches,
-+        too-many-public-methods,
-+        # These are temporary, and should be removed:
-+        missing-docstring,
-+        line-too-long,
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 20da488ad6..2a0e22a3db 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -16,19 +16,19 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+=20
++import atexit
++from collections import OrderedDict
++import faulthandler
++import io
++import json
++import logging
+ import os
+ import re
++import signal
++import struct
+ import subprocess
+-import unittest
+ import sys
+-import struct
+-import json
+-import signal
+-import logging
+-import atexit
+-import io
+-from collections import OrderedDict
+-import faulthandler
++import unittest
+=20
+ # pylint: disable=3Dimport-error, wrong-import-position
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
+n'))
 --=20
 2.21.1
 
