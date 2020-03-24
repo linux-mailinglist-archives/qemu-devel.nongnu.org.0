@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B5819179A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:29:50 +0100 (CET)
-Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80441917A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:31:03 +0100 (CET)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGnN6-0000IF-BU
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56823)
+	id 1jGnOI-0001dC-S5
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGnLc-00073I-SO
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:28:18 -0400
+ (envelope-from <flukshun@gmail.com>) id 1jGmoK-00064o-Ob
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:53:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGnLb-0001sc-I0
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:28:16 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:49809)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGnLb-0001sT-Ep
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:28:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585070895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tDh5AnBi394dc0OQ1xFpArEvKtii6yUcCmmawJSM3Gc=;
- b=OFvIY88Oeekpi9BI1oCYp2eKMZgi1c7hPAvsEVwN5xQacsYtTV1O7eQbiLXOQDN2U+Foxa
- R+tJ3YutngdevM0BkDty3gBcOzH7fGBci6TXhXstWOgJJzUs9EpnHscdiVU+oGO8VpuIaj
- qIpwo6t3JqL8Bw0Wv+bTCGZUy2IeQP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-HSkvzE4lPL63SftXAuAQ1Q-1; Tue, 24 Mar 2020 13:28:11 -0400
-X-MC-Unique: HSkvzE4lPL63SftXAuAQ1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A7A3107ACC7;
- Tue, 24 Mar 2020 17:28:10 +0000 (UTC)
-Received: from localhost (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A44D75DA7B;
- Tue, 24 Mar 2020 17:28:08 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 3/3] iotests/138: Test leaks/corruptions fixed
- report
-Date: Tue, 24 Mar 2020 18:27:57 +0100
-Message-Id: <20200324172757.1173824-4-mreitz@redhat.com>
-In-Reply-To: <20200324172757.1173824-1-mreitz@redhat.com>
-References: <20200324172757.1173824-1-mreitz@redhat.com>
+ (envelope-from <flukshun@gmail.com>) id 1jGmoJ-0002eo-QA
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:53:52 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:35487)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <flukshun@gmail.com>) id 1jGmoJ-0002eU-MI
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:53:51 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id x63so9530376ybx.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 09:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4ZGYIL2rqF2T6FtQL+8Y3D7X7iQJLL9+ey7r6yaKFq4=;
+ b=bnvckj4eijjAchZuVR2iwSPdNl+Na2EGXQ7USWzj1MlJsmWerWntSp4uTTN/bzMXo5
+ XcwWYMBur3xbprhRceR2Pz3U6hBDEfs222HgZhbOL9M4Jb+0JuF+5J+alGbYWOpjklqY
+ 5rQb/GK4UTibLS+udVVrttFvDgvLLUxABQyByN85W35rEy8uNU/KwlrE4OSleiZh7+e8
+ gm+pMO1KNsDTMGD8ukriztvalvXMMbgf9NCDFiOkM/d2rCd9eAdKe3yXVKcGS6KWEszD
+ VPyrwWw/91+CJ8RFQ0Mf1hTMkhJ6QD4n1PnA5BKwjqZHlX5yRgFM7zj5trRuseSQkov0
+ Y+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=4ZGYIL2rqF2T6FtQL+8Y3D7X7iQJLL9+ey7r6yaKFq4=;
+ b=J+5NDuisF6fkw0P4C/0ZKxE8f8T6rriM7BhEDsJ/BSN49MNEGFOqEs6Rbj6lm+aXn6
+ sz1JvOH1zoOUd+wUJgfpKspsCuMuOFhlra3W3eDCgzjljEgsj5n9FcwYj0u7nCJt5Jbr
+ auz/k3/ZrQreCGaKZFqrP2O5GhQiREU/ITtYv7mRRpPVz4uq7Kg3kLWpkxQr0vFF/BZT
+ eysMx6s5jepC6dxITlVckHgd8YOV04JPvkdKEVcqivmSUDfMxlxNUllf5ZukXK2VGjCk
+ HJ3bq1W2mcmRd7zf2g8WeMdX14xoXJ0pL64M/u/4ZLhn7ZmV864ozp+I5na+apgTv8Ip
+ kBFg==
+X-Gm-Message-State: ANhLgQ2xUdQ6Wt7b45Jn9PVP02/JJZ0CjTT71vC4mJTOC9cDbqs03ZYM
+ jsgwN6CdowB2fcieW29pY2pkoVsI4Rg=
+X-Google-Smtp-Source: ADFU+vv3MsaBfr6KUtBVatPkxA9nAtP39hB0fboEoLwTU5jFqfSQrFElksaelS5yFKySqiIdqwIguQ==
+X-Received: by 2002:a05:6830:1d95:: with SMTP id
+ y21mr6324574oti.180.1585068461964; 
+ Tue, 24 Mar 2020 09:47:41 -0700 (PDT)
+Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
+ [76.251.165.188])
+ by smtp.gmail.com with ESMTPSA id z22sm339615oog.45.2020.03.24.09.47.40
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 24 Mar 2020 09:47:40 -0700 (PDT)
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL for-5.0 1/5] qga: Installer: Wait for installation to finish
+Date: Tue, 24 Mar 2020 11:46:49 -0500
+Message-Id: <20200324164653.19449-2-mdroth@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200324164653.19449-1-mdroth@linux.vnet.ibm.com>
+References: <20200324164653.19449-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b33
+X-Mailman-Approved-At: Tue, 24 Mar 2020 13:24:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,115 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Sameeh Jubran <sjubran@redhat.com>, peter.maydell@linaro.org,
+ Basil Salman <basil@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that qemu-img check reports the number of leaks and corruptions
-fixed in its JSON report (after a successful run).
+From: Basil Salman <basil@daynix.com>
 
-While touching the _unsupported_imgopts line, adjust the note on why
-data_file does not work with this test: The current comment sounds a bit
-like it is a mistake for qemu-img check not to check external data
-files' refcounts.  But there are no such refcounts, so it is no mistake.
-Just say that qemu-img check does not do much for external data files,
-and this is why this test does not work with them.
+Installation might fail if we don't wait for the provider
+unregisteration process to finish.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
+Signed-off-by: Basil Salman <basil@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/138     | 41 ++++++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/138.out | 14 +++++++++++++
- 2 files changed, 53 insertions(+), 2 deletions(-)
+ qga/installer/qemu-ga.wxs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
-index 54b01046ad..1d5b0bed6d 100755
---- a/tests/qemu-iotests/138
-+++ b/tests/qemu-iotests/138
-@@ -41,8 +41,10 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
- # With an external data file, data clusters are not refcounted
--# (and so qemu-img check does not check their refcount)
--_unsupported_imgopts data_file
-+# (so qemu-img check would not do much);
-+# we want to modify the refcounts, so we need them to have a specific
-+# format (namely u16)
-+_unsupported_imgopts data_file 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
-=20
- echo
- echo '=3D=3D=3D Check on an image with a multiple of 2^32 clusters =3D=3D=
-=3D'
-@@ -65,6 +67,41 @@ poke_file "$TEST_IMG" $((2048 + 8)) "\x00\x80\x00\x00\x0=
-0\x00\x00\x00"
- # allocate memory", we have an error showing that l2 entry is invalid.
- _check_test_img
-=20
-+echo
-+echo '=3D=3D=3D Check leaks-fixed/corruptions-fixed report'
-+echo
-+
-+# After leaks and corruptions were fixed, those numbers should be
-+# reported by qemu-img check
-+_make_test_img 64k
-+
-+# Allocate data cluster
-+$QEMU_IO -c 'write 0 64k' "$TEST_IMG" | _filter_qemu_io
-+
-+reftable_ofs=3D$(peek_file_be "$TEST_IMG" 48 8)
-+refblock_ofs=3D$(peek_file_be "$TEST_IMG" $reftable_ofs 8)
-+
-+# Introduce a leak: Make the image header's refcount 2
-+poke_file_be "$TEST_IMG" "$refblock_ofs" 2 2
-+
-+l1_ofs=3D$(peek_file_be "$TEST_IMG" 40 8)
-+
-+# Introduce a corruption: Drop the COPIED flag from the (first) L1 entry
-+l1_entry=3D$(peek_file_be "$TEST_IMG" $l1_ofs 8)
-+l1_entry=3D$((l1_entry & ~(1 << 63)))
-+poke_file_be "$TEST_IMG" $l1_ofs 8 $l1_entry
-+
-+echo
-+# Should print the number of corruptions and leaks fixed
-+# (Filter out all JSON fields (recognizable by their four-space
-+# indentation), but keep the "-fixed" fields (by removing two spaces
-+# from their indentation))
-+# (Also filter out the L1 entry, because why not)
-+_check_test_img -r all --output=3Djson \
-+    | sed -e 's/^  \(.*\)-fixed"/\1-fixed"/' \
-+          -e '/^    /d' \
-+          -e "s/\\([^0-9a-f]\\)$(printf %x $l1_entry)\\([^0-9a-f]\\)/\1L1_=
-ENTRY_VALUE\2/"
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/138.out b/tests/qemu-iotests/138.out
-index aca7d47a80..79681e7cc9 100644
---- a/tests/qemu-iotests/138.out
-+++ b/tests/qemu-iotests/138.out
-@@ -9,4 +9,18 @@ ERROR: counting reference for region exceeding the end of =
-the file by one cluste
-=20
- 1 errors were found on the image.
- Data may be corrupted, or further writes to the image may corrupt it.
-+
-+=3D=3D=3D Check leaks-fixed/corruptions-fixed report
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+Leaked cluster 0 refcount=3D2 reference=3D1
-+Repairing cluster 0 refcount=3D2 reference=3D1
-+Repairing OFLAG_COPIED L2 cluster: l1_index=3D0 l1_entry=3DL1_ENTRY_VALUE =
-refcount=3D1
-+{
-+  "corruptions-fixed": 1,
-+  "leaks-fixed": 1,
-+}
- *** done
---=20
-2.25.1
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 64bf90bd85..f6781752e6 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -81,7 +81,7 @@
+               Arguments="-d --retry-path"
+               >
+             </ServiceInstall>
+-            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="no" />
++            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="yes" />
+           </Component>
+           <?ifdef var.InstallVss?>
+           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
+-- 
+2.17.1
 
 
