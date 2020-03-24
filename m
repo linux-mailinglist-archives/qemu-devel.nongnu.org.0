@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D145191798
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:28:43 +0100 (CET)
-Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E893819172A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:04:22 +0100 (CET)
+Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGnM2-0006lp-Gu
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
+	id 1jGmyT-0001oZ-QX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <flukshun@gmail.com>) id 1jGmk5-0003ir-1c
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:49:30 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jGmwy-00011u-3Q
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:02:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <flukshun@gmail.com>) id 1jGmk3-0000Ao-Nj
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:49:28 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41983)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <flukshun@gmail.com>) id 1jGmk3-0000AT-Iu
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:49:27 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k9so6482656oia.8
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 09:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=oSfO1qLsq96fdnHxziThSKvm71PA9NH3NBPy8A4Fbao=;
- b=nZvPmg6HxNfgSwE9PhS/6RqsP4Vj+0gK5I9MZVQE91wWsGCeYjdAXKE7x8iayr7DcA
- ofh2M8gq5PxQ1jO7Eewsl0VMpdglIXULnQksYffdSqDUQk0xJLgO6kh1FEX1BPE71gpp
- mNfouKQAoPEr8c3ik+iFuUqdpDnpHONLtmBYUiF3EH5jfSpugIgUecDcFl4jvhpE+ISM
- vtldqGeLJckycZTWZC8n3strbT26qFiru+5J2KjR37QNcd7pFNO5KSGkSoGptmwbcIaA
- hJQt6lr3T9IlTlOyG22YsxIDZHHbtp15LFNKnfV1SZ7/ZxNoPhlxqXSS3LDtPz/jItCg
- iSaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=oSfO1qLsq96fdnHxziThSKvm71PA9NH3NBPy8A4Fbao=;
- b=WOahi4oNm0380Qe9EjtaqM/G+QoTc2YkpvcUkwxaPfgZB/QuJ6UNISgpHU/wR/Yp5B
- 1gq4w2V2fBkFrYFgZI4hGpYrCXeYilfKH0Sv5GqvapQp55u0jTR8L2fLs9BvHZGd2gym
- iY051vmuJ2qm0lUn9kMFOtMTXQWbJyUrU1wzgIFrY6KFf4nCp3mZC9BaMDu6QqtM08ay
- HeWzK2MQd4n/oeW4RLWFfj/eoBWeaVgJyh7ECzTVDpAKlKD2X9hrhWsbxR3I4AaqIZCs
- PKv9Xe5Hi7/zN36T6TgvY5vC9TMYduWHIE9hqEpOhWr7pBy2bsyFPCFWaQRLqI2U0+fw
- xSCQ==
-X-Gm-Message-State: ANhLgQ36AssgCZc9FoV0Tg7gVT0UiqYVj4QcJdbAvDBN8oAGErOeT45I
- SIqBChgMxy5GRoCQC3v1awo=
-X-Google-Smtp-Source: ADFU+vskYqIrpw0zhyYJ3U1iNDnDi8W/JImsR5l6Vchp/x3opSVuPjHQ+QhuuYiJIVS+h+NMFFD+Mw==
-X-Received: by 2002:aca:b756:: with SMTP id h83mr4203940oif.4.1585068566596;
- Tue, 24 Mar 2020 09:49:26 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id s23sm4311421otd.12.2020.03.24.09.49.24
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 24 Mar 2020 09:49:24 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <no-reply@patchew.org>) id 1jGmww-0006l7-AR
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:02:47 -0400
+Resent-Date: Tue, 24 Mar 2020 13:02:47 -0400
+Resent-Message-Id: <E1jGmww-0006l7-AR@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21174)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jGmww-0006ki-4O; Tue, 24 Mar 2020 13:02:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1585069356; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=i3VmBAFngf1ir8EkYQ8OBLiCM1ey4p5AZ0Wa7UfqtqrdfTjzQE0wh9qx1+6zSWpjC0iD1jTYnbz9dVBLJsgQ2Gw9pYn4AhQqRdQ5xQGGF11so2SmqVuPkeBLaxvxbW9+agyQXKa2RGBufMo6hcWRQ55CIklJSVoPEzJ149LUDI8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1585069356;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=qUV6xrOneM72vQx37qIipXuoJ2RuQdvK/gwO7FzxCX4=; 
+ b=UTcI7cYwJwKXOzW3tBWALKdQNH4AoFkMkng3q4YBZb9xwEEMfxnlELtwd3X3oinS5BpxK1HbDcwyavyK+q195Lm5BITNX7zkFiKizI6ZFSDk+ZX3Kmujkjg91WhM7VPDXtUCg3BPFUs4OyT3QL90pScliT0nbozpnnenexD+pXs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1585069350151152.34744957957753;
+ Tue, 24 Mar 2020 10:02:30 -0700 (PDT)
+In-Reply-To: <20200324150847.10476-1-frankja@linux.ibm.com>
+Subject: Re: [PATCH 0/8] pc-bios: s390x: Cleanup part 1
+Message-ID: <158506934886.14921.18258673565346427437@39012742ff91>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Basil Salman <basil@daynix.com>, qemu-devel@nongnu.org
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <75a7f7f7-c0b5-a584-c117-fd1eb6218d6c@redhat.com>
-References: <20200311170417.13415-1-basil@daynix.com>
- <20200311170417.13415-4-basil@daynix.com>
- <26fa941f-b578-06e7-947e-34ab426097bc@redhat.com>
- <75a7f7f7-c0b5-a584-c117-fd1eb6218d6c@redhat.com>
-Message-ID: <158506856039.3448.7584295753132980505@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v3 3/3] qga-win: prevent crash when executing
- guest-file-read with large count
-Date: Tue, 24 Mar 2020 11:49:20 -0500
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-X-Mailman-Approved-At: Tue, 24 Mar 2020 13:24:22 -0400
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: frankja@linux.ibm.com
+Date: Tue, 24 Mar 2020 10:02:30 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,124 +62,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Philippe Mathieu-Daud=C3=A9 (2020-03-24 08:37:05)
-> On 3/24/20 2:20 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 3/11/20 6:04 PM, Basil Salman wrote:
-> >> BZ: #1594054
-> > =
-
-> > ^ This is not very helpful as it... (think to ppl with no knowledge of =
-
-> > 'BZ', what to do with this number). Instead ...
-> > =
-
-> >> guest-file-read command is currently implemented to read from a
-> >> file handle count number of bytes. when executed with a very large =
-
-> >> count number
-> >> qemu-ga crashes.
-> >> after some digging turns out that qemu-ga crashes after trying to =
-
-> >> allocate
-> >> a buffer large enough to save the data read in it, the buffer was =
-
-> >> allocated using
-> >> g_malloc0 which is not fail safe, and results a crash in case of failu=
-re.
-> >> g_malloc0 was replaced with g_try_malloc0() which returns NULL on =
-
-> >> failure,
-> >> A check was added for that case in order to prevent qemu-ga from crash=
-ing
-> >> and to send a response to the qemu-ga client accordingly.
-> >>
-> > =
-
-> > ... add here (see =
-
-> > https://wiki.qemu.org/Contribute/SubmitAPatch#Write_a_meaningful_commit=
-_message): =
-
-> > =
-
-> > =
-
-> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1594054
-> =
-
-> And per the BZ info, please also credit the reporter:
-> =
-
-> Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
-
-Since I had these queued for a pull already I went ahead and rolled your
-suggestions (minus the posix-side fix) into this patch.
-
-A seperate follow-up patch address the posix counterpart would still be
-appreciated though.
-
-> =
-
-> > =
-
-> > Also add:
-> > =
-
-> > Cc: qemu-stable@nongnu.org
-> > =
-
-> >> Signed-off-by: Basil Salman <basil@daynix.com>
-> >> ---
-> >> =C2=A0 qga/commands-win32.c | 8 +++++++-
-> >> =C2=A0 1 file changed, 7 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> >> index 9c744d6405..b49920e201 100644
-> >> --- a/qga/commands-win32.c
-> >> +++ b/qga/commands-win32.c
-> >> @@ -343,7 +343,13 @@ GuestFileRead *qmp_guest_file_read(int64_t =
-
-> >> handle, bool has_count,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fh =3D gfh->fh;
-> >> -=C2=A0=C2=A0=C2=A0 buf =3D g_malloc0(count+1);
-> >> +=C2=A0=C2=A0=C2=A0 buf =3D g_try_malloc0(count + 1);
-> >> +=C2=A0=C2=A0=C2=A0 if (!buf) {
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp,
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "failed to allocate sufficient memo=
-ry "
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "to complete the requested service"=
-);
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
-> >> +=C2=A0=C2=A0=C2=A0 }
-> > =
-
-> > Can you fix the equivalent problem in qga/commands-posix.c too please?
-> > =
-
-> > Also use "PATCH-for-5.0" in the patch subject so we don't miss it for =
-
-> > the next release.
-> > =
-
-> > Thanks!
-> > =
-
-> > Phil.
-> > =
-
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 is_ok =3D ReadFile(fh, buf, count, &rea=
-d_count, NULL);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!is_ok) {
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg_win3=
-2(errp, GetLastError(), "failed to read file");
-> >>
->=20
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMyNDE1MDg0Ny4xMDQ3
+Ni0xLWZyYW5ramFAbGludXguaWJtLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIDAvOF0gcGMtYmlvczogczM5MHg6IENsZWFu
+dXAgcGFydCAxCk1lc3NhZ2UtaWQ6IDIwMjAwMzI0MTUwODQ3LjEwNDc2LTEtZnJhbmtqYUBsaW51
+eC5pYm0uY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
+YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
+cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
+cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
+PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNjMxZjVmYiBwYy1iaW9zOiBzMzkw
+eDogTWFrZSB1MzIgcHRyIGNoZWNrIGV4cGxpY2l0CjMxYTc3YTIgcGMtYmlvczogczM5MHg6IFJl
+cGxhY2UgMHgwMCB3aXRoIDB4MCBvciAwCmU3YzMzMTQgcGMtYmlvczogczM5MHg6IFVzZSBlYmNk
+aWMyYXNjaWkgdGFibGUKNjdiZjZjYyBwYy1iaW9zOiBzMzkweDogTW92ZSBwYW5pYygpIGludG8g
+aGVhZGVyIGFuZCBhZGQgaW5maW5pdGUgbG9vcAowNDMwZDQ3IHBjLWJpb3M6IHMzOTB4OiBVc2Ug
+UFNXIG1hc2tzIHdoZXJlIHBvc3NpYmxlCjVkYzVmNTggcGMtYmlvczogczM5MHg6IFJlbmFtZSBh
+bmQgdXNlIFBTV19NQVNLX1pNT0RFIGNvbnN0YW50CjQ5ZGE4YWQgcGMtYmlvczogczM5MHg6IEdl
+dCByaWQgb2YgbWFnaWMgb2Zmc2V0cyBpbnRvIHRoZSBsb3djb3JlCjYxYThmZjEgcGMtYmlvczog
+czM5MHg6IENvbnNvbGlkYXRlIHRpbWluZyBmdW5jdGlvbnMgaW50byB0aW1lLmgKCj09PSBPVVRQ
+VVQgQkVHSU4gPT09CjEvOCBDaGVja2luZyBjb21taXQgNjFhOGZmMTQ5NWQ0IChwYy1iaW9zOiBz
+MzkweDogQ29uc29saWRhdGUgdGltaW5nIGZ1bmN0aW9ucyBpbnRvIHRpbWUuaCkKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojMTAyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMTY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvOCBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoyLzggQ2hlY2tpbmcgY29tbWl0IDQ5ZGE4YWQwMzdlYSAocGMtYmlvczogczM5MHg6
+IEdldCByaWQgb2YgbWFnaWMgb2Zmc2V0cyBpbnRvIHRoZSBsb3djb3JlKQpFUlJPUjogc3BhY2Vz
+IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4OlZ4VikKIzI5OiBGSUxFOiBwYy1iaW9zL3Mz
+OTAtY2N3L2Npby5oOjEyNzoKKyAgICAgICAgICAgIF9fdTE2IGNzc2lkOjg7CiAgICAgICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
+IzMwOiBGSUxFOiBwYy1iaW9zL3MzOTAtY2N3L2Npby5oOjEyODoKK15JICAgIF9fdTE2OjQ7JAoK
+RVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpWeFYpCiMzMTogRklM
+RTogcGMtYmlvcy9zMzkwLWNjdy9jaW8uaDoxMjk6CisgICAgICAgICAgICBfX3UxNiBtOjE7CiAg
+ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAn
+OicgKGN0eDpWeFYpCiMzMjogRklMRTogcGMtYmlvcy9zMzkwLWNjdy9jaW8uaDoxMzA6CisgICAg
+ICAgICAgICBfX3UxNiBzc2lkOjI7CiAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
+YWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpWeFYpCiMzMzogRklMRTogcGMtYmlv
+cy9zMzkwLWNjdy9jaW8uaDoxMzE6CisgICAgICAgICAgICBfX3UxNiBvbmU6MTsKICAgICAgICAg
+ICAgICAgICAgICAgIF4KCnRvdGFsOiA1IGVycm9ycywgMCB3YXJuaW5ncywgMzcgbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggMi84IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzggQ2hlY2tpbmcg
+Y29tbWl0IDVkYzVmNTg0MDE0OSAocGMtYmlvczogczM5MHg6IFJlbmFtZSBhbmQgdXNlIFBTV19N
+QVNLX1pNT0RFIGNvbnN0YW50KQo0LzggQ2hlY2tpbmcgY29tbWl0IDA0MzBkNDdkNTEyNSAocGMt
+YmlvczogczM5MHg6IFVzZSBQU1cgbWFza3Mgd2hlcmUgcG9zc2libGUpCjUvOCBDaGVja2luZyBj
+b21taXQgNjdiZjZjYzhjOTAxIChwYy1iaW9zOiBzMzkweDogTW92ZSBwYW5pYygpIGludG8gaGVh
+ZGVyIGFuZCBhZGQgaW5maW5pdGUgbG9vcCkKNi84IENoZWNraW5nIGNvbW1pdCBlN2MzMzE0MmE1
+NTAgKHBjLWJpb3M6IHMzOTB4OiBVc2UgZWJjZGljMmFzY2lpIHRhYmxlKQo3LzggQ2hlY2tpbmcg
+Y29tbWl0IDMxYTc3YTI4YjBmMyAocGMtYmlvczogczM5MHg6IFJlcGxhY2UgMHgwMCB3aXRoIDB4
+MCBvciAwKQo4LzggQ2hlY2tpbmcgY29tbWl0IDYzMWY1ZmIzNTQyNyAocGMtYmlvczogczM5MHg6
+IE1ha2UgdTMyIHB0ciBjaGVjayBleHBsaWNpdCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNv
+bW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
+aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMjQxNTA4NDcuMTA0NzYtMS1mcmFua2phQGxp
+bnV4LmlibS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
