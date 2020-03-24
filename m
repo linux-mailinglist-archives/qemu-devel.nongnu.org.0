@@ -2,104 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABD8190A53
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:11:30 +0100 (CET)
-Received: from localhost ([::1]:45444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B07190A8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:20:36 +0100 (CET)
+Received: from localhost ([::1]:45556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGgWv-0008Us-RO
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:11:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50210)
+	id 1jGgfj-0005bO-6p
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <den@virtuozzo.com>) id 1jGgU9-0004I5-1w
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:08:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jGgeY-00055N-Gb
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:19:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1jGgU7-0003aE-RB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:08:36 -0400
-Received: from mail-vi1eur05on20728.outbound.protection.outlook.com
- ([2a01:111:f400:7d00::728]:7424
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1jGgU7-0003Ze-Iv; Tue, 24 Mar 2020 06:08:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a20xwMubkBa38gies1pvwTb8XeiH1gWqhAXnhTw2N6qRVMkwzGZrvt0xy2ebvIGfZ0JBzFDkZgwPYegkpo/uxcTfrLc+gTmImOjbOtH5IIqeyZ7OuumE+vxxWqINhQN3gdF4MXhkmr77CeQXNc0u+RvmXyvL0+TLrFWEQHm8iQmk1+dg16ijSGFw716uCibk0UA/E2/g2tL0/qj0IotlRir+dpucgEuSy6/ZBaUiecc5JNWiOlPN7Li5FU13T/WtlRnzpoudIWikEvWChJsUBmzWIWezOhiM6f4WK+kr6GZzhCIW7hXSh2c7exWLeUP441XaXBwZYMb7VhatPVAbPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zitZis/M7kNmpmZXbRK65AyKf++o9o/zXUoXbAm+QMY=;
- b=nyvyWCUJ1hnzyb3FTytIc3Sh3pFvDrEm7P5tHxI4y3/OnJBoNxKQwTgb9mTXRJI0xb9ohRPNPNJf5c4cLtGlIm6yvXSYqYneFsDOxxCw7V3uP25IP9RDQZb8xDvSo5/D4UCaWzUsVCnnBjWIx+/+Gphjc2amV7XQPGzosAYpwCbmc95Q4uytrKLZwXjT6skH7kMeZNUUbYS7MzuyYk0S/eKRqAZCdJKjFBxkqYKs9ruMOWaPCViKiDwM3krTUTg6TpdjmMXGKfE6RV9AMOyveKuYUfqKBXqQA9Eb+URP0rDadwJQJvMfSdhAUP+ZY0Nvc4WIQQZlJflzq5XJmmysDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zitZis/M7kNmpmZXbRK65AyKf++o9o/zXUoXbAm+QMY=;
- b=fU0NSvSOKl0I91PzdnAUM2nz+gA9iesW2zYsDltDhwHck7jeAIymYHFTbgOy4INf6zWqazgbYPnPdUh7KOwRXCCoslKCzX8gX9/VbMS8hTIilocJftltz7v7CH74hQzIfRtqh3GtV2DY+kuBkP7ciwJGXrMiF1f8R5XcBCxMPtA=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-Received: from AM0PR08MB5268.eurprd08.prod.outlook.com (20.179.39.157) by
- AM0PR08MB3539.eurprd08.prod.outlook.com (20.177.110.214) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Tue, 24 Mar 2020 10:08:33 +0000
-Received: from AM0PR08MB5268.eurprd08.prod.outlook.com
- ([fe80::20c6:8b78:b40c:283e]) by AM0PR08MB5268.eurprd08.prod.outlook.com
- ([fe80::20c6:8b78:b40c:283e%5]) with mapi id 15.20.2835.023; Tue, 24 Mar 2020
- 10:08:33 +0000
-Subject: Re: [PATCH] iotests: drop group file
-To: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20200324074156.5330-1-vsementsov@virtuozzo.com>
- <20200324093629.GC5417@linux.fritz.box>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <9b6a3da4-1109-171d-2a16-30901bc5f245@openvz.org>
-Date: Tue, 24 Mar 2020 13:08:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200324093629.GC5417@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR02CA0038.eurprd02.prod.outlook.com
- (2603:10a6:208:d2::15) To AM0PR08MB5268.eurprd08.prod.outlook.com
- (2603:10a6:208:155::29)
+ (envelope-from <alex.bennee@linaro.org>) id 1jGgeR-0004cX-5K
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:19:20 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38585)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jGgeP-0004YR-Qq
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:19:15 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s1so20681036wrv.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 03:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jNTB9UiCOvEmZjdiIH1rwukYdAv+6PN2ItTLYIoQp10=;
+ b=BZFTuAGhrPosqNHtG2ThFLUKrJxn1iphk2I9uBufgX9715CyWvkWclFXFwjKFUBpUC
+ XXR2vFMmN+rMpUCeI1rZynm1HlCWLwt1HrrvS1/X2GTjJme8ogdtZ1HffjIMVnKB+LmP
+ ngOh51KctMLiewVGCknh4sVmHGmgtrGSN75IIn3Ag9oePsg4iTWZOllCbcE94vJWKgEp
+ HJhE/Z5BBdc6YfkDK2Wx9COpjbbHI24U9UvkcELc1vONa0hwTZFPcz50/E3n6ivfgKc+
+ 5gU3GtcKtwPWRul4K0gurOzbPj1Rs68SLCzByOtdDL6/aLBycS5RVoOT4HXe+FzJCGxT
+ FxXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=jNTB9UiCOvEmZjdiIH1rwukYdAv+6PN2ItTLYIoQp10=;
+ b=ErpaLKyTZFwuWi17qD9cEax0x02duOMNQm5QFdab5GqIA9rwHrowu1b4lBxIxgUqCo
+ NfgdsstQqlpyIHjjzW3pfKvcapEPo3JXhgqEyQEMWz56pwvg+ZetOkK0PBoyjW89/3BA
+ o1NU0ZpWTEMZH4ZvWWM38D7Karz6eTA9k6HUa3gSi//PhQbVXKLParTyzSOthQMJfduY
+ gZTVSPX/DsVVVtOJhgLcg6Rc+qxSp9hiCuZ/7cYXjr3VZ58XNp5ZI8fdOV63HSyhsAU1
+ 6W32ztf06YuCd0Jc+ntK2g68nGTcfMfPioSd72qArBUpV114e0Hg2Vx+SNQ4Mg/DkoSS
+ /jhw==
+X-Gm-Message-State: ANhLgQ2lTO5cuP3TdqI3bDtWkSt4/w6V42t4GTAr0IvXNM6uyysef4RT
+ B8H49QnX/GKHeXBwscnCkLPtIQ==
+X-Google-Smtp-Source: ADFU+vv/B74lHFDdcqb1FElgKEv/8dK7Vt4iGG0rHUCyaQVT8JMJDur/53v+0aFjl3b5b50jwyj3WA==
+X-Received: by 2002:adf:f310:: with SMTP id i16mr35512055wro.100.1585045152301; 
+ Tue, 24 Mar 2020 03:19:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j39sm29471981wre.11.2020.03.24.03.19.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Mar 2020 03:19:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2C1211FF7E;
+ Tue, 24 Mar 2020 10:19:10 +0000 (GMT)
+References: <20200130163232.10446-1-philmd@redhat.com>
+ <20200130163232.10446-8-philmd@redhat.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 07/12] tests/acceptance: Remove shebang header
+In-reply-to: <20200130163232.10446-8-philmd@redhat.com>
+Date: Tue, 24 Mar 2020 10:19:10 +0000
+Message-ID: <87369yawdd.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.45] (31.148.204.195) by
- AM0PR02CA0038.eurprd02.prod.outlook.com (2603:10a6:208:d2::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20 via Frontend Transport; Tue, 24 Mar 2020 10:08:32 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bf8f7937-e9e3-473f-4a84-08d7cfdb4f31
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3539:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB35391AE5C3BD291B3974129EB6F10@AM0PR08MB3539.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 03524FBD26
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(39850400004)(366004)(136003)(396003)(376002)(36756003)(31696002)(4326008)(53546011)(478600001)(52116002)(66476007)(66946007)(66556008)(110136005)(16576012)(316002)(2616005)(956004)(42882007)(186003)(31686004)(16526019)(26005)(8676002)(81156014)(81166006)(8936002)(5660300002)(2906002)(6486002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3539;
- H:AM0PR08MB5268.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pGpMIqiCjfUHn8P9nZ3+rlGLjYR+fD8PhhrL4bwMv/Kb5kQYDyy90ZtiSeox3ALSFl6vqqA6tArytmcrH7bFFxTjQ/XdPD1HVFZZKRBu8kEX5pvETnHbeFjoXyQ16PrSy1MIsJr99oy3QRcOIriGm/iUFTjHxU2yvsUOAZnwvcLO7+jcGRPlSdF6qEw8snqmoixwFFHi0+8Me0YhN79ElAylp+QIUrwdY6b7UhrswsGz5ngL5y6UwBX38KHTiqg/c4c445OxxKkdCgx/SVZZWtECu3ib692//vILqzYvCLV1E0ClLp7Z4pvWGu6gUjE5RutFU3rIu/esVDd/ziUaNY4ULX2O5nQvtVJYRdm9iCDGcLwzZnJYd1PF3W6tDn9zjHd70KnY0T+f79cGMgkHrvC6utF4X0T3iiD3Me9QHIQOYRm/7k8mrsF0/vulGs07
-X-MS-Exchange-AntiSpam-MessageData: GI7hL7ojhu370IAdYhYIgy92y/W7yCbp+GqAEwFtDyVk1KiH6RoOMMnAgBxOdhUbiigUWAgh84LMQNymE2VmqbEpqIEmGGL1b5BoXKs5XNuccf1wow2jELSh4Vng2HUpifo5WJJ7BuBNWPSh0iDWzA==
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf8f7937-e9e3-473f-4a84-08d7cfdb4f31
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 10:08:33.1121 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OTbKoRPjkazkt0a88SKpFKjGCOFwEwoYsbkn9aJE017FvAM9esEABZWbm+S/A82hVt48tiHPcl2L97ELAmIQog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3539
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a01:111:f400:7d00::728
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,78 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?utf-8?Q?Dan?= =?utf-8?Q?iel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/20 12:36 PM, Kevin Wolf wrote:
-> Am 24.03.2020 um 08:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> When sending iotests to upstream or do patch porting from one branch
->> to another we very often have to resolve conflicts in group file, as
->> many absolutely independent features are intersecting by this file.
->> These conflicts are simple, but imagine how much time we all have
->> already spent on resolving them? Let's finally get rid of group file.
->>
->> This patch transposes group info: instead of collecting it in one file,
->> let each test define its groups by itself.
->>
->> Several steps are done to achive it:
->>
->> 1. Define groups in test files automatically:
->>
->>     grep '^[0-9]\{3\} ' group | while read line; do
->>         file=$(awk '{print $1}' <<< "$line");
->>         groups=$(sed -e 's/^... //' <<< "$line");
->>         awk "NR==2{print \"# group: $groups\"}1" $file > tmp;
->>         cat tmp > $file;
->>     done
->>
->> 2. Copy groups documentation into docs/devel/testing.rst, which already
->>    has a section about iotests.
->>
->> 3. Modify check script to work without group file.
->>
->>    Here is a logic change: before, even if test do not belong to any
->>    group (only iotest 142 currently) it should be defined in group
->>    file. Now, test is not forced to define any group. Instead check
->>    considers all files with names matching [0-9][0-9][0-9] as tests.
-> This has both a positive and a negative effect: Now you don't have to
-> modify another file when you add a new test, but it will be picked up
-> automatically. However, if you want to disable a test, you could
-> previously just remove it from groups (or comment it out), and now you
-> have to delete the test instead.
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Patch created mechanically by running:
 >
-> Downstream, I think we still disable a few tests because we're compiling
-> out features that are required for some tests to pass, and deleting the
-> test cases completely would probably move conflicts just to a different
-> place.
->
-> So I think we need a method to distuingish an enabled test that is in no
-> group from a disabled test.
-+1 for blacklist.local file
+>   $ chmod 644 $(git grep -lF '#!/usr/bin/env python' \
+>       | xargs grep -L 'if __name__.*__main__')
+>   $ sed -i "/^#\!\/usr\/bin\/\(env\ \)\?python.\?$/d" \
+>       $(git grep -lF '#!/usr/bin/env python' \
+>       | xargs grep -L 'if __name__.*__main__')
+
+OK, but my question is why? Aren't shebangs considered good practice for
+finding the executable for a script?
+
+If the acceptance scripts are special in this regard we should say why
+in the commit message.
 
 >
->>    check script is also refactored to make it simple to do next cool
->>    thing about iotests: allow meaningful names for test-case files.
-> This one would also require us to be able to distinguish test case files
-> from arbitrary other files.
+> Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  tests/acceptance/virtio_seg_max_adjust.py  | 1 -
+>  tests/acceptance/x86_cpu_model_versions.py | 1 -
+>  2 files changed, 2 deletions(-)
+>  mode change 100755 =3D> 100644 tests/acceptance/virtio_seg_max_adjust.py
 >
->> -#
->> -# test-group association ... one line per test
->> -#
->> -001 rw auto quick
->> -002 rw auto quick
->> -003 rw auto
->> -004 rw auto quick
->> -005 img auto quick
->> -# 006 was removed, do not reuse
-> We lose these comments without a replacement. I wonder whether it's
-> important or if we can think of another way to make sure that numbers
-> aren't reused. (I'm not completely sure any more why we decided that we
-> don't want to reuse numbers. Maybe because of backports?)
-we could generate this file with a starter script with proper
-option.
+> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance=
+/virtio_seg_max_adjust.py
+> old mode 100755
+> new mode 100644
+> index 5458573138..8d4f24da49
+> --- a/tests/acceptance/virtio_seg_max_adjust.py
+> +++ b/tests/acceptance/virtio_seg_max_adjust.py
+> @@ -1,4 +1,3 @@
+> -#!/usr/bin/env python
+>  #
+>  # Test virtio-scsi and virtio-blk queue settings for all machine types
+>  #
+> diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
+e/x86_cpu_model_versions.py
+> index 90558d9a71..01ff614ec2 100644
+> --- a/tests/acceptance/x86_cpu_model_versions.py
+> +++ b/tests/acceptance/x86_cpu_model_versions.py
+> @@ -1,4 +1,3 @@
+> -#!/usr/bin/env python
+>  #
+>  # Basic validation of x86 versioned CPU models and CPU model aliases
+>  #
 
-Den
+
+--=20
+Alex Benn=C3=A9e
 
