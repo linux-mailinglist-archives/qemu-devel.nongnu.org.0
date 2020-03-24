@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2B7191AA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 21:12:42 +0100 (CET)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16728191A6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 21:01:43 +0100 (CET)
+Received: from localhost ([::1]:54328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGpuj-0008TE-RE
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 16:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53906)
+	id 1jGpk6-0007U9-5n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 16:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jGppB-00027N-Kf
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:06:59 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jGpjE-00071i-TJ
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jGpp9-0000j9-Tb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:06:57 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18934)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jGpp9-0000if-No
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:06:55 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7a68510000>; Tue, 24 Mar 2020 13:06:41 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 24 Mar 2020 13:06:54 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 24 Mar 2020 13:06:54 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 24 Mar
- 2020 20:06:54 +0000
-Received: from kwankhede-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Tue, 24 Mar 2020 20:06:48 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v16 Kernel 7/7] vfio: Selective dirty page tracking if IOMMU
- backed device pins pages
-Date: Wed, 25 Mar 2020 01:02:39 +0530
-Message-ID: <1585078359-20124-8-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1585078359-20124-1-git-send-email-kwankhede@nvidia.com>
-References: <1585078359-20124-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jGpjD-0006iU-27
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:00:48 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56082)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jGpjC-0006iM-Og
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:00:47 -0400
+Received: by mail-wm1-x344.google.com with SMTP id z5so480724wml.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 13:00:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FDkHIYjNug7IlGxTBO35q1+f7tNKUKYkuTBE5I4+dPE=;
+ b=nXpadyPerqyLT+tJk8fzdyw0SANIAYI3d/iQvca0ceQacBDievF/V0vzAmmocPNf5e
+ Hb1XEQunF/eFDS1MvhEDQIDp/8/sV3ckqTKQ+SRjjDlXYqoNJYUHapBZQ7dfua7pfFuB
+ zPhbqYHFQXLI07E9tNqDH9OWyKCgepDNe0ZgBZgOf6sqPzWcF8+eiAbBkNKb5FgJPJL0
+ L6wOJVXBlZ6v6SaoUbxUH/zX/446WRWesI0YuKZfOgr/lJzWmd1dJ1vnVZmBbAHyGHw1
+ IIiS37uXdSSdTDZojN+JCSwIlSO314iVx047RI93GnHCnBZ6E1kmrsxFJexKkabnSIuF
+ 1KAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FDkHIYjNug7IlGxTBO35q1+f7tNKUKYkuTBE5I4+dPE=;
+ b=hKvTwupEHZ7BJ9joDg8IJGi0pWIL/tA8NC92uClziZ/RRDdIQhPw0piORcXBhw866p
+ NPgtGABsZHYe7HTsU5FUabyivBUtJH1FbDTTTc3TZNuo+VYU6LjfrUIZIZMIb6wPmeJ6
+ 8xr4YVtXnjXAw6p6Kdwzbdex9hdQ3a/amK43AhzjunxlG636ARYWhTyg8QKL9B7/bZPZ
+ 6Y2WgPAl2YcnT3KC/7KzEGz+UAKJ9bKoV4V4kaqSTNXnlas3UfJcMpRcBQMua37PEEJG
+ mvKwOrK1/jmVC1CMZ3nS7Yvi98NllNI8AxrXEH/TcghRTrV5guHlrBNeD7vMV5IdXGaT
+ hzLA==
+X-Gm-Message-State: ANhLgQ0FReV7jNXNUzUPVCLUpc3cWCKdvR3iOv2g6wHkcJUAOokRIKOh
+ 7oz/Nkcx7vN+bStDFloYh+gnW1eevbpFzWuUFms=
+X-Google-Smtp-Source: ADFU+vtq5PdCsZCJ1Tkvts5u2neaWTor8KIJP1QvAeyL1+EzPSPSGvSATpQybla72qG87SAW6eIrBSoKE7WeJKCw6LA=
+X-Received: by 2002:a7b:c8d0:: with SMTP id f16mr7877736wml.50.1585080045794; 
+ Tue, 24 Mar 2020 13:00:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585080401; bh=r/Mm37Wcsp2a69WcxEz32A/lM5zyQ42Pfq4feenqisw=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=m/F4CL0gsPw5Ljw1hD9bKw4bT/s+VsW2w4XiyqLjMVrLevuQOJBPVmFbTTyo9FsoI
- 8/cVCbu+eevDGXfsIKHmG5NV0+0XZdfb0Eu/pQujGLt1ganR4EKmJQBvRSOVCsaqfg
- Cjua3s8JcLdD3QwGYdbPjAAdbm13VrbtGAOlDTrrBQbJr8QNcwGkDrSN2Xlk+mzD+Z
- s16mwhj3L6eIAIQfHuXr9EdffPMxDVMee1miw0fh3FCtcRFaHx8MHCepmGVTuVi+LC
- gBbTYJc7FzyF7ztAJp1zrPSMn9spXlzjGdkQSw7wwZwWdyv1QyKxFlhU3+Ow8OSyd6
- oO5QtDqftFnMA==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.65
+References: <20200228032613.1049955-1-jiaxun.yang@flygoat.com>
+ <20200303004137.1099502-1-jiaxun.yang@flygoat.com>
+ <6b4a7564-eac6-7bd3-b1c0-e9c7ac4e0c80@redhat.com>
+ <CAL1e-=gEtCtAnsnkO4_E8rqje=n1bHXY_+BXC5P2h5Ld0umNtQ@mail.gmail.com>
+ <d9f08408-9c1e-36d9-869b-bac250c6f027@redhat.com>
+ <20200323163545.GA19598@aurel32.net>
+In-Reply-To: <20200323163545.GA19598@aurel32.net>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 24 Mar 2020 22:00:28 +0200
+Message-ID: <CAHiYmc4NzqRArtLtqCu8oUz9idrTD0_VdhL4fs0bX2u2pHYYkw@mail.gmail.com>
+Subject: Re: [PATCH v1] mips/mips_malta: Allow more than 2G RAM
+To: Aurelien Jarno <aurelien@aurel32.net>
+Content-Type: multipart/alternative; boundary="00000000000011fa1505a19f359c"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,304 +76,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
- ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Yunqiang Su <ysu@wavecomp.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paul Burton <paul.burton@mips.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a check such that only singleton IOMMU groups can pin pages.
-From the point when vendor driver pins any pages, consider IOMMU group
-dirty page scope to be limited to pinned pages.
+--00000000000011fa1505a19f359c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To optimize to avoid walking list often, added flag
-pinned_page_dirty_scope to indicate if all of the vfio_groups for each
-vfio_domain in the domain_list dirty page scope is limited to pinned
-pages. This flag is updated on first pinned pages request for that IOMMU
-group and on attaching/detaching group.
+18:38 Pon, 23.03.2020. Aurelien Jarno <aurelien@aurel32.net> =D1=98=D0=B5 =
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> Hi,
+>
+> Sorry for the delay, I just want to give some more details about the
+> Debian.
+>
+> On 2020-03-14 10:09, Philippe Mathieu-Daud=C3=A9 wrote:
+> > IIUC today all distributions supporting MIPS ports are building their
+MIPS
+> > packages on QEMU instances because it is faster than the native MIPS
+> > hardware they have.
+>
+> Actually Debian requires that packages are built on real hardware. We
+> have a mix of Loongson 3 and Octeon 3 based build daemons. They all have
+> 8GiB of RAM.
+>
+> > Since one (or two?) years, some binaries (Linux kernel? QEMU?) are
+failing
+> > to link because the amount of guest memory is restricted to 2GB
+(probably
+> > advance of linker techniques, now linkers use more memory).
+>
+> The problem happens with big packages (e.g. ceph which is a dependency
+> of QEMU). The problem is not the physical memory issue, but the virtual
+> address space, which is limited to 2GB for 32-bit processes. That's why
+> we do not have the issue for the 64-bit ports.
+>
+> > YunQiang, is this why you suggested this change?
+> >
+> > See:
+> > -
+https://www.mail-archive.com/debian-mips@lists.debian.org/msg10912.html
+> > -
+https://alioth-lists.debian.net/pipermail/pkg-rust-maintainers/2019-January=
+/004844.html
+> >
+> > I believe most of the QEMU Malta board users don't care it is a Malta
+board,
+> > they only care it is a fast emulated MIPS machine.
+> > Unfortunately it is the default board.
+> >
+> > However 32-bit MIPS port is being dropped on Debian:
+> > https://lists.debian.org/debian-mips/2019/07/msg00010.html
+>
+> The 32-bit big endian port has been dropped after the Buster (10)
+> release and won't be available for the Bullseye release (11). The
+> 32-bit little endian port is still available, but it's difficult to keep
+> it alive given the 2GB limit.
+>
+> > Maybe we can sync with the Malta users, ask them to switch to the Bosto=
+n
+> > machines to build 64-bit packages, then later reduce the Malta board to
+1GB.
+> > (The Boston board is more recent, but was not available at the time
+users
+> > started to use QEMU to build 64-bit packages).
+> >
+> > Might it be easier starting introducing a malta-5.0 machine restricted
+to
+> > 1GB?
+>
+> In any case having an easy way to simulate machines with more than 2GB
+> of RAM in QEMU would be great.
+>
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- drivers/vfio/vfio.c             | 13 ++++--
- drivers/vfio/vfio_iommu_type1.c | 94 +++++++++++++++++++++++++++++++++++++++--
- include/linux/vfio.h            |  4 +-
- 3 files changed, 104 insertions(+), 7 deletions(-)
+In my company, we do have both Octeon (don't know at this moment what
+version) and Boston systems.
 
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 210fcf426643..311b5e4e111e 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -85,6 +85,7 @@ struct vfio_group {
- 	atomic_t			opened;
- 	wait_queue_head_t		container_q;
- 	bool				noiommu;
-+	unsigned int			dev_counter;
- 	struct kvm			*kvm;
- 	struct blocking_notifier_head	notifier;
- };
-@@ -555,6 +556,7 @@ struct vfio_device *vfio_group_create_device(struct vfio_group *group,
- 
- 	mutex_lock(&group->device_lock);
- 	list_add(&device->group_next, &group->device_list);
-+	group->dev_counter++;
- 	mutex_unlock(&group->device_lock);
- 
- 	return device;
-@@ -567,6 +569,7 @@ static void vfio_device_release(struct kref *kref)
- 	struct vfio_group *group = device->group;
- 
- 	list_del(&device->group_next);
-+	group->dev_counter--;
- 	mutex_unlock(&group->device_lock);
- 
- 	dev_set_drvdata(device->dev, NULL);
-@@ -1933,6 +1936,9 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	if (!group)
- 		return -ENODEV;
- 
-+	if (group->dev_counter > 1)
-+		return -EINVAL;
-+
- 	ret = vfio_group_add_container_user(group);
- 	if (ret)
- 		goto err_pin_pages;
-@@ -1940,7 +1946,8 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	container = group->container;
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
--		ret = driver->ops->pin_pages(container->iommu_data, user_pfn,
-+		ret = driver->ops->pin_pages(container->iommu_data,
-+					     group->iommu_group, user_pfn,
- 					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
-@@ -2038,8 +2045,8 @@ int vfio_group_pin_pages(struct vfio_group *group,
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
- 		ret = driver->ops->pin_pages(container->iommu_data,
--					     user_iova_pfn, npage,
--					     prot, phys_pfn);
-+					     group->iommu_group, user_iova_pfn,
-+					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
- 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 5b233ded7a9a..a6b1f6930e6a 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -72,6 +72,7 @@ struct vfio_iommu {
- 	bool			v2;
- 	bool			nesting;
- 	bool			dirty_page_tracking;
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_domain {
-@@ -99,6 +100,7 @@ struct vfio_group {
- 	struct iommu_group	*iommu_group;
- 	struct list_head	next;
- 	bool			mdev_group;	/* An mdev group */
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_iova {
-@@ -143,6 +145,10 @@ struct vfio_regions {
- static int put_pfn(unsigned long pfn, int prot);
- static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu);
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group);
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu);
- /*
-  * This code handles mapping and unmapping of user data buffers
-  * into DMA'ble space using the IOMMU
-@@ -589,11 +595,13 @@ static int vfio_unpin_page_external(struct vfio_dma *dma, dma_addr_t iova,
- }
- 
- static int vfio_iommu_type1_pin_pages(void *iommu_data,
-+				      struct iommu_group *iommu_group,
- 				      unsigned long *user_pfn,
- 				      int npage, int prot,
- 				      unsigned long *phys_pfn)
- {
- 	struct vfio_iommu *iommu = iommu_data;
-+	struct vfio_group *group;
- 	int i, j, ret;
- 	unsigned long remote_vaddr;
- 	struct vfio_dma *dma;
-@@ -667,8 +675,14 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
- 				   (vpfn->iova - dma->iova) >> pgshift, 1);
- 		}
- 	}
--
- 	ret = i;
-+
-+	group = vfio_iommu_find_iommu_group(iommu, iommu_group);
-+	if (!group->pinned_page_dirty_scope) {
-+		group->pinned_page_dirty_scope = true;
-+		update_pinned_page_dirty_scope(iommu);
-+	}
-+
- 	goto pin_done;
- 
- pin_unwind:
-@@ -950,8 +964,11 @@ static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
- 	npages = dma->size >> pgshift;
- 	bitmap_size = DIRTY_BITMAP_BYTES(npages);
- 
--	/* mark all pages dirty if all pages are pinned and mapped. */
--	if (dma->iommu_mapped)
-+	/*
-+	 * mark all pages dirty if any IOMMU capable device is not able
-+	 * to report dirty pages and all pages are pinned and mapped.
-+	 */
-+	if (!iommu->pinned_page_dirty_scope && dma->iommu_mapped)
- 		bitmap_set(dma->bitmap, 0, npages);
- 
- 	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
-@@ -1441,6 +1458,51 @@ static struct vfio_group *find_iommu_group(struct vfio_domain *domain,
- 	return NULL;
- }
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group = NULL;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		group = find_iommu_group(domain, iommu_group);
-+		if (group)
-+			return group;
-+	}
-+
-+	if (iommu->external_domain)
-+		group = find_iommu_group(iommu->external_domain, iommu_group);
-+
-+	return group;
-+}
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	if (iommu->external_domain) {
-+		domain = iommu->external_domain;
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	iommu->pinned_page_dirty_scope = true;
-+}
-+
- static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
- 				  phys_addr_t *base)
- {
-@@ -1847,6 +1909,16 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 
- 			list_add(&group->next,
- 				 &iommu->external_domain->group_list);
-+			/*
-+			 * Non-iommu backed group cannot dirty memory directly,
-+			 * it can only use interfaces that provide dirty
-+			 * tracking.
-+			 * The iommu scope can only be promoted with the
-+			 * addition of a dirty tracking group.
-+			 */
-+			group->pinned_page_dirty_scope = true;
-+			if (!iommu->pinned_page_dirty_scope)
-+				update_pinned_page_dirty_scope(iommu);
- 			mutex_unlock(&iommu->lock);
- 
- 			return 0;
-@@ -1969,6 +2041,13 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
-+
-+	/*
-+	 * An iommu backed group can dirty memory directly and therefore
-+	 * demotes the iommu scope until it declares itself dirty tracking
-+	 * capable via the page pinning interface.
-+	 */
-+	iommu->pinned_page_dirty_scope = false;
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
-@@ -2121,6 +2200,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_domain *domain;
- 	struct vfio_group *group;
-+	bool update_dirty_scope = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
-@@ -2128,6 +2208,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	if (iommu->external_domain) {
- 		group = find_iommu_group(iommu->external_domain, iommu_group);
- 		if (group) {
-+			update_dirty_scope = !group->pinned_page_dirty_scope;
- 			list_del(&group->next);
- 			kfree(group);
- 
-@@ -2157,6 +2238,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			continue;
- 
- 		vfio_iommu_detach_group(domain, group);
-+		update_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
- 		kfree(group);
- 		/*
-@@ -2187,6 +2269,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		vfio_iommu_iova_free(&iova_copy);
- 
- detach_group_done:
-+	/*
-+	 * Removal of a group without dirty tracking may allow the iommu scope
-+	 * to be promoted.
-+	 */
-+	if (update_dirty_scope)
-+		update_pinned_page_dirty_scope(iommu);
- 	mutex_unlock(&iommu->lock);
- }
- 
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index be2bd358b952..702e1d7b6e8b 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -72,7 +72,9 @@ struct vfio_iommu_driver_ops {
- 					struct iommu_group *group);
- 	void		(*detach_group)(void *iommu_data,
- 					struct iommu_group *group);
--	int		(*pin_pages)(void *iommu_data, unsigned long *user_pfn,
-+	int		(*pin_pages)(void *iommu_data,
-+				     struct iommu_group *group,
-+				     unsigned long *user_pfn,
- 				     int npage, int prot,
- 				     unsigned long *phys_pfn);
- 	int		(*unpin_pages)(void *iommu_data,
--- 
-2.7.0
+Boston seems to me as a very good candidate for enabling RAM > 2GB. I never
+saw it phisically, since it is assigned to a different department, but just
+anectodaly I heard that it is designed as a desktop (or even server)
+machine, and, therefore, it almost certainly supports > 2GB.
 
+Given current circumstances of remote work for most of us, and limited
+movement, it may be somewhat difficult for me to access it, but it is not
+imposible.
+
+Please take everything I said in this email with a grain of salt, since it
+is based more on hallway chats, rather than on facts.
+
+I'll try to get more info, hopefully soon.
+
+Yours,
+Aleksandar
+
+
+> Cheers,
+> Aurelien
+>
+> --
+> Aurelien Jarno                          GPG: 4096R/1DDD8C9B
+> aurelien@aurel32.net                 http://www.aurel32.net
+>
+
+--00000000000011fa1505a19f359c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">18:38 Pon, 23.03.2020. Aurelien Jarno &lt;<a href=3D"mailto:=
+aurelien@aurel32.net">aurelien@aurel32.net</a>&gt; =D1=98=D0=B5 =D0=BD=D0=
+=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; Sorry for the delay, I just want to give some more details about the<b=
+r>
+&gt; Debian.<br>
+&gt;<br>
+&gt; On 2020-03-14 10:09, Philippe Mathieu-Daud=C3=A9 wrote:<br>
+&gt; &gt; IIUC today all distributions supporting MIPS ports are building t=
+heir MIPS<br>
+&gt; &gt; packages on QEMU instances because it is faster than the native M=
+IPS<br>
+&gt; &gt; hardware they have.<br>
+&gt;<br>
+&gt; Actually Debian requires that packages are built on real hardware. We<=
+br>
+&gt; have a mix of Loongson 3 and Octeon 3 based build daemons. They all ha=
+ve<br>
+&gt; 8GiB of RAM.<br>
+&gt;<br>
+&gt; &gt; Since one (or two?) years, some binaries (Linux kernel? QEMU?) ar=
+e failing<br>
+&gt; &gt; to link because the amount of guest memory is restricted to 2GB (=
+probably<br>
+&gt; &gt; advance of linker techniques, now linkers use more memory).<br>
+&gt;<br>
+&gt; The problem happens with big packages (e.g. ceph which is a dependency=
+<br>
+&gt; of QEMU). The problem is not the physical memory issue, but the virtua=
+l<br>
+&gt; address space, which is limited to 2GB for 32-bit processes. That&#39;=
+s why<br>
+&gt; we do not have the issue for the 64-bit ports.<br>
+&gt;<br>
+&gt; &gt; YunQiang, is this why you suggested this change?<br>
+&gt; &gt; <br>
+&gt; &gt; See:<br>
+&gt; &gt; - <a href=3D"https://www.mail-archive.com/debian-mips@lists.debia=
+n.org/msg10912.html">https://www.mail-archive.com/debian-mips@lists.debian.=
+org/msg10912.html</a><br>
+&gt; &gt; - <a href=3D"https://alioth-lists.debian.net/pipermail/pkg-rust-m=
+aintainers/2019-January/004844.html">https://alioth-lists.debian.net/piperm=
+ail/pkg-rust-maintainers/2019-January/004844.html</a><br>
+&gt; &gt; <br>
+&gt; &gt; I believe most of the QEMU Malta board users don&#39;t care it is=
+ a Malta board,<br>
+&gt; &gt; they only care it is a fast emulated MIPS machine.<br>
+&gt; &gt; Unfortunately it is the default board.<br>
+&gt; &gt; <br>
+&gt; &gt; However 32-bit MIPS port is being dropped on Debian:<br>
+&gt; &gt; <a href=3D"https://lists.debian.org/debian-mips/2019/07/msg00010.=
+html">https://lists.debian.org/debian-mips/2019/07/msg00010.html</a><br>
+&gt;<br>
+&gt; The 32-bit big endian port has been dropped after the Buster (10)<br>
+&gt; release and won&#39;t be available for the Bullseye release (11). The<=
+br>
+&gt; 32-bit little endian port is still available, but it&#39;s difficult t=
+o keep<br>
+&gt; it alive given the 2GB limit.<br>
+&gt;<br>
+&gt; &gt; Maybe we can sync with the Malta users, ask them to switch to the=
+ Boston<br>
+&gt; &gt; machines to build 64-bit packages, then later reduce the Malta bo=
+ard to 1GB.<br>
+&gt; &gt; (The Boston board is more recent, but was not available at the ti=
+me users<br>
+&gt; &gt; started to use QEMU to build 64-bit packages).<br>
+&gt; &gt; <br>
+&gt; &gt; Might it be easier starting introducing a malta-5.0 machine restr=
+icted to<br>
+&gt; &gt; 1GB?<br>
+&gt;<br>
+&gt; In any case having an easy way to simulate machines with more than 2GB=
+<br>
+&gt; of RAM in QEMU would be great.<br>
+&gt;</p>
+<p dir=3D"ltr">In my company, we do have both Octeon (don&#39;t know at thi=
+s moment what version) and Boston systems.</p>
+<p dir=3D"ltr">Boston seems to me as a very good candidate for enabling RAM=
+ &gt; 2GB. I never saw it phisically, since it is assigned to a different d=
+epartment, but just anectodaly I heard that it is designed as a desktop (or=
+ even server) machine, and, therefore, it almost certainly supports &gt; 2G=
+B.</p>
+<p dir=3D"ltr">Given current circumstances of remote work for most of us, a=
+nd limited movement, it may be somewhat difficult for me to access it, but =
+it is not imposible.</p>
+<p dir=3D"ltr">Please take everything I said in this email with a grain of =
+salt, since it is based more on hallway chats, rather than on facts.</p>
+<p dir=3D"ltr">I&#39;ll try to get more info, hopefully soon.</p>
+<p dir=3D"ltr">Yours,<br>
+Aleksandar<br><br><br></p>
+<p dir=3D"ltr">&gt; Cheers,<br>
+&gt; Aurelien<br>
+&gt;<br>
+&gt; -- <br>
+&gt; Aurelien Jarno=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GPG: 4096R/1DDD8C9B<br>
+&gt; <a href=3D"mailto:aurelien@aurel32.net">aurelien@aurel32.net</a>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://w=
+ww.aurel32.net">http://www.aurel32.net</a><br>
+&gt;<br>
+</p>
+
+--00000000000011fa1505a19f359c--
 
