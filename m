@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06D0191D78
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 00:24:19 +0100 (CET)
-Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD85191D7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 00:25:43 +0100 (CET)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGsuB-0002vL-0M
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 19:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51281)
+	id 1jGsvX-0006IS-1M
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 19:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51372)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jGsrO-0006DK-Lt
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:27 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jGsra-0006XS-KB
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jGsrN-0001hv-BW
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:26 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:21526)
+ (envelope-from <jsnow@redhat.com>) id 1jGsrZ-0001n6-La
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:31092)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGsrN-0001ha-8J
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:25 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGsrZ-0001mx-HW
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 19:21:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585092084;
+ s=mimecast20190719; t=1585092097;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ksQWpcgjnqwXwEnkjJvlthxquHoXZ2OlAYXsH6veTFQ=;
- b=R1DwXJyTKfm0cXBQ/kgbM2Oqh2+5Nu8UHhwlKNSwIL6VQWC0SgHAUOjguqfybNQ74muwUp
- 5yDd4b7oF56Jx49fMblBwlXWW7AfBCQ9OE2hdab53o6FoM6T2Yprs7fjsxGPUNSoBm0zlA
- 7lajWgVXV2PEbsSnggVa3OLI0MJN1H0=
+ bh=DSURUjG96qliIawrFes1dMnpGnxBtHaoo42tJyk6Rk8=;
+ b=RbH8haxHBwN1Oj5xr7XjhVpqbyqd4AEE8i4vCddloFY9mnHnGl6DK6kMj1jFROCgtDGP18
+ +XCvN9vY7yQkQKZGbMdml/+6YdEL3ctZtw9gDDP5o1uIxuLiISMuk8NUji4kwCcZ3t8sm1
+ QkDCPmDHpeWKH/3BqkZdyMehV/dBwwo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-LaP5PLPsMdmvpg-E-S3ZfA-1; Tue, 24 Mar 2020 19:21:23 -0400
-X-MC-Unique: LaP5PLPsMdmvpg-E-S3ZfA-1
+ us-mta-481-O9IwRtKsN_6EftuMaa54Ng-1; Tue, 24 Mar 2020 19:21:35 -0400
+X-MC-Unique: O9IwRtKsN_6EftuMaa54Ng-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 153A2107ACC4;
- Tue, 24 Mar 2020 23:21:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C613F8017DF;
+ Tue, 24 Mar 2020 23:21:34 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FF925D9C5;
- Tue, 24 Mar 2020 23:21:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57BBE5D9C5;
+ Tue, 24 Mar 2020 23:21:22 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 02/14] iotests: don't use 'format' for drive_add
-Date: Tue, 24 Mar 2020 19:20:51 -0400
-Message-Id: <20200324232103.4195-3-jsnow@redhat.com>
+Subject: [PATCH v9 03/14] iotests: ignore import warnings from pylint
+Date: Tue, 24 Mar 2020 19:20:52 -0400
+Message-Id: <20200324232103.4195-4-jsnow@redhat.com>
 In-Reply-To: <20200324232103.4195-1-jsnow@redhat.com>
 References: <20200324232103.4195-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,63 +76,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It shadows (with a different type) the built-in format.
-Use something else.
+The right way to solve this is to come up with a virtual environment
+infrastructure that sets all the paths correctly, and/or to create
+installable python modules that can be imported normally.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+That's hard, so just silence this error for now.
+
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/055        | 3 ++-
- tests/qemu-iotests/iotests.py | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/iotests.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/055 b/tests/qemu-iotests/055
-index 82b9f5f47d..4175fff5e4 100755
---- a/tests/qemu-iotests/055
-+++ b/tests/qemu-iotests/055
-@@ -469,7 +469,8 @@ class TestDriveCompression(iotests.QMPTestCase):
-         qemu_img('create', '-f', fmt, blockdev_target_img,
-                  str(TestDriveCompression.image_len), *args)
-         if attach_target:
--            self.vm.add_drive(blockdev_target_img, format=3Dfmt, interface=
-=3D"none")
-+            self.vm.add_drive(blockdev_target_img,
-+                              img_format=3Dfmt, interface=3D"none")
-=20
-         self.vm.launch()
-=20
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 886ae962ae..7f486e6c4b 100644
+index 7f486e6c4b..0eccca88e0 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -485,21 +485,21 @@ def add_drive_raw(self, opts):
-         self._args.append(opts)
-         return self
+@@ -30,6 +30,7 @@
+ from collections import OrderedDict
+ import faulthandler
 =20
--    def add_drive(self, path, opts=3D'', interface=3D'virtio', format=3Dim=
-gfmt):
-+    def add_drive(self, path, opts=3D'', interface=3D'virtio', img_format=
-=3Dimgfmt):
-         '''Add a virtio-blk drive to the VM'''
-         options =3D ['if=3D%s' % interface,
-                    'id=3Ddrive%d' % self._num_drives]
++# pylint: disable=3Dimport-error, wrong-import-position
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
+n'))
+ from qemu import qtest
 =20
-         if path is not None:
-             options.append('file=3D%s' % path)
--            options.append('format=3D%s' % format)
-+            options.append('format=3D%s' % img_format)
-             options.append('cache=3D%s' % cachemode)
-             options.append('aio=3D%s' % aiomode)
-=20
-         if opts:
-             options.append(opts)
-=20
--        if format =3D=3D 'luks' and 'key-secret' not in opts:
-+        if img_format =3D=3D 'luks' and 'key-secret' not in opts:
-             # default luks support
-             if luks_default_secret_object not in self._args:
-                 self.add_object(luks_default_secret_object)
 --=20
 2.21.1
 
