@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75E319122B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:58:39 +0100 (CET)
-Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DFE19123D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:59:05 +0100 (CET)
+Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGk4k-00018S-SE
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53227)
+	id 1jGk5A-00020u-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jGk2k-00086C-CD
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:40 -0400
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3K-00005v-Td
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jGk2i-0005nm-Cx
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54646)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGk2i-0005nQ-7k
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585058191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OA2G+rgSNMcMMKvEOLC+8auTAuuTRdKO0S2B0cGgKtE=;
- b=iWjjKxwDztfZudw6mBvNQ244yISR1WNomG04kZdkT2UIUaWxP/dMFMFDVLA1rYTUXjV28c
- PlpIJovv2c3xqfANlSve9eA9hwFmRyhkDW86nvQ1FHOoo07nCRcSMBllvxYnfpUnL4bwTV
- eXlxPeSDQ86htZG1erlGPddkhxbQ/NY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-DIQTflu5PB6PLVyNefKDnw-1; Tue, 24 Mar 2020 09:56:28 -0400
-X-MC-Unique: DIQTflu5PB6PLVyNefKDnw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 142ACDBA3;
- Tue, 24 Mar 2020 13:56:27 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-213.ams2.redhat.com
- [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F02FB5C3F8;
- Tue, 24 Mar 2020 13:56:21 +0000 (UTC)
-Subject: Re: [PATCH v8 01/11] iotests: do a light delinting
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200317004105.27059-1-jsnow@redhat.com>
- <20200317004105.27059-2-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <38908b9c-f359-c430-27cd-c658455270f4@redhat.com>
-Date: Tue, 24 Mar 2020 14:56:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200317004105.27059-2-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="FPQqStiqjdCM5crgnLAR0obyMENXLtOIO"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3J-0006Gp-8Q
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:10 -0400
+Received: from albert.telenet-ops.be ([2a02:1800:110:4::f00:1a]:55116)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
+ id 1jGk3I-0006CS-IE
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:08 -0400
+Received: from ramsan ([84.195.182.253]) by albert.telenet-ops.be with bizsmtp
+ id JDwu2200P5USYZQ06Dwua9; Tue, 24 Mar 2020 14:57:06 +0100
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jGk34-0006On-Ln; Tue, 24 Mar 2020 14:56:54 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jGk34-0001ki-Jv; Tue, 24 Mar 2020 14:56:54 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
+Date: Tue, 24 Mar 2020 14:56:50 +0100
+Message-Id: <20200324135653.6676-5-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200324135653.6676-1-geert+renesas@glider.be>
+References: <20200324135328.5796-1-geert+renesas@glider.be>
+ <20200324135653.6676-1-geert+renesas@glider.be>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 2a02:1800:110:4::f00:1a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,56 +55,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
- philmd@redhat.com, armbru@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---FPQqStiqjdCM5crgnLAR0obyMENXLtOIO
-Content-Type: multipart/mixed; boundary="xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE"
+The GPIO Aggregator will need a method to forward a .set_config() call
+to its parent gpiochip.  This requires obtaining the gpio_chip and
+offset for a given gpio_desc.  While gpiod_to_chip() is public,
+gpio_chip_hwgpio() is not, so there is currently no method to obtain the
+needed GPIO offset parameter.
 
---xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hence introduce a public gpiod_set_config() helper, which invokes the
+.set_config() callback through a gpio_desc pointer, like is done for
+most other gpio_chip callbacks.
 
-On 17.03.20 01:40, John Snow wrote:
-> This doesn't fix everything in here, but it does help clean up the
-> pylint report considerably.
->=20
-> This should be 100% style changes only; the intent is to make pylint
-> more useful by working on establishing a baseline for iotests that we
-> can gate against in the future.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/qemu-iotests/iotests.py | 83 ++++++++++++++++++-----------------
->  1 file changed, 43 insertions(+), 40 deletions(-)
+Rewrite the existing gpiod_set_debounce() helper as a wrapper around
+gpiod_set_config(), to avoid duplication.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v6:
+  - New.
+---
+ drivers/gpio/gpiolib.c        | 28 ++++++++++++++++++++++------
+ include/linux/gpio/consumer.h |  8 ++++++++
+ 2 files changed, 30 insertions(+), 6 deletions(-)
 
-
---xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE--
-
---FPQqStiqjdCM5crgnLAR0obyMENXLtOIO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl56EYIACgkQ9AfbAGHV
-z0BQ5gf9HOTehQ62zOynZamp9wtzN6IlM0zSf2VHv2NR3lP5XMS3A5mSDtnzMnP8
-unoj1Twf5yQ0CNOUlylxHj8tOFexF+yaNq5rp5mpbnntpk5p0ul/5aAEJmGvM+MX
-ZT7v772EtMJqHvxJxC373C9JKAsQRWgGr98Q3yRuDet5cA3ky9spvrMKFnetUIE6
-x6LBQxpuCTqV6Dno4IHPcxDYKVw7mPBTtkFwYRdr0cPsuD9A+d4kCxx+5Njp0DPJ
-JyIMd5u0jgHH0slrPJmCR5h40kg/x+l25Ynp7DHKMIArbScW86hiQdcLP7wgMDd7
-bCU6zS/3yS0sJfjkSyiXNq7DY//nBg==
-=8rwR
------END PGP SIGNATURE-----
-
---FPQqStiqjdCM5crgnLAR0obyMENXLtOIO--
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index c756602e249c052e..30ea75e972b5a3b1 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -3478,6 +3478,26 @@ int gpiod_direction_output(struct gpio_desc *desc, int value)
+ }
+ EXPORT_SYMBOL_GPL(gpiod_direction_output);
+ 
++/**
++ * gpiod_set_config - sets @config for a GPIO
++ * @desc: descriptor of the GPIO for which to set the configuration
++ * @config: Same packed config format as generic pinconf
++ *
++ * Returns:
++ * 0 on success, %-ENOTSUPP if the controller doesn't support setting the
++ * configuration.
++ */
++int gpiod_set_config(struct gpio_desc *desc, unsigned long config)
++{
++	struct gpio_chip *chip;
++
++	VALIDATE_DESC(desc);
++	chip = desc->gdev->chip;
++
++	return gpio_do_set_config(chip, gpio_chip_hwgpio(desc), config);
++}
++EXPORT_SYMBOL_GPL(gpiod_set_config);
++
+ /**
+  * gpiod_set_debounce - sets @debounce time for a GPIO
+  * @desc: descriptor of the GPIO for which to set debounce time
+@@ -3489,14 +3509,10 @@ EXPORT_SYMBOL_GPL(gpiod_direction_output);
+  */
+ int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce)
+ {
+-	struct gpio_chip	*chip;
+-	unsigned long		config;
+-
+-	VALIDATE_DESC(desc);
+-	chip = desc->gdev->chip;
++	unsigned long config;
+ 
+ 	config = pinconf_to_config_packed(PIN_CONFIG_INPUT_DEBOUNCE, debounce);
+-	return gpio_do_set_config(chip, gpio_chip_hwgpio(desc), config);
++	return gpiod_set_config(desc, config);
+ }
+ EXPORT_SYMBOL_GPL(gpiod_set_debounce);
+ 
+diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+index 0a72fccf60fff230..901aab89d025f3ff 100644
+--- a/include/linux/gpio/consumer.h
++++ b/include/linux/gpio/consumer.h
+@@ -157,6 +157,7 @@ int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
+ 				       struct gpio_array *array_info,
+ 				       unsigned long *value_bitmap);
+ 
++int gpiod_set_config(struct gpio_desc *desc, unsigned long config);
+ int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce);
+ int gpiod_set_transitory(struct gpio_desc *desc, bool transitory);
+ void gpiod_toggle_active_low(struct gpio_desc *desc);
+@@ -473,6 +474,13 @@ static inline int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
+ 	return 0;
+ }
+ 
++static inline int gpiod_set_config(struct gpio_desc *desc, unsigned long config)
++{
++	/* GPIO can never have been requested */
++	WARN_ON(desc);
++	return -ENOSYS;
++}
++
+ static inline int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce)
+ {
+ 	/* GPIO can never have been requested */
+-- 
+2.17.1
 
 
