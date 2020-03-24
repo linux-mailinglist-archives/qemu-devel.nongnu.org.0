@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A508C191275
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:08:00 +0100 (CET)
-Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CBA7191287
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:11:36 +0100 (CET)
+Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGkDn-0001BI-P0
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
+	id 1jGkHH-0004E4-6T
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:11:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <minwoo.im.dev@gmail.com>) id 1jGkCt-0000Zh-91
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:07:04 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jGkFd-0002W8-Gc
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:09:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <minwoo.im.dev@gmail.com>) id 1jGkCs-0004Id-AW
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:07:03 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38272)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1jGkCp-0004D5-MZ; Tue, 24 Mar 2020 10:06:59 -0400
-Received: by mail-pf1-x443.google.com with SMTP id z25so4975323pfa.5;
- Tue, 24 Mar 2020 07:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=4iJZL/bJMF5zR0HAiSzST7AqXTPauUeoMEnxTWPjIts=;
- b=XDr+PWOyKNc70V3g8ubMjQfhsjSNL4x0ZeONBRADc2GRK83e8jplN436ycoUq0ly1n
- eceGnb03Fui5i4r5GERPEupMkOEUxK+1bMTZ4QRR4mRV1ojd4YtCSToUJlPztKGVS6tD
- fx88xtkD3cD3cqKRHycQ3FPzbqeluvAXhMICa6Ch6JAOPMylP2pVx3EiGC8MyCbGJylc
- fHoZFNndHE7RNvdf0V3FOJsiRkCEF6TLM+oBRNYeVP2NySKU/Ia8L8s3dF0HogmdkoYV
- 87DXQXT/uY/WXxBi2eJnfMk3WiUtj8E+1hmdL0oN+k16/U1HXoMGuoQHGvEOY7A3k9K3
- YQvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=4iJZL/bJMF5zR0HAiSzST7AqXTPauUeoMEnxTWPjIts=;
- b=eBM8d9W29ccmOM/cFNvipbxdGO3FrwRAEfCmXick0+OAhz4CSAE2uJ188DJDJm6PKS
- I4pGiGdfc5EFlzHcz3XvPloMlFvy05rxjBwQfvpWVSuuFYhb9WCKwIgfji870u0ARYl5
- NZcQ5+A1O0cCMMaMu4HS/M9YnGGGmvKvQPLWnBilnuBPliAdesNDwPw4SO917LSEdHuO
- uEVewvI+ZvDSwZMVOqU3cY3iFBuj0IeqfJz/YMtsSlfPpG5NYTviY2GZxApFGX2Al3hq
- 7gcpVY2vNWSgcQIBBP9Uk8vpswsBF+3YQ/vfyQvTuByJhHa8bo0GpQHn/0Nea+rNRjg2
- KJhw==
-X-Gm-Message-State: ANhLgQ1EiXIt2OUmkKfjWGclWljycff0OGinAQQZUhQhfkG8ilY9uikN
- BbSYZHOK5o3D7Fq5D/mjxdZD8LomTIg=
-X-Google-Smtp-Source: ADFU+vuNgY515kWHpHABUGw6YDWtVhakWfMFRSYePsGAzPat2SYA7CPpYjfX6mvnKIZS1o+yA9cGJQ==
-X-Received: by 2002:a63:4707:: with SMTP id u7mr27927670pga.221.1585058818241; 
- Tue, 24 Mar 2020 07:06:58 -0700 (PDT)
-Received: from localhost.localdomain ([222.237.189.180])
- by smtp.gmail.com with ESMTPSA id y17sm9766490pfl.104.2020.03.24.07.06.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Mar 2020 07:06:57 -0700 (PDT)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] nvme: Print 'cqid' for nvme_del_cq
-Date: Tue, 24 Mar 2020 23:06:46 +0900
-Message-Id: <20200324140646.8274-1-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+ (envelope-from <imammedo@redhat.com>) id 1jGkFb-0008T4-VR
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:09:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43618)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jGkFb-0008RT-QY
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:09:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585058990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbn+fYkrC9qHY9BZTC/0khbeSR26eUGhkO2vuStDI4o=;
+ b=J6FVEWl/d6iAtfOLiDSLxUn+4IP9UEbGLo38EzIPqq7ojed9Pa/nDfi3i6j2Zm+cUfUWxb
+ 9VjAOkG9xZf6S1wtQxWFlkl5NEwjaemTw5h16JvVT6/Ty3dy6gKV9Ue0aFClAnjrpkxtvT
+ 84ifgdl7WzQ9WJqDsaugkACXYNmeVPM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-mM4d6S6_PlCuM_85bIoO5g-1; Tue, 24 Mar 2020 10:09:49 -0400
+X-MC-Unique: mM4d6S6_PlCuM_85bIoO5g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61D93107ACC7;
+ Tue, 24 Mar 2020 14:09:48 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC5C819C6A;
+ Tue, 24 Mar 2020 14:09:37 +0000 (UTC)
+Date: Tue, 24 Mar 2020 15:09:35 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani.sinha@nutanix.com>
+Subject: Re: Hot unplug disabling on pci-pci bridge
+Message-ID: <20200324150935.4bfe8464@redhat.com>
+In-Reply-To: <95F47446-8E5E-4CF1-A076-24D714F7A827@nutanix.com>
+References: <BF9E6F48-E047-4D1B-BEF1-A58024DE0C6E@nutanix.com>
+ <20200324120828.2b50d41e@redhat.com>
+ <95F47446-8E5E-4CF1-A076-24D714F7A827@nutanix.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,34 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Julia Suvorova <jusual@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laine Stump <laine@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The given argument for this trace should be cqid, not sqid.
+On Tue, 24 Mar 2020 11:49:53 +0000
+Ani Sinha <ani.sinha@nutanix.com> wrote:
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- hw/block/trace-events | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > On Mar 24, 2020, at 4:38 PM, Igor Mammedov <imammedo@redhat.com> wrote:
+> > 
+> > question is do you need to disable only unplug side both
+> > (plug+unplug) operations (like we did with PCIE)?  
+> 
+> I need to disable the unplug side only.
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index f78939fa9da1..bf6d11b58b85 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -37,7 +37,7 @@ nvme_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, uint64_t lba)
- nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
- nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
- nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
--nvme_del_cq(uint16_t cqid) "deleted completion queue, sqid=%"PRIu16""
-+nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
- nvme_identify_ctrl(void) "identify controller"
- nvme_identify_ns(uint16_t ns) "identify namespace, nsid=%"PRIu16""
- nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
--- 
-2.17.1
+I don't know  about SHPC (i.e you probably can only have both or none)
+
+For ACPI hotplug it should be possible to hack current impl.,
+one would need to remove _EJ0->PCEJ methods.
+That should hide ability to eject device in Windows but IO ports
+will still be there so malicious guest will still be able to eject device.
+
+But I'd emulate real hardware behavior where one would have plug+unplug
+or none or disable acpi pci hotplug globally for VM.
+
+
+> 
+> Ani
+> 
+> 
 
 
