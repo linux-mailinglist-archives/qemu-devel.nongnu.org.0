@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9041903AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 03:48:06 +0100 (CET)
-Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 102811903CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 04:12:08 +0100 (CET)
+Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGZbp-0005z0-B8
-	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 22:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45977)
+	id 1jGZz3-0003cs-HI
+	for lists+qemu-devel@lfdr.de; Mon, 23 Mar 2020 23:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jwsu1986@gmail.com>) id 1jGZas-0005Zz-HZ
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 22:47:07 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jGZy6-0003DK-KV
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 23:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jwsu1986@gmail.com>) id 1jGZar-00070u-BG
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 22:47:06 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40009)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jwsu1986@gmail.com>) id 1jGZar-0006zZ-6Q
- for qemu-devel@nongnu.org; Mon, 23 Mar 2020 22:47:05 -0400
-Received: by mail-ot1-x344.google.com with SMTP id e19so15698322otj.7
- for <qemu-devel@nongnu.org>; Mon, 23 Mar 2020 19:47:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mSPjyt4X4bKg86ioeDwf37dPPj/s1j88H6eZJpdtGxE=;
- b=tsHpOJTGmhcDPK6ByuksEqnHlfLepg3+KcpYXhR+6Oc7/7JIJZm5OCwoHcl5GQfYRD
- P1LDD+/4DDJwXIi/j9S9S4y7y0uYJxbCfxKlESfNTidUhIKjjCQFfaozmXFdlfZNyMwb
- pNKxgemNWbEkj7bW5fB9bKegMlz+v1UqJMGVb5CQ52P6TJSZNbv5uVZOK379551rD9T6
- pI25QkFhAJWMQpcBQEVn55PKZN8Y3GFCpQMn6RvmYsrlB+iVBYmaVMSjSCNgTn00kjFi
- HppXNMN1XXeGCMUi5YC/1UtL3SQ1ERnSj6bqaP+1HiNdREHWDyH36GUNJP51goMhbQF5
- rkpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mSPjyt4X4bKg86ioeDwf37dPPj/s1j88H6eZJpdtGxE=;
- b=c3NZu4aqtWj7bF3FK/D8euTy69l7XIN7LYk84KlYn1DcH2eqsVHqQ2WNPzM+gXWXOx
- W8zKYM6b09POVX4eUibAAZ009fHRBPslNEEWnip8Q32IDRTUE9We0SE9RVOX355Tq0h+
- OdvIdoh/4uYJrUK0SngvdJEIPWyTA6tlnEz1hOhQtzpBs6JgTK49cs5mT3iSNWn9sj3Y
- i+mbsK837y3PqYy11HiE8kTpHQRANIghJ8+K1eOoD9wz7oZVUsedb5cxs9OLADCYNM4a
- 0QVAng/xeXis3qCCsvcHz0JLPsxc7mxkWwsV+N5PabONETo7CVf+d4AWJqtIotM55zMn
- ghKQ==
-X-Gm-Message-State: ANhLgQ0MwMl17+hL3xKGHTKe94Ne+kRME2sek72vYpmhSWBh+H3m3Ptv
- gp3UqxjHJruEdj5TMeyZkJVnK2u0GC+GKfXADiY=
-X-Google-Smtp-Source: ADFU+vusE/p8NlXSqJclPBdDSXrDr5Cyk2Zw628prZZ9Bgjf1kd2PgSmaCcCJk/RiTaHg0ocDDGekwji81KQtybMZ8g=
-X-Received: by 2002:a05:6830:231b:: with SMTP id
- u27mr10827820ote.111.1585018023535; 
- Mon, 23 Mar 2020 19:47:03 -0700 (PDT)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jGZy3-00034a-UQ
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 23:11:05 -0400
+Received: from mga18.intel.com ([134.134.136.126]:59540)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jGZy3-0002tB-LA
+ for qemu-devel@nongnu.org; Mon, 23 Mar 2020 23:11:03 -0400
+IronPort-SDR: /MX8DE6rzZG2FO6+c1xOP09Vb770m9pjU0QHH6gR6mAL3xvC04Ngj9nBHYO9t2Oa6J0EYOnv2d
+ rTJbDP66DJzQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2020 20:10:54 -0700
+IronPort-SDR: 5texMlCqoV/AEcZIgCr6dY5yoiulJUS2ENnzkhX3Sqpyrj8Py1nIyPyXgRSpjaGeryujFJeBk4
+ OBE/e05007Uw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,298,1580803200"; d="scan'208";a="419734609"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga005.jf.intel.com with ESMTP; 23 Mar 2020 20:10:49 -0700
+Date: Mon, 23 Mar 2020 23:01:18 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v15 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+Message-ID: <20200324030118.GD5456@joy-OptiPlex-7040>
+References: <1584649004-8285-1-git-send-email-kwankhede@nvidia.com>
+ <1584649004-8285-5-git-send-email-kwankhede@nvidia.com>
+ <20200319165704.1f4eb36a@w520.home>
+ <bc48ae5c-67f9-d95e-5d60-6c42359bb790@nvidia.com>
+ <20200320120137.6acd89ee@x1.home>
+ <cf0ee134-c1c7-f60c-afc2-8948268d8880@nvidia.com>
+ <20200320125910.028d7af5@w520.home>
+ <7062f72a-bf06-a8cd-89f0-9e729699a454@nvidia.com>
+ <20200323124448.2d3bc315@w520.home> <20200323185114.GF3017@work-vm>
 MIME-Version: 1.0
-References: <20200322174751.12559-1-dereksu@qnap.com>
- <20200322174751.12559-2-dereksu@qnap.com>
- <883bf4e2916f43baa6700f98bbb85523@intel.com>
-In-Reply-To: <883bf4e2916f43baa6700f98bbb85523@intel.com>
-From: Jing-Wei Su <jwsu1986@gmail.com>
-Date: Tue, 24 Mar 2020 10:46:52 +0800
-Message-ID: <CAFKS8hUJ34Qh7gsggtbVM6GU4hLEn_xBLFM7X5mQrsmQg-Yc7w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] net/colo-compare.c: Fix memory leak in
- packet_enqueue()
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200323185114.GF3017@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.126
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,125 +68,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "dereksu@qnap.com" <dereksu@qnap.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B43=E6=9C=8824=E6=
-=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=883:24=E5=AF=AB=E9=81=93=EF=BC=9A
->
->
->
-> > -----Original Message-----
-> > From: Derek Su <jwsu1986@gmail.com>
-> > Sent: Monday, March 23, 2020 1:48 AM
-> > To: qemu-devel@nongnu.org
-> > Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com;
-> > jasowang@redhat.com; dereksu@qnap.com
-> > Subject: [PATCH v2 1/1] net/colo-compare.c: Fix memory leak in
-> > packet_enqueue()
-> >
-> > The patch is to fix the "pkt" memory leak in packet_enqueue().
-> > The allocated "pkt" needs to be freed if the colo compare primary or
-> > secondary queue is too big.
->
-> Hi Derek,
->
-> Thank you for the patch.
-> I re-think this issue in a big view, looks just free the pkg is not enoug=
-h in this situation.
-> The root cause is network is too busy to compare, So, better choice is no=
-tify COLO frame
-> to do a checkpoint and clean up all the network queue. This work maybe de=
-crease
-> COLO network performance but seams better than drop lots of pkg.
->
-> Thanks
-> Zhang Chen
->
+On Tue, Mar 24, 2020 at 02:51:14AM +0800, Dr. David Alan Gilbert wrote:
+> * Alex Williamson (alex.williamson@redhat.com) wrote:
+> > On Mon, 23 Mar 2020 23:24:37 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > 
+> > > On 3/21/2020 12:29 AM, Alex Williamson wrote:
+> > > > On Sat, 21 Mar 2020 00:12:04 +0530
+> > > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > >   
+> > > >> On 3/20/2020 11:31 PM, Alex Williamson wrote:  
+> > > >>> On Fri, 20 Mar 2020 23:19:14 +0530
+> > > >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > >>>      
+> > > >>>> On 3/20/2020 4:27 AM, Alex Williamson wrote:  
+> > > >>>>> On Fri, 20 Mar 2020 01:46:41 +0530
+> > > >>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > >>>>>         
+> > > >>
+> > > >> <snip>
+> > > >>  
+> > > >>>>>> +static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
+> > > >>>>>> +				  size_t size, uint64_t pgsize,
+> > > >>>>>> +				  u64 __user *bitmap)
+> > > >>>>>> +{
+> > > >>>>>> +	struct vfio_dma *dma;
+> > > >>>>>> +	unsigned long pgshift = __ffs(pgsize);
+> > > >>>>>> +	unsigned int npages, bitmap_size;
+> > > >>>>>> +
+> > > >>>>>> +	dma = vfio_find_dma(iommu, iova, 1);
+> > > >>>>>> +
+> > > >>>>>> +	if (!dma)
+> > > >>>>>> +		return -EINVAL;
+> > > >>>>>> +
+> > > >>>>>> +	if (dma->iova != iova || dma->size != size)
+> > > >>>>>> +		return -EINVAL;
+> > > >>>>>> +
+> > > >>>>>> +	npages = dma->size >> pgshift;
+> > > >>>>>> +	bitmap_size = DIRTY_BITMAP_BYTES(npages);
+> > > >>>>>> +
+> > > >>>>>> +	/* mark all pages dirty if all pages are pinned and mapped. */
+> > > >>>>>> +	if (dma->iommu_mapped)
+> > > >>>>>> +		bitmap_set(dma->bitmap, 0, npages);
+> > > >>>>>> +
+> > > >>>>>> +	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
+> > > >>>>>> +		return -EFAULT;  
+> > > >>>>>
+> > > >>>>> We still need to reset the bitmap here, clearing and re-adding the
+> > > >>>>> pages that are still pinned.
+> > > >>>>>
+> > > >>>>> https://lore.kernel.org/kvm/20200319070635.2ff5db56@x1.home/
+> > > >>>>>         
+> > > >>>>
+> > > >>>> I thought you agreed on my reply to it
+> > > >>>> https://lore.kernel.org/kvm/31621b70-02a9-2ea5-045f-f72b671fe703@nvidia.com/
+> > > >>>>     
+> > > >>>>    > Why re-populate when there will be no change since
+> > > >>>>    > vfio_iova_dirty_bitmap() is called holding iommu->lock? If there is any
+> > > >>>>    > pin request while vfio_iova_dirty_bitmap() is still working, it will
+> > > >>>>    > wait till iommu->lock is released. Bitmap will be populated when page is
+> > > >>>>    > pinned.  
+> > > >>>
+> > > >>> As coded, dirty bits are only ever set in the bitmap, never cleared.
+> > > >>> If a page is unpinned between iterations of the user recording the
+> > > >>> dirty bitmap, it should be marked dirty in the iteration immediately
+> > > >>> after the unpinning and not marked dirty in the following iteration.
+> > > >>> That doesn't happen here.  We're reporting cumulative dirty pages since
+> > > >>> logging was enabled, we need to be reporting dirty pages since the user
+> > > >>> last retrieved the dirty bitmap.  The bitmap should be cleared and
+> > > >>> currently pinned pages re-added after copying to the user.  Thanks,
+> > > >>>      
+> > > >>
+> > > >> Does that mean, we have to track every iteration? do we really need that
+> > > >> tracking?
+> > > >>
+> > > >> Generally the flow is:
+> > > >> - vendor driver pin x pages
+> > > >> - Enter pre-copy-phase where vCPUs are running - user starts dirty pages
+> > > >> tracking, then user asks dirty bitmap, x pages reported dirty by
+> > > >> VFIO_IOMMU_DIRTY_PAGES ioctl with _GET flag
+> > > >> - In pre-copy phase, vendor driver pins y more pages, now bitmap
+> > > >> consists of x+y bits set
+> > > >> - In pre-copy phase, vendor driver unpins z pages, but bitmap is not
+> > > >> updated, so again bitmap consists of x+y bits set.
+> > > >> - Enter in stop-and-copy phase, vCPUs are stopped, mdev devices are stopped
+> > > >> - user asks dirty bitmap - Since here vCPU and mdev devices are stopped,
+> > > >> pages should not get dirty by guest driver or the physical device.
+> > > >> Hence, x+y dirty pages would be reported.
+> > > >>
+> > > >> I don't think we need to track every iteration of bitmap reporting.  
+> > > > 
+> > > > Yes, once a bitmap is read, it's reset.  In your example, after
+> > > > unpinning z pages the user should still see a bitmap with x+y pages,
+> > > > but once they've read that bitmap, the next bitmap should be x+y-z.
+> > > > Userspace can make decisions about when to switch from pre-copy to
+> > > > stop-and-copy based on convergence, ie. the slope of the line recording
+> > > > dirty pages per iteration.  The implementation here never allows an
+> > > > inflection point, dirty pages reported through vfio would always either
+> > > > be flat or climbing.  There might also be a case that an iommu backed
+> > > > device could start pinning pages during the course of a migration, how
+> > > > would the bitmap ever revert from fully populated to only tracking the
+> > > > pinned pages?  Thanks,
+> > > >   
+> > > 
+> > > At KVM forum we discussed this - if guest driver pins say 1024 pages 
+> > > before migration starts, during pre-copy phase device can dirty 0 pages 
+> > > in best case and 1024 pages in worst case. In that case, user will 
+> > > transfer content of 1024 pages during pre-copy phase and in 
+> > > stop-and-copy phase also, that will be pages will be copied twice. So we 
+> > > decided to only get dirty pages bitmap at stop-and-copy phase. If user 
+> > > is going to get dirty pages in stop-and-copy phase only, then that will 
+> > > be single iteration.
+> > > There aren't any devices yet that can track sys memory dirty pages. So 
+> > > we can go ahead with this patch and support for dirty pages tracking 
+> > > during pre-copy phase can be added later when there will be consumers of 
+> > > that functionality.
+> > 
+> > So if I understand this right, you're expecting the dirty bitmap to
+> > accumulate dirty bits, in perpetuity, so that the user can only
+> > retrieve them once at the end of migration?  But if that's the case,
+> > the user could simply choose to not retrieve the bitmap until the end
+> > of migration, the result would be the same.  What we have here is that
+> > dirty bits are never cleared, regardless of whether the user has seen
+> > them, which is wrong.  Sorry, we had a lot of discussions at KVM forum,
+> > I don't recall this specific one 5 months later and maybe we weren't
+> > considering all aspects.  I see the behavior we have here as incorrect,
+> > but it also seems relatively trivial to make correct.  I hope the QEMU
+> > code isn't making us go through all this trouble to report a dirty
+> > bitmap that gets thrown away because it expects the final one to be
+> > cumulative since the beginning of dirty logging.  Thanks,
+> 
+> I remember the discussion that we couldn't track the system memory
+> dirtying with current hardware; so the question then is just to track
+hi Dave
+there are already devices that are able to track the system memory,
+through two ways:
+(1) software method. like VFs for "Intel(R) Ethernet Controller XL710 Family
+support".
+(2) hardware method. through hardware internal buffer (as one Intel
+internal hardware not yet to public, but very soon) or through VTD-3.0
+IOMMU.
 
-Hello, Zhang
+we have already had code verified using the two ways to track system memory
+in fine-grained level.
 
-Got it.
-What is the concern of the massive "drop packets"?
-Does the behavior make the COLO do checkpoint periodically (~20 seconds)
-instead of doing immediate checkpoint when encountering different
-response packets?
 
-It seems that frequent checkpoints caused by the full queue (busy
-network) instead of different
-response packets may harm the high speed network (10 Gbps or higher)
-performance dramatically.
+> what has been pinned and then ideally put that memory off until the end.
+> (Which is interesting because I don't think we currently have  a way
+> to delay RAM pages till the end in qemu).
+
+I think the problem here is that we mixed pinned pages with dirty pages.
+yes, pinned pages for mdev devices are continuously likely to be dirty
+until device stopped.
+But for devices that are able to report dirty pages, dirtied pages
+will be marked again if hardware writes them later.
+
+So, is it good to introduce a capability to let vfio/qemu know how to
+treat the dirty pages?
+(1) for devices have no fine-grained dirty page tracking capability
+  a. pinned pages are regarded as dirty pages. they are not cleared by
+  dirty page query
+  b. unpinned pages are regarded as dirty pages. they are cleared by
+  dirty page query or UNMAP ioctl.
+(2) for devices that have fine-grained dirty page tracking capability
+   a. pinned/unpinned pages are not regarded as dirty pages
+   b. only pages they reported are regarded as dirty pages and are to be
+   cleared by dirty page query and UNMAP ioctl.
+(3) for dirty pages marking APIs, like vfio_dma_rw()...
+   pages marked by them are regared as dirty and are to be cleared by
+   dirty page query and UNMAP ioctl
+
+For (1), qemu VFIO only reports dirty page amount and would not transfer
+those pages until last round.
+for (2) and (3), qemu VFIO should report and transfer them in each
+round.
+
+
+> [I still worry whether migration will be usable with any
+> significant amount of system ram that's pinned in this way; the
+> downside will very easily get above the threshold that people like]
+> 
+yes. that's why we have to do multi-round dirty page query and
+transfer and clear the dirty bitmaps in each round for devices that are
+able to track in fine grain.
+and that's why we have to report the amount of dirty pages before
+stop-and-copy phase for mdev devices, so that people are able to know
+the real downtime as much as possible.
 
 Thanks
-Derek
-
-> >
-> > Signed-off-by: Derek Su <dereksu@qnap.com>
-> > ---
-> >  net/colo-compare.c | 23 +++++++++++++++--------
-> >  1 file changed, 15 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/net/colo-compare.c b/net/colo-compare.c index
-> > 7ee17f2cf8..cdd87b2aa8 100644
-> > --- a/net/colo-compare.c
-> > +++ b/net/colo-compare.c
-> > @@ -120,6 +120,10 @@ enum {
-> >      SECONDARY_IN,
-> >  };
-> >
-> > +static const char *colo_mode[] =3D {
-> > +    [PRIMARY_IN] =3D "primary",
-> > +    [SECONDARY_IN] =3D "secondary",
-> > +};
-> >
-> >  static int compare_chr_send(CompareState *s,
-> >                              const uint8_t *buf, @@ -215,6 +219,7 @@ st=
-atic int
-> > packet_enqueue(CompareState *s, int mode, Connection **con)
-> >      ConnectionKey key;
-> >      Packet *pkt =3D NULL;
-> >      Connection *conn;
-> > +    int ret;
-> >
-> >      if (mode =3D=3D PRIMARY_IN) {
-> >          pkt =3D packet_new(s->pri_rs.buf, @@ -243,16 +248,18 @@ static=
- int
-> > packet_enqueue(CompareState *s, int mode, Connection **con)
-> >      }
-> >
-> >      if (mode =3D=3D PRIMARY_IN) {
-> > -        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)=
-) {
-> > -            error_report("colo compare primary queue size too big,"
-> > -                         "drop packet");
-> > -        }
-> > +        ret =3D colo_insert_packet(&conn->primary_list, pkt,
-> > + &conn->pack);
-> >      } else {
-> > -        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sac=
-k)) {
-> > -            error_report("colo compare secondary queue size too big,"
-> > -                         "drop packet");
-> > -        }
-> > +        ret =3D colo_insert_packet(&conn->secondary_list, pkt,
-> > + &conn->sack);
-> >      }
-> > +
-> > +    if (!ret) {
-> > +        error_report("colo compare %s queue size too big,"
-> > +                     "drop packet", colo_mode[mode]);
-> > +        packet_destroy(pkt, NULL);
-> > +        pkt =3D NULL;
-> > +    }
-> > +
-> >      *con =3D conn;
-> >
-> >      return 0;
-> > --
-> > 2.17.1
->
+Yan
 
