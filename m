@@ -2,68 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFE719162D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 17:21:49 +0100 (CET)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873421915AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 17:08:33 +0100 (CET)
+Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGmJI-0003Io-DF
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 12:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
+	id 1jGm6S-0006m8-Kl
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 12:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jGmIN-0002sV-GN
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:20:53 -0400
+ (envelope-from <ani.sinha@nutanix.com>) id 1jGm5f-0006K3-Rm
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:07:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jGmIL-0002p1-SH
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:20:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jGmIL-0002mk-GB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:20:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jGmII-0003Vv-Ur
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 16:20:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E74942E80D0
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 16:20:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <ani.sinha@nutanix.com>) id 1jGm5e-0002J4-2b
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:07:43 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:37744)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ani.sinha@nutanix.com>)
+ id 1jGm5d-0002II-K5
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:07:42 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02OFi272012940; Tue, 24 Mar 2020 09:07:40 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=Cek0b8wEmwLsWV5NgWaZfPr00vHzu3b4Rlbf2QQbXHA=;
+ b=cjhXjYONQSQqcdRemdG+a/gehckQKuS7pTkyC4xnFD+vykPoNVFtCrtgtvbHzJjGCFiW
+ tOegR2J4P16XLupNukORTx2UGs938aWJB/ZSxyYDP25Zk0bpJwIZS4qivk/AdnvHPsEy
+ IJ2NMu1ck01C4LCL8Y8cy30Bc4wUnvdh2IsJS4rOMXKRd3qVCJytpM9fd8AeyfKBtnqV
+ t64540Adgzp/1loojzTy2g77EhOkUy05DB0RGHPSy6OIjBxeyWkU72VmA+/1hbhr+D0Q
+ zY3RaGWmSNxuIW3VuQCpjLg5NH5QbkrCxZrxLW6SK0x1cnFyGRhzdEZBeoGwFaTiv9BI Dg== 
+Received: from nam04-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam04lp2052.outbound.protection.outlook.com [104.47.44.52])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 2ywj8fx3bc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Mar 2020 09:07:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lryay1f6uIE/kwHy48WYQOW8aYYrNowBfgWsa1uukLfwcyuipJZL8HCdZxOlfJomy1zK7EzLt+yjoUxkTmWpdkcMXuKP5Vje68cb6CiwS3wLxWrRqZA7B25dn0nNKrtPoUiUCqsWGidDDukPKtrkWS0aX9NB7hdb3XFTponTVdsmj9va6FqPPi6NwfBu+Moe3v+xHgfUAWF2UJi5CZFEeOvwJsWSP1zs784eQFe0pxpeeu+AkABgCQPvGDyOGJLat2GRvVoOPEsVsy4mSeCqcqQe3nzr67ZkigB2qPx0yWNlUibOfz272/KDCCXBgoofUDb/KikwUH18e4coLsbkCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cek0b8wEmwLsWV5NgWaZfPr00vHzu3b4Rlbf2QQbXHA=;
+ b=OMQ+x5X1MtmPwMhMKo1PmPIJ3ElckjtFT16uPvj5oF7bMlhvzbPmFA1JT+JTHDc2Lm+LK2u2M04LMMlXDgrwi1Y0UGBhq2LosnpkyHV0A0P4IIv61EhYLfC0q77eAmBl83NiFai8/n2L6ipA6gnZrW2X6jbGPYHPORBSiha7IAVPI2knSa+nmWHeRRcfrluBd5GU3ngshbKwne07o5ZQAd+f6Mlefif3c+yJfgK+g2xi0mt9FQqsU53Ne21poxWDXi0Q3SLSQY4aCRbyoTBVsJxlAiQk5AQXtChod6v2iuAz2Hcn7bmQ3oXPigaCO2M9+K6gROv06jX3o9wl3gRtNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MN2PR02MB5742.namprd02.prod.outlook.com (2603:10b6:208:10d::27)
+ by MN2PR02MB6093.namprd02.prod.outlook.com (2603:10b6:208:1b6::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.22; Tue, 24 Mar
+ 2020 16:07:35 +0000
+Received: from MN2PR02MB5742.namprd02.prod.outlook.com
+ ([fe80::200c:b06c:d8c6:42a]) by MN2PR02MB5742.namprd02.prod.outlook.com
+ ([fe80::200c:b06c:d8c6:42a%7]) with mapi id 15.20.2835.021; Tue, 24 Mar 2020
+ 16:07:35 +0000
+From: Ani Sinha <ani.sinha@nutanix.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Hot unplug disabling on pci-pci bridge
+Thread-Topic: Hot unplug disabling on pci-pci bridge
+Thread-Index: AQHWAcPYtZw/rt1SL0WZPWjOTF64NqhXlY8AgAALkICAACcKgIAAIPaA
+Date: Tue, 24 Mar 2020 16:07:35 +0000
+Message-ID: <794EC45E-B3AC-4DBD-80A8-5FEC21302F51@nutanix.com>
+References: <BF9E6F48-E047-4D1B-BEF1-A58024DE0C6E@nutanix.com>
+ <20200324120828.2b50d41e@redhat.com>
+ <95F47446-8E5E-4CF1-A076-24D714F7A827@nutanix.com>
+ <20200324150935.4bfe8464@redhat.com>
+In-Reply-To: <20200324150935.4bfe8464@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.146.154.3]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 32451d77-1141-4d8a-cba0-08d7d00d7773
+x-ms-traffictypediagnostic: MN2PR02MB6093:
+x-microsoft-antispam-prvs: <MN2PR02MB6093C72EE1CFF5CE4E5E9F05F1F10@MN2PR02MB6093.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:1060;
+x-forefront-prvs: 03524FBD26
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(396003)(366004)(39860400002)(376002)(346002)(44832011)(86362001)(6916009)(33656002)(81166006)(71200400001)(186003)(36756003)(54906003)(6486002)(26005)(8936002)(2616005)(8676002)(81156014)(64756008)(53546011)(4326008)(66556008)(76116006)(91956017)(66446008)(66946007)(558084003)(478600001)(5660300002)(2906002)(316002)(6506007)(6512007)(66476007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR02MB6093;
+ H:MN2PR02MB5742.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aeCnGM3ZHSJAR+lSwRyorm4/qXMhbyi6v8Fk5FMc7wwXeP1L1y48mBcpNdRGICgePSYWTjuq4umb8qKnkwEQGU/+gpBkxJbO/X5LAqvDAxXW8iq58nIS/8Mw6A16+89oiHvplGPN67pkWz3EanRE4ZSbe/lc9yyvuUOuobP3+P4dUamN+bLyJOv9z9sUiOtcStm1BC63HcZjIu66AyCKMgP6ZkvIPwikmtkKnTj+AKOUDQSuFwf+12/DVwshAsPo27d8UKZ5Y7HfQaD7dpmpEEyhCLZ1K95Fr+NwRSVfN8vtPCVQdHaJ3f6N4BAd10Dzz0xJTtm8k4bes76nO7h60z6e0TwbU6ZA0b+VUhgyWGIBwQC02ssji1Q9tTxgQfDHBVm7i5RoA1QPQ6jzgOIaVdEeA48VLnpy8ZrOi5r8PgXuEy7XtIY9x5WULePd+utL
+x-ms-exchange-antispam-messagedata: 7jgUbV2xJLG34JNUC1Yf3RmdmJYi+CJZ189kzpthlo0KilqMuLjWKpTfQOrsQMUcipszHbbiesfhXN8ZgKTkbSJv9dDSNGlm23CejTqUhxtQHtKnZon8k+FPJIXOqKig8CJ6oGeronZIGMG7LnraEQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <40B48E85ED2B7747AD45845657DDA922@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Mar 2020 16:05:34 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1868116@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Triaged; importance=High; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
- server-next
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: leozinho29-eu paelzer
-X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158506593490.19789.14898483017777205288.malone@wampee.canonical.com>
-Subject: [Bug 1868116] Re: QEMU monitor no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 33fbf4905106c92e9f1fb891527728d52e45d141
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32451d77-1141-4d8a-cba0-08d7d00d7773
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2020 16:07:35.1915 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QrGjWW7frl+jshXHfRFmYg5v88CpjgpBmCPts15F57mr1pg7os1d8qUYS9/BkcTgzFppABAgQa2nPCzTfTRpAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6093
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-24_05:2020-03-23,
+ 2020-03-24 signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.155.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,128 +123,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
+Cc: Julia Suvorova <jusual@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laine Stump <laine@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FYI: Since this affects qemu (and VTE) git head I added an upstream-qemu
-task to the bug.
 
-** Tags added: champagne rls-ee-incoming
 
--- =
+> On Mar 24, 2020, at 7:39 PM, Igor Mammedov <imammedo@redhat.com> wrote:
+>=20
+>  disable acpi pci hotplug globally for VM
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868116
+This sounds like a good idea for our needs.
 
-Title:
-  QEMU monitor no longer works
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Triaged
-Status in vte2.91 package in Ubuntu:
-  New
-
-Bug description:
-  Repro:
-  VTE
-  $ meson _build && ninja -C _build && ninja -C _build install
-
-  qemu:
-  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
-r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
--enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
-sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
--disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
-disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
-opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
-irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
--pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
-vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
-sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
-le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
-e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
-utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
--disable-cap-ng
-  $ make
-
-  Test:
-  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
-uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
-le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
-rent/images/netboot/mini.iso
-  - switch to monitor with CTRL+ALT+2
-  - try to enter something
-
-  Affects head of both usptream git repos.
-
-  =
-
-  --- original bug ---
-
-  It was observed that the QEMU console (normally accessible using
-  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
-  problematic because there are cases where it's required to send
-  commands to the guest, or key combinations that the host would grab
-  (as Ctrl-Alt-F1 or Alt-F4).
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 20.04
-  Package: qemu 1:4.2-3ubuntu2
-  Uname: Linux 5.6.0-rc6+ x86_64
-  ApportVersion: 2.20.11-0ubuntu20
-  Architecture: amd64
-  CurrentDesktop: XFCE
-  Date: Thu Mar 19 12:16:31 2020
-  Dependencies:
-
-  InstallationDate: Installed on 2017-06-13 (1009 days ago)
-  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
-  KvmCmdLine:
-  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
-86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
-,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
-home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
-  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
--re]
-  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
-5]
-  MachineType: LENOVO 80UG
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
-4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
-rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
-ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
-enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
-7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
-scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
-_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
-  dmi.bios.date: 08/09/2018
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: 0XCN45WW
-  dmi.board.asset.tag: NO Asset Tag
-  dmi.board.name: Toronto 4A2
-  dmi.board.vendor: LENOVO
-  dmi.board.version: SDK0J40679 WIN
-  dmi.chassis.asset.tag: NO Asset Tag
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: Lenovo ideapad 310-14ISK
-  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
-Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
-10:cvrLenovoideapad310-14ISK:
-  dmi.product.family: IDEAPAD
-  dmi.product.name: 80UG
-  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
-  dmi.product.version: Lenovo ideapad 310-14ISK
-  dmi.sys.vendor: LENOVO
-  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
+A
 
