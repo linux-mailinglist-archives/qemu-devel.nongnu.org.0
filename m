@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B5D190996
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 10:31:38 +0100 (CET)
-Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C51051909A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 10:37:35 +0100 (CET)
+Received: from localhost ([::1]:45000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGfuL-0002wf-Ie
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 05:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
+	id 1jGg06-0007DV-SK
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 05:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jGft2-00020Y-FZ
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:30:17 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jGfzD-0006RE-3A
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:36:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jGfsx-0003n1-Jd
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:30:16 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44441)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jGfsx-0003jQ-A7
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:30:11 -0400
-Received: by mail-ot1-x342.google.com with SMTP id a49so16335447otc.11
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 02:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UzTnB3iS1qilKNurvByNSklxmCSliWtJkL6J5/1oEN0=;
- b=dT+SeYyH1BkKkZWUaBk5uj0MEH4L6HjmlSYG1+nPnGCG3gAENzp0qjsWHAigkjMhtR
- ljAI1uUGzbpci1deREeZbmrQws6bf2gHk+9gusG81aJYoCIN4nyvPaaP6ug29PD+78AD
- pBmUMig88uOYaX5iSgRyVzEwUEzyGAd5Yu8cNqY1KACcX65WNHrT7gMMS3T4RjMXKiRj
- 9kQwaauv82/bqrFcDf7AtzgFGJe0b9boON8gM98zVPL6FMxsx9RRo+vJqhikkynkr4WI
- +/oWFfjdmud6SHbfCHGyb5rghdGaq7+cR5SuHhjkz0L5/L+PbiIqnNVLVHCPGSKi0cpY
- kOVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UzTnB3iS1qilKNurvByNSklxmCSliWtJkL6J5/1oEN0=;
- b=R5FN5Z34opihG9asQFmW1YqzoCeJQgub4ulXgMbXRMJ+9kO5HTzx6JwtzlVQekA2Xb
- yHuJC9oaMvV7RWio5DvPd2Vw/VMDpruJVyZu6+OjVh8CiaxL04bp8hjg3ztOtVXUDq0c
- zomVSGg6eImuT55/MFwI1Ahgdu3AMWnlVOzjYETt9WupYLFpDqMBKoYf0+qpl62UT9Bd
- MbgwMt7Ft99KRC/fnLuFYuElpHBWYv6jPA9LVQo4M8bnj2WmkiaR2p7ISLfflsASuxkZ
- 0/9mWl2vhqmpIOtWKZ5mHyQ4FIoSgkCT8vl01NycXfG0oiqfTlf9JDvCeRc/GC4WjDxk
- jK6A==
-X-Gm-Message-State: ANhLgQ0wt12IzciwvUoWONmWrgjnFxXLAWrvaJ2DMcf8JeujPIeaxrXr
- NCWVlLHauGYxON6c4O0sMcARZeow63oRMDo0sawgrQ==
-X-Google-Smtp-Source: ADFU+vsVpjNMAvc6231UF5jnLInFznAbjT7PjgwTqzNrcYLn3q1rK1MSp0eBo3cutIGiQ6yNzxYDBwJUhUQYQLc0WIo=
-X-Received: by 2002:a4a:d1a5:: with SMTP id z5mr1673767oor.63.1585042209973;
- Tue, 24 Mar 2020 02:30:09 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jGfzB-0008Db-P6
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:36:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:42801)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jGfzB-0008DK-LZ
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:36:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585042597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8NB4zX02uVE5wSNq4BnTcQOsEodNAO85ZZBPqEkqDag=;
+ b=VBxdhj0TqSgGUbG94Tqg4NeNuvIc7srhyCbFFKkl7JVW7RbjtEl4belKfQzmn5cHVLG1MD
+ bpSULeOUGofl7/p9icF48A3WBVA15bsNiVjU3xSTg7b1p+2Ux/eZ/4ELaLrXsDZoYjzLOm
+ pqe1G66INZZ1aDIare5cp8l8zOBrxAo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-5gJ-OXgFN9qrFP9_FtUTag-1; Tue, 24 Mar 2020 05:36:33 -0400
+X-MC-Unique: 5gJ-OXgFN9qrFP9_FtUTag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 675E4477;
+ Tue, 24 Mar 2020 09:36:32 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-119.ams2.redhat.com [10.36.113.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B15F5C1A1;
+ Tue, 24 Mar 2020 09:36:30 +0000 (UTC)
+Date: Tue, 24 Mar 2020 10:36:29 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] iotests: drop group file
+Message-ID: <20200324093629.GC5417@linux.fritz.box>
+References: <20200324074156.5330-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20200317113153.7945-1-linus.walleij@linaro.org>
- <CAFEAcA9mXE+gPnvM6HZ-w0+BhbpeuH=osFH-9NUzCLv=w-c7HQ@mail.gmail.com>
- <CACRpkdZtLNUwiZEMiJEoB0ojOBckyGcZeyFkR6MC69qv-ry9EA@mail.gmail.com>
- <CAFEAcA-gdwi=KSW6LqVdEJWSo9VEL5abYQs9LoHd4mKE_-h=Aw@mail.gmail.com>
- <CACRpkdYuZgZUznVxt1AHCSJa_GAXy8N0SduE5OrjDnE1s_L7Zg@mail.gmail.com>
- <20200324023431.GD53396@mit.edu>
-In-Reply-To: <20200324023431.GD53396@mit.edu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Mar 2020 09:29:58 +0000
-Message-ID: <CAFEAcA_6RY1XFVNJCo5=tTkv2GQpXZRqh_Zz4dYadq-8MJZgTQ@mail.gmail.com>
-Subject: Re: [PATCH] ext4: Give 32bit personalities 32bit hashes
-To: "Theodore Y. Ts'o" <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+In-Reply-To: <20200324074156.5330-1-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,34 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
- Linux API <linux-api@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, stable <stable@vger.kernel.org>,
- Florian Weimer <fw@deneb.enyo.de>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Andy Lutomirski <luto@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>
+Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Mar 2020 at 02:34, Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> Another possibility, which would be messier for qemu, would be use a
-> flag set via fcntl.  That would require qemu from noticing when the
-> guest is calling open, openat, or openat2, and then inserting a fcntl
-> system call to set the 32-bit readdir mode.  That's cleaner from the
-> kernel interface complexity perspective, but it's messier for qemu.
+Am 24.03.2020 um 08:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> When sending iotests to upstream or do patch porting from one branch
+> to another we very often have to resolve conflicts in group file, as
+> many absolutely independent features are intersecting by this file.
+> These conflicts are simple, but imagine how much time we all have
+> already spent on resolving them? Let's finally get rid of group file.
+>=20
+> This patch transposes group info: instead of collecting it in one file,
+> let each test define its groups by itself.
+>=20
+> Several steps are done to achive it:
+>=20
+> 1. Define groups in test files automatically:
+>=20
+>     grep '^[0-9]\{3\} ' group | while read line; do
+>         file=3D$(awk '{print $1}' <<< "$line");
+>         groups=3D$(sed -e 's/^... //' <<< "$line");
+>         awk "NR=3D=3D2{print \"# group: $groups\"}1" $file > tmp;
+>         cat tmp > $file;
+>     done
+>=20
+> 2. Copy groups documentation into docs/devel/testing.rst, which already
+>    has a section about iotests.
+>=20
+> 3. Modify check script to work without group file.
+>=20
+>    Here is a logic change: before, even if test do not belong to any
+>    group (only iotest 142 currently) it should be defined in group
+>    file. Now, test is not forced to define any group. Instead check
+>    considers all files with names matching [0-9][0-9][0-9] as tests.
 
-On the contrary, that would be a much better interface for QEMU.
-We always know when we're doing an open-syscall on behalf
-of the guest, and it would be trivial to make the fcntl() call then.
-That would ensure that we don't accidentally get the
-'32-bit semantics' on file descriptors QEMU opens for its own
-purposes, and wouldn't leave us open to the risk in future that
-setting the PER_LINUX32 flag for all of QEMU causes
-unexpected extra behaviour in future kernels that would be correct
-for the guest binary but wrong/broken for QEMU's own internals.
+This has both a positive and a negative effect: Now you don't have to
+modify another file when you add a new test, but it will be picked up
+automatically. However, if you want to disable a test, you could
+previously just remove it from groups (or comment it out), and now you
+have to delete the test instead.
 
-thanks
--- PMM
+Downstream, I think we still disable a few tests because we're compiling
+out features that are required for some tests to pass, and deleting the
+test cases completely would probably move conflicts just to a different
+place.
+
+So I think we need a method to distuingish an enabled test that is in no
+group from a disabled test.
+
+>    check script is also refactored to make it simple to do next cool
+>    thing about iotests: allow meaningful names for test-case files.
+
+This one would also require us to be able to distinguish test case files
+from arbitrary other files.
+
+> -#
+> -# test-group association ... one line per test
+> -#
+> -001 rw auto quick
+> -002 rw auto quick
+> -003 rw auto
+> -004 rw auto quick
+> -005 img auto quick
+> -# 006 was removed, do not reuse
+
+We lose these comments without a replacement. I wonder whether it's
+important or if we can think of another way to make sure that numbers
+aren't reused. (I'm not completely sure any more why we decided that we
+don't want to reuse numbers. Maybe because of backports?)
+
+Kevin
+
 
