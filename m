@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BFA1904CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 06:16:39 +0100 (CET)
-Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BBC1904D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 06:19:45 +0100 (CET)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGbva-0005wO-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 01:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
+	id 1jGbya-0001xn-CF
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 01:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jGbu4-0004Z7-9K
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:05 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jGbu8-0004Zv-09
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jGbu3-0001au-3a
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:04 -0400
-Received: from ozlabs.org ([203.11.71.1]:38149)
+ (envelope-from <dgibson@ozlabs.org>) id 1jGbu6-0001dg-TG
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:07 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:48355)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jGbu2-0001Zh-1c; Tue, 24 Mar 2020 01:15:03 -0400
+ id 1jGbu6-0001Zi-IS; Tue, 24 Mar 2020 01:15:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48mfZW2ydnz9sQt; Tue, 24 Mar 2020 16:14:59 +1100 (AEDT)
+ id 48mfZW486Sz9sSL; Tue, 24 Mar 2020 16:14:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1585026899;
- bh=3li+HUL8pZwLDA6kLng6EhW+vWa7Ark5fqLG2FNEfLk=;
+ bh=fyHM/yk1VNQZCJUEsX1UnGiM8agi4dpqL7KxP+y+WHE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V5jCrBSYafRVievJ92CFo+ZFvrctHtsdZXGtrZyngREyw0dvq8gXJdjHbx56+Kd5M
- zvj638qWCNCA8IzPNBrW4E5oq8sbStGD7G8bL8/AyPaPcxYRFMxclgKgPZNROmSmxY
- NyfLcOJ02ESCOWrfCodWL0Hw3vLvUKs2VU/hh1f8=
+ b=oHnXJ7ZWgcyMDuaxgHK09TOJ0YBUUf+pbiE5qC631GsHWqi8gGHpWDrvrgNYLDLXR
+ GlwiqFhnk7wdIDlzW4+sZQt70F2xHX5a3SqZUi6Nl8Wl7i/mhLGUPxzuluwWWYmgL9
+ xj8MpXZi2zMLr8cJ3kZbfvZTrTMlCjdPWaPCvijA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/7] ppc/spapr: Set the effective address provided flag in mc
- error log.
-Date: Tue, 24 Mar 2020 16:14:50 +1100
-Message-Id: <20200324051456.256116-2-david@gibson.dropbear.id.au>
+Subject: [PULL 2/7] target/ppc: Fix slbia TLB invalidation gap
+Date: Tue, 24 Mar 2020 16:14:51 +1100
+Message-Id: <20200324051456.256116-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200324051456.256116-1-david@gibson.dropbear.id.au>
 References: <20200324051456.256116-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,115 +60,83 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-Per PAPR, it is expected to set effective address provided flag in
-sub_err_type member of mc extended error log (i.e
-rtas_event_log_v6_mc.sub_err_type). This somehow got missed in original
-fwnmi-mce patch series. The current code just updates the effective addre=
-ss
-but does not set the flag to indicate that it is available. Hence guest
-fails to extract effective address from mce rtas log. This patch fixes
-that.
+slbia must invalidate TLBs even if it does not remove a valid SLB
+entry, because slbmte can overwrite valid entries without removing
+their TLBs.
 
-Without this patch guest MCE logs fails print DAR value:
+As the architecture says, slbia invalidates all lookaside information,
+not conditionally based on if it removed valid entries.
 
-[   11.933608] Disabling lock debugging due to kernel taint
-[   11.933773] MCE: CPU0: machine check (Severe) Host TLB Multihit [Recov=
-ered]
-[   11.933979] MCE: CPU0: NIP: [c000000000090b34] radix__flush_tlb_range_=
-psize+0x194/0xf00
-[   11.934223] MCE: CPU0: Initiator CPU
-[   11.934341] MCE: CPU0: Unknown
+It does not seem possible for POWER8 or earlier Linux kernels to hit
+this bug because it never changes its kernel SLB translations, and it
+should always have valid entries if any accesses are made to userspace
+regions. However other operating systems which may modify SLB entry 0
+or do more fancy things with segments might be affected.
 
-After the change:
+When POWER9 slbia support is added in the next patch, this becomes a
+real problem because some new slbia variants don't invalidate all
+non-zero entries.
 
-[   22.454149] Disabling lock debugging due to kernel taint
-[   22.454316] MCE: CPU0: machine check (Severe) Host TLB Multihit DAR: d=
-eadbeefdeadbeef [Recovered]
-[   22.454605] MCE: CPU0: NIP: [c0000000003e5804] kmem_cache_alloc+0x84/0=
-x330
-[   22.454820] MCE: CPU0: Initiator CPU
-[   22.454944] MCE: CPU0: Unknown
-
-Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
-Message-Id: <158451653844.22972.17999316676230071087.stgit@jupiter>
-Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20200318044135.851716-1-npiggin@gmail.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_events.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ target/ppc/mmu-hash64.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 323fcef4aa..a4a540f43d 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -243,6 +243,14 @@ struct rtas_event_log_v6_mc {
- #define RTAS_LOG_V6_MC_TLB_PARITY                        1
- #define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
- #define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
-+/*
-+ * Per PAPR,
-+ * For UE error type, set bit 1 of sub_err_type to indicate effective ad=
-dr is
-+ * provided. For other error types (SLB/ERAT/TLB), set bit 0 to indicate
-+ * same.
-+ */
-+#define RTAS_LOG_V6_MC_UE_EA_ADDR_PROVIDED               0x40
-+#define RTAS_LOG_V6_MC_EA_ADDR_PROVIDED                  0x80
-     uint8_t reserved_1[6];
-     uint64_t effective_address;
-     uint64_t logical_address;
-@@ -726,6 +734,22 @@ void spapr_hotplug_req_remove_by_count_indexed(Spapr=
-DrcType drc_type,
-                             RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
-_id);
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 34f6009b1e..373d44de74 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -100,20 +100,29 @@ void helper_slbia(CPUPPCState *env)
+     PowerPCCPU *cpu =3D env_archcpu(env);
+     int n;
+=20
++    /*
++     * slbia must always flush all TLB (which is equivalent to ERAT in p=
+pc
++     * architecture). Matching on SLB_ESID_V is not good enough, because=
+ slbmte
++     * can overwrite a valid SLB without flushing its lookaside informat=
+ion.
++     *
++     * It would be possible to keep the TLB in synch with the SLB by flu=
+shing
++     * when a valid entry is overwritten by slbmte, and therefore slbia =
+would
++     * not have to flush unless it evicts a valid SLB entry. However it =
+is
++     * expected that slbmte is more common than slbia, and slbia is usua=
+lly
++     * going to evict valid SLB entries, so that tradeoff is unlikely to=
+ be a
++     * good one.
++     */
++
+     /* XXX: Warning: slbia never invalidates the first segment */
+     for (n =3D 1; n < cpu->hash64_opts->slb_size; n++) {
+         ppc_slb_t *slb =3D &env->slb[n];
+=20
+         if (slb->esid & SLB_ESID_V) {
+             slb->esid &=3D ~SLB_ESID_V;
+-            /*
+-             * XXX: given the fact that segment size is 256 MB or 1TB,
+-             *      and we still don't have a tlb_flush_mask(env, n, mas=
+k)
+-             *      in QEMU, we just invalidate all TLBs
+-             */
+-            env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+         }
+     }
++
++    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
  }
 =20
-+static void spapr_mc_set_ea_provided_flag(struct mc_extended_log *ext_el=
-og)
-+{
-+    switch (ext_elog->mc.error_type) {
-+    case RTAS_LOG_V6_MC_TYPE_UE:
-+        ext_elog->mc.sub_err_type |=3D RTAS_LOG_V6_MC_UE_EA_ADDR_PROVIDE=
-D;
-+        break;
-+    case RTAS_LOG_V6_MC_TYPE_SLB:
-+    case RTAS_LOG_V6_MC_TYPE_ERAT:
-+    case RTAS_LOG_V6_MC_TYPE_TLB:
-+        ext_elog->mc.sub_err_type |=3D RTAS_LOG_V6_MC_EA_ADDR_PROVIDED;
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
- static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
-                                         struct mc_extended_log *ext_elog=
-)
- {
-@@ -751,6 +775,7 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *c=
-pu, bool recovered,
-             ext_elog->mc.sub_err_type =3D mc_derror_table[i].error_subty=
-pe;
-             if (mc_derror_table[i].dar_valid) {
-                 ext_elog->mc.effective_address =3D cpu_to_be64(env->spr[=
-SPR_DAR]);
-+                spapr_mc_set_ea_provided_flag(ext_elog);
-             }
-=20
-             summary |=3D mc_derror_table[i].initiator
-@@ -769,6 +794,7 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *c=
-pu, bool recovered,
-             ext_elog->mc.sub_err_type =3D mc_ierror_table[i].error_subty=
-pe;
-             if (mc_ierror_table[i].nip_valid) {
-                 ext_elog->mc.effective_address =3D cpu_to_be64(env->nip)=
-;
-+                spapr_mc_set_ea_provided_flag(ext_elog);
-             }
-=20
-             summary |=3D mc_ierror_table[i].initiator
+ static void __helper_slbie(CPUPPCState *env, target_ulong addr,
 --=20
 2.25.1
 
