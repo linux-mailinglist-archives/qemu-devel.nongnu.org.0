@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E84190986
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 10:25:40 +0100 (CET)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7751119099D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 10:36:54 +0100 (CET)
+Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGfoZ-0008PK-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 05:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1jGfzR-0006HM-2F
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 05:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jGfnL-0007PR-Kx
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:24:25 -0400
+ (envelope-from <bounces@canonical.com>) id 1jGfyY-0005oo-CK
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:35:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jGfnK-0001Dh-5i
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:24:23 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:39423)
+ (envelope-from <bounces@canonical.com>) id 1jGfyW-0007VZ-NL
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:35:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57772)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jGfnK-0001D5-01
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:24:22 -0400
-Received: by mail-oi1-x229.google.com with SMTP id d63so17806114oig.6
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 02:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P+FTYtYCc0v//9HpuIDWmTomo5tHnV/rR+WSEamstoo=;
- b=wBg4LzinFeZfmLerO7pWIIbp9XWYmERKRxJ4m3LmrKpQgaMjMytCqVyngeRBwPrZXS
- /8WJTwty05swnER3wsuvcmHfB5Om+ZseNM0raade55a1jYXvpWPeM8HVjvGtNM47ledK
- eDgiuWgklCLVOYmL+IS4EIW3ac1AdVjGTWYLovwjuetbPtC9b/er8eyxzOdWAOw9KIYk
- hgVKNlHiuLl4QcAmurcIIJeFPVTtOsomxvIP9ZhB9ell3U1QxahLi+r4WkSRFGKxIBTe
- k7E3Jpe8Ky9ApAN8DQV33ITob30uSKtnnbrU0TNLExH/AEhI6pK/eQ0yjG1GgLOutDQu
- vJJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P+FTYtYCc0v//9HpuIDWmTomo5tHnV/rR+WSEamstoo=;
- b=bzgkOualjwT96PesmWiJuQ40w9wItgwhv/VUtRH6PM6npD36+Wnib2QYOjbt/ZQgYs
- JeeJOB53F8x3Go1NWLusI+9tS0LO3PfmuWeLoyoHc3Lvmqn14MXz8gBFy33UCyHFpci1
- z525XhHiHgDfk4DCsdctPQcxtRQF4gyAFqZm73NugIXEFPdJL24ILB7dG8akoZ7kspLM
- /YVyb3OS8O+PpJgFUinnHQo2hzRr8RKVhlZ3CJ8SljxjbqeNksSJ9Mew/xECV6hEu5q2
- K7+8qm3Ik4I7ftXRWpP5sC4VpX/7H71uL9iMu6iD94Njoa8m5adskF5OUKcVmloQGia8
- 3IvQ==
-X-Gm-Message-State: ANhLgQ12rq7rkgDimTKqIV7GpBJkk+dmlCYIG/0z5cRNrAkPoT5wMZC7
- zQwMsai8XHPC1Uxjtpekmdc2tDN8h10v8dWDrDwZPw==
-X-Google-Smtp-Source: ADFU+vuuuJrZq3grNap1obDAokaMnz4hjL2WubsN7kiZvngg1EfoSylIlUkKr42ElZRSvMS4xpCxEnYsmuTs+Hc743w=
-X-Received: by 2002:a05:6808:64c:: with SMTP id
- z12mr2593317oih.146.1585041860763; 
- Tue, 24 Mar 2020 02:24:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jGfyW-0007V3-Hm
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 05:35:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jGfyU-0005sq-Iz
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 09:35:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 82B9E2E8030
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 09:35:54 +0000 (UTC)
 MIME-Version: 1.0
-References: <CAGT9xrDKJQW6HV6OWDDck=H0bGzk=7ZTVn6tTfNnv=tH0sr1nA@mail.gmail.com>
-In-Reply-To: <CAGT9xrDKJQW6HV6OWDDck=H0bGzk=7ZTVn6tTfNnv=tH0sr1nA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Mar 2020 09:24:09 +0000
-Message-ID: <CAFEAcA-sY_H5s6j4ZEZ+SMvQgyENF+w+v5ajiJOhHDrn_zfjrA@mail.gmail.com>
-Subject: Re: Potential missing checks
-To: Mansour Ahmadi <ManSoSec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::229
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Mar 2020 09:28:19 -0000
+From: Launchpad Bug Tracker <1867519@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange janitor mohamadh paelzer
+X-Launchpad-Bug-Reporter: Mohammad Heib (mohamadh)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158428174672.11238.3583143675239092561.malonedeb@soybean.canonical.com>
+Message-Id: <158504210210.22817.7072945679175175376.launchpad@ackee.canonical.com>
+Subject: [Bug 1867519] Re: qemu 4.2 segfaults on VF detach
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1b2bac8fc60aff63d46c70f4f4ee0981fca63717
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,47 +68,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1867519 <1867519@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Mar 2020 at 22:04, Mansour Ahmadi <ManSoSec@gmail.com> wrote:
->
-> Hi QEMU developers,
->
-> I noticed the following two potential missing checks by static analysis and detecting inconsistencies on the source code of QEMU. here is the result:
+** Merge proposal linked:
+   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
+/381033
 
-Hi. Can you provide more details of your analysis, please? "Maybe
-there's an issue
-at this line" is not terribly helpful, especially if one has to follow
-a bunch of URLs
-to even find out which code is being discussed. All static analysers are prone
-to false positives, and so the value is in analysing the possible issues, not
-in simply dumping raw output with no details onto the mailing list.
+-- =
 
-> 1)
-> Missing check on offset:
-> https://github.com/qemu/qemu/blob/c532b954d96f96d361ca31308f75f1b95bd4df76/disas/arm.c#L2728-L2733
->
-> While it is checked here:
-> https://github.com/qemu/qemu/blob/c532b954d96f96d361ca31308f75f1b95bd4df76/disas/arm.c#L1748-L1752
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1867519
 
-What in particular do you think should be being checked that is not?
+Title:
+  qemu 4.2 segfaults on VF detach
 
-> 2)
-> Missing check on bmds->dirty_bitmap:
-> https://github.com/qemu/qemu/blob/c532b954d96f96d361ca31308f75f1b95bd4df76/migration/block.c#L377-L378
->
-> While it is checked here:
-> https://github.com/qemu/qemu/blob/c532b954d96f96d361ca31308f75f1b95bd4df76/migration/block.c#L363-L365
+Status in QEMU:
+  Fix Committed
+Status in qemu package in Ubuntu:
+  Fix Released
 
-This one looks correct to me -- the second case is the error handling
-path for "failure halfway through creating the list of dirty bitmaps",
-and so it must handle "this one wasn't created yet". The first
-case will only run on data structures where set_dirty_tracking()
-succeeded, and so we know that there can't be any NULL pointers.
-Why do you think it is incorrect?
+Bug description:
+  After updating Ubuntu 20.04 to the Beta version, we get the following
+  error and the virtual machines stucks when detaching PCI devices using
+  virsh command:
 
-thanks
--- PMM
+  Error:
+  error: Failed to detach device from /tmp/vf_interface_attached.xml
+  error: internal error: End of file from qemu monitor
+
+  steps to reproduce:
+   1. create a VM over Ubuntu 20.04 (5.4.0-14-generic)
+   2. attach PCI device to this VM (Mellanox VF for example)
+   3. try to detaching  the PCI device using virsh command:
+     a. create a pci interface xml file:
+          =
+
+        <hostdev mode=3D'subsystem' type=3D'pci' managed=3D'yes'>
+        <driver name=3D'vfio'/>
+        <source>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x11' slot=3D'0x00' =
+function=3D'0x2' />
+        </source>
+        </hostdev>
+      =
+
+     b.  #virsh detach-device <VM-Doman-name> <pci interface xml file>
+
+
+  - Ubuntu release:
+    Description:    Ubuntu Focal Fossa (development branch)
+    Release:        20.04
+
+  - Package ver:
+    libvirt0:
+    Installed: 6.0.0-0ubuntu3
+    Candidate: 6.0.0-0ubuntu5
+    Version table:
+       6.0.0-0ubuntu5 500
+          500 http://il.archive.ubuntu.com/ubuntu focal/main amd64 Packages
+   *** 6.0.0-0ubuntu3 100
+          100 /var/lib/dpkg/status
+
+  - What you expected to happen: =
+
+    PCI device detached without any errors.
+
+  - What happened instead:
+    getting the errors above and he VM stuck
+
+  additional info:
+  after downgrading the libvirt0 package and all the dependent packages to =
+5.4 the previous, version, seems that the issue disappeared
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1867519/+subscriptions
 
