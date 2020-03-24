@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DFE19123D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:59:05 +0100 (CET)
-Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F38191231
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:59:00 +0100 (CET)
+Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGk5A-00020u-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53305)
+	id 1jGk55-0001pl-PB
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1jGk3K-00005v-Td
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:13 -0400
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3K-00005u-Tg
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert@linux-m68k.org>) id 1jGk3J-0006Gp-8Q
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3J-0006Gz-9r
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:10 -0400
-Received: from albert.telenet-ops.be ([2a02:1800:110:4::f00:1a]:55116)
+Received: from laurent.telenet-ops.be ([2a02:1800:110:4::f00:19]:56652)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
- id 1jGk3I-0006CS-IE
+ id 1jGk3I-0006CD-Lb
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:08 -0400
-Received: from ramsan ([84.195.182.253]) by albert.telenet-ops.be with bizsmtp
- id JDwu2200P5USYZQ06Dwua9; Tue, 24 Mar 2020 14:57:06 +0100
+Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
+ id JDwu2200N5USYZQ01Dwulv; Tue, 24 Mar 2020 14:57:05 +0100
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jGk34-0006On-Ln; Tue, 24 Mar 2020 14:56:54 +0100
+ id 1jGk34-0006Ow-PZ; Tue, 24 Mar 2020 14:56:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jGk34-0001ki-Jv; Tue, 24 Mar 2020 14:56:54 +0100
+ id 1jGk34-0001kr-Nf; Tue, 24 Mar 2020 14:56:54 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonathan Corbet <corbet@lwn.net>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
-Date: Tue, 24 Mar 2020 14:56:50 +0100
-Message-Id: <20200324135653.6676-5-geert+renesas@glider.be>
+Subject: [PATCH v6 8/8] MAINTAINERS: Add GPIO Aggregator section
+Date: Tue, 24 Mar 2020 14:56:53 +0100
+Message-Id: <20200324135653.6676-8-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200324135653.6676-1-geert+renesas@glider.be>
 References: <20200324135328.5796-1-geert+renesas@glider.be>
  <20200324135653.6676-1-geert+renesas@glider.be>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:1800:110:4::f00:1a
+X-Received-From: 2a02:1800:110:4::f00:19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,102 +66,46 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GPIO Aggregator will need a method to forward a .set_config() call
-to its parent gpiochip.  This requires obtaining the gpio_chip and
-offset for a given gpio_desc.  While gpiod_to_chip() is public,
-gpio_chip_hwgpio() is not, so there is currently no method to obtain the
-needed GPIO offset parameter.
-
-Hence introduce a public gpiod_set_config() helper, which invokes the
-.set_config() callback through a gpio_desc pointer, like is done for
-most other gpio_chip callbacks.
-
-Rewrite the existing gpiod_set_debounce() helper as a wrapper around
-gpiod_set_config(), to avoid duplication.
+Add a maintainership section for the GPIO Aggregator, covering
+documentation and driver source code.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 ---
 v6:
+  - No changes,
+
+v5:
+  - Add Reviewed-by, Tested-by,
+
+v4:
+  - Drop controversial GPIO repeater,
+
+v3:
   - New.
 ---
- drivers/gpio/gpiolib.c        | 28 ++++++++++++++++++++++------
- include/linux/gpio/consumer.h |  8 ++++++++
- 2 files changed, 30 insertions(+), 6 deletions(-)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index c756602e249c052e..30ea75e972b5a3b1 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -3478,6 +3478,26 @@ int gpiod_direction_output(struct gpio_desc *desc, int value)
- }
- EXPORT_SYMBOL_GPL(gpiod_direction_output);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fcd79fc38928fafc..1fad69b956df1162 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7127,6 +7127,13 @@ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
+ F:	drivers/gpio/gpiolib-acpi.c
+ F:	drivers/gpio/gpiolib-acpi.h
  
-+/**
-+ * gpiod_set_config - sets @config for a GPIO
-+ * @desc: descriptor of the GPIO for which to set the configuration
-+ * @config: Same packed config format as generic pinconf
-+ *
-+ * Returns:
-+ * 0 on success, %-ENOTSUPP if the controller doesn't support setting the
-+ * configuration.
-+ */
-+int gpiod_set_config(struct gpio_desc *desc, unsigned long config)
-+{
-+	struct gpio_chip *chip;
++GPIO AGGREGATOR
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
++L:	linux-gpio@vger.kernel.org
++S:	Maintained
++F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
++F:	drivers/gpio/gpio-aggregator.c
 +
-+	VALIDATE_DESC(desc);
-+	chip = desc->gdev->chip;
-+
-+	return gpio_do_set_config(chip, gpio_chip_hwgpio(desc), config);
-+}
-+EXPORT_SYMBOL_GPL(gpiod_set_config);
-+
- /**
-  * gpiod_set_debounce - sets @debounce time for a GPIO
-  * @desc: descriptor of the GPIO for which to set debounce time
-@@ -3489,14 +3509,10 @@ EXPORT_SYMBOL_GPL(gpiod_direction_output);
-  */
- int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce)
- {
--	struct gpio_chip	*chip;
--	unsigned long		config;
--
--	VALIDATE_DESC(desc);
--	chip = desc->gdev->chip;
-+	unsigned long config;
- 
- 	config = pinconf_to_config_packed(PIN_CONFIG_INPUT_DEBOUNCE, debounce);
--	return gpio_do_set_config(chip, gpio_chip_hwgpio(desc), config);
-+	return gpiod_set_config(desc, config);
- }
- EXPORT_SYMBOL_GPL(gpiod_set_debounce);
- 
-diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
-index 0a72fccf60fff230..901aab89d025f3ff 100644
---- a/include/linux/gpio/consumer.h
-+++ b/include/linux/gpio/consumer.h
-@@ -157,6 +157,7 @@ int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 				       struct gpio_array *array_info,
- 				       unsigned long *value_bitmap);
- 
-+int gpiod_set_config(struct gpio_desc *desc, unsigned long config);
- int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce);
- int gpiod_set_transitory(struct gpio_desc *desc, bool transitory);
- void gpiod_toggle_active_low(struct gpio_desc *desc);
-@@ -473,6 +474,13 @@ static inline int gpiod_set_raw_array_value_cansleep(unsigned int array_size,
- 	return 0;
- }
- 
-+static inline int gpiod_set_config(struct gpio_desc *desc, unsigned long config)
-+{
-+	/* GPIO can never have been requested */
-+	WARN_ON(desc);
-+	return -ENOSYS;
-+}
-+
- static inline int gpiod_set_debounce(struct gpio_desc *desc, unsigned debounce)
- {
- 	/* GPIO can never have been requested */
+ GPIO IR Transmitter
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.17.1
 
