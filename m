@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F38191231
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:59:00 +0100 (CET)
-Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABE5191258
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:02:37 +0100 (CET)
+Received: from localhost ([::1]:49332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGk55-0001pl-PB
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53304)
+	id 1jGk8a-0007qa-3P
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1jGk3K-00005u-Tg
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:11 -0400
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3W-0000Lz-6l
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert@linux-m68k.org>) id 1jGk3J-0006Gz-9r
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:10 -0400
-Received: from laurent.telenet-ops.be ([2a02:1800:110:4::f00:19]:56652)
+ (envelope-from <geert@linux-m68k.org>) id 1jGk3V-0006Zu-3f
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:22 -0400
+Received: from michel.telenet-ops.be ([2a02:1800:110:4::f00:18]:48840)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
- id 1jGk3I-0006CD-Lb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:08 -0400
-Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
- id JDwu2200N5USYZQ01Dwulv; Tue, 24 Mar 2020 14:57:05 +0100
+ id 1jGk3U-0006YF-TH
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:57:21 -0400
+Received: from ramsan ([84.195.182.253]) by michel.telenet-ops.be with bizsmtp
+ id JDwu2200M5USYZQ06Dwu4g; Tue, 24 Mar 2020 14:57:19 +0100
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jGk34-0006Ow-PZ; Tue, 24 Mar 2020 14:56:54 +0100
+ id 1jGk34-0006Oc-Ga; Tue, 24 Mar 2020 14:56:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jGk34-0001kr-Nf; Tue, 24 Mar 2020 14:56:54 +0100
+ id 1jGk34-0001kW-Ey; Tue, 24 Mar 2020 14:56:54 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonathan Corbet <corbet@lwn.net>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v6 8/8] MAINTAINERS: Add GPIO Aggregator section
-Date: Tue, 24 Mar 2020 14:56:53 +0100
-Message-Id: <20200324135653.6676-8-geert+renesas@glider.be>
+Subject: [PATCH v6 1/8] ARM: integrator: impd1: Use GPIO_LOOKUP() helper macro
+Date: Tue, 24 Mar 2020 14:56:46 +0100
+Message-Id: <20200324135653.6676-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200324135653.6676-1-geert+renesas@glider.be>
+In-Reply-To: <20200324135328.5796-1-geert+renesas@glider.be>
 References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:1800:110:4::f00:19
+X-Received-From: 2a02:1800:110:4::f00:18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,50 +61,54 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
  Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
+ Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a maintainership section for the GPIO Aggregator, covering
-documentation and driver source code.
+impd1_probe() fills in the GPIO lookup table by manually populating an
+array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
+macro instead, to relax a dependency on the gpiod_lookup structure's
+member names.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: linux-arm-kernel@lists.infradead.org
 ---
+While this patch is a dependency for "[PATCH v6 4/8] gpiolib: Add
+support for GPIO lookup by line name", it can be applied independently.
+But an Acked-by would be nice, too.
+
+Cover letter and full series at
+https://lore.kernel.org/r/20200324135328.5796-1-geert+renesas@glider.be/
+
 v6:
-  - No changes,
-
-v5:
-  - Add Reviewed-by, Tested-by,
-
-v4:
-  - Drop controversial GPIO repeater,
-
-v3:
   - New.
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/mach-integrator/impd1.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fcd79fc38928fafc..1fad69b956df1162 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7127,6 +7127,13 @@ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
- F:	drivers/gpio/gpiolib-acpi.c
- F:	drivers/gpio/gpiolib-acpi.h
+diff --git a/arch/arm/mach-integrator/impd1.c b/arch/arm/mach-integrator/impd1.c
+index 1ecbea5331d6ed8b..6f875ded841924d8 100644
+--- a/arch/arm/mach-integrator/impd1.c
++++ b/arch/arm/mach-integrator/impd1.c
+@@ -410,13 +410,10 @@ static int __ref impd1_probe(struct lm_device *dev)
+ 			 * 5 = Key lower right
+ 			 */
+ 			/* We need the two MMCI GPIO entries */
+-			lookup->table[0].chip_label = chipname;
+-			lookup->table[0].chip_hwnum = 3;
+-			lookup->table[0].con_id = "wp";
+-			lookup->table[1].chip_label = chipname;
+-			lookup->table[1].chip_hwnum = 4;
+-			lookup->table[1].con_id = "cd";
+-			lookup->table[1].flags = GPIO_ACTIVE_LOW;
++			lookup->table[0] = (struct gpiod_lookup)
++				GPIO_LOOKUP(chipname, 3, "wp", 0);
++			lookup->table[1] = (struct gpiod_lookup)
++				GPIO_LOOKUP(chipname, 4, "cd", GPIO_ACTIVE_LOW);
+ 			gpiod_add_lookup_table(lookup);
+ 		}
  
-+GPIO AGGREGATOR
-+M:	Geert Uytterhoeven <geert+renesas@glider.be>
-+L:	linux-gpio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-+F:	drivers/gpio/gpio-aggregator.c
-+
- GPIO IR Transmitter
- M:	Sean Young <sean@mess.org>
- L:	linux-media@vger.kernel.org
 -- 
 2.17.1
 
