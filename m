@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71BF1914A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 16:38:14 +0100 (CET)
-Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14E41914C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 16:39:39 +0100 (CET)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGld7-0002Os-SI
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 11:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
+	id 1jGleV-0006ML-0A
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 11:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbn-0000aN-7X
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:52 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbp-0000al-VY
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbm-0005eC-8L
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:51 -0400
-Received: from mail-eopbgr70133.outbound.protection.outlook.com
- ([40.107.7.133]:6087 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jGlbo-0005hO-V2
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:36:53 -0400
+Received: from mail-eopbgr70132.outbound.protection.outlook.com
+ ([40.107.7.132]:20336 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jGlbm-0005br-0h; Tue, 24 Mar 2020 11:36:50 -0400
+ id 1jGlbo-0005fj-NH; Tue, 24 Mar 2020 11:36:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DQL6I26j9PYQeJBn07pnY5rzVclfxl0GKtYgZAlv5hDKB2w3aP8/GmqYyqfVgzoCe9QxztYfxDLe00kTyQduPsYSDWO+7Stjjt2a1Iu8I8KgY8L5M8eQ5dr7GmWc71qNLETVSuIH1Z62dhsuuPrHRL7M4gWYJY/vCMEAydu1rUkHoCbQhJ0C0fgsuEwjI3eXoxYxsXi3QhXeRIZxQnonkfsCOSSII1ZRbYJ+3oxkZQie3qQbjXNDd6RYD+lx0OHsmiZRV2xQSKz2+b4wvq/kR3gjOkXiOB4jTWZwWB4UyXBJlXxS79zvvexNnnaUunFRNsv1/+fE8ClHDAMeCaNBgg==
+ b=SSeEyjfOgejIpQOiQPregCNT6mxJXeM5yjmjJghP8dl/OcpakGc4yzr6KKrWkWZAw19NXdg28TCnzF0bGfAmcwxzehYA6o06g1JITkXgOrQpmUDnlrqdYiBMUGG776lw2qIn63+d9BmEb7ZD/kjBJzfHNFUu0KEhLYPK65S7i2sKho38bqNE5DRaLbKnasEbjX+IN7/ySPTgX7wMKWhHk9LAkfMMQsoz/gvuBEo0nCddfVk/kfnAfuknd+7nGYwwotSbsHIVrimAeOPg/8RWN4dbvWvAq55Qe6p9zseKspekymBCZmUPBn18ZbUhXkQsEX5BQ4SBGa6Qez0Ut0IHIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cYBMXaxkWtGuXY3v1HX6eWulhTKmq4Xs2iCFQb0SZAI=;
- b=XqW0A69t+bxdy3cSKJHMjF1wajmRaBgG40i3EjP+NwTZ4ldD2Whp7grlp99EntOZmGWZTh16Wx8RVZIpZ5q3fg8P1Y5vJ2uMrteYUihXF5x5w7rOpWcav9G4ofxtfw8cWd0BR4a4NOj9elm+fXyAzT2akDrjjdi6efo3Jliv392eeFLZpKMDcvuVubutCSJ/M2hW64TZVKV5Dw602JIWkQ8YduiOzFWNQ1CkCA/7u1o3d/BvTfc/3RtZpN0wu6lZJ4i3/KtHwCjgWqWRk1zfAAiffaxuO8aiWhujFUAEBosd4E2tDW+Y8I87b9UdvhmwuUqjRCmkdZCU7tYck79z/w==
+ bh=SSNK1zzcI2VQA2U36YyqYry2DuMuGlpopiutGskWWrY=;
+ b=Fhz1LLG3Phy0967Beieu/cIBvNq6FjZQm0MC5k91pvs3yhgqW0eDF/U3UlwZHGSb5+Dvu4OCXOYXkwRKs1flkG9VwfGyDm5YFN3FCczappChccj7P3kczJUodn5WnXoMzRHjpz8P4KZOJsR6IPZC5ygRHMT9To+8FRjAlEQFMWhZeVEAiyneMhfPKW4+qprSJVZfIz/CPwF1fuJvg/7zQKxAnAOAL0pexiYfg1RESflod1FltcXuLTP9sgdRh+RBhY5kVrNDCuFFC+WHUrPeW3XjLh/tBGJYsDCRCSxQVt6rPzFy1+eJkLFpp7ciGecHxxQ1SFQN49bdiKeM/tbedA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cYBMXaxkWtGuXY3v1HX6eWulhTKmq4Xs2iCFQb0SZAI=;
- b=r0Iri2LaO+DPXmzc7se+Gwwfw4f5vKCR7CGLjeEUY+5x8iqBAYxBWMY25QaJBLMkSkLflGvwkZNEtg1L8+GGqCYzVaSbjDn/waj1qv0uCC/OkzWmQngFsE1HUhFuDVC7VSw44hYmWtAZJqXZBU/qrx59xg6OfLeLVQ/W6hw8dgo=
+ bh=SSNK1zzcI2VQA2U36YyqYry2DuMuGlpopiutGskWWrY=;
+ b=IQelt1ZX+d6zG64F9eSDREr94mLcqq/hI9uUmm/fmGmPFUB1RigQp/idvWldXD14F3x7zc8xP7PwIlV/1xmGJgit70+o1cgauOVP20Dz7gb6C1ET7OMATMfnYw/kypZxl45Lv3lIvAKCL6n6HuRcdy2mwOhRICKV78CvFQ2XthE=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
  AM7PR08MB5336.eurprd08.prod.outlook.com (10.141.172.73) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Tue, 24 Mar 2020 15:36:49 +0000
+ 15.20.2835.20; Tue, 24 Mar 2020 15:36:50 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::9057:6f5a:378c:7533]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::9057:6f5a:378c:7533%6]) with mapi id 15.20.2835.021; Tue, 24 Mar 2020
- 15:36:49 +0000
+ 15:36:50 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] block/mirror: fix use after free of local_err
-Date: Tue, 24 Mar 2020 18:36:26 +0300
-Message-ID: <20200324153630.11882-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/6] dump/win_dump: fix use after free of err
+Date: Tue, 24 Mar 2020 18:36:27 +0300
+Message-ID: <20200324153630.11882-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200324153630.11882-1-vsementsov@virtuozzo.com>
 References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
@@ -64,15 +64,15 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.15) by
  HE1PR0401CA0062.eurprd04.prod.outlook.com (2603:10a6:3:19::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20 via Frontend Transport; Tue, 24 Mar 2020 15:36:47 +0000
+ 15.20.2835.20 via Frontend Transport; Tue, 24 Mar 2020 15:36:49 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.15]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39839de3-f2a9-4685-5a37-08d7d0092aeb
+X-MS-Office365-Filtering-Correlation-Id: 6813d97e-3600-45b5-4ddc-08d7d0092bc9
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5336:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53361412D2904AF17AD7AB55C1F10@AM7PR08MB5336.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5336BEAAECF7A5617E74398CC1F10@AM7PR08MB5336.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
 X-Forefront-PRVS: 03524FBD26
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10019020)(4636009)(346002)(136003)(366004)(376002)(39850400004)(396003)(66946007)(81166006)(66556008)(5660300002)(4326008)(66476007)(2906002)(81156014)(8676002)(16526019)(6666004)(4744005)(107886003)(26005)(8936002)(186003)(316002)(6512007)(6486002)(52116002)(36756003)(6506007)(1076003)(478600001)(956004)(86362001)(6916009)(2616005)(7416002);
@@ -83,18 +83,18 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bEFh0Go9C/6nWS+sLxJP5kFP+XQRqZCHX1aS9ZRy2HeiZbOWOY4kp/I6fNd7DxQz665qYV7kZJZ0mpAHRbX5PIOA8KuCbslkHkzVrGWb/yl9T4oHsc1RY1PDVYIiqVn+btUhB1g+x5BaRf0qc8IIlQwet69ugs3UY7F9Ci8t6lDxi6nibrzSMx9QaoNCIrdnLMkV4AIXy1K32GBFSmegPcpRHFJP3MA9JwTyoXGS0h3B1uqZHzsjHoG/LSGo0NE3dDjPyXNgjRbc1P0Gz5M2cquMdNS62l8vY3tGGnskPN/xc7RLRWzeHkYQGSNfPZzcKu8UtLhtJqlixktbNPIoLhtd/Ny0nEdmXJvfigZk9R9nmKhCLXB8Pj9akQVa0hJtvIhXWA0BuVZDYZ86ZyO1FDbVQ/BLJyViNycDn/EM5krzIwfniwTBanNFgZhmE5rJ
-X-MS-Exchange-AntiSpam-MessageData: 9tNFkZWk5kOEwExTyGZJSKoadqLDIOWbYo3Xz9XZ1tAy/zDcVJxNbBjJfK7k56SNFrNMN/HRQ5JsVHx5PIDhpFlPQg5pBkxpf2HLkPv1mKv2c2RUXI6/cVgYAvRm1HDx7Y3/JhWOhq5F4B+qZHwJmQ==
+X-Microsoft-Antispam-Message-Info: zRqdxtmOQOHWrbq+UsYbXKDl128xShdi3LQDh+NH5MAQGLTKVKRM5gUwGEyDwXSU8H99cJnVq8o17bAFrMDw8/XghOgR1sr+hbeMJTD92d3xfmLjj6n/hDEeG2bNPOJyx3cjJPArYguloQZ3n08u09TZI6VlC2qgnL04zz+zpl1CDsen/gZ0ZsMqsYzyAnbCosAHMHeX4MOUOId3t/YQvRQc4TaHkke9yrVc2E5QtPwlXS0vbUtonNLHWe57EJ9xGQQ6prviDLVHHFWTFSVNqxldsZwcKTD8qLLXfF/JlcyKp1yqhKhsLho2OTpm5qfOsvlVAmxu4ZOZRiFu3ck45QImddTqtZEFqagm5TiihqL02USDE97LqqYlBs17jll1y35lA4de55lEEPA9TnvzkseMO+Knp1F5O6dsJdCqqocR48QPK1dwxNm7nPco4pB5
+X-MS-Exchange-AntiSpam-MessageData: KFpwuVJkhpcGNvGWTdolQaAeVDiCngBNdezh1WUu1++igtdFlh6SWyBVKzBJch6SBTpr4lgNXk5Oce+Q/jrF9wyhnnU1/4BXBhfcnCz0+9ajBbdQv5vK9SU+4PDu8FFUY2F79wyUuFkl7P3r1EW4Hg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39839de3-f2a9-4685-5a37-08d7d0092aeb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 15:36:49.1774 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6813d97e-3600-45b5-4ddc-08d7d0092bc9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 15:36:50.5912 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iIkppl9WQPdVUe16gyvIU/cGnW4LMOdw/UeJhzYRayhAFQi+ZRXlZfrJY8cPt3jaX6sFfTTJI+HjC2qPhL/guzv2SQ+hknwCed5uZjahdRA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: tTtOlsA3XuTUZVpKJ35ILkfMnA+yj4/akgQCfDLMfdS3aPa6vJ5o6voSEi2EEGN5Yz4rK64VoQN8NcyrhGRz6cH4CrCTwQFtn+L7712z6IA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5336
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.133
+X-Received-From: 40.107.7.132
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,27 +113,36 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, zhang.zhanghailiang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-local_err is used again in mirror_exit_common() after
-bdrv_set_backing_hd(), so we must zero it. Otherwise try to set
-non-NULL local_err will crash.
+It's possible that we'll try to set err twice (or more). It's bad, it
+will crash.
+
+Instead, use warn_report().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/mirror.c | 1 +
- 1 file changed, 1 insertion(+)
+ dump/win_dump.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 447051dbc6..6203e5946e 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -678,6 +678,7 @@ static int mirror_exit_common(Job *job)
-             bdrv_set_backing_hd(target_bs, backing, &local_err);
-             if (local_err) {
-                 error_report_err(local_err);
-+                local_err =3D NULL;
-                 ret =3D -EPERM;
-             }
+diff --git a/dump/win_dump.c b/dump/win_dump.c
+index eda2a48974..652c7bad99 100644
+--- a/dump/win_dump.c
++++ b/dump/win_dump.c
+@@ -304,13 +304,11 @@ static void restore_context(WinDumpHeader64 *h,
+                             struct saved_context *saved_ctx)
+ {
+     int i;
+-    Error *err =3D NULL;
+=20
+     for (i =3D 0; i < h->NumberProcessors; i++) {
+         if (cpu_memory_rw_debug(first_cpu, saved_ctx[i].addr,
+                 (uint8_t *)&saved_ctx[i].ctx, sizeof(WinContext), 1)) {
+-            error_setg(&err, "win-dump: failed to restore CPU #%d context"=
+, i);
+-            warn_report_err(err);
++            warn_report("win-dump: failed to restore CPU #%d context", i);
          }
+     }
+ }
 --=20
 2.21.0
 
