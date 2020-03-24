@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDBD191BB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 22:07:22 +0100 (CET)
-Received: from localhost ([::1]:55010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605B2191BC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 22:09:46 +0100 (CET)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGqld-0000S1-Pe
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 17:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33967)
+	id 1jGqnx-0004v0-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 17:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jGqjy-00074P-TJ
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:05:41 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jGqkj-0008FA-M1
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:06:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jGqjv-0005Pg-SH
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:05:38 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:49039)
+ (envelope-from <jsnow@redhat.com>) id 1jGqki-0005rZ-Dt
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:06:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37475)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGqjv-0005PB-OF
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:05:35 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jGqki-0005rA-AT
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 17:06:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585083935;
+ s=mimecast20190719; t=1585083984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kbosJt7Z9+VSW3G7weqwD1Uv0jPTiSiHFDWXt6Tx45c=;
- b=NzDGKHWE+VYyz1VRS2aBkxzTT5if5rYZnf1LxZsIyKjw5aMZbinI2a03HvQe7BqY5+jaYQ
- WsTl9H7rDvH+8PVK64k/9iAo3eTQ6mxmOtuunUy+tZ5ATUTpw9MX9zkbDXKXKPHhIIKTYC
- DqZFXqeRtmLG+MdZMNu9cfaCTdN73/8=
+ bh=OhIiltmQryDD4iJ78yDu32/sCpNaj1JfBHyxBX8ozPc=;
+ b=hobiuUgC3j/oTfqE2IJVT8pnYJ0tO6p4UxNLh25sD/koYaRunYRcv2gwjLpzRAYXizTk9y
+ MfFNT3U5buBYdlvxQ3DO7bFQihKSNdtFJRuw7GQR5FEErs7T2ylHKpHZY7iE/mO+WSuNCv
+ oU/B2hcPdB+Dr/nJFrHDVnDTSE/7aB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-mAC0PaABOUWMiAzqmV__tg-1; Tue, 24 Mar 2020 17:05:33 -0400
-X-MC-Unique: mAC0PaABOUWMiAzqmV__tg-1
+ us-mta-125-x6e92bOkPWefHUqXTm3y1A-1; Tue, 24 Mar 2020 17:06:20 -0400
+X-MC-Unique: x6e92bOkPWefHUqXTm3y1A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35B3513F5;
- Tue, 24 Mar 2020 21:05:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0BF918B9FC1;
+ Tue, 24 Mar 2020 21:06:17 +0000 (UTC)
 Received: from [10.10.112.191] (ovpn-112-191.rdu2.redhat.com [10.10.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E95FF101F96B;
- Tue, 24 Mar 2020 21:05:30 +0000 (UTC)
-Subject: Re: [PATCH] hw/ide/sii3112: Use qdev gpio rather than
- qemu_allocate_irqs()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20200323151715.29454-1-peter.maydell@linaro.org>
- <4de1e898-0318-52e4-7eef-fc0ce8de3275@ilande.co.uk>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB73810027A3;
+ Tue, 24 Mar 2020 21:06:09 +0000 (UTC)
+Subject: Re: [PULL 0/2] Ide patches
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200324195523.19779-1-jsnow@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -124,12 +121,12 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <6f798ce8-600a-0035-ab1e-d8ff1e72d419@redhat.com>
-Date: Tue, 24 Mar 2020 17:05:30 -0400
+Message-ID: <68ad5a6b-409f-e4c2-7a16-ad14a0b09c6a@redhat.com>
+Date: Tue, 24 Mar 2020 17:06:08 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <4de1e898-0318-52e4-7eef-fc0ce8de3275@ilande.co.uk>
+In-Reply-To: <20200324195523.19779-1-jsnow@redhat.com>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
@@ -150,70 +147,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-ppc@nongnu.org,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+ Helge Deller <deller@gmx.de>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eduardo Habkost <ehabkost@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 3/24/20 4:43 PM, Mark Cave-Ayland wrote:
-> On 23/03/2020 15:17, Peter Maydell wrote:
+On 3/24/20 3:55 PM, John Snow wrote:
+> The following changes since commit 736cf607e40674776d752acc201f565723e86045:
 > 
->> Coverity points out (CID 1421984) that we are leaking the
->> memory returned by qemu_allocate_irqs(). We can avoid this
->> leak by switching to using qdev_init_gpio_in(); the base
->> class finalize will free the irqs that this allocates under
->> the hood.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->> This is how the 'use qdev gpio' approach to fixing the leak looks.
->> Disclaimer: I have only tested this with "make check", nothing more.
->>
->>  hw/ide/sii3112.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
->> index 06605d7af2b..2ae6f5d9df6 100644
->> --- a/hw/ide/sii3112.c
->> +++ b/hw/ide/sii3112.c
->> @@ -251,8 +251,8 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->>  {
->>      SiI3112PCIState *d = SII3112_PCI(dev);
->>      PCIIDEState *s = PCI_IDE(dev);
->> +    DeviceState *ds = DEVICE(dev);
->>      MemoryRegion *mr;
->> -    qemu_irq *irq;
->>      int i;
->>  
->>      pci_config_set_interrupt_pin(dev->config, 1);
->> @@ -280,10 +280,10 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->>      memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio, 0, 16);
->>      pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>  
->> -    irq = qemu_allocate_irqs(sii3112_set_irq, d, 2);
->> +    qdev_init_gpio_in(ds, sii3112_set_irq, 2);
->>      for (i = 0; i < 2; i++) {
->>          ide_bus_new(&s->bus[i], sizeof(s->bus[i]), DEVICE(dev), i, 1);
->> -        ide_init2(&s->bus[i], irq[i]);
->> +        ide_init2(&s->bus[i], qdev_get_gpio_in(ds, i));
->>  
->>          bmdma_init(&s->bus[i], &s->bmdma[i], s);
->>          s->bmdma[i].bus = &s->bus[i];
+>   Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
 > 
-> Looks like there is similar use of qemu_allocate_irqs() in via-ide and cmd646-ide,
-> and also reviewing my latest via-ide changes I spotted a silly mistake which was
-> obviously left in from a previous experimental version.
+> are available in the Git repository at:
 > 
-> I'm not sure why Coverity doesn't pick up these other occurrences, however I'll send
-> along a patchset for this shortly.
+>   https://github.com/jnsnow/qemu.git tags/ide-pull-request
+> 
+> for you to fetch changes up to 51058b3b3bcbe62506cf191fca1c0d679bb80f2b:
+> 
+>   hw/ide/sii3112: Use qdev gpio rather than qemu_allocate_irqs() (2020-03-24 15:52:16 -0400)
+> 
+> ----------------------------------------------------------------
+> Pull request: IDE
+> 
+> Admittedly the first one is not a crisis fix; but I think it's low-risk to
+> include for rc1.
+> 
+> The second one is yours, and will shush coverity.
+> 
+> ----------------------------------------------------------------
+> 
+> Peter Maydell (1):
+>   hw/ide/sii3112: Use qdev gpio rather than qemu_allocate_irqs()
+> 
+> Sven Schnelle (1):
+>   fdc/i8257: implement verify transfer mode
+> 
+>  include/hw/isa/isa.h |  1 -
+>  hw/block/fdc.c       | 61 +++++++++++++-------------------------------
+>  hw/dma/i8257.c       | 20 ++++++++++-----
+>  hw/ide/sii3112.c     |  8 +++---
+>  4 files changed, 35 insertions(+), 55 deletions(-)
 > 
 
-OK;
-
-I will rescind my PR and will re-send it with your patches included.
+NACK. Mark Cave-Ayland is sending additional fixes.
 
 --js
 
