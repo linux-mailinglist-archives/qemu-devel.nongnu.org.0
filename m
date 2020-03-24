@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47892191A72
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 21:04:38 +0100 (CET)
-Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF71191AE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 21:24:23 +0100 (CET)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGpmv-0000ei-C7
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 16:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53184)
+	id 1jGq61-0003lH-W6
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 16:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jGplp-0000DU-Fe
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:03:30 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jGq5A-0003LL-W7
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:23:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jGplo-0007f6-1T
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:03:29 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52219)
+ (envelope-from <dgilbert@redhat.com>) id 1jGq58-0001Kl-B8
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:23:28 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:42219)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jGpln-0007eo-Rl
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:03:27 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jGq58-0001KT-6E
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 16:23:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585080207;
+ s=mimecast20190719; t=1585081405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/8MNNRbg+bRwtci2pKFgzEsCe+hwl9dEwuw2oAOovR0=;
- b=gDtWOCv4YUEZdigU1cJ/n0mzLTkudsfDSVZPRirfNrQ7fm2XBS5J1q9OkMORWeQTUU72li
- k54QsWvL4v7dnzI2ysW2O5iSgW8PlVJKILCpiPlpuPu062F5DZ/7HlBTtSZejO6GBq0pza
- EghExtYXwOrbN1ql/8bcNGZpNN+YKbE=
+ bh=KlUvNpc84ktepiF4oVUXvul2FSDKaqtN01s1HUbhcGY=;
+ b=YfGPN7PsybDofPfvUnM85dguJIg3eBr1WOb4fdrA7kZxtZODjzoFqQlWDHUg9Obg+ze355
+ q/FUVR4jtOuUgcxrhvcm/ckw5GHb1+b1elEwO49QecnrSuTTOVGxRN+smuqjRRK6zKDn0x
+ MH1DAd7nn++wN9TqPgm0SonwSD9Vlrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-vQcBUbD8NHy1ZjVoM8Xq7A-1; Tue, 24 Mar 2020 16:03:23 -0400
-X-MC-Unique: vQcBUbD8NHy1ZjVoM8Xq7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-205-Rgz1BAuIPZ-KDSSogetphQ-1; Tue, 24 Mar 2020 16:23:18 -0400
+X-MC-Unique: Rgz1BAuIPZ-KDSSogetphQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1794107ACC4;
- Tue, 24 Mar 2020 20:03:21 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2628ABBBC2;
- Tue, 24 Mar 2020 20:03:18 +0000 (UTC)
-Subject: Re: [PATCH 6/6] qga/commands-posix: fix use after free of local_err
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
- <20200324153630.11882-7-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <012d4cf0-e168-a9ea-273a-a683e50ef7a0@redhat.com>
-Date: Tue, 24 Mar 2020 15:03:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 618B08010EC;
+ Tue, 24 Mar 2020 20:23:15 +0000 (UTC)
+Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0521010027A3;
+ Tue, 24 Mar 2020 20:23:07 +0000 (UTC)
+Date: Tue, 24 Mar 2020 20:23:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v15 Kernel 4/7] vfio iommu: Implementation of ioctl for
+ dirty pages tracking.
+Message-ID: <20200324202304.GJ2645@work-vm>
+References: <20200319165704.1f4eb36a@w520.home>
+ <bc48ae5c-67f9-d95e-5d60-6c42359bb790@nvidia.com>
+ <20200320120137.6acd89ee@x1.home>
+ <cf0ee134-c1c7-f60c-afc2-8948268d8880@nvidia.com>
+ <20200320125910.028d7af5@w520.home>
+ <7062f72a-bf06-a8cd-89f0-9e729699a454@nvidia.com>
+ <20200323124448.2d3bc315@w520.home> <20200323185114.GF3017@work-vm>
+ <20200324030118.GD5456@joy-OptiPlex-7040>
+ <20200324083644.36494641@w520.home>
 MIME-Version: 1.0
-In-Reply-To: <20200324153630.11882-7-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200324083644.36494641@w520.home>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -76,96 +77,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- quintela@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
- marcandre.lureau@redhat.com, den@openvz.org, mreitz@redhat.com,
- jsnow@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/20 10:36 AM, Vladimir Sementsov-Ogievskiy wrote:
-> local_err is used several times in guest_suspend(). Setting non-NULL
-> local_err will crash, so let's zero it after freeing. Also fix possible
-> leak of local_err in final if().
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Mon, 23 Mar 2020 23:01:18 -0400
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   qga/commands-posix.c | 3 +++
->   1 file changed, 3 insertions(+)
+> > On Tue, Mar 24, 2020 at 02:51:14AM +0800, Dr. David Alan Gilbert wrote:
+> > > * Alex Williamson (alex.williamson@redhat.com) wrote:  
+> > > > On Mon, 23 Mar 2020 23:24:37 +0530
+> > > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > >   
+> > > > > On 3/21/2020 12:29 AM, Alex Williamson wrote:  
+> > > > > > On Sat, 21 Mar 2020 00:12:04 +0530
+> > > > > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > > > >     
+> > > > > >> On 3/20/2020 11:31 PM, Alex Williamson wrote:    
+> > > > > >>> On Fri, 20 Mar 2020 23:19:14 +0530
+> > > > > >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > > > >>>        
+> > > > > >>>> On 3/20/2020 4:27 AM, Alex Williamson wrote:    
+> > > > > >>>>> On Fri, 20 Mar 2020 01:46:41 +0530
+> > > > > >>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > > > > >>>>>           
+> > > > > >>
+> > > > > >> <snip>
+> > > > > >>    
+> > > > > >>>>>> +static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
+> > > > > >>>>>> +				  size_t size, uint64_t pgsize,
+> > > > > >>>>>> +				  u64 __user *bitmap)
+> > > > > >>>>>> +{
+> > > > > >>>>>> +	struct vfio_dma *dma;
+> > > > > >>>>>> +	unsigned long pgshift = __ffs(pgsize);
+> > > > > >>>>>> +	unsigned int npages, bitmap_size;
+> > > > > >>>>>> +
+> > > > > >>>>>> +	dma = vfio_find_dma(iommu, iova, 1);
+> > > > > >>>>>> +
+> > > > > >>>>>> +	if (!dma)
+> > > > > >>>>>> +		return -EINVAL;
+> > > > > >>>>>> +
+> > > > > >>>>>> +	if (dma->iova != iova || dma->size != size)
+> > > > > >>>>>> +		return -EINVAL;
+> > > > > >>>>>> +
+> > > > > >>>>>> +	npages = dma->size >> pgshift;
+> > > > > >>>>>> +	bitmap_size = DIRTY_BITMAP_BYTES(npages);
+> > > > > >>>>>> +
+> > > > > >>>>>> +	/* mark all pages dirty if all pages are pinned and mapped. */
+> > > > > >>>>>> +	if (dma->iommu_mapped)
+> > > > > >>>>>> +		bitmap_set(dma->bitmap, 0, npages);
+> > > > > >>>>>> +
+> > > > > >>>>>> +	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
+> > > > > >>>>>> +		return -EFAULT;    
+> > > > > >>>>>
+> > > > > >>>>> We still need to reset the bitmap here, clearing and re-adding the
+> > > > > >>>>> pages that are still pinned.
+> > > > > >>>>>
+> > > > > >>>>> https://lore.kernel.org/kvm/20200319070635.2ff5db56@x1.home/
+> > > > > >>>>>           
+> > > > > >>>>
+> > > > > >>>> I thought you agreed on my reply to it
+> > > > > >>>> https://lore.kernel.org/kvm/31621b70-02a9-2ea5-045f-f72b671fe703@nvidia.com/
+> > > > > >>>>       
+> > > > > >>>>    > Why re-populate when there will be no change since
+> > > > > >>>>    > vfio_iova_dirty_bitmap() is called holding iommu->lock? If there is any
+> > > > > >>>>    > pin request while vfio_iova_dirty_bitmap() is still working, it will
+> > > > > >>>>    > wait till iommu->lock is released. Bitmap will be populated when page is
+> > > > > >>>>    > pinned.    
+> > > > > >>>
+> > > > > >>> As coded, dirty bits are only ever set in the bitmap, never cleared.
+> > > > > >>> If a page is unpinned between iterations of the user recording the
+> > > > > >>> dirty bitmap, it should be marked dirty in the iteration immediately
+> > > > > >>> after the unpinning and not marked dirty in the following iteration.
+> > > > > >>> That doesn't happen here.  We're reporting cumulative dirty pages since
+> > > > > >>> logging was enabled, we need to be reporting dirty pages since the user
+> > > > > >>> last retrieved the dirty bitmap.  The bitmap should be cleared and
+> > > > > >>> currently pinned pages re-added after copying to the user.  Thanks,
+> > > > > >>>        
+> > > > > >>
+> > > > > >> Does that mean, we have to track every iteration? do we really need that
+> > > > > >> tracking?
+> > > > > >>
+> > > > > >> Generally the flow is:
+> > > > > >> - vendor driver pin x pages
+> > > > > >> - Enter pre-copy-phase where vCPUs are running - user starts dirty pages
+> > > > > >> tracking, then user asks dirty bitmap, x pages reported dirty by
+> > > > > >> VFIO_IOMMU_DIRTY_PAGES ioctl with _GET flag
+> > > > > >> - In pre-copy phase, vendor driver pins y more pages, now bitmap
+> > > > > >> consists of x+y bits set
+> > > > > >> - In pre-copy phase, vendor driver unpins z pages, but bitmap is not
+> > > > > >> updated, so again bitmap consists of x+y bits set.
+> > > > > >> - Enter in stop-and-copy phase, vCPUs are stopped, mdev devices are stopped
+> > > > > >> - user asks dirty bitmap - Since here vCPU and mdev devices are stopped,
+> > > > > >> pages should not get dirty by guest driver or the physical device.
+> > > > > >> Hence, x+y dirty pages would be reported.
+> > > > > >>
+> > > > > >> I don't think we need to track every iteration of bitmap reporting.    
+> > > > > > 
+> > > > > > Yes, once a bitmap is read, it's reset.  In your example, after
+> > > > > > unpinning z pages the user should still see a bitmap with x+y pages,
+> > > > > > but once they've read that bitmap, the next bitmap should be x+y-z.
+> > > > > > Userspace can make decisions about when to switch from pre-copy to
+> > > > > > stop-and-copy based on convergence, ie. the slope of the line recording
+> > > > > > dirty pages per iteration.  The implementation here never allows an
+> > > > > > inflection point, dirty pages reported through vfio would always either
+> > > > > > be flat or climbing.  There might also be a case that an iommu backed
+> > > > > > device could start pinning pages during the course of a migration, how
+> > > > > > would the bitmap ever revert from fully populated to only tracking the
+> > > > > > pinned pages?  Thanks,
+> > > > > >     
+> > > > > 
+> > > > > At KVM forum we discussed this - if guest driver pins say 1024 pages 
+> > > > > before migration starts, during pre-copy phase device can dirty 0 pages 
+> > > > > in best case and 1024 pages in worst case. In that case, user will 
+> > > > > transfer content of 1024 pages during pre-copy phase and in 
+> > > > > stop-and-copy phase also, that will be pages will be copied twice. So we 
+> > > > > decided to only get dirty pages bitmap at stop-and-copy phase. If user 
+> > > > > is going to get dirty pages in stop-and-copy phase only, then that will 
+> > > > > be single iteration.
+> > > > > There aren't any devices yet that can track sys memory dirty pages. So 
+> > > > > we can go ahead with this patch and support for dirty pages tracking 
+> > > > > during pre-copy phase can be added later when there will be consumers of 
+> > > > > that functionality.  
+> > > > 
+> > > > So if I understand this right, you're expecting the dirty bitmap to
+> > > > accumulate dirty bits, in perpetuity, so that the user can only
+> > > > retrieve them once at the end of migration?  But if that's the case,
+> > > > the user could simply choose to not retrieve the bitmap until the end
+> > > > of migration, the result would be the same.  What we have here is that
+> > > > dirty bits are never cleared, regardless of whether the user has seen
+> > > > them, which is wrong.  Sorry, we had a lot of discussions at KVM forum,
+> > > > I don't recall this specific one 5 months later and maybe we weren't
+> > > > considering all aspects.  I see the behavior we have here as incorrect,
+> > > > but it also seems relatively trivial to make correct.  I hope the QEMU
+> > > > code isn't making us go through all this trouble to report a dirty
+> > > > bitmap that gets thrown away because it expects the final one to be
+> > > > cumulative since the beginning of dirty logging.  Thanks,  
+> > > 
+> > > I remember the discussion that we couldn't track the system memory
+> > > dirtying with current hardware; so the question then is just to track  
+> > hi Dave
+> > there are already devices that are able to track the system memory,
+> > through two ways:
+> > (1) software method. like VFs for "Intel(R) Ethernet Controller XL710 Family
+> > support".
+> > (2) hardware method. through hardware internal buffer (as one Intel
+> > internal hardware not yet to public, but very soon) or through VTD-3.0
+> > IOMMU.
+> > 
+> > we have already had code verified using the two ways to track system memory
+> > in fine-grained level.
+> > 
+> > 
+> > > what has been pinned and then ideally put that memory off until the end.
+> > > (Which is interesting because I don't think we currently have  a way
+> > > to delay RAM pages till the end in qemu).  
+> > 
+> > I think the problem here is that we mixed pinned pages with dirty pages.
 > 
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 93474ff770..cc69b82704 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1773,6 +1773,7 @@ static void guest_suspend(SuspendMode mode, Error **errp)
->       }
->   
->       error_free(local_err);
-> +    local_err = NULL;
-
-Let's show this with more context.
-
-> static void guest_suspend(SuspendMode mode, Error **errp)
-> {
->     Error *local_err = NULL;
->     bool mode_supported = false;
+> We are reporting dirty pages, pinned pages are just assumed to be dirty.
 > 
->     if (systemd_supports_mode(mode, &local_err)) {
-
-Hmm - we have an even earlier bug that needs fixing.  Note that 
-systemd_supports_mode() returns a bool AND conditionally sets errp.  But 
-it is inconsistent: it has the following table of actions based on the 
-results of run_process_child() on "systemctl status" coupled with the 
-man page on "systemctl status" return values:
--1 (unable to run systemctl) -> errp set, return false
-0 (unit is active) -> errp left unchanged, return false
-1 (unit not failed) -> errp left unchanged, return true
-2 (unused) -> errp left unchanged, return true
-3 (unit not active) -> errp left unchanged, return true
-4 (no such unit) -> errp left unchanged, return false
-5+ (unexpected from systemctl) -> errp left unchanged, return false
-
-But the comments in systemd_supports_mode() claim that ANY status < 4 
-(other than -1, which means we did not run systemctl) should count as 
-the service existing, even though the most common status is 3.  If our 
-comment is to be believed, then we should return true, not false, for 
-status 0.
-
-Now, back to _this_ function:
-
->         mode_supported = true;
->         systemd_suspend(mode, &local_err);
-
-Okay - if we get here (whether from status 1-3, or with 
-systemd_supports_mode fixed to support status 0-3), local_err is still 
-unset prior to calling systemd_suspend(), and we are guaranteed that 
-after the call, either we suspended successfully or local_err is now set.
-
->     }
+> > yes, pinned pages for mdev devices are continuously likely to be dirty
+> > until device stopped.
+> > But for devices that are able to report dirty pages, dirtied pages
+> > will be marked again if hardware writes them later.
+> > 
+> > So, is it good to introduce a capability to let vfio/qemu know how to
+> > treat the dirty pages?
 > 
->     if (!local_err) {
->         return;
->     }
-
-So if returned, we succeeded at systemd_suspend, and there is nothing 
-further to do; but if we get past that point, we don't know if it was 
-systemd_supports_mode that failed or systemd_suspend that failed, and we 
-don't know if local_err is set.
-
+> Dirty pages are dirty, QEMU doesn't need any special flag, instead we
+> need to evolve different mechanisms for the vendor driver so that we
+> can differentiate pages pinned for read vs pages pinned for write.
+> Perhaps interfaces to pin pages without dirtying them, and a separate
+> mechanism to dirty a previously pinned-page, ie. promote it permanently
+> or transiently to a writable page.
 > 
->     error_free(local_err);
-> +    local_err = NULL;
+> > (1) for devices have no fine-grained dirty page tracking capability
+> >   a. pinned pages are regarded as dirty pages. they are not cleared by
+> >   dirty page query
+> >   b. unpinned pages are regarded as dirty pages. they are cleared by
+> >   dirty page query or UNMAP ioctl.
+> > (2) for devices that have fine-grained dirty page tracking capability
+> >    a. pinned/unpinned pages are not regarded as dirty pages
+> 
+> We need a pin-read-only interface for this.
+> 
+> >    b. only pages they reported are regarded as dirty pages and are to be
+> >    cleared by dirty page query and UNMAP ioctl.
+> 
+> We need a set-dirty or promote-writable interface for this.
+> 
+> > (3) for dirty pages marking APIs, like vfio_dma_rw()...
+> >    pages marked by them are regared as dirty and are to be cleared by
+> >    dirty page query and UNMAP ioctl
+> > 
+> > For (1), qemu VFIO only reports dirty page amount and would not transfer
+> > those pages until last round.
+> > for (2) and (3), qemu VFIO should report and transfer them in each
+> > round.
+> 
+> IMO, QEMU should not be aware of any of this.  Userspace has an
+> interface to retrieve dirtied pages (period).  We should adjust the
+> pages that we report as dirtied to be accurate based on the
+> capabilities of the vendor driver.  We can evolve those internal APIs
+> between the vendor driver and vfio iommu over time without modifying
+> this user interface.
 
-Yet, we blindly throw away local_err, without trying to report it.  If 
-that's the case, then WHY are we passing in local_err?  Wouldn't it be 
-better to pass in NULL (we really don't care about the error message), 
-and/or fix systemd_suspend() to return a bool just like 
-systemd_supports_mode, and/or fix systemd_supports_mode to guarantee 
-that it sets errp when returning false?
+I'm not sure;  if you have a block of memory that's constantly marked
+dirty in (1) - we need to avoid constantly retransmitting that memory to
+the destination; there's no point in sending it until the end of the
+iterations - so it shouldn't even get sent once in the iteration.
+But at the same time, we can't ignore the fact that those pages are
+going to be dirty - because that influences the downtime; so we need
+to know we're going to be getting them later, even if we don't
+initially mark them as dirty.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> > > [I still worry whether migration will be usable with any
+> > > significant amount of system ram that's pinned in this way; the
+> > > downside will very easily get above the threshold that people like]
+> > >   
+> > yes. that's why we have to do multi-round dirty page query and
+> > transfer and clear the dirty bitmaps in each round for devices that are
+> > able to track in fine grain.
+> > and that's why we have to report the amount of dirty pages before
+> > stop-and-copy phase for mdev devices, so that people are able to know
+> > the real downtime as much as possible.
+> 
+> Yes, the dirty bitmap should be accurate to report the pages dirtied
+> since it was last retrieved and over time we can add internal
+> interfaces to give vendor drivers more granularity in marking pinned
+> pages dirty and perhaps even exposing the bitmap to the vendor drivers
+> to set pages themselves.  I don't necessarily think it's worthwhile to
+> create a new class of dirtied pages to transfer at the end, we're
+> fighting a losing battle at that point.  We should be focusing on
+> improving the granularity of page dirtying in order to reduce the pages
+> transferred at the end of migration.  Thanks,
+
+Dave
+
+> Alex
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
