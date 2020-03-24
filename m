@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F191917E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:41:52 +0100 (CET)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD6F1917EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 18:43:48 +0100 (CET)
+Received: from localhost ([::1]:52896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGnYl-0003Kz-DS
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
+	id 1jGnad-0005Fx-IC
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 13:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jGnXd-0002fm-Eb
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:40:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jGnXv-0002uY-85
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:41:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jGnXc-0006zG-Dc
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:40:41 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56286)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jGnXc-0006yz-A9
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:40:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585071639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YqmX2cppPJPNb1vjz+eeMjOuJCrnm9QqTBVAPlWZIUM=;
- b=awaZomRWf79ZZFpFsKDXfdKVCf5/LC4DRWerOZut19GEPd7jkv9WjBEm9nAek2KzyfBgx0
- USfdop96lSHlWrdSiIpPXsIJF5N8BLi7tLaixbL8T8jCVCvnONdoDmHd2d3RE1hyIFNB6g
- Vn9di8aWxVkKWwK6ypjVutAAZtjJhoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-qxmsC6ZzN6iVnuxRmonDdg-1; Tue, 24 Mar 2020 13:40:37 -0400
-X-MC-Unique: qxmsC6ZzN6iVnuxRmonDdg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C7D800D53;
- Tue, 24 Mar 2020 17:40:36 +0000 (UTC)
-Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AC5319C6A;
- Tue, 24 Mar 2020 17:40:34 +0000 (UTC)
-Date: Tue, 24 Mar 2020 17:40:32 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH] hmp-cmd: fix a missing_break warning
-Message-ID: <20200324174032.GA17043@work-vm>
-References: <20200318071620.59748-1-pannengyuan@huawei.com>
- <1a0d020b-3fe6-3575-1c2f-1af4a79cf080@huawei.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jGnXu-00074J-1R
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:40:59 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:41070)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jGnXt-00073s-1l
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 13:40:57 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id k9so6659181oia.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 10:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D1GfAcqadSGh4oZfhJetFLzpVXroGtEqAj1ZVmVVb3g=;
+ b=ruFtuNZjt49X/eA3NIKnGbJGDEUNis6crekBLkyjlBDGyOLcji1xxK4rvbLaqRlfZi
+ 7zGHN8Jyqr2KZDTomQh1Qbik0rPC0iKB23aVJX+I9FWDvo9gvzU3p6QJLzCEQuv7cq23
+ AnL5IQRdaYYJj5qfyLMOBTfl7OpLQVwAmjuaeCDSGGXWqEFklu8jD/+VFDhDe0f9uYtl
+ A6jgt3OaI6nQx4h9QAsBhCRmFGu0WET5hGHctZRdala5m7yINFBGYgkEAN6CXYJDm/dq
+ 58JUKiaXvNqDqm9alY2n4m0xowH0gSPZQAdMlvIn2qPnYVq5PgzsQNfxzL1Z678frycW
+ ZYnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D1GfAcqadSGh4oZfhJetFLzpVXroGtEqAj1ZVmVVb3g=;
+ b=h4AAqlmmiz859FYnfbesXMmmdw0DNt+GbxamEzBoILAdrwgb7rXkzrTlmH6HN/P6cT
+ fpjf/75lTvNttOdoVABGO5k3qDalmhFZGZ0pxd3zQ0XtRO8d4DTdYFofwzu7g+oslIa7
+ VK7VlEt//ui5sPSo8Ra5ZsdALgDVGqE2ITMZjeiv7H79UC4s94TzrqQA5O31Ylod77F0
+ 39z3IVLlb5M/eDmorDxIAEk83Cimumzmk/sXrtOzzmYi4ZleqxCsYT5m5TIsvM39p09Q
+ Q9G0Gor4camTZUToiZ1OrVin7gn+oTAPh8J+ybxLzZvNZgL7+sZdLVsPmZ+BUZLxqtt8
+ +USg==
+X-Gm-Message-State: ANhLgQ2hmiTTwy/rjjzRdqfnEPxiUs1qHQOaWa1vF4jjch3U1HPdtDEO
+ +rFdG1YtKJbqRpjj5kEg/hjLdQI3ksJhdwlGCLLNurGE42M=
+X-Google-Smtp-Source: ADFU+vt3YDSWjSax28QSxpKU2zcOq+p3hGFjnLyWP5LYK4xDRyak4Ob0G3ABGFRv83GrlP95HWIPCpwgNDOqQ/wAShU=
+X-Received: by 2002:a54:4614:: with SMTP id p20mr4084676oip.48.1585071655967; 
+ Tue, 24 Mar 2020 10:40:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1a0d020b-3fe6-3575-1c2f-1af4a79cf080@huawei.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+References: <20200324164653.19449-1-mdroth@linux.vnet.ibm.com>
+In-Reply-To: <20200324164653.19449-1-mdroth@linux.vnet.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Mar 2020 17:40:44 +0000
+Message-ID: <CAFEAcA_f=0dDVkiFqoxhGevxyWFF2Cv4=u74o5cXW9aiM2BTpg@mail.gmail.com>
+Subject: Re: [PULL for-5.0 0/5] qemu-ga patch queue for hard-freeze
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,54 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: euler.robot@huawei.com, zhukeqian1@huawei.com, qemu-devel@nongnu.org,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Pan Nengyuan (pannengyuan@huawei.com) wrote:
-> Correcting zhang hailiang's email.
+On Tue, 24 Mar 2020 at 16:47, Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+>
+> The following changes since commit 62a43e53faed67a5aa4bfededca24c9079de9720:
+>
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-03-24' into staging (2020-03-24 12:24:41 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/mdroth/qemu.git tags/qga-pull-2020-03-24-tag0
+>
+> for you to fetch changes up to 7b46aadbbfb7b06cd45a3b113b1f7c003c68f603:
+>
+>   qemu-ga: document vsock-listen in the man page (2020-03-24 11:32:19 -0500)
+>
+> ----------------------------------------------------------------
+> qemu-ga patch queue for hard-freeze
+>
+> * fix undefined C behavior with guest-file-* interfaces
+> * fix w32 installer issues
+> * fix crash for large file reads via guest-file-read on windows
+> * add missing man page documentation for virtio-vsock
+>
 
-Queued
 
-> On 3/18/2020 3:16 PM, Pan Nengyuan wrote:
-> > This fix coverity issues 94417686:
-> >     1260        break;
-> >     CID 94417686: (MISSING_BREAK)
-> >     1261. unterminated_case: The case for value "MIGRATION_PARAMETER_TH=
-ROTTLE_TRIGGER_THRESHOLD" is not terminated by a 'break' statement.
-> >     1261    case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
-> >     1262        p->has_throttle_trigger_threshold =3D true;
-> >     1263        visit_type_int(v, param, &p->throttle_trigger_threshold=
-, &err);
-> >     1264    case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
-> >=20
-> > Fixes: dc14a470763c96fd9d360e1028ce38e8c3613a77
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> > ---
-> > Cc: zhukeqian1@huawei.com
-> > ---
-> >  monitor/hmp-cmds.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > index 58724031ea..c882c9f3cc 100644
-> > --- a/monitor/hmp-cmds.c
-> > +++ b/monitor/hmp-cmds.c
-> > @@ -1261,6 +1261,7 @@ void hmp_migrate_set_parameter(Monitor *mon, cons=
-t QDict *qdict)
-> >      case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
-> >          p->has_throttle_trigger_threshold =3D true;
-> >          visit_type_int(v, param, &p->throttle_trigger_threshold, &err)=
-;
-> > +        break;
-> >      case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
-> >          p->has_cpu_throttle_initial =3D true;
-> >          visit_type_int(v, param, &p->cpu_throttle_initial, &err);
-> >=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
