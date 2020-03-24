@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AA719156F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 16:59:08 +0100 (CET)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4614819159C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 17:05:32 +0100 (CET)
+Received: from localhost ([::1]:51730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGlxL-0005r7-9Q
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 11:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43661)
+	id 1jGm3W-0004ab-SH
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 12:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jGlwX-0005Ke-Lt
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:58:18 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jGm27-0002zm-Bs
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:04:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jGlwW-0003mR-E2
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:58:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54066)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jGlwW-0003m5-B8
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 11:58:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585065496;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vtk9t42jBIiHh/rZG0tZmRWfFMMiUmLJpoQVV1w0g2E=;
- b=MdmYonjUjurpjBf/yL/642vBB7jyVJu+SnaXPYMSes1ZZWWUvlBcX4UzJPsQJc+/u0m692
- pOVdqTgcbg3o3mHfmJQ/2cxegcSc6/GkUnAczR2MISszijhCbH878Ms8LrwK+Avh5z/dcg
- YQ9s86UK1EieScUkqFw1qrcwdnI7sns=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-1s6zPYVNNw2iQXXiFHqXQw-1; Tue, 24 Mar 2020 11:58:10 -0400
-X-MC-Unique: 1s6zPYVNNw2iQXXiFHqXQw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F292189D6C0;
- Tue, 24 Mar 2020 15:58:08 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8863F60CD1;
- Tue, 24 Mar 2020 15:57:59 +0000 (UTC)
-Subject: Re: [PATCH 2/6] block/mirror: fix use after free of local_err
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200324153630.11882-1-vsementsov@virtuozzo.com>
- <20200324153630.11882-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <36deb99f-e8a9-c0c0-3e99-f031016cfcc0@redhat.com>
-Date: Tue, 24 Mar 2020 10:57:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <alistair23@gmail.com>) id 1jGm26-0007Np-7Z
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 12:04:03 -0400
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:37116)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jGm22-0007KD-1G; Tue, 24 Mar 2020 12:03:59 -0400
+Received: by mail-vs1-xe43.google.com with SMTP id o3so11474796vsd.4;
+ Tue, 24 Mar 2020 09:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0h/TwjEcebCcGsV2tARcocmmiJM/HkWArO7LTFSeZ5w=;
+ b=qsAI7UFSOEIVtzsOxnqe51d+4dHFNvDj7V7TB7NJmoZdQXm48xsARVZPqT9JGwprnO
+ T8Nhxojpi7iDlDMZSLOmcQfcwnZK94cX61pjrFT2QlWeUbe+WIBn+eLCe24nGzLax3Pf
+ GpchIYFjjkRepNrVBJZh5bzmBuuvdUDevqbRonFVIQpb1qzPiwfn8SksjZETr9IEUm2Z
+ 5EfHgm2kvYGSCIua8kCqIhTLZEFcZVfUaZZzQEwuV2fucUTjGfBGQ9a11V12YVhRWgd5
+ vtGjopH8klP4XSj1c4v+BeWIgQ3O/afmY6hg2y+fvNgB+/8ew4s08MRHBIMG6MTdPG0e
+ +mRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0h/TwjEcebCcGsV2tARcocmmiJM/HkWArO7LTFSeZ5w=;
+ b=dRhGAKxtYKAogLkUK9NUxDuuKYbskyIR+qTa0oujT6C72TVJ0bt+bwG/w4YbdImY0o
+ jCzFSR1DXJ8Def/ZKp4Q0uqWiZ6LVj1+tBtRBb+5H8kvqAT+oIrMeY0MYwRYYGNkVlX7
+ rkYWhNWBTGDC6HvWTziQNWQPsga25TKv0BEUCxkqfQcAGsWZasZyU6DeKNqtZlbj39g7
+ ZCZBP/6TzZVoOucZqI8a/BTjdp0wDDl+y37qiPf2fe4Mxl205EOU2hMaIKf+SGCMJ8KU
+ QeFCAn8LsXWulV+lt9IY1+Owo+2SiHx3wi/f7984NmMe5nvhMGVDe5B+hmlThhmcboYq
+ WbRQ==
+X-Gm-Message-State: ANhLgQ3iJUrpC+6PxohuTqdXmz9Gas44Kb174Hq7tLWJfnwAcjHdWIT/
+ 81tlQ94kUpIlnQa8ygodvWyzbiflC8tdBuFAd5E=
+X-Google-Smtp-Source: ADFU+vsAV3vcUeHoFoVjd5xnJzrJYKH/cdLViWqNbWE1zJYdgO/qt9y8OLtsoW9uRJ5Aavbvk8de2rDUbeXhTS9bqsE=
+X-Received: by 2002:a67:ffd0:: with SMTP id w16mr11669933vsq.151.1585065836790; 
+ Tue, 24 Mar 2020 09:03:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200324153630.11882-3-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200324134947.15384-1-peter.maydell@linaro.org>
+ <20200324134947.15384-2-peter.maydell@linaro.org>
+In-Reply-To: <20200324134947.15384-2-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 24 Mar 2020 08:55:58 -0700
+Message-ID: <CAKmqyKMUgDkXdk+gASP-W4_-dSmZOyjVdhtpAQh8ARtNn2ZXow@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/arm/xlnx-zynqmp.c: Avoid memory leak in
+ error-return path
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- quintela@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
- marcandre.lureau@redhat.com, den@openvz.org, mreitz@redhat.com,
- mdroth@linux.vnet.ibm.com
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/20 10:36 AM, Vladimir Sementsov-Ogievskiy wrote:
-> local_err is used again in mirror_exit_common() after
-> bdrv_set_backing_hd(), so we must zero it. Otherwise try to set
-> non-NULL local_err will crash.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Tue, Mar 24, 2020 at 6:50 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> In xlnx_zynqmp_realize() if the attempt to realize the SD
+> controller object fails then the error-return path will leak
+> the 'bus_name' string. Fix this by deferring the allocation
+> until after the realize has succeeded.
+>
+> Fixes: Coverity CID 1421911
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   block/mirror.c | 1 +
->   1 file changed, 1 insertion(+)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/block/mirror.c b/block/mirror.c
-> index 447051dbc6..6203e5946e 100644
-> --- a/block/mirror.c
-> +++ b/block/mirror.c
-> @@ -678,6 +678,7 @@ static int mirror_exit_common(Job *job)
->               bdrv_set_backing_hd(target_bs, backing, &local_err);
->               if (local_err) {
->                   error_report_err(local_err);
-> +                local_err = NULL;
->                   ret = -EPERM;
->               }
->           }
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+>  hw/arm/xlnx-zynqmp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 49f1c8d0de2..a13dbeeacec 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -520,7 +520,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->sata), 0, gic_spi[SATA_INTR]);
+>
+>      for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
+> -        char *bus_name = g_strdup_printf("sd-bus%d", i);
+> +        char *bus_name;
+>          SysBusDevice *sbd = SYS_BUS_DEVICE(&s->sdhci[i]);
+>          Object *sdhci = OBJECT(&s->sdhci[i]);
+>
+> @@ -541,6 +541,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>          sysbus_connect_irq(sbd, 0, gic_spi[sdhci_intr[i]]);
+>
+>          /* Alias controller SD bus to the SoC itself */
+> +        bus_name = g_strdup_printf("sd-bus%d", i);
+>          object_property_add_alias(OBJECT(s), bus_name, sdhci, "sd-bus",
+>                                    &error_abort);
+>          g_free(bus_name);
+> --
+> 2.20.1
+>
+>
 
