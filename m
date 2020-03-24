@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF73B190F78
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:28:41 +0100 (CET)
-Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816141910F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:36:01 +0100 (CET)
+Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGjbl-0000vu-3G
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49350)
+	id 1jGjiq-0008Q6-K7
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGjap-0000KB-33
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:27:44 -0400
+ (envelope-from <alia.mk345@gmail.com>) id 1jGgYp-0002s1-I2
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:13:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGjan-0004PC-C6
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:27:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:59852)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGjan-0004Ok-94
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:27:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585056460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qQM1qktLiJWqpFLGAZZl1dYjShi0yrqWlHrQmoCG0+E=;
- b=EVXhHXsMsMr50nnzQVjwOxMryLvCptDUGAv2smy5h2Y83lViG8N3VuzqjBtDwZEGIJpZO6
- G0wdldUHqa86k+Rp870+/3nX20KxnyJXTAQESBBxgvs93yH2ZJjY0o2NWyl6oc0bEEiWf0
- 1qKAk/93zFwvJr96CK/+sy0ezlYBYKE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-CHx2QAEzOb2I76JYOvCYvg-1; Tue, 24 Mar 2020 09:27:39 -0400
-X-MC-Unique: CHx2QAEzOb2I76JYOvCYvg-1
-Received: by mail-ed1-f72.google.com with SMTP id m24so14803456edq.8
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 06:27:38 -0700 (PDT)
+ (envelope-from <alia.mk345@gmail.com>) id 1jGgYn-0006J2-HG
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:13:27 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34683)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alia.mk345@gmail.com>)
+ id 1jGgYn-0006IJ-9G
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:13:25 -0400
+Received: by mail-ed1-x531.google.com with SMTP id i24so20074549eds.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 03:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=AmjP5FeI1Me5y1Lbr0uS3oNCTYzFG2rgjTcNdGd76os=;
+ b=mngtThy7TKdDEdOZD6gPiDN1pijZ78I864kuELlM3S5d83tiSgOUC32Tm74T177x0N
+ 723y4F73aSnfmg2inljVkF8DRaRTmF3EmfdlRIU0UxbDPvYgVjbeVV/7FMWYhs7/vfVL
+ JQgPSfoEVjah5dqS5gvezMDu2J96cp1KSumZLW4aOaQ8f0HGKfe9ncCeSFuIycq7rgEh
+ wdxkvbAYZNyI6QZwi4N2FwZiA3at0uRlCaAWHc2gdfLvpXagGgc92YeqOZKSu54eQEkn
+ 6Y0tf/72mqHZAMa47IUvw5bU+eRjtIQfkC31ffEtcVUdTcu7D8rHmGoKQk1VjI6MhOP/
+ GfIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qQM1qktLiJWqpFLGAZZl1dYjShi0yrqWlHrQmoCG0+E=;
- b=UFhwnpdRVnhSjnNprIfcyzMcB0CUIZa4/0o7Kz93aRhqKOx8KlLXbqmtzOQPO3X5v5
- g/YwO/hfzmBdrnrEYY/NWOGWBaBORN3DvImY3lDHqotebnK7ZQ5tnycCoNDe1+k90coR
- EGvCfANleLKHI/1BYXDCd8gX+ttSiUeSoWvW+O6O1L5XZFLHrNGIWgdTbyJBwXjVf6qM
- vSkUWSCuGoPpzTE/qSYKXzMMaRnsuj69mlLXJM9fc59ETzhk2Np/aGclUQriD7PC4+/L
- N66ArXJ5B+6QmH5Iov10OO9D0jblp1hQrrVLFKaR2Oq0mu4oULp59OOrHBtQBpTiTD5x
- ALTQ==
-X-Gm-Message-State: ANhLgQ2NkdbSPgqMG2kSV4S8IBOBFSORyWUyjhlWBiaBSrr28rmwRdEp
- Fh6P9jNYNVvXxXJjuAtIeWJvZo/8/atasHXZVWNs/DHKu4YJud36X+D3gC6M9VU9Eb7E0OqiEHr
- POa/efBri+97ySZ4=
-X-Received: by 2002:a17:906:7083:: with SMTP id
- b3mr24711626ejk.238.1585056457733; 
- Tue, 24 Mar 2020 06:27:37 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvoCCOn0942HB7cO3eKw/stwMffoZuIXf8wIk9yxXdpyfLFBco6RhJwC9EMucZtUP6iJ2cgRw==
-X-Received: by 2002:a17:906:7083:: with SMTP id
- b3mr24711603ejk.238.1585056457476; 
- Tue, 24 Mar 2020 06:27:37 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id t19sm1096289ejc.55.2020.03.24.06.27.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Mar 2020 06:27:36 -0700 (PDT)
-Subject: Re: [PATCH qemu] vfio/spapr: Fix page size calculation
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-References: <20200324063912.25063-1-aik@ozlabs.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <87ddd733-8498-57a5-2fe2-8f1a3e60e0c9@redhat.com>
-Date: Tue, 24 Mar 2020 14:27:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=AmjP5FeI1Me5y1Lbr0uS3oNCTYzFG2rgjTcNdGd76os=;
+ b=lVKBk+BmyYrgEuBrk9Ebc/9e9boHtb/cZXPsBY2DrwY7ENHWALCcBPvE/g8WdmUJPO
+ MKc5Z1Etmzx3Wr4qFe8icF6tcWltuBruIaLfFmbB6sfh2gxZhuXRCgLAJXEtrGNKV6hs
+ Kju/SzbWSgmWdSVV19639W9nqV6ehobwug+vYtMuun5zYKHlQtNF/ztj37UsmQEJRnOb
+ UH73t83HEgH5N+oJTkWPMycbZqIb0nqN+QGXIzn9ZzdNInGVDiD+0kRJ4G7mgQU26gF9
+ w/3dRpKk3i+Sxw0Bwp6sdN3/ol2Z0JEduCYXbYbUnkzVqryB7o0N90bOFL9aLy2Y+s6b
+ ML/A==
+X-Gm-Message-State: ANhLgQ3SNjYm8RXkqCOpACPgAosEwBhrGYamh3EKjFO5SGarCF+Nh4/R
+ lqULdpUm3Lw/4HmyiYXOuktHteQVHvAhO90HFC/tBK9V/j0=
+X-Google-Smtp-Source: ADFU+vtrqgxyF4zdJRrsPwF4v9ikKyq7JozSrYFbedcnVIOCT+zdtWEPseM8XNClgp0MA4z5vLF9K2SWEiNWrLKtOS4=
+X-Received: by 2002:aa7:c607:: with SMTP id h7mr9295850edq.73.1585044803016;
+ Tue, 24 Mar 2020 03:13:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200324063912.25063-1-aik@ozlabs.ru>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+From: Chained Up <alia.mk345@gmail.com>
+Date: Tue, 24 Mar 2020 12:13:03 +0200
+Message-ID: <CAEwvOcF7==uOdEJoQpNh1-wE44nJqWJLFP93yK0dHEUA38EXKQ@mail.gmail.com>
+Subject: Help
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000006fda0b05a19700a4"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::531
+X-Mailman-Approved-At: Tue, 24 Mar 2020 09:34:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,56 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000006fda0b05a19700a4
+Content-Type: text/plain; charset="UTF-8"
 
+Please can some explain what should i do here?
+ Prepare import-libraries using Borland's implib program.  The ".lib"
+    files that it uses are a different format than the import libraries
+    distributed with GnuWin2.  From Lynx's source directory run bcblibs
 
-On 3/24/20 7:39 AM, Alexey Kardashevskiy wrote:
-> Coverity detected an issue (CID 1421903) with potential call of clz64(0)
-> which returns 64 which make it do "<<" with a negative number.
-> 
-> This checks the mask and avoids undefined behaviour.
-> 
-> In practice pgsizes and memory_region_iommu_get_min_page_size() always
-> have some common page sizes and even if they did not, the resulting page
-> size would be 0x8000.0000.0000.0000 (gcc 9.2) and
-> ioctl(VFIO_IOMMU_SPAPR_TCE_CREATE) would fail anyway.
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->   hw/vfio/spapr.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/vfio/spapr.c b/hw/vfio/spapr.c
-> index 33692fc86fd6..2900bd19417a 100644
-> --- a/hw/vfio/spapr.c
-> +++ b/hw/vfio/spapr.c
-> @@ -147,7 +147,7 @@ int vfio_spapr_create_window(VFIOContainer *container,
->   {
->       int ret = 0;
->       IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
-> -    uint64_t pagesize = memory_region_iommu_get_min_page_size(iommu_mr);
-> +    uint64_t pagesize = memory_region_iommu_get_min_page_size(iommu_mr), pgmask;
->       unsigned entries, bits_total, bits_per_level, max_levels;
->       struct vfio_iommu_spapr_tce_create create = { .argsz = sizeof(create) };
->       long rampagesize = qemu_minrampagesize();
-> @@ -159,8 +159,8 @@ int vfio_spapr_create_window(VFIOContainer *container,
->       if (pagesize > rampagesize) {
->           pagesize = rampagesize;
->       }
-> -    pagesize = 1ULL << (63 - clz64(container->pgsizes &
-> -                                   (pagesize | (pagesize - 1))));
-> +    pgmask = container->pgsizes & (pagesize | (pagesize - 1));
+Environment:
+    At this point, the bin-directory for the compiler and for the GnuWin32
+    libraries should be in your path.
 
-Is that ROUND_UP(container->pgsizes, pagesize)?
+Building:
+    From Lynx's source directory
+cd src\chrtrans
+makew32 clean
+makew32
+cd ..\..
+makew32 clean
+makew32
 
-> +    pagesize = pgmask ? (1ULL << (63 - clz64(pgmask))) : 0;
->       if (!pagesize) {
->           error_report("Host doesn't support page size 0x%"PRIx64
->                        ", the supported mask is 0x%lx",
-> 
+--0000000000006fda0b05a19700a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Please can some explain what should i do here?</div>=
+=C2=A0Prepare import-libraries using Borland&#39;s implib program.=C2=A0 Th=
+e &quot;.lib&quot;<br>=C2=A0 =C2=A0 files that it uses are a different form=
+at than the import libraries<br>=C2=A0 =C2=A0 distributed with GnuWin2.=C2=
+=A0 From Lynx&#39;s source directory run bcblibs<br><br>Environment:<br>=C2=
+=A0 =C2=A0 At this point, the bin-directory for the compiler and for the Gn=
+uWin32<br>=C2=A0 =C2=A0 libraries should be in your path.<br><br>Building:<=
+br>=C2=A0 =C2=A0 From Lynx&#39;s source directory<br>	cd src\chrtrans<br>	m=
+akew32 clean<br>	makew32<br>	cd ..\..<br>	makew32 clean<br>	makew32<br></di=
+v>
+
+--0000000000006fda0b05a19700a4--
 
