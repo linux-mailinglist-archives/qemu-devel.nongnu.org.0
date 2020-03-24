@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F20A191264
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:06:02 +0100 (CET)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A508C191275
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 15:08:00 +0100 (CET)
+Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGkBt-0005ms-1R
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
+	id 1jGkDn-0001BI-P0
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 10:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGk9T-0002gF-R5
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:03:33 -0400
+ (envelope-from <minwoo.im.dev@gmail.com>) id 1jGkCt-0000Zh-91
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:07:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGk9S-0007Pw-JB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:03:31 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:56487)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGk9S-0007Oz-FL
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:03:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585058609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=juIMHLI96VCVyrxsRndVzMKR/HXrBBtiOY1aVuEcyuE=;
- b=EUbHtWCcVYZuh9NH/TAy+vcCqILa4w9egjESxgoMeQ49GUFTWPfKMz80OZU47TNY3NlsY5
- +nOheUGVMXdR5NQn9i0cr/yFbxXcD3n8Mu0AIZO0BzTVhUh6yky+2e3f6MOPtNAaY71tYK
- BfqskkZyYVZymDFob3MeLogDrTC0Vt4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-qYt6Io7bOu2pQjKE5gGJpg-1; Tue, 24 Mar 2020 10:03:25 -0400
-X-MC-Unique: qYt6Io7bOu2pQjKE5gGJpg-1
-Received: by mail-ed1-f70.google.com with SMTP id g7so8511421edm.20
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 07:03:25 -0700 (PDT)
+ (envelope-from <minwoo.im.dev@gmail.com>) id 1jGkCs-0004Id-AW
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 10:07:03 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38272)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1jGkCp-0004D5-MZ; Tue, 24 Mar 2020 10:06:59 -0400
+Received: by mail-pf1-x443.google.com with SMTP id z25so4975323pfa.5;
+ Tue, 24 Mar 2020 07:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=4iJZL/bJMF5zR0HAiSzST7AqXTPauUeoMEnxTWPjIts=;
+ b=XDr+PWOyKNc70V3g8ubMjQfhsjSNL4x0ZeONBRADc2GRK83e8jplN436ycoUq0ly1n
+ eceGnb03Fui5i4r5GERPEupMkOEUxK+1bMTZ4QRR4mRV1ojd4YtCSToUJlPztKGVS6tD
+ fx88xtkD3cD3cqKRHycQ3FPzbqeluvAXhMICa6Ch6JAOPMylP2pVx3EiGC8MyCbGJylc
+ fHoZFNndHE7RNvdf0V3FOJsiRkCEF6TLM+oBRNYeVP2NySKU/Ia8L8s3dF0HogmdkoYV
+ 87DXQXT/uY/WXxBi2eJnfMk3WiUtj8E+1hmdL0oN+k16/U1HXoMGuoQHGvEOY7A3k9K3
+ YQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I8rYr82Z1o8Wwy+tcURzqQWWMz4RIV7JMG8uGtdc9Gc=;
- b=XvXh0DYR1/wMfxAf0ICZQgExV+53cG+1OabYrhLxbHT4JC6RHbhmiCq4wRxUQbsUWc
- 8QdqjUbBVb0abyfVuFjaaSBEyu+OSSW/3ExNiQTTvvAyJEP4BgEiYfKVilpFubOT/x38
- VOw2M5wTyLTqmTZGzreHc/fzyJMFD1QQm9FzSCRujM9tu27MPirUi5soSEAU4LxK8hTj
- +m5Eos0XfTK4hJrsOjPXoDSGUhVoXAekrJGNKl8on2PwbcVz3h6NqEp2Z2Ul8oORzCpb
- lJ/SokthdaLhNldm8OiEx6TDQBDBQkwr/gkXdUGxUPwBg0dWIYHXVI0ETprXaV2VUgSj
- 02Aw==
-X-Gm-Message-State: ANhLgQ1pI+s3IlPOFtkD/3AUpaGmNQhoswMIGib8+GeMsS6Rs7d24stD
- idlf4Hk5VWk3yU2LCL3zUq+wg2HjuFjVx45ouBRlFhcngA4rtQfkqIX2vmUmw5vf+poaW040okH
- 0vNySedZQIYkDQgw=
-X-Received: by 2002:a05:6402:282:: with SMTP id
- l2mr26814137edv.269.1585058604253; 
- Tue, 24 Mar 2020 07:03:24 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu7BACwdQLLv/lBEquRaBlHdK3v0vmPY7/ZRrDmvYzPGsvim9LD2MTxjoEwkODF/vnCoWofmw==
-X-Received: by 2002:a05:6402:282:: with SMTP id
- l2mr26814116edv.269.1585058604064; 
- Tue, 24 Mar 2020 07:03:24 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id y12sm451128ejj.41.2020.03.24.07.03.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Mar 2020 07:03:23 -0700 (PDT)
-Subject: Re: [PATCH v3 1/3] qga: Installer: Wait for installation to finish
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20200311170417.13415-1-basil@daynix.com>
- <20200311170417.13415-2-basil@daynix.com>
- <7d6f3f43-73c6-8500-6680-05ec059fd5ed@redhat.com>
- <CAJ+F1CJtMsXHGQAKS-FjFM-1i445uV7P0BfYCJ78d7TasUL+Ww@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d6d24621-9f86-f0a1-944f-44b7acd0498d@redhat.com>
-Date: Tue, 24 Mar 2020 15:03:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJtMsXHGQAKS-FjFM-1i445uV7P0BfYCJ78d7TasUL+Ww@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=4iJZL/bJMF5zR0HAiSzST7AqXTPauUeoMEnxTWPjIts=;
+ b=eBM8d9W29ccmOM/cFNvipbxdGO3FrwRAEfCmXick0+OAhz4CSAE2uJ188DJDJm6PKS
+ I4pGiGdfc5EFlzHcz3XvPloMlFvy05rxjBwQfvpWVSuuFYhb9WCKwIgfji870u0ARYl5
+ NZcQ5+A1O0cCMMaMu4HS/M9YnGGGmvKvQPLWnBilnuBPliAdesNDwPw4SO917LSEdHuO
+ uEVewvI+ZvDSwZMVOqU3cY3iFBuj0IeqfJz/YMtsSlfPpG5NYTviY2GZxApFGX2Al3hq
+ 7gcpVY2vNWSgcQIBBP9Uk8vpswsBF+3YQ/vfyQvTuByJhHa8bo0GpQHn/0Nea+rNRjg2
+ KJhw==
+X-Gm-Message-State: ANhLgQ1EiXIt2OUmkKfjWGclWljycff0OGinAQQZUhQhfkG8ilY9uikN
+ BbSYZHOK5o3D7Fq5D/mjxdZD8LomTIg=
+X-Google-Smtp-Source: ADFU+vuNgY515kWHpHABUGw6YDWtVhakWfMFRSYePsGAzPat2SYA7CPpYjfX6mvnKIZS1o+yA9cGJQ==
+X-Received: by 2002:a63:4707:: with SMTP id u7mr27927670pga.221.1585058818241; 
+ Tue, 24 Mar 2020 07:06:58 -0700 (PDT)
+Received: from localhost.localdomain ([222.237.189.180])
+ by smtp.gmail.com with ESMTPSA id y17sm9766490pfl.104.2020.03.24.07.06.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Mar 2020 07:06:57 -0700 (PDT)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] nvme: Print 'cqid' for nvme_del_cq
+Date: Tue, 24 Mar 2020 23:06:46 +0900
+Message-Id: <20200324140646.8274-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,67 +70,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Basil Salman <basil@daynix.com>,
- QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/20 3:00 PM, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->=20
-> On Tue, Mar 24, 2020 at 2:13 PM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
->>
->> Hi Basil,
->>
->> On 3/11/20 6:04 PM, Basil Salman wrote:
->>> Installation might fail if we don't wait for the provider
->>> unregisteration process to finish.
->>>
->>> Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
->>> Signed-off-by: Basil Salman <basil@daynix.com>
->>> ---
->>>    qga/installer/qemu-ga.wxs | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
->>> index 64bf90bd85..f6781752e6 100644
->>> --- a/qga/installer/qemu-ga.wxs
->>> +++ b/qga/installer/qemu-ga.wxs
->>> @@ -81,7 +81,7 @@
->>>                  Arguments=3D"-d --retry-path"
->>>                  >
->>>                </ServiceInstall>
->>> -            <ServiceControl Id=3D"StartService" Start=3D"install" Stop=
-=3D"both" Remove=3D"uninstall" Name=3D"QEMU-GA" Wait=3D"no" />
->>> +            <ServiceControl Id=3D"StartService" Start=3D"install" Stop=
-=3D"both" Remove=3D"uninstall" Name=3D"QEMU-GA" Wait=3D"yes" />
->>
->> As 'yes' is the default, can you simply remove 'Wait=3D"no"'?
->=20
-> It looks like wixl doesn't follow the WiX default value though.
->=20
-> tools/wixl/msi.vala:
-> 574                 (Wait !=3D null && !rec.set_int (5, Wait ? 1 : 0)) ||
+The given argument for this trace should be cqid, not sqid.
 
-I trusted the documentation...
-https://wixtoolset.org/documentation/manual/v3/xsd/wix/servicecontrol.html
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+---
+ hw/block/trace-events | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for looking at the implementation.
-
-So for this patch:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->=20
->>
->>>              </Component>
->>>              <?ifdef var.InstallVss?>
->>>              <Component Id=3D"qga_vss_dll" Guid=3D"{CB19C453-FABB-4BB1-=
-ABAB-6B74F687BFBB}">
->>>
->>
->>
->=20
->=20
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index f78939fa9da1..bf6d11b58b85 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -37,7 +37,7 @@ nvme_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, uint64_t lba)
+ nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
+ nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
+ nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
+-nvme_del_cq(uint16_t cqid) "deleted completion queue, sqid=%"PRIu16""
++nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
+ nvme_identify_ctrl(void) "identify controller"
+ nvme_identify_ns(uint16_t ns) "identify namespace, nsid=%"PRIu16""
+ nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
+-- 
+2.17.1
 
 
