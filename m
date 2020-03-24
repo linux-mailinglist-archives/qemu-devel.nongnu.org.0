@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB18419123A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:59:04 +0100 (CET)
-Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75E319122B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 14:58:39 +0100 (CET)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGk59-0001xd-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53167)
+	id 1jGk4k-00018S-SE
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 09:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jGk1y-0007WF-OX
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:55:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jGk2k-00086C-CD
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jGk1x-0003nR-BX
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:55:46 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36393)
+ (envelope-from <mreitz@redhat.com>) id 1jGk2i-0005nm-Cx
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:34 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:54646)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jGk1x-0003js-6B
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:55:45 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jGk2i-0005nQ-7k
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 09:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585058144;
+ s=mimecast20190719; t=1585058191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QDBWVbCfHDnELXfLrlEIuiDFenDqPtLPfcawa9U4/PU=;
- b=OAcapgHwuhMfqbDp+EjY+cLqf8rUi6XhWudTnCGeft26a1D1cicFSPBq7jrkKEYMF/uuYh
- 2A4wmdcyT+h/EsxdES9qaWIno92Y1rJ6GGY8fsha+/rq6a3y87E7gVD24Sd7hkoQ8gu9+G
- fBHU/Qjg+ZtdtpaERt5CAlLLi3XWVms=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-XhZmhhrEOIiB-rAmknM3yQ-1; Tue, 24 Mar 2020 09:55:43 -0400
-X-MC-Unique: XhZmhhrEOIiB-rAmknM3yQ-1
-Received: by mail-ed1-f72.google.com with SMTP id c2so14858879edx.16
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 06:55:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QDBWVbCfHDnELXfLrlEIuiDFenDqPtLPfcawa9U4/PU=;
- b=bQSCPy3ZBZPaEPwNhscwYJHJb2Yend7nCBmB1Pqdk07Rg0OWR+U8KwyO/Enyrw4WCZ
- IK1l7ZpkV9E6M6aPmAVxSKvJ/rV1RT05iFo1iJEy75p2XSQlS3/UDN4WCQcK74dX4L1G
- aan/U15isGq+bbXGB6VoYt0b/F7ocrWDnlMqOsVJZe9ZXXUDNaYjnPw5rjHdo3RspK/q
- Kv7VhMRuxplgoRia3/qRaejn7lL0PGsZ9EAPcEdYDoabQTdV379W1/U5DxPgYycdjHM0
- UCUvCjYCVFNZTM8qoDoSU6hho4Ob2/paayHD+/byEF7huC4Il0ldKhS/4i5vE01dXmVl
- GW0Q==
-X-Gm-Message-State: ANhLgQ0SqKXHqNkhpAokEmNRuvQzST9bdM9w32DxoDHd+ZoMTPCcReKr
- nj/04gxwkJJPpqApNkAkN3DMrvGAuYVMDZQGaPqxUmMCiAuF2b+KZSGY0TyrlDJ4BXwTvozaKUc
- 8bg3CNrto7N6p1Eg=
-X-Received: by 2002:aa7:dc06:: with SMTP id b6mr27414500edu.371.1585058142114; 
- Tue, 24 Mar 2020 06:55:42 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvT8BWpceGhdwXqe3AvSgcPT8NwZQ7MqQdTiO3ykQ0ISSxPb0/vbtjpuPiiRCuXhy9sTFOFzA==
-X-Received: by 2002:aa7:dc06:: with SMTP id b6mr27414478edu.371.1585058141909; 
- Tue, 24 Mar 2020 06:55:41 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id g21sm1086266eds.38.2020.03.24.06.55.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Mar 2020 06:55:41 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hw/arm/xlnx-zynqmp.c: Add missing error-propagation
- code
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200324134947.15384-1-peter.maydell@linaro.org>
- <20200324134947.15384-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9fe33505-e289-f401-bc52-cfdc9715354d@redhat.com>
-Date: Tue, 24 Mar 2020 14:55:39 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=OA2G+rgSNMcMMKvEOLC+8auTAuuTRdKO0S2B0cGgKtE=;
+ b=iWjjKxwDztfZudw6mBvNQ244yISR1WNomG04kZdkT2UIUaWxP/dMFMFDVLA1rYTUXjV28c
+ PlpIJovv2c3xqfANlSve9eA9hwFmRyhkDW86nvQ1FHOoo07nCRcSMBllvxYnfpUnL4bwTV
+ eXlxPeSDQ86htZG1erlGPddkhxbQ/NY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-DIQTflu5PB6PLVyNefKDnw-1; Tue, 24 Mar 2020 09:56:28 -0400
+X-MC-Unique: DIQTflu5PB6PLVyNefKDnw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 142ACDBA3;
+ Tue, 24 Mar 2020 13:56:27 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-213.ams2.redhat.com
+ [10.36.114.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F02FB5C3F8;
+ Tue, 24 Mar 2020 13:56:21 +0000 (UTC)
+Subject: Re: [PATCH v8 01/11] iotests: do a light delinting
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20200317004105.27059-1-jsnow@redhat.com>
+ <20200317004105.27059-2-jsnow@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <38908b9c-f359-c430-27cd-c658455270f4@redhat.com>
+Date: Tue, 24 Mar 2020 14:56:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200324134947.15384-3-peter.maydell@linaro.org>
-Content-Language: en-US
+In-Reply-To: <20200317004105.27059-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FPQqStiqjdCM5crgnLAR0obyMENXLtOIO"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,95 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
+ philmd@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/20 2:49 PM, Peter Maydell wrote:
-> In some places in xlnx_zynqmp_realize() we were putting an
-> error into our local Error*, but forgetting to check for
-> failure and pass it back to the caller. Add the missing code.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FPQqStiqjdCM5crgnLAR0obyMENXLtOIO
+Content-Type: multipart/mixed; boundary="xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE"
 
-This (incorrect) pattern is used in many places, so it might be easier 
-to fix it once with a Coccinelle script...
+--xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-
-i.e. a quick "git grep -3 object_property_set_uint":
-
-hw/arm/bcm2835_peripherals.c:290
-hw/arm/fsl-imx25.c:272
-hw/arm/fsl-imx6.c:349
-hw/i386/x86.c:110
-hw/microblaze/xlnx-zynqmp-pmu.c:88
-target/i386/cpu.c:5158
-
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 17.03.20 01:40, John Snow wrote:
+> This doesn't fix everything in here, but it does help clean up the
+> pylint report considerably.
+>=20
+> This should be 100% style changes only; the intent is to make pylint
+> more useful by working on establishing a baseline for iotests that we
+> can gate against in the future.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
-> Spotted while I was writing the previous patch.
-> ---
->   hw/arm/xlnx-zynqmp.c | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index a13dbeeacec..b84d153d56a 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -530,8 +530,20 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->            * - eMMC Specification Version 4.51
->            */
->           object_property_set_uint(sdhci, 3, "sd-spec-version", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->           object_property_set_uint(sdhci, SDHCI_CAPABILITIES, "capareg", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->           object_property_set_uint(sdhci, UHS_I, "uhs", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->           object_property_set_bool(sdhci, true, "realized", &err);
->           if (err) {
->               error_propagate(errp, err);
-> @@ -551,6 +563,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->           gchar *bus_name;
->   
->           object_property_set_bool(OBJECT(&s->spi[i]), true, "realized", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->   
->           sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0, spi_addr[i]);
->           sysbus_connect_irq(SYS_BUS_DEVICE(&s->spi[i]), 0,
-> @@ -565,6 +581,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->       }
->   
->       object_property_set_bool(OBJECT(&s->qspi), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->       sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
->       sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
->       sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
-> @@ -619,6 +639,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->   
->       for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
->           object_property_set_uint(OBJECT(&s->gdma[i]), 128, "bus-width", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
->           object_property_set_bool(OBJECT(&s->gdma[i]), true, "realized", &err);
->           if (err) {
->               error_propagate(errp, err);
-> 
+>  tests/qemu-iotests/iotests.py | 83 ++++++++++++++++++-----------------
+>  1 file changed, 43 insertions(+), 40 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--xiu1HxCPJYRkzTLKSlOt41g43iRn3lSmE--
+
+--FPQqStiqjdCM5crgnLAR0obyMENXLtOIO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl56EYIACgkQ9AfbAGHV
+z0BQ5gf9HOTehQ62zOynZamp9wtzN6IlM0zSf2VHv2NR3lP5XMS3A5mSDtnzMnP8
+unoj1Twf5yQ0CNOUlylxHj8tOFexF+yaNq5rp5mpbnntpk5p0ul/5aAEJmGvM+MX
+ZT7v772EtMJqHvxJxC373C9JKAsQRWgGr98Q3yRuDet5cA3ky9spvrMKFnetUIE6
+x6LBQxpuCTqV6Dno4IHPcxDYKVw7mPBTtkFwYRdr0cPsuD9A+d4kCxx+5Njp0DPJ
+JyIMd5u0jgHH0slrPJmCR5h40kg/x+l25Ynp7DHKMIArbScW86hiQdcLP7wgMDd7
+bCU6zS/3yS0sJfjkSyiXNq7DY//nBg==
+=8rwR
+-----END PGP SIGNATURE-----
+
+--FPQqStiqjdCM5crgnLAR0obyMENXLtOIO--
 
 
