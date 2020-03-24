@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C735A190A3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:09:05 +0100 (CET)
-Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592EC190A2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 11:06:09 +0100 (CET)
+Received: from localhost ([::1]:45298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGgUa-000457-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49434)
+	id 1jGgRk-0007mA-AR
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 06:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jGgP7-00061n-In
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:26 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jGgP6-0000cT-Ft
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:25 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:48227)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jGgP6-0000bi-6r
+ (envelope-from <laurent@vivier.eu>) id 1jGgP5-0005z2-Rv
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:24 -0400
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1jGgP4-0000bD-KB
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:23 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:40601)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jGgP4-0000aL-BI
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 06:03:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MirfG-1jmQir2Mom-00ewQ6; Tue, 24 Mar 2020 11:03:13 +0100
+ id 1M1HmG-1jF1RY1Bn8-002sq4; Tue, 24 Mar 2020 11:03:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Linux user for 5.0 patches
-Date: Tue, 24 Mar 2020 11:03:06 +0100
-Message-Id: <20200324100311.588288-1-laurent@vivier.eu>
+Subject: [PULL 1/5] target/i386: Renumber EXCP_SYSCALL
+Date: Tue, 24 Mar 2020 11:03:07 +0100
+Message-Id: <20200324100311.588288-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200324100311.588288-1-laurent@vivier.eu>
+References: <20200324100311.588288-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bjuSqbtGItlidPKyowqFXtdu8MYmyM6HP3FYropXWkea31RkKBb
- 4Pq5O+sP5wEq9h4WqPtW8oHSr5dXUmDPCOhkae2g/QO+861p4LRa63pfAI02sKL35BxjYpW
- ECsJ/JpG0zCTjTqnNuDACxesM/hKgJmInidmagcKRovX81qOWcP85CvkcpQQ2bnAmX+dEsZ
- U1t2yqa4coSPfheWDuKOQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7+qcXct3tzc=:CCGw2W0l7TBPU6y9GcdpyB
- frv3plfpb7w+8hUydXOJQQM7JeWKy8s7Kf+p/ajCpeSf3sJbQJPb8UEHfcp3b3e0cGQz4ggot
- zHr4RSJSLtucG0Szvni4/zJPeWRXOGu53NuUsz0//SHaKa4b6qQGmrcuKNgAsF8xWt+dMJVvF
- 4UepFlamSJQ4lTJNMISFNSvshI7e4jEsv7pwnFgMU/O+Pm9eNMNk+lTbIpNlE/HT97Ztq35XQ
- bQcofahH1VXK3tzdTT61YpL3iQ1wxjfZKhNvX4uuX03OGHXJkTpRle90d11U7Wv95xFLR14+V
- dea65hzWxnQhdmixPENfr9xCn9GkFMkV6WUeyMS5MyjasAXGaNQ59ImKJrvFlYDC/U3dx8UNN
- itX6xVVRUHqk/35DmkeyYbw/DDeMogAs7RRuaBVeV2CRBz5ykYrlxn3miwTBbsFVNzmcnel6H
- TYJhT6C7adjggxe1mKu2UpUqripuKNqKxAPrwVKLAF1jJYcjv54GpuR0WJagIEa1BOVHny/n/
- oRm0YndRYhk/ygZdLaD4PYujDQQeSU26CFHF3YGplgUS1JlF72kZ8qrgeZFaSKBa3Pd3+PUpR
- vVtR4CvyQxWlBMYZnQ9f3qi1DGShqthzFcvA9EVr2Wjnr3wE6jPIXWfYzV5Palk5HnJTGd4rW
- NRVlq247y+khXCqSqUmK+OUViUKzNRVRTAstRZ4ZxjONNgZfKp3Gu7X6Zf+YmzJdm8NTEUk+V
- xphiqioJJ89ElWdoNPGklHYzXQQi1yJzRwYuEslZDpdcreesOYz92s/N4nBa+ogXXqXuMhXe6
- C/UtmEI2ub2LsJPV30DZBhjbKe1u8VFDE1mNjnbjIgaxgS5Rob2jxHXioCGcELpbiP+rOuv
+X-Provags-ID: V03:K1:nlPmbkZakYTpWoj3tyrKFhmTUvqrTfMerPIcRSr7ey2WCePc4e8
+ KGTpavyaH7zxfA+XbImm3ABuGI1vqO/3MHE76cJAOUAHmISZj6p/13p4dH39Outsp8gqU8Z
+ I+oGI977R3pYXJSzXqmlFu2t9yqdsDiDn7J45pkIFbr0uQdbE65g2L6SLJhJkE9/gSPBAv+
+ VLpCmNH4YtZLmgqv0SxAg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bjKTgcuTq6I=:FEWGO5wMM+b72Bi12/wE39
+ EvjIt3TxZPVrku3pA6lQoXdMxKKI3uS4vf5GBJdKn7zOEOWD7bp7Goo2BxqqI5BfYpFwlkFOU
+ BQvIHsRF5UWOXlpeHTpfMutqYlpSpnN9AfA3dfwrNU+SLU7YqB+1XfWqTAymHnz/bVuy131x9
+ aELZWMzv1+LF0bMjHhklsmZtSOqXuwQg88sn9fKYvCwpSi9mx4alBkbHijXwXHdOTNkukXV0r
+ Ym/QK/l5VIiUOM8De1FKTqkco3Fmp+35D+e6c8EreTjWUE3s35+Q+iDjACTwAANHewALaRfeg
+ EuOLdxdoH1Cq/sbRpuGJQyPOW7KnfsnlkTHLzlfg9HdbDA9PUlEIo6E3afMWUHHUiuTjEGNix
+ 4tsSkjA562V2ZsMmoz61tCOL54knMZXhppVxbx+FvKEXE9l9nNKdE+Na7tUm+s6emzs3LMmfG
+ rgIoiYMb3y+4an3IE5FR63huBn7d3huNgFXm0KzHCX+D1c4kWxkuT+qB5qyjCmstKRMPCoGOO
+ 7u9qawARgZSd1Su7sItplJd9OSfMFHOQy6zPoZYrp7z1ADIRftcopCO8fWP2yNqNSUzZeHqUk
+ kxIhi26pn7ZKTRKXg9cVYEYo/YZ3ofvBsMV1stoyS2ueMmAfU48+Bc3MXFwwL3dAmgIw+q1Q3
+ N8VF2CqHgWQbHYL8C/J+2aftAHqR5BYXmU2t1KbkszHwpy/u0cUF0z6pvoJ4soUCiUDCm0sD3
+ XBXmh0pGCm+vkWokXjB2z5J5aAweG5qrOkT6amKilfPn6m7yuSk9hviF8jM9QYWSh5mFZhz4M
+ 26A2y5dIR4BSXKSmItDLnIB8gL/cMhKRFfIQbrU4/qhvDp0VfcGKlj6lEa1NvTKoGgJ6bAT
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,40 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 29e0855c5af62bbb0b0b6fed792e004dad92ba95:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  Merge remote-tracking branch 'remotes/elmarco/tags/slirp-pull-request' into staging (2020-03-22 21:00:38 +0000)
+We are not short of numbers for EXCP_*.  There is no need to confuse things
+by having EXCP_VMEXIT and EXCP_SYSCALL overlap, even though the former is
+only used for system mode and the latter is only used for user mode.
 
-are available in the Git repository at:
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200213032223.14643-2-richard.henderson@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ target/i386/cpu.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to 2582e3016c674c61abe38503c51fd8adffc0d0b3:
-
-  linux-user: Flush out implementation of gettimeofday (2020-03-23 16:12:36 +0100)
-
-----------------------------------------------------------------
-Emulate x86_64 vsyscall
-
-----------------------------------------------------------------
-
-Richard Henderson (5):
-  target/i386: Renumber EXCP_SYSCALL
-  linux-user/i386: Split out gen_signal
-  linux-user/i386: Emulate x86_64 vsyscalls
-  linux-user: Add x86_64 vsyscall page to /proc/self/maps
-  linux-user: Flush out implementation of gettimeofday
-
- linux-user/i386/cpu_loop.c | 201 ++++++++++++++++++++++++++-----------
- linux-user/syscall.c       |  39 ++++++-
- target/i386/cpu.h          |  12 ++-
- target/i386/translate.c    |  14 ++-
- 4 files changed, 200 insertions(+), 66 deletions(-)
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 60d797d5941f..49ecc23104c9 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1001,9 +1001,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define EXCP11_ALGN	17
+ #define EXCP12_MCHK	18
+ 
+-#define EXCP_SYSCALL    0x100 /* only happens in user only emulation
+-                                 for syscall instruction */
+-#define EXCP_VMEXIT     0x100
++#define EXCP_VMEXIT     0x100 /* only for system emulation */
++#define EXCP_SYSCALL    0x101 /* only for user emulation */
+ 
+ /* i386-specific interrupt pending bits.  */
+ #define CPU_INTERRUPT_POLL      CPU_INTERRUPT_TGT_EXT_1
 -- 
 2.25.1
 
