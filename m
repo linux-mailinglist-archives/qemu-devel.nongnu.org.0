@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B804F1904D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 06:18:28 +0100 (CET)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E441904D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 06:16:53 +0100 (CET)
+Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGbxL-0000SC-Qo
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 01:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
+	id 1jGbvo-0006ES-O1
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 01:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jGbu8-0004a8-5N
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:09 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jGbu8-0004bB-RN
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jGbu7-0001eB-4X
+ (envelope-from <dgibson@ozlabs.org>) id 1jGbu7-0001ew-L5
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 01:15:08 -0400
-Received: from ozlabs.org ([203.11.71.1]:32931)
+Received: from ozlabs.org ([2401:3900:2:1::2]:45371)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jGbu6-0001bo-OK; Tue, 24 Mar 2020 01:15:07 -0400
+ id 1jGbu7-0001bf-AH; Tue, 24 Mar 2020 01:15:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48mfZW6fZVz9sSV; Tue, 24 Mar 2020 16:14:59 +1100 (AEDT)
+ id 48mfZW65T8z9sSN; Tue, 24 Mar 2020 16:14:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1585026899;
- bh=OKcovYR9VNB4z7gkjGackfXxGtFZioSygC+HVi/Nk3E=;
+ bh=Xc+3RKabXHno7VL+AST1GTZnAiqqXI+OYqmv72T8XXE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XavMABBr2AHB/fJPnzGjzA1tzrlyu94ez/FXyWe78tjVibwJZNMQiLAogE2SaHjZd
- eQf0g+wytaiX/SB2F/LgE2CdrMTRes+Wh+/guFPpFckjTd+TaF6hfsXoVvcKW0aMLB
- TGptYa2swJecs/lCBknjeSTJmUS1/2b0ztRhLEnU=
+ b=jHmTxP5C42dI8ZUfqy0+b2sXaQP7NAORnL4ORJj3ShGeocPlCOfhFB97hWqh+BW45
+ W7MIG+f0SF3yy5bDq/x7QNU7+QWzlie6wFs5A0aApPjo09GjlaVjpK3iQHUwZhkEWp
+ KXVpOhJ6+c5dDvC0emb+zjrjS+TX19JiWRmEAFVc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 5/7] spapr: Fix memory leak in h_client_architecture_support()
-Date: Tue, 24 Mar 2020 16:14:54 +1100
-Message-Id: <20200324051456.256116-6-david@gibson.dropbear.id.au>
+Subject: [PULL 6/7] hw/ppc: Take QEMU lock when calling ppc_dcr_read/write()
+Date: Tue, 24 Mar 2020 16:14:55 +1100
+Message-Id: <20200324051456.256116-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200324051456.256116-1-david@gibson.dropbear.id.au>
 References: <20200324051456.256116-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,41 +53,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- clg@kaod.org, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: aik@ozlabs.ru, Amit Lazar <abasarlaz@hotmail.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-This is the only error path that needs to free the previously allocated
-ov1.
+The ppc_dcr_read() and ppc_dcr_write() functions call into callbacks
+in device code, so we need to hold the QEMU iothread lock while
+calling them.  This is the case already for the callsites in
+kvmppc_handle_dcr_read/write(), but we must also take the lock when
+calling the helpers from TCG.
 
-Reported-by: Coverity (CID 1421924)
-Fixes: cbd0d7f36322 "spapr: Fail CAS if option vector table cannot be par=
-sed"
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158481206205.336182.16106097429336044843.stgit@bahia.lan>
+This fixes a bug where attempting to initialise the PPC405EP
+SDRAM will cause an assertion when sdram_map_bcr() attempts
+to remap memory regions.
+
+Reported-by: Amit Lazar <abasarlaz@hotmail.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200322192258.14039-1-peter.maydell@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/spapr_hcall.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/ppc/timebase_helper.c | 40 +++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 40c86e91eb..0d50fc9117 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1726,6 +1726,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
+diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+index 703bd9ed18..d16360ab66 100644
+--- a/target/ppc/timebase_helper.c
++++ b/target/ppc/timebase_helper.c
+@@ -21,6 +21,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "qemu/log.h"
++#include "qemu/main-loop.h"
+=20
+ /***********************************************************************=
+******/
+ /* SPR accesses */
+@@ -167,13 +168,19 @@ target_ulong helper_load_dcr(CPUPPCState *env, targ=
+et_ulong dcrn)
+         raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+                                POWERPC_EXCP_INVAL |
+                                POWERPC_EXCP_INVAL_INVAL, GETPC());
+-    } else if (unlikely(ppc_dcr_read(env->dcr_env,
+-                                     (uint32_t)dcrn, &val) !=3D 0)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "DCR read error %d %03x\n",
+-                      (uint32_t)dcrn, (uint32_t)dcrn);
+-        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+-                               POWERPC_EXCP_INVAL |
+-                               POWERPC_EXCP_PRIV_REG, GETPC());
++    } else {
++        int ret;
++
++        qemu_mutex_lock_iothread();
++        ret =3D ppc_dcr_read(env->dcr_env, (uint32_t)dcrn, &val);
++        qemu_mutex_unlock_iothread();
++        if (unlikely(ret !=3D 0)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "DCR read error %d %03x\n",
++                          (uint32_t)dcrn, (uint32_t)dcrn);
++            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
++                                   POWERPC_EXCP_INVAL |
++                                   POWERPC_EXCP_PRIV_REG, GETPC());
++        }
      }
-     ov5_guest =3D spapr_ovec_parse_vector(ov_table, 5);
-     if (!ov5_guest) {
-+        spapr_ovec_cleanup(ov1_guest);
-         warn_report("guest didn't provide option vector 5");
-         return H_PARAMETER;
+     return val;
+ }
+@@ -185,12 +192,17 @@ void helper_store_dcr(CPUPPCState *env, target_ulon=
+g dcrn, target_ulong val)
+         raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+                                POWERPC_EXCP_INVAL |
+                                POWERPC_EXCP_INVAL_INVAL, GETPC());
+-    } else if (unlikely(ppc_dcr_write(env->dcr_env, (uint32_t)dcrn,
+-                                      (uint32_t)val) !=3D 0)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "DCR write error %d %03x\n",
+-                      (uint32_t)dcrn, (uint32_t)dcrn);
+-        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+-                               POWERPC_EXCP_INVAL |
+-                               POWERPC_EXCP_PRIV_REG, GETPC());
++    } else {
++        int ret;
++        qemu_mutex_lock_iothread();
++        ret =3D ppc_dcr_write(env->dcr_env, (uint32_t)dcrn, (uint32_t)va=
+l);
++        qemu_mutex_unlock_iothread();
++        if (unlikely(ret !=3D 0)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "DCR write error %d %03x\n",
++                          (uint32_t)dcrn, (uint32_t)dcrn);
++            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
++                                   POWERPC_EXCP_INVAL |
++                                   POWERPC_EXCP_PRIV_REG, GETPC());
++        }
      }
+ }
 --=20
 2.25.1
 
