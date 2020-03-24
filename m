@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8A2190C58
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 12:22:36 +0100 (CET)
-Received: from localhost ([::1]:46948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FADE190C4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Mar 2020 12:19:58 +0100 (CET)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGhdj-0001Eq-ID
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 07:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33597)
+	id 1jGhbB-0005c3-6o
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 07:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jGhaM-0004o0-9W
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:19:07 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jGhZt-00042G-N7
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:18:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jGhaL-0007q9-60
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:19:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:15487)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jGhaK-0007pr-Tt
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:19:05 -0400
-IronPort-SDR: p4boZQlgbCcJEfVMymPBMbjB8a6mYRPLbG3XZdTwKEojBIXL+jHFzCllVHj7zbe+7rv3unaPaR
- 2nTrv4k8Zh7w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2020 04:19:03 -0700
-IronPort-SDR: H+pji3yQ8v4Usbv7c8Q43RSLYLQWzfSoZ9yDokfdhYLywsvyUPwWr65OVvLnAVwmX7QNbvbfFo
- e/aMqcwipizA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,300,1580803200"; d="scan'208";a="447845405"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by fmsmga006.fm.intel.com with ESMTP; 24 Mar 2020 04:19:03 -0700
-Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 24 Mar 2020 04:19:02 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- SHSMSX105.ccr.corp.intel.com ([169.254.11.144]) with mapi id 14.03.0439.000;
- Tue, 24 Mar 2020 19:18:59 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [PATCH v1 09/22] vfio/common: check PASID alloc/free availability
-Thread-Topic: [PATCH v1 09/22] vfio/common: check PASID alloc/free availability
-Thread-Index: AQHWAEW15Jx0RCLPSU2RY4n7wVdCtqhWOBCAgAFjAVA=
-Date: Tue, 24 Mar 2020 11:18:58 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A200444@SHSMSX104.ccr.corp.intel.com>
-References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
- <1584880579-12178-10-git-send-email-yi.l.liu@intel.com>
- <20200323220653.GT127076@xz-x1>
-In-Reply-To: <20200323220653.GT127076@xz-x1>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1jGhZs-0007jX-Ii
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:18:37 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35087)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1jGhZs-0007j5-C4
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 07:18:36 -0400
+Received: by mail-wm1-x343.google.com with SMTP id m3so3011123wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 04:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=o5s5EIyLrX037d55YoY+iX0/oTthgCsh557JjKQoBqs=;
+ b=cM5jDukNBqWIpVYXQ2xqvhWaUH/ZajJk58gqLxvgrjjTZyr6V/IP4JKwGi0cYmSJWS
+ SuAPEokgr/9xm1m5VpbLYpsHdt08rjvhpxXKUdhe8uReWelNa1yGpdi+2LJ7Clqa3Bu1
+ jzBNisEGPclzyNrFooGNDlM0PV2A18E0I6c1z21mERvosI4lLqWpZZFCAQpO6uJsN7RX
+ MTzyX6lgz8uHcw5MIieTGItVWO9H8W8UxkqLNKsh6JyUY5QwbPN/uF0Xni6ic88hd3X3
+ UEz42/8VKgMiQS+QqHrQ1etrqotFMxlgP49lD3LS2RtZZCijQXbOrm+Rg3dzStTbfqLH
+ PTmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=o5s5EIyLrX037d55YoY+iX0/oTthgCsh557JjKQoBqs=;
+ b=K+pwp3g9Dp8VzY9XDyfShZyENFN5qFfzZGl7H3p32Esta/SEvUg7nHdlRTeIxm5lNR
+ K8oKPWpmvUrx/ht0ve7/7MHg4CYOuNxOINTAUSBwRbJEgN2jHlkusfZgk8klbwInSOCA
+ WoJbt6T0AIPVlK10en61yeMxEa3huG9lKAECGbB+PFzUSHgBAthXfP0RibcNNym8ex3L
+ WNtnrdlagD1Pnzds7YPadX2orIDmeQMs/9qte7OVgb/xfo2epw0seopa394YRcExoM35
+ as4eqChz98emDjwXBRg5P3RN4csseN1ynCWCR27Hd/aBTDvnHWUv9p6QQLKQNPb3mLQG
+ /rrg==
+X-Gm-Message-State: ANhLgQ2LLMYBq5fmrdaLdbv5Soj6zWQBouE6vuD4C17XNHD4jmQ/zkNi
+ DtclK1tsUiZow7wpbCHmA8acnCAk
+X-Google-Smtp-Source: ADFU+vtBpSnESMjJZbtdyAD8b1cQnNaoimc9U/qqCEGU0Tz88b7hpQf9ZSY58m8Yu8Th5qlCEvL8Fw==
+X-Received: by 2002:a1c:51:: with SMTP id 78mr4850841wma.157.1585048714218;
+ Tue, 24 Mar 2020 04:18:34 -0700 (PDT)
+Received: from [192.168.86.37] ([37.142.144.12])
+ by smtp.gmail.com with ESMTPSA id y200sm3987176wmc.20.2020.03.24.04.18.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Mar 2020 04:18:33 -0700 (PDT)
+Subject: Re: [PATCH] hw/rdma: Lock before destroy
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>
+References: <20200324105356.7998-1-yuval.shaia.ml@gmail.com>
+ <CAFEAcA_D3ykX2mJwtJhvdQg3psCX9NdcG0xq4qmP3CkqHtnY8Q@mail.gmail.com>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <72691a5a-8992-ec54-f2de-6209cafcc426@gmail.com>
+Date: Tue, 24 Mar 2020 13:20:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.151
+In-Reply-To: <CAFEAcA_D3ykX2mJwtJhvdQg3psCX9NdcG0xq4qmP3CkqHtnY8Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,47 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
- "Sun, Yi Y" <yi.y.sun@intel.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBQZXRlciBYdSA8cGV0ZXJ4QHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIE1h
-cmNoIDI0LCAyMDIwIDY6MDcgQU0NCj4gVG86IExpdSwgWWkgTCA8eWkubC5saXVAaW50ZWwuY29t
-Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxIDA5LzIyXSB2ZmlvL2NvbW1vbjogY2hlY2sgUEFT
-SUQgYWxsb2MvZnJlZSBhdmFpbGFiaWxpdHkNCj4gDQo+IE9uIFN1biwgTWFyIDIyLCAyMDIwIGF0
-IDA1OjM2OjA2QU0gLTA3MDAsIExpdSBZaSBMIHdyb3RlOg0KPiANCj4gWy4uLl0NCj4gDQo+ID4g
-QEAgLTEyNTYsMTEgKzEzMzQsMTkgQEAgc3RhdGljIGludCB2ZmlvX2luaXRfY29udGFpbmVyKFZG
-SU9Db250YWluZXINCj4gKmNvbnRhaW5lciwgaW50IGdyb3VwX2ZkLA0KPiA+ICAgICAgfQ0KPiA+
-DQo+ID4gICAgICBpZiAoaW9tbXVfdHlwZSA9PSBWRklPX1RZUEUxX05FU1RJTkdfSU9NTVUpIHsN
-Cj4gPiAtICAgICAgICAvKg0KPiA+IC0gICAgICAgICAqIFRPRE86IGNvbmZpZyBmbGFncyBwZXIg
-aG9zdCBJT01NVSBuZXN0aW5nIGNhcGFiaWxpdHkNCj4gPiAtICAgICAgICAgKiBlLmcuIGNoZWNr
-IGlmIFZGSU9fVFlQRTFfTkVTVElOR19JT01NVSBzdXBwb3J0cyBQQVNJRA0KPiA+IC0gICAgICAg
-ICAqIGFsbG9jL2ZyZWUNCj4gPiAtICAgICAgICAgKi8NCj4gPiArICAgICAgICBzdHJ1Y3QgdmZp
-b19pb21tdV90eXBlMV9pbmZvX2NhcF9uZXN0aW5nIG5lc3RpbmcgPSB7DQo+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLm5lc3RpbmdfY2FwYWJpbGl0aWVzID0g
-MHgwLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC5zdGFn
-ZTFfZm9ybWF0cyA9IDAsIH07DQo+ID4gKw0KPiA+ICsgICAgICAgIHJldCA9IHZmaW9fZ2V0X25l
-c3RpbmdfaW9tbXVfY2FwKGNvbnRhaW5lciwgJm5lc3RpbmcpOw0KPiA+ICsgICAgICAgIGlmIChy
-ZXQpIHsNCj4gPiArICAgICAgICAgICAgZXJyb3Jfc2V0Z19lcnJubyhlcnJwLCAtcmV0LA0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8gZ2V0IG5lc3RpbmcgaW9t
-bXUgY2FwIik7DQo+ID4gKyAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ID4gKyAgICAgICAgfQ0K
-PiA+ICsNCj4gPiArICAgICAgICBmbGFncyB8PSAobmVzdGluZy5uZXN0aW5nX2NhcGFiaWxpdGll
-cyAmIFZGSU9fSU9NTVVfUEFTSURfUkVRUykgPw0KPiA+ICsgICAgICAgICAgICAgICAgIEhPU1Rf
-SU9NTVVfUEFTSURfUkVRVUVTVCA6IDA7DQo+IA0KPiBJIHJlcGxpZWQgaW4gdGhlIHByZXZpb3Vz
-IHBhdGNoIGJ1dCBJIGZvcmdvdCB0byB1c2UgcmVwbHktYWxsLi4uDQo+IA0KPiBBbnl3YXkgSSds
-bCBjb21tZW50IGFnYWluIGhlcmUgLSBJIHRoaW5rIGl0J2xsIGJlIHNsaWdodGx5IGJldHRlciB3
-ZQ0KPiB1c2UgdGhlIHByZXZpb3VzIHBhdGNoIHRvIG9ubHkgb2ZmZXIgdGhlIHZmaW8gc3BlY2lm
-aWMgaG9va3MsIGFuZCB0aGlzDQo+IHBhdGNoIHRvIGRvIGFsbCB0aGUgcmVzdCBpbmNsdWRpbmcg
-aG9zdF9pb21tdV9jdHhfaW5pdCgpIGJlbG93LCB3aGljaA0KPiB3aWxsIGF2b2lkIGNyZWF0aW5n
-IHRoZSBob3N0X2lvbW11X2N0eF9pbml0KCkuDQoNCkdvdCBpdC4gTGV0IG1lIGRvIGl0IGluIG5l
-eHQgdmVyc2lvbi4NCg0KUmVnYXJkcywNCllpIExpdQ0K
+Hi Peter,Yuval
+
+On 3/24/20 1:05 PM, Peter Maydell wrote:
+> On Tue, 24 Mar 2020 at 10:54, Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
+>> To protect from the case that users of the protected_qlist are still
+>> using the qlist let's lock before detsroying it.
+>>
+>> Reported-by: Coverity (CID 1421951)
+>> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
+>> ---
+>>   hw/rdma/rdma_utils.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+>> index 73f279104c..55779cbef6 100644
+>> --- a/hw/rdma/rdma_utils.c
+>> +++ b/hw/rdma/rdma_utils.c
+>> @@ -63,6 +63,7 @@ void rdma_protected_qlist_init(RdmaProtectedQList *list)
+>>   void rdma_protected_qlist_destroy(RdmaProtectedQList *list)
+>>   {
+>>       if (list->list) {
+>> +        qemu_mutex_lock(&list->lock);
+>>           qlist_destroy_obj(QOBJECT(list->list));
+>>           qemu_mutex_destroy(&list->lock);
+>>           list->list = NULL;
+> Looking at the code a bit more closely, I don't think that taking
+> the lock here helps. If there really could be another thread
+> that might be calling eg rdma_protected_qlist_append_int64()
+> at the same time that we're calling rdma_protected_qlist_destroy()
+> then it's just as likely that the code calling destroy could
+> finish just before the append starts: in that case the append
+> will crash because the list has been freed and the mutex destroyed.
+>
+> So I think we require that the user of a protected-qlist
+> ensures that there are no more users of it before it is
+> destroyed (which is fairly normal semantics), and the code
+> as it stands is correct (ie coverity false-positive).
+
+I agree is a false positive for our case.
+"rdma_protected_qlist_destroy" is called by "mad_fini" which in turn is 
+called by "rdma_backend_fini"
+*after* the VM shutdown, at this point there is no active lock user.
+
+Thanks,
+Marcel
+
+> thanks
+> -- PMM
+
 
