@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD4519263B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:53:55 +0100 (CET)
-Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB147192644
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:55:29 +0100 (CET)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3fW-0001es-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36009)
+	id 1jH3h2-0003HV-W3
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Wn-0007MP-Rc
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:44:54 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3X2-0007da-BO
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Wm-0004G6-6p
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:44:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46520)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3X1-0004SW-An
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:08 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:21158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Wm-0004Ft-2C
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:44:52 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3X1-0004SB-7b
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133091;
+ s=mimecast20190719; t=1585133107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPeQSRU2H6G+mfBFLUx9rEAwDn3Huu1zVdXiFiKQHq4=;
- b=AhG4tgj5MWRiWpvSKVgx7+3xUpsQOR+bD1KfUmC0HKlPcVhvl9M+VbpTAWnFH11o2coqQ1
- b0Brl3xpXLWYmApn9jccb/ddxlV+J6XIJH+WZtrHeAJI538tRmbQv0Zz9aPNCOAN11vkNg
- tBK6z9pzC+WTtw7liCnU/VLPPRreFZ4=
+ bh=8dGBUSifkn4UfsUX6j1Up5mQe6P9EaTM1lhgH5isO1E=;
+ b=X57IO2fkx2CNzut2TawuI4eUnrLEbOkUkIpZ3G6ioHzR+BkTzQmoDWLvlyzDwRskoTdPi+
+ aDyI1BIwKQbw6lpZ1U3aQdz1cmbI9CJ25jtgUM/T/0kpQgiUuHgNHUw3XMbsG5p7pIeyCv
+ 47NNvoyr4r8xEi0SB5Kns0ITbU4en1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-dXaJ4NT9Mamxa9zSQCHvCw-1; Wed, 25 Mar 2020 06:44:50 -0400
-X-MC-Unique: dXaJ4NT9Mamxa9zSQCHvCw-1
+ us-mta-399-DAov-or4NlqW0uCfbNkhdw-1; Wed, 25 Mar 2020 06:45:03 -0400
+X-MC-Unique: DAov-or4NlqW0uCfbNkhdw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E17DBB7;
- Wed, 25 Mar 2020 10:44:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D222B8018AD;
+ Wed, 25 Mar 2020 10:45:01 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7761F5C3F8;
- Wed, 25 Mar 2020 10:44:46 +0000 (UTC)
-Message-ID: <88dd3d32f0b1947292e4dc6b4681cc40287c378f.camel@redhat.com>
-Subject: Re: [PATCH v6 21/42] nvme: bump supported version to v1.3
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7B395C241;
+ Wed, 25 Mar 2020 10:44:59 +0000 (UTC)
+Message-ID: <b03c04b745f4e4d9415303843574edb8f1a18c6b.camel@redhat.com>
+Subject: Re: [PATCH v6 22/42] nvme: memset preallocated requests structures
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:44:45 +0200
-In-Reply-To: <20200316142928.153431-22-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:44:58 +0200
+In-Reply-To: <20200316142928.153431-23-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-22-its@irrelevant.dk>
+ <20200316142928.153431-23-its@irrelevant.dk>
 Mime-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
@@ -80,42 +80,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
+> This is preparatory to subsequent patches that change how QSGs/IOVs are
+> handled. It is important that the qsg and iov members of the NvmeRequest
+> are initially zeroed.
+> 
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  hw/block/nvme.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 74061d08fd2e..26c4b6e69f72 100644
+> index 26c4b6e69f72..08267e847671 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -44,6 +44,7 @@
->  #include "trace.h"
->  #include "nvme.h"
+> @@ -597,7 +597,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+>      sq->size = size;
+>      sq->cqid = cqid;
+>      sq->head = sq->tail = 0;
+> -    sq->io_req = g_new(NvmeRequest, sq->size);
+> +    sq->io_req = g_new0(NvmeRequest, sq->size);
 >  
-> +#define NVME_SPEC_VER 0x00010300
->  #define NVME_CMB_BIR 2
->  #define NVME_TEMPERATURE 0x143
->  #define NVME_TEMPERATURE_WARNING 0x157
-> @@ -1898,6 +1899,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
->      id->ieee[0] = 0x00;
->      id->ieee[1] = 0x02;
->      id->ieee[2] = 0xb3;
-> +    id->ver = cpu_to_le32(NVME_SPEC_VER);
->      id->oacs = cpu_to_le16(0);
->  
->      /*
-> @@ -1942,7 +1944,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
->      NVME_CAP_SET_CSS(n->bar.cap, 1);
->      NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
->  
-> -    n->bar.vs = 0x00010200;
-> +    n->bar.vs = NVME_SPEC_VER;
->      n->bar.intmc = n->bar.intms = 0;
->  }
->  
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+>      QTAILQ_INIT(&sq->req_list);
+>      QTAILQ_INIT(&sq->out_req_list);
 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Best regards,
 	Maxim Levitsky
 
