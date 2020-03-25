@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDCB192604
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:43:46 +0100 (CET)
-Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB6B1925F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:41:49 +0100 (CET)
+Received: from localhost ([::1]:33890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3Vg-0004iD-D5
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35203)
+	id 1jH3Tp-0001SJ-1A
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35301)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Rs-0007Py-0q
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:39:49 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3SN-00089K-NX
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Rq-0001VR-AG
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:39:47 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:56719)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3SL-0001n2-Op
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:19 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:39870)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Rq-0001V3-6V
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:39:46 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3SL-0001m5-LN
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132785;
+ s=mimecast20190719; t=1585132816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p80QZ0mc4EqJz+/RfKWx+dEtX90r7XAmnZtEUYB3j6k=;
- b=W+S58/mRbbc1jlJjaXn3xDCYOj7vbxtpy1EtHCdz3QXvmvEVHPNMKNoraBUWuRPNokqLKq
- Li4tagcHA2KfRwQx7k0KtvJyKeA5c3e+DupIZe7cpPG6Pb9n1StNNONPaNFvhK4F0VhcTq
- ReSIPBW0LIFMnlscVNwCsiCmhGjLtzs=
+ bh=/sBL/8GIpl/NGS2/jC48IRqMZMS1LzNXWFjmSHIn/sI=;
+ b=VMdN036JvQvzg8LUUXEjuxcxkcBuR9CKDUVwjhOYp726KbO9iCtYShbdTkP+CRpdH0w8ba
+ uiFNpat2+E51wrbF7TW4rmycglA+1XHJ8dk/GlRcH46gWPbXiHQRYsqTtUPTzJACuaFh7R
+ H7T9dr764H/ivJ4Xv9/v03nA4GtjK5I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-0NFnFYW5MvOuY2XlNzfkxQ-1; Wed, 25 Mar 2020 06:39:42 -0400
-X-MC-Unique: 0NFnFYW5MvOuY2XlNzfkxQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-236-G-j9GHJqN5ilOHIbvpuwQw-1; Wed, 25 Mar 2020 06:40:08 -0400
+X-MC-Unique: G-j9GHJqN5ilOHIbvpuwQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95924DBA7;
- Wed, 25 Mar 2020 10:39:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 351F7107ACCC;
+ Wed, 25 Mar 2020 10:40:07 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79D29A0A75;
- Wed, 25 Mar 2020 10:39:38 +0000 (UTC)
-Message-ID: <aae04efeb49752c420e5ed2ba1ce3312909fbb0e.camel@redhat.com>
-Subject: Re: [PATCH v6 09/42] nvme: add max_ioqpairs device parameter
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A180C5DA7C;
+ Wed, 25 Mar 2020 10:40:01 +0000 (UTC)
+Message-ID: <90747b4189423d1f29917e8980b91373f6eb6523.camel@redhat.com>
+Subject: Re: [PATCH v6 10/42] nvme: refactor device realization
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:39:37 +0200
-In-Reply-To: <20200316142928.153431-10-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:40:00 +0200
+In-Reply-To: <20200316142928.153431-11-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-10-its@irrelevant.dk>
+ <20200316142928.153431-11-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,190 +79,332 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> The num_queues device paramater has a slightly confusing meaning because
-> it accounts for the admin queue pair which is not really optional.
-> Secondly, it is really a maximum value of queues allowed.
+> This patch splits up nvme_realize into multiple individual functions,
+> each initializing a different subset of the device.
 > 
-> Add a new max_ioqpairs parameter that only accounts for I/O queue pairs,
-> but keep num_queues for compatibility.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> Acked-by: Keith Busch <kbusch@kernel.org>
 > ---
->  hw/block/nvme.c | 45 ++++++++++++++++++++++++++-------------------
->  hw/block/nvme.h |  4 +++-
->  2 files changed, 29 insertions(+), 20 deletions(-)
+>  hw/block/nvme.c | 178 ++++++++++++++++++++++++++++++------------------
+>  hw/block/nvme.h |  23 ++++++-
+>  2 files changed, 134 insertions(+), 67 deletions(-)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 7cf7cf55143e..7dfd8a1a392d 100644
+> index 7dfd8a1a392d..665485045066 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -19,7 +19,7 @@
->   *      -drive file=<file>,if=none,id=<drive_id>
->   *      -device nvme,drive=<drive_id>,serial=<serial>,id=<id[optional]>, \
->   *              cmb_size_mb=<cmb_size_mb[optional]>, \
-> - *              num_queues=<N[optional]>
-> + *              max_ioqpairs=<N[optional]>
->   *
->   * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
->   * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-> @@ -27,6 +27,7 @@
+> @@ -44,6 +44,8 @@
+>  #include "trace.h"
+>  #include "nvme.h"
 >  
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
-> +#include "qemu/error-report.h"
->  #include "hw/block/block.h"
->  #include "hw/pci/msix.h"
->  #include "hw/pci/pci.h"
-> @@ -72,12 +73,12 @@ static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+> +#define NVME_CMB_BIR 2
+> +
+>  #define NVME_GUEST_ERR(trace, fmt, ...) \
+>      do { \
+>          (trace_##trace)(__VA_ARGS__); \
+> @@ -63,7 +65,7 @@ static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
 >  
->  static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+>  static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
 >  {
-> -    return sqid < n->params.num_queues && n->sq[sqid] != NULL ? 0 : -1;
-> +    return sqid < n->params.max_ioqpairs + 1 && n->sq[sqid] != NULL ? 0 : -1;
->  }
->  
->  static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqid)
->  {
-> -    return cqid < n->params.num_queues && n->cq[cqid] != NULL ? 0 : -1;
-> +    return cqid < n->params.max_ioqpairs + 1 && n->cq[cqid] != NULL ? 0 : -1;
->  }
->  
->  static void nvme_inc_cq_tail(NvmeCQueue *cq)
-> @@ -639,7 +640,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
->          trace_nvme_dev_err_invalid_create_cq_addr(prp1);
+> -    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+> +    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
+>          memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+>          return;
+>      }
+> @@ -157,7 +159,7 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+>      if (unlikely(!prp1)) {
+>          trace_nvme_dev_err_invalid_prp();
 >          return NVME_INVALID_FIELD | NVME_DNR;
->      }
-> -    if (unlikely(vector > n->params.num_queues)) {
-> +    if (unlikely(vector > n->params.max_ioqpairs + 1)) {
->          trace_nvme_dev_err_invalid_create_cq_vector(vector);
->          return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
->      }
-> @@ -803,8 +804,8 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          trace_nvme_dev_getfeat_vwcache(result ? "enabled" : "disabled");
->          break;
->      case NVME_NUMBER_OF_QUEUES:
-> -        result = cpu_to_le32((n->params.num_queues - 2) |
-> -                             ((n->params.num_queues - 2) << 16));
-> +        result = cpu_to_le32((n->params.max_ioqpairs - 1) |
-> +                             ((n->params.max_ioqpairs - 1) << 16));
->          trace_nvme_dev_getfeat_numq(result);
->          break;
->      case NVME_TIMESTAMP:
-> @@ -848,10 +849,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->      case NVME_NUMBER_OF_QUEUES:
->          trace_nvme_dev_setfeat_numq((dw11 & 0xFFFF) + 1,
->                                      ((dw11 >> 16) & 0xFFFF) + 1,
-> -                                    n->params.num_queues - 1,
-> -                                    n->params.num_queues - 1);
-> -        req->cqe.result = cpu_to_le32((n->params.num_queues - 2) |
-> -                                      ((n->params.num_queues - 2) << 16));
-> +                                    n->params.max_ioqpairs,
-> +                                    n->params.max_ioqpairs);
-> +        req->cqe.result = cpu_to_le32((n->params.max_ioqpairs - 1) |
-> +                                      ((n->params.max_ioqpairs - 1) << 16));
->          break;
->      case NVME_TIMESTAMP:
->          return nvme_set_feature_timestamp(n, cmd);
-> @@ -924,12 +925,12 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+> -    } else if (n->cmbsz && prp1 >= n->ctrl_mem.addr &&
+> +    } else if (n->bar.cmbsz && prp1 >= n->ctrl_mem.addr &&
+>                 prp1 < n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)) {
+>          qsg->nsg = 0;
+>          qemu_iovec_init(iov, num_prps);
+> @@ -1324,14 +1326,9 @@ static const MemoryRegionOps nvme_cmb_ops = {
+>      },
+>  };
 >  
->      blk_drain(n->conf.blk);
+> -static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +static int nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>  {
+> -    NvmeCtrl *n = NVME(pci_dev);
+> -    NvmeIdCtrl *id = &n->id_ctrl;
+> -
+> -    int i;
+> -    int64_t bs_size;
+> -    uint8_t *pci_conf;
+> +    NvmeParams *params = &n->params;
 >  
-> -    for (i = 0; i < n->params.num_queues; i++) {
-> +    for (i = 0; i < n->params.max_ioqpairs + 1; i++) {
->          if (n->sq[i] != NULL) {
->              nvme_free_sq(n->sq[i], n);
->          }
+>      if (n->params.num_queues) {
+>          warn_report("nvme: num_queues is deprecated; please use max_ioqpairs "
+> @@ -1340,57 +1337,100 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>          n->params.max_ioqpairs = n->params.num_queues - 1;
 >      }
-> -    for (i = 0; i < n->params.num_queues; i++) {
-> +    for (i = 0; i < n->params.max_ioqpairs + 1; i++) {
->          if (n->cq[i] != NULL) {
->              nvme_free_cq(n->cq[i], n);
->          }
-> @@ -1332,9 +1333,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      int64_t bs_size;
->      uint8_t *pci_conf;
 >  
-> -    if (!n->params.num_queues) {
-> -        error_setg(errp, "num_queues can't be zero");
-> -        return;
-> +    if (n->params.num_queues) {
-> +        warn_report("nvme: num_queues is deprecated; please use max_ioqpairs "
-> +                    "instead");
-> +
-> +        n->params.max_ioqpairs = n->params.num_queues - 1;
-> +    }
-> +
-> +    if (!n->params.max_ioqpairs) {
-> +        error_setg(errp, "max_ioqpairs can't be less than 1");
+> -    if (!n->params.max_ioqpairs) {
+> -        error_setg(errp, "max_ioqpairs can't be less than 1");
+> +    if (params->max_ioqpairs < 1 ||
+> +        params->max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
+> +        error_setg(errp, "nvme: max_ioqpairs must be ");
+Looks like the error message is not complete now.
+> +        return -1;
 >      }
-This is not even a nitpick, but just and idea.
-
-It might be worth it to allow max_ioqpairs=0 to simulate a 'broken'
-nvme controller. I know that kernel has special handling for such controllers,
-which include only creation of the control character device (/dev/nvme*) through
-which the user can submit commands to try and 'fix' the controller (by re-uploading firmware
-maybe or something like that).
-
-
 >  
 >      if (!n->conf.blk) {
-> @@ -1365,19 +1372,19 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      pcie_endpoint_cap_init(pci_dev, 0x80);
+> -        error_setg(errp, "drive property not set");
+> -        return;
+> +        error_setg(errp, "nvme: block backend not configured");
+> +        return -1;
+>      }
 >  
+> -    bs_size = blk_getlength(n->conf.blk);
+> -    if (bs_size < 0) {
+> -        error_setg(errp, "could not get backing file size");
+> -        return;
+> +    if (!params->serial) {
+> +        error_setg(errp, "nvme: serial not configured");
+> +        return -1;
+>      }
+>  
+> -    if (!n->params.serial) {
+> -        error_setg(errp, "serial property not set");
+> -        return;
+> -    }
+> +    return 0;
+> +}
+> +
+> +static int nvme_init_blk(NvmeCtrl *n, Error **errp)
+> +{
+>      blkconf_blocksizes(&n->conf);
+>      if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+>                                         false, errp)) {
+> -        return;
+> +        return -1;
+>      }
+>  
+> -    pci_conf = pci_dev->config;
+> -    pci_conf[PCI_INTERRUPT_PIN] = 1;
+> -    pci_config_set_prog_interface(pci_dev->config, 0x2);
+> -    pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
+> -    pcie_endpoint_cap_init(pci_dev, 0x80);
+> +    return 0;
+> +}
+>  
+> +static void nvme_init_state(NvmeCtrl *n)
+> +{
 >      n->num_namespaces = 1;
-> -    n->reg_size = pow2ceil(0x1004 + 2 * (n->params.num_queues + 1) * 4);
-> +    n->reg_size = pow2ceil(0x1008 + 2 * (n->params.max_ioqpairs) * 4);
-
-I hate to say it, but it looks like this thing (which I mentioned to you in V5)
-was pre-existing bug, which is indeed fixed now.
-In theory such fixes should go to separate patches, but in this case, I guess it would
-be too much to ask for it.
-Maybe mention this in the commit message instead, so that this fix doesn't stay hidden like that?
-
-
->      n->ns_size = bs_size / (uint64_t)n->num_namespaces;
->  
+>      n->reg_size = pow2ceil(0x1008 + 2 * (n->params.max_ioqpairs) * 4);
+> -    n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+> -
 >      n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
-> -    n->sq = g_new0(NvmeSQueue *, n->params.num_queues);
-> -    n->cq = g_new0(NvmeCQueue *, n->params.num_queues);
-> +    n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
-> +    n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+>      n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
+>      n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+> +}
 >  
->      memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
->                            "nvme", n->reg_size);
->      pci_register_bar(pci_dev, 0,
->          PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
->          &n->iomem);
-> -    msix_init_exclusive_bar(pci_dev, n->params.num_queues, 4, NULL);
-> +    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
+> -    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
+> -                          "nvme", n->reg_size);
+> -    pci_register_bar(pci_dev, 0,
+> -        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
+> -        &n->iomem);
+> +static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+> +{
+> +    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
+> +    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+> +
+> +    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+> +    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+> +    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+> +    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+> +    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+> +    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2);
+> +    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+> +
+> +    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+> +    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+> +                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+> +    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
+> +                     PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
+> +                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+> +}
+> +
+> +static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
+> +{
+> +    uint8_t *pci_conf = pci_dev->config;
+> +
+> +    pci_conf[PCI_INTERRUPT_PIN] = 1;
+> +    pci_config_set_prog_interface(pci_conf, 0x2);
+> +    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
+> +    pci_config_set_device_id(pci_conf, 0x5845);
+> +    pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
+> +    pcie_endpoint_cap_init(pci_dev, 0x80);
+> +
+> +    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
+> +                          n->reg_size);
+> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
+>      msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
 >  
+> +    if (n->params.cmb_size_mb) {
+> +        nvme_init_cmb(n, pci_dev);
+> +    }
+> +}
+> +
+> +static void nvme_init_ctrl(NvmeCtrl *n)
+> +{
+> +    NvmeIdCtrl *id = &n->id_ctrl;
+> +    NvmeParams *params = &n->params;
+> +    uint8_t *pci_conf = n->parent_obj.config;
+> +
 >      id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
 >      id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+>      strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+>      strpadcpy((char *)id->fr, sizeof(id->fr), "1.0", ' ');
+> -    strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
+> +    strpadcpy((char *)id->sn, sizeof(id->sn), params->serial, ' ');
+>      id->rab = 6;
+>      id->ieee[0] = 0x00;
+>      id->ieee[1] = 0x02;
+> @@ -1431,46 +1471,54 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>  
+>      n->bar.vs = 0x00010200;
+>      n->bar.intmc = n->bar.intms = 0;
+> +}
+>  
+> -    if (n->params.cmb_size_mb) {
+> +static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+> +{
+> +    int64_t bs_size;
+> +    NvmeIdNs *id_ns = &ns->id_ns;
+>  
+> -        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
+> -        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+> +    bs_size = blk_getlength(n->conf.blk);
+> +    if (bs_size < 0) {
+> +        error_setg_errno(errp, -bs_size, "blk_getlength");
+> +        return -1;
+> +    }
+>  
+> -        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+> -        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+> -        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+> -        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+> -        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+> -        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+> -        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+> +    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+> +    n->ns_size = bs_size;
+>  
+> -        n->cmbloc = n->bar.cmbloc;
+> -        n->cmbsz = n->bar.cmbsz;
+> +    id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(n, ns));
+>  
+> -        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+> -        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+> -                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+> -        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
+> -            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
+> -            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+> +    /* no thin provisioning */
+> +    id_ns->ncap = id_ns->nsze;
+> +    id_ns->nuse = id_ns->ncap;
+>  
+> +    return 0;
+> +}
+> +
+> +static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> +{
+> +    NvmeCtrl *n = NVME(pci_dev);
+> +    int i;
+> +
+> +    if (nvme_check_constraints(n, errp)) {
+> +        return;
+> +    }
+> +
+> +    nvme_init_state(n);
+> +
+> +    if (nvme_init_blk(n, errp)) {
+> +        return;
+>      }
+>  
+>      for (i = 0; i < n->num_namespaces; i++) {
+> -        NvmeNamespace *ns = &n->namespaces[i];
+> -        NvmeIdNs *id_ns = &ns->id_ns;
+> -        id_ns->nsfeat = 0;
+> -        id_ns->nlbaf = 0;
+> -        id_ns->flbas = 0;
+> -        id_ns->mc = 0;
+> -        id_ns->dpc = 0;
+> -        id_ns->dps = 0;
+> -        id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+> -        id_ns->ncap  = id_ns->nuse = id_ns->nsze =
+> -            cpu_to_le64(n->ns_size >>
+> -                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
+> +        if (nvme_init_namespace(n, &n->namespaces[i], errp)) {
+> +            return;
+> +        }
+>      }
+> +
+> +    nvme_init_pci(n, pci_dev);
+> +    nvme_init_ctrl(n);
+>  }
+>  
+>  static void nvme_exit(PCIDevice *pci_dev)
 > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 9957c4a200e2..98f5b9479244 100644
+> index 98f5b9479244..b7c465560eea 100644
 > --- a/hw/block/nvme.h
 > +++ b/hw/block/nvme.h
-> @@ -6,11 +6,13 @@
->  #define DEFINE_NVME_PROPERTIES(_state, _props) \
->      DEFINE_PROP_STRING("serial", _state, _props.serial), \
->      DEFINE_PROP_UINT32("cmb_size_mb", _state, _props.cmb_size_mb, 0), \
-> -    DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 64)
-> +    DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 0), \
-> +    DEFINE_PROP_UINT32("max_ioqpairs", _state, _props.max_ioqpairs, 64)
+> @@ -67,6 +67,22 @@ typedef struct NvmeNamespace {
+>      NvmeIdNs        id_ns;
+>  } NvmeNamespace;
 >  
->  typedef struct NvmeParams {
->      char     *serial;
->      uint32_t num_queues;
-> +    uint32_t max_ioqpairs;
->      uint32_t cmb_size_mb;
->  } NvmeParams;
+> +static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
+> +{
+> +    NvmeIdNs *id_ns = &ns->id_ns;
+> +    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
+> +}
+> +
+> +static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
+> +{
+> +    return nvme_ns_lbaf(ns)->ds;
+> +}
+> +
+> +static inline size_t nvme_ns_lbads_bytes(NvmeNamespace *ns)
+> +{
+> +    return 1 << nvme_ns_lbads(ns);
+> +}
+> +
+>  #define TYPE_NVME "nvme"
+>  #define NVME(obj) \
+>          OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+> @@ -88,8 +104,6 @@ typedef struct NvmeCtrl {
+>      uint32_t    num_namespaces;
+>      uint32_t    max_q_ents;
+>      uint64_t    ns_size;
+> -    uint32_t    cmbsz;
+> -    uint32_t    cmbloc;
+>      uint8_t     *cmbuf;
+>      uint64_t    irq_status;
+>      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+> @@ -103,4 +117,9 @@ typedef struct NvmeCtrl {
+>      NvmeIdCtrl      id_ctrl;
+>  } NvmeCtrl;
 >  
+> +static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    return n->ns_size >> nvme_ns_lbads(ns);
+> +}
+> +
+>  #endif /* HW_NVME_H */
+
+Small nitpick: To be honest this not only refactoring in the device realization since you also (rightfully)
+removed the duplicated cmbsz/cmbloc so I would add a mention for this in the commit message.
+But that doesn't matter that much, so
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
-
 
 
 
