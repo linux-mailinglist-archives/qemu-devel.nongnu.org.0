@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7773192F9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:44:18 +0100 (CET)
-Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D21E192FAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:47:16 +0100 (CET)
+Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHA4g-0005QO-0m
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35841)
+	id 1jHA7X-0000Hz-IW
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36181)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1jHA3c-0004To-Fq
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:13 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jHA50-0006fK-6A
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:44:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1jHA3b-0001On-DM
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34530)
+ (envelope-from <dgilbert@redhat.com>) id 1jHA4y-0002CT-Tx
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:44:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20575)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jHA3b-0001OX-9Y
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:11 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jHA4y-0002Bv-PM
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:44:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585158190;
+ s=mimecast20190719; t=1585158276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=npq6in6QIhRC2Vf/wwQDgFyiMQzVNAEh8CyukAjaTMo=;
- b=NAz2LxYtkIF5zeKGHHP9B73xdGS/L7lvgE2CWPjdUFP1uO1DiIAfJOJEytGhfRI7lSKpDe
- W+7AvueXcduAEvvo1SEGNp5xvaB9dB4MmPEjGpmwaEaRXZzEjB/9nMpn7kEMzbp5MkKmF6
- WiNzLoGXnwBK/ZiS8dCK2/RfPEOpC0M=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-FjGLWdE4PjmEya-KRuCIIQ-1; Wed, 25 Mar 2020 13:43:08 -0400
-X-MC-Unique: FjGLWdE4PjmEya-KRuCIIQ-1
-Received: by mail-wm1-f72.google.com with SMTP id m4so2761352wme.0
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 10:43:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EOCoqUjf8CUS3+fsPCv7fqtKWLfg28PneudeeOMjZA8=;
- b=Kk1gav2ZtdDvhX+DKB3jUJi8CiXkLidlcrPbxzw5bqKODu+rTjtl+B2H0RUnA/xJf5
- CjKddGqDgPLhL8198EEqInYTTSYrHjqZU29pWwolf3lkogvSUO4363McnEH9RimTVTGn
- thioFY0znryD1Ov/yQIWqagCWlttCdG89Lwakci/OVSBxEn0xNkkRQrR3xaR7Jn9imVW
- PTcnB+ms0tYrf4o3bTVL1GEclvdsHCWmCS2YZuybMUfdT6R5rzhXtI99yx51SgPJupDZ
- n+hVR5M3dFD8EIybVLmlF/CRJQuFxTgpRmBuOBhhx2fZL8/Bw8ILy+HWlEGXFgNeP33V
- zEUw==
-X-Gm-Message-State: ANhLgQ39AWAaO6F5wWDs3ew27U947gAAzGpTUxFNOeVmjyXlmZptGKy2
- eGPK5qtA4ma57H/5gIVUR6SsWLLPuQEpRDKS0GrlALL6djz2El6I/IX5NLqxOhlTF7pXCShRGot
- gN5Xgx222c6gmQGo=
-X-Received: by 2002:a1c:4c0e:: with SMTP id z14mr30904wmf.0.1585158187365;
- Wed, 25 Mar 2020 10:43:07 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vssqFB2I8kqzhRWvvj0byjaBttrQn1GglvbPvcBb798yRTs9B0YcfUzpAHmvtVz1KSIRtJxZA==
-X-Received: by 2002:a1c:4c0e:: with SMTP id z14mr30894wmf.0.1585158186865;
- Wed, 25 Mar 2020 10:43:06 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id b15sm34290676wru.70.2020.03.25.10.43.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 10:43:06 -0700 (PDT)
-Date: Wed, 25 Mar 2020 13:43:02 -0400
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH RFC 1/9] KVM: Fixup kvm_log_clear_one_slot() ioctl return
- check
-Message-ID: <20200325174302.GH354390@xz-x1>
+ bh=5FdXOkrbohr7uS5cNFXsajo0Z52raWFVu2MXQ2gQtwg=;
+ b=VqJ2RW1IkvMbOUJw/xv/mZJKvGOmap7g6ME4hdmz5bLiDqhj6IpkFyOKCacZjl8bIyKiWU
+ ccpKrAqo4zSeY/85u+WitL9MAVNk7EsHrvuFpZhS7KikdQ0hOwQjQwoua7i6oQeqqcG4tQ
+ qf8gXSRr/5RJkT1RUkl4TueAJ7+q7tY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-AWEW6vosNWaHX3FByJ3-kQ-1; Wed, 25 Mar 2020 13:44:34 -0400
+X-MC-Unique: AWEW6vosNWaHX3FByJ3-kQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A856800D4E
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 17:44:33 +0000 (UTC)
+Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDD8E100164D;
+ Wed, 25 Mar 2020 17:44:27 +0000 (UTC)
+Date: Wed, 25 Mar 2020 17:44:24 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH RFC 4/9] KVM: Create the KVMSlot dirty bitmap on flag
+ changes
+Message-ID: <20200325174424.GC2635@work-vm>
 References: <20200205141749.378044-1-peterx@redhat.com>
- <20200205141749.378044-2-peterx@redhat.com>
+ <20200205141749.378044-5-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200205141749.378044-2-peterx@redhat.com>
+In-Reply-To: <20200205141749.378044-5-peterx@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -87,61 +73,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 05, 2020 at 09:17:41AM -0500, Peter Xu wrote:
-> kvm_vm_ioctl() handles the errno trick already for ioctl() on
-> returning -1 for errors.  Fix this.
+* Peter Xu (peterx@redhat.com) wrote:
+> Previously we have two places that will create the per KVMSlot dirty
+> bitmap:
 >=20
+>   1. When a newly created KVMSlot has dirty logging enabled,
+>   2. When the first log_sync() happens for a memory slot.
+>=20
+> The 2nd case is lazy-init, while the 1st case is not (which is a fix
+> of what the 2nd case missed).
+>=20
+> To do explicit initialization of dirty bitmaps, what we're missing is
+> to create the dirty bitmap when the slot changed from not-dirty-track
+> to dirty-track.  Do that in kvm_slot_update_flags().
+>=20
+> With that, we can safely remove the 2nd lazy-init.
+>=20
+> This change will be needed for kvm dirty ring because kvm dirty ring
+> does not use the log_sync() interface at all.
+>=20
+> Since at it, move all the pre-checks into kvm_slot_init_dirty_bitmap().
+
+'While at it' or just Also
+
 > Signed-off-by: Peter Xu <peterx@redhat.com>
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  accel/kvm/kvm-all.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  accel/kvm/kvm-all.c | 23 +++++++++--------------
+>  1 file changed, 9 insertions(+), 14 deletions(-)
 >=20
 > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index c111312dfd..4be3cd2352 100644
+> index 4be3cd2352..bb635c775f 100644
 > --- a/accel/kvm/kvm-all.c
 > +++ b/accel/kvm/kvm-all.c
-> @@ -688,14 +688,13 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int=
- as_id, uint64_t start,
->      d.num_pages =3D bmap_npages;
->      d.slot =3D mem->slot | (as_id << 16);
+> @@ -162,6 +162,8 @@ static NotifierList kvm_irqchip_change_notifiers =3D
+>  #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+>  #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
 > =20
-> -    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) =3D=3D -1) {
-> -        ret =3D -errno;
-> +    ret =3D kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d);
-
-Dave raised a question offlist when comparing with KVM_GET_DIRTY_LOG,
-regarding 50212d6346 ("Revert "fix return check for KVM_GET_DIRTY_LOG
-ioctl"", 2014-04-14) where we wanted to allow KVM_GET_DIRTY_LOG to
-fail for some cases.  I didn't find any context of that, and from the
-first glance I don't understand why and when we'll get -ENOENT during
-sync dirty log (we should have BQL held, so I don't know why a memslot
-can be gone underneath).  Anyone knows more?
-
-CCing Peter Maydell and Michael Tokarev too.
-
-> +    if (ret) {
->          error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=3D%d, "
->                       "start=3D0x%"PRIx64", size=3D0x%"PRIx32", errno=3D%=
-d",
->                       __func__, d.slot, (uint64_t)d.first_page,
->                       (uint32_t)d.num_pages, ret);
->      } else {
-> -        ret =3D 0;
->          trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
+> +static void kvm_slot_init_dirty_bitmap(KVMSlot *mem);
+> +
+>  int kvm_get_max_memslots(void)
+>  {
+>      KVMState *s =3D KVM_STATE(current_accel());
+> @@ -442,6 +444,7 @@ static int kvm_slot_update_flags(KVMMemoryListener *k=
+ml, KVMSlot *mem,
+>          return 0;
 >      }
 > =20
+> +    kvm_slot_init_dirty_bitmap(mem);
+>      return kvm_set_user_memory_region(kml, mem, false);
+>  }
+> =20
+> @@ -526,8 +529,12 @@ static int kvm_get_dirty_pages_log_range(MemoryRegio=
+nSection *section,
+>  #define ALIGN(x, y)  (((x)+(y)-1) & ~((y)-1))
+> =20
+>  /* Allocate the dirty bitmap for a slot  */
+> -static void kvm_memslot_init_dirty_bitmap(KVMSlot *mem)
+> +static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
+>  {
+> +    if (!(mem->flags & KVM_MEM_LOG_DIRTY_PAGES) || mem->dirty_bmap) {
+> +        return;
+> +    }
+> +
+>      /*
+>       * XXX bad kernel interface alert
+>       * For dirty bitmap, kernel allocates array of size aligned to
+> @@ -578,11 +585,6 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryL=
+istener *kml,
+>              goto out;
+>          }
+> =20
+> -        if (!mem->dirty_bmap) {
+> -            /* Allocate on the first log_sync, once and for all */
+> -            kvm_memslot_init_dirty_bitmap(mem);
+> -        }
+> -
+>          d.dirty_bitmap =3D mem->dirty_bmap;
+>          d.slot =3D mem->slot | (kml->as_id << 16);
+>          if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) =3D=3D -1) {
+> @@ -1079,14 +1081,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *km=
+l,
+>          mem->start_addr =3D start_addr;
+>          mem->ram =3D ram;
+>          mem->flags =3D kvm_mem_flags(mr);
+> -
+> -        if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+> -            /*
+> -             * Reallocate the bmap; it means it doesn't disappear in
+> -             * middle of a migrate.
+> -             */
+> -            kvm_memslot_init_dirty_bitmap(mem);
+> -        }
+> +        kvm_slot_init_dirty_bitmap(mem);
+>          err =3D kvm_set_user_memory_region(kml, mem, true);
+>          if (err) {
+>              fprintf(stderr, "%s: error registering slot: %s\n", __func__=
+,
 > --=20
 > 2.24.1
 >=20
-
---=20
-Peter Xu
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
