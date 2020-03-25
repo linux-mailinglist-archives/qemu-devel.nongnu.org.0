@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED6D192634
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:52:17 +0100 (CET)
-Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054A6192618
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:49:13 +0100 (CET)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3dw-0008Ea-J6
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
+	id 1jH3ay-0003VC-1v
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jH3UY-00042z-5a
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:35 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Uq-0004Ro-BM
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jH3UW-00039V-Rj
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:34 -0400
-Received: from mga02.intel.com ([134.134.136.20]:18398)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Uo-0003GU-5B
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51221)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jH3UW-00039C-IM
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:32 -0400
-IronPort-SDR: fmd9wU24DozZAi4CFcSqBlnKJWXtRiy8Flkgzxy5G2IqqG/BH2N1jEGeNF85mfKj9Js/uAbVFW
- EFjJ4AYMNi/A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 03:42:30 -0700
-IronPort-SDR: LWkUJka4Ry8MhjSbLvQqnSfpT6IDusdEYVp9AteGJhlwD8R6Ldy/atzLpoeOAX6D+kfErperJO
- jtPHiK+HwFtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; d="scan'208";a="282102346"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2020 03:42:30 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Mar 2020 03:42:30 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 25 Mar 2020 03:42:30 -0700
-Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 25 Mar 2020 03:42:30 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- SHSMSX103.ccr.corp.intel.com ([169.254.4.137]) with mapi id 14.03.0439.000;
- Wed, 25 Mar 2020 18:42:26 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [PATCH v1 17/22] intel_iommu: do not pass down pasid bind for
- PASID #0
-Thread-Topic: [PATCH v1 17/22] intel_iommu: do not pass down pasid bind for
- PASID #0
-Thread-Index: AQHWAEW2o830y533sUCksKmHK8WrT6hXiSsAgAGL4GA=
-Date: Wed, 25 Mar 2020 10:42:25 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A201FC7@SHSMSX104.ccr.corp.intel.com>
-References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
- <1584880579-12178-18-git-send-email-yi.l.liu@intel.com>
- <20200324181326.GB127076@xz-x1>
-In-Reply-To: <20200324181326.GB127076@xz-x1>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.20
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Un-0003GH-W3
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:42:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585132969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JSsTUGqL7DYkABDQF5qBYjpt3mGVWuggNKCvDBp91Ic=;
+ b=FuTrIwwwkfZnDa0OwCZxtxki3fQskuV8srJZ1E/vQbA6nrTeU2T2h0BILxfyQx5lwm5oDo
+ UmeuWIyGgXnQhXxUEnIn54+zNbaGab2vLU8z/wW/7bjr3odegxjuaSDNWFlicnnK41+NoR
+ fgTwCXxPJkZ85BqMRJ5s8IBwLgduUf4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-4vzHxHR-MoiA4TNtrHwX3g-1; Wed, 25 Mar 2020 06:42:47 -0400
+X-MC-Unique: 4vzHxHR-MoiA4TNtrHwX3g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E166107ACCC;
+ Wed, 25 Mar 2020 10:42:46 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 277545C241;
+ Wed, 25 Mar 2020 10:42:43 +0000 (UTC)
+Message-ID: <c1bb24e518a670a2053c4050ad73740053f13931.camel@redhat.com>
+Subject: Re: [PATCH v6 16/42] nvme: make sure ncqr and nsqr is valid
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+Date: Wed, 25 Mar 2020 12:42:43 +0200
+In-Reply-To: <20200316142928.153431-17-its@irrelevant.dk>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-17-its@irrelevant.dk>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,74 +70,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
- "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBQZXRlciBYdSA8IHBldGVyeEByZWRoYXQuY29tPg0KPiBTZW50OiBXZWRuZXNkYXks
-IE1hcmNoIDI1LCAyMDIwIDI6MTMgQU0NCj4gVG86IExpdSwgWWkgTCA8eWkubC5saXVAaW50ZWwu
-Y29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxIDE3LzIyXSBpbnRlbF9pb21tdTogZG8gbm90
-IHBhc3MgZG93biBwYXNpZCBiaW5kIGZvciBQQVNJRA0KPiAjMA0KPiANCj4gT24gU3VuLCBNYXIg
-MjIsIDIwMjAgYXQgMDU6MzY6MTRBTSAtMDcwMCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4gUklEX1BB
-U0lEIGZpZWxkIHdhcyBpbnRyb2R1Y2VkIGluIFZULWQgMy4wIHNwZWMsIGl0IGlzIHVzZWQgZm9y
-IERNQQ0KPiA+IHJlcXVlc3RzIHcvbyBQQVNJRCBpbiBzY2FsYWJsZSBtb2RlIFZULWQuIEl0IGlz
-IGFsc28ga25vd24gYXMgSU9WQS4NCj4gPiBBbmQgaW4gVlQtZCAzLjEgc3BlYywgdGhlcmUgaXMg
-ZGVmaW5pdGlvbiBvbiBpdDoNCj4gPg0KPiA+ICJJbXBsZW1lbnRhdGlvbnMgbm90IHN1cHBvcnRp
-bmcgUklEX1BBU0lEIGNhcGFiaWxpdHkgKEVDQVBfUkVHLlJQUyBpcw0KPiA+IDBiKSwgdXNlIGEg
-UEFTSUQgdmFsdWUgb2YgMCB0byBwZXJmb3JtIGFkZHJlc3MgdHJhbnNsYXRpb24gZm9yDQo+ID4g
-cmVxdWVzdHMgd2l0aG91dCBQQVNJRC4iDQo+ID4NCj4gPiBUaGlzIHBhdGNoIGFkZHMgYSBjaGVj
-ayBhZ2FpbnN0IHRoZSBQQVNJRHMgd2hpY2ggYXJlIGdvaW5nIHRvIGJlIGJvdW5kDQo+ID4gdG8g
-ZGV2aWNlLiBGb3IgUEFTSUQgIzAsIGl0IGlzIG5vdCBuZWNlc3NhcnkgdG8gcGFzcyBkb3duIHBh
-c2lkIGJpbmQNCj4gPiByZXF1ZXN0IGZvciBpdCBzaW5jZSBQQVNJRCAjMCBpcyB1c2VkIGFzIFJJ
-RF9QQVNJRCBmb3IgRE1BIHJlcXVlc3RzDQo+ID4gd2l0aG91dCBwYXNpZC4gRnVydGhlciByZWFz
-b24gaXMgY3VycmVudCBJbnRlbCB2SU9NTVUgc3VwcG9ydHMgZ0lPVkENCj4gPiBieSBzaGFkb3dp
-bmcgZ3Vlc3QgMm5kIGxldmVsIHBhZ2UgdGFibGUuIEhvd2V2ZXIsIGluIGZ1dHVyZSwgaWYgZ3Vl
-c3QNCj4gPiBJT01NVSBkcml2ZXIgdXNlcyAxc3QgbGV2ZWwgcGFnZSB0YWJsZSB0byBzdG9yZSBJ
-T1ZBIG1hcHBpbmdzLCB0aGVuDQo+ID4gZ3Vlc3QgSU9WQSBzdXBwb3J0IHdpbGwgYWxzbyBiZSBk
-b25lIHZpYSBuZXN0ZWQgdHJhbnNsYXRpb24uIFdoZW4NCj4gPiBnSU9WQSBpcyBvdmVyIEZMUFQs
-IHRoZW4gdklPTU1VIHNob3VsZCBwYXNzIGRvd24gdGhlIHBhc2lkIGJpbmQNCj4gPiByZXF1ZXN0
-IGZvciBQQVNJRCAjMCB0byBob3N0LCBob3N0IG5lZWRzIHRvIGJpbmQgdGhlIGd1ZXN0IElPVkEg
-cGFnZQ0KPiA+IHRhYmxlIHRvIGEgcHJvcGVyIFBBU0lELiBlLmcgUEFTSUQgdmFsdWUgaW4gUklE
-X1BBU0lEIGZpZWxkIGZvciBQRi9WRg0KPiA+IGlmIEVDQVBfUkVHLlJQUyBpcyBjbGVhciBvciBk
-ZWZhdWx0IFBBU0lEIGZvciBBREkgKEFzc2lnbmFibGUgRGV2aWNlDQo+ID4gSW50ZXJmYWNlIGlu
-IFNjYWxhYmxlIElPViBzb2x1dGlvbikuDQo+ID4NCj4gPiBJT1ZBIG92ZXIgRkxQVCBzdXBwb3J0
-IG9uIEludGVsIFZULWQ6DQo+ID4gaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTkvOS8yMy8yOTcN
-Cj4gPg0KPiA+IENjOiBLZXZpbiBUaWFuIDxrZXZpbi50aWFuQGludGVsLmNvbT4NCj4gPiBDYzog
-SmFjb2IgUGFuIDxqYWNvYi5qdW4ucGFuQGxpbnV4LmludGVsLmNvbT4NCj4gPiBDYzogUGV0ZXIg
-WHUgPHBldGVyeEByZWRoYXQuY29tPg0KPiA+IENjOiBZaSBTdW4gPHlpLnkuc3VuQGxpbnV4Lmlu
-dGVsLmNvbT4NCj4gPiBDYzogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4NCj4g
-PiBDYzogUmljaGFyZCBIZW5kZXJzb24gPHJ0aEB0d2lkZGxlLm5ldD4NCj4gPiBDYzogRWR1YXJk
-byBIYWJrb3N0IDxlaGFia29zdEByZWRoYXQuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IExpdSBZ
-aSBMIDx5aS5sLmxpdUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L2kzODYvaW50ZWxfaW9t
-bXUuYyB8IDEwICsrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMo
-KykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9ody9pMzg2L2ludGVsX2lvbW11LmMgYi9ody9pMzg2
-L2ludGVsX2lvbW11LmMgaW5kZXgNCj4gPiAxZTBjY2RlLi5iMDA3NzE1IDEwMDY0NA0KPiA+IC0t
-LSBhL2h3L2kzODYvaW50ZWxfaW9tbXUuYw0KPiA+ICsrKyBiL2h3L2kzODYvaW50ZWxfaW9tbXUu
-Yw0KPiA+IEBAIC0xODg2LDYgKzE4ODYsMTYgQEAgc3RhdGljIGludCB2dGRfYmluZF9ndWVzdF9w
-YXNpZChJbnRlbElPTU1VU3RhdGUgKnMsDQo+IFZUREJ1cyAqdnRkX2J1cywNCj4gPiAgICAgIHN0
-cnVjdCBpb21tdV9ncGFzaWRfYmluZF9kYXRhICpnX2JpbmRfZGF0YTsNCj4gPiAgICAgIGludCBy
-ZXQgPSAtMTsNCj4gPg0KPiA+ICsgICAgaWYgKHBhc2lkIDwgVlREX01JTl9IUEFTSUQpIHsNCj4g
-PiArICAgICAgICAvKg0KPiA+ICsgICAgICAgICAqIElmIHBhc2lkIDwgVlREX0hQQVNJRF9NSU4s
-IHRoaXMgcGFzaWQgaXMgbm90IGFsbG9jYXRlZA0KPiANCj4gcy9WVERfSFBBU0lEX01JTi9WVERf
-TUlOX0hQQVNJRC8uDQoNCkdvdCBpdC4NCg0KPiANCj4gPiArICAgICAgICAgKiBmcm9tIGhvc3Qu
-IE5vIG5lZWQgdG8gcGFzcyBkb3duIHRoZSBjaGFuZ2VzIG9uIGl0IHRvIGhvc3QuDQo+ID4gKyAg
-ICAgICAgICogVE9ETzogd2hlbiBJT1ZBIG92ZXIgRkxQVCBpcyByZWFkeSwgdGhpcyBzd2l0Y2gg
-c2hvdWxkIGJlDQo+ID4gKyAgICAgICAgICogcmVmaW5lZC4NCj4gDQo+IFdoYXQgd2lsbCBoYXBw
-ZW4gaWYgd2l0aG91dCB0aGlzIHBhdGNoPyAgSXMgaXQgYSBtdXN0Pw0KDQpCZWZvcmUgZ0lPVkEg
-aXMgc3VwcG9ydGVkIGJ5IG5lc3RlZCB0cmFuc2xhdGlvbiwgaXQgaXMgYSBtdXN0LiBUaGlzIHJl
-cXVpcmVzDQpJT1ZBIG92ZXIgMXN0IGxldmVsIHBhZ2UgdGFibGUgaXMgcmVhZHkgaW4gZ3Vlc3Qg
-a2VybmVsLCBhbHNvIHJlcXVpcmVzIHRoZQ0KUUVNVS9WRklPIHN1cHBvcnRzIHRvIGJpbmQgdGhl
-IGd1ZXN0IElPVkEgcGFnZSB0YWJsZSB0byBob3N0Lg0KQ3VycmVudGx5LCBndWVzdCBrZXJuZWwg
-c2lkZSBpcyByZWFkeS4gSG93ZXZlciwgUUVNVSBhbmQgVkZJTyBzaWRlIGlzDQpub3QuDQoNClJl
-Z2FyZHMsDQpZaSBMaXUNCg0K
+On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> 0xffff is not an allowed value for NCQR and NSQR in Set Features on
+> Number of Queues.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Acked-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  hw/block/nvme.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 85c7c86b35f0..e56142c4ea99 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1155,6 +1155,14 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+>          break;
+>      case NVME_NUMBER_OF_QUEUES:
+> +        /*
+> +         * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value for NCQR
+> +         * and NSQR.
+> +         */
+> +        if ((dw11 & 0xffff) == 0xffff || ((dw11 >> 16) & 0xffff) == 0xffff) {
+> +            return NVME_INVALID_FIELD | NVME_DNR;
+> +        }
+> +
+>          trace_nvme_dev_setfeat_numq((dw11 & 0xFFFF) + 1,
+>                                      ((dw11 >> 16) & 0xFFFF) + 1,
+>                                      n->params.max_ioqpairs,
+
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+
+Best regards,
+	Maxim Levitsky
+
+
+
 
