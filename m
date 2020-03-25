@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1063F192C1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:19:11 +0100 (CET)
-Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EFE192C0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:17:14 +0100 (CET)
+Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7oE-0008Tn-17
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41439)
+	id 1jH7mL-00055n-GV
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41421)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7l0-0003U8-Ur
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7kz-0007xt-Rs
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7kz-0003Sy-Pv
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:50 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46369)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7ky-0007xD-R1
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:49 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46365)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jH7kz-0007xH-Lb
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:49 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j17so3521891wru.13
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:49 -0700 (PDT)
+ id 1jH7ky-0007wQ-Kh
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:48 -0400
+Received: by mail-wr1-x430.google.com with SMTP id j17so3521798wru.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bT+O2ozwAgkvLW9gR/+Xf0vUVInPPvZ9IQRO4pMfn0o=;
- b=bLHUNzZzLtCEbNToiqcxlsrTI/VS7LMokprbZ7l+FIVBr9/THLnBa2x7D5lHAhshgB
- 0+ceOuIcJ0ndGvqNH55LlgeWUdQ8XSSWsNlyfqyJpVQ/zBNUW0WZg/n3K0Kyr//Upjqx
- nk/uDef3dA1ychfuauJL8iYSDkKGybb6BSJvYwtYR/PXJicAWSpeoOKiHyCStoLiLmDV
- 9//NcuY+LvH6DW76y1NLp6QBj5DNgTqAV7EnJWY6Ow6vMqzhAo/kSg07+T5NNOp2aPZV
- MkKghgeG/Zskk4V3ApUyzQ7ppfq+oRvg3D5+b9GroAiRPMUB0i+UBINhxumCbkGSpeon
- 4BuQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gyO7FMb6Kog7HFYI2emP9ylf6WG5qE9183WrVkkssuU=;
+ b=DY/7yBu2uCN1ul0cNqvpch+bDgQ2niscBAmEUfPjrotOI5WO2qoHoBatgOhQ3c4fFO
+ ybIQKqQY4x3f0qFbMokyOLF5mWZPAnnHQ7+qSAzsp+wpYEYYckMQx8IJuCdQ/HaT6gmP
+ McuB5WhqV6upz0+T1QhujcWyx53M9XVkHI/GV5o/DAqkx0Wh5E4T+7iGJy6yCf9J64+B
+ grTlmY6kH5WXqW23EMNRRPOEYHmKtmp+eZsXRhTsNRnsbOG6tGk0B725uBFCZvxq1JEy
+ VfVj5i/Sdvynaw2aVVLgkPybnvOgwRwKiuQtCP72T0ghkttmEY0HhICPZKLUjnnxXv1K
+ CKqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bT+O2ozwAgkvLW9gR/+Xf0vUVInPPvZ9IQRO4pMfn0o=;
- b=rXaFHSPGYAdSa1KGlMDqthGRUrwQXLRkvZ5LjjzafzzaxUD7UWDDcUtBcQmN/xrZer
- ri6817IDcccD4eeON7126K/nebsTNO1yMAYzzT1NzR6xfFxqpDBE9LNZH2Y5oSbP3Wx8
- /btNxMctmWWwwm71S2OYrp5PmfuhcLib4a7AT+zI8Z2vUWnwzx7SKKkgzOmuXUMb5xYL
- rwgjlwDP3xYIAcis+R/iPjpmg4PZIM0KUYrGbZCTHik0ToggfXgcJPmTdfq1OX97jmeY
- LgaIKmAJf69Idd25MMpJjcZrMUdSQtBbWTlXDxOEnPMIqFIiN+ZAy77t8PRrxe8jZbL/
- 4Vxg==
-X-Gm-Message-State: ANhLgQ3iV2dsx3DM9OKJjsYcHQnE5SWBqXHHU+tFsnEOLgXm6PtJkNuY
- SG7CkoQsKgQgGY/dVVGxaT3JvFzZqaY=
-X-Google-Smtp-Source: ADFU+vu+Kqep3W40sK+eIdEIlS2kDL8249lLn8hDOd9U1bYZGUGygQyBrGCquqn1dakIYLdyx3JRmw==
-X-Received: by 2002:a5d:640e:: with SMTP id z14mr4268342wru.204.1585149348639; 
- Wed, 25 Mar 2020 08:15:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gyO7FMb6Kog7HFYI2emP9ylf6WG5qE9183WrVkkssuU=;
+ b=QlUi9COy2JwbdKq6vXliGP1Fm/AcxXLJ2EuHffPlFFxjtp+zsjgeY50lulSeeqQRQe
+ yyDZwdpm3x+SkTiBKGKDGBvzCv9JKwODZHJWf0581JRkfaFMweRsD8SKT2kg/TciJSae
+ JV56uuG2dCqeF3aBnLk91PAR1t8MQg65a88p+nIBiUrF63hj7yEUAC+4taxnMMtX57F0
+ TRNDi0eJnNRDciLXZ8qZORZj0r91voIlpew5sESN3SHHsKhqKsFlFL1NbDxb6a/oQf32
+ TWgaCa5n5XPcfIijLVKPX8j+TQRIH7W3yq3Awk8xFCeXSP7+Of2ot1YdKFP00+i+CQuJ
+ so8g==
+X-Gm-Message-State: ANhLgQ2VXRatXTH+Z2RSv03OBLEEPZ8P2tEHp8m3TO2MOdJ9gW3WjArX
+ Ly/9DLIk4tfTuB2+GByncNGthQ==
+X-Google-Smtp-Source: ADFU+vvZMab3MeUi+oX1d9UeoZA+SH/1ImgDcwWUfa+cHM04konPwGt1zpcH8IYdjKA3U3G2XdjwsA==
+X-Received: by 2002:a05:6000:111:: with SMTP id
+ o17mr3911770wrx.111.1585149347375; 
+ Wed, 25 Mar 2020 08:15:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b6sm18805180wrp.59.2020.03.25.08.15.44
+ by smtp.gmail.com with ESMTPSA id u11sm1633773wrt.29.2020.03.25.08.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 25 Mar 2020 08:15:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D1B11FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 56D371FF87;
  Wed, 25 Mar 2020 15:15:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL for 5.0-rc1 00/11] testing updates (+ one mttcg change)
-Date: Wed, 25 Mar 2020 15:15:32 +0000
-Message-Id: <20200325151543.32478-1-alex.bennee@linaro.org>
+Subject: [PULL 01/11] tests/vm: write raw console log
+Date: Wed, 25 Mar 2020 15:15:33 +0000
+Message-Id: <20200325151543.32478-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200325151543.32478-1-alex.bennee@linaro.org>
+References: <20200325151543.32478-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,62 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 736cf607e40674776d752acc201f565723e86045:
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
+to watch the install console.
 
-are available in the Git repository at:
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200310083218.26355-2-kraxel@redhat.com>
+Message-Id: <20200323161514.23952-2-alex.bennee@linaro.org>
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-250320-1
-
-for you to fetch changes up to 6a5970988e7c9ce7f9fa9747397b63e8455144c6:
-
-  .travis.yml: Add a KVM-only s390x job (2020-03-25 14:40:14 +0000)
-
-----------------------------------------------------------------
-Testing updates:
-
-  - docker updates (various dependencies)
-  - travis updates (s390x KVM build)
-  - test/vm updates (NetBSD -> 9.0, FreeBSD -> 12.1)
-  - disable MTTCG for mips64/mips64el
-
-----------------------------------------------------------------
-Alex Bennée (2):
-      tests/vm: fix basevm config
-      configure: disable MTTCG for MIPS guests
-
-Gerd Hoffmann (4):
-      tests/vm: write raw console log
-      tests/vm: move vga setup
-      tests/vm: update FreeBSD to 12.1
-      tests/vm: update NetBSD to 9.0
-
-Philippe Mathieu-Daudé (5):
-      tests/docker: Keep package list sorted
-      tests/docker: Install gcrypt devel package in Debian image
-      tests/docker: Use Python3 PyYAML in the Fedora image
-      tests/docker: Add libepoxy and libudev packages to the Fedora image
-      .travis.yml: Add a KVM-only s390x job
-
- configure                                    |  2 +-
- .travis.yml                                  | 42 ++++++++++++++++++++++++++++
- tests/docker/dockerfiles/centos7.docker      |  6 ++--
- tests/docker/dockerfiles/debian-amd64.docker |  1 +
- tests/docker/dockerfiles/fedora.docker       | 10 +++++--
- tests/vm/basevm.py                           | 23 +++++++++------
- tests/vm/fedora                              |  1 +
- tests/vm/freebsd                             |  5 ++--
- tests/vm/netbsd                              | 24 +++++-----------
- tests/vm/openbsd                             |  1 +
- tests/vm/ubuntu.i386                         |  5 +++-
- 11 files changed, 85 insertions(+), 35 deletions(-)
-
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 8400b0e07f6..c53fd354d95 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -213,6 +213,9 @@ class BaseVM(object):
+     def console_init(self, timeout = 120):
+         vm = self._guest
+         vm.console_socket.settimeout(timeout)
++        self.console_raw_path = os.path.join(vm._temp_dir,
++                                             vm._name + "-console.raw")
++        self.console_raw_file = open(self.console_raw_path, 'wb')
+ 
+     def console_log(self, text):
+         for line in re.split("[\r\n]", text):
+@@ -234,6 +237,9 @@ class BaseVM(object):
+         while True:
+             try:
+                 chars = vm.console_socket.recv(1)
++                if self.console_raw_file:
++                    self.console_raw_file.write(chars)
++                    self.console_raw_file.flush()
+             except socket.timeout:
+                 sys.stderr.write("console: *** read timeout ***\n")
+                 sys.stderr.write("console: waiting for: '%s'\n" % expect)
 -- 
 2.20.1
 
