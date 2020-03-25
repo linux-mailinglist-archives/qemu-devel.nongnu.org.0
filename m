@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAA9191F81
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 04:01:19 +0100 (CET)
-Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6E6191F84
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 04:01:21 +0100 (CET)
+Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGwIA-0002lK-0Q
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 23:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45447)
+	id 1jGwIC-0002o2-EG
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 23:01:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGd-00013x-Q3
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGd-00013y-Ph
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGc-0004zP-Kk
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGc-0004zR-Kk
  for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:59:43 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3212 helo=huawei.com)
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3725 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1jGwGc-0004x1-9F; Tue, 24 Mar 2020 22:59:42 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A1D3C60B2E7D08106BF8;
+ id 1jGwGc-0004x0-90; Tue, 24 Mar 2020 22:59:42 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id CD1F3D59120C6882B2BE;
  Wed, 25 Mar 2020 10:59:37 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Mar 2020
  10:59:28 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v5 2/3] display/blizzard: use extract16() for fix clang
- analyzer warning in blizzard_draw_line16_32()
-Date: Wed, 25 Mar 2020 10:59:18 +0800
-Message-ID: <20200325025919.21316-3-kuhn.chenqun@huawei.com>
+Subject: [PATCH v5 3/3] timer/exynos4210_mct: Remove redundant statement in
+ exynos4210_mct_write()
+Date: Wed, 25 Mar 2020 10:59:19 +0800
+Message-ID: <20200325025919.21316-4-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20200325025919.21316-1-kuhn.chenqun@huawei.com>
 References: <20200325025919.21316-1-kuhn.chenqun@huawei.com>
@@ -42,7 +42,7 @@ X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,56 +55,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- philmd@redhat.com, laurent@vivier.eu, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, laurent@vivier.eu,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-  hw/display/blizzard.c:940:9: warning: Value stored to 'data' is never r=
-ead
-        data >>=3D 5;
-        ^        ~
+hw/timer/exynos4210_mct.c:1370:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1399:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1441:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
-
-v1->v2: Use extract16() function instead of bit operation(Base on Laurent=
-'s comments).
 ---
- hw/display/blizzard.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/timer/exynos4210_mct.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
-index 359e399c2a..105241577d 100644
---- a/hw/display/blizzard.c
-+++ b/hw/display/blizzard.c
-@@ -19,6 +19,7 @@
-  */
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index 944120aea5..570cf7075b 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -1367,7 +1367,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
 =20
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "ui/console.h"
- #include "hw/display/blizzard.h"
- #include "ui/pixel_ops.h"
-@@ -932,12 +933,9 @@ static void blizzard_draw_line16_32(uint32_t *dest,
-     const uint16_t *end =3D (const void *) src + width;
-     while (src < end) {
-         data =3D *src ++;
--        b =3D (data & 0x1f) << 3;
--        data >>=3D 5;
--        g =3D (data & 0x3f) << 2;
--        data >>=3D 6;
--        r =3D (data & 0x1f) << 3;
--        data >>=3D 5;
-+        b =3D extract16(data, 0, 5) << 3;
-+        g =3D extract16(data, 5, 6) << 2;
-+        r =3D extract16(data, 11, 5) << 3;
-         *dest++ =3D rgb_to_pixel32(r, g, b);
-     }
- }
+     case L0_TCNTB: case L1_TCNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+=20
+         /*
+          * TCNTB is updated to internal register only after CNT expired.
+@@ -1396,7 +1395,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
+=20
+     case L0_ICNTB: case L1_ICNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+=20
+         s->l_timer[lt_i].reg.wstat |=3D L_WSTAT_ICNTB_WRITE;
+         s->l_timer[lt_i].reg.cnt[L_REG_CNT_ICNTB] =3D value &
+@@ -1438,8 +1436,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
+=20
+     case L0_FRCNTB: case L1_FRCNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+-
+         DPRINTF("local timer[%d] FRCNTB write %llx\n", lt_i, value);
+=20
+         s->l_timer[lt_i].reg.wstat |=3D L_WSTAT_FRCCNTB_WRITE;
 --=20
 2.23.0
 
