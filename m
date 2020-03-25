@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09EB192FFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:58:48 +0100 (CET)
-Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59617192FE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:52:51 +0100 (CET)
+Received: from localhost ([::1]:40988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHAIh-00033n-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
+	id 1jHACw-0005I0-Ez
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jHAHM-0001eu-Jh
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:57:29 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jHABI-0003Wn-5f
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:51:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jHAHL-0001To-DN
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:57:24 -0400
-Received: from mail-vk1-xa44.google.com ([2607:f8b0:4864:20::a44]:36284)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jHABH-0005rS-3V
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:51:08 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37820)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jHAHL-0001Td-9K; Wed, 25 Mar 2020 13:57:23 -0400
-Received: by mail-vk1-xa44.google.com with SMTP id m131so935270vkh.3;
- Wed, 25 Mar 2020 10:57:23 -0700 (PDT)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jHABG-0005oJ-RX
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:51:07 -0400
+Received: by mail-wr1-x443.google.com with SMTP id w10so4329600wrm.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 10:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8XBKuKHkiomYbsAdzYphsuRy+m0BwopVAsXsVOg9Wsg=;
- b=iVPi4dKSg6jjIAwnZkyZlR8QtQNVHvREPGZQtaxZzP3NATHbLxZT6m/vJ1DCB1p9rP
- EX72hXCJF3ncm0K+tvWwjdK5KuRfrbH/TI4zPbdrMvN3HSs0ERUR97ekNdrZi38R8lHO
- x/bDDqPixIFEEGmhz2yuTrJnQ99AiYk322+AfegVDQpyA8wsyZUBS8lK4GpEmJAzA+fw
- IkEVR7Vybe0Prn1L7idD/s5Ik3TDTaKn8VMADuBX+g0SzFlEORLyrSF8J5gPtD+u95w+
- 7q7M5d7AJBQMgjyEwYje64GYKhlRxxXkwlQGkldSELGUTnNzZcO7C5dfmfpZyD6yp4G0
- OVVQ==
+ :cc:content-transfer-encoding;
+ bh=aYAwwKy/XtE7/Ffsjr6wvOgND+OzslD5i1Pl4UFdyFY=;
+ b=n8xt9PxOn+uil/nxbkWHfhGLR/PBtFZqGM3hYYA1YXna8YmVzv0scWB/wAOk96C1jw
+ Gu3Hw+KRDcJAOQWU9es2YSOV3r3F6a9G7yJOS/uAArHGzrVPPebnhUp84trN9Sz3f9oR
+ uwh6mFIj0u3DCL1z0j9W5PiH0JS2lLsUjDpgX8qQCQpMxkpdpq1ychvoXn4201zjbpHM
+ of5Ei2+AUp3IQY7AI8fvSI7bbBZFHRx+l13wHrVz/LBKPebUyfid3jVNq6Q6plyMDsD2
+ yLqDhvbY2QeizHnodXFy5QwkNIVs4LXP1MazxFhTJ/uN46hTeO/4Cjq6/haIPwcvV+wf
+ zhDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8XBKuKHkiomYbsAdzYphsuRy+m0BwopVAsXsVOg9Wsg=;
- b=XtlmDK07W158L7yFT4j2jR/sl19h80oYZ7wPGmpkqfv42nshk48ESyPM8fSzwyOEld
- QzG5h90cFOcubjJqidE2oBxUoTVLec3i8V+RT73I50YfLjScPZB6yi+YfFiYn42EUp/N
- vYxk0S0VoULKFBHoTNgUCd5hHpbnR50s71kDfGcqwn8AxpOMEfKZUdb7A6QZO6mOSHXJ
- +fUYsr80w4IbCG3J+gxstnqWmpWJKE6xHxN3v3UkHRzTZ7i777CCiZfhJNeuKdW2quAK
- XH7ilDbZM8NIDj6PRFxOfhrWJod5o1rYkdtd94jL7ZDQKMsF1GTwciz29qotl9d9MnHA
- olMg==
-X-Gm-Message-State: ANhLgQ26TNIMOn+oybo1r0Sf7i7bXxoYQA7rCINiJLwfxz1/xXS1q/Xz
- RxF567evGWJDYqmQmuNfCFYBonfdJZyS/XQZLXw=
-X-Google-Smtp-Source: ADFU+vtGAuzbaGJ+g1ehuxWBrsCvjjTdytj9yUTptXN/T2NfKIMhbeYzbcA8+cqvJmhRCMi7CgcVTt1bia8upqhnxYA=
-X-Received: by 2002:a1f:5e0a:: with SMTP id s10mr3391436vkb.37.1585159042486; 
- Wed, 25 Mar 2020 10:57:22 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aYAwwKy/XtE7/Ffsjr6wvOgND+OzslD5i1Pl4UFdyFY=;
+ b=A94gnRndCSiYwpdVseyOU5e18dovpys3vUA6K9HMYP/hb0v8E4NA66p3GiKoj1eELZ
+ UMR4hi82FiVA1XRGYYwymgqHnhwlA1iSx3+AjCv5E9OAtwDqCFzx/LW1zSfQrUHoscx+
+ 0afhOUOPTFdSyGotfsBte98OUjl8VB5TF7Uk+JaZQb3rVpfQOmT3rpeG2urntl+Vx5v4
+ UOejxqLW+gi+YQgGDgwp7KOgVX4NEjhNXeaWKZmu7rpqCk6CzUGbE8dosA27qx/A2CwE
+ ui0TfDeUNzkPfcnun13cOX7SST1/Hd7PHtGx20ltvVFgr7c2hYehz18a4nJGQ8hOcBp2
+ 3reg==
+X-Gm-Message-State: ANhLgQ2Mm2AzCi18+5+DaJb2mZrSXw+kxf5Eq1C2+rjq09L6RHFi0jga
+ Vvl5E0rcPJxfdimk/n47CkAp9Ap4T8H504aFOKQ=
+X-Google-Smtp-Source: ADFU+vvz7I7r0BDPaJI+qgsdtn4fZegtCW4D/yD+MG0Kzq29hqMciR27LwAeUxg+M+iF9JWE7MwX9jEl53MJxkInOa4=
+X-Received: by 2002:adf:ecc3:: with SMTP id s3mr4500458wro.32.1585158663836;
+ Wed, 25 Mar 2020 10:51:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-62-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-62-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Mar 2020 10:49:23 -0700
-Message-ID: <CAKmqyKM=+x9gJGzLA4D9q189uvv+8Vhb=5nMLcPKuDbE2h4SOw@mail.gmail.com>
-Subject: Re: [PATCH v6 61/61] target/riscv: configure and turn on vector
- extension from command line
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+References: <20200323112943.12010-1-philmd@redhat.com>
+ <20200323112943.12010-3-philmd@redhat.com>
+ <CAMxuvazGfXXz0tc4DJpRecW1CYdT5WGO=t7VbjS9hLqhC2rO8Q@mail.gmail.com>
+In-Reply-To: <CAMxuvazGfXXz0tc4DJpRecW1CYdT5WGO=t7VbjS9hLqhC2rO8Q@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 25 Mar 2020 18:50:51 +0100
+Message-ID: <CAJ+F1CLwE7uBsryb2oRJH_4Mi_19XaxeSJUipD=M35W48Kz88g@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 2/3] virtio: Document virtqueue_pop()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a44
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,130 +75,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 10:09 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Mon, Mar 23, 2020 at 12:55 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 >
-> Vector extension is default off. The only way to use vector extension is
-> 1. use cpu rv32 or rv64
-> 2. turn on it by command line
-> "-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+> On Mon, Mar 23, 2020 at 12:30 PM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+> >
+> > Document that virtqueue_pop() returned memory must be released
+> > with free().
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> vlen is the vector register length, default value is 128 bit.
-> elen is the max operator size in bits, default value is 64 bit.
-> vext_spec is the vector specification version, default value is v0.7.1.
-> These properties can be specified with other values.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+nack, hw/virtio/virtio.c uses g_malloc
 
-Alistair
+>
+>
+> > ---
+> >  include/hw/virtio/virtio.h | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > index b69d517496..c6e3bfc500 100644
+> > --- a/include/hw/virtio/virtio.h
+> > +++ b/include/hw/virtio/virtio.h
+> > @@ -199,6 +199,14 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueue=
+Element *elem,
+> >                      unsigned int len, unsigned int idx);
+> >
+> >  void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
+> > +/**
+> > + * virtqueue_pop:
+> > + * @vq: a VirtQueue queue
+> > + * @sz: the size of struct to return (must be >=3D VirtQueueElement)
+> > + *
+> > + * Returns: a VirtQueueElement filled from the queue or NULL.
+> > + * The returned element must be free()-d by the caller.
+> > + */
+> >  void *virtqueue_pop(VirtQueue *vq, size_t sz);
+> >  unsigned int virtqueue_drop_all(VirtQueue *vq);
+> >  void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size=
+_t sz);
+> > --
+> > 2.21.1
+> >
+>
+>
 
-> ---
->  target/riscv/cpu.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
->  target/riscv/cpu.h |  2 ++
->  2 files changed, 45 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6e4135583d..92cbcf1a2d 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -395,7 +395,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      }
->
->      set_priv_version(env, priv_version);
-> -    set_vext_version(env, vext_version);
->      set_resetvec(env, DEFAULT_RSTVEC);
->
->      if (cpu->cfg.mmu) {
-> @@ -463,6 +462,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->          if (cpu->cfg.ext_h) {
->              target_misa |= RVH;
->          }
-> +        if (cpu->cfg.ext_v) {
-> +            target_misa |= RVV;
-> +            if (!is_power_of_2(cpu->cfg.vlen)) {
-> +                error_setg(errp,
-> +                        "Vector extension VLEN must be power of 2");
-> +                return;
-> +            }
-> +            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-> +                error_setg(errp,
-> +                        "Vector extension implementation only supports VLEN "
-> +                        "in the range [128, %d]", RV_VLEN_MAX);
-> +                return;
-> +            }
-> +            if (!is_power_of_2(cpu->cfg.elen)) {
-> +                error_setg(errp,
-> +                        "Vector extension ELEN must be power of 2");
-> +                return;
-> +            }
-> +            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-> +                error_setg(errp,
-> +                        "Vector extension implementation only supports ELEN "
-> +                        "in the range [8, 64]");
-> +                return;
-> +            }
-> +            if (cpu->cfg.vext_spec) {
-> +                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-> +                    vext_version = VEXT_VERSION_0_07_1;
-> +                } else {
-> +                    error_setg(errp,
-> +                           "Unsupported vector spec version '%s'",
-> +                           cpu->cfg.vext_spec);
-> +                    return;
-> +                }
-> +            } else {
-> +                qemu_log("vector verison is not specified, "
-> +                        "use the default value v0.7.1\n");
-> +            }
-> +            set_vext_version(env, vext_version);
-> +        }
->
->          set_misa(env, RVXLEN | target_misa);
->      }
-> @@ -500,10 +538,14 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->      /* This is experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-> +    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> +    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> +    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->      DEFINE_PROP_END_OF_LIST(),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index f42f075024..42ab0f141a 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -285,12 +285,14 @@ typedef struct RISCVCPU {
->          bool ext_s;
->          bool ext_u;
->          bool ext_h;
-> +        bool ext_v;
->          bool ext_counters;
->          bool ext_ifencei;
->          bool ext_icsr;
->
->          char *priv_spec;
->          char *user_spec;
-> +        char *vext_spec;
->          uint16_t vlen;
->          uint16_t elen;
->          bool mmu;
-> --
-> 2.23.0
->
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
