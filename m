@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B821925E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:39:58 +0100 (CET)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09FC1925F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:41:36 +0100 (CET)
+Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3S1-0006nH-M0
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35001)
+	id 1jH3Tb-0001Bu-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Qi-00057c-8X
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:37 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3R3-0005u1-HH
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Qh-0000f6-7J
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:36 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37036)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3R2-0000tN-Bs
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:57 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Qh-0000et-2p
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:35 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3R2-0000sa-6C
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:38:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132714;
+ s=mimecast20190719; t=1585132735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hXV7YjyIHCpklxIXpmt5AxzGn9l3l3uS6j+SSQ20KE0=;
- b=BaUEiAa6CInZR1TCj1NY8hmuIIxuEBKNQb5jhA7BNNehYrPgoSW2xiVZd8yj/lDV2v0+qe
- lGl1pGrEQKFzJ8/dbeBiI2H8eTOtw0b51qPaDmbm7M1cCYBtsryLUTXpa3IgCynt7LrQtd
- vn3l/gKDZMGw3jmeJ7urr8IURf+lnUI=
+ bh=Bd0SuHEP0zCp3tHVbG1TTLurn+7BkvI0Xf/8wub6cug=;
+ b=c13sa73moMi3vZIvycCVjURbfTTpJ424wKsoeaVMXLznw/pLtpx9Yb1TGUG9Raaf7fOcFq
+ Rf2fxK0MgExD2EvBgrwcF5q9FPsTA3OktnIGGil2XwiMmjP4Y/aRpILak3o0lpUdpzGc1L
+ xuvJjklXL3it+U/tdKBcfpb8EIQ8n2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-pNcTt1uXNKuA9lHMDLdsnA-1; Wed, 25 Mar 2020 06:38:33 -0400
-X-MC-Unique: pNcTt1uXNKuA9lHMDLdsnA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-350-rY4ugg86PHyIM7-hBM7Q7g-1; Wed, 25 Mar 2020 06:38:54 -0400
+X-MC-Unique: rY4ugg86PHyIM7-hBM7Q7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1107DBA5;
- Wed, 25 Mar 2020 10:38:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 192511005509;
+ Wed, 25 Mar 2020 10:38:53 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA22E60BE1;
- Wed, 25 Mar 2020 10:38:29 +0000 (UTC)
-Message-ID: <1fb18481dfcfa17c2395f3bcded0aef787badfc7.camel@redhat.com>
-Subject: Re: [PATCH v6 07/42] nvme: refactor nvme_addr_read
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F154A10027A4;
+ Wed, 25 Mar 2020 10:38:50 +0000 (UTC)
+Message-ID: <17cc742d163d1551ebbaadaa98503fa7c068115f.camel@redhat.com>
+Subject: Re: [PATCH v6 08/42] nvme: add support for the abort command
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:38:28 +0200
-In-Reply-To: <20200316142928.153431-8-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:38:49 +0200
+In-Reply-To: <20200316142928.153431-9-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-8-its@irrelevant.dk>
+ <20200316142928.153431-9-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,55 +79,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Pull the controller memory buffer check to its own function. The check
-> will be used on its own in later patches.
+> Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> Section 5.1 ("Abort command").
 > 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> The Abort command is a best effort command; for now, the device always
+> fails to abort the given command.
+> 
+> Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 > Acked-by: Keith Busch <kbusch@kernel.org>
 > ---
->  hw/block/nvme.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+>  hw/block/nvme.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index b38d7e548a60..08a83d449de3 100644
+> index 08a83d449de3..7cf7cf55143e 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -52,14 +52,22 @@
->  
->  static void nvme_process_sq(void *opaque);
->  
-> +static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
-> +{
-> +    hwaddr low = n->ctrl_mem.addr;
-> +    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
-> +
-> +    return addr >= low && addr < hi;
-> +}
-> +
->  static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
->  {
-> -    if (n->cmbsz && addr >= n->ctrl_mem.addr &&
-> -                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size))) {
-> +    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
->          memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
-> -    } else {
-> -        pci_dma_read(&n->parent_obj, addr, buf, size);
-> +        return;
+> @@ -729,6 +729,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
 >      }
-> +
-> +    pci_dma_read(&n->parent_obj, addr, buf, size);
 >  }
 >  
->  static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+> +static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> +{
+> +    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
+> +
+> +    req->cqe.result = 1;
+> +    if (nvme_check_sqid(n, sqid)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    return NVME_SUCCESS;
+> +}
+> +
+>  static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+>  {
+>      trace_nvme_dev_setfeat_timestamp(ts);
+> @@ -863,6 +875,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          return nvme_create_cq(n, cmd);
+>      case NVME_ADM_CMD_IDENTIFY:
+>          return nvme_identify(n, cmd);
+> +    case NVME_ADM_CMD_ABORT:
+> +        return nvme_abort(n, cmd, req);
+>      case NVME_ADM_CMD_SET_FEATURES:
+>          return nvme_set_feature(n, cmd, req);
+>      case NVME_ADM_CMD_GET_FEATURES:
+> @@ -1375,6 +1389,19 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      id->ieee[1] = 0x02;
+>      id->ieee[2] = 0xb3;
+>      id->oacs = cpu_to_le16(0);
+> +
+> +    /*
+> +     * Because the controller always completes the Abort command immediately,
+> +     * there can never be more than one concurrently executing Abort command,
+> +     * so this value is never used for anything. Note that there can easily be
+> +     * many Abort commands in the queues, but they are not considered
+> +     * "executing" until processed by nvme_abort.
+> +     *
+> +     * The specification recommends a value of 3 for Abort Command Limit (four
+> +     * concurrently outstanding Abort commands), so lets use that though it is
+> +     * inconsequential.
+> +     */
+> +    id->acl = 3;
+>      id->frmw = 7 << 1;
+>      id->lpa = 1 << 0;
+>      id->sqes = (0x6 << 4) | 0x6;
 
-Note that this patch still contains a bug that it removes the check against the accessed
-size, which you fix in later patch.
-I prefer to not add a bug in first place
-However if you have a reason for this, I won't mind.
+You forgot to move my reviewed-by from the previous version
+I see that you also fixed the white space problem, thanks!
+So, 
+
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
-
 
 
 
