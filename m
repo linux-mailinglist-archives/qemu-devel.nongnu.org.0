@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82689192903
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 13:55:04 +0100 (CET)
-Received: from localhost ([::1]:35780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E84192933
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:07:24 +0100 (CET)
+Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH5Yl-0000XX-Cn
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 08:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50396)
+	id 1jH5kh-0003PG-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jH5Xr-00006M-QO
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 08:54:08 -0400
+ (envelope-from <mrezanin@redhat.com>) id 1jH5jx-0002of-Cv
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:06:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jH5Xq-00079m-Ew
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 08:54:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:30526)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH5Xq-00078i-BV
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 08:54:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585140846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=37YXI+Vi5QARz6EMzvgTYd6v+ZayoidINuJR8JmIsFQ=;
- b=CxDSdnTBpIJedDuB5+WaWamIRNP3caXiAsFytMqeO2hazit2Bsla+P4dKVjRIchfSgdx/w
- HQVzmRFy+D3Y7/ULXkII7rM/oulvo5K1ZkugVmTaPMTFOVnhTri2a7jtVp2PI6NCg9GqAz
- HqX03KK7+7vlG+wfaQ69iGfLqVbNzrw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-FGkgyACjNJqAxv4Ru0q8VQ-1; Wed, 25 Mar 2020 08:54:04 -0400
-X-MC-Unique: FGkgyACjNJqAxv4Ru0q8VQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43B1D1005510;
- Wed, 25 Mar 2020 12:54:03 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B953E10027A9;
- Wed, 25 Mar 2020 12:54:02 +0000 (UTC)
-Subject: Re: [PATCH 2/2] util/bufferiszero: improve avx2 accelerator
-To: Robert Hoo <robert.hu@linux.intel.com>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, richard.henderson@linaro.org
-References: <1585119021-46593-1-git-send-email-robert.hu@linux.intel.com>
- <1585119021-46593-2-git-send-email-robert.hu@linux.intel.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <9eea6e9c-e35c-72e7-4574-7b9a6b72f9a7@redhat.com>
-Date: Wed, 25 Mar 2020 07:54:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <mrezanin@redhat.com>) id 1jH5jw-0004EX-73
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:06:37 -0400
+Received: from 212-4-128-36.cust.selfnet.cz ([212.4.128.36]:39696
+ helo=workimage.localdomain) by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <mrezanin@redhat.com>)
+ id 1jH5jw-00049l-01; Wed, 25 Mar 2020 09:06:36 -0400
+Received: by workimage.localdomain (Postfix, from userid 1000)
+ id 4EEE21AE442; Wed, 25 Mar 2020 13:56:33 +0100 (CET)
+Date: Wed, 25 Mar 2020 13:56:33 +0100
+From: Miroslav Rezanina <mrezanin@redhat.com>
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH 1/3] gdbstub: prevent uninitialized warning
+Message-ID: <20200325125633.kuot6un2rbujwdvv@lws.brq.redhat.com>
+References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
+ <20200325092137.24020-2-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <1585119021-46593-2-git-send-email-robert.hu@linux.intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200325092137.24020-2-kuhn.chenqun@huawei.com>
+User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 212.4.128.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,35 +49,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.hu@intel.com
+Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>, laurent@vivier.eu,
+ qemu-devel@nongnu.org, Euler Robot <euler.robot@huawei.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/20 1:50 AM, Robert Hoo wrote:
-> By increasing avx2 length_to_accel to 128, we can simplify its logic and reduce a
-> branch.
-> 
-> The authorship of this patch actually belongs to Richard Henderson <richard.henderson@linaro.org>,
-
-Long line; it's nice to wrap commit messages around column 70 or so 
-(because reading 'git log' in an 80-column window adds indentation).
-
-> I just fix a boudary case on his original patch.
-
-boundary
-
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+On Wed, Mar 25, 2020 at 05:21:35PM +0800, Chen Qun wrote:
+> According to the glib function requirements, we need initialise
+>      the variable. Otherwise there will be compilation warnings:
+>=20
+> qemu/gdbstub.c: In function =E2=80=98handle_query_thread_extra=E2=80=99=
+:
+> /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: warning:
+>  =E2=80=98cpu_name=E2=80=99 may be used uninitialized in this function =
+[-Wmaybe-uninitialized]
+>    g_free (*pp);
+>    ^~~~~~~~~~~~
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
->   util/bufferiszero.c | 26 +++++++++-----------------
->   1 file changed, 9 insertions(+), 17 deletions(-)
-> 
+> Cc: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+> Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> ---
+>  gdbstub.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 013fb1ac0f..171e150950 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -2060,8 +2060,8 @@ static void handle_query_thread_extra(GdbCmdConte=
+xt *gdb_ctx, void *user_ctx)
+>          /* Print the CPU model and name in multiprocess mode */
+>          ObjectClass *oc =3D object_get_class(OBJECT(cpu));
+>          const char *cpu_model =3D object_class_get_name(oc);
+> -        g_autofree char *cpu_name;
+> -        cpu_name  =3D object_get_canonical_path_component(OBJECT(cpu))=
+;
+> +        g_autofree char *cpu_name =3D
+> +            object_get_canonical_path_component(OBJECT(cpu));
+>          g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
+>                          cpu->halted ? "halted " : "running");
+>      } else {
+> --=20
+> 2.23.0
+>=20
+>=20
+>
 
+Fixing broken build with -Wall.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>=20
 
