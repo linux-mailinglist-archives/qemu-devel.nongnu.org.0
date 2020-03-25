@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BAA192B31
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:33:26 +0100 (CET)
-Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FCF192B4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:35:55 +0100 (CET)
+Received: from localhost ([::1]:37242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH75x-0005Ik-ID
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35391)
+	id 1jH78M-0008Vx-7a
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jH74l-0004UT-Sj
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:32:13 -0400
+ (envelope-from <muriloo@linux.ibm.com>) id 1jH774-0007MN-3G
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:34:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1jH74k-0004i5-Jk
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:32:11 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37707)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jH74j-0004gh-J7
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:32:10 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w10so3400966wrm.4
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 07:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Nsg8WDrbNi4xpCnWuKjJ0AqqF8+6n6iqmk1lQfv2SEo=;
- b=Ekq1rM3HkYrrLjBu18UNJcDdodtWZ8TAC1pr991AOUiS5hbrCQQZFlqseKo86uoXWq
- DMmtU62SnuG0V0oGzKBRN0A8xX2onFKDcNnr8ztBILXv1XbJScTbKP+b9VOTbZRHW8Sm
- 6OP4tGcMMBBLYrWj4e3/ywaYcruaMYutZH23OvOnNXPyJQK6bhSJ7ezXDUlvcrPVc8Mg
- 5LR/a2lkwPr3C4mk04C9e5a+UpU5jwMR5JCfDbhaXyJjP9bG0MSsc+RpZvSMLpV6CTSH
- iQbptM/ZE8VZZf0aeHmI5y7KCllPMpOaQwC0XmVaLSvx02LNjQx+jWqvGd5ULpRWKk2H
- pOfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nsg8WDrbNi4xpCnWuKjJ0AqqF8+6n6iqmk1lQfv2SEo=;
- b=PDIV5MZcv2fO/mWSr+eO9QXGnU0bfCxgL3ssOQ/Spja6DtVPJlf9F81jEdvyLfrEe8
- qb9VEKDZLf7XcZ0YCwWEYPXBueVICcNpThw/lvPNLnOBau+hm8CLK2m3vXwVawBaPDOu
- Kv51gdXALhJmocolRjEBzjKVcYOGF6C9ErwxQSXtuwjeYKVOqBAnbXW7wGw5c5Z6Ria4
- glXyZRn/3HQhm6F2aHOQaoRRgVh8/nxVBilD2fvBDBP3eqAqnjOFtZ985yifxgUDpDo0
- 6Unvt9yJIeBrLSVvXLgRipM388IvDzXttfHoN/wYEXaFJA5T1MjdVy4edK5DtH5BeNLp
- n8GQ==
-X-Gm-Message-State: ANhLgQ1vKbNCtK5/6drCNUyIa0J0s0GRqb8dlK4cYu3SxnyuFiMtiJix
- uZp3+dHuBck/xZVPDVd32D4J21sRZ3Lc0DlOpkg=
-X-Google-Smtp-Source: ADFU+vvpocNbifTzySpC+P2TE0gaC7ddTxpGC7r4kiTcm56+Ll8GbPREa3CfIkOb9yrTIVJBsM0jQDfPcY3C/9uYel0=
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr3859143wrs.96.1585146728133; 
- Wed, 25 Mar 2020 07:32:08 -0700 (PDT)
+ (envelope-from <muriloo@linux.ibm.com>) id 1jH772-0006hg-OV
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:34:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50376
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
+ id 1jH772-0006f4-Iu
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:34:32 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02PEXuJY042742; Wed, 25 Mar 2020 10:34:29 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30077u4gf9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Mar 2020 10:34:29 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 02PEYKfQ044986;
+ Wed, 25 Mar 2020 10:34:29 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30077u4gdp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Mar 2020 10:34:28 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 02PEVNjo030111;
+ Wed, 25 Mar 2020 14:34:27 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 2ywaw9te3b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Mar 2020 14:34:27 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02PEYQuT48169344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 Mar 2020 14:34:26 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82B07AC060;
+ Wed, 25 Mar 2020 14:34:26 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D59F4AC059;
+ Wed, 25 Mar 2020 14:34:25 +0000 (GMT)
+Received: from localhost (unknown [9.85.207.6])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Wed, 25 Mar 2020 14:34:25 +0000 (GMT)
+From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v4 02/15] util: vfio-helpers: Remove Error parameter from
+ qemu_vfio_undo_mapping()
+Date: Wed, 25 Mar 2020 11:32:15 -0300
+Message-ID: <2294930.3xjZc7L5jH@kermit.br.ibm.com>
+Organization: IBM
+In-Reply-To: <20200305142945.216465-3-david@redhat.com>
+References: <20200305142945.216465-1-david@redhat.com>
+ <20200305142945.216465-3-david@redhat.com>
 MIME-Version: 1.0
-References: <20200323112943.12010-1-philmd@redhat.com>
- <20200323112943.12010-4-philmd@redhat.com>
-In-Reply-To: <20200323112943.12010-4-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 25 Mar 2020 15:31:56 +0100
-Message-ID: <CAJ+F1CKhsL8n=FGQfoqVprEgsKP=km0V04Va9OcgB2GOvBS1Og@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 3/3] virtio-gpu: Release memory returned by
- virtqueue_pop() with free()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-25_07:2020-03-24,
+ 2020-03-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ mlxscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ suspectscore=1 malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003250117
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,96 +95,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Mon, Mar 23, 2020 at 12:31 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Thursday, March 5, 2020 11:29:32 AM -03 David Hildenbrand wrote:
+> Everybody discards the error. Let's error_report() instead so this error
+> doesn't get lost.
 >
-> As virtio_gpu_handle_ctrl() fills the cmdq calling virtqueue_pop(),
-> we need to release it with free() in virtio_gpu_reset().
+> This is now the same error handling as in qemu_vfio_do_mapping(). However,
+> we don't report any errors via the return value to the caller. This seems
+> to be one of these "will never happen, but let's better print an error
+> because the caller can't handle it either way" cases.
 >
-> virtio_gpu_handle_ctrl() allocates memory calling virtqueue_pop(),
-> release it in virtio_gpu_process_cmdq() with free().
->
-> virtio_gpu_process_cmdq() move commands from cmdq to fenceq, so
-> we also have to release them with free().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-nack, hw/virtio/virtio.c uses gmalloc (or I am missing something)
-
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  hw/display/virtio-gpu-3d.c | 2 +-
->  hw/display/virtio-gpu.c    | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+
+Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+
+>  util/vfio-helpers.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-> index 96621576c2..3a97d267e5 100644
-> --- a/hw/display/virtio-gpu-3d.c
-> +++ b/hw/display/virtio-gpu-3d.c
-> @@ -506,7 +506,7 @@ static void virgl_write_fence(void *opaque, uint32_t =
-fence)
->          trace_virtio_gpu_fence_resp(cmd->cmd_hdr.fence_id);
->          virtio_gpu_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODAT=
-A);
->          QTAILQ_REMOVE(&g->fenceq, cmd, next);
-> -        g_free(cmd);
-> +        free(cmd);
->          g->inflight--;
->          if (virtio_gpu_stats_enabled(g->parent_obj.conf)) {
->              fprintf(stderr, "inflight: %3d (-)\r", g->inflight);
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 5f0dd7c150..f5fbb722ee 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -835,7 +835,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
->                  fprintf(stderr, "inflight: %3d (+)\r", g->inflight);
+> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> index f31aa77ffe..7085ca702c 100644
+> --- a/util/vfio-helpers.c
+> +++ b/util/vfio-helpers.c
+> @@ -541,8 +541,7 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void
+> *host, size_t size, /**
+>   * Undo the DMA mapping from @s with VFIO, and remove from mapping list.
+>   */
+> -static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping,
+> -                                   Error **errp)
+> +static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping)
+>  {
+>      int index;
+>      struct vfio_iommu_type1_dma_unmap unmap = {
+> @@ -557,7 +556,7 @@ static void qemu_vfio_undo_mapping(QEMUVFIOState *s,
+> IOVAMapping *mapping, assert(QEMU_IS_ALIGNED(mapping->size,
+> qemu_real_host_page_size)); assert(index >= 0 && index < s->nr_mappings);
+>      if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> -        error_setg_errno(errp, errno, "VFIO_UNMAP_DMA failed");
+> +        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+>      }
+>      memmove(mapping, &s->mappings[index + 1],
+>              sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
+> @@ -622,7 +621,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host,
+> size_t size, assert(qemu_vfio_verify_mappings(s));
+>              ret = qemu_vfio_do_mapping(s, host, size, iova0);
+>              if (ret) {
+> -                qemu_vfio_undo_mapping(s, mapping, NULL);
+> +                qemu_vfio_undo_mapping(s, mapping);
+>                  goto out;
 >              }
->          } else {
-> -            g_free(cmd);
-> +            free(cmd);
->          }
+>              s->low_water_mark += size;
+> @@ -682,7 +681,7 @@ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host)
+>      if (!m) {
+>          goto out;
 >      }
+> -    qemu_vfio_undo_mapping(s, m, NULL);
+> +    qemu_vfio_undo_mapping(s, m);
+>  out:
+>      qemu_mutex_unlock(&s->lock);
 >  }
-> @@ -921,7 +921,7 @@ static void virtio_gpu_handle_cursor(VirtIODevice *vd=
-ev, VirtQueue *vq)
->          }
->          virtqueue_push(vq, elem, 0);
->          virtio_notify(vdev, vq);
-> -        g_free(elem);
-> +        free(elem);
+> @@ -699,7 +698,7 @@ void qemu_vfio_close(QEMUVFIOState *s)
+>          return;
 >      }
->  }
->
-> @@ -1157,14 +1157,14 @@ static void virtio_gpu_reset(VirtIODevice *vdev)
->      while (!QTAILQ_EMPTY(&g->cmdq)) {
->          cmd =3D QTAILQ_FIRST(&g->cmdq);
->          QTAILQ_REMOVE(&g->cmdq, cmd, next);
-> -        g_free(cmd);
-> +        free(cmd);
+>      while (s->nr_mappings) {
+> -        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1], NULL);
+> +        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1]);
 >      }
->
->      while (!QTAILQ_EMPTY(&g->fenceq)) {
->          cmd =3D QTAILQ_FIRST(&g->fenceq);
->          QTAILQ_REMOVE(&g->fenceq, cmd, next);
->          g->inflight--;
-> -        g_free(cmd);
-> +        free(cmd);
->      }
->
->  #ifdef CONFIG_VIRGL
-> --
-> 2.21.1
->
->
+>      ram_block_notifier_remove(&s->ram_notifier);
+>      qemu_vfio_reset(s);
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+--
+Murilo
 
