@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5BE192B74
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:45:19 +0100 (CET)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CAC192B7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:47:43 +0100 (CET)
+Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7HS-0007KW-6b
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37157)
+	id 1jH7Jm-0002zH-Dl
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jH7FG-0004Oe-RF
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:43:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1jH7FC-0004BV-Q3
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jH7FF-0005lM-FF
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:43:02 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42655)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jH7FC-0005ik-L5; Wed, 25 Mar 2020 10:42:58 -0400
-Received: by mail-pl1-x644.google.com with SMTP id e1so868024plt.9;
- Wed, 25 Mar 2020 07:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xC2tnZoYkPikXWD+v0w7eZk0ARUbcYtItYPE5B/2aAQ=;
- b=qtaq9j1Lw+OUiIlYicY9WZc6xNxehVyAVbP1vzBN77WJFIxqZK8qikx/4KekDdUTbt
- 5oDpuYr1KJ6/VPiRtN2bjlv+qVzi+qx9cJOi/LETi9cP21MxxWhFEgyVImCVGjdRMxzi
- J5Wm+80liTnoGhnTy1NqaAnG3rcLPoKSu1gnCC/tkpbnAis7j7yPQIV5qhjznyWlBn7P
- 7keVcoJTjT+MPk/1LZBuWyJ5pwqzVlr132YRRaEFvOJ7zyHqje0yh1UvYLus0aWP4fiW
- uEUG0eDIE8BxOYnVp8HmZs99kIUEzPGgyQRVLxSxicTsGdQSgT/opLGzO38rM82jpNfv
- Apvw==
+ (envelope-from <philmd@redhat.com>) id 1jH7FA-0005hq-Lv
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:57 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:41812)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jH7FA-0005hP-FG
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585147375;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dfAomNY8/uNK7WZwlgyNTLtpWt6Kuc5QfhpyyVDI7PU=;
+ b=GWRl5KZCwHNza/MTVu/VtAx2kj+4lun7o8VQeJGMsnBe37Imv2mqOZ5CviUf3BTAByi9sx
+ fglOgTBu7BQggslYy+S2O4JkNsH7sIt6ZFJRs61EL+0NEBzB1j/j+cEMbtBScCMhrTScD3
+ N1laoUymw298cPA2JNOQvJF/9OQOGE4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-9SpLq2v-MoebrXzhZraf6Q-1; Wed, 25 Mar 2020 10:42:52 -0400
+X-MC-Unique: 9SpLq2v-MoebrXzhZraf6Q-1
+Received: by mail-ed1-f71.google.com with SMTP id g7so2276445edm.20
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 07:42:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xC2tnZoYkPikXWD+v0w7eZk0ARUbcYtItYPE5B/2aAQ=;
- b=gnC5rOB8Wy4QWMoxdryXK1y/tGqswRe+Dn2W2291TwdkGsNWlZ3aBJExgUdjDZYOJG
- YwSmx8zOZQoTyuTGhhVMLpLdVBi8Krv1p4ah7dkora2unvx2Z/J4oCvK6gk8MMxNXpl0
- NFWJErIOP8HJy5a1EWk7YuL5DscAq2WgcB666aqDHzoYxJXgtap8ZvAqD7d7ISZtVACo
- z2iDBrUuwNUq5pZqGqYC6wq3QfzG68qGW/g54tFAG0jIcV7vrwB/MN/Sn1x+PScvbab2
- gupRaqLlkNiGTE3/Y5koc94hbWGe0zWg5E8Dl/uslY3tesItixWMaOLAz1TltLABOcUa
- GTyg==
-X-Gm-Message-State: ANhLgQ2RM/7SjI7Tt1tPqm2Ppgm2hPzc05mOXIXBEexK53q8IjrT07v5
- oDH5wogAktGNiI/nn2dcpQK5PWvQ
-X-Google-Smtp-Source: ADFU+vtosPx/t1qphpGti1wKykuCE6+FvkOVxZWKwS6BkpdxMc0LzSktC7viVQzjeuVLdKZPg0EOTg==
-X-Received: by 2002:a17:90a:9f88:: with SMTP id
- o8mr4066521pjp.145.1585147377196; 
- Wed, 25 Mar 2020 07:42:57 -0700 (PDT)
-Received: from bobo.ibm.com (14-202-190-183.tpgi.com.au. [14.202.190.183])
- by smtp.gmail.com with ESMTPSA id 93sm4609599pjo.43.2020.03.25.07.42.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 07:42:56 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH 5/5] ppc/pnv: Implement mce injection
-Date: Thu, 26 Mar 2020 00:41:47 +1000
-Message-Id: <20200325144147.221875-6-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200325144147.221875-1-npiggin@gmail.com>
-References: <20200325144147.221875-1-npiggin@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ko9mlVfrpCcl+CXuMvXwstQcTvUsmkMhv256HkwxEdE=;
+ b=g9PnqXtyjOjg0yS4i+R0pZZ2qYInQHpNrl+R0nMTEZBQCrDW+nlbpdjIpzu1Y+BXot
+ mm5Yn8TJCNwJI7ZM9XBJuqolX8WUY6/+P/UKWy8JicYAlr9m3qZ5GT6Xl8Ac0q3AMCiR
+ r5MrdBzo3pTyHd0Uvr2nsiOdS3Vw0xeSplNlBK+ohRdxai2PeAKg3rWeFE9OH8s0svWf
+ OhcZRhEhNyKT6Grjhlgbzqj7SHLo0KNNC8r7fwvmVPEMvxtLWGSkylRh54e9JoBSrwKL
+ p2AuZHvusAkfJtOO8+2DqDzeByzP5RIVnKTU/muzJB0eUwmz/wI8h+LCcefRA0WQAwxF
+ 8B7g==
+X-Gm-Message-State: ANhLgQ0DqGzzO6flFyALKwVZWwHiQ6ZhO69Sq38aSZGs95cGLBG+vRh3
+ hFc17x77zflONZbB3VdHVGS/hCgVc0WO9u4VnBGmiaeEExyr7enxfenGulBofY+ERirN+Oac2rr
+ cCbvBJ0EgnvXlQbU=
+X-Received: by 2002:a50:f104:: with SMTP id w4mr3345003edl.258.1585147370470; 
+ Wed, 25 Mar 2020 07:42:50 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vv4G3zXtKetzjp/GqQd8JWYqoRim2hD1K/n3WQ4aX8Ia3b1RzUbpq4xa7wuemzO2b0tjzmV5w==
+X-Received: by 2002:a50:f104:: with SMTP id w4mr3344981edl.258.1585147370200; 
+ Wed, 25 Mar 2020 07:42:50 -0700 (PDT)
+Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
+ [83.52.54.37])
+ by smtp.gmail.com with ESMTPSA id d11sm102140ejd.2.2020.03.25.07.42.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Mar 2020 07:42:49 -0700 (PDT)
+Subject: Re: [PATCH-for-5.0 v3] Acceptance test: Fix to EXEC migration
+To: Oksana Voshchana <ovoshcha@redhat.com>
+References: <20200325113138.20337-1-ovoshcha@redhat.com>
+ <c2007a51-318a-c935-dd77-232e45587b08@redhat.com>
+ <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8335f630-c903-5fbd-f0e5-9dba1ed57b4a@redhat.com>
+Date: Wed, 25 Mar 2020 15:42:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+In-Reply-To: <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,159 +92,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements mce injection for pnv.
+On 3/25/20 3:10 PM, Oksana Voshchana wrote:
+> Hi=C2=A0Philippe
+> Thanks for the review
+> I have some comments
+>=20
+> On Wed, Mar 25, 2020 at 2:30 PM Philippe Mathieu-Daud=C3=A9=20
+> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
+>=20
+>     Hi Oksana,
+>=20
+>     v2 was
+>     https://www.mail-archive.com/qemu-devel@nongnu.org/msg682899.html, so
+>     this is v3. Please increment the version in the patch subject.
+>=20
+>     You could also send a simple "ping" to the specific patch, instead of
+>     resending it.
+>=20
+>     On 3/25/20 12:31 PM, Oksana Vohchana wrote:
+>      > The exec migration test isn't run a whole test scenario.
+>      > This patch fixes it
+>      >
+>      > Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com
+>     <mailto:ovoshcha@redhat.com>>
+>=20
+>     v1 of this patch has already received reviewers tags
+>     (https://www.mail-archive.com/qemu-devel@nongnu.org/msg679629.html),
+>     please collect them and keep them when you resend the same patch:
+>=20
+> I have reposted patch without this fix because this change isn't related=
+=20
+> to the series:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06919.html
+> Is it make sense to keep this fix as a separate patch?
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- hw/ppc/pnv.c             | 55 ++++++++++++++++++++++++++++++++++++++++
- target/ppc/cpu.h         |  1 +
- target/ppc/excp_helper.c | 12 +++++++++
- 3 files changed, 68 insertions(+)
+As we are in freeze and this is a fix, it is fine to reply to your own=20
+patch with
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 671535ebe6..9c515bfeed 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -38,6 +38,7 @@
- #include "hw/nmi.h"
- #include "exec/address-spaces.h"
- #include "qapi/visitor.h"
-+#include "qapi/qmp/qdict.h"
- #include "monitor/monitor.h"
- #include "hw/intc/intc.h"
- #include "hw/ipmi/ipmi.h"
-@@ -1981,11 +1982,63 @@ static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
-     }
- }
- 
-+typedef struct MCEInjectionParams {
-+    uint64_t srr1_mask;
-+    uint32_t dsisr;
-+    uint64_t dar;
-+    bool recovered;
-+} MCEInjectionParams;
-+
-+static void pnv_do_mce_on_cpu(CPUState *cs, run_on_cpu_data data)
-+{
-+    MCEInjectionParams *params = data.host_ptr;
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+    uint64_t srr1_mce_bits = PPC_BITMASK(42, 45) | PPC_BIT(36);
-+
-+    cpu_synchronize_state(cs);
-+    ppc_cpu_do_machine_check(cs);
-+
-+    env->spr[SPR_SRR1] |= (params->srr1_mask & srr1_mce_bits);
-+    if (params->dsisr) {
-+        env->spr[SPR_DSISR] = params->dsisr;
-+        env->spr[SPR_DAR] = params->dar;
-+    }
-+
-+    if (!params->recovered) {
-+        env->msr &= ~MSR_RI;
-+    }
-+}
-+
-+static void pnv_mce(MCEState *m, const QDict *qdict, Error **errp)
-+{
-+    int cpu_index = qdict_get_int(qdict, "cpu_index");
-+    uint64_t srr1_mask = qdict_get_int(qdict, "srr1_mask");
-+    uint32_t dsisr = qdict_get_int(qdict, "dsisr");
-+    uint64_t dar = qdict_get_int(qdict, "dar");
-+    bool recovered = qdict_get_int(qdict, "recovered");
-+    CPUState *cs;
-+
-+    cs = qemu_get_cpu(cpu_index);
-+
-+    if (cs != NULL) {
-+        MCEInjectionParams params = {
-+            .srr1_mask = srr1_mask,
-+            .dsisr = dsisr,
-+            .dar = dar,
-+            .recovered = recovered,
-+        };
-+
-+        run_on_cpu(cs, pnv_do_mce_on_cpu, RUN_ON_CPU_HOST_PTR(&params));
-+    }
-+}
-+
- static void pnv_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
-     NMIClass *nc = NMI_CLASS(oc);
-+    MCEClass *mcec = MCE_CLASS(oc);
- 
-     mc->desc = "IBM PowerNV (Non-Virtualized)";
-     mc->init = pnv_init;
-@@ -2003,6 +2056,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_id = "pnv.ram";
-     ispc->print_info = pnv_pic_print_info;
-     nc->nmi_monitor_handler = pnv_nmi;
-+    mcec->mce_monitor_handler = pnv_mce;
- 
-     object_class_property_add_bool(oc, "hb-mode",
-                                    pnv_machine_get_hb, pnv_machine_set_hb,
-@@ -2067,6 +2121,7 @@ static const TypeInfo types[] = {
-         .interfaces = (InterfaceInfo[]) {
-             { TYPE_INTERRUPT_STATS_PROVIDER },
-             { TYPE_NMI },
-+            { TYPE_MCE },
-         },
-     },
-     {
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index f4a5304d43..9be27f59c5 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1221,6 +1221,7 @@ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-                                int cpuid, void *opaque);
- #ifndef CONFIG_USER_ONLY
- void ppc_cpu_do_system_reset(CPUState *cs);
-+void ppc_cpu_do_machine_check(CPUState *cs);
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
- extern const VMStateDescription vmstate_ppc_cpu;
- #endif
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 7f2b5899d3..81dd8b6f8e 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -279,6 +279,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-             cs->halted = 1;
-             cpu_interrupt_exittb(cs);
-         }
-+        if (msr_pow) {
-+            /* indicate that we resumed from power save mode */
-+            msr |= 0x10000;
-+        }
-         if (env->msr_mask & MSR_HVB) {
-             /*
-              * ISA specifies HV, but can be delivered to guest with HV
-@@ -969,6 +973,14 @@ void ppc_cpu_do_system_reset(CPUState *cs)
-     powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
- }
- 
-+void ppc_cpu_do_machine_check(CPUState *cs)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+
-+    powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_MCHECK);
-+}
-+
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--- 
-2.23.0
+"Ping? As this is a fix, can we get this single patch merged for 5.0=20
+please? Thanks!"
+
+You are responsible of tracking your own patches and ping them (every=20
+week) if they are ignored.
+
+>=20
+>     Fixes: 2e768cb682bf
+>     Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
+>     <mailto:philmd@redhat.com>>
+>     Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com
+>     <mailto:wainersm@redhat.com>>
+>=20
+>      > ---
+>      >=C2=A0 =C2=A0tests/acceptance/migration.py | 6 +++---
+>      >=C2=A0 =C2=A01 file changed, 3 insertions(+), 3 deletions(-)
+>      >
+>      > diff --git a/tests/acceptance/migration.py
+>     b/tests/acceptance/migration.py
+>      > index a8367ca023..0365289cda 100644
+>      > --- a/tests/acceptance/migration.py
+>      > +++ b/tests/acceptance/migration.py
+>      > @@ -70,8 +70,8 @@ class Migration(Test):
+>      >
+>      >=C2=A0 =C2=A0 =C2=A0 =C2=A0@skipUnless(find_command('nc', default=
+=3DFalse), "'nc'
+>     command not found")
+>      >=C2=A0 =C2=A0 =C2=A0 =C2=A0def test_migration_with_exec(self):
+>      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 """
+>      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 The test works for both netcat-tradit=
+ional and
+>     netcat-openbsd packages
+>      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 """
+>      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 """The test works for both netcat-tra=
+ditional and
+>     netcat-openbsd packages."""
+>=20
+>     Btw why are you changing the comment style?
+>=20
+> I got failure=C2=A0in PEP257
+>=20
+>=20
+>      >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free_port =3D self._get_fr=
+ee_port()
+>      >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest_uri =3D 'exec:nc -l l=
+ocalhost %u' % free_port
+>      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D 'exec:nc localhost %u' % =
+free_port
+>      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.do_migrate(dest_uri, src_uri)
+>      >
+>=20
+>     Alex, if there is no Python testing pullreq, can you take this patch
+>     via
+>     your testing tree?
+>=20
+>     Thanks,
+>=20
+>     Phil.
+>=20
+> Thanks
 
 
