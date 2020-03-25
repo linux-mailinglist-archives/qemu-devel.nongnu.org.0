@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5A81930AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 19:51:21 +0100 (CET)
-Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C181930BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 19:57:27 +0100 (CET)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHB7Y-0006SA-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 14:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48911)
+	id 1jHBDR-0000te-NR
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 14:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jHB6O-0004r4-5H
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:50:09 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jHBCb-0000SV-PD
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:56:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jHB6H-0004lG-Ss
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:50:08 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33858)
+ (envelope-from <imammedo@redhat.com>) id 1jHBCa-0002SK-7V
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:56:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52217)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jHB6H-0004ky-KC
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:50:01 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jHBCa-0002Ri-3B
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585162200;
+ s=mimecast20190719; t=1585162591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/wKt5+3m0LKtNpV11MCOidUd6Qx2QS5/KPiyqp2NX3k=;
- b=Bzl6/1+s/CIeo5U/g/eJmRN9HNcQvAdKU0PgT8q4cO/RIKqDxpBIjAIcZ7dhy2I+9I61T6
- hqmdqRz+JPdUkG8Xqnqq+9YciPq1yqgRtbsFfEjeMqSKFsDlWkKyZ5IUYBKE+azeDIahOg
- xQqlSnJzLeNoPXgaKjSZefqRuPJ5g+E=
+ bh=tecLq6ohQS0TdPNJbNbjK78jTPdhnW3ZoYuw7s4avTM=;
+ b=NxqgAMS2ZDWEtTEWKJPTs5a7qUbYHTQu6cnnxVCGpka47GyBkv4vj0bJZANatVnH41qSoX
+ 4Qgsh2E/4v7CQS6Qt9IMGKOAocm6tzBW4zHUzaddB/mcHIBfA4smsZlNDutq7qemEJd6tZ
+ yKWyM2unvFks+vS35jmOhrLuRX5S03k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-eFhFEh_WNs-UYw4DqPkR-Q-1; Wed, 25 Mar 2020 14:49:59 -0400
-X-MC-Unique: eFhFEh_WNs-UYw4DqPkR-Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-11-c7UqmqQNN8qY0ah-uJu7jw-1; Wed, 25 Mar 2020 14:56:27 -0400
+X-MC-Unique: c7UqmqQNN8qY0ah-uJu7jw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20D2C189F76C
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 18:49:58 +0000 (UTC)
-Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C68B90A13;
- Wed, 25 Mar 2020 18:49:51 +0000 (UTC)
-Date: Wed, 25 Mar 2020 18:49:49 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 7/9] KVM: Cache kvm slot dirty bitmap size
-Message-ID: <20200325184949.GF2635@work-vm>
-References: <20200205141749.378044-1-peterx@redhat.com>
- <20200205141749.378044-8-peterx@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A28AF1005509;
+ Wed, 25 Mar 2020 18:56:26 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82ABA16D22;
+ Wed, 25 Mar 2020 18:56:15 +0000 (UTC)
+Date: Wed, 25 Mar 2020 19:56:14 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 00/13] microvm: add acpi support
+Message-ID: <20200325195614.41ecb022@redhat.com>
+In-Reply-To: <20200325091636.rqqv3ewxue6wm5qe@sirius.home.kraxel.org>
+References: <20200319080117.7725-1-kraxel@redhat.com>
+ <20200323065050-mutt-send-email-mst@kernel.org>
+ <20200323120948.f6egd7rhfso6276p@sirius.home.kraxel.org>
+ <20200323131658.30152128@redhat.com>
+ <20200325091636.rqqv3ewxue6wm5qe@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200205141749.378044-8-peterx@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 216.205.24.74
@@ -73,53 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Cache it too because we'll reference it more frequently in the future.
->=20
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Wed, 25 Mar 2020 10:16:36 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > mounted.  Decided to use the "i8042: PNP: No PS/2 controller found."
+> > > line instead for a simple test (just check the kernel log timestamps,
+> > > three runs each).  The ACPI initialization is already done at that
+> > > point, so it should be useful nevertheless.  Here we go:
+> > > 
+> > > Without acpi:
+> > >   0.277710
+> > >   0.278852
+> > >   0.279520
+> > > 
+> > > With acpi:
+> > >   0.283917
+> > >   0.284262
+> > >   0.284836  
+> > I wonder what would be difference with hw-reduced acpi  
+> 
+> The kernel does a bunch of reads+writes at boot (roughly 20-30),
+> mostly timer ports, so probably while initializing the pm_timer
+> clocksource.  Then it stops talking to the acpi hardware,
+> preferring kvmclock clocksouce I guess.
+> 
+> So I expect hw-reduced acpi wouldn't make much of a difference.
+> Actually trying that isn't that high on my priority list.
+> 
+> There is bigger fish to fry, untangling the hw/i386/acpi-build.c
+> monster for starters, so building with ACPI=y + PCI=n works ...
 
-> ---
->  accel/kvm/kvm-all.c      | 1 +
->  include/sysemu/kvm_int.h | 1 +
->  2 files changed, 2 insertions(+)
->=20
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index f81e7a644b..ea7b8f7ca5 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -548,6 +548,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
->      hwaddr bitmap_size =3D ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS=
-),
->                                          /*HOST_LONG_BITS*/ 64) / 8;
->      mem->dirty_bmap =3D g_malloc0(bitmap_size);
-> +    mem->dirty_bmap_size =3D bitmap_size;
->  }
-> =20
->  /* Sync dirty bitmap from kernel to KVMSlot.dirty_bmap */
-> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-> index 1a19bfef80..71c9946ecf 100644
-> --- a/include/sysemu/kvm_int.h
-> +++ b/include/sysemu/kvm_int.h
-> @@ -23,6 +23,7 @@ typedef struct KVMSlot
->      int old_flags;
->      /* Dirty bitmap cache for the slot */
->      unsigned long *dirty_bmap;
-> +    unsigned long dirty_bmap_size;
->      /* Cache of the address space ID */
->      int as_id;
->      /* Cache of the offset in ram address space */
-> --=20
-> 2.24.1
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+if you are after reducing start up time it may be better to leave alone
+acpi-build.c with a bunch of legacy/compat stuff and create
+microvm specific acpi file, and extract from acpi-build.c only common
+bits that are necessary to produce tables (i.e. do something similar
+hw/arm/virt-acpi-build.c)
+
+PS:
+side-note: guest kernel insist on finding PCI where it doesn't exists
+[    0.301104] ACPI: bus type PCI registered
+[    0.301717] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.302180] PCI: Fatal: No config space access function found
+
+it's probably the first time x86 generic kernel sees machine without PCI,
+and it probably could be fixed saving another 10-20ms
+
+
+> 
+> cheers,
+>   Gerd
+> 
+> 
 
 
