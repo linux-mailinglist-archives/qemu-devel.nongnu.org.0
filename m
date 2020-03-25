@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28452192C72
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:27:40 +0100 (CET)
-Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F9B192C3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:23:42 +0100 (CET)
+Received: from localhost ([::1]:38168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7wR-0004eF-7u
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
+	id 1jH7sb-0007pb-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7lC-0003tB-U6
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:16:03 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jH7l6-0003ff-VS
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7lB-00088V-W1
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:16:02 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35472)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jH7lB-00087y-Pu
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:16:01 -0400
-Received: by mail-wm1-x331.google.com with SMTP id m3so3158712wmi.0
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5layH9MhNA52soaJZfTnDM8L+LTws1H3akJM1O6X96g=;
- b=ZRVSDPpx+T7iLlCmRC4wKzGj/5iUc6p4Js6A3w+MQaBQmzd8SPe8hlwyEH8Vx/tiuR
- u0bzeuPC6EaO1Jm0pbQDY6yViICQcWa7s2lVUTYYmNB7EvHgsQx/2arrpgEHmU8RGnKL
- Ggh7gYwceGb+F6rjbeK8jZOuI0TPtwx/AjWdptWrDFQQPsue3oNZN2BsCjCuFNThCHjb
- LHraMlkJpvGZpsHR2C3nxS5i90P45zGA3JxJD2vFKOu4L2XJYCZjBXklx+Hcu+gKBLnh
- uQRqerwlKr4WNfyIHJaruF1Jq/Qhbs4/8Gr92cWvj30UCYQkVdyNBWLNynAuDaheNUrH
- 1izA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5layH9MhNA52soaJZfTnDM8L+LTws1H3akJM1O6X96g=;
- b=TXl7FmdeZQyHcRxcdeyEA4xbkocuoiJfiKMGINA4AXIBXvOT8D1nRJ1y/oYjLq3psb
- 7mRdhMaDs9zkoVcrQ/0FXvcjYK9yDdlX6ewxIVm3YUOAa7pyFAy2IwXtkjwhK+1ZZSuc
- SLXHhCrim13HzGvqyFjp5xq3HjGdPTtni0vPURXy+fFtj4aOD2D7f2O1gq06ats1wjR9
- lkWoburFW9J3SAod18kGTGawoO8PZP2SQhG4aBt838/UqHS/E7k/CugBVL4HWN3AW1rm
- ZPMlSZwuZwAvjmipjcAR7mD6BsxLA7Ce5tMHVWgoEISOZb+ySObVLoDEAsr+t0j2vuwt
- HJ6w==
-X-Gm-Message-State: ANhLgQ2lfnYtQQfh4DHA+1pjOmzanUJYvW/6kOYJG15xNkdIS+27PbDv
- dp6aSF/fp7FGjUrDh3tp5uMAvg==
-X-Google-Smtp-Source: ADFU+vsrNekDvRdqWwoRaSr64zbhLHs1XsOIvB7ZFER4YNE59iDGs2xus8tZYmiBdpX53TDWQj3GPw==
-X-Received: by 2002:a1c:4c1a:: with SMTP id z26mr3925718wmf.11.1585149360628; 
- Wed, 25 Mar 2020 08:16:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s127sm8920219wmf.28.2020.03.25.08.15.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 08:15:53 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26D481FF99;
- Wed, 25 Mar 2020 15:15:44 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 10/11] tests/docker: Add libepoxy and libudev packages to the
- Fedora image
+ (envelope-from <dgilbert@redhat.com>) id 1jH7l5-000824-Nt
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:56 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47812)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH7l5-00081c-JK
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585149355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CG49YItTSEaAVIfoMfi80rCB2q1gTx6NKpDoWaq3WA0=;
+ b=BYkEJx43o3KtNVyswFJMq2D/usuNcLDaea+TYt/8azpUKW+xHC44OLz/VnwR+NKUSWNYgF
+ obdYrVnN45DUw6rxCaT6VyUvy7M2RrIwFQBtMK08CXxlq1spgDGIj9NRSMhYyNGpeAwgY4
+ XYpFi/OjbrgJ51k/GQCWV8t/3JxFILg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-xoZoZvtDP2CbY0x_qO4E1Q-1; Wed, 25 Mar 2020 11:15:51 -0400
+X-MC-Unique: xoZoZvtDP2CbY0x_qO4E1Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 603131005510;
+ Wed, 25 Mar 2020 15:15:50 +0000 (UTC)
+Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB86294B4F;
+ Wed, 25 Mar 2020 15:15:45 +0000 (UTC)
 Date: Wed, 25 Mar 2020 15:15:42 +0000
-Message-Id: <20200325151543.32478-11-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200325151543.32478-1-alex.bennee@linaro.org>
-References: <20200325151543.32478-1-alex.bennee@linaro.org>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.0 v3] Acceptance test: Fix to EXEC migration
+Message-ID: <20200325151542.GB2589@work-vm>
+References: <20200325113138.20337-1-ovoshcha@redhat.com>
+ <c2007a51-318a-c935-dd77-232e45587b08@redhat.com>
+ <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
+ <f644f1f2-90ab-0d6f-99c6-bae34f76df1f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::331
+In-Reply-To: <f644f1f2-90ab-0d6f-99c6-bae34f76df1f@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,46 +74,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Oksana Voshchana <ovoshcha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer Moschetta <wainersm@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> On 3/25/20 3:10 PM, Oksana Voshchana wrote:
+> > Hi=A0Philippe
+> > Thanks for the review
+> > I have some comments
+> >=20
+> > On Wed, Mar 25, 2020 at 2:30 PM Philippe Mathieu-Daud=E9
+> > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
+> >=20
+> >     Hi Oksana,
+> >=20
+> >     v2 was
+> >     https://www.mail-archive.com/qemu-devel@nongnu.org/msg682899.html, =
+so
+> >     this is v3. Please increment the version in the patch subject.
+> >=20
+> >     You could also send a simple "ping" to the specific patch, instead =
+of
+> >     resending it.
+> >=20
+> >     On 3/25/20 12:31 PM, Oksana Vohchana wrote:
+> >      > The exec migration test isn't run a whole test scenario.
+> >      > This patch fixes it
+> >      >
+> >      > Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com
+> >     <mailto:ovoshcha@redhat.com>>
+> >=20
+> >     v1 of this patch has already received reviewers tags
+> >     (https://www.mail-archive.com/qemu-devel@nongnu.org/msg679629.html)=
+,
+> >     please collect them and keep them when you resend the same patch:
+> >=20
+> > I have reposted patch without this fix because this change isn't relate=
+d
+> > to the series:
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06919.html
+> > Is it make sense to keep this fix as a separate patch?
+> >=20
+> >     Fixes: 2e768cb682bf
+> >     Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com
+> >     <mailto:philmd@redhat.com>>
+> >     Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com
+> >     <mailto:wainersm@redhat.com>>
+> >=20
+> >      > ---
+> >      >=A0 =A0tests/acceptance/migration.py | 6 +++---
+> >      >=A0 =A01 file changed, 3 insertions(+), 3 deletions(-)
+> >      >
+> >      > diff --git a/tests/acceptance/migration.py
+> >     b/tests/acceptance/migration.py
+> >      > index a8367ca023..0365289cda 100644
+> >      > --- a/tests/acceptance/migration.py
+> >      > +++ b/tests/acceptance/migration.py
+> >      > @@ -70,8 +70,8 @@ class Migration(Test):
+> >      >
+> >      >=A0 =A0 =A0 =A0@skipUnless(find_command('nc', default=3DFalse), "=
+'nc'
+> >     command not found")
+> >      >=A0 =A0 =A0 =A0def test_migration_with_exec(self):
+> >      > -=A0 =A0 =A0 =A0 """
+> >      > -=A0 =A0 =A0 =A0 The test works for both netcat-traditional and
+> >     netcat-openbsd packages
+> >      > -=A0 =A0 =A0 =A0 """
+> >      > +=A0 =A0 =A0 =A0 """The test works for both netcat-traditional a=
+nd
+> >     netcat-openbsd packages."""
+> >=20
+> >     Btw why are you changing the comment style?
+> >=20
+> > I got failure=A0in PEP257
+>=20
+> OK, next time please add comment in the patch description too.
+>=20
+> >=20
+> >=20
+> >      >=A0 =A0 =A0 =A0 =A0 =A0free_port =3D self._get_free_port()
+> >      >=A0 =A0 =A0 =A0 =A0 =A0dest_uri =3D 'exec:nc -l localhost %u' % f=
+ree_port
+> >      > +=A0 =A0 =A0 =A0 src_uri =3D 'exec:nc localhost %u' % free_port
+> >      > +=A0 =A0 =A0 =A0 self.do_migrate(dest_uri, src_uri)
+> >      >
+> >=20
+> >     Alex, if there is no Python testing pullreq, can you take this patc=
+h
+> >     via
+> >     your testing tree?
+>=20
+> Cc'ing David since it is migration related.
 
-Install optional dependencies of QEMU to get better coverage.
+I tend to leave the tests/acceptance to someone other than the migration
+tree; so feel free to take them via testing or trivial given the size.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200322120104.21267-5-philmd@redhat.com>
-Message-Id: <20200323161514.23952-11-alex.bennee@linaro.org>
+Dave
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 174979c7af4..4bd2c953af8 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -29,6 +29,7 @@ ENV PACKAGES \
-     libblockdev-mpath-devel \
-     libcap-ng-devel \
-     libcurl-devel \
-+    libepoxy-devel \
-     libfdt-devel \
-     libiscsi-devel \
-     libjpeg-devel \
-@@ -38,6 +39,7 @@ ENV PACKAGES \
-     libseccomp-devel \
-     libssh-devel \
-     libubsan \
-+    libudev-devel \
-     libusbx-devel \
-     libxml2-devel \
-     libzstd-devel \
--- 
-2.20.1
+> >=20
+> >     Thanks,
+> >=20
+> >     Phil.
+> >=20
+> > Thanks
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
