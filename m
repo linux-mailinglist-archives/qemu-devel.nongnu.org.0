@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC03192DDE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 17:12:30 +0100 (CET)
-Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29A3192DB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 17:03:04 +0100 (CET)
+Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH8dp-0007qR-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 12:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49797)
+	id 1jH8Uh-0003CG-78
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 12:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jH8cw-00073w-AW
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:11:35 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jH8Sv-0001RI-ST
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:01:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jH8ct-0005fs-Sx
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:11:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49336)
+ (envelope-from <richard.henderson@linaro.org>) id 1jH8Su-0004Ac-Eu
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:01:13 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35067)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jH8ct-0005dx-Nb
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:11:31 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jH8cr-0006ES-Nr
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 16:11:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9462D2E80C9
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 16:11:29 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jH8Su-0004A4-5F
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:01:12 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id g9so1187050pjp.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 09:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZKAcvvb5B5aLdrzFo3oqHkkxeclrBWldWm7xb2swpjs=;
+ b=osm5uKBHOjPxozNgFpnU5hUv1t5bazt4eshWA2SoMT+x9jnj7tDjRhmxe39SkcQfBJ
+ iuU3uf+bsUM9mMYGer1OqgSP5uFz014rjRIkS+4wRL+t+c3trPjmQZoaUHzwLm7cMELS
+ TyhiYKJv5Eg2FoWnK+zR5RPHMo8jP2Bu94yFMUGJ682DzN/9OeurG3jPpd0C/atNPtR0
+ uenZAtTzKWaa38LMjkO4DZjyw0jtCrO+J2S9nALa4ta3e5J6SyMHN3xv0hEcvpdHskDS
+ ZNCh7mYAHVP9G/Blmf6k4C1jZSHW7mhN1qlsaoxUZioxvGlw0j/B9Wh6s++bpACNpbu6
+ aG5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZKAcvvb5B5aLdrzFo3oqHkkxeclrBWldWm7xb2swpjs=;
+ b=W7T6w/v0ANETWhvm1Xm+gvyf7Vnt0RpQruB4ekqiYm3DhhF/jVs5/HLgnlsw8dGR8p
+ iSAQ23J8yT0bfHVCQPEgNpY35bpAaIQQvByd7RskxHC64vSjFXRfkAx1wqesDCrrwNAi
+ 5Giz5+gMB4HUFQHekqIlfSk/DFKNuLUBUqHqGhXYol+imf1MUMqSzNLw/wii9KHxpvW9
+ 8+PvN0VNlQjXx9I7jmuJW3tZmNRvfR1drevMVf5tjy8msiO10EHv1dhggMddLUQ94yG+
+ 0/ZthduwsZ1/uwNP3zrHChpJPtW3XmakSHO7LeamTBCf8t6cl+4u2CdbaofCx1R1V3c5
+ V45g==
+X-Gm-Message-State: ANhLgQ3brVOQuuycJ2wFIGNiMUyiAfhIH91sWtwn75/g3mY91UD7Ss79
+ NxwflYCju0jTJOBFogzjRwbfBA==
+X-Google-Smtp-Source: ADFU+vvBVLw6To2pR8n2biJRETI/k+/AVGQOzOLoTWn0301HoaHYhYIMzWvC1pp6lNrdmv9HpENyEw==
+X-Received: by 2002:a17:90a:9408:: with SMTP id
+ r8mr4608032pjo.15.1585152070907; 
+ Wed, 25 Mar 2020 09:01:10 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id 189sm18703380pfg.170.2020.03.25.09.01.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Mar 2020 09:01:09 -0700 (PDT)
+Subject: Re: [PATCH] linux-user, configure: fix (again) syscall_nr.h
+ dependencies cleanup
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200325075757.1959961-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f0f1e6bf-155b-f5af-de22-5798fe82766e@linaro.org>
+Date: Wed, 25 Mar 2020 09:01:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 15:57:45 -0000
-From: Alex Williamson <alex.l.williamson@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm passthrough tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson hrw pmaydell
-X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
-X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
-References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
-Message-Id: <158515186595.7043.14755579395187622825.malone@wampee.canonical.com>
-Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
- guest memory but fails on 4GB (vfio_dma_map invalid arg)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3669ff8b0930c9b07a9662366153419a95827882
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20200325075757.1959961-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,94 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not related to the BARs, the mapping of the BARs into the guest
-is purely virtual and controlled by the guest.  The issue is that the
-device needs to be able to DMA into guest RAM, and to do that
-transparently (ie. the guest doesn't know it's being virtualized), we
-need to map GPAs into the host IOMMU such that the guest interacts with
-the device in terms of GPAs, the host IOMMU translates that to HPAs.
-Thus the IOMMU needs to support GPA range of the guest as IOVA.
-However, there are ranges of IOVA space that the host IOMMU cannot map,
-for example the MSI range here is handled by the interrupt remmapper,
-not the DMA translation portion of the IOMMU (on physical ARM systems
-these are one-in-the-same, on x86 they are different components, using
-different mapping interfaces of the IOMMU).  Therefore if the guest
-programmed the device to perform a DMA to 0xfee00000, the host IOMMU
-would see that as an MSI, not a DMA.  When we do an x86 VM on and x86
-host, both the host and the guest have complimentary reserved regions,
-which avoids this issue.
+On 3/25/20 12:57 AM, Laurent Vivier wrote:
+> This patch fixes two problems:
+> - it cleanups linux-user variants (for instance ppc64-linux-user
+>   and ppc64le-linux-user)
+> - it removes the .o file when it removes the .d file, otherwise the .o
+>   file is never updated
+> 
+> Fixes: 5f29856b852d ("linux-user, configure: improve syscall_nr.h dependencies checking")
+> Fixes: 4d6a835dea47 ("linux-user: introduce parameters to generate syscall_nr.h")
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  configure | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-Also, to expand on what I mentioned on IRC, every x86 host is going to
-have some reserved range below 4G for this purpose, but if the aarch64
-VM has no requirements for memory below 4G, the starting GPA for the VM
-could be at or above 4G and avoid this issue.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- =
+I haven't been able to reproduce the same failure from master, but this looks
+right.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1869006
 
-Title:
-  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
-  fails on 4GB (vfio_dma_map invalid arg)
-
-Status in QEMU:
-  New
-
-Bug description:
-  During one meeting coworker asked "did someone tried to passthrough
-  PCIe card to other arch guest?" and I decided to check it.
-
-  Plugged SATA and USB3 controllers into spare slots on mainboard and
-  started playing. On 1GB VM instance it worked (both cold- and hot-
-  plugged). On 4GB one it did not:
-
-  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
-d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
-h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
-0x0: VFIO_MAP_DMA: -22
-  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
-0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
-d to setup container for group 28: memory listener initialization failed: R=
-egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
-0x7fb2a3e00000) =3D -22 (Invalid argument)
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
- in startup
-      self._backend.create()
-    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
-ate
-      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: process exited while connecting to =
-monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
-host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
-  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
-0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
-d to setup container for group 28: memory listener initialization failed: R=
-egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
-0x7fb2a3e00000) =3D -22 (Invalid argument)
-
-  =
-
-  I played with memory and 3054 MB is maximum value possible to boot VM wit=
-h coldplugged host PCIe cards.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
+r~
 
