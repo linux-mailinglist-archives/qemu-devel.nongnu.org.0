@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE531191F0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 03:29:58 +0100 (CET)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D75191EFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 03:25:44 +0100 (CET)
+Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGvnp-0004MA-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 22:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43047)
+	id 1jGvjj-0002Ek-LT
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 22:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41943)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jGvn0-0003uX-M6
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:29:08 -0400
+ (envelope-from <pasic@linux.ibm.com>) id 1jGviq-0001n8-NB
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jGvmy-0002ts-Us
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:29:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:21693)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jGvmy-0002tI-Kn
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:29:04 -0400
-IronPort-SDR: YoDvFJqxLwF+inJOZcuEHXQOxaI5YtrKh6FzDTwThwWAlfARvk2DCZA5v7UxBmWlknYhn0n2dB
- VyXuL6YPn87Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2020 19:29:03 -0700
-IronPort-SDR: Nm0XexF/m3nlad7W1/Q90ej9x/p61pB0UF5PLK7Af/SIY0kikQ56Nni4FOHYkClvHsbF+T+lFa
- HLFdbE2BdnhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,302,1580803200"; d="scan'208";a="446474735"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga005.fm.intel.com with ESMTP; 24 Mar 2020 19:28:59 -0700
-Date: Tue, 24 Mar 2020 22:19:28 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 QEMU 14/16] vfio: Add vfio_listener_log_sync to mark
- dirty pages
-Message-ID: <20200325021927.GD20109@joy-OptiPlex-7040>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
+ (envelope-from <pasic@linux.ibm.com>) id 1jGvip-00074r-IM
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12036
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1jGvip-000713-EV
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:47 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02P23K2u019056
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 22:24:46 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ywd2sqs80-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 22:24:45 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
+ Wed, 25 Mar 2020 02:24:40 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 25 Mar 2020 02:24:38 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02P2Odfn60162274
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 Mar 2020 02:24:40 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE79A52051;
+ Wed, 25 Mar 2020 02:24:39 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.2.145])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 86EDA52052;
+ Wed, 25 Mar 2020 02:24:39 +0000 (GMT)
+Date: Wed, 25 Mar 2020 03:24:28 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH v2 1/7] vfio-ccw: Return IOINST_CC_NOT_OPERATIONAL
+ for EIO
+In-Reply-To: <20200324180430.3597ca94.cohuck@redhat.com>
+References: <20200206214509.16434-1-farman@linux.ibm.com>
+ <20200206214509.16434-2-farman@linux.ibm.com>
+ <20200324180430.3597ca94.cohuck@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.151
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20032502-0020-0000-0000-000003BA80E4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20032502-0021-0000-0000-00002213042A
+Message-Id: <20200325032428.11dd27a2.pasic@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-24_10:2020-03-23,
+ 2020-03-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 mlxlogscore=999 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003250012
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,307 +92,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 25, 2020 at 05:09:12AM +0800, Kirti Wankhede wrote:
-> vfio_listener_log_sync gets list of dirty pages from container using
-> VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
-> devices are stopped and saving state.
-> Return early for the RAM block section of mapped MMIO region.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/common.c     | 200 +++++++++++++++++++++++++++++++++++++++++++++++++--
->  hw/vfio/trace-events |   1 +
->  2 files changed, 196 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 4a2f0d6a2233..6d41e1ac5c2f 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -29,6 +29,7 @@
->  #include "hw/vfio/vfio.h"
->  #include "exec/address-spaces.h"
->  #include "exec/memory.h"
-> +#include "exec/ram_addr.h"
->  #include "hw/hw.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
-> @@ -38,6 +39,7 @@
->  #include "sysemu/reset.h"
->  #include "trace.h"
->  #include "qapi/error.h"
-> +#include "migration/migration.h"
->  
->  VFIOGroupList vfio_group_list =
->      QLIST_HEAD_INITIALIZER(vfio_group_list);
-> @@ -288,6 +290,28 @@ const MemoryRegionOps vfio_region_ops = {
->  };
->  
->  /*
-> + * Device state interfaces
-> + */
-> +
-> +static bool vfio_devices_are_stopped_and_saving(void)
-> +{
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +
-> +    QLIST_FOREACH(group, &vfio_group_list, next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
-> +                !(vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> +                continue;
-> +            } else {
-> +                return false;
-> +            }
-> +        }
-> +    }
-> +    return true;
-> +}
-> +
-> +/*
->   * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
->   */
->  static int vfio_dma_unmap(VFIOContainer *container,
-> @@ -408,8 +432,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
->  }
->  
->  /* Called with rcu_read_lock held.  */
-> -static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
-> -                           bool *read_only)
-> +static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> +                               ram_addr_t *ram_addr, bool *read_only)
->  {
->      MemoryRegion *mr;
->      hwaddr xlat;
-> @@ -440,9 +464,17 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
->          return false;
->      }
->  
-> -    *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> -    *read_only = !writable || mr->readonly;
-> +    if (vaddr) {
-> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> +    }
->  
-> +    if (ram_addr) {
-> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-> +    }
-> +
-> +    if (read_only) {
-> +        *read_only = !writable || mr->readonly;
-> +    }
->      return true;
->  }
->  
-> @@ -467,7 +499,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
->      rcu_read_lock();
->  
->      if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
-> -        if (!vfio_get_vaddr(iotlb, &vaddr, &read_only)) {
-> +        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
->              goto out;
->          }
->          /*
-> @@ -813,9 +845,167 @@ static void vfio_listener_region_del(MemoryListener *listener,
->      }
->  }
->  
-> +static int vfio_get_dirty_bitmap(MemoryListener *listener,
-> +                                 MemoryRegionSection *section)
-> +{
-> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> +    VFIOGuestIOMMU *giommu;
-> +    IOMMUTLBEntry iotlb;
-> +    hwaddr granularity, address_limit, iova;
-> +    int ret;
-> +
-> +    if (memory_region_is_iommu(section->mr)) {
-> +        QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
-> +            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-> +                giommu->n.start == section->offset_within_region) {
-> +                break;
-> +            }
-> +        }
-> +
-> +        if (!giommu) {
-> +            return -EINVAL;
-> +        }
-> +    }
-> +
-> +    if (memory_region_is_iommu(section->mr)) {
-> +        granularity = memory_region_iommu_get_min_page_size(giommu->iommu);
-> +
-> +        address_limit = MIN(int128_get64(section->size),
-> +                            memory_region_iommu_get_address_limit(giommu->iommu,
-> +                                                 int128_get64(section->size)));
-> +    } else {
-> +        granularity = memory_region_size(section->mr);
-> +        address_limit = int128_get64(section->size);
-> +    }
-> +
-> +    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> +
-> +    RCU_READ_LOCK_GUARD();
-> +
-> +    while (iova < address_limit) {
-> +        struct vfio_iommu_type1_dirty_bitmap *dbitmap;
-> +        struct vfio_iommu_type1_dirty_bitmap_get *range;
-> +        ram_addr_t start, pages;
-> +        uint64_t iova_xlat, size;
-> +
-> +        if (memory_region_is_iommu(section->mr)) {
-> +            iotlb = address_space_get_iotlb_entry(container->space->as, iova,
-> +                                                 true, MEMTXATTRS_UNSPECIFIED);
-> +            if ((iotlb.target_as == NULL) || (iotlb.addr_mask == 0)) {
-> +                if ((iova + granularity) < iova) {
-> +                    break;
-> +                }
-> +                iova += granularity;
-> +                continue;
-> +            }
-> +            iova_xlat = iotlb.iova + giommu->iommu_offset;
-> +            size = iotlb.addr_mask + 1;
-> +        } else {
-> +            iova_xlat = iova;
-> +            size = address_limit;
-> +        }
-> +
-> +        dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
-> +        if (!dbitmap) {
-> +            return -ENOMEM;
-> +        }
-> +
-> +        dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
-> +        dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
-> +        range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
-> +        range->iova = iova_xlat;
-> +        range->size = size;
-> +
-> +        /*
-> +         * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-> +         * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
-> +         * TARGET_PAGE_SIZE.
-> +         */
-> +        range->bitmap.pgsize = TARGET_PAGE_SIZE;
-> +
-> +        /*
-> +         * Comment from kvm_physical_sync_dirty_bitmap() since same applies here
-> +         * XXX bad kernel interface alert
-> +         * For dirty bitmap, kernel allocates array of size aligned to
-> +         * bits-per-long.  But for case when the kernel is 64bits and
-> +         * the userspace is 32bits, userspace can't align to the same
-> +         * bits-per-long, since sizeof(long) is different between kernel
-> +         * and user space.  This way, userspace will provide buffer which
-> +         * may be 4 bytes less than the kernel will use, resulting in
-> +         * userspace memory corruption (which is not detectable by valgrind
-> +         * too, in most cases).
-> +         * So for now, let's align to 64 instead of HOST_LONG_BITS here, in
-> +         * a hope that sizeof(long) won't become >8 any time soon.
-> +         */
-> +
-> +        pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
-> +        range->bitmap.size = ROUND_UP(pages, 64) / 8;
-> +        range->bitmap.data = g_malloc0(range->bitmap.size);
-> +        if (range->bitmap.data == NULL) {
-> +            error_report("Error allocating bitmap of size 0x%llx",
-> +                         range->bitmap.size);
-> +            ret = -ENOMEM;
-> +            goto err_out;
-> +        }
-> +
-> +        ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
-> +        if (ret) {
-> +            error_report("Failed to get dirty bitmap for iova: 0x%llx "
-> +                         "size: 0x%llx err: %d",
-> +                         range->iova, range->size, errno);
-> +            goto err_out;
-> +        }
-> +
-> +        if (memory_region_is_iommu(section->mr)) {
-> +            if (!vfio_get_xlat_addr(&iotlb, NULL, &start, NULL)) {
-> +                ret = -EINVAL;
-> +                goto err_out;
-> +            }
-> +        } else {
-> +            start = memory_region_get_ram_addr(section->mr) +
-> +                    section->offset_within_region + iova -
-> +                    TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> +        }
-> +
-> +        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
-> +                                               start, pages);
-> +
-> +        trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
-> +                                    range->bitmap.size, start);
-> +err_out:
-> +        g_free(range->bitmap.data);
-> +        g_free(dbitmap);
-> +
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +
-> +        if ((iova + size) < iova) {
-> +            break;
-> +        }
-> +
-> +        iova += size;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void vfio_listerner_log_sync(MemoryListener *listener,
-> +        MemoryRegionSection *section)
-> +{
-> +    if (vfio_listener_skipped_section(section)) {
-> +        return;
-> +    }
-> +
-> +    if (vfio_devices_are_stopped_and_saving()) {
-only get dirty in stopped and saving is not right.
+On Tue, 24 Mar 2020 18:04:30 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-> +        vfio_get_dirty_bitmap(listener, section);
-> +    }
-> +}
-> +
->  static const MemoryListener vfio_memory_listener = {
->      .region_add = vfio_listener_region_add,
->      .region_del = vfio_listener_region_del,
-> +    .log_sync = vfio_listerner_log_sync,
->  };
->  
->  static void vfio_listener_release(VFIOContainer *container)
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index ac065b559f4e..bc8f35ee9356 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
->  vfio_load_device_config_state(char *name) " (%s)"
->  vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
->  vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> +vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
-> -- 
-> 2.7.0
+> On Thu,  6 Feb 2020 22:45:03 +0100
+> Eric Farman <farman@linux.ibm.com> wrote:
 > 
+> > From: Farhan Ali <alifm@linux.ibm.com>
+> > 
+> > EIO is returned by vfio-ccw mediated device when the backing
+> > host subchannel is not operational anymore. So return cc=3
+> > back to the guest, rather than returning a unit check.
+> > This way the guest can take appropriate action such as
+> > issue an 'stsch'.
+
+I believe this is not the only situation when vfio-ccw returns
+EIO, or?
+
+> > 
+> > Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
+> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> > ---
+> > 
+> > Notes:
+> >     v1->v2: [EF]
+> >      - Add s-o-b
+> >      - [Seems the discussion on v1 centered on the return code
+> >        set in the kernel, rather than anything that needs to
+> >        change here, unless I've missed something.]
+
+Does this need to change here? If the kernel is supposed to return ENODEV
+then this does not need to change.
+
+> 
+> I've stared at this and at the kernel code for some time again; and I'm
+> not sure if "return -EIO == not operational" is even true. That said,
+> I'm not sure a unit check is the right response, either. The only thing
+> I'm sure about is that the kernel code needs some review of return
+> codes and some documentation...
+
+I could not agree more, this is semantically uapi and needs to be
+properly documented.
+
+With regards to "linux error codes: vs "ionist cc's" an where
+the mapping is different example:
+
+"""
+/**                                                                             
+ * cio_cancel_halt_clear - Cancel running I/O by performing cancel, halt        
+ * and clear ordinally if subchannel is valid.                                  
+ * @sch: subchannel on which to perform the cancel_halt_clear operation         
+ * @iretry: the number of the times remained to retry the next operation        
+ *                                                                              
+ * This should be called repeatedly since halt/clear are asynchronous           
+ * operations. We do one try with cio_cancel, three tries with cio_halt,        
+ * 255 tries with cio_clear. The caller should initialize @iretry with          
+ * the value 255 for its first call to this, and keep using the same            
+ * @iretry in the subsequent calls until it gets a non -EBUSY return.           
+ *                                                                              
+ * Returns 0 if device now idle, -ENODEV for device not operational,            
+ * -EBUSY if an interrupt is expected (either from halt/clear or from a         
+ * status pending), and -EIO if out of retries.                                 
+ */                                                                             
+int cio_cancel_halt_clear(struct subchannel *sch, int *iretry)   
+
+"""
+Here -ENODEV is not operational.
+
+Regards,
+Halil
+
+> 
+> > 
+> >  hw/vfio/ccw.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> > index 50cc2ec75c..19144ecfc7 100644
+> > --- a/hw/vfio/ccw.c
+> > +++ b/hw/vfio/ccw.c
+> > @@ -114,6 +114,7 @@ again:
+> >          return IOINST_CC_BUSY;
+> >      case -ENODEV:
+> >      case -EACCES:
+> > +    case -EIO:
+> >          return IOINST_CC_NOT_OPERATIONAL;
+> >      case -EFAULT:
+> >      default:
+> 
+> 
+
 
