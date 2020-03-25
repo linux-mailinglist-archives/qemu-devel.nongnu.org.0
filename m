@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACE7192678
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:01:51 +0100 (CET)
-Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7CC192693
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:04:09 +0100 (CET)
+Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3nC-000335-En
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37955)
+	id 1jH3pQ-0006UP-Dy
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jH3kK-0000Kz-J5
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:54 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3kU-0000br-70
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:59:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jH3kJ-0006iI-Bq
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:52 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46408)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3kT-0006rW-5z
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:59:02 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34981)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jH3kJ-0006hq-71
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:51 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3kT-0006rF-1V
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:59:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133930;
+ s=mimecast20190719; t=1585133940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zFiF4MhS5uVnJJBp8JB56GIwKfGYSvvTknJEdz9kuOc=;
- b=hKiLqM8GEOJEEpHxSxmGLlWbVzyk7I2X2Moh32z2gObVUuwNZuS7/RPOP9aexKa6J9qN7F
- 0qRVKbtJo9q3a0cADR5aevBiVjpdeC0KW9XcmUP9uxNkLyBW8whaE3DGPX4umFiwNc2D3E
- 2pPw28kbCOfVcwopva8zBJiYiLsPRvc=
+ bh=bfcwV8/ZdtSbstmz4jQAMd6npA1t+jqSmx/ySRyYh5o=;
+ b=ichC22Xo04BzB1Gt1pirEk0f7++kkOGRzJCqjTb1fm/8BvgBd3bQrE13iXIQhSAEjf8b72
+ 7O5r3fynBeK6r05ysBpeeIEmMsdwCnPp6klQkyL3MbDAPLPnawfuVYqdxttZjxe/5fBDvx
+ z+q/7ronNprTRKR2uMjunKZXl7/xWuA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-CeU_V0ngNZ-VsfH7DfjtWw-1; Wed, 25 Mar 2020 06:58:48 -0400
-X-MC-Unique: CeU_V0ngNZ-VsfH7DfjtWw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-274-u2XrJaYzNDqyxptGOguhow-1; Wed, 25 Mar 2020 06:58:57 -0400
+X-MC-Unique: u2XrJaYzNDqyxptGOguhow-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC7DF189D6D2;
- Wed, 25 Mar 2020 10:58:47 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
- [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6D9796FAA;
- Wed, 25 Mar 2020 10:58:44 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E0EC09D13; Wed, 25 Mar 2020 11:58:43 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] hw/audio/fmopl: fix segmentation fault
-Date: Wed, 25 Mar 2020 11:58:43 +0100
-Message-Id: <20200325105843.17387-3-kraxel@redhat.com>
-In-Reply-To: <20200325105843.17387-1-kraxel@redhat.com>
-References: <20200325105843.17387-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBED18018A3;
+ Wed, 25 Mar 2020 10:58:55 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C42E41001938;
+ Wed, 25 Mar 2020 10:58:53 +0000 (UTC)
+Message-ID: <6128d1fa5cecea19772a2ea34cfa882dec3a9739.camel@redhat.com>
+Subject: Re: [PATCH v6 37/42] nvme: refactor identify active namespace id list
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+Date: Wed, 25 Mar 2020 12:58:52 +0200
+In-Reply-To: <20200316142928.153431-38-its@irrelevant.dk>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-38-its@irrelevant.dk>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,67 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Prepare to support inactive namespaces.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index b89b96990f52..bf9fb500842a 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1505,16 +1505,16 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c,
+>      uint32_t min_nsid = le32_to_cpu(c->nsid);
+>      uint32_t *list;
+>      uint16_t ret;
+> -    int i, j = 0;
+> +    int j = 0;
+>  
+>      trace_nvme_dev_identify_nslist(min_nsid);
+>  
+>      list = g_malloc0(data_len);
+> -    for (i = 0; i < n->num_namespaces; i++) {
+> -        if (i < min_nsid) {
+> +    for (int i = 1; i <= n->num_namespaces; i++) {
+> +        if (i <= min_nsid) {
+>              continue;
+>          }
+> -        list[j++] = cpu_to_le32(i + 1);
+> +        list[j++] = cpu_to_le32(i);
+>          if (j == data_len / sizeof(uint32_t)) {
+>              break;
+>          }
 
-Current code allocates the memory for ENV_CURVE too late. Move
-allocation to OPLOpenTable() and deallocation to OPLCloseTable().
 
-To reproduce the bug start qemu with -soundhw adlib.
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
-Fixes 2eea51bd01 "hw/audio/fmopl: Move ENV_CURVE to .heap to save
-32KiB of .bss"
+Best regards,
+	Maxim Levitsky
 
-Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20200324061855.5951-1-vr_qemu@t-online.de
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/audio/fmopl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
-index 356d4dfbcaa6..8a71a569fab0 100644
---- a/hw/audio/fmopl.c
-+++ b/hw/audio/fmopl.c
-@@ -627,6 +627,7 @@ static int OPLOpenTable( void )
- =09=09free(AMS_TABLE);
- =09=09return 0;
- =09}
-+    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
- =09/* make total level table */
- =09for (t =3D 0;t < EG_ENT-1 ;t++){
- =09=09rate =3D ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);=09/* dB -> voltage *=
-/
-@@ -694,6 +695,7 @@ static int OPLOpenTable( void )
-=20
- static void OPLCloseTable( void )
- {
-+    g_free(ENV_CURVE);
- =09free(TL_TABLE);
- =09free(SIN_TABLE);
- =09free(AMS_TABLE);
-@@ -1090,7 +1092,6 @@ FM_OPL *OPLCreate(int clock, int rate)
- =09OPL->clock =3D clock;
- =09OPL->rate  =3D rate;
- =09OPL->max_ch =3D max_ch;
--    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
- =09/* init grobal tables */
- =09OPL_initialize(OPL);
- =09/* reset chip */
-@@ -1128,7 +1129,6 @@ void OPLDestroy(FM_OPL *OPL)
- #endif
- =09OPL_UnLockTable();
- =09free(OPL);
--    g_free(ENV_CURVE);
- }
-=20
- /* ----------  Option handlers ----------       */
---=20
-2.18.2
+
 
 
