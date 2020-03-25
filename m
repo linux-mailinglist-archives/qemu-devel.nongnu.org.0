@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934A0192FDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:51:43 +0100 (CET)
-Received: from localhost ([::1]:40976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7773192F9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:44:18 +0100 (CET)
+Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHABq-0003p4-ME
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36605)
+	id 1jHA4g-0005QO-0m
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jHAAH-0002SK-BJ
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:50:11 -0400
+ (envelope-from <peterx@redhat.com>) id 1jHA3c-0004To-Fq
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jHAAF-00054T-Nw
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:50:05 -0400
-Received: from mail-ua1-x941.google.com ([2607:f8b0:4864:20::941]:39673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jHAAF-00053z-K0; Wed, 25 Mar 2020 13:50:03 -0400
-Received: by mail-ua1-x941.google.com with SMTP id o16so1076867uap.6;
- Wed, 25 Mar 2020 10:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ieONrgCMVlSNEaui7/pnG4c9RgEkO8/mNP48GoRUSAs=;
- b=J5eNztw6dnhzD9ngvw0X1mvT5ZwAQZAfSkXNrP+9N0cA7l8YjpfUxqjw8N1YHKmn2P
- Xe5ojj8PJmEKxaCNFrHvtzlBbySpE00OAgSDA1scf/xFjkjppNSEonAhy5TbHZCRH0Xb
- 3xlL2Q16+lSTI3FDvCYFX6FcTcnabB2xB4CYB+oVFOHZ4/GmrcfDiVFiojqHf4v+XU2f
- 1z2//J0jHLn2mj2aD7n4VgYBz55b4U4QtyIzgThM5YoHgiGPJFe9qGzC5fLJ1LIOkK3Z
- 8xR1a0sNhVbUQMRWDJVms7LuAC2x8zWJeOcwfm2Eit3RipuazG0vpIvhm6ENFgQm91C1
- ZTuA==
+ (envelope-from <peterx@redhat.com>) id 1jHA3b-0001On-DM
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34530)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jHA3b-0001OX-9Y
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:43:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585158190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=npq6in6QIhRC2Vf/wwQDgFyiMQzVNAEh8CyukAjaTMo=;
+ b=NAz2LxYtkIF5zeKGHHP9B73xdGS/L7lvgE2CWPjdUFP1uO1DiIAfJOJEytGhfRI7lSKpDe
+ W+7AvueXcduAEvvo1SEGNp5xvaB9dB4MmPEjGpmwaEaRXZzEjB/9nMpn7kEMzbp5MkKmF6
+ WiNzLoGXnwBK/ZiS8dCK2/RfPEOpC0M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-FjGLWdE4PjmEya-KRuCIIQ-1; Wed, 25 Mar 2020 13:43:08 -0400
+X-MC-Unique: FjGLWdE4PjmEya-KRuCIIQ-1
+Received: by mail-wm1-f72.google.com with SMTP id m4so2761352wme.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 10:43:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ieONrgCMVlSNEaui7/pnG4c9RgEkO8/mNP48GoRUSAs=;
- b=F5HflMi0eMJ0dKAtbLRwXnSoyZXDX6Bc1h5Ap8g9s7KScsw4nL9m7e9v7XvfpwWApr
- SZpKORICJ8/7076cnCxJOAt9svY0yfNwkQJNtXCZ/a5xHgf+NYGE6GZXgwc3XJoVNPra
- 88R6Ayr+4XhmPnhGwK2FQn33vMQaLVgYxHT4l/7wJ3jElCUsnU4ANjt+Xn8jkF/f8dZy
- U+9a7hI9DoqvMvInPOJ8/UqusliW9C1iEobJ/4zs5DvUQe0g9hrUB1kbHj3QwOWFVE3Q
- 37A9H3aA1AsSeoDHVHltQejdEBqKgsD3ngQQMs+hLo+oFS84kflnTSE5fK59Y7WRsiXx
- GxYg==
-X-Gm-Message-State: ANhLgQ0uab2qoyHavKcSUTmKZuCM9coB+Xjg/A0mioA9TRbSRlWXKxsH
- IGiREwDt8ljAxf7Oa05haIx9x5+dM2dDryiybO8=
-X-Google-Smtp-Source: ADFU+vv0faZ8+4S19gDGH6kPl4ykco2QZVd03J6OYmlGlNBhm6BmYElIK2jwM2W+aNdPabt/ETWlM4xZVaPa+vzAkCo=
-X-Received: by 2002:ab0:2881:: with SMTP id s1mr3375367uap.8.1585158602942;
- Wed, 25 Mar 2020 10:50:02 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EOCoqUjf8CUS3+fsPCv7fqtKWLfg28PneudeeOMjZA8=;
+ b=Kk1gav2ZtdDvhX+DKB3jUJi8CiXkLidlcrPbxzw5bqKODu+rTjtl+B2H0RUnA/xJf5
+ CjKddGqDgPLhL8198EEqInYTTSYrHjqZU29pWwolf3lkogvSUO4363McnEH9RimTVTGn
+ thioFY0znryD1Ov/yQIWqagCWlttCdG89Lwakci/OVSBxEn0xNkkRQrR3xaR7Jn9imVW
+ PTcnB+ms0tYrf4o3bTVL1GEclvdsHCWmCS2YZuybMUfdT6R5rzhXtI99yx51SgPJupDZ
+ n+hVR5M3dFD8EIybVLmlF/CRJQuFxTgpRmBuOBhhx2fZL8/Bw8ILy+HWlEGXFgNeP33V
+ zEUw==
+X-Gm-Message-State: ANhLgQ39AWAaO6F5wWDs3ew27U947gAAzGpTUxFNOeVmjyXlmZptGKy2
+ eGPK5qtA4ma57H/5gIVUR6SsWLLPuQEpRDKS0GrlALL6djz2El6I/IX5NLqxOhlTF7pXCShRGot
+ gN5Xgx222c6gmQGo=
+X-Received: by 2002:a1c:4c0e:: with SMTP id z14mr30904wmf.0.1585158187365;
+ Wed, 25 Mar 2020 10:43:07 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vssqFB2I8kqzhRWvvj0byjaBttrQn1GglvbPvcBb798yRTs9B0YcfUzpAHmvtVz1KSIRtJxZA==
+X-Received: by 2002:a1c:4c0e:: with SMTP id z14mr30894wmf.0.1585158186865;
+ Wed, 25 Mar 2020 10:43:06 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id b15sm34290676wru.70.2020.03.25.10.43.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 10:43:06 -0700 (PDT)
+Date: Wed, 25 Mar 2020 13:43:02 -0400
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC 1/9] KVM: Fixup kvm_log_clear_one_slot() ioctl return
+ check
+Message-ID: <20200325174302.GH354390@xz-x1>
+References: <20200205141749.378044-1-peterx@redhat.com>
+ <20200205141749.378044-2-peterx@redhat.com>
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-23-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-23-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Mar 2020 10:42:03 -0700
-Message-ID: <CAKmqyKOjTezWbJz60SiZ8sHyFYREnfNzG91MCWzQQjCa+GdqRA@mail.gmail.com>
-Subject: Re: [PATCH v6 22/61] target/riscv: vector widening integer
- multiply-add instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::941
+In-Reply-To: <20200205141749.378044-2-peterx@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,149 +87,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 8:51 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On Wed, Feb 05, 2020 at 09:17:41AM -0500, Peter Xu wrote:
+> kvm_vm_ioctl() handles the errno trick already for ioctl() on
+> returning -1 for errors.  Fix this.
+>=20
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  target/riscv/helper.h                   | 22 ++++++++++++
->  target/riscv/insn32.decode              |  7 ++++
->  target/riscv/insn_trans/trans_rvv.inc.c |  9 +++++
->  target/riscv/vector_helper.c            | 45 +++++++++++++++++++++++++
->  4 files changed, 83 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 098288df76..1f0d3d60e3 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -643,3 +643,25 @@ DEF_HELPER_6(vnmsub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vnmsub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vnmsub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vnmsub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vwmaccu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmacc_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vwmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index b49b60aea1..9735ac3565 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -393,6 +393,13 @@ vmadd_vv        101001 . ..... ..... 010 ..... 1010111 @r_vm
->  vmadd_vx        101001 . ..... ..... 110 ..... 1010111 @r_vm
->  vnmsub_vv       101011 . ..... ..... 010 ..... 1010111 @r_vm
->  vnmsub_vx       101011 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwmaccu_vv      111100 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwmaccu_vx      111100 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwmacc_vv       111101 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwmaccsu_vv     111110 . ..... ..... 010 ..... 1010111 @r_vm
-> +vwmaccsu_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
-> +vwmaccus_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index 6d2ccbd615..269d04c7fb 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -1490,3 +1490,12 @@ GEN_OPIVX_TRANS(vmacc_vx, opivx_check)
->  GEN_OPIVX_TRANS(vnmsac_vx, opivx_check)
->  GEN_OPIVX_TRANS(vmadd_vx, opivx_check)
->  GEN_OPIVX_TRANS(vnmsub_vx, opivx_check)
-> +
-> +/* Vector Widening Integer Multiply-Add Instructions */
-> +GEN_OPIVV_WIDEN_TRANS(vwmaccu_vv, opivv_widen_check)
-> +GEN_OPIVV_WIDEN_TRANS(vwmacc_vv, opivv_widen_check)
-> +GEN_OPIVV_WIDEN_TRANS(vwmaccsu_vv, opivv_widen_check)
-> +GEN_OPIVX_WIDEN_TRANS(vwmaccu_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwmacc_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwmaccsu_vx)
-> +GEN_OPIVX_WIDEN_TRANS(vwmaccus_vx)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index f65ed6abbc..5adce9e0a3 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -1954,3 +1954,48 @@ GEN_VEXT_VX(vnmsub_vx_b, 1, 1, clearb)
->  GEN_VEXT_VX(vnmsub_vx_h, 2, 2, clearh)
->  GEN_VEXT_VX(vnmsub_vx_w, 4, 4, clearl)
->  GEN_VEXT_VX(vnmsub_vx_d, 8, 8, clearq)
-> +
-> +/* Vector Widening Integer Multiply-Add Instructions */
-> +RVVCALL(OPIVV3, vwmaccu_vv_b, WOP_UUU_B, H2, H1, H1, DO_MACC)
-> +RVVCALL(OPIVV3, vwmaccu_vv_h, WOP_UUU_H, H4, H2, H2, DO_MACC)
-> +RVVCALL(OPIVV3, vwmaccu_vv_w, WOP_UUU_W, H8, H4, H4, DO_MACC)
-> +RVVCALL(OPIVV3, vwmacc_vv_b, WOP_SSS_B, H2, H1, H1, DO_MACC)
-> +RVVCALL(OPIVV3, vwmacc_vv_h, WOP_SSS_H, H4, H2, H2, DO_MACC)
-> +RVVCALL(OPIVV3, vwmacc_vv_w, WOP_SSS_W, H8, H4, H4, DO_MACC)
-> +RVVCALL(OPIVV3, vwmaccsu_vv_b, WOP_SSU_B, H2, H1, H1, DO_MACC)
-> +RVVCALL(OPIVV3, vwmaccsu_vv_h, WOP_SSU_H, H4, H2, H2, DO_MACC)
-> +RVVCALL(OPIVV3, vwmaccsu_vv_w, WOP_SSU_W, H8, H4, H4, DO_MACC)
-> +GEN_VEXT_VV(vwmaccu_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwmaccu_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwmaccu_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwmacc_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwmacc_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwmacc_vv_w, 4, 8, clearq)
-> +GEN_VEXT_VV(vwmaccsu_vv_b, 1, 2, clearh)
-> +GEN_VEXT_VV(vwmaccsu_vv_h, 2, 4, clearl)
-> +GEN_VEXT_VV(vwmaccsu_vv_w, 4, 8, clearq)
-> +
-> +RVVCALL(OPIVX3, vwmaccu_vx_b, WOP_UUU_B, H2, H1, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccu_vx_h, WOP_UUU_H, H4, H2, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccu_vx_w, WOP_UUU_W, H8, H4, DO_MACC)
-> +RVVCALL(OPIVX3, vwmacc_vx_b, WOP_SSS_B, H2, H1, DO_MACC)
-> +RVVCALL(OPIVX3, vwmacc_vx_h, WOP_SSS_H, H4, H2, DO_MACC)
-> +RVVCALL(OPIVX3, vwmacc_vx_w, WOP_SSS_W, H8, H4, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccsu_vx_b, WOP_SSU_B, H2, H1, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccsu_vx_h, WOP_SSU_H, H4, H2, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccsu_vx_w, WOP_SSU_W, H8, H4, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccus_vx_b, WOP_SUS_B, H2, H1, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccus_vx_h, WOP_SUS_H, H4, H2, DO_MACC)
-> +RVVCALL(OPIVX3, vwmaccus_vx_w, WOP_SUS_W, H8, H4, DO_MACC)
-> +GEN_VEXT_VX(vwmaccu_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwmaccu_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwmaccu_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwmacc_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwmacc_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwmacc_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwmaccsu_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwmaccsu_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwmaccsu_vx_w, 4, 8, clearq)
-> +GEN_VEXT_VX(vwmaccus_vx_b, 1, 2, clearh)
-> +GEN_VEXT_VX(vwmaccus_vx_h, 2, 4, clearl)
-> +GEN_VEXT_VX(vwmaccus_vx_w, 4, 8, clearq)
-> --
-> 2.23.0
->
+>  accel/kvm/kvm-all.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index c111312dfd..4be3cd2352 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -688,14 +688,13 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int=
+ as_id, uint64_t start,
+>      d.num_pages =3D bmap_npages;
+>      d.slot =3D mem->slot | (as_id << 16);
+> =20
+> -    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) =3D=3D -1) {
+> -        ret =3D -errno;
+> +    ret =3D kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d);
+
+Dave raised a question offlist when comparing with KVM_GET_DIRTY_LOG,
+regarding 50212d6346 ("Revert "fix return check for KVM_GET_DIRTY_LOG
+ioctl"", 2014-04-14) where we wanted to allow KVM_GET_DIRTY_LOG to
+fail for some cases.  I didn't find any context of that, and from the
+first glance I don't understand why and when we'll get -ENOENT during
+sync dirty log (we should have BQL held, so I don't know why a memslot
+can be gone underneath).  Anyone knows more?
+
+CCing Peter Maydell and Michael Tokarev too.
+
+> +    if (ret) {
+>          error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=3D%d, "
+>                       "start=3D0x%"PRIx64", size=3D0x%"PRIx32", errno=3D%=
+d",
+>                       __func__, d.slot, (uint64_t)d.first_page,
+>                       (uint32_t)d.num_pages, ret);
+>      } else {
+> -        ret =3D 0;
+>          trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
+>      }
+> =20
+> --=20
+> 2.24.1
+>=20
+
+--=20
+Peter Xu
+
 
