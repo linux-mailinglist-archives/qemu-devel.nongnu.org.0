@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B034192BC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:05:25 +0100 (CET)
-Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D2D192C20
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:21:11 +0100 (CET)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7au-0004ZH-62
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39826)
+	id 1jH7qA-0003Za-Om
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jH7Zr-00049B-G5
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:04:24 -0400
+ (envelope-from <bounces@canonical.com>) id 1jH7l4-0003bC-6A
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jH7Zn-0007iM-Hq
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:04:17 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37729)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jH7Zn-0007hU-Am
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585148654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Hsw5+VOnnwWmlTRuL3FPzwn75hyQinilw84F16CmZo=;
- b=AF3YuHqN8vcG0WoEb+TEiypR10oZxPEfKdnUCw6XRQH39LGIBVDgnDnsQbuOSt8Lq2lpOP
- UzzsUZAAakVc9YQbMZmaSAZXOvFaFbskQY1+V+DzjwXnok2vKJukwTIP/iDTpN7h3Pj7fr
- cEnFFwEfe2Mj353JyZDCQg33RNP4RMA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-ddASeHyqOhyWRnjoUxpewg-1; Wed, 25 Mar 2020 11:03:50 -0400
-X-MC-Unique: ddASeHyqOhyWRnjoUxpewg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBB69107ACCA;
- Wed, 25 Mar 2020 15:03:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
- [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF8F810002A9;
- Wed, 25 Mar 2020 15:03:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D751E17535; Wed, 25 Mar 2020 16:03:39 +0100 (CET)
-Date: Wed, 25 Mar 2020 16:03:39 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 00/13] microvm: add acpi support
-Message-ID: <20200325150339.7kqibe5cfkzxhtzr@sirius.home.kraxel.org>
-References: <20200319080117.7725-1-kraxel@redhat.com>
- <20200325133212.6fd0fefb@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1jH7l2-0007zl-KS
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57620)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jH7l2-0007z8-ED
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jH7l0-00040X-6R
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 15:15:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 367032E80EA
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 15:15:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200325133212.6fd0fefb@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Wed, 25 Mar 2020 15:05:53 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=High; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
+ server-next
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail leozinho29-eu paelzer
+X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158514875400.10911.10337943864636829894.malone@soybean.canonical.com>
+Subject: [Bug 1868116] Re: QEMU monitor no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1afe7f8dce0f606c11e9fcd510b02fb24cf210f7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,129 +71,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 25, 2020 at 01:32:12PM +0100, Igor Mammedov wrote:
-> On Thu, 19 Mar 2020 09:01:04 +0100
-> Gerd Hoffmann <kraxel@redhat.com> wrote:
->=20
-> > I know that not supporting ACPI in microvm is intentional.  If you stil=
-l
-> > don't want ACPI this is perfectly fine, you can use the usual -no-acpi
-> > switch to toggle ACPI support.
-> >=20
-> > These are the advantages you are going to loose then:
-> >=20
-> >   (1) virtio-mmio device discovery without command line hacks (tweaking
-> >       the command line is a problem when not using direct kernel boot).
-> >   (2) Better IO-APIC support, we can use IRQ lines 16-23.
-> >   (3) ACPI power button (aka powerdown request) works.
-> >   (4) machine poweroff (aka S5 state) works.
-> >=20
-> > Together with seabios patches for virtio-mmio support this allows to
-> > boot standard fedora images (cloud, coreos, workstation live) with the
-> > microvm machine type.
->=20
-> what CLI do you use to test it?
+same seems to happen on Fedora 32.
 
-Test script below.  "qemu-default" is a wrapper script which starts
-qemu-system-x86_64 from my build directory.  "qemu-firmware" is the
-same plus isa-debugcon configured for a firmware log on stdout.
+-- =
 
-Latest bits (with some of the review comments addressed) just pushed
-to git://git,kraxel.org/qemu sirius/microvm
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868116
 
-HTH,
-  Gerd
+Title:
+  QEMU monitor no longer works
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D cut here =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#!/bin/sh
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Triaged
+Status in vte2.91 package in Ubuntu:
+  New
 
-mode=3D"${1}"
-shift
+Bug description:
+  Repro:
+  VTE
+  $ meson _build && ninja -C _build && ninja -C _build install
 
-back=3D()
-devs=3D()
-args=3D()
-qemu=3D"qemu-firmware -monitor none -boot menu=3Don"
-disk=3D""
-liso=3D""
-krnl=3D""
-karg=3D"console=3DttyS0,115200"
+  qemu:
+  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
+r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
+-enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
+sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
+-disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
+disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
+opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
+irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
+-pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
+vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
+sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
+le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
+e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
+utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
+-disable-cap-ng
+  $ make
 
-case "$mode" in
-kernel)
-=09qemu=3D"qemu-default -nographic"
-=09disk=3D"/vmdisk/imagefish/rhel-8.1.0-ks-x86_64-testboot-sys-disk.qcow2"
-=09krnl=3D"$HOME/build/linux-sirius-x86_64-qemu/arch/x86/boot/bzImage"
-=09karg=3D"$karg root=3D/dev/sda4"
-=09karg=3D"$karg quiet"
-=09;;
-seabios)
-=09disk=3D"/vmdisk/imagefish/rhel-8.1.0-ks-x86_64-testboot-sys-disk.qcow2"
-=09krnl=3D"$HOME/build/linux-sirius-x86_64-qemu/arch/x86/boot/bzImage"
-=09karg=3D"$karg root=3D/dev/sda4"
-=09args+=3D("-bios" "/home/kraxel/projects/seabios/out-bios-microvm/bios.bi=
-n")
-=09;;
-cloud)
-=09disk=3D"/vmdisk/iso/Fedora-Cloud-Base-31-1.9.x86_64.raw"
-=09;;
-coreos)
-=09disk=3D"/vmdisk/iso/fedora-coreos-31.20200210.3.0-metal.x86_64.raw"
-=09;;
-live)
-=09liso=3D"/vmdisk/iso/Fedora-Workstation-Live-x86_64-30-1.2.iso"
-=09devs+=3D("-device" "virtio-gpu-device")
-=09devs+=3D("-device" "virtio-keyboard-device")
-=09devs+=3D("-device" "virtio-tablet-device")
-=09;;
-*)
-=09echo "unknown mode: $mode"
-=09echo "known modes: kernel seabios cloud coreos live"
-=09exit 1
-=09;;
-esac
+  Test:
+  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
+uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
+le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
+rent/images/netboot/mini.iso
+  - switch to monitor with CTRL+ALT+2
+  - try to enter something
 
-if test "$disk" !=3D ""; then
-=09format=3D"${disk##*.}"
-=09back+=3D("-drive" "if=3Dnone,id=3Ddisk,format=3D${format},file=3D${disk}=
-")
-=09devs+=3D("-device" "scsi-hd,drive=3Ddisk,bootindex=3D1")
-fi
-if test "$liso" !=3D ""; then
-=09back+=3D("-drive" "if=3Dnone,id=3Dcdrom,media=3Dcdrom,readonly,format=3D=
-raw,file=3D${liso}")
-=09devs+=3D("-device" "scsi-cd,drive=3Dcdrom,bootindex=3D2")
-fi
-if test "$krnl" !=3D ""; then
-=09args+=3D("-kernel" "$krnl")
-=09args+=3D("-append" "$karg")
-fi
+  Affects head of both usptream git repos.
 
-set -ex
-$qemu \
-=09-enable-kvm \
-=09-cpu host \
-=09-M microvm,graphics=3Doff,pit=3Doff,pic=3Don,rtc=3Don \
-=09\
-=09-m 4G \
-=09\
-=09-netdev user,id=3Dnet \
-=09"${back[@]}" \
-=09\
-=09-global virtio-mmio.force-legacy=3Dfalse \
-=09-device virtio-net-device,netdev=3Dnet \
-=09-device virtio-scsi-device \
-=09"${devs[@]}" \
-=09\
-=09"${args[@]}" \
-=09"$@"
+  =
 
+  --- original bug ---
+
+  It was observed that the QEMU console (normally accessible using
+  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
+  problematic because there are cases where it's required to send
+  commands to the guest, or key combinations that the host would grab
+  (as Ctrl-Alt-F1 or Alt-F4).
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 20.04
+  Package: qemu 1:4.2-3ubuntu2
+  Uname: Linux 5.6.0-rc6+ x86_64
+  ApportVersion: 2.20.11-0ubuntu20
+  Architecture: amd64
+  CurrentDesktop: XFCE
+  Date: Thu Mar 19 12:16:31 2020
+  Dependencies:
+
+  InstallationDate: Installed on 2017-06-13 (1009 days ago)
+  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
+  KvmCmdLine:
+  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
+86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
+,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
+home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
+  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
+-re]
+  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
+5]
+  MachineType: LENOVO 80UG
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
+4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
+rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
+ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
+enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
+7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
+scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
+_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
+  dmi.bios.date: 08/09/2018
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: 0XCN45WW
+  dmi.board.asset.tag: NO Asset Tag
+  dmi.board.name: Toronto 4A2
+  dmi.board.vendor: LENOVO
+  dmi.board.version: SDK0J40679 WIN
+  dmi.chassis.asset.tag: NO Asset Tag
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: Lenovo ideapad 310-14ISK
+  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
+Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
+10:cvrLenovoideapad310-14ISK:
+  dmi.product.family: IDEAPAD
+  dmi.product.name: 80UG
+  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
+  dmi.product.version: Lenovo ideapad 310-14ISK
+  dmi.sys.vendor: LENOVO
+  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
 
