@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D75191EFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 03:25:44 +0100 (CET)
-Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71500191F2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 03:34:02 +0100 (CET)
+Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGvjj-0002Ek-LT
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 22:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41943)
+	id 1jGvrl-0005tf-HS
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 22:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pasic@linux.ibm.com>) id 1jGviq-0001n8-NB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:49 -0400
+ (envelope-from <gshan@redhat.com>) id 1jGvqd-0005Mj-FH
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:32:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pasic@linux.ibm.com>) id 1jGvip-00074r-IM
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12036
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1jGvip-000713-EV
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:24:47 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02P23K2u019056
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 22:24:46 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ywd2sqs80-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 24 Mar 2020 22:24:45 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
- Wed, 25 Mar 2020 02:24:40 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 25 Mar 2020 02:24:38 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02P2Odfn60162274
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 25 Mar 2020 02:24:40 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE79A52051;
- Wed, 25 Mar 2020 02:24:39 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.145.2.145])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 86EDA52052;
- Wed, 25 Mar 2020 02:24:39 +0000 (GMT)
-Date: Wed, 25 Mar 2020 03:24:28 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH v2 1/7] vfio-ccw: Return IOINST_CC_NOT_OPERATIONAL
- for EIO
-In-Reply-To: <20200324180430.3597ca94.cohuck@redhat.com>
-References: <20200206214509.16434-1-farman@linux.ibm.com>
- <20200206214509.16434-2-farman@linux.ibm.com>
- <20200324180430.3597ca94.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (envelope-from <gshan@redhat.com>) id 1jGvqb-0005VT-If
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:32:50 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37825)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1jGvqb-0005UP-9q
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:32:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585103567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tfvdA6fl0nGiCwzGaUVcG2y7t0dMnDN1knHz/pUXHD8=;
+ b=E2eRhKyfMxcIhqm1tMJScAXAelLaZqGfUxR2dtq+wgNYBwBg1Qwk5KwWeMNfBy3ERELQ9P
+ BUUIlPsO8QzZXJ2ajdhGUJgHmyOqJP0+tj5l/vcH3YqIfr5B8Gcoj1/xJQWmBs82HL+T/T
+ adv/pG3q8NAxlKL6jNYovTY/aohPkkE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-yI709ja9MEezamytUEt5IQ-1; Tue, 24 Mar 2020 22:32:46 -0400
+X-MC-Unique: yI709ja9MEezamytUEt5IQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCA331005513;
+ Wed, 25 Mar 2020 02:32:44 +0000 (UTC)
+Received: from localhost.localdomain (vpn2-54-53.bne.redhat.com [10.64.54.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C759B5C241;
+ Wed, 25 Mar 2020 02:32:42 +0000 (UTC)
+Subject: Re: [PATCH v3] hw/char/pl011: Enable TxFIFO and async transmission
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20200311040923.29115-1-gshan@redhat.com>
+Message-ID: <4c32dbe0-7d96-5e60-addc-b1bf43e17f47@redhat.com>
+Date: Wed, 25 Mar 2020 13:32:39 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20032502-0020-0000-0000-000003BA80E4
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20032502-0021-0000-0000-00002213042A
-Message-Id: <20200325032428.11dd27a2.pasic@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
- definitions=2020-03-24_10:2020-03-23,
- 2020-03-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 phishscore=0 mlxlogscore=999 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003250012
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+In-Reply-To: <20200311040923.29115-1-gshan@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,100 +73,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: peter.maydell@linaro.org, philmd@redhat.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Mar 2020 18:04:30 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+On 3/11/20 3:09 PM, Gavin Shan wrote:
+> The depth of TxFIFO can be 1 or 16 depending on LCR[4]. The TxFIFO is
+> disabled when its depth is 1. It's nice to have TxFIFO enabled if
+> possible because more characters can be piled and transmitted at once,
+> which would have less overhead. Besides, we can be blocked because of
+> qemu_chr_fe_write_all(), which isn't nice.
+>=20
+> This enables TxFIFO if possible. On ther other hand, the asynchronous
+> transmission is enabled if needed, as we did in hw/char/cadence_uart.c
+>=20
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+> v3: Use PL011() to do data type conversion
+>      Return G_SOURCE_REMOVE when the backend is disconnected in pl011_xmi=
+t()
+>      Drop parenthesis in the condition validating @size in pl011_write_fi=
+fo()
+> ---
+>   hw/char/pl011.c         | 105 +++++++++++++++++++++++++++++++++++++---
+>   include/hw/char/pl011.h |   3 ++
+>   2 files changed, 102 insertions(+), 6 deletions(-)
+>=20
 
-> On Thu,  6 Feb 2020 22:45:03 +0100
-> Eric Farman <farman@linux.ibm.com> wrote:
-> 
-> > From: Farhan Ali <alifm@linux.ibm.com>
-> > 
-> > EIO is returned by vfio-ccw mediated device when the backing
-> > host subchannel is not operational anymore. So return cc=3
-> > back to the guest, rather than returning a unit check.
-> > This way the guest can take appropriate action such as
-> > issue an 'stsch'.
+Marc-Andr=C3=A9, ping. Could you please review when you get a chance? Thank=
+s in
+advance :)
 
-I believe this is not the only situation when vfio-ccw returns
-EIO, or?
-
-> > 
-> > Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
-> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > ---
-> > 
-> > Notes:
-> >     v1->v2: [EF]
-> >      - Add s-o-b
-> >      - [Seems the discussion on v1 centered on the return code
-> >        set in the kernel, rather than anything that needs to
-> >        change here, unless I've missed something.]
-
-Does this need to change here? If the kernel is supposed to return ENODEV
-then this does not need to change.
-
-> 
-> I've stared at this and at the kernel code for some time again; and I'm
-> not sure if "return -EIO == not operational" is even true. That said,
-> I'm not sure a unit check is the right response, either. The only thing
-> I'm sure about is that the kernel code needs some review of return
-> codes and some documentation...
-
-I could not agree more, this is semantically uapi and needs to be
-properly documented.
-
-With regards to "linux error codes: vs "ionist cc's" an where
-the mapping is different example:
-
-"""
-/**                                                                             
- * cio_cancel_halt_clear - Cancel running I/O by performing cancel, halt        
- * and clear ordinally if subchannel is valid.                                  
- * @sch: subchannel on which to perform the cancel_halt_clear operation         
- * @iretry: the number of the times remained to retry the next operation        
- *                                                                              
- * This should be called repeatedly since halt/clear are asynchronous           
- * operations. We do one try with cio_cancel, three tries with cio_halt,        
- * 255 tries with cio_clear. The caller should initialize @iretry with          
- * the value 255 for its first call to this, and keep using the same            
- * @iretry in the subsequent calls until it gets a non -EBUSY return.           
- *                                                                              
- * Returns 0 if device now idle, -ENODEV for device not operational,            
- * -EBUSY if an interrupt is expected (either from halt/clear or from a         
- * status pending), and -EIO if out of retries.                                 
- */                                                                             
-int cio_cancel_halt_clear(struct subchannel *sch, int *iretry)   
-
-"""
-Here -ENODEV is not operational.
-
-Regards,
-Halil
-
-> 
-> > 
-> >  hw/vfio/ccw.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> > index 50cc2ec75c..19144ecfc7 100644
-> > --- a/hw/vfio/ccw.c
-> > +++ b/hw/vfio/ccw.c
-> > @@ -114,6 +114,7 @@ again:
-> >          return IOINST_CC_BUSY;
-> >      case -ENODEV:
-> >      case -EACCES:
-> > +    case -EIO:
-> >          return IOINST_CC_NOT_OPERATIONAL;
-> >      case -EFAULT:
-> >      default:
-> 
-> 
+> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+> index 13e784f9d9..dccb8c42b0 100644
+> --- a/hw/char/pl011.c
+> +++ b/hw/char/pl011.c
+> @@ -169,6 +169,73 @@ static void pl011_set_read_trigger(PL011State *s)
+>           s->read_trigger =3D 1;
+>   }
+>  =20
+> +static gboolean pl011_xmit(GIOChannel *chan, GIOCondition cond, void *op=
+aque)
+> +{
+> +    PL011State *s =3D PL011(opaque);
+> +    int ret;
+> +
+> +    /* Drain FIFO if there is no backend */
+> +    if (!qemu_chr_fe_backend_connected(&s->chr)) {
+> +        s->write_count =3D 0;
+> +        s->flags &=3D ~PL011_FLAG_TXFF;
+> +        s->flags |=3D PL011_FLAG_TXFE;
+> +        return G_SOURCE_REMOVE;
+> +    }
+> +
+> +    /* Nothing to do */
+> +    if (!s->write_count) {
+> +        return FALSE;
+> +    }
+> +
+> +    ret =3D qemu_chr_fe_write(&s->chr, s->write_fifo, s->write_count);
+> +    if (ret > 0) {
+> +        s->write_count -=3D ret;
+> +        memmove(s->write_fifo, s->write_fifo + ret, s->write_count);
+> +        s->flags &=3D ~PL011_FLAG_TXFF;
+> +        if (!s->write_count) {
+> +            s->flags |=3D PL011_FLAG_TXFE;
+> +        }
+> +    }
+> +
+> +    if (s->write_count) {
+> +        s->watch_tag =3D qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_=
+HUP,
+> +                                             pl011_xmit, s);
+> +        if (!s->watch_tag) {
+> +            s->write_count =3D 0;
+> +            s->flags &=3D ~PL011_FLAG_TXFF;
+> +            s->flags |=3D PL011_FLAG_TXFE;
+> +            return FALSE;
+> +        }
+> +    }
+> +
+> +    s->int_level |=3D PL011_INT_TX;
+> +    pl011_update(s);
+> +    return FALSE;
+> +}
+> +
+> +static void pl011_write_fifo(void *opaque, const unsigned char *buf, int=
+ size)
+> +{
+> +    PL011State *s =3D PL011(opaque);
+> +    int depth =3D (s->lcr & 0x10) ? 16 : 1;
+> +
+> +    if (size >=3D depth - s->write_count) {
+> +        size =3D depth - s->write_count;
+> +    }
+> +
+> +    if (size > 0) {
+> +        memcpy(s->write_fifo + s->write_count, buf, size);
+> +        s->write_count +=3D size;
+> +        if (s->write_count >=3D depth) {
+> +            s->flags |=3D PL011_FLAG_TXFF;
+> +        }
+> +        s->flags &=3D ~PL011_FLAG_TXFE;
+> +    }
+> +
+> +    if (!s->watch_tag) {
+> +        pl011_xmit(NULL, G_IO_OUT, s);
+> +    }
+> +}
+> +
+>   static void pl011_write(void *opaque, hwaddr offset,
+>                           uint64_t value, unsigned size)
+>   {
+> @@ -179,13 +246,8 @@ static void pl011_write(void *opaque, hwaddr offset,
+>  =20
+>       switch (offset >> 2) {
+>       case 0: /* UARTDR */
+> -        /* ??? Check if transmitter is enabled.  */
+>           ch =3D value;
+> -        /* XXX this blocks entire thread. Rewrite to use
+> -         * qemu_chr_fe_write and background I/O callbacks */
+> -        qemu_chr_fe_write_all(&s->chr, &ch, 1);
+> -        s->int_level |=3D PL011_INT_TX;
+> -        pl011_update(s);
+> +        pl011_write_fifo(opaque, &ch, 1);
+>           break;
+>       case 1: /* UARTRSR/UARTECR */
+>           s->rsr =3D 0;
+> @@ -207,7 +269,16 @@ static void pl011_write(void *opaque, hwaddr offset,
+>           if ((s->lcr ^ value) & 0x10) {
+>               s->read_count =3D 0;
+>               s->read_pos =3D 0;
+> +
+> +            if (s->watch_tag) {
+> +                g_source_remove(s->watch_tag);
+> +                s->watch_tag =3D 0;
+> +            }
+> +            s->write_count =3D 0;
+> +            s->flags &=3D ~PL011_FLAG_TXFF;
+> +            s->flags |=3D PL011_FLAG_TXFE;
+>           }
+> +
+>           s->lcr =3D value;
+>           pl011_set_read_trigger(s);
+>           break;
+> @@ -292,6 +363,24 @@ static const MemoryRegionOps pl011_ops =3D {
+>       .endianness =3D DEVICE_NATIVE_ENDIAN,
+>   };
+>  =20
+> +static bool pl011_write_fifo_needed(void *opaque)
+> +{
+> +    PL011State *s =3D PL011(opaque);
+> +    return s->write_count > 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_pl011_write_fifo =3D {
+> +    .name =3D "pl011/write_fifo",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D pl011_write_fifo_needed,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_INT32(write_count, PL011State),
+> +        VMSTATE_UINT8_ARRAY(write_fifo, PL011State, 16),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>   static const VMStateDescription vmstate_pl011 =3D {
+>       .name =3D "pl011",
+>       .version_id =3D 2,
+> @@ -314,6 +403,10 @@ static const VMStateDescription vmstate_pl011 =3D {
+>           VMSTATE_INT32(read_count, PL011State),
+>           VMSTATE_INT32(read_trigger, PL011State),
+>           VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections =3D (const VMStateDescription * []) {
+> +        &vmstate_pl011_write_fifo,
+> +        NULL
+>       }
+>   };
+>  =20
+> diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
+> index 14187165c6..9d1c24db48 100644
+> --- a/include/hw/char/pl011.h
+> +++ b/include/hw/char/pl011.h
+> @@ -38,6 +38,7 @@ typedef struct PL011State {
+>       uint32_t int_enabled;
+>       uint32_t int_level;
+>       uint32_t read_fifo[16];
+> +    uint8_t  write_fifo[16];
+>       uint32_t ilpr;
+>       uint32_t ibrd;
+>       uint32_t fbrd;
+> @@ -45,6 +46,8 @@ typedef struct PL011State {
+>       int read_pos;
+>       int read_count;
+>       int read_trigger;
+> +    int write_count;
+> +    guint watch_tag;
+>       CharBackend chr;
+>       qemu_irq irq[6];
+>       const unsigned char *id;
+>=20
 
 
