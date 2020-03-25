@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A81192AD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:12:27 +0100 (CET)
-Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04898192AB8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:03:11 +0100 (CET)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6le-00054J-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60606)
+	id 1jH6cg-0007og-3j
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jH6k0-0003PI-Lz
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:45 -0400
+ (envelope-from <eblake@redhat.com>) id 1jH6be-0006wu-De
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jH6jz-0003TL-D6
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39928)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jH6jz-0003Rh-7f
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jH6jx-0002gp-Ns
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 14:10:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A355B2E804C
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 14:10:41 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1jH6bc-0002T7-Qb
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:06 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47531)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH6bb-0002QL-E0
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585144921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SWYwuV+09qqEn5mawjwgoWhIFhL7BuoMkGRSxZL9bEw=;
+ b=OCMIEZ3J6zRgAAsVa8s/mOsBUlfVQGwSO0nj4iG+x+bO1SbFznJ7pN3CZGE5aQv2BU+0Di
+ mK6sOYYOj8+0RjYwWGpseipm4dboA2YduI1T9QX1AvUULxYFwt8+GZzkX5gAXVrAe3NSPF
+ +2Hp+OiGFjnFGrHfDamPmMlPcResXLY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-FwhqUuwPNKqMK5_-jT5eVA-1; Wed, 25 Mar 2020 10:01:49 -0400
+X-MC-Unique: FwhqUuwPNKqMK5_-jT5eVA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C0D18B9FAA;
+ Wed, 25 Mar 2020 14:01:46 +0000 (UTC)
+Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3665D953DD;
+ Wed, 25 Mar 2020 14:01:43 +0000 (UTC)
+Subject: Re: [PATCH v2 3/4] qcow2: Avoid feature name extension on small
+ cluster size
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200324174233.1622067-1-eblake@redhat.com>
+ <20200324174233.1622067-4-eblake@redhat.com>
+ <d28f2dfc-1f85-1157-0a57-341894205883@redhat.com>
+ <f900616b-8e98-d0b1-efd7-f53b8c241c8f@redhat.com>
+ <61b5c2d0-fc76-cc70-ab25-bd75cd785d69@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ba268a08-12ad-4290-c754-a1e7d39f7748@redhat.com>
+Date: Wed, 25 Mar 2020 09:01:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <61b5c2d0-fc76-cc70-ab25-bd75cd785d69@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 14:00:45 -0000
-From: Marcin Juszkiewicz <1869006@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hrw
-X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
-X-Launchpad-Bug-Modifier: Marcin Juszkiewicz (hrw)
-References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
-Message-Id: <158514484531.19577.14109022435936130324.malone@chaenomeles.canonical.com>
-Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
- guest memory but fails on 4GB (vfio_dma_map invalid arg)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 47630c9668627007565b12e31957f6b7f89901a7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,89 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
+Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14:57 < aw> hrw: under /sys/kernel/iommu_groups/ there's a
-reserved_regions file for every group.  cat the ones associated with the
-groups for these devices
+On 3/25/20 8:52 AM, Max Reitz wrote:
 
-14:59 < hrw> 14:58 (0s) hrw@puchatek:28$ cat reserved_regions =
+>> If we want to write it like that, which size limit
+>> do you propose?=C2=A0 Or asked differently, how much space should we res=
+erve
+>> for other extension headers + backing file name?
+>=20
+> Well, that was the =E2=80=9C2k/3k/...=E2=80=9D list. :)
+>=20
+> The backing file name is limited to 1k, so I suppose that plus 1k for a
+> potential external data filename, plus 1k for the rest, so 3k in total?
+>=20
+> Now that I look into the spec, I see that it actually doesn=E2=80=99t say=
+ that
+> the backing filename has to be part of the header cluster.  But, well.
 
-14:59 < hrw> 0x00000000fee00000 0x00000000feefffff msi
-14:59 < hrw> 0x000000fd00000000 0x000000ffffffffff reserved
+qemu enforces that the header is one cluster.  But you're right, that=20
+does not appear to directly be a limitation mandated by the spec, and we=20
+could relax qemu to allow the header to be several consecutive clusters.=20
+  The tricky part, however, is that the backing file name is NOT=20
+described by a header extension, but rather is just whatever bytes occur=20
+after the final header extension.  There's no clear indication anywhere=20
+on when to stop reading those bytes, other than by an implicit limit=20
+such as insisting those bytes fall within the first cluster.
 
-14:59 < hrw> 14:59 (2s) hrw@puchatek:27$ cat reserved_regions =
+Had we been smarter when designing v3, we would have made the backing=20
+file name a header extension (in fact, it would have been possible to=20
+design the additional fields of v3 to look like an unknown header=20
+extension when parsed by a v2 binary) - but hindsight is 20/20.
 
-14:59 < hrw> 0x00000000fee00000 0x00000000feefffff msi
-14:59 < hrw> 0x000000fd00000000 0x000000ffffffffff reserved
+>=20
+> It also only says that the image header must be part of the first
+> cluster, which in my opinion doesn=E2=80=99t necessarily include its exte=
+nsions.
+>   So header extensions (and the backing filename) could actually be in
+> consecutive clusters.  But that of course would be much more difficult
+> to implement.
 
-15:00 < aw> of course, you're on an x86 host, arm has no concept of not
-mapping memory at 0xfee00000
+We'd still want a sane limit even for small-cluster images (maybe "no=20
+more than 2M of header information, regardless of cluster size); or=20
+maybe even introduce a NEW header field and/or extension to make it=20
+obvious how many clusters are being used for the purpose of the metadata=20
+header in this particular image (with sane fallbacks for when that=20
+extension is not present).  But you're right - it comes with complexity.=20
+  This patch as written is safe for 5.0-rc1, but this discussion about=20
+teaching qemu to permit headers larger than 1 cluster is squarely in the=20
+5.1 category, if at all.
 
--- =
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1869006
-
-Title:
-  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
-  fails on 4GB (vfio_dma_map invalid arg)
-
-Status in QEMU:
-  New
-
-Bug description:
-  During one meeting coworker asked "did someone tried to passthrough
-  PCIe card to other arch guest?" and I decided to check it.
-
-  Plugged SATA and USB3 controllers into spare slots on mainboard and
-  started playing. On 1GB VM instance it worked (both cold- and hot-
-  plugged). On 4GB one it did not:
-
-  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
-d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
-h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
-0x0: VFIO_MAP_DMA: -22
-  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
-0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
-d to setup container for group 28: memory listener initialization failed: R=
-egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
-0x7fb2a3e00000) =3D -22 (Invalid argument)
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 66, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
- in startup
-      self._backend.create()
-    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
-ate
-      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: process exited while connecting to =
-monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
-host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
-  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
-0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
-d to setup container for group 28: memory listener initialization failed: R=
-egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
-0x7fb2a3e00000) =3D -22 (Invalid argument)
-
-  =
-
-  I played with memory and 3054 MB is maximum value possible to boot VM wit=
-h coldplugged host PCIe cards.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
