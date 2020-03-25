@@ -2,41 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C69F192D69
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:52:05 +0100 (CET)
-Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FA5192D8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:57:37 +0100 (CET)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH8K3-0003lG-Uo
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46791)
+	id 1jH8PQ-0007Xz-89
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <s.reiter@proxmox.com>) id 1jH8JL-0003IE-I3
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:51:20 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jH8OX-00070I-Ta
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:56:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <s.reiter@proxmox.com>) id 1jH8JK-0006OR-Ez
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:51:19 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:62947)
+ (envelope-from <pbonzini@redhat.com>) id 1jH8OW-0001wm-FQ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:56:41 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:44994)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <s.reiter@proxmox.com>)
- id 1jH8JH-0006Em-VF; Wed, 25 Mar 2020 11:51:16 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9FA8242E95;
- Wed, 25 Mar 2020 16:51:11 +0100 (CET)
-From: Stefan Reiter <s.reiter@proxmox.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH] backup: don't acquire aio_context in backup_clean
-Date: Wed, 25 Mar 2020 16:50:55 +0100
-Message-Id: <20200325155055.730633-1-s.reiter@proxmox.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <76edbead-7ccf-833b-a3f2-15dff7f0748c@virtuozzo.com>
-References: <76edbead-7ccf-833b-a3f2-15dff7f0748c@virtuozzo.com>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jH8OW-0001w6-5a
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:56:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585151799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=if4nHKgfpw8B1AsCEBhVgAmrqo1dvIsWXXvDq7Z93T8=;
+ b=aDtIv2gHVrP3SKQM1AMGytEGHr7+hacxT0Qc9Qs48kOmT5zNxxLkxZLF/pAEeliqSoQSRS
+ Dd6v4eaixxGHpR+zw0SV7DNgKh67MTahye9K8fVGs2W6HT/T+zpTjp+eL4CGp/wvUPjLL/
+ l4f3kRXUTc77bEk8fV8IqT1RA5Gj0Os=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-8IEQDnB9PhuI6GVm2RxeeA-1; Wed, 25 Mar 2020 11:56:37 -0400
+X-MC-Unique: 8IEQDnB9PhuI6GVm2RxeeA-1
+Received: by mail-wm1-f72.google.com with SMTP id s15so852821wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:56:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u0ucPd8wZZF8yHJ+IxpLkbR+ZBVaadk/NDa5B5PcHks=;
+ b=p+lWMV2wtPKnbgxj+mIY5Hs+Uag4TXHsMHkF48ZkCTjsQv8XCVij3BqS8JEVqw0jYr
+ kGt4lpSXblCPe2MFioR88sx+4Neooe7/IPIlptwA7w3UKkVvrYn9s71gfwV6Cho2b/iV
+ divtKxj/q8WhBfsoR02IOXpoiU3h6Opavxlb8MAeDsuCevJndpPbYfRIkx5JyR/g4CMQ
+ TeCC/gHDahZRwkWlusy2s3Oq44jcBhmjl9CkK8Qoz779Kn1jVmGOw8MxoovOWW1DHxSn
+ qLBCmqmdY6e5+wbgKrSFQVwd3w0Nkscl2P/wcE/jk6/ZtbwogLBb1j0sU7xknmOxa9Ku
+ QQTQ==
+X-Gm-Message-State: ANhLgQ3Nb1jfpmA5X2IST671fAeWJ82gA3+x29QynbFOmA2kYdWY8gr3
+ zF4EwyBf/zCDH2gfBS8X0FN20ge1a03SMoevyuVlkBttzejCxSkhrPKo7MLIroQ+vcZTbn8OYGl
+ e9yQafAOqOgEOxxA=
+X-Received: by 2002:a5d:640a:: with SMTP id z10mr4382113wru.301.1585151796688; 
+ Wed, 25 Mar 2020 08:56:36 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuqZI6oOn+jxzKfTJys+OH4PrQUTV0RcG7AuZpZld+ldlQ613h/Ttx8CvicDrjaeKBUkTvhAA==
+X-Received: by 2002:a5d:640a:: with SMTP id z10mr4382100wru.301.1585151796506; 
+ Wed, 25 Mar 2020 08:56:36 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id t10sm11716010wrx.38.2020.03.25.08.56.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Mar 2020 08:56:35 -0700 (PDT)
+Subject: Re: [PATCH v3] hw/char/pl011: Enable TxFIFO and async transmission
+To: Gavin Shan <gshan@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20200311040923.29115-1-gshan@redhat.com>
+ <4c32dbe0-7d96-5e60-addc-b1bf43e17f47@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <da34a58a-0474-c46e-7bbf-cb150bddc717@redhat.com>
+Date: Wed, 25 Mar 2020 16:56:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <4c32dbe0-7d96-5e60-addc-b1bf43e17f47@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,57 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com, dietmar@proxmox.com
+Cc: peter.maydell@linaro.org, philmd@redhat.com, marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-backup_clean is only ever called as a handler via job_exit, which
-already acquires the job's context. The job's context is guaranteed to
-be the same as the one used by backup_top via backup_job_create.
+On 25/03/20 03:32, Gavin Shan wrote:
+>>
+>=20
+> Marc-Andr=C3=A9, ping. Could you please review when you get a chance? Tha=
+nks in
+> advance :)
 
-Since the previous logic effectively acquired the lock twice, this
-broke cleanup of backups for disks using IO threads, since the BDRV_POLL_=
-WHILE
-in bdrv_backup_top_drop -> bdrv_do_drained_begin would only release the l=
-ock
-once, thus deadlocking with the IO thread.
+Or Peter; generally arch-specific changes (as opposed to fixes in
+chardev API usage) are generally reviewed by arch maintainers.
 
-Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
----
-
-This is a fix for the issue discussed in this part of the thread:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07639.html
-...not the original problem (core dump) posted by Dietmar.
-
-I've still seen it occasionally hang during a backup abort. I'm trying to=
- figure
-out why that happens, stack trace indicates a similar problem with the ma=
-in
-thread hanging at bdrv_do_drained_begin, though I have no clue why as of =
-yet.
-
- block/backup.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/block/backup.c b/block/backup.c
-index 7430ca5883..a7a7dcaf4c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -126,11 +126,7 @@ static void backup_abort(Job *job)
- static void backup_clean(Job *job)
- {
-     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
--    AioContext *aio_context =3D bdrv_get_aio_context(s->backup_top);
--
--    aio_context_acquire(aio_context);
-     bdrv_backup_top_drop(s->backup_top);
--    aio_context_release(aio_context);
- }
-=20
- void backup_do_checkpoint(BlockJob *job, Error **errp)
---=20
-2.25.2
-
+Paolo
 
 
