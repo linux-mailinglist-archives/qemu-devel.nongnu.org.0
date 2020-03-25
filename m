@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0B21924B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:50:40 +0100 (CET)
-Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FDC19247B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:46:25 +0100 (CET)
+Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2gJ-0003mh-12
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55182)
+	id 1jH2cC-0006nu-EJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dereksu@qnap.com>) id 1jH2aX-0005fE-A7
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:42 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jH2aR-0005Xs-42
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dereksu@qnap.com>) id 1jH2aW-0005OI-3n
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:41 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:33060)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dereksu@qnap.com>) id 1jH2aV-0005Nm-UY
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:40 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id jz1so2166443pjb.0
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 02:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ZETUdq7dbeFyJSuB/tOC54IXqXsZmOKkkHBOPGbf4yg=;
- b=iIi0HB8nH6ErjWqdZlH8cxuBvlq4YPChdlwHFw9yylTueYfsGmqJHdTYhvtrDSVK04
- LhECckheUUvZG4UhPs0WMb8qFTRY28TMs/bTzIUxihaxvh4t0J6v6vewY11KH/nUVQEU
- 9ALt5uewqipBD8GDEcQuhainOmm/aglWJD5a0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ZETUdq7dbeFyJSuB/tOC54IXqXsZmOKkkHBOPGbf4yg=;
- b=P+PS5LbpxomO7m+nlUSp3WLJQwlwYP3/MO90kMqk+HULuIdoA6LzcLvax/3pXLhDz9
- cV1anVJuXfGY6utS/0uotunQ1x2c7l86CvlvFIAhVzM7IeJxSFbZxMF1wQcF/GfimhLA
- gsiz8uaWGlscR99YS093E6uLT8j3DfwHz5dXsyXKcpSH0BGWsR7o1yUF/O9VzxDKRY8q
- A6xCUsfUYzTid2vz67RdGBI13zlzD/mpG7/ZpIZQgBuPQlMAFY+75YqphvhwnLfx8m4y
- E4AmCE0+EZGybI/zdpiAW5uEPf1SEeyJffMl+zsbdPf0FpqVgYNC0gEzSODWF/Tl5cC7
- +OZA==
-X-Gm-Message-State: ANhLgQ1mhLs8bHoCdtf0SD9rV3+W2IL3jkxY3nvDUgexFX82iJisKCAt
- vTabBmIJScGN6E8I6zLOq5FLFPHcbQk=
-X-Google-Smtp-Source: ADFU+vukktLx4dwA4TBPfxn1qanseJe1HFAnR67E5VDoDAV98ECbPGhyR2mC2PNCMIQsXCyF3OHMGg==
-X-Received: by 2002:a17:90a:350d:: with SMTP id
- q13mr2614185pjb.171.1585129478505; 
- Wed, 25 Mar 2020 02:44:38 -0700 (PDT)
-Received: from localhost.localdomain (202-39-79-13.HINET-IP.hinet.net.
- [202.39.79.13])
- by smtp.gmail.com with ESMTPSA id j126sm18090602pfg.60.2020.03.25.02.44.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 02:44:37 -0700 (PDT)
-From: Derek Su <dereksu@qnap.com>
+ (envelope-from <imammedo@redhat.com>) id 1jH2aP-0005JS-9I
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:34 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52929)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jH2aP-0005Io-4G
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585129472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J/tUHejTvvdx6XLpLTMK+Iqi7hqEpLx9dR2KQLXWiLc=;
+ b=DuWN6H3A8Yt/tQFzMh0KJcexBMIKvP7BvBL52lvM9BTFyIno5H+14bddCz1cXdvgQQYcsq
+ jVhCzsdKl1+BjmWbo3/Ojxfbeun45vNicW2OYsW/WQg/YdBOY943+XTnzUsUAl5vpgZ+3n
+ iKgtDwDRMcUdGjypRil33ZtFLp436Ik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-hoEmiI37M2qWgL_3BtCZ_g-1; Wed, 25 Mar 2020 05:44:30 -0400
+X-MC-Unique: hoEmiI37M2qWgL_3BtCZ_g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C340C107ACC4
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 09:44:29 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91563A0A6F;
+ Wed, 25 Mar 2020 09:44:26 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] net/colo-compare.c: handling of the full primary or
- secondary queue
-Date: Wed, 25 Mar 2020 17:43:54 +0800
-Message-Id: <20200325094354.19677-3-dereksu@qnap.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200325094354.19677-1-dereksu@qnap.com>
-References: <20200325094354.19677-1-dereksu@qnap.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+Subject: [PATCH for-5.0 0/2] fix qemu crash with memory-backend-* prealloc=yes
+Date: Wed, 25 Mar 2020 05:44:21 -0400
+Message-Id: <20200325094423.24293-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,128 +67,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lizhijian@cn.fujitsu.com, chyang@qnap.com, Derek Su <dereksu@qnap.com>,
- jasowang@redhat.com, ctcheng@qnap.com, chen.zhang@intel.com,
- jwsu1986@gmail.com
+Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pervious handling of the full primary or queue is only dropping
-the packet. If there are lots of clients to the guest VM,
-the "drop" will lead to the lost of the networking connection
-until next checkpoint.
 
-To address the issue, this patch drops the packet firstly.
-Then, send all queued primary packets, remove all queued secondary
-packets and do checkpoint.
+Igor Mammedov (2):
+  hostmem: set default prealloc_threads to valid value
+  tests: numa: test one backend with prealloc enabled
 
-Signed-off-by: Derek Su <dereksu@qnap.com>
----
- net/colo-compare.c | 41 ++++++++++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+ backends/hostmem.c      | 1 +
+ tests/qtest/numa-test.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index cdd87b2aa8..1a52f50fbe 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -125,6 +125,12 @@ static const char *colo_mode[] = {
-     [SECONDARY_IN] = "secondary",
- };
- 
-+enum {
-+    QUEUE_INSERT_ERR = -1,
-+    QUEUE_INSERT_OK = 0,
-+    QUEUE_INSERT_FULL = 1,
-+};
-+
- static int compare_chr_send(CompareState *s,
-                             const uint8_t *buf,
-                             uint32_t size,
-@@ -211,8 +217,10 @@ static int colo_insert_packet(GQueue *queue, Packet *pkt, uint32_t *max_ack)
- }
- 
- /*
-- * Return 0 on success, if return -1 means the pkt
-- * is unsupported(arp and ipv6) and will be sent later
-+ * Return QUEUE_INSERT_OK on success.
-+ * If return QUEUE_INSERT_FULL means list is full, and
-+ * QUEUE_INSERT_ERR means the pkt is unsupported(arp and ipv6) and
-+ * will be sent later
-  */
- static int packet_enqueue(CompareState *s, int mode, Connection **con)
- {
-@@ -234,7 +242,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     if (parse_packet_early(pkt)) {
-         packet_destroy(pkt, NULL);
-         pkt = NULL;
--        return -1;
-+        return QUEUE_INSERT_ERR;
-     }
-     fill_connection_key(pkt, &key);
- 
-@@ -258,11 +266,12 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-                      "drop packet", colo_mode[mode]);
-         packet_destroy(pkt, NULL);
-         pkt = NULL;
-+        return QUEUE_INSERT_FULL;
-     }
- 
-     *con = conn;
- 
--    return 0;
-+    return QUEUE_INSERT_OK;
- }
- 
- static inline bool after(uint32_t seq1, uint32_t seq2)
-@@ -995,17 +1004,22 @@ static void compare_pri_rs_finalize(SocketReadState *pri_rs)
- {
-     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
-     Connection *conn = NULL;
-+    int ret;
- 
--    if (packet_enqueue(s, PRIMARY_IN, &conn)) {
-+    ret = packet_enqueue(s, PRIMARY_IN, &conn);
-+    if (ret == QUEUE_INSERT_OK) {
-+        /* compare packet in the specified connection */
-+        colo_compare_connection(conn, s);
-+    } else if (ret == QUEUE_INSERT_FULL) {
-+        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-+        colo_compare_inconsistency_notify(s);
-+    } else {
-         trace_colo_compare_main("primary: unsupported packet in");
-         compare_chr_send(s,
-                          pri_rs->buf,
-                          pri_rs->packet_len,
-                          pri_rs->vnet_hdr_len,
-                          false);
--    } else {
--        /* compare packet in the specified connection */
--        colo_compare_connection(conn, s);
-     }
- }
- 
-@@ -1013,12 +1027,17 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
- {
-     CompareState *s = container_of(sec_rs, CompareState, sec_rs);
-     Connection *conn = NULL;
-+    int ret;
- 
--    if (packet_enqueue(s, SECONDARY_IN, &conn)) {
--        trace_colo_compare_main("secondary: unsupported packet in");
--    } else {
-+    ret = packet_enqueue(s, SECONDARY_IN, &conn);
-+    if (ret == QUEUE_INSERT_OK) {
-         /* compare packet in the specified connection */
-         colo_compare_connection(conn, s);
-+    } else if (ret == QUEUE_INSERT_FULL) {
-+        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-+        colo_compare_inconsistency_notify(s);
-+    } else {
-+        trace_colo_compare_main("secondary: unsupported packet in");
-     }
- }
- 
--- 
-2.17.1
+--=20
+2.18.1
 
 
