@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E14192AAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:01:56 +0100 (CET)
-Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA90192AB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:03:11 +0100 (CET)
+Received: from localhost ([::1]:36822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6bT-0006Ym-4O
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59045)
+	id 1jH6cg-0007qE-6I
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jH6aP-000611-F3
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:00:50 -0400
+ (envelope-from <bounces@canonical.com>) id 1jH6aQ-000614-Ro
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:00:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jH6aO-000195-3r
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:00:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37956)
+ (envelope-from <bounces@canonical.com>) id 1jH6aO-00019N-Bz
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jH6aN-00018l-Ul
+ id 1jH6aO-00018t-6d
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:00:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jH6aN-0001VP-0i
+ id 1jH6aN-0001VR-H2
  for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 14:00:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D81DF2E80C9
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 14:00:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A9982E80BA
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 14:00:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 13:52:44 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Wed, 25 Mar 2020 13:53:27 -0000
+From: Marcin Juszkiewicz <1869006@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: hrw
 X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+X-Launchpad-Bug-Modifier: Marcin Juszkiewicz (hrw)
 References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
-Message-Id: <158514436529.19627.16276149019037003596.launchpad@chaenomeles.canonical.com>
+Message-Id: <158514440793.16634.12166780078825367390.malone@gac.canonical.com>
 Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
  guest memory but fails on 4GB (vfio_dma_map invalid arg)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2aaeed8bcafd2fe2bea81075d3cee88dba80351e
+X-Launchpad-Hash: aa1cd53e2366bf75435706a2e83e1309278d1240
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,12 +69,31 @@ Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+Hotplug to VM with 3055MB of memory ends same way:
 
-- PCIe cards passthrough to TCG guest works only up to 3054MB of guest memo=
-ry
-+ PCIe cards passthrough to TCG guest works on 2GB of guest memory but fail=
-s on 4GB (vfio_dma_map invalid arg)
+internal error: b=C5=82=C4=85d podczas wykona=C4=87 polecenia QEMU =E2=80=
+=9Edevice_add=E2=80=9D: vfio
+0000:28:00.0: failed to setup container for group 27: memory listener
+initialization failed: Region mach-virt.ram:
+vfio_dma_map(0x55c1aca5c5c0, 0x40000000, 0xbef00000, 0x7f3549000000) =3D
+-22 (Invalid argument)
+
+Traceback (most recent call last):
+  File "/usr/share/virt-manager/virtManager/addhardware.py", line 1327, in =
+_add_device
+    self.vm.attach_device(dev)
+  File "/usr/share/virt-manager/virtManager/object/domain.py", line 920, in=
+ attach_device
+    self._backend.attachDevice(devxml)
+  File "/usr/lib64/python3.8/site-packages/libvirt.py", line 606, in attach=
+Device
+    if ret =3D=3D -1: raise libvirtError ('virDomainAttachDevice() failed',=
+ dom=3Dself)
+libvirt.libvirtError: internal error: b=C5=82=C4=85d podczas wykona=C4=87 p=
+olecenia QEMU =E2=80=9Edevice_add=E2=80=9D: vfio 0000:28:00.0: failed to se=
+tup container for group 27: memory listener initialization failed: Region m=
+ach-virt.ram: vfio_dma_map(0x55c1aca5c5c0, 0x40000000, 0xbef00000, 0x7f3549=
+000000) =3D -22 (Invalid argument)
 
 -- =
 
