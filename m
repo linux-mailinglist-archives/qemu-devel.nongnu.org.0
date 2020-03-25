@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0BB19247A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:46:24 +0100 (CET)
-Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E2D192487
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:48:15 +0100 (CET)
+Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2cB-0006m9-1j
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1jH2dy-0000ys-ET
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dereksu@qnap.com>) id 1jH2aP-0005Xr-EG
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:34 -0400
+ (envelope-from <dereksu@qnap.com>) id 1jH2aV-0005ba-Rd
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dereksu@qnap.com>) id 1jH2aO-0005If-BW
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:33 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33703)
+ (envelope-from <dereksu@qnap.com>) id 1jH2aT-0005MY-Ne
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:39 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:40912)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dereksu@qnap.com>) id 1jH2aN-0005HL-Ri
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:32 -0400
-Received: by mail-pg1-x541.google.com with SMTP id d17so914844pgo.0
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 02:44:31 -0700 (PDT)
+ (Exim 4.71) (envelope-from <dereksu@qnap.com>) id 1jH2aS-0005LX-IJ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:37 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id kx8so787616pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 02:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=pYVIINF29pTuO7XMDO0+WKNP3sqdPDtyI+zm9KKkUws=;
- b=JwaImhKYeM12Yzn+zKFQL0edCk7na2oZSTp1hjHn+mxv4o24th0SQ+49/baSqRIl4s
- hM78LgAm9ADZ5/OvC3QurC06YJ39x2Ok28ZyNuELT0r1+YcdFW1ouwMivu0UtQF6QlDU
- xk1m9wJB+5lgweaG2CFOkddPhf95T3uNgGR/M=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=f6sHN97Z5k0H0NePRruYOF0pxNWEQGvMVIWCmlh8Qaw=;
+ b=dAKNpkhHdKFwwtJD9gHiZzoTaadLQLebbglx8HullToL1uXLMEoz4cLRvpwjWv2Zxp
+ BqxOoqfmXf8F4W7exCLa/WjIzOovj76YrfmnXSbuQX68EylHcnvrMCf/zogat7uFRTmU
+ oh0EfOhed3x3nQ+gML6gDpKQZIe/vsClv7ud0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=pYVIINF29pTuO7XMDO0+WKNP3sqdPDtyI+zm9KKkUws=;
- b=pFMlK0Vgthtu7clY2ZsOvKwyxgXp6OLkfB8V8YvF+SviviHMvlZ3HhTz+33XOqMwDA
- zgbLq7Hk/X9Zk+QxLogdMrI3mJqRuKuIvzuR5Jbfs4F0DZyHAT+E6ix/XsAY4z/6unGh
- WrGEJWS5aRxggn1Mz8auuA0IpJUGxYUxF48kbdqx+hR5Hw/o46vvbCiJtrzSXLrc2WPa
- vE/gTYcwjuL68OXGMRtMoP3me/WWq3DzPg9AvJEYZPwlAfFAevVMN9auDErqJQYiTD88
- v/fO5K4zejipZkURgX2WFfULrNTqXzD55UC/5SRAurlgp0iBKUugdau9DjFeRgPQXANX
- iWKA==
-X-Gm-Message-State: ANhLgQ1Ia3caQNgzIrPD0vZ2EKS0/GFw+mPFgjuGcnEKh16s/uD2OMRx
- vPRnrKrUWY4IVT3Ptc1iyLC3dvWgyHU=
-X-Google-Smtp-Source: ADFU+vvbrXGFapFl1GZJV95yBpB4mIG7CF5QAFEr6OzcZ5p4tZjj/+/r+cJ2DqFsaEnJ4Yje5cAUMg==
-X-Received: by 2002:a63:cb4a:: with SMTP id m10mr2261226pgi.259.1585129469932; 
- Wed, 25 Mar 2020 02:44:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=f6sHN97Z5k0H0NePRruYOF0pxNWEQGvMVIWCmlh8Qaw=;
+ b=LtK+PHf+I74nAqPEN2KZiv4bqFxFn3N0shX2HC/IRDu4ZSVahGpxWxYq6dziSgtDAa
+ hnURVO+ImF7Xyw2F9iYrXqaWsoHDDTbrdGh7Mf/fQ8VxpyHSb5ZOTaYrTK9ZykFW0Fel
+ qsUucYAPsxj75rIz683gE6IL2yxr5Ptsn3LovRb4Ye7HZEYrdfmEbhVTxYreBkhfdY23
+ VJOPGCvWgLHBU71dtcT/9Uq8DIWFUWeUgLIp+Mz+mtXVXka2XAn7TX/siW/B4sD8j0rH
+ ugiFXaU31qUy/pP2bsU5MpATSDJfFgMRe6bJHEg5QSvf0vqgr1cr5PXCnynPLrCFQFPn
+ 57Fg==
+X-Gm-Message-State: ANhLgQ3BnvzurtwIAHJWlX3l4CWOrAPxkurQ/EIlY2rsl0XqfDepuvWE
+ nYUcjL+KDoRaIUiWl3eFfC+hSR99hsA=
+X-Google-Smtp-Source: ADFU+vtoQJmpC+bfRDfoaXivYNCSAIXN1tlvpZQTZDB4ZFuLcvnCl2EEE4zgKo6F3QgUHlW+jOeYxw==
+X-Received: by 2002:a17:90a:8403:: with SMTP id j3mr2787213pjn.8.1585129475007; 
+ Wed, 25 Mar 2020 02:44:35 -0700 (PDT)
 Received: from localhost.localdomain (202-39-79-13.HINET-IP.hinet.net.
  [202.39.79.13])
- by smtp.gmail.com with ESMTPSA id j126sm18090602pfg.60.2020.03.25.02.44.27
+ by smtp.gmail.com with ESMTPSA id j126sm18090602pfg.60.2020.03.25.02.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 02:44:29 -0700 (PDT)
+ Wed, 25 Mar 2020 02:44:34 -0700 (PDT)
 From: Derek Su <dereksu@qnap.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] COLO: handling of the full primary or secondary queue
-Date: Wed, 25 Mar 2020 17:43:52 +0800
-Message-Id: <20200325094354.19677-1-dereksu@qnap.com>
+Subject: [PATCH v3 1/2] net/colo-compare.c: Fix memory leak in packet_enqueue()
+Date: Wed, 25 Mar 2020 17:43:53 +0800
+Message-Id: <20200325094354.19677-2-dereksu@qnap.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200325094354.19677-1-dereksu@qnap.com>
+References: <20200325094354.19677-1-dereksu@qnap.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +77,65 @@ Cc: lizhijian@cn.fujitsu.com, chyang@qnap.com, Derek Su <dereksu@qnap.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The series is to handle the full primary or secondary queue in colo-compare.
+The patch is to fix the "pkt" memory leak in packet_enqueue().
+The allocated "pkt" needs to be freed if the colo compare
+primary or secondary queue is too big.
 
-(1) fix the "pkt" memory leak in packet_enqueue().
-    Reproduce steps:
-    1. Setup PVM and SVM both with NIC e1000 by the steps descripted
-       in the wiki qemu/COLO
-    2. Run "iperf3 -s" in PVM
-    3. Run "iperf3 -c <PVM-IP> -t 7200" in client
+Signed-off-by: Derek Su <dereksu@qnap.com>
+---
+ net/colo-compare.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-    The memory usage of qemu-system-x86_64 increases as the PVM's QMP 
-    shows "qemu-system-x86_64: colo compare secondary queue size too big,
-    drop packet".
-
-(2) The pervious handling of the full primary or queue is only dropping
-    the packet. If there are lots of clients to the guest VM,
-    the "drop" will lead to the lost of the networking connection
-    until next checkpoint, and therefore slow down the service.
-
-    This patch drops the packet firstly. Then, send all queued primary
-    packets, remove all queued secondary packets and do checkpoint.
-
-Please review, thanks.
-
-V3:
- - handling of the full primary or secondary queue according to the
-   suggestion Zhang Chen
-V2:
- - Fix incorrect patch format
-
-Derek Su (2):
-  net/colo-compare.c: Fix memory leak in packet_enqueue()
-  net/colo-compare.c: handling of the full primary or secondary queue
-
- net/colo-compare.c | 64 ++++++++++++++++++++++++++++++++--------------
- 1 file changed, 45 insertions(+), 19 deletions(-)
-
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 7ee17f2cf8..cdd87b2aa8 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -120,6 +120,10 @@ enum {
+     SECONDARY_IN,
+ };
+ 
++static const char *colo_mode[] = {
++    [PRIMARY_IN] = "primary",
++    [SECONDARY_IN] = "secondary",
++};
+ 
+ static int compare_chr_send(CompareState *s,
+                             const uint8_t *buf,
+@@ -215,6 +219,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+     ConnectionKey key;
+     Packet *pkt = NULL;
+     Connection *conn;
++    int ret;
+ 
+     if (mode == PRIMARY_IN) {
+         pkt = packet_new(s->pri_rs.buf,
+@@ -243,16 +248,18 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+     }
+ 
+     if (mode == PRIMARY_IN) {
+-        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
+-            error_report("colo compare primary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
+     } else {
+-        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
+-            error_report("colo compare secondary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
+     }
++
++    if (!ret) {
++        error_report("colo compare %s queue size too big,"
++                     "drop packet", colo_mode[mode]);
++        packet_destroy(pkt, NULL);
++        pkt = NULL;
++    }
++
+     *con = conn;
+ 
+     return 0;
 -- 
 2.17.1
 
