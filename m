@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3C61926A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:05:43 +0100 (CET)
-Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFE41926C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:10:08 +0100 (CET)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3qw-0000JN-53
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:05:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37947)
+	id 1jH3vD-0005Jc-HY
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:10:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jH3kJ-0000JR-Vz
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:52 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jH3kM-0000MR-3A
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jH3kI-0006hs-Uu
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:51 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:50308)
+ (envelope-from <kraxel@redhat.com>) id 1jH3kJ-0006j2-PP
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40839)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jH3kI-0006gn-Qn
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:50 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jH3kJ-0006iO-Kx
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:58:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133930;
+ s=mimecast20190719; t=1585133931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tDFrK3Be+RVpsk87Bbyr29Etbp5WYzkSg0bDmbhYfZw=;
- b=hGb69tYYKjyX2h4q0uCddKNTa9uUuqwhGv1VAUxWSLsZaIiC5197MarW12yNPEGqTpJil9
- 17TuwIOmTDvnwDL8vSK8yRwCQQb9Ko8MxRmFPdC5N9lzh05lGdgzcV1SPTcekCYLQ3iZQr
- LAZtuYJtPpmYaT19ejrzJIEWRA/U+xc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gB4woRW/Nzbg26Mg/GNQXB3WuMZDhaHiX1vwdbRO+tE=;
+ b=igc7A8GKoccufNrgXmxpFNZ9FTUHJGGX4IvluM7a+FrAJMeu4WXyS3K0XZVFrO3itVjGOb
+ 2YDpKEyTHkHWrwwiK5zM139qEqtzWFtCpGBQAVfJWw34LMYCzXRNDFtlXNhKfEyZE0m/DN
+ 0RWZJFhBNCJQ38R5Offl6DGFnofDbYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-PBhpmCDOOCezAv0sI7sRcQ-1; Wed, 25 Mar 2020 06:58:48 -0400
-X-MC-Unique: PBhpmCDOOCezAv0sI7sRcQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-200-Bs1AHv8CNrGzuRpjMkw3Eg-1; Wed, 25 Mar 2020 06:58:48 -0400
+X-MC-Unique: Bs1AHv8CNrGzuRpjMkw3Eg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0290E189D6D3
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E8878018B1
  for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 10:58:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
  [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE5991000322;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1BDF60C18;
  Wed, 25 Mar 2020 10:58:44 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D0C4817535; Wed, 25 Mar 2020 11:58:43 +0100 (CET)
+ id D87DA9D43; Wed, 25 Mar 2020 11:58:43 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Fixes 20200325 patches
-Date: Wed, 25 Mar 2020 11:58:41 +0100
-Message-Id: <20200325105843.17387-1-kraxel@redhat.com>
+Subject: [PULL 1/2] ui/input-linux: Do not ignore ioctl() return value
+Date: Wed, 25 Mar 2020 11:58:42 +0100
+Message-Id: <20200325105843.17387-2-kraxel@redhat.com>
+In-Reply-To: <20200325105843.17387-1-kraxel@redhat.com>
+References: <20200325105843.17387-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -69,38 +72,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 736cf607e40674776d752acc201f565723e86045=
-:
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+Fix warnings reported by Clang static code analyzer:
 
-are available in the Git repository at:
+    CC      ui/input-linux.o
+      ui/input-linux.c:343:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_REL, sizeof(relmap)), &relmap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:351:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_ABS, sizeof(absmap)), &absmap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:354:13: warning: Value stored to 'rc' is never read
+              rc =3D ioctl(il->fd, EVIOCGABS(ABS_X), &absinfo);
+              ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:357:13: warning: Value stored to 'rc' is never read
+              rc =3D ioctl(il->fd, EVIOCGABS(ABS_Y), &absinfo);
+              ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:365:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGBIT(EV_KEY, sizeof(keymap)), keymap);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ui/input-linux.c:366:9: warning: Value stored to 'rc' is never read
+          rc =3D ioctl(il->fd, EVIOCGKEY(sizeof(keystate)), keystate);
+          ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  git://git.kraxel.org/qemu tags/fixes-20200325-pull-request
-
-for you to fetch changes up to 95fad99cb28e9970944b01fd7af452f6f9f37484:
-
-  hw/audio/fmopl: fix segmentation fault (2020-03-25 09:55:40 +0100)
-
-----------------------------------------------------------------
-fixes: input error handling & audio segfault
-
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (1):
-  ui/input-linux: Do not ignore ioctl() return value
-
-Volker R=C3=BCmelin (1):
-  hw/audio/fmopl: fix segmentation fault
-
- hw/audio/fmopl.c |  4 ++--
+Reported-by: Clang Static Analyzer
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-id: 20200322161219.17757-1-philmd@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
  ui/input-linux.c | 29 +++++++++++++++++++++++++++--
- 2 files changed, 29 insertions(+), 4 deletions(-)
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index a7b280b25b98..ef37b14d6f22 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -334,13 +334,15 @@ static void input_linux_complete(UserCreatable *uc, E=
+rror **errp)
+=20
+     rc =3D ioctl(il->fd, EVIOCGBIT(0, sizeof(evtmap)), &evtmap);
+     if (rc < 0) {
+-        error_setg(errp, "%s: failed to read event bits", il->evdev);
+-        goto err_close;
++        goto err_read_event_bits;
+     }
+=20
+     if (evtmap & (1 << EV_REL)) {
+         relmap =3D 0;
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_REL, sizeof(relmap)), &relmap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         if (relmap & (1 << REL_X)) {
+             il->has_rel_x =3D true;
+         }
+@@ -349,12 +351,25 @@ static void input_linux_complete(UserCreatable *uc, E=
+rror **errp)
+     if (evtmap & (1 << EV_ABS)) {
+         absmap =3D 0;
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_ABS, sizeof(absmap)), &absmap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         if (absmap & (1 << ABS_X)) {
+             il->has_abs_x =3D true;
+             rc =3D ioctl(il->fd, EVIOCGABS(ABS_X), &absinfo);
++            if (rc < 0) {
++                error_setg(errp, "%s: failed to get get absolute X value",
++                           il->evdev);
++                goto err_close;
++            }
+             il->abs_x_min =3D absinfo.minimum;
+             il->abs_x_max =3D absinfo.maximum;
+             rc =3D ioctl(il->fd, EVIOCGABS(ABS_Y), &absinfo);
++            if (rc < 0) {
++                error_setg(errp, "%s: failed to get get absolute Y value",
++                           il->evdev);
++                goto err_close;
++            }
+             il->abs_y_min =3D absinfo.minimum;
+             il->abs_y_max =3D absinfo.maximum;
+         }
+@@ -363,7 +378,14 @@ static void input_linux_complete(UserCreatable *uc, Er=
+ror **errp)
+     if (evtmap & (1 << EV_KEY)) {
+         memset(keymap, 0, sizeof(keymap));
+         rc =3D ioctl(il->fd, EVIOCGBIT(EV_KEY, sizeof(keymap)), keymap);
++        if (rc < 0) {
++            goto err_read_event_bits;
++        }
+         rc =3D ioctl(il->fd, EVIOCGKEY(sizeof(keystate)), keystate);
++        if (rc < 0) {
++            error_setg(errp, "%s: failed to get global key state", il->evd=
+ev);
++            goto err_close;
++        }
+         for (i =3D 0; i < KEY_CNT; i++) {
+             if (keymap[i / 8] & (1 << (i % 8))) {
+                 if (linux_is_button(i)) {
+@@ -390,6 +412,9 @@ static void input_linux_complete(UserCreatable *uc, Err=
+or **errp)
+     il->initialized =3D true;
+     return;
+=20
++err_read_event_bits:
++    error_setg(errp, "%s: failed to read event bits", il->evdev);
++
+ err_close:
+     close(il->fd);
+     return;
 --=20
 2.18.2
 
