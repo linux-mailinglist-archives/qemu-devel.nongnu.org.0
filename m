@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649021925DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:39:08 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C59321925F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:40:45 +0100 (CET)
+Received: from localhost ([::1]:33860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3RD-0004wl-EH
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34816)
+	id 1jH3Sm-0007yA-Qa
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Pj-0003Av-1O
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:36 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Q4-0003rt-FX
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Ph-0008BL-VV
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26824)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Q3-0008Vi-BJ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:56 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34667)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Ph-0008AM-Qt
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:33 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Q3-0008VJ-6R
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:37:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132652;
+ s=mimecast20190719; t=1585132674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QHaznfnPVqez8yEYXzBKo8nI6ISXDk14yDQ/zGwyu+I=;
- b=SQxHGB+QPOno/Nlu6wpSAzDn8R1n0/wlKp6OAaH/mpQ5wjy0GGP2b5HayqHVMkdj9Peono
- hzqZZCw9gbZ118xiLQ1bvwXVFqBBD4aqxoqePa2GaOZB1w/MuqYdq4/gft5O3ctKyDk2Ds
- vFIO4yzp0wwXZtY1UNtWbjXja3FRyw4=
+ bh=e8uDbgNKyIKNUi69nWJu7sUWP1XRvfHYpg8P8J1EGhI=;
+ b=PYeFwZDnPeHenTF/n95VzWa1E2rjggTX8jdrdHycv91DrM2ZgU/bjfmBao+5CzopjooABm
+ qTPkGFKJwDuIlXQbZMGYyX4k/R32MtckRZGtN5ILw4VnLJ5woBYBXwXPI9f5VeR89BTeil
+ 4TjuIKDOjnDy5HIskmfDgeLsIHWi184=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-IiHb0iyrMnGHQvRo0wV3Eg-1; Wed, 25 Mar 2020 06:37:30 -0400
-X-MC-Unique: IiHb0iyrMnGHQvRo0wV3Eg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-300-UhxFWelzMEK-1r_-u3ZoVQ-1; Wed, 25 Mar 2020 06:37:53 -0400
+X-MC-Unique: UhxFWelzMEK-1r_-u3ZoVQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C01418C8C01;
- Wed, 25 Mar 2020 10:37:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5998107ACCA;
+ Wed, 25 Mar 2020 10:37:51 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 126675DA83;
- Wed, 25 Mar 2020 10:37:26 +0000 (UTC)
-Message-ID: <72b049dcec0391aa128879a3a301f04ba0afd3f3.camel@redhat.com>
-Subject: Re: [PATCH v6 05/42] nvme: use constant for identify data size
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC3CC1001DD8;
+ Wed, 25 Mar 2020 10:37:49 +0000 (UTC)
+Message-ID: <e42bd6d632853cb5e6350cdf43bbdd9123044d7f.camel@redhat.com>
+Subject: Re: [PATCH v6 06/42] nvme: add identify cns values in header
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:37:26 +0200
-In-Reply-To: <20200316142928.153431-6-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:37:48 +0200
+In-Reply-To: <20200316142928.153431-7-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-6-its@irrelevant.dk>
+ <20200316142928.153431-7-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,31 +81,38 @@ On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
 > 
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  hw/block/nvme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/block/nvme.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 40cb176dea3c..f716f690a594 100644
+> index f716f690a594..b38d7e548a60 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -679,7 +679,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
+> @@ -709,11 +709,11 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+>      NvmeIdentify *c = (NvmeIdentify *)cmd;
 >  
->  static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
->  {
-> -    static const int data_len = 4 * KiB;
-> +    static const int data_len = NVME_IDENTIFY_DATA_SIZE;
->      uint32_t min_nsid = le32_to_cpu(c->nsid);
->      uint64_t prp1 = le64_to_cpu(c->prp1);
->      uint64_t prp2 = le64_to_cpu(c->prp2);
+>      switch (le32_to_cpu(c->cns)) {
+> -    case 0x00:
+> +    case NVME_ID_CNS_NS:
+>          return nvme_identify_ns(n, c);
+> -    case 0x01:
+> +    case NVME_ID_CNS_CTRL:
+>          return nvme_identify_ctrl(n, c);
+> -    case 0x02:
+> +    case NVME_ID_CNS_NS_ACTIVE_LIST:
+>          return nvme_identify_nslist(n, c);
+>      default:
+>          trace_nvme_dev_err_invalid_identify_cns(le32_to_cpu(c->cns));
 
-I'll probably squash this with some other refactoring patch,
-but I absolutely don't mind leaving this as is.
-Fine grained patches never cause any harm.
+This is a very good candidate to be squished with the patch 5 IMHO,
+but you can leave this as is as well. I don't mind.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
+
+
 
 
 
