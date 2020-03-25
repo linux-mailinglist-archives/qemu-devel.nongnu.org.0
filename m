@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C361192F6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:36:13 +0100 (CET)
-Received: from localhost ([::1]:40146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E75192F75
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:37:41 +0100 (CET)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH9wm-0006A1-4w
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
+	id 1jH9yG-0008CT-Dg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jH9vb-0005Ar-2Z
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:34:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1jH9ws-0006lv-BY
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jH9vZ-0005Kf-Pl
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:34:54 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42620)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jH9vZ-0005KA-Fs
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:34:53 -0400
-Received: by mail-oi1-x242.google.com with SMTP id e4so2838456oig.9
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 10:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=b0OnLCWvM64m5gKXHzRMVXF5dHlaSc79FQsmbEFFsu4=;
- b=C1Z6pNdvSItTGgZeyhNyHULNYgBoDGsq02/U+/B/utTE5RUjqyejof07G2XRvecC+Q
- PkpQBvY9KF1KrS0ZzUSQU/rsc1sxnjZH2fg+zHWE/AbmWSzIBErw3fzYf1RdfCxxpMT5
- 6fd29wVqKxDPsys028YFHaa6LboyVdGtIqve15nvmNwlNSH6qxyPEVZxM3g5oWBIVRDq
- X27+DXKgoimA58vwVDzbvUapJPsc7jtwbBU1McuM1TTw4tfp/7MxD9eGN9Z9LsNYMGSV
- bhzWh5TUwB7V4SboN80lXDx5RQo8ZfiSK3ussgHb4YGm1hAUq2WdOOlrXZ3AumPRM+Vs
- oXIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b0OnLCWvM64m5gKXHzRMVXF5dHlaSc79FQsmbEFFsu4=;
- b=jrp5tbp5izrcpNt0qM+TTJW9gaZB78c2bi/jumd7MVYeFIQZUVhUjnJcNJfwub8lWI
- LJdCtNwQAl/SL30yTv6+Tfyz/oJZyOhAYR8TxyWpIz2AmqB+8zWZvQANp0EXc0lZ5Xt3
- cWNL6sqWw5+ROhd4eaNxlIdCxvgljOPL3LvE9WhpQZynkPZ63JGsqE7/Mepc4pROT7fz
- yYUkgmZoEpIkXTV4+zQoU9Z+VqXt5s4RcQtNWb3Nma+A6auAVNDv7W+T3XIIo7IoKYlP
- 9xzBOumz+OLk02ghM+zhxdJLdpW5FpZ9RMl0r30qVXfSntUjAgnHWBkF7H8c8ozxIxgc
- 2I9A==
-X-Gm-Message-State: ANhLgQ371dMqy81uyck8Kt/501AbAU5U3wksygdvxNFl8BOJroO8jWhg
- USBX+PrQm8QGoC53dfufCn0wUEpcMPNC2zMsNgybng==
-X-Google-Smtp-Source: ADFU+vudVicUuCrFQeOVj1QeuZvzjkGwslmlNghFiG3X/u6eYx2lj4gCzSspwe1zwFhegXKuozD9aXIJ+uw4hNQsruo=
-X-Received: by 2002:a05:6808:64c:: with SMTP id
- z12mr3181490oih.146.1585157692306; 
- Wed, 25 Mar 2020 10:34:52 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jH9wq-0005s3-3z
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:13 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25126)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH9wp-0005rD-Ho
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585157769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fGCIKjr6Q14PUCx8WbUNdC86DKO+ZhNmIC/2FB/3FAg=;
+ b=TH8gTdC1MroA9+qJ5n+DoRDdUulkA7Lyc759S0HHYjEQQEF8k/nqi0CZnmz/rveQ7n+qRu
+ fdHkOO29W3JV1qdMr41JnSCPZorO3+93kA0x8SPRnJOWgyE9TreaBgJd0cnV4TS5ZU6a9F
+ 9bk0PHnb/3oAXZBipKEpsilxwS6pNno=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-yZmQfvybNrCeQZFdq3A-Pw-1; Wed, 25 Mar 2020 13:36:05 -0400
+X-MC-Unique: yZmQfvybNrCeQZFdq3A-Pw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A9C4477;
+ Wed, 25 Mar 2020 17:36:04 +0000 (UTC)
+Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41E135C1B0;
+ Wed, 25 Mar 2020 17:36:01 +0000 (UTC)
+Subject: Re: [PATCH 1/2] Revert "mirror: Don't let an operation wait for
+ itself"
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200325172326.22347-1-kwolf@redhat.com>
+ <20200325172326.22347-2-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <db6cafe1-13f1-b900-9a78-5c042662390a@redhat.com>
+Date: Wed, 25 Mar 2020 12:36:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200311040923.29115-1-gshan@redhat.com>
- <4c32dbe0-7d96-5e60-addc-b1bf43e17f47@redhat.com>
- <da34a58a-0474-c46e-7bbf-cb150bddc717@redhat.com>
-In-Reply-To: <da34a58a-0474-c46e-7bbf-cb150bddc717@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 25 Mar 2020 17:34:40 +0000
-Message-ID: <CAFEAcA-kbsdW5p6j6gCt48kZxXtFNM_bO8jH6_XTrFLh=QGzwQ@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/char/pl011: Enable TxFIFO and async transmission
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <20200325172326.22347-2-kwolf@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,28 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Gavin Shan <gshan@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Mar 2020 at 15:56, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 25/03/20 03:32, Gavin Shan wrote:
-> >>
-> >
-> > Marc-Andr=C3=A9, ping. Could you please review when you get a chance? T=
-hanks in
-> > advance :)
->
-> Or Peter; generally arch-specific changes (as opposed to fixes in
-> chardev API usage) are generally reviewed by arch maintainers.
+On 3/25/20 12:23 PM, Kevin Wolf wrote:
+> This reverts commit 7e6c4ff792734e196c8ca82564c56b5e7c6288ca.
+> 
+> The fix was incomplete as it only protected against requests waiting for
+> themselves, but not against requests waiting for each other. We need a
+> different solution.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block/mirror.c | 21 +++++++++------------
+>   1 file changed, 9 insertions(+), 12 deletions(-)
 
-It's still on my to-review queue, but then so are a bunch
-of other things. Stuff for 5.0 is currently taking priority.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-thanks
--- PMM
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
