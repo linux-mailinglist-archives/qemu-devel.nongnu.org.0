@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7BE1933CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 23:38:08 +0100 (CET)
-Received: from localhost ([::1]:44174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC36193511
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:44:56 +0100 (CET)
+Received: from localhost ([::1]:44886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHEez-0000zt-RM
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 18:38:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58337)
+	id 1jHGdj-0006l3-NE
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jHEeB-0000av-6k
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 18:37:16 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXO-0003lp-19
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1jHEe5-0001Iv-Ll
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 18:37:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26061)
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXM-0002MU-Eq
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:21 -0400
+Received: from ozlabs.org ([203.11.71.1]:47609)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1jHEe5-0001H6-Fd
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 18:37:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585175828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qf+pdESrnrcgeQRXWaN2cqN9qgJ+5Ip41c1789mp0z8=;
- b=FeH1XFYMUEL8l3xPx09YF4MQRg+o//J+jP0QCwAJFiRDMMw6peAjMg3ffTpYZPgBON4Xn+
- oKvrqbzqhFGprGHkUhgYIYC8oXLm3/yag9gDIEESxU3S+hnd4/OSG2uEAMOTK1szwpxSFj
- ZWL/0umCBe930h1wubbYx+vvOxfirPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-tR_R8STlPcOgG5eU8bFDEA-1; Wed, 25 Mar 2020 18:37:03 -0400
-X-MC-Unique: tR_R8STlPcOgG5eU8bFDEA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2325477;
- Wed, 25 Mar 2020 22:37:00 +0000 (UTC)
-Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEF4090A13;
- Wed, 25 Mar 2020 22:36:58 +0000 (UTC)
-Date: Wed, 25 Mar 2020 16:36:58 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 QEMU 10/16] vfio: Add load state functions to
- SaveVMHandlers
-Message-ID: <20200325163658.71e88cb8@w520.home>
-In-Reply-To: <1585084154-29461-11-git-send-email-kwankhede@nvidia.com>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-11-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jHGXI-0002AZ-1q; Wed, 25 Mar 2020 20:38:17 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48nmL764zfz9sSJ; Thu, 26 Mar 2020 11:38:07 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1585183087;
+ bh=rnbisUE0+51ZDSwwrAFBRyx55pg8YOyD7931PC3jY+M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=L7RyjwFuRdBd5mV/IcT43yhdylnT1POOaqXGQNRULPIx0mWazJMZ9oZPelM7MAodw
+ zufWfEgzmO4aWK1f0mhVKuSlrpi6juYWoZM6JIafmlyke+rZQ17v5PPs6E1m47Axx3
+ dkQSpgL2vk++0ODRqx+88TKFtUCN0OQsbaKpg4tk=
+Date: Thu, 26 Mar 2020 10:55:16 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-5.0 10/12] hw/misc/macio/macio: Add missing
+ error-propagation code
+Message-ID: <20200325235516.GG36889@umbus.fritz.box>
+References: <20200325191830.16553-1-f4bug@amsat.org>
+ <20200325191830.16553-11-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cz6wLo+OExbGG7q/"
+Content-Disposition: inline
+In-Reply-To: <20200325191830.16553-11-f4bug@amsat.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,253 +56,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Mar 2020 02:39:08 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-> Sequence  during _RESUMING device state:
-> While data for this device is available, repeat below steps:
-> a. read data_offset from where user application should write data.
-> b. write data of data_size to migration region from data_offset.
-> c. write data_size which indicates vendor driver that data is written in
->    staging buffer.
-> 
-> For user, data is opaque. User should write data in the same order as
-> received.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
+--cz6wLo+OExbGG7q/
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 25, 2020 at 08:18:28PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Running the coccinelle script produced:
+>=20
+>   $ spatch \
+>     --macro-file scripts/cocci-macro-file.h --include-headers \
+>     --sp-file scripts/coccinelle/object_property_missing_error_propagate.=
+cocci \
+>     --keep-comments --smpl-spacing --dir hw
+>=20
+>   [[manual check required: error_propagate() might be missing in object_p=
+roperty_set_bool() hw/misc/macio/macio.c:350:8]]
+>=20
+> Add the missing error_propagate() after manual review.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  hw/vfio/migration.c  | 179 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events |   3 +
->  2 files changed, 182 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index ecbeed5182c2..ab295d25620e 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -269,6 +269,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
+>  hw/misc/macio/macio.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 79222192e8..fffb64a7d5 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -292,98 +292,102 @@ static const MemoryRegionOps timer_ops =3D {
+>  static void macio_newworld_realize(PCIDevice *d, Error **errp)
+>  {
+>      MacIOState *s =3D MACIO(d);
+>      NewWorldMacIOState *ns =3D NEWWORLD_MACIO(d);
+>      DeviceState *pic_dev =3D DEVICE(ns->pic);
+>      Error *err =3D NULL;
+>      SysBusDevice *sysbus_dev;
+>      MemoryRegion *timer_memory =3D NULL;
+> =20
+>      macio_common_realize(d, &err);
+>      if (err) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+> =20
+>      sysbus_dev =3D SYS_BUS_DEVICE(&s->escc);
+>      sysbus_connect_irq(sysbus_dev, 0, qdev_get_gpio_in(pic_dev,
+>                                                         NEWWORLD_ESCCB_IR=
+Q));
+>      sysbus_connect_irq(sysbus_dev, 1, qdev_get_gpio_in(pic_dev,
+>                                                         NEWWORLD_ESCCA_IR=
+Q));
+> =20
+>      /* OpenPIC */
+>      sysbus_dev =3D SYS_BUS_DEVICE(ns->pic);
+>      memory_region_add_subregion(&s->bar, 0x40000,
+>                                  sysbus_mmio_get_region(sysbus_dev, 0));
+> =20
+>      /* IDE buses */
+>      macio_realize_ide(s, &ns->ide[0],
+>                        qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
+>                        qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
+>                        0x16, &err);
+>      if (err) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+> =20
+>      macio_realize_ide(s, &ns->ide[1],
+>                        qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
+>                        qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
+>                        0x1a, &err);
+>      if (err) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+> =20
+>      /* Timer */
+>      timer_memory =3D g_new(MemoryRegion, 1);
+>      memory_region_init_io(timer_memory, OBJECT(s), &timer_ops, NULL, "ti=
+mer",
+>                            0x1000);
+>      memory_region_add_subregion(&s->bar, 0x15000, timer_memory);
+> =20
+>      if (ns->has_pmu) {
+>          /* GPIOs */
+>          sysbus_dev =3D SYS_BUS_DEVICE(&ns->gpio);
+>          object_property_set_link(OBJECT(&ns->gpio), OBJECT(pic_dev), "pi=
+c",
+>                                   &error_abort);
+>          memory_region_add_subregion(&s->bar, 0x50,
+>                                      sysbus_mmio_get_region(sysbus_dev, 0=
+));
+>          object_property_set_bool(OBJECT(&ns->gpio), true, "realized", &e=
+rr);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+> =20
+>          /* PMU */
+>          object_initialize_child(OBJECT(s), "pmu", &s->pmu, sizeof(s->pmu=
+),
+>                                  TYPE_VIA_PMU, &error_abort, NULL);
+>          object_property_set_link(OBJECT(&s->pmu), OBJECT(sysbus_dev), "g=
+pio",
+>                                   &error_abort);
+>          qdev_prop_set_bit(DEVICE(&s->pmu), "has-adb", ns->has_adb);
+>          qdev_set_parent_bus(DEVICE(&s->pmu), BUS(&s->macio_bus));
+> =20
+>          object_property_set_bool(OBJECT(&s->pmu), true, "realized", &err=
+);
+>          if (err) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          sysbus_dev =3D SYS_BUS_DEVICE(&s->pmu);
+>          sysbus_connect_irq(sysbus_dev, 0, qdev_get_gpio_in(pic_dev,
+>                                                             NEWWORLD_PMU_=
+IRQ));
+>          memory_region_add_subregion(&s->bar, 0x16000,
+>                                      sysbus_mmio_get_region(sysbus_dev, 0=
+));
+>      } else {
+>          /* CUDA */
+>          object_initialize_child(OBJECT(s), "cuda", &s->cuda, sizeof(s->c=
+uda),
+>                                  TYPE_CUDA, &error_abort, NULL);
+>          qdev_set_parent_bus(DEVICE(&s->cuda), BUS(&s->macio_bus));
+>          qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
+>                               s->frequency);
+> =20
+>          object_property_set_bool(OBJECT(&s->cuda), true, "realized", &er=
+r);
+>          if (err) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          sysbus_dev =3D SYS_BUS_DEVICE(&s->cuda);
+>          sysbus_connect_irq(sysbus_dev, 0, qdev_get_gpio_in(pic_dev,
+>                                                             NEWWORLD_CUDA=
+_IRQ));
+>          memory_region_add_subregion(&s->bar, 0x16000,
+>                                      sysbus_mmio_get_region(sysbus_dev, 0=
+));
+>      }
 >  }
->  
-> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    uint64_t data;
-> +
-> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-> +        int ret;
-> +
-> +        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
-> +        if (ret) {
-> +            error_report("%s: Failed to load device config space",
-> +                         vbasedev->name);
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    data = qemu_get_be64(f);
-> +    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +        error_report("%s: Failed loading device config space, "
-> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
-> +        return -EINVAL;
-> +    }
-> +
-> +    trace_vfio_load_device_config_state(vbasedev->name);
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  /* ---------------------------------------------------------------------- */
->  
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> @@ -434,12 +461,164 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
->      return ret;
->  }
->  
-> +static int vfio_load_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret = 0;
-> +
-> +    if (migration->region.mmaps) {
-> +        ret = vfio_region_mmap(&migration->region);
-> +        if (ret) {
-> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> +                         vbasedev->name, migration->region.nr,
-> +                         strerror(-ret));
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_RESUMING);
 
-This seems very prone to making an invalid state, like _RUNNING |
-_RESUMING.  Why wouldn't we use ~VFIO_DEVICE_STATE_MASK here?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> +    if (ret) {
-> +        error_report("%s: Failed to set state RESUMING", vbasedev->name);
-> +    }
-> +    return ret;
-> +}
-> +
-> +static int vfio_load_cleanup(void *opaque)
-> +{
-> +    vfio_save_cleanup(opaque);
-> +    return 0;
-> +}
-> +
-> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret = 0;
-> +    uint64_t data, data_size;
-> +
-> +    data = qemu_get_be64(f);
-> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +
-> +        trace_vfio_load_state(vbasedev->name, data);
-> +
-> +        switch (data) {
-> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-> +        {
-> +            ret = vfio_load_device_config_state(f, opaque);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-> +        {
-> +            uint64_t region_size = qemu_get_be64(f);
-> +
-> +            if (migration->region.size < region_size) {
-> +                error_report("%s: SETUP STATE: migration region too small, "
-> +                             "0x%"PRIx64 " < 0x%"PRIx64, vbasedev->name,
-> +                             migration->region.size, region_size);
-> +                return -EINVAL;
-> +            }
-> +
-> +            data = qemu_get_be64(f);
-> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-> +                return ret;
-> +            } else {
-> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-> +                             vbasedev->name, data);
-> +                return -EINVAL;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-> +        {
-> +            VFIORegion *region = &migration->region;
-> +            void *buf = NULL;
-> +            bool buffer_mmaped = false;
-> +            uint64_t data_offset = 0;
-> +
-> +            data_size = qemu_get_be64(f);
-> +            if (data_size == 0) {
-> +                break;
-> +            }
-> +
-> +            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> +                        region->fd_offset +
-> +                        offsetof(struct vfio_device_migration_info,
-> +                        data_offset));
-> +            if (ret != sizeof(data_offset)) {
-> +                error_report("%s:Failed to get migration buffer data offset %d",
-> +                             vbasedev->name, ret);
-> +                return -EINVAL;
-> +            }
-> +
-> +            if (region->mmaps) {
-> +                buf = find_data_region(region, data_offset, data_size);
-> +            }
-> +
-> +            buffer_mmaped = (buf != NULL) ? true : false;
-> +
-> +            if (!buffer_mmaped) {
-> +                buf = g_try_malloc0(data_size);
-> +                if (!buf) {
-> +                    error_report("%s: Error allocating buffer ", __func__);
-> +                    return -ENOMEM;
-> +                }
-> +            }
-> +
-> +            qemu_get_buffer(f, buf, data_size);
-> +
-> +            if (!buffer_mmaped) {
-> +                ret = pwrite(vbasedev->fd, buf, data_size,
-> +                             region->fd_offset + data_offset);
-> +                g_free(buf);
-> +
-> +                if (ret != data_size) {
-> +                    error_report("%s: Failed to set migration buffer %d",
-> +                                 vbasedev->name, ret);
-> +                    return -EINVAL;
-> +                }
-> +            }
-> +
-> +            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
-> +                         region->fd_offset +
-> +                       offsetof(struct vfio_device_migration_info, data_size));
-> +            if (ret != sizeof(data_size)) {
-> +                error_report("%s: Failed to set migration buffer data size %d",
-> +                             vbasedev->name, ret);
-> +                if (!buffer_mmaped) {
-> +                    g_free(buf);
-> +                }
-> +                return -EINVAL;
-> +            }
-> +
-> +            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
-> +                                              data_size);
-> +            break;
-> +        }
-> +        }
-> +
-> +        ret = qemu_file_get_error(f);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +        data = qemu_get_be64(f);
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static SaveVMHandlers savevm_vfio_handlers = {
->      .save_setup = vfio_save_setup,
->      .save_cleanup = vfio_save_cleanup,
->      .save_live_pending = vfio_save_pending,
->      .save_live_iterate = vfio_save_iterate,
->      .save_live_complete_precopy = vfio_save_complete_precopy,
-> +    .load_setup = vfio_load_setup,
-> +    .load_cleanup = vfio_load_cleanup,
-> +    .load_state = vfio_load_state,
->  };
->  
->  /* ---------------------------------------------------------------------- */
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index bdf40ba368c7..ac065b559f4e 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -157,3 +157,6 @@ vfio_save_device_config_state(char *name) " (%s)"
->  vfio_save_pending(char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
->  vfio_save_iterate(char *name, int data_size) " (%s) data_size %d"
->  vfio_save_complete_precopy(char *name) " (%s)"
-> +vfio_load_device_config_state(char *name) " (%s)"
-> +vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
-> +vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+--cz6wLo+OExbGG7q/
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5772QACgkQbDjKyiDZ
+s5KdnA//Yc0jQHpDJOUKajuu0KFnO7KibNeOn6+mg8yZLdMu2aGV7QNeZeMpDli8
+dhrVLhk5I3dKtaIB/08e0HquG7bknaHlBMd4ioljg8FBvprdR5th/GBnCxzWvHDI
+/GCZ7B3jLPXLIldXphoiVDSWHs2BN9Du2ds1DqngsXxk7smBHLOY9OyCnZ1kONH4
+7YUo0hvJQp+73M5YZf4xzLEAb7qhHQ/jtNoaXaDiXEXJUzEdN7szRPeQrW1PJhyR
+yb4wwkEYVrS0AmoQN4nJ8sAK40PEnSPo/pgbdrg6sJ8Gn2IsgHOYDeOi/bgC+8OT
+Ukmv2ZIPY8YGV+0mpuhKq9pDpOu4F4vP/Q50L46eFJfNqF/dYDUmJq2E2OVVCGIi
+Uso2fNChSMzP0OYWjfJ5Vbh4ydcrf+JptBdf7dcxxsZYX8/4qXorjYHVz6R+cY08
+N19r5T51hVQqkf65nKgeJiJiodo1wsjS5Z7TNPXUcQhiAwhdUPeL+oouIT3DqHyc
+uce+iPPdatSwpFkW2CM6mzJwrPE1PP1dFdCAqSft+PHhHuxyjjPoiExS1Lw60KUX
+wP68051Ma54P46KBkMlBxowbMgUm7mZdYElEUXam26LWNP5NboQpdqB9gwMBvr6q
+UhRa8/VIc9P6VxtIF0EsS0o0Ct0XMoFMlQiBS9btmw3NeC33ZOM=
+=O4J9
+-----END PGP SIGNATURE-----
+
+--cz6wLo+OExbGG7q/--
 
