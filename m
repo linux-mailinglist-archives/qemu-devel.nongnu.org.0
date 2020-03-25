@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B76A192667
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:59:08 +0100 (CET)
-Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A791192635
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:52:40 +0100 (CET)
+Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3kZ-0007uZ-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36243)
+	id 1jH3eJ-0000En-3b
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Xo-0000oE-0K
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:57 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3Zz-0003Lb-K6
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Xm-0005CH-OE
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:55 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:45686)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Xm-0005Bw-Jn
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:45:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gKoEf7EdMWTgGzNkMuUzYgo/AMgyKhn6j7tpOT05QQo=;
- b=fVck/HS6brVms8nmDnpRGrVmFMsi0FhWm7TKaoftZfnYvAcNMlf3sfHI6y1QNj0v4ZQYnu
- v/PAqV6NEbE0svWyz3hDn7WAG2+O/WkJhV/kptYW74pTM1/vzZwQfFBwwO/A05AenSxKZV
- WIxCtfykOWarKxGoLFSAzD8mIRlD9Qw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-fxyne2N8PWKxcTOAQ0XvRQ-1; Wed, 25 Mar 2020 06:45:52 -0400
-X-MC-Unique: fxyne2N8PWKxcTOAQ0XvRQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 500871005512;
- Wed, 25 Mar 2020 10:45:51 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36A6ECDBC1;
- Wed, 25 Mar 2020 10:45:49 +0000 (UTC)
-Message-ID: <8001a1b07bce413961ff6e3569988ab118542f5d.camel@redhat.com>
-Subject: Re: [PATCH v6 24/42] nvme: remove redundant has_sg member
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:45:48 +0200
-In-Reply-To: <20200316142928.153431-25-its@irrelevant.dk>
-References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-25-its@irrelevant.dk>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3Zy-0006gI-Dm
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34965)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jH3Zy-0006er-7K
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:10 -0400
+Received: by mail-wr1-x443.google.com with SMTP id d5so2394892wrn.2
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 03:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AE85nmQ98UVGTlYj011lU1PvMAc8nGVf54bavmknjxs=;
+ b=gbJeZf35gbiymTmkfPNQYnAh8hYrjXA4wJxJfA1jgAk225NA5JkAWHnJrgBntISwMb
+ DnkfWsz2wKS/aIB88mt7btY3mhdS3qeP08QFPKzXL6d8QqHetpV49aIOokeltEFbZj1U
+ LekJ3qxNzcsLrI1o7PuWCESQKfvFl1YqUvUPEVYQ2+WCDQbj1jHVgHXYk789+JLHRccC
+ yY1YVYzqkyAMN+uj4x1PZDyBpHRoFw/GNq5cexvEiGoVMGIfKubX/5y5c+Ma4VqDS8G1
+ 2B3d/mtNEg7Ag2HDKN3ArsStM0npZkw/zlhju+za4plomsxp/sfHe3U4CAFHOKwNM1NN
+ TOVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AE85nmQ98UVGTlYj011lU1PvMAc8nGVf54bavmknjxs=;
+ b=iRlODd6VbZZdENKxchP76fZoZ/hkEcx6W8OqQ3Nkumr+n0lgRFF1DjE3oj8cdxSc07
+ KNBeXiGriGosYkOZgpGNsQC+b2qTL7qn/2heOlQK/1FJQygyQgfCzRocGx07mWhGhNW4
+ cNTIHNhKeM5BjvM9uWJ+BoVS9tA5QPSe7Gc+KlAQg9pvTkCNXIqaad4gKgVB05tfkHem
+ c+a7v7qCvLU1zXw6GREclp6n1WhIpdKP3y1lCby04ew12tFoXDFpxg2ylo/91h5kGrvU
+ m13K/uYm7ApO9bhz1G9JGOW7U6wZFc+6ibevEvMiMhc/HQ2cW/H8nYzNVqveELywqJTR
+ C6dw==
+X-Gm-Message-State: ANhLgQ3UBKh93sRC0K/zpLqrJbspWlL8DtAPs+Wbu1iz0O7k6DkWlvmx
+ Dxypsd+0xH8kYas/5IoWbDcaRDx+VJi2NAcMrN8=
+X-Google-Smtp-Source: ADFU+vsH9GBzGYfJWFaNCrDpIueVFWbZBqGV1iYxknrPSAL3+tl9Qa2NMfxsgk9oplbYCAFuVylrb2lBAltXv05UCRQ=
+X-Received: by 2002:adf:ba47:: with SMTP id t7mr2593424wrg.147.1585133288435; 
+ Wed, 25 Mar 2020 03:48:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+ <aa622b1d-e28a-c3f1-d18a-73e8a67c8ccf@linaro.org>
+ <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
+In-Reply-To: <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Wed, 25 Mar 2020 12:47:50 +0200
+Message-ID: <CAHiYmc5nzmk0EiN6U8Wd3h3xBwim1frEXk=27tngfagHwTvYQw@mail.gmail.com>
+Subject: Re: [PATCH for-5.0,
+ v1] target/mips: Fix loongson multimedia condition instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000094353105a1ab9ae1"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,106 +74,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: aurelien@aurel32.net, aleksandar.rikalo@rt-rk.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Huacai Chen <chenhc@lemote.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Remove the has_sg member from NvmeRequest since it's redundant.
+--00000000000094353105a1ab9ae1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To be honest this patch also replaces the dma_acct_start with block_acct_start
-which looks right to me, and IMHO its OK to have both in the same patch,
-but that should be mentioned in the commit message
+12:44 Sre, 25.03.2020. Aleksandar Markovic <aleksandar.qemu.devel@gmail.com=
+>
+=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> 16:59 Uto, 24.03.2020. Richard Henderson <richard.henderson@linaro.org>
+=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > On 3/24/20 5:22 AM, Jiaxun Yang wrote:
+> > > Loongson multimedia condition instructions were previously
+implemented as
+> > > write 0 to rd due to lack of documentation. So I just confirmed with
+Loongson
+> > > about their encoding and implemented them correctly.
+> > >
+> > > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > > Acked-by: Huacai Chen <chenhc@lemote.com>
+> > > ---
+> > > v1: Use deposit opreations according to Richard's suggestion.
+> > > ---
+> > >  target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
+> > >  1 file changed, 31 insertions(+), 4 deletions(-)
+> >
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >
+>
+> I just have a couple of mon-essential suggestions wrt coding style, but
+since all that is really of very insignificant nauture, I wouldn't even
+mention them.
+>
+> Reviewed-by: Aleksandar Markovic <aleksandar.qemi.devel@gmail.com>
+>
 
-With this fixed,
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Sorry, there was a typo. It should be:
 
-Best regards,
-	Maxim Levitsky
+Reviewed-by: Aleksandar Markovic <aleksandar.qem u.devel@gmail.com>
 
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme.c | 18 ++++++++++++------
->  hw/block/nvme.h |  1 -
->  2 files changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 187c816eb6ad..e40c080c3b48 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -484,16 +484,20 @@ static void nvme_rw_cb(void *opaque, int ret)
->          block_acct_failed(blk_get_stats(n->conf.blk), &req->acct);
->          req->status = NVME_INTERNAL_DEV_ERROR;
->      }
-> -    if (req->has_sg) {
-> +
-> +    if (req->qsg.nalloc) {
->          qemu_sglist_destroy(&req->qsg);
->      }
-> +    if (req->iov.nalloc) {
-> +        qemu_iovec_destroy(&req->iov);
-> +    }
-> +
->      nvme_enqueue_req_completion(cq, req);
->  }
->  
->  static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
->      NvmeRequest *req)
->  {
-> -    req->has_sg = false;
->      block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
->           BLOCK_ACCT_FLUSH);
->      req->aiocb = blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
-> @@ -517,7 +521,6 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
->          return NVME_LBA_RANGE | NVME_DNR;
->      }
->  
-> -    req->has_sg = false;
->      block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
->                       BLOCK_ACCT_WRITE);
->      req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-> @@ -554,16 +557,19 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
->  
-> -    dma_acct_start(n->conf.blk, &req->acct, &req->qsg, acct);
->      if (req->qsg.nsg > 0) {
-> -        req->has_sg = true;
-> +        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->qsg.size,
-> +                         acct);
-> +
->          req->aiocb = is_write ?
->              dma_blk_write(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
->                            nvme_rw_cb, req) :
->              dma_blk_read(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
->                           nvme_rw_cb, req);
->      } else {
-> -        req->has_sg = false;
-> +        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->iov.size,
-> +                         acct);
-> +
->          req->aiocb = is_write ?
->              blk_aio_pwritev(n->conf.blk, data_offset, &req->iov, 0, nvme_rw_cb,
->                              req) :
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index b4d1738a3d0a..442b17bf1701 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -29,7 +29,6 @@ typedef struct NvmeRequest {
->      struct NvmeSQueue       *sq;
->      BlockAIOCB              *aiocb;
->      uint16_t                status;
-> -    bool                    has_sg;
->      NvmeCqe                 cqe;
->      BlockAcctCookie         acct;
->      QEMUSGList              qsg;
+("u" instead of "i" in "qemi")
 
+> May I ask you, Richard, to select this patch for your next TCG-for-5.0
+queue, so that I don't go through a MIPS queue process for just a single
+patch?
+>
+> Thanks to all involved people!
+>
+> Aleksandar
+>
+> >
+> > r~
 
+--00000000000094353105a1ab9ae1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">12:44 Sre, 25.03.2020. Aleksandar Markovic &lt;<a href=3D"ma=
+ilto:aleksandar.qemu.devel@gmail.com">aleksandar.qemu.devel@gmail.com</a>&g=
+t; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br=
+>
+&gt;<br>
+&gt; 16:59 Uto, 24.03.2020. Richard Henderson &lt;<a href=3D"mailto:richard=
+.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; =D1=98=D0=B5 =
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt; &gt;<br>
+&gt; &gt; On 3/24/20 5:22 AM, Jiaxun Yang wrote:<br>
+&gt; &gt; &gt; Loongson multimedia condition instructions were previously i=
+mplemented as<br>
+&gt; &gt; &gt; write 0 to rd due to lack of documentation. So I just confir=
+med with Loongson<br>
+&gt; &gt; &gt; about their encoding and implemented them correctly.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang=
+@flygoat.com">jiaxun.yang@flygoat.com</a>&gt;<br>
+&gt; &gt; &gt; Acked-by: Huacai Chen &lt;<a href=3D"mailto:chenhc@lemote.co=
+m">chenhc@lemote.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; v1: Use deposit opreations according to Richard&#39;s sugges=
+tion.<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 target/mips/translate.c | 35 +++++++++++++++++++++++++=
+++++++----<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 31 insertions(+), 4 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.hend=
+erson@linaro.org">richard.henderson@linaro.org</a>&gt;<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; I just have a couple of mon-essential suggestions wrt coding style, bu=
+t since all that is really of very insignificant nauture, I wouldn&#39;t ev=
+en mention them.<br>
+&gt;<br>
+&gt; Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemi=
+.devel@gmail.com">aleksandar.qemi.devel@gmail.com</a>&gt;<br>
+&gt;</p>
+<p dir=3D"ltr">Sorry, there was a typo. It should be:</p>
+<p dir=3D"ltr">Reviewed-by: Aleksandar Markovic &lt;aleksandar.qem <a href=
+=3D"mailto:u.devel@gmail.com">u.devel@gmail.com</a>&gt;</p>
+<p dir=3D"ltr">(&quot;u&quot; instead of &quot;i&quot; in &quot;qemi&quot;)=
+</p>
+<p dir=3D"ltr">&gt; May I ask you, Richard, to select this patch for your n=
+ext TCG-for-5.0 queue, so that I don&#39;t go through a MIPS queue process =
+for just a single patch?<br>
+&gt;<br>
+&gt; Thanks to all involved people!<br>
+&gt;<br>
+&gt; Aleksandar<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; r~<br>
+</p>
 
+--00000000000094353105a1ab9ae1--
 
