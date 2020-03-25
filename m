@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5979192528
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:09:04 +0100 (CET)
-Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CFF19251F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:07:45 +0100 (CET)
+Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2y7-0005h7-V0
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58044)
+	id 1jH2wq-0003Iw-NV
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vS-00023b-EX
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:19 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vR-0006oR-2B
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vR-00023T-HW
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:18 -0400
-Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17976)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vQ-0006nv-Ca
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:17 -0400
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17977)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1jH2vQ-0006l8-Ae
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585130731; 
+ id 1jH2vP-0006l6-K0
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585130732; 
  s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
- h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=qV35QxrPA1Rglc7fhjbGhHSG7Mz4+LROtokT3HhtmqQ=;
- b=PGwZwVcMNhNE4bC9WqFLakCRZ46Bt4Ht/hfJsbAYZQxD3umV6SH5a4x/iDagBNKG
- foG1hYmYb0Gbzl6JOkLMxxTMZqxfybXSwZDaWWLRxF8UQqOlKcHlHh+P3eRaP74vBbZ
- dGm7cSCGmZhry7ltGNu3OAfdFIyv+hfWEAKPCxmM=
+ h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
+ bh=qSOKUP5jgt+GUvLRCzrVgQmtfvEOkW4n979u095348A=;
+ b=D88QaeVUGD1hLRtMDjwmuAd9yAvgK55zx7/pRcb+tJ8fmbp6+OMmoCSluo3G2FwJ
+ mfphID6WC2mHf5VLDCIWFa7AyOaCiIlNHPdt3k8MFs4rG7g0e7f/VBjoHG9qp7hIMKz
+ qV7ZG6LaXlJjr4cEXj25duhFWrQxYge3tRM5Fxw4=
 Received: from localhost.localdomain (39.155.141.144 [39.155.141.144]) by
- mx.zoho.com.cn with SMTPS id 1585130728726272.80738341019037;
- Wed, 25 Mar 2020 18:05:28 +0800 (CST)
+ mx.zoho.com.cn with SMTPS id 1585130730450706.2792337116358;
+ Wed, 25 Mar 2020 18:05:30 +0800 (CST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
-Subject: [PATCH 0/3] target/mips: Add loongson gs464 core
-Date: Wed, 25 Mar 2020 18:05:17 +0800
+Message-ID: <20200325100520.206210-2-jiaxun.yang@flygoat.com>
+Subject: [PATCH 1/3] target/mips: Introduce loongson ext & mmi ASE flags
+Date: Wed, 25 Mar 2020 18:05:18 +0800
 X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
+References: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-ZohoCNMailClient: External
@@ -61,34 +63,76 @@ Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongson gs464 core can be found in Loongson-3A1000 processor.
-This patchset add minimal support for that core.
-There are still some instructions missing, I'm going to work on
-them later.
+Start from Loongson-3A, loongson treat their extension instructions
+as ASE and implemented mips64r2 as their baseline ISA.
+Here we simply identify instructions shared between 2F and 3A and
+mark them with MMI or EXT flag.
 
-The corresponding hw board is also missing. I'm using modified kernel
-for malta for testing purpose and planing to take the design of Lemote's
-KVM virtual machine.
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ target/mips/mips-defs.h | 2 ++
+ target/mips/translate.c | 9 +++++----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-Official manual of this core can be found here [1] (In Chinese).
-My collection of instruction documents mainly based on Chinese
-version of manual, binutils gas code and experiments on real machine
-can be found here [2] (In English).
-
-[1]: http://loongson.cn/uploadfile/cpu/3A1000/Loongson_3A1000_cpu_user_2.pd=
-f
-[2]: https://github.com/FlyGoat/loongson-insn/blob/master/loongson-ext.md
-
-Jiaxun Yang (3):
-  target/mips: Introduce loongson ext & mmi ASE flags
-  target/mips: Add loongson ext lsdc2 instrustions
-  target/mips: Add loongson gs464 core
-
- target/mips/mips-defs.h          |   2 +
- target/mips/translate.c          | 166 ++++++++++++++++++++++++++++++-
- target/mips/translate_init.inc.c |  25 ++++-
- 3 files changed, 188 insertions(+), 5 deletions(-)
-
+diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+index a831bb4384..1d25417c76 100644
+--- a/target/mips/mips-defs.h
++++ b/target/mips/mips-defs.h
+@@ -58,6 +58,8 @@
+  */
+ #define ASE_MMI           0x0100000000000000ULL
+ #define ASE_MXU           0x0200000000000000ULL
++#define ASE_LOONGSON_MMI  0x0400000000000000ULL
++#define ASE_LOONGSON_EXT  0x0800000000000000ULL
+=20
+ /* MIPS CPU defines. */
+ #define CPU_MIPS1       (ISA_MIPS1)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 25b595a17d..2d556e0dea 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -3421,7 +3421,8 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
+     TCGv t0, t1, t2;
+     int mem_idx =3D ctx->mem_idx;
+=20
+-    if (rt =3D=3D 0 && ctx->insn_flags & (INSN_LOONGSON2E | INSN_LOONGSON2=
+F)) {
++    if (rt =3D=3D 0 && ctx->insn_flags & (INSN_LOONGSON2E | INSN_LOONGSON2=
+F |
++                                        ASE_LOONGSON_EXT)) {
+         /*
+          * Loongson CPU uses a load to zero register for prefetch.
+          * We emulate it as a NOP. On other CPU we must perform the
+@@ -27161,7 +27162,7 @@ static void decode_opc_special2_legacy(CPUMIPSState=
+ *env, DisasContext *ctx)
+     case OPC_MULTU_G_2F:
+     case OPC_MOD_G_2F:
+     case OPC_MODU_G_2F:
+-        check_insn(ctx, INSN_LOONGSON2F);
++        check_insn(ctx, INSN_LOONGSON2F | ASE_LOONGSON_EXT);
+         gen_loongson_integer(ctx, op1, rd, rs, rt);
+         break;
+     case OPC_CLO:
+@@ -27194,7 +27195,7 @@ static void decode_opc_special2_legacy(CPUMIPSState=
+ *env, DisasContext *ctx)
+     case OPC_DDIVU_G_2F:
+     case OPC_DMOD_G_2F:
+     case OPC_DMODU_G_2F:
+-        check_insn(ctx, INSN_LOONGSON2F);
++        check_insn(ctx, INSN_LOONGSON2F | ASE_LOONGSON_EXT);
+         gen_loongson_integer(ctx, op1, rd, rs, rt);
+         break;
+ #endif
+@@ -30641,7 +30642,7 @@ static void decode_opc(CPUMIPSState *env, DisasCont=
+ext *ctx)
+         }
+         break;
+     case OPC_CP2:
+-        check_insn(ctx, INSN_LOONGSON2F);
++        check_insn(ctx, INSN_LOONGSON2F | ASE_LOONGSON_MMI);
+         /* Note that these instructions use different fields.  */
+         gen_loongson_multimedia(ctx, sa, rd, rt);
+         break;
 --=20
 2.26.0.rc2
 
