@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7821192F07
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:19:07 +0100 (CET)
-Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D22192F20
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:24:48 +0100 (CET)
+Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH9gI-0004lW-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58681)
+	id 1jH9ln-0008MN-2r
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jH9fF-00042M-CF
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:18:02 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jH9kl-0006wa-D2
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:23:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jH9fD-0006ti-Uj
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:18:01 -0400
-Received: from 8.mo4.mail-out.ovh.net ([188.165.33.112]:53902)
+ (envelope-from <kwolf@redhat.com>) id 1jH9kk-0002lB-DA
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:23:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jH9fD-0006sZ-Ob
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:17:59 -0400
-Received: from player716.ha.ovh.net (unknown [10.108.54.141])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id A147922C1B7
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 18:17:57 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player716.ha.ovh.net (Postfix) with ESMTPSA id 926FA10B7BFEC;
- Wed, 25 Mar 2020 17:17:48 +0000 (UTC)
-Date: Wed, 25 Mar 2020 18:17:47 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 1/4] ppc/spapr: KVM FWNMI should not be enabled until
- guest requests it
-Message-ID: <20200325181747.3d6a7a2c@bahia.lan>
-In-Reply-To: <20200325142906.221248-2-npiggin@gmail.com>
-References: <20200325142906.221248-1-npiggin@gmail.com>
- <20200325142906.221248-2-npiggin@gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jH9kk-0002ji-A6
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:23:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585157020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A8S56yDveqfJ5g4M30HnVdlrJvqHqKg9MMG4JjEtMuI=;
+ b=T9Q5kmFdNOlaDFUrZLinH6YGLFVla5XWicFqWhskNe1MF4yGe25jrr9RWLRww//kd8Kgkr
+ rvL0PZSqMt3HtetaSpmBSMiWQk9sJDqRxFbUkMqdeIg7hZJbiewL5Of2LXU7DDdMQyPsTO
+ 7mFUYg6vwftAA9MOmGLmT1BRzteGHco=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-Gq0z95tYMmun8VEX13S2sg-1; Wed, 25 Mar 2020 13:23:37 -0400
+X-MC-Unique: Gq0z95tYMmun8VEX13S2sg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12E028010EB;
+ Wed, 25 Mar 2020 17:23:36 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-184.ams2.redhat.com
+ [10.36.113.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB7796266E;
+ Wed, 25 Mar 2020 17:23:34 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] mirror: Fix hang (operation waiting for itself/circular
+ dependency)
+Date: Wed, 25 Mar 2020 18:23:24 +0100
+Message-Id: <20200325172326.22347-1-kwolf@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 10539830503800674755
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudehgedgjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.33.112
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,125 +68,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
- Ganesh Goudar <ganeshgr@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Mar 2020 00:29:03 +1000
-Nicholas Piggin <npiggin@gmail.com> wrote:
+The recent fix didn't actually fix the whole problem. Operations can't
+only wait for themselves, but we can also end up with circular
+dependencies like two operations waiting for each other to complete.
 
-> The KVM FWNMI capability should be enabled with the "ibm,nmi-register"
-> rtas call. Although MCEs from KVM will be delivered as architected
-> interrupts to the guest before "ibm,nmi-register" is called, KVM has
-> different behaviour depending on whether the guest has enabled FWNMI
-> (it attempts to do more recovery on behalf of a non-FWNMI guest).
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
+This reverts the first fix and implements another approach.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Kevin Wolf (2):
+  Revert "mirror: Don't let an operation wait for itself"
+  mirror: Wait only for in-flight operations
 
->  hw/ppc/spapr_caps.c  | 7 ++++---
->  hw/ppc/spapr_rtas.c  | 7 +++++++
->  target/ppc/kvm.c     | 7 +++++++
->  target/ppc/kvm_ppc.h | 6 ++++++
->  4 files changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 679ae7959f..eb54f94227 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -517,9 +517,10 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
->      }
->  
->      if (kvm_enabled()) {
-> -        if (kvmppc_set_fwnmi() < 0) {
-> -            error_setg(errp, "Firmware Assisted Non-Maskable Interrupts(FWNMI) "
-> -                             "not supported by KVM");
-> +        if (!kvmppc_get_fwnmi()) {
-> +            error_setg(errp,
-> +"Firmware Assisted Non-Maskable Interrupts(FWNMI) not supported by KVM.");
-> +            error_append_hint(errp, "Try appending -machine cap-fwnmi=off\n");
->          }
->      }
->  }
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 9fb8c8632a..29abe66d01 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -437,6 +437,13 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
->          return;
->      }
->  
-> +    if (kvm_enabled()) {
-> +        if (kvmppc_set_fwnmi() < 0) {
-> +            rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +            return;
-> +        }
-> +    }
-> +
->      spapr->fwnmi_system_reset_addr = sreset_addr;
->      spapr->fwnmi_machine_check_addr = mce_addr;
->  
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 597f72be1b..03d0667e8f 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -88,6 +88,7 @@ static int cap_ppc_safe_indirect_branch;
->  static int cap_ppc_count_cache_flush_assist;
->  static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
-> +static int cap_fwnmi;
->  
->  static uint32_t debug_inst_opcode;
->  
-> @@ -136,6 +137,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->      kvmppc_get_cpu_characteristics(s);
->      cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
->      cap_large_decr = kvmppc_get_dec_bits();
-> +    cap_fwnmi = kvm_vm_check_extension(s, KVM_CAP_PPC_FWNMI);
->      /*
->       * Note: setting it to false because there is not such capability
->       * in KVM at this moment.
-> @@ -2064,6 +2066,11 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->      }
->  }
->  
-> +bool kvmppc_get_fwnmi(void)
-> +{
-> +    return cap_fwnmi;
-> +}
-> +
->  int kvmppc_set_fwnmi(void)
->  {
->      PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 332fa0aa1c..fcaf745516 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -27,6 +27,7 @@ void kvmppc_enable_h_page_init(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> +bool kvmppc_get_fwnmi(void);
->  int kvmppc_set_fwnmi(void);
->  int kvmppc_smt_threads(void);
->  void kvmppc_error_append_smt_possible_hint(Error *const *errp);
-> @@ -163,6 +164,11 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->  {
->  }
->  
-> +static inline bool kvmppc_get_fwnmi(void)
-> +{
-> +    return false;
-> +}
-> +
->  static inline int kvmppc_set_fwnmi(void)
->  {
->      return -1;
+ block/mirror.c | 29 ++++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
+
+--=20
+2.20.1
 
 
