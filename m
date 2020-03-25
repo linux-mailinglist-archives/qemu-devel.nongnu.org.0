@@ -2,103 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FD0192DDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 17:11:31 +0100 (CET)
-Received: from localhost ([::1]:39128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B46192DFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 17:16:14 +0100 (CET)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH8cs-0006gN-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 12:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49359)
+	id 1jH8hR-0000qa-63
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 12:16:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jH8aH-0005q6-3R
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:08:50 -0400
+ (envelope-from <clg@kaod.org>) id 1jH8gL-0000EU-6l
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:15:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jH8aG-0002Af-0d
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:08:48 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:40291)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jH8aF-00028E-O0
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:08:47 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M3DeV-1jFmCX44bd-003h1L; Wed, 25 Mar 2020 17:08:45 +0100
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20200325075757.1959961-1-laurent@vivier.eu>
- <f0f1e6bf-155b-f5af-de22-5798fe82766e@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH] linux-user, configure: fix (again) syscall_nr.h
- dependencies cleanup
-Message-ID: <165d45d4-d601-67fa-207e-41bb4df08864@vivier.eu>
-Date: Wed, 25 Mar 2020 17:08:38 +0100
+ (envelope-from <clg@kaod.org>) id 1jH8gJ-0001Iw-Rm
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:15:04 -0400
+Received: from 1.mo7.mail-out.ovh.net ([178.33.45.51]:42656)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jH8gJ-0001Au-LZ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 12:15:03 -0400
+Received: from player726.ha.ovh.net (unknown [10.108.42.145])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 2A9991579D3
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 17:14:54 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id 9F5A010B4D17A;
+ Wed, 25 Mar 2020 16:14:46 +0000 (UTC)
+Subject: Re: [EXTERNAL] [PATCH 1/5] ppc/spapr: tweak change system reset helper
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200325144147.221875-1-npiggin@gmail.com>
+ <20200325144147.221875-2-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <dd019924-a007-d69b-cbf7-ee2e1ccebfc5@kaod.org>
+Date: Wed, 25 Mar 2020 17:14:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <f0f1e6bf-155b-f5af-de22-5798fe82766e@linaro.org>
+In-Reply-To: <20200325144147.221875-2-npiggin@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EIxgrKSp4GNKtpaK4ObR3o0bjSpaZzAYZEUwQt3lvJa6vZbC05z
- GyDFh9qkt4YO8UJm3ClyzDSj8e5MyFu+bUhHy8+KaCrQJemteqduXNxetLxVtG7gmSIgFlo
- OIr0n4E2XG0Q6YGpwY+PxRc0gq/JGNiN9JcxIMMDpV6koRvDc6jQLK2WOHYAfGjzqMFNkfc
- 9HmpBKlXFk+y9ZPwsjIDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:U/svpShiQRI=:FxjDTBeC79TXC3hA6AGRV8
- ccVXjv6wAOW8ikgcrr7v98/ZF8ffFjJisR6e4GzlGxruAaVOqqlmTetfrYDzDCf5iPNsHl9U7
- t9Ts4hdoUHV5US246UMCt26E+ua5J8PHHCaK7HyId9GKdEpSkdkIJ9gt6N8Wt54GCAbHL2X/f
- 65mWX0t5DJOzWx1mXoECcqbs0RbygYXfuWvO+Arg2JjUzjVeIpsaI8GCau5Ly3VwYsCg/iL2O
- 8yqGNPCkCYPLbsy1CJnJ0ciGRXiYC5Nb1m0XaOQjdu5eox28w/vfGMeaI0X487BcqGsAzNQJ/
- yBwVgoO5avtqATmM4O06sUbIA8+qjnJMrTYt2GX9RwrPZ1fUxt9tB2NxLsksy7ES5oAHSdtAV
- ykAFYPLW9hM+ttZw42rSnrLg2J7SKsG925yaT5Zr8q1frHOAvCE9/s1zZ2leX34c96NtFhgvS
- c/YuYSyKiAStZK7IAh9bXYctdspNmMuY31JstRGkv/XM5V7l/JzEzVG1umUy1QGidl6AdFydc
- R2zYpkR89ZVw+z4Os7789Ga8/Z08mkZWyEo+/3K18gQEq+M+6H7f63KKISmvHGAZd5INwXTBL
- Fj4Z8VnRCnz76vwoMt5TWWD7p1YB35TS1UthT0dJV+0efBIJPwSeyqkURnQVwTkG9ZtvfbZAN
- Nb1LEbap1Es5WorAXgJ8MVLA9wMigsL68zI+ufiKqX5Pie6NjwZZWwXNH8z75xvp3mlNp6tIg
- E9cEyoH012CWj+h3mMyeUpx2auuQYzoAMnV8kHfha561o8bNUFPlkEjPDSLdf09x7vNoNDGen
- DeZncuWFc85buEk0I0Ai+6Z94VAUZoRQ/K2ETqIUpalQbAcGITQugYsoALEhgN+EkgpxUGF
+Content-Language: en-US
+X-Ovh-Tracer-Id: 9475010669408127908
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudehgedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 178.33.45.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,62 +58,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/03/2020 à 17:01, Richard Henderson a écrit :
-> On 3/25/20 12:57 AM, Laurent Vivier wrote:
->> This patch fixes two problems:
->> - it cleanups linux-user variants (for instance ppc64-linux-user
->>   and ppc64le-linux-user)
->> - it removes the .o file when it removes the .d file, otherwise the .o
->>   file is never updated
->>
->> Fixes: 5f29856b852d ("linux-user, configure: improve syscall_nr.h dependencies checking")
->> Fixes: 4d6a835dea47 ("linux-user: introduce parameters to generate syscall_nr.h")
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>  configure | 8 +++++---
->>  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> I haven't been able to reproduce the same failure from master, but this looks
-> right.
-> 
+On 3/25/20 3:41 PM, Nicholas Piggin wrote:
+> Rather than have the helper take an optional vector address
+> override, instead have its caller modify env->nip itself.
+> This is more consistent when adding pnv nmi support, and also
+> with mce injection added later.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-To reproduce the failure (either the one with the vsyscalls or the one
-with missing TARGET_NR_XXX define reported by dgilbert/imammedo on the
-IRC), I did:
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-git checkout -f v4.2.0 && \
-./build.sh reset && \
-git checkout master && \
-./build.sh
 
-and build.sh is:
-------8<------------------------------------------------------------------
-SRC=$PWD
-OBJ=$SRC/build
-DIR=test-linux-user
-TEST=/backup/linux-user-test-0.3
+> ---
+>  hw/ppc/spapr.c           | 9 ++++++---
+>  target/ppc/cpu.h         | 2 +-
+>  target/ppc/excp_helper.c | 5 +----
+>  3 files changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 9a2bd501aa..785c41d205 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3385,13 +3385,13 @@ static void spapr_machine_finalizefn(Object *ob=
+j)
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> +    CPUPPCState *env =3D &cpu->env;
+>=20
+>      cpu_synchronize_state(cs);
+>      /* If FWNMI is inactive, addr will be -1, which will deliver to 0x=
+100 */
+>      if (spapr->fwnmi_system_reset_addr !=3D -1) {
+>          uint64_t rtas_addr, addr;
+> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -        CPUPPCState *env =3D &cpu->env;
+>=20
+>          /* get rtas addr from fdt */
+>          rtas_addr =3D spapr_get_rtas_addr();
+> @@ -3405,7 +3405,10 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, =
+run_on_cpu_data arg)
+>          stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0)=
+;
+>          env->gpr[3] =3D addr;
+>      }
+> -    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
+> +    ppc_cpu_do_system_reset(cs);
+> +    if (spapr->fwnmi_system_reset_addr !=3D -1) {
+> +        env->nip =3D spapr->fwnmi_system_reset_addr;
+> +    }
+>  }
+>=20
+>  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 88d9449555..f4a5304d43 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunct=
+ion f, CPUState *cs,
+>  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+>                                 int cpuid, void *opaque);
+>  #ifndef CONFIG_USER_ONLY
+> -void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
+> +void ppc_cpu_do_system_reset(CPUState *cs);
+>  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)=
+;
+>  extern const VMStateDescription vmstate_ppc_cpu;
+>  #endif
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 08bc885ca6..7f2b5899d3 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -961,15 +961,12 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+>      }
+>  }
+>=20
+> -void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
+> +void ppc_cpu_do_system_reset(CPUState *cs)
+>  {
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>      CPUPPCState *env =3D &cpu->env;
+>=20
+>      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
+> -    if (vector !=3D -1) {
+> -        env->nip =3D vector;
+> -    }
+>  }
+>=20
+>  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+>=20
 
-set -x
-if [ "$1" = "reset" ] ; then
-    (cd $OBJ && \
-     rm -fr $DIR && \
-     mkdir $DIR && \
-     cd $DIR && \
-     "$SRC/configure" '--cc=ccache gcc' '--enable-debug' '--static'
-'--disable-system' '--disable-gnutls' '--disable-tools')
-fi
-
-make --output-sync -C $OBJ/$DIR -j 17 && \
-make --output-sync -C $OBJ/$DIR -j check V=1 && \
-make --output-sync BUILDDIR=$OBJ/$DIR -C $TEST test
-------8<------------------------------------------------------------------
-
-Thanks,
-Laurent
 
