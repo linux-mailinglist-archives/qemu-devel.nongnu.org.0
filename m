@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434FD192C7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:28:50 +0100 (CET)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF70192C1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:19:46 +0100 (CET)
+Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7xZ-0006wA-CD
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41701)
+	id 1jH7on-0001As-8Z
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1jH7m8-0005oc-Vt
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:17:02 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jH7nE-0007iw-QA
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:18:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1jH7m8-0000nZ-3E
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:17:00 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45491)
+ (envelope-from <richard.henderson@linaro.org>) id 1jH7n9-0001iM-R1
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:18:08 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1jH7m7-0000mb-Vp
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:17:00 -0400
-Received: by mail-io1-xd43.google.com with SMTP id a24so1981212iol.12
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:16:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jH7n9-0001go-L6
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:18:03 -0400
+Received: by mail-pg1-x544.google.com with SMTP id h8so1276780pgs.9
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9RGHKxNbbnl/s4SmG5NdZhXSU8xB6QWkp3vD/nnEXdQ=;
- b=qNFbj0zmmpZYr7uKM8J7jzwlFkp3/oK+09Jtl7asSlyGxlS486Kezm77V/3MtSEMno
- fW3hVmHhXU14kpel4gG/Z1xg3nfey4dplu4o/+bakM/f/A6kmsxu4C1cpL5Z6sUn40YB
- 0C7NGCxv3ElTOlSTJC1GFoJ0q2dtqQ+x4cCTgUtL5yFplF3RXvadbMMu4HLjKgHhheIf
- eMNW98F2Jq27GqXdXBx/hAZuAQhzwfW7wsegTJ4grlpjKr5ei2UUTUiIhQggLdBRGMPp
- irTc6RIOFoBUg3uxmc0dn60FeF2yyp+0Gg3qbnBnmxNuVTB1dHL3QkO8BAQfB7ptTfbN
- klOQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cjQxdcEHAyyi77Hmi1EF0Jnp+aQ2HOZBpxIc6vZxveE=;
+ b=rBGvsIRvm5GCHHfaIEa2rqI9soqSjbb/IhZQOe5EWQle0DlU0AFLujshmZBJwaD6Kl
+ KgIBthWBx2r2rm3YsBqCMRSouVBv9MzrUkInsFr/wlEI5iorAm5YrAwGoZsZoT3uRurr
+ svLoa8GPNwKDw/TfjHPNV3twNU/SgTPI34MC7gHrFinAWvOiLqzmfCAatfB/I8wz6+ER
+ aqJMJiFM5yCkY6GzJ6irSQdj4+D2QTzoM9KkXCPoTMHxe1rnDQO5r9v+O6avnGIi0zuD
+ dPJytTJTdTZcDSPXuDmYd9QM5wo/BYLRLIsrTcUdCsjIDMbfZIONrj+vv8uP5+nxFKxC
+ 5iiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9RGHKxNbbnl/s4SmG5NdZhXSU8xB6QWkp3vD/nnEXdQ=;
- b=mkD12NwsRYojWBiG8tKDvZb+JLDxqB8llj97GfEX30QP0NttmEv8inF8XueiSKwkUx
- IG/YCKngvRG784D/T8dALxAXSmPKlYVCqxfd9rfZKHavMCducfOFZZ2gMcsJyoh35jT2
- 7BJa1waHG87aILmcXRIypjCasGF7bBZkbhDdv9EMRBwQyKmZnO4o5UD0axjNuMxfvJBt
- WAN8JqgdSHYWEaaYZVzvIO0EtLCeMuuJTy7cC3jyXVI44RCT4FbEV3mi7Qnm7s52fp4X
- dZx7oWbrmrxVq8e8hxV+TKEJOOISF+Gb6/7bIcLBcq78wWRXG1OZfUnGSfAl3FX3zf9B
- 5C0w==
-X-Gm-Message-State: ANhLgQ0Hr5XIeKWRKCSc0Iz1THuJb0sB4K0BmGUlF2UGgAPf8xVptXoW
- LS3+QWHrIzhQhODwi2ws5/EHjbstR22L2A5LYUYnpQ==
-X-Google-Smtp-Source: ADFU+vtiYL30PNCMxaUigbiLawILpk5RA5aaHfFoG4N3RszvvhUgvausmB69gR+PBEN213OVwHhebz5+d6npj6zlDjw=
-X-Received: by 2002:a02:2944:: with SMTP id p65mr3247806jap.89.1585149419207; 
- Wed, 25 Mar 2020 08:16:59 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cjQxdcEHAyyi77Hmi1EF0Jnp+aQ2HOZBpxIc6vZxveE=;
+ b=Mn8gW8YYIpEptvbR/UnUnfFDf9i9EfEZCXYLJomX0Ft4utP1tDPum6Wq5cugJbMiVD
+ svDFqXGLfYWkO/WGfdErzWuwMyTk7krHkBkPAtncGYw0ZIkP/rhehX9JWPYIf+rvbIVC
+ 95rnnsquuvIKm/S0wYaGiFXHI99o3MKusBGNhtxNxlOqglz56sOCTWybC18zZaX2vO7b
+ cyHBT159Y0I3gE2ip2LnX9URyd0Kd84tNkddKH7hIUUcVPjpG/p/fONhoLaOZubzu/gS
+ 51qdctP6UQb3rMaNN80ivmbGvv1r7S+9BR+kcpPEhgkUA0JomYY9+0QTu8++ucsiYpO8
+ J4LQ==
+X-Gm-Message-State: ANhLgQ2tjDYZW3+fZLTEmwKazOWc3zjGRVbUowAINwfoy3srTepiecMF
+ 3VEf/8wfX4dXwrzuLcKbrj2lqA==
+X-Google-Smtp-Source: ADFU+vvxBtZsDfpCXuuu58970AG5FM9crjHyIvoabGUL3musMGYUkOPAVM/V3jbCTt+w+Fc9kqSIpA==
+X-Received: by 2002:a63:602:: with SMTP id 2mr3556379pgg.356.1585149482026;
+ Wed, 25 Mar 2020 08:18:02 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id x27sm18940865pfj.74.2020.03.25.08.17.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Mar 2020 08:17:59 -0700 (PDT)
+Subject: Re: [PATCH] hw/net/allwinner-sun8i-emac.c: Fix REG_ADDR_HIGH/LOW reads
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200324212103.7616-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3ebc92c6-3ce3-53ea-5d35-0da925825d05@linaro.org>
+Date: Wed, 25 Mar 2020 08:17:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200323113227.3169-1-beata.michalska@linaro.org>
- <20200323113227.3169-3-beata.michalska@linaro.org>
- <fdf4d6f2-ecab-6358-9f74-480f1fa6fdef@linaro.org>
-In-Reply-To: <fdf4d6f2-ecab-6358-9f74-480f1fa6fdef@linaro.org>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 25 Mar 2020 15:16:48 +0000
-Message-ID: <CADSWDzsuGXBwZLm-rJ7ULbODVk4SgoNvXHqJM_BR-gYJNeMB+w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] target/arm: kvm: Handle potential issue with dabt
- injection
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200324212103.7616-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,27 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Christoffer Dall <Christoffer.Dall@arm.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, kvmarm@lists.cs.columbia.edu
+Cc: Beniamino Galvani <b.galvani@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Mar 2020 at 18:44, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/23/20 4:32 AM, Beata Michalska wrote:
-> >      uint8_t ext_dabt_pending; /* Request for injecting ext DABT */
-> > +    uint8_t ext_dabt_raised; /* Tracking/verifying injection of ext DABT */
->
-> Is there a reason these are uint8_t and not bool?
->
->
-The ext_dabt_pending is reflecting the KVM type.
-The ext_dabt_raised is following that one.
+On 3/24/20 2:21 PM, Peter Maydell wrote:
+> Coverity points out (CID 1421926) that the read code for
+> REG_ADDR_HIGH reads off the end of the buffer, because it does a
+> 32-bit read from byte 4 of a 6-byte buffer.
+> 
+> The code also has an endianness issue for both REG_ADDR_HIGH and
+> REG_ADDR_LOW, because it will do the wrong thing on a big-endian
+> host.
+> 
+> Rewrite the read code to use ldl_le_p() and lduw_le_p() to fix this;
+> the write code is not incorrect, but for consistency we make it use
+> stl_le_p() and stw_le_p().
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/net/allwinner-sun8i-emac.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 
-BR
-Beata
-> r~
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
