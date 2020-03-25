@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787CF192617
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:49:06 +0100 (CET)
-Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ABD192602
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:43:10 +0100 (CET)
+Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3aq-0003Kg-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35400)
+	id 1jH3V7-0003kQ-V7
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jH3St-0000wM-Ha
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:52 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3T5-0001RI-55
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jH3Ss-0002HH-8g
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:51 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:25917)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3T3-0002Nr-A6
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:03 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24146)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH3Ss-0002HB-4T
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:50 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3T3-0002N9-4r
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132849;
+ s=mimecast20190719; t=1585132860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6pQSzsXA8k7j7fsQ3/qd2G70ok2BSExyJYKWpGqLUKs=;
- b=ST6v+DXrmpbfq2RNGd4bE1STIyW2AKpczw24DqicauHhTDEgl1/Eb+QIVIe2cP3L6hCfix
- HABDmBsRpbvXOR3Rp0+Gik/moIjB64rTtcvZ1Qb6g1qfFkJTQIkGQfT8IbuM/SQBX5rXZU
- Dd7m0Q8m9fs2vH9aJEYvGNsEGjh/ZyA=
+ bh=MBdSlGMfwoUiFT/e8Xxde9UtZjr1v4pvMkeZU8DDiw8=;
+ b=AtKTXkx+/Udk9wUoP0CrogaV8IudSRCRTZ0ocT5fqBQqCNWmz+PGuXHFF4JlyYCdXtCqsV
+ JqOoY+y9T4AlysafQ4ZgfCaAErRgCoH+0g57/5RyaVASAYcdYgKqg6VDa6A/lIpQZvLXl8
+ yf6GreaHy6pWYceYkMU6pWgC4dtfh+U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-TUerQ2oWOB-SLCOZlDveXg-1; Wed, 25 Mar 2020 06:40:45 -0400
-X-MC-Unique: TUerQ2oWOB-SLCOZlDveXg-1
+ us-mta-142-zJGZ5ZTvOZ-Uihiprlb1oQ-1; Wed, 25 Mar 2020 06:40:58 -0400
+X-MC-Unique: zJGZ5ZTvOZ-Uihiprlb1oQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D948718FF663;
- Wed, 25 Mar 2020 10:40:44 +0000 (UTC)
-Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B49E01BC6D;
- Wed, 25 Mar 2020 10:40:43 +0000 (UTC)
-Date: Wed, 25 Mar 2020 10:40:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Subject: Re: [PATCH v3] migration: use "" instead of (null) for tls-authz
-Message-ID: <20200325104041.GA2589@work-vm>
-References: <119f539a9f4d198bc3bcced46b8280520d60bc51.1585100802.git.maozhongyi@cmss.chinamobile.com>
-MIME-Version: 1.0
-In-Reply-To: <119f539a9f4d198bc3bcced46b8280520d60bc51.1585100802.git.maozhongyi@cmss.chinamobile.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 695D5800D5C;
+ Wed, 25 Mar 2020 10:40:57 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3448294B5B;
+ Wed, 25 Mar 2020 10:40:55 +0000 (UTC)
+Message-ID: <a7c92a47957a8185a9bd8d7d8b919072d757ff3a.camel@redhat.com>
+Subject: Re: [PATCH v6 12/42] nvme: add support for the get log page command
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+Date: Wed, 25 Mar 2020 12:40:53 +0200
+In-Reply-To: <20200316142928.153431-13-its@irrelevant.dk>
+References: <20200316142928.153431-1-its@irrelevant.dk>
+ <20200316142928.153431-13-its@irrelevant.dk>
+Mime-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,84 +70,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mao Zhongyi (maozhongyi@cmss.chinamobile.com) wrote:
-> run:
-> (qemu) info migrate_parameters
-> announce-initial: 50 ms
-> ...
-> announce-max: 550 ms
-> multifd-compression: none
-> xbzrle-cache-size: 4194304
-> max-postcopy-bandwidth: 0
->  tls-authz: '(null)'
->=20
-> Migration parameter 'tls-authz' is used to provide the QOM ID
-> of a QAuthZ subclass instance that provides the access control
-> check, default is NULL. But the empty string is not a valid
-> object ID, so use "" instead of the default. Although it will
-> fail when lookup an object with ID "", it is harmless, just
-> consistent with tls_creds.
->=20
-> As a bonus, this patch also fixed the bad indentation on the
-> last line and removed 'has_tls_authz' redundant check in
-> 'hmp_info_migrate_parameters'.
->=20
-> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-
-Thanks!
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-and queued.
-
+On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add support for the Get Log Page command and basic implementations of
+> the mandatory Error Information, SMART / Health Information and Firmware
+> Slot Information log pages.
+> 
+> In violation of the specification, the SMART / Health Information log
+> page does not persist information over the lifetime of the controller
+> because the device has no place to store such persistent state.
+> 
+> Note that the LPA field in the Identify Controller data structure
+> intentionally has bit 0 cleared because there is no namespace specific
+> information in the SMART / Health information log page.
+> 
+> Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> Section 5.10 ("Get Log Page command").
+> 
+> Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> Acked-by: Keith Busch <kbusch@kernel.org>
 > ---
->  migration/migration.c | 3 ++-
->  monitor/hmp-cmds.c    | 4 ++--
->  2 files changed, 4 insertions(+), 3 deletions(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 4b26110d57..c4c9aee15e 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -790,7 +790,8 @@ MigrationParameters *qmp_query_migrate_parameters(Err=
-or **errp)
->      params->has_tls_hostname =3D true;
->      params->tls_hostname =3D g_strdup(s->parameters.tls_hostname);
->      params->has_tls_authz =3D true;
-> -    params->tls_authz =3D g_strdup(s->parameters.tls_authz);
-> +    params->tls_authz =3D g_strdup(s->parameters.tls_authz ?
-> +                                 s->parameters.tls_authz : "");
->      params->has_max_bandwidth =3D true;
->      params->max_bandwidth =3D s->parameters.max_bandwidth;
->      params->has_downtime_limit =3D true;
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a71de0e60b..dc48e6986c 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -459,9 +459,9 @@ void hmp_info_migrate_parameters(Monitor *mon, const =
-QDict *qdict)
->          monitor_printf(mon, "%s: %" PRIu64 "\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_MAX_POSTCOPY_BAND=
-WIDTH),
->              params->max_postcopy_bandwidth);
-> -        monitor_printf(mon, " %s: '%s'\n",
-> +        monitor_printf(mon, "%s: '%s'\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_TLS_AUTHZ),
-> -            params->has_tls_authz ? params->tls_authz : "");
-> +            params->tls_authz);
->      }
-> =20
->      qapi_free_MigrationParameters(params);
-> --=20
-> 2.17.1
->=20
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  hw/block/nvme.c       | 138 +++++++++++++++++++++++++++++++++++++++++-
+>  hw/block/nvme.h       |  10 +++
+>  hw/block/trace-events |   2 +
+>  3 files changed, 149 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 64c42101df5c..83ff3fbfb463 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -569,6 +569,138 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeCmd *cmd)
+>      return NVME_SUCCESS;
+>  }
+>  
+> +static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> +                                uint64_t off, NvmeRequest *req)
+> +{
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +    uint32_t nsid = le32_to_cpu(cmd->nsid);
+> +
+> +    uint32_t trans_len;
+> +    time_t current_ms;
+> +    uint64_t units_read = 0, units_written = 0;
+> +    uint64_t read_commands = 0, write_commands = 0;
+> +    NvmeSmartLog smart;
+> +    BlockAcctStats *s;
+> +
+> +    if (nsid && nsid != 0xffffffff) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    s = blk_get_stats(n->conf.blk);
+> +
+> +    units_read = s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+> +    units_written = s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
+> +    read_commands = s->nr_ops[BLOCK_ACCT_READ];
+> +    write_commands = s->nr_ops[BLOCK_ACCT_WRITE];
+> +
+> +    if (off > sizeof(smart)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    trans_len = MIN(sizeof(smart) - off, buf_len);
+> +
+> +    memset(&smart, 0x0, sizeof(smart));
+> +
+> +    smart.data_units_read[0] = cpu_to_le64(units_read / 1000);
+> +    smart.data_units_written[0] = cpu_to_le64(units_written / 1000);
+> +    smart.host_read_commands[0] = cpu_to_le64(read_commands);
+> +    smart.host_write_commands[0] = cpu_to_le64(write_commands);
+> +
+> +    smart.temperature[0] = n->temperature & 0xff;
+> +    smart.temperature[1] = (n->temperature >> 8) & 0xff;
+> +
+> +    if ((n->temperature > n->features.temp_thresh_hi) ||
+> +        (n->temperature < n->features.temp_thresh_low)) {
+> +        smart.critical_warning |= NVME_SMART_TEMPERATURE;
+> +    }
+> +
+> +    current_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+> +    smart.power_on_hours[0] =
+> +        cpu_to_le64((((current_ms - n->starttime_ms) / 1000) / 60) / 60);
+OH, I didn't notice that you didn't have the endian conversion in V5, it is needed here
+of course.
+
+> +
+> +    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
+> +                             prp2);
+> +}
+> +
+> +static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> +                                 uint64_t off, NvmeRequest *req)
+> +{
+> +    uint32_t trans_len;
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +    NvmeFwSlotInfoLog fw_log;
+> +
+> +    if (off > sizeof(fw_log)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    memset(&fw_log, 0, sizeof(NvmeFwSlotInfoLog));
+> +
+> +    trans_len = MIN(sizeof(fw_log) - off, buf_len);
+> +
+> +    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1,
+> +                             prp2);
+> +}
+> +
+> +static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> +                                uint64_t off, NvmeRequest *req)
+> +{
+> +    uint32_t trans_len;
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +    uint8_t errlog[64];
+I'll would replace this with sizeof(NvmeErrorLogEntry)
+(and add NvmeErrorLogEntry to the nvme.h), just for the sake of consistency,
+and in case we end up reporting some errors to the log in the future.
+
+
+> +
+> +    if (off > sizeof(errlog)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    memset(errlog, 0x0, sizeof(errlog));
+> +
+> +    trans_len = MIN(sizeof(errlog) - off, buf_len);
+> +
+> +    return nvme_dma_read_prp(n, errlog, trans_len, prp1, prp2);
+> +}
+Besides this, looks good now.
+
+> +
+> +static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> +{
+> +    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+> +    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+> +    uint32_t dw12 = le32_to_cpu(cmd->cdw12);
+> +    uint32_t dw13 = le32_to_cpu(cmd->cdw13);
+> +    uint8_t  lid = dw10 & 0xff;
+> +    uint8_t  rae = (dw10 >> 15) & 0x1;
+> +    uint32_t numdl, numdu;
+> +    uint64_t off, lpol, lpou;
+> +    size_t   len;
+> +
+> +    numdl = (dw10 >> 16);
+> +    numdu = (dw11 & 0xffff);
+> +    lpol = dw12;
+> +    lpou = dw13;
+> +
+> +    len = (((numdu << 16) | numdl) + 1) << 2;
+> +    off = (lpou << 32ULL) | lpol;
+> +
+> +    if (off & 0x3) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
+> +
+> +    switch (lid) {
+> +    case NVME_LOG_ERROR_INFO:
+> +        return nvme_error_info(n, cmd, len, off, req);
+> +    case NVME_LOG_SMART_INFO:
+> +        return nvme_smart_info(n, cmd, len, off, req);
+> +    case NVME_LOG_FW_SLOT_INFO:
+> +        return nvme_fw_log_info(n, cmd, len, off, req);
+> +    default:
+> +        trace_nvme_dev_err_invalid_log_page(nvme_cid(req), lid);
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +}
+> +
+>  static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+>  {
+>      n->cq[cq->cqid] = NULL;
+> @@ -914,6 +1046,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          return nvme_del_sq(n, cmd);
+>      case NVME_ADM_CMD_CREATE_SQ:
+>          return nvme_create_sq(n, cmd);
+> +    case NVME_ADM_CMD_GET_LOG_PAGE:
+> +        return nvme_get_log(n, cmd, req);
+>      case NVME_ADM_CMD_DELETE_CQ:
+>          return nvme_del_cq(n, cmd);
+>      case NVME_ADM_CMD_CREATE_CQ:
+> @@ -1416,7 +1550,9 @@ static void nvme_init_state(NvmeCtrl *n)
+>      n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+>      n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
+>      n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+> +    n->temperature = NVME_TEMPERATURE;
+>      n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
+> +    n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+>  }
+>  
+>  static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+> @@ -1493,7 +1629,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+>       */
+>      id->acl = 3;
+>      id->frmw = 7 << 1;
+> -    id->lpa = 1 << 0;
+> +    id->lpa = 1 << 2;
+>  
+>      /* recommended default value (~70 C) */
+>      id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index 8cda5f02c622..ebeee2edc4f4 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -109,6 +109,7 @@ typedef struct NvmeCtrl {
+>      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+>      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+>      uint16_t    temperature;
+> +    uint64_t    starttime_ms;
+>  
+>      NvmeNamespace   *namespaces;
+>      NvmeSQueue      **sq;
+> @@ -124,4 +125,13 @@ static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+>      return n->ns_size >> nvme_ns_lbads(ns);
+>  }
+>  
+> +static inline uint16_t nvme_cid(NvmeRequest *req)
+> +{
+> +    if (req) {
+> +        return le16_to_cpu(req->cqe.cid);
+> +    }
+> +
+> +    return 0xffff;
+> +}
+> +
+>  #endif /* HW_NVME_H */
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index ade506ea2bb2..7da088479f39 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -46,6 +46,7 @@ nvme_dev_getfeat_numq(int result) "get feature number of queues, result=%d"
+>  nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+>  nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp = 0x%"PRIx64""
+>  nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp = 0x%"PRIx64""
+> +nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+>  nvme_dev_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+>  nvme_dev_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+>  nvme_dev_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+> @@ -85,6 +86,7 @@ nvme_dev_err_invalid_create_cq_qflags(uint16_t qflags) "failed creating completi
+>  nvme_dev_err_invalid_identify_cns(uint16_t cns) "identify, invalid cns=0x%"PRIx16""
+>  nvme_dev_err_invalid_getfeat(int dw10) "invalid get features, dw10=0x%"PRIx32""
+>  nvme_dev_err_invalid_setfeat(uint32_t dw10) "invalid set features, dw10=0x%"PRIx32""
+> +nvme_dev_err_invalid_log_page(uint16_t cid, uint16_t lid) "cid %"PRIu16" lid 0x%"PRIx16""
+>  nvme_dev_err_startfail_cq(void) "nvme_start_ctrl failed because there are non-admin completion queues"
+>  nvme_dev_err_startfail_sq(void) "nvme_start_ctrl failed because there are non-admin submission queues"
+>  nvme_dev_err_startfail_nbarasq(void) "nvme_start_ctrl failed because the admin submission queue address is null"
+
+
+Best regards,
+	Maxim Levitsky
+
+
 
 
