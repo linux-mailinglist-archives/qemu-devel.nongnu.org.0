@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DA6192AE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:15:56 +0100 (CET)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C28CB192B28
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:31:15 +0100 (CET)
+Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6p1-0006sM-Aa
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32887)
+	id 1jH73q-0002w4-Lx
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jH6no-00062I-Ib
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:14:42 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jH72c-000216-6w
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:29:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jH6nn-0006Db-5n
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:14:40 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:48998)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jH6nn-0006Cx-2g
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:14:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585145677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=grQqRuhXziR2vVbVzmwg83b5TH1xbADjsNkv713LiqQ=;
- b=JBeYWbiRGtUs9NkihEJyT5LO6OHuINeB76ozv/4A+ujp8lvdPluyIIaofwP5ceddIDRMjX
- S3bPCtDlPqS0g20Ohtp742PAvLpi+r4XC56RLAcc7tDETtCkCxJtDtjwAzKd/KVdPB81EK
- fr8K6FfVr5pYRlmEn8Vo6KF5XVsZejE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-WVZOJ2q3NCqpM-oChPpv4Q-1; Wed, 25 Mar 2020 10:14:36 -0400
-X-MC-Unique: WVZOJ2q3NCqpM-oChPpv4Q-1
-Received: by mail-ed1-f69.google.com with SMTP id i10so2227696edk.13
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 07:14:35 -0700 (PDT)
+ (envelope-from <npiggin@gmail.com>) id 1jH72b-0002YT-Bc
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:29:58 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39127)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <npiggin@gmail.com>)
+ id 1jH72Z-0002V0-9y; Wed, 25 Mar 2020 10:29:55 -0400
+Received: by mail-pl1-x641.google.com with SMTP id m1so860216pll.6;
+ Wed, 25 Mar 2020 07:29:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g1xKeu6VimaRYn7jXQ77APordIWRNgRgDtrBRj3LPFg=;
+ b=LrHtlOXl7Ij3zRT7frslaNeGonaFX7lB2Q5imbdYkTvwjmZSNtvxrFd+7pcW1jonS6
+ Ye3rS0dLtTSOEr+6LacECq4NbxHlsBBWPq89vBS1PFNAR79coL6Tzfm8Ncf/1QDHTx6V
+ Ls5zi7snsS9xdmNEyMekU2rbJDusy76lqiBfiPbnNt9+F1H2YG+ftkrsWIV6PZY49SEz
+ TURBZiuGsb26TYGP4xjXBt0vEPiFzx6oAecuuNRd52+9xXOqKvDq/ExSKroKNal7K6ps
+ +G643YR5rq6QWIK4hr/57hTrE9Vz2KJdY5CwOohtZfHVSoFwfyvd/hVdvib+m/3q9s+h
+ linQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lj0Hi/Uhpi+HMTGnD9kO4A2DGD/rq8kFsQ/Jl8ZeBAY=;
- b=IyuvItxP9u8KFoCQ4s4rhYP3HeX1qkPuAUSBIK7IZdW739N2I0I2Xmu06b866D7PFN
- jUlNEv0zvRGeZ3WBeQxJZcJqE3VyD7Z33qASnCCLiOSoSGQFtESOSBdCVC3sJZ1jc47o
- cCBpzqSfwL5hOMjlozZYgkg6Z2tLdvfxzU0qnPXyLw+YEcEgkDXhdM1BuzJ7VNqbKfVZ
- 8PzYb955s+nkz6GX9mj9afAoGlVuaq1KnMVhKLBJTePDAIMAJSGQcd1bnMtoTcVCs8Do
- C4R0wtYYAl+7c/boW/pMeV67oGkX0jYrlQ47yClcmgJYcrPDXPEitHMWhSMwhXraS+x9
- cm+Q==
-X-Gm-Message-State: ANhLgQ0k/AgiMaXwM2lcn4/GpNWFvuEg92kG7DVrgrbYEtv/4I/0na9N
- mgkHVuzUNO7688H6HH5ov3yiO56Yj8iMvArzFplF+nDtkN85lBIIeU3LDNeaiS6FSv/R7C0mKQJ
- xg04zEHA0gIXdKzg=
-X-Received: by 2002:a50:fc83:: with SMTP id f3mr3003639edq.38.1585145674566;
- Wed, 25 Mar 2020 07:14:34 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsamI9eV35sXGteT6AwH27iovWi+kCCEmz3GULk+4/oLPhD0Llv/4Qz+5GBsS5iGgPG9zcppg==
-X-Received: by 2002:a50:fc83:: with SMTP id f3mr3003601edq.38.1585145674232;
- Wed, 25 Mar 2020 07:14:34 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id k6sm5446ejr.32.2020.03.25.07.14.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Mar 2020 07:14:33 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0 v3] Acceptance test: Fix to EXEC migration
-To: Oksana Voshchana <ovoshcha@redhat.com>
-References: <20200325113138.20337-1-ovoshcha@redhat.com>
- <c2007a51-318a-c935-dd77-232e45587b08@redhat.com>
- <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f644f1f2-90ab-0d6f-99c6-bae34f76df1f@redhat.com>
-Date: Wed, 25 Mar 2020 15:14:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=g1xKeu6VimaRYn7jXQ77APordIWRNgRgDtrBRj3LPFg=;
+ b=oD4vdCi49Z0/DxeJ1YwYKYLS14pn2eXdANV6fD5zceOJI6NrDu0Rx0/Y+kr3vuVs0h
+ lLo/2H1DJIi+Osyr4g6t6nkVdpFHyDM4ERvplG8vXjc49lnj3igEBVRH43PXgNYLIF2Q
+ slNENx4YnH613lAPKN12PGDxt16vef+nWrqjGD5w+Blz3ESqLUJUfqLMFmcO7jUTBMZ3
+ vYoKLpuTEEptwYBT0bZTVJgpaC57wdLeQZryGU9vMZsFuUK/S32rhGZTBD/hEvpQ1YEv
+ j5v6nmxe3GcedYVYbU0z3WMn3AHi0Wj2/crAz+bMdKFgzeAcbAMq8dreRM38XBUwrMaZ
+ SERA==
+X-Gm-Message-State: ANhLgQ0allYG37mdgD6GC1pGW74Umsvjc2jIPnPENROCuHtsaCiF+CL1
+ nUmfUDBzFptGW0Nm5X8BorVDq7bC
+X-Google-Smtp-Source: ADFU+vsu4eeSQvR7jpvcBWVl6gqXcdDRsByoiGlUpeWWKEgiTxZra6gGrN0JgW29iArxXvXUfhx2EA==
+X-Received: by 2002:a17:90a:840a:: with SMTP id
+ j10mr3967492pjn.37.1585146593386; 
+ Wed, 25 Mar 2020 07:29:53 -0700 (PDT)
+Received: from bobo.ibm.com (14-202-190-183.tpgi.com.au. [14.202.190.183])
+ by smtp.gmail.com with ESMTPSA id i20sm10609622pfd.89.2020.03.25.07.29.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 07:29:52 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v2 0/4] FWNMI follow up patches
+Date: Thu, 26 Mar 2020 00:29:02 +1000
+Message-Id: <20200325142906.221248-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,106 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa Junior <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/20 3:10 PM, Oksana Voshchana wrote:
-> Hi=C2=A0Philippe
-> Thanks for the review
-> I have some comments
->=20
-> On Wed, Mar 25, 2020 at 2:30 PM Philippe Mathieu-Daud=C3=A9=20
-> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
->=20
->     Hi Oksana,
->=20
->     v2 was
->     https://www.mail-archive.com/qemu-devel@nongnu.org/msg682899.html, so
->     this is v3. Please increment the version in the patch subject.
->=20
->     You could also send a simple "ping" to the specific patch, instead of
->     resending it.
->=20
->     On 3/25/20 12:31 PM, Oksana Vohchana wrote:
->      > The exec migration test isn't run a whole test scenario.
->      > This patch fixes it
->      >
->      > Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com
->     <mailto:ovoshcha@redhat.com>>
->=20
->     v1 of this patch has already received reviewers tags
->     (https://www.mail-archive.com/qemu-devel@nongnu.org/msg679629.html),
->     please collect them and keep them when you resend the same patch:
->=20
-> I have reposted patch without this fix because this change isn't related=
-=20
-> to the series:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06919.html
-> Is it make sense to keep this fix as a separate patch?
->=20
->     Fixes: 2e768cb682bf
->     Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com
->     <mailto:wainersm@redhat.com>>
->=20
->      > ---
->      >=C2=A0 =C2=A0tests/acceptance/migration.py | 6 +++---
->      >=C2=A0 =C2=A01 file changed, 3 insertions(+), 3 deletions(-)
->      >
->      > diff --git a/tests/acceptance/migration.py
->     b/tests/acceptance/migration.py
->      > index a8367ca023..0365289cda 100644
->      > --- a/tests/acceptance/migration.py
->      > +++ b/tests/acceptance/migration.py
->      > @@ -70,8 +70,8 @@ class Migration(Test):
->      >
->      >=C2=A0 =C2=A0 =C2=A0 =C2=A0@skipUnless(find_command('nc', default=
-=3DFalse), "'nc'
->     command not found")
->      >=C2=A0 =C2=A0 =C2=A0 =C2=A0def test_migration_with_exec(self):
->      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 """
->      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 The test works for both netcat-tradit=
-ional and
->     netcat-openbsd packages
->      > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 """
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 """The test works for both netcat-tra=
-ditional and
->     netcat-openbsd packages."""
->=20
->     Btw why are you changing the comment style?
->=20
-> I got failure=C2=A0in PEP257
+Since v1, I addressed Greg's review comments, and took the mce
+injection patch out of this series.
 
-OK, next time please add comment in the patch description too.
+Thanks,
+Nick
 
->=20
->=20
->      >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free_port =3D self._get_fr=
-ee_port()
->      >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest_uri =3D 'exec:nc -l l=
-ocalhost %u' % free_port
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D 'exec:nc localhost %u' % =
-free_port
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.do_migrate(dest_uri, src_uri)
->      >
->=20
->     Alex, if there is no Python testing pullreq, can you take this patch
->     via
->     your testing tree?
+Nicholas Piggin (4):
+  ppc/spapr: KVM FWNMI should not be enabled until guest requests it
+  ppc/spapr: Improve FWNMI machine check delivery corner case comments
+  ppc/spapr: Add FWNMI machine check delivery warnings
+  ppc/spapr: Don't kill the guest if a recovered FWNMI machine check
+    delivery fails
 
-Cc'ing David since it is migration related.
+ hw/ppc/spapr_caps.c   |  7 ++++---
+ hw/ppc/spapr_events.c | 46 ++++++++++++++++++++++++++++++++-----------
+ hw/ppc/spapr_rtas.c   | 10 ++++++++++
+ target/ppc/kvm.c      |  7 +++++++
+ target/ppc/kvm_ppc.h  |  6 ++++++
+ 5 files changed, 62 insertions(+), 14 deletions(-)
 
->=20
->     Thanks,
->=20
->     Phil.
->=20
-> Thanks
+-- 
+2.23.0
 
 
