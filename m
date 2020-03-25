@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28CB192B28
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:31:15 +0100 (CET)
-Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75669192B2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:33:01 +0100 (CET)
+Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH73q-0002w4-Lx
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
+	id 1jH75Y-0004ij-Hf
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jH72c-000216-6w
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:29:59 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jH72i-00029b-4i
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:30:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jH72b-0002YT-Bc
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:29:58 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39127)
+ (envelope-from <npiggin@gmail.com>) id 1jH72g-0002eh-LL
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:30:04 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41223)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jH72Z-0002V0-9y; Wed, 25 Mar 2020 10:29:55 -0400
-Received: by mail-pl1-x641.google.com with SMTP id m1so860216pll.6;
- Wed, 25 Mar 2020 07:29:54 -0700 (PDT)
+ id 1jH72d-0002Zq-Uc; Wed, 25 Mar 2020 10:30:00 -0400
+Received: by mail-pf1-x444.google.com with SMTP id z65so1110708pfz.8;
+ Wed, 25 Mar 2020 07:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g1xKeu6VimaRYn7jXQ77APordIWRNgRgDtrBRj3LPFg=;
- b=LrHtlOXl7Ij3zRT7frslaNeGonaFX7lB2Q5imbdYkTvwjmZSNtvxrFd+7pcW1jonS6
- Ye3rS0dLtTSOEr+6LacECq4NbxHlsBBWPq89vBS1PFNAR79coL6Tzfm8Ncf/1QDHTx6V
- Ls5zi7snsS9xdmNEyMekU2rbJDusy76lqiBfiPbnNt9+F1H2YG+ftkrsWIV6PZY49SEz
- TURBZiuGsb26TYGP4xjXBt0vEPiFzx6oAecuuNRd52+9xXOqKvDq/ExSKroKNal7K6ps
- +G643YR5rq6QWIK4hr/57hTrE9Vz2KJdY5CwOohtZfHVSoFwfyvd/hVdvib+m/3q9s+h
- linQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vitaAIcV4SE+7Zrx0kH3CXztZqs8gVnOhGiQ7IdvpsY=;
+ b=qByL82Fm3sganSMcuYZGu0z3pY0IKcsth7eUB7rjgHCZICkPFa9uDLCDMZV1FC8P9O
+ +sN2MsG2LLpEtfJicG6uw/ROrkZXv3a9h9DQYIGUOf7K0jH0EfWrWX6AnMVapXpt8q5f
+ gYQBt+gYeq2/JRgA7eja0Qz5DKLN20troKYXmdpOyfluQbWyIlD6AVk6hQBMGeGWLLix
+ /znwe+LnyFy4WPA2hIMx3z32eW/jBVkZF8lXLBFg887mpE40DwCnPmXyw7aaDlkj/ctK
+ CtoGxdFIR41ILLZktk8lW3F+5p3fDj800p9Wfoad7cJ5EygjN0sq6EqLS6WW4o2Mg2sO
+ orDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g1xKeu6VimaRYn7jXQ77APordIWRNgRgDtrBRj3LPFg=;
- b=oD4vdCi49Z0/DxeJ1YwYKYLS14pn2eXdANV6fD5zceOJI6NrDu0Rx0/Y+kr3vuVs0h
- lLo/2H1DJIi+Osyr4g6t6nkVdpFHyDM4ERvplG8vXjc49lnj3igEBVRH43PXgNYLIF2Q
- slNENx4YnH613lAPKN12PGDxt16vef+nWrqjGD5w+Blz3ESqLUJUfqLMFmcO7jUTBMZ3
- vYoKLpuTEEptwYBT0bZTVJgpaC57wdLeQZryGU9vMZsFuUK/S32rhGZTBD/hEvpQ1YEv
- j5v6nmxe3GcedYVYbU0z3WMn3AHi0Wj2/crAz+bMdKFgzeAcbAMq8dreRM38XBUwrMaZ
- SERA==
-X-Gm-Message-State: ANhLgQ0allYG37mdgD6GC1pGW74Umsvjc2jIPnPENROCuHtsaCiF+CL1
- nUmfUDBzFptGW0Nm5X8BorVDq7bC
-X-Google-Smtp-Source: ADFU+vsu4eeSQvR7jpvcBWVl6gqXcdDRsByoiGlUpeWWKEgiTxZra6gGrN0JgW29iArxXvXUfhx2EA==
-X-Received: by 2002:a17:90a:840a:: with SMTP id
- j10mr3967492pjn.37.1585146593386; 
- Wed, 25 Mar 2020 07:29:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vitaAIcV4SE+7Zrx0kH3CXztZqs8gVnOhGiQ7IdvpsY=;
+ b=pFyfsHr8usL2O4RegAikYqNRpxKnYpUDNeo2KLRBOlhwPWgnz0SYs5ntqswjYej2Ut
+ AKlqznfAWdHCJPisI/YPtaxf0gOKQ03kl/FzZJrpydxIG8/CNQMiyfJb0REijHDg4l3u
+ Q/EqQ/K8LnGQiYchYpuIJuXLDACg3+hKyegEK6i7BBGb6Ij8aR6vsW1lOLUL5Rv5XCmE
+ /oA82Apxl9roeimzwnl4K4DKelFYitB4tz/175Nkjc+WueEMZiHahL3VPyZ4XprfZ4DF
+ 45HZjboEitR3gwe2ECIhDEXXPejquSWxQcuJPJwvOH5griGq+kVvUpMP21ThD1UfmkFv
+ 2sUw==
+X-Gm-Message-State: ANhLgQ2w4JY/AvvyImVOS/KgCEvoYoano9B5EmKsLY1vAJkfS8XmK3AS
+ l6munL0k/T+7KhwmJGqhInqxcdGz
+X-Google-Smtp-Source: ADFU+vuYnYXaF3yO3ylFsubESiHYvROEoBbeHjtZG1gCHV4MuDCT12UPhhYUORd0oSv4YS97UPbzYg==
+X-Received: by 2002:a63:2:: with SMTP id 2mr3319504pga.102.1585146598704;
+ Wed, 25 Mar 2020 07:29:58 -0700 (PDT)
 Received: from bobo.ibm.com (14-202-190-183.tpgi.com.au. [14.202.190.183])
- by smtp.gmail.com with ESMTPSA id i20sm10609622pfd.89.2020.03.25.07.29.48
+ by smtp.gmail.com with ESMTPSA id i20sm10609622pfd.89.2020.03.25.07.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 07:29:52 -0700 (PDT)
+ Wed, 25 Mar 2020 07:29:58 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 0/4] FWNMI follow up patches
-Date: Thu, 26 Mar 2020 00:29:02 +1000
-Message-Id: <20200325142906.221248-1-npiggin@gmail.com>
+Subject: [PATCH v2 1/4] ppc/spapr: KVM FWNMI should not be enabled until guest
+ requests it
+Date: Thu, 26 Mar 2020 00:29:03 +1000
+Message-Id: <20200325142906.221248-2-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200325142906.221248-1-npiggin@gmail.com>
+References: <20200325142906.221248-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,26 +87,112 @@ Cc: Aravinda Prasad <arawinda.p@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1, I addressed Greg's review comments, and took the mce
-injection patch out of this series.
+The KVM FWNMI capability should be enabled with the "ibm,nmi-register"
+rtas call. Although MCEs from KVM will be delivered as architected
+interrupts to the guest before "ibm,nmi-register" is called, KVM has
+different behaviour depending on whether the guest has enabled FWNMI
+(it attempts to do more recovery on behalf of a non-FWNMI guest).
 
-Thanks,
-Nick
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+ hw/ppc/spapr_caps.c  | 7 ++++---
+ hw/ppc/spapr_rtas.c  | 7 +++++++
+ target/ppc/kvm.c     | 7 +++++++
+ target/ppc/kvm_ppc.h | 6 ++++++
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
-Nicholas Piggin (4):
-  ppc/spapr: KVM FWNMI should not be enabled until guest requests it
-  ppc/spapr: Improve FWNMI machine check delivery corner case comments
-  ppc/spapr: Add FWNMI machine check delivery warnings
-  ppc/spapr: Don't kill the guest if a recovered FWNMI machine check
-    delivery fails
-
- hw/ppc/spapr_caps.c   |  7 ++++---
- hw/ppc/spapr_events.c | 46 ++++++++++++++++++++++++++++++++-----------
- hw/ppc/spapr_rtas.c   | 10 ++++++++++
- target/ppc/kvm.c      |  7 +++++++
- target/ppc/kvm_ppc.h  |  6 ++++++
- 5 files changed, 62 insertions(+), 14 deletions(-)
-
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 679ae7959f..eb54f94227 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -517,9 +517,10 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+     }
+ 
+     if (kvm_enabled()) {
+-        if (kvmppc_set_fwnmi() < 0) {
+-            error_setg(errp, "Firmware Assisted Non-Maskable Interrupts(FWNMI) "
+-                             "not supported by KVM");
++        if (!kvmppc_get_fwnmi()) {
++            error_setg(errp,
++"Firmware Assisted Non-Maskable Interrupts(FWNMI) not supported by KVM.");
++            error_append_hint(errp, "Try appending -machine cap-fwnmi=off\n");
+         }
+     }
+ }
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 9fb8c8632a..29abe66d01 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -437,6 +437,13 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+         return;
+     }
+ 
++    if (kvm_enabled()) {
++        if (kvmppc_set_fwnmi() < 0) {
++            rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
++            return;
++        }
++    }
++
+     spapr->fwnmi_system_reset_addr = sreset_addr;
+     spapr->fwnmi_machine_check_addr = mce_addr;
+ 
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 597f72be1b..03d0667e8f 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -88,6 +88,7 @@ static int cap_ppc_safe_indirect_branch;
+ static int cap_ppc_count_cache_flush_assist;
+ static int cap_ppc_nested_kvm_hv;
+ static int cap_large_decr;
++static int cap_fwnmi;
+ 
+ static uint32_t debug_inst_opcode;
+ 
+@@ -136,6 +137,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     kvmppc_get_cpu_characteristics(s);
+     cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
+     cap_large_decr = kvmppc_get_dec_bits();
++    cap_fwnmi = kvm_vm_check_extension(s, KVM_CAP_PPC_FWNMI);
+     /*
+      * Note: setting it to false because there is not such capability
+      * in KVM at this moment.
+@@ -2064,6 +2066,11 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
+     }
+ }
+ 
++bool kvmppc_get_fwnmi(void)
++{
++    return cap_fwnmi;
++}
++
+ int kvmppc_set_fwnmi(void)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 332fa0aa1c..fcaf745516 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -27,6 +27,7 @@ void kvmppc_enable_h_page_init(void);
+ void kvmppc_set_papr(PowerPCCPU *cpu);
+ int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
++bool kvmppc_get_fwnmi(void);
+ int kvmppc_set_fwnmi(void);
+ int kvmppc_smt_threads(void);
+ void kvmppc_error_append_smt_possible_hint(Error *const *errp);
+@@ -163,6 +164,11 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
+ {
+ }
+ 
++static inline bool kvmppc_get_fwnmi(void)
++{
++    return false;
++}
++
+ static inline int kvmppc_set_fwnmi(void)
+ {
+     return -1;
 -- 
 2.23.0
 
