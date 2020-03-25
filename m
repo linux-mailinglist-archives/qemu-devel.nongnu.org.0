@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E3A192C1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:19:09 +0100 (CET)
-Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA0C192C4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:24:51 +0100 (CET)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7oC-0008NH-36
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41451)
+	id 1jH7ti-0000lo-4c
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7l2-0003XM-Jp
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7l7-0003i0-V2
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7l1-0007z1-A9
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43484)
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7l6-00082c-TW
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:57 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42808)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jH7l1-0007yQ-3F
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:51 -0400
-Received: by mail-wr1-x432.google.com with SMTP id b2so3548314wrj.10
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:51 -0700 (PDT)
+ id 1jH7l6-00081a-N8
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:56 -0400
+Received: by mail-wr1-x432.google.com with SMTP id h15so3568257wrx.9
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ztDbOw6DhMgOgSgsUfM4L+NS4o98VZx9Fe9KbZgV6vo=;
- b=tld5UFd6KSF4Sysx1MQ8dGFcKrGuhmtHnChqKVmTbpWphopy4WXXBkPnm5h3lHFqzx
- wc6Wr4vc93T31RKy/qs5oYz52ihfYcvIHuoiV2qujrBQzRIU0wmM5dVuuMtpR10zBRds
- 9Kr7DgfpgyNktm/gA/8IdnPjk1eVksIjbLA/aWgrMQBRHegaEI7szpvifVupVtzuAcLD
- 5IDihNZnVFTl4mF8aRvSfEP0SrZ58BmBJYEOvyQ70Q73yyTdppCr90+XsrvhaYez4Bag
- sWA1XKzM66nt87/8F3ykJRwUYCrdI5sxhe+GLknbYaoutakPimjWCm6qv8pf9r4eqBDk
- fKrA==
+ bh=l7mM2oj13ibfp0JE0ahAZG76SnCWxFa0MFbX0Uuu7f8=;
+ b=hfYzGqV3p86O/5DPGWrz+TOrYdhbvvUcMQv4fL0QBq4nhsyh9CcbVGNJF3wYM2q+T2
+ OM1iUcGDvpRvBx7FWItk8MMBVRg5RCtzDCo8qRppXNStlYEzdF4J0XLvH1uc1JoYUVa+
+ CKYGBVci9Rd69K79Em/OEr/ocjqszJFF0WlIpAf0zAR7Ll6uxhPxjECb+mI5KF/ADO4m
+ O+YoXfHgCgv4QXZFnOnoPK31qtHkS1ZCW9veQdGwKw4yopNFO77bF4AQE75kTwxVO76h
+ xs+Md5qR+cetPAaErGT4V/Wpt0pnttsg5RI/LMNtGCvwMfhQdD0YBFAxFv27rlexZCZl
+ kxYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ztDbOw6DhMgOgSgsUfM4L+NS4o98VZx9Fe9KbZgV6vo=;
- b=RfwTa78JHzHaUk1REX9IiHPsCv/esYyPx4G4FN8dO3jRXB8EGR3g0Y62xj2BQJ2KXo
- 5lELYAEHMu16coYM7pk8fEMphntxPCJQdI2i7NkqmXJkM6Zf/PvDBs86HSqzC+jrpean
- oc7zlU3l49+jxHEbPhlmA9KSTYQ5L//wDdQ7jGxOWYPRIBPoIER73OjHzqsnGrv8/V9s
- tF0BYPuDsZ/PW+A74frP32ZNsSg5JoM2uaSJRJb0cN/z+rf5ZXhJMXhWp8SMnUV4pnCm
- 3cJ4h7nSpx6KuzBPm/r+3V8fe0f0f9qK8wxIvVoMmxv7oZI+GnQmadqDasWhNnaAtQ85
- /vgw==
-X-Gm-Message-State: ANhLgQ0JEAt3k01yRkJfsJkaFnrnJQAjjI3Z4p7b+ipp/pUFsEyEnl/A
- po2LrbBvFjLlf0fNqUtzHyi41g==
-X-Google-Smtp-Source: ADFU+vtdT1uGEiO/MFMo8nZOPOdPDoChaihjjKYDg3NEG4sEd0+ls1NNvH+H0MMNMoJyh5ooCCT1WQ==
-X-Received: by 2002:adf:c648:: with SMTP id u8mr4085356wrg.185.1585149350011; 
- Wed, 25 Mar 2020 08:15:50 -0700 (PDT)
+ bh=l7mM2oj13ibfp0JE0ahAZG76SnCWxFa0MFbX0Uuu7f8=;
+ b=JC1biSylvLuu40wuOccQlGIDulKYD53F3VzMquLzRKfxg2mlxJUjFXER+okK4HmeUn
+ 1RFeBm2qIq/eTcAwjEk0o1SicbWBzKgyFZufNJoPt1OFAgGfq/9wPAIyTqgQzZDq7GzE
+ WgKM376u0lygiEPJkdpwb3SBBIRHwxdvGSDEDsGmPbzsTZy6HyQgXc4YSfVyYro8k/RR
+ CHsA1iqrWCLfliOMBucPyl0zHAAGBJ8kzVBF+2Edtv1MHbht6vYfjSyJ3Y6HQQdskQIP
+ aaOb2RCzkzULTy+Vt2wCXyhG7rehtFfNQ1GjH+63C7GDPo21Sqzb24zmf2wvlYj676s0
+ +D/A==
+X-Gm-Message-State: ANhLgQ3XQtVxmRqJBt9SYjGzHCb/lAdjIpTSd873yWFWQoxgQ2pXOxXY
+ Pp9pv14xym3Gp6q8sohwnChfbA==
+X-Google-Smtp-Source: ADFU+vuzNADqqkzoez7vXhxvFS3dBcqdWpH7DpXqmMo57v5qZZ4gTVnE1NSJAU0iRcNnJF3Y9unPPA==
+X-Received: by 2002:a5d:4489:: with SMTP id j9mr3859544wrq.161.1585149354722; 
+ Wed, 25 Mar 2020 08:15:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n9sm6286154wru.50.2020.03.25.08.15.44
+ by smtp.gmail.com with ESMTPSA id u131sm10078054wmg.41.2020.03.25.08.15.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 08:15:44 -0700 (PDT)
+ Wed, 25 Mar 2020 08:15:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A01671FF90;
+ by zen.linaroharston (Postfix) with ESMTP id B6A791FF91;
  Wed, 25 Mar 2020 15:15:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/11] tests/vm: update NetBSD to 9.0
-Date: Wed, 25 Mar 2020 15:15:36 +0000
-Message-Id: <20200325151543.32478-5-alex.bennee@linaro.org>
+Subject: [PULL 05/11] tests/vm: fix basevm config
+Date: Wed, 25 Mar 2020 15:15:37 +0000
+Message-Id: <20200325151543.32478-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200325151543.32478-1-alex.bennee@linaro.org>
 References: <20200325151543.32478-1-alex.bennee@linaro.org>
@@ -82,87 +82,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+When the patch was merged it was part of a longer series which had
+already merged the config changes. Semu-revert the config related
+changes for now so things will build.
 
-The installer supports GPT now, so the install workflow has changed a
-bit.  Also: run without VGA device.  This works around a bug in the
-seabios sercon code and makes the bootloader menu show up on the serial
-line, so we can drop the quirk for that.
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fixes: b081986c85fd2
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200310083218.26355-5-kraxel@redhat.com>
-Message-Id: <20200323161514.23952-5-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200323161514.23952-6-alex.bennee@linaro.org>
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index f3257bc245a..b10c9d429de 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
-     name = "netbsd"
-     arch = "x86_64"
- 
--    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8.1-amd64.iso"
--    csum = "718f275b7e0879599bdac95630c5e3f2184700032fdb6cdebf3bdd63687898c48ff3f08f57b89f4437a86cdd8ea07c01a39d432dbb37e1e4b008f4985f98da3f"
-+    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-amd64.iso"
-+    csum = "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
-     size = "20G"
-     pkgs = [
-         # tools
-@@ -86,42 +86,31 @@ class NetBSDVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args = [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
--            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init()
--        self.console_wait("Primary Bootstrap")
--
--        # serial console boot menu output doesn't work for some
--        # reason, so we have to fly blind ...
--        for char in list("5consdev com0\n"):
--            time.sleep(0.2)
--            self.console_send(char)
--            self.console_consume()
-+        self.console_wait_send("3. Drop to boot prompt", "3")
-+        self.console_wait_send("> ", "consdev com0\n")
-         self.console_wait_send("> ", "boot\n")
- 
-         self.console_wait_send("Terminal type",            "xterm\n")
-         self.console_wait_send("a: Installation messages", "a\n")
--        self.console_wait_send("b: US-English",            "b\n")
-         self.console_wait_send("a: Install NetBSD",        "a\n")
-         self.console_wait("Shall we continue?")
-         self.console_wait_send("b: Yes",                   "b\n")
- 
-         self.console_wait_send("a: ld0",                   "a\n")
-+        self.console_wait_send("a: Guid Partition Table",  "a\n")
-         self.console_wait_send("a: This is the correct",   "a\n")
--        self.console_wait_send("b: Use the entire disk",   "b\n")
--        self.console_wait("NetBSD bootcode")
--        self.console_wait_send("a: Yes",                   "a\n")
--        self.console_wait_send("b: Use existing part",     "b\n")
-+        self.console_wait_send("b: Use default part",      "b\n")
-         self.console_wait_send("x: Partition sizes ok",    "x\n")
--        self.console_wait_send("for your NetBSD disk",     "\n")
-         self.console_wait("Shall we continue?")
-         self.console_wait_send("b: Yes",                   "b\n")
- 
-         self.console_wait_send("b: Use serial port com0",  "b\n")
-         self.console_wait_send("f: Set serial baud rate",  "f\n")
-         self.console_wait_send("a: 9600",                  "a\n")
--        self.console_wait_send("x: Exit",                  "x\n")
-+        self.console_wait_send("x: Continue",              "x\n")
- 
-         self.console_wait_send("a: Full installation",     "a\n")
-         self.console_wait_send("a: CD-ROM",                "a\n")
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index cffe7c4600e..756ccf7acae 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -358,23 +358,23 @@ class BaseVM(object):
+                           "local-hostname: {}-guest\n".format(name)])
+         mdata.close()
+         udata = open(os.path.join(cidir, "user-data"), "w")
+-        print("guest user:pw {}:{}".format(self._config['guest_user'],
+-                                           self._config['guest_pass']))
++        print("guest user:pw {}:{}".format(self.GUEST_USER,
++                                           self.GUEST_PASS))
+         udata.writelines(["#cloud-config\n",
+                           "chpasswd:\n",
+                           "  list: |\n",
+-                          "    root:%s\n" % self._config['root_pass'],
+-                          "    %s:%s\n" % (self._config['guest_user'],
+-                                           self._config['guest_pass']),
++                          "    root:%s\n" % self.ROOT_PASS,
++                          "    %s:%s\n" % (self.GUEST_USER,
++                                           self.GUEST_PASS),
+                           "  expire: False\n",
+                           "users:\n",
+-                          "  - name: %s\n" % self._config['guest_user'],
++                          "  - name: %s\n" % self.GUEST_USER,
+                           "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
+                           "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % self._config['ssh_pub_key'],
++                          "    - %s\n" % SSH_PUB_KEY,
+                           "  - name: root\n",
+                           "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % self._config['ssh_pub_key'],
++                          "    - %s\n" % SSH_PUB_KEY,
+                           "locale: en_US.UTF-8\n"])
+         proxy = os.environ.get("http_proxy")
+         if not proxy is None:
 -- 
 2.20.1
 
