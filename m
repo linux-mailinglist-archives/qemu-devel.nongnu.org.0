@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22ED19251B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:07:38 +0100 (CET)
-Received: from localhost ([::1]:33170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD8019251E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:07:45 +0100 (CET)
+Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2wj-0003Dm-TZ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58025)
+	id 1jH2wq-0003Mi-L3
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vR-00023W-Jk
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vR-00023a-Md
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vQ-0006no-9X
+ (envelope-from <jiaxun.yang@flygoat.com>) id 1jH2vQ-0006oK-Oe
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:17 -0400
-Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17978)
+Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17911)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1jH2vP-0006lG-Eq
+ id 1jH2vQ-0006lK-0k
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:06:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585130732; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1585130733; 
  s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
  h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=qMWTxxz/WaHyFQ7Puh8tAQtBhAcUMn+n2qm0HZxj5zM=;
- b=a1KZuhHFnGEmnd/+f2mwbSgnMIif2q2CVybKFDiHkf4vA0ne0umnqfnBob2B57FV
- 6Sr2h0acyxdxbVjAGQ3FBCmONwYejDMVDFLq3d8wGcZx1fkJ2SZgvd1Qql4BfIqUwaa
- 39pLNMw+KkNb95V6jr3kJ5ktfMUaLwCPCSJtHkz4=
+ bh=cmJkO8O1uEeT/jpyHVBIdGnY9ZmSMm8JaT5BGhbnOQg=;
+ b=Mjr+QCctv3V0+DQGsOF38CtHzU9LocIkcjv3hJSZJqJwurtw3tTlYXtHwN6wbdsy
+ tZkEHkeRMMYu++X55XYd7rSr57HEfs314l1TF8DBaRaMKX4C6RqMJZc965rgD6sYKUk
+ ouwgBdRGf0YQs2t+lutzn4z6z+Vd1Rm9QMH1Og/c=
 Received: from localhost.localdomain (39.155.141.144 [39.155.141.144]) by
- mx.zoho.com.cn with SMTPS id 1585130731039892.8143082035314;
+ mx.zoho.com.cn with SMTPS id 1585130731636241.03722169549985;
  Wed, 25 Mar 2020 18:05:31 +0800 (CST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20200325100520.206210-3-jiaxun.yang@flygoat.com>
-Subject: [PATCH 2/3] target/mips: Add loongson ext lsdc2 instrustions
-Date: Wed, 25 Mar 2020 18:05:19 +0800
+Message-ID: <20200325100520.206210-4-jiaxun.yang@flygoat.com>
+Subject: [PATCH 3/3] target/mips: Add loongson gs464 core
+Date: Wed, 25 Mar 2020 18:05:20 +0800
 X-Mailer: git-send-email 2.26.0.rc2
 In-Reply-To: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
 References: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
@@ -63,198 +63,58 @@ Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LDC2/SDC2 opcodes have been rewritten as "load & store with offset"
-instructions by loongson-ext ASE.
+GS464 is the core we can found in Loongson-3A1000 processor with
+MIPS64R2 as baseline ISA and Loongson self defined MMI & EXT ASE.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/translate.c | 157 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 157 insertions(+)
+ target/mips/translate_init.inc.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 2d556e0dea..255d999f74 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -460,6 +460,24 @@ enum {
-     R6_OPC_SCD         =3D 0x27 | OPC_SPECIAL3,
+diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.=
+inc.c
+index 6d145a905a..4e1eb5a2e4 100644
+--- a/target/mips/translate_init.inc.c
++++ b/target/mips/translate_init.inc.c
+@@ -830,7 +830,30 @@ const mips_def_t mips_defs[] =3D
+         .insn_flags =3D CPU_MIPS64R2 | ASE_DSP | ASE_DSP_R2,
+         .mmu_type =3D MMU_TYPE_R4000,
+     },
+-
++    {
++        .name =3D "gs464",
++        .CP0_PRid =3D 0x6305,
++        .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_=
+AT) |
++                       (MMU_TYPE_R4000 << CP0C0_MT),
++        .CP0_Config1 =3D MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU=
+) |
++                       (3 << CP0C1_IS) | (4 << CP0C1_IL) | (3 << CP0C1_IA)=
+ |
++                       (3 << CP0C1_DS) | (4 << CP0C1_DL) | (3 << CP0C1_DA)=
+ |
++                       (1 << CP0C1_C2) | (1 << CP0C1_PC) | (1 << CP0C1_EP)=
+,
++        .CP0_Config2 =3D MIPS_CONFIG2 | (1 << CP0C2_SU) | (6 << CP0C2_SU) =
+|
++                        (4 << CP0C2_SU) | (3 << CP0C2_SU),
++        .CP0_Config3 =3D MIPS_CONFIG3 | (1 << CP0C3_LPA),
++        .CP0_PageGrain =3D (1 << CP0PG_ELPA),
++        .SYNCI_Step =3D 32,
++        .CCRes =3D 2,
++        .CP0_Status_rw_bitmask =3D 0x76FBFFFF,
++        .CP1_fcr0 =3D (1 << FCR0_F64) | (1 << FCR0_PS) | (1 << FCR0_L) |
++                    (1 << FCR0_W) | (1 << FCR0_D) | (1 << FCR0_S) |
++                    (0x01 << FCR0_PRID) | (0x1 << FCR0_REV),
++        .SEGBITS =3D 42,
++        .PABITS =3D 48,
++        .insn_flags =3D CPU_MIPS64R2 | ASE_LOONGSON_MMI | ASE_LOONGSON_EXT=
+,
++        .mmu_type =3D MMU_TYPE_R4000,
++    },
+ #endif
  };
-=20
-+/* Loongson EXT LDC2/SDC2 opcodes */
-+#define MASK_LOONGSON_LSDC2(op)           (MASK_OP_MAJOR(op) | (op & 0x7))
-+
-+enum {
-+    OPC_GSLBX      =3D 0x0 | OPC_LDC2,
-+    OPC_GSLHX      =3D 0x1 | OPC_LDC2,
-+    OPC_GSLWX      =3D 0x2 | OPC_LDC2,
-+    OPC_GSLDX      =3D 0x3 | OPC_LDC2,
-+    OPC_GSLWXC1    =3D 0x6 | OPC_LDC2,
-+    OPC_GSLDXC1    =3D 0x7 | OPC_LDC2,
-+    OPC_GSSBX      =3D 0x0 | OPC_SDC2,
-+    OPC_GSSHX      =3D 0x1 | OPC_SDC2,
-+    OPC_GSSWX      =3D 0x2 | OPC_SDC2,
-+    OPC_GSSDX      =3D 0x3 | OPC_SDC2,
-+    OPC_GSSWXC1    =3D 0x6 | OPC_SDC2,
-+    OPC_GSSDXC1    =3D 0x7 | OPC_SDC2,
-+};
-+
- /* BSHFL opcodes */
- #define MASK_BSHFL(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)=
-))
-=20
-@@ -5910,6 +5928,143 @@ no_rd:
-     tcg_temp_free_i64(t1);
- }
-=20
-+/* Loongson EXT LDC2/SDC2 */
-+static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
-+                                int rs, int rd)
-+{
-+    int offset =3D (int8_t)(ctx->opcode >> 3);
-+    uint32_t opc =3D MASK_LOONGSON_LSDC2(ctx->opcode);
-+    TCGv t0, t1;
-+    TCGv_i32 t32;
-+    TCGv_i64 t64;
-+
-+    /* Pre-conditions */
-+    switch (opc) {
-+    case OPC_GSLBX:
-+    case OPC_GSLHX:
-+    case OPC_GSLWX:
-+    case OPC_GSLDX:
-+        /* prefetch, implement as NOP */
-+        if (rt =3D=3D 0) {
-+            return;
-+        }
-+        break;
-+    case OPC_GSSBX:
-+    case OPC_GSSHX:
-+    case OPC_GSSWX:
-+    case OPC_GSSDX:
-+        break;
-+    case OPC_GSLWXC1:
-+    case OPC_GSLDXC1:
-+        check_cp1_enabled(ctx);
-+        /* prefetch, implement as NOP */
-+        if (rt =3D=3D 0) {
-+            return;
-+        }
-+        break;
-+    case OPC_GSSWXC1:
-+    case OPC_GSSDXC1:
-+        check_cp1_enabled(ctx);
-+        break;
-+    default:
-+        MIPS_INVAL("loongson_lsdc2");
-+        generate_exception_end(ctx, EXCP_RI);
-+        return;
-+        break;
-+    }
-+
-+    t0 =3D tcg_temp_new();
-+    gen_base_offset_addr(ctx, t0, rs, offset);
-+    if (rd !=3D 0) {
-+        gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
-+    }
-+
-+    switch (opc) {
-+    case OPC_GSLBX:
-+        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_SB);
-+        gen_store_gpr(t0, rt);
-+        break;
-+    case OPC_GSLHX:
-+        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW |
-+                            ctx->default_tcg_memop_mask);
-+        gen_store_gpr(t0, rt);
-+        break;
-+    case OPC_GSLWX:
-+        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL |
-+                            ctx->default_tcg_memop_mask);
-+        gen_store_gpr(t0, rt);
-+        break;
-+#if defined(TARGET_MIPS64)
-+    case OPC_GSLDX:
-+        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
-+                            ctx->default_tcg_memop_mask);
-+        gen_store_gpr(t0, rt);
-+        break;
-+#endif
-+    case OPC_GSLWXC1:
-+        t32 =3D tcg_temp_new_i32();
-+        tcg_gen_qemu_ld_i32(t32, t0, ctx->mem_idx, MO_TESL |
-+                            ctx->default_tcg_memop_mask);
-+        gen_store_fpr32(ctx, t32, rt);
-+        tcg_temp_free_i32(t32);
-+        break;
-+    case OPC_GSLDXC1:
-+        t64 =3D tcg_temp_new_i64();
-+        tcg_gen_qemu_ld_i64(t64, t0, ctx->mem_idx, MO_TEQ |
-+                            ctx->default_tcg_memop_mask);
-+        gen_store_fpr64(ctx, t64, rt);
-+        tcg_temp_free_i64(t64);
-+        break;
-+    case OPC_GSSBX:
-+        t1 =3D tcg_temp_new();
-+        gen_load_gpr(t1, rt);
-+        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_SB);
-+        tcg_temp_free(t1);
-+        break;
-+    case OPC_GSSHX:
-+        t1 =3D tcg_temp_new();
-+        gen_load_gpr(t1, rt);
-+        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUW |
-+                            ctx->default_tcg_memop_mask);
-+        tcg_temp_free(t1);
-+        break;
-+    case OPC_GSSWX:
-+        t1 =3D tcg_temp_new();
-+        gen_load_gpr(t1, rt);
-+        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUL |
-+                            ctx->default_tcg_memop_mask);
-+        tcg_temp_free(t1);
-+        break;
-+#if defined(TARGET_MIPS64)
-+    case OPC_GSSDX:
-+        t1 =3D tcg_temp_new();
-+        gen_load_gpr(t1, rt);
-+        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
-+                            ctx->default_tcg_memop_mask);
-+        tcg_temp_free(t1);
-+        break;
-+#endif
-+    case OPC_GSSWXC1:
-+        t32 =3D tcg_temp_new_i32();
-+        gen_load_fpr32(ctx, t32, rt);
-+        tcg_gen_qemu_st_i32(t32, t0, ctx->mem_idx, MO_TEUL |
-+                            ctx->default_tcg_memop_mask);
-+        tcg_temp_free_i32(t32);
-+        break;
-+    case OPC_GSSDXC1:
-+        t64 =3D tcg_temp_new_i64();
-+        gen_load_fpr64(ctx, t64, rt);
-+        tcg_gen_qemu_st_i64(t64, t0, ctx->mem_idx, MO_TEQ |
-+                            ctx->default_tcg_memop_mask);
-+        tcg_temp_free_i64(t64);
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    tcg_temp_free(t0);
-+}
-+
- /* Traps */
- static void gen_trap(DisasContext *ctx, uint32_t opc,
-                      int rs, int rt, int16_t imm)
-@@ -30635,6 +30790,8 @@ static void decode_opc(CPUMIPSState *env, DisasCont=
-ext *ctx)
-                 /* OPC_JIC, OPC_JIALC */
-                 gen_compute_compact_branch(ctx, op, 0, rt, imm);
-             }
-+        } else if (ctx->insn_flags & ASE_LOONGSON_EXT) {
-+            gen_loongson_lsdc2(ctx, rt, rs, rd);
-         } else {
-             /* OPC_LWC2, OPC_SWC2 */
-             /* COP2: Not implemented. */
+ const int mips_defs_number =3D ARRAY_SIZE(mips_defs);
 --=20
 2.26.0.rc2
 
