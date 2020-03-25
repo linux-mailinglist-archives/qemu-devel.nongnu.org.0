@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7B2191F76
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 03:51:44 +0100 (CET)
-Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD300191F83
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 04:01:20 +0100 (CET)
+Received: from localhost ([::1]:58538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jGw8t-000845-8J
-	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 22:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44873)
+	id 1jGwIB-0002n0-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 24 Mar 2020 23:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jGw88-0007dB-OB
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:50:58 -0400
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGd-00013v-Qs
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jGw86-0008Rk-Mw
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:50:55 -0400
-Received: from [192.146.154.243] (port=56318 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jGw86-0008QS-Hf
- for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:50:54 -0400
-Received: from localhost.localdomain (unknown [10.40.36.165])
- by mcp01.nutanix.com (Postfix) with ESMTP id 182131006FEA;
- Wed, 25 Mar 2020 02:50:51 +0000 (UTC)
-Date: Tue, 24 Mar 2020 22:50:46 -0400
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: Qemu master crashing on boot when using file backend for memory
-Message-ID: <20200325024924.GA1518@localhost.localdomain>
-References: <20200312053648.GA17365@localhost.localdomain>
- <20200312115450.38c88206@redhat.com>
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jGwGc-0004zV-Kr
+ for qemu-devel@nongnu.org; Tue, 24 Mar 2020 22:59:43 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3214 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1jGwGc-0004wz-96; Tue, 24 Mar 2020 22:59:42 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 9871028E5ECC67006711;
+ Wed, 25 Mar 2020 10:59:37 +0800 (CST)
+Received: from huawei.com (10.133.205.93) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Mar 2020
+ 10:59:26 +0800
+From: Chen Qun <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v5 0/3] redundant code: Fix warnings reported by Clang static
+ code analyzer
+Date: Wed, 25 Mar 2020 10:59:16 +0800
+Message-ID: <20200325025919.21316-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200312115450.38c88206@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset="y"
+X-Originating-IP: [10.133.205.93]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 192.146.154.243
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,66 +52,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, philmd@redhat.com,
+ zhang.zhanghailiang@huawei.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 12, 2020 at 11:54:50AM +0100, Igor Mammedov wrote:
->=20
-> On Thu, 12 Mar 2020 01:36:48 -0400
-> Raphael Norwitz <raphael.norwitz@nutanix.com> wrote:
->=20
-> > When I try run master qemu I am hitting a divide by zero error. It se=
-ems
-> > to be coming from util/oslib-posix.c in touch_all_pages(). see line 4=
-77:
-> >=20
-> > numpages_per_thread =3D numpages / memset_num_threads;
-> >=20
-> > Poking around the crash dumps, I can see that the smp_cpus parameter
-> > passed in to touch_all_pages() is 0. Going up the stack to
-> > host_memory_backend_memory_complete() I see backend->prealloc_threads=
- is
-> > also 0.
-> >=20
-> > Here=E2=80=99s how I am running qemu
-> >=20
-> > ./x86_64-softmmu/qemu-system-x86_64 \
-> > 	-kernel /boot/vmlinuz-3.10.0-1062.el7.x86_64  \
-> >  	-netdev user,id=3Dnet0,hostfwd=3Dtcp::2250-:22 \
-> > 	-device e1000e,netdev=3Dnet0 \
-> > 	-m 1G \
-> > 	-initrd /boot/initramfs-3.10.0-1062.el7.x86_64.img  \
-> > 	-object memory-backend-file,id=3Dram-node0,prealloc=3Dyes,mem-path=3D=
-mem,share=3Dyes,size=3D1G \
-> > 	-numa node,nodeid=3D0,cpus=3D0,memdev=3Dram-node0=20
-> >=20
-> > I don't see this error on a slightly older qemu, as of commit 105b07f=
-1
-> > (January 27th).
-> >=20
-> > Interestingly when I remove the memory-backend-file parameter I don=E2=
-=80=99t
-> > see the error, i.e. this works:
-> >=20
-> > ./x86_64-softmmu/qemu-system-x86_64 \
-> > 	-kernel /boot/vmlinuz-3.10.0-1062.el7.x86_64  \
-> >  	-netdev user,id=3Dnet0,hostfwd=3Dtcp::2250-:22 \
-> > 	-device e1000e,netdev=3Dnet0 \
-> > 	-m 1G \
-> > 	-initrd /boot/initramfs-3.10.0-1062.el7.x86_64.img
-> >=20
-> > Looking at the blame data for backends/hostmem.c I see commit ffac16f=
-a
-> > introduced some churn in this part of the code. Has anyone else seen
-> > this issue? Could I be doing something wrong here?
->=20
-> It's know issue, see
->  "[PATCH] oslib-posix: initialize mutex and condition variable
-> for a fix
-> >=20
->
+v1->v2:
+- Patch1: Add John Snow review comment.
+- Patch9: Move the 'dst_type' declaration to while() statement.
+- Patch12: Add Philippe Mathieu-Daud=C3=A9 review comment.
+- Patch13: Move the 'set' declaration to the for() statement.
 
-I'm testing on qemu master now. Looks like this patch has been merged
-and I'm still seeing the same crash.
+v2->v3:
+- Patch1: Add Kevin Wolf review comment.
+- Patch2: Keep the 'flags' then use it(Base on Kevin's comments).
+- Patch3: Add Kevin Wolf review comment.
+- Patch9: Add Francisco Iglesias and Alistair Francis review comment.
+- Patch10: Juan Quintela has added it to the queue and delete it.
+- Patch12->Patch11: Add Philippe Mathieu-Daud=C3=A9 review comment.
+- Patch13->Patch12: Add Philippe Mathieu-Daud=C3=A9 review comment.
+
+v3->v4:
+- Deleted the patches that have been merged in the v3.
+- Modify "scsi/esp-pci" Patch, use g_assert with variable size.
+
+v4->v5:
+- Patch1: Add Laurent Vivier review comment and change the subject.
+- Patch2: Use extract16() instead of delete bit operation statement.
+- Patch3: Add Laurent Vivier review comment.
+
+Chen Qun (3):
+  scsi/esp-pci: add g_assert() for fix clang analyzer warning in
+    esp_pci_io_write()
+  display/blizzard: use extract16() for fix clang analyzer warning in
+    blizzard_draw_line16_32()
+  timer/exynos4210_mct: Remove redundant statement in
+    exynos4210_mct_write()
+
+ hw/display/blizzard.c     | 10 ++++------
+ hw/scsi/esp-pci.c         |  1 +
+ hw/timer/exynos4210_mct.c |  4 ----
+ 3 files changed, 5 insertions(+), 10 deletions(-)
+
+--=20
+2.23.0
+
+
 
