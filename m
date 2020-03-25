@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A78193252
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 22:06:00 +0100 (CET)
-Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3825193242
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 22:01:34 +0100 (CET)
+Received: from localhost ([::1]:43306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHDDr-0001KV-OT
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 17:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
+	id 1jHD9Y-0003dc-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 17:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jHD99-0004dz-0e
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:08 -0400
+ (envelope-from <alistair23@gmail.com>) id 1jHD7f-0002oS-4L
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 16:59:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jHD97-0000Nd-EM
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33348)
+ (envelope-from <alistair23@gmail.com>) id 1jHD7d-0007hW-51
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 16:59:35 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:40693)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jHD97-0000M7-7T
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:05 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jHD94-0003C8-2n
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 21:01:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8FF402E80ED
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 21:00:59 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1jHD7d-0007hD-0E; Wed, 25 Mar 2020 16:59:33 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id d18so2479923vso.7;
+ Wed, 25 Mar 2020 13:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PBnh+M8BEw3gDqG8Q3pF47i072cZdCncdPjj1t8/Ang=;
+ b=prbW1f8KWjnrpeodreo4PMTIPaSmTHKvF42ZKeBXbKw1kXxGafv6/j/BtiDRBA+FUe
+ BIotceWGInUnEyNYIckV4qrPqILA9HWNEMKKiJaOMtSXkWc9PnhJl6oX1YfxOH+pRRa0
+ srfam5jDiI6kOnYPv2fhBzKAHH5KfvQuZDXhil3ShrehO5nJhDCMccThiSLIml4mVXEr
+ WbTup0XURGzEeU9xZygMJv8UZrwYed9fHHiHfYuWPiDB4jj6bkzY1gb8Gr/1/z6tT2Ox
+ p138/5eYUNhdAuzE4oZC9tvFgA2MlzblYmoOIU0om/HgIWqXteDrvq9GYToCyWlwxuET
+ ypTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PBnh+M8BEw3gDqG8Q3pF47i072cZdCncdPjj1t8/Ang=;
+ b=EaNL+OfHz383rGzyAGBQ0sqdBzmnm++3Dhh+pbttvO8IbJeye96VXq1n6WnkKHgUFa
+ 0WLIEm0ZRWu77hvuBqgizhAkXI+06pgoIjxUdrh8RmaOi0r4vOnhRm2NO/82bWPtR+Dz
+ KPXvF8AkuNQrnnH/0qd8VAjFh7WRUskEpAtuywq+6lQ+cDC5s3jy0JMumcajdnJpUAIq
+ Ej9Zdo11S73biBO97ztW3QjimrA44lhB2BN2ZVYR1bPZesRBPWtoyr3fhD8XAFQc5cty
+ x6G7uxR6W8IQ2wNsHGSg3uo1XX6qAljWqP1vPpvViP/KvXFg/O7cGTotpSgXBTU7gIfz
+ i/Dw==
+X-Gm-Message-State: ANhLgQ35uHIkSw94Sbdz3hap7DIagcrw5mQtQEEhyHVoXPWfpoPURT7C
+ KtSXjM3MRwOgpbknv1eGidqucmfgXvThXwjBGyQ=
+X-Google-Smtp-Source: ADFU+vu+qwoNWCwp4WcgaKiR+qTdj0VaosKwCbMSGp4AM8QJynBKLjxwBJPsEjcFhGRds3JJ4thZ40wjrKHKWuTpyGk=
+X-Received: by 2002:a67:ffd0:: with SMTP id w16mr4131468vsq.151.1585169972097; 
+ Wed, 25 Mar 2020 13:59:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200325191830.16553-1-f4bug@amsat.org>
+ <20200325191830.16553-5-f4bug@amsat.org>
+In-Reply-To: <20200325191830.16553-5-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 Mar 2020 13:51:32 -0700
+Message-ID: <CAKmqyKOj4oRQbrD2Wt080zAxggkx6KCC2uh410QZJgw+BF1UYg@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 04/12] hw/arm/stm32fx05_soc: Add missing
+ error-propagation code
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 20:50:52 -0000
-From: Paul Menzel <1693050@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paulmenzel rmustacc
-X-Launchpad-Bug-Reporter: Robert Mustacchi (rmustacc)
-X-Launchpad-Bug-Modifier: Paul Menzel (paulmenzel)
-References: <149558234717.18218.15801621819682136328.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158516945260.16905.11037714506188450116.malone@gac.canonical.com>
-Subject: [Bug 1693050] Re: xhci HCIVERSION register read emulation incorrectly
- handled
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e4a382e8762e0a69d8717d1c7200b2d61b9c11bc
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::e41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,71 +74,398 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1693050 <1693050@bugs.launchpad.net>
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to [1], this is still an issue today.
+On Wed, Mar 25, 2020 at 12:22 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> Patch created mechanically by running:
+>
+>   $ spatch \
+>     --macro-file scripts/cocci-macro-file.h --include-headers \
+>     --sp-file scripts/coccinelle/object_property_missing_error_propagate.=
+cocci \
+>     --keep-comments --smpl-spacing --in-place --dir hw
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-[1]: https://review.coreboot.org/c/coreboot/+/39838/
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- =
+Alistair
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1693050
-
-Title:
-  xhci HCIVERSION register read emulation incorrectly handled
-
-Status in QEMU:
-  New
-
-Bug description:
-  We had an illumos user trying to run illumos in QEMU 2.9.0 with the
-  qemu-xhci device enabled. Note, that while this was discovered against
-  QEMU 2.9.0, from my current read of the HEAD, it is still present. The
-  illumos bug at https://www.illumos.org/issues/8173 has additional
-  information on how the user invoked qemu. While investigating the
-  problem we found that the illumos driver was reading a version of
-  0x0000 when reading the HCIVERSION register from qemu.
-
-  In the illumos driver we're performing a 16-bit read of the version
-  register at offset 0x2. From looking around at other OSes, while Linux
-  performs a 4 byte read at offset 0x0 and masks out the version, others
-  that care about the version are doing a two byte read, though not all
-  actually act on the version and some just discard the information.
-
-  The user who hit this was able to enable tracing (note the tracing
-  file is attached to the illumos bug linked previously) and we hit the
-  unimplemented register read with offset 0x2 at
-  http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l2960. The xhci register specifies today that its
-  allowed for users to do 1-4 byte reads; however, that it implements
-  only four byte reads in its implementation
-  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l3333). Hence why when we read the HCIVERSION register
-  at offset 0x2, it isn't handled in xhci_cap_read() which then returns
-  zeros.
-
-  From digging into this, I think that we're coming into
-  memory_region_dispatch_read() and then memory_region_dispatch_read1().
-  However, I don't see anything in either the general memory region
-  logic or in the xhci_cap_read() function that would deal with
-  adjusting the offset that we're reading at and then masking it off
-  again. While the access_with_adjusted_size() attempts to deal with
-  this, it never adjusts the hardware address that's passed in to be a
-  multiple of the implementation defined offset that I can see. I
-  suspect that the FIXME at line 582
-  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dmemory.c;hb=3DHEAD#l582) =
-and
-  the implementation in the xhci code is the crux of the problem.
-
-  For the time being we're working around this in the illumos driver,
-  but I wanted to point this out such that it might be helpful for other
-  systems which are assuming that they can do the two byte read like on
-  hardware.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1693050/+subscriptions
+> ---
+>  hw/arm/stm32f205_soc.c | 4 ++++
+>  hw/arm/stm32f405_soc.c | 4 ++++
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+> index 118c342559..1d80f91dd7 100644
+> --- a/hw/arm/stm32f205_soc.c
+> +++ b/hw/arm/stm32f205_soc.c
+> @@ -83,113 +83,117 @@ static void stm32f205_soc_initfn(Object *obj)
+>  static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+>  {
+>      STM32F205State *s =3D STM32F205_SOC(dev_soc);
+>      DeviceState *dev, *armv7m;
+>      SysBusDevice *busdev;
+>      Error *err =3D NULL;
+>      int i;
+>
+>      MemoryRegion *system_memory =3D get_system_memory();
+>      MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+>      MemoryRegion *flash =3D g_new(MemoryRegion, 1);
+>      MemoryRegion *flash_alias =3D g_new(MemoryRegion, 1);
+>
+>      memory_region_init_rom(flash, OBJECT(dev_soc), "STM32F205.flash",
+>                             FLASH_SIZE, &error_fatal);
+>      memory_region_init_alias(flash_alias, OBJECT(dev_soc),
+>                               "STM32F205.flash.alias", flash, 0, FLASH_SI=
+ZE);
+>
+>      memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash=
+);
+>      memory_region_add_subregion(system_memory, 0, flash_alias);
+>
+>      memory_region_init_ram(sram, NULL, "STM32F205.sram", SRAM_SIZE,
+>                             &error_fatal);
+>      memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
+>
+>      armv7m =3D DEVICE(&s->armv7m);
+>      qdev_prop_set_uint32(armv7m, "num-irq", 96);
+>      qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+>      qdev_prop_set_bit(armv7m, "enable-bitband", true);
+>      object_property_set_link(OBJECT(&s->armv7m), OBJECT(get_system_memor=
+y()),
+>                                       "memory", &error_abort);
+>      object_property_set_bool(OBJECT(&s->armv7m), true, "realized", &err)=
+;
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>
+>      /* System configuration controller */
+>      dev =3D DEVICE(&s->syscfg);
+>      object_property_set_bool(OBJECT(&s->syscfg), true, "realized", &err)=
+;
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      sysbus_mmio_map(busdev, 0, 0x40013800);
+>      sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, 71));
+>
+>      /* Attach UART (uses USART registers) and USART controllers */
+>      for (i =3D 0; i < STM_NUM_USARTS; i++) {
+>          dev =3D DEVICE(&(s->usart[i]));
+>          qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+>          object_property_set_bool(OBJECT(&s->usart[i]), true, "realized",=
+ &err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, usart_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, usart_irq=
+[i]));
+>      }
+>
+>      /* Timer 2 to 5 */
+>      for (i =3D 0; i < STM_NUM_TIMERS; i++) {
+>          dev =3D DEVICE(&(s->timer[i]));
+>          qdev_prop_set_uint64(dev, "clock-frequency", 1000000000);
+>          object_property_set_bool(OBJECT(&s->timer[i]), true, "realized",=
+ &err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, timer_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, timer_irq=
+[i]));
+>      }
+>
+>      /* ADC 1 to 3 */
+>      object_property_set_int(OBJECT(s->adc_irqs), STM_NUM_ADCS,
+>                              "num-lines", &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>      object_property_set_bool(OBJECT(s->adc_irqs), true, "realized", &err=
+);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      qdev_connect_gpio_out(DEVICE(s->adc_irqs), 0,
+>                            qdev_get_gpio_in(armv7m, ADC_IRQ));
+>
+>      for (i =3D 0; i < STM_NUM_ADCS; i++) {
+>          dev =3D DEVICE(&(s->adc[i]));
+>          object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &=
+err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, adc_addr[i]);
+>          sysbus_connect_irq(busdev, 0,
+>                             qdev_get_gpio_in(DEVICE(s->adc_irqs), i));
+>      }
+>
+>      /* SPI 1 and 2 */
+>      for (i =3D 0; i < STM_NUM_SPIS; i++) {
+>          dev =3D DEVICE(&(s->spi[i]));
+>          object_property_set_bool(OBJECT(&s->spi[i]), true, "realized", &=
+err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, spi_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, spi_irq[i=
+]));
+>      }
+>  }
+> diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+> index 4f10ce6176..398a3b5b4f 100644
+> --- a/hw/arm/stm32f405_soc.c
+> +++ b/hw/arm/stm32f405_soc.c
+> @@ -89,183 +89,187 @@ static void stm32f405_soc_initfn(Object *obj)
+>  static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+>  {
+>      STM32F405State *s =3D STM32F405_SOC(dev_soc);
+>      MemoryRegion *system_memory =3D get_system_memory();
+>      DeviceState *dev, *armv7m;
+>      SysBusDevice *busdev;
+>      Error *err =3D NULL;
+>      int i;
+>
+>      memory_region_init_rom(&s->flash, OBJECT(dev_soc), "STM32F405.flash"=
+,
+>                             FLASH_SIZE, &err);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
+>                               "STM32F405.flash.alias", &s->flash, 0,
+>                               FLASH_SIZE);
+>
+>      memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->f=
+lash);
+>      memory_region_add_subregion(system_memory, 0, &s->flash_alias);
+>
+>      memory_region_init_ram(&s->sram, NULL, "STM32F405.sram", SRAM_SIZE,
+>                             &err);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sr=
+am);
+>
+>      armv7m =3D DEVICE(&s->armv7m);
+>      qdev_prop_set_uint32(armv7m, "num-irq", 96);
+>      qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+>      qdev_prop_set_bit(armv7m, "enable-bitband", true);
+>      object_property_set_link(OBJECT(&s->armv7m), OBJECT(system_memory),
+>                                       "memory", &error_abort);
+>      object_property_set_bool(OBJECT(&s->armv7m), true, "realized", &err)=
+;
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>
+>      /* System configuration controller */
+>      dev =3D DEVICE(&s->syscfg);
+>      object_property_set_bool(OBJECT(&s->syscfg), true, "realized", &err)=
+;
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      sysbus_mmio_map(busdev, 0, SYSCFG_ADD);
+>      sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, SYSCFG_IRQ));
+>
+>      /* Attach UART (uses USART registers) and USART controllers */
+>      for (i =3D 0; i < STM_NUM_USARTS; i++) {
+>          dev =3D DEVICE(&(s->usart[i]));
+>          qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+>          object_property_set_bool(OBJECT(&s->usart[i]), true, "realized",=
+ &err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, usart_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, usart_irq=
+[i]));
+>      }
+>
+>      /* Timer 2 to 5 */
+>      for (i =3D 0; i < STM_NUM_TIMERS; i++) {
+>          dev =3D DEVICE(&(s->timer[i]));
+>          qdev_prop_set_uint64(dev, "clock-frequency", 1000000000);
+>          object_property_set_bool(OBJECT(&s->timer[i]), true, "realized",=
+ &err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, timer_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, timer_irq=
+[i]));
+>      }
+>
+>      /* ADC device, the IRQs are ORed together */
+>      object_initialize_child(OBJECT(s), "adc-orirq", &s->adc_irqs,
+>                              sizeof(s->adc_irqs), TYPE_OR_IRQ,
+>                              &err, NULL);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      object_property_set_int(OBJECT(&s->adc_irqs), STM_NUM_ADCS,
+>                              "num-lines", &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>      object_property_set_bool(OBJECT(&s->adc_irqs), true, "realized", &er=
+r);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      qdev_connect_gpio_out(DEVICE(&s->adc_irqs), 0,
+>                            qdev_get_gpio_in(armv7m, ADC_IRQ));
+>
+>      dev =3D DEVICE(&(s->adc[i]));
+>      object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err)=
+;
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      sysbus_mmio_map(busdev, 0, ADC_ADDR);
+>      sysbus_connect_irq(busdev, 0,
+>                         qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
+>
+>      /* SPI devices */
+>      for (i =3D 0; i < STM_NUM_SPIS; i++) {
+>          dev =3D DEVICE(&(s->spi[i]));
+>          object_property_set_bool(OBJECT(&s->spi[i]), true, "realized", &=
+err);
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
+>          busdev =3D SYS_BUS_DEVICE(dev);
+>          sysbus_mmio_map(busdev, 0, spi_addr[i]);
+>          sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(armv7m, spi_irq[i=
+]));
+>      }
+>
+>      /* EXTI device */
+>      dev =3D DEVICE(&s->exti);
+>      object_property_set_bool(OBJECT(&s->exti), true, "realized", &err);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      sysbus_mmio_map(busdev, 0, EXTI_ADDR);
+>      for (i =3D 0; i < 16; i++) {
+>          sysbus_connect_irq(busdev, i, qdev_get_gpio_in(armv7m, exti_irq[=
+i]));
+>      }
+>      for (i =3D 0; i < 16; i++) {
+>          qdev_connect_gpio_out(DEVICE(&s->syscfg), i, qdev_get_gpio_in(de=
+v, i));
+>      }
+>
+>      create_unimplemented_device("timer[7]",    0x40001400, 0x400);
+>      create_unimplemented_device("timer[12]",   0x40001800, 0x400);
+>      create_unimplemented_device("timer[6]",    0x40001000, 0x400);
+>      create_unimplemented_device("timer[13]",   0x40001C00, 0x400);
+>      create_unimplemented_device("timer[14]",   0x40002000, 0x400);
+>      create_unimplemented_device("RTC and BKP", 0x40002800, 0x400);
+>      create_unimplemented_device("WWDG",        0x40002C00, 0x400);
+>      create_unimplemented_device("IWDG",        0x40003000, 0x400);
+>      create_unimplemented_device("I2S2ext",     0x40003000, 0x400);
+>      create_unimplemented_device("I2S3ext",     0x40004000, 0x400);
+>      create_unimplemented_device("I2C1",        0x40005400, 0x400);
+>      create_unimplemented_device("I2C2",        0x40005800, 0x400);
+>      create_unimplemented_device("I2C3",        0x40005C00, 0x400);
+>      create_unimplemented_device("CAN1",        0x40006400, 0x400);
+>      create_unimplemented_device("CAN2",        0x40006800, 0x400);
+>      create_unimplemented_device("PWR",         0x40007000, 0x400);
+>      create_unimplemented_device("DAC",         0x40007400, 0x400);
+>      create_unimplemented_device("timer[1]",    0x40010000, 0x400);
+>      create_unimplemented_device("timer[8]",    0x40010400, 0x400);
+>      create_unimplemented_device("SDIO",        0x40012C00, 0x400);
+>      create_unimplemented_device("timer[9]",    0x40014000, 0x400);
+>      create_unimplemented_device("timer[10]",   0x40014400, 0x400);
+>      create_unimplemented_device("timer[11]",   0x40014800, 0x400);
+>      create_unimplemented_device("GPIOA",       0x40020000, 0x400);
+>      create_unimplemented_device("GPIOB",       0x40020400, 0x400);
+>      create_unimplemented_device("GPIOC",       0x40020800, 0x400);
+>      create_unimplemented_device("GPIOD",       0x40020C00, 0x400);
+>      create_unimplemented_device("GPIOE",       0x40021000, 0x400);
+>      create_unimplemented_device("GPIOF",       0x40021400, 0x400);
+>      create_unimplemented_device("GPIOG",       0x40021800, 0x400);
+>      create_unimplemented_device("GPIOH",       0x40021C00, 0x400);
+>      create_unimplemented_device("GPIOI",       0x40022000, 0x400);
+>      create_unimplemented_device("CRC",         0x40023000, 0x400);
+>      create_unimplemented_device("RCC",         0x40023800, 0x400);
+>      create_unimplemented_device("Flash Int",   0x40023C00, 0x400);
+>      create_unimplemented_device("BKPSRAM",     0x40024000, 0x400);
+>      create_unimplemented_device("DMA1",        0x40026000, 0x400);
+>      create_unimplemented_device("DMA2",        0x40026400, 0x400);
+>      create_unimplemented_device("Ethernet",    0x40028000, 0x1400);
+>      create_unimplemented_device("USB OTG HS",  0x40040000, 0x30000);
+>      create_unimplemented_device("USB OTG FS",  0x50000000, 0x31000);
+>      create_unimplemented_device("DCMI",        0x50050000, 0x400);
+>      create_unimplemented_device("RNG",         0x50060800, 0x400);
+>  }
+> --
+> 2.21.1
+>
+>
 
