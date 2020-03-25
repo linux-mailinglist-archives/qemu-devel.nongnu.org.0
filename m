@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4E0192684
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:02:21 +0100 (CET)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA81319269B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 12:04:38 +0100 (CET)
+Received: from localhost ([::1]:34376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3nd-0003Lh-KB
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
+	id 1jH3pt-00079K-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 07:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3YC-0001SF-08
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:46:21 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3hr-0004Vk-9o
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:56:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Y7-0005LZ-As
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:46:19 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46142)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3hp-0000mN-6p
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:56:18 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46651)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Y7-0005L2-5T
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:46:15 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3hp-0000ls-2N
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:56:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133174;
+ s=mimecast20190719; t=1585133776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+eY+FYy2gFAaVgdYsNIfWfpD1ewVfii1Gi5FkDBQjpM=;
- b=fn9YhQZR5TyljDEdAM/TABs1KfvCByD5Bc0RLq8O+RvOzA0mXTvaH+Wgz5QD1zNYla/fb/
- aXjgqHbo3u4dBEUv1rGPVJZ5O3AEzVQkRZG+9uBj4sNnPKDWWAvP6c39BF0L1yu2d3n0s3
- aIf+sWc4JNXlXBsMYzovi5YwYLs9mGk=
+ bh=WKfeMW+u5W7VsDI3kchu8tRloDhAmzfwXqPKleg7QN4=;
+ b=NgaDxB18ABOmWbA24FUCsOUyqlcGA1946qZXxvIZyW14arCL/iDw+wSv90YlUJYuAmj9N2
+ a17sKZKldCqVhKnUo903E9yH7FRylmT56/a7+z3piMDPbCDcl/coEs/zsLEW5aJeuZkc9U
+ /nmZrM76fXcgT5h1Q7af8Cg8QdELx5s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Z4TO4VPHMJ6wSGMH5Wi2GQ-1; Wed, 25 Mar 2020 06:46:13 -0400
-X-MC-Unique: Z4TO4VPHMJ6wSGMH5Wi2GQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-189-gXDC0mzBPZimy-4J62D95w-1; Wed, 25 Mar 2020 06:56:13 -0400
+X-MC-Unique: gXDC0mzBPZimy-4J62D95w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0EBFA1360;
- Wed, 25 Mar 2020 10:46:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 973DB1005514;
+ Wed, 25 Mar 2020 10:56:11 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF91660BE1;
- Wed, 25 Mar 2020 10:46:09 +0000 (UTC)
-Message-ID: <3ad9c437587ff82d4ebc455b2bffed1a413c7347.camel@redhat.com>
-Subject: Re: [PATCH v6 25/42] nvme: refactor dma read/write
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D4B3396;
+ Wed, 25 Mar 2020 10:56:09 +0000 (UTC)
+Message-ID: <1628398725459de502198f6f4fd6c9efd75adb3b.camel@redhat.com>
+Subject: Re: [PATCH v6 27/42] nvme: add request mapping helper
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:46:08 +0200
-In-Reply-To: <20200316142928.153431-26-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:56:08 +0200
+In-Reply-To: <20200316142928.153431-28-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-26-its@irrelevant.dk>
+ <20200316142928.153431-28-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -80,202 +80,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Refactor the nvme_dma_{read,write}_prp functions into a common function
-> taking a DMADirection parameter.
+> Introduce the nvme_map helper to remove some noise in the main nvme_rw
+> function.
 > 
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  hw/block/nvme.c | 89 ++++++++++++++++++++++++-------------------------
->  1 file changed, 43 insertions(+), 46 deletions(-)
+>  hw/block/nvme.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index e40c080c3b48..809d00443369 100644
+> index 3e9c2ed434c2..850087aac967 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -299,55 +299,50 @@ unmap:
+> @@ -351,6 +351,15 @@ static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
 >      return status;
 >  }
 >  
-> -static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> -                                   uint64_t prp1, uint64_t prp2)
-> +static uint16_t nvme_dma_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> +                             uint64_t prp1, uint64_t prp2, DMADirection dir)
+> +static uint16_t nvme_map(NvmeCtrl *n, NvmeCmd *cmd, QEMUSGList *qsg,
+> +                         QEMUIOVector *iov, size_t len, NvmeRequest *req)
+> +{
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +
+> +    return nvme_map_prp(n, qsg, iov, prp1, prp2, len, req);
+> +}
+> +
+>  static void nvme_post_cqes(void *opaque)
 >  {
->      QEMUSGList qsg;
->      QEMUIOVector iov;
->      uint16_t status = NVME_SUCCESS;
+>      NvmeCQueue *cq = opaque;
+> @@ -534,8 +543,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+>      NvmeRwCmd *rw = (NvmeRwCmd *)cmd;
+>      uint32_t nlb  = le32_to_cpu(rw->nlb) + 1;
+>      uint64_t slba = le64_to_cpu(rw->slba);
+> -    uint64_t prp1 = le64_to_cpu(rw->dptr.prp1);
+> -    uint64_t prp2 = le64_to_cpu(rw->dptr.prp2);
 >  
-> -    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
-> -        return NVME_INVALID_FIELD | NVME_DNR;
-> +    status = nvme_map_prp(&qsg, &iov, prp1, prp2, len, n);
-> +    if (status) {
-> +        return status;
->      }
-> -    if (qsg.nsg > 0) {
-> -        if (dma_buf_write(ptr, len, &qsg)) {
-> -            status = NVME_INVALID_FIELD | NVME_DNR;
-> -        }
-> -        qemu_sglist_destroy(&qsg);
-> -    } else {
-> -        if (qemu_iovec_to_buf(&iov, 0, ptr, len) != len) {
-> -            status = NVME_INVALID_FIELD | NVME_DNR;
-> -        }
-> -        qemu_iovec_destroy(&iov);
-> -    }
-> -    return status;
-> -}
->  
-> -static uint16_t nvme_dma_read_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> -    uint64_t prp1, uint64_t prp2)
-> -{
-> -    QEMUSGList qsg;
-> -    QEMUIOVector iov;
-> -    uint16_t status = NVME_SUCCESS;
-> +    if (qsg.nsg > 0) {
-> +        uint64_t residual;
->  
-> -    trace_nvme_dev_dma_read(prp1, prp2);
-> +        if (dir == DMA_DIRECTION_TO_DEVICE) {
-> +            residual = dma_buf_write(ptr, len, &qsg);
-> +        } else {
-> +            residual = dma_buf_read(ptr, len, &qsg);
-> +        }
->  
-> -    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
-> -        return NVME_INVALID_FIELD | NVME_DNR;
-> -    }
-> -    if (qsg.nsg > 0) {
-> -        if (unlikely(dma_buf_read(ptr, len, &qsg))) {
-> +        if (unlikely(residual)) {
->              trace_nvme_dev_err_invalid_dma();
->              status = NVME_INVALID_FIELD | NVME_DNR;
->          }
-> +
->          qemu_sglist_destroy(&qsg);
->      } else {
-> -        if (unlikely(qemu_iovec_from_buf(&iov, 0, ptr, len) != len)) {
-> +        size_t bytes;
-> +
-> +        if (dir == DMA_DIRECTION_TO_DEVICE) {
-> +            bytes = qemu_iovec_to_buf(&iov, 0, ptr, len);
-> +        } else {
-> +            bytes = qemu_iovec_from_buf(&iov, 0, ptr, len);
-> +        }
-> +
-> +        if (unlikely(bytes != len)) {
->              trace_nvme_dev_err_invalid_dma();
->              status = NVME_INVALID_FIELD | NVME_DNR;
->          }
-> +
->          qemu_iovec_destroy(&iov);
->      }
-> +
->      return status;
->  }
->  
-> @@ -775,8 +770,8 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
->          nvme_clear_events(n, NVME_AER_TYPE_SMART);
+>      uint8_t lba_index  = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+>      uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
+> @@ -552,7 +559,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+>          return NVME_LBA_RANGE | NVME_DNR;
 >      }
 >  
-> -    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
-> -                             prp2);
-> +    return nvme_dma_prp(n, (uint8_t *) &smart + off, trans_len, prp1, prp2,
-> +                        DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
-> @@ -795,8 +790,8 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
->  
->      trans_len = MIN(sizeof(fw_log) - off, buf_len);
->  
-> -    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1,
-> -                             prp2);
-> +    return nvme_dma_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1, prp2,
-> +                        DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
-> @@ -820,7 +815,8 @@ static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
->  
->      trans_len = MIN(sizeof(errlog) - off, buf_len);
->  
-> -    return nvme_dma_read_prp(n, errlog, trans_len, prp1, prp2);
-> +    return nvme_dma_prp(n, errlog, trans_len, prp1, prp2,
-> +                        DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> @@ -963,8 +959,8 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeIdentify *c)
->  
->      trace_nvme_dev_identify_ctrl();
->  
-> -    return nvme_dma_read_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl),
-> -        prp1, prp2);
-> +    return nvme_dma_prp(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl), prp1,
-> +                        prp2, DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
-> @@ -983,8 +979,8 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
->  
->      ns = &n->namespaces[nsid - 1];
->  
-> -    return nvme_dma_read_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns),
-> -        prp1, prp2);
-> +    return nvme_dma_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns), prp1,
-> +                        prp2, DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
-> @@ -1009,7 +1005,8 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
->              break;
->          }
+> -    if (nvme_map_prp(n, &req->qsg, &req->iov, prp1, prp2, data_size, req)) {
+> +    if (nvme_map(n, cmd, &req->qsg, &req->iov, data_size, req)) {
+>          block_acct_invalid(blk_get_stats(n->conf.blk), acct);
+>          return NVME_INVALID_FIELD | NVME_DNR;
 >      }
-> -    ret = nvme_dma_read_prp(n, (uint8_t *)list, data_len, prp1, prp2);
-> +    ret = nvme_dma_prp(n, (uint8_t *)list, data_len, prp1, prp2,
-> +                       DMA_DIRECTION_FROM_DEVICE);
->      g_free(list);
->      return ret;
->  }
-> @@ -1044,8 +1041,8 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c)
->      ns_descr->nidl = NVME_NIDT_UUID_LEN;
->      stl_be_p(ns_descr + sizeof(*ns_descr), nsid);
->  
-> -    ret = nvme_dma_read_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SIZE, prp1,
-> -                            prp2);
-> +    ret = nvme_dma_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SIZE, prp1,
-> +                       prp2, DMA_DIRECTION_FROM_DEVICE);
->      g_free(list);
->      return ret;
->  }
-> @@ -1128,8 +1125,8 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
->  
->      uint64_t timestamp = nvme_get_timestamp(n);
->  
-> -    return nvme_dma_read_prp(n, (uint8_t *)&timestamp,
-> -                                 sizeof(timestamp), prp1, prp2);
-> +    return nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp1,
-> +                        prp2, DMA_DIRECTION_FROM_DEVICE);
->  }
->  
->  static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> @@ -1214,8 +1211,8 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
->      uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
->      uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
->  
-> -    ret = nvme_dma_write_prp(n, (uint8_t *)&timestamp,
-> -                                sizeof(timestamp), prp1, prp2);
-> +    ret = nvme_dma_prp(n, (uint8_t *)&timestamp, sizeof(timestamp), prp1,
-> +                       prp2, DMA_DIRECTION_TO_DEVICE);
->      if (ret != NVME_SUCCESS) {
->          return ret;
->      }
-
-
-Looks OK to me.
-It was a bit difficult to read the diff, so I also read the code after it was applied.
-I hope I didn't miss anything.
-
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
