@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ABD192602
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:43:10 +0100 (CET)
-Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DB7192605
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:44:02 +0100 (CET)
+Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3V7-0003kQ-V7
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35433)
+	id 1jH3Vx-000501-Kb
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3T5-0001RI-55
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:04 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3TN-00023G-QP
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3T3-0002Nr-A6
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:03 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24146)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3TL-0002XP-8H
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:50525)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3T3-0002N9-4r
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:01 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3TL-0002X1-15
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132860;
+ s=mimecast20190719; t=1585132878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MBdSlGMfwoUiFT/e8Xxde9UtZjr1v4pvMkeZU8DDiw8=;
- b=AtKTXkx+/Udk9wUoP0CrogaV8IudSRCRTZ0ocT5fqBQqCNWmz+PGuXHFF4JlyYCdXtCqsV
- JqOoY+y9T4AlysafQ4ZgfCaAErRgCoH+0g57/5RyaVASAYcdYgKqg6VDa6A/lIpQZvLXl8
- yf6GreaHy6pWYceYkMU6pWgC4dtfh+U=
+ bh=y3yfDv/wHruiYaBouTn0JiLeSVkSTuoX8Te1eT492Ic=;
+ b=RAA9x0+PRQtOykZxRziIG+wKgAsBfmmuf9MX3Xkui4kAbeuVAVqANjEvksNbMDOGb6qWJq
+ BGyG4gIcu2TsZxQFi/j7Aaey9Sbz13Gh6LbqSR6+9yYwd3l81RD5aoIB2qU2BmD7oKyEYJ
+ WIJF22gW8Fa1zrs2G8rCsM2Skj9Cm4w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-zJGZ5ZTvOZ-Uihiprlb1oQ-1; Wed, 25 Mar 2020 06:40:58 -0400
-X-MC-Unique: zJGZ5ZTvOZ-Uihiprlb1oQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-324-WigwnuuIPHWLYbcQ9YzR8A-1; Wed, 25 Mar 2020 06:41:17 -0400
+X-MC-Unique: WigwnuuIPHWLYbcQ9YzR8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 695D5800D5C;
- Wed, 25 Mar 2020 10:40:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B7B61005510;
+ Wed, 25 Mar 2020 10:41:15 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3448294B5B;
- Wed, 25 Mar 2020 10:40:55 +0000 (UTC)
-Message-ID: <a7c92a47957a8185a9bd8d7d8b919072d757ff3a.camel@redhat.com>
-Subject: Re: [PATCH v6 12/42] nvme: add support for the get log page command
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B1F05C1A2;
+ Wed, 25 Mar 2020 10:41:13 +0000 (UTC)
+Message-ID: <20db94c456b684b2b2429c383739b877f7317618.camel@redhat.com>
+Subject: Re: [PATCH v6 13/42] nvme: add support for the asynchronous event
+ request command
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:40:53 +0200
-In-Reply-To: <20200316142928.153431-13-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:41:12 +0200
+In-Reply-To: <20200316142928.153431-14-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-13-its@irrelevant.dk>
+ <20200316142928.153431-14-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -79,260 +80,449 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Add support for the Get Log Page command and basic implementations of
-> the mandatory Error Information, SMART / Health Information and Firmware
-> Slot Information log pages.
-> 
-> In violation of the specification, the SMART / Health Information log
-> page does not persist information over the lifetime of the controller
-> because the device has no place to store such persistent state.
-> 
-> Note that the LPA field in the Identify Controller data structure
-> intentionally has bit 0 cleared because there is no namespace specific
-> information in the SMART / Health information log page.
-> 
 > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
-> Section 5.10 ("Get Log Page command").
+> Section 5.2 ("Asynchronous Event Request command").
+> 
+> Mostly imported from Keith's qemu-nvme tree. Modified with a max number
+> of queued events (controllable with the aer_max_queued device
+> parameter). The spec states that the controller *should* retain
+> events, so we do best effort here.
 > 
 > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 > Acked-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  hw/block/nvme.c       | 138 +++++++++++++++++++++++++++++++++++++++++-
->  hw/block/nvme.h       |  10 +++
->  hw/block/trace-events |   2 +
->  3 files changed, 149 insertions(+), 1 deletion(-)
+>  hw/block/nvme.c       | 178 ++++++++++++++++++++++++++++++++++++++++--
+>  hw/block/nvme.h       |  14 +++-
+>  hw/block/trace-events |   9 +++
+>  include/block/nvme.h  |   8 +-
+>  4 files changed, 199 insertions(+), 10 deletions(-)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 64c42101df5c..83ff3fbfb463 100644
+> index 83ff3fbfb463..ff8975cd6667 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -569,6 +569,138 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeCmd *cmd)
+> @@ -325,6 +325,85 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+>      timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+>  }
+>  
+> +static void nvme_process_aers(void *opaque)
+> +{
+> +    NvmeCtrl *n = opaque;
+> +    NvmeAsyncEvent *event, *next;
+> +
+> +    trace_nvme_dev_process_aers(n->aer_queued);
+> +
+> +    QTAILQ_FOREACH_SAFE(event, &n->aer_queue, entry, next) {
+> +        NvmeRequest *req;
+> +        NvmeAerResult *result;
+> +
+> +        /* can't post cqe if there is nothing to complete */
+> +        if (!n->outstanding_aers) {
+> +            trace_nvme_dev_no_outstanding_aers();
+> +            break;
+> +        }
+> +
+> +        /* ignore if masked (cqe posted, but event not cleared) */
+> +        if (n->aer_mask & (1 << event->result.event_type)) {
+> +            trace_nvme_dev_aer_masked(event->result.event_type, n->aer_mask);
+> +            continue;
+> +        }
+> +
+> +        QTAILQ_REMOVE(&n->aer_queue, event, entry);
+> +        n->aer_queued--;
+> +
+> +        n->aer_mask |= 1 << event->result.event_type;
+> +        n->outstanding_aers--;
+> +
+> +        req = n->aer_reqs[n->outstanding_aers];
+> +
+> +        result = (NvmeAerResult *) &req->cqe.result;
+> +        result->event_type = event->result.event_type;
+> +        result->event_info = event->result.event_info;
+> +        result->log_page = event->result.log_page;
+> +        g_free(event);
+> +
+> +        req->status = NVME_SUCCESS;
+> +
+> +        trace_nvme_dev_aer_post_cqe(result->event_type, result->event_info,
+> +                                    result->log_page);
+> +
+> +        nvme_enqueue_req_completion(&n->admin_cq, req);
+> +    }
+> +}
+> +
+> +static void nvme_enqueue_event(NvmeCtrl *n, uint8_t event_type,
+> +                               uint8_t event_info, uint8_t log_page)
+> +{
+> +    NvmeAsyncEvent *event;
+> +
+> +    trace_nvme_dev_enqueue_event(event_type, event_info, log_page);
+> +
+> +    if (n->aer_queued == n->params.aer_max_queued) {
+> +        trace_nvme_dev_enqueue_event_noqueue(n->aer_queued);
+> +        return;
+> +    }
+> +
+> +    event = g_new(NvmeAsyncEvent, 1);
+> +    event->result = (NvmeAerResult) {
+> +        .event_type = event_type,
+> +        .event_info = event_info,
+> +        .log_page   = log_page,
+> +    };
+> +
+> +    QTAILQ_INSERT_TAIL(&n->aer_queue, event, entry);
+> +    n->aer_queued++;
+> +
+> +    nvme_process_aers(n);
+> +}
+> +
+> +static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+> +{
+> +    n->aer_mask &= ~(1 << event_type);
+> +    if (!QTAILQ_EMPTY(&n->aer_queue)) {
+> +        nvme_process_aers(n);
+> +    }
+> +}
+> +
+>  static void nvme_rw_cb(void *opaque, int ret)
+>  {
+>      NvmeRequest *req = opaque;
+> @@ -569,8 +648,9 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeCmd *cmd)
 >      return NVME_SUCCESS;
 >  }
 >  
-> +static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
-> +                                uint64_t off, NvmeRequest *req)
-> +{
-> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
-> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
-> +    uint32_t nsid = le32_to_cpu(cmd->nsid);
-> +
-> +    uint32_t trans_len;
-> +    time_t current_ms;
-> +    uint64_t units_read = 0, units_written = 0;
-> +    uint64_t read_commands = 0, write_commands = 0;
-> +    NvmeSmartLog smart;
-> +    BlockAcctStats *s;
-> +
-> +    if (nsid && nsid != 0xffffffff) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    s = blk_get_stats(n->conf.blk);
-> +
-> +    units_read = s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
-> +    units_written = s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
-> +    read_commands = s->nr_ops[BLOCK_ACCT_READ];
-> +    write_commands = s->nr_ops[BLOCK_ACCT_WRITE];
-> +
-> +    if (off > sizeof(smart)) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    trans_len = MIN(sizeof(smart) - off, buf_len);
-> +
-> +    memset(&smart, 0x0, sizeof(smart));
-> +
-> +    smart.data_units_read[0] = cpu_to_le64(units_read / 1000);
-> +    smart.data_units_written[0] = cpu_to_le64(units_written / 1000);
-> +    smart.host_read_commands[0] = cpu_to_le64(read_commands);
-> +    smart.host_write_commands[0] = cpu_to_le64(write_commands);
-> +
-> +    smart.temperature[0] = n->temperature & 0xff;
-> +    smart.temperature[1] = (n->temperature >> 8) & 0xff;
-> +
-> +    if ((n->temperature > n->features.temp_thresh_hi) ||
-> +        (n->temperature < n->features.temp_thresh_low)) {
-> +        smart.critical_warning |= NVME_SMART_TEMPERATURE;
-> +    }
-> +
-> +    current_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-> +    smart.power_on_hours[0] =
-> +        cpu_to_le64((((current_ms - n->starttime_ms) / 1000) / 60) / 60);
-OH, I didn't notice that you didn't have the endian conversion in V5, it is needed here
-of course.
-
-> +
-> +    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
-> +                             prp2);
-> +}
-> +
-> +static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
-> +                                 uint64_t off, NvmeRequest *req)
-> +{
-> +    uint32_t trans_len;
-> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
-> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
-> +    NvmeFwSlotInfoLog fw_log;
-> +
-> +    if (off > sizeof(fw_log)) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    memset(&fw_log, 0, sizeof(NvmeFwSlotInfoLog));
-> +
-> +    trans_len = MIN(sizeof(fw_log) - off, buf_len);
-> +
-> +    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1,
-> +                             prp2);
-> +}
-> +
-> +static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
-> +                                uint64_t off, NvmeRequest *req)
-> +{
-> +    uint32_t trans_len;
-> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
-> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
-> +    uint8_t errlog[64];
-I'll would replace this with sizeof(NvmeErrorLogEntry)
-(and add NvmeErrorLogEntry to the nvme.h), just for the sake of consistency,
-and in case we end up reporting some errors to the log in the future.
-
-
-> +
-> +    if (off > sizeof(errlog)) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    memset(errlog, 0x0, sizeof(errlog));
-> +
-> +    trans_len = MIN(sizeof(errlog) - off, buf_len);
-> +
-> +    return nvme_dma_read_prp(n, errlog, trans_len, prp1, prp2);
-> +}
-Besides this, looks good now.
-
-> +
-> +static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> +{
-> +    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> +    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
-> +    uint32_t dw12 = le32_to_cpu(cmd->cdw12);
-> +    uint32_t dw13 = le32_to_cpu(cmd->cdw13);
-> +    uint8_t  lid = dw10 & 0xff;
-> +    uint8_t  rae = (dw10 >> 15) & 0x1;
-> +    uint32_t numdl, numdu;
-> +    uint64_t off, lpol, lpou;
-> +    size_t   len;
-> +
-> +    numdl = (dw10 >> 16);
-> +    numdu = (dw11 & 0xffff);
-> +    lpol = dw12;
-> +    lpou = dw13;
-> +
-> +    len = (((numdu << 16) | numdl) + 1) << 2;
-> +    off = (lpou << 32ULL) | lpol;
-> +
-> +    if (off & 0x3) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    trace_nvme_dev_get_log(nvme_cid(req), lid, rae, len, off);
-> +
-> +    switch (lid) {
-> +    case NVME_LOG_ERROR_INFO:
-> +        return nvme_error_info(n, cmd, len, off, req);
-> +    case NVME_LOG_SMART_INFO:
-> +        return nvme_smart_info(n, cmd, len, off, req);
-> +    case NVME_LOG_FW_SLOT_INFO:
-> +        return nvme_fw_log_info(n, cmd, len, off, req);
-> +    default:
-> +        trace_nvme_dev_err_invalid_log_page(nvme_cid(req), lid);
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +}
-> +
->  static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+> -static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> -                                uint64_t off, NvmeRequest *req)
+> +static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
+> +                                uint32_t buf_len, uint64_t off,
+> +                                NvmeRequest *req)
 >  {
->      n->cq[cq->cqid] = NULL;
-> @@ -914,6 +1046,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          return nvme_del_sq(n, cmd);
->      case NVME_ADM_CMD_CREATE_SQ:
->          return nvme_create_sq(n, cmd);
-> +    case NVME_ADM_CMD_GET_LOG_PAGE:
-> +        return nvme_get_log(n, cmd, req);
->      case NVME_ADM_CMD_DELETE_CQ:
->          return nvme_del_cq(n, cmd);
->      case NVME_ADM_CMD_CREATE_CQ:
-> @@ -1416,7 +1550,9 @@ static void nvme_init_state(NvmeCtrl *n)
->      n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
->      n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
->      n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
-> +    n->temperature = NVME_TEMPERATURE;
+>      uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+>      uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> @@ -619,6 +699,10 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+>      smart.power_on_hours[0] =
+>          cpu_to_le64((((current_ms - n->starttime_ms) / 1000) / 60) / 60);
+>  
+> +    if (!rae) {
+> +        nvme_clear_events(n, NVME_AER_TYPE_SMART);
+> +    }
+> +
+>      return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
+>                               prp2);
+>  }
+> @@ -643,14 +727,19 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+>                               prp2);
+>  }
+>  
+> -static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> -                                uint64_t off, NvmeRequest *req)
+> +static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd, uint8_t rae,
+> +                                uint32_t buf_len, uint64_t off,
+> +                                NvmeRequest *req)
+>  {
+>      uint32_t trans_len;
+>      uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+>      uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+>      uint8_t errlog[64];
+>  
+> +    if (!rae) {
+> +        nvme_clear_events(n, NVME_AER_TYPE_ERROR);
+> +    }
+> +
+>      if (off > sizeof(errlog)) {
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> @@ -690,9 +779,9 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>  
+>      switch (lid) {
+>      case NVME_LOG_ERROR_INFO:
+> -        return nvme_error_info(n, cmd, len, off, req);
+> +        return nvme_error_info(n, cmd, rae, len, off, req);
+>      case NVME_LOG_SMART_INFO:
+> -        return nvme_smart_info(n, cmd, len, off, req);
+> +        return nvme_smart_info(n, cmd, rae, len, off, req);
+>      case NVME_LOG_FW_SLOT_INFO:
+>          return nvme_fw_log_info(n, cmd, len, off, req);
+>      default:
+> @@ -969,6 +1058,9 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          break;
+>      case NVME_TIMESTAMP:
+>          return nvme_get_feature_timestamp(n, cmd);
+> +    case NVME_ASYNCHRONOUS_EVENT_CONF:
+> +        result = cpu_to_le32(n->features.async_config);
+> +        break;
+>      default:
+>          trace_nvme_dev_err_invalid_getfeat(dw10);
+>          return NVME_INVALID_FIELD | NVME_DNR;
+> @@ -1018,6 +1110,14 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>              return NVME_INVALID_FIELD | NVME_DNR;
+>          }
+>  
+> +        if (((n->temperature > n->features.temp_thresh_hi) ||
+> +            (n->temperature < n->features.temp_thresh_low)) &&
+> +            NVME_AEC_SMART(n->features.async_config) & NVME_SMART_TEMPERATURE) {
+> +            nvme_enqueue_event(n, NVME_AER_TYPE_SMART,
+> +                               NVME_AER_INFO_SMART_TEMP_THRESH,
+> +                               NVME_LOG_SMART_INFO);
+> +        }
+> +
+>          break;
+>      case NVME_VOLATILE_WRITE_CACHE:
+>          blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+> @@ -1032,6 +1132,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          break;
+>      case NVME_TIMESTAMP:
+>          return nvme_set_feature_timestamp(n, cmd);
+> +    case NVME_ASYNCHRONOUS_EVENT_CONF:
+> +        n->features.async_config = dw11;
+> +        break;
+>      default:
+>          trace_nvme_dev_err_invalid_setfeat(dw10);
+>          return NVME_INVALID_FIELD | NVME_DNR;
+> @@ -1039,6 +1142,25 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>      return NVME_SUCCESS;
+>  }
+>  
+> +static uint16_t nvme_aer(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> +{
+> +    trace_nvme_dev_aer(nvme_cid(req));
+> +
+> +    if (n->outstanding_aers > n->params.aerl) {
+> +        trace_nvme_dev_aer_aerl_exceeded();
+> +        return NVME_AER_LIMIT_EXCEEDED;
+> +    }
+> +
+> +    n->aer_reqs[n->outstanding_aers] = req;
+> +    n->outstanding_aers++;
+> +
+> +    if (!QTAILQ_EMPTY(&n->aer_queue)) {
+> +        nvme_process_aers(n);
+> +    }
+> +
+> +    return NVME_NO_COMPLETE;
+> +}
+> +
+>  static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>  {
+>      switch (cmd->opcode) {
+> @@ -1060,6 +1182,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          return nvme_set_feature(n, cmd, req);
+>      case NVME_ADM_CMD_GET_FEATURES:
+>          return nvme_get_feature(n, cmd, req);
+> +    case NVME_ADM_CMD_ASYNC_EV_REQ:
+> +        return nvme_aer(n, cmd, req);
+>      default:
+>          trace_nvme_dev_err_invalid_admin_opc(cmd->opcode);
+>          return NVME_INVALID_OPCODE | NVME_DNR;
+> @@ -1114,6 +1238,15 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+>          }
+>      }
+>  
+> +    while (!QTAILQ_EMPTY(&n->aer_queue)) {
+> +        NvmeAsyncEvent *event = QTAILQ_FIRST(&n->aer_queue);
+> +        QTAILQ_REMOVE(&n->aer_queue, event, entry);
+> +        g_free(event);
+> +    }
+> +
+> +    n->aer_queued = 0;
+> +    n->outstanding_aers = 0;
+> +
+>      blk_flush(n->conf.blk);
+>      n->bar.cc = 0;
+>  }
+> @@ -1210,6 +1343,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+>  
+>      nvme_set_timestamp(n, 0ULL);
+>  
+> +    QTAILQ_INIT(&n->aer_queue);
+> +
+>      return 0;
+>  }
+>  
+> @@ -1402,6 +1537,13 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+>                             "completion queue doorbell write"
+>                             " for nonexistent queue,"
+>                             " sqid=%"PRIu32", ignoring", qid);
+> +
+> +            if (n->outstanding_aers) {
+> +                nvme_enqueue_event(n, NVME_AER_TYPE_ERROR,
+> +                                   NVME_AER_INFO_ERR_INVALID_DB_REGISTER,
+> +                                   NVME_LOG_ERROR_INFO);
+> +            }
+> +
+>              return;
+>          }
+>  
+> @@ -1412,6 +1554,13 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+>                             " beyond queue size, sqid=%"PRIu32","
+>                             " new_head=%"PRIu16", ignoring",
+>                             qid, new_head);
+> +
+> +            if (n->outstanding_aers) {
+> +                nvme_enqueue_event(n, NVME_AER_TYPE_ERROR,
+> +                                   NVME_AER_INFO_ERR_INVALID_DB_VALUE,
+> +                                   NVME_LOG_ERROR_INFO);
+> +            }
+> +
+>              return;
+>          }
+>  
+> @@ -1440,6 +1589,13 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+>                             "submission queue doorbell write"
+>                             " for nonexistent queue,"
+>                             " sqid=%"PRIu32", ignoring", qid);
+> +
+> +            if (n->outstanding_aers) {
+> +                nvme_enqueue_event(n, NVME_AER_TYPE_ERROR,
+> +                                   NVME_AER_INFO_ERR_INVALID_DB_REGISTER,
+> +                                   NVME_LOG_ERROR_INFO);
+> +            }
+> +
+>              return;
+>          }
+>  
+> @@ -1450,6 +1606,13 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+>                             " beyond queue size, sqid=%"PRIu32","
+>                             " new_tail=%"PRIu16", ignoring",
+>                             qid, new_tail);
+> +
+> +            if (n->outstanding_aers) {
+> +                nvme_enqueue_event(n, NVME_AER_TYPE_ERROR,
+> +                                   NVME_AER_INFO_ERR_INVALID_DB_VALUE,
+> +                                   NVME_LOG_ERROR_INFO);
+> +            }
+> +
+>              return;
+>          }
+>  
+> @@ -1553,6 +1716,7 @@ static void nvme_init_state(NvmeCtrl *n)
+>      n->temperature = NVME_TEMPERATURE;
 >      n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
-> +    n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+>      n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+> +    n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
 >  }
 >  
 >  static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-> @@ -1493,7 +1629,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+> @@ -1628,6 +1792,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+>       * inconsequential.
 >       */
 >      id->acl = 3;
+> +    id->aerl = n->params.aerl;
 >      id->frmw = 7 << 1;
-> -    id->lpa = 1 << 0;
-> +    id->lpa = 1 << 2;
+>      id->lpa = 1 << 2;
 >  
->      /* recommended default value (~70 C) */
->      id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+> @@ -1713,6 +1878,7 @@ static void nvme_exit(PCIDevice *pci_dev)
+>      g_free(n->namespaces);
+>      g_free(n->cq);
+>      g_free(n->sq);
+> +    g_free(n->aer_reqs);
+>  
+>      if (n->params.cmb_size_mb) {
+>          g_free(n->cmbuf);
 > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 8cda5f02c622..ebeee2edc4f4 100644
+> index ebeee2edc4f4..b709a8bb8d40 100644
 > --- a/hw/block/nvme.h
 > +++ b/hw/block/nvme.h
-> @@ -109,6 +109,7 @@ typedef struct NvmeCtrl {
->      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
->      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
->      uint16_t    temperature;
-> +    uint64_t    starttime_ms;
+> @@ -7,17 +7,21 @@
+>      DEFINE_PROP_STRING("serial", _state, _props.serial), \
+>      DEFINE_PROP_UINT32("cmb_size_mb", _state, _props.cmb_size_mb, 0), \
+>      DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 0), \
+> -    DEFINE_PROP_UINT32("max_ioqpairs", _state, _props.max_ioqpairs, 64)
+> +    DEFINE_PROP_UINT32("max_ioqpairs", _state, _props.max_ioqpairs, 64), \
+> +    DEFINE_PROP_UINT8("aerl", _state, _props.aerl, 3), \
+> +    DEFINE_PROP_UINT32("aer_max_queued", _state, _props.aer_max_queued, 64)
 >  
+>  typedef struct NvmeParams {
+>      char     *serial;
+>      uint32_t num_queues;
+>      uint32_t max_ioqpairs;
+>      uint32_t cmb_size_mb;
+> +    uint8_t  aerl;
+> +    uint32_t aer_max_queued;
+>  } NvmeParams;
+>  
+>  typedef struct NvmeAsyncEvent {
+> -    QSIMPLEQ_ENTRY(NvmeAsyncEvent) entry;
+> +    QTAILQ_ENTRY(NvmeAsyncEvent) entry;
+>      NvmeAerResult result;
+>  } NvmeAsyncEvent;
+>  
+> @@ -104,6 +108,7 @@ typedef struct NvmeCtrl {
+>      uint32_t    num_namespaces;
+>      uint32_t    max_q_ents;
+>      uint64_t    ns_size;
+> +    uint8_t     outstanding_aers;
+>      uint8_t     *cmbuf;
+>      uint64_t    irq_status;
+>      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+> @@ -111,6 +116,11 @@ typedef struct NvmeCtrl {
+>      uint16_t    temperature;
+>      uint64_t    starttime_ms;
+>  
+> +    uint8_t     aer_mask;
+> +    NvmeRequest **aer_reqs;
+> +    QTAILQ_HEAD(, NvmeAsyncEvent) aer_queue;
+> +    int         aer_queued;
+> +
 >      NvmeNamespace   *namespaces;
 >      NvmeSQueue      **sq;
-> @@ -124,4 +125,13 @@ static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
->      return n->ns_size >> nvme_ns_lbads(ns);
->  }
->  
-> +static inline uint16_t nvme_cid(NvmeRequest *req)
-> +{
-> +    if (req) {
-> +        return le16_to_cpu(req->cqe.cid);
-> +    }
-> +
-> +    return 0xffff;
-> +}
-> +
->  #endif /* HW_NVME_H */
+>      NvmeCQueue      **cq;
 > diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index ade506ea2bb2..7da088479f39 100644
+> index 7da088479f39..3952c36774cf 100644
 > --- a/hw/block/trace-events
 > +++ b/hw/block/trace-events
-> @@ -46,6 +46,7 @@ nvme_dev_getfeat_numq(int result) "get feature number of queues, result=%d"
->  nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+> @@ -47,6 +47,15 @@ nvme_dev_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_
 >  nvme_dev_setfeat_timestamp(uint64_t ts) "set feature timestamp = 0x%"PRIx64""
 >  nvme_dev_getfeat_timestamp(uint64_t ts) "get feature timestamp = 0x%"PRIx64""
-> +nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+>  nvme_dev_get_log(uint16_t cid, uint8_t lid, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+> +nvme_dev_process_aers(int queued) "queued %d"
+> +nvme_dev_aer(uint16_t cid) "cid %"PRIu16""
+> +nvme_dev_aer_aerl_exceeded(void) "aerl exceeded"
+> +nvme_dev_aer_masked(uint8_t type, uint8_t mask) "type 0x%"PRIx8" mask 0x%"PRIx8""
+> +nvme_dev_aer_post_cqe(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
+> +nvme_dev_enqueue_event(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
+> +nvme_dev_enqueue_event_noqueue(int queued) "queued %d"
+> +nvme_dev_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
+> +nvme_dev_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
 >  nvme_dev_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
 >  nvme_dev_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
 >  nvme_dev_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
-> @@ -85,6 +86,7 @@ nvme_dev_err_invalid_create_cq_qflags(uint16_t qflags) "failed creating completi
->  nvme_dev_err_invalid_identify_cns(uint16_t cns) "identify, invalid cns=0x%"PRIx16""
->  nvme_dev_err_invalid_getfeat(int dw10) "invalid get features, dw10=0x%"PRIx32""
->  nvme_dev_err_invalid_setfeat(uint32_t dw10) "invalid set features, dw10=0x%"PRIx32""
-> +nvme_dev_err_invalid_log_page(uint16_t cid, uint16_t lid) "cid %"PRIu16" lid 0x%"PRIx16""
->  nvme_dev_err_startfail_cq(void) "nvme_start_ctrl failed because there are non-admin completion queues"
->  nvme_dev_err_startfail_sq(void) "nvme_start_ctrl failed because there are non-admin submission queues"
->  nvme_dev_err_startfail_nbarasq(void) "nvme_start_ctrl failed because the admin submission queue address is null"
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index 91fc4738a3e0..f2a8b07c0f2f 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -425,8 +425,8 @@ enum NvmeAsyncEventRequest {
+>      NVME_AER_TYPE_SMART                     = 1,
+>      NVME_AER_TYPE_IO_SPECIFIC               = 6,
+>      NVME_AER_TYPE_VENDOR_SPECIFIC           = 7,
+> -    NVME_AER_INFO_ERR_INVALID_SQ            = 0,
+> -    NVME_AER_INFO_ERR_INVALID_DB            = 1,
+> +    NVME_AER_INFO_ERR_INVALID_DB_REGISTER   = 0,
+> +    NVME_AER_INFO_ERR_INVALID_DB_VALUE      = 1,
+>      NVME_AER_INFO_ERR_DIAG_FAIL             = 2,
+>      NVME_AER_INFO_ERR_PERS_INTERNAL_ERR     = 3,
+>      NVME_AER_INFO_ERR_TRANS_INTERNAL_ERR    = 4,
+> @@ -717,6 +717,10 @@ typedef struct NvmeFeatureVal {
+>  #define NVME_TEMP_TMPSEL(temp) ((temp >> 16) & 0xf)
+>  #define NVME_TEMP_TMPTH(temp)  ((temp >>  0) & 0xffff)
+>  
+> +#define NVME_AEC_SMART(aec)         (aec & 0xff)
+> +#define NVME_AEC_NS_ATTR(aec)       ((aec >> 8) & 0x1)
+> +#define NVME_AEC_FW_ACTIVATION(aec) ((aec >> 9) & 0x1)
+> +
+>  enum NvmeFeatureIds {
+>      NVME_ARBITRATION                = 0x1,
+>      NVME_POWER_MANAGEMENT           = 0x2,
 
+Indention issues indeed looks like all fixed,
+All other minor changes are OK as well,
+So,
 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Best regards,
 	Maxim Levitsky
+
 
 
 
