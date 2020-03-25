@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9514119248E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:49:12 +0100 (CET)
-Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5040A1924B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:51:33 +0100 (CET)
+Received: from localhost ([::1]:32942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2es-0002C5-Q5
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55331)
+	id 1jH2hA-0005i1-DA
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jH2bc-000707-UP
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:45:49 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jH2ce-0008En-EZ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:46:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jH2bb-0006jV-LR
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:45:48 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:20739)
+ (envelope-from <imammedo@redhat.com>) id 1jH2cd-0007Nt-9k
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:46:52 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:53434)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jH2bb-0006jE-HM
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:45:47 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jH2cd-0007Nh-3a
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:46:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585129547;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1585129610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YatZZOyuZ308lN1KRkU5kMjJAmYX5A2P6ON3GllVG4o=;
- b=Gs50Cd4gZkFKksUJ+kJN1yv5UdVFtOQYHTiES7eJ7muHx/BorjCrMDEu3M5KRNbLUJQtdg
- U2FecvDW0iUAQcPS5a60z/ZIepK36RZJmSmxjw5wAoSdrFXfFZBxnOaW0IV9xbjj8myKtP
- WgDVAvnDaIJMMq7gk065GrXYeu1atNM=
+ bh=zMgKUwa7rZhucN9yyhtBZFyKd2ukyBLlcGmXJ3qzJmQ=;
+ b=iUXDa8xQwdYHsoK7p61otFzmJchK+7kNWnDJR/KUUXYZkofG1kizhEdSV3X6Z1LUU2CEeo
+ SyfhNJqHpkqy4P9bWDOA34VQAji98HT7yQAumz0B+241o5DyiC/lIPpYfwjgmzt8HPUgIK
+ NaHQK7yPKiUH/l4nLgaMSleIpwtP1WM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-AafgimZ8NRKDIR0c-HQK7w-1; Wed, 25 Mar 2020 05:45:32 -0400
-X-MC-Unique: AafgimZ8NRKDIR0c-HQK7w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-357-UIVwiIXgOoKmyblH6Mbg5Q-1; Wed, 25 Mar 2020 05:46:49 -0400
+X-MC-Unique: UIVwiIXgOoKmyblH6Mbg5Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 345901005509;
- Wed, 25 Mar 2020 09:45:31 +0000 (UTC)
-Received: from redhat.com (ovpn-115-2.ams2.redhat.com [10.36.115.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6631C5DA7B;
- Wed, 25 Mar 2020 09:45:29 +0000 (UTC)
-Date: Wed, 25 Mar 2020 09:45:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
-Message-ID: <20200325094526.GA3722209@redhat.com>
-References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
- <20200325092137.24020-4-kuhn.chenqun@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 222FB1005509;
+ Wed, 25 Mar 2020 09:46:48 +0000 (UTC)
+Received: from office.mammed.net (unknown [10.40.195.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FDD0166AE;
+ Wed, 25 Mar 2020 09:46:47 +0000 (UTC)
+Date: Wed, 25 Mar 2020 10:46:44 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: Qemu master crashing on boot when using file backend for memory
+Message-ID: <20200325104644.5ea8d0a6@office.mammed.net>
+In-Reply-To: <20200325024924.GA1518@localhost.localdomain>
+References: <20200312053648.GA17365@localhost.localdomain>
+ <20200312115450.38c88206@redhat.com>
+ <20200325024924.GA1518@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200325092137.24020-4-kuhn.chenqun@huawei.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,66 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org, laurent@vivier.eu,
- Euler Robot <euler.robot@huawei.com>, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 25, 2020 at 05:21:37PM +0800, Chen Qun wrote:
-> Fix: eaec903c5b8
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
-> ---
->  crypto/cipher-builtin.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+On Tue, 24 Mar 2020 22:50:46 -0400
+Raphael Norwitz <raphael.norwitz@nutanix.com> wrote:
 
-Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> On Thu, Mar 12, 2020 at 11:54:50AM +0100, Igor Mammedov wrote:
+> >=20
+> > On Thu, 12 Mar 2020 01:36:48 -0400
+> > Raphael Norwitz <raphael.norwitz@nutanix.com> wrote:
+> >  =20
+> > > When I try run master qemu I am hitting a divide by zero error. It se=
+ems
+> > > to be coming from util/oslib-posix.c in touch_all_pages(). see line 4=
+77:
+> > >=20
+> > > numpages_per_thread =3D numpages / memset_num_threads;
+> > >=20
+> > > Poking around the crash dumps, I can see that the smp_cpus parameter
+> > > passed in to touch_all_pages() is 0. Going up the stack to
+> > > host_memory_backend_memory_complete() I see backend->prealloc_threads=
+ is
+> > > also 0.
+> > >=20
+> > > Here=E2=80=99s how I am running qemu
+> > >=20
+> > > ./x86_64-softmmu/qemu-system-x86_64 \
+> > > =09-kernel /boot/vmlinuz-3.10.0-1062.el7.x86_64  \
+> > >  =09-netdev user,id=3Dnet0,hostfwd=3Dtcp::2250-:22 \
+> > > =09-device e1000e,netdev=3Dnet0 \
+> > > =09-m 1G \
+> > > =09-initrd /boot/initramfs-3.10.0-1062.el7.x86_64.img  \
+> > > =09-object memory-backend-file,id=3Dram-node0,prealloc=3Dyes,mem-path=
+=3Dmem,share=3Dyes,size=3D1G \
+> > > =09-numa node,nodeid=3D0,cpus=3D0,memdev=3Dram-node0=20
+> > >=20
+> > > I don't see this error on a slightly older qemu, as of commit 105b07f=
+1
+> > > (January 27th).
+> > >=20
+> > > Interestingly when I remove the memory-backend-file parameter I don=
+=E2=80=99t
+> > > see the error, i.e. this works:
+> > >=20
+> > > ./x86_64-softmmu/qemu-system-x86_64 \
+> > > =09-kernel /boot/vmlinuz-3.10.0-1062.el7.x86_64  \
+> > >  =09-netdev user,id=3Dnet0,hostfwd=3Dtcp::2250-:22 \
+> > > =09-device e1000e,netdev=3Dnet0 \
+> > > =09-m 1G \
+> > > =09-initrd /boot/initramfs-3.10.0-1062.el7.x86_64.img
+> > >=20
+> > > Looking at the blame data for backends/hostmem.c I see commit ffac16f=
+a
+> > > introduced some churn in this part of the code. Has anyone else seen
+> > > this issue? Could I be doing something wrong here? =20
+> >=20
+> > It's know issue, see
+> >  "[PATCH] oslib-posix: initialize mutex and condition variable
+> > for a fix =20
+> > >  =20
+> > =20
+>=20
+> I'm testing on qemu master now. Looks like this patch has been merged
+> and I'm still seeing the same crash.
 
->=20
-> diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c
-> index bf8413e71a..99d6280a16 100644
-> --- a/crypto/cipher-builtin.c
-> +++ b/crypto/cipher-builtin.c
-> @@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const void=
- *ctx,
->  {
->      const QCryptoCipherBuiltinAESContext *aesctx =3D ctx;
-> =20
-> -    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
-> -                                   src, dst, length);
-> +    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
->  }
-> =20
-> =20
-> @@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const void=
- *ctx,
->  {
->      const QCryptoCipherBuiltinAESContext *aesctx =3D ctx;
-> =20
-> -    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
-> -                                   src, dst, length);
-> +    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
->  }
-> =20
-> =20
-> --=20
-> 2.23.0
->=20
->=20
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Thanks for report, fix is on the way to qemu-devel
 
 
