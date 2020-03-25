@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77DB192968
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:18:40 +0100 (CET)
-Received: from localhost ([::1]:36116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C84192988
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:22:50 +0100 (CET)
+Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH5vb-0008Pm-PQ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
+	id 1jH5zd-0007nQ-FU
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jH5tt-0006iV-9N
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:54 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jH5tv-0006mr-UG
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jH5ts-00069J-8f
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36927)
+ (envelope-from <dgilbert@redhat.com>) id 1jH5tu-0006Eb-Og
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:55 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58467)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH5ts-00068M-50
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:52 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH5tu-0006Dv-LE
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585142211;
+ s=mimecast20190719; t=1585142214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=umvOk8bwq+bQkl8WN+BspP5KPXkvD7/fipNx/LETqDE=;
- b=GrHr0CoZq3HbuoiUmahSfybxvnCPGaazLEiZrmgncgN+PkkaQDxI8zQy7X9dxZNcruGgSV
- zga+EHz9DiNkDTYHBgACqDDVJY3M5oweEf12Au0cszzIelPTWjkdToNW0x/PBTqJLjwMHG
- EL/S5MiymoLNT0kpUjnWoHWH7XizzL4=
+ bh=roHxRK0CyW53DrD9unCUVNNTq7w3Riel1xOoeqTB6Fs=;
+ b=QZn0JNpnbDxHptA7vAprh2JtfLDRoINa/tbGOcDPu42azbetoX7TN20G06W2gj0DLMfN73
+ hKxBzTypW+yE0tFWHz+xrfwodbl5wm0g4WOPiIVjKZBBgLeAfHzWHcfWtlDBxjZ/jcI+Ly
+ 7ZzkiqUiNrMwfI0ZKb2wfj8KaFBnTyA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-jb9rWO4tNNCW1xB_mJtJhA-1; Wed, 25 Mar 2020 09:16:49 -0400
-X-MC-Unique: jb9rWO4tNNCW1xB_mJtJhA-1
+ us-mta-108-GZKzHfSSO5W-pZXVjUpoEg-1; Wed, 25 Mar 2020 09:16:52 -0400
+X-MC-Unique: GZKzHfSSO5W-pZXVjUpoEg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800FD1922960;
- Wed, 25 Mar 2020 13:16:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4502E107ACC4;
+ Wed, 25 Mar 2020 13:16:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-213.ams2.redhat.com
  [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC0D35C298;
- Wed, 25 Mar 2020 13:16:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCB5A5C3F8;
+ Wed, 25 Mar 2020 13:16:48 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, pannengyuan@huawei.com,
  maozhongyi@cmss.chinamobile.com, vsementsov@virtuozzo.com,
  imammedo@redhat.com, philmd@redhat.com
-Subject: [PULL 5/9] tools/virtiofsd/passthrough_ll: Fix double close()
-Date: Wed, 25 Mar 2020 13:16:28 +0000
-Message-Id: <20200325131632.311034-6-dgilbert@redhat.com>
+Subject: [PULL 6/9] vl.c: fix migration failure for 3.1 and older machine types
+Date: Wed, 25 Mar 2020 13:16:29 +0000
+Message-Id: <20200325131632.311034-7-dgilbert@redhat.com>
 In-Reply-To: <20200325131632.311034-1-dgilbert@redhat.com>
 References: <20200325131632.311034-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -75,40 +75,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-On success, the fdopendir() call closes fd. Later on the error
-path we try to close an already-closed fd. This can lead to
-use-after-free. Fix by only closing the fd if the fdopendir()
-call failed.
+Migration from QEMU(v4.0) fails when using 3.1 or older machine
+type. For example if one attempts to migrate
+QEMU-2.12 started as
+  qemu-system-ppc64 -nodefaults -M pseries-2.12 -m 4096 -mem-path /tmp/
+to current master, it will fail with
+  qemu-system-ppc64: Unknown ramblock "ppc_spapr.ram", cannot accept migrat=
+ion
+  qemu-system-ppc64: error while loading state for instance 0x0 of device '=
+ram'
+  qemu-system-ppc64: load of migration failed: Invalid argument
 
-Cc: qemu-stable@nongnu.org
-Fixes: b39bce121b (add dirp_map to hide lo_dirp pointers)
-Reported-by: Coverity (CID 1421933 USE_AFTER_FREE)
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200321120654.7985-1-philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Caused by 900c0ba373 commit which switches main RAM allocation to
+memory backends and the fact in 3.1 and older QEMU, backends used
+full[***] QOM path as memory region name instead of backend's name.
+That was changed after 3.1 to use prefix-less names by default
+(fa0cb34d22) for new machine types.
+*** effectively makes main RAM memory region names defined by
+MachineClass::default_ram_id being altered with '/objects/' prefix
+and therefore migration fails as old QEMU sends prefix-less
+name while new QEMU expects name with prefix when using 3.1 and
+older machine types.
+
+Fix it by forcing implicit[1] memory backend to always use
+prefix-less names for its memory region by setting
+  'x-use-canonical-path-for-ramblock-id'
+property to false.
+
+1) i.e. memory backend created by compat glue which maps
+-m/-mem-path/-mem-prealloc/default RAM size into
+appropriate backend type/options to match old CLI format.
+
+Fixes: 900c0ba373
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+Message-Id: <20200304172748.15338-1-imammedo@redhat.com>
+Tested-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ softmmu/vl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 4f259aac70..4c35c95b25 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1520,8 +1520,7 @@ out_err:
-     if (d) {
-         if (d->dp) {
-             closedir(d->dp);
--        }
--        if (fd !=3D -1) {
-+        } else if (fd !=3D -1) {
-             close(fd);
-         }
-         free(d);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 1d33a28340..814537bb42 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2801,6 +2801,9 @@ static void create_default_memdev(MachineState *ms, c=
+onst char *path)
+     object_property_set_int(obj, ms->ram_size, "size", &error_fatal);
+     object_property_add_child(object_get_objects_root(), mc->default_ram_i=
+d,
+                               obj, &error_fatal);
++    /* Ensure backend's memory region name is equal to mc->default_ram_id =
+*/
++    object_property_set_bool(obj, false, "x-use-canonical-path-for-rambloc=
+k-id",
++                             &error_fatal);
+     user_creatable_complete(USER_CREATABLE(obj), &error_fatal);
+     object_unref(obj);
+     object_property_set_str(OBJECT(ms), mc->default_ram_id, "memory-backen=
+d",
 --=20
 2.25.1
 
