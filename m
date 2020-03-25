@@ -2,54 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB232192525
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:08:58 +0100 (CET)
-Received: from localhost ([::1]:33196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B1D19253C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:15:36 +0100 (CET)
+Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2y1-0005an-Q8
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:08:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58201)
+	id 1jH34Q-0000ra-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:15:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59421)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jH2wG-0003LY-Od
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:07:09 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jH33Z-0000CN-SL
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:14:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1jH2wF-0007S8-IH
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:07:08 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2514 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1jH2wF-0007NQ-72; Wed, 25 Mar 2020 06:07:07 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id DF311A1E6AA37241058B;
- Wed, 25 Mar 2020 18:07:01 +0800 (CST)
-Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.202]) by
- DGGEMM405-HUB.china.huawei.com ([10.3.20.213]) with mapi id 14.03.0487.000;
- Wed, 25 Mar 2020 18:06:52 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
-Thread-Topic: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
-Thread-Index: AQHWAoba7fbUDZCqgEW/3PLwSBDmBahYiQSAgACKuMA=
-Date: Wed, 25 Mar 2020 10:06:51 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83B6C24A6@dggemm511-mbx.china.huawei.com>
+ (envelope-from <laurent@vivier.eu>) id 1jH33Y-0005XW-6D
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:14:41 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:34889)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1jH33X-0005Wo-Tq; Wed, 25 Mar 2020 06:14:40 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N8ojI-1jMBJg0cDu-015uMG; Wed, 25 Mar 2020 11:14:30 +0100
+Subject: Re: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
  <20200325092137.24020-4-kuhn.chenqun@huawei.com>
  <f57b72eb-fdf8-b811-64d1-04d95a15f6e6@vivier.eu>
-In-Reply-To: <f57b72eb-fdf8-b811-64d1-04d95a15f6e6@vivier.eu>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.205.93]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <7412CDE03601674DA8197E2EBD8937E83B6C24A6@dggemm511-mbx.china.huawei.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <50a8dc38-bffd-9bb3-5b4c-0088cb538269@vivier.eu>
+Date: Wed, 25 Mar 2020 11:14:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B6C24A6@dggemm511-mbx.china.huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:JacwWEE2UmjiDBbOY0y1q8bcNjnNKefYL2HjctlJ35B0oOr/Z4v
+ 941x5tS+W2vr2PeiXkyd96hvqNIMCC0xHX09Vs5XaLK66Sih6wAv/o+6blqzkjj1iAwhPQK
+ fVM2mb6NeO6+a55dtYkOlRy4WDIgylS0moPLZH5/aL75CqEwmmoUZBRztXYTix4fAIQxSpO
+ 3rO5yBVABU4AmsOM5rL7Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mFh8CiPOqDE=:Pg4TD/naBCz4W5lQ/Frb97
+ chg37rfuU9aIqRRW7NgpVvWpqGJa6pqsKI4sHKIiJIGmDqS+qjuoFhNGUp/R0imVoEtvbBQTt
+ xdN4a8WTRf5FpuhrF7GXMSURRIql+gavO/2IPnGyhF3knOZkYCyC/uI4+9J+hI+XzDf8tLxAm
+ d7O/ARm/hcxRCPtTyDWuNE+dVsVke3OkxfUZh1QBrJEOk1sFcp+rxUFxmsDzF52zpXiqPkCna
+ 0MOol5wfN1qCIndJ/jPDDE+dvvPFRB0GLfLp5ygBkGgmNzHMZ6yQch9g7Ru8dt2bX0HFlwKPe
+ NCqXC5v+wU6qkppmgU4t75wGPL+ydUmh536P5XTWoFxepfpWcSvQhlLrI+u6qkw4PJLUyD69n
+ RCeHxR4Ouyfho0nY5xemFvofAh/M0h+NUjTFL3Blhf6KFydSc54UOOapgZDheLU733AJLPNBH
+ dP5gGucmV2Hqdom7Kx0wFULot5st1MD3kduFPtbwJJKe1iZp11jrufiwDvfvHgb3aIzc6eG0s
+ 6gIktSl+ORCMY1gfPWDL50aAoMiGWk3I5ITNIb9C4fnpPwzNo2EIa4YH2hPPmVVamh8hsme/z
+ SbrMdY/0rb7IsNvelscVUe0X8yPKQCT+GRWLfUYV97djzes1r8Y3JFChc2Rbvc6baBW3DiOJY
+ VCdm6Amrxj/UmoGk0kaLJ9UOgKIdjPrKzGCpCLIOR9gCX3va6zefmYHc2imsKMmy2c25/Dma6
+ L4hA+K6gPlbN5U1jnw6VTy9a57YXQT29nr0k50SxpujXipVvBA3jWjPegOyQ05bjUxbR4EZXR
+ VX2MRUGZzexdPQrDBzcF8yEhTa3w88Y5TET7zrHq1ZpYj4jNXVJBcKQl7XuUx9vSn/51IRU
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.188
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,44 +113,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Zhanghailiang <zhang.zhanghailiang@huawei.com>,
  Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogTGF1cmVudCBWaXZpZXIgW21haWx0
-bzpsYXVyZW50QHZpdmllci5ldV0NCj5TZW50OiBXZWRuZXNkYXksIE1hcmNoIDI1LCAyMDIwIDU6
-NDUgUE0NCj5UbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPjsgcWVt
-dS1kZXZlbEBub25nbnUub3JnOw0KPnFlbXUtdHJpdmlhbEBub25nbnUub3JnDQo+Q2M6IFpoYW5n
-aGFpbGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47IEV1bGVyIFJvYm90DQo+
-PGV1bGVyLnJvYm90QGh1YXdlaS5jb20+OyBEYW5pZWwgUC4gQmVycmFuZ8OpIDxiZXJyYW5nZUBy
-ZWRoYXQuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggMy8zXSBjcnlwdG86IFJlZHVuZGFudCB0
-eXBlIGNvbnZlcnNpb24gZm9yIEFFU19LRVkgcG9pbnRlcg0KPg0KPkxlIDI1LzAzLzIwMjAgw6Ag
-MTA6MjEsIENoZW4gUXVuIGEgw6ljcml0wqA6DQo+PiBGaXg6IGVhZWM5MDNjNWI4DQo+Pg0KPg0K
-PkRpZCB5b3UgcnVuIHRoZSBjb2NjaW5lbGxlIHNjcmlwdCBzY3JpcHRzL2NvY2NpbmVsbGUvdHlw
-ZWNhc3QuY29jY2kgPw0KPg0KWWVzLCBJIHJ1biBpdCBhbmQgcGxhbiB0byBpbnRlZ3JhdGUgaXQg
-aW50byBFdWxlclJvYm90IHNvIHRoYXQgc2ltaWxhciBpc3N1ZXMgY2FuIGJlIGRpc2NvdmVyZWQg
-c29vbmVyLg0KDQpUaGFua3MuDQo+DQo+PiBSZXBvcnRlZC1ieTogRXVsZXIgUm9ib3QgPGV1bGVy
-LnJvYm90QGh1YXdlaS5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBDaGVuIFF1biA8a3Vobi5jaGVu
-cXVuQGh1YXdlaS5jb20+DQo+PiAtLS0NCj4+IENjOiAiRGFuaWVsIFAuIEJlcnJhbmfDqSIgPGJl
-cnJhbmdlQHJlZGhhdC5jb20+DQo+PiAtLS0NCj4+ICBjcnlwdG8vY2lwaGVyLWJ1aWx0aW4uYyB8
-IDYgKystLS0tDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
-bnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvY3J5cHRvL2NpcGhlci1idWlsdGluLmMgYi9jcnlw
-dG8vY2lwaGVyLWJ1aWx0aW4uYyBpbmRleA0KPj4gYmY4NDEzZTcxYS4uOTlkNjI4MGExNiAxMDA2
-NDQNCj4+IC0tLSBhL2NyeXB0by9jaXBoZXItYnVpbHRpbi5jDQo+PiArKysgYi9jcnlwdG8vY2lw
-aGVyLWJ1aWx0aW4uYw0KPj4gQEAgLTEzMyw4ICsxMzMsNyBAQCBzdGF0aWMgdm9pZCBxY3J5cHRv
-X2NpcGhlcl9hZXNfeHRzX2VuY3J5cHQoY29uc3QNCj4+IHZvaWQgKmN0eCwgIHsNCj4+ICAgICAg
-Y29uc3QgUUNyeXB0b0NpcGhlckJ1aWx0aW5BRVNDb250ZXh0ICphZXNjdHggPSBjdHg7DQo+Pg0K
-Pj4gLSAgICBxY3J5cHRvX2NpcGhlcl9hZXNfZWNiX2VuY3J5cHQoKEFFU19LRVkgKikmYWVzY3R4
-LT5lbmMsDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzcmMsIGRzdCwg
-bGVuZ3RoKTsNCj4+ICsgICAgcWNyeXB0b19jaXBoZXJfYWVzX2VjYl9lbmNyeXB0KCZhZXNjdHgt
-PmVuYywgc3JjLCBkc3QsIGxlbmd0aCk7DQo+PiAgfQ0KPj4NCj4+DQo+PiBAQCAtMTQ1LDggKzE0
-NCw3IEBAIHN0YXRpYyB2b2lkIHFjcnlwdG9fY2lwaGVyX2Flc194dHNfZGVjcnlwdChjb25zdA0K
-Pj4gdm9pZCAqY3R4LCAgew0KPj4gICAgICBjb25zdCBRQ3J5cHRvQ2lwaGVyQnVpbHRpbkFFU0Nv
-bnRleHQgKmFlc2N0eCA9IGN0eDsNCj4+DQo+PiAtICAgIHFjcnlwdG9fY2lwaGVyX2Flc19lY2Jf
-ZGVjcnlwdCgoQUVTX0tFWSAqKSZhZXNjdHgtPmRlYywNCj4+IC0gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHNyYywgZHN0LCBsZW5ndGgpOw0KPj4gKyAgICBxY3J5cHRvX2NpcGhl
-cl9hZXNfZWNiX2RlY3J5cHQoJmFlc2N0eC0+ZGVjLCBzcmMsIGRzdCwgbGVuZ3RoKTsNCj4+ICB9
-DQo+Pg0KPj4NCj4+DQoNCg==
+Le 25/03/2020 à 11:06, Chenqun (kuhn) a écrit :
+>> -----Original Message-----
+>> From: Laurent Vivier [mailto:laurent@vivier.eu]
+>> Sent: Wednesday, March 25, 2020 5:45 PM
+>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-devel@nongnu.org;
+>> qemu-trivial@nongnu.org
+>> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>; Euler Robot
+>> <euler.robot@huawei.com>; Daniel P. Berrangé <berrange@redhat.com>
+>> Subject: Re: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
+>>
+>> Le 25/03/2020 à 10:21, Chen Qun a écrit :
+>>> Fix: eaec903c5b8
+>>>
+>>
+>> Did you run the coccinelle script scripts/coccinelle/typecast.cocci ?
+>>
+> Yes, I run it and plan to integrate it into EulerRobot so that similar issues can be discovered sooner.
+> 
+> Thanks.
+>>
+>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>>> ---
+>>> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+>>> ---
+>>>  crypto/cipher-builtin.c | 6 ++----
+>>>  1 file changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c index
+>>> bf8413e71a..99d6280a16 100644
+>>> --- a/crypto/cipher-builtin.c
+>>> +++ b/crypto/cipher-builtin.c
+>>> @@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const
+>>> void *ctx,  {
+>>>      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
+>>>
+>>> -    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
+>>> -                                   src, dst, length);
+>>> +    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
+>>>  }
+>>>
+>>>
+>>> @@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const
+>>> void *ctx,  {
+>>>      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
+>>>
+>>> -    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
+>>> -                                   src, dst, length);
+>>> +    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
+>>>  }
+>>>
+>>>
+>>>
+> 
+
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
