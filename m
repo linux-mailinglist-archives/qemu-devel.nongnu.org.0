@@ -2,79 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323AF1922FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 09:41:09 +0100 (CET)
-Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EF7192351
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 09:53:58 +0100 (CET)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH1az-0006ca-TK
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 04:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46743)
+	id 1jH1nR-0001xK-BR
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 04:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1jH1Zx-0005wk-AK
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:40:02 -0400
+ (envelope-from <oobitots@cisco.com>) id 1jH1mZ-0001XZ-Af
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:53:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1jH1Zv-0001QZ-QD
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:40:00 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:42939)
+ (envelope-from <oobitots@cisco.com>) id 1jH1mW-0004Ia-Dt
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:53:01 -0400
+Received: from rcdn-iport-6.cisco.com ([173.37.86.77]:45157)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jH1Zv-0001Ml-Lx
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:39:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585125598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Oj9+fEF6iX9KeGzr9qZ1efH95ipYtRL11ods2WNPvzY=;
- b=fbhYvmqLeUvXOpDpqFsqN2QUWwQiJREL4soFmgo7KkDKNTZl21rgfIAHDox0aj4/+Ra+O8
- bhQOfxVSf4FQfJMaW8TN2Ot7GklmpCHbN8IcVYRoU9Vyj3KhrFkBl5ob3S/esDznTMfhuL
- ia/84sfsMhbTTGCVpoZ+f+yHNCbytoY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-8or-D1B-OFSU_ZTf7kTVzw-1; Wed, 25 Mar 2020 04:39:57 -0400
-X-MC-Unique: 8or-D1B-OFSU_ZTf7kTVzw-1
-Received: by mail-wr1-f70.google.com with SMTP id b11so783321wru.21
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 01:39:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=igETAkUEJEcc0s0I/9Q/KHY+fSfrEt5W5r2CNhsiwwY=;
- b=pzqg36eHOgWvJsEvGHlt6lMwRS5vbgsyAsTGcgtyyMRUHUOQP2rile/q8AyrtP0NYL
- N/iQCmKozEQ9A0+j+apCNQHx8u5tFB7o1K3fIVqcOdwf/pL+rVOCvGJmwoo2/MQsDZg8
- T9fCQiTtMGf+q2liw2aclXPqyAgvH+4BNdGFk9O+2io63QFesMaw0GtnHQD/IhkjV56i
- mbdn2Lt8XESxySfFKNTyc01Iwlznyk6+S7lV13cCXdGLirphq13lRXnV2wA3BbOKEQ3R
- OOzDuMLAJrQTJo5bIDIeAQRO3sSbmmaCjvlkP/rObcOncbnv2buJcqRvYURnIz2sw3pc
- aVDg==
-X-Gm-Message-State: ANhLgQ3tytVZX3RvoVvLggUtsWDicQB2gwlmzk67oIPNIz0PRaMGnaMz
- hVNv/1FucBUMxnbVzvbZj/Rzqmqoe3JMU89srqNR3q2kKup07KL1Qxeo9zo1JMFYdSdXGEHRu/z
- IX2y4e9Z9SFqGidg=
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr2313845wro.342.1585125595730; 
- Wed, 25 Mar 2020 01:39:55 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs4LwtBl04Rg4yJW4o3bR1J1uagdPuJKv1mvJPcrwLeLVtFDhIpEL6OK7ygR43SbO+VyOdywQ==
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr2313828wro.342.1585125595547; 
- Wed, 25 Mar 2020 01:39:55 -0700 (PDT)
-Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.201.32])
- by smtp.gmail.com with ESMTPSA id y200sm8189003wmc.20.2020.03.25.01.39.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 01:39:55 -0700 (PDT)
-Date: Wed, 25 Mar 2020 09:39:52 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH] nvme: Print 'cqid' for nvme_del_cq
-Message-ID: <20200325083952.qchflcbclmxzyhab@steredhat>
-References: <20200324140646.8274-1-minwoo.im.dev@gmail.com>
+ (Exim 4.71) (envelope-from <oobitots@cisco.com>) id 1jH1mW-0004H3-3m
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 04:53:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=cisco.com; i=@cisco.com; l=632; q=dns/txt; s=iport;
+ t=1585126380; x=1586335980;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=BV1Wgi/BkDUAV5BHK+h7mpRu7QoXp9hAfsJHMF5wCY0=;
+ b=L8kVMemzjyCzItGUObs3VNb/EJ3DGNw3nOth3o5QuM1QwJaovySEWvT4
+ jOzEv2QX7fTk0XmqRUzYCGM5qLHZ5/d1LlvG7qfW4m5WoLmhnOFYB7b8B
+ jsGwAGqeqxgzFxy6MhLpduljlAt6shaPmUTiChXEXTisZf27smEgkCXms A=;
+X-IronPort-AV: E=Sophos;i="5.72,303,1580774400"; d="scan'208";a="746432048"
+Received: from rcdn-core-10.cisco.com ([173.37.93.146])
+ by rcdn-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+ 25 Mar 2020 08:52:58 +0000
+Received: from sjc-ads-4584.cisco.com (sjc-ads-4584.cisco.com [10.28.38.104])
+ by rcdn-core-10.cisco.com (8.15.2/8.15.2) with ESMTP id
+ 02P8qw8F014979; Wed, 25 Mar 2020 08:52:58 GMT
+Received: by sjc-ads-4584.cisco.com (Postfix, from userid 500841)
+ id 32118C8A; Wed, 25 Mar 2020 01:52:58 -0700 (PDT)
+From: Oleksiy Obitotskyy <oobitots@cisco.com>
+To: qemu-devel@nongnu.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] qemu: Do not include file if not exists
+Date: Wed, 25 Mar 2020 01:52:46 -0700
+Message-Id: <20200325085246.21118-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <eda4c24f-2805-67b9-4fa0-931d7b03090c@redhat.com>
+References: <eda4c24f-2805-67b9-4fa0-931d7b03090c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200324140646.8274-1-minwoo.im.dev@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.28.38.104, sjc-ads-4584.cisco.com
+X-Outbound-Node: rcdn-core-10.cisco.com
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 173.37.86.77
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,46 +64,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 24, 2020 at 11:06:46PM +0900, Minwoo Im wrote:
-> The given argument for this trace should be cqid, not sqid.
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> ---
->  hw/block/trace-events | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Script configure checks for if_alg.h and check failed but
+if_alg.h still included.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+---
+ linux-user/syscall.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
->=20
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index f78939fa9da1..bf6d11b58b85 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -37,7 +37,7 @@ nvme_rw(const char *verb, uint32_t blk_count, uint64_t =
-byte_count, uint64_t lba)
->  nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsi=
-ze, uint16_t qflags) "create submission queue, addr=3D0x%"PRIx64", sqid=3D%=
-"PRIu16", cqid=3D%"PRIu16", qsize=3D%"PRIu16", qflags=3D%"PRIu16""
->  nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t s=
-ize, uint16_t qflags, int ien) "create completion queue, addr=3D0x%"PRIx64"=
-, cqid=3D%"PRIu16", vector=3D%"PRIu16", qsize=3D%"PRIu16", qflags=3D%"PRIu1=
-6", ien=3D%d"
->  nvme_del_sq(uint16_t qid) "deleting submission queue sqid=3D%"PRIu16""
-> -nvme_del_cq(uint16_t cqid) "deleted completion queue, sqid=3D%"PRIu16""
-> +nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=3D%"PRIu16""
->  nvme_identify_ctrl(void) "identify controller"
->  nvme_identify_ns(uint16_t ns) "identify namespace, nsid=3D%"PRIu16""
->  nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=3D%"PRI=
-u16""
-> --=20
-> 2.17.1
->=20
->=20
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 35f4146662..819774af0d 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -109,7 +109,9 @@
+ #include <linux/blkpg.h>
+ #include <netpacket/packet.h>
+ #include <linux/netlink.h>
++#if defined(CONFIG_AF_ALG)
+ #include <linux/if_alg.h>
++#endif
+ #include <linux/rtc.h>
+ #include <sound/asound.h>
+ #include "linux_loop.h"
+-- 
+2.19.1
 
 
