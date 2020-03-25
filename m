@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04898192AB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:03:11 +0100 (CET)
-Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93047192AD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:11:31 +0100 (CET)
+Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6cg-0007og-3j
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59219)
+	id 1jH6kk-0003mA-3s
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jH6be-0006wu-De
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:07 -0400
+ (envelope-from <ovoshcha@redhat.com>) id 1jH6jo-0003Cw-MX
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jH6bc-0002T7-Qb
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:06 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:47531)
+ (envelope-from <ovoshcha@redhat.com>) id 1jH6jl-0003Bb-Ti
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:31 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:48848)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH6bb-0002QL-E0
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:02:04 -0400
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1jH6jl-0003Am-O2
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:10:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585144921;
+ s=mimecast20190719; t=1585145429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SWYwuV+09qqEn5mawjwgoWhIFhL7BuoMkGRSxZL9bEw=;
- b=OCMIEZ3J6zRgAAsVa8s/mOsBUlfVQGwSO0nj4iG+x+bO1SbFznJ7pN3CZGE5aQv2BU+0Di
- mK6sOYYOj8+0RjYwWGpseipm4dboA2YduI1T9QX1AvUULxYFwt8+GZzkX5gAXVrAe3NSPF
- +2Hp+OiGFjnFGrHfDamPmMlPcResXLY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-FwhqUuwPNKqMK5_-jT5eVA-1; Wed, 25 Mar 2020 10:01:49 -0400
-X-MC-Unique: FwhqUuwPNKqMK5_-jT5eVA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C0D18B9FAA;
- Wed, 25 Mar 2020 14:01:46 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3665D953DD;
- Wed, 25 Mar 2020 14:01:43 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] qcow2: Avoid feature name extension on small
- cluster size
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20200324174233.1622067-1-eblake@redhat.com>
- <20200324174233.1622067-4-eblake@redhat.com>
- <d28f2dfc-1f85-1157-0a57-341894205883@redhat.com>
- <f900616b-8e98-d0b1-efd7-f53b8c241c8f@redhat.com>
- <61b5c2d0-fc76-cc70-ab25-bd75cd785d69@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ba268a08-12ad-4290-c754-a1e7d39f7748@redhat.com>
-Date: Wed, 25 Mar 2020 09:01:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=ipphwamGdSymJIvelK0Pesx0X7Dw5TKqJ7wbJy+9E+0=;
+ b=YdFpuYAxEi7CqFEZFQPkPYaBHm69kUEBLFASrE44Ohzw1QyRmBHl6mZcps/9CFJU6UXQWN
+ McbG2II3vH4YrG5zgLFJIX8TitWiRP4zIOOO+IEm4p9BrQ2BMyMjpCK5GDcz2aub4E7Fd8
+ j8Fi/r3UOg9r7AF8mqfzomRz+5tLkD8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-0yNlKfFwNr29QJ0EcBc9GQ-1; Wed, 25 Mar 2020 10:10:24 -0400
+X-MC-Unique: 0yNlKfFwNr29QJ0EcBc9GQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 2so938452wmf.1
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 07:10:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ipphwamGdSymJIvelK0Pesx0X7Dw5TKqJ7wbJy+9E+0=;
+ b=Vftqz8DLUGAPom+Oeo01RsScgONDIKmDM5h3wuf1nSnhxbEXUxxXGfqBeQZ328yhkg
+ hWKbxHCk9ofxl/WbGZ9Pytlb5lH8gbJYpoizcqw9n6lP7OdDMfNDZDMSXLpurZ4Xjsxx
+ BkiR45VLkIbq1UYGv+AgJtkZbRBInOfnZX4hn6MGn3W79cSO0jzXV4NtD052mY8Z4gZG
+ gI9J620Di+ljFNO8p8RRCxdD6UikPjjNvOxYqVZWicBTiCj+neyEOdv7N+MPXwMT54uY
+ vz1LSYknGHtT8Bu0tlziPeJ2sBFx8nyAqk7eoni3isDBqJABA7MEADcnCW5Tgw7VpD2/
+ 7VMQ==
+X-Gm-Message-State: ANhLgQ0g6Jip9J8cB39FO9Qoo4TBkwISuVSF0BiG2D0qYgRhrqGQ18TJ
+ BfxFyugCuzzyUDRvG2i+K0qVIpfEmyssLTs+j8rNqH0sDRx6BJ7qLH2KsAEXB05TMKE7iCH97vV
+ YAD0V8CNLRVo3mP07sX1MQwGjWMIFxXo=
+X-Received: by 2002:a05:600c:2101:: with SMTP id
+ u1mr3622399wml.177.1585145422893; 
+ Wed, 25 Mar 2020 07:10:22 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vt4xmAYJ8vlo8YyKC2BdXPYIieVxDtqGmpKo5ylsUFUqYLNhivhypebRlJ2CTt+gqtsn88MNn7dSs+0mqveNUY=
+X-Received: by 2002:a05:600c:2101:: with SMTP id
+ u1mr3622332wml.177.1585145421861; 
+ Wed, 25 Mar 2020 07:10:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <61b5c2d0-fc76-cc70-ab25-bd75cd785d69@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20200325113138.20337-1-ovoshcha@redhat.com>
+ <c2007a51-318a-c935-dd77-232e45587b08@redhat.com>
+In-Reply-To: <c2007a51-318a-c935-dd77-232e45587b08@redhat.com>
+From: Oksana Voshchana <ovoshcha@redhat.com>
+Date: Wed, 25 Mar 2020 16:10:10 +0200
+Message-ID: <CAMXCgj6dop2SFBnN3Yr6otxpMVSMMrh9_DdJw9SB3RV7z+eQ2Q@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 v3] Acceptance test: Fix to EXEC migration
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="000000000000c9ace205a1ae6ddb"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,62 +82,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/20 8:52 AM, Max Reitz wrote:
+--000000000000c9ace205a1ae6ddb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> If we want to write it like that, which size limit
->> do you propose?=C2=A0 Or asked differently, how much space should we res=
-erve
->> for other extension headers + backing file name?
->=20
-> Well, that was the =E2=80=9C2k/3k/...=E2=80=9D list. :)
->=20
-> The backing file name is limited to 1k, so I suppose that plus 1k for a
-> potential external data filename, plus 1k for the rest, so 3k in total?
->=20
-> Now that I look into the spec, I see that it actually doesn=E2=80=99t say=
- that
-> the backing filename has to be part of the header cluster.  But, well.
+Hi Philippe
+Thanks for the review
+I have some comments
 
-qemu enforces that the header is one cluster.  But you're right, that=20
-does not appear to directly be a limitation mandated by the spec, and we=20
-could relax qemu to allow the header to be several consecutive clusters.=20
-  The tricky part, however, is that the backing file name is NOT=20
-described by a header extension, but rather is just whatever bytes occur=20
-after the final header extension.  There's no clear indication anywhere=20
-on when to stop reading those bytes, other than by an implicit limit=20
-such as insisting those bytes fall within the first cluster.
+On Wed, Mar 25, 2020 at 2:30 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
-Had we been smarter when designing v3, we would have made the backing=20
-file name a header extension (in fact, it would have been possible to=20
-design the additional fields of v3 to look like an unknown header=20
-extension when parsed by a v2 binary) - but hindsight is 20/20.
+> Hi Oksana,
+>
+> v2 was
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg682899.html, so
+> this is v3. Please increment the version in the patch subject.
+>
+> You could also send a simple "ping" to the specific patch, instead of
+> resending it.
+>
+> On 3/25/20 12:31 PM, Oksana Vohchana wrote:
+> > The exec migration test isn't run a whole test scenario.
+> > This patch fixes it
+> >
+> > Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+>
+> v1 of this patch has already received reviewers tags
+> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg679629.html),
+> please collect them and keep them when you resend the same patch:
+>
 
->=20
-> It also only says that the image header must be part of the first
-> cluster, which in my opinion doesn=E2=80=99t necessarily include its exte=
-nsions.
->   So header extensions (and the backing filename) could actually be in
-> consecutive clusters.  But that of course would be much more difficult
-> to implement.
+I have reposted patch without this fix because this change isn't related to
+the series:
+https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06919.html
+Is it make sense to keep this fix as a separate patch?
 
-We'd still want a sane limit even for small-cluster images (maybe "no=20
-more than 2M of header information, regardless of cluster size); or=20
-maybe even introduce a NEW header field and/or extension to make it=20
-obvious how many clusters are being used for the purpose of the metadata=20
-header in this particular image (with sane fallbacks for when that=20
-extension is not present).  But you're right - it comes with complexity.=20
-  This patch as written is safe for 5.0-rc1, but this discussion about=20
-teaching qemu to permit headers larger than 1 cluster is squarely in the=20
-5.1 category, if at all.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> Fixes: 2e768cb682bf
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>
+> > ---
+> >   tests/acceptance/migration.py | 6 +++---
+> >   1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/tests/acceptance/migration.py
+> b/tests/acceptance/migration.py
+> > index a8367ca023..0365289cda 100644
+> > --- a/tests/acceptance/migration.py
+> > +++ b/tests/acceptance/migration.py
+> > @@ -70,8 +70,8 @@ class Migration(Test):
+> >
+> >       @skipUnless(find_command('nc', default=3DFalse), "'nc' command no=
+t
+> found")
+> >       def test_migration_with_exec(self):
+> > -        """
+> > -        The test works for both netcat-traditional and netcat-openbsd
+> packages
+> > -        """
+> > +        """The test works for both netcat-traditional and
+> netcat-openbsd packages."""
+>
+> Btw why are you changing the comment style?
+>
+
+I got failure in PEP257
+
+
+> >           free_port =3D self._get_free_port()
+> >           dest_uri =3D 'exec:nc -l localhost %u' % free_port
+> > +        src_uri =3D 'exec:nc localhost %u' % free_port
+> > +        self.do_migrate(dest_uri, src_uri)
+> >
+>
+> Alex, if there is no Python testing pullreq, can you take this patch via
+> your testing tree?
+>
+> Thanks,
+>
+> Phil.
+>
+> Thanks
+
+--000000000000c9ace205a1ae6ddb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi=C2=A0Philippe</div><div>Thanks for the review</div=
+>I have some comments<div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Wed, Mar 25, 2020 at 2:30 PM Philippe Mathieu-Daud=
+=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Oksana,=
+<br>
+<br>
+v2 was <br>
+<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg682899.htm=
+l" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-d=
+evel@nongnu.org/msg682899.html</a>, so <br>
+this is v3. Please increment the version in the patch subject.<br>
+<br>
+You could also send a simple &quot;ping&quot; to the specific patch, instea=
+d of <br>
+resending it.<br>
+<br>
+On 3/25/20 12:31 PM, Oksana Vohchana wrote:<br>
+&gt; The exec migration test isn&#39;t run a whole test scenario.<br>
+&gt; This patch fixes it<br>
+&gt; <br>
+&gt; Signed-off-by: Oksana Vohchana &lt;<a href=3D"mailto:ovoshcha@redhat.c=
+om" target=3D"_blank">ovoshcha@redhat.com</a>&gt;<br>
+<br>
+v1 of this patch has already received reviewers tags <br>
+(<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg679629.ht=
+ml" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-=
+devel@nongnu.org/msg679629.html</a>), <br>
+please collect them and keep them when you resend the same patch:<br></bloc=
+kquote><div>=C2=A0</div><div>I have reposted patch without this fix because=
+ this change isn&#39;t related to the series:</div><div><a href=3D"https://=
+lists.gnu.org/archive/html/qemu-devel/2020-03/msg06919.html">https://lists.=
+gnu.org/archive/html/qemu-devel/2020-03/msg06919.html</a><br></div><div>Is =
+it make sense to keep this fix as a separate patch?<br></div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+Fixes: 2e768cb682bf<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
+t.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+Tested-by: Wainer dos Santos Moschetta &lt;<a href=3D"mailto:wainersm@redha=
+t.com" target=3D"_blank">wainersm@redhat.com</a>&gt;<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0tests/acceptance/migration.py | 6 +++---<br>
+&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/tests/acceptance/migration.py b/tests/acceptance/migratio=
+n.py<br>
+&gt; index a8367ca023..0365289cda 100644<br>
+&gt; --- a/tests/acceptance/migration.py<br>
+&gt; +++ b/tests/acceptance/migration.py<br>
+&gt; @@ -70,8 +70,8 @@ class Migration(Test):<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0@skipUnless(find_command(&#39;nc&#39;, defau=
+lt=3DFalse), &quot;&#39;nc&#39; command not found&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0def test_migration_with_exec(self):<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 The test works for both netcat-traditiona=
+l and netcat-openbsd packages<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;The test works for both=
+ netcat-traditional and netcat-openbsd packages.&quot;&quot;&quot;<br>
+<br>
+Btw why are you changing the comment style?<br></blockquote><div>=C2=A0</di=
+v><div>I got failure=C2=A0in PEP257<br></div><div><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free_port =3D self._get_free_p=
+ort()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest_uri =3D &#39;exec:nc -l l=
+ocalhost %u&#39; % free_port<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D &#39;exec:nc localhost %u&#39=
+; % free_port<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.do_migrate(dest_uri, src_uri)<br>
+&gt; <br>
+<br>
+Alex, if there is no Python testing pullreq, can you take this patch via <b=
+r>
+your testing tree?<br>
+<br>
+Thanks,<br>
+<br>
+Phil.<br>
+<br></blockquote><div>Thanks=C2=A0</div></div></div></div>
+
+--000000000000c9ace205a1ae6ddb--
 
 
