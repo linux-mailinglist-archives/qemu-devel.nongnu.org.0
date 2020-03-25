@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C85192B6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:44:04 +0100 (CET)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A35A192B79
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:46:10 +0100 (CET)
+Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7GF-0005IJ-Fw
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37029)
+	id 1jH7IH-0000Q3-2x
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jH7Ex-0003hP-Ux
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:45 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jH7F2-0003oO-4u
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jH7Ew-0005XO-Pk
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:43 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46537)
+ (envelope-from <npiggin@gmail.com>) id 1jH7F0-0005aU-T7
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:48 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46538)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jH7Eu-0005UW-AJ; Wed, 25 Mar 2020 10:42:40 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q3so1111159pff.13;
- Wed, 25 Mar 2020 07:42:40 -0700 (PDT)
+ id 1jH7Ey-0005YZ-Hm; Wed, 25 Mar 2020 10:42:44 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q3so1111254pff.13;
+ Wed, 25 Mar 2020 07:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gu6pywT46+NIJtDkxdkhjr7/9oPHNs5B3YjgwAQz2ZQ=;
- b=vI8ipzUtsfog2UdLfSd5QT65v3aV84AxI7Gea2Vamm2LvotNHN9DSH4miIblyhYjKl
- Hg0SkNw6L5O8mdhEmdz78AhtSK+utjj0OMqOi4H4HB1JV7bceji2NUTJEqd2hcQxxI6J
- oO/3EdSCOGLCk8XSJWmEG4q/b+f4Lot8x+oeq8NVeeGYhLsS7h95prQA2+hKr3Z+Qzn0
- r53Pt6H5fnLUSrAY3xRm8ksHD4zILH8NyETW/ReMALKM5KPfdMRLJSRDfFMNFK+xi2hI
- 5WwRXnrxoafQmDVMdUzp8MW/TNtuENTX20Goj1ygVbpKx8LgakBBt8gzqudLypzOK2rg
- ZzbQ==
+ bh=86eibXe5DbOHRThV4ewjzZRWDtlOmwOJ+sM6y32+F6A=;
+ b=siYyMHMLA6Z0mUkNc7QZS6SWnvau9VswmKPYmrTnvkrgUggAbJrqeXqgKJcl5hwmbP
+ UVM1+RLq3QGruRgnHrq0p0oKJPfIuKKk1+PMwC80ZT1BtSfBWdop7m/wQAgAC7xCCuYA
+ /xDEE+Rk3ipHCPWxbm0D5zhEBNG5LskWP8O6atCd6ZU0GYIXJMtiPj6uclPErdPNU8/T
+ qLzbL8cLcQ8yJvfR9WjbylnOe6qAd9X/mlCtl9FoKNgVFm/hU7LM77pxzyMhQyZUMbSh
+ f+EdBbabo1Csioonm5zuugZg6RQDvzDWu5g9OpYMRXl6RdDZX0VdA7Ya5LoBh/JqejGs
+ a1CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gu6pywT46+NIJtDkxdkhjr7/9oPHNs5B3YjgwAQz2ZQ=;
- b=BFrILBE5EXW9swC1NwSuti0pGdKEBhqTXdEYjphTZlMhG9dSO5KfDzJfD2f/rl/FVz
- 8ETujjfy0kVGbgC1rELwevKGl08BICZF5TDWYVRwc62BS0TVnl0XHYTAQQfPT//7ImHp
- YFqi8NsjpkUwckfQiNUE7ibClGKGfY611HtZon5Qq+xD4f0c/LlArDaq2aip6WoneBQ1
- /tdyOIHzy+7OoRJEKj5leowb7lNiRAva3qNZNSuCR4Cv2uj3QhGFICIdrLpgD8LFHLzU
- YWFeisF4C0fOXjUnhQjSH1yFf8/tyG7piNDEZXZ1ntThSt/5QahDVN6DHuqifZwiPAHB
- WRqQ==
-X-Gm-Message-State: ANhLgQ1T7yuikrD2zJ2/AZCpqEIKSaC1SqEAQDzfFmQJInMVgHRx6BqH
- zZyzFRijlq6FjwR4q0B+z6eQLTYA
-X-Google-Smtp-Source: ADFU+vum9tWbJL7v6l867URB0a+AVony1Jv78gtbKJrzMFbsfUflKX8VJYHQTQLPZJtO1kp/gsbgBQ==
-X-Received: by 2002:a63:e56:: with SMTP id 22mr3429177pgo.173.1585147359098;
- Wed, 25 Mar 2020 07:42:39 -0700 (PDT)
+ bh=86eibXe5DbOHRThV4ewjzZRWDtlOmwOJ+sM6y32+F6A=;
+ b=m9qHv5UwUIZJ0649FR+prwY0pJ9M8usiq7lW+HYdImWYooxLqf6nW8BV8kh1vMg7Ai
+ NbReNtmyjIz/nYJwZw1MMdwVcMxUUQerD7g04VXZj000CgrDeUU+YU7J+zw42PNtbw9C
+ oo72zpdy6iyil6sQzlFMIshe1JNsH64L7eAQiF5ZOimIn26UjZvLsgc0U2cl8VYRilpq
+ Y7M07QYk8/TTO20LmGOeLT+X1UsibzCGrpVeTuSH6CHdpjOPXMBvjLQ6hqViGFk6fV/3
+ WQybS4Ej+fqUznIPSZ92kcRE0awNp9qK816Bn5IVKs2qjTKwEYEbsc1n5X3Dn3XQ4SUB
+ tknA==
+X-Gm-Message-State: ANhLgQ0+JJALHhvAz1sXD6aQAMcZI/ldl3S9SCTL6QGv5ybZc/hCSmZi
+ A7Nhi75yzCvAhKsle8uVKhmLqn3n
+X-Google-Smtp-Source: ADFU+vtGsTTcP8OhgDdqk1k57KGWf2ngm2Ehs1/AvTx5BfEH8TKwbmmLNQuuT18HIpOvkJ/YewWQiA==
+X-Received: by 2002:a62:ce48:: with SMTP id y69mr3760476pfg.178.1585147363548; 
+ Wed, 25 Mar 2020 07:42:43 -0700 (PDT)
 Received: from bobo.ibm.com (14-202-190-183.tpgi.com.au. [14.202.190.183])
- by smtp.gmail.com with ESMTPSA id 93sm4609599pjo.43.2020.03.25.07.42.34
+ by smtp.gmail.com with ESMTPSA id 93sm4609599pjo.43.2020.03.25.07.42.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 07:42:38 -0700 (PDT)
+ Wed, 25 Mar 2020 07:42:43 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH 1/5] ppc/spapr: tweak change system reset helper
-Date: Thu, 26 Mar 2020 00:41:43 +1000
-Message-Id: <20200325144147.221875-2-npiggin@gmail.com>
+Subject: [PATCH 2/5] ppc/pnv: Add support for NMI interface
+Date: Thu, 26 Mar 2020 00:41:44 +1000
+Message-Id: <20200325144147.221875-3-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200325144147.221875-1-npiggin@gmail.com>
 References: <20200325144147.221875-1-npiggin@gmail.com>
@@ -85,84 +85,88 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than have the helper take an optional vector address
-override, instead have its caller modify env->nip itself.
-This is more consistent when adding pnv nmi support, and also
-with mce injection added later.
+This implements the NMI interface for the PNV machine, similarly to
+commit 3431648272d ("spapr: Add support for new NMI interface") for
+SPAPR.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr.c           | 9 ++++++---
- target/ppc/cpu.h         | 2 +-
- target/ppc/excp_helper.c | 5 +----
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ hw/ppc/pnv.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 9a2bd501aa..785c41d205 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3385,13 +3385,13 @@ static void spapr_machine_finalizefn(Object *obj)
- void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index b75ad06390..671535ebe6 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -27,6 +27,7 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/device_tree.h"
++#include "sysemu/hw_accel.h"
+ #include "target/ppc/cpu.h"
+ #include "qemu/log.h"
+ #include "hw/ppc/fdt.h"
+@@ -34,6 +35,7 @@
+ #include "hw/ppc/pnv.h"
+ #include "hw/ppc/pnv_core.h"
+ #include "hw/loader.h"
++#include "hw/nmi.h"
+ #include "exec/address-spaces.h"
+ #include "qapi/visitor.h"
+ #include "monitor/monitor.h"
+@@ -1955,10 +1957,35 @@ static void pnv_machine_set_hb(Object *obj, bool value, Error **errp)
+     }
+ }
+ 
++static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
++{
 +    PowerPCCPU *cpu = POWERPC_CPU(cs);
 +    CPUPPCState *env = &cpu->env;
- 
-     cpu_synchronize_state(cs);
-     /* If FWNMI is inactive, addr will be -1, which will deliver to 0x100 */
-     if (spapr->fwnmi_system_reset_addr != -1) {
-         uint64_t rtas_addr, addr;
--        PowerPCCPU *cpu = POWERPC_CPU(cs);
--        CPUPPCState *env = &cpu->env;
- 
-         /* get rtas addr from fdt */
-         rtas_addr = spapr_get_rtas_addr();
-@@ -3405,7 +3405,10 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
-         stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
-         env->gpr[3] = addr;
-     }
--    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
++
++    cpu_synchronize_state(cs);
 +    ppc_cpu_do_system_reset(cs);
-+    if (spapr->fwnmi_system_reset_addr != -1) {
-+        env->nip = spapr->fwnmi_system_reset_addr;
++    /*
++     * SRR1[42:45] is set to 0100 which the ISA defines as implementation
++     * dependent. POWER processors use this for xscom triggered interrupts,
++     * which come from the BMC or NMI IPIs.
++     */
++    env->spr[SPR_SRR1] |= PPC_BIT(43);
++}
++
++static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
++{
++    CPUState *cs;
++
++    CPU_FOREACH(cs) {
++        async_run_on_cpu(cs, pnv_cpu_do_nmi_on_cpu, RUN_ON_CPU_NULL);
 +    }
- }
- 
- static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 88d9449555..f4a5304d43 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
- int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-                                int cpuid, void *opaque);
- #ifndef CONFIG_USER_ONLY
--void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
-+void ppc_cpu_do_system_reset(CPUState *cs);
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
- extern const VMStateDescription vmstate_ppc_cpu;
- #endif
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 08bc885ca6..7f2b5899d3 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -961,15 +961,12 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-     }
- }
- 
--void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
-+void ppc_cpu_do_system_reset(CPUState *cs)
++}
++
+ static void pnv_machine_class_init(ObjectClass *oc, void *data)
  {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
+     MachineClass *mc = MACHINE_CLASS(oc);
+     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
++    NMIClass *nc = NMI_CLASS(oc);
  
-     powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
--    if (vector != -1) {
--        env->nip = vector;
--    }
- }
+     mc->desc = "IBM PowerNV (Non-Virtualized)";
+     mc->init = pnv_init;
+@@ -1975,6 +2002,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+     mc->default_ram_id = "pnv.ram";
+     ispc->print_info = pnv_pic_print_info;
++    nc->nmi_monitor_handler = pnv_nmi;
  
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+     object_class_property_add_bool(oc, "hb-mode",
+                                    pnv_machine_get_hb, pnv_machine_set_hb,
+@@ -2038,7 +2066,7 @@ static const TypeInfo types[] = {
+         .class_size    = sizeof(PnvMachineClass),
+         .interfaces = (InterfaceInfo[]) {
+             { TYPE_INTERRUPT_STATS_PROVIDER },
+-            { },
++            { TYPE_NMI },
+         },
+     },
+     {
 -- 
 2.23.0
 
