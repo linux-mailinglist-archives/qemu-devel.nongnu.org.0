@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87527192C0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:17:13 +0100 (CET)
-Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E3A192C1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:19:09 +0100 (CET)
+Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7mK-00052g-G7
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41417)
+	id 1jH7oC-0008NH-36
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7kz-0003Sk-Iv
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7l2-0003XM-Jp
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7ky-0007wu-IS
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:49 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52388)
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7l1-0007z1-A9
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43484)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jH7ky-0007w7-CF
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:48 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id z18so2890871wmk.2
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:48 -0700 (PDT)
+ id 1jH7l1-0007yQ-3F
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:51 -0400
+Received: by mail-wr1-x432.google.com with SMTP id b2so3548314wrj.10
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mFcHuHvBSlpN6GNuePYdv4kQDYYjvabQ2NuBORJmALw=;
- b=Co16tyqrY5fzBTuelgKZD/cxPhYSX1O+54bxQ5de2a9RvOcs4EPiFnzLlu1RWoM2Nm
- T7R3P+rK3GKOJX15WvGHjcJTleY7CVyU5PunVZTRCibxoDgN08wwT4EP3vp82IXGTWZA
- 4Y5ReJLGekSnV20lNAhgfRW8/UHL0oos1tMt3vpO7QiQxYpAuGGdgs4wILb7IFHr4kAa
- GryqvuGG3UM0pvU0jC/RDBSZOxrVLcPLyqsgiQ3T2F5aYR9GYti3Clzt1rDvCvhKOW4A
- qVSoDAfl+IKvVQIsSMtRSiu+DygdekQ5lQt0IcsNt6+O0qN283GyLrrlfXeNsU/25F6n
- iBHQ==
+ bh=ztDbOw6DhMgOgSgsUfM4L+NS4o98VZx9Fe9KbZgV6vo=;
+ b=tld5UFd6KSF4Sysx1MQ8dGFcKrGuhmtHnChqKVmTbpWphopy4WXXBkPnm5h3lHFqzx
+ wc6Wr4vc93T31RKy/qs5oYz52ihfYcvIHuoiV2qujrBQzRIU0wmM5dVuuMtpR10zBRds
+ 9Kr7DgfpgyNktm/gA/8IdnPjk1eVksIjbLA/aWgrMQBRHegaEI7szpvifVupVtzuAcLD
+ 5IDihNZnVFTl4mF8aRvSfEP0SrZ58BmBJYEOvyQ70Q73yyTdppCr90+XsrvhaYez4Bag
+ sWA1XKzM66nt87/8F3ykJRwUYCrdI5sxhe+GLknbYaoutakPimjWCm6qv8pf9r4eqBDk
+ fKrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mFcHuHvBSlpN6GNuePYdv4kQDYYjvabQ2NuBORJmALw=;
- b=iwqMt8g/RxFBCFiVEEnZtod20a4KMc73E80ySzbP5FsiRtaOxHUQ9KhQuczbPvRAZA
- YzSnoIHEZgZitRd5xhFYZJMBCgOuiorJWfbXblcMhUYPe/yhVk234myB9apuv46YZjDa
- JC8U1RgjQNV0mmNyB8WuPwdTgmJoRV0AREP04YcUOXo/8KWmZdrk+3jGXElO1q/wgMbp
- 0lM4qIQx7LHTX7gPY9NXHjgPe9+YRDMqr6NsM9MzPvt0Kt8yi/okuxwjsUWxGrLqkg/Q
- R3wj6FSlXcuUSUxMaYqDb6pZqNjMvTLF3Hl7PKEUCqyPdcZ22HN5AT2DVSB6LEaAc/2M
- cxAQ==
-X-Gm-Message-State: ANhLgQ29i1+oXDu59ed3jYtLSTfV9Qtg/rLSToG4IO+WztJZOYuf0CPi
- lyeV4T9ngUho21HmEpkax2/ajg==
-X-Google-Smtp-Source: ADFU+vuyoq88A6cYt7BBW/doMzxjP0CZjSyD9Q30EUXKdt4Lg1BogjxO0dranvONd4hhv78Cv2XkDg==
-X-Received: by 2002:a1c:1b0e:: with SMTP id b14mr3898561wmb.8.1585149346146;
- Wed, 25 Mar 2020 08:15:46 -0700 (PDT)
+ bh=ztDbOw6DhMgOgSgsUfM4L+NS4o98VZx9Fe9KbZgV6vo=;
+ b=RfwTa78JHzHaUk1REX9IiHPsCv/esYyPx4G4FN8dO3jRXB8EGR3g0Y62xj2BQJ2KXo
+ 5lELYAEHMu16coYM7pk8fEMphntxPCJQdI2i7NkqmXJkM6Zf/PvDBs86HSqzC+jrpean
+ oc7zlU3l49+jxHEbPhlmA9KSTYQ5L//wDdQ7jGxOWYPRIBPoIER73OjHzqsnGrv8/V9s
+ tF0BYPuDsZ/PW+A74frP32ZNsSg5JoM2uaSJRJb0cN/z+rf5ZXhJMXhWp8SMnUV4pnCm
+ 3cJ4h7nSpx6KuzBPm/r+3V8fe0f0f9qK8wxIvVoMmxv7oZI+GnQmadqDasWhNnaAtQ85
+ /vgw==
+X-Gm-Message-State: ANhLgQ0JEAt3k01yRkJfsJkaFnrnJQAjjI3Z4p7b+ipp/pUFsEyEnl/A
+ po2LrbBvFjLlf0fNqUtzHyi41g==
+X-Google-Smtp-Source: ADFU+vtdT1uGEiO/MFMo8nZOPOdPDoChaihjjKYDg3NEG4sEd0+ls1NNvH+H0MMNMoJyh5ooCCT1WQ==
+X-Received: by 2002:adf:c648:: with SMTP id u8mr4085356wrg.185.1585149350011; 
+ Wed, 25 Mar 2020 08:15:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u5sm28139225wrp.81.2020.03.25.08.15.44
+ by smtp.gmail.com with ESMTPSA id n9sm6286154wru.50.2020.03.25.08.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 25 Mar 2020 08:15:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89B721FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id A01671FF90;
  Wed, 25 Mar 2020 15:15:43 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/11] tests/vm: update FreeBSD to 12.1
-Date: Wed, 25 Mar 2020 15:15:35 +0000
-Message-Id: <20200325151543.32478-4-alex.bennee@linaro.org>
+Subject: [PULL 04/11] tests/vm: update NetBSD to 9.0
+Date: Wed, 25 Mar 2020 15:15:36 +0000
+Message-Id: <20200325151543.32478-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200325151543.32478-1-alex.bennee@linaro.org>
 References: <20200325151543.32478-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,34 +82,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+ Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
+The installer supports GPT now, so the install workflow has changed a
+bit.  Also: run without VGA device.  This works around a bug in the
+seabios sercon code and makes the bootloader menu show up on the serial
+line, so we can drop the quirk for that.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200310083218.26355-4-kraxel@redhat.com>
-Message-Id: <20200323161514.23952-4-alex.bennee@linaro.org>
+Message-Id: <20200310083218.26355-5-kraxel@redhat.com>
+Message-Id: <20200323161514.23952-5-alex.bennee@linaro.org>
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 58166766d91..298967fe9cf 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -24,8 +24,8 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index f3257bc245a..b10c9d429de 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
      arch = "x86_64"
  
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
--    csum = "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485fb99db"
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
-+    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
+-    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8.1-amd64.iso"
+-    csum = "718f275b7e0879599bdac95630c5e3f2184700032fdb6cdebf3bdd63687898c48ff3f08f57b89f4437a86cdd8ea07c01a39d432dbb37e1e4b008f4985f98da3f"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-amd64.iso"
++    csum = "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
      size = "20G"
      pkgs = [
-         # build tools
+         # tools
+@@ -86,42 +86,31 @@ class NetBSDVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+-            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init()
+-        self.console_wait("Primary Bootstrap")
+-
+-        # serial console boot menu output doesn't work for some
+-        # reason, so we have to fly blind ...
+-        for char in list("5consdev com0\n"):
+-            time.sleep(0.2)
+-            self.console_send(char)
+-            self.console_consume()
++        self.console_wait_send("3. Drop to boot prompt", "3")
++        self.console_wait_send("> ", "consdev com0\n")
+         self.console_wait_send("> ", "boot\n")
+ 
+         self.console_wait_send("Terminal type",            "xterm\n")
+         self.console_wait_send("a: Installation messages", "a\n")
+-        self.console_wait_send("b: US-English",            "b\n")
+         self.console_wait_send("a: Install NetBSD",        "a\n")
+         self.console_wait("Shall we continue?")
+         self.console_wait_send("b: Yes",                   "b\n")
+ 
+         self.console_wait_send("a: ld0",                   "a\n")
++        self.console_wait_send("a: Guid Partition Table",  "a\n")
+         self.console_wait_send("a: This is the correct",   "a\n")
+-        self.console_wait_send("b: Use the entire disk",   "b\n")
+-        self.console_wait("NetBSD bootcode")
+-        self.console_wait_send("a: Yes",                   "a\n")
+-        self.console_wait_send("b: Use existing part",     "b\n")
++        self.console_wait_send("b: Use default part",      "b\n")
+         self.console_wait_send("x: Partition sizes ok",    "x\n")
+-        self.console_wait_send("for your NetBSD disk",     "\n")
+         self.console_wait("Shall we continue?")
+         self.console_wait_send("b: Yes",                   "b\n")
+ 
+         self.console_wait_send("b: Use serial port com0",  "b\n")
+         self.console_wait_send("f: Set serial baud rate",  "f\n")
+         self.console_wait_send("a: 9600",                  "a\n")
+-        self.console_wait_send("x: Exit",                  "x\n")
++        self.console_wait_send("x: Continue",              "x\n")
+ 
+         self.console_wait_send("a: Full installation",     "a\n")
+         self.console_wait_send("a: CD-ROM",                "a\n")
 -- 
 2.20.1
 
