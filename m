@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FDC19247B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:46:25 +0100 (CET)
-Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADDB192488
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 10:48:26 +0100 (CET)
+Received: from localhost ([::1]:32890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH2cC-0006nu-EJ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55133)
+	id 1jH2e9-000180-Vh
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 05:48:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jH2aR-0005Xs-42
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:35 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jH2aR-0005Xy-Og
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jH2aP-0005JS-9I
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:34 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52929)
+ (envelope-from <imammedo@redhat.com>) id 1jH2aQ-0005KW-Mc
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:35 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:44070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jH2aP-0005Io-4G
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:33 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jH2aQ-0005Js-JK
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 05:44:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585129472;
+ s=mimecast20190719; t=1585129474;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J/tUHejTvvdx6XLpLTMK+Iqi7hqEpLx9dR2KQLXWiLc=;
- b=DuWN6H3A8Yt/tQFzMh0KJcexBMIKvP7BvBL52lvM9BTFyIno5H+14bddCz1cXdvgQQYcsq
- jVhCzsdKl1+BjmWbo3/Ojxfbeun45vNicW2OYsW/WQg/YdBOY943+XTnzUsUAl5vpgZ+3n
- iKgtDwDRMcUdGjypRil33ZtFLp436Ik=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OiFZDJTFclqzjCTSx+nVDwgRLTlGoJoYljIc1b69wDQ=;
+ b=PHGj4rYrbI0WPy63trY70+L7eHrIKQfPKXK2c7PZkXvnBACTJFbt9GfDl5D6rp42deKGOo
+ rpyXkBQF2HdlzVLVIciwlncL62X7Z/vHwiJv0U8kNlkDQoG0ftqDdtg99n+hydVWO/RTNS
+ q7KNi1q02cPdvleRoZhuUt4udl5MOTk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-hoEmiI37M2qWgL_3BtCZ_g-1; Wed, 25 Mar 2020 05:44:30 -0400
-X-MC-Unique: hoEmiI37M2qWgL_3BtCZ_g-1
+ us-mta-414-TozugXaMP1qgjiZZCLzYxw-1; Wed, 25 Mar 2020 05:44:32 -0400
+X-MC-Unique: TozugXaMP1qgjiZZCLzYxw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C340C107ACC4
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 09:44:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F236DB60
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 09:44:31 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91563A0A6F;
- Wed, 25 Mar 2020 09:44:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 336568D576;
+ Wed, 25 Mar 2020 09:44:29 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 0/2] fix qemu crash with memory-backend-* prealloc=yes
-Date: Wed, 25 Mar 2020 05:44:21 -0400
-Message-Id: <20200325094423.24293-1-imammedo@redhat.com>
+Subject: [PATCH for-5.0 1/2] hostmem: set default prealloc_threads to valid
+ value
+Date: Wed, 25 Mar 2020 05:44:22 -0400
+Message-Id: <20200325094423.24293-2-imammedo@redhat.com>
+In-Reply-To: <20200325094423.24293-1-imammedo@redhat.com>
+References: <20200325094423.24293-1-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,15 +75,33 @@ Cc: lvivier@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 4ebc74dbbf removed default prealloc_threads initialization
+by mistake, and that makes QEMU crash with division on zero at
+  numpages_per_thread =3D numpages / memset_num_threads;
+when QEMU is started with following backend
+  -object memory-backend-ram,id=3Dram-node0,prealloc=3Dyes,size=3D128M
 
-Igor Mammedov (2):
-  hostmem: set default prealloc_threads to valid value
-  tests: numa: test one backend with prealloc enabled
+Return back initialization removed by 4ebc74dbbf to fix issue.
 
- backends/hostmem.c      | 1 +
- tests/qtest/numa-test.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Fixes: 4ebc74dbbf7ad50e4101629f3f5da5fdc1544051
+Reported-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ backends/hostmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index a70867b255..327f9eebc3 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -280,6 +280,7 @@ static void host_memory_backend_init(Object *obj)
+     /* TODO: convert access to globals to compat properties */
+     backend->merge =3D machine_mem_merge(machine);
+     backend->dump =3D machine_dump_guest_core(machine);
++    backend->prealloc_threads =3D 1;
+ }
+=20
+ static void host_memory_backend_post_init(Object *obj)
 --=20
 2.18.1
 
