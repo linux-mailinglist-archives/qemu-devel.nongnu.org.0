@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B34192964
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:18:11 +0100 (CET)
-Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F4D19296F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:19:58 +0100 (CET)
+Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH5v8-0007pf-Lz
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:18:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
+	id 1jH5wr-0002ms-QQ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jH5tj-0006VL-Fm
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:44 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jH5tp-0006bB-1A
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jH5ti-0005rd-GD
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:43 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:30214)
+ (envelope-from <dgilbert@redhat.com>) id 1jH5tn-0005zd-SY
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:48 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:33351)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH5ti-0005qt-Cz
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:42 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH5tn-0005yo-PG
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585142201;
+ s=mimecast20190719; t=1585142207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5WNCRbdIY0/2OuOC21kFX6SisQryhJaZwWHpjFbfzIA=;
- b=Q3GqHnSzrHSQZ5vAnoaCZirzUvU85mo/wTt5TkNYxsdEDNy3lSXgzfoIsHG43bfEM1aehY
- 12T6sy8ASLi9pkmxsOpP/V/Qd/5avgodHLB2b4z0hnwuCfAF3DzUFwXcz8tGNtAJIj6niM
- tcEzQ0/J2GMnrJ8XZ22+ZH3VaZU5Djk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w0e863PwX6d7J/JmPX14i8QvC2RmA0dRj3ib8BKw8Vk=;
+ b=d6v9oDGMykDMYkFRO+zP1szH2eUfwRbKGtj04wlzbhzva0yUSnV/EV1LHjANG7g05ZYMBW
+ ruE3dFgGeHA31K+t5m/KqyQNaRp38IKoztlB57l6x4GA2OSpc/1TOkeivhueuzU7b9m97Q
+ GgtI00jyipPJhOiJo0hmjsYCnZymyrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-p28B7nM4OUOC4U0ztnfyBA-1; Wed, 25 Mar 2020 09:16:38 -0400
-X-MC-Unique: p28B7nM4OUOC4U0ztnfyBA-1
+ us-mta-40-okfhtMq_MCaZtVa_UVFyhQ-1; Wed, 25 Mar 2020 09:16:45 -0400
+X-MC-Unique: okfhtMq_MCaZtVa_UVFyhQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FADA800D4E;
- Wed, 25 Mar 2020 13:16:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AD17107ACC4;
+ Wed, 25 Mar 2020 13:16:39 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-213.ams2.redhat.com
  [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0A045C241;
- Wed, 25 Mar 2020 13:16:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9DC05C3F8;
+ Wed, 25 Mar 2020 13:16:37 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, pannengyuan@huawei.com,
  maozhongyi@cmss.chinamobile.com, vsementsov@virtuozzo.com,
  imammedo@redhat.com, philmd@redhat.com
-Subject: [PULL 0/9] migration queue
-Date: Wed, 25 Mar 2020 13:16:23 +0000
-Message-Id: <20200325131632.311034-1-dgilbert@redhat.com>
+Subject: [PULL 1/9] hmp-cmd: fix a missing_break warning
+Date: Wed, 25 Mar 2020 13:16:24 +0000
+Message-Id: <20200325131632.311034-2-dgilbert@redhat.com>
+In-Reply-To: <20200325131632.311034-1-dgilbert@redhat.com>
+References: <20200325131632.311034-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
@@ -72,64 +75,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-The following changes since commit 736cf607e40674776d752acc201f565723e86045=
-:
+This fix coverity issues 94417686:
+    1260        break;
+    CID 94417686: (MISSING_BREAK)
+    1261. unterminated_case: The case for value "MIGRATION_PARAMETER_THROTT=
+LE_TRIGGER_THRESHOLD" is not terminated by a 'break' statement.
+    1261    case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
+    1262        p->has_throttle_trigger_threshold =3D true;
+    1263        visit_type_int(v, param, &p->throttle_trigger_threshold, &e=
+rr);
+    1264    case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
 
-  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+Fixes: dc14a470763c96fd9d360e1028ce38e8c3613a77
+Fixes: Coverity (CID 1421950)
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200318071620.59748-1-pannengyuan@huawei.com>
+Reviewed-by: Keqian Zhu <zhukeqian1@huawei.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ monitor/hmp-cmds.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
-
-  git://github.com/dagrh/qemu.git tags/pull-migration-20200325b
-
-for you to fetch changes up to 7cd75cbdb8a45d9e2d5912f774d8194cbafdfa97:
-
-  migration: use "" instead of (null) for tls-authz (2020-03-25 12:31:38 +0=
-000)
-
-----------------------------------------------------------------
-Combo Migration/HMP/virtiofs pull
-
-Small fixes all around.
-Ones that are noticeable:
-  a) Igor's migration compatibility fix affecting older machine types
-     has been seen in the wild
-  b) Philippe's autconverge fix should fix an intermittently
-     failing migration test.
-  c) Mao's makes a small change to the output of 'info
-     migrate_parameters'  for tls-authz.
-
-----------------------------------------------------------------
-Dr. David Alan Gilbert (1):
-      hmp/vnc: Fix info vnc list leak
-
-Igor Mammedov (1):
-      vl.c: fix migration failure for 3.1 and older machine types
-
-Mao Zhongyi (2):
-      xbzrle: update xbzrle doc
-      migration: use "" instead of (null) for tls-authz
-
-Pan Nengyuan (1):
-      hmp-cmd: fix a missing_break warning
-
-Philippe Mathieu-Daud=C3=A9 (2):
-      tests/migration: Reduce autoconverge initial bandwidth
-      tools/virtiofsd/passthrough_ll: Fix double close()
-
-Vladimir Sementsov-Ogievskiy (2):
-      migration/colo: fix use after free of local_err
-      migration/ram: fix use after free of local_err
-
- docs/xbzrle.txt                  |  7 ++++++-
- migration/colo.c                 |  1 +
- migration/migration.c            |  5 +++--
- migration/ram.c                  |  1 +
- monitor/hmp-cmds.c               | 12 +++++++-----
- softmmu/vl.c                     |  3 +++
- tests/qtest/migration-test.c     |  2 +-
- tools/virtiofsd/passthrough_ll.c |  3 +--
- 8 files changed, 23 insertions(+), 11 deletions(-)
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 58724031ea..c882c9f3cc 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1261,6 +1261,7 @@ void hmp_migrate_set_parameter(Monitor *mon, const QD=
+ict *qdict)
+     case MIGRATION_PARAMETER_THROTTLE_TRIGGER_THRESHOLD:
+         p->has_throttle_trigger_threshold =3D true;
+         visit_type_int(v, param, &p->throttle_trigger_threshold, &err);
++        break;
+     case MIGRATION_PARAMETER_CPU_THROTTLE_INITIAL:
+         p->has_cpu_throttle_initial =3D true;
+         visit_type_int(v, param, &p->cpu_throttle_initial, &err);
+--=20
+2.25.1
 
 
