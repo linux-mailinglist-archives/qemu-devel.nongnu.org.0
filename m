@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED87192A9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:58:44 +0100 (CET)
-Received: from localhost ([::1]:36750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF592192A9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:58:24 +0100 (CET)
+Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6YN-0005C3-4b
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58395)
+	id 1jH6Y3-0004iu-Rp
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jH6VO-000273-Gh
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:55:41 -0400
+ (envelope-from <bounces@canonical.com>) id 1jH6VO-000272-FD
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:55:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jH6VM-00056e-Pi
+ (envelope-from <bounces@canonical.com>) id 1jH6VN-00057A-3b
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:55:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34236)
+Received: from indium.canonical.com ([91.189.90.7]:34256)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jH6VM-000563-Jo
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:55:36 -0400
+ id 1jH6VM-00056D-Un
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:55:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jH6VL-0007wi-S4
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 13:55:35 +0000
+ id 1jH6VM-0007wi-6l
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 13:55:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D2BAB2E80C7
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 13:55:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 310122E80C0
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 13:55:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 13:48:31 -0000
+Date: Wed, 25 Mar 2020 13:50:02 -0000
 From: Marcin Juszkiewicz <1869006@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: hrw
 X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
 X-Launchpad-Bug-Modifier: Marcin Juszkiewicz (hrw)
 References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
-Message-Id: <158514411158.15565.16751575545606399025.malone@gac.canonical.com>
+Message-Id: <158514420231.19807.4790922488532223949.malone@chaenomeles.canonical.com>
 Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
  guest memory but fails on 4GB
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ee31c0b83ece5c67fc5cec2a3e85343c5006158f
+X-Launchpad-Hash: f0c1a2614fbffe185ecc684acb4e2da1b58b83a1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,123 +69,18 @@ Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-lspci -vvv output of used cards (host side):
+attaching as file as launched wraps in ugly way
 
-28:00.0 USB controller: Renesas Technology Corp. uPD720201 USB 3.0 Host Con=
-troller (rev 03) (prog-if 30 [XHCI])
-	DeviceName: RTL8111EPV
-	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Steppi=
-ng- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbort- =
-<MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 42
-	Region 0: Memory at f7700000 (64-bit, non-prefetchable) [size=3D8K]
-	Capabilities: [50] Power Management version 3
-		Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D375mA PME(D0+,D1-,D2-,D3hot+,D3c=
-old+)
-		Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 PME-
-	Capabilities: [70] MSI: Enable- Count=3D1/8 Maskable- 64bit+
-		Address: 0000000000000000  Data: 0000
-	Capabilities: [90] MSI-X: Enable+ Count=3D8 Masked-
-		Vector table: BAR=3D0 offset=3D00001000
-		PBA: BAR=3D0 offset=3D00001080
-	Capabilities: [a0] Express (v2) Endpoint, MSI 00
-		DevCap:	MaxPayload 128 bytes, PhantFunc 0, Latency L0s unlimited, L1 unli=
-mited
-			ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 0.000W
-		DevCtl:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop+
-			MaxPayload 128 bytes, MaxReadReq 512 bytes
-		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr+ TransPend-
-		LnkCap:	Port #0, Speed 5GT/s, Width x1, ASPM L0s L1, Exit Latency L0s <4u=
-s, L1 unlimited
-			ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp-
-		LnkCtl:	ASPM Disabled; RCB 64 bytes Disabled- CommClk+
-			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-		LnkSta:	Speed 5GT/s (ok), Width x1 (ok)
-			TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-		DevCap2: Completion Timeout: Not Supported, TimeoutDis+, NROPrPrP-, LTR+
-			 10BitTagComp-, 10BitTagReq-, OBFF Not Supported, ExtFmt-, EETLPPrefix-
-			 EmergencyPowerReduction Not Supported, EmergencyPowerReductionInit-
-			 FRS-, TPHComp-, ExtTPHComp-
-			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR+, OBFF Disabl=
-ed
-			 AtomicOpsCtl: ReqEn-
-		LnkCtl2: Target Link Speed: 5GT/s, EnterCompliance- SpeedDis-
-			 Transmit Margin: Normal Operating Range, EnterModifiedCompliance- Compl=
-ianceSOS-
-			 Compliance De-emphasis: -6dB
-		LnkSta2: Current De-emphasis Level: -3.5dB, EqualizationComplete-, Equali=
-zationPhase1-
-			 EqualizationPhase2-, EqualizationPhase3-, LinkEqualizationRequest-
-	Capabilities: [100 v1] Advanced Error Reporting
-		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- =
-ECRC- UnsupReq- ACSViol-
-		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- =
-ECRC- UnsupReq- ACSViol-
-		UESvrt:	DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+=
- ECRC- UnsupReq- ACSViol-
-		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
-		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr+
-		AERCap:	First Error Pointer: 00, ECRCGenCap- ECRCGenEn- ECRCChkCap- ECRCC=
-hkEn-
-			MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCap-
-		HeaderLog: 00000000 00000000 00000000 00000000
-	Capabilities: [150 v1] Latency Tolerance Reporting
-		Max snoop latency: 1048576ns
-		Max no snoop latency: 1048576ns
-	Kernel driver in use: xhci_hcd
+** Attachment added: "lspci -vvv"
+   https://bugs.launchpad.net/qemu/+bug/1869006/+attachment/5341486/+files/=
+lspci-vvv.text
 
-29:00.0 Mass storage controller: Silicon Image, Inc. SiI 3132 Serial ATA Ra=
-id II Controller (rev 01)
-	Subsystem: Silicon Image, Inc. SiI 3132 Serial ATA Raid II Controller
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Steppi=
-ng- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbort- =
-<MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 66
-	Region 0: Memory at f7684000 (64-bit, non-prefetchable) [size=3D128]
-	Region 2: Memory at f7680000 (64-bit, non-prefetchable) [size=3D16K]
-	Region 4: I/O ports at c000 [size=3D128]
-	Expansion ROM at f7600000 [disabled] [size=3D512K]
-	Capabilities: [54] Power Management version 2
-		Flags: PMEClk- DSI+ D1+ D2+ AuxCurrent=3D0mA PME(D0-,D1-,D2-,D3hot-,D3col=
-d-)
-		Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D1 PME-
-	Capabilities: [5c] MSI: Enable- Count=3D1/1 Maskable- 64bit+
-		Address: 0000000000000000  Data: 0000
-	Capabilities: [70] Express (v1) Legacy Endpoint, MSI 00
-		DevCap:	MaxPayload 1024 bytes, PhantFunc 0, Latency L0s <64ns, L1 <1us
-			ExtTag- AttnBtn- AttnInd- PwrInd- RBE- FLReset-
-		DevCtl:	CorrErr- NonFatalErr- FatalErr- UnsupReq-
-			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-			MaxPayload 128 bytes, MaxReadReq 4096 bytes
-		DevSta:	CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr- TransPend-
-		LnkCap:	Port #0, Speed 2.5GT/s, Width x1, ASPM L0s, Exit Latency L0s unli=
-mited
-			ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-		LnkCtl:	ASPM Disabled; RCB 64 bytes Disabled- CommClk+
-			ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-		LnkSta:	Speed 2.5GT/s (ok), Width x1 (ok)
-			TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-	Capabilities: [100 v1] Advanced Error Reporting
-		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- =
-ECRC- UnsupReq- ACSViol-
-		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- =
-ECRC- UnsupReq- ACSViol-
-		UESvrt:	DLP+ SDES- TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+=
- ECRC- UnsupReq- ACSViol-
-		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
-		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNonFatalErr-
-		AERCap:	First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- ECRCChkCap+ ECRCC=
-hkEn-
-			MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCap-
-		HeaderLog: 00000000 00000000 00000000 00000000
-	Kernel driver in use: sata_sil24
-	Kernel modules: sata_sil24
+** Summary changed:
+
+- PCIe cards passthrough to TCG guest works on 2GB of guest memory but fail=
+s on 4GB
++ PCIe cards passthrough to TCG guest works only up to 3054MB of guest memo=
+ry
 
 -- =
 
