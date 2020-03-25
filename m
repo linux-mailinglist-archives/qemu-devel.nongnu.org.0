@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9098D192D0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:42:04 +0100 (CET)
-Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F74A192D32
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:47:29 +0100 (CET)
+Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH8AN-0006rV-LI
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45482)
+	id 1jH8Fb-00021p-JT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jH89I-0005cC-95
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:40:57 -0400
+ (envelope-from <olaf@aepfle.de>) id 1jH8E2-0001PK-F2
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jH89G-0007DQ-5j
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:40:56 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:43364)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dietmar@proxmox.com>) id 1jH89F-0007Ba-UU
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:40:54 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E9A6542EAC;
- Wed, 25 Mar 2020 16:40:49 +0100 (CET)
-Date: Wed, 25 Mar 2020 16:40:48 +0100 (CET)
-From: Dietmar Maurer <dietmar@proxmox.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <1427176168.41.1585150848553@webmail.proxmox.com>
-In-Reply-To: <20200325123905.4mygg2ljie7prtbc@dritchie>
-References: <2007060575.48.1585048408879@webmail.proxmox.com>
- <1512602350.59.1585056617632@webmail.proxmox.com>
- <1806708761.60.1585056799652@webmail.proxmox.com>
- <32c10c76-1c9f-3a6a-4410-09eebad0f6f3@redhat.com>
- <20200325081312.7wtz6crlgotsw5ul@dritchie>
- <20200325114639.rxwhs7h4bkxhkgsu@dritchie>
- <523142611.32.1585139388758@webmail.proxmox.com>
- <20200325123905.4mygg2ljie7prtbc@dritchie>
-Subject: Re: backup transaction with io-thread core dumps
+ (envelope-from <olaf@aepfle.de>) id 1jH8E0-00031R-Bv
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:45:49 -0400
+Received: from mo6-p00-ob.smtp.rzone.de ([2a01:238:20a:202:5300::11]:11640)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1jH8Dz-0002zT-Mm
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:45:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1585151144;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=PKweOmqboJ9ln0CKf4OKLYqTdl0iXQliBFPIkLD7iSw=;
+ b=qpwWpnv1r1IrGuP9/R5cE5N3DjUwXK2F82FGIqG9Aqq5RfuIUJAE9/g2lUh+eFpiAj
+ fjem0wUt2Tf64ig1uxOLdCm8v2SNny52pdVpQP51U/T2+chANUNnoUt04YOc/NVqtNOy
+ j88KGcxurA+0kRIoicNW+gpt5glTRuzrjTrkGI0Odg6FkqVjD1NvPprjjWGlGElUkM0k
+ iBla8oSOAuOdBgcE9qiBbC5MgA/xIVOvYdtawa85W28v+w+iYN9nGuP0bC9IT+wdM/to
+ es2LtKWvBKjZahev+ktGrig/du52mFgcfH4Upcqh2TF0wupELG79Rg9cb8XlqP0H+tTU
+ Pmdg==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC44eztn93Z9OGdNZlAhh"
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 46.2.1 DYNA|AUTH)
+ with ESMTPSA id k0b757w2PFjeR75
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 25 Mar 2020 16:45:40 +0100 (CET)
+Date: Wed, 25 Mar 2020 16:45:22 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3] piix: fix xenfv regression, add compat machine
+ xenfv-qemu4
+Message-ID: <20200325164522.39869e56.olaf@aepfle.de>
+In-Reply-To: <9123dcfd-862f-8986-b728-f4b3d806aea6@redhat.com>
+References: <20200113174521.3336-1-olaf@aepfle.de>
+ <20200325064736.22416-1-olaf@aepfle.de>
+ <9123dcfd-862f-8986-b728-f4b3d806aea6@redhat.com>
+X-Mailer: Claws Mail 2019.12.31 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev22
-X-Originating-Client: open-xchange-appsuite
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/MJo9kP2hsGmI.TUp/d1QRmQ"; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 2a01:238:20a:202:5300::11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,36 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Dietmar Maurer <dietmar@proxmox.com>
-Cc: kwolf@redhat.com, "jsnow@redhat.com" <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On March 25, 2020 1:39 PM Sergio Lopez <slp@redhat.com> wrote:
-> 
->  
-> On Wed, Mar 25, 2020 at 01:29:48PM +0100, Dietmar Maurer wrote:
-> > > As expected, if both BDS are running on the same IOThread (and thus,
-> > > the same AioContext), the problem is not reproducible.
-> > >
-> > > In a general sense, we could say that completion modes other than
-> > > "individual" are not supported for a transaction that may access
-> > > different AioContexts. I don't see a safe an easy way to fix this. We
-> > > could opt for simply detect and forbid such completion modes when the
-> > > BDS's are assigned to different AioContexts. Perhaps Kevin (in CC) has
-> > > a better idea.
-> >
-> > So the solution is to disable backups when using io-threads?
-> >
-> 
-> I meant forbidding transactions with completion-mode == grouped. It
-> would be still possible running transactions (and thus, backups) with
-> completion-mode == individual, which is the default.
+--Sig_/MJo9kP2hsGmI.TUp/d1QRmQ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-As mentioned earlier, even a totally simple/normal backup job fails when
-using io-threads and the VM is under load. It results in a total
-VM freeze!
+Am Wed, 25 Mar 2020 16:39:54 +0100
+schrieb Paolo Bonzini <pbonzini@redhat.com>:
 
+> hw_compat_3_1 and pc_compat_3_1
+
+I have asked about this earlier, so again:
+
+What do all these arrays do in the context of 'xenfv' to the emulated syste=
+m?
+
+
+Olaf
+
+--Sig_/MJo9kP2hsGmI.TUp/d1QRmQ
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl57fJIACgkQ86SN7mm1
+DoD62w//b+U9Kdz0H/jmjEDX3Bvgqzx/wSswAW6jUX633xdFKGjrIsSqBfODv6gE
+IjgH7zItzxBRq6KIzzgWrZF9bkN0PuooK5mKqmiag1S78su67wnAJKpo2TReCKGm
+KsMe1if8QzI45hfCcAipLmZ+/QHcIfBvmGi6XH2tk8XioYBHC6EmXCieSMsFEdWc
+o3srYIbLK/KFjKiZeU72mh1MQghcXxxzdMQeuukvCX7+JURdr5MIrJtKjw/u1DIR
+oFKgBIGaaElMlZzVlfVYt6Ygt4BGpDo5IQrGzcgo0p4xVYxY/pbRa8GxHMU3CbHa
+3QAAqej3aWBFnj4p4OcTwwJgEEv4Y2vpFa9JNUMNXba9Ebt7gzudV6F7azRdVq1T
+BdVvD67BhjqwcmGPa1F9Qjo2pjyZg5GdVQ5aY3WdZfOlMhzJFCe1preiP7Y5Stja
+ThZz4ZteY9ZoMb/D/Y8r7pC/+ZgZSZ5rx4q0oKYeuB5r3pRCK99r7jD+sqyhe6YK
+vqQHqmBb/dwuYyMRwgoskQfQidECKVhzFNZBha/TTsZf6XFjR+4PnK7wmjtjQ1ZE
+I/0OrWmMbLpDM7plrTiMKkJspI/Vvkg80soVqt1e0k6Da5SLuGDKzb0kf+pcoKtw
+dpoxE/KnZ4LRZFe72mKZeKIiXO2y98RoPs2c1f+fQSHySjvcKxM=
+=Jia/
+-----END PGP SIGNATURE-----
+
+--Sig_/MJo9kP2hsGmI.TUp/d1QRmQ--
 
