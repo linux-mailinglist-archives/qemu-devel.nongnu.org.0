@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4067E192C0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:17:36 +0100 (CET)
-Received: from localhost ([::1]:37924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8DB192C21
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:21:19 +0100 (CET)
+Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7mh-0005Wn-6P
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
+	id 1jH7qI-0003YJ-8R
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7lA-0003n4-80
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:16:01 -0400
+ (envelope-from <peterx@redhat.com>) id 1jH7l4-0003bl-PF
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jH7l9-000868-60
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:16:00 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44702)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jH7l8-00084j-Vr
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:59 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id m17so3554703wrw.11
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hddMp6YbU7VIRh+p3dmSk6KMYfcJvHBxPkgSszrgB38=;
- b=ev5FjM5Ew7LWhxoP6rZJMO+8+DPDef97WiPSduRHUtbI0LOpr6ET5WCwr7GLAWp/Bz
- IMveDXwSTXIKtl4IzvmheHDWd5p5gUGwP5pXFxG2URuPFaGmYNoH+PRyptBeT3Z4sMJC
- z7++NuGZW00IxHvfOw1CmgTx9McjTnrp83lliKWtLRSoQSTxURZsSeClIX73TkwTBxnQ
- AVSLayWkbRSpz/QQOELDJ2pnJQ/B0v9q5uhmamcQTjN/4RKpOi5/AJ0cklDxYzU2pvms
- kDNnOKMiYlcEKfbs9dXNm5Q7BTnmrojThRxyjKQemMZtxcUevFH/LFINERDskDhO6kNV
- rr3g==
+ (envelope-from <peterx@redhat.com>) id 1jH7l3-000803-0k
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:54 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:33361)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jH7l2-0007zN-Sm
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585149351;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VV/qB4XiviO7kh1hhG2n4hx9rW8OBYrSXnkFMevqrEY=;
+ b=X/Jhe4eaxRA8TkMKou1paBR6OWvdp06viqKvOGlu9FBfLjZZbcUcj4kMykT3bqSTgQbjaH
+ wLHpFjH0OC0ms+21fIHNsyEbdMX1RcBGqZfYq5r9f8aqwKKgbV+sh+gmZ7zjos8pxdVJSK
+ pFOQUgV3NZ+XjXMlkRth96wN1KMji9U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-F-ThaBcENIyeQxv7d1uIhQ-1; Wed, 25 Mar 2020 11:15:48 -0400
+X-MC-Unique: F-ThaBcENIyeQxv7d1uIhQ-1
+Received: by mail-wr1-f70.google.com with SMTP id l17so1300903wro.3
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hddMp6YbU7VIRh+p3dmSk6KMYfcJvHBxPkgSszrgB38=;
- b=R0sCjGHEH1q5O0i+5t9bJb45c/1x1XFJDUUGTYAQGuY9UnRwI/xKyzfmERLdM3IIP6
- V/wjzHN+fWVECynWP0WEBb0gmz3TUCfB6kaI+WD1zFwT4akn191PIDqB5rh54pUPPfO0
- IHdlgfvKIku006IXcnVC9V5sA4wGTaD4LjN5RDTuTIetxJ8qi7KDwAE2FM/dsQ5IRlvH
- ikjzYm0bNNUQQtPy1HhOOJp5e3L+64EZaArE2FG3N60g9IVV2ddtXhENET7d1yvHe/aS
- +VK1Y8kJX9USP+dbV7WfTXeZdA/FjBUqet8t3xsWUs0gVq0fvl7qgc3bOg8lNRGPiAWQ
- fZcA==
-X-Gm-Message-State: ANhLgQ10Uc8wzvOi+eGPEfN80yfOKT8qme1AOGDmA8YVjbg7ZmrqX+PW
- 5dk2gnshxEJo9pB+MrbDD09Xjg==
-X-Google-Smtp-Source: ADFU+vtYJwXVW3lIPTgEKtC/+uqpc+ZkP2gUdLXhET6sHnfKKANlMn//PD1WJhHfEZKAVTMaZrbHvw==
-X-Received: by 2002:adf:f2c7:: with SMTP id d7mr3926101wrp.184.1585149357904; 
- Wed, 25 Mar 2020 08:15:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l10sm2851392wrq.95.2020.03.25.08.15.47
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=85Iz7qm55ak28GWxIHEHs8MmNnZEjWo4E+H4mhBr6/Q=;
+ b=Z4pNLZYmvhzXdAYrpvwlZlE+tBd2BMcU/6X3MFiHTYLpi3R4T845MEXuyHKRA5Cn+/
+ b5TuwENCjtsES9hN+U/pMvdCSbawl+NBa9YGpp+ZNc1yXgVKjdso5Ft0drVumlqin/p9
+ hPo3RJL6sAGNXWz1olHjEuuPmb4xw5VCJWAJLhLInqUafZ1ujM6kQ2EAUYNNeMLU9A68
+ t3IqphoSA2AwXxQ47KJZMYMwjHtzkT4TwZdHeE0SJOwPzhHgCwdu7uFFzbT7cQiDXX6p
+ 3BU7QZgxAehuI2wlC5TjCJKzdRZxtcVQoG8VBU/rlGfLRplWwOtthXyUozva+HwltiUY
+ I5VA==
+X-Gm-Message-State: ANhLgQ1lxRmMG/17xrSkaVWgWTae3cJrpHPyRas2pACFE6bYgbLwwWus
+ iHUlXRSoJXLtz1gx1H+PgogXVkfbk/WTntI+2AxSsih4O7swLKCAnr972IMs+NmGrPXGefo5r3i
+ kObbohON3m9RowhU=
+X-Received: by 2002:a1c:1b51:: with SMTP id b78mr3936826wmb.8.1585149347011;
+ Wed, 25 Mar 2020 08:15:47 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtvttgse0+xLvAuZ1+Y+vqPJhjVQWmRMDmQ8GkvLI7/TEIhbBiRpP5z+u7oZYO7GONLwyERYg==
+X-Received: by 2002:a1c:1b51:: with SMTP id b78mr3936803wmb.8.1585149346812;
+ Wed, 25 Mar 2020 08:15:46 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id y80sm10091321wmc.45.2020.03.25.08.15.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 08:15:53 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F40531FF96;
- Wed, 25 Mar 2020 15:15:43 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 08/11] tests/docker: Install gcrypt devel package in Debian
- image
-Date: Wed, 25 Mar 2020 15:15:40 +0000
-Message-Id: <20200325151543.32478-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200325151543.32478-1-alex.bennee@linaro.org>
-References: <20200325151543.32478-1-alex.bennee@linaro.org>
+ Wed, 25 Mar 2020 08:15:46 -0700 (PDT)
+Date: Wed, 25 Mar 2020 11:15:40 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v1 19/22] intel_iommu: process PASID-based iotlb
+ invalidation
+Message-ID: <20200325151540.GE354390@xz-x1>
+References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
+ <1584880579-12178-20-git-send-email-yi.l.liu@intel.com>
+ <20200324182623.GD127076@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A202340@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A202340@SHSMSX104.ccr.corp.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,51 +90,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, Mar 25, 2020 at 01:36:03PM +0000, Liu, Yi L wrote:
+> > From: Peter Xu <peterx@redhat.com>
+> > Sent: Wednesday, March 25, 2020 2:26 AM
+> > To: Liu, Yi L <yi.l.liu@intel.com>
+> > Subject: Re: [PATCH v1 19/22] intel_iommu: process PASID-based iotlb in=
+validation
+> >=20
+> > On Sun, Mar 22, 2020 at 05:36:16AM -0700, Liu Yi L wrote:
+> > > This patch adds the basic PASID-based iotlb (piotlb) invalidation
+> > > support. piotlb is used during walking Intel VT-d 1st level page
+> > > table. This patch only adds the basic processing. Detailed handling
+> > > will be added in next patch.
+> > >
+> > > Cc: Kevin Tian <kevin.tian@intel.com>
+> > > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > Cc: Peter Xu <peterx@redhat.com>
+> > > Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > Cc: Richard Henderson <rth@twiddle.net>
+> > > Cc: Eduardo Habkost <ehabkost@redhat.com>
+> > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > > ---
+> > >  hw/i386/intel_iommu.c          | 57
+> > ++++++++++++++++++++++++++++++++++++++++++
+> > >  hw/i386/intel_iommu_internal.h | 13 ++++++++++
+> > >  2 files changed, 70 insertions(+)
+> > >
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c index
+> > > b007715..b9ac07d 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -3134,6 +3134,59 @@ static bool vtd_process_pasid_desc(IntelIOMMUS=
+tate
+> > *s,
+> > >      return (ret =3D=3D 0) ? true : false;  }
+> > >
+> > > +static void vtd_piotlb_pasid_invalidate(IntelIOMMUState *s,
+> > > +                                        uint16_t domain_id,
+> > > +                                        uint32_t pasid) { }
+> > > +
+> > > +static void vtd_piotlb_page_invalidate(IntelIOMMUState *s, uint16_t =
+domain_id,
+> > > +                             uint32_t pasid, hwaddr addr, uint8_t am=
+,
+> > > +bool ih) { }
+> > > +
+> > > +static bool vtd_process_piotlb_desc(IntelIOMMUState *s,
+> > > +                                    VTDInvDesc *inv_desc) {
+> > > +    uint16_t domain_id;
+> > > +    uint32_t pasid;
+> > > +    uint8_t am;
+> > > +    hwaddr addr;
+> > > +
+> > > +    if ((inv_desc->val[0] & VTD_INV_DESC_PIOTLB_RSVD_VAL0) ||
+> > > +        (inv_desc->val[1] & VTD_INV_DESC_PIOTLB_RSVD_VAL1)) {
+> > > +        error_report_once("non-zero-field-in-piotlb_inv_desc hi: 0x%=
+" PRIx64
+> > > +                  " lo: 0x%" PRIx64, inv_desc->val[1], inv_desc->val=
+[0]);
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    domain_id =3D VTD_INV_DESC_PIOTLB_DID(inv_desc->val[0]);
+> > > +    pasid =3D VTD_INV_DESC_PIOTLB_PASID(inv_desc->val[0]);
+> > > +    switch (inv_desc->val[0] & VTD_INV_DESC_IOTLB_G) {
+> > > +    case VTD_INV_DESC_PIOTLB_ALL_IN_PASID:
+> > > +        vtd_piotlb_pasid_invalidate(s, domain_id, pasid);
+> > > +        break;
+> > > +
+> > > +    case VTD_INV_DESC_PIOTLB_PSI_IN_PASID:
+> > > +        am =3D VTD_INV_DESC_PIOTLB_AM(inv_desc->val[1]);
+> > > +        addr =3D (hwaddr) VTD_INV_DESC_PIOTLB_ADDR(inv_desc->val[1])=
+;
+> > > +        if (am > VTD_MAMV) {
+> >=20
+> > I saw this of spec 10.4.2, MAMV:
+> >=20
+> >         Independent of value reported in this field, implementations
+> >         supporting SMTS must support address-selective PASID-based
+> >         IOTLB invalidations (p_iotlb_inv_dsc) with any defined address
+> >         mask.
+> >=20
+> > Does it mean we should even support larger AM?
+> >=20
+> > Besides that, the patch looks good to me.
+>=20
+> I don't think so. This field is for second-level table in scalable mode
+> and the translation table in legacy mode. For first-level table, it alway=
+s
+> supports page selective invalidation and all the supported masks
+> regardless of the PSI support bit and the MAMV field in the CAP_REG.
 
-In commit 6f8bbb374be we enabled building with the gcrypt library
-on the the Debian 'x86 host', which was based on Debian Stretch.
-Later in commit 698a71edbed we upgraded the Debian base image to
-Buster.
+Yes that's exactly what I wanted to ask...  Let me try again.
 
-Apparently Debian Stretch was listing gcrypt as a QEMU dependency,
-but this is not the case anymore in Buster, so we need to install
-it manually (it it not listed by 'apt-get -s build-dep qemu' in
-the common debian10.docker anymore). This fixes:
+I thought VTD_MAMV was only for 2nd level page table, not for
+pasid-iotlb invalidations.  So I think we should remove this "if"
+check (that corresponds to "we should even support larger AM"), right?
 
- $ ../configure $QEMU_CONFIGURE_OPTS
-
-  ERROR: User requested feature gcrypt
-         configure was not able to find it.
-         Install gcrypt devel >= 1.5.0
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200322120104.21267-3-philmd@redhat.com>
-Message-Id: <20200323161514.23952-9-alex.bennee@linaro.org>
-
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index d4849f509f4..957f0bc2e79 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -16,6 +16,7 @@ RUN apt update && \
-     apt install -y --no-install-recommends \
-         libbz2-dev \
-         liblzo2-dev \
-+        libgcrypt20-dev \
-         librdmacm-dev \
-         libsasl2-dev \
-         libsnappy-dev \
--- 
-2.20.1
+--=20
+Peter Xu
 
 
