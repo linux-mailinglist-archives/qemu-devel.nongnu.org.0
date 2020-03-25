@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A791192635
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:52:40 +0100 (CET)
-Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D78F19263D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:55:03 +0100 (CET)
+Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3eJ-0000En-3b
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:52:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1jH3gc-0002dD-AT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3Zz-0003Lb-K6
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:13 -0400
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3f5-0001jy-PV
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:53:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3Zy-0006gI-Dm
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:11 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34965)
+ (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jH3f2-0004Uu-Qk
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:53:27 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46812)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jH3Zy-0006er-7K
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:48:10 -0400
-Received: by mail-wr1-x443.google.com with SMTP id d5so2394892wrn.2
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 03:48:09 -0700 (PDT)
+ id 1jH3f2-0004SU-JX
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:53:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j17so2313139wru.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 03:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AE85nmQ98UVGTlYj011lU1PvMAc8nGVf54bavmknjxs=;
- b=gbJeZf35gbiymTmkfPNQYnAh8hYrjXA4wJxJfA1jgAk225NA5JkAWHnJrgBntISwMb
- DnkfWsz2wKS/aIB88mt7btY3mhdS3qeP08QFPKzXL6d8QqHetpV49aIOokeltEFbZj1U
- LekJ3qxNzcsLrI1o7PuWCESQKfvFl1YqUvUPEVYQ2+WCDQbj1jHVgHXYk789+JLHRccC
- yY1YVYzqkyAMN+uj4x1PZDyBpHRoFw/GNq5cexvEiGoVMGIfKubX/5y5c+Ma4VqDS8G1
- 2B3d/mtNEg7Ag2HDKN3ArsStM0npZkw/zlhju+za4plomsxp/sfHe3U4CAFHOKwNM1NN
- TOVw==
+ :cc; bh=5XaAHoZuXLEs4wLzVSQtN4XQW32FLxIC6ssK3SuyAJk=;
+ b=UmqO6rYInVC/tI/Jk3T52ziJRzmvuz27NaWExR7+YFUZUKacgrQvSFy+LX01oe6Dyo
+ 2uPZDZf7IDu1ZGUNzi+Fn5uRbeVNdNBzK7NHk2/UWAlkL8HnViJG4Wm+Yex4EVUdMFJC
+ GLNUP19iiczulptZ78o3xKCC4Wyh7hMwaeCAa4Y82OstpZIEjrr3YMJZTGK4/kxVWmlG
+ jvuN+bloREP8VUxZ9bxQKc+U+qqu0V9ve/KnT7Lg7e6iKdWjBbQfnNR63tZ8DkeQF2WG
+ 0VdZvBetOIJWn2/n6LsrOCUiDRZR6aVpF8iDvMK587pZsAgJmeJsQqjNJ890On/4/QN6
+ fMkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AE85nmQ98UVGTlYj011lU1PvMAc8nGVf54bavmknjxs=;
- b=iRlODd6VbZZdENKxchP76fZoZ/hkEcx6W8OqQ3Nkumr+n0lgRFF1DjE3oj8cdxSc07
- KNBeXiGriGosYkOZgpGNsQC+b2qTL7qn/2heOlQK/1FJQygyQgfCzRocGx07mWhGhNW4
- cNTIHNhKeM5BjvM9uWJ+BoVS9tA5QPSe7Gc+KlAQg9pvTkCNXIqaad4gKgVB05tfkHem
- c+a7v7qCvLU1zXw6GREclp6n1WhIpdKP3y1lCby04ew12tFoXDFpxg2ylo/91h5kGrvU
- m13K/uYm7ApO9bhz1G9JGOW7U6wZFc+6ibevEvMiMhc/HQ2cW/H8nYzNVqveELywqJTR
- C6dw==
-X-Gm-Message-State: ANhLgQ3UBKh93sRC0K/zpLqrJbspWlL8DtAPs+Wbu1iz0O7k6DkWlvmx
- Dxypsd+0xH8kYas/5IoWbDcaRDx+VJi2NAcMrN8=
-X-Google-Smtp-Source: ADFU+vsH9GBzGYfJWFaNCrDpIueVFWbZBqGV1iYxknrPSAL3+tl9Qa2NMfxsgk9oplbYCAFuVylrb2lBAltXv05UCRQ=
-X-Received: by 2002:adf:ba47:: with SMTP id t7mr2593424wrg.147.1585133288435; 
- Wed, 25 Mar 2020 03:48:08 -0700 (PDT)
+ bh=5XaAHoZuXLEs4wLzVSQtN4XQW32FLxIC6ssK3SuyAJk=;
+ b=EG/1zdhvxLxna0vd7VKDzIPgcQQ86dvfAUzsLlKXuIjUqJKKelHc82txwAmqGiXG+i
+ C6vTm6AQ4ArcRU4b64mdjvMkTzKWDA0w//PHhN4i5ec7qTuDyRhqYQFkL/39CdLJKspt
+ jRa8TAhLb6YpS14AVYZzxCJ3XllurQLWNYO0/+om0FQCh+8nhzPj3FD2uKk1EI9iOH8N
+ HBbfPDdlFy5SPHla6WpgpTa1B53ZMBJkhzmJ8PjmGCNZ4pG5lD1gssDTINKraWEyPi9W
+ URe9ksLIt0tTBLUhTgnj4rNV/8bkl2/qNASF85/vCLwBZy55XaHt7Jt0Ss96nit5F5xO
+ xQ7w==
+X-Gm-Message-State: ANhLgQ3L6TmPnngR1jebM+gVjGi35GuD00OCbk4pl4BFapSHd+ie7LLB
+ xcb/5gnPij465vNqIIhrLUk/Q+uVYLL1ryuT3Do=
+X-Google-Smtp-Source: ADFU+vubbIfu09fsa58YSPwQ7+GkJqT1Bzaa1WoVdM9G9TP+yzf7WNsR0hmMeFZrqwI6n8KUZUquVmAFo4V1I9e41ww=
+X-Received: by 2002:adf:efc2:: with SMTP id i2mr2743697wrp.420.1585133603213; 
+ Wed, 25 Mar 2020 03:53:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
- <aa622b1d-e28a-c3f1-d18a-73e8a67c8ccf@linaro.org>
- <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
-In-Reply-To: <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
+References: <20200323161514.23952-1-alex.bennee@linaro.org>
+ <20200323161514.23952-7-alex.bennee@linaro.org>
+ <20e5e10b-a2ac-06ed-edb4-5d4250c1775a@linaro.org>
+In-Reply-To: <20e5e10b-a2ac-06ed-edb4-5d4250c1775a@linaro.org>
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Wed, 25 Mar 2020 12:47:50 +0200
-Message-ID: <CAHiYmc5nzmk0EiN6U8Wd3h3xBwim1frEXk=27tngfagHwTvYQw@mail.gmail.com>
-Subject: Re: [PATCH for-5.0,
- v1] target/mips: Fix loongson multimedia condition instructions
+Date: Wed, 25 Mar 2020 12:53:04 +0200
+Message-ID: <CAHiYmc6G-RhqRxK7Dn2KAv3oN4yYy8HbiJbyHfTF-TKXgDbJmw@mail.gmail.com>
+Subject: Re: [PATCH v1 06/11] configure: disable MTTCG for MIPS guests
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000094353105a1ab9ae1"
+Content-Type: multipart/alternative; boundary="00000000000057579d05a1abad98"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,125 +73,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aurelien@aurel32.net, aleksandar.rikalo@rt-rk.com,
- QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Huacai Chen <chenhc@lemote.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000094353105a1ab9ae1
+--00000000000057579d05a1abad98
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-12:44 Sre, 25.03.2020. Aleksandar Markovic <aleksandar.qemu.devel@gmail.com=
+20:17 Pon, 23.03.2020. Richard Henderson <richard.henderson@linaro.org> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> 16:59 Uto, 24.03.2020. Richard Henderson <richard.henderson@linaro.org>
-=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> On 3/23/20 9:15 AM, Alex Benn=C3=A9e wrote:
+> > While debugging check-acceptance failures I found an instability in
+> > the mips64el test case. Briefly the test case:
 > >
-> > On 3/24/20 5:22 AM, Jiaxun Yang wrote:
-> > > Loongson multimedia condition instructions were previously
-implemented as
-> > > write 0 to rd due to lack of documentation. So I just confirmed with
-Loongson
-> > > about their encoding and implemented them correctly.
-> > >
-> > > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > > Acked-by: Huacai Chen <chenhc@lemote.com>
-> > > ---
-> > > v1: Use deposit opreations according to Richard's suggestion.
-> > > ---
-> > >  target/mips/translate.c | 35 +++++++++++++++++++++++++++++++----
-> > >  1 file changed, 31 insertions(+), 4 deletions(-)
+> >   retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
+> >     -display none -vga none -serial mon:stdio \
+> >     -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
+> >     -cpu I6400 -smp 8 -vga std \
+> >     -append "printk.time=3D0 clocksource=3DGIC console=3Dtty0 console=
+=3DttyS0
+panic=3D-1" \
+> >     --no-reboot
 > >
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Reports about a 9% failure rate:
 > >
+> >   Results summary:
+> >   0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
+> >   -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
+> >   Ran command 100 times, 91 passes
+> >
+> > When re-run with "--accel tcg,thread=3Dsingle" the instability goes
+> > away.
+> >
+> >   Results summary:
+> >   0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80
+deviation)
+> >   Ran command 100 times, 100 passes
+> >
+> > Which seems to indicate there is some aspect of the MIPS MTTCG fixes
+> > that has been missed. Ideally we would fix that but I'm afraid I don't
+> > have time to investigate and am not super familiar with the
+> > architecture anyway. In lieu of someone tracking down the failure lets
+> > disable it for now.
+> >
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Acked-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> > Cc: Aurelien Jarno <aurelien@aurel32.net>
+> > Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 >
-> I just have a couple of mon-essential suggestions wrt coding style, but
-since all that is really of very insignificant nauture, I wouldn't even
-mention them.
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
 >
-> Reviewed-by: Aleksandar Markovic <aleksandar.qemi.devel@gmail.com>
->
-
-Sorry, there was a typo. It should be:
 
 Reviewed-by: Aleksandar Markovic <aleksandar.qem u.devel@gmail.com>
 
-("u" instead of "i" in "qemi")
+But, Alex, I expect this patch will go through your queue, not MIPS queue
+(unless you told me otherwise).
 
-> May I ask you, Richard, to select this patch for your next TCG-for-5.0
-queue, so that I don't go through a MIPS queue process for just a single
-patch?
->
-> Thanks to all involved people!
->
-> Aleksandar
->
-> >
-> > r~
+Thanks,
+Aleksandar
 
---00000000000094353105a1ab9ae1
+>
+> r~
+
+--00000000000057579d05a1abad98
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <p dir=3D"ltr"></p>
-<p dir=3D"ltr">12:44 Sre, 25.03.2020. Aleksandar Markovic &lt;<a href=3D"ma=
-ilto:aleksandar.qemu.devel@gmail.com">aleksandar.qemu.devel@gmail.com</a>&g=
-t; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br=
+<p dir=3D"ltr">20:17 Pon, 23.03.2020. Richard Henderson &lt;<a href=3D"mail=
+to:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; =D1=
+=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; On 3/23/20 9:15 AM, Alex Benn=C3=A9e wrote:<br>
+&gt; &gt; While debugging check-acceptance failures I found an instability =
+in<br>
+&gt; &gt; the mips64el test case. Briefly the test case:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-=
+mips64el \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0-display none -vga none -serial mon:stdio \<br=
 >
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0-machine malta -kernel ./vmlinux-4.7.0-rc1.I64=
+00 \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0-cpu I6400 -smp 8 -vga std \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0-append &quot;printk.time=3D0 clocksource=3DGI=
+C console=3Dtty0 console=3DttyS0 panic=3D-1&quot; \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0--no-reboot<br>
+&gt; &gt; <br>
+&gt; &gt; Reports about a 9% failure rate:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0Results summary:<br>
+&gt; &gt;=C2=A0 =C2=A00: 91 times (91.00%), avg time 5.547 (0.45 varience/0=
+.67 deviation)<br>
+&gt; &gt;=C2=A0 =C2=A0-6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.=
+13 deviation)<br>
+&gt; &gt;=C2=A0 =C2=A0Ran command 100 times, 91 passes<br>
+&gt; &gt; <br>
+&gt; &gt; When re-run with &quot;--accel tcg,thread=3Dsingle&quot; the inst=
+ability goes<br>
+&gt; &gt; away.<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0Results summary:<br>
+&gt; &gt;=C2=A0 =C2=A00: 100 times (100.00%), avg time 17.318 (249.76 varie=
+nce/15.80 deviation)<br>
+&gt; &gt;=C2=A0 =C2=A0Ran command 100 times, 100 passes<br>
+&gt; &gt; <br>
+&gt; &gt; Which seems to indicate there is some aspect of the MIPS MTTCG fi=
+xes<br>
+&gt; &gt; that has been missed. Ideally we would fix that but I&#39;m afrai=
+d I don&#39;t<br>
+&gt; &gt; have time to investigate and am not super familiar with the<br>
+&gt; &gt; architecture anyway. In lieu of someone tracking down the failure=
+ lets<br>
+&gt; &gt; disable it for now.<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee=
+@linaro.org">alex.bennee@linaro.org</a>&gt;<br>
+&gt; &gt; Acked-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
+@amsat.org">f4bug@amsat.org</a>&gt;<br>
+&gt; &gt; Cc: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemu.dev=
+el@gmail.com">aleksandar.qemu.devel@gmail.com</a>&gt;<br>
+&gt; &gt; Cc: Aurelien Jarno &lt;<a href=3D"mailto:aurelien@aurel32.net">au=
+relien@aurel32.net</a>&gt;<br>
+&gt; &gt; Cc: Aleksandar Rikalo &lt;<a href=3D"mailto:aleksandar.rikalo@rt-=
+rk.com">aleksandar.rikalo@rt-rk.com</a>&gt;<br>
 &gt;<br>
-&gt; 16:59 Uto, 24.03.2020. Richard Henderson &lt;<a href=3D"mailto:richard=
-.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt; &gt;<br>
-&gt; &gt; On 3/24/20 5:22 AM, Jiaxun Yang wrote:<br>
-&gt; &gt; &gt; Loongson multimedia condition instructions were previously i=
-mplemented as<br>
-&gt; &gt; &gt; write 0 to rd due to lack of documentation. So I just confir=
-med with Loongson<br>
-&gt; &gt; &gt; about their encoding and implemented them correctly.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Signed-off-by: Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang=
-@flygoat.com">jiaxun.yang@flygoat.com</a>&gt;<br>
-&gt; &gt; &gt; Acked-by: Huacai Chen &lt;<a href=3D"mailto:chenhc@lemote.co=
-m">chenhc@lemote.com</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; v1: Use deposit opreations according to Richard&#39;s sugges=
-tion.<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 target/mips/translate.c | 35 +++++++++++++++++++++++++=
-++++++----<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 31 insertions(+), 4 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.hend=
-erson@linaro.org">richard.henderson@linaro.org</a>&gt;<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; I just have a couple of mon-essential suggestions wrt coding style, bu=
-t since all that is really of very insignificant nauture, I wouldn&#39;t ev=
-en mention them.<br>
-&gt;<br>
-&gt; Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemi=
-.devel@gmail.com">aleksandar.qemi.devel@gmail.com</a>&gt;<br>
+&gt; Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org">richard.henderson@linaro.org</a>&gt;<br>
 &gt;</p>
-<p dir=3D"ltr">Sorry, there was a typo. It should be:</p>
 <p dir=3D"ltr">Reviewed-by: Aleksandar Markovic &lt;aleksandar.qem <a href=
 =3D"mailto:u.devel@gmail.com">u.devel@gmail.com</a>&gt;</p>
-<p dir=3D"ltr">(&quot;u&quot; instead of &quot;i&quot; in &quot;qemi&quot;)=
-</p>
-<p dir=3D"ltr">&gt; May I ask you, Richard, to select this patch for your n=
-ext TCG-for-5.0 queue, so that I don&#39;t go through a MIPS queue process =
-for just a single patch?<br>
-&gt;<br>
-&gt; Thanks to all involved people!<br>
-&gt;<br>
-&gt; Aleksandar<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; r~<br>
+<p dir=3D"ltr">But, Alex, I expect this patch will go through your queue, n=
+ot MIPS queue (unless you told me otherwise).</p>
+<p dir=3D"ltr">Thanks,<br>
+Aleksandar<br></p>
+<p dir=3D"ltr">&gt;<br>
+&gt; r~<br>
 </p>
 
---00000000000094353105a1ab9ae1--
+--00000000000057579d05a1abad98--
 
