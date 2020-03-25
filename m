@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF20D192609
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:45:45 +0100 (CET)
-Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7D0192616
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:48:50 +0100 (CET)
+Received: from localhost ([::1]:34066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3Xc-0007R8-RY
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35771)
+	id 1jH3ab-0002gp-ST
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3Vc-0005dC-7f
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:42 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Vn-0005wU-IU
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3VQ-0003YX-LX
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:52401)
+ (envelope-from <mlevitsk@redhat.com>) id 1jH3Vm-0003hI-79
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:51 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37704)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3VQ-0003YA-Hc
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:28 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3Vm-0003fq-0U
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585133008;
+ s=mimecast20190719; t=1585133028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ab3ZxjSrpD3d/jRxdm/wZgkuCerlnBPqPu/oyZL+h8=;
- b=Zeuhgz70FtbapFCmuwJI9GX0uZUKNcS8q/mcUuP/1ZwP62cHeW9gaNgQSbnibQFOiuZO4M
- W/hGqM88sDjO9dgo/d3iRF31Kx2ykB/Z7a7xbdetkZr18EVH5DLKekwa0FfjYxxJrgIZgK
- dHT5mxXC5V5COKXAMfpC5CujyQHvL5s=
+ bh=XaMaxnW2Ugv3SeypvEVTmrYyltIOwTIbonZpA60CF8c=;
+ b=YNG/umQ8wUjgZ2hPwQcLGK9QEHciqAie+rgCP74ehvdo7DPQup5CtaF2jk9nOqJkJbgJIW
+ 2Upvd0uyWquRvnVBX1+HyhDoEuuvzen/avi4Hgm4Siv2/wFidLTajeoc5jUe3+pkr1eT4p
+ 9K0Mp7uBK4eqtibzwdheUb8i9tHJlf4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-bUkOBvxvPPeZsx3aYk57LA-1; Wed, 25 Mar 2020 06:43:26 -0400
-X-MC-Unique: bUkOBvxvPPeZsx3aYk57LA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-191-aHnV6E6JOcqeEqsD2EHktg-1; Wed, 25 Mar 2020 06:43:44 -0400
+X-MC-Unique: aHnV6E6JOcqeEqsD2EHktg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 898C218FF662;
- Wed, 25 Mar 2020 10:43:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 699FF8010C8;
+ Wed, 25 Mar 2020 10:43:43 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7091794B5B;
- Wed, 25 Mar 2020 10:43:23 +0000 (UTC)
-Message-ID: <e51f7634bc99cabb616801431a72f339df7d5541.camel@redhat.com>
-Subject: Re: [PATCH v6 18/42] nvme: support identify namespace descriptor list
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 510801001DD8;
+ Wed, 25 Mar 2020 10:43:41 +0000 (UTC)
+Message-ID: <250f6a203ee6db8f8f6b7232e555758a0a4be3a4.camel@redhat.com>
+Subject: Re: [PATCH v6 19/42] nvme: enforce valid queue creation sequence
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:43:22 +0200
-In-Reply-To: <20200316142928.153431-19-its@irrelevant.dk>
+Date: Wed, 25 Mar 2020 12:43:40 +0200
+In-Reply-To: <20200316142928.153431-20-its@irrelevant.dk>
 References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-19-its@irrelevant.dk>
+ <20200316142928.153431-20-its@irrelevant.dk>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -80,93 +80,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2020-03-16 at 07:29 -0700, Klaus Jensen wrote:
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> Since we are not providing the NGUID or EUI64 fields, we must support
-> the Namespace UUID. We do not have any way of storing a persistent
-> unique identifier, so conjure up a UUID that is just the namespace id.
+> Support returning Command Sequence Error if Set Features on Number of
+> Queues is called after queues have been created.
 > 
 > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  hw/block/nvme.c       | 38 ++++++++++++++++++++++++++++++++++++++
->  hw/block/trace-events |  1 +
->  2 files changed, 39 insertions(+)
+>  hw/block/nvme.c | 7 +++++++
+>  hw/block/nvme.h | 1 +
+>  2 files changed, 8 insertions(+)
 > 
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 16de3ca1c5d5..007f8817f101 100644
+> index 007f8817f101..b40d27cddc46 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -942,6 +942,42 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
->      return ret;
+> @@ -881,6 +881,8 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
+>      cq = g_malloc0(sizeof(*cq));
+>      nvme_init_cq(cq, n, prp1, cqid, vector, qsize + 1,
+>          NVME_CQ_FLAGS_IEN(qflags));
+> +
+> +    n->qs_created = true;
+Very minor nitpick, maybe it is worth mentioning in a comment,
+why this is only needed in CQ creation, as you explained to me.
+
+
+>      return NVME_SUCCESS; 
 >  }
 >  
-> +static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeIdentify *c)
-> +{
-> +    uint32_t nsid = le32_to_cpu(c->nsid);
-> +    uint64_t prp1 = le64_to_cpu(c->prp1);
-> +    uint64_t prp2 = le64_to_cpu(c->prp2);
+> @@ -1194,6 +1196,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+>          break;
+>      case NVME_NUMBER_OF_QUEUES:
+> +        if (n->qs_created) {
+> +            return NVME_CMD_SEQ_ERROR | NVME_DNR;
+> +        }
 > +
-> +    void *list;
-> +    uint16_t ret;
-> +    NvmeIdNsDescr *ns_descr;
-> +
-> +    trace_nvme_dev_identify_ns_descr_list(nsid);
-> +
-> +    if (unlikely(nsid == 0 || nsid > n->num_namespaces)) {
-> +        trace_nvme_dev_err_invalid_ns(nsid, n->num_namespaces);
-> +        return NVME_INVALID_NSID | NVME_DNR;
-> +    }
-> +
-> +    list = g_malloc0(NVME_IDENTIFY_DATA_SIZE);
-> +    ns_descr = list;
-> +
-> +    /*
-> +     * Because the NGUID and EUI64 fields are 0 in the Identify Namespace data
-> +     * structure, a Namespace UUID (nidt = 0x3) must be reported in the
-> +     * Namespace Identification Descriptor. Add a very basic Namespace UUID
-> +     * here.
-> +     */
-> +    ns_descr->nidt = NVME_NIDT_UUID;
-> +    ns_descr->nidl = NVME_NIDT_UUID_LEN;
-> +    stl_be_p(ns_descr + sizeof(*ns_descr), nsid);
-> +
-> +    ret = nvme_dma_read_prp(n, (uint8_t *) list, NVME_IDENTIFY_DATA_SIZE, prp1,
-> +                            prp2);
-> +    g_free(list);
-> +    return ret;
-> +}
-> +
->  static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
->  {
->      NvmeIdentify *c = (NvmeIdentify *)cmd;
-> @@ -953,6 +989,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
->          return nvme_identify_ctrl(n, c);
->      case NVME_ID_CNS_NS_ACTIVE_LIST:
->          return nvme_identify_nslist(n, c);
-> +    case NVME_ID_CNS_NS_DESCR_LIST:
-> +        return nvme_identify_ns_descr_list(n, c);
->      default:
->          trace_nvme_dev_err_invalid_identify_cns(le32_to_cpu(c->cns));
->          return NVME_INVALID_FIELD | NVME_DNR;
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index 13e2c71664f6..4cde0844ef64 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -41,6 +41,7 @@ nvme_dev_del_cq(uint16_t cqid) "deleted completion queue, sqid=%"PRIu16""
->  nvme_dev_identify_ctrl(void) "identify controller"
->  nvme_dev_identify_ns(uint32_t ns) "nsid %"PRIu32""
->  nvme_dev_identify_nslist(uint32_t ns) "nsid %"PRIu32""
-> +nvme_dev_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
->  nvme_dev_getfeat(uint16_t cid, uint32_t fid) "cid %"PRIu16" fid 0x%"PRIx32""
->  nvme_dev_setfeat(uint16_t cid, uint32_t fid, uint32_t val) "cid %"PRIu16" fid 0x%"PRIx32" val 0x%"PRIx32""
->  nvme_dev_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
-
-I think that we should add namespace uuid as a device parameter,
-but its OK to do this in follow up patch.
-
+>          /*
+>           * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value for NCQR
+>           * and NSQR.
+> @@ -1332,6 +1338,7 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+>  
+>      n->aer_queued = 0;
+>      n->outstanding_aers = 0;
+> +    n->qs_created = false;
+>  
+>      blk_flush(n->conf.blk);
+>      n->bar.cc = 0;
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index b709a8bb8d40..b4d1738a3d0a 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -99,6 +99,7 @@ typedef struct NvmeCtrl {
+>      BlockConf    conf;
+>      NvmeParams   params;
+>  
+> +    bool        qs_created;
+>      uint32_t    page_size;
+>      uint16_t    page_bits;
+>      uint16_t    max_prp_ents;
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
+
 
 
 
