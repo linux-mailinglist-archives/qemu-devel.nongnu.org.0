@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA09192C07
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:16:29 +0100 (CET)
-Received: from localhost ([::1]:37870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1063F192C1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:19:11 +0100 (CET)
+Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7lc-0003j7-Pe
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41315)
+	id 1jH7oE-0008Tn-17
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1jH7kY-0002xE-Lq
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7l0-0003U8-Ur
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1jH7kW-0007Yw-Lg
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:22 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33294)
+ (envelope-from <alex.bennee@linaro.org>) id 1jH7kz-0007xt-Rs
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:50 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46369)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1jH7kW-0007Vy-DT
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:20 -0400
-Received: by mail-io1-xd42.google.com with SMTP id o127so2614791iof.0
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jH7kz-0007xH-Lb
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:49 -0400
+Received: by mail-wr1-x434.google.com with SMTP id j17so3521891wru.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f/nHfhqolLq9DAlvAPV5hSMp5M2cRTZ5m4aLtZbOM8s=;
- b=J11jbYhcH8sxlSp+x21Pqjk5+VPDMUjGAYfVtnYu3o3RC0TjQX8zi3QIYaaIr8S7kH
- D00oZSFQjRO7/BfJ646aizaA+2/vDXVfnxyMkKI+/N3c6RvuW4PPGLn/3YA4NFzpr5Zq
- u9ticRNE+WCfBtatOB+Kx6JLY1IE9dOdHm3GSIEm/cFaQkb2tpV+DgBNlqowWcsq5pKQ
- bCGxSf0w4RaydLePY6VPWRywD6Pa2Jtnilcbe5YAeSfaXcyeXzFvFZv+8oRxrdW82W2a
- J0XA1zlqurqgsCk3yjiE5CY8nBr0CGGPvy8yJrInPmMlUiccgDgByOnjadZUrKMu+3Mv
- DhVg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bT+O2ozwAgkvLW9gR/+Xf0vUVInPPvZ9IQRO4pMfn0o=;
+ b=bLHUNzZzLtCEbNToiqcxlsrTI/VS7LMokprbZ7l+FIVBr9/THLnBa2x7D5lHAhshgB
+ 0+ceOuIcJ0ndGvqNH55LlgeWUdQ8XSSWsNlyfqyJpVQ/zBNUW0WZg/n3K0Kyr//Upjqx
+ nk/uDef3dA1ychfuauJL8iYSDkKGybb6BSJvYwtYR/PXJicAWSpeoOKiHyCStoLiLmDV
+ 9//NcuY+LvH6DW76y1NLp6QBj5DNgTqAV7EnJWY6Ow6vMqzhAo/kSg07+T5NNOp2aPZV
+ MkKghgeG/Zskk4V3ApUyzQ7ppfq+oRvg3D5+b9GroAiRPMUB0i+UBINhxumCbkGSpeon
+ 4BuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f/nHfhqolLq9DAlvAPV5hSMp5M2cRTZ5m4aLtZbOM8s=;
- b=qKAU6QNFJ5PFMtWGDw/dRm62WfJbwYwwB9sEDPogFVVGTvuYbs5MNDM5+28yBvhFtX
- kkIe3itG3cDn93m3xIRI33lca+wsFKTzt+qQxNPWL/sBcFAMYbuRfooCXshlOYT/MwBT
- xRl4PHYAOa1YxOJ6BZm//koawSemjvF0tf/pkmYjvJOk50gpLivRpKITcBa4AikgMMm5
- IjnymjjMp9KANT5S9lyLHKAGxbS0yLqjpo3pR28Vx5EiAZJWNsBkiDwKdkMTK5dZ0MTp
- ALfVxQ8Acy1detkx7cSfuwH/TIBJy/ZKw44ymcSOvzb+24oT4PlQmpEND//3otaoy3/d
- UcDA==
-X-Gm-Message-State: ANhLgQ3lYJkenrKbdz7vr7YMe+0x3OD9eU/lGjZlI9C20kXSCJRGs/te
- x594eZqkRnbdT89xXHYkP5F0mDm3h3KOwooSw3XCsg==
-X-Google-Smtp-Source: ADFU+vtGkefyEPNZu1kccV3WqAr8fY1zL3k8ApBQ+YFOAgIsLdyKoYg3Xb5HqXWhcgAOrETpgTzpHNpuSmbuXVx+0Q8=
-X-Received: by 2002:a6b:b212:: with SMTP id b18mr3384277iof.117.1585149319068; 
- Wed, 25 Mar 2020 08:15:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bT+O2ozwAgkvLW9gR/+Xf0vUVInPPvZ9IQRO4pMfn0o=;
+ b=rXaFHSPGYAdSa1KGlMDqthGRUrwQXLRkvZ5LjjzafzzaxUD7UWDDcUtBcQmN/xrZer
+ ri6817IDcccD4eeON7126K/nebsTNO1yMAYzzT1NzR6xfFxqpDBE9LNZH2Y5oSbP3Wx8
+ /btNxMctmWWwwm71S2OYrp5PmfuhcLib4a7AT+zI8Z2vUWnwzx7SKKkgzOmuXUMb5xYL
+ rwgjlwDP3xYIAcis+R/iPjpmg4PZIM0KUYrGbZCTHik0ToggfXgcJPmTdfq1OX97jmeY
+ LgaIKmAJf69Idd25MMpJjcZrMUdSQtBbWTlXDxOEnPMIqFIiN+ZAy77t8PRrxe8jZbL/
+ 4Vxg==
+X-Gm-Message-State: ANhLgQ3iV2dsx3DM9OKJjsYcHQnE5SWBqXHHU+tFsnEOLgXm6PtJkNuY
+ SG7CkoQsKgQgGY/dVVGxaT3JvFzZqaY=
+X-Google-Smtp-Source: ADFU+vu+Kqep3W40sK+eIdEIlS2kDL8249lLn8hDOd9U1bYZGUGygQyBrGCquqn1dakIYLdyx3JRmw==
+X-Received: by 2002:a5d:640e:: with SMTP id z14mr4268342wru.204.1585149348639; 
+ Wed, 25 Mar 2020 08:15:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b6sm18805180wrp.59.2020.03.25.08.15.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 08:15:44 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3D1B11FF7E;
+ Wed, 25 Mar 2020 15:15:43 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL for 5.0-rc1 00/11] testing updates (+ one mttcg change)
+Date: Wed, 25 Mar 2020 15:15:32 +0000
+Message-Id: <20200325151543.32478-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200323113227.3169-1-beata.michalska@linaro.org>
- <20200323113227.3169-2-beata.michalska@linaro.org>
- <20200323124405.xdv56zplli23sl46@kamzik.brq.redhat.com>
-In-Reply-To: <20200323124405.xdv56zplli23sl46@kamzik.brq.redhat.com>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 25 Mar 2020 15:15:07 +0000
-Message-ID: <CADSWDzt7SL3bBYdm5a7CTzsHJbuo4GbewxaTQOkbfsUmSYFzZA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] target/arm: kvm: Handle DABT with no valid ISS
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d42
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,195 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christoffer Dall <Christoffer.Dall@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, kvmarm@lists.cs.columbia.edu
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The following changes since commit 736cf607e40674776d752acc201f565723e86045:
 
-On Mon, 23 Mar 2020 at 12:44, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Mon, Mar 23, 2020 at 11:32:26AM +0000, Beata Michalska wrote:
-> > On ARMv7 & ARMv8 some load/store instructions might trigger a data abort
-> > exception with no valid ISS info to be decoded. The lack of decode info
-> > makes it at least tricky to emulate those instruction which is one of the
-> > (many) reasons why KVM will not even try to do so.
-> >
-> > Add support for handling those by requesting KVM to inject external
-> > dabt into the quest.
-> >
-> > Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> > ---
-> >  target/arm/cpu.h     |  2 ++
-> >  target/arm/kvm.c     | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  target/arm/kvm_arm.h | 11 +++++++++++
-> >  3 files changed, 67 insertions(+)
-> >
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index 4ffd991..4f834c1 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -560,6 +560,8 @@ typedef struct CPUARMState {
-> >          uint64_t esr;
-> >      } serror;
-> >
-> > +    uint8_t ext_dabt_pending; /* Request for injecting ext DABT */
-> > +
-> >      /* State of our input IRQ/FIQ/VIRQ/VFIQ lines */
-> >      uint32_t irq_line_state;
-> >
-> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> > index 85860e6..c088589 100644
-> > --- a/target/arm/kvm.c
-> > +++ b/target/arm/kvm.c
-> > @@ -39,6 +39,7 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-> >
-> >  static bool cap_has_mp_state;
-> >  static bool cap_has_inject_serror_esr;
-> > +static bool cap_has_inject_ext_dabt;
-> >
-> >  static ARMHostCPUFeatures arm_host_cpu_features;
-> >
-> > @@ -244,6 +245,16 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >          ret = -EINVAL;
-> >      }
-> >
-> > +    if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER)) {
-> > +        if (kvm_vm_enable_cap(s, KVM_CAP_ARM_NISV_TO_USER, 0)) {
-> > +            warn_report("Failed to enable DABT NISV cap");
->
-> Shouldn't this be an error? If KVM says it has KVM_CAP_ARM_NISV_TO_USER,
-> then I think it should always work to enable it, unless userspace passes
-> the wrong flags. Currently flags must be zero, but if they were to change
-> then we'll need to add the flags to vmstate and fail migration when they
-> aren't compatible, and I guess that failure would occur here.
->
-That's a fair point. From the kernel point of view this one is pretty
-straightforward,
-so it should not fail. I haven't used the error here as the lack of
-this cap is not really
-critical for guest but indeed it might be worth to have it here .
+  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
 
-> > +        } else {
-> > +            /* Set status for supporting the external dabt injection */
-> > +            cap_has_inject_ext_dabt = kvm_check_extension(s,
-> > +                                    KVM_CAP_ARM_INJECT_EXT_DABT);
-> > +        }
-> > +    }
-> > +
-> >      return ret;
-> >  }
-> >
-> > @@ -703,9 +714,16 @@ int kvm_put_vcpu_events(ARMCPU *cpu)
-> >          events.exception.serror_esr = env->serror.esr;
-> >      }
-> >
-> > +    if (cap_has_inject_ext_dabt) {
-> > +        events.exception.ext_dabt_pending = env->ext_dabt_pending;
-> > +    }
-> > +
-> >      ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_VCPU_EVENTS, &events);
-> >      if (ret) {
-> >          error_report("failed to put vcpu events");
-> > +    } else {
-> > +        /* Clear instantly if the call was successful */
-> > +        env->ext_dabt_pending = 0;
-> >      }
-> >
-> >      return ret;
-> > @@ -819,6 +837,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-> >              ret = EXCP_DEBUG;
-> >          } /* otherwise return to guest */
-> >          break;
-> > +    case KVM_EXIT_ARM_NISV:
-> > +        /* External DABT with no valid iss to decode */
-> > +        ret = kvm_arm_handle_dabt_nisv(cs, run->arm_nisv.esr_iss,
-> > +                                       run->arm_nisv.fault_ipa);
-> > +        break;
-> >      default:
-> >          qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
-> >                        __func__, run->exit_reason);
-> > @@ -953,3 +976,34 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
-> >  {
-> >      return (data - 32) & 0xffff;
-> >  }
-> > +
-> > +int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-> > +                             uint64_t fault_ipa)
-> > +{
-> > +    ARMCPU *cpu = ARM_CPU(cs);
-> > +    CPUARMState *env = &cpu->env;
-> > +
-> > +   /*
-> > +    * ISS [23:14] is invalid so there is a limited info
-> > +    * on what has just happened so the only *useful* thing that can
-> > +    * be retrieved from ISS is WnR & DFSC (though in some cases WnR
-> > +    * might be less of a value as well)
-> > +    */
-> > +
-> > +    /*
-> > +     * Set pending ext dabt and trigger SET_EVENTS so that
-> > +     * KVM can inject the abort
-> > +     */
-> > +    if (cap_has_inject_ext_dabt) {
-> > +        kvm_cpu_synchronize_state(cs);
->
-> I guess this is just an expensive 'vcpu_dirty=true', which the comment
-> above justifies, but not super clearly. Can you try to clarify the
-> comment some more?  I also wonder if we shouldn't add a KVM function
-> that just marks a vcpu dirty, rather than fetching all registers.
->
-I can definitely adjust the comments here to explain the case more
-clearly. And I would definitely vote for moving the flag
-setting/clearing outside the
-sync so that it can be triggered separately without involving all the series
-of potentially unnecessary ioctls. WIll draft that in the next iteration.
+are available in the Git repository at:
 
-Thanks
-Beata
+  https://github.com/stsquad/qemu.git tags/pull-testing-250320-1
 
+for you to fetch changes up to 6a5970988e7c9ce7f9fa9747397b63e8455144c6:
 
-> > +        env->ext_dabt_pending = 1;
-> > +    } else {
-> > +        error_report("Data abort exception triggered by guest memory access "
-> > +                     "at physical address: 0x"  TARGET_FMT_lx,
-> > +                     (target_ulong)fault_ipa);
-> > +        error_printf("KVM unable to emulate faulting instruction.\n");
-> > +        return -1;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> > index ae9e075..39472d5 100644
-> > --- a/target/arm/kvm_arm.h
-> > +++ b/target/arm/kvm_arm.h
-> > @@ -450,6 +450,17 @@ struct kvm_guest_debug_arch;
-> >  void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
-> >
-> >  /**
-> > + * kvm_arm_handle_dabt_nisv:
-> > + * @cs: CPUState
-> > + * @esr_iss: ISS encoding (limited) for the exception from Data Abort
-> > + *           ISV bit set to '0b0' -> no valid instruction syndrome
-> > + * @fault_ipa: faulting address for the synch data abort
-> > + *
-> > + * Returns: 0 if the exception has been handled, < 0 otherwise
-> > + */
-> > +int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-> > +                             uint64_t fault_ipa);
-> > +/**
-> >   * its_class_name:
-> >   *
-> >   * Return the ITS class name to use depending on whether KVM acceleration
-> > --
-> > 2.7.4
-> >
->
-> Thanks,
-> drew
->
+  .travis.yml: Add a KVM-only s390x job (2020-03-25 14:40:14 +0000)
+
+----------------------------------------------------------------
+Testing updates:
+
+  - docker updates (various dependencies)
+  - travis updates (s390x KVM build)
+  - test/vm updates (NetBSD -> 9.0, FreeBSD -> 12.1)
+  - disable MTTCG for mips64/mips64el
+
+----------------------------------------------------------------
+Alex Bennée (2):
+      tests/vm: fix basevm config
+      configure: disable MTTCG for MIPS guests
+
+Gerd Hoffmann (4):
+      tests/vm: write raw console log
+      tests/vm: move vga setup
+      tests/vm: update FreeBSD to 12.1
+      tests/vm: update NetBSD to 9.0
+
+Philippe Mathieu-Daudé (5):
+      tests/docker: Keep package list sorted
+      tests/docker: Install gcrypt devel package in Debian image
+      tests/docker: Use Python3 PyYAML in the Fedora image
+      tests/docker: Add libepoxy and libudev packages to the Fedora image
+      .travis.yml: Add a KVM-only s390x job
+
+ configure                                    |  2 +-
+ .travis.yml                                  | 42 ++++++++++++++++++++++++++++
+ tests/docker/dockerfiles/centos7.docker      |  6 ++--
+ tests/docker/dockerfiles/debian-amd64.docker |  1 +
+ tests/docker/dockerfiles/fedora.docker       | 10 +++++--
+ tests/vm/basevm.py                           | 23 +++++++++------
+ tests/vm/fedora                              |  1 +
+ tests/vm/freebsd                             |  5 ++--
+ tests/vm/netbsd                              | 24 +++++-----------
+ tests/vm/openbsd                             |  1 +
+ tests/vm/ubuntu.i386                         |  5 +++-
+ 11 files changed, 85 insertions(+), 35 deletions(-)
+
+-- 
+2.20.1
+
 
