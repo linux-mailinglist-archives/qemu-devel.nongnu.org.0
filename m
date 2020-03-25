@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4C2192FE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:53:44 +0100 (CET)
-Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CA7193003
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 19:01:52 +0100 (CET)
+Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHADo-0006Ls-2T
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37008)
+	id 1jHALf-00064M-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 14:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jHACp-0005VB-NJ
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:52:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHAKj-0005aQ-SD
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:00:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jHACo-0007B0-Dg
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:52:43 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37499)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jHACo-000796-9q
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:52:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585158761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfN04JHhEXuAk3BZBYDX3M4SPcTLKZj+FrNLdtpRuV0=;
- b=eviQ6+K73msQNhb8LhUjKLMYbblmEXtuOafinhYD9EzgNyytSgAI/avgdSrmAQ0KA7Oj18
- K9j7vTflmO6IhoKFZ0/VkhPeVbbRje3cv4gv8EvwRLnQQylMkCdEDFj7Gy2vZNpEUUZkcM
- 1tcWV4kOzj/GR2yu2LwmYPRj1MKW/0A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-3TdgafQnM6iO8csdAmK1Qw-1; Wed, 25 Mar 2020 13:52:39 -0400
-X-MC-Unique: 3TdgafQnM6iO8csdAmK1Qw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D079F413
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 17:52:29 +0000 (UTC)
-Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85D3F60C05;
- Wed, 25 Mar 2020 17:52:22 +0000 (UTC)
-Date: Wed, 25 Mar 2020 17:52:20 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 5/9] KVM: Provide helper to get kvm dirty log
-Message-ID: <20200325175220.GD2635@work-vm>
-References: <20200205141749.378044-1-peterx@redhat.com>
- <20200205141749.378044-6-peterx@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1jHAKi-00035D-2x
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:00:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46376)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHAKh-00034a-Td
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 14:00:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHAKg-0003es-Dr
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 18:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 601E02E80C3
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 18:00:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200205141749.378044-6-peterx@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Wed, 25 Mar 2020 17:52:57 -0000
+From: Marcin Juszkiewicz <1869006@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: Marcin Juszkiewicz (hrw)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <158515877719.19486.12288408223410126744.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7de178962683ecc22f66e0a3a8acbf953438a22c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,153 +66,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Provide a helper kvm_slot_get_dirty_log() to make the function
-> kvm_physical_sync_dirty_bitmap() clearer.  We can even cache the as_id
-> into KVMSlot when it is created, so that we don't even need to pass it
-> down every time.
->=20
-> Since at it, remove return value of kvm_physical_sync_dirty_bitmap()
-> because it should never fail.
->=20
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  accel/kvm/kvm-all.c      | 39 +++++++++++++++++++--------------------
->  include/sysemu/kvm_int.h |  2 ++
->  2 files changed, 21 insertions(+), 20 deletions(-)
->=20
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index bb635c775f..608216fd53 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -553,6 +553,18 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
->      mem->dirty_bmap =3D g_malloc0(bitmap_size);
->  }
-> =20
-> +/* Sync dirty bitmap from kernel to KVMSlot.dirty_bmap */
-> +static void kvm_slot_get_dirty_log(KVMState *s, KVMSlot *slot)
-> +{
-> +    struct kvm_dirty_log d =3D {};
-> +    int ret;
-> +
-> +    d.dirty_bitmap =3D slot->dirty_bmap;
-> +    d.slot =3D slot->slot | (slot->as_id << 16);
-> +    ret =3D kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d);
-> +    assert(ret !=3D -1);
+I wrote blog post about it: https://marcin.juszkiewicz.com.pl/2020/03/25
+/sharing-pcie-cards-across-architectures/
 
-As discussed on irc, that -1 check seems odd given your previous check
-but there seems to be some history as to why it was still there.  Hmm.
+-- =
 
-It also seems very trusting that it can never possibly fail!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869006
 
-Dave
+Title:
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
 
-> +}
-> +
->  /**
->   * kvm_physical_sync_dirty_bitmap - Sync dirty bitmap from kernel space
->   *
-> @@ -564,15 +576,13 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem=
-)
->   * @kml: the KVM memory listener object
->   * @section: the memory section to sync the dirty bitmap with
->   */
-> -static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-> -                                          MemoryRegionSection *section)
-> +static void kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-> +                                           MemoryRegionSection *section)
->  {
->      KVMState *s =3D kvm_state;
-> -    struct kvm_dirty_log d =3D {};
->      KVMSlot *mem;
->      hwaddr start_addr, size;
->      hwaddr slot_size, slot_offset =3D 0;
-> -    int ret =3D 0;
-> =20
->      size =3D kvm_align_section(section, &start_addr);
->      while (size) {
-> @@ -582,27 +592,19 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemory=
-Listener *kml,
->          mem =3D kvm_lookup_matching_slot(kml, start_addr, slot_size);
->          if (!mem) {
->              /* We don't have a slot if we want to trap every access. */
-> -            goto out;
-> +            return;
->          }
-> =20
-> -        d.dirty_bitmap =3D mem->dirty_bmap;
-> -        d.slot =3D mem->slot | (kml->as_id << 16);
-> -        if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) =3D=3D -1) {
-> -            DPRINTF("ioctl failed %d\n", errno);
-> -            ret =3D -1;
-> -            goto out;
-> -        }
-> +        kvm_slot_get_dirty_log(s, mem);
-> =20
->          subsection.offset_within_region +=3D slot_offset;
->          subsection.size =3D int128_make64(slot_size);
-> -        kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
-> +        kvm_get_dirty_pages_log_range(&subsection, mem->dirty_bmap);
-> =20
->          slot_offset +=3D slot_size;
->          start_addr +=3D slot_size;
->          size -=3D slot_size;
->      }
-> -out:
-> -    return ret;
->  }
-> =20
->  /* Alignment requirement for KVM_CLEAR_DIRTY_LOG - 64 pages */
-> @@ -1077,6 +1079,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml=
-,
->      do {
->          slot_size =3D MIN(kvm_max_slot_size, size);
->          mem =3D kvm_alloc_slot(kml);
-> +        mem->as_id =3D kml->as_id;
->          mem->memory_size =3D slot_size;
->          mem->start_addr =3D start_addr;
->          mem->ram =3D ram;
-> @@ -1119,14 +1122,10 @@ static void kvm_log_sync(MemoryListener *listener=
-,
->                           MemoryRegionSection *section)
->  {
->      KVMMemoryListener *kml =3D container_of(listener, KVMMemoryListener,=
- listener);
-> -    int r;
-> =20
->      kvm_slots_lock(kml);
-> -    r =3D kvm_physical_sync_dirty_bitmap(kml, section);
-> +    kvm_physical_sync_dirty_bitmap(kml, section);
->      kvm_slots_unlock(kml);
-> -    if (r < 0) {
-> -        abort();
-> -    }
->  }
-> =20
->  static void kvm_log_clear(MemoryListener *listener,
-> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-> index ac2d1f8b56..4434e15ec7 100644
-> --- a/include/sysemu/kvm_int.h
-> +++ b/include/sysemu/kvm_int.h
-> @@ -23,6 +23,8 @@ typedef struct KVMSlot
->      int old_flags;
->      /* Dirty bitmap cache for the slot */
->      unsigned long *dirty_bmap;
-> +    /* Cache of the address space ID */
-> +    int as_id;
->  } KVMSlot;
-> =20
->  typedef struct KVMMemoryListener {
-> --=20
-> 2.24.1
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Status in QEMU:
+  New
 
+Bug description:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
+
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
+
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  =
+
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
