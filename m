@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECCC192A18
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:37:09 +0100 (CET)
-Received: from localhost ([::1]:36494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6150C192A59
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 14:49:00 +0100 (CET)
+Received: from localhost ([::1]:36622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH6DU-0000cp-QK
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55815)
+	id 1jH6Ox-0004SO-Cp
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 09:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jH6Cg-0000DH-44
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:36:19 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jH6NJ-0002Jq-Ts
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:47:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jH6Cc-0003oV-Uy
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:36:15 -0400
-Received: from mga06.intel.com ([134.134.136.31]:43938)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jH6Cc-0003is-MU
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:36:14 -0400
-IronPort-SDR: TNLE+rEH+Kp2hglNnuk319gsBYqPsjbjq88GKlCbLvd7V8aaCKRZFxXJRiWWwds0sWUIXI7T6N
- OnUfw9gfM/Ww==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 06:36:10 -0700
-IronPort-SDR: QRf3lID0hwB81zfyOIOAUHeMox6B/5y/+lqL16IMmskucAAE5ZvZxzmwzqWZ/GuY6/2qS2a3Qv
- GWfFQBX0DEWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,304,1580803200"; d="scan'208";a="282137631"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2020 06:36:08 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Mar 2020 06:36:08 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 25 Mar 2020 06:36:07 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 25 Mar 2020 06:36:07 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.43]) with mapi id 14.03.0439.000;
- Wed, 25 Mar 2020 21:36:04 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [PATCH v1 19/22] intel_iommu: process PASID-based iotlb
- invalidation
-Thread-Topic: [PATCH v1 19/22] intel_iommu: process PASID-based iotlb
- invalidation
-Thread-Index: AQHWAEW7LEF9U5OYaU6Z5+49z1fjtahXjMmAgAHFm8A=
-Date: Wed, 25 Mar 2020 13:36:03 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A202340@SHSMSX104.ccr.corp.intel.com>
-References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
- <1584880579-12178-20-git-send-email-yi.l.liu@intel.com>
- <20200324182623.GD127076@xz-x1>
-In-Reply-To: <20200324182623.GD127076@xz-x1>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jH6NI-0005YO-Tk
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 09:47:17 -0400
+Received: from mail-eopbgr70094.outbound.protection.outlook.com
+ ([40.107.7.94]:37990 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jH6NF-0005TM-65; Wed, 25 Mar 2020 09:47:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J3lrj4fYrE1h9ja+LPk/plZEj60ei/4VTTX9ANGgzdt7e24O1z77yfhfFNW4/VvopNoWaJ2UZFNT1O2y05SECkDO5zmc9NyUGhs/6aVSZjG+ZegOFQ881roOhF5p2w0+sF0Egqm6gN0HXDA47BJdrkP7KbB/tBXOv6JTVk0iFQ/cTZ2acx3X44zMvGTTi2wKFH9o7enrampMnMU6PDxCmrhjtJWk4Y1PCxwfP5mzsg+4VvzCDHN/q3bzKpuiBsmC4RF2TTYypGMLxyfzeOFGyUxuHuTumWezdCYjX10NyHkJx+R/UMBOcT5S6+Q3cjJ/mvboRcKl0jf2n06BNeG4zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P1HwMVzFRLbBoBh6we35vJHLuhePQpES/7LKQatcGJ4=;
+ b=Ph7EbWdI2vxgBEr73zd3ar+VzPOMzziRcwP5V9Z4T8MC4hKxFqMSPst4QvcuMdA4aIoV34HNKUDnmJM4Ld/DSRyPab8/uM1xBYMDvzTgC4PeJ8sz7hgDm7Ln+7UJC4kBUJICUliCy4qVTcEdGS2Wap0kGP84bA8DRYMlrI+HCFwD2evQgAXufR8kEWl0q4ym35X4m1wcwfbwTpS+cbDXan30c40YkkG0gyVfRCClGxNbKxIlKW9wqOJkc09vmVUVWpE4fHSuhI4yuuIXyeXDMoRbSU7HrRbrn4gPBOqBMOcjFzhjIj3ES5rAB/mZflkNRlUhm2lpNceUDgGVL0oHvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P1HwMVzFRLbBoBh6we35vJHLuhePQpES/7LKQatcGJ4=;
+ b=Ur8tYYwj/MwfWld3BvpLkFd0SfYQSlBvLkRG76v6FwGaJeub1Q+b8CTtXx7/FiHlmrLaKNLOcMvQDfHXevZ35lLdni1w7YZoIyPXSW+92oU5jT2GL0pKTPZAun543Sl6VDoZulbEGEzCpmedAhLU2hQqcnQTRLHpXLcshzeykaw=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
+ AM7PR08MB5480.eurprd08.prod.outlook.com (10.141.175.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.23; Wed, 25 Mar 2020 13:47:09 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::9057:6f5a:378c:7533]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::9057:6f5a:378c:7533%6]) with mapi id 15.20.2835.023; Wed, 25 Mar 2020
+ 13:47:09 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/6] block-copy: use aio-task-pool
+Date: Wed, 25 Mar 2020 16:46:33 +0300
+Message-ID: <20200325134639.16337-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR02CA0085.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.31
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.35) by
+ AM0PR02CA0085.eurprd02.prod.outlook.com (2603:10a6:208:154::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.18 via Frontend
+ Transport; Wed, 25 Mar 2020 13:47:09 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.35]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5e37525b-5ccf-4607-e234-08d7d0c303ae
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5480:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5480076D3D20EDE724EEE8A0C1CE0@AM7PR08MB5480.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Forefront-PRVS: 0353563E2B
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(4636009)(39850400004)(396003)(346002)(366004)(136003)(376002)(6512007)(478600001)(1076003)(69590400007)(6666004)(36756003)(2906002)(4744005)(4326008)(6486002)(16526019)(81166006)(66556008)(6916009)(107886003)(66476007)(66946007)(26005)(86362001)(316002)(52116002)(186003)(956004)(2616005)(6506007)(8936002)(8676002)(81156014)(5660300002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM7PR08MB5480;
+ H:AM7PR08MB5494.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yZ9D5q4lYk7lZy1veMGtEMV8oouk5fOnLa3LBtne0LBaLvHnQ5+NJ4MeADwJHm9GKSTI4/YnNfa60nl3N29sWkjPAUKXG4UI1airDKzKxNudYOnm68tVbfC8u8jtGQebsVrUHYur8vSdC0Xy40TfwHFJVC95I0zD1dMd0+35Uwb4yUdvp6bRQTCwVvD85+BqWCM/x9S8SH1fGWXYvfN96Sk2gF2TSnq3ff4wUkC0OcYR6Z9Qzm9gvjv9KdkGVOOdZIktRRMKwq2/u+SaEKuyGnUpNUKEGNf5HBv/JlcN097d5Xiv8E9aaYLGV/qbj2yl9+EiKfl30A4gURyKrbVtyrtZBWIvvzZHuTszW8idUA24TKXLUd3oEqIGdf5WLkGtcCf5BvpuIQ3CMLcuP2vbsY8SaLcpm5Pfijn7JuerdHstE9wuKmpPq96rbB/vupbGb30Zchv8vrhVBOJJdKvP1XE6ErD/bTWpke5mD11tiaEBXdlXt8Nq8bcbKLC3YphQ
+X-MS-Exchange-AntiSpam-MessageData: AI3WMZ6KjowtjhLlIHCDF+v3aoWN87nw4Gfb2REoCsnzuo7BdnFEqXxkbk89zcuJk2rM8AJFBXBiUD2miiuftEggC0b7IxzHbIgmPqjgLKkFRXPEQy1Mt3RJ4Zq3fFqeLLNblNUTXXE3glxbpiNQbg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e37525b-5ccf-4607-e234-08d7d0c303ae
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2020 13:47:09.6402 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ieGMRFw80k4mwQWfNH9+fp8Jyd0jU+yDFWVNBPZTEmrKQc2IPqma+Bk65izD3jdUuvcVWe8iMWwDpphuTEnRCEBgyYM4zTFQ0QNFB7ymwgc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5480
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,82 +105,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
- "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBQZXRlciBYdSA8cGV0ZXJ4QHJlZGhhdC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwg
-TWFyY2ggMjUsIDIwMjAgMjoyNiBBTQ0KPiBUbzogTGl1LCBZaSBMIDx5aS5sLmxpdUBpbnRlbC5j
-b20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMTkvMjJdIGludGVsX2lvbW11OiBwcm9jZXNz
-IFBBU0lELWJhc2VkIGlvdGxiIGludmFsaWRhdGlvbg0KPiANCj4gT24gU3VuLCBNYXIgMjIsIDIw
-MjAgYXQgMDU6MzY6MTZBTSAtMDcwMCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4gVGhpcyBwYXRjaCBh
-ZGRzIHRoZSBiYXNpYyBQQVNJRC1iYXNlZCBpb3RsYiAocGlvdGxiKSBpbnZhbGlkYXRpb24NCj4g
-PiBzdXBwb3J0LiBwaW90bGIgaXMgdXNlZCBkdXJpbmcgd2Fsa2luZyBJbnRlbCBWVC1kIDFzdCBs
-ZXZlbCBwYWdlDQo+ID4gdGFibGUuIFRoaXMgcGF0Y2ggb25seSBhZGRzIHRoZSBiYXNpYyBwcm9j
-ZXNzaW5nLiBEZXRhaWxlZCBoYW5kbGluZw0KPiA+IHdpbGwgYmUgYWRkZWQgaW4gbmV4dCBwYXRj
-aC4NCj4gPg0KPiA+IENjOiBLZXZpbiBUaWFuIDxrZXZpbi50aWFuQGludGVsLmNvbT4NCj4gPiBD
-YzogSmFjb2IgUGFuIDxqYWNvYi5qdW4ucGFuQGxpbnV4LmludGVsLmNvbT4NCj4gPiBDYzogUGV0
-ZXIgWHUgPHBldGVyeEByZWRoYXQuY29tPg0KPiA+IENjOiBZaSBTdW4gPHlpLnkuc3VuQGxpbnV4
-LmludGVsLmNvbT4NCj4gPiBDYzogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4N
-Cj4gPiBDYzogUmljaGFyZCBIZW5kZXJzb24gPHJ0aEB0d2lkZGxlLm5ldD4NCj4gPiBDYzogRWR1
-YXJkbyBIYWJrb3N0IDxlaGFia29zdEByZWRoYXQuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IExp
-dSBZaSBMIDx5aS5sLmxpdUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L2kzODYvaW50ZWxf
-aW9tbXUuYyAgICAgICAgICB8IDU3DQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKw0KPiA+ICBody9pMzg2L2ludGVsX2lvbW11X2ludGVybmFsLmggfCAxMyArKysr
-KysrKysrDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNzAgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4g
-ZGlmZiAtLWdpdCBhL2h3L2kzODYvaW50ZWxfaW9tbXUuYyBiL2h3L2kzODYvaW50ZWxfaW9tbXUu
-YyBpbmRleA0KPiA+IGIwMDc3MTUuLmI5YWMwN2QgMTAwNjQ0DQo+ID4gLS0tIGEvaHcvaTM4Ni9p
-bnRlbF9pb21tdS5jDQo+ID4gKysrIGIvaHcvaTM4Ni9pbnRlbF9pb21tdS5jDQo+ID4gQEAgLTMx
-MzQsNiArMzEzNCw1OSBAQCBzdGF0aWMgYm9vbCB2dGRfcHJvY2Vzc19wYXNpZF9kZXNjKEludGVs
-SU9NTVVTdGF0ZQ0KPiAqcywNCj4gPiAgICAgIHJldHVybiAocmV0ID09IDApID8gdHJ1ZSA6IGZh
-bHNlOyAgfQ0KPiA+DQo+ID4gK3N0YXRpYyB2b2lkIHZ0ZF9waW90bGJfcGFzaWRfaW52YWxpZGF0
-ZShJbnRlbElPTU1VU3RhdGUgKnMsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB1aW50MTZfdCBkb21haW5faWQsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB1aW50MzJfdCBwYXNpZCkgeyB9DQo+ID4gKw0KPiA+ICtzdGF0
-aWMgdm9pZCB2dGRfcGlvdGxiX3BhZ2VfaW52YWxpZGF0ZShJbnRlbElPTU1VU3RhdGUgKnMsIHVp
-bnQxNl90IGRvbWFpbl9pZCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50
-MzJfdCBwYXNpZCwgaHdhZGRyIGFkZHIsIHVpbnQ4X3QgYW0sDQo+ID4gK2Jvb2wgaWgpIHsgfQ0K
-PiA+ICsNCj4gPiArc3RhdGljIGJvb2wgdnRkX3Byb2Nlc3NfcGlvdGxiX2Rlc2MoSW50ZWxJT01N
-VVN0YXRlICpzLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWVERJ
-bnZEZXNjICppbnZfZGVzYykgew0KPiA+ICsgICAgdWludDE2X3QgZG9tYWluX2lkOw0KPiA+ICsg
-ICAgdWludDMyX3QgcGFzaWQ7DQo+ID4gKyAgICB1aW50OF90IGFtOw0KPiA+ICsgICAgaHdhZGRy
-IGFkZHI7DQo+ID4gKw0KPiA+ICsgICAgaWYgKChpbnZfZGVzYy0+dmFsWzBdICYgVlREX0lOVl9E
-RVNDX1BJT1RMQl9SU1ZEX1ZBTDApIHx8DQo+ID4gKyAgICAgICAgKGludl9kZXNjLT52YWxbMV0g
-JiBWVERfSU5WX0RFU0NfUElPVExCX1JTVkRfVkFMMSkpIHsNCj4gPiArICAgICAgICBlcnJvcl9y
-ZXBvcnRfb25jZSgibm9uLXplcm8tZmllbGQtaW4tcGlvdGxiX2ludl9kZXNjIGhpOiAweCUiIFBS
-SXg2NA0KPiA+ICsgICAgICAgICAgICAgICAgICAiIGxvOiAweCUiIFBSSXg2NCwgaW52X2Rlc2Mt
-PnZhbFsxXSwgaW52X2Rlc2MtPnZhbFswXSk7DQo+ID4gKyAgICAgICAgcmV0dXJuIGZhbHNlOw0K
-PiA+ICsgICAgfQ0KPiA+ICsNCj4gPiArICAgIGRvbWFpbl9pZCA9IFZURF9JTlZfREVTQ19QSU9U
-TEJfRElEKGludl9kZXNjLT52YWxbMF0pOw0KPiA+ICsgICAgcGFzaWQgPSBWVERfSU5WX0RFU0Nf
-UElPVExCX1BBU0lEKGludl9kZXNjLT52YWxbMF0pOw0KPiA+ICsgICAgc3dpdGNoIChpbnZfZGVz
-Yy0+dmFsWzBdICYgVlREX0lOVl9ERVNDX0lPVExCX0cpIHsNCj4gPiArICAgIGNhc2UgVlREX0lO
-Vl9ERVNDX1BJT1RMQl9BTExfSU5fUEFTSUQ6DQo+ID4gKyAgICAgICAgdnRkX3Bpb3RsYl9wYXNp
-ZF9pbnZhbGlkYXRlKHMsIGRvbWFpbl9pZCwgcGFzaWQpOw0KPiA+ICsgICAgICAgIGJyZWFrOw0K
-PiA+ICsNCj4gPiArICAgIGNhc2UgVlREX0lOVl9ERVNDX1BJT1RMQl9QU0lfSU5fUEFTSUQ6DQo+
-ID4gKyAgICAgICAgYW0gPSBWVERfSU5WX0RFU0NfUElPVExCX0FNKGludl9kZXNjLT52YWxbMV0p
-Ow0KPiA+ICsgICAgICAgIGFkZHIgPSAoaHdhZGRyKSBWVERfSU5WX0RFU0NfUElPVExCX0FERFIo
-aW52X2Rlc2MtPnZhbFsxXSk7DQo+ID4gKyAgICAgICAgaWYgKGFtID4gVlREX01BTVYpIHsNCj4g
-DQo+IEkgc2F3IHRoaXMgb2Ygc3BlYyAxMC40LjIsIE1BTVY6DQo+IA0KPiAgICAgICAgIEluZGVw
-ZW5kZW50IG9mIHZhbHVlIHJlcG9ydGVkIGluIHRoaXMgZmllbGQsIGltcGxlbWVudGF0aW9ucw0K
-PiAgICAgICAgIHN1cHBvcnRpbmcgU01UUyBtdXN0IHN1cHBvcnQgYWRkcmVzcy1zZWxlY3RpdmUg
-UEFTSUQtYmFzZWQNCj4gICAgICAgICBJT1RMQiBpbnZhbGlkYXRpb25zIChwX2lvdGxiX2ludl9k
-c2MpIHdpdGggYW55IGRlZmluZWQgYWRkcmVzcw0KPiAgICAgICAgIG1hc2suDQo+IA0KPiBEb2Vz
-IGl0IG1lYW4gd2Ugc2hvdWxkIGV2ZW4gc3VwcG9ydCBsYXJnZXIgQU0/DQo+IA0KPiBCZXNpZGVz
-IHRoYXQsIHRoZSBwYXRjaCBsb29rcyBnb29kIHRvIG1lLg0KDQpJIGRvbid0IHRoaW5rIHNvLiBU
-aGlzIGZpZWxkIGlzIGZvciBzZWNvbmQtbGV2ZWwgdGFibGUgaW4gc2NhbGFibGUgbW9kZQ0KYW5k
-IHRoZSB0cmFuc2xhdGlvbiB0YWJsZSBpbiBsZWdhY3kgbW9kZS4gRm9yIGZpcnN0LWxldmVsIHRh
-YmxlLCBpdCBhbHdheXMNCnN1cHBvcnRzIHBhZ2Ugc2VsZWN0aXZlIGludmFsaWRhdGlvbiBhbmQg
-YWxsIHRoZSBzdXBwb3J0ZWQgbWFza3MNCnJlZ2FyZGxlc3Mgb2YgdGhlIFBTSSBzdXBwb3J0IGJp
-dCBhbmQgdGhlIE1BTVYgZmllbGQgaW4gdGhlIENBUF9SRUcuDQoNClJlZ2FyZHMsDQpZaSBMaXUN
-Cg0K
+Hi all!
+
+This is the next step of improving block-copy: use aio task pool.
+
+Async copying loop has better performance than linear, which is shown
+in original series (was
+"[RFC 00/24] backup performance: block_status + async", so this is
+called v2)
+
+Vladimir Sementsov-Ogievskiy (6):
+  block/block-copy: rename in-flight requests to tasks
+  block/block-copy: alloc task on each iteration
+  block/block-copy: add state pointer to BlockCopyTask
+  block/block-copy: move task size initial calculation to _task_create
+  block/block-copy: move block_copy_task_create down
+  block/block-copy: use aio-task-pool API
+
+ block/block-copy.c | 250 ++++++++++++++++++++++++++++++---------------
+ 1 file changed, 168 insertions(+), 82 deletions(-)
+
+--=20
+2.21.0
+
 
