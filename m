@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D2D192C20
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:21:11 +0100 (CET)
-Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35198192BDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:07:47 +0100 (CET)
+Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7qA-0003Za-Om
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
+	id 1jH7dC-0006tc-8h
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40179)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jH7l4-0003bC-6A
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:55 -0400
+ (envelope-from <peterx@redhat.com>) id 1jH7cD-0005yt-7h
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:06:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jH7l2-0007zl-KS
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57620)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jH7l2-0007z8-ED
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:15:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jH7l0-00040X-6R
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 15:15:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 367032E80EA
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 15:15:49 +0000 (UTC)
+ (envelope-from <peterx@redhat.com>) id 1jH7cC-0000tb-3J
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:06:45 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:38042)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jH7cB-0000tG-VK
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585148803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=27GxiLohBT5suEBlZpL3Il4w5Sf42Cq/mInk93gYD7s=;
+ b=EJeMnUOCCpHLOcH6ArUZc4bOwDm0eDkwcIDp3U8kDnkJfFIYR53b6h2iW6+LBkpoDNFO9c
+ higlmGhxALvCsNgrxR61lCGh52HVv9Yo0gUWGgLBUhb5/9Tmrv4TyG6sHc7DXYrzkUgtnn
+ Bp2Fptps/1zzRQxwohCL1lWPqlLyckU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-wjdDku6qMfG52sN3KsPeRw-1; Wed, 25 Mar 2020 11:06:42 -0400
+X-MC-Unique: wjdDku6qMfG52sN3KsPeRw-1
+Received: by mail-wr1-f70.google.com with SMTP id b11so1262554wru.21
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 08:06:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FAab9/HeMr7kMt5AjMuUFNn2lljVsGjPi5izW+gN+7c=;
+ b=WA240jIGyGuTawPlTEj6AG59bzzQBZdYgniTe45ulGwzqY0vXRvpGIl3H8GU7HRxjH
+ LbmZbtEmCf/JBWSoYnzhkffEE16xgYwcyj7aBSdjLthLP5ii8dlrOTRIhGM4HTVmubyg
+ V5TOOBJtuOaSec6mXp8MCPRxc/+AbjalMSEGnC+bFRiWwEUb/rgNNyJvLLRgIbjLUBnw
+ +zlw7EYaV+2HQADsAf2Ih7dDsHoLz9vCzhAaSnfbTiRwMiNYGY9Ikm9qzQqApRfbqY3W
+ 4i8FdVwFpLHKI3gDZn/yhpmcYVl0Pb2IoZOET1K6szluXo6KtBeA95VVA3dM5khGwMdg
+ tWnQ==
+X-Gm-Message-State: ANhLgQ3qDc/6Oa2NcY8vJZAZat14cfv/ZZWMexOJAlemntRIAvvhqd2o
+ 5kOvhPUZJonnDiqhUaP2FTvamMHisLGsQULiYpM2zHvtzoV9EpJvk7+yWWDN4r1j2Q3wdigUSgU
+ Ej8qbTvMj0GD1fDA=
+X-Received: by 2002:adf:b641:: with SMTP id i1mr3983442wre.18.1585148799901;
+ Wed, 25 Mar 2020 08:06:39 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vt5ETVSo8dR+R+7i8SSLf/LUWWs9NXlkdrJEmQOHyPVXPwdmfg86Sy0hcGgWkpOc6gB33aZuA==
+X-Received: by 2002:adf:b641:: with SMTP id i1mr3983412wre.18.1585148799682;
+ Wed, 25 Mar 2020 08:06:39 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id w204sm9654772wma.1.2020.03.25.08.06.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Mar 2020 08:06:39 -0700 (PDT)
+Date: Wed, 25 Mar 2020 11:06:34 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v1 15/22] intel_iommu: replay guest pasid bindings to host
+Message-ID: <20200325150634.GC354390@xz-x1>
+References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
+ <1584880579-12178-16-git-send-email-yi.l.liu@intel.com>
+ <20200324180013.GZ127076@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A202251@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A202251@SHSMSX104.ccr.corp.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Mar 2020 15:05:53 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Triaged; importance=High; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
- server-next
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail leozinho29-eu paelzer
-X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
-References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158514875400.10911.10337943864636829894.malone@soybean.canonical.com>
-Subject: [Bug 1868116] Re: QEMU monitor no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1afe7f8dce0f606c11e9fcd510b02fb24cf210f7
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,125 +88,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-same seems to happen on Fedora 32.
+On Wed, Mar 25, 2020 at 01:14:26PM +0000, Liu, Yi L wrote:
 
--- =
+[...]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868116
+> > > +/**
+> > > + * Caller of this function should hold iommu_lock.
+> > > + */
+> > > +static bool vtd_sm_pasid_table_walk_one(IntelIOMMUState *s,
+> > > +                                        dma_addr_t pt_base,
+> > > +                                        int start,
+> > > +                                        int end,
+> > > +                                        vtd_pasid_table_walk_info *i=
+nfo)
+> > > +{
+> > > +    VTDPASIDEntry pe;
+> > > +    int pasid =3D start;
+> > > +    int pasid_next;
+> > > +    VTDPASIDAddressSpace *vtd_pasid_as;
+> > > +    VTDPASIDCacheEntry *pc_entry;
+> > > +
+> > > +    while (pasid < end) {
+> > > +        pasid_next =3D pasid + 1;
+> > > +
+> > > +        if (!vtd_get_pe_in_pasid_leaf_table(s, pasid, pt_base, &pe)
+> > > +            && vtd_pe_present(&pe)) {
+> > > +            vtd_pasid_as =3D vtd_add_find_pasid_as(s,
+> > > +                                       info->vtd_bus, info->devfn, p=
+asid);
+> >=20
+> > For this chunk:
+> >=20
+> > > +            pc_entry =3D &vtd_pasid_as->pasid_cache_entry;
+> > > +            if (s->pasid_cache_gen =3D=3D pc_entry->pasid_cache_gen)=
+ {
+> > > +                vtd_update_pe_in_cache(s, vtd_pasid_as, &pe);
+> > > +            } else {
+> > > +                vtd_fill_in_pe_in_cache(s, vtd_pasid_as, &pe);
+> > > +            }
+> >=20
+> > We already got &pe, then would it be easier to simply call:
+> >=20
+> >                vtd_update_pe_in_cache(s, vtd_pasid_as, &pe);
+> >=20
+> > ?
+>=20
+> If the pasid_cache_gen is equal to iommu_state's, then it means there is
+> a chance that the cached pasid entry is equal to pe here. While for the
+> else case, it is surely there is no valid pasid entry in the pasid_as. An=
+d
+> the difference between vtd_update_pe_in_cache() and
+> vtd_fill_in_pe_in_cache() is whether do a compare between the new pasid e=
+ntry
+> and cached pasid entry.
+>=20
+> > Since IIUC the cache_gen is only helpful to avoid looking up the &pe.
+> > And the vtd_pasid_entry_compare() check should be even more solid than
+> > the cache_gen.
+>=20
+> But if the cache_gen is not equal the one in iommu_state, then the cached
+> pasid entry is not valid at all. The compare is only needed after the cac=
+he_gen
+> is checked.
 
-Title:
-  QEMU monitor no longer works
+Wait... If "the pasid entry context" is already exactly the same as
+the "cached pasid entry context", why we still care the generation
+number?  I'd just update the generation to latest and cache it again.
+Maybe there's a tricky point when &pe=3D=3Dcache but generation number is
+old, then IIUC what we can do better is simply update the generation
+number to latest.
 
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Triaged
-Status in vte2.91 package in Ubuntu:
-  New
+But OK - let's keep that.  I don't see anything incorrect with current
+code either.
 
-Bug description:
-  Repro:
-  VTE
-  $ meson _build && ninja -C _build && ninja -C _build install
+--=20
+Peter Xu
 
-  qemu:
-  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
-r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
--enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
-sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
--disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
-disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
-opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
-irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
--pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
-vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
-sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
-le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
-e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
-utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
--disable-cap-ng
-  $ make
-
-  Test:
-  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
-uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
-le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
-rent/images/netboot/mini.iso
-  - switch to monitor with CTRL+ALT+2
-  - try to enter something
-
-  Affects head of both usptream git repos.
-
-  =
-
-  --- original bug ---
-
-  It was observed that the QEMU console (normally accessible using
-  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
-  problematic because there are cases where it's required to send
-  commands to the guest, or key combinations that the host would grab
-  (as Ctrl-Alt-F1 or Alt-F4).
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 20.04
-  Package: qemu 1:4.2-3ubuntu2
-  Uname: Linux 5.6.0-rc6+ x86_64
-  ApportVersion: 2.20.11-0ubuntu20
-  Architecture: amd64
-  CurrentDesktop: XFCE
-  Date: Thu Mar 19 12:16:31 2020
-  Dependencies:
-
-  InstallationDate: Installed on 2017-06-13 (1009 days ago)
-  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
-  KvmCmdLine:
-  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
-86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
-,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
-home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
-  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
--re]
-  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
-5]
-  MachineType: LENOVO 80UG
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
-4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
-rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
-ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
-enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
-7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
-scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
-_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
-  dmi.bios.date: 08/09/2018
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: 0XCN45WW
-  dmi.board.asset.tag: NO Asset Tag
-  dmi.board.name: Toronto 4A2
-  dmi.board.vendor: LENOVO
-  dmi.board.version: SDK0J40679 WIN
-  dmi.chassis.asset.tag: NO Asset Tag
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: Lenovo ideapad 310-14ISK
-  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
-Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
-10:cvrLenovoideapad310-14ISK:
-  dmi.product.family: IDEAPAD
-  dmi.product.name: 80UG
-  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
-  dmi.product.version: Lenovo ideapad 310-14ISK
-  dmi.sys.vendor: LENOVO
-  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
 
