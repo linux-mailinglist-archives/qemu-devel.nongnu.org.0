@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCA619324E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 22:04:36 +0100 (CET)
-Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F149193255
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 22:06:46 +0100 (CET)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHDCV-0008OF-PO
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 17:04:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
+	id 1jHDEb-0002s8-Jb
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 17:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jHD93-0004V8-JH
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:03 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jHDAz-000716-Jo
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:03:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jHD92-0000HQ-1Y
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:01 -0400
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:41494)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jHD91-0000H6-Ta; Wed, 25 Mar 2020 17:00:59 -0400
-Received: by mail-ua1-x942.google.com with SMTP id f9so1317646uaq.8;
- Wed, 25 Mar 2020 14:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=XfhENZ6t3ct9uVkcrH1JI6JP+JcsPr1A0NwiLry1SUw=;
- b=p0y33Y342ud6TlvVe77z31QRkRWr24mWTFf3ssm7x6VAbAC2dOxfu6W1bRjFKJzv03
- PM63hqjU6/sfybRR+32qyNrRpWPmFDFmcZ9R6NrgGCgpqYYz8APuZh02Z/BmINb4ayYh
- pEvrOkzyQsQ3yo4X7zxBiRerV30lSmK2v2EtKAUC9q3cHff4pKReQdNnv60Dv68zSyWc
- uxIIhz+/uvROFIadeyOQby0CuxCCHXNV/iwKLEU6VDa6KPu3sRIJEE54e20EVHf168fS
- 18G4s8KriKwUbtZsFBrNzyRGPpIGrx3A9C0tBQ4jvkZivsOPmVSBMvH5BvNmW8YRYcIs
- 7eUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XfhENZ6t3ct9uVkcrH1JI6JP+JcsPr1A0NwiLry1SUw=;
- b=Ju8sGmeV6VmziZLs0ztrX8D0V46chd7EGQhNOct7hqESeU9jrjU4Y5WhEMiQ7iylKS
- r52T2U8ZN2oXfU0S3SJdIgEKifCS/0HiL1MUXOi1E1v4Gh3l5gjDk63p+lBTxXEp/U8D
- jOzGXOumJ3Rywh/n7as82pCfIdUBjFy/5gbhI2hZaG1O3H1ce3tUJdgseGkFCGYgP4PD
- KD07iBC/pYuH6My++R0Xfj64CUln8Adrgva2Po/boh2oG+QWGUVD5lf5f8PmPowXG/0/
- JHVWZsAGZue1ku9I5TofAzoPySu/H6Fkmv4Qd8mLHpJ5mS3ZAKWvK1vx9zy9p+raNoXp
- HTWQ==
-X-Gm-Message-State: ANhLgQ2xevjmmd02mdvo4U7io4TFJwSKV26OGpvT1Y3Pb1JvooKoLKxM
- KMcpJ2tQWpUanFZsSQY+yGQq8+AUjXlS4Yy9wyU=
-X-Google-Smtp-Source: ADFU+vvAB6SXwiNWokn1a2pZIgtrO+wuTwlRnmsHViF++X0/EeVpng7OJb8qnxm4rpkYO0pCHeipik574ReEcZKDY+Q=
-X-Received: by 2002:ab0:143:: with SMTP id 61mr4044978uak.85.1585170059328;
- Wed, 25 Mar 2020 14:00:59 -0700 (PDT)
+ (envelope-from <alex.williamson@redhat.com>) id 1jHDAx-0001fs-MC
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:03:01 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:49045)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jHDAx-0001fN-Fi
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:02:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585170178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MNoLllsJ1Qi7H58h7uCANDJscHJdoXMmlXwPlE5gIaQ=;
+ b=WmCg5kUNXJEvSCFOvum0BuCDZ1WwXRjUHYeYT1x2uizm6hpY9hVfFssxAZkhVHGZu2y25u
+ zHQ8SZsWuvcknUpnJ3KRFzWHfoqK9GZjvNrCGgkj3hPT2bpNE1EwYwu9mpt0DqYwuusJXD
+ I1+p9MM60zbpFpU1nibLbEI9GuTBK0U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-oOGirRakP2SuRhIBCHMPrQ-1; Wed, 25 Mar 2020 17:02:54 -0400
+X-MC-Unique: oOGirRakP2SuRhIBCHMPrQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 878DA8017CC;
+ Wed, 25 Mar 2020 21:02:51 +0000 (UTC)
+Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1742ABBBDD;
+ Wed, 25 Mar 2020 21:02:49 +0000 (UTC)
+Date: Wed, 25 Mar 2020 15:02:48 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
+ device
+Message-ID: <20200325150248.6661e1bd@w520.home>
+In-Reply-To: <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-References: <20200325191830.16553-1-f4bug@amsat.org>
- <20200325191830.16553-13-f4bug@amsat.org>
-In-Reply-To: <20200325191830.16553-13-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Mar 2020 13:52:59 -0700
-Message-ID: <CAKmqyKO6vKwnVOnVOJDNqw7_n-iUh8LyvGww=6h8E-H4OGtyWw@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 12/12] hw/riscv/sifive_u: Add missing
- error-propagation code
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::942
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,203 +72,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 25, 2020 at 12:28 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Running the coccinelle script produced:
->
->   $ spatch \
->     --macro-file scripts/cocci-macro-file.h --include-headers \
->     --sp-file scripts/coccinelle/object_property_missing_error_propagate.=
-cocci \
->     --keep-comments --smpl-spacing --dir hw
->
->   [[manual check required: error_propagate() might be missing in object_p=
-roperty_set_bool() hw/riscv/sifive_u.c:558:4]]
->   [[manual check required: error_propagate() might be missing in object_p=
-roperty_set_bool() hw/riscv/sifive_u.c:561:4]]
->
-> Add the missing error_propagate() after manual review.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Wed, 25 Mar 2020 02:39:06 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> Define flags to be used as delimeter in migration file stream.
+> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
+> region from these functions at source during saving or pre-copy phase.
+> Set VFIO device state depending on VM's state. During live migration, VM is
+> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
 > ---
->  hw/riscv/sifive_u.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 56351c4faa..01e44018cd 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -473,113 +473,121 @@ static void riscv_sifive_u_machine_instance_init(=
-Object *obj)
->  static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>  hw/vfio/migration.c  | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events |  2 ++
+>  2 files changed, 78 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 22ded9d28cf3..033f76526e49 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -8,6 +8,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/main-loop.h"
+>  #include <linux/vfio.h>
+>  
+>  #include "sysemu/runstate.h"
+> @@ -24,6 +25,17 @@
+>  #include "pci.h"
+>  #include "trace.h"
+>  
+> +/*
+> + * Flags used as delimiter:
+> + * 0xffffffff => MSB 32-bit all 1s
+> + * 0xef10     => emulated (virtual) function IO
+> + * 0x0000     => 16-bits reserved for flags
+> + */
+> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
+> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> +
+>  static void vfio_migration_region_exit(VFIODevice *vbasedev)
 >  {
->      MachineState *ms =3D MACHINE(qdev_get_machine());
->      SiFiveUSoCState *s =3D RISCV_U_SOC(dev);
->      const struct MemmapEntry *memmap =3D sifive_u_memmap;
->      MemoryRegion *system_memory =3D get_system_memory();
->      MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
->      MemoryRegion *l2lim_mem =3D g_new(MemoryRegion, 1);
->      qemu_irq plic_gpios[SIFIVE_U_PLIC_NUM_SOURCES];
->      char *plic_hart_config;
->      size_t plic_hart_config_len;
->      int i;
->      Error *err =3D NULL;
->      NICInfo *nd =3D &nd_table[0];
->
->      object_property_set_bool(OBJECT(&s->e_cpus), true, "realized",
->                               &error_abort);
->      object_property_set_bool(OBJECT(&s->u_cpus), true, "realized",
->                               &error_abort);
->      /*
->       * The cluster must be realized after the RISC-V hart array containe=
-r,
->       * as the container's CPU object is only created on realize, and the
->       * CPU must exist and have been parented into the cluster before the
->       * cluster is realized.
->       */
->      object_property_set_bool(OBJECT(&s->e_cluster), true, "realized",
->                               &error_abort);
->      object_property_set_bool(OBJECT(&s->u_cluster), true, "realized",
->                               &error_abort);
->
->      /* boot rom */
->      memory_region_init_rom(mask_rom, OBJECT(dev), "riscv.sifive.u.mrom",
->                             memmap[SIFIVE_U_MROM].size, &error_fatal);
->      memory_region_add_subregion(system_memory, memmap[SIFIVE_U_MROM].bas=
-e,
->                                  mask_rom);
->
->      /*
->       * Add L2-LIM at reset size.
->       * This should be reduced in size as the L2 Cache Controller WayEnab=
-le
->       * register is incremented. Unfortunately I don't see a nice (or any=
-) way
->       * to handle reducing or blocking out the L2 LIM while still allowin=
-g it
->       * be re returned to all enabled after a reset. For the time being, =
-just
->       * leave it enabled all the time. This won't break anything, but wil=
-l be
->       * too generous to misbehaving guests.
->       */
->      memory_region_init_ram(l2lim_mem, NULL, "riscv.sifive.u.l2lim",
->                             memmap[SIFIVE_U_L2LIM].size, &error_fatal);
->      memory_region_add_subregion(system_memory, memmap[SIFIVE_U_L2LIM].ba=
-se,
->                                  l2lim_mem);
->
->      /* create PLIC hart topology configuration string */
->      plic_hart_config_len =3D (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) *
->                             ms->smp.cpus;
->      plic_hart_config =3D g_malloc0(plic_hart_config_len);
->      for (i =3D 0; i < ms->smp.cpus; i++) {
->          if (i !=3D 0) {
->              strncat(plic_hart_config, "," SIFIVE_U_PLIC_HART_CONFIG,
->                      plic_hart_config_len);
->          } else {
->              strncat(plic_hart_config, "M", plic_hart_config_len);
->          }
->          plic_hart_config_len -=3D (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1=
-);
->      }
->
->      /* MMIO */
->      s->plic =3D sifive_plic_create(memmap[SIFIVE_U_PLIC].base,
->          plic_hart_config,
->          SIFIVE_U_PLIC_NUM_SOURCES,
->          SIFIVE_U_PLIC_NUM_PRIORITIES,
->          SIFIVE_U_PLIC_PRIORITY_BASE,
->          SIFIVE_U_PLIC_PENDING_BASE,
->          SIFIVE_U_PLIC_ENABLE_BASE,
->          SIFIVE_U_PLIC_ENABLE_STRIDE,
->          SIFIVE_U_PLIC_CONTEXT_BASE,
->          SIFIVE_U_PLIC_CONTEXT_STRIDE,
->          memmap[SIFIVE_U_PLIC].size);
->      g_free(plic_hart_config);
->      sifive_uart_create(system_memory, memmap[SIFIVE_U_UART0].base,
->          serial_hd(0), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART0_I=
-RQ));
->      sifive_uart_create(system_memory, memmap[SIFIVE_U_UART1].base,
->          serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_I=
-RQ));
->      sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
->          memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
->          SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
->
->      object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].b=
-ase);
->
->      object_property_set_bool(OBJECT(&s->otp), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].bas=
-e);
->
->      for (i =3D 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
->          plic_gpios[i] =3D qdev_get_gpio_in(DEVICE(s->plic), i);
->      }
->
->      if (nd->used) {
->          qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
->          qdev_set_nic_properties(DEVICE(&s->gem), nd);
->      }
->      object_property_set_int(OBJECT(&s->gem), GEM_REVISION, "revision",
->                              &error_abort);
->      object_property_set_bool(OBJECT(&s->gem), true, "realized", &err);
->      if (err) {
->          error_propagate(errp, err);
->          return;
->      }
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem), 0, memmap[SIFIVE_U_GEM].bas=
-e);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
->                         plic_gpios[SIFIVE_U_GEM_IRQ]);
->
->      create_unimplemented_device("riscv.sifive.u.gem-mgmt",
->          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+>      VFIOMigration *migration = vbasedev->migration;
+> @@ -126,6 +138,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+>      return 0;
 >  }
-> --
-> 2.21.1
->
->
+>  
+> +/* ---------------------------------------------------------------------- */
+> +
+> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret;
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+> +
+> +    if (migration->region.mmaps) {
+> +        qemu_mutex_lock_iothread();
+> +        ret = vfio_region_mmap(&migration->region);
+> +        qemu_mutex_unlock_iothread();
+> +        if (ret) {
+> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
+> +                         vbasedev->name, migration->region.index,
+> +                         strerror(-ret));
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
+> +    if (ret) {
+> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
+> +        return ret;
+> +    }
+> +
+> +    /*
+> +     * Save migration region size. This is used to verify migration region size
+> +     * is greater than or equal to migration region size at destination
+> +     */
+> +    qemu_put_be64(f, migration->region.size);
+
+Is this requirement supported by the uapi?  The vendor driver operates
+within the migration region, but it has no requirement to use the full
+extent of the region.  Shouldn't we instead insert the version string
+from versioning API Yan proposed?  Is this were we might choose to use
+an interface via the vfio API rather than sysfs if we had one?
+
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> +
+> +    ret = qemu_file_get_error(f);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    trace_vfio_save_setup(vbasedev->name);
+> +    return 0;
+> +}
+> +
+> +static void vfio_save_cleanup(void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +
+> +    if (migration->region.mmaps) {
+> +        vfio_region_unmap(&migration->region);
+> +    }
+> +    trace_vfio_save_cleanup(vbasedev->name);
+> +}
+> +
+> +static SaveVMHandlers savevm_vfio_handlers = {
+> +    .save_setup = vfio_save_setup,
+> +    .save_cleanup = vfio_save_cleanup,
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+>  static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>  {
+>      VFIODevice *vbasedev = opaque;
+> @@ -191,6 +266,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>          return ret;
+>      }
+>  
+> +    register_savevm_live("vfio", -1, 1, &savevm_vfio_handlers, vbasedev);
+>      vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>                                                            vbasedev);
+>  
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 69503228f20e..4bb43f18f315 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -149,3 +149,5 @@ vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+>  vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+>  vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+>  vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
+> +vfio_save_setup(char *name) " (%s)"
+> +vfio_save_cleanup(char *name) " (%s)"
+
 
