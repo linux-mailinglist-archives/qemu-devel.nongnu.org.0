@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F8C192B6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:44:18 +0100 (CET)
-Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90963192B78
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 15:46:06 +0100 (CET)
+Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7GT-0005qp-L2
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37097)
+	id 1jH7ID-0000F5-H2
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 10:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <npiggin@gmail.com>) id 1jH7F7-00041f-Pl
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:55 -0400
+ (envelope-from <npiggin@gmail.com>) id 1jH7FB-0004Ah-QZ
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1jH7F6-0005ed-Aj
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:53 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42676)
+ (envelope-from <npiggin@gmail.com>) id 1jH7FA-0005hk-FU
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 10:42:57 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35540)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1jH7F3-0005bp-8e; Wed, 25 Mar 2020 10:42:49 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id h8so1230972pgs.9;
- Wed, 25 Mar 2020 07:42:49 -0700 (PDT)
+ id 1jH7F7-0005fJ-S5; Wed, 25 Mar 2020 10:42:53 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 7so1245680pgr.2;
+ Wed, 25 Mar 2020 07:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WKYOGG0g9s481Vm+dxBUu5LtOyPszMxI1/G7LP+9Ut4=;
- b=XFM5Y+LdZSJf1fyJHzHaYC4KPs45aN1EYpypio/bBbiz/n4uGllxriKLqdCNtfKlb0
- 1/sOh6mCHxdxO0urXnusWoVqXdAwgGyXTQTYG3mbbCDQgyfRsv/Uky5NhnHBlQNWrlof
- kNzQJ7YrYO07N0tz9zML9axbcg5mTwny9kYJHCvhVwtEfZppsw5BTiTpVpkjmcpVQlUm
- OALoejT2EJrrVRZ8NZ4ZK9+Oy5zZJQ7QEnLQiuOC27arv7AfuKSv+k2EzVbpT2Aqa7Ym
- XTYtdno8arx99PvyEsgR0z2c1punlhJI8xD1cRnR02EfQ5XA0yTpVBzeoTPnsOZPkOye
- Eb0A==
+ bh=m/ATHVgK+NJbwaXqtEE7x40Es4AHu63qi4TjELVQJaI=;
+ b=uHjrQk2hO1TNR3Dkzn8Z0JDljurmfo1+CFnRagNIMdqQLssp/oDzaiw0T1NloqsAbJ
+ 6rFC90qoHPCpVwPL741NxKoTWkEdRklvu3XRmfiKYRxb0zCp0Off+/e7jTA4ZaHNEn90
+ HJHJQ9lcs+PRQCP9kImjGjXPhlqTg9VRoqr4Gw0B7Xa5ynpzRp7e0vht++vEmtfU/qAI
+ exSVNROHa87XEb9vB2yF3ottvYRnORGpALQbQm+ZpuyJSbuzxX1LR5dJqsIZ7YLdaZ4d
+ Dst4UibEAL6n0+W3xEkMfqN6MMnUL211pzz3J9lQCtaGL6/nGqIknulA7DJqIJRtIxOg
+ gFcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WKYOGG0g9s481Vm+dxBUu5LtOyPszMxI1/G7LP+9Ut4=;
- b=U65kPHmUGxgJqiIE5iepujDy59LJxaEynyALhvCfH8deI4L1sYiHl9GiK7FKea6Lwk
- 3Pe0ordizwirnPNn/rzcMWY5NVFGBc7I4FLcrSn3Lfcd/gUYGpdINZ9S5414p/WJMSwP
- oOL/+dgYdalPiFVQZtdX0ZFDvqga27DBvkzb7vlMzRniwQUaML6myO12fGyBScPFKxXI
- EV4dcCS59UNq1I5XZ639D0/wFbtqmCHucsUMwy0tRRecwmYD1Car6WOuWOZZlEokVK3d
- Asse1cZV47710B5XDNtayS0qPVhB87XY94lLVoPjrxRQ3u09pt6Pxbs7FmenlBWs6s5F
- QN8Q==
-X-Gm-Message-State: ANhLgQ2hOHFFznhewDGXLmIU0LL30hBng5OpPpvEu8UfN/KYDsrRE8Df
- oYP/DJAoSFUvli6KxEngVzGF5el7
-X-Google-Smtp-Source: ADFU+vuwJ60gCy3xAzXdh0hle4Cjf/kHhSwoM17PGT+Hnf2LoDXKtGmm/y1xK6LmySTBtL1jcnwJ0g==
-X-Received: by 2002:a63:794d:: with SMTP id u74mr3491417pgc.15.1585147367982; 
- Wed, 25 Mar 2020 07:42:47 -0700 (PDT)
+ bh=m/ATHVgK+NJbwaXqtEE7x40Es4AHu63qi4TjELVQJaI=;
+ b=KqFZslsKaz/M1dlQrv6ntW/DejWzD5AdFGKLb0XP1eqxDSkqzHDOKhb69PMKYDSszQ
+ Y69ao+pWsxTg1dwaVkoeymbaiR18W4Swo6DqHfO9QgrUHBNTS5azoqC6qXUeu43ZmE3D
+ EOQSjor9sgFMMA+GkCkXL5uyclfxrmUlR19BmS2bDhMN9HJ8lJrmnTcVDzWOQEHx3TT6
+ gy4OopxijuUsAATZykP9CLhl0haIKk4xDETMqnSjFV3c4FVgENP9YD9oJvspDuJmT0W0
+ KXSYWcg3b0VInl8aILl+hGR/xI0+GcIrtjVPhUD3gGWSls6UCWxxGgs3iw8DMZyZUM13
+ YNnQ==
+X-Gm-Message-State: ANhLgQ0lWn2Lbjua5k/0y1mkZS+kkbXEFw4g9dfrG1632h0xnZza7/0k
+ 0Cqu1xmhowbpfnF9xUwNL72M64T+
+X-Google-Smtp-Source: ADFU+vvvjh50dC2dY4U4dhMcs8B6iIY3TTrezCVgrCX1jWJ1UXPbn+eg6C24WVVmu5fSRp14TlWHvg==
+X-Received: by 2002:a62:194c:: with SMTP id 73mr3774067pfz.159.1585147372620; 
+ Wed, 25 Mar 2020 07:42:52 -0700 (PDT)
 Received: from bobo.ibm.com (14-202-190-183.tpgi.com.au. [14.202.190.183])
- by smtp.gmail.com with ESMTPSA id 93sm4609599pjo.43.2020.03.25.07.42.44
+ by smtp.gmail.com with ESMTPSA id 93sm4609599pjo.43.2020.03.25.07.42.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Mar 2020 07:42:47 -0700 (PDT)
+ Wed, 25 Mar 2020 07:42:52 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH 3/5] nmi: add MCE class for implementing machine check
- injection commands
-Date: Thu, 26 Mar 2020 00:41:45 +1000
-Message-Id: <20200325144147.221875-4-npiggin@gmail.com>
+Subject: [PATCH 4/5] ppc/spapr: Implement mce injection
+Date: Thu, 26 Mar 2020 00:41:46 +1000
+Message-Id: <20200325144147.221875-5-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200325144147.221875-1-npiggin@gmail.com>
 References: <20200325144147.221875-1-npiggin@gmail.com>
@@ -65,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52c
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,220 +85,131 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like commit 9cb805fd26 ("cpus: Define callback for QEMU "nmi" command")
-this implements a machine check injection command framework and defines
-a monitor command for ppc.
+This implements mce injection for spapr.
+
+  (qemu) mce 0 0x200000 0x80 0xdeadbeef 1
+
+    Disabling lock debugging due to kernel taint
+    MCE: CPU0: machine check (Severe) Host SLB Multihit DAR: 00000000deadbeef [Recovered]
+    MCE: CPU0: machine check (Severe) Host SLB Multihit [Recovered]
+    MCE: CPU0: PID: 495 Comm: a NIP: [0000000130ee07c8]
+    MCE: CPU0: Initiator CPU
+    MCE: CPU0: Unknown
+[   71.567193] MCE: CPU0: NIP: [c0000000000d7f6c] plpar_hcall_norets+0x1c/0x28
+[   71.567249] MCE: CPU0: Initiator CPU
+[   71.567308] MCE: CPU0: Unknown
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hmp-commands.hx              | 20 +++++++++++-
- hw/core/nmi.c                | 61 ++++++++++++++++++++++++++++++++++++
- include/hw/nmi.h             | 20 ++++++++++++
- include/monitor/hmp-target.h |  1 -
- include/monitor/hmp.h        |  1 +
- monitor/hmp-cmds.c           |  1 +
- target/ppc/monitor.c         | 11 +++++++
- 7 files changed, 113 insertions(+), 2 deletions(-)
+ hw/ppc/spapr.c         | 54 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr.h |  3 +++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 7f0f3974ad..4a9089b431 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1581,12 +1581,30 @@ ERST
-         .cmd        = hmp_mce,
-     },
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 785c41d205..6dbd1858f4 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -83,6 +83,7 @@
+ #include "hw/ppc/spapr_nvdimm.h"
  
--#endif
- SRST
- ``mce`` *cpu* *bank* *status* *mcgstatus* *addr* *misc*
-   Inject an MCE on the given CPU (x86 only).
- ERST
- 
-+#endif
-+
-+#if defined(TARGET_PPC)
-+
-+    {
-+        .name       = "mce",
-+        .args_type  = "cpu_index:i,srr1_mask:l,dsisr:i,dar:l,recovered:i",
-+        .params     = "cpu srr1_mask dsisr dar recovered",
-+        .help       = "inject a MCE on the given CPU",
-+        .cmd        = hmp_mce,
-+    },
-+
-+SRST
-+``mce`` *cpu* *srr1_mask* *dsisr* *dar* *recovered*
-+  Inject an MCE on the given CPU (PPC only).
-+ERST
-+
-+#endif
-+
-     {
-         .name       = "getfd",
-         .args_type  = "fdname:s",
-diff --git a/hw/core/nmi.c b/hw/core/nmi.c
-index 481c4b3c7e..2a79500967 100644
---- a/hw/core/nmi.c
-+++ b/hw/core/nmi.c
-@@ -86,3 +86,64 @@ static void nmi_register_types(void)
- }
- 
- type_init(nmi_register_types)
-+
-+struct do_mce_s {
-+    const QDict *qdict;
-+    Error *err;
-+    bool handled;
-+};
-+
-+static void mce_children(Object *o, struct do_mce_s *ns);
-+
-+static int do_mce(Object *o, void *opaque)
-+{
-+    struct do_mce_s *ms = opaque;
-+    MCEState *m = (MCEState *) object_dynamic_cast(o, TYPE_MCE);
-+
-+    if (m) {
-+        MCEClass *mc = MCE_GET_CLASS(m);
-+
-+        ms->handled = true;
-+        mc->mce_monitor_handler(m, ms->qdict, &ms->err);
-+        if (ms->err) {
-+            return -1;
-+        }
-+    }
-+    mce_children(o, ms);
-+
-+    return 0;
-+}
-+
-+static void mce_children(Object *o, struct do_mce_s *ms)
-+{
-+    object_child_foreach(o, do_mce, ms);
-+}
-+
-+void mce_monitor_handle(const QDict *qdict, Error **errp)
-+{
-+    struct do_mce_s ms = {
-+        .qdict = qdict,
-+        .err = NULL,
-+        .handled = false
-+    };
-+
-+    mce_children(object_get_root(), &ms);
-+    if (ms.handled) {
-+        error_propagate(errp, ms.err);
-+    } else {
-+        error_setg(errp, QERR_UNSUPPORTED);
-+    }
-+}
-+
-+static const TypeInfo mce_info = {
-+    .name          = TYPE_MCE,
-+    .parent        = TYPE_INTERFACE,
-+    .class_size    = sizeof(MCEClass),
-+};
-+
-+static void mce_register_types(void)
-+{
-+    type_register_static(&mce_info);
-+}
-+
-+type_init(mce_register_types)
-diff --git a/include/hw/nmi.h b/include/hw/nmi.h
-index fe37ce3ad8..de39d95c9a 100644
---- a/include/hw/nmi.h
-+++ b/include/hw/nmi.h
-@@ -43,4 +43,24 @@ typedef struct NMIClass {
- 
- void nmi_monitor_handle(int cpu_index, Error **errp);
- 
-+
-+#define TYPE_MCE "mce"
-+
-+#define MCE_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(MCEClass, (klass), TYPE_MCE)
-+#define MCE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(MCEClass, (obj), TYPE_MCE)
-+#define MCE(obj) \
-+     INTERFACE_CHECK(MCEState, (obj), TYPE_MCE)
-+
-+typedef struct MCEState MCEState;
-+
-+typedef struct MCEClass {
-+    InterfaceClass parent_class;
-+
-+    void (*mce_monitor_handler)(MCEState *n, const QDict *qdict, Error **errp);
-+} MCEClass;
-+
-+void mce_monitor_handle(const QDict *qdict, Error **errp);
-+
- #endif /* NMI_H */
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 8b7820a3ad..afb8f5bca2 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -45,7 +45,6 @@ CPUState *mon_get_cpu(void);
- 
- void hmp_info_mem(Monitor *mon, const QDict *qdict);
- void hmp_info_tlb(Monitor *mon, const QDict *qdict);
--void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
- void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
- 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index e33ca5a911..f747a5e214 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -54,6 +54,7 @@ void hmp_ringbuf_read(Monitor *mon, const QDict *qdict);
- void hmp_cont(Monitor *mon, const QDict *qdict);
- void hmp_system_wakeup(Monitor *mon, const QDict *qdict);
- void hmp_nmi(Monitor *mon, const QDict *qdict);
-+void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_set_link(Monitor *mon, const QDict *qdict);
- void hmp_balloon(Monitor *mon, const QDict *qdict);
- void hmp_loadvm(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 58724031ea..3664ef2a4f 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -52,6 +52,7 @@
- #include "exec/ramlist.h"
- #include "hw/intc/intc.h"
- #include "hw/rdma/rdma.h"
-+#include "hw/nmi.h"
- #include "migration/snapshot.h"
- #include "migration/misc.h"
- 
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index a5a177d717..6daf543efc 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -28,6 +28,8 @@
- #include "qemu/ctype.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
+ #include "monitor/monitor.h"
 +#include "qapi/qmp/qdict.h"
-+#include "hw/nmi.h"
  
- static target_long monitor_get_ccr(const struct MonitorDef *md, int val)
- {
-@@ -72,6 +74,15 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-     dump_mmu(env1);
+ #include <libfdt.h>
+ 
+@@ -3420,6 +3421,56 @@ static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+     }
  }
  
-+void hmp_mce(Monitor *mon, const QDict *qdict)
++typedef struct MCEInjectionParams {
++    uint64_t srr1_mask;
++    uint32_t dsisr;
++    uint64_t dar;
++    bool recovered;
++} MCEInjectionParams;
++
++static void spapr_do_mce_on_cpu(CPUState *cs, run_on_cpu_data data)
 +{
-+    Error *err = NULL;
++    MCEInjectionParams *params = data.host_ptr;
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
++    uint64_t srr1_mce_bits = PPC_BITMASK(42, 45) | PPC_BIT(36);
 +
-+    mce_monitor_handle(qdict, &err);
++    cpu_synchronize_state(cs);
 +
-+    hmp_handle_error(mon, err);
++    env->spr[SPR_SRR0] = env->nip;
++    env->spr[SPR_SRR1] = (env->msr & ~srr1_mce_bits) |
++                         (params->srr1_mask & srr1_mce_bits);
++    if (params->dsisr) {
++        env->spr[SPR_DSISR] = params->dsisr;
++        env->spr[SPR_DAR] = params->dar;
++    }
++
++    spapr_mce_req_event(cpu, params->recovered);
 +}
 +
- const MonitorDef monitor_defs[] = {
-     { "fpscr", offsetof(CPUPPCState, fpscr) },
-     /* Next instruction pointer */
++static void spapr_mce(MCEState *m, const QDict *qdict, Error **errp)
++{
++    int cpu_index = qdict_get_int(qdict, "cpu_index");
++    uint64_t srr1_mask = qdict_get_int(qdict, "srr1_mask");
++    uint32_t dsisr = qdict_get_int(qdict, "dsisr");
++    uint64_t dar = qdict_get_int(qdict, "dar");
++    bool recovered = qdict_get_int(qdict, "recovered");
++    CPUState *cs;
++
++    cs = qemu_get_cpu(cpu_index);
++
++    if (cs != NULL) {
++        MCEInjectionParams params = {
++            .srr1_mask = srr1_mask,
++            .dsisr = dsisr,
++            .dar = dar,
++            .recovered = recovered,
++        };
++
++        run_on_cpu(cs, spapr_do_mce_on_cpu, RUN_ON_CPU_HOST_PTR(&params));
++    }
++}
++
+ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                           void *fdt, int *fdt_start_offset, Error **errp)
+ {
+@@ -4467,6 +4518,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(oc);
+     FWPathProviderClass *fwc = FW_PATH_PROVIDER_CLASS(oc);
+     NMIClass *nc = NMI_CLASS(oc);
++    MCEClass *mcec = MCE_CLASS(oc);
+     HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+     PPCVirtualHypervisorClass *vhc = PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
+     XICSFabricClass *xic = XICS_FABRIC_CLASS(oc);
+@@ -4511,6 +4563,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     smc->resize_hpt_default = SPAPR_RESIZE_HPT_ENABLED;
+     fwc->get_dev_path = spapr_get_fw_dev_path;
+     nc->nmi_monitor_handler = spapr_nmi;
++    mcec->mce_monitor_handler = spapr_mce;
+     smc->phb_placement = spapr_phb_placement;
+     vhc->hypercall = emulate_spapr_hypercall;
+     vhc->hpt_mask = spapr_hpt_mask;
+@@ -4566,6 +4619,7 @@ static const TypeInfo spapr_machine_info = {
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_FW_PATH_PROVIDER },
+         { TYPE_NMI },
++        { TYPE_MCE },
+         { TYPE_HOTPLUG_HANDLER },
+         { TYPE_PPC_VIRTUAL_HYPERVISOR },
+         { TYPE_XICS_FABRIC },
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 42d64a0368..72f86a2ee8 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -929,4 +929,7 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+ 
+ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+ hwaddr spapr_get_rtas_addr(void);
++
++void spapr_mce_inject(CPUState *cs, uint64_t srr1_mask, uint32_t dsisr,
++                      uint64_t dar, bool recovered);
+ #endif /* HW_SPAPR_H */
 -- 
 2.23.0
 
