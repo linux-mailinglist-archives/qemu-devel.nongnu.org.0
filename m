@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2474A192C57
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:26:44 +0100 (CET)
-Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C733192C73
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 16:28:11 +0100 (CET)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH7vX-00036A-6S
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43148)
+	id 1jH7ww-0005rQ-JR
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 11:28:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jH7uW-0001v6-WD
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:41 -0400
+ (envelope-from <groug@kaod.org>) id 1jH7ub-00022e-JM
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1jH7uV-0006xB-LU
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16714)
+ (envelope-from <groug@kaod.org>) id 1jH7ua-000739-B2
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15016
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jH7uV-0006uF-CH
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:39 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02PF4FUL127322
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 11:25:30 -0400
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jH7ua-00072t-5F
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 11:25:44 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02PF4Ahx141378
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 11:25:43 -0400
 Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ywbtj3vxw-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ywbuwvups-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 11:25:30 -0400
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 11:25:43 -0400
 Received: from localhost
  by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 25 Mar 2020 15:25:27 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ Wed, 25 Mar 2020 15:25:41 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
  by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 25 Mar 2020 15:25:25 -0000
+ Wed, 25 Mar 2020 15:25:37 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02PFPPWm54067208
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02PFPbj062390456
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 25 Mar 2020 15:25:25 GMT
+ Wed, 25 Mar 2020 15:25:37 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 34D4511C058;
- Wed, 25 Mar 2020 15:25:25 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4919511C052;
+ Wed, 25 Mar 2020 15:25:37 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF2DE11C05C;
- Wed, 25 Mar 2020 15:25:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 105B911C04A;
+ Wed, 25 Mar 2020 15:25:37 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.41.106])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 25 Mar 2020 15:25:24 +0000 (GMT)
-Subject: [PATCH 0/4] spapr: Get rid of CAS reboot flag
+ Wed, 25 Mar 2020 15:25:36 +0000 (GMT)
+Subject: [PATCH 2/4] spapr: Simplify selection of radix/hash during CAS
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 25 Mar 2020 16:25:24 +0100
+Date: Wed, 25 Mar 2020 16:25:36 +0100
+In-Reply-To: <158514992409.478799.6718223069768660390.stgit@bahia.lan>
+References: <158514992409.478799.6718223069768660390.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20032515-0028-0000-0000-000003EB4A9A
+x-cbid: 20032515-0028-0000-0000-000003EB4AB0
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20032515-0029-0000-0000-000024B0B8F1
-Message-Id: <158514992409.478799.6718223069768660390.stgit@bahia.lan>
+x-cbparentid: 20032515-0029-0000-0000-000024B0B906
+Message-Id: <158514993621.478799.4204740354545734293.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
  definitions=2020-03-25_07:2020-03-24,
  2020-03-25 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- mlxlogscore=544 lowpriorityscore=0 clxscore=1034 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=999
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2003250121
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,45 +96,75 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CAS reboot flag was introduced in QEMU 2.10 to allow the guest
-to be presented a new boot-time device tree after CAS negotiation.
-CAS-generated resets rely on qemu_system_reset_request() which has
-the particularity of dropping the main loop lock at some point. This
-opens a window where migration can happen, hence promotting the CAS
-reboot flag to actual state that we should also migrate. In practice,
-this can't happen anymore since we have eliminated the scenario of
-the XICS/XIVE switch and the much less frequent scenario of device
-plug/unplug before CAS.
+The guest can select the MMU mode by setting bits 0-1 of byte 24
+in OV5 to to 0b00 for hash or 0b01 for radix. As required by the
+architecture, we terminate the boot process if any other value
+is found there.
 
-We still have much of the CAS reboot bits around though. The full FDT
-rendering we do at CAS is enough to get rid of them once and far all.
+The usual way to negotiate features in OV5 is basically ANDing
+the bitfield provided by the guest and the bitfield of features
+supported by QEMU, previously populated at machine init.
 
-Some preliminary cleanup is made before going for the full removal,
-for easier reviewing. At some point I had the need to move some code
-around in CAS, and Alexey's patch from the "spapr: kill SLOF" (v8)
-series proved to be helpful so I've reused it in this patchset.
+For some not documented reason, MMU is treated differently : bit 1
+of byte 24 (the radix/hash bit) is cleared from the guest OV5 and
+explicitely set in the final negotiated OV5 if radix was requested.
 
-This series applies cleanly on both ppc-for-5.0 and ppc-for-5.1.
-Since it doesn't fix any actual bug, I think this can be delayed
-to 5.1.
+Since the only expected input from the guest is the radix/hash bit
+being set or not, it seems more appropriate to handle this like we
+do for XIVE.
 
---
-Greg
+Set the radix bit in spapr->ov5 at machine init if it has a chance
+to work (ie. power9, either TCG or a radix capable KVM) and rely
+exclusively on spapr_ovec_intersect() to set the radix bit in
+spapr->ov5_cas.
 
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
+ hw/ppc/spapr.c       |    1 +
+ hw/ppc/spapr_hcall.c |    6 +-----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-Alexey Kardashevskiy (1):
-      spapr/cas: Separate CAS handling from rebuilding the FDT
-
-Greg Kurz (3):
-      spapr: Don't check capabilities removed between CAS calls
-      spapr: Simplify selection of radix/hash during CAS
-      spapr: Drop CAS reboot flag
-
-
- hw/ppc/spapr.c         |   20 ++-------
- hw/ppc/spapr_hcall.c   |  108 +++++++++++++++++++++++-------------------------
- include/hw/ppc/spapr.h |    8 +++-
- 3 files changed, 63 insertions(+), 73 deletions(-)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 9a2bd501aa6e..91f8cfe7a8b1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2837,6 +2837,7 @@ static void spapr_machine_init(MachineState *machine)
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+         ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
+                               spapr->max_compat_pvr)) {
++        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
+         /* KVM and TCG always allow GTSE with radix... */
+         spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
+     }
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 1f123a68e46c..9bed659b1a94 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1738,9 +1738,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+         exit(EXIT_FAILURE);
+     }
+ 
+-    /* The radix/hash bit in byte 24 requires special handling: */
+     guest_radix = spapr_ovec_test(ov5_guest, OV5_MMU_RADIX_300);
+-    spapr_ovec_clear(ov5_guest, OV5_MMU_RADIX_300);
+ 
+     guest_xive = spapr_ovec_test(ov5_guest, OV5_XIVE_EXPLOIT);
+ 
+@@ -1785,14 +1783,12 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+     /* full range of negotiated ov5 capabilities */
+     spapr_ovec_intersect(spapr->ov5_cas, spapr->ov5, ov5_guest);
+     spapr_ovec_cleanup(ov5_guest);
+-    /* Now that processing is finished, set the radix/hash bit for the
+-     * guest if it requested a valid mode; otherwise terminate the boot. */
++
+     if (guest_radix) {
+         if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
+             error_report("Guest requested unavailable MMU mode (radix).");
+             exit(EXIT_FAILURE);
+         }
+-        spapr_ovec_set(spapr->ov5_cas, OV5_MMU_RADIX_300);
+     } else {
+         if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
+             && !kvmppc_has_cap_mmu_hash_v3()) {
 
 
