@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F3B192FA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:46:13 +0100 (CET)
-Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3190192F7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:39:58 +0100 (CET)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHA6V-0007ox-UB
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36146)
+	id 1jHA0S-0002VG-8K
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jHA4q-0006Oe-Kb
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:44:30 -0400
+ (envelope-from <eblake@redhat.com>) id 1jH9zg-0001z8-5A
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:39:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jHA4o-00023r-5J
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:44:28 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:36144)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jHA4o-00023R-0n; Wed, 25 Mar 2020 13:44:26 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id 184so1302693vsu.3;
- Wed, 25 Mar 2020 10:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HzTxdhjKRXuGd4FU9D4C1TJdTWnX5bZcMQPDdU84rlI=;
- b=s5OPESJ2nWg7U2Na0jHEiuuS+M38td3aFwZGNgjy2SGxPvRf4QmGE1Rxj5LsiPW6xX
- CsMlBRQsIbTPKJ1+ILuk27PjMigcxSKBOdFLypoWrvae3+27Yyx//ce8OqLE69NI98MW
- gHkTc1b8REAchAZmvz7St4KelGWvqmBE+G83ckR5fCvYujXh7S8yHn6FhgWE7mnZIDKz
- 9RvGProQAXUQ+b3w7cWsaI/5iap8wBMcj88mb7pQcIe6aJNdmcorqE4QRTg/QxzwfKWe
- 0FBL/wOFydx8Pd6xcmCLDzh27ssJuu1KXMt5Ip3WQu4syi/8szp/wrskjII6SAw5pb2y
- lyeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HzTxdhjKRXuGd4FU9D4C1TJdTWnX5bZcMQPDdU84rlI=;
- b=PNOXIA4+6hsDw88+bkEEQrVlDp+9PQ6r3kJiIF9d5O2dF6sJmsuBkEWhiAf2yDPmW4
- yxvRpr/tlvUxMVNnb+2jVlwN8LT76oZSZLYPHnxfHYKfa/G2axzKnw1YnoTWvdsnwan/
- Id2yuRKrrLQF8f5alM4DhlwJR19LHI0xgVedUG0CR5oYMl4JUwm0ObvFicG+gX+PTJin
- ReDfxu+NMbSQkupqyyyfiG0X9lKF/xLkdpVi1RRLljAV8ZCks0gCYfYUDH/NkeQMT4Vf
- TpQZK2Tm6gtrsyDV2FjTdG1KeTUzf3UnX6GW8q4VL3lNwYQdgS+Oj4NxNfXwi4koV+8o
- ftLg==
-X-Gm-Message-State: ANhLgQ039WJm3oOsXO+bFKV/308EdY/0HxJzpl/pjJvyDna27i3viCmp
- fqm6AxrKK/q7uRrXrMQtnP9ZjXTHFfTjr5Ki5Bg=
-X-Google-Smtp-Source: ADFU+vvE9SjldAtbk/tVDnBHQRZIHAyka0cn06olOcXb37LZkCFSiX9P43bk6tDNAuUk/wo/tHib+PGYxsTeGscpf04=
-X-Received: by 2002:a67:26c2:: with SMTP id m185mr3659014vsm.180.1585158265268; 
- Wed, 25 Mar 2020 10:44:25 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1jH9ze-00087k-Mr
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:39:07 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58915)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH9zd-00086T-BH
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:39:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585157944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YxQ6MLYgpbx4fAf7XY21rdhODaUus0m/c6cuLlhbbsw=;
+ b=WPWmUNus0/XL4c6xa7ZIZM+LwEQlPoR8XDPT6ULSYFrsu4vLjotoS+PKmzIBHg5OBTKy3z
+ pzXuXMSiShickzwIQrUKiTDRNqctUZjYibPgeTsREdLpfpu0zG/9yVSJZpm8cQKCzA5Btk
+ GqpMeL8EP1oAkygmg2xixipqJ22w3yM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-Yo3aBpIQPRGX7UDr3BOBww-1; Wed, 25 Mar 2020 13:39:03 -0400
+X-MC-Unique: Yo3aBpIQPRGX7UDr3BOBww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B90E8017CE;
+ Wed, 25 Mar 2020 17:39:02 +0000 (UTC)
+Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E3210002A9;
+ Wed, 25 Mar 2020 17:39:01 +0000 (UTC)
+Subject: Re: [PATCH 2/2] mirror: Wait only for in-flight operations
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200325172326.22347-1-kwolf@redhat.com>
+ <20200325172326.22347-3-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <927a1047-493e-6ca0-1dac-aab57d6ebd41@redhat.com>
+Date: Wed, 25 Mar 2020 12:39:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-19-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200317150653.9008-19-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Mar 2020 10:36:25 -0700
-Message-ID: <CAKmqyKP3AZXrry+OkJxUejySEuE8JbQ8w7YmJUWNpNfb0nOdEg@mail.gmail.com>
-Subject: Re: [PATCH v6 18/61] target/riscv: vector single-width integer
- multiply instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e43
+In-Reply-To: <20200325172326.22347-3-kwolf@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,279 +75,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 8:43 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 3/25/20 12:23 PM, Kevin Wolf wrote:
+> mirror_wait_for_free_in_flight_slot() just picks a random operation to
+> wait for. However, a MirrorOp is already in s->ops_in_flight when
+> mirror_co_read() waits for free slots, so if not enough slots are
+> immediately available, an operation can end up waiting for itself, or
+> two or more operations can wait for each other to complete, which
+> results in a hang.
+> 
+> Fix this by adding a flag to MirrorOp that tells us if the request is
+> already in flight (and therefore occupies slots that it will later
+> free), and picking only such operations for waiting.
+> 
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1794692
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  target/riscv/helper.h                   |  33 +++++
->  target/riscv/insn32.decode              |   8 ++
->  target/riscv/insn_trans/trans_rvv.inc.c |  10 ++
->  target/riscv/vector_helper.c            | 156 ++++++++++++++++++++++++
->  4 files changed, 207 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index c7d4ff185a..f42a12eef3 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -525,3 +525,36 @@ DEF_HELPER_6(vmax_vx_b, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vmax_vx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vmax_vx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vmax_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +
-> +DEF_HELPER_6(vmul_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmul_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulh_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> +DEF_HELPER_6(vmulhsu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index aafbdc6be7..abfed469bc 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -363,6 +363,14 @@ vmaxu_vv        000110 . ..... ..... 000 ..... 1010111 @r_vm
->  vmaxu_vx        000110 . ..... ..... 100 ..... 1010111 @r_vm
->  vmax_vv         000111 . ..... ..... 000 ..... 1010111 @r_vm
->  vmax_vx         000111 . ..... ..... 100 ..... 1010111 @r_vm
-> +vmul_vv         100101 . ..... ..... 010 ..... 1010111 @r_vm
-> +vmul_vx         100101 . ..... ..... 110 ..... 1010111 @r_vm
-> +vmulh_vv        100111 . ..... ..... 010 ..... 1010111 @r_vm
-> +vmulh_vx        100111 . ..... ..... 110 ..... 1010111 @r_vm
-> +vmulhu_vv       100100 . ..... ..... 010 ..... 1010111 @r_vm
-> +vmulhu_vx       100100 . ..... ..... 110 ..... 1010111 @r_vm
-> +vmulhsu_vv      100110 . ..... ..... 010 ..... 1010111 @r_vm
-> +vmulhsu_vx      100110 . ..... ..... 110 ..... 1010111 @r_vm
->
->  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-> index 53c49ee15c..c276beabd6 100644
-> --- a/target/riscv/insn_trans/trans_rvv.inc.c
-> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-> @@ -1452,3 +1452,13 @@ GEN_OPIVX_TRANS(vminu_vx, opivx_check)
->  GEN_OPIVX_TRANS(vmin_vx,  opivx_check)
->  GEN_OPIVX_TRANS(vmaxu_vx, opivx_check)
->  GEN_OPIVX_TRANS(vmax_vx,  opivx_check)
-> +
-> +/* Vector Single-Width Integer Multiply Instructions */
-> +GEN_OPIVV_GVEC_TRANS(vmul_vv,  mul)
-> +GEN_OPIVV_TRANS(vmulh_vv, opivv_check)
-> +GEN_OPIVV_TRANS(vmulhu_vv, opivv_check)
-> +GEN_OPIVV_TRANS(vmulhsu_vv, opivv_check)
-> +GEN_OPIVX_GVEC_TRANS(vmul_vx,  muls)
-> +GEN_OPIVX_TRANS(vmulh_vx, opivx_check)
-> +GEN_OPIVX_TRANS(vmulhu_vx, opivx_check)
-> +GEN_OPIVX_TRANS(vmulhsu_vx, opivx_check)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 32c2760a8a..56ba9a7422 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -852,6 +852,10 @@ GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
->  #define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
->  #define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
->  #define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
-> +#define OP_SUS_B int8_t, uint8_t, int8_t, uint8_t, int8_t
-> +#define OP_SUS_H int16_t, uint16_t, int16_t, uint16_t, int16_t
-> +#define OP_SUS_W int32_t, uint32_t, int32_t, uint32_t, int32_t
-> +#define OP_SUS_D int64_t, uint64_t, int64_t, uint64_t, int64_t
->
->  /* operation of two vector elements */
->  typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
-> @@ -1585,3 +1589,155 @@ GEN_VEXT_VX(vmax_vx_b, 1, 1, clearb)
->  GEN_VEXT_VX(vmax_vx_h, 2, 2, clearh)
->  GEN_VEXT_VX(vmax_vx_w, 4, 4, clearl)
->  GEN_VEXT_VX(vmax_vx_d, 8, 8, clearq)
-> +
-> +/* Vector Single-Width Integer Multiply Instructions */
-> +#define DO_MUL(N, M) (N * M)
-> +RVVCALL(OPIVV2, vmul_vv_b, OP_SSS_B, H1, H1, H1, DO_MUL)
-> +RVVCALL(OPIVV2, vmul_vv_h, OP_SSS_H, H2, H2, H2, DO_MUL)
-> +RVVCALL(OPIVV2, vmul_vv_w, OP_SSS_W, H4, H4, H4, DO_MUL)
-> +RVVCALL(OPIVV2, vmul_vv_d, OP_SSS_D, H8, H8, H8, DO_MUL)
-> +GEN_VEXT_VV(vmul_vv_b, 1, 1, clearb)
-> +GEN_VEXT_VV(vmul_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV(vmul_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV(vmul_vv_d, 8, 8, clearq)
-> +
-> +static int8_t do_mulh_b(int8_t s2, int8_t s1)
-> +{
-> +    return (int16_t)s2 * (int16_t)s1 >> 8;
-> +}
-> +
-> +static int16_t do_mulh_h(int16_t s2, int16_t s1)
-> +{
-> +    return (int32_t)s2 * (int32_t)s1 >> 16;
-> +}
-> +
-> +static int32_t do_mulh_w(int32_t s2, int32_t s1)
-> +{
-> +    return (int64_t)s2 * (int64_t)s1 >> 32;
-> +}
-> +
-> +static int64_t do_mulh_d(int64_t s2, int64_t s1)
-> +{
-> +    uint64_t hi_64, lo_64;
-> +
-> +    muls64(&lo_64, &hi_64, s1, s2);
-> +    return hi_64;
-> +}
-> +
-> +static uint8_t do_mulhu_b(uint8_t s2, uint8_t s1)
-> +{
-> +    return (uint16_t)s2 * (uint16_t)s1 >> 8;
-> +}
-> +
-> +static uint16_t do_mulhu_h(uint16_t s2, uint16_t s1)
-> +{
-> +    return (uint32_t)s2 * (uint32_t)s1 >> 16;
-> +}
-> +
-> +static uint32_t do_mulhu_w(uint32_t s2, uint32_t s1)
-> +{
-> +    return (uint64_t)s2 * (uint64_t)s1 >> 32;
-> +}
-> +
-> +static uint64_t do_mulhu_d(uint64_t s2, uint64_t s1)
-> +{
-> +    uint64_t hi_64, lo_64;
-> +
-> +    mulu64(&lo_64, &hi_64, s2, s1);
-> +    return hi_64;
-> +}
-> +
-> +static int8_t do_mulhsu_b(int8_t s2, uint8_t s1)
-> +{
-> +    return (int16_t)s2 * (uint16_t)s1 >> 8;
-> +}
-> +
-> +static int16_t do_mulhsu_h(int16_t s2, uint16_t s1)
-> +{
-> +    return (int32_t)s2 * (uint32_t)s1 >> 16;
-> +}
-> +
-> +static int32_t do_mulhsu_w(int32_t s2, uint32_t s1)
-> +{
-> +    return (int64_t)s2 * (uint64_t)s1 >> 32;
-> +}
-> +
-> +static int64_t do_mulhsu_d(int64_t s2, uint64_t s1)
-> +{
-> +    uint64_t hi_64, lo_64, abs_s2 = s2;
-> +
-> +    if (s2 < 0) {
-> +        abs_s2 = -s2;
-> +    }
-> +    mulu64(&lo_64, &hi_64, abs_s2, s1);
-> +    if (s2 < 0) {
-> +        lo_64 = ~lo_64;
-> +        hi_64 = ~hi_64;
-> +        if (lo_64 == UINT64_MAX) {
-> +            lo_64 = 0;
-> +            hi_64 += 1;
-> +        } else {
-> +            lo_64 += 1;
-> +        }
-> +    }
-> +
-> +    return hi_64;
-> +}
-> +
-> +RVVCALL(OPIVV2, vmulh_vv_b, OP_SSS_B, H1, H1, H1, do_mulh_b)
-> +RVVCALL(OPIVV2, vmulh_vv_h, OP_SSS_H, H2, H2, H2, do_mulh_h)
-> +RVVCALL(OPIVV2, vmulh_vv_w, OP_SSS_W, H4, H4, H4, do_mulh_w)
-> +RVVCALL(OPIVV2, vmulh_vv_d, OP_SSS_D, H8, H8, H8, do_mulh_d)
-> +RVVCALL(OPIVV2, vmulhu_vv_b, OP_UUU_B, H1, H1, H1, do_mulhu_b)
-> +RVVCALL(OPIVV2, vmulhu_vv_h, OP_UUU_H, H2, H2, H2, do_mulhu_h)
-> +RVVCALL(OPIVV2, vmulhu_vv_w, OP_UUU_W, H4, H4, H4, do_mulhu_w)
-> +RVVCALL(OPIVV2, vmulhu_vv_d, OP_UUU_D, H8, H8, H8, do_mulhu_d)
-> +RVVCALL(OPIVV2, vmulhsu_vv_b, OP_SUS_B, H1, H1, H1, do_mulhsu_b)
-> +RVVCALL(OPIVV2, vmulhsu_vv_h, OP_SUS_H, H2, H2, H2, do_mulhsu_h)
-> +RVVCALL(OPIVV2, vmulhsu_vv_w, OP_SUS_W, H4, H4, H4, do_mulhsu_w)
-> +RVVCALL(OPIVV2, vmulhsu_vv_d, OP_SUS_D, H8, H8, H8, do_mulhsu_d)
-> +GEN_VEXT_VV(vmulh_vv_b, 1, 1, clearb)
-> +GEN_VEXT_VV(vmulh_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV(vmulh_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV(vmulh_vv_d, 8, 8, clearq)
-> +GEN_VEXT_VV(vmulhu_vv_b, 1, 1, clearb)
-> +GEN_VEXT_VV(vmulhu_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV(vmulhu_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV(vmulhu_vv_d, 8, 8, clearq)
-> +GEN_VEXT_VV(vmulhsu_vv_b, 1, 1, clearb)
-> +GEN_VEXT_VV(vmulhsu_vv_h, 2, 2, clearh)
-> +GEN_VEXT_VV(vmulhsu_vv_w, 4, 4, clearl)
-> +GEN_VEXT_VV(vmulhsu_vv_d, 8, 8, clearq)
-> +
-> +RVVCALL(OPIVX2, vmul_vx_b, OP_SSS_B, H1, H1, DO_MUL)
-> +RVVCALL(OPIVX2, vmul_vx_h, OP_SSS_H, H2, H2, DO_MUL)
-> +RVVCALL(OPIVX2, vmul_vx_w, OP_SSS_W, H4, H4, DO_MUL)
-> +RVVCALL(OPIVX2, vmul_vx_d, OP_SSS_D, H8, H8, DO_MUL)
-> +RVVCALL(OPIVX2, vmulh_vx_b, OP_SSS_B, H1, H1, do_mulh_b)
-> +RVVCALL(OPIVX2, vmulh_vx_h, OP_SSS_H, H2, H2, do_mulh_h)
-> +RVVCALL(OPIVX2, vmulh_vx_w, OP_SSS_W, H4, H4, do_mulh_w)
-> +RVVCALL(OPIVX2, vmulh_vx_d, OP_SSS_D, H8, H8, do_mulh_d)
-> +RVVCALL(OPIVX2, vmulhu_vx_b, OP_UUU_B, H1, H1, do_mulhu_b)
-> +RVVCALL(OPIVX2, vmulhu_vx_h, OP_UUU_H, H2, H2, do_mulhu_h)
-> +RVVCALL(OPIVX2, vmulhu_vx_w, OP_UUU_W, H4, H4, do_mulhu_w)
-> +RVVCALL(OPIVX2, vmulhu_vx_d, OP_UUU_D, H8, H8, do_mulhu_d)
-> +RVVCALL(OPIVX2, vmulhsu_vx_b, OP_SUS_B, H1, H1, do_mulhsu_b)
-> +RVVCALL(OPIVX2, vmulhsu_vx_h, OP_SUS_H, H2, H2, do_mulhsu_h)
-> +RVVCALL(OPIVX2, vmulhsu_vx_w, OP_SUS_W, H4, H4, do_mulhsu_w)
-> +RVVCALL(OPIVX2, vmulhsu_vx_d, OP_SUS_D, H8, H8, do_mulhsu_d)
-> +GEN_VEXT_VX(vmul_vx_b, 1, 1, clearb)
-> +GEN_VEXT_VX(vmul_vx_h, 2, 2, clearh)
-> +GEN_VEXT_VX(vmul_vx_w, 4, 4, clearl)
-> +GEN_VEXT_VX(vmul_vx_d, 8, 8, clearq)
-> +GEN_VEXT_VX(vmulh_vx_b, 1, 1, clearb)
-> +GEN_VEXT_VX(vmulh_vx_h, 2, 2, clearh)
-> +GEN_VEXT_VX(vmulh_vx_w, 4, 4, clearl)
-> +GEN_VEXT_VX(vmulh_vx_d, 8, 8, clearq)
-> +GEN_VEXT_VX(vmulhu_vx_b, 1, 1, clearb)
-> +GEN_VEXT_VX(vmulhu_vx_h, 2, 2, clearh)
-> +GEN_VEXT_VX(vmulhu_vx_w, 4, 4, clearl)
-> +GEN_VEXT_VX(vmulhu_vx_d, 8, 8, clearq)
-> +GEN_VEXT_VX(vmulhsu_vx_b, 1, 1, clearb)
-> +GEN_VEXT_VX(vmulhsu_vx_h, 2, 2, clearh)
-> +GEN_VEXT_VX(vmulhsu_vx_w, 4, 4, clearl)
-> +GEN_VEXT_VX(vmulhsu_vx_d, 8, 8, clearq)
-> --
-> 2.23.0
->
+>   block/mirror.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/mirror.c b/block/mirror.c
+> index 393131b135..7fef52ded2 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -102,6 +102,7 @@ struct MirrorOp {
+>   
+>       bool is_pseudo_op;
+>       bool is_active_write;
+> +    bool is_in_flight;
+>       CoQueue waiting_requests;
+>       Coroutine *co;
+>   
+> @@ -293,7 +294,9 @@ mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
+>            * caller of this function.  Since there is only one pseudo op
+>            * at any given time, we will always find some real operation
+>            * to wait on. */
+> -        if (!op->is_pseudo_op && op->is_active_write == active) {
+> +        if (!op->is_pseudo_op && op->is_in_flight &&
+> +            op->is_active_write == active)
+> +        {
+>               qemu_co_queue_wait(&op->waiting_requests, NULL);
+
+Looks like a one-way transition - op->is_in_flight always starts as 
+false, and only ever gets set to true (once the op is finished, op is no 
+longer needed).  And being more selective on what you wait for here does 
+look like it should work in more cases than what patch 1 reverted.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
