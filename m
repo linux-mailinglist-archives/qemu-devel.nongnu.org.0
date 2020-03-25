@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B8B193233
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 21:52:37 +0100 (CET)
-Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A78193252
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 22:06:00 +0100 (CET)
+Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHD0u-0000NT-Gb
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 16:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41495)
+	id 1jHDDr-0001KV-OT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 17:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jHD02-0008NV-KS
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 16:51:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHD99-0004dz-0e
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jHD01-0001qg-Hz
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 16:51:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58251)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jHD01-0001qU-Ev
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 16:51:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585169500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mWJVLk6wUdVFkzfVlzqy85lAAob63kPuuEpMyZeg1JE=;
- b=jTJT45+r145r9Y/nuziCfka9aiNjXAp55RlGHJNVYTaF4G1hBeO+n2Tdoh0fW4gznGkBLx
- L0A7sMQ0ylrsP5sgEWeiBwW9iJlW1PNzCD/ud2xVK908BNLNRyK5XhZZTvhI0BqBThSSrz
- f6rJK0FK0ERSKzb/N16mH5KFpWCzqj4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-64Y-uvwRPFGJo2qr08f_Cw-1; Wed, 25 Mar 2020 16:51:39 -0400
-X-MC-Unique: 64Y-uvwRPFGJo2qr08f_Cw-1
-Received: by mail-ed1-f70.google.com with SMTP id j10so3114731edy.21
- for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 13:51:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x3BHn38rM7OQvkz8Un/aPoLZqgTdjcRI9v+x7jcHAbY=;
- b=qsgb2XaOsBNa75p3SsUQjrkAu6hncvZRj0izDB87ObFn47/gUB3SIiyFLUuME1IUFH
- TQMy0A1e5tehHpI/VQNWc9fvbQbSMXeAFqRPuNbnNkE2jmKXNOBS9RUBLNYkz2AmG/xC
- znpOpSi3onWNkoo8g8XLeLA8rb4NALX5gElf3pgZJKDnyRoPCfxDT/H56fKla5EgsISO
- onioXpx112XxtBgaB+elShowwsDGR8iCDHzPz24B7eY0U7FaI9xGApH3/CixZAzT5mqT
- WdEYcfpD6hV3Bs63jqea6OTvPYRTV1q+Lp6JVV9voob4WPb6A89pEKvIfmWaJpfZ3s+B
- npQg==
-X-Gm-Message-State: ANhLgQ3uL5/sj/SJM0A9nPS5wDLxJNEZFiGBkBRx18LNT61lFqpzto7h
- 6xlZ1lbrNBFZsu4OU/3V+4CswO2G/bWeOTOpeAM8iJUuAUvuH+w0S4BtjsTAh18YUwBPLQhfE1z
- YvXoiEdIPaX+ww4U=
-X-Received: by 2002:aa7:d855:: with SMTP id f21mr5192373eds.366.1585169497617; 
- Wed, 25 Mar 2020 13:51:37 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvl0m8VnM5Bfnv+AWo0CzOSjyV2Qkln4zznWdWejGUpPNtwNRBkSpU6WORe53mnVInySmDeTA==
-X-Received: by 2002:aa7:d855:: with SMTP id f21mr5192351eds.366.1585169497427; 
- Wed, 25 Mar 2020 13:51:37 -0700 (PDT)
-Received: from [192.168.1.35] (37.red-83-52-54.dynamicip.rima-tde.net.
- [83.52.54.37])
- by smtp.gmail.com with ESMTPSA id c64sm1753158edd.66.2020.03.25.13.51.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Mar 2020 13:51:36 -0700 (PDT)
-Subject: Re: [PATCH-for-5.0 2/3] virtio: Document virtqueue_pop()
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20200323112943.12010-1-philmd@redhat.com>
- <20200323112943.12010-3-philmd@redhat.com>
- <CAMxuvazGfXXz0tc4DJpRecW1CYdT5WGO=t7VbjS9hLqhC2rO8Q@mail.gmail.com>
- <CAJ+F1CLwE7uBsryb2oRJH_4Mi_19XaxeSJUipD=M35W48Kz88g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f10101cc-ce81-284f-57bc-55c28da44e87@redhat.com>
-Date: Wed, 25 Mar 2020 21:51:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jHD97-0000Nd-EM
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33348)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHD97-0000M7-7T
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 17:01:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHD94-0003C8-2n
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 21:01:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8FF402E80ED
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 21:00:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CLwE7uBsryb2oRJH_4Mi_19XaxeSJUipD=M35W48Kz88g@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Mar 2020 20:50:52 -0000
+From: Paul Menzel <1693050@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paulmenzel rmustacc
+X-Launchpad-Bug-Reporter: Robert Mustacchi (rmustacc)
+X-Launchpad-Bug-Modifier: Paul Menzel (paulmenzel)
+References: <149558234717.18218.15801621819682136328.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158516945260.16905.11037714506188450116.malone@gac.canonical.com>
+Subject: [Bug 1693050] Re: xhci HCIVERSION register read emulation incorrectly
+ handled
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e4a382e8762e0a69d8717d1c7200b2d61b9c11bc
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,83 +65,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1693050 <1693050@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/20 6:50 PM, Marc-Andr=C3=A9 Lureau wrote:
-> On Mon, Mar 23, 2020 at 12:55 PM Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
->>
->> On Mon, Mar 23, 2020 at 12:30 PM Philippe Mathieu-Daud=C3=A9
->> <philmd@redhat.com> wrote:
->>>
->>> Document that virtqueue_pop() returned memory must be released
->>> with free().
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>
->> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->=20
-> nack, hw/virtio/virtio.c uses g_malloc
+According to [1], this is still an issue today.
 
-Indeed... I opened hw/virtio/ and contrib/libvhost-user/ in the geany=20
-editor, and when I navigated from virtio.c to the=20
-virtqueue_alloc_element() definition I ended in libvhost-user.c:
+[1]: https://review.coreboot.org/c/coreboot/+/39838/
 
-static void *
-virtqueue_alloc_element(size_t sz,
-                                      unsigned out_num, unsigned in_num)
-{
-     VuVirtqElement *elem;
-     size_t in_sg_ofs =3D ALIGN_UP(sz, __alignof__(elem->in_sg[0]));
-     size_t out_sg_ofs =3D in_sg_ofs + in_num * sizeof(elem->in_sg[0]);
-     size_t out_sg_end =3D out_sg_ofs + out_num * sizeof(elem->out_sg[0]);
+-- =
 
-     assert(sz >=3D sizeof(VuVirtqElement));
-     elem =3D malloc(out_sg_end);
-     elem->out_num =3D out_num;
-     elem->in_num =3D in_num;
-     elem->in_sg =3D (void *)elem + in_sg_ofs;
-     elem->out_sg =3D (void *)elem + out_sg_ofs;
-     return elem;
-}
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1693050
 
->=20
->>
->>
->>> ---
->>>   include/hw/virtio/virtio.h | 8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
->>> index b69d517496..c6e3bfc500 100644
->>> --- a/include/hw/virtio/virtio.h
->>> +++ b/include/hw/virtio/virtio.h
->>> @@ -199,6 +199,14 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueue=
-Element *elem,
->>>                       unsigned int len, unsigned int idx);
->>>
->>>   void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem);
->>> +/**
->>> + * virtqueue_pop:
->>> + * @vq: a VirtQueue queue
->>> + * @sz: the size of struct to return (must be >=3D VirtQueueElement)
->>> + *
->>> + * Returns: a VirtQueueElement filled from the queue or NULL.
->>> + * The returned element must be free()-d by the caller.
->>> + */
->>>   void *virtqueue_pop(VirtQueue *vq, size_t sz);
->>>   unsigned int virtqueue_drop_all(VirtQueue *vq);
->>>   void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, siz=
-e_t sz);
->>> --
->>> 2.21.1
->>>
->>
->>
->=20
->=20
+Title:
+  xhci HCIVERSION register read emulation incorrectly handled
 
+Status in QEMU:
+  New
+
+Bug description:
+  We had an illumos user trying to run illumos in QEMU 2.9.0 with the
+  qemu-xhci device enabled. Note, that while this was discovered against
+  QEMU 2.9.0, from my current read of the HEAD, it is still present. The
+  illumos bug at https://www.illumos.org/issues/8173 has additional
+  information on how the user invoked qemu. While investigating the
+  problem we found that the illumos driver was reading a version of
+  0x0000 when reading the HCIVERSION register from qemu.
+
+  In the illumos driver we're performing a 16-bit read of the version
+  register at offset 0x2. From looking around at other OSes, while Linux
+  performs a 4 byte read at offset 0x0 and masks out the version, others
+  that care about the version are doing a two byte read, though not all
+  actually act on the version and some just discard the information.
+
+  The user who hit this was able to enable tracing (note the tracing
+  file is attached to the illumos bug linked previously) and we hit the
+  unimplemented register read with offset 0x2 at
+  http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l2960. The xhci register specifies today that its
+  allowed for users to do 1-4 byte reads; however, that it implements
+  only four byte reads in its implementation
+  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3333). Hence why when we read the HCIVERSION register
+  at offset 0x2, it isn't handled in xhci_cap_read() which then returns
+  zeros.
+
+  From digging into this, I think that we're coming into
+  memory_region_dispatch_read() and then memory_region_dispatch_read1().
+  However, I don't see anything in either the general memory region
+  logic or in the xhci_cap_read() function that would deal with
+  adjusting the offset that we're reading at and then masking it off
+  again. While the access_with_adjusted_size() attempts to deal with
+  this, it never adjusts the hardware address that's passed in to be a
+  multiple of the implementation defined offset that I can see. I
+  suspect that the FIXME at line 582
+  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dmemory.c;hb=3DHEAD#l582) =
+and
+  the implementation in the xhci code is the crux of the problem.
+
+  For the time being we're working around this in the illumos driver,
+  but I wanted to point this out such that it might be helpful for other
+  systems which are assuming that they can do the two byte read like on
+  hardware.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1693050/+subscriptions
 
