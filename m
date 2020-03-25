@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA7E1925FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:42:01 +0100 (CET)
-Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787CF192617
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 11:49:06 +0100 (CET)
+Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH3U0-00020W-3A
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35344)
+	id 1jH3aq-0003Kg-Hc
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 06:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3SY-0008Ur-90
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:31 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jH3St-0000wM-Ha
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jH3SW-00020Q-R1
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56181)
+ (envelope-from <dgilbert@redhat.com>) id 1jH3Ss-0002HH-8g
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:51 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:25917)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jH3SW-00020H-Lc
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:28 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jH3Ss-0002HB-4T
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 06:40:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585132828;
+ s=mimecast20190719; t=1585132849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hp9w/wPafJwHU+Sf5P2vW+G4ELiVQqiunXtbIR2/7iw=;
- b=bfyw0yCaCCpSEP+oopUaPXBWfNuUShGHF95dT9Bn9AvDUhmSw6uAkoRkurNZr4uUbL+bIu
- FMCy327EEThQnT0khRQZKOoz1rnBQIQucpzO+sxzYvIdO9PFUHZX+Bie1NlshJfKN1JoF8
- 7MHoJF81a4ul/9uADxKvoDl4Ajyjano=
+ bh=6pQSzsXA8k7j7fsQ3/qd2G70ok2BSExyJYKWpGqLUKs=;
+ b=ST6v+DXrmpbfq2RNGd4bE1STIyW2AKpczw24DqicauHhTDEgl1/Eb+QIVIe2cP3L6hCfix
+ HABDmBsRpbvXOR3Rp0+Gik/moIjB64rTtcvZ1Qb6g1qfFkJTQIkGQfT8IbuM/SQBX5rXZU
+ Dd7m0Q8m9fs2vH9aJEYvGNsEGjh/ZyA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-co__mUTWPTGzfQBnvaj53Q-1; Wed, 25 Mar 2020 06:40:26 -0400
-X-MC-Unique: co__mUTWPTGzfQBnvaj53Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-59-TUerQ2oWOB-SLCOZlDveXg-1; Wed, 25 Mar 2020 06:40:45 -0400
+X-MC-Unique: TUerQ2oWOB-SLCOZlDveXg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E62D107ACCA;
- Wed, 25 Mar 2020 10:40:25 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 366115C1A2;
- Wed, 25 Mar 2020 10:40:23 +0000 (UTC)
-Message-ID: <47ef3ec5800b5f74017df60e599f16ba905daab6.camel@redhat.com>
-Subject: Re: [PATCH v6 11/42] nvme: add temperature threshold feature
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-Date: Wed, 25 Mar 2020 12:40:22 +0200
-In-Reply-To: <20200316142928.153431-12-its@irrelevant.dk>
-References: <20200316142928.153431-1-its@irrelevant.dk>
- <20200316142928.153431-12-its@irrelevant.dk>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D948718FF663;
+ Wed, 25 Mar 2020 10:40:44 +0000 (UTC)
+Received: from work-vm (ovpn-114-213.ams2.redhat.com [10.36.114.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B49E01BC6D;
+ Wed, 25 Mar 2020 10:40:43 +0000 (UTC)
+Date: Wed, 25 Mar 2020 10:40:41 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Subject: Re: [PATCH v3] migration: use "" instead of (null) for tls-authz
+Message-ID: <20200325104041.GA2589@work-vm>
+References: <119f539a9f4d198bc3bcced46b8280520d60bc51.1585100802.git.maozhongyi@cmss.chinamobile.com>
+MIME-Version: 1.0
+In-Reply-To: <119f539a9f4d198bc3bcced46b8280520d60bc51.1585100802.git.maozhongyi@cmss.chinamobile.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,167 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-03-16 at 07:28 -0700, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> It might seem wierd to implement this feature for an emulated device,
-> but it is mandatory to support and the feature is useful for testing
-> asynchronous event request support, which will be added in a later
-> patch.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Acked-by: Keith Busch <kbusch@kernel.org>
+* Mao Zhongyi (maozhongyi@cmss.chinamobile.com) wrote:
+> run:
+> (qemu) info migrate_parameters
+> announce-initial: 50 ms
+> ...
+> announce-max: 550 ms
+> multifd-compression: none
+> xbzrle-cache-size: 4194304
+> max-postcopy-bandwidth: 0
+>  tls-authz: '(null)'
+>=20
+> Migration parameter 'tls-authz' is used to provide the QOM ID
+> of a QAuthZ subclass instance that provides the access control
+> check, default is NULL. But the empty string is not a valid
+> object ID, so use "" instead of the default. Although it will
+> fail when lookup an object with ID "", it is harmless, just
+> consistent with tls_creds.
+>=20
+> As a bonus, this patch also fixed the bad indentation on the
+> last line and removed 'has_tls_authz' redundant check in
+> 'hmp_info_migrate_parameters'.
+>=20
+> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+
+Thanks!
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+and queued.
+
 > ---
->  hw/block/nvme.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/block/nvme.h      |  2 ++
->  include/block/nvme.h |  8 +++++++-
->  3 files changed, 57 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 665485045066..64c42101df5c 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -45,6 +45,9 @@
->  #include "nvme.h"
->  
->  #define NVME_CMB_BIR 2
-> +#define NVME_TEMPERATURE 0x143
-> +#define NVME_TEMPERATURE_WARNING 0x157
-> +#define NVME_TEMPERATURE_CRITICAL 0x175
->  
->  #define NVME_GUEST_ERR(trace, fmt, ...) \
->      do { \
-> @@ -798,9 +801,31 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
->  static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->  {
->      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> +    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
->      uint32_t result;
->  
->      switch (dw10) {
-> +    case NVME_TEMPERATURE_THRESHOLD:
-> +        result = 0;
-> +
-> +        /*
-> +         * The controller only implements the Composite Temperature sensor, so
-> +         * return 0 for all other sensors.
-> +         */
-> +        if (NVME_TEMP_TMPSEL(dw11)) {
-> +            break;
-> +        }
-> +
-> +        switch (NVME_TEMP_THSEL(dw11)) {
-> +        case 0x0:
-> +            result = cpu_to_le16(n->features.temp_thresh_hi);
-> +            break;
-> +        case 0x1:
-> +            result = cpu_to_le16(n->features.temp_thresh_low);
-> +            break;
-> +        }
-> +
-> +        break;
->      case NVME_VOLATILE_WRITE_CACHE:
->          result = blk_enable_write_cache(n->conf.blk);
->          trace_nvme_dev_getfeat_vwcache(result ? "enabled" : "disabled");
-> @@ -845,6 +870,23 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->      uint32_t dw11 = le32_to_cpu(cmd->cdw11);
->  
->      switch (dw10) {
-> +    case NVME_TEMPERATURE_THRESHOLD:
-> +        if (NVME_TEMP_TMPSEL(dw11)) {
-> +            break;
-> +        }
-> +
-> +        switch (NVME_TEMP_THSEL(dw11)) {
-> +        case 0x0:
-> +            n->features.temp_thresh_hi = NVME_TEMP_TMPTH(dw11);
-> +            break;
-> +        case 0x1:
-> +            n->features.temp_thresh_low = NVME_TEMP_TMPTH(dw11);
-> +            break;
-> +        default:
-> +            return NVME_INVALID_FIELD | NVME_DNR;
-> +        }
-> +
-> +        break;
->      case NVME_VOLATILE_WRITE_CACHE:
->          blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
->          break;
-> @@ -1374,6 +1416,7 @@ static void nvme_init_state(NvmeCtrl *n)
->      n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
->      n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
->      n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
-> +    n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
->  }
->  
->  static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-> @@ -1451,6 +1494,11 @@ static void nvme_init_ctrl(NvmeCtrl *n)
->      id->acl = 3;
->      id->frmw = 7 << 1;
->      id->lpa = 1 << 0;
-> +
-> +    /* recommended default value (~70 C) */
-> +    id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
-> +    id->cctemp = cpu_to_le16(NVME_TEMPERATURE_CRITICAL);
-> +
->      id->sqes = (0x6 << 4) | 0x6;
->      id->cqes = (0x4 << 4) | 0x4;
->      id->nn = cpu_to_le32(n->num_namespaces);
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index b7c465560eea..8cda5f02c622 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -108,6 +108,7 @@ typedef struct NvmeCtrl {
->      uint64_t    irq_status;
->      uint64_t    host_timestamp;                 /* Timestamp sent by the host */
->      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-> +    uint16_t    temperature;
-You forgot to move this too.
-
->  
->      NvmeNamespace   *namespaces;
->      NvmeSQueue      **sq;
-> @@ -115,6 +116,7 @@ typedef struct NvmeCtrl {
->      NvmeSQueue      admin_sq;
->      NvmeCQueue      admin_cq;
->      NvmeIdCtrl      id_ctrl;
-> +    NvmeFeatureVal  features;
->  } NvmeCtrl;
->  
->  static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index a083c1b3a613..91fc4738a3e0 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -688,7 +688,13 @@ enum NvmeIdCtrlOncs {
->  typedef struct NvmeFeatureVal {
->      uint32_t    arbitration;
->      uint32_t    power_mgmt;
-> -    uint32_t    temp_thresh;
-> +    union {
-> +        struct {
-> +            uint16_t temp_thresh_hi;
-> +            uint16_t temp_thresh_low;
-> +        };
-> +        uint32_t temp_thresh;
-> +    };
->      uint32_t    err_rec;
->      uint32_t    volatile_wc;
->      uint32_t    num_queues;
-
-With 'temperature' field removed from the header:
-
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-
-Best regards,
-	Maxim Levitsky
-
-
+>  migration/migration.c | 3 ++-
+>  monitor/hmp-cmds.c    | 4 ++--
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 4b26110d57..c4c9aee15e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -790,7 +790,8 @@ MigrationParameters *qmp_query_migrate_parameters(Err=
+or **errp)
+>      params->has_tls_hostname =3D true;
+>      params->tls_hostname =3D g_strdup(s->parameters.tls_hostname);
+>      params->has_tls_authz =3D true;
+> -    params->tls_authz =3D g_strdup(s->parameters.tls_authz);
+> +    params->tls_authz =3D g_strdup(s->parameters.tls_authz ?
+> +                                 s->parameters.tls_authz : "");
+>      params->has_max_bandwidth =3D true;
+>      params->max_bandwidth =3D s->parameters.max_bandwidth;
+>      params->has_downtime_limit =3D true;
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index a71de0e60b..dc48e6986c 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -459,9 +459,9 @@ void hmp_info_migrate_parameters(Monitor *mon, const =
+QDict *qdict)
+>          monitor_printf(mon, "%s: %" PRIu64 "\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_MAX_POSTCOPY_BAND=
+WIDTH),
+>              params->max_postcopy_bandwidth);
+> -        monitor_printf(mon, " %s: '%s'\n",
+> +        monitor_printf(mon, "%s: '%s'\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_TLS_AUTHZ),
+> -            params->has_tls_authz ? params->tls_authz : "");
+> +            params->tls_authz);
+>      }
+> =20
+>      qapi_free_MigrationParameters(params);
+> --=20
+> 2.17.1
+>=20
+>=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
