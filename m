@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E75192F75
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:37:41 +0100 (CET)
-Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09D4192FBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Mar 2020 18:49:01 +0100 (CET)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jH9yG-0008CT-Dg
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32928)
+	id 1jHA9F-0001Ff-1m
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 13:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36263)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jH9ws-0006lv-BY
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHA62-0007io-PR
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:45:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jH9wq-0005s3-3z
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:13 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25126)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jH9wp-0005rD-Ho
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:36:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585157769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fGCIKjr6Q14PUCx8WbUNdC86DKO+ZhNmIC/2FB/3FAg=;
- b=TH8gTdC1MroA9+qJ5n+DoRDdUulkA7Lyc759S0HHYjEQQEF8k/nqi0CZnmz/rveQ7n+qRu
- fdHkOO29W3JV1qdMr41JnSCPZorO3+93kA0x8SPRnJOWgyE9TreaBgJd0cnV4TS5ZU6a9F
- 9bk0PHnb/3oAXZBipKEpsilxwS6pNno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-yZmQfvybNrCeQZFdq3A-Pw-1; Wed, 25 Mar 2020 13:36:05 -0400
-X-MC-Unique: yZmQfvybNrCeQZFdq3A-Pw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A9C4477;
- Wed, 25 Mar 2020 17:36:04 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41E135C1B0;
- Wed, 25 Mar 2020 17:36:01 +0000 (UTC)
-Subject: Re: [PATCH 1/2] Revert "mirror: Don't let an operation wait for
- itself"
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200325172326.22347-1-kwolf@redhat.com>
- <20200325172326.22347-2-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <db6cafe1-13f1-b900-9a78-5c042662390a@redhat.com>
-Date: Wed, 25 Mar 2020 12:36:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <bounces@canonical.com>) id 1jHA61-0002eV-Ar
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:45:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44806)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHA61-0002cm-3k
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 13:45:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHA5x-0002RO-Ui
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 17:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C2D392E80C9
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 17:45:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200325172326.22347-2-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Mar 2020 17:36:01 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <158515776169.19236.14964533848893841257.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 90eb397c9d40734296732660b6cb9eca6b2fef82
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,28 +66,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/20 12:23 PM, Kevin Wolf wrote:
-> This reverts commit 7e6c4ff792734e196c8ca82564c56b5e7c6288ca.
-> 
-> The fix was incomplete as it only protected against requests waiting for
-> themselves, but not against requests waiting for each other. We need a
-> different solution.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/mirror.c | 21 +++++++++------------
->   1 file changed, 9 insertions(+), 12 deletions(-)
+That's an awkward flaw in the IOMMU design :-(
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869006
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Title:
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
 
+Status in QEMU:
+  New
+
+Bug description:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
+
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
+
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  =
+
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
