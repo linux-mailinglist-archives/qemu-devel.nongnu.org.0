@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D418919481C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:00:14 +0100 (CET)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49C31947FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:54:24 +0100 (CET)
+Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYfl-0005QH-Ob
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:00:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59279)
+	id 1jHYa7-0002QU-SK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLD-0008Dw-Va
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:01 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLI-0008Uz-VI
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLC-00027z-ME
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:59 -0400
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:36389)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLH-0002Ab-KC
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:04 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:46580)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLC-00027s-Hh
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:58 -0400
-Received: by mail-qv1-xf43.google.com with SMTP id z13so3708528qvw.3
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:58 -0700 (PDT)
+ id 1jHYLH-0002AP-Gs
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:03 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id m2so3682267qvu.13
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SMWSXLQojKe3xf38iwDswTcJa5hw68aVIzkImw5+21g=;
- b=ulsJJuPn6vcdvI4qE+Zfqur8TMA1wlNwhVQWyZIf0qD8GhP0poGc5JyvXNdp79EYDF
- u/Fqr35IyCjhFjx0wHIZfneZ8q6oGpTLFes98DH7YGQpZQ/1sNskLgyhOcyQSAK9rr/6
- zZ5KSNXA462wOfJIloRfXWIkShAJFo4eRnXkPcbkUCKUJ1bUiPTR3TmHfM+WCVb1k/OE
- dfZqU5AfCBSTrWF64eXVH4XP/NhyDjMV8VVRDHShGbhofeIz2EtHpTaKubdKe/hlQuNg
- xrhnZfFaql4ZT+7QvusuU3EqcyD20c59W815aM7pF+Tsy67r9VkA+z/JSyamWDzMMXNn
- m0fQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=HScEdvyaqOMlz3W5Sxuj05ntc9QJp9qM3msK7XO5ViU=;
+ b=tT9Iurc6SRrAVnIgemYUSoHwr/iyv2afD6vevGqZDIgJb1C/kERNlaAAI7mYFvv9vX
+ ro8H5JOy6DS3hWaj1crlOEbfeo8IghrkMpJ/GiK2AdPDBSNaw/eDxuHMZSJ1WAb9oPco
+ GfmIHQSFQtXDaDQEJuzkbUFaPKhtOPks27/X7R4OdczDL6pzCCNR8q3Ps9KuIKE5d4FH
+ 1y7BY8OUHYzuyZCMnx0UTFTcxdNpHlLy0MO+bgiil/cdLzDBxknwhPtuL+BQTTFZEYPV
+ va0CnMHscplXU1KRKU5J5nKrCgwlThikQ0tAWAJYNayuiqYzU0l3ArI0fRbmVddPqb4X
+ gOmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SMWSXLQojKe3xf38iwDswTcJa5hw68aVIzkImw5+21g=;
- b=fts/IqCsNtiPV6X4BTt1WAjRHpfz8EuJIUgNY1yQinLY+yV4YHeM+qtcaiGFuDYJyh
- MOl4wT4tk3WAw3dtcJDWYuFC4Hd79zwEzzvTumpggpLzv+TE1Tc0/FTXo7ho1KAyZ+gc
- UjomBQYY2F8Bl7vfa1yO4ga9GaNO/dsBRGyBhAc5HHA9RZSH65hvZKwV0UcOTga7/u6T
- rdf7tlpJq7UyoJCzghd9oalVQqh2118X30eHI+irMGivJ6yArPfmaAzuLk41VtE+xb8F
- Wq8SXbVP1I4O1En0xWTEYEjpn/Uk1/3K4baH7pXNZ89twIizT6Qc2Z747bI6LSl/LTLu
- dyog==
-X-Gm-Message-State: ANhLgQ21u/RgvXqg2IZ6ZYZ1AEABCZq4KYMGsHquoZ1pEsKLlt2a1tB4
- d2OXjMVb0k8bnJeGe9hd30oX4htf53JyBQ==
-X-Google-Smtp-Source: ADFU+vsZQDr3xzhqc2GD10V3LWu/kX4ZCxMQCVlPhFsTb2s90vu8OkqTJzjpNIW4RaBcemWSJ4NQ1g==
-X-Received: by 2002:ad4:514d:: with SMTP id g13mr9632379qvq.229.1585251537028; 
- Thu, 26 Mar 2020 12:38:57 -0700 (PDT)
+ :references;
+ bh=HScEdvyaqOMlz3W5Sxuj05ntc9QJp9qM3msK7XO5ViU=;
+ b=gsNKF4uKBZoiKKeeztbDXTpfruoD3yB7jpf09lLzubN7AtaZh2bV0ZWCiePEUeIPgJ
+ 8NGCKAMco1B5JZFGBU351CPyjhl5I5KqH1+4j3etPX+KsH+ywWC0yqfPIV95Md1e27ZK
+ dLfbVEeeh5i+WgUGNd/Lil7mpZCYtr9Uz9tEmGvLW0tLD/kZtAFvgYapWd0+edtiQg6l
+ Q4dZBMBkutlxzbXOPq/htc9W3+HrHzN4xAtIy+vNXhCUuy8HDUirD9S2h0pqkS9/oTjj
+ 0jS/am4BxL6OuTW5cjB32aLJYgmi27HgRixoBGf2v1uCs3fI28YPFTx2f5aopsdqMtAW
+ cfaA==
+X-Gm-Message-State: ANhLgQ2XPwS/ZqumIFJ4Pjs7FAYjaH4XWJSVuqNHhVe1KkBJS4hZZrV8
+ h+0jE9aw58y0/sUy2OUj4i1HaBFNGjEa9A==
+X-Google-Smtp-Source: ADFU+vu2SnW2BGQ+PhtlspZ4tUoFlzrRz+K6EHLv0U15a1oHKUg+dA7VaQSN7ILSpQpLNu7fEUMwVg==
+X-Received: by 2002:a0c:9aee:: with SMTP id k46mr9529022qvf.7.1585251542709;
+ Thu, 26 Mar 2020 12:39:02 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.55
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:56 -0700 (PDT)
+ Thu, 26 Mar 2020 12:39:02 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 60/74] accel/tcg: convert to cpu_interrupt_request
-Date: Thu, 26 Mar 2020 15:31:42 -0400
-Message-Id: <20200326193156.4322-61-robert.foley@linaro.org>
+Subject: [PATCH v8 64/74] ppc: convert to cpu_has_work_with_iothread_lock
+Date: Thu, 26 Mar 2020 15:31:46 -0400
+Message-Id: <20200326193156.4322-65-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,116 +75,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- alex.bennee@linaro.org, robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ "Emilio G. Cota" <cota@braap.org>, qemu-ppc@nongnu.org, peter.puhov@linaro.org,
+ alex.bennee@linaro.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Soon we will call cpu_has_work without the BQL.
+
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
+[RF: Converted new code related to POWER10]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- accel/tcg/cpu-exec.c      | 15 ++++++++-------
- accel/tcg/tcg-all.c       | 12 +++++++++---
- accel/tcg/translate-all.c |  2 +-
- 3 files changed, 18 insertions(+), 11 deletions(-)
+ target/ppc/translate_init.inc.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 099dd83ee0..b549a37847 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -431,7 +431,7 @@ static inline bool cpu_handle_halt_locked(CPUState *cpu)
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 8d2e668ac5..48094f3a24 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8539,6 +8539,8 @@ static bool cpu_has_work_POWER7(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
  
-     if (cpu_halted(cpu)) {
- #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
--        if ((cpu->interrupt_request & CPU_INTERRUPT_POLL)
-+        if ((cpu_interrupt_request(cpu) & CPU_INTERRUPT_POLL)
-             && replay_interrupt()) {
-             X86CPU *x86_cpu = X86_CPU(cpu);
- 
-@@ -544,16 +544,17 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-      */
-     atomic_mb_set(&cpu_neg(cpu)->icount_decr.u16.high, 0);
- 
--    if (unlikely(atomic_read(&cpu->interrupt_request))) {
-+    if (unlikely(cpu_interrupt_request(cpu))) {
-         int interrupt_request;
++    g_assert(qemu_mutex_iothread_locked());
 +
-         qemu_mutex_lock_iothread();
--        interrupt_request = cpu->interrupt_request;
-+        interrupt_request = cpu_interrupt_request(cpu);
-         if (unlikely(cpu->singlestep_enabled & SSTEP_NOIRQ)) {
-             /* Mask out external interrupts for this step. */
-             interrupt_request &= ~CPU_INTERRUPT_SSTEP_MASK;
-         }
-         if (interrupt_request & CPU_INTERRUPT_DEBUG) {
--            cpu->interrupt_request &= ~CPU_INTERRUPT_DEBUG;
-+            cpu_reset_interrupt(cpu, CPU_INTERRUPT_DEBUG);
-             cpu->exception_index = EXCP_DEBUG;
-             qemu_mutex_unlock_iothread();
-             return true;
-@@ -562,7 +563,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             /* Do nothing */
-         } else if (interrupt_request & CPU_INTERRUPT_HALT) {
-             replay_interrupt();
--            cpu->interrupt_request &= ~CPU_INTERRUPT_HALT;
-+            cpu_reset_interrupt(cpu, CPU_INTERRUPT_HALT);
-             cpu_halted_set(cpu, 1);
-             cpu->exception_index = EXCP_HLT;
-             qemu_mutex_unlock_iothread();
-@@ -599,10 +600,10 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             }
-             /* The target hook may have updated the 'cpu->interrupt_request';
-              * reload the 'interrupt_request' value */
--            interrupt_request = cpu->interrupt_request;
-+            interrupt_request = cpu_interrupt_request(cpu);
-         }
-         if (interrupt_request & CPU_INTERRUPT_EXITTB) {
--            cpu->interrupt_request &= ~CPU_INTERRUPT_EXITTB;
-+            cpu_reset_interrupt(cpu, CPU_INTERRUPT_EXITTB);
-             /* ensure that no TB jump will be modified as
-                the program flow was changed */
-             *last_tb = NULL;
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index acfdcfdf59..79b01bf726 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -52,10 +52,16 @@ typedef struct TCGState {
- static void tcg_handle_interrupt(CPUState *cpu, int mask)
- {
-     int old_mask;
--    g_assert(qemu_mutex_iothread_locked());
+     if (cpu_halted(cs)) {
+         if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
+             return false;
+@@ -8581,7 +8583,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+     pcc->pcr_supported = PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER7;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER7;
++    cc->has_work_with_iothread_lock = cpu_has_work_POWER7;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -8701,6 +8703,8 @@ static bool cpu_has_work_POWER8(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
  
--    old_mask = cpu->interrupt_request;
--    cpu->interrupt_request |= mask;
-+    if (!cpu_mutex_locked(cpu)) {
-+        cpu_mutex_lock(cpu);
-+        old_mask = cpu_interrupt_request(cpu);
-+        cpu_interrupt_request_or(cpu, mask);
-+        cpu_mutex_unlock(cpu);
-+    } else {
-+        old_mask = cpu_interrupt_request(cpu);
-+        cpu_interrupt_request_or(cpu, mask);
-+    }
++    g_assert(qemu_mutex_iothread_locked());
++
+     if (cpu_halted(cs)) {
+         if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
+             return false;
+@@ -8751,7 +8755,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+     pcc->pcr_supported = PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER8;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER8;
++    cc->has_work_with_iothread_lock = cpu_has_work_POWER8;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -8901,6 +8905,8 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
  
-     /*
-      * If called from iothread context, wake the target cpu in
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 78914154bf..eeb9cd2cd7 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2387,7 +2387,7 @@ void dump_opcount_info(void)
- void cpu_interrupt(CPUState *cpu, int mask)
- {
-     g_assert(qemu_mutex_iothread_locked());
--    cpu->interrupt_request |= mask;
-+    cpu_interrupt_request_or(cpu, mask);
-     atomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
++    g_assert(qemu_mutex_iothread_locked());
++
+     if (cpu_halted(cs)) {
+         uint64_t psscr = env->spr[SPR_PSSCR];
+ 
+@@ -8968,7 +8974,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                          PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER9;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER9;
++    cc->has_work_with_iothread_lock = cpu_has_work_POWER9;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -9117,6 +9123,7 @@ static bool cpu_has_work_POWER10(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
++    g_assert(qemu_mutex_iothread_locked());
+     if (cpu_halted(cs)) {
+         uint64_t psscr = env->spr[SPR_PSSCR];
+ 
+@@ -9185,7 +9192,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+                          PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER10;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER10;
++    cc->has_work_with_iothread_lock = cpu_has_work_POWER10;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -10660,6 +10667,8 @@ static bool ppc_cpu_has_work(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
++    g_assert(qemu_mutex_iothread_locked());
++
+     return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
  }
  
+@@ -10884,7 +10893,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->class_by_name = ppc_cpu_class_by_name;
+     pcc->parent_parse_features = cc->parse_features;
+     cc->parse_features = ppc_cpu_parse_featurestr;
+-    cc->has_work = ppc_cpu_has_work;
++    cc->has_work_with_iothread_lock = ppc_cpu_has_work;
+     cc->do_interrupt = ppc_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = ppc_cpu_exec_interrupt;
+     cc->dump_state = ppc_cpu_dump_state;
 -- 
 2.17.1
 
