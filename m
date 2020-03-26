@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C606193F7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:10:21 +0100 (CET)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5119B193F87
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:14:29 +0100 (CET)
+Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHSH5-0004DQ-RZ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
+	id 1jHSL6-000727-Dw
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jHSFm-00036Z-3j
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:08:59 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1jHSKJ-0006Uo-Jz
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:13:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jHSFk-0006DM-Kv
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:08:57 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:24875)
+ (envelope-from <yi.l.liu@intel.com>) id 1jHSKH-0008Dn-H8
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:13:38 -0400
+Received: from mga07.intel.com ([134.134.136.100]:38256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHSFk-0006DD-I5
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:08:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585228136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0NdQbngeC6+8sctvBux0Ecjsmlgr10NCY+2KpEpoMaM=;
- b=LCkBImJZm9EVMb9L6Gxzeu0Tbtqg6h8yWBZPbGp4LYW44BF+6lbmS7vsjrlpYgYbbLYu+A
- 7T86UhhbcScdTc8ZRwHewGP1qNpriGH7XkNRL/TbFYD+EHTtgRLQUmJuHtodQDNb+bee8j
- Zb7CrqGKKGFUbI9Mboizcw5z01T/I08=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-p-tFZwKrN_e--Se_t5Hztg-1; Thu, 26 Mar 2020 09:08:49 -0400
-X-MC-Unique: p-tFZwKrN_e--Se_t5Hztg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E409F107ACC7;
- Thu, 26 Mar 2020 13:08:47 +0000 (UTC)
-Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10BA7A0A87;
- Thu, 26 Mar 2020 13:08:46 +0000 (UTC)
-Subject: Re: [PATCH v2] block: make BlockConf.*_size properties 32-bit
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-References: <20200326065217.1626748-1-rvkagan@yandex-team.ru>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <948d6780-ef99-9eec-c7f5-8aac693f5d0b@redhat.com>
-Date: Thu, 26 Mar 2020 08:08:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200326065217.1626748-1-rvkagan@yandex-team.ru>
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>)
+ id 1jHSKH-0008DW-A1; Thu, 26 Mar 2020 09:13:37 -0400
+IronPort-SDR: YqRTi94eWTktwQTEGgZtwHVKzL1X46NMQxZWipLsDvIHDDk2rcLnDatPvVki8r72Qun21qAtmD
+ aT0kDNVDOsRg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2020 06:13:32 -0700
+IronPort-SDR: gMn7iuYRMuIEtF25zmXu0iCA0a9il9/1joqf694JTqs5IyvErTdk2nT0Ewmv1KFJFKcrlnxWlT
+ jkljHO5XbhFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,308,1580803200"; d="scan'208";a="238798886"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga007.fm.intel.com with ESMTP; 26 Mar 2020 06:13:32 -0700
+Received: from fmsmsx120.amr.corp.intel.com (10.18.124.208) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 26 Mar 2020 06:13:32 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+ fmsmsx120.amr.corp.intel.com (10.18.124.208) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 26 Mar 2020 06:13:31 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
+ SHSMSX101.ccr.corp.intel.com ([169.254.1.43]) with mapi id 14.03.0439.000;
+ Thu, 26 Mar 2020 21:13:29 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "mst@redhat.com" <mst@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>
+Subject: RE: [RFC v6 05/24] memory: Introduce IOMMU Memory Region
+ inject_faults API
+Thread-Topic: [RFC v6 05/24] memory: Introduce IOMMU Memory Region
+ inject_faults API
+Thread-Index: AQHV/tkL56HOGmRgQUStEsCG5C4Dkqha4D1w
+Date: Thu, 26 Mar 2020 13:13:28 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A2044AD@SHSMSX104.ccr.corp.intel.com>
+References: <20200320165840.30057-1-eric.auger@redhat.com>
+ <20200320165840.30057-6-eric.auger@redhat.com>
+In-Reply-To: <20200320165840.30057-6-eric.auger@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.100
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,65 +83,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "tnowicki@marvell.com" <tnowicki@marvell.com>,
+ "maz@kernel.org" <maz@kernel.org>,
+ "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
+ "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
+ "bbhushan2@marvell.com" <bbhushan2@marvell.com>,
+ "will@kernel.org" <will@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/20 1:52 AM, Roman Kagan wrote:
-> Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
-> 32-bit for logical_block_size, physical_block_size, and min_io_size.
-> However, the properties in BlockConf are defined as uint16_t limiting
-> the values to 32768.
-> 
-> This appears unnecessary tight, and we've seen bigger block sizes handy
-> at times.
-> 
-> Make them 32 bit instead and lift the limitation up to 2 MiB which
-> appears to be good enough for everybody.
+Hi Eric,
 
-and matches the current qemu limit for qcow2 cluster sizes
+I'm also considering how to inject iommu fault to vIOMMU. As our
+previous discussion (long time ago), MemoryRegion way doesn't work
+well for VTd case. So I'd like see your opinion on the proposal
+below:
+I've a patch to make vIOMMUs register PCIIOMMUOps to PCI layer.
+Current usage is to get address space and set/unset HostIOMMUContext
+(added by me). I think it may be also nice to add the fault injection
+callback in the PCIIOMMUOps. Thoughts?
 
-> 
-> As the values can now be fairly big and awkward to type, make the
-> property setter accept common size suffixes (k, m).
-> 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+https://patchwork.ozlabs.org/patch/1259645/
+
+Regards,
+Yi Liu
+
+> From: Eric Auger <eric.auger@redhat.com>
+> Sent: Saturday, March 21, 2020 12:58 AM
+> To: eric.auger.pro@gmail.com; eric.auger@redhat.com; qemu-devel@nongnu.or=
+g;
+> Subject: [RFC v6 05/24] memory: Introduce IOMMU Memory Region inject_faul=
+ts
+> API
+>=20
+> This new API allows to inject @count iommu_faults into
+> the IOMMU memory region.
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > ---
-> v1 -> v2:
-> - cap the property at 2 MiB [Eric]
-> - accept size suffixes
-> 
-
-> +++ b/hw/core/qdev-properties.c
-> @@ -14,6 +14,7 @@
->   #include "qapi/visitor.h"
->   #include "chardev/char.h"
->   #include "qemu/uuid.h"
-> +#include "qemu/units.h"
->   
->   void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
->                                     Error **errp)
-> @@ -729,30 +730,39 @@ const PropertyInfo qdev_prop_pci_devfn = {
->   
->   /* --- blocksize --- */
->   
-> +/* lower limit is sector size */
-> +#define MIN_BLOCK_SIZE          512
-> +#define MIN_BLOCK_SIZE_STR      "512 B"
-> +/* upper limit is arbitrary, 2 MiB looks sufficient */
-> +#define MAX_BLOCK_SIZE          (2 * MiB)
-> +#define MAX_BLOCK_SIZE_STR      "2 MiB"
-
-For this comment, I might add that it matches our limit for qcow2 
-cluster size.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>  include/exec/memory.h | 25 +++++++++++++++++++++++++
+>  memory.c              | 10 ++++++++++
+>  2 files changed, 35 insertions(+)
+>=20
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index f2c773163f..141a5dc197 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -57,6 +57,8 @@ struct MemoryRegionMmio {
+>      CPUWriteMemoryFunc *write[3];
+>  };
+>=20
+> +struct iommu_fault;
+> +
+>  typedef struct IOMMUTLBEntry IOMMUTLBEntry;
+>=20
+>  /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+> @@ -357,6 +359,19 @@ typedef struct IOMMUMemoryRegionClass {
+>       * @iommu: the IOMMUMemoryRegion
+>       */
+>      int (*num_indexes)(IOMMUMemoryRegion *iommu);
+> +
+> +    /*
+> +     * Inject @count faults into the IOMMU memory region
+> +     *
+> +     * Optional method: if this method is not provided, then
+> +     * memory_region_injection_faults() will return -ENOENT
+> +     *
+> +     * @iommu: the IOMMU memory region to inject the faults in
+> +     * @count: number of faults to inject
+> +     * @buf: fault buffer
+> +     */
+> +    int (*inject_faults)(IOMMUMemoryRegion *iommu, int count,
+> +                         struct iommu_fault *buf);
+>  } IOMMUMemoryRegionClass;
+>=20
+>  typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+> @@ -1365,6 +1380,16 @@ int
+> memory_region_iommu_attrs_to_index(IOMMUMemoryRegion *iommu_mr,
+>   */
+>  int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
+>=20
+> +/**
+> + * memory_region_inject_faults : inject @count faults stored in @buf
+> + *
+> + * @iommu_mr: the IOMMU memory region
+> + * @count: number of faults to be injected
+> + * @buf: buffer containing the faults
+> + */
+> +int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
+> +                                struct iommu_fault *buf);
+> +
+>  /**
+>   * memory_region_name: get a memory region's name
+>   *
+> diff --git a/memory.c b/memory.c
+> index 09be40edd2..9cdd77e0de 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -2001,6 +2001,16 @@ int
+> memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr)
+>      return imrc->num_indexes(iommu_mr);
+>  }
+>=20
+> +int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
+> +                                struct iommu_fault *buf)
+> +{
+> +    IOMMUMemoryRegionClass *imrc =3D
+> IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
+> +    if (!imrc->inject_faults) {
+> +        return -ENOENT;
+> +    }
+> +    return imrc->inject_faults(iommu_mr, count, buf);
+> +}
+> +
+>  void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+>  {
+>      uint8_t mask =3D 1 << client;
+> --
+> 2.20.1
 
 
