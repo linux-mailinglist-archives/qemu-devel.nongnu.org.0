@@ -2,49 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3119350C
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:41:49 +0100 (CET)
-Received: from localhost ([::1]:44820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0600A19352F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 02:13:55 +0100 (CET)
+Received: from localhost ([::1]:45102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHGai-00011y-9t
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:41:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43741)
+	id 1jHH5k-0004FI-Px
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 21:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXN-0003lj-73
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:22 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jHH4Z-0003AR-NV
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:12:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXL-0002KV-ML
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:21 -0400
-Received: from ozlabs.org ([203.11.71.1]:47281)
+ (envelope-from <mlevitsk@redhat.com>) id 1jHH4X-0002PP-Nd
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:12:38 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:54934)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jHGXL-0002HY-9n; Wed, 25 Mar 2020 20:38:19 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48nmL83L1zz9sSY; Thu, 26 Mar 2020 11:38:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1585183088;
- bh=+ozS18bsZrwYGlOCRNToOi3jupPK6PNT9ybjul+tRMU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PgYyM1QzlT56UEDiIbhwAM3dT5dYSF85TJg0Wz2Ixzww+Sfd0vuakthqKuUzIn3xc
- CALs5+1PPjUmy/1kR4372xOa13NqfuN74gYCZl9aRv4nuitWzsK6wpW6bKyf9XPrtO
- wGt7t+jy6dPiW8FrQL7xnx4HVmx8sZmw2yv4wzEs=
-Date: Thu, 26 Mar 2020 11:30:42 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 4/4] ppc/spapr: Don't kill the guest if a recovered
- FWNMI machine check delivery fails
-Message-ID: <20200326003042.GQ36889@umbus.fritz.box>
-References: <20200325142906.221248-1-npiggin@gmail.com>
- <20200325142906.221248-5-npiggin@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MM5RgFPKyuP3gDcV"
-Content-Disposition: inline
-In-Reply-To: <20200325142906.221248-5-npiggin@gmail.com>
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jHH4X-0002PA-JD
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:12:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585185156;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=407L3w+jO+TLTewlegxFG6RoUuZ6W6toBUnGWKsj7wc=;
+ b=UaFhiOVyYCMTFBICCislJOSPGUSbXY4hIS2WNoB44gPzTp6xcR4fHlGrxLf23jX0316++j
+ aEoBiePe/i2OFGickk2oPwa1pTfAeUHJ71iPozit/WvWziCewtTHbvGncRBJClooLc28uS
+ Yjm1bZ48px3KM/pvT3IOGxmOtld5S4Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-AORGJBEGOA2Dzvpl2K94KQ-1; Wed, 25 Mar 2020 21:12:35 -0400
+X-MC-Unique: AORGJBEGOA2Dzvpl2K94KQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76099100550D;
+ Thu, 26 Mar 2020 01:12:32 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F055410002A5;
+ Thu, 26 Mar 2020 01:12:19 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Fix the generic image creation code
+Date: Thu, 26 Mar 2020 03:12:16 +0200
+Message-Id: <20200326011218.29230-1-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,123 +66,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ integration@gluster.org, sheepdog@lists.wpkg.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Jason Dillaman <dillaman@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The recent patches from Max Reitz allowed some block drivers to not
+provide the .bdrv_co_create_opts and still allow qemu-img to
+create/format images as long as the image is already existing
+(that is the case with various block storage drivers like nbd/iscsi/nvme, e=
+tc)
 
---MM5RgFPKyuP3gDcV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+However it was found out that some places in the code depend on the
+.bdrv_co_create_opts/.create_opts to be !=3D NULL to decide if to allow
+image creation.
 
-On Thu, Mar 26, 2020 at 12:29:06AM +1000, Nicholas Piggin wrote:
-> Try to be tolerant of FWNMI delivery errors if the machine check had been
-> recovered by the host.
->=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+To avoid adding failback code to all these places, just make generic failba=
+ck
+code be used by the drivers that need it, so that for outside user, there
+is no diffirence if failback was used or not.
 
-Applied to ppc-for-5.0.
+Best regards,
+=09Maxim Levitsky
 
-> ---
->  hw/ppc/spapr_events.c | 27 ++++++++++++++++++++++-----
->  1 file changed, 22 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index c8964eb25d..b90ecb8afe 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -833,13 +833,25 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu=
-, bool recovered)
->      /* get rtas addr from fdt */
->      rtas_addr =3D spapr_get_rtas_addr();
->      if (!rtas_addr) {
-> -        error_report(
-> +        if (!recovered) {
-> +            error_report(
->  "FWNMI: Unable to deliver machine check to guest: rtas_addr not found.");
-> -        qemu_system_guest_panicked(NULL);
-> +            qemu_system_guest_panicked(NULL);
-> +        } else {
-> +            warn_report(
-> +"FWNMI: Unable to deliver machine check to guest: rtas_addr not found. "
-> +"Machine check recovered.");
-> +        }
->          g_free(ext_elog);
->          return;
->      }
-> =20
-> +    /*
-> +     * Must not set interlock if the MCE does not get delivered to the g=
-uest
-> +     * in the error case above.
-> +     */
-> +    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
-> +
->      stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET,
->                  env->gpr[3]);
->      cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
-> @@ -876,9 +888,15 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recov=
-ered)
->           * that CPU called "ibm,nmi-interlock")
->           */
->          if (spapr->fwnmi_machine_check_interlock =3D=3D cpu->vcpu_id) {
-> -            error_report(
-> +            if (!recovered) {
-> +                error_report(
->  "FWNMI: Unable to deliver machine check to guest: nested machine check."=
-);
-> -            qemu_system_guest_panicked(NULL);
-> +                qemu_system_guest_panicked(NULL);
-> +            } else {
-> +                warn_report(
-> +"FWNMI: Unable to deliver machine check to guest: nested machine check. "
-> +"Machine check recovered.");
-> +            }
->              return;
->          }
->          qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_co=
-nd);
-> @@ -906,7 +924,6 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
-red)
->          warn_report("Received a fwnmi while migration was in progress");
->      }
-> =20
-> -    spapr->fwnmi_machine_check_interlock =3D cpu->vcpu_id;
->      spapr_mce_dispatch_elog(cpu, recovered);
->  }
-> =20
+Maxim Levitsky (2):
+  block: pass BlockDriver reference to the .bdrv_co_create
+  block: trickle down the fallback image creation function use to the
+    block drivers
+
+ block.c                   | 38 ++++++++++++++++++++++----------------
+ block/crypto.c            |  3 ++-
+ block/file-posix.c        | 11 +++++++++--
+ block/file-win32.c        |  4 +++-
+ block/gluster.c           |  3 ++-
+ block/iscsi.c             | 16 ++++------------
+ block/nbd.c               |  6 ++++++
+ block/nfs.c               |  4 +++-
+ block/nvme.c              |  3 +++
+ block/parallels.c         |  3 ++-
+ block/qcow.c              |  3 ++-
+ block/qcow2.c             |  4 +++-
+ block/qed.c               |  3 ++-
+ block/raw-format.c        |  4 +++-
+ block/rbd.c               |  3 ++-
+ block/sheepdog.c          |  4 +++-
+ block/ssh.c               |  4 +++-
+ block/vdi.c               |  4 +++-
+ block/vhdx.c              |  3 ++-
+ block/vmdk.c              |  4 +++-
+ block/vpc.c               |  6 ++++--
+ include/block/block.h     |  7 +++++++
+ include/block/block_int.h |  3 ++-
+ 23 files changed, 95 insertions(+), 48 deletions(-)
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.17.2
 
---MM5RgFPKyuP3gDcV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5797IACgkQbDjKyiDZ
-s5LdMA//fhou/EOmlZaAByTSHor5tmJ4hJKQqqe+bIqeM2EhlBtlU4Gdp2K/nKeg
-ewZ62e64vkNecjg4N4XrlzZ4MsTvz0L3sSczWsyFK7GtEF2n6oIHsyX76n+wDqTl
-YubKCXSx/J4NAkkY6/jD59kTcFauzUkDZsxam9VAiZ0AYF0Rsjzm5dXNpdEituNe
-t/pQDhmz/DepFtbSarhUPLkaX2egIDBx9Wt5G8vqCPbq55N6yKsXqUZPwgQf1CRq
-sxUhShp4IGfBuApcEaLhxPRTi4oaKGFbi5TpCfXJDXEL5u4JA0wb7Fzvr60Mp16h
-A/cPWw1bjXz+PeL6BlYl244T1KdExG5b0TlXaGsgcU3d0eCqYPZZiAjF/oY0wLRi
-6p2wPz2COGgtYSoB6mEayoS/7xiz8EAgUgai+hDJ31o+852NPxkrlSU/8X8n2HbV
-mUAAeMPVoM2dFP0n9BfqjY36+eB5dd7f7vSVj2k+xXNHtVXZ4qTgSBesO1kpNEKM
-QGAlzb1ACH7ADaRUZcJ2G4Brp/8ry670oETk3DYK9imgp+ML0tlfT1qAthPHJwBr
-1+Gn9MDLw/q1U2Lzzz2gQUm3ISSIIycq+h8hTuphgvTXOaOuEeBk9KQjww/3l+sx
-FTBowKOxYKxcXx3O/kefK+5YvRWcqdxt51il3sHVLEgPhr7C0PI=
-=TtcR
------END PGP SIGNATURE-----
-
---MM5RgFPKyuP3gDcV--
 
