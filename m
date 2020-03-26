@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A585C194ACB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:42:18 +0100 (CET)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90D5194ADA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:45:23 +0100 (CET)
+Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHaGX-00088G-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34704)
+	id 1jHaJW-0002d1-J6
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jHaEm-0006GW-Tp
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:40:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jHaID-0001tp-86
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:44:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jHaEl-0004Yt-Op
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:40:28 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14567)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jHaEl-0004W2-HU
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:40:27 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7d20ed0000>; Thu, 26 Mar 2020 14:38:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Thu, 26 Mar 2020 14:40:25 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Thu, 26 Mar 2020 14:40:25 -0700
-Received: from [10.40.103.35] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 26 Mar
- 2020 21:40:06 +0000
-Subject: Re: [PATCH v15 Kernel 1/7] vfio: KABI for migration interface for
- device state
-To: Christoph Hellwig <hch@infradead.org>
-References: <1584649004-8285-1-git-send-email-kwankhede@nvidia.com>
- <1584649004-8285-2-git-send-email-kwankhede@nvidia.com>
- <20200326093310.GA12078@infradead.org>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <d7918318-ff3a-04dd-9c80-41098a777f7f@nvidia.com>
-Date: Fri, 27 Mar 2020 03:09:58 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jHaIC-0008F1-0V
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:44:01 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34878)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jHaIB-0008DJ-PL
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:43:59 -0400
+Received: by mail-oi1-x241.google.com with SMTP id t25so7013740oij.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 14:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xvQuM1t+AMalZIyQmGqvVV5WcXOTpPBqjnsxou10UMI=;
+ b=cIfWr7+79kzguSu2V3Sa46UNOBIRSKKuTOhRBj75G5/ncXWZgLWn6rHFUcm58jBz4n
+ 1NgfoyHMCGsDexQfb4jItOz9nsObsYWhblDWparPVYqQKl7OW40U+KOKc1yqrDzf+hJ2
+ U5tPvoCplXbW9n3qzpsn85YX8FM8cRmU3oTG/f5YI84XeUlq1MEJBUw5cAm92XMi5P4T
+ FhNnoRWoYb1Ymu8x+uqT2FK0zBNkGv5kvME1PDCjRIsxoYtmPc+cT1lntrSTcjAMOkK+
+ yuIyku7CJnusz9cm9VAO480Nr/G+M5MHIyzvIrmFJ//PQl0AtwWEKPXKeUAXB+8I3VvM
+ tfWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xvQuM1t+AMalZIyQmGqvVV5WcXOTpPBqjnsxou10UMI=;
+ b=ZIrWC7G91He5LdXIpZ0xZsmTVrT/mFu0YLD7r4Y8dkTf+uHNY/dJVC93eZgNlfcJDS
+ 8uxmXUZ7vteURYbqOinuupAfsIJRij17GX5AdPw0/9HJrdV1d929R0PKOL+mv4Bexm19
+ 0PuQUPaiCRqAYvga6vkRd2+OZxZlVDHiqavqfsLHhPR+Erxh6/gFKyTNzc+NEIL+6DsR
+ WN3vJvQPxGtozhi1h9aCKXiDK1H0ZjoG2Pb1uDSWSCVow8igyWkn7PCqNG4cHxJWZWyx
+ ilU7B2ukpDZSihXfWCTCbnhcBMJ8SVZc11PdXgeYLDbBuHOz2EQx78m8sfxns12mIGRT
+ I7WQ==
+X-Gm-Message-State: ANhLgQ0s+zrIoaoeKR1AeLTcssQC25ou5JsieIbBWcZtuFMkVktggSN1
+ s180vDpv/xfwW4x2Z0zaRXeXzMN/DGQTO8mVLYPqeg==
+X-Google-Smtp-Source: ADFU+vvC6zBAgiyeYk9FkMwdMbaDEAxouIAgJE1HYNnwchfSRgte/24c0UTVvCmGcnafcpmvKf5O1XPda63WUNjX0GE=
+X-Received: by 2002:a05:6808:8cb:: with SMTP id
+ k11mr1766287oij.48.1585259038796; 
+ Thu, 26 Mar 2020 14:43:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200326093310.GA12078@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585258733; bh=V2c3guzclP/omsTo+UqpgNGxiLDtiViGM07WNO9Zcys=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=ldni9GAu9CbAvCrWziJ8CzSJk+U86sz4bwGpQvmyqOHvJQ9MzMzSxOE3II/5GObw/
- igHgkh1yJKEcd6kGWWWtk1lMiW12cPWZmwDW2jRRQIfKxhsxJC91T2yZ8tizT12Pao
- JIpkNisz89X1cQUVGlkYD0FegHNW7ofz+PqfCKmZU5o1wIMEmxDYeUVqiBDb8ENL5y
- phQFm5EjSrlfr0B4VpsRhJswhp+EbSUhCbmGsPINByOHlE0+CTvkln8xzBkMs+7gE/
- L+1IWx9rNwud1axYuxWeOdc5/t26RxR5hOGcN1Pkf0vzdEhe5wDEZX1MQmrEn/JlsN
- bR63XL6Cbjfww==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.143
+References: <20200325191830.16553-1-f4bug@amsat.org>
+ <20200325191830.16553-8-f4bug@amsat.org>
+In-Reply-To: <20200325191830.16553-8-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Mar 2020 21:43:47 +0000
+Message-ID: <CAFEAcA8X5_9G8i31A17DxZDagyHoVYQ7Ctsf5n_9weHqGM6ksA@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 07/12] hw/mips/cps: Add missing error-propagation
+ code
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,32 +76,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
- Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, eauger@redhat.com, yi.l.liu@intel.com,
- eskultet@redhat.com, ziye.yang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, changpeng.liu@intel.com, cohuck@redhat.com,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 25 Mar 2020 at 19:18, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Patch created mechanically by running:
+>
+>   $ spatch \
+>     --macro-file scripts/cocci-macro-file.h --include-headers \
+>     --sp-file scripts/coccinelle/object_property_missing_error_propagate.=
+cocci \
+>     --keep-comments --smpl-spacing --in-place --dir hw
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/mips/cps.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>
 
+>      /* Inter-Thread Communication Unit */
+>      if (itu_present) {
+>          sysbus_init_child_obj(OBJECT(dev), "itu", &s->itu, sizeof(s->itu=
+),
+>                                TYPE_MIPS_ITU);
+>          object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+>          object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &=
+err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+>          object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-pr=
+esent",
+>                                   &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+>          if (saar_present) {
+>              s->itu.saar =3D &env->CP0_SAAR;
+>          }
+>          object_property_set_bool(OBJECT(&s->itu), true, "realized", &err=
+);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+>          if (err !=3D NULL) {
+>              error_propagate(errp, err);
+>              return;
+>          }
 
-On 3/26/2020 3:03 PM, Christoph Hellwig wrote:
-> s/KABI/UAPI/ in the subject and anywhere else in the series.
-> 
+I think Coccinelle has been fooled here by the slightly non-idiomatic
+use of "err !=3D NULL" in the guard and has inserted a duplicate
+check...
 
-Ok.
+>          memory_region_add_subregion(&s->container, 0,
+>                             sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->itu=
+), 0));
+>      }
+>
+>      /* Cluster Power Controller */
+>      sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
+>                            TYPE_MIPS_CPC);
+>      object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>      object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err=
+);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+>      object_property_set_bool(OBJECT(&s->cpc), true, "realized", &err);
+>      if (err !=3D NULL) {
+>          error_propagate(errp, err);
+>          return;
+>      }
 
-> Please avoid __packed__ structures and just properly pad them, they
-> have a major performance impact on some platforms and will cause
-> compiler warnings when taking addresses of members.
-> 
+...but oddly it gets it right here and in a couple of other cases
+in this patch.
 
-Yes, removing it.
-
-Thanks,
-Kirti
+thanks
+-- PMM
 
