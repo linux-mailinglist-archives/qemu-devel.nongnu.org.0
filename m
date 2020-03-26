@@ -2,73 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A57193806
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:43:23 +0100 (CET)
-Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592A219382C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:56:01 +0100 (CET)
+Received: from localhost ([::1]:46870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHLIY-0006Qh-PX
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46514)
+	id 1jHLUm-00025U-EP
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1jHLH5-00059Z-CF
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:41:52 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jHLTt-0001UL-UP
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:55:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1jHLH3-0001br-8n
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:41:50 -0400
-Received: from mga02.intel.com ([134.134.136.20]:19355)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1jHLH3-0001Xy-1K
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:41:49 -0400
-IronPort-SDR: egYquBrTO9eIA+LcIwWifCutAVv1cG8FgVGOZDTYcTXpkMyQWr+SjVljequa8r7dG871a14RM1
- HMrvy26HFftw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 22:41:44 -0700
-IronPort-SDR: iBX8LdSXxxYfNAhRBQW5Grwe3X3dZOWUnXkRczinwgceZxGCvjMrfHUPZbfrRyo5v/rcX+nL27
- QtkNFBs79JhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; d="scan'208";a="240580674"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by fmsmga008.fm.intel.com with ESMTP; 25 Mar 2020 22:41:44 -0700
-Received: from fmsmsx116.amr.corp.intel.com (10.18.116.20) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Mar 2020 22:41:44 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
- fmsmsx116.amr.corp.intel.com (10.18.116.20) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 25 Mar 2020 22:41:44 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- SHSMSX151.ccr.corp.intel.com ([169.254.3.201]) with mapi id 14.03.0439.000;
- Thu, 26 Mar 2020 13:41:40 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [PATCH v1 20/22] intel_iommu: propagate PASID-based iotlb
- invalidation to host
-Thread-Topic: [PATCH v1 20/22] intel_iommu: propagate PASID-based iotlb
- invalidation to host
-Thread-Index: AQHWAEW3X+65yqyUwUiucJlWzaqkgqhXjwWAgAHAhkCAAREEgA==
-Date: Thu, 26 Mar 2020 05:41:39 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A203E63@SHSMSX104.ccr.corp.intel.com>
-References: <1584880579-12178-1-git-send-email-yi.l.liu@intel.com>
- <1584880579-12178-21-git-send-email-yi.l.liu@intel.com>
- <20200324183423.GE127076@xz-x1>
- <A2975661238FB949B60364EF0F2C25743A2022C5@SHSMSX104.ccr.corp.intel.com>
-In-Reply-To: <A2975661238FB949B60364EF0F2C25743A2022C5@SHSMSX104.ccr.corp.intel.com>
-Accept-Language: en-US
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jHLTs-0007UQ-I2
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:55:05 -0400
+Received: from mail-db8eur05on2129.outbound.protection.outlook.com
+ ([40.107.20.129]:9952 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jHLTn-0007TD-CT; Thu, 26 Mar 2020 01:54:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zv3GtOz9uimnaDVvM89uSsm+b7iIa5lfulWBU92ulTD4nEFIElLjISSCHXtBGEerxbPSrH7S4fgtL5EKhFDqhKQ4ALXONO1d403S6IGUv+xj+bTW0N9p+9SDmr2Pj1zl8xhaHNxrX4N0XdOs5dyBa6PR+Ixd0qzAbuPeQk+OD+NLCd4ANbpq5f3KsFsUDSgAEfazSTyCA4+dosR3V3G34R9OxJB5RG6ys7R6lYCVZfQSW6y6/+mK/hzy5UvqTuS3uxjoTZTrKJym/yXUbWoSZUr3i1/cEtyjxXFSHJoRh2J7LzGV0NXtkyNaRAdErc5ZkV+D5AtsdlF3uWk+q0NJYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dyKdwfgNnT7sZWsDM/RnsC7Ld3Ut7ozPkO6peoOkftE=;
+ b=Ud7VOeq6B3HcZG76LGyYxrq7o+nhHZwd6mojNk2UAhjJlQaQoGB9wxzkDi7JjoyQUM19udHH9hWg2nW6XVBM9waU/PN9hpGWe7IzSbm2CUhSxhM+sj5YDeQT7qXfcQ5TFB82SOoVJf7NQMcJFAHLrgYoRXutikb8DCndoGMOc/0NCLRyH5s1kAdSZKAED+KZzhRhq10q9Cndw3uEZikZhr32pLz5cAcV2bju/enRXZyYlWjbf4sNZBJGXN2n2Kp8v3vOMz+a7J3gT5EiTdoxNofIn+3KiFvqeqg1Cbr6p/Yt01oux7UsDaiIb0yJMc8qTeC8ULF0b0TuH28r4xfh/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dyKdwfgNnT7sZWsDM/RnsC7Ld3Ut7ozPkO6peoOkftE=;
+ b=PIXjqsaZoUmQuw2SbTMneC7JEnRFTRkZMs9zoCL+r0YFyHEoO3qdXpysSX/Z/Irw+mTOGvRGGvSjBxTClNJJ4rVNq6nYinGXpSUbufKNw/Z5z5hwSmvS4x84Xq2XfIK+PKrYanpDkc0SxhvwFCfWU/x550ShI/xZikyhx85iXyI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (10.141.175.15) by
+ AM7PR08MB5462.eurprd08.prod.outlook.com (10.141.173.201) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2856.18; Thu, 26 Mar 2020 05:54:56 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::9057:6f5a:378c:7533]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::9057:6f5a:378c:7533%6]) with mapi id 15.20.2835.023; Thu, 26 Mar 2020
+ 05:54:56 +0000
+Subject: Re: [PATCH] backup: don't acquire aio_context in backup_clean
+To: Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+References: <76edbead-7ccf-833b-a3f2-15dff7f0748c@virtuozzo.com>
+ <20200325155055.730633-1-s.reiter@proxmox.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200326085453548
+Message-ID: <2b288000-7c09-ba31-82a7-02c5ed55f4e7@virtuozzo.com>
+Date: Thu, 26 Mar 2020 08:54:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200325155055.730633-1-s.reiter@proxmox.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR07CA0077.eurprd07.prod.outlook.com
+ (2603:10a6:207:6::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 134.134.136.20
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.35) by
+ AM3PR07CA0077.eurprd07.prod.outlook.com (2603:10a6:207:6::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.9 via Frontend Transport; Thu, 26 Mar 2020 05:54:55 +0000
+X-Tagtoolbar-Keys: D20200326085453548
+X-Originating-IP: [185.215.60.35]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 19b61456-6f49-4a5d-9c65-08d7d14a362f
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5462:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5462C1FD026F89E0E24AD2E8C1CF0@AM7PR08MB5462.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Forefront-PRVS: 0354B4BED2
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(396003)(39850400004)(376002)(346002)(366004)(31686004)(4326008)(86362001)(52116002)(31696002)(2906002)(186003)(16526019)(81166006)(36756003)(26005)(81156014)(2616005)(956004)(66556008)(66476007)(316002)(6486002)(966005)(16576012)(66946007)(478600001)(5660300002)(8676002)(8936002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM7PR08MB5462;
+ H:AM7PR08MB5494.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1QUjOCkcgvMsv3i+iQeU2vysp3Xl0ulCIXCpRjo3igfuu/YCXckUSF7gjE8KdJS7CmBmTnH0zdaOljZT4jHUcpL37/lDPCfA1peSgGKSgPOsrLIba8PsgBrC3CCJiyfyT8VwLCz18BmQ1105v5bxyTLpoTWp+TAQVBnkAf6MqsxeqRBw+eNIP8mwoIfRxnmByFb2dwNndJ7HrwfGXWLu/Nw6rjIeyfLDrm7o9LoT8t2WdDijmBzlKh2kvx4wbEtiSy5/uofZ0AUQHngGifhX35OKNapRGaB5waK+cA/LTQ3E5hiV8SXLPrHTqUIewZTGgqAqV/K//JdD98SdrPSJEPEKQOlDah4jZz/ZVe/hi3Ti20ghglI7pGcVv4LH7oNdcR05/UkISx1/XFOWnseZj69zMh9SkwtZqwiwrVrGbDXq+jctIcJYcqGe8mPrre32Ci+WdNDx8IVgLrx2lxj9l+2wwHTZMvoQclLywkIiwqlJg47c3BaCN5ZEy6Y41Rqr84/21KTXAUlxY3GXpXhuOQ==
+X-MS-Exchange-AntiSpam-MessageData: fBla/OjRwpQcIf4wKNj8EBpTA7ZtfPOwbqPJxz3MSnps/bks7jY/UnKquuna01tW/sA6Txidn2J5qCh3u6WRmbxhW9pfZq43EBe4GTXFMHsrjgKqrgjUVDcmIRoW+3eYImyYF6A2cWfWIV79373IcQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19b61456-6f49-4a5d-9c65-08d7d14a362f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2020 05:54:56.6444 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0isNytWAKUKklDLsyq7eWTyGOrKqWozNXd4qKlpMTSBsf35MVwxl7C0euXypJN86jZP3QyjIEjWRhpj0kHDgYsgPoLun6zG4/PQxi0gGxuA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.20.129
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,93 +111,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
- "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, slp@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
+ jsnow@redhat.com, dietmar@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBMaXUsIFlpIEwNCj4gU2VudDogV2VkbmVzZGF5LCBNYXJjaCAyNSwgMjAyMCA5OjIy
-IFBNDQo+IFRvOiAnUGV0ZXIgWHUnIDxwZXRlcnhAcmVkaGF0LmNvbT4NCj4gU3ViamVjdDogUkU6
-IFtQQVRDSCB2MSAyMC8yMl0gaW50ZWxfaW9tbXU6IHByb3BhZ2F0ZSBQQVNJRC1iYXNlZCBpb3Rs
-Yg0KPiBpbnZhbGlkYXRpb24gdG8gaG9zdA0KPiANCj4gPiBGcm9tOiBQZXRlciBYdSA8cGV0ZXJ4
-QHJlZGhhdC5jb20+DQo+ID4gU2VudDogV2VkbmVzZGF5LCBNYXJjaCAyNSwgMjAyMCAyOjM0IEFN
-DQo+ID4gVG86IExpdSwgWWkgTCA8eWkubC5saXVAaW50ZWwuY29tPg0KPiA+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjEgMjAvMjJdIGludGVsX2lvbW11OiBwcm9wYWdhdGUgUEFTSUQtYmFzZWQgaW90
-bGINCj4gPiBpbnZhbGlkYXRpb24gdG8gaG9zdA0KPiA+DQo+ID4gT24gU3VuLCBNYXIgMjIsIDIw
-MjAgYXQgMDU6MzY6MTdBTSAtMDcwMCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4gPiBUaGlzIHBhdGNo
-IHByb3BhZ2F0ZXMgUEFTSUQtYmFzZWQgaW90bGIgaW52YWxpZGF0aW9uIHRvIGhvc3QuDQo+ID4g
-Pg0KPiA+ID4gSW50ZWwgVlQtZCAzLjAgc3VwcG9ydHMgbmVzdGVkIHRyYW5zbGF0aW9uIGluIFBB
-U0lEIGdyYW51bGFyLg0KPiA+ID4gR3Vlc3QgU1ZBIHN1cHBvcnQgY291bGQgYmUgaW1wbGVtZW50
-ZWQgYnkgY29uZmlndXJpbmcgbmVzdGVkDQo+ID4gPiB0cmFuc2xhdGlvbiBvbiBzcGVjaWZpYyBQ
-QVNJRC4gVGhpcyBpcyBhbHNvIGtub3duIGFzIGR1YWwgc3RhZ2UgRE1BDQo+ID4gPiB0cmFuc2xh
-dGlvbi4NCj4gPiA+DQo+ID4gPiBVbmRlciBzdWNoIGNvbmZpZ3VyYXRpb24sIGd1ZXN0IG93bnMg
-dGhlIEdWQS0+R1BBIHRyYW5zbGF0aW9uIHdoaWNoDQo+ID4gPiBpcyBjb25maWd1cmVkIGFzIGZp
-cnN0IGxldmVsIHBhZ2UgdGFibGUgaW4gaG9zdCBzaWRlIGZvciBhIHNwZWNpZmljDQo+ID4gPiBw
-YXNpZCwgYW5kIGhvc3Qgb3ducyBHUEEtPkhQQSB0cmFuc2xhdGlvbi4gQXMgZ3Vlc3Qgb3ducyBm
-aXJzdCBsZXZlbA0KPiA+ID4gdHJhbnNsYXRpb24gdGFibGUsIHBpb3RsYiBpbnZhbGlkYXRpb24g
-c2hvdWxkIGJlIHByb3BhZ2F0ZWQgdG8gaG9zdA0KPiA+ID4gc2luY2UgaG9zdCBJT01NVSB3aWxs
-IGNhY2hlIGZpcnN0IGxldmVsIHBhZ2UgdGFibGUgcmVsYXRlZCBtYXBwaW5ncw0KPiA+ID4gZHVy
-aW5nIERNQSBhZGRyZXNzIHRyYW5zbGF0aW9uLg0KPiA+ID4NCj4gPiA+IFRoaXMgcGF0Y2ggdHJh
-cHMgdGhlIGd1ZXN0IFBBU0lELWJhc2VkIGlvdGxiIGZsdXNoIGFuZCBwcm9wYWdhdGUgaXQNCj4g
-PiA+IHRvIGhvc3QuDQo+ID4gPg0KPiA+ID4gQ2M6IEtldmluIFRpYW4gPGtldmluLnRpYW5AaW50
-ZWwuY29tPg0KPiA+ID4gQ2M6IEphY29iIFBhbiA8amFjb2IuanVuLnBhbkBsaW51eC5pbnRlbC5j
-b20+DQo+ID4gPiBDYzogUGV0ZXIgWHUgPHBldGVyeEByZWRoYXQuY29tPg0KPiA+ID4gQ2M6IFlp
-IFN1biA8eWkueS5zdW5AbGludXguaW50ZWwuY29tPg0KPiA+ID4gQ2M6IFBhb2xvIEJvbnppbmkg
-PHBib256aW5pQHJlZGhhdC5jb20+DQo+ID4gPiBDYzogUmljaGFyZCBIZW5kZXJzb24gPHJ0aEB0
-d2lkZGxlLm5ldD4NCj4gPiA+IENjOiBFZHVhcmRvIEhhYmtvc3QgPGVoYWJrb3N0QHJlZGhhdC5j
-b20+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMaXUgWWkgTCA8eWkubC5saXVAaW50ZWwuY29tPg0K
-PiA+ID4gLS0tDQo+ID4gPiAgaHcvaTM4Ni9pbnRlbF9pb21tdS5jICAgICAgICAgIHwgMTM5DQo+
-ID4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiA+ICBody9p
-Mzg2L2ludGVsX2lvbW11X2ludGVybmFsLmggfCAgIDcgKysrDQo+ID4gPiAgMiBmaWxlcyBjaGFu
-Z2VkLCAxNDYgaW5zZXJ0aW9ucygrKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9ody9pMzg2
-L2ludGVsX2lvbW11LmMgYi9ody9pMzg2L2ludGVsX2lvbW11LmMgaW5kZXgNCj4gPiA+IGI5YWMw
-N2QuLjEwZDMxNGQgMTAwNjQ0DQo+ID4gPiAtLS0gYS9ody9pMzg2L2ludGVsX2lvbW11LmMNCj4g
-PiA+ICsrKyBiL2h3L2kzODYvaW50ZWxfaW9tbXUuYw0KPiA+ID4gQEAgLTMxMzQsMTUgKzMxMzQs
-MTU0IEBAIHN0YXRpYyBib29sDQo+ID4gdnRkX3Byb2Nlc3NfcGFzaWRfZGVzYyhJbnRlbElPTU1V
-U3RhdGUgKnMsDQo+ID4gPiAgICAgIHJldHVybiAocmV0ID09IDApID8gdHJ1ZSA6IGZhbHNlOyAg
-fQ0KPiA+ID4NCj4gPiA+ICsvKioNCj4gPiA+ICsgKiBDYWxsZXIgb2YgdGhpcyBmdW5jdGlvbiBz
-aG91bGQgaG9sZCBpb21tdV9sb2NrLg0KPiA+ID4gKyAqLw0KPiA+ID4gK3N0YXRpYyB2b2lkIHZ0
-ZF9pbnZhbGlkYXRlX3Bpb3RsYihJbnRlbElPTU1VU3RhdGUgKnMsDQo+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIFZUREJ1cyAqdnRkX2J1cywNCj4gPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IGRldmZuLA0KPiA+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBEdWFsSU9NTVVTdGFnZTFDYWNoZQ0KPiA+ID4gKypzdGFn
-ZTFfY2FjaGUpIHsNCj4gPiA+ICsgICAgVlRESG9zdElPTU1VQ29udGV4dCAqdnRkX2Rldl9pY3g7
-DQo+ID4gPiArICAgIEhvc3RJT01NVUNvbnRleHQgKmhvc3RfaWN4Ow0KPiA+ID4gKw0KPiA+ID4g
-KyAgICB2dGRfZGV2X2ljeCA9IHZ0ZF9idXMtPmRldl9pY3hbZGV2Zm5dOw0KPiA+ID4gKyAgICBp
-ZiAoIXZ0ZF9kZXZfaWN4KSB7DQo+ID4gPiArICAgICAgICBnb3RvIG91dDsNCj4gPiA+ICsgICAg
-fQ0KPiA+ID4gKyAgICBob3N0X2ljeCA9IHZ0ZF9kZXZfaWN4LT5ob3N0X2ljeDsNCj4gPiA+ICsg
-ICAgaWYgKCFob3N0X2ljeCkgew0KPiA+ID4gKyAgICAgICAgZ290byBvdXQ7DQo+ID4gPiArICAg
-IH0NCj4gPiA+ICsgICAgaWYgKGhvc3RfaW9tbXVfY3R4X2ZsdXNoX3N0YWdlMV9jYWNoZShob3N0
-X2ljeCwgc3RhZ2UxX2NhY2hlKSkgew0KPiA+ID4gKyAgICAgICAgZXJyb3JfcmVwb3J0KCJDYWNo
-ZSBmbHVzaCBmYWlsZWQiKTsNCj4gPg0KPiA+IEkgdGhpbmsgdGhpcyBzaG91bGQgbm90IGVhc2ls
-eSBiZSB0cmlnZ2VyZWQgYnkgdGhlIGd1ZXN0LCBidXQganVzdCBpbg0KPiA+IGNhc2UuLi4gTGV0
-J3MgdXNlDQo+ID4gZXJyb3JfcmVwb3J0X29uY2UoKSB0byBiZSBzYWZlLg0KPiANCj4gQWdyZWVk
-Lg0KPiANCj4gPiA+ICsgICAgfQ0KPiA+ID4gK291dDoNCj4gPiA+ICsgICAgcmV0dXJuOw0KPiA+
-ID4gK30NCj4gPiA+ICsNCj4gPiA+ICtzdGF0aWMgaW5saW5lIGJvb2wgdnRkX3Bhc2lkX2NhY2hl
-X3ZhbGlkKA0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgVlREUEFTSURBZGRyZXNz
-U3BhY2UgKnZ0ZF9wYXNpZF9hcykgew0KPiA+ID4gKyAgICByZXR1cm4gdnRkX3Bhc2lkX2FzLT5p
-b21tdV9zdGF0ZSAmJg0KPiA+DQo+ID4gVGhpcyBjaGVjayBjYW4gYmUgZHJvcHBlZCBiZWNhdXNl
-IGFsd2F5cyB0cnVlPw0KPiA+DQo+ID4gSWYgeW91IGFncmVlIHdpdGggYm90aCB0aGUgY2hhbmdl
-cywgcGxlYXNlIGFkZDoNCj4gPg0KPiA+IFJldmlld2VkLWJ5OiBQZXRlciBYdSA8cGV0ZXJ4QHJl
-ZGhhdC5jb20+DQo+IA0KPiBJIHRoaW5rIHRoZSBjb2RlIHNob3VsZCBlbnN1cmUgYWxsIHRoZSBw
-YXNpZF9hcyBpbiBoYXNoIHRhYmxlIGlzIHZhbGlkLiBBbmQgd2UgY2FuDQo+IHNpbmNlIGFsbCB0
-aGUgb3BlcmF0aW9ucyBhcmUgdW5kZXIgcHJvdGVjdGlvbiBvZiBpb21tdV9sb2NrLg0KPiANClBl
-dGVyLA0KDQpJIHRoaW5rIG15IHJlcGx5IHdhcyB3cm9uZy4gcGFzaWRfYXMgaW4gaGFzIHRhYmxl
-IG1heSBiZSBzdGFsZSBzaW5jZQ0KdGhlIHBlciBwYXNpZF9hcyBjYWNoZV9nZW4gbWF5IGJlIG5v
-dCBpZGVudGljYWwgd2l0aCB0aGUgY2FjaGVfZ2VuDQppbiBpb21tdV9zdGF0ZS4gZS5nLiB2dGRf
-cGFzaWRfY2FjaGVfcmVzZXQoKSBvbmx5IGluY3JlYXNlcyB0aGUNCmNhY2hlX2dlbiBpbiBpb21t
-dV9zdGF0ZS4gU28gdGhlcmUgd2lsbCBiZSBwYXNpZF9hcyBpbiBoYXNoIHRhYmxlDQp3aGljaCBo
-YXMgY2FjaGVkIHBhc2lkIGVudHJ5IGJ1dCBpdHMgY2FjaGVfZ2VuIGlzIG5vdCBlcXVhbCB0byB0
-aGUNCm9uZSBpbiBpb21tdV9zdGF0ZS4gRm9yIHN1Y2ggcGFzaWRfYXMsIHdlIHNob3VsZCB0cmVh
-dCBpdCBhcyBzdGFsZS4NClNvIEkgZ3Vlc3MgdGhlIHZ0ZF9wYXNpZF9jYWNoZV92YWxpZCgpIGlz
-IHN0aWxsIG5lY2Vzc2FyeS4NCg0KUmVnYXJkcywNCllpIExpdQ0KDQo=
+25.03.2020 18:50, Stefan Reiter wrote:
+> backup_clean is only ever called as a handler via job_exit, which
+
+Hmm.. I'm afraid it's not quite correct.
+
+job_clean
+
+   job_finalize_single
+
+      job_completed_txn_abort (lock aio context)
+
+      job_do_finalize
+
+
+Hmm. job_do_finalize calls job_completed_txn_abort, which cares to lock aio context..
+And on the same time, it directaly calls job_txn_apply(job->txn, job_finalize_single)
+without locking. Is it a bug?
+
+And, even if job_do_finalize called always with locked context, where is guarantee that all
+context of all jobs in txn are locked?
+
+Still, let's look through its callers.
+
+	  job_finalize
+
+                qmp_block_job_finalize (lock aio context)
+                qmp_job_finalize (lock aio context)
+                test_cancel_concluded (doesn't lock, but it's a test)
+
+           job_completed_txn_success
+
+                job_completed
+
+                     job_exit (lock aio context)
+
+                     job_cancel
+	 	
+                          blockdev_mark_auto_del (lock aio context)
+
+                          job_user_cancel
+
+                              qmp_block_job_cancel (locks context)
+                              qmp_job_cancel  (locks context)
+
+                          job_cancel_err
+
+                               job_cancel_sync (return job_finish_sync(job, &job_cancel_err, NULL);, job_finish_sync just calls callback)
+
+                                    replication_close (it's .bdrv_close.. Hmm, I don't see context locking, where is it ?)
+
+                                    replication_stop (locks context)
+
+                                    drive_backup_abort (locks context)
+
+                                    blockdev_backup_abort (locks context)
+
+                                    job_cancel_sync_all (locks context)
+
+                                    cancel_common (locks context)
+
+                          test_* (I don't care)
+
+> already acquires the job's context. The job's context is guaranteed to
+> be the same as the one used by backup_top via backup_job_create.
+> 
+> Since the previous logic effectively acquired the lock twice, this
+> broke cleanup of backups for disks using IO threads, since the BDRV_POLL_WHILE
+> in bdrv_backup_top_drop -> bdrv_do_drained_begin would only release the lock
+> once, thus deadlocking with the IO thread.
+> 
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+
+Just note, that this thing were recently touched by 0abf2581717a19 , so add Sergio (its author) to CC.
+
+> ---
+> 
+> This is a fix for the issue discussed in this part of the thread:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07639.html
+> ...not the original problem (core dump) posted by Dietmar.
+> 
+> I've still seen it occasionally hang during a backup abort. I'm trying to figure
+> out why that happens, stack trace indicates a similar problem with the main
+> thread hanging at bdrv_do_drained_begin, though I have no clue why as of yet.
+> 
+>   block/backup.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/block/backup.c b/block/backup.c
+> index 7430ca5883..a7a7dcaf4c 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -126,11 +126,7 @@ static void backup_abort(Job *job)
+>   static void backup_clean(Job *job)
+>   {
+>       BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
+> -    AioContext *aio_context = bdrv_get_aio_context(s->backup_top);
+> -
+> -    aio_context_acquire(aio_context);
+>       bdrv_backup_top_drop(s->backup_top);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void backup_do_checkpoint(BlockJob *job, Error **errp)
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
