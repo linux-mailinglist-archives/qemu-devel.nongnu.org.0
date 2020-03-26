@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7472A194351
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 16:38:41 +0100 (CET)
-Received: from localhost ([::1]:55542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEDF194369
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 16:43:41 +0100 (CET)
+Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHUad-0006xR-TM
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 11:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54459)
+	id 1jHUfU-0001mr-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 11:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jHUYn-0005Vo-Bx
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:36:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jHUeP-0001E1-CS
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:42:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jHUYk-0002re-OY
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:36:44 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:37985)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jHUYk-0002qd-JY
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:36:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585237001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nfo30rj6FM0R7h4c2RpNlC8JzNBVqLhSr60I3x2Ghys=;
- b=GNLj7mC64P4yXbpPmQXFGcxNxxhHz7J8C9AGRtkcp/luPoQe98vG71LDtEchr0KbIadgjy
- PH+POunPCCffTbIkN0iMADKW4GP+VPEeDvJ+eGw5WLt944WSjAvcghPfIPwiBTd+SRmxhD
- 3HbCm1SUm6mYnLoaGpA4w3EriHi4M/E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-lH5Q5k4JM9GLuxaWldwAPg-1; Thu, 26 Mar 2020 11:36:39 -0400
-X-MC-Unique: lH5Q5k4JM9GLuxaWldwAPg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A167192D785;
- Thu, 26 Mar 2020 15:36:38 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-112-205.ams2.redhat.com
- [10.36.112.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4233F5C1BA;
- Thu, 26 Mar 2020 15:36:37 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/2] mirror: Wait only for in-flight operations
-Date: Thu, 26 Mar 2020 16:36:28 +0100
-Message-Id: <20200326153628.4869-3-kwolf@redhat.com>
-In-Reply-To: <20200326153628.4869-1-kwolf@redhat.com>
-References: <20200326153628.4869-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jHUeO-00052X-1X
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:42:33 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:39340)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jHUeN-000527-H5
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:42:31 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id d63so5845787oig.6
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 08:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hnnfRy54DWX9DxViCYc+DrC/eh0RkZhWUUe0+ujrXtU=;
+ b=QrrddaN6IbawhfOEmqTMSzUBE25UH2WpG/KE6N4kVRmIwA0kIzpzwE2Gh6oveMHuha
+ SWuY9yDFSkqF+hsSecG+aeLKe8cjJS/Ej3j0EDe+DVRzCI/Toq8RIll4ctp5wlnh984F
+ Ov8KRsI45uLqYrppng/bpeJnYg8tZhwualQhvtpRotFklVLnVF1J5nwXj9+Tw8DW0diK
+ RUEaV9HARNIGYbezijDD9kQ6VKLzcdJMpPer3EHsABrkVLIegWSKKcbsLYH42Q06pD/D
+ fObiukdILWvn0abHne8i9pL9jt+tWR7ULqNcF1XSZj444jYiIKQbbn7dFyrLkFV79S2a
+ qQbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hnnfRy54DWX9DxViCYc+DrC/eh0RkZhWUUe0+ujrXtU=;
+ b=mSJMu4vFnKzNT1iVuR0+XVWwdNxkywfnJSCtW3oOP0V6liW22lxHgEaTHc9GMH/mc1
+ aRV7OaIvVO+O1r5Z9CS6/KgTAdEQkR7kHBXtrYWbALVxxHj7B2ZwiNySoBH/A5AcM0s9
+ u/1RMHtqSD/6YxAphgnvQ5HHNXR6ENV5DUKnsTXjxrpFbDOCJ/Jc906twBc2+UCyxXkc
+ TvOMXU4c0/FwsShbdoRf8Gqt5r/AglCtmLL0/dsr0EONvVI78tGiPoiem6kF9HSJwWT7
+ uwjD+lAVKhB1+/zgR6fAnkcU5ibLF6+wjXHP4ObhmYcTwOFOlA+738ou0d3QiX+lTBPV
+ qdQw==
+X-Gm-Message-State: ANhLgQ2vM4ILkQ6tXodgvjlnZ11kzmKv1jf6OVlwoCjJMbPvVbkI+e+U
+ ZdN+LhziE5pUbyDg/GKs7ZW2IXTvsxjoQYnpBv7aeQ==
+X-Google-Smtp-Source: ADFU+vutD1HIaZFRgfp+5q7DLbRAAO40ZmJy4Y1zpMnhpUmrtoaFDLpwkx5Y/oLjEd6oWex9daHfwNrw7BxZGwH7NR0=
+X-Received: by 2002:aca:c608:: with SMTP id w8mr441245oif.163.1585237350768;
+ Thu, 26 Mar 2020 08:42:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+References: <20200326072352.2056553-1-laurent@vivier.eu>
+In-Reply-To: <20200326072352.2056553-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Mar 2020 15:42:19 +0000
+Message-ID: <CAFEAcA92zU5Dy9mZNTv1KtO_ApVRXvdxBZh1wsNGEyWAxAeLKQ@mail.gmail.com>
+Subject: Re: [PULL 0/6] Linux user for 5.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,88 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mirror_wait_for_free_in_flight_slot() just picks a random operation to
-wait for. However, a MirrorOp is already in s->ops_in_flight when
-mirror_co_read() waits for free slots, so if not enough slots are
-immediately available, an operation can end up waiting for itself, or
-two or more operations can wait for each other to complete, which
-results in a hang.
+On Thu, 26 Mar 2020 at 07:24, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 736cf607e40674776d752acc201f565723e86045:
+>
+>   Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
+>
+> for you to fetch changes up to a52f5f87bece827a338d6eb3332e3def86fb9c33:
+>
+>   linux-user: Flush out implementation of gettimeofday (2020-03-26 08:08:54 +0100)
+>
+> ----------------------------------------------------------------
+> Emulate x86_64 vsyscalls
+> Fix syscall_nr.h cleanup
+>
+> ----------------------------------------------------------------
 
-Fix this by adding a flag to MirrorOp that tells us if the request is
-already in flight (and therefore occupies slots that it will later
-free), and picking only such operations for waiting.
+Still fails :-(
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1794692
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/mirror.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/x86_64-linux-user/qemu-x86_64
+-L ./gnemul/qemu-x86_64 x86_64/ls -l dummyfile
+qemu: 0x40008117e9: unhandled CPU exception 0x101 - aborting
+RAX=000000000000003f RBX=000000006ffffe34 RCX=0000004000800b18
+RDX=0000004000813180
+RSI=0000000000000064 RDI=0000004000800670 RBP=000000006fffff40
+RSP=0000004000800668
+R8 =0000000000000000 R9 =0000004000800b44 R10=0000004000801a18
+R11=0000004000801260
+R12=00000040008008c0 R13=0000000000000008 R14=0000000000400040
+R15=00000040008032d0
+RIP=00000040008117e9 RFL=00000246 [---Z-P-] CPL=3 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 00000000 00000000
+CS =0033 0000000000000000 ffffffff 00effb00 DPL=3 CS64 [-RA]
+SS =002b 0000000000000000 ffffffff 00cff300 DPL=3 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 0000000000000000 00000000 00000000
+GS =0000 0000000000000000 00000000 00000000
+LDT=0000 0000000000000000 0000ffff 00008200 DPL=0 LDT
+TR =0000 0000000000000000 0000ffff 00008b00 DPL=0 TSS64-busy
+GDT=     000000400091a000 0000007f
+IDT=     0000004000919000 000001ff
+CR0=80010001 CR2=0000000000000000 CR3=0000000000000000 CR4=00000220
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000
+DR3=0000000000000000
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000500
+Makefile:6: recipe for target 'test' failed
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 393131b135..88414d1653 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -102,6 +102,7 @@ struct MirrorOp {
-=20
-     bool is_pseudo_op;
-     bool is_active_write;
-+    bool is_in_flight;
-     CoQueue waiting_requests;
-     Coroutine *co;
-=20
-@@ -293,7 +294,9 @@ mirror_wait_for_any_operation(MirrorBlockJob *s, bool a=
-ctive)
-          * caller of this function.  Since there is only one pseudo op
-          * at any given time, we will always find some real operation
-          * to wait on. */
--        if (!op->is_pseudo_op && op->is_active_write =3D=3D active) {
-+        if (!op->is_pseudo_op && op->is_in_flight &&
-+            op->is_active_write =3D=3D active)
-+        {
-             qemu_co_queue_wait(&op->waiting_requests, NULL);
-             return;
-         }
-@@ -367,6 +370,7 @@ static void coroutine_fn mirror_co_read(void *opaque)
-     /* Copy the dirty cluster.  */
-     s->in_flight++;
-     s->bytes_in_flight +=3D op->bytes;
-+    op->is_in_flight =3D true;
-     trace_mirror_one_iteration(s, op->offset, op->bytes);
-=20
-     ret =3D bdrv_co_preadv(s->mirror_top_bs->backing, op->offset, op->byte=
-s,
-@@ -382,6 +386,7 @@ static void coroutine_fn mirror_co_zero(void *opaque)
-     op->s->in_flight++;
-     op->s->bytes_in_flight +=3D op->bytes;
-     *op->bytes_handled =3D op->bytes;
-+    op->is_in_flight =3D true;
-=20
-     ret =3D blk_co_pwrite_zeroes(op->s->target, op->offset, op->bytes,
-                                op->s->unmap ? BDRV_REQ_MAY_UNMAP : 0);
-@@ -396,6 +401,7 @@ static void coroutine_fn mirror_co_discard(void *opaque=
-)
-     op->s->in_flight++;
-     op->s->bytes_in_flight +=3D op->bytes;
-     *op->bytes_handled =3D op->bytes;
-+    op->is_in_flight =3D true;
-=20
-     ret =3D blk_co_pdiscard(op->s->target, op->offset, op->bytes);
-     mirror_write_complete(op, ret);
-@@ -1318,6 +1324,7 @@ static MirrorOp *coroutine_fn active_write_prepare(Mi=
-rrorBlockJob *s,
-         .offset             =3D offset,
-         .bytes              =3D bytes,
-         .is_active_write    =3D true,
-+        .is_in_flight       =3D true,
-     };
-     qemu_co_queue_init(&op->waiting_requests);
-     QTAILQ_INSERT_TAIL(&s->ops_in_flight, op, next);
---=20
-2.20.1
-
+thanks
+-- PMM
 
