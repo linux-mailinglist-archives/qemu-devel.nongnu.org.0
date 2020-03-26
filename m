@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7879C193FDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:36:35 +0100 (CET)
-Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B40193FE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:38:17 +0100 (CET)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHSgU-0002yt-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56295)
+	id 1jHSi8-0006T4-6O
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jHSet-00017L-Fq
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:34:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1jHSfE-0001pR-VF
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jHSeo-0007n4-EQ
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:34:51 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:59355)
+ (envelope-from <eblake@redhat.com>) id 1jHSfD-0007xZ-RV
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:16 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:41361)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jHSeo-0007mf-Ad
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:34:50 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHSfD-0007xP-MO
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585229688;
+ s=mimecast20190719; t=1585229715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lEx5lo7AnKOVZdlQj5u7/JO/5SOchGzF2wcu0fH/Aro=;
- b=AF3Hy8+NF7PyrrFKkbk/mB5ADWiTgcfATEjoJc6tUItmoKnHrNz4LHDb9mzHm44gduN1wH
- 3n6yWzgre77jKoXFBUoObWzbJZFekEiKqBKAA/6ATCRMPEe5F1y24FDCDxMLgtQ0MnnYYb
- 98QNXr8TpqPMzFjm9SIRjklNuKcRGUk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-qTD5U8a_OfO_IhMqPRBrMg-1; Thu, 26 Mar 2020 09:34:47 -0400
-X-MC-Unique: qTD5U8a_OfO_IhMqPRBrMg-1
-Received: by mail-wr1-f69.google.com with SMTP id w12so3028762wrl.23
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 06:34:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZBC3o5iU4QnpxJstW4KGp+u4ZwJO5yw3GYUegt5m+xY=;
- b=nNbTUG8Q2W5IvXggQbAOEHQxChBaZFO9Zhg9Iknt/JyXVYBUFW0EzNXhWx3BbNJrqs
- GMRTpreUKj2a2/445aUuOwMBs5QZWUVyTgLgXnDg8P1s+ncIe8j22XIy/4KboDy9sHod
- 6EtGLB6zpAveqX83KojlCVcCg9tWENBeHgtmOr1Xc4mn8rCUD6Jn5aCwf4wErtWovqv2
- sllJU4BWuqIixynoCgcv8HKtT/fp8JSetFQeaq5Esscb7Jr0CtdVDiA7aI295J/PxAWp
- uGVdHEHSoonpM4EO7Zn/czJpj73/G7FlbP+legPrEcqp4DQs4yuXGxx25DefpcSkk9iE
- CU4Q==
-X-Gm-Message-State: ANhLgQ3EPnQa8fmAw7n/Uzjlqb38/oF7Jusnv2diX/7I/KAl6J2YkE1K
- JQWg7iWtBvtmN0LEy9jlyfCcxbkROwOtFzZ8kOtPK6wafOmgr7zLINeSstHdGmTT3IeHnRzpP6j
- 8lbMFizyp4fJVpC0=
-X-Received: by 2002:a05:600c:2051:: with SMTP id
- p17mr3085086wmg.153.1585229681959; 
- Thu, 26 Mar 2020 06:34:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vscmdSRcufsba3YUuNncAMSG+Yr5JaAlgwVmxyu/K4kGgPrdfJw3pmiBXlHIn5XYWVW4fbGOQ==
-X-Received: by 2002:a05:600c:2051:: with SMTP id
- p17mr3085052wmg.153.1585229681606; 
- Thu, 26 Mar 2020 06:34:41 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-62-195.red.bezeqint.net. [109.67.62.195])
- by smtp.gmail.com with ESMTPSA id t81sm3646606wmb.15.2020.03.26.06.34.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 06:34:41 -0700 (PDT)
-Date: Thu, 26 Mar 2020 09:34:38 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 0/7] reference implementation of RSS and hash report
-Message-ID: <20200326093346-mutt-send-email-mst@kernel.org>
-References: <20200320115751.19446-1-yuri.benditovich@daynix.com>
- <158471152973.13259.2630724408322668674@39012742ff91>
+ bh=vaMw7pHDV/LgjAMiNpfA9ib9zFVYFib/+sxqgRozAOA=;
+ b=iXOJpzCGEXYYM/cEuN+YPDVuxlwKot+NfII6VUyb1skNqYpywYNKhG5pPa7SptPmSiwlKZ
+ TQB1BrNPouALKn9EZ2tqTCOvUR0GVVeGQo9CZUbZF97MpFzlmas8DBdzKuvYJ3X+Ta9efa
+ I8/h/sjWksk1+CicYUCrqS7CLbu2V0o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-fuFPMXdXPEyeNSxTnYLrfQ-1; Thu, 26 Mar 2020 09:35:14 -0400
+X-MC-Unique: fuFPMXdXPEyeNSxTnYLrfQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0EA9800D5C;
+ Thu, 26 Mar 2020 13:35:04 +0000 (UTC)
+Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 739F860BF7;
+ Thu, 26 Mar 2020 13:35:03 +0000 (UTC)
+Subject: Re: [PATCH 2/2] block: trickle down the fallback image creation
+ function use to the block drivers
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200326011218.29230-1-mlevitsk@redhat.com>
+ <20200326011218.29230-3-mlevitsk@redhat.com>
+ <922a6eb5-cb33-d2e4-ba0b-15078d1a6c59@redhat.com>
+ <20200326132828.GC7391@linux.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9004829c-45a4-584e-99b4-1dcf70950381@redhat.com>
+Date: Thu, 26 Mar 2020 08:35:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <158471152973.13259.2630724408322668674@39012742ff91>
+In-Reply-To: <20200326132828.GC7391@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,30 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, jasowang@redhat.com,
- dgilbert@redhat.com, quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, integration@gluster.org,
+ sheepdog@lists.wpkg.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, "Richard W.M. Jones" <rjones@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 20, 2020 at 06:38:51AM -0700, no-reply@patchew.org wrote:
-> qemu-system-x86_64: -accel kvm: failed to initialize kvm: No such file or=
- directory
-> qemu-system-x86_64: falling back to tcg
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D8831=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on address=
- 0x7ffc0dacbe80 at pc 0x55ee01d9e92a bp 0x7ffc0dac7080 sp 0x7ffc0dac6830
-> READ of size 1518 at 0x7ffc0dacbe80 thread T0
->     #0 0x55ee01d9e929 in __asan_memcpy (/tmp/qemu-test/build/x86_64-softm=
-mu/qemu-system-x86_64+0x1acb929)
->     #1 0x55ee04694dad in iov_from_buf_full /tmp/qemu-test/src/util/iov.c:=
-33:13
+On 3/26/20 8:28 AM, Kevin Wolf wrote:
+> Am 26.03.2020 um 14:20 hat Eric Blake geschrieben:
+>>> +++ b/block/file-posix.c
+>>> @@ -3513,6 +3513,8 @@ static BlockDriver bdrv_host_device = {
+>>>        .bdrv_reopen_prepare = raw_reopen_prepare,
+>>>        .bdrv_reopen_commit  = raw_reopen_commit,
+>>>        .bdrv_reopen_abort   = raw_reopen_abort,
+>>> +    .bdrv_co_create_opts = bdrv_co_create_opts_simple,
+>>> +    .create_opts         = &bdrv_create_opts_simple,
+>>
+>> I'd drop the leading & for consistency with the rest of this struct
+>> initializer.
+> 
+> This one isn't a function pointer, so I think the & is necessary.
 
-Hmm this seems to be iov related so could be triggered by the new
-patches. Could you investigate pls?
+Ah, right. Visual pattern-matching failed me, since I didn't read the 
+actual types in the .h file.
 
---=20
-MST
+Hmm - is it possible to write the patch in such a way that .create_opts 
+can be left NULL when .bdrv_co_create_opts is bdrv_co_create_opts_simple?
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
