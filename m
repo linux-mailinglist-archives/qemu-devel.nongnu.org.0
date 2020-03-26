@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD9F193FED
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:40:55 +0100 (CET)
-Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3644E193FF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:41:49 +0100 (CET)
+Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHSkg-0002Px-31
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57019)
+	id 1jHSlY-0003q4-7q
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:41:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jHSiO-0007pF-Tr
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHSkK-0002ZB-M9
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:40:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jHSiN-0000dE-8O
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:32 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46859)
+ (envelope-from <mreitz@redhat.com>) id 1jHSkI-0001MD-Lq
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:40:31 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:32327)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHSiN-0000cz-39
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:31 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHSkI-0001M5-Gd
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:40:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585229910;
+ s=mimecast20190719; t=1585230030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6XvtRCgBgAUpkCXGe2lYZCv7zyO5Rb+6Zpofh16gD48=;
- b=LRtOg+5RO/Ho3xBnVDqniL1W28ERrtoHQa7ZWePf+0g1cUmYbRiggE/dvcHf9/qEFIj8wt
- sS3+v9K7H0t7+R7rhx2z/VBNdESbgdrXpCMHcKnXL2fRp4+YNiGEdGzu6EmImAal1K4Or3
- H9GntVtGQz3fJXKeBuCYqkyRlgo7sS8=
+ bh=GLZ7PqgFvxS+irVlp+wgVpe9lcyYVzD57JdXVEPDbPc=;
+ b=heiwlz+ko3WbmXzIDrkQ9C7KU7QCC69VkJpEEMkThzSNRPKx7N2I2bHdAy5/eU35hrn/++
+ r8yBaMTtrWBa/CaSnbNc5DA9Je0/mrxdljDQ5QoP0o12B/tXkSl0ELCIgUkSpAx049ppGf
+ Qf4K0L7aBJwqG3H2z2ylwsFo3WEHEsk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-RSt-RuVkOI2BhNiDoyyD0g-1; Thu, 26 Mar 2020 09:38:28 -0400
-X-MC-Unique: RSt-RuVkOI2BhNiDoyyD0g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-173-sLTU0pgQN5KkQDaUy6E12g-1; Thu, 26 Mar 2020 09:40:24 -0400
+X-MC-Unique: sLTU0pgQN5KkQDaUy6E12g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F199DB60;
- Thu, 26 Mar 2020 13:38:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80E00108592F;
+ Thu, 26 Mar 2020 13:40:22 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-112-132.ams2.redhat.com
  [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73B2F60BF7;
- Thu, 26 Mar 2020 13:38:15 +0000 (UTC)
-Subject: Re: [PATCH 0/2] Fix the generic image creation code
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 345BECFF6;
+ Thu, 26 Mar 2020 13:40:00 +0000 (UTC)
+Subject: Re: [PATCH 2/2] block: trickle down the fallback image creation
+ function use to the block drivers
+To: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>
 References: <20200326011218.29230-1-mlevitsk@redhat.com>
- <e5855331-05a9-c828-5bdd-e2d06e0352a9@redhat.com>
+ <20200326011218.29230-3-mlevitsk@redhat.com>
+ <922a6eb5-cb33-d2e4-ba0b-15078d1a6c59@redhat.com>
+ <20200326132828.GC7391@linux.fritz.box>
+ <9004829c-45a4-584e-99b4-1dcf70950381@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
  /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
@@ -72,20 +76,21 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <3f1e924d-7f52-87f2-8363-4658fdf833d8@redhat.com>
-Date: Thu, 26 Mar 2020 14:38:13 +0100
+Message-ID: <efa5cbae-8d92-13d3-f6f9-b4c043e5696f@redhat.com>
+Date: Thu, 26 Mar 2020 14:39:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <e5855331-05a9-c828-5bdd-e2d06e0352a9@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <9004829c-45a4-584e-99b4-1dcf70950381@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx"
+ boundary="QfUUScYBnxgIa2Cnm6HuZeWOBuGErPljM"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,83 +102,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- integration@gluster.org, sheepdog@lists.wpkg.org,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Jason Dillaman <dillaman@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>,
- "Richard W.M. Jones" <rjones@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+Cc: Fam Zheng <fam@euphon.net>, integration@gluster.org,
+ sheepdog@lists.wpkg.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, "Richard W.M. Jones" <rjones@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
  Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx
-Content-Type: multipart/mixed; boundary="aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj"
+--QfUUScYBnxgIa2Cnm6HuZeWOBuGErPljM
+Content-Type: multipart/mixed; boundary="YcpvkZ1TJQWlUjG8b0X0i3S9pkJ7cdm0x"
 
---aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj
+--YcpvkZ1TJQWlUjG8b0X0i3S9pkJ7cdm0x
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 26.03.20 13:23, Max Reitz wrote:
-> On 26.03.20 02:12, Maxim Levitsky wrote:
->> The recent patches from Max Reitz allowed some block drivers to not
->> provide the .bdrv_co_create_opts and still allow qemu-img to
->> create/format images as long as the image is already existing
->> (that is the case with various block storage drivers like nbd/iscsi/nvme=
-, etc)
+On 26.03.20 14:35, Eric Blake wrote:
+> On 3/26/20 8:28 AM, Kevin Wolf wrote:
+>> Am 26.03.2020 um 14:20 hat Eric Blake geschrieben:
+>>>> +++ b/block/file-posix.c
+>>>> @@ -3513,6 +3513,8 @@ static BlockDriver bdrv_host_device =3D {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .bdrv_reopen_prepare =3D raw_reop=
+en_prepare,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .bdrv_reopen_commit=C2=A0 =3D raw=
+_reopen_commit,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .bdrv_reopen_abort=C2=A0=C2=A0 =
+=3D raw_reopen_abort,
+>>>> +=C2=A0=C2=A0=C2=A0 .bdrv_co_create_opts =3D bdrv_co_create_opts_simpl=
+e,
+>>>> +=C2=A0=C2=A0=C2=A0 .create_opts=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 =3D &bdrv_create_opts_simple,
+>>>
+>>> I'd drop the leading & for consistency with the rest of this struct
+>>> initializer.
 >>
->> However it was found out that some places in the code depend on the
->> .bdrv_co_create_opts/.create_opts to be !=3D NULL to decide if to allow
->> image creation.
->>
->> To avoid adding failback code to all these places, just make generic fai=
-lback
->> code be used by the drivers that need it, so that for outside user, ther=
-e
->> is no diffirence if failback was used or not.
->>
->> Best regards,
->> =09Maxim Levitsky
->>
->> Maxim Levitsky (2):
->>   block: pass BlockDriver reference to the .bdrv_co_create
->>   block: trickle down the fallback image creation function use to the
->>     block drivers
+>> This one isn't a function pointer, so I think the & is necessary.
 >=20
-> Thanks, fixed the function parameter alignment, moved the declarations
-> from block.h into block_int.h, and applied the series to my block branch:
-
-(And the spelling fixes suggested by Eric)
-
-> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+> Ah, right. Visual pattern-matching failed me, since I didn't read the
+> actual types in the .h file.
 >=20
-> Max
->=20
+> Hmm - is it possible to write the patch in such a way that .create_opts
+> can be left NULL when .bdrv_co_create_opts is bdrv_co_create_opts_simple?
+
+Setting .create_opts is actually the main point of this series, so we
+don=E2=80=99t have to look for and fix all places that decide whether a blo=
+ck
+driver is capable of image creation based on whether it=E2=80=99s set or no=
+t.
+
+Max
 
 
+--YcpvkZ1TJQWlUjG8b0X0i3S9pkJ7cdm0x--
 
---aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj--
-
---aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx
+--QfUUScYBnxgIa2Cnm6HuZeWOBuGErPljM
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl58sEUACgkQ9AfbAGHV
-z0D0kgf/U/hhcSo5l3+bnG27VrLEbLPh3ITIZASp0GfDP2sto6DOkNFvWQpeFuPe
-ynoBQOp9RnALQ9kn1jepGczVCcscQ+UJVql9c6DoxX4GQ2aHENdknWljRhgyIcHB
-fxzxrQqWX/mQ++AOHZyoVi+It/EvMyFDNq0XlYF6VRuusdl2W6e65n84TQ3z0qZ0
-e+mA+hQ9el8dfDTNVtq8ehR9evAZCshIZkQFjCy3cSqztkHKFstAG/uX5wQqVWQM
-03bvoa5hbo/uERsfsciIsE6rargDyRcGpJo7/lOZ4qxV9v5BOyrUtWKaWmjjzZse
-f3KFDpg5GStHBCbO0l7BwvzKi7CSpQ==
-=JKl6
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl58sK8ACgkQ9AfbAGHV
+z0Co0Af/XtamVYc+453Oh+hAZ6VXuohJYlGuYUbnAKIEesRmtUuNHqGwTAhmhxVH
+HJ/JRvKYdcHm3jm0nPUSkoIdEJYIdwAN/e60khmrocqygPdloYCOEqVAmCgBLdxQ
+6tF2bpVJw5182G+APpkXStll4w1wh1XmeLU1XqvqKDjUkVQQzfpUTiWydI3XY6Nv
+W4JpVUxiE/d2C/t8+NNx89NQEp/T2ZC8olfwytvEqll4ieu8Iw+XY9LMN4kxb6vR
+/I9wgifc1/cLY/ocW/MRVGI2kOi/ADWcjQYs8Hbne8RwOe9imvGyQeQ9qerdwx4P
+bpAmYLpCGZ2ukc5w5PNUUeLwBNXNLw==
+=xw2q
 -----END PGP SIGNATURE-----
 
---aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx--
+--QfUUScYBnxgIa2Cnm6HuZeWOBuGErPljM--
 
 
