@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED64194A7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:26:38 +0100 (CET)
-Received: from localhost ([::1]:60616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA36194A64
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:19:58 +0100 (CET)
+Received: from localhost ([::1]:60518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHa1N-000558-HP
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:26:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42730)
+	id 1jHZuv-0000TM-0y
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jHa0U-0004bT-1v
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:25:43 -0400
+ (envelope-from <linus.walleij@linaro.org>) id 1jHZtt-0008T8-TL
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:18:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jHa0S-0006VE-9e
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:25:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33076)
+ (envelope-from <linus.walleij@linaro.org>) id 1jHZts-0007HV-Fi
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:18:53 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:46036)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jHa0S-0006UE-2J
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:25:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jHa0Q-0004sS-Dh
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 21:25:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 65E0A2E80C9
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 21:25:38 +0000 (UTC)
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1jHZtr-0007DS-VS
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:18:52 -0400
+Received: by mail-lj1-x244.google.com with SMTP id t17so8014929ljc.12
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 14:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BtDnHTuIZQJxreSGmLJQQ8ku1fLzEZvZgsl/IqNsN8A=;
+ b=IXxu/b/ZFJBTcuTRbJKkO3+OaHo+Jz796SjBmFajhclIBm/BsLYWIAcx9DtKHieiLy
+ tC1vll/WVvRZQ+7qJ8T1OabM2kIqVG9KEwn/gO1uzvwHIs/v6r5PUIM8K2kmGH3MMNXx
+ nmCCfjAEtu37RGo2HNzvtF+VDyr/FKocXnWXD6OBMy57AI/ZJMu+S2hSLH5zbmyjmr7E
+ sxTlRVJ5vW38t9Cg+zhSbse1W+BZkWRDzYx/Yu4yn+IZzHSViZT5elZgxloQRh/hC7i3
+ +w1dTkhKoFmmSYtRXjpmPsSyzvY/Q7+9WKp1e8RMSShyoiYZ9ziRyI4HZbJENIUJqUqy
+ 2vwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BtDnHTuIZQJxreSGmLJQQ8ku1fLzEZvZgsl/IqNsN8A=;
+ b=FGG86jHCcd0z9UYoWeJrjDvnOFdgNqpr0lKXyUDzHFaLxDm9WLv7IXKWYyHyL0QC2w
+ QMtU5tfU0J9nRxDIOF9MCyiwvfzcb+iYSa02mwHdp7vzzsWhs3bazd3pQqAyQDjiTBXj
+ jA+ZAC1nWX8pRWt5shoPPx3gHn1AQeM3/YQeBMiAnuTjD/4Jx/0vWEO0M9NduYJ8zG4G
+ X4WpUx5AEKXRDSQg9Wn0foRp5qo5UVs3e5KXvNwigyPBLKRESdXZLXlvOTuyheNp7Gpc
+ U11tBrowWt1c4iXMNaH6E8bMo0OyPSrASuifMg9XY5lrKH2NozHod1X+FWcyvzdaC3BY
+ Pxnw==
+X-Gm-Message-State: AGi0PuZ/e7V5iG9QB1Y+gnGH7f0DHW9ZdP7oAIEQfLNXPMXUdO6i/74S
+ GOdEYefp96ombktk2TKlH8WgkH081Kp2zZVgzdDG9w==
+X-Google-Smtp-Source: APiQypI3i354cA5ylzgV3u2ROOS/UyX7OA+VdV0fyyDcKpZ9OLsd6Iw0Xj96knvewn3/YsM9fw/zq6pJKSJXERmc8DI=
+X-Received: by 2002:a2e:5048:: with SMTP id v8mr5946209ljd.99.1585257530291;
+ Thu, 26 Mar 2020 14:18:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Mar 2020 21:16:08 -0000
-From: Paul Menzel <1693050@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paulmenzel philmd rmustacc
-X-Launchpad-Bug-Reporter: Robert Mustacchi (rmustacc)
-X-Launchpad-Bug-Modifier: Paul Menzel (paulmenzel)
-References: <149558234717.18218.15801621819682136328.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158525736835.19072.16896591055458736239.malone@chaenomeles.canonical.com>
-Subject: [Bug 1693050] Re: xhci HCIVERSION register read emulation incorrectly
- handled
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: deac316eb2ac59f6309bf6ce22fab403dd597930
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20200324135328.5796-1-geert+renesas@glider.be>
+ <20200324135653.6676-1-geert+renesas@glider.be>
+ <20200324135653.6676-4-geert+renesas@glider.be>
+In-Reply-To: <20200324135653.6676-4-geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 26 Mar 2020 22:18:39 +0100
+Message-ID: <CACRpkdbN82n3B+Q-QVjB1jLpJAYS19fKukkDXQm3gZsuFFFM_w@mail.gmail.com>
+Subject: Re: [PATCH v6 4/8] gpiolib: Add support for GPIO lookup by line name
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,80 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1693050 <1693050@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to Duncan, it=E2=80=99s not, and the paragraph from the original =
-issue
-still applies.
+On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-> The xhci register specifies today that its allowed for users to do 1-4 by=
-te reads; however, that
-> it implements only four byte reads in its implementation
-> (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-xhci.c;hb=3DH=
-EAD#l3333). Hence why when we
-> read the HCIVERSION register at offset 0x2, it isn't handled in xhci_cap_=
-read() which then
-> returns zeros.
+> Currently a GPIO lookup table can only refer to a specific GPIO by a
+> tuple, consisting of a GPIO controller label and a GPIO offset inside
+> the controller.
+>
+> However, a GPIO may also carry a line name, defined by DT or ACPI.
+> If present, the line name is the most use-centric way to refer to a
+> GPIO.  Hence add support for looking up GPIOs by line name.
+>
+> Implement this by reusing the existing gpiod_lookup infrastructure.
+> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
+> that this field can have two meanings, and update the kerneldoc and
+> GPIO_LOOKUP*() macros.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
--- =
+I kind of like this approach, however there are things here that
+need to be considered: the line name is in no way globally unique,
+and I think there are already quite a few GPIO chips that
+have the same line names assigned for every instance of that
+chip.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1693050
+gpiochip_set_desc_names() only warns if there is a line with
+the same name on the same gpio_chip.
 
-Title:
-  xhci HCIVERSION register read emulation incorrectly handled
+I suppose we need to document that the line name look-up
+will be on a first-come-first-served basis: whatever line
+we find first with this name is what you will get a reference
+to, no matter what chip it is on, and it is possible albeit
+not recommended that some other chip has a line with the
+same name.
 
-Status in QEMU:
-  New
-
-Bug description:
-  We had an illumos user trying to run illumos in QEMU 2.9.0 with the
-  qemu-xhci device enabled. Note, that while this was discovered against
-  QEMU 2.9.0, from my current read of the HEAD, it is still present. The
-  illumos bug at https://www.illumos.org/issues/8173 has additional
-  information on how the user invoked qemu. While investigating the
-  problem we found that the illumos driver was reading a version of
-  0x0000 when reading the HCIVERSION register from qemu.
-
-  In the illumos driver we're performing a 16-bit read of the version
-  register at offset 0x2. From looking around at other OSes, while Linux
-  performs a 4 byte read at offset 0x0 and masks out the version, others
-  that care about the version are doing a two byte read, though not all
-  actually act on the version and some just discard the information.
-
-  The user who hit this was able to enable tracing (note the tracing
-  file is attached to the illumos bug linked previously) and we hit the
-  unimplemented register read with offset 0x2 at
-  http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l2960. The xhci register specifies today that its
-  allowed for users to do 1-4 byte reads; however, that it implements
-  only four byte reads in its implementation
-  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l3333). Hence why when we read the HCIVERSION register
-  at offset 0x2, it isn't handled in xhci_cap_read() which then returns
-  zeros.
-
-  From digging into this, I think that we're coming into
-  memory_region_dispatch_read() and then memory_region_dispatch_read1().
-  However, I don't see anything in either the general memory region
-  logic or in the xhci_cap_read() function that would deal with
-  adjusting the offset that we're reading at and then masking it off
-  again. While the access_with_adjusted_size() attempts to deal with
-  this, it never adjusts the hardware address that's passed in to be a
-  multiple of the implementation defined offset that I can see. I
-  suspect that the FIXME at line 582
-  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dmemory.c;hb=3DHEAD#l582) =
-and
-  the implementation in the xhci code is the crux of the problem.
-
-  For the time being we're working around this in the illumos driver,
-  but I wanted to point this out such that it might be helpful for other
-  systems which are assuming that they can do the two byte read like on
-  hardware.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1693050/+subscriptions
+Yours,
+Linus Walleij
 
