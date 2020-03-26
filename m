@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B6E193EF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 13:35:47 +0100 (CET)
-Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF459193F46
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 13:53:06 +0100 (CET)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHRje-0007PM-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 08:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45945)
+	id 1jHS0P-0005dW-Ud
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 08:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jHRin-0006wS-1n
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:34:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHRyP-0004IV-Kc
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jHRil-0003QW-LS
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:34:52 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:35989)
+ (envelope-from <bounces@canonical.com>) id 1jHRyO-0001gQ-54
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:51:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58660)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jHRil-0003QG-Bl
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:34:51 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id i4so3133275ybl.3
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 05:34:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MKuU34msXkQYhHVXqRbsAI2o1jxhxXNMBLDeGnNMG/0=;
- b=oGNMKNHbhS9OzsFSOokYPh60/BS+sgYZzfPOEnfKTj0Sd3npMKeeiemv3zhndq2xEp
- EJbbNju9Cbf67AChCswOIXSxj0i2914xpUPf5yrrXT/+4FXp69mxmGj47Pe8tio+L6SV
- on4lzNl+V0O4zGTSJxJKwKq6MGT8fbnv+59BLP+pNwPX/nJcd84sd03gOY+GqU5Qj4eC
- ioA+cdXLs4Jt8/Y983FP8O8Tm4Ydu3RydY0jskMnSL+OZB8kXebUHEEq+LBUrmzdULEp
- prbgOgOn5cSksA7THXPDyACCbX4MG2kDevoHREpfvSgPi5YSGmD3+9dsnp8Ibj5PPmDT
- eAOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MKuU34msXkQYhHVXqRbsAI2o1jxhxXNMBLDeGnNMG/0=;
- b=ayuhfB+cz/vRrGdxl1bYLCEqXSddEruxgxE78Rgv+bb55K2L1rb6hXSlRo6v6hwN75
- oSk29Nb7tNgQv/T5+aczwDE2UZlrLsXbTXH29LQ23vtT9tQqrqlZ9qhlQP2reduNYxxj
- OKG8CTVFkcaTG1F/yj8CA2Nn2fcMh2FzkvwI5TSZehbug2g9aLIlJBuY2nFvl1/yjiN0
- tkvbQKVrt0tB0x8MZz9Fgi8rGWfvBYc4dtYhq+onhsd1YwM2D6H+IYrmv7eZvr3HuaQA
- 683+UeY1+yVWCG5HWIqb9d4slnvhUcRvHql8lDgTj6W4lJgYd+jdR7mI+kjAWHIUtlp2
- xOPA==
-X-Gm-Message-State: ANhLgQ3mttO+vXtyNI1FKJ6IRGJCqNke8fsRhY+kfar9U2sax7VnUQzi
- cAStc8pTFyICp2+BDnl/zRjepH/p7j6cQa3G2OI58tJbcZ0=
-X-Google-Smtp-Source: ADFU+vus2+9FlQhdljT6kFV/Vpc+MpcvjXIo5gHI5GpkhujTD0ima3EajGtEap0XmKF5w/QHYgCicXtoykjCdGvs9vI=
-X-Received: by 2002:a25:b8c9:: with SMTP id g9mr13743187ybm.265.1585226090198; 
- Thu, 26 Mar 2020 05:34:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHRyN-0001fO-Vi
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:51:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHRyL-0004xI-Vp
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:50:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C3AD82E80D3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:50:57 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200320115751.19446-1-yuri.benditovich@daynix.com>
- <20200320115751.19446-8-yuri.benditovich@daynix.com>
-In-Reply-To: <20200320115751.19446-8-yuri.benditovich@daynix.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Thu, 26 Mar 2020 14:34:39 +0200
-Message-ID: <CAOEp5OcZXEXx0gXZTUOvEbH8dteu5S9fzCFJiTGVZkJGyGrv0A@mail.gmail.com>
-Subject: Re: [PATCH v6 7/7] virtio-net: add migration support for RSS and hash
- report
-To: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, quintela@redhat.com, dgilbert@redhat.com
-Content-Type: multipart/alternative; boundary="000000000000fecbce05a1c135bf"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Mar 2020 12:39:36 -0000
+From: =?utf-8?q?Leonardo_M=C3=BCller?= <leozinho29_eu@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=High; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
+ server-next
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail leozinho29-eu paelzer
+X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
+ =?utf-8?q?=29?=
+References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158522637671.10652.4036213959375690330.malone@soybean.canonical.com>
+Subject: [Bug 1868116] Re: QEMU monitor no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 85d7f91014002052b7409216c06fa19e98926aa6
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,201 +72,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>
+Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fecbce05a1c135bf
-Content-Type: text/plain; charset="UTF-8"
+Thank you for investigating this. I would bisect QEMU, but wouldn't
+investigate its libraries. Consequently, I would never find the cause of
+this problem.
 
-ping
+For now, I am using -monitor telnet:127.0.0.1:55555,server,nowait to
+have access to the monitor on QEMU guests.
 
-On Fri, Mar 20, 2020 at 1:58 PM Yuri Benditovich <
-yuri.benditovich@daynix.com> wrote:
+-- =
 
-> Save and restore RSS/hash report configuration.
->
-> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> ---
->  hw/net/virtio-net.c | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index a0614ad4e6..7de7587abd 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void
-> *opaque, int version_id)
->          }
->      }
->
-> +    if (n->rss_data.enabled) {
-> +        trace_virtio_net_rss_enable(n->rss_data.hash_types,
-> +                                    n->rss_data.indirections_len,
-> +                                    sizeof(n->rss_data.key));
-> +    } else {
-> +        trace_virtio_net_rss_disable();
-> +    }
->      return 0;
->  }
->
-> @@ -3019,6 +3026,32 @@ static const VMStateDescription
-> vmstate_virtio_net_has_vnet = {
->      },
->  };
->
-> +static bool virtio_net_rss_needed(void *opaque)
-> +{
-> +    return VIRTIO_NET(opaque)->rss_data.enabled;
-> +}
-> +
-> +static const VMStateDescription vmstate_virtio_net_rss = {
-> +    .name      = "virtio-net-device/rss",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = virtio_net_rss_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_BOOL(rss_data.enabled, VirtIONet),
-> +        VMSTATE_BOOL(rss_data.redirect, VirtIONet),
-> +        VMSTATE_BOOL(rss_data.populate_hash, VirtIONet),
-> +        VMSTATE_UINT32(rss_data.hash_types, VirtIONet),
-> +        VMSTATE_UINT16(rss_data.indirections_len, VirtIONet),
-> +        VMSTATE_UINT16(rss_data.default_queue, VirtIONet),
-> +        VMSTATE_UINT8_ARRAY(rss_data.key, VirtIONet,
-> +                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
-> +        VMSTATE_VARRAY_UINT16_ALLOC(rss_data.indirections_table,
-> VirtIONet,
-> +                                    rss_data.indirections_len, 0,
-> +                                    vmstate_info_uint16, uint16_t),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
->  static const VMStateDescription vmstate_virtio_net_device = {
->      .name = "virtio-net-device",
->      .version_id = VIRTIO_NET_VM_VERSION,
-> @@ -3069,6 +3102,10 @@ static const VMStateDescription
-> vmstate_virtio_net_device = {
->                              has_ctrl_guest_offloads),
->          VMSTATE_END_OF_LIST()
->     },
-> +    .subsections = (const VMStateDescription * []) {
-> +        &vmstate_virtio_net_rss,
-> +        NULL
-> +    }
->  };
->
->  static NetClientInfo net_virtio_info = {
-> --
-> 2.17.1
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868116
 
---000000000000fecbce05a1c135bf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Title:
+  QEMU monitor no longer works
 
-<div dir=3D"ltr">ping</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Mar 20, 2020 at 1:58 PM Yuri Benditovich &lt;<=
-a href=3D"mailto:yuri.benditovich@daynix.com">yuri.benditovich@daynix.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sa=
-ve and restore RSS/hash report configuration.<br>
-<br>
-Signed-off-by: Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@dayn=
-ix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt;<br>
----<br>
-=C2=A0hw/net/virtio-net.c | 37 +++++++++++++++++++++++++++++++++++++<br>
-=C2=A01 file changed, 37 insertions(+)<br>
-<br>
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
-index a0614ad4e6..7de7587abd 100644<br>
---- a/hw/net/virtio-net.c<br>
-+++ b/hw/net/virtio-net.c<br>
-@@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *opaque,=
- int version_id)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (n-&gt;rss_data.enabled) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_virtio_net_rss_enable(n-&gt;rss_data.has=
-h_types,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.indirec=
-tions_len,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(n-&gt;rss_data.=
-key));<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_virtio_net_rss_disable();<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-@@ -3019,6 +3026,32 @@ static const VMStateDescription vmstate_virtio_net_h=
-as_vnet =3D {<br>
-=C2=A0 =C2=A0 =C2=A0},<br>
-=C2=A0};<br>
-<br>
-+static bool virtio_net_rss_needed(void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 return VIRTIO_NET(opaque)-&gt;rss_data.enabled;<br>
-+}<br>
-+<br>
-+static const VMStateDescription vmstate_virtio_net_rss =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =3D &quot;virtio-net-device/rss&qu=
-ot;,<br>
-+=C2=A0 =C2=A0 .version_id =3D 1,<br>
-+=C2=A0 =C2=A0 .minimum_version_id =3D 1,<br>
-+=C2=A0 =C2=A0 .needed =3D virtio_net_rss_needed,<br>
-+=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(rss_data.enabled, VirtIONet),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(rss_data.redirect, VirtIONet),<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_BOOL(rss_data.populate_hash, VirtIONet=
-),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(rss_data.hash_types, VirtIONet)=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT16(rss_data.indirections_len, Virt=
-IONet),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT16(rss_data.default_queue, VirtION=
-et),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT8_ARRAY(rss_data.key, VirtIONet,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 VIRTIO_NET_RSS_MAX_KEY_SIZE),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_VARRAY_UINT16_ALLOC(rss_data.indirecti=
-ons_table, VirtIONet,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rss_data.indirections_=
-len, 0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_info_uint16, u=
-int16_t),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-+=C2=A0 =C2=A0 },<br>
-+};<br>
-+<br>
-=C2=A0static const VMStateDescription vmstate_virtio_net_device =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;virtio-net-device&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0.version_id =3D VIRTIO_NET_VM_VERSION,<br>
-@@ -3069,6 +3102,10 @@ static const VMStateDescription vmstate_virtio_net_d=
-evice =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0has_ctrl_guest_offloads),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_END_OF_LIST()<br>
-=C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 .subsections =3D (const VMStateDescription * []) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vmstate_virtio_net_rss,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0};<br>
-<br>
-=C2=A0static NetClientInfo net_virtio_info =3D {<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div>
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Triaged
+Status in vte2.91 package in Ubuntu:
+  New
 
---000000000000fecbce05a1c135bf--
+Bug description:
+  Repro:
+  VTE
+  $ meson _build && ninja -C _build && ninja -C _build install
+
+  qemu:
+  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
+r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
+-enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
+sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
+-disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
+disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
+opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
+irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
+-pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
+vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
+sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
+le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
+e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
+utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
+-disable-cap-ng
+  $ make
+
+  Test:
+  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
+uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
+le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
+rent/images/netboot/mini.iso
+  - switch to monitor with CTRL+ALT+2
+  - try to enter something
+
+  Affects head of both usptream git repos.
+
+  =
+
+  --- original bug ---
+
+  It was observed that the QEMU console (normally accessible using
+  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
+  problematic because there are cases where it's required to send
+  commands to the guest, or key combinations that the host would grab
+  (as Ctrl-Alt-F1 or Alt-F4).
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 20.04
+  Package: qemu 1:4.2-3ubuntu2
+  Uname: Linux 5.6.0-rc6+ x86_64
+  ApportVersion: 2.20.11-0ubuntu20
+  Architecture: amd64
+  CurrentDesktop: XFCE
+  Date: Thu Mar 19 12:16:31 2020
+  Dependencies:
+
+  InstallationDate: Installed on 2017-06-13 (1009 days ago)
+  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
+  KvmCmdLine:
+  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
+86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
+,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
+home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
+  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
+-re]
+  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
+5]
+  MachineType: LENOVO 80UG
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
+4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
+rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
+ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
+enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
+7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
+scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
+_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
+  dmi.bios.date: 08/09/2018
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: 0XCN45WW
+  dmi.board.asset.tag: NO Asset Tag
+  dmi.board.name: Toronto 4A2
+  dmi.board.vendor: LENOVO
+  dmi.board.version: SDK0J40679 WIN
+  dmi.chassis.asset.tag: NO Asset Tag
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: Lenovo ideapad 310-14ISK
+  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
+Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
+10:cvrLenovoideapad310-14ISK:
+  dmi.product.family: IDEAPAD
+  dmi.product.name: 80UG
+  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
+  dmi.product.version: Lenovo ideapad 310-14ISK
+  dmi.sys.vendor: LENOVO
+  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
 
