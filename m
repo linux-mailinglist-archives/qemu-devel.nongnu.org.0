@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57902194AB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:37:05 +0100 (CET)
-Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD39194AC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:40:16 +0100 (CET)
+Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHaBU-0002ic-DO
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55845)
+	id 1jHaEZ-00054z-GF
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jHaAD-0001qw-Oz
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:35:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jHaDU-0004L9-5f
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:39:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jHaAC-0008B4-Ow
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:35:45 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:41332)
+ (envelope-from <peter.maydell@linaro.org>) id 1jHaDS-0003AM-SG
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:39:08 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:37479)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jHaAC-00089Y-J6
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:35:44 -0400
-Received: by mail-oi1-x232.google.com with SMTP id k9so6960328oia.8
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 14:35:44 -0700 (PDT)
+ id 1jHaDS-00039e-5M
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:39:06 -0400
+Received: by mail-ot1-x330.google.com with SMTP id g23so7633134otq.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 14:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=FHPo6R9+P4ugxx2FOsK+YSWlnmcqgznNMFclaNoulYo=;
- b=xXjTsfX2ZVmKAmop6OwPTzhWbT9gVeZ3yJLoK0oOZFXD0U9ztptIbfAKVzNhV6EopB
- o94GVhCUzIhF1RFnY9t5aPdYaAWhqgJvK91aPJDFgYPptIXIvO/4E7WF4BpVffrqx/1Y
- wufz5jcUI49v5GbQuzpVvw6sDaF91KvvXeJQYbjXzCUDpZ7FpBlTts+ltAIEEoLA/fMp
- Y7ABJt/GXh7yCAO7u3VbrNzThlHMGkSD3ONNyNNQ2EMlxDr8gpiXL4wOALbWQznSxQY7
- PwuVjBF9Xv/wtg6/TiWjVj+q3Fez8clEOf/F+a+UmdMRLNEctQ7qhH9mWM1XtoUgBiWJ
- afjw==
+ bh=ttFRTy1miBphiIkRdmeJ7d7lmPHn2JFJgTlTt9y5xDY=;
+ b=oy7ZsYMiDp5Es2IvFowVFh0nr4+ydviKOk/cJWOGWV5G+4UZRor6v6j5BnVXyTDQAw
+ qpU1jNIl9XhNxR270tB+3awACdQY1r4P++FIVs6Lo0ILF1gPhqIqvd5mFPHRupPdaYSA
+ D/iQ43oXoU7RDdcGDg0B24Pt7TMnj0pjNbevqM9Ghc/YVjO1fJRnJ+JFZuzq2fMmpxlh
+ 1TsShaNqjV9qNHBtkeGGWtvi6H6Jvp5kWS3pW8gf/yTUyrV4ihYcAZYe/ptsDR6pmYBH
+ Q1fs90oCKS/D0oCmhg/oeooj2jorB2nHEVa9ZoxRW5od8NRNy7LUAzQMegm32ikfkyvX
+ 89QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=FHPo6R9+P4ugxx2FOsK+YSWlnmcqgznNMFclaNoulYo=;
- b=IafJMl9Lqn9/KYa3clxJYVF4hlm+IBPB/7ed3sNDeIT3k8hAUfENCGGn2ksd8Kz74u
- CI2Y/u51YntrTcbgqETheZj4JGCQ5h5uDSk/9mkt+MKCBHrWoy5RBulCHMYRTAE2gGBZ
- mUhZODj1GlahX10i/t9XpYZnHP9tdHGIrjYXt8bxhC5qHqDKPWcJDlh15pS+9a7XYX7R
- ZzkDfeAn6cro0/Ug84XmDNdRKYbpyO+rwCfSsD3ZS6uutwo31A8Rlw+Hh5/HA1hP4y4u
- yHx1RLLMh891UBAIrcnJX1ud3GMYoML15JhuTnkMaab30w59yV5Ha641II4OM69sePbZ
- Yx5A==
-X-Gm-Message-State: ANhLgQ0i1sTgeA59b6oZKZ35IeQ7c+ayvHpv4kj2e9aIzWie0MwG4rXL
- oEaSA7CSt+GaG5artm+L0qixCZlzLbGzseK99WAXAxbz+Pk=
-X-Google-Smtp-Source: ADFU+vvo4NqYzmW7cRiMOCxh+cTUzcASuf0QDF9+LrHs27q1ny+W4ekrEqQsxq4BKCNmz+JR5Zr4qX06PCMTMCJa2sE=
-X-Received: by 2002:a05:6808:8cb:: with SMTP id
- k11mr1745762oij.48.1585258543758; 
- Thu, 26 Mar 2020 14:35:43 -0700 (PDT)
+ bh=ttFRTy1miBphiIkRdmeJ7d7lmPHn2JFJgTlTt9y5xDY=;
+ b=ttzuoXTjWAOQs6VNPZY/23eHhmYa01EoDHu1TTdULDDnm8yEXl1p0wjJgBRok1raM/
+ 1u+e0AoO4QS6PBcdvKSuxyeytBfcWSnMMRZ/pp4+kAgJ+B+WxjBfsnN6PRDhDkcdhZ6f
+ k3GCFHc9oW7hYnKlMstaUNQ/xF5nsvws0bTwSOerM3ekBGhlf+t31D90X+aheFr2JGV6
+ AArPpC4Ott4ivU9M4reX70GB9XhPWqCLEQzrguLMBReuabksU3PmVp4soDtN/aP5AZpA
+ 4zee9/nZ8OYR9sK92KYsBUvL1XtiyU1TdVDLeO1ZZmwZ7nhWGh5rF6MgdYMinJRrtN8e
+ IBNw==
+X-Gm-Message-State: ANhLgQ2jyETPh8YvsJn856JPRlbbSXfrk3Rv/HAlW0PQgXob0IMl0hKq
+ DAT+RRt1TViKbJ9oI9Z4sfcB1780aEFX8WLDxzQgPg==
+X-Google-Smtp-Source: ADFU+vsr5IzCSl9lBQiEgE2XocyyR3ZWLPD05jdlPB06nPoyvel5brs0CtYjgJGaAaTtMs341LbocOOpyzqiC2yYx9E=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr7656604ota.221.1585258744877; 
+ Thu, 26 Mar 2020 14:39:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200325191830.16553-1-f4bug@amsat.org>
- <20200325191830.16553-4-f4bug@amsat.org>
-In-Reply-To: <20200325191830.16553-4-f4bug@amsat.org>
+ <20200325191830.16553-6-f4bug@amsat.org>
+In-Reply-To: <20200325191830.16553-6-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Mar 2020 21:35:32 +0000
-Message-ID: <CAFEAcA_bxHKfw8Oh2A-xtyfkeYk7-vrGvmG0MCjFR7Si-ErfKQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0 03/12] hw/arm/fsl-imx: Add missing
- error-propagation code
+Date: Thu, 26 Mar 2020 21:38:53 +0000
+Message-ID: <CAFEAcA97j0LD__A4eSkf1Aq2GpcQ5up1e76Hwfcj-Dd3o6iOeg@mail.gmail.com>
+Subject: Re: [PATCH-for-5.0 05/12] hw/i386/x86: Add missing error-propagation
+ code
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+X-Received-From: 2607:f8b0:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,8 +111,42 @@ cocci \
 >     --keep-comments --smpl-spacing --in-place --dir hw
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/i386/x86.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 87b73fe33c..0a4865d4a9 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -103,13 +103,17 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState=
+ *x86ms,
+>  void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+>  {
+>      Object *cpu =3D NULL;
+>      Error *local_err =3D NULL;
+>
+>      cpu =3D object_new(MACHINE(x86ms)->cpu_type);
+>
+>      object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+>      object_property_set_bool(cpu, true, "realized", &local_err);
+>
+>      object_unref(cpu);
+>      error_propagate(errp, local_err);
+>  }
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hmm, not sure about this one -- in the error-exit path
+for failure-to-realize we object_unref(), do we need to
+do so also if we error-exit for failure to set the apic-id ?
+
+(Since apic-id is a PROP_UINT32 with no set function, there
+is not currently any way for the set_uint to fail, as it
+happens. But we ought to either have the error-propagation
+right or use error_abort if we truly believe it can never fail.)
 
 thanks
 -- PMM
