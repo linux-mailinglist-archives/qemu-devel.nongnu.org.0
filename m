@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A8F194875
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:14:07 +0100 (CET)
-Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E22F194880
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:15:17 +0100 (CET)
+Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYtC-0002jV-7Q
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59400)
+	id 1jHYuK-0004SB-I2
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLN-0000H7-6D
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:10 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLR-0000Sw-2y
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLM-0002D0-0p
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:09 -0400
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:40828)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLP-0002Es-V2
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:12 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41685)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLL-0002Cq-Sg
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:07 -0400
-Received: by mail-qv1-xf41.google.com with SMTP id cy12so3696541qvb.7
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:07 -0700 (PDT)
+ id 1jHYLP-0002El-RC
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:11 -0400
+Received: by mail-qk1-x742.google.com with SMTP id q188so8167815qke.8
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=eeSLak8+K7WugRHnssmk7+JwZVy31ZcBf2Dmq4ryGYA=;
- b=IQCr56TpmVCBKEnOe0s36sZGQuJYgCJw5F4xi+RQQAzQ+IZx0OdCfZkFaSJLP+ktv5
- paGiFf+cOLUK4GiecYBIKNiKo+ZmfYzmRhThgZ5EwY1SKwA8WsqsRzFlb5iXxXDATam9
- hE9yHABChK1IAiJ0DnO3j3xPBHh6fTJeYm5HUco2Rs9I5kEqgOJXit9/EPe5jZGF9DG3
- DnsmVA1Bs0bFKLzxHNFDqXFpFlbA80wANd0c/pIxYoDOiofANASYdcsSAash2zrVT9/J
- PYYkjGKpNNxPbETvOnKH6DH5a0zjeoSuGm7mSXnPkuC33i6nF1Vv+v7EouP1gln/RqEF
- J11g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hXS64xfFQVpKibsj9LpVhJbK9gFfN+Viw10h78ZF2Vg=;
+ b=E9zgmuKxYSK0VF+OHcKpZMN5Quqt4ZtwwOOyy+HnVdwmgxWDlDjrwjYSwgnOO8bvwq
+ LyILHWqzwhVFkJGJNru3QIuWDvrvSaw1jEzhI/w6/SGfNUa1TNbeMMQk2CHlWe6qBE8o
+ otaIjLoKoqZbyhN9MXtKwfckI817FkMl9UVyYvGb67QL7udL+fKpbxeC5rN61HFAPGV9
+ vTv+dnIfBBQtNp4XobXLlNzkar+MBo8C/yW6Pt5cl8nVnohC2xE/Qkp52qBNrihpgmjO
+ sadr+T6BhVJot1p/pu9kcERYtfsq+K8UTjYEc6XRvfIM+Rt+Ux5ydzt3w5vnkUDlMlnG
+ iBqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=eeSLak8+K7WugRHnssmk7+JwZVy31ZcBf2Dmq4ryGYA=;
- b=jbu6s7fzFiY8V7Vt6ODZe/jJG+oq2Kpt6SsfcHeY9sZXXxh+d9EVWQrkQ30Z/XmC1s
- 39dsdItaANFsm7k2LjsMA7jbp/uyJ/fxOLwRXW9ojq1zxAtLkr2Kp6dP4s0peYrA0GNe
- 1mdx5RV+gvdCRYly8wWo6xHV1RjHi3q/e+eqMh7y8L6vFgrgNI/dq8iZiyIp0m3VxGzx
- gxAW1R7NtPq+Mqy2F4RTRH1PTNMJPT8nSFocqO2B8jL4k3Rf96rS9a/zp/QBqPyK4m5F
- ibuVaHMaKGorABmVO9fuwX0HSkOgfIfemEm7/FH+cSLU2OSgg7bHe99FdM7eij5BJThs
- v4Lg==
-X-Gm-Message-State: ANhLgQ2a9YcEgnnH3Y7yEuE2gWGF8/nsUN116YcLdEa3Yq0MngG6R436
- xmn0G56KlLgeSx1MIooThnlZkxLhubjIzw==
-X-Google-Smtp-Source: ADFU+vt+PSNhxZAILBIVqyO3bPDq7tbbDSkLrykmh3ITI2r66OFc9PdfSnRPMU8koCAbFNQwfTvkyQ==
-X-Received: by 2002:ad4:45e9:: with SMTP id q9mr10083008qvu.199.1585251547072; 
- Thu, 26 Mar 2020 12:39:07 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=hXS64xfFQVpKibsj9LpVhJbK9gFfN+Viw10h78ZF2Vg=;
+ b=A0QicGhx8v/lnc53JP/BwEzUKXIoFXL2MbMZCv1LM0QXxRZRidhhuRjluaXcnuGMcs
+ SWfLPXT8CNT0VEf/QYbxLEcVAb8ndtv+JDAEZyj1RjefujzXrU62DDzHoF8a7puc4FAs
+ h5gNPbzaHx1pAnR7OiI6TmUSmYmEgMQgWnYocV4/t+dSlDAD9lwvfeQNTHYagg83ylch
+ NMPSqiysDpWGdill8SBZTDQD32Kgr0IgGuVbC24md+QYVdNz9lBTxpDjBqSnE7C/AxFZ
+ D9CPfDO3qwo1vlsB2qGEcDugYkuNg5TJoMiYRxQr9kHEpf60J2CccnaHaOIyuatanUYm
+ 0JSg==
+X-Gm-Message-State: ANhLgQ1oKS1KW08TFekGBIToUH7MMDo24663eDoJno5mMN1XQRCgh1vS
+ 2LE7tC3EACuKYilECznb9q+oM7AIO2Y77g==
+X-Google-Smtp-Source: ADFU+vvMFRDxCqugl08snGGIMuHg1kr1vyHpfx1oOkGbe9V5K7mz8aAJnH2A6i5TxrqnxCFf7KLcDw==
+X-Received: by 2002:a37:410:: with SMTP id 16mr9858852qke.485.1585251551100;
+ Thu, 26 Mar 2020 12:39:11 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.05
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:39:06 -0700 (PDT)
+ Thu, 26 Mar 2020 12:39:10 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 67/74] riscv: convert to cpu_has_work_with_iothread_lock
-Date: Thu, 26 Mar 2020 15:31:49 -0400
-Message-Id: <20200326193156.4322-68-robert.foley@linaro.org>
+Subject: [PATCH v8 70/74] cpu: rename all_cpu_threads_idle to
+ qemu_tcg_rr_all_cpu_threads_idle
+Date: Thu, 26 Mar 2020 15:31:52 -0400
+Message-Id: <20200326193156.4322-71-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org
+Cc: richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
+ alex.bennee@linaro.org, robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Soon we will call cpu_has_work without the BQL.
+This function is only called from TCG rr mode, so add
+a prefix to mark this as well as an assertion.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/riscv/cpu.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ cpus.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4e578239d3..ebc2483bec 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -314,6 +314,9 @@ static bool riscv_cpu_has_work(CPUState *cs)
- #ifndef CONFIG_USER_ONLY
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-+
-+    g_assert(qemu_mutex_iothread_locked());
-+
-     /*
-      * Definition of the WFI instruction requires it to ignore the privilege
-      * mode and delegation registers, but respect individual enables
-@@ -515,7 +518,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
+diff --git a/cpus.c b/cpus.c
+index 50ced4369f..05de56bd53 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -232,10 +232,12 @@ static bool cpu_thread_is_idle(CPUState *cpu)
+     return true;
+ }
  
-     cc->class_by_name = riscv_cpu_class_by_name;
--    cc->has_work = riscv_cpu_has_work;
-+    cc->has_work_with_iothread_lock = riscv_cpu_has_work;
-     cc->do_interrupt = riscv_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = riscv_cpu_exec_interrupt;
-     cc->dump_state = riscv_cpu_dump_state;
+-static bool all_cpu_threads_idle(void)
++static bool qemu_tcg_rr_all_cpu_threads_idle(void)
+ {
+     CPUState *cpu;
+ 
++    g_assert(qemu_is_tcg_rr());
++
+     CPU_FOREACH(cpu) {
+         if (!cpu_thread_is_idle(cpu)) {
+             return false;
+@@ -643,7 +645,7 @@ void qemu_start_warp_timer(void)
+     }
+ 
+     if (replay_mode != REPLAY_MODE_PLAY) {
+-        if (!all_cpu_threads_idle()) {
++        if (!qemu_tcg_rr_all_cpu_threads_idle()) {
+             return;
+         }
+ 
+@@ -1295,7 +1297,7 @@ static void qemu_tcg_rr_wait_io_event(void)
+ {
+     CPUState *cpu;
+ 
+-    while (all_cpu_threads_idle()) {
++    while (qemu_tcg_rr_all_cpu_threads_idle()) {
+         stop_tcg_kick_timer();
+         qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
+     }
+@@ -1651,7 +1653,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+             atomic_mb_set(&cpu->exit_request, 0);
+         }
+ 
+-        if (use_icount && all_cpu_threads_idle()) {
++        if (use_icount && qemu_tcg_rr_all_cpu_threads_idle()) {
+             /*
+              * When all cpus are sleeping (e.g in WFI), to avoid a deadlock
+              * in the main_loop, wake it up in order to start the warp timer.
 -- 
 2.17.1
 
