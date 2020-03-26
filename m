@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2976F1948B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:21:24 +0100 (CET)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F29F194822
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:01:53 +0100 (CET)
+Received: from localhost ([::1]:59311 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHZ0F-00041z-9V
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
+	id 1jHYhM-0008EI-8P
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLY-0000i5-4a
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:21 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jHYT1-0006gl-71
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:47:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLV-0002Gp-AI
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:19 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:34736)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLV-0002Gc-5T
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:17 -0400
-Received: by mail-qk1-x742.google.com with SMTP id i6so8212093qke.1
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8/INgrBRrXZ0Qg0hlrPjtYk/o1iCoQLqecnKNHF18P8=;
- b=CNcsArkPLB4nV0TVUu+9o0Ov9HCuKuWCO81KgbPvvVGb3OEk+I7JBFpalb3ThcqAnx
- AQQqtaLYox4C0dKKz/kZ5qFHpB9KU82Z8Agz3HsMJ45D7yfS/QrrwDbNI1w+AO3mh+ee
- Tloe0ByuBUdiExXYdTq/+4R5axUp/J5h7ZkUE1jGZ/0fjDEviLBenkJhVk59NlCc49Zw
- z1+BG0/jYSB0dsZD9EE2iQrY16wXb5cgTHvqBxdMDEWcS1giNJ62YNPe/CGQzR43UNsc
- nLl6fHHiElaIvrZDIa2akm3ZadWYOwcd8D30kr3mk4pwPkxYerBin2t1VD4MCLRzTu0b
- H9Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8/INgrBRrXZ0Qg0hlrPjtYk/o1iCoQLqecnKNHF18P8=;
- b=PkAslw4BuVM5DfNiVz54Q966GaTtm4myAgJ5m4ucAM48X3IT7djktwDU8kimCoTkbL
- XPVuY/aeWbGsk2g/NW1bClDWxjYI/aFax8goosrWXoX2hxOvLVx06Z5zA/QWtpJveQzu
- Slc0AC5AhpfsZ2RLR5kR5itK7rCEWF5J5wxYzKoRdJ2Gebu4BhVPAaxqK22m5TT2Zxlo
- L6FNvY8Nv/j2D8JobQ0HggZGQIUoAtqTk6GE6nTE26zdmJYiNuUTqavc96F7R3BZe2Eb
- PQQd8FyoY7GVM2ITg3Ik4SbuO8tOmppEf3TAWLmeBC2a1LOkcryy76z0bFVyh1oJW8jf
- oaUw==
-X-Gm-Message-State: ANhLgQ3BhnL4FeKCT2HyJa8VYYdgd+ybZBeji8Z4TL6zvShY9da66eCR
- JAuTu12vUBq+MBzWqrKsba7bE34FNVsGjQ==
-X-Google-Smtp-Source: ADFU+vtXYB6vwfOsaddy4ft3/Kskj1TZdXrUN5i1HBhwSqxlkzy/wbDrl1+bfNXLtKiZK/drX+AVIA==
-X-Received: by 2002:a37:b986:: with SMTP id
- j128mr10019113qkf.109.1585251556222; 
- Thu, 26 Mar 2020 12:39:16 -0700 (PDT)
-Received: from Rfoley-MA01.hsd1.ma.comcast.net
- ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:39:15 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 74/74] cputlb: queue async flush jobs without the BQL
-Date: Thu, 26 Mar 2020 15:31:56 -0400
-Message-Id: <20200326193156.4322-75-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
-References: <20200326193156.4322-1-robert.foley@linaro.org>
+ (envelope-from <alex.williamson@redhat.com>) id 1jHYSy-00078S-SH
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:47:02 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:38608)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jHYSy-000789-NQ
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:47:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585252020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LuMFZcdJ5495DD/gUf6OFoF6JxTRMjnLIsLlYLITe3I=;
+ b=hIbZtKWh+a2iJy2pKc/nmuUrXlEdPVAjRtdhcw4OmJqVcIPGOXUinofPp1p53E1dE19exG
+ 9m0isha7yQ+vFCmViS/4xLpHni2oKIZf9dDrKXlx+mV/FGR+ogUuZcvhxZJZAbYiavi1DO
+ Vl/yGPpijWY2rIqH4z3k23LCaaWFiLk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-4hvdCesYOISLLgPc-4wRuw-1; Thu, 26 Mar 2020 15:46:56 -0400
+X-MC-Unique: 4hvdCesYOISLLgPc-4wRuw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 608C919067E3;
+ Thu, 26 Mar 2020 19:46:53 +0000 (UTC)
+Received: from x1.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 369D690538;
+ Thu, 26 Mar 2020 19:46:51 +0000 (UTC)
+Date: Thu, 26 Mar 2020 13:46:50 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v16 QEMU 14/16] vfio: Add vfio_listener_log_sync to mark
+ dirty pages
+Message-ID: <20200326134650.0c7245e9@x1.home>
+In-Reply-To: <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-15-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,145 +73,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- alex.bennee@linaro.org, robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+On Wed, 25 Mar 2020 02:39:12 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-This yields sizable scalability improvements, as the below results show.
+> vfio_listener_log_sync gets list of dirty pages from container using
+> VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
+> devices are stopped and saving state.
+> Return early for the RAM block section of mapped MMIO region.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/common.c     | 200 +++++++++++++++++++++++++++++++++++++++++++++++++--
+>  hw/vfio/trace-events |   1 +
+>  2 files changed, 196 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 4a2f0d6a2233..6d41e1ac5c2f 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -29,6 +29,7 @@
+>  #include "hw/vfio/vfio.h"
+>  #include "exec/address-spaces.h"
+>  #include "exec/memory.h"
+> +#include "exec/ram_addr.h"
+>  #include "hw/hw.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+> @@ -38,6 +39,7 @@
+>  #include "sysemu/reset.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "migration/migration.h"
+>  
+>  VFIOGroupList vfio_group_list =
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -288,6 +290,28 @@ const MemoryRegionOps vfio_region_ops = {
+>  };
+>  
+>  /*
+> + * Device state interfaces
+> + */
+> +
+> +static bool vfio_devices_are_stopped_and_saving(void)
+> +{
+> +    VFIOGroup *group;
+> +    VFIODevice *vbasedev;
+> +
+> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
+> +                !(vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+> +                continue;
+> +            } else {
+> +                return false;
+> +            }
+> +        }
+> +    }
+> +    return true;
+> +}
+> +
+> +/*
+>   * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+>   */
+>  static int vfio_dma_unmap(VFIOContainer *container,
+> @@ -408,8 +432,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+>  }
+>  
+>  /* Called with rcu_read_lock held.  */
+> -static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+> -                           bool *read_only)
+> +static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> +                               ram_addr_t *ram_addr, bool *read_only)
+>  {
+>      MemoryRegion *mr;
+>      hwaddr xlat;
+> @@ -440,9 +464,17 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+>          return false;
+>      }
+>  
+> -    *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> -    *read_only = !writable || mr->readonly;
+> +    if (vaddr) {
+> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> +    }
+>  
+> +    if (ram_addr) {
+> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+> +    }
+> +
+> +    if (read_only) {
+> +        *read_only = !writable || mr->readonly;
+> +    }
+>      return true;
+>  }
+>  
+> @@ -467,7 +499,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+>      rcu_read_lock();
+>  
+>      if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+> -        if (!vfio_get_vaddr(iotlb, &vaddr, &read_only)) {
+> +        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
+>              goto out;
+>          }
+>          /*
+> @@ -813,9 +845,167 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>      }
+>  }
+>  
+> +static int vfio_get_dirty_bitmap(MemoryListener *listener,
+> +                                 MemoryRegionSection *section)
+> +{
+> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +    VFIOGuestIOMMU *giommu;
+> +    IOMMUTLBEntry iotlb;
+> +    hwaddr granularity, address_limit, iova;
+> +    int ret;
+> +
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
+> +            if (MEMORY_REGION(giommu->iommu) == section->mr &&
+> +                giommu->n.start == section->offset_within_region) {
+> +                break;
+> +            }
+> +        }
+> +
+> +        if (!giommu) {
+> +            return -EINVAL;
+> +        }
+> +    }
+> +
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        granularity = memory_region_iommu_get_min_page_size(giommu->iommu);
+> +
+> +        address_limit = MIN(int128_get64(section->size),
+> +                            memory_region_iommu_get_address_limit(giommu->iommu,
+> +                                                 int128_get64(section->size)));
+> +    } else {
+> +        granularity = memory_region_size(section->mr);
+> +        address_limit = int128_get64(section->size);
+> +    }
+> +
+> +    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> +
+> +    RCU_READ_LOCK_GUARD();
+> +
+> +    while (iova < address_limit) {
+> +        struct vfio_iommu_type1_dirty_bitmap *dbitmap;
+> +        struct vfio_iommu_type1_dirty_bitmap_get *range;
+> +        ram_addr_t start, pages;
+> +        uint64_t iova_xlat, size;
+> +
+> +        if (memory_region_is_iommu(section->mr)) {
+> +            iotlb = address_space_get_iotlb_entry(container->space->as, iova,
+> +                                                 true, MEMTXATTRS_UNSPECIFIED);
+> +            if ((iotlb.target_as == NULL) || (iotlb.addr_mask == 0)) {
+> +                if ((iova + granularity) < iova) {
+> +                    break;
+> +                }
+> +                iova += granularity;
+> +                continue;
+> +            }
+> +            iova_xlat = iotlb.iova + giommu->iommu_offset;
+> +            size = iotlb.addr_mask + 1;
+> +        } else {
+> +            iova_xlat = iova;
+> +            size = address_limit;
+> +        }
+> +
+> +        dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
+> +        if (!dbitmap) {
 
-Host: Two Intel E5-2683 v3 14-core CPUs at 2.00 GHz (Haswell)
+AIUI, QEMU aborts if this fails, so no need to check.  Because reasons.
 
-Workload: Ubuntu 18.04 ppc64 compiling the linux kernel with
-"make -j N", where N is the number of cores in the guest.
+> +            return -ENOMEM;
+> +        }
+> +
+> +        dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
+> +        dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> +        range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
+> +        range->iova = iova_xlat;
+> +        range->size = size;
+> +
+> +        /*
+> +         * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+> +         * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
+> +         * TARGET_PAGE_SIZE.
+> +         */
+> +        range->bitmap.pgsize = TARGET_PAGE_SIZE;
+> +
+> +        /*
+> +         * Comment from kvm_physical_sync_dirty_bitmap() since same applies here
+> +         * XXX bad kernel interface alert
+> +         * For dirty bitmap, kernel allocates array of size aligned to
+> +         * bits-per-long.  But for case when the kernel is 64bits and
+> +         * the userspace is 32bits, userspace can't align to the same
+> +         * bits-per-long, since sizeof(long) is different between kernel
+> +         * and user space.  This way, userspace will provide buffer which
+> +         * may be 4 bytes less than the kernel will use, resulting in
+> +         * userspace memory corruption (which is not detectable by valgrind
+> +         * too, in most cases).
+> +         * So for now, let's align to 64 instead of HOST_LONG_BITS here, in
+> +         * a hope that sizeof(long) won't become >8 any time soon.
+> +         */
 
-                      Speedup vs a single thread (higher is better):
+This seems like the problem we've avoided by defining our bitmap as an
+array of u64s rather than an array of longs.  Does this comment really
+still apply?
 
-         14 +---------------------------------------------------------------+
-            |       +    +       +      +       +      +      $$$$$$  +     |
-            |                                            $$$$$              |
-            |                                      $$$$$$                   |
-         12 |-+                                $A$$                       +-|
-            |                                $$                             |
-            |                             $$$                               |
-         10 |-+                         $$    ##D#####################D   +-|
-            |                        $$$ #####**B****************           |
-            |                      $$####*****                   *****      |
-            |                    A$#*****                             B     |
-          8 |-+                $$B**                                      +-|
-            |                $$**                                           |
-            |               $**                                             |
-          6 |-+           $$*                                             +-|
-            |            A**                                                |
-            |           $B                                                  |
-            |           $                                                   |
-          4 |-+        $*                                                 +-|
-            |          $                                                    |
-            |         $                                                     |
-          2 |-+      $                                                    +-|
-            |        $                                 +cputlb-no-bql $$A$$ |
-            |       A                                   +per-cpu-lock ##D## |
-            |       +    +       +      +       +      +     baseline **B** |
-          0 +---------------------------------------------------------------+
-                    1    4       8      12      16     20      24     28
-                                       Guest vCPUs
-  png: https://imgur.com/zZRvS7q
+> +
+> +        pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
+> +        range->bitmap.size = ROUND_UP(pages, 64) / 8;
 
-Some notes:
-- baseline corresponds to the commit before this series
+ROUND_UP(npages/8, sizeof(u64))?
 
-- per-cpu-lock is the commit that converts the CPU loop to per-cpu locks.
+> +        range->bitmap.data = g_malloc0(range->bitmap.size);
 
-- cputlb-no-bql is this commit.
+We don't require this to be pre-zero'd currently.
 
-- I'm using taskset to assign cores to threads, favouring locality whenever
-  possible but not using SMT. When N=1, I'm using a single host core, which
-  leads to superlinear speedups (since with more cores the I/O thread can execute
-  while vCPU threads sleep). In the future I might use N+1 host cores for N
-  guest cores to avoid this, or perhaps pin guest threads to cores one-by-one.
+> +        if (range->bitmap.data == NULL) {
 
-Single-threaded performance is affected very lightly. Results
-below for debian aarch64 bootup+test for the entire series
-on an Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz host:
+Same as above.  Seems strange to me too.
 
-- Before:
-
- Performance counter stats for 'taskset -c 0 ../img/aarch64/die.sh' (10 runs):
-
-       7269.033478      task-clock (msec)         #    0.998 CPUs utilized            ( +-  0.06% )
-    30,659,870,302      cycles                    #    4.218 GHz                      ( +-  0.06% )
-    54,790,540,051      instructions              #    1.79  insns per cycle          ( +-  0.05% )
-     9,796,441,380      branches                  # 1347.695 M/sec                    ( +-  0.05% )
-       165,132,201      branch-misses             #    1.69% of all branches          ( +-  0.12% )
-
-       7.287011656 seconds time elapsed                                          ( +-  0.10% )
-
-- After:
-
-       7375.924053      task-clock (msec)         #    0.998 CPUs utilized            ( +-  0.13% )
-    31,107,548,846      cycles                    #    4.217 GHz                      ( +-  0.12% )
-    55,355,668,947      instructions              #    1.78  insns per cycle          ( +-  0.05% )
-     9,929,917,664      branches                  # 1346.261 M/sec                    ( +-  0.04% )
-       166,547,442      branch-misses             #    1.68% of all branches          ( +-  0.09% )
-
-       7.389068145 seconds time elapsed                                          ( +-  0.13% )
-
-That is, a 1.37% slowdown.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- accel/tcg/cputlb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e3b5750c3b..d13feaf3a3 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -284,7 +284,7 @@ static void flush_all_helper(CPUState *src, run_on_cpu_func fn,
- 
-     CPU_FOREACH(cpu) {
-         if (cpu != src) {
--            async_run_on_cpu(cpu, fn, d);
-+            async_run_on_cpu_no_bql(cpu, fn, d);
-         }
-     }
- }
-@@ -352,8 +352,8 @@ void tlb_flush_by_mmuidx(CPUState *cpu, uint16_t idxmap)
-     tlb_debug("mmu_idx: 0x%" PRIx16 "\n", idxmap);
- 
-     if (cpu->created && !qemu_cpu_is_self(cpu)) {
--        async_run_on_cpu(cpu, tlb_flush_by_mmuidx_async_work,
--                         RUN_ON_CPU_HOST_INT(idxmap));
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_by_mmuidx_async_work,
-+                                RUN_ON_CPU_HOST_INT(idxmap));
-     } else {
-         tlb_flush_by_mmuidx_async_work(cpu, RUN_ON_CPU_HOST_INT(idxmap));
-     }
-@@ -547,7 +547,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
-          * we can stuff idxmap into the low TARGET_PAGE_BITS, avoid
-          * allocating memory for this operation.
-          */
--        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_1,
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_1,
-                          RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-     } else {
-         TLBFlushPageByMMUIdxData *d = g_new(TLBFlushPageByMMUIdxData, 1);
-@@ -555,7 +555,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
-         /* Otherwise allocate a structure, freed by the worker.  */
-         d->addr = addr;
-         d->idxmap = idxmap;
--        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_2,
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_2,
-                          RUN_ON_CPU_HOST_PTR(d));
-     }
- }
--- 
-2.17.1
+> +            error_report("Error allocating bitmap of size 0x%llx",
+> +                         range->bitmap.size);
+> +            ret = -ENOMEM;
+> +            goto err_out;
+> +        }
+> +
+> +        ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+> +        if (ret) {
+> +            error_report("Failed to get dirty bitmap for iova: 0x%llx "
+> +                         "size: 0x%llx err: %d",
+> +                         range->iova, range->size, errno);
+> +            goto err_out;
+> +        }
+> +
+> +        if (memory_region_is_iommu(section->mr)) {
+> +            if (!vfio_get_xlat_addr(&iotlb, NULL, &start, NULL)) {
+> +                ret = -EINVAL;
+> +                goto err_out;
+> +            }
+> +        } else {
+> +            start = memory_region_get_ram_addr(section->mr) +
+> +                    section->offset_within_region + iova -
+> +                    TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> +        }
+> +
+> +        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
+> +                                               start, pages);
+> +
+> +        trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
+> +                                    range->bitmap.size, start);
+> +err_out:
+> +        g_free(range->bitmap.data);
+> +        g_free(dbitmap);
+> +
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +
+> +        if ((iova + size) < iova) {
+> +            break;
+> +        }
+> +
+> +        iova += size;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void vfio_listerner_log_sync(MemoryListener *listener,
+> +        MemoryRegionSection *section)
+> +{
+> +    if (vfio_listener_skipped_section(section)) {
+> +        return;
+> +    }
+> +
+> +    if (vfio_devices_are_stopped_and_saving()) {
+> +        vfio_get_dirty_bitmap(listener, section);
+> +    }
+> +}
+> +
+>  static const MemoryListener vfio_memory_listener = {
+>      .region_add = vfio_listener_region_add,
+>      .region_del = vfio_listener_region_del,
+> +    .log_sync = vfio_listerner_log_sync,
+>  };
+>  
+>  static void vfio_listener_release(VFIOContainer *container)
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index ac065b559f4e..bc8f35ee9356 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
+>  vfio_load_device_config_state(char *name) " (%s)"
+>  vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+>  vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+> +vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
 
 
