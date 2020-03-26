@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C64193807
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:43:33 +0100 (CET)
-Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E2619380B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:45:08 +0100 (CET)
+Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHLIi-0006aq-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1jHLKF-00007P-M5
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:45:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jHLFc-0003AH-4D
+ (envelope-from <dgibson@ozlabs.org>) id 1jHLFb-00039s-OP
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:40:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jHLFa-0000pm-NH
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:40:20 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41023 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1jHLFa-0000pt-Ny
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:40:19 -0400
+Received: from ozlabs.org ([203.11.71.1]:51025)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jHLFa-0000nT-18; Thu, 26 Mar 2020 01:40:18 -0400
+ id 1jHLFZ-0000nW-SX; Thu, 26 Mar 2020 01:40:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48nv2k50NFz9sRN; Thu, 26 Mar 2020 16:40:14 +1100 (AEDT)
+ id 48nv2k5nlVz9sSM; Thu, 26 Mar 2020 16:40:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1585201214;
- bh=HJM6J14MXwxAnCeEjdieEtsutKN/FoKlqgFsm3PZdCA=;
+ bh=Xnj7Byw+xZ7EE+Dq9Ql9GDjnSE2VDcNynX+uZRnbRPQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TWtIMETVxi8VH1mbflwoAM/xCmrNo9QGHp6PErnp8W33ByCZ32bE5soYFQzqT2oOA
- pmg24lNR92jjiYlBypOBd2hnXOY613IVpefXrvFGHH9Gyzk/qo48eQqROQQNeHEi6l
- ZB/kNDTJsOnMkQO/t1yXXt64AGmMx2h+cMZbTYBc=
+ b=K9sdZRC0LpsZlSYRBILHxE5EHaFwe3r7ljsn1XdIgPWfp+XsmFrL/NlEb0D7mqPHC
+ 3H0+kZmNgKWipKclijGwVe7UfsOeXuIDVxioaejSjHDezea+LWpzTbxER7ay4cx0iE
+ H/xKNYloFbs0Wa3moPm5l4+u4rWvJb7lbfGyrQYM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: aik@ozlabs.ru,
 	groug@kaod.org
-Subject: [RFC for-5.1 1/4] spapr: Refactor locating NVLink2 devices for device
- tree creation
-Date: Thu, 26 Mar 2020 16:40:06 +1100
-Message-Id: <20200326054009.454477-2-david@gibson.dropbear.id.au>
+Subject: [RFC for-5.1 2/4] spapr: Helper to determine if a device is NVLink2
+ related
+Date: Thu, 26 Mar 2020 16:40:07 +1100
+Message-Id: <20200326054009.454477-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200326054009.454477-1-david@gibson.dropbear.id.au>
 References: <20200326054009.454477-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,172 +60,48 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently spapr_phb_nvgpu_populate_pcidev_dt() works a little cryptically=
-.
-It steps through all the NVLink2 GPUs and NPUs and if they match the devi=
-ce
-we're called for, we generate the relevant device tree information.
-
-Make this a little more obvious by introducing helpers to determine it a
-given PCI device is an NVLink2 GPU or NPU, returning the NVLink2 slot and
-link number information as well.
+This adds a simple exported helper function which determins if a given
+(supposedly) PCI device is actually an NVLink2 device, which has some
+special considerations.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_pci_nvlink2.c | 115 +++++++++++++++++++++++++------------
- 1 file changed, 79 insertions(+), 36 deletions(-)
+ hw/ppc/spapr_pci_nvlink2.c  | 5 +++++
+ include/hw/pci-host/spapr.h | 1 +
+ 2 files changed, 6 insertions(+)
 
 diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-index 8332d5694e..7d3a685421 100644
+index 7d3a685421..0cec1ae02b 100644
 --- a/hw/ppc/spapr_pci_nvlink2.c
 +++ b/hw/ppc/spapr_pci_nvlink2.c
-@@ -390,13 +390,12 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState =
-*sphb, void *fdt)
-=20
+@@ -449,6 +449,11 @@ static bool is_nvnpu(PCIDevice *dev, SpaprPhbState *=
+sphb, int *slot, int *link)
+     return false;
  }
 =20
--void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *dev, void *fdt, int o=
++bool spapr_phb_is_nvlink_dev(PCIDevice *dev, SpaprPhbState *sphb)
++{
++    return is_nvgpu(dev, sphb, NULL) || is_nvnpu(dev, sphb, NULL, NULL);
++}
++
+ void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *dev, void *fdt, int o=
 ffset,
--                                        SpaprPhbState *sphb)
-+static bool is_nvgpu(PCIDevice *dev, SpaprPhbState *sphb, int *slot)
+                                         SpaprPhbState *sphb)
  {
--    int i, j;
-+    int i;
-=20
-     if (!sphb->nvgpus) {
--        return;
-+        return false;
-     }
-=20
-     for (i =3D 0; i < sphb->nvgpus->num; ++i) {
-@@ -406,47 +405,91 @@ void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *=
-dev, void *fdt, int offset,
-         if (!nvslot->gpdev) {
-             continue;
-         }
-+
-         if (dev =3D=3D nvslot->gpdev) {
--            uint32_t npus[nvslot->linknum];
-+            if (slot) {
-+                *slot =3D i;
-+            }
-+            return true;
-+        }
-+    }
-=20
--            for (j =3D 0; j < nvslot->linknum; ++j) {
--                PCIDevice *npdev =3D nvslot->links[j].npdev;
-+    return false;
-+}
-=20
--                npus[j] =3D cpu_to_be32(PHANDLE_PCIDEV(sphb, npdev));
--            }
--            _FDT(fdt_setprop(fdt, offset, "ibm,npu", npus,
--                             j * sizeof(npus[0])));
--            _FDT((fdt_setprop_cell(fdt, offset, "phandle",
--                                   PHANDLE_PCIDEV(sphb, dev))));
-+static bool is_nvnpu(PCIDevice *dev, SpaprPhbState *sphb, int *slot, int=
- *link)
-+{
-+    int i, j;
-+
-+    if (!sphb->nvgpus) {
-+        return false;
-+    }
-+
-+    for (i =3D 0; i < sphb->nvgpus->num; ++i) {
-+        SpaprPhbPciNvGpuSlot *nvslot =3D &sphb->nvgpus->slots[i];
-+
-+        /* Skip "slot" without attached GPU */
-+        if (!nvslot->gpdev) {
-             continue;
-         }
-=20
-         for (j =3D 0; j < nvslot->linknum; ++j) {
--            if (dev !=3D nvslot->links[j].npdev) {
--                continue;
-+            if (dev =3D=3D nvslot->links[j].npdev) {
-+                if (slot) {
-+                    *slot =3D i;
-+                }
-+                if (link) {
-+                    *link =3D j;
-+                }
-+                return true;
-             }
-+        }
-+    }
-=20
--            _FDT((fdt_setprop_cell(fdt, offset, "phandle",
--                                   PHANDLE_PCIDEV(sphb, dev))));
--            _FDT(fdt_setprop_cell(fdt, offset, "ibm,gpu",
--                                  PHANDLE_PCIDEV(sphb, nvslot->gpdev)));
--            _FDT((fdt_setprop_cell(fdt, offset, "ibm,nvlink",
--                                   PHANDLE_NVLINK(sphb, i, j))));
--            /*
--             * If we ever want to emulate GPU RAM at the same location a=
-s on
--             * the host - here is the encoding GPA->TGT:
--             *
--             * gta  =3D ((sphb->nv2_gpa >> 42) & 0x1) << 42;
--             * gta |=3D ((sphb->nv2_gpa >> 45) & 0x3) << 43;
--             * gta |=3D ((sphb->nv2_gpa >> 49) & 0x3) << 45;
--             * gta |=3D sphb->nv2_gpa & ((1UL << 43) - 1);
--             */
--            _FDT(fdt_setprop_cell(fdt, offset, "memory-region",
--                                  PHANDLE_GPURAM(sphb, i)));
--            _FDT(fdt_setprop_u64(fdt, offset, "ibm,device-tgt-addr",
--                                 nvslot->tgt));
--            _FDT(fdt_setprop_cell(fdt, offset, "ibm,nvlink-speed",
--                                  nvslot->links[j].link_speed));
-+    return false;
-+}
-+
-+void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *dev, void *fdt, int o=
+diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+index 8877ff51fb..eaba4a5825 100644
+--- a/include/hw/pci-host/spapr.h
++++ b/include/hw/pci-host/spapr.h
+@@ -156,6 +156,7 @@ void spapr_phb_nvgpu_free(SpaprPhbState *sphb);
+ void spapr_phb_nvgpu_populate_dt(SpaprPhbState *sphb, void *fdt, int bus=
+_off,
+                                  Error **errp);
+ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt);
++bool spapr_phb_is_nvlink_dev(PCIDevice *dev, SpaprPhbState *sphb);
+ void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *dev, void *fdt, int o=
 ffset,
-+                                        SpaprPhbState *sphb)
-+{
-+    int slot, link;
-+
-+    if (is_nvgpu(dev, sphb, &slot)) {
-+        SpaprPhbPciNvGpuSlot *nvslot =3D &sphb->nvgpus->slots[slot];
-+        uint32_t npus[nvslot->linknum];
-+
-+        for (link =3D 0; link < nvslot->linknum; ++link) {
-+            PCIDevice *npdev =3D nvslot->links[link].npdev;
-+
-+            npus[link] =3D cpu_to_be32(PHANDLE_PCIDEV(sphb, npdev));
-         }
-+        _FDT(fdt_setprop(fdt, offset, "ibm,npu", npus,
-+                         link * sizeof(npus[0])));
-+        _FDT((fdt_setprop_cell(fdt, offset, "phandle",
-+                               PHANDLE_PCIDEV(sphb, dev))));
-+    } else if (is_nvnpu(dev, sphb, &slot, &link)) {
-+        SpaprPhbPciNvGpuSlot *nvslot =3D &sphb->nvgpus->slots[slot];
-+
-+        _FDT((fdt_setprop_cell(fdt, offset, "phandle",
-+                               PHANDLE_PCIDEV(sphb, dev))));
-+        _FDT(fdt_setprop_cell(fdt, offset, "ibm,gpu",
-+                              PHANDLE_PCIDEV(sphb, nvslot->gpdev)));
-+        _FDT((fdt_setprop_cell(fdt, offset, "ibm,nvlink",
-+                               PHANDLE_NVLINK(sphb, slot, link))));
-+        /*
-+         * If we ever want to emulate GPU RAM at the same location as
-+         * on the host - here is the encoding GPA->TGT:
-+         *
-+         * gta  =3D ((sphb->nv2_gpa >> 42) & 0x1) << 42;
-+         * gta |=3D ((sphb->nv2_gpa >> 45) & 0x3) << 43;
-+         * gta |=3D ((sphb->nv2_gpa >> 49) & 0x3) << 45;
-+         * gta |=3D sphb->nv2_gpa & ((1UL << 43) - 1);
-+         */
-+        _FDT(fdt_setprop_cell(fdt, offset, "memory-region",
-+                              PHANDLE_GPURAM(sphb, slot)));
-+        _FDT(fdt_setprop_u64(fdt, offset, "ibm,device-tgt-addr",
-+                             nvslot->tgt));
-+        _FDT(fdt_setprop_cell(fdt, offset, "ibm,nvlink-speed",
-+                              nvslot->links[link].link_speed));
-     }
- }
+                                         SpaprPhbState *sphb);
+ #else
 --=20
 2.25.1
 
