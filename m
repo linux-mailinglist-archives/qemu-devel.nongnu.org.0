@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA5E1941AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:38:38 +0100 (CET)
-Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556DC19419D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:34:55 +0100 (CET)
+Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHTeX-0006Ke-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
+	id 1jHTaw-0001TR-92
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41461)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jHTWO-00049C-TZ
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHTWQ-0004D0-8k
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jHTWN-0002z0-Ln
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:12 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36038)
+ (envelope-from <mreitz@redhat.com>) id 1jHTWP-0002zl-1e
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:14 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37141)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWN-0002yu-IE
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:11 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWO-0002zN-T4
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585233011;
+ s=mimecast20190719; t=1585233012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9bhfMlw8rOh9Mp+4yKemYJaPDGHY5FuU6pdPL1kBABw=;
- b=KNyZhIm7hA8C08vEHDuUhlr8aKDbzsEixvnPwbHWWq2aJk6lBfNcCfjE5g24Dv3EOJRjqT
- fKWas5CywcKgGa7U7f3DeHjI42m0GTs7hvxnlvjpbwfLEcD/lcKfcQ/QdiEUMyfslTRDZL
- Kl/BOHabO+Mb4A8KlAx/xZVXNjCqc/M=
+ bh=Ds3GO1HPvZnBnCHWEUNrKnJOCxbvSIxgAYAkojhjyF8=;
+ b=IksjgUK9MRMnXRP4TgzIyo2qrGuvkEUeIwl0dITWitV5HbZQtiyB5j8z2ornJgfpObuMkN
+ lkGKIEQt8P3aTMpISXWEU2T42qwt0zACvSOfA18sekAnSvlXehpeGq872TsnfTrcCPcgMo
+ d3jOYL+bXuRn0fglqtN5g4169XS9Acw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-m5GEZ_NvOBa49IU0lifbwA-1; Thu, 26 Mar 2020 10:30:07 -0400
-X-MC-Unique: m5GEZ_NvOBa49IU0lifbwA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-100-Pf533dMcPzqX-C29rgsMRQ-1; Thu, 26 Mar 2020 10:30:10 -0400
+X-MC-Unique: Pf533dMcPzqX-C29rgsMRQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC738010C1;
- Thu, 26 Mar 2020 14:30:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 319AC189F771;
+ Thu, 26 Mar 2020 14:30:09 +0000 (UTC)
 Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 164B460C18;
- Thu, 26 Mar 2020 14:30:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E165C297;
+ Thu, 26 Mar 2020 14:30:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/10] qemu-img: Fix check's leak/corruption fix report
-Date: Thu, 26 Mar 2020 15:29:31 +0100
-Message-Id: <20200326142933.625037-9-mreitz@redhat.com>
+Subject: [PULL 09/10] iotests: Add poke_file_[bl]e functions
+Date: Thu, 26 Mar 2020 15:29:32 +0100
+Message-Id: <20200326142933.625037-10-mreitz@redhat.com>
 In-Reply-To: <20200326142933.625037-1-mreitz@redhat.com>
 References: <20200326142933.625037-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,74 +74,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two problems with qemu-img check's report on how many leaks
-and/or corruptions have been fixed:
-
-(1) ImageCheck.has_leaks_fixed and ImageCheck.has_corruptions_fixed are
-only true when ImageCheck.leaks or ImageCheck.corruptions (respectively)
-are non-zero.  qcow2's check implementation will set the latter to zero
-after it has fixed leaks and corruptions, though, so leaks-fixed and
-corruptions-fixed are actually never reported after successful repairs.
-We should always report them when they are non-zero, just like all the
-other fields of ImageCheck.
-
-(2) After something has been fixed and we run the check a second time,
-leaks_fixed and corruptions_fixed are taken from the first run; but
-has_leaks_fixed and has_corruptions_fixed are not.  The second run
-actually cannot fix anything, so with (1) fixed, has_leaks_fixed and
-has_corruptions_fixed will always be false here.  (With (1) unfixed,
-they will at least be false on successful runs, because then the number
-of leaks and corruptions found in the second run should be 0.)
-We should save has_leaks_fixed and has_corruptions_fixed just like we
-save leaks_fixed and corruptions_fixed.
+Similarly to peek_file_[bl]e, we may want to write binary integers into
+a file.  Currently, this often means messing around with poke_file and
+raw binary strings.  I hope these functions make it a bit more
+comfortable.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Code-suggested-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200324172757.1173824-3-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200324172757.1173824-2-mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-img.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/common.rc | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index afddf33f08..b167376bd7 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -647,9 +647,9 @@ static int collect_image_check(BlockDriverState *bs,
-     check->leaks                    =3D result.leaks;
-     check->has_leaks                =3D result.leaks !=3D 0;
-     check->corruptions_fixed        =3D result.corruptions_fixed;
--    check->has_corruptions_fixed    =3D result.corruptions !=3D 0;
-+    check->has_corruptions_fixed    =3D result.corruptions_fixed !=3D 0;
-     check->leaks_fixed              =3D result.leaks_fixed;
--    check->has_leaks_fixed          =3D result.leaks !=3D 0;
-+    check->has_leaks_fixed          =3D result.leaks_fixed !=3D 0;
-     check->image_end_offset         =3D result.image_end_offset;
-     check->has_image_end_offset     =3D result.image_end_offset !=3D 0;
-     check->total_clusters           =3D result.bfi.total_clusters;
-@@ -803,9 +803,12 @@ static int img_check(int argc, char **argv)
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 4c246c0450..bf3b9fdea0 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -53,6 +53,30 @@ poke_file()
+     printf "$3" | dd "of=3D$1" bs=3D1 "seek=3D$2" conv=3Dnotrunc &>/dev/nu=
+ll
+ }
 =20
-     if (check->corruptions_fixed || check->leaks_fixed) {
-         int corruptions_fixed, leaks_fixed;
-+        bool has_leaks_fixed, has_corruptions_fixed;
-=20
-         leaks_fixed         =3D check->leaks_fixed;
-+        has_leaks_fixed     =3D check->has_leaks_fixed;
-         corruptions_fixed   =3D check->corruptions_fixed;
-+        has_corruptions_fixed =3D check->has_corruptions_fixed;
-=20
-         if (output_format =3D=3D OFORMAT_HUMAN) {
-             qprintf(quiet,
-@@ -822,7 +825,9 @@ static int img_check(int argc, char **argv)
-         ret =3D collect_image_check(bs, check, filename, fmt, 0);
-=20
-         check->leaks_fixed          =3D leaks_fixed;
-+        check->has_leaks_fixed      =3D has_leaks_fixed;
-         check->corruptions_fixed    =3D corruptions_fixed;
-+        check->has_corruptions_fixed =3D has_corruptions_fixed;
-     }
-=20
-     if (!ret) {
++# poke_file_le $img_filename $offset $byte_width $value
++# Example: poke_file_le "$TEST_IMG" 512 2 65534
++poke_file_le()
++{
++    local img=3D$1 ofs=3D$2 len=3D$3 val=3D$4 str=3D''
++
++    while ((len--)); do
++        str+=3D$(printf '\\x%02x' $((val & 0xff)))
++        val=3D$((val >> 8))
++    done
++
++    poke_file "$img" "$ofs" "$str"
++}
++
++# poke_file_be $img_filename $offset $byte_width $value
++# Example: poke_file_be "$TEST_IMG" 512 2 65279
++poke_file_be()
++{
++    local img=3D$1 ofs=3D$2 len=3D$3 val=3D$4
++    local str=3D$(printf "%0$((len * 2))x\n" $val | sed 's/\(..\)/\\x\1/g'=
+)
++
++    poke_file "$img" "$ofs" "$str"
++}
++
+ # peek_file_le 'test.img' 512 2 =3D> 65534
+ peek_file_le()
+ {
 --=20
 2.25.1
 
