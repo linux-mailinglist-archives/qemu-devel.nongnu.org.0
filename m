@@ -2,56 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB99194DE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 01:15:24 +0100 (CET)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBAF194E3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 02:00:11 +0100 (CET)
+Received: from localhost ([::1]:35806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHceg-0005E1-Lg
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 20:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49010)
+	id 1jHdM2-0003EA-3x
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 21:00:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jHcdk-0004lu-2a
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 20:14:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jHdKp-00025M-Sa
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 20:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1jHcdh-0008Kr-Do
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 20:14:23 -0400
-Received: from mga01.intel.com ([192.55.52.88]:14024)
+ (envelope-from <dgibson@ozlabs.org>) id 1jHdKn-00014j-Kz
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 20:58:55 -0400
+Received: from ozlabs.org ([203.11.71.1]:50829)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1jHcdh-00086C-5K
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 20:14:21 -0400
-IronPort-SDR: xirA3i0m7W8sSupW6VbXDprHki731xtgO+C/LOYFsHDLTrh6RGcm5PvwU/y/+XHsifCpxaIMNR
- kI70Tc8ImViQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2020 17:14:03 -0700
-IronPort-SDR: mEe5Qq74slYzR5lwKOwReqjluzzJrAwiFd7oFDZQ1uhd71nnDNh5mTuGmUSj10eN0sTXvBmKaN
- uhXtwX/2zpgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="271372032"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 26 Mar 2020 17:13:59 -0700
-Date: Thu, 26 Mar 2020 20:04:27 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
- dirty bitmap before unmap
-Message-ID: <20200327000426.GA26419@joy-OptiPlex-7040>
-References: <1585078359-20124-1-git-send-email-kwankhede@nvidia.com>
- <1585078359-20124-6-git-send-email-kwankhede@nvidia.com>
- <20200325021800.GC20109@joy-OptiPlex-7040>
- <3cabb357-b9c5-f8b3-5d57-1178ec0dde5a@nvidia.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jHdKm-0000sG-C8; Thu, 26 Mar 2020 20:58:53 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48pNlQ3k20z9sSN; Fri, 27 Mar 2020 11:58:42 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1585270722;
+ bh=tzshjypVzDjCLD9i/1xTjh+uGpqj64mtbpy8n7CmkeM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KxgFxvA2cIM+joHLJuMQBHJI7u5JzzTnKE9Jl3OADJYmIfow2hUuCF7aKGs/PcZ9H
+ xvWZx3wyEj7HHO1hxRlwEotDmlu1iZ5xO6IzsGlnWJezQu3aPSsvsFdW7LsONd8qVJ
+ NuRaEMtqQcgs7ZLq2i1bcccG57F9Z1CdBsFzWD5c=
+Date: Fri, 27 Mar 2020 10:54:23 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC for-5.1 3/4] spapr: Fix failure path for attempting to hot
+ unplug PCI bridges
+Message-ID: <20200326235423.GB456060@umbus.fritz.box>
+References: <20200326054009.454477-1-david@gibson.dropbear.id.au>
+ <20200326054009.454477-4-david@gibson.dropbear.id.au>
+ <20200326131824.4601ae68@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yEPQxsgoJgBvi8ip"
 Content-Disposition: inline
-In-Reply-To: <3cabb357-b9c5-f8b3-5d57-1178ec0dde5a@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.88
+In-Reply-To: <20200326131824.4601ae68@bahia.lan>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,144 +57,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, clg@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 05:39:44AM +0800, Kirti Wankhede wrote:
-> 
-> 
-> On 3/25/2020 7:48 AM, Yan Zhao wrote:
-> > On Wed, Mar 25, 2020 at 03:32:37AM +0800, Kirti Wankhede wrote:
-> >> DMA mapped pages, including those pinned by mdev vendor drivers, might
-> >> get unpinned and unmapped while migration is active and device is still
-> >> running. For example, in pre-copy phase while guest driver could access
-> >> those pages, host device or vendor driver can dirty these mapped pages.
-> >> Such pages should be marked dirty so as to maintain memory consistency
-> >> for a user making use of dirty page tracking.
-> >>
-> >> To get bitmap during unmap, user should allocate memory for bitmap, set
-> >> size of allocated memory, set page size to be considered for bitmap and
-> >> set flag VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP.
-> >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> ---
-> >>   drivers/vfio/vfio_iommu_type1.c | 54 ++++++++++++++++++++++++++++++++++++++---
-> >>   include/uapi/linux/vfio.h       | 10 ++++++++
-> >>   2 files changed, 60 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> >> index 27ed069c5053..b98a8d79e13a 100644
-> >> --- a/drivers/vfio/vfio_iommu_type1.c
-> >> +++ b/drivers/vfio/vfio_iommu_type1.c
-> >> @@ -982,7 +982,8 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
-> >>   }
-> >>   
-> >>   static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
-> >> -			     struct vfio_iommu_type1_dma_unmap *unmap)
-> >> +			     struct vfio_iommu_type1_dma_unmap *unmap,
-> >> +			     struct vfio_bitmap *bitmap)
-> >>   {
-> >>   	uint64_t mask;
-> >>   	struct vfio_dma *dma, *dma_last = NULL;
-> >> @@ -1033,6 +1034,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
-> >>   	 * will be returned if these conditions are not met.  The v2 interface
-> >>   	 * will only return success and a size of zero if there were no
-> >>   	 * mappings within the range.
-> >> +	 *
-> >> +	 * When VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP flag is set, unmap request
-> >> +	 * must be for single mapping. Multiple mappings with this flag set is
-> >> +	 * not supported.
-> >>   	 */
-> >>   	if (iommu->v2) {
-> >>   		dma = vfio_find_dma(iommu, unmap->iova, 1);
-> >> @@ -1040,6 +1045,13 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
-> >>   			ret = -EINVAL;
-> >>   			goto unlock;
-> >>   		}
-> >> +
-> >> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
-> >> +		    (dma->iova != unmap->iova || dma->size != unmap->size)) {
-> > potential NULL pointer!
-> > 
-> > And could you address the comments in v14?
-> > How to handle DSI unmaps in vIOMMU
-> > (https://lore.kernel.org/kvm/20200323011041.GB5456@joy-OptiPlex-7040/)
-> > 
-> 
-> Sorry, I drafted reply to it, but I missed to send, it remained in my drafts
-> 
->  >
->  > it happens in vIOMMU Domain level invalidation of IOTLB
->  > (domain-selective invalidation, see vtd_iotlb_domain_invalidate() in 
-> qemu).
->  > common in VTD lazy mode, and NOT just happening once at boot time.
->  > rather than invalidate page by page, it batches the page invalidation.
->  > so, when this invalidation takes place, even higher level page tables
->  > have been invalid and therefore it has to invalidate a bigger 
-> combined range.
->  > That's why we see IOVAs are mapped in 4k pages, but are unmapped in 2M
->  > pages.
->  >
->  > I think those UNMAPs should also have GET_DIRTY_BIMTAP flag on, right?
-> 
-> 
-> vtd_iotlb_domain_invalidate()
->    vtd_sync_shadow_page_table()
->      vtd_sync_shadow_page_table_range(vtd_as, &ce, 0, UINT64_MAX)
->        vtd_page_walk()
->          vtd_page_walk_level() - walk over specific level for IOVA range
->            vtd_page_walk_one()
->              memory_region_notify_iommu()
->              ...
->                vfio_iommu_map_notify()
-> 
-> In the above trace, isn't page walk will take care of creating proper 
-> IOTLB entry which should be same as created during mapping for that 
-> IOTLB entry?
->
-No. It does walk the page table, but as it's dsi (delay & batched unmap),
-pages table entry for a whole 2M (the higher level, not last level for 4K)
-range is invalid, so the iotlb->addr_mask what vfio_iommu_map_notify()
-receives is (2M - 1), not the same as the size for map.
 
-> 
->  >>>
->  >>> Such unmap would callback vfio_iommu_map_notify() in QEMU. In
->  >>> vfio_iommu_map_notify(), unmap is called on same range <iova,
->  >>> iotlb->addr_mask + 1> which was used for map. Secondly unmap with 
-> bitmap
->  >>> will be called only when device state has _SAVING flag set.
->  >>
->  > in this case, iotlb->addr_mask in unmap is 0x200000 -1.
->  > different than 0x1000 -1 used for map.
->  >> It might be helpful for Yan, and everyone else, to see the latest QEMU
->  >> patch series.  Thanks,
->  >>
->  > yes, please. also curious of log_sync part for vIOMMU. given most 
-> IOVAs in
->  > address space are unmapped and therefore no IOTLBs are able to be found.
->  >
-> 	
-> Qemu patches compatible with v16 version are at:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg691806.html
-> 
-> 
+--yEPQxsgoJgBvi8ip
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 26, 2020 at 01:18:24PM +0100, Greg Kurz wrote:
+> On Thu, 26 Mar 2020 16:40:08 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > For various technical reasons we can't currently allow unplug a PCI to =
+PCI
+> > bridge on the pseries machine.  spapr_pci_unplug_request() correctly
+> > generates an error message if that's attempted.
+> >=20
+> > But.. if the given errp is not error_abort or error_fatal,
+>=20
+> Which is the always case when trying to unplug a device AFAICT:
+>=20
+> void qdev_unplug(DeviceState *dev, Error **errp)
+> {
+>     DeviceClass *dc =3D DEVICE_GET_CLASS(dev);
+>     HotplugHandler *hotplug_ctrl;
+>     HotplugHandlerClass *hdc;
+>     Error *local_err =3D NULL;
+>=20
+>     [...]
+>     hdc =3D HOTPLUG_HANDLER_GET_CLASS(hotplug_ctrl);
+>     if (hdc->unplug_request) {
+>         hotplug_handler_unplug_request(hotplug_ctrl, dev, &local_err);
+>=20
+> And anyway, spapr_pci_unplug_request() shouldn't rely on the caller
+> passing &error_fatal or &error_abort to do the right thing. Calling
+> error_setg() without returning right away is a dangerous practice
+> since it would cause a subsequent call to error_setg() with the
+> same errp to abort QEMU.
+>=20
+> > it doesn't actually stop trying to unplug the bridge anyway.
+> >=20
+>=20
+> This looks like a bug fix that could go to 5.0 IMHO.
+
+Fair point.  I've added the tag and moved to ppc-for-5.0.
+
+>=20
+> Maybe add this tag ?
+>=20
+>    Fixes: 14e714900f6b "spapr: Allow hot plug/unplug of PCI bridges and d=
+evices under PCI bridges"
+>=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> >  hw/ppc/spapr_pci.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> > index 709a52780d..55ca9dee1e 100644
+> > --- a/hw/ppc/spapr_pci.c
+> > +++ b/hw/ppc/spapr_pci.c
+> > @@ -1663,6 +1663,7 @@ static void spapr_pci_unplug_request(HotplugHandl=
+er *plug_handler,
+> > =20
+> >          if (pc->is_bridge) {
+> >              error_setg(errp, "PCI: Hot unplug of PCI bridges not suppo=
+rted");
+> > +            return;
+> >          }
+> > =20
+> >          /* ensure any other present functions are pending unplug */
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--yEPQxsgoJgBvi8ip
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl59QK0ACgkQbDjKyiDZ
+s5JYxxAA2fHmzHoj+zLPygEYbzGFwjgJEpZ8OYNrTDbh6pmhafMsmZuGY63Myb0M
+rR3cEiKslhNpK8XPEhIZLcFP78/BUgQE0yoETW61LpmCmC5mO7MMBn+CiyuvrRvr
+85TwBfEnSHwwpy7CahwtlzcDTnar1oohUZ1opUXAlTUYS/n/ghjAscUmIG8Yix5d
+3MEx7JJiRNrMLw922kCdbpUSCfpQhMje7YbIDjPg0jQJ22RVEy6bKSJNorf/dP9z
+eJLvqEOuZksCGxHBgn9U1bOiLJ7+GI8Oory3m6ymd+5Tlj/oI4bh+6ss3DfDqjnq
+7hwTb14XIDxozYvHGsIBOVdocfIUaErLSzoskUeWC7W1xOoD626chC8xPTMeXqge
+0lutdle+uxbxvjH8hKhUN3lz9f9kDLkSSTJlwpy6UhjSt4T4z4Mu7WsxthLviAIA
+ptJEOIrMI88G44ZCeNuZeUG4P6by/AOoixi6KQMjAlqQ6Zx7e9GYblD03tYIhR7h
+4W3uWn6mgpgb4srf9NXyyZxJMK2gfypLlOuD3BOMzzC1Fa72bQh/9wIeoArT59+x
+fTEhWlvIE7ASq0A83s8tK2QozGkthdADmSwU701tM7vgqf85ZaIwLaO4lUwjuIAR
+XDLYSiw+AdkSXqTPPJqnIQrqR3k2gmxOM5dpwL9z56w/cG7uFyg=
+=dppx
+-----END PGP SIGNATURE-----
+
+--yEPQxsgoJgBvi8ip--
 
