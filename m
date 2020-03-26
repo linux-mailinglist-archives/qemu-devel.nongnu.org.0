@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DCE194863
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:09:44 +0100 (CET)
-Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1ECB194850
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:06:54 +0100 (CET)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYox-0004K2-24
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59097)
+	id 1jHYmD-0000DK-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKv-0007PR-7H
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:42 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKw-0007SD-3O
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKu-0001yJ-6k
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKu-0001yn-VZ
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:41 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:36788)
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:38435)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYKt-0001xh-HP
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:39 -0400
-Received: by mail-qk1-x742.google.com with SMTP id d11so8194266qko.3
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:39 -0700 (PDT)
+ id 1jHYKu-0001yT-RS
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:40 -0400
+Received: by mail-qk1-x742.google.com with SMTP id h14so8191082qke.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SQwt3BlCMlkRrdpIoHWlR7VL+MoMENIbhHHtRYB6xLo=;
- b=nW/dDWJw0d+Y1YRC5HdCl/0BDPcFXbtoPb027+TPPp21NlY8jzSE9jKIJ7IwpUzz5h
- +SkWjk5ULt9mES8H66gBZLwrZ6TBHiGlUcj/79+qIvR4fCoZDIjHyLpiDtSVS/DqXetg
- n0ssIzkIFGlc51IfyHAZQuvcz+ZrtEHFH0FgfrD80UbXm+XIO5lhHUCzYEuGI5Ymc2HJ
- STuR+7LBgpD1wW6oyO2v31TzcusT+iLYmYYDEZxiPA6kIOFzVhgFihLCfStBnuJBjOxH
- 1Xb741Gwpa9ZEQT5MLTYEC0D3YtARluZTVcitX9ItY82hw/9GFGih2a8m5RKXQ2VygVM
- HWgw==
+ bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
+ b=BrTs5KSfDqJse3PHhVXCvaWh8fmqrKi7jif0EFXt8t06jcgtflX/qboikphU0kQmXP
+ 1AKni0uOnBCkDlwBa3Y1XeH2nwSHAET9wEbQpHE4SMUMiXg5ndbeWtEkvJjq6GYYzO/W
+ ktbnpekNRF6N1wX3x7fl5PNj/ekLwh5qpVma5CEKQBpqiIiBTK4jclg/sLHHbohfIejU
+ 8aHK78tUfUktdyVLAuxPCsdqjjd3ko/f6Vkq6OQEGGMuZvcqN9akmDEMOsaJYrDjGNuF
+ d36FnLZk5xBtOqnY1q7mEIiiw20Hw3JJiAHx/6mxEJ/aG7Qwz/TxFIz8tkffRVjepJu8
+ NZmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SQwt3BlCMlkRrdpIoHWlR7VL+MoMENIbhHHtRYB6xLo=;
- b=OV/OiJNcZFgwDua+0bsr58jlAsWFgPdLHgR/SI10E4PaED6j23UOpZWsCOvdncFfUj
- GA+FoFZv1WzMsMvKCiGgDpV4MWoZRorEhQNZWIj4yZBB9c8660aIVmUPbFrbKSd9QRsP
- ZvwNuNNe1vOWh3rchBhFLQTrS6jj32HtwTf2TfOYWU9cdCn4KF+US0U32J+AUFUA0GVV
- epTIu32VCdSLEfFsHEagPW16PTeFq+yZUysmL6XcTADcXloM3oBWdmts34WjIZCHTZeY
- aOkemLVQOgSEx7NLkCtChTBhKzfr2hLl7CE6FNYeDhxPbpsHTbwHknzFc4j+hSXEmDXc
- 9X6A==
-X-Gm-Message-State: ANhLgQ17Gmf8A6cFcxHf7HqXe2Pc00xVFzOtSw7OS4xRJ46glj/nxiIQ
- rlQxWecr5/IfyresKD4OLhtbEq8xjm0Anw==
-X-Google-Smtp-Source: ADFU+vtnvbdwATvEoc09I7RzE9BEiNkWgxe/5wOhQ5x48PDfy5pQpR+vjwxNeQN8jcobmruGyM918g==
-X-Received: by 2002:a37:4785:: with SMTP id u127mr1228692qka.135.1585251518391; 
- Thu, 26 Mar 2020 12:38:38 -0700 (PDT)
+ bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
+ b=oyBHP+YGY0+WyLQQlY6evQkg/HWXiG53BvhGKpdy6IbajeVLDeTdgH5xkQ3OHVLdfm
+ NQn1AJXNmLnN9PDvP2chfvXjagDFB8ToZbWKGR1XO3dSpoEeatqs5xHn3SacE0ts8p5E
+ Yu+xRVhF4XvjhR9dtd9Gl9HhDd/TrFTGfloFSyeBkChK7Sp8kmcy2dg4xGZN3URxJhGx
+ oDlKYAF4mp4GVNfMQtC0PBfNn63iBJWG/M+K8/S1N0vdM20KFP2Tkzu/k7BifYXBZoRU
+ 3d56Zforg1hy79l9ob43pDJ5hkakTBP80NLELvao+7TXLwuS27fSC6Sjp5RWpaa5/J+k
+ 4EUA==
+X-Gm-Message-State: ANhLgQ2mOZH84kh4gkeVgOYcMuC5CT4iFLO7FVe3GTxnIKX3AfTf31mj
+ 45IiJagw6k4Y9h/v4vxI6XHJian3jA/65A==
+X-Google-Smtp-Source: ADFU+vvjgOz5JsPeO63+lwGqmmBJYix8aHKH6qnRLIFpmt0lwGYk+hwbrqxGAfJKjMLdWTOEnOZRVw==
+X-Received: by 2002:a37:741:: with SMTP id 62mr9728414qkh.422.1585251519725;
+ Thu, 26 Mar 2020 12:38:39 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.37
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:37 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:39 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 47/74] cris: convert to cpu_interrupt_request
-Date: Thu, 26 Mar 2020 15:31:29 -0400
-Message-Id: <20200326193156.4322-48-robert.foley@linaro.org>
+Subject: [PATCH v8 48/74] hppa: convert to cpu_interrupt_request
+Date: Thu, 26 Mar 2020 15:31:30 -0400
+Message-Id: <20200326193156.4322-49-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -79,59 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
- "Emilio G. Cota" <cota@braap.org>, peter.puhov@linaro.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org
+Cc: richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
+ alex.bennee@linaro.org, robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/cris/cpu.c    | 2 +-
- target/cris/helper.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ target/hppa/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index cff6b9eabf..6d7e266042 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -37,7 +37,7 @@ static void cris_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 71b6aca45d..287055f96e 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -61,7 +61,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
  
- static bool cris_cpu_has_work(CPUState *cs)
+ static bool hppa_cpu_has_work(CPUState *cs)
  {
--    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
-+    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+-    return cs->interrupt_request & CPU_INTERRUPT_HARD;
++    return cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
  }
  
- static void cris_cpu_reset(DeviceState *dev)
-diff --git a/target/cris/helper.c b/target/cris/helper.c
-index b5159b8357..67946d9246 100644
---- a/target/cris/helper.c
-+++ b/target/cris/helper.c
-@@ -131,7 +131,7 @@ void crisv10_cpu_do_interrupt(CPUState *cs)
- 
-     D_LOG("exception index=%d interrupt_req=%d\n",
-           cs->exception_index,
--          cs->interrupt_request);
-+          cpu_interrupt_request(cs));
- 
-     if (env->dslot) {
-         /* CRISv10 never takes interrupts while in a delay-slot.  */
-@@ -193,7 +193,7 @@ void cris_cpu_do_interrupt(CPUState *cs)
- 
-     D_LOG("exception index=%d interrupt_req=%d\n",
-           cs->exception_index,
--          cs->interrupt_request);
-+          cpu_interrupt_request(cs));
- 
-     switch (cs->exception_index) {
-     case EXCP_BREAK:
+ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
 -- 
 2.17.1
 
