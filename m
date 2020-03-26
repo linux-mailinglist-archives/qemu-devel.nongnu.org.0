@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1AE193507
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:39:52 +0100 (CET)
-Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AB2193505
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:39:51 +0100 (CET)
+Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHGYp-0005XC-Ni
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43657)
+	id 1jHGYm-0005XD-SP
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXK-0003lD-Gp
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXL-0003lF-4D
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXJ-0002Gu-31
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:18 -0400
-Received: from ozlabs.org ([203.11.71.1]:54943)
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXJ-0002H1-3b
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:19 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52625)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jHGXI-0002AS-1R; Wed, 25 Mar 2020 20:38:17 -0400
+ id 1jHGXH-0002AY-PW; Wed, 25 Mar 2020 20:38:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48nmL76mMmz9sSH; Thu, 26 Mar 2020 11:38:07 +1100 (AEDT)
+ id 48nmL80hNxz9sSL; Thu, 26 Mar 2020 11:38:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1585183087;
- bh=ilbV9GRT83huIkl+WgcxEwyHha4OUY99OsNNhg4GV9A=;
+ d=gibson.dropbear.id.au; s=201602; t=1585183088;
+ bh=qB0r7NS4r+cvkwy6uhHzmqiPy8DcDIBEFy3LkKL7M/U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dx86GYpcZEvqha2U/7V7S9dtLxPa8SCWxm7tBDBmVj1bQfRstwG9UOpE0wAE3cH6P
- vq7pos8Jc9edmdjcxZspfh+pyGH1PMFmdAy08bIxLOmuRp6HRMlguSZs/GzhSjyMxc
- mcHXOnce11np01M4JXJk3zCgAjYpjCwgN8KNmb5U=
-Date: Thu, 26 Mar 2020 11:04:33 +1100
+ b=WqYTqtGCgvS62pOY7HaWsGQtr0YYvD61DHv8Cl7AFYFsc0wS2dMRkWqh3d5QxpP/p
+ rzBEyGNdUs2EoWpP5anTYC93xBtfB2cTVBgsqyNJAP2CBE1cD0u3KHLuANWP3ROGbc
+ v88no55MhXglit028rSfE64/M71ik0iUd8XyGd/E=
+Date: Thu, 26 Mar 2020 11:11:06 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH 1/5] ppc/spapr: tweak change system reset helper
-Message-ID: <20200326000433.GI36889@umbus.fritz.box>
-References: <20200325144147.221875-1-npiggin@gmail.com>
- <20200325144147.221875-2-npiggin@gmail.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu] vfio/spapr: Fix page size calculation
+Message-ID: <20200326001106.GJ36889@umbus.fritz.box>
+References: <20200324063912.25063-1-aik@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="e5bfZ/T2xnjpUIbw"
+ protocol="application/pgp-signature"; boundary="oxV4ZoPwBLqAyY+a"
 Content-Disposition: inline
-In-Reply-To: <20200325144147.221875-2-npiggin@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20200324063912.25063-1-aik@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,105 +54,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-ppc@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---e5bfZ/T2xnjpUIbw
+--oxV4ZoPwBLqAyY+a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2020 at 12:41:43AM +1000, Nicholas Piggin wrote:
-> Rather than have the helper take an optional vector address
-> override, instead have its caller modify env->nip itself.
-> This is more consistent when adding pnv nmi support, and also
-> with mce injection added later.
+On Tue, Mar 24, 2020 at 05:39:12PM +1100, Alexey Kardashevskiy wrote:
+> Coverity detected an issue (CID 1421903) with potential call of clz64(0)
+> which returns 64 which make it do "<<" with a negative number.
 >=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> This checks the mask and avoids undefined behaviour.
+>=20
+> In practice pgsizes and memory_region_iommu_get_min_page_size() always
+> have some common page sizes and even if they did not, the resulting page
+> size would be 0x8000.0000.0000.0000 (gcc 9.2) and
+> ioctl(VFIO_IOMMU_SPAPR_TCE_CREATE) would fail anyway.
+>=20
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
 Applied to ppc-for-5.1.
 
 > ---
->  hw/ppc/spapr.c           | 9 ++++++---
->  target/ppc/cpu.h         | 2 +-
->  target/ppc/excp_helper.c | 5 +----
->  3 files changed, 8 insertions(+), 8 deletions(-)
+>  hw/vfio/spapr.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 9a2bd501aa..785c41d205 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3385,13 +3385,13 @@ static void spapr_machine_finalizefn(Object *obj)
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+> diff --git a/hw/vfio/spapr.c b/hw/vfio/spapr.c
+> index 33692fc86fd6..2900bd19417a 100644
+> --- a/hw/vfio/spapr.c
+> +++ b/hw/vfio/spapr.c
+> @@ -147,7 +147,7 @@ int vfio_spapr_create_window(VFIOContainer *container,
 >  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +    CPUPPCState *env =3D &cpu->env;
-> =20
->      cpu_synchronize_state(cs);
->      /* If FWNMI is inactive, addr will be -1, which will deliver to 0x10=
-0 */
->      if (spapr->fwnmi_system_reset_addr !=3D -1) {
->          uint64_t rtas_addr, addr;
-> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -        CPUPPCState *env =3D &cpu->env;
-> =20
->          /* get rtas addr from fdt */
->          rtas_addr =3D spapr_get_rtas_addr();
-> @@ -3405,7 +3405,10 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, ru=
-n_on_cpu_data arg)
->          stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
->          env->gpr[3] =3D addr;
+>      int ret =3D 0;
+>      IOMMUMemoryRegion *iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
+> -    uint64_t pagesize =3D memory_region_iommu_get_min_page_size(iommu_mr=
+);
+> +    uint64_t pagesize =3D memory_region_iommu_get_min_page_size(iommu_mr=
+), pgmask;
+>      unsigned entries, bits_total, bits_per_level, max_levels;
+>      struct vfio_iommu_spapr_tce_create create =3D { .argsz =3D sizeof(cr=
+eate) };
+>      long rampagesize =3D qemu_minrampagesize();
+> @@ -159,8 +159,8 @@ int vfio_spapr_create_window(VFIOContainer *container,
+>      if (pagesize > rampagesize) {
+>          pagesize =3D rampagesize;
 >      }
-> -    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
-> +    ppc_cpu_do_system_reset(cs);
-> +    if (spapr->fwnmi_system_reset_addr !=3D -1) {
-> +        env->nip =3D spapr->fwnmi_system_reset_addr;
-> +    }
->  }
-> =20
->  static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 88d9449555..f4a5304d43 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunctio=
-n f, CPUState *cs,
->  int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
->                                 int cpuid, void *opaque);
->  #ifndef CONFIG_USER_ONLY
-> -void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
-> +void ppc_cpu_do_system_reset(CPUState *cs);
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
->  extern const VMStateDescription vmstate_ppc_cpu;
->  #endif
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 08bc885ca6..7f2b5899d3 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -961,15 +961,12 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->      }
->  }
-> =20
-> -void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
-> +void ppc_cpu_do_system_reset(CPUState *cs)
->  {
->      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
->      CPUPPCState *env =3D &cpu->env;
-> =20
->      powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
-> -    if (vector !=3D -1) {
-> -        env->nip =3D vector;
-> -    }
->  }
-> =20
->  void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
+> -    pagesize =3D 1ULL << (63 - clz64(container->pgsizes &
+> -                                   (pagesize | (pagesize - 1))));
+> +    pgmask =3D container->pgsizes & (pagesize | (pagesize - 1));
+> +    pagesize =3D pgmask ? (1ULL << (63 - clz64(pgmask))) : 0;
+>      if (!pagesize) {
+>          error_report("Host doesn't support page size 0x%"PRIx64
+>                       ", the supported mask is 0x%lx",
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -161,25 +118,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---e5bfZ/T2xnjpUIbw
+--oxV4ZoPwBLqAyY+a
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl578ZEACgkQbDjKyiDZ
-s5IINxAAxn5TPpdShzGdwnFObS47re/Unr3KOldeVLszZ63/pUXI1wUNNl/ABHCM
-xUfJGg9NQwLlbl5nRRc1oacpcZE6QaUUSlAl6bvqHEMgc2N5hGoaXNPEK1s7BPe8
-Nqhf5+vfXWcRFZ3o2I3DUmo2FGWLsCxUHo74JsVi8lfd5Uz21LESylMf0VuROJw2
-AP5iEOygmIpM5UrbKwqwnLnODHbioGtAGQEYQjt9DgLJ+KS/X9NhGe5fEHUEAmUA
-+7yzjuXzbJfXwBzBoq6RZeJbzyyg4TfG3hqDBgWkp8sJhBiWAM4YGwX+mHo+s+J+
-tJOWWcxsdyIghKCBsXhpJwQy9VsVhzPcQSQ7V+L41JsIP0nf2lRVB/8CfLfmzPQO
-otILA7eTgVvCkIywhmyAsNYf443/hbuuKP2yMje8EaLXtuwvP+00VAL7fhX/dVSF
-02oloOPv6jXQwxU/0wMTVot98+UpCs9UNA01Xl8ji733W5F/k/szUBfU238boWwc
-obXPMQvNQ3dOMi1gpILxROA8uFXMJ/MXj4GLr0j5ErxfpOxgI0jedUoBjuFjVEx0
-FG0hhlASu72iVXWxo4CAq8tFhJF04IyUISTOyul8uDa1qZ4+EcuJc8QSQLTeFSNt
-LCMD0/Q/3aW01i4m/W0Ypdjnca67pDr7cjWtm5I19Vyryshb9b4=
-=MBDB
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl578xoACgkQbDjKyiDZ
+s5L5RA//a0u2/sG8OTsTSEX/UTuatMRavqnLezIthO1pHrJdzbi3LsTkHASot9oV
+BihCZGnd/tw3V4B50K/I4VJzdNgr2+3IZM99Kkr8SxSFkv9v4SvrYjQ0rC8EMP3k
+/ihbTGemV67cA3auQmCGQYIMH3VsDcHjX+aYyf8/4/uadK29jHt7tZ90J2Os75IB
+h15ni7Why5xFG0vgNMHyXdX4KEfRSNyGVNbFrhTyBeYk51Ul7GeS+5cZFy8+yB/m
+7Zbt/JAY52CghV35cO8ok+hwahXbVFa/Eo+/sV1iQBbcSIBjCVzd8PFlDFdsEEA6
+MTACQBIHtrGB6ylqI6iQMQLbg+j/ejsTcLXCBuEFUcErNsBzkmQ8NpBjHT+RwySq
+DCnYK6kLoUy+e8SRFXXyQNXYhmTRG3FvG48m61SwRf0llEIXBjNJ6Jo/F2B+ekoL
+d31zSyDI4jX5O15ZUBIZ40vYrOjfOyp3BoHSGxTVXxjXoIUSW2/s2OgFENh+MecE
+34ZjFL9p3gEran8WzEq/TgS6VCtCQnpiaOBSVOj/fFVSHU61+dx5V2rIxZjRS6oo
+rCqApu4PbkzaxuEKQsZG6MXHdp6Tii7fd0TtQPo0V+jLojNMGQRRXc7CACq8eV3R
+JMfqKZxj7bWnw14tB6g9RxrJa+FXIYYIyUMaeSIf1B/ns6MnKos=
+=24BJ
 -----END PGP SIGNATURE-----
 
---e5bfZ/T2xnjpUIbw--
+--oxV4ZoPwBLqAyY+a--
 
