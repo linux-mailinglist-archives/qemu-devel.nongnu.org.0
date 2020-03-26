@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1152B1943AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 16:58:06 +0100 (CET)
-Received: from localhost ([::1]:55886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4017B1943AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 16:58:03 +0100 (CET)
+Received: from localhost ([::1]:55884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHUtQ-0002YS-53
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 11:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57218)
+	id 1jHUtO-0002UJ-Av
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 11:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <s.reiter@proxmox.com>) id 1jHUs5-0000qx-Tg
+ (envelope-from <s.reiter@proxmox.com>) id 1jHUs5-0000qw-OI
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:56:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <s.reiter@proxmox.com>) id 1jHUs4-0002eG-QY
+ (envelope-from <s.reiter@proxmox.com>) id 1jHUs4-0002e6-Nf
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 11:56:41 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:57081)
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:28899)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <s.reiter@proxmox.com>)
- id 1jHUs2-0002ZH-F0; Thu, 26 Mar 2020 11:56:38 -0400
+ id 1jHUs2-0002Yv-FI; Thu, 26 Mar 2020 11:56:38 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 0336842E0D;
- Thu, 26 Mar 2020 16:56:36 +0100 (CET)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AAE7842EAC;
+ Thu, 26 Mar 2020 16:56:34 +0100 (CET)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v2 0/3] Fix some AIO context locking in jobs
-Date: Thu, 26 Mar 2020 16:56:25 +0100
-Message-Id: <20200326155628.859862-1-s.reiter@proxmox.com>
+Subject: [PATCH v2 1/3] backup: don't acquire aio_context in backup_clean
+Date: Thu, 26 Mar 2020 16:56:26 +0100
+Message-Id: <20200326155628.859862-2-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200326155628.859862-1-s.reiter@proxmox.com>
+References: <20200326155628.859862-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -51,33 +53,40 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Contains three seperate but related patches cleaning up and fixing some
-issues regarding aio_context_acquire/aio_context_release for jobs. Mostly
-affects blockjobs running for devices that have IO threads enabled AFAICT=
-.
+All code-paths leading to backup_clean (via job_clean) have the job's
+context already acquired. The job's context is guaranteed to be the same
+as the one used by backup_top via backup_job_create.
 
-This is based on the discussions here:
-https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg07929.html
+Since the previous logic effectively acquired the lock twice, this
+broke cleanup of backups for disks using IO threads, since the BDRV_POLL_=
+WHILE
+in bdrv_backup_top_drop -> bdrv_do_drained_begin would only release the l=
+ock
+once, thus deadlocking with the IO thread.
 
-I *think* the second patch also fixes the hangs on backup abort that I an=
-d
-Dietmar noticed in v1, but I'm not sure, they we're somewhat intermittent
-before too.
+This is a partial revert of 0abf2581717a19.
 
-Changes from v1:
-* fixed commit message for patch 1
-* added patches 2 and 3
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ block/backup.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Stefan Reiter (3):
-  backup: don't acquire aio_context in backup_clean
-  job: take each job's lock individually in job_txn_apply
-  replication: acquire aio context before calling job_cancel_sync
-
- block/backup.c      |  4 ----
- block/replication.c |  6 +++++-
- job.c               | 32 ++++++++++++++++++++++++--------
- 3 files changed, 29 insertions(+), 13 deletions(-)
-
+diff --git a/block/backup.c b/block/backup.c
+index 7430ca5883..a7a7dcaf4c 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -126,11 +126,7 @@ static void backup_abort(Job *job)
+ static void backup_clean(Job *job)
+ {
+     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
+-    AioContext *aio_context =3D bdrv_get_aio_context(s->backup_top);
+-
+-    aio_context_acquire(aio_context);
+     bdrv_backup_top_drop(s->backup_top);
+-    aio_context_release(aio_context);
+ }
+=20
+ void backup_do_checkpoint(BlockJob *job, Error **errp)
 --=20
 2.26.0
 
