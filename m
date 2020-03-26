@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C351944C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 17:58:39 +0100 (CET)
-Received: from localhost ([::1]:56640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F651944F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 18:02:45 +0100 (CET)
+Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHVq2-0003wV-UL
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 12:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37165)
+	id 1jHVu0-0007n6-D4
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 13:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHVoD-0002cF-37
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 12:56:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jHVsx-0007MY-PU
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 13:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHVoB-0008Hw-Rj
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 12:56:44 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34982)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHVsw-0004lj-Cf
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 13:01:39 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42177)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHVoB-0008HQ-HP
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 12:56:43 -0400
-Received: by mail-pg1-x544.google.com with SMTP id k5so959587pga.2
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 09:56:43 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jHVsv-0004eB-BB
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 13:01:38 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h15so8704274wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 10:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6w5PVuHjOabKMom0hymU201CXbvUXXDaXz2WOjLRUZE=;
- b=aL8RnAzTcUXZfIUhInwGdanmIBVwMBQoSsw8jXbTs02TkDwXAbEHDpPJlSXEp8SP8i
- 3iIUZd/Wz3KCfV+QNXf4eVu0Ti06e/aSAXPTQ7XQGChM6uV04BJofqnSeXN7eoGq41p4
- +8Ig89QP3e7R1/zdHn5tFoPLTzY3A5arNf1QOdm4WnIn+8lNpAw7wGOVsxUiJmYjrnYP
- Zytdc5M9IhuA5VRXxwiIHQGEGW+mpc+FlBpHRCAa6ZPIuNMXu80lJwqWIMQHZH4aIrA2
- S2B3HW5jqUWFQrAbQ5AEvRTBfrqB9IEPIk1jZOs8zEHyY1xpZryQQgu8Em47pCO0MiFV
- 4a8g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dqLqRQ4b0SR5ODbR+9qMmow31WjM5Vry9omXjfMMazw=;
+ b=ecBrk1q5TSqvNxbmz8psUz04AafImfd9hjKQ+yggV3bDIUpHcrkXFGTBhbDCYPeGYO
+ LvxGR4TKSg0MO/qG1RnVbj3+1E0MCjuUXsxo7QO4fnYp2nClkmr3LO0N1+5F0bep6pIY
+ 2sXw+Gp+Yy7Wgkv4Y6defQAc2VIgIcHlMUU5egtVWzgEgxA/KQVMb3bkv4uzi/X8p2B3
+ NWRwPUBY2OBUGF6O2rTl0Qukm4sKiLHbLQdl9Ryxe/Jq0HbnkMLqn6tf6d3cJ5od8EW4
+ VyMBlS/0sQhXptON53hvkkD5vU0pLItFKrpvx9N4NrT+/3GeQpWpOvVJyvA4J2c9dSqv
+ aL2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6w5PVuHjOabKMom0hymU201CXbvUXXDaXz2WOjLRUZE=;
- b=lKobwO/BxJgbWpRdj6cagC+5DnWtfDUEwvG/LaadRibfDXqr1xVWExXPaxBXVJB8+U
- zxxeRcYTNdVvuwNCMC9E1EVfBPo0awl75t88lrZ/JCW6y8xwtkN4rfotDxjWsljexkKZ
- ol4rZHpFE78jwKIyNK+WSDIJxW0Yaqvetya8MhMckFAP1pt3hhiW3Sdc9jfalbFEmyDh
- Z4xweuMr3f4rMaNjevYGU1st4qeO6zTyi5J8rO5fFIZSrpOzXBkIn3HOXDzc/TGnEXB9
- pjrt5PLzsCqiaZP/sNc/2/rXfWoppF8pBDa0aC4+3DrajkD1tyADwg9AIzpEwEHv/+J4
- MrRw==
-X-Gm-Message-State: ANhLgQ064sZKYG/ab3SckLpg4vEd2GRrayBUWN7OpwAVc39mJMGa40r2
- f6kGICFFJe0sAoOq/ZkfxuIM6A==
-X-Google-Smtp-Source: ADFU+vvUK2Xmi80rgC59aymvy2cCyH6iodpTh0EQiqdkwrFwc52xjyGyB+JVC7c/AiBHJXbZYoTPxQ==
-X-Received: by 2002:a65:680b:: with SMTP id l11mr9651609pgt.322.1585241801787; 
- Thu, 26 Mar 2020 09:56:41 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id h4sm2075054pfg.177.2020.03.26.09.56.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Mar 2020 09:56:41 -0700 (PDT)
-Subject: Re: [PATCH] qemu-user: fix build with LLVM lld 10
-To: Roger Pau Monne <roger.pau@citrix.com>, qemu-devel@nongnu.org
-References: <20200326134316.36059-1-roger.pau@citrix.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f71f7cf8-af7d-7b45-a026-8ab87e106759@linaro.org>
-Date: Thu, 26 Mar 2020 09:56:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=dqLqRQ4b0SR5ODbR+9qMmow31WjM5Vry9omXjfMMazw=;
+ b=F6xMCVTtBgfjvW2vmF9ktUfgZGKc7YMRyTZf/LVTGBE7nblt6/Y3tXjeKEwvYwBFht
+ GTLGM8dePMsYfIw5DZgp4r3FO8dkDhXyCg6GHsmr3wljebbGYyhM8uei0mkq0tG6OYNx
+ 0GecQ+q0ETK1lUvzyeic+KRQuWlcn54VbDCHJO5bmgjPmrhD+C52OCc32ObVqBEsa7g9
+ s3Pt+rDSZVEr7/X95GfGlzOE8+dWepVhmYOl91KRByCk2IQiv76lK+eFh9JClURW39x5
+ CirR+ERhvsGxjUbxWzoFlEUXnS8d1nGBGk9u/SYat20IgXuDWGgeqf/uFjFzP9quqwOo
+ O3eA==
+X-Gm-Message-State: ANhLgQ0+korkY2ouiaiKxTKnmPKgPSFGvwfnRvWoGIWjMgg+tCuKxWy4
+ inz7FPpr8JhpQLlnRRxVib78Yg==
+X-Google-Smtp-Source: ADFU+vtXAMgmXxPKKcRWXG6PtSOphvHTiW6L0wPQuigWeLWyU/1rjIjRh6i2Q+3EGPLu0haUKCVvsg==
+X-Received: by 2002:a5d:6a43:: with SMTP id t3mr9940802wrw.87.1585242095139;
+ Thu, 26 Mar 2020 10:01:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a1sm4717549wro.72.2020.03.26.10.01.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Mar 2020 10:01:33 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1DE0F1FF7E;
+ Thu, 26 Mar 2020 17:01:33 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qemu/atomic.h: add #ifdef guards for stdatomic.h
+Date: Thu, 26 Mar 2020 17:01:21 +0000
+Message-Id: <20200326170121.13045-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200326134316.36059-1-roger.pau@citrix.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,33 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Dimitry Andric <dim@FreeBSD.org>, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/20 6:43 AM, Roger Pau Monne wrote:
-> lld 10.0.0 introduced a new linker option --image-base equivalent to
-> the GNU -Ttext-segment one, hence use it when available.
-> 
-> This fixes the build of QEMU on systems using lld 10 or greater.
-> 
-> Signed-off-by: Dimitry Andric <dim@FreeBSD.org>
-> Signed-off-by: Roger Pau Monné <roger.pau@citrix.com>
-> ---
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-> ---
+Deep inside the FreeBSD netmap headers we end up including stdatomic.h
+which clashes with qemu's atomic functions which are modelled along
+the C11 standard. To avoid a massive rename lets just ifdef around the
+problem.
 
-The Plan is still to drop this whole section of code.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/qemu/atomic.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-However, it's still blocked on getting the x86_64 vsyscall patches upstream.
+diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+index f9cd24c8994..ff72db51154 100644
+--- a/include/qemu/atomic.h
++++ b/include/qemu/atomic.h
+@@ -208,11 +208,14 @@
+ /* Provide shorter names for GCC atomic builtins, return old value */
+ #define atomic_fetch_inc(ptr)  __atomic_fetch_add(ptr, 1, __ATOMIC_SEQ_CST)
+ #define atomic_fetch_dec(ptr)  __atomic_fetch_sub(ptr, 1, __ATOMIC_SEQ_CST)
++
++#ifndef atomic_fetch_add
+ #define atomic_fetch_add(ptr, n) __atomic_fetch_add(ptr, n, __ATOMIC_SEQ_CST)
+ #define atomic_fetch_sub(ptr, n) __atomic_fetch_sub(ptr, n, __ATOMIC_SEQ_CST)
+ #define atomic_fetch_and(ptr, n) __atomic_fetch_and(ptr, n, __ATOMIC_SEQ_CST)
+ #define atomic_fetch_or(ptr, n)  __atomic_fetch_or(ptr, n, __ATOMIC_SEQ_CST)
+ #define atomic_fetch_xor(ptr, n) __atomic_fetch_xor(ptr, n, __ATOMIC_SEQ_CST)
++#endif
+ 
+ #define atomic_inc_fetch(ptr)    __atomic_add_fetch(ptr, 1, __ATOMIC_SEQ_CST)
+ #define atomic_dec_fetch(ptr)    __atomic_sub_fetch(ptr, 1, __ATOMIC_SEQ_CST)
+@@ -392,11 +395,14 @@
+ /* Provide shorter names for GCC atomic builtins.  */
+ #define atomic_fetch_inc(ptr)  __sync_fetch_and_add(ptr, 1)
+ #define atomic_fetch_dec(ptr)  __sync_fetch_and_add(ptr, -1)
++
++#ifndef atomic_fetch_add
+ #define atomic_fetch_add(ptr, n) __sync_fetch_and_add(ptr, n)
+ #define atomic_fetch_sub(ptr, n) __sync_fetch_and_sub(ptr, n)
+ #define atomic_fetch_and(ptr, n) __sync_fetch_and_and(ptr, n)
+ #define atomic_fetch_or(ptr, n) __sync_fetch_and_or(ptr, n)
+ #define atomic_fetch_xor(ptr, n) __sync_fetch_and_xor(ptr, n)
++#endif
+ 
+ #define atomic_inc_fetch(ptr)  __sync_add_and_fetch(ptr, 1)
+ #define atomic_dec_fetch(ptr)  __sync_add_and_fetch(ptr, -1)
+-- 
+2.20.1
 
-
-r~
 
