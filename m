@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C17193530
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 02:14:03 +0100 (CET)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2210F193549
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 02:31:41 +0100 (CET)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHH5u-0004ZO-1U
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 21:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47555)
+	id 1jHHMx-0008M3-M3
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 21:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jHH4s-0003Hn-Vx
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:13:00 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHHLt-0007rr-6q
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:30:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jHH4r-0002XH-31
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:12:58 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36655)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jHH4q-0002Wz-2D
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585185175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O/QDaoDCaD6/5X3+c8V+d/Gn+xlwDftGQmfsQsJifNE=;
- b=bUtHYyvXd3XDaH4gNpBvg493QktRhkyGcjnPyfuzs2xe485f/agPRkxKcC37sfIVLWS9ln
- 1X4w29ajUAe75ykq8WcvYm5z6z/eFHMJuGekoly3M8HMffTH55LOvvdWIMEh1j4cwNy7w7
- bwFclJPaeIdKEUEGZWpJdDwmIJiD544=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-XGgXcfF2NGaOLdg8gu_oHA-1; Wed, 25 Mar 2020 21:12:51 -0400
-X-MC-Unique: XGgXcfF2NGaOLdg8gu_oHA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19C4F1005512;
- Thu, 26 Mar 2020 01:12:50 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAEA110098FB;
- Thu, 26 Mar 2020 01:12:39 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] block: trickle down the fallback image creation function
- use to the block drivers
-Date: Thu, 26 Mar 2020 03:12:18 +0200
-Message-Id: <20200326011218.29230-3-mlevitsk@redhat.com>
-In-Reply-To: <20200326011218.29230-1-mlevitsk@redhat.com>
-References: <20200326011218.29230-1-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ (envelope-from <richard.henderson@linaro.org>) id 1jHHLr-0003pM-Ub
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:30:32 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39013)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jHHLr-0003pE-OH
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 21:30:31 -0400
+Received: by mail-pg1-x544.google.com with SMTP id b22so2057138pgb.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Mar 2020 18:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CVNLZ1mdGy/IHiGD40hf4U1pzDtYVCLC5S0KT3HY9Uw=;
+ b=m1rIfzY+k+TRMwbG/pokah2GWh3JgTFybEo3y4DPj8OY1ZV52AZVUBJUUGPXPG2B0S
+ F3YQooifCS+atKvKLeaNW694z0tCzhm18PAArnyBqb6RASVIIB4PblnktO5ag/TwMqrk
+ deUINP281bdWNTfGdaLnczYALl3bfsuryAkpvUHnXAqJrdcgPy8FvNmQlY+As5ft5Xyk
+ Cfvmm0PEzGyRXbbAqNEnRWgfB1HW3rdRsWazHxoVGf6GJOX69Bm8lu/47oSEk/4YXxs0
+ U69gMtn/jLMtBIZzOZqHJh+1Yx8O2WjeM9qGtDNqtVJ/xw5XY26cg0CASDLzwfa0e6zn
+ oF+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CVNLZ1mdGy/IHiGD40hf4U1pzDtYVCLC5S0KT3HY9Uw=;
+ b=MwRcuVJItGcZr13Et761ZTfElWDXcC+FkRNXY25bynApLxAzkDzOmebCexQ6Fe+GkR
+ QqBoU/lTkUghcyXQQhbToqxrjcsQ6IpCADu8YAvcqr02B+rmxrJagAG5AfMLOloHlt7w
+ Eo6PIdOshtNlAvSGheIzTq8HbdyIVls3pF8dGcIn1L1qQP26KtwCIB1feux4YkwuWuQO
+ Mwqbe1vkIviZR8VztdvM8L7yEdmC+wFPmmeO4z+/PykifUNRD+sQly6U0RZCYYI1yw2E
+ aB/sl7PWlfwTbRSWxKhyETsCvGwPOCbPiCgl7GKBJ9drdJZXv5UXM4k0zpy3nlnyoOGV
+ uMyQ==
+X-Gm-Message-State: ANhLgQ2yTShfjguC/PahDsyEmRfyCalkqOKyZBeOOGfhj6SDddQ8/R18
+ ypBAmK8tWhfpCBssvbnZUyn0ew==
+X-Google-Smtp-Source: ADFU+vv5uAEXE2171phqzardSHop6cBInxfVdeWRngfEIryOhfE6SRiEiC+VcV/1tD+TG4EMQ/DP+Q==
+X-Received: by 2002:a65:428a:: with SMTP id j10mr5861454pgp.272.1585186230226; 
+ Wed, 25 Mar 2020 18:30:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id mg20sm398748pjb.12.2020.03.25.18.30.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Mar 2020 18:30:29 -0700 (PDT)
+Subject: Re: [PATCH for-5.0, v1] target/mips: Fix loongson multimedia condition
+ instructions
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200324122212.11156-1-jiaxun.yang@flygoat.com>
+ <aa622b1d-e28a-c3f1-d18a-73e8a67c8ccf@linaro.org>
+ <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ef2899be-3abf-4f15-1d7c-796994e1ecdd@linaro.org>
+Date: Wed, 25 Mar 2020 18:30:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAHiYmc7R_Y7s5DaVHf=0rkxf7N2qTSLXdTdL_vy6mH+hVdwLqA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,263 +84,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- integration@gluster.org, sheepdog@lists.wpkg.org,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Jason Dillaman <dillaman@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>,
- "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: aurelien@aurel32.net, aleksandar.rikalo@rt-rk.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Huacai Chen <chenhc@lemote.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of checking the .bdrv_co_create_opts to see if we need the failback=
-,
-just implement the .bdrv_co_create_opts in the drivers that need it.
+On 3/25/20 3:44 AM, Aleksandar Markovic wrote:
+> May I ask you, Richard, to select this patch for your next TCG-for-5.0 queue,
+> so that I don't go through a MIPS queue process for just a single patch?
+> 
 
-This way we don't break various places that need to know if the underlying
-protocol/format really supports image creation, and this way we still
-allow some drivers to not support image creation.
+I suppose I could, but at present I have nothing in the tcg queue, so it would
+be just the single patch.
 
-Fixes: fd17146cd93d1704cd96d7c2757b325fc7aac6fd
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1816007
 
-Note that technically this driver reverts the image creation failback
-for the vxhs driver since I don't have a means to test it,
-and IMHO it is better to leave it not supported as it was prior to
-generic image creation patches.
-
-Also drop iscsi_create_opts which was left accidently
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- block.c               | 35 ++++++++++++++++++++---------------
- block/file-posix.c    |  7 ++++++-
- block/iscsi.c         | 16 ++++------------
- block/nbd.c           |  6 ++++++
- block/nvme.c          |  3 +++
- include/block/block.h |  7 +++++++
- 6 files changed, 46 insertions(+), 28 deletions(-)
-
-diff --git a/block.c b/block.c
-index ff23e20443..72fdf56af7 100644
---- a/block.c
-+++ b/block.c
-@@ -598,8 +598,15 @@ static int create_file_fallback_zero_first_sector(Bloc=
-kBackend *blk,
-     return 0;
- }
-=20
--static int bdrv_create_file_fallback(const char *filename, BlockDriver *dr=
-v,
--                                     QemuOpts *opts, Error **errp)
-+/**
-+ * Simple implementation of bdrv_co_create_opts for protocol drivers
-+ * which only support creation via opening a file
-+ * (usually existing raw storage device)
-+ */
-+int coroutine_fn bdrv_co_create_opts_simple(BlockDriver *drv,
-+                                           const char *filename,
-+                                           QemuOpts *opts,
-+                                           Error **errp)
- {
-     BlockBackend *blk;
-     QDict *options;
-@@ -663,11 +670,7 @@ int bdrv_create_file(const char *filename, QemuOpts *o=
-pts, Error **errp)
-         return -ENOENT;
-     }
-=20
--    if (drv->bdrv_co_create_opts) {
--        return bdrv_create(drv, filename, opts, errp);
--    } else {
--        return bdrv_create_file_fallback(filename, drv, opts, errp);
--    }
-+    return bdrv_create(drv, filename, opts, errp);
- }
-=20
- int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
-@@ -1592,9 +1595,9 @@ QemuOptsList bdrv_runtime_opts =3D {
-     },
- };
-=20
--static QemuOptsList fallback_create_opts =3D {
--    .name =3D "fallback-create-opts",
--    .head =3D QTAILQ_HEAD_INITIALIZER(fallback_create_opts.head),
-+QemuOptsList bdrv_create_opts_simple =3D {
-+    .name =3D "simple-create-opts",
-+    .head =3D QTAILQ_HEAD_INITIALIZER(bdrv_create_opts_simple.head),
-     .desc =3D {
-         {
-             .name =3D BLOCK_OPT_SIZE,
-@@ -5963,13 +5966,15 @@ void bdrv_img_create(const char *filename, const ch=
-ar *fmt,
-         return;
-     }
-=20
-+    if (!proto_drv->create_opts) {
-+        error_setg(errp, "Protocol driver '%s' does not support image crea=
-tion",
-+                   proto_drv->format_name);
-+        return;
-+    }
-+
-     /* Create parameter list */
-     create_opts =3D qemu_opts_append(create_opts, drv->create_opts);
--    if (proto_drv->create_opts) {
--        create_opts =3D qemu_opts_append(create_opts, proto_drv->create_op=
-ts);
--    } else {
--        create_opts =3D qemu_opts_append(create_opts, &fallback_create_opt=
-s);
--    }
-+    create_opts =3D qemu_opts_append(create_opts, proto_drv->create_opts);
-=20
-     opts =3D qemu_opts_create(create_opts, NULL, 0, &error_abort);
-=20
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 65bc980bc4..7e19bbff5f 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3513,6 +3513,8 @@ static BlockDriver bdrv_host_device =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
-+    .bdrv_co_create_opts =3D bdrv_co_create_opts_simple,
-+    .create_opts         =3D &bdrv_create_opts_simple,
-     .mutable_opts        =3D mutable_opts,
-     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-     .bdrv_co_pwrite_zeroes =3D hdev_co_pwrite_zeroes,
-@@ -3639,10 +3641,11 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
-+    .bdrv_co_create_opts =3D bdrv_co_create_opts_simple,
-+    .create_opts         =3D &bdrv_create_opts_simple,
-     .mutable_opts        =3D mutable_opts,
-     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-=20
--
-     .bdrv_co_preadv         =3D raw_co_preadv,
-     .bdrv_co_pwritev        =3D raw_co_pwritev,
-     .bdrv_co_flush_to_disk  =3D raw_co_flush_to_disk,
-@@ -3771,6 +3774,8 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
-+    .bdrv_co_create_opts =3D bdrv_co_create_opts_simple,
-+    .create_opts         =3D &bdrv_create_opts_simple,
-     .mutable_opts       =3D mutable_opts,
-=20
-     .bdrv_co_preadv         =3D raw_co_preadv,
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 682abd8e09..14680a436a 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2399,18 +2399,6 @@ out_unlock:
-     return r;
- }
-=20
--static QemuOptsList iscsi_create_opts =3D {
--    .name =3D "iscsi-create-opts",
--    .head =3D QTAILQ_HEAD_INITIALIZER(iscsi_create_opts.head),
--    .desc =3D {
--        {
--            .name =3D BLOCK_OPT_SIZE,
--            .type =3D QEMU_OPT_SIZE,
--            .help =3D "Virtual disk size"
--        },
--        { /* end of list */ }
--    }
--};
-=20
- static const char *const iscsi_strong_runtime_opts[] =3D {
-     "transport",
-@@ -2434,6 +2422,8 @@ static BlockDriver bdrv_iscsi =3D {
-     .bdrv_parse_filename    =3D iscsi_parse_filename,
-     .bdrv_file_open         =3D iscsi_open,
-     .bdrv_close             =3D iscsi_close,
-+    .bdrv_co_create_opts    =3D bdrv_co_create_opts_simple,
-+    .create_opts            =3D &bdrv_create_opts_simple,
-     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
-     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
-     .bdrv_co_invalidate_cache =3D iscsi_co_invalidate_cache,
-@@ -2471,6 +2461,8 @@ static BlockDriver bdrv_iser =3D {
-     .bdrv_parse_filename    =3D iscsi_parse_filename,
-     .bdrv_file_open         =3D iscsi_open,
-     .bdrv_close             =3D iscsi_close,
-+    .bdrv_co_create_opts    =3D bdrv_co_create_opts_simple,
-+    .create_opts            =3D &bdrv_create_opts_simple,
-     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
-     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
-     .bdrv_co_invalidate_cache  =3D iscsi_co_invalidate_cache,
-diff --git a/block/nbd.c b/block/nbd.c
-index 976be76647..2160859f64 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2038,6 +2038,8 @@ static BlockDriver bdrv_nbd =3D {
-     .protocol_name              =3D "nbd",
-     .instance_size              =3D sizeof(BDRVNBDState),
-     .bdrv_parse_filename        =3D nbd_parse_filename,
-+    .bdrv_co_create_opts        =3D bdrv_co_create_opts_simple,
-+    .create_opts                =3D &bdrv_create_opts_simple,
-     .bdrv_file_open             =3D nbd_open,
-     .bdrv_reopen_prepare        =3D nbd_client_reopen_prepare,
-     .bdrv_co_preadv             =3D nbd_client_co_preadv,
-@@ -2063,6 +2065,8 @@ static BlockDriver bdrv_nbd_tcp =3D {
-     .protocol_name              =3D "nbd+tcp",
-     .instance_size              =3D sizeof(BDRVNBDState),
-     .bdrv_parse_filename        =3D nbd_parse_filename,
-+    .bdrv_co_create_opts        =3D bdrv_co_create_opts_simple,
-+    .create_opts                =3D &bdrv_create_opts_simple,
-     .bdrv_file_open             =3D nbd_open,
-     .bdrv_reopen_prepare        =3D nbd_client_reopen_prepare,
-     .bdrv_co_preadv             =3D nbd_client_co_preadv,
-@@ -2088,6 +2092,8 @@ static BlockDriver bdrv_nbd_unix =3D {
-     .protocol_name              =3D "nbd+unix",
-     .instance_size              =3D sizeof(BDRVNBDState),
-     .bdrv_parse_filename        =3D nbd_parse_filename,
-+    .bdrv_co_create_opts        =3D bdrv_co_create_opts_simple,
-+    .create_opts                =3D &bdrv_create_opts_simple,
-     .bdrv_file_open             =3D nbd_open,
-     .bdrv_reopen_prepare        =3D nbd_client_reopen_prepare,
-     .bdrv_co_preadv             =3D nbd_client_co_preadv,
-diff --git a/block/nvme.c b/block/nvme.c
-index d41c4bda6e..7b7c0cc5d6 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1333,6 +1333,9 @@ static BlockDriver bdrv_nvme =3D {
-     .protocol_name            =3D "nvme",
-     .instance_size            =3D sizeof(BDRVNVMeState),
-=20
-+    .bdrv_co_create_opts      =3D bdrv_co_create_opts_simple,
-+    .create_opts              =3D &bdrv_create_opts_simple,
-+
-     .bdrv_parse_filename      =3D nvme_parse_filename,
-     .bdrv_file_open           =3D nvme_file_open,
-     .bdrv_close               =3D nvme_close,
-diff --git a/include/block/block.h b/include/block/block.h
-index e569a4d747..7d36ec5433 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -283,6 +283,13 @@ BlockDriver *bdrv_find_format(const char *format_name)=
-;
- int bdrv_create(BlockDriver *drv, const char* filename,
-                 QemuOpts *opts, Error **errp);
- int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
-+
-+int coroutine_fn bdrv_co_create_opts_simple(BlockDriver *drv,
-+                                           const char *filename,
-+                                           QemuOpts *opts,
-+                                           Error **errp);
-+extern QemuOptsList bdrv_create_opts_simple;
-+
- BlockDriverState *bdrv_new(void);
- void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-                  Error **errp);
---=20
-2.17.2
-
+r~
 
