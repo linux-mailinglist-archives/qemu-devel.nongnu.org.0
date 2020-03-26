@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51895193F45
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 13:51:52 +0100 (CET)
-Received: from localhost ([::1]:50952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6002193F60
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 13:59:30 +0100 (CET)
+Received: from localhost ([::1]:51012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHRzD-0004gC-E6
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 08:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1jHS6b-0007ES-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 08:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jHRyJ-00048C-Oz
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:50:56 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1jHS5b-0006fI-Gj
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:58:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jHRyH-0001bT-A6
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:50:54 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:51034)
+ (envelope-from <yi.l.liu@intel.com>) id 1jHS5Z-0006eA-Fh
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:58:26 -0400
+Received: from mga17.intel.com ([192.55.52.151]:14599)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jHRyH-0001ae-47
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 08:50:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585227052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dA28eh035IF+q5mF3wuOfuLdoVrT+QnaPGUuj5iUHTc=;
- b=Zz3JBwllNeTqFrtS/MYe3a1e+yoSTbQE+qkLQp6GRZ+KnJ4Zziep7jng0Z3OIjxYKR70XL
- sTw+ngZnFKsqw8wz2KAxMoKtaMErZx65SfDlHq76PV7qEpttPzQUpheLVpXt282orr6G07
- HfnEJapY6ns3bz8nGybRtq+fFVL0+jY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-nvT5C2OENsq8fKRO54LRfA-1; Thu, 26 Mar 2020 08:50:48 -0400
-X-MC-Unique: nvT5C2OENsq8fKRO54LRfA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6F0FDBA6;
- Thu, 26 Mar 2020 12:50:47 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D60595D9CD;
- Thu, 26 Mar 2020 12:50:43 +0000 (UTC)
-Date: Thu, 26 Mar 2020 13:50:41 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: acpi_pcihp_eject_slot() bug if passed 'slots == 0'
-Message-ID: <20200326135041.297de118@redhat.com>
-In-Reply-To: <20200326132901.7aecb9e5@redhat.com>
-References: <CAFEAcA-oWBjOXWmnLvPww9wrty_QbSc+Xv3BY3sQAnEXFkfQbA@mail.gmail.com>
- <20200326132901.7aecb9e5@redhat.com>
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>)
+ id 1jHS5Z-0006ap-6Y; Thu, 26 Mar 2020 08:58:25 -0400
+IronPort-SDR: T1teCXClYK8nLHUXsxmHfMTrDS2PxIJvcGOOHv/dqzhUNKwK60UVPJIDHRrML7H4rqGx0MurKi
+ 1Q4Ttefepx9Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2020 05:58:20 -0700
+IronPort-SDR: O25GPqu9zdTdvlw2uc9GXZpHYSbvS8/6PjRrWR8kPtE+pIdaB2LWPOeCPepcaLgYqDI2Fnl1Mc
+ cdyIjytpu51Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,308,1580803200"; d="scan'208";a="282488364"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2020 05:58:20 -0700
+Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 26 Mar 2020 05:58:20 -0700
+Received: from shsmsx154.ccr.corp.intel.com (10.239.6.54) by
+ fmsmsx156.amr.corp.intel.com (10.18.116.74) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 26 Mar 2020 05:58:20 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
+ SHSMSX154.ccr.corp.intel.com ([169.254.7.145]) with mapi id 14.03.0439.000;
+ Thu, 26 Mar 2020 20:58:18 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "mst@redhat.com" <mst@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>
+Subject: RE: [RFC v6 01/24] update-linux-headers: Import iommu.h
+Thread-Topic: [RFC v6 01/24] update-linux-headers: Import iommu.h
+Thread-Index: AQHV/tjqulacwOwv+ki+tG8kmRIeoKha3mEg
+Date: Thu, 26 Mar 2020 12:58:17 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A204428@SHSMSX104.ccr.corp.intel.com>
+References: <20200320165840.30057-1-eric.auger@redhat.com>
+ <20200320165840.30057-2-eric.auger@redhat.com>
+In-Reply-To: <20200320165840.30057-2-eric.auger@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "tnowicki@marvell.com" <tnowicki@marvell.com>,
+ "maz@kernel.org" <maz@kernel.org>,
+ "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
+ "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
+ "bbhushan2@marvell.com" <bbhushan2@marvell.com>,
+ "will@kernel.org" <will@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Mar 2020 13:29:01 +0100
-Igor Mammedov <imammedo@redhat.com> wrote:
+> From: Eric Auger <eric.auger@redhat.com>
+> Sent: Saturday, March 21, 2020 12:58 AM
+> To: eric.auger.pro@gmail.com; eric.auger@redhat.com; qemu-devel@nongnu.or=
+g;
+> Subject: [RFC v6 01/24] update-linux-headers: Import iommu.h
+>=20
+> Update the script to import the new iommu.h uapi header.
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  scripts/update-linux-headers.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-heade=
+rs.sh index
+> 29c27f4681..5b64ee3912 100755
+> --- a/scripts/update-linux-headers.sh
+> +++ b/scripts/update-linux-headers.sh
+> @@ -141,7 +141,7 @@ done
+>=20
+>  rm -rf "$output/linux-headers/linux"
+>  mkdir -p "$output/linux-headers/linux"
+> -for header in kvm.h vfio.h vfio_ccw.h vhost.h \
+> +for header in kvm.h vfio.h vfio_ccw.h vhost.h iommu.h \
+>                psci.h psp-sev.h userfaultfd.h mman.h; do
+>      cp "$tmpdir/include/linux/$header" "$output/linux-headers/linux"
+>  done
 
-> On Thu, 26 Mar 2020 11:52:36 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> 
-> > Hi; Coverity spots that if hw/acpi/pcihp.c:acpi_pcihp_eject_slot()
-> > is passed a zero 'slots' argument then ctz32(slots) will return 32,
-> > and then the code that does '1U << slot' is C undefined behaviour
-> > because it's an oversized shift. (This is CID 1421896.)
-> > 
-> > Since the pci_write() function in this file can call
-> > acpi_pcihp_eject_slot() with an arbitrary value from the guest,
-> > I think we need to handle 'slots == 0' safely. But what should
-> > the behaviour be?  
-> 
-> 0 is not valid value, we should ignore and return early in this case
-> like we do with bsel. I'll post a path shortly.
-well, looking more that is only true for main bus, for bridges it can be
-slot number can be zero, then AML left shifts it and writes into B0EJ
-which traps into pci_write(, data) and that is supposed to eject
-slot 0 according to guest(AML).
+Hi Eric,
 
-Michael,
-what's your take on it?
+This patch already got acked by from Cornelia. :-)
 
-> 
-> > 
-> > thanks
-> > -- PMM
-> >   
-> 
-> 
+https://patchwork.ozlabs.org/patch/1259643/
 
+Regards,
+Yi Liu
 
