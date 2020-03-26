@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A8419498B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:50:24 +0100 (CET)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E0B1949AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:02:28 +0100 (CET)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHZSJ-0005Mt-5I
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39722)
+	id 1jHZdz-0002Su-8s
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jHZRM-0004mb-JZ
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:49:25 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHZcR-0001J6-Qq
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:00:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jHZRL-0005HT-F9
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:49:24 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39185)
+ (envelope-from <bounces@canonical.com>) id 1jHZcQ-0005iZ-BH
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:00:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jHZRL-0005G0-8G
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:49:23 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a9so9210576wmj.4
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 13:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bAQfFYBSPpibKiPXxyi44d7P7+tA6VEgfXGXzLkCrIs=;
- b=kHPAtvm4hEHla5vZLv2326STOa51pQHpfycFSTrcV5j8Qo+vzKEzKEoUUh4OeZlQ2S
- ABGaxlF2xuoJj63YYPy8tNURAZFZQnHeAga6Aey4PfXyOINhKKxgZN8vdKGP2vGKhuMI
- LzxD0VgQw6uA8NLaZuJdeRLc3dAvhAuIt7pMS1+F1osB7G+tR+kpLfEEdVwaIaSXHIGv
- 8krbTwKoJOXYHLNeWlejFELHA3h0V/bAWqmXZ03a6CUEBRfmQeASoElpP47KXG1nW6Yf
- nGB3udNhrhiNe/X4b3ywjyQj9OD3HGmXGeEqwiDnVFMq1a39DOIzTc/HrkzwkWn3pGiR
- hYLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bAQfFYBSPpibKiPXxyi44d7P7+tA6VEgfXGXzLkCrIs=;
- b=kp/eFowMqkRpHmSEGJQFXm/3NIAn6JqC9RLJeiv7Dcyry0/kIx9ny9ZGpL1x4bQzSR
- BRrKZUgaCdQ/wSRiX2El6RQequP0hGUMC6dNUadxIw7h/4+Pm6kbFgdVXyqnoDbPu5ix
- CU5+2Mgqew80XItuqJ3VB02nkXfVzLpZzRmpPlmMA97cjH3OZBje/XGbRvzLBCB5itxn
- M/Yx5L2rVCjH/R4fjgi6XYhmOg/UsFVCoAxAKm/0wR0oKs8jAhY+iPoHleR93P7U+KbV
- yLSl/VUUCIQWXlAQ1e32BsIUrr9FMbKNdEa/h8Pf84rMWqX1MprymEEl5uC5ASJxAXyF
- Tuow==
-X-Gm-Message-State: ANhLgQ15rktcXzUsfekO04o1IImiVOjBVyRE0IF3fX6wXgrIQbxKpw4r
- Z4X0EFOlt5+yjGB0W3AGW9tvoQ==
-X-Google-Smtp-Source: ADFU+vuFgqhYpxRaB4uvyha/BF+Hx92W1cergey65xjzZ7hNolX5M9F9axyB7AojrLF9SR8y2y+8Gw==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr4027024wrr.109.1585255761608; 
- Thu, 26 Mar 2020 13:49:21 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 9sm4864561wmm.6.2020.03.26.13.49.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 13:49:21 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/arm/collie: Put StrongARMState* into a
- CollieMachineState struct
-Date: Thu, 26 Mar 2020 20:49:19 +0000
-Message-Id: <20200326204919.22006-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHZcP-0005dZ-7W
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:00:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHZcN-0002aL-LK
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 21:00:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 982F22E80C3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 21:00:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Mar 2020 20:51:48 -0000
+From: Alex Williamson <alex.l.williamson@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson dgilbert-h hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <158525590835.19577.1039002819987427546.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 952c613ddc003b3b20d5af8358e3f1412e596825
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,104 +66,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity complains that the collie_init() function leaks the memory
-allocated in sa1110_init().  This is true but not significant since
-the function is called only once on machine init and the memory must
-remain in existence until QEMU exits anyway.
+Yes, to support this the vfio driver would need to be able to exclude
+ranges of guest GPA space.  Recent kernels already expose an IOVA list
+via the vfio API.  Clearly, excluding GPA ranges has implications for
+hotplug.  On x86 the ranges are pretty consistent, but IIRC differ
+between Intel and AMD.  The vfio IOVA list was originally developed for
+an ARM use case though, and I imagine there's little or no consistency
+there.
 
-Still, we can avoid the technical memory leak by keeping the pointer
-to the StrongARMState inside the machine state struct.  Switch from
-the simple DEFINE_MACHINE() style to defining a subclass of
-TYPE_MACHINE which extends the MachineState struct, and keep the
-pointer there.
+Re: pci=3Dnomsi, the reserved range exists regardless of whether MSI is
+actually used.
 
-Fixes: CID 1421921
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-v1->v2: folded in the uncommitted change that fixes the
-arm_load_kernel() first argument.
+-- =
 
- hw/arm/collie.c | 33 ++++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869006
 
-diff --git a/hw/arm/collie.c b/hw/arm/collie.c
-index 4992084a3f6..4b35ef4bed6 100644
---- a/hw/arm/collie.c
-+++ b/hw/arm/collie.c
-@@ -19,6 +19,16 @@
- #include "exec/address-spaces.h"
- #include "cpu.h"
- 
-+typedef struct {
-+    MachineState parent;
-+
-+    StrongARMState *sa1110;
-+} CollieMachineState;
-+
-+#define TYPE_COLLIE_MACHINE MACHINE_TYPE_NAME("collie")
-+#define COLLIE_MACHINE(obj) \
-+    OBJECT_CHECK(CollieMachineState, obj, TYPE_COLLIE_MACHINE)
-+
- static struct arm_boot_info collie_binfo = {
-     .loader_start = SA_SDCS0,
-     .ram_size = 0x20000000,
-@@ -26,9 +36,9 @@ static struct arm_boot_info collie_binfo = {
- 
- static void collie_init(MachineState *machine)
- {
--    StrongARMState *s;
-     DriveInfo *dinfo;
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-+    CollieMachineState *cms = COLLIE_MACHINE(machine);
- 
-     if (machine->ram_size != mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -37,7 +47,7 @@ static void collie_init(MachineState *machine)
-         exit(EXIT_FAILURE);
-     }
- 
--    s = sa1110_init(machine->cpu_type);
-+    cms->sa1110 = sa1110_init(machine->cpu_type);
- 
-     memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ram);
- 
-@@ -54,11 +64,13 @@ static void collie_init(MachineState *machine)
-     sysbus_create_simple("scoop", 0x40800000, NULL);
- 
-     collie_binfo.board_id = 0x208;
--    arm_load_kernel(s->cpu, machine, &collie_binfo);
-+    arm_load_kernel(cms->sa1110->cpu, machine, &collie_binfo);
- }
- 
--static void collie_machine_init(MachineClass *mc)
-+static void collie_machine_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-     mc->desc = "Sharp SL-5500 (Collie) PDA (SA-1110)";
-     mc->init = collie_init;
-     mc->ignore_memory_transaction_failures = true;
-@@ -67,4 +79,15 @@ static void collie_machine_init(MachineClass *mc)
-     mc->default_ram_id = "strongarm.sdram";
- }
- 
--DEFINE_MACHINE("collie", collie_machine_init)
-+static const TypeInfo collie_machine_typeinfo = {
-+    .name = TYPE_COLLIE_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .class_init = collie_machine_class_init,
-+    .instance_size = sizeof(CollieMachineState),
-+};
-+
-+static void collie_machine_register_types(void)
-+{
-+    type_register_static(&collie_machine_typeinfo);
-+}
-+type_init(collie_machine_register_types);
--- 
-2.20.1
+Title:
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
 
+Status in QEMU:
+  New
+
+Bug description:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
+
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
+
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  =
+
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
