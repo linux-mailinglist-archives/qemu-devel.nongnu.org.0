@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5821948A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:17:51 +0100 (CET)
-Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E899B194866
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:11:13 +0100 (CET)
+Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYwo-0007ve-Rz
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59316)
+	id 1jHYqP-0006d2-09
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLG-0008Nk-Ov
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:03 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLH-0008QO-Hp
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLF-00029Y-N9
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:02 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45624)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLG-00029u-Ca
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:03 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:36794)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLF-00029N-IU
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:01 -0400
-Received: by mail-qk1-x742.google.com with SMTP id c145so8140955qke.12
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:01 -0700 (PDT)
+ id 1jHYLG-00029m-8O
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:02 -0400
+Received: by mail-qk1-x744.google.com with SMTP id d11so8195804qko.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gacJZESnVEqf4qDD4ve/Hru1eX3df4yi6C7OwVt2hqI=;
- b=kBNhzknPUnADBAOos+I/ZAk0539ZD0y9aBnUxRzQUffxPzh1aBireyAk8kPHdMh7Ri
- yVcUqo21xbeFGC5d+cYmaBTT8jTpuPp582/61fTXXDGzFzulcVAaBlERRbMNNqRAfNMA
- JtN2B144yFlBo6rHmsDd0ml20GVV1KdzKSHpTCBGSBidZV3uUQM7sdYsB6V+JW1lyYUP
- qjTofPY0hD8KEKYbU4f9JrxeGV/dcDYfvV+7tmtpq64uKqhvQWLCtFJSeQW9khciCqm9
- W97sY8GbtbbONZHuPNTzvvbBGzifigWhXBX6ov5lqNB51KxO/i/FKNbBh110oS/7U0ca
- ozXQ==
+ bh=+znDl+e4Ijoaeb8N9+twYWXre7kV5d4tOF3Cbrdh+d8=;
+ b=XessdbHNqdlhsujH92G+AZWufPiC7tjIBNftkvgrRo7HOs/3MnrAxHpphSF7QCxp9J
+ WeK4GS9m0Z1Opphaqsz9WpCnzM73wXaUv2nMA59mOqZiETEiLbPD7mhZrD2o4cf9ASj0
+ ayrGBtZHCDFaseT85qs3x5+wziNDsPA+zj/T1ruCGwnApwmoH70VynsRQCmbea6uoiyD
+ tvbkbfxMufeZFPs1uctOfY4CGf5EdXmlLRVzyKTwqJNNiz2DOKIJad54PeNUDgyFsgZG
+ 8x9AM5IBAHYuqGJyPRTlyuxRyMxotVtWvnTmo4gs3KdhxnV9Eje2qPrV5Q6dp4o4qThV
+ N3GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gacJZESnVEqf4qDD4ve/Hru1eX3df4yi6C7OwVt2hqI=;
- b=k2y91F5bL8C3HckzHNXHAz1bhdcTf/i50c+3aCbXSmngDtUM7/MJXxzlzTVnIQ1yQq
- uZ5CSzzGQXNBBif81XwzKUNkotlq1LAPLOx+BXeRfUxe5LkoVPCtLQvfyIoahCdjGGj1
- Fq04phRiQDlAtgRwjYk5dl5xauKLeYQ/J3O6F2hppOiDs6rm0u7xT9e/LLM9JuvvrneB
- RP3asucs3W82/2brEXuLdxvlfl7Tv2kHRaq0YuPXnjgjLCS7dpwsf+BzRpG4nNtWwOce
- +lHgX0azSqA46STiGrhDUsgO3sPnPdkmHjCcHhqithXmgx4f3RHiNf5IPxHEXzZbcU90
- UmYg==
-X-Gm-Message-State: ANhLgQ1CA5+jkjJYKaQw/AiWTWvz+HmIyvv/uzdv386GgdSAKbd/uJ23
- zrZ/YhabjuNSaDKg1x43QtCsp2NCBWcY/Q==
-X-Google-Smtp-Source: ADFU+vvJdPYuKO/NIsTjMMJoMvLouxPSroVvx43Z5Ev3tnATOKccpexNMB1h4DETKyhO08FXS7da1w==
-X-Received: by 2002:a37:453:: with SMTP id 80mr10007108qke.325.1585251540096; 
- Thu, 26 Mar 2020 12:39:00 -0700 (PDT)
+ bh=+znDl+e4Ijoaeb8N9+twYWXre7kV5d4tOF3Cbrdh+d8=;
+ b=M5ZIHyGxoaxpHWw6Cj26XmxdyALa5ouf755d+00At0k6IfckuBPJ7qQynIVm6wA3fd
+ YPbSCXygiDK2MgDiNVYmcWnpA9lpOja6mm8p54OBfVsQoTR2S+g96Wmy7ONu4HI53Win
+ hYf9uOv5dxUdlaafUukZNYsPvlXHkq1ab9GZqZ1aKIyCNRlXiMvgGaBibzKIHQaXyvhf
+ 4y0jiYeqWKeCQBD6xTjUAR7issjCnyo1PFtvUG2KkZXCAjgh5Jgmp3q1ihNyiZdSXdJY
+ /nlniUfFDHW6hnBlcsok9GLA+G03f6hqatE7Fm+PBkHpvipORCEedq6JJgNb0jn29MtA
+ IrSw==
+X-Gm-Message-State: ANhLgQ077cj2aRlyKl9cgvMyr33tjA33r4onvdjLzOBkq4psYU2tb+Hj
+ T7+yxf6YhaPfIGEqi8WON1CFtdrggYbPdA==
+X-Google-Smtp-Source: ADFU+vsf89YAh1S5MGgJD+pzSOkGXhSBLGseWQtUZArwz8g3W+7JNzhcZ/qyN8BPlUbF28qpLqwkDQ==
+X-Received: by 2002:a37:2d83:: with SMTP id
+ t125mr10373982qkh.359.1585251541396; 
+ Thu, 26 Mar 2020 12:39:01 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.58
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:59 -0700 (PDT)
+ Thu, 26 Mar 2020 12:39:00 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 62/74] cpu: call .cpu_has_work with the CPU lock held
-Date: Thu, 26 Mar 2020 15:31:44 -0400
-Message-Id: <20200326193156.4322-63-robert.foley@linaro.org>
+Subject: [PATCH v8 63/74] cpu: introduce cpu_has_work_with_iothread_lock
+Date: Thu, 26 Mar 2020 15:31:45 -0400
+Message-Id: <20200326193156.4322-64-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,46 +87,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+It will gain some users soon.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- include/hw/core/cpu.h | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ include/hw/core/cpu.h | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 1c3701b142..a01c258320 100644
+index a01c258320..e3527b6194 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -80,7 +80,8 @@ struct TranslationBlock;
-  * instantiatable CPU type.
-  * @parse_features: Callback to parse command line arguments.
+@@ -26,6 +26,7 @@
+ #include "exec/memattrs.h"
+ #include "qapi/qapi-types-run-state.h"
+ #include "qemu/bitmap.h"
++#include "qemu/main-loop.h"
+ #include "qemu/rcu_queue.h"
+ #include "qemu/queue.h"
+ #include "qemu/thread.h"
+@@ -82,6 +83,8 @@ struct TranslationBlock;
   * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
-- * @has_work: Callback for checking if there is work to do.
-+ * @has_work: Callback for checking if there is work to do. Called with the
-+ * CPU lock held.
+  * @has_work: Callback for checking if there is work to do. Called with the
+  * CPU lock held.
++ * @has_work_with_iothread_lock: Callback for checking if there is work to do.
++ * Called with both the BQL and the CPU lock held.
   * @do_interrupt: Callback for interrupt handling.
   * @do_unaligned_access: Callback for unaligned access handling, if
   * the target defines #TARGET_ALIGNED_ONLY.
-@@ -799,9 +800,16 @@ const char *parse_cpu_option(const char *cpu_option);
+@@ -167,6 +170,7 @@ typedef struct CPUClass {
+ 
+     int reset_dump_flags;
+     bool (*has_work)(CPUState *cpu);
++    bool (*has_work_with_iothread_lock)(CPUState *cpu);
+     void (*do_interrupt)(CPUState *cpu);
+     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+                                 MMUAccessType access_type,
+@@ -800,14 +804,41 @@ const char *parse_cpu_option(const char *cpu_option);
  static inline bool cpu_has_work(CPUState *cpu)
  {
      CPUClass *cc = CPU_GET_CLASS(cpu);
-+    bool ret;
++    bool has_cpu_lock = cpu_mutex_locked(cpu);
++    bool (*func)(CPUState *cpu);
+     bool ret;
  
-     g_assert(cc->has_work);
--    return cc->has_work(cpu);
-+    if (cpu_mutex_locked(cpu)) {
-+        return cc->has_work(cpu);
++    /* some targets require us to hold the BQL when checking for work */
++    if (cc->has_work_with_iothread_lock) {
++        if (qemu_mutex_iothread_locked()) {
++            func = cc->has_work_with_iothread_lock;
++            goto call_func;
++        }
++
++        if (has_cpu_lock) {
++            /* avoid deadlock by acquiring the locks in order */
++            cpu_mutex_unlock(cpu);
++        }
++        qemu_mutex_lock_iothread();
++        cpu_mutex_lock(cpu);
++
++        ret = cc->has_work_with_iothread_lock(cpu);
++
++        qemu_mutex_unlock_iothread();
++        if (!has_cpu_lock) {
++            cpu_mutex_unlock(cpu);
++        }
++        return ret;
 +    }
-+    cpu_mutex_lock(cpu);
-+    ret = cc->has_work(cpu);
-+    cpu_mutex_unlock(cpu);
-+    return ret;
++
+     g_assert(cc->has_work);
+-    if (cpu_mutex_locked(cpu)) {
+-        return cc->has_work(cpu);
++    func = cc->has_work;
++ call_func:
++    if (has_cpu_lock) {
++        return func(cpu);
+     }
+     cpu_mutex_lock(cpu);
+-    ret = cc->has_work(cpu);
++    ret = func(cpu);
+     cpu_mutex_unlock(cpu);
+     return ret;
  }
- 
- /**
 -- 
 2.17.1
 
