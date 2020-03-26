@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DDF1938FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 07:53:25 +0100 (CET)
-Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D915219396C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 08:12:11 +0100 (CET)
+Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHMOK-00035u-HI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 02:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52659)
+	id 1jHMgU-0001HO-G5
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 03:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rvkagan@yandex-team.ru>) id 1jHMNY-0002bN-Bx
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 02:52:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHMfP-0000N4-34
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:11:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rvkagan@yandex-team.ru>) id 1jHMNX-0004e7-4B
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 02:52:36 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:36572)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jHMNR-0004Sj-1X; Thu, 26 Mar 2020 02:52:29 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 5E7A62E1578;
- Thu, 26 Mar 2020 09:52:23 +0300 (MSK)
-Received: from myt4-18a966dbd9be.qloud-c.yandex.net
- (myt4-18a966dbd9be.qloud-c.yandex.net [2a02:6b8:c00:12ad:0:640:18a9:66db])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- lJhXDVmP9y-qM54oRkN; Thu, 26 Mar 2020 09:52:23 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1585205543; bh=jWOcllMaGULgexMQwj30L5GAXwCNkVdQlQuQkNB7RQU=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=uwClgTgXKiyvYJpnIZuB2bsAxyRwUVHiGv47EBh4qqnKtyGYPgDpr2LmdKcngsFCT
- oG/EpDKzmacS7OGI+GO7d2TgGZ36GoeqbM9X+7XmlZt5TpLZl7VAE/DgpoDfD9VZbs
- zGy1XMfZb7G79cZbJnlkv9X0GvdfYSQRkYHwnXPY=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from unknown (unknown [2a02:6b8:b080:7202::1:9])
- by myt4-18a966dbd9be.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- cObCXjccKf-qMc4mPeF; Thu, 26 Mar 2020 09:52:22 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] block: make BlockConf.*_size properties 32-bit
-Date: Thu, 26 Mar 2020 09:52:17 +0300
-Message-Id: <20200326065217.1626748-1-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+ (envelope-from <bounces@canonical.com>) id 1jHMfM-0007V1-QF
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:11:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43422)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHMfM-0007U7-Kw
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:11:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHMfL-0002Uq-A2
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 07:10:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 46B4D2E80C3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 07:10:59 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1619::183
+Date: Thu, 26 Mar 2020 06:57:23 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier manuel-reimer
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158516596046.18657.8423350120096244746.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158520584350.18756.9625624654326130363.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869073] Re: qemu-arm-static crashes "segmentation fault" when
+ running "git clone -s"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 94a478ddf52f6c22aa5f4294d734d761c3bcd509
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,162 +66,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1869073 <1869073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
-32-bit for logical_block_size, physical_block_size, and min_io_size.
-However, the properties in BlockConf are defined as uint16_t limiting
-the values to 32768.
+What is the version of QEMU you are using?
 
-This appears unnecessary tight, and we've seen bigger block sizes handy
-at times.
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Laurent Vivier (laurent-vivier)
 
-Make them 32 bit instead and lift the limitation up to 2 MiB which
-appears to be good enough for everybody.
+-- =
 
-As the values can now be fairly big and awkward to type, make the
-property setter accept common size suffixes (k, m).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869073
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-v1 -> v2:
-- cap the property at 2 MiB [Eric]
-- accept size suffixes
+Title:
+  qemu-arm-static crashes "segmentation fault" when running "git clone
+  -s"
 
- include/hw/block/block.h     |  8 ++++----
- include/hw/qdev-properties.h |  2 +-
- hw/core/qdev-properties.c    | 31 +++++++++++++++++++++----------
- 3 files changed, 26 insertions(+), 15 deletions(-)
+Status in QEMU:
+  New
 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index d7246f3862..9dd6bba56a 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -18,9 +18,9 @@
-=20
- typedef struct BlockConf {
-     BlockBackend *blk;
--    uint16_t physical_block_size;
--    uint16_t logical_block_size;
--    uint16_t min_io_size;
-+    uint32_t physical_block_size;
-+    uint32_t logical_block_size;
-+    uint32_t min_io_size;
-     uint32_t opt_io_size;
-     int32_t bootindex;
-     uint32_t discard_granularity;
-@@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(Block=
-Conf *conf)
-                           _conf.logical_block_size),                    =
-\
-     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                =
-\
-                           _conf.physical_block_size),                   =
-\
--    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    =
-\
-+    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),    =
-\
-     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    =
-\
-     DEFINE_PROP_UINT32("discard_granularity", _state,                   =
-\
-                        _conf.discard_granularity, -1),                  =
-\
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index f161604fb6..f9e0f8c041 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -197,7 +197,7 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
- #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
--    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
-+    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
- #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAdd=
-ress)
- #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 2047114fca..a571be7607 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -14,6 +14,7 @@
- #include "qapi/visitor.h"
- #include "chardev/char.h"
- #include "qemu/uuid.h"
-+#include "qemu/units.h"
-=20
- void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
-                                   Error **errp)
-@@ -729,30 +730,39 @@ const PropertyInfo qdev_prop_pci_devfn =3D {
-=20
- /* --- blocksize --- */
-=20
-+/* lower limit is sector size */
-+#define MIN_BLOCK_SIZE          512
-+#define MIN_BLOCK_SIZE_STR      "512 B"
-+/* upper limit is arbitrary, 2 MiB looks sufficient */
-+#define MAX_BLOCK_SIZE          (2 * MiB)
-+#define MAX_BLOCK_SIZE_STR      "2 MiB"
-+
- static void set_blocksize(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
- {
-     DeviceState *dev =3D DEVICE(obj);
-     Property *prop =3D opaque;
--    uint16_t value, *ptr =3D qdev_get_prop_ptr(dev, prop);
-+    uint32_t *ptr =3D qdev_get_prop_ptr(dev, prop);
-+    uint64_t value;
-     Error *local_err =3D NULL;
--    const int64_t min =3D 512;
--    const int64_t max =3D 32768;
-=20
-     if (dev->realized) {
-         qdev_prop_set_after_realize(dev, name, errp);
-         return;
-     }
-=20
--    visit_type_uint16(v, name, &value, &local_err);
-+    visit_type_size(v, name, &value, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
-     /* value of 0 means "unset" */
--    if (value && (value < min || value > max)) {
--        error_setg(errp, QERR_PROPERTY_VALUE_OUT_OF_RANGE,
--                   dev->id ? : "", name, (int64_t)value, min, max);
-+    if (value && (value < MIN_BLOCK_SIZE || value > MAX_BLOCK_SIZE)) {
-+        error_setg(errp,
-+                   "Property %s.%s doesn't take value %" PRIu64
-+                   " (minimum: " MIN_BLOCK_SIZE_STR
-+                   ", maximum: " MAX_BLOCK_SIZE_STR ")",
-+                   dev->id ? : "", name, value);
-         return;
-     }
-=20
-@@ -768,9 +778,10 @@ static void set_blocksize(Object *obj, Visitor *v, c=
-onst char *name,
- }
-=20
- const PropertyInfo qdev_prop_blocksize =3D {
--    .name  =3D "uint16",
--    .description =3D "A power of two between 512 and 32768",
--    .get   =3D get_uint16,
-+    .name  =3D "size",
-+    .description =3D "A power of two between " MIN_BLOCK_SIZE_STR
-+                   " and " MAX_BLOCK_SIZE_STR,
-+    .get   =3D get_uint32,
-     .set   =3D set_blocksize,
-     .set_default_value =3D set_default_value_uint,
- };
---=20
-2.25.1
+Bug description:
+  I want to use qemu-arm-static to cross-compile software. The compiler
+  itself is a native cross-compiler connected via "distcc".
 
+  The problem is that a script tries to do some stuff with "git" and
+  with a "git clone -s" command the whole story reproducibly stops with
+  a "segmentation fault".
+
+  I don't know how to properly debug the issue but it happens 100% of
+  the time that I get the "crash" or git just hangs forever with 100%
+  CPU usage.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869073/+subscriptions
 
