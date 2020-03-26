@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45362194603
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 19:06:50 +0100 (CET)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F4719467C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 19:28:31 +0100 (CET)
+Received: from localhost ([::1]:57512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHWu0-0003s1-Qq
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 14:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
+	id 1jHXEz-0001qN-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 14:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jHWt3-00036W-1I
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:05:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHXDx-000153-9E
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:27:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jHWt1-0007Hi-4j
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:05:48 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:30032)
+ (envelope-from <mreitz@redhat.com>) id 1jHXDv-0002x3-4W
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:27:24 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:34555)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jHWt0-0007GY-So
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:05:47 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHXDu-0002w0-O7
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 14:27:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585245945;
+ s=mimecast20190719; t=1585247241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yHzZinL72dpz7J+NvdLNP5/b7y0BsFw4TNyQyyIx+40=;
- b=GBhc5GHk5MMedwdazNREYmBUaQRPYPLuh34NyZRLSR7HFqtre3giQ2Ju9V/Rxm8sPzFVOP
- aRdh6wMH8g6aqPtoJsOl4AwOl4Oj70x8ume/3KumIIHq6xeHNpKXtrWHeaEWl1+qE76ovV
- akdYQJwK8Vvfyij4smbbDg7s0iLO+hk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-oUW6zjB_NiS0Iwl7Uqhz4w-1; Thu, 26 Mar 2020 14:05:43 -0400
-X-MC-Unique: oUW6zjB_NiS0Iwl7Uqhz4w-1
-Received: by mail-wm1-f69.google.com with SMTP id f207so2853814wme.6
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 11:05:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yHzZinL72dpz7J+NvdLNP5/b7y0BsFw4TNyQyyIx+40=;
- b=uM9pftBabUg7ALcXILCXOz1wZHzZ+PmXcYQ8Na2gQGYm1TXM2uLZ0xM3VgYIgc1Ede
- 4+gUxVCA4AMg4MKmHa9ExE4XuxTCJCGPPE0ySKu7MzG0D6+NfnlQSzznkEyGFOcYW1dx
- SEoPAamTeFNFXwuh8SlmpWUWiYgkYsaeQw1MPNvdBBzjtbNVne8cfOwhcEXHvlidy7d4
- 0EmN5ZAom+uikcBhyjFl1si/QwXU87bYjBsHfg+0KI6vYT8WlhFLJ93ikRKc2yJPDTB7
- wY/rG0dS1XkjzoHp0aN7jrPWbfWhuuBrCYy40jCbOv5rYA6brYlhhTuIyo5Y1fjgoEW0
- ksYQ==
-X-Gm-Message-State: ANhLgQ2tpwEyFtpShfFIm6Wvo75nAvrVaB+6tAiS4jW0OdeZO1zWd629
- DknXPrEQKBxLAGMMxQtnEgGi6W6/OB+24kJpm9ldg3okd2f5vKURAgeQwcFC8YcGktCCAQLzYXC
- BsrqmV0TbzwZ273E=
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr10129720wru.94.1585245942079; 
- Thu, 26 Mar 2020 11:05:42 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuYVfB1B/SFyKf7hWzIFxJ7M+9OkVt/+UdepBV+lyHfR+OQ8WxWAyGr1oO6JzMFsCXU2ZeDrw==
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr10129693wru.94.1585245941798; 
- Thu, 26 Mar 2020 11:05:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac:65bc:cc13:a014?
- ([2001:b07:6468:f312:ac:65bc:cc13:a014])
- by smtp.gmail.com with ESMTPSA id b187sm4782881wmc.14.2020.03.26.11.05.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Mar 2020 11:05:41 -0700 (PDT)
-Subject: Re: [PATCH] qemu/atomic.h: add #ifdef guards for stdatomic.h
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200326170121.13045-1-alex.bennee@linaro.org>
- <CAFEAcA8Lo84gNk2tFCKsgM_O50bXTCs6Z9jH6aCvfDA56TDCmA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ba33454a-6e57-960a-7114-fc71a9f09442@redhat.com>
-Date: Thu, 26 Mar 2020 19:05:41 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wd+Wa71uTGKZJFeWCrqDj97TiA4DwHCn0PvYsSkBlfk=;
+ b=TChAy4y5TCGBDBqoHOkAFeCcn6nRAqLwzA9KQQmg3CAa/PwrTMQm3aMr0JJlcUHfYelIMZ
+ WBUpAZB1Ig0gz2oE6PdR3EiP2RI9OLFGb6mjwqzp2rC+J9bYJveSVy6QjDuvHaMyPDveH9
+ 7WHer/iHns8nJo9rMBmqJHoWIk+btU0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-npXt21bkNKWszIHhh3yR3w-1; Thu, 26 Mar 2020 14:27:19 -0400
+X-MC-Unique: npXt21bkNKWszIHhh3yR3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7CA7107ACC7;
+ Thu, 26 Mar 2020 18:27:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-132.ams2.redhat.com
+ [10.36.112.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F41F65C1BA;
+ Thu, 26 Mar 2020 18:27:16 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] mirror: Wait only for in-flight operations
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200326153628.4869-1-kwolf@redhat.com>
+ <20200326153628.4869-3-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <09eee5b4-71aa-97a2-1ea9-c6bfc313e77f@redhat.com>
+Date: Thu, 26 Mar 2020 19:27:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Lo84gNk2tFCKsgM_O50bXTCs6Z9jH6aCvfDA56TDCmA@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <20200326153628.4869-3-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4gpxe1jZ0NdxBSHrOB4EGz9PM7xrs4S89"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,27 +97,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/03/20 18:14, Peter Maydell wrote:
->> +#ifndef atomic_fetch_add
->>  #define atomic_fetch_add(ptr, n) __atomic_fetch_add(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_sub(ptr, n) __atomic_fetch_sub(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_and(ptr, n) __atomic_fetch_and(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_or(ptr, n)  __atomic_fetch_or(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_xor(ptr, n) __atomic_fetch_xor(ptr, n, __ATOMIC_SEQ_CST)
->> +#endif
->
-> This will work around FreeBSD's current implementation in particular,
-> but I don't think there's anything in the C11 spec that mandates that
-> atomic_fetch_add() and friends have to be macros and not simply
-> functions...
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4gpxe1jZ0NdxBSHrOB4EGz9PM7xrs4S89
+Content-Type: multipart/mixed; boundary="DclIpgKjNjBUOL36CsYxCFtuAaHGOyICh"
 
-That's not a problem as long as they are all functions, the macros would
-simply override the function-based implementation.
+--DclIpgKjNjBUOL36CsYxCFtuAaHGOyICh
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On 26.03.20 16:36, Kevin Wolf wrote:
+> mirror_wait_for_free_in_flight_slot() just picks a random operation to
+> wait for. However, a MirrorOp is already in s->ops_in_flight when
+> mirror_co_read() waits for free slots, so if not enough slots are
+> immediately available, an operation can end up waiting for itself, or
+> two or more operations can wait for each other to complete, which
+> results in a hang.
+>=20
+> Fix this by adding a flag to MirrorOp that tells us if the request is
+> already in flight (and therefore occupies slots that it will later
+> free), and picking only such operations for waiting.
+>=20
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1794692
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  block/mirror.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/block/mirror.c b/block/mirror.c
+> index 393131b135..88414d1653 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+
+[...]
+
+> @@ -1318,6 +1324,7 @@ static MirrorOp *coroutine_fn active_write_prepare(=
+MirrorBlockJob *s,
+>          .offset             =3D offset,
+>          .bytes              =3D bytes,
+>          .is_active_write    =3D true,
+> +        .is_in_flight       =3D true,
+>      };
+>      qemu_co_queue_init(&op->waiting_requests);
+>      QTAILQ_INSERT_TAIL(&s->ops_in_flight, op, next);
+>=20
+
+There is a mirror_wait_on_conflicts() call after this.  I was a bit
+worried about dependencies there.  But I don=E2=80=99t think there=E2=80=99=
+s any
+problem, because mirror_wait_for_any_operation() is only called by:
+
+(1) mirror_wait_for_free_in_flight_slot(), which makes it look for
+non-active operations only, and
+
+(2) mirror_run(), which specifically waits for all active operations to
+settle, so it makes sense to wait for all of them, even when they are
+still doing their own dependency-waiting.
+
+But still, I=E2=80=99m not sure whether this is conceptually the best thing=
+ to
+do.  I think what we actually want is for
+mirror_wait_for_free_in_flight_slot() to only wait for in-flight
+operations; but the call in mirror_run() that waits for active-mirror
+operations wants to wait for all active-mirror operations, not just the
+ones that are in flight.
+
+So I think conceptually it would make more sense to set is_in_flight
+only after mirror_wait_on_conflicts(), and ensure that the
+mirror_wait_for_any_operation() call from mirror_run() ignores
+is_in_flight.  E.g. by having another parameter =E2=80=9Cbool in_flight=E2=
+=80=9D for
+mirror_wait_for_any_operation() that chooses whether to check
+is_in_flight or whether to ignore it.
+
+In practice, @in_flight would always be the same as @active, but they
+are different things.  But that would mean we would always ignore
+is_in_flight for active-mirror operations.
+
+In practice, there=E2=80=99s no difference to what this patch does, i.e. to=
+ just
+let active-mirror operations have is_in_flight to be always true and let
+mirror_wait_for_any_operation() check is_in_flight unconditionally.
+
+So I don=E2=80=99t know.  Maybe this is a start:
+
+Functionally-reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Max
+
+
+--DclIpgKjNjBUOL36CsYxCFtuAaHGOyICh--
+
+--4gpxe1jZ0NdxBSHrOB4EGz9PM7xrs4S89
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl589AIACgkQ9AfbAGHV
+z0B4qgf9HWlSoHmqH4XEip7iGk6NA3kZHD54I/+5NATNEamZkY5IjG4wNDARGhlF
+ezjhf6i6PlzRsHJ0Idx+6OhkWF2XkJqy1mB0A62F9uKx+Xk6ZLvAcEy/jGym6fi4
+7jXuKRIA1ysiXWP3mvOH3IH5VPACi2KaYeq903iIs9gcH89Xm+158evT+4ZkAvFA
+NMOPe5K0E142whGV78qXv6tjqLiSPFAiZGR35KVmB9W5nWEvx2bpVPQJuIbzLiBb
+a6bjhwhGSPm/F8BPPRucdkRzaK7iePMisiYGb8tSkikAnNQKg3Iip+6faC0AUtc4
+CZlPoNhlwMDZj9RTm5fHbR94C085OQ==
+=op5Y
+-----END PGP SIGNATURE-----
+
+--4gpxe1jZ0NdxBSHrOB4EGz9PM7xrs4S89--
 
 
