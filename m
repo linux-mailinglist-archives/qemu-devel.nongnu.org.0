@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556DC19419D
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:34:55 +0100 (CET)
-Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AB01941B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:39:56 +0100 (CET)
+Received: from localhost ([::1]:54310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHTaw-0001TR-92
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41461)
+	id 1jHTfn-0007ft-Nd
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41493)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jHTWQ-0004D0-8k
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:16 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHTWX-0004Sn-71
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jHTWP-0002zl-1e
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:14 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37141)
+ (envelope-from <mreitz@redhat.com>) id 1jHTWR-000316-QP
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:22377)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWO-0002zN-T4
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:12 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWR-00030s-NK
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585233012;
+ s=mimecast20190719; t=1585233015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ds3GO1HPvZnBnCHWEUNrKnJOCxbvSIxgAYAkojhjyF8=;
- b=IksjgUK9MRMnXRP4TgzIyo2qrGuvkEUeIwl0dITWitV5HbZQtiyB5j8z2ornJgfpObuMkN
- lkGKIEQt8P3aTMpISXWEU2T42qwt0zACvSOfA18sekAnSvlXehpeGq872TsnfTrcCPcgMo
- d3jOYL+bXuRn0fglqtN5g4169XS9Acw=
+ bh=5LhZ9DHL7T1jkRWFOkyzETAnfc6tl8ZcA30FqNDULC4=;
+ b=hLRIeLusosDLoURgAAt0zNaw8HGAK2xApyOhybtq37lZvIN4Ku5PtnHsWtFpfZ2Lz9Bouz
+ tEqi5UJvWLQ1wDmX6J2rJxJlIKDD4rlz/YTCY8nP1MtafutNDzW6D4EKx6Zcl/JeyB29Rv
+ 3/kSQsxUxo5BzHLzd4iXNc+jfvOXH3w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-Pf533dMcPzqX-C29rgsMRQ-1; Thu, 26 Mar 2020 10:30:10 -0400
-X-MC-Unique: Pf533dMcPzqX-C29rgsMRQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-417-Qe3kNC_hMKqZA3FARhL0OA-1; Thu, 26 Mar 2020 10:30:13 -0400
+X-MC-Unique: Qe3kNC_hMKqZA3FARhL0OA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 319AC189F771;
- Thu, 26 Mar 2020 14:30:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32C068018B1;
+ Thu, 26 Mar 2020 14:30:12 +0000 (UTC)
 Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E165C297;
- Thu, 26 Mar 2020 14:30:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0E4E5D9CD;
+ Thu, 26 Mar 2020 14:30:11 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/10] iotests: Add poke_file_[bl]e functions
-Date: Thu, 26 Mar 2020 15:29:32 +0100
-Message-Id: <20200326142933.625037-10-mreitz@redhat.com>
+Subject: [PULL 10/10] iotests/138: Test leaks/corruptions fixed report
+Date: Thu, 26 Mar 2020 15:29:33 +0100
+Message-Id: <20200326142933.625037-11-mreitz@redhat.com>
 In-Reply-To: <20200326142933.625037-1-mreitz@redhat.com>
 References: <20200326142933.625037-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +75,112 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to peek_file_[bl]e, we may want to write binary integers into
-a file.  Currently, this often means messing around with poke_file and
-raw binary strings.  I hope these functions make it a bit more
-comfortable.
+Test that qemu-img check reports the number of leaks and corruptions
+fixed in its JSON report (after a successful run).
+
+While touching the _unsupported_imgopts line, adjust the note on why
+data_file does not work with this test: The current comment sounds a bit
+like it is a mistake for qemu-img check not to check external data
+files' refcounts.  But there are no such refcounts, so it is no mistake.
+Just say that qemu-img check does not do much for external data files,
+and this is why this test does not work with them.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Code-suggested-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200324172757.1173824-3-mreitz@redhat.com>
+Message-Id: <20200324172757.1173824-4-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ tests/qemu-iotests/138     | 41 ++++++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/138.out | 14 +++++++++++++
+ 2 files changed, 53 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 4c246c0450..bf3b9fdea0 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -53,6 +53,30 @@ poke_file()
-     printf "$3" | dd "of=3D$1" bs=3D1 "seek=3D$2" conv=3Dnotrunc &>/dev/nu=
-ll
- }
+diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
+index 54b01046ad..1d5b0bed6d 100755
+--- a/tests/qemu-iotests/138
++++ b/tests/qemu-iotests/138
+@@ -41,8 +41,10 @@ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+ # With an external data file, data clusters are not refcounted
+-# (and so qemu-img check does not check their refcount)
+-_unsupported_imgopts data_file
++# (so qemu-img check would not do much);
++# we want to modify the refcounts, so we need them to have a specific
++# format (namely u16)
++_unsupported_imgopts data_file 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
 =20
-+# poke_file_le $img_filename $offset $byte_width $value
-+# Example: poke_file_le "$TEST_IMG" 512 2 65534
-+poke_file_le()
+ echo
+ echo '=3D=3D=3D Check on an image with a multiple of 2^32 clusters =3D=3D=
+=3D'
+@@ -65,6 +67,41 @@ poke_file "$TEST_IMG" $((2048 + 8)) "\x00\x80\x00\x00\x0=
+0\x00\x00\x00"
+ # allocate memory", we have an error showing that l2 entry is invalid.
+ _check_test_img
+=20
++echo
++echo '=3D=3D=3D Check leaks-fixed/corruptions-fixed report'
++echo
++
++# After leaks and corruptions were fixed, those numbers should be
++# reported by qemu-img check
++_make_test_img 64k
++
++# Allocate data cluster
++$QEMU_IO -c 'write 0 64k' "$TEST_IMG" | _filter_qemu_io
++
++reftable_ofs=3D$(peek_file_be "$TEST_IMG" 48 8)
++refblock_ofs=3D$(peek_file_be "$TEST_IMG" $reftable_ofs 8)
++
++# Introduce a leak: Make the image header's refcount 2
++poke_file_be "$TEST_IMG" "$refblock_ofs" 2 2
++
++l1_ofs=3D$(peek_file_be "$TEST_IMG" 40 8)
++
++# Introduce a corruption: Drop the COPIED flag from the (first) L1 entry
++l1_entry=3D$(peek_file_be "$TEST_IMG" $l1_ofs 8)
++l1_entry=3D$((l1_entry & ~(1 << 63)))
++poke_file_be "$TEST_IMG" $l1_ofs 8 $l1_entry
++
++echo
++# Should print the number of corruptions and leaks fixed
++# (Filter out all JSON fields (recognizable by their four-space
++# indentation), but keep the "-fixed" fields (by removing two spaces
++# from their indentation))
++# (Also filter out the L1 entry, because why not)
++_check_test_img -r all --output=3Djson \
++    | sed -e 's/^  \(.*\)-fixed"/\1-fixed"/' \
++          -e '/^    /d' \
++          -e "s/\\([^0-9a-f]\\)$(printf %x $l1_entry)\\([^0-9a-f]\\)/\1L1_=
+ENTRY_VALUE\2/"
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/138.out b/tests/qemu-iotests/138.out
+index aca7d47a80..79681e7cc9 100644
+--- a/tests/qemu-iotests/138.out
++++ b/tests/qemu-iotests/138.out
+@@ -9,4 +9,18 @@ ERROR: counting reference for region exceeding the end of =
+the file by one cluste
+=20
+ 1 errors were found on the image.
+ Data may be corrupted, or further writes to the image may corrupt it.
++
++=3D=3D=3D Check leaks-fixed/corruptions-fixed report
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Leaked cluster 0 refcount=3D2 reference=3D1
++Repairing cluster 0 refcount=3D2 reference=3D1
++Repairing OFLAG_COPIED L2 cluster: l1_index=3D0 l1_entry=3DL1_ENTRY_VALUE =
+refcount=3D1
 +{
-+    local img=3D$1 ofs=3D$2 len=3D$3 val=3D$4 str=3D''
-+
-+    while ((len--)); do
-+        str+=3D$(printf '\\x%02x' $((val & 0xff)))
-+        val=3D$((val >> 8))
-+    done
-+
-+    poke_file "$img" "$ofs" "$str"
++  "corruptions-fixed": 1,
++  "leaks-fixed": 1,
 +}
-+
-+# poke_file_be $img_filename $offset $byte_width $value
-+# Example: poke_file_be "$TEST_IMG" 512 2 65279
-+poke_file_be()
-+{
-+    local img=3D$1 ofs=3D$2 len=3D$3 val=3D$4
-+    local str=3D$(printf "%0$((len * 2))x\n" $val | sed 's/\(..\)/\\x\1/g'=
-)
-+
-+    poke_file "$img" "$ofs" "$str"
-+}
-+
- # peek_file_le 'test.img' 512 2 =3D> 65534
- peek_file_le()
- {
+ *** done
 --=20
 2.25.1
 
