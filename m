@@ -2,63 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1F81985EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Mar 2020 23:00:18 +0200 (CEST)
-Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E9D19A3E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Apr 2020 05:12:24 +0200 (CEST)
+Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jJ1W5-0003Oa-MS
-	for lists+qemu-devel@lfdr.de; Mon, 30 Mar 2020 17:00:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40056)
+	id 1jJTnj-0002eG-9o
+	for lists+qemu-devel@lfdr.de; Tue, 31 Mar 2020 23:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1jJ1UH-00023i-NB
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 16:58:26 -0400
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmp-00022W-Dj
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1jJ1UG-00051U-6E
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 16:58:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:40645)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1jJ1UF-00050i-VG
- for qemu-devel@nongnu.org; Mon, 30 Mar 2020 16:58:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585601903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/SqyxpylnzX9QV3EQRIJLEZiYOB+dr6xLBHm2BEft+8=;
- b=TIErVCt7J1HTKuW8TljyPD3Jubj+yLbX2Qtjk1gycS0ebRJF4MRTjTbqldK79Ey+HWEDKv
- 1jkLUSyeVK0R4C8E/zdgkgmCwHRBgP+82oa8cC9E2TED6Fn9PIW3ovPWvjXcrLG9LAMazf
- /4Y4rPb93s/fTeJIjqENYF9wWDR8gKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-aUrSYrqQMcSTVAfcVvUcjQ-1; Mon, 30 Mar 2020 16:58:19 -0400
-X-MC-Unique: aUrSYrqQMcSTVAfcVvUcjQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F040A800D50;
- Mon, 30 Mar 2020 20:58:16 +0000 (UTC)
-Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05F9F5C1BB;
- Mon, 30 Mar 2020 20:58:14 +0000 (UTC)
-Date: Mon, 30 Mar 2020 14:58:14 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v17 Kernel 6/7] vfio iommu: Adds flag to indicate dirty
- pages tracking capability support
-Message-ID: <20200330145814.32d9b652@w520.home>
-In-Reply-To: <1585587044-2408-7-git-send-email-kwankhede@nvidia.com>
-References: <1585587044-2408-1-git-send-email-kwankhede@nvidia.com>
- <1585587044-2408-7-git-send-email-kwankhede@nvidia.com>
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmn-00029m-La
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:26 -0400
+Received: from [192.146.154.243] (port=34750 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1jJTmn-00027Y-GQ
+ for qemu-devel@nongnu.org; Tue, 31 Mar 2020 23:11:25 -0400
+Received: from localhost.localdomain.com (unknown [10.40.48.82])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 8DEC7100ABF8;
+ Wed,  1 Apr 2020 03:11:23 +0000 (UTC)
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Subject: [PATCH] MAINTAINERS: Add myself as vhost-user-blk maintainer
+Date: Thu, 26 Mar 2020 04:57:27 -0400
+Message-Id: <1585213047-20089-1-git-send-email-raphael.norwitz@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 192.146.154.243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,80 +46,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: peter.maydell@linaro.org, raphael.s.norwitz@gmail.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Mar 2020 22:20:43 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+As suggested by Michael, let's add me as a maintainer of
+vhost-user-blk and vhost-user-scsi.
 
-> Flag VFIO_IOMMU_INFO_DIRTY_PGS in VFIO_IOMMU_GET_INFO indicates that driver
-> support dirty pages tracking.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  drivers/vfio/vfio_iommu_type1.c | 3 ++-
->  include/uapi/linux/vfio.h       | 5 +++--
->  2 files changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index 266550bd7307..9fe12b425976 100644
-> --- a/drivers/vfio/vfio_iommu_type1.c
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -2390,7 +2390,8 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
->  			info.cap_offset = 0; /* output, no-recopy necessary */
->  		}
->  
-> -		info.flags = VFIO_IOMMU_INFO_PGSIZES;
-> +		info.flags = VFIO_IOMMU_INFO_PGSIZES |
-> +			     VFIO_IOMMU_INFO_DIRTY_PGS;
->  
->  		info.iova_pgsizes = vfio_pgsize_bitmap(iommu);
->  
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index e3cbf8b78623..0fe7c9a6f211 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -985,8 +985,9 @@ struct vfio_device_feature {
->  struct vfio_iommu_type1_info {
->  	__u32	argsz;
->  	__u32	flags;
-> -#define VFIO_IOMMU_INFO_PGSIZES (1 << 0)	/* supported page sizes info */
-> -#define VFIO_IOMMU_INFO_CAPS	(1 << 1)	/* Info supports caps */
-> +#define VFIO_IOMMU_INFO_PGSIZES   (1 << 0) /* supported page sizes info */
-> +#define VFIO_IOMMU_INFO_CAPS      (1 << 1) /* Info supports caps */
-> +#define VFIO_IOMMU_INFO_DIRTY_PGS (1 << 2) /* supports dirty page tracking */
->  	__u64	iova_pgsizes;	/* Bitmap of supported page sizes */
->  	__u32   cap_offset;	/* Offset within info struct of first cap */
->  };
+CC: Michael S. Tsirkin <mst@redhat.com>
+CC Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+---
+ MAINTAINERS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-
-As I just mentioned in my reply to Yan, I'm wondering if
-VFIO_CHECK_EXTENSION would be a better way to expose this.  The
-difference is relatively trivial, but currently the only flag
-set by VFIO_IOMMU_GET_INFO is to indicate the presence of a field in
-the returned structure.  I think this is largely true of other INFO
-ioctls within vfio as well and we're already using the
-VFIO_CHECK_EXTENSION ioctl to check supported IOMMU models, and IOMMU
-cache coherency.  We'd simply need to define a VFIO_DIRTY_PGS_IOMMU
-value (9) and return 1 for that case.  Then when we enable support for
-dirt pages that can span multiple mappings, we can add a v2 extensions,
-or "MULTI" variant of this extension, since it should be backwards
-compatible.
-
-The v2/multi version will again require that the user provide a zero'd
-bitmap, but I don't think that should be a problem as part of the
-definition of that version (we won't know if the user is using v1 or
-v2, but a v1 user should only retrieve bitmaps that exactly match
-existing mappings, where all bits will be written).  Thanks,
-
-Alex
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e580276..239ecc1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1845,6 +1845,18 @@ F: hw/display/virtio-gpu*
+ F: hw/display/virtio-vga.*
+ F: include/hw/virtio/virtio-gpu.h
+=20
++vhost-user-blk
++M: Raphael Norwitz <raphael.norwitz@nutanix.com>
++S: Maintained
++F: contrib/vhost-user-blk/
++F: contrib/vhost-user-scsi/
++F: hw/block/vhost-user-blk.c
++F: hw/scsi/vhost-user-scsi.c
++F: hw/virtio/vhost-user-blk-pci.c
++F: hw/virtio/vhost-user-scsi-pci.c
++F: include/hw/virtio/vhost-user-blk.h
++F: include/hw/virtio/vhost-user-scsi.h
++
+ vhost-user-gpu
+ M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+ M: Gerd Hoffmann <kraxel@redhat.com>
+--=20
+1.8.3.1
 
 
