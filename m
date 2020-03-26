@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2626E194B87
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 23:29:25 +0100 (CET)
-Received: from localhost ([::1]:33538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C14194B8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 23:32:28 +0100 (CET)
+Received: from localhost ([::1]:33598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHb08-0004vU-7P
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 18:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51914)
+	id 1jHb35-0007ox-Ah
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 18:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHaz5-0004HY-47
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:28:20 -0400
+ (envelope-from <a8517fdd582e1b0be2a64f9a3504f18b3da0576a@lizzy.crudebyte.com>)
+ id 1jHb15-0006ek-A2
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:30:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHaz4-0005A8-3e
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:28:19 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42819)
+ (envelope-from <a8517fdd582e1b0be2a64f9a3504f18b3da0576a@lizzy.crudebyte.com>)
+ id 1jHb13-0007ZC-Vv
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:30:23 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:60355)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHaz2-0004Dd-Dk
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:28:17 -0400
+ (envelope-from <a8517fdd582e1b0be2a64f9a3504f18b3da0576a@lizzy.crudebyte.com>)
+ id 1jHb13-0006G6-Or
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:30:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=jPdUMVvPDb49VGrJsLB5Dy+OTfiFUvEBcazVO3auyKA=; b=LmoSC
- KPt/p2vnLztv/ExKLe2NSSkJG4t/GCl8C3HNr8PV/3KzOyXDD2HSiOsFzSQkB82Wbz9eTekUo/o+f
- VNPd/8aYrK5G7M6AHujALQtPa+h4zCNYwZqzreZZ40EN0snWsXqySuW/KlZ6Tq71SBXuHH699/ecy
- F3gOIIhKfo/rqSbm0T8dQgW1Z9uuv0qTTerrwISHJGBz6eGtbh76FwYdOPyF0rOOtiXxv30KwOWH1
- sH/CqMB3RCAbnVgPXyJ7IKWbEyKofceIYY/g1biIYFmvhQcvMmrMOO7WDY4rjF/B8JNVuBTiSq6k2
- NP7PpIt1J+vVfPHwCEjYuplFoV1jg==;
-Message-Id: <7c4e49a783c7b2f77aa81794892cf08b4feba914.1585258105.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=YBRAdZSum7slsAPGovqqlyFqpgUjqJhoi03R04g10bk=; b=lbTBw
+ CWT0n02DHIYTX3FR5TnpEPETUKcriFZiMarMLKCuV2DWKxg0KUrd4tkkCjEcIGdLk+5EBux+ZpPZw
+ llqCfefva1zj9yyHiWXC6/YgAKFlrpb7SOnucVcpiFy9wE5FVvauWJvuWd0mZUGqXopaBwzu/dTGn
+ b9DfbdJI+2F83tPdAwZjv96dZMUrXBpqE61n+oQQW4J7TbyyVetb/GZw4rPAJWFhO6sMAI/l9e3Pm
+ 5hPdkIg/j3tmcaxPyhRTIbezUHEqi8lC70GMp75jeJ/iPinut07cTkLl/gCySnSH+Sjth9uEpbAIa
+ pTRDkAzrzVo41PQo1fEJqEScN6UZQ==;
+Message-Id: <a8517fdd582e1b0be2a64f9a3504f18b3da0576a.1585258105.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1585258105.git.qemu_oss@crudebyte.com>
 References: <cover.1585258105.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 26 Mar 2020 22:25:32 +0100
-Subject: [PATCH v5 6/6] 9pfs: clarify latency of v9fs_co_run_in_worker()
+Date: Thu, 26 Mar 2020 22:24:37 +0100
+Subject: [PATCH v5 2/6] 9pfs readdir: rename max_count -> maxsize
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -57,47 +57,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we just fixed a severe performance issue with Treaddir request
-handling, clarify this overall issue as a comment on
-v9fs_co_run_in_worker() with the intention to hopefully prevent
-such performance mistakes in future (and fixing other yet
-outstanding ones).
+Although the 9p protocol specs use the term 'max_count' as argument
+for Treaddir, let's rename our variables for that to 'maxsize'
+instead, because 'max_count' is semantically completely wrong. This
+variable does not count integral entries, it is rather a maximum
+size (in bytes) of the destination (response) buffer being filled.
+
+Since this is just refactoring, hence this patch does not introduce
+any behaviour change at all.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/coth.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ hw/9pfs/9p.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index a6851822d5..8b6f76840a 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -19,7 +19,7 @@
- #include "qemu/coroutine.h"
- #include "9p.h"
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 9e046f7acb..1aff4f1fa8 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2162,7 +2162,7 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
  
--/*
-+/**
-  * we want to use bottom half because we want to make sure the below
-  * sequence of events.
-  *
-@@ -28,6 +28,16 @@
-  *   3. Enter the coroutine in the worker thread.
-  * we cannot swap step 1 and 2, because that would imply worker thread
-  * can enter coroutine while step1 is still running
-+ *
-+ * @b PERFORMANCE @b CONSIDERATIONS: As a rule of thumb, keep in mind
-+ * that hopping between threads adds @b latency! So when handling a
-+ * 9pfs request, avoid calling v9fs_co_run_in_worker() too often, because
-+ * this might otherwise sum up to a significant, huge overall latency for
-+ * providing the response for just a single request. For that reason it
-+ * is highly recommended to fetch all data from fs driver with a single
-+ * fs driver request on a background I/O thread (bottom half) in one rush
-+ * first and then eventually assembling the final response from that data
-+ * on main I/O thread (top half).
-  */
- #define v9fs_co_run_in_worker(code_block)                               \
-     do {                                                                \
+ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+                                                   V9fsFidState *fidp,
+-                                                  uint32_t max_count)
++                                                  uint32_t maxsize)
+ {
+     V9fsPath path;
+     V9fsStat v9stat;
+@@ -2199,7 +2199,7 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+         if (err < 0) {
+             break;
+         }
+-        if ((count + v9stat.size + 2) > max_count) {
++        if ((count + v9stat.size + 2) > maxsize) {
+             v9fs_readdir_unlock(&fidp->fs.dir);
+ 
+             /* Ran out of buffer. Set dir back to old position and return */
+@@ -2332,7 +2332,7 @@ static size_t v9fs_readdir_data_size(V9fsString *name)
+ }
+ 
+ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+-                                        int32_t max_count)
++                                        int32_t maxsize)
+ {
+     size_t size;
+     V9fsQID qid;
+@@ -2357,7 +2357,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+         }
+         v9fs_string_init(&name);
+         v9fs_string_sprintf(&name, "%s", dent->d_name);
+-        if ((count + v9fs_readdir_data_size(&name)) > max_count) {
++        if ((count + v9fs_readdir_data_size(&name)) > maxsize) {
+             v9fs_readdir_unlock(&fidp->fs.dir);
+ 
+             /* Ran out of buffer. Set dir back to old position and return */
+@@ -2432,20 +2432,20 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+     size_t offset = 7;
+     uint64_t initial_offset;
+     int32_t count;
+-    uint32_t max_count;
++    uint32_t maxsize;
+     V9fsPDU *pdu = opaque;
+     V9fsState *s = pdu->s;
+ 
+     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
+-                           &initial_offset, &max_count);
++                           &initial_offset, &maxsize);
+     if (retval < 0) {
+         goto out_nofid;
+     }
+-    trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, max_count);
++    trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, maxsize);
+ 
+     /* Enough space for a R_readdir header: size[4] Rreaddir tag[2] count[4] */
+-    if (max_count > s->msize - 11) {
+-        max_count = s->msize - 11;
++    if (maxsize > s->msize - 11) {
++        maxsize = s->msize - 11;
+         warn_report_once(
+             "9p: bad client: T_readdir with count > msize - 11"
+         );
+@@ -2465,7 +2465,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+     } else {
+         v9fs_co_seekdir(pdu, fidp, initial_offset);
+     }
+-    count = v9fs_do_readdir(pdu, fidp, max_count);
++    count = v9fs_do_readdir(pdu, fidp, maxsize);
+     if (count < 0) {
+         retval = count;
+         goto out;
 -- 
 2.20.1
 
