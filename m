@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E900719481D
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:00:21 +0100 (CET)
-Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45361947D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:48:57 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYfs-0005gC-TJ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58826)
+	id 1jHYUq-00005S-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKa-00079N-0M
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKa-00079U-Jh
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKY-0001id-SR
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:19 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:32891)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKZ-0001ip-7s
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:20 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40096)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYKX-0001hu-IC
+ id 1jHYKY-0001iN-Py
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:18 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id p19so3717096qve.0
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:17 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id l25so8186115qki.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pBQreEfimlo/TeCu0za1hNbEWK5jCOhKGwDICZx6xko=;
- b=P/kYo9ulqhpp050EUJd06JPmSSGs9/dQd6u7mVV6aCajHrvKc7u9Jb/OwY9vaMQCZD
- a3Ps41Vd32xrllgwiKcjy+XCsoeDBZ/c/hQLIrJJAV/z7WsGv42J7HYn0I4VK3EwrDIB
- nWvUyj7KEmHXI70uO7gzFfH32mXySbLvrE0mTgas+YziWKDPNuhR8Y4ZjjnCmKNrq/Ei
- xoEk8kq6/3k+5vlK2BOpSOahe6LUyuR5tEJrr/Ntysmo3mJVX/wMAu2bp/Opom06j4b+
- BrAw+FBweGL+GMyvSWDATo8BNKqKv0Z4CaI2pLxJI5fmIK/6DV/f1BqvAvIPBlAAd1vn
- ujTw==
+ bh=lqZ7VnMREamwmHiAXruvzR+fgaqzM3eON98Z9dE0b+o=;
+ b=UCvQhIfUcPfh/PFnN4XvCTeZTf8m35iJfoFlILVkw85cSuOWp1bX55OxF7Qa2C9rD2
+ o4sPh7aO0KP0WF7EV+TQFEkPwJ53WValgNUr4CPMX4sTCXI/Lc9E0sstPekWkploUyay
+ LubC8DjMhNheMrdAhEICkW71sUY/ijsdz9xlJ9ufcK4EXGBdM/UdI9ly0KHdCuCia5w6
+ 4Rlj+6MZ6K9L2sDdIkis6JKrMyB5h7CZThb3Y+Q8U/tEabYfvv2z6H4SxtIfgO1BgXPO
+ 0eqj5+cRAIWQYsP7L/0ml+CTif9YECrmXaGtDzqg+FKtU1QtMWH6e+ti4uiskMpbsR51
+ 9o/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pBQreEfimlo/TeCu0za1hNbEWK5jCOhKGwDICZx6xko=;
- b=IHZny/dtqSnQeOq7qqT6qG6fzAIW+9JwvFw/0aqrTA0zdNAR1nlBBLKPSGDMRijBk0
- v36xMgGRfRTZGFjiwSh5PZHK3XB/NDbUuABcXMtjUkqdRNjPWVgThCgrNtL/6oEEIXJ+
- 92bTSDZY7UtgDOIyLFV0jFFIiHAsMHD227WmA+74fTVfMAu9uC2O5L415J73V5YewNq3
- SE0twSW4yXPI0ZGKk+wB2ilcS63yeC3h3YHkPY+T2nrq1iNkz3uOpbbz75FSIKxFMhB6
- ZVzEmOrnReL8vVQ0cz+d4Y7Mvo1xPktg5R+GF1ootSuiA/CFXNJcdD9q4Pi5B6G/f+YN
- r9vQ==
-X-Gm-Message-State: ANhLgQ3GPkyqIpOh4JSzcbCL/cZvvv1E+c5E8mRw4Uu16yjp0z+/0bIG
- krsJDnptVn1bXRcuXq0CXLpOD6p3BJzVSw==
-X-Google-Smtp-Source: ADFU+vu6wB3XDnsGcnaInvDM7QDGI3lOlgWH2opLsjjYkBYPA5RD3qXKO3GgJzXaWfSW9C5ZIngpnQ==
-X-Received: by 2002:ad4:53a2:: with SMTP id j2mr10100056qvv.145.1585251496372; 
- Thu, 26 Mar 2020 12:38:16 -0700 (PDT)
+ bh=lqZ7VnMREamwmHiAXruvzR+fgaqzM3eON98Z9dE0b+o=;
+ b=OTlMslZQN6dUtCdY7bu3Sfbp+Bitkp3WzCkAzQIUCLLpmWz6Mir+ZKFYUfp4EiH0co
+ NXtfXVyF9BKEOPVc9GpJGBiyRoBysU0r4FbO8d4dTiGF2S6jh+QLDZFRRnZ3sils6Mea
+ eCm4+Uq2rdrzubmfVucuNC3PXkENXRqeqnuV7Y8/PK22V4xAQ2tRvP5lh5sHj+wcjWtJ
+ qmpKxzb0v+lp4sKH/ufHSgI7p6VOB5fKDIDXbZDf8Wl3egkMEyYCM1TqYvCofCbbiALO
+ igiwr7GEWIzhlh2nqpoIHzib8gx/8aTx/2bv22cLD3Svq4fAK98e2r5ewVpYS75nUXvs
+ 4kfQ==
+X-Gm-Message-State: ANhLgQ2aulDQrqFUs8b9qi1DxzFG9mjCDRKGR7NQX6ue87wy12ODSxN+
+ 9AB6MXOEGvU4NMMwihDCe5EICJvr5TqG4A==
+X-Google-Smtp-Source: ADFU+vvafTpxQQNmV1oSE1zmB/zCDIzSL+ybLW7X/XTF3UAOtbQHQXWmx7O75gX85803k5WhGWkadA==
+X-Received: by 2002:a37:6357:: with SMTP id x84mr10357028qkb.490.1585251497714; 
+ Thu, 26 Mar 2020 12:38:17 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.15
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:15 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:17 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 31/74] cpu-exec: convert to cpu_halted
-Date: Thu, 26 Mar 2020 15:31:13 -0400
-Message-Id: <20200326193156.4322-32-robert.foley@linaro.org>
+Subject: [PATCH v8 32/74] cpu: convert to cpu_halted
+Date: Thu, 26 Mar 2020 15:31:14 -0400
+Message-Id: <20200326193156.4322-33-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f44
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,75 +86,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This finishes the conversion to cpu_halted.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ accel/tcg/cpu-exec.c       | 2 +-
+ cpus.c                     | 4 ++--
+ hw/core/cpu.c              | 2 +-
+ hw/core/machine-qmp-cmds.c | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d95c4848a4..e296894ea1 100644
+index e296894ea1..099dd83ee0 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -425,14 +425,21 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
-     return tb;
- }
- 
--static inline bool cpu_handle_halt(CPUState *cpu)
-+static inline bool cpu_handle_halt_locked(CPUState *cpu)
- {
--    if (cpu->halted) {
-+    g_assert(cpu_mutex_locked(cpu));
-+
-+    if (cpu_halted(cpu)) {
- #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
-         if ((cpu->interrupt_request & CPU_INTERRUPT_POLL)
+@@ -435,7 +435,7 @@ static inline bool cpu_handle_halt_locked(CPUState *cpu)
              && replay_interrupt()) {
              X86CPU *x86_cpu = X86_CPU(cpu);
-+
-+            /* prevent deadlock; cpu_mutex must be acquired _after_ the BQL */
-+            cpu_mutex_unlock(cpu);
-             qemu_mutex_lock_iothread();
-+            cpu_mutex_lock(cpu);
-+
-             apic_poll_irq(x86_cpu->apic_state);
-             cpu_reset_interrupt(cpu, CPU_INTERRUPT_POLL);
-             qemu_mutex_unlock_iothread();
-@@ -442,12 +449,22 @@ static inline bool cpu_handle_halt(CPUState *cpu)
-             return true;
-         }
  
--        cpu->halted = 0;
-+        cpu_halted_set(cpu, 0);
+-            /* prevent deadlock; cpu_mutex must be acquired _after_ the BQL */
++            /* locking order: cpu_mutex must be acquired _after_ the BQL */
+             cpu_mutex_unlock(cpu);
+             qemu_mutex_lock_iothread();
+             cpu_mutex_lock(cpu);
+diff --git a/cpus.c b/cpus.c
+index f27fb19b7c..50ced4369f 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -225,7 +225,7 @@ static bool cpu_thread_is_idle(CPUState *cpu)
+     if (cpu_is_stopped(cpu)) {
+         return true;
+     }
+-    if (!cpu->halted || cpu_has_work(cpu) ||
++    if (!cpu_halted(cpu) || cpu_has_work(cpu) ||
+         kvm_halt_in_kernel()) {
+         return false;
+     }
+@@ -1840,7 +1840,7 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
+                  *
+                  * cpu->halted should ensure we sleep in wait_io_event
+                  */
+-                g_assert(cpu->halted);
++                g_assert(cpu_halted(cpu));
+                 break;
+             case EXCP_ATOMIC:
+                 qemu_mutex_unlock_iothread();
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index d67bd58827..9683d6408a 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -257,7 +257,7 @@ static void cpu_common_reset(DeviceState *dev)
      }
  
-     return false;
- }
- 
-+static inline bool cpu_handle_halt(CPUState *cpu)
-+{
-+    bool ret;
-+
-+    cpu_mutex_lock(cpu);
-+    ret = cpu_handle_halt_locked(cpu);
-+    cpu_mutex_unlock(cpu);
-+    return ret;
-+}
-+
- static inline void cpu_handle_debug_exception(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
-@@ -546,7 +563,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-         } else if (interrupt_request & CPU_INTERRUPT_HALT) {
-             replay_interrupt();
-             cpu->interrupt_request &= ~CPU_INTERRUPT_HALT;
--            cpu->halted = 1;
-+            cpu_halted_set(cpu, 1);
-             cpu->exception_index = EXCP_HLT;
-             qemu_mutex_unlock_iothread();
-             return true;
+     cpu->interrupt_request = 0;
+-    cpu->halted = 0;
++    cpu_halted_set(cpu, 0);
+     cpu->mem_io_pc = 0;
+     cpu->icount_extra = 0;
+     atomic_set(&cpu->icount_decr_ptr->u32, 0);
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index eed5aeb2f7..7d33489110 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -58,7 +58,7 @@ CpuInfoList *qmp_query_cpus(Error **errp)
+         info->value = g_malloc0(sizeof(*info->value));
+         info->value->CPU = cpu->cpu_index;
+         info->value->current = (cpu == first_cpu);
+-        info->value->halted = cpu->halted;
++        info->value->halted = cpu_halted(cpu);
+         info->value->qom_path = object_get_canonical_path(OBJECT(cpu));
+         info->value->thread_id = cpu->thread_id;
+ #if defined(TARGET_I386)
 -- 
 2.17.1
 
