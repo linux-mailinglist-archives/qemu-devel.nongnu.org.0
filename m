@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663B4194180
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:31:21 +0100 (CET)
-Received: from localhost ([::1]:53818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C467F194199
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:34:17 +0100 (CET)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHTXU-00054l-51
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41227)
+	id 1jHTaK-0000Q6-OK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jHTVy-0003KW-9e
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHTW0-0003L5-Ia
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jHTVw-0002kz-Lc
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:45 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:53898)
+ (envelope-from <mreitz@redhat.com>) id 1jHTVy-0002mK-QJ
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:48 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46941)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTVw-0002kM-6B
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:44 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTVy-0002lx-Kr
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:29:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585232983;
+ s=mimecast20190719; t=1585232986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CPS7tT0aRgNDMOmquEAYiHn+rSIgheBGQQd4trHvHfg=;
- b=VwA+3wOu5kFBh4RMSgM2XyQH9zhJ0YTF1sDoWNZ4dFdWl2MgJ99a9W9zhzZ55MVQDX3axp
- l0jOimL5sQ0Phv62n6Pd5zkHQyqN1K+MdihhRS7O/qZoRtCToJxqDVcCKJDVDc3irKWMXY
- vlibzatyC4DIk1HXtkkQzEbKEPekGCE=
+ bh=iHrZktTybweA6husRB0wD5LLtIJ/egsn59oX4wviE8A=;
+ b=RpxtOX0odDnmsnU2BVAw0vR3lXIcNaa3tdZZsvaBSt6GIRftlHYkVvKA95O/z2MZtWR+Xo
+ Bqt0k3801lpxH1OU+U1fsfw4ID619TlYPTNRK8+6JdpqWGDKA5mH1yGtQflqKTSCMnMJX6
+ 8Gv3Ms4EAgwwjGlqEvZV2w5IVOfa5Ws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-QiLkYxYIP1eQ_ydRGGFVQw-1; Thu, 26 Mar 2020 10:29:41 -0400
-X-MC-Unique: QiLkYxYIP1eQ_ydRGGFVQw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-247-GEz-c97IP_SxkpVvk1H23A-1; Thu, 26 Mar 2020 10:29:44 -0400
+X-MC-Unique: GEz-c97IP_SxkpVvk1H23A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C3C8018CB;
- Thu, 26 Mar 2020 14:29:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E51621034AE3;
+ Thu, 26 Mar 2020 14:29:42 +0000 (UTC)
 Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43D5919C70;
- Thu, 26 Mar 2020 14:29:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4219A60C18;
+ Thu, 26 Mar 2020 14:29:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/10] block/mirror: fix use after free of local_err
-Date: Thu, 26 Mar 2020 15:29:24 +0100
-Message-Id: <20200326142933.625037-2-mreitz@redhat.com>
+Subject: [PULL 02/10] block: pass BlockDriver reference to the .bdrv_co_create
+Date: Thu, 26 Mar 2020 15:29:25 +0100
+Message-Id: <20200326142933.625037-3-mreitz@redhat.com>
 In-Reply-To: <20200326142933.625037-1-mreitz@redhat.com>
 References: <20200326142933.625037-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -75,33 +75,334 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-local_err is used again in mirror_exit_common() after
-bdrv_set_backing_hd(), so we must zero it. Otherwise try to set
-non-NULL local_err will crash.
+This will allow the reuse of a single generic .bdrv_co_create
+implementation for several drivers.
+No functional changes.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200324153630.11882-3-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20200326011218.29230-2-mlevitsk@redhat.com>
+Reviewed-by: Denis V. Lunev <den@openvz.org>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/mirror.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/block/block_int.h | 3 ++-
+ block.c                   | 3 ++-
+ block/crypto.c            | 3 ++-
+ block/file-posix.c        | 4 +++-
+ block/file-win32.c        | 4 +++-
+ block/gluster.c           | 3 ++-
+ block/nfs.c               | 4 +++-
+ block/parallels.c         | 3 ++-
+ block/qcow.c              | 3 ++-
+ block/qcow2.c             | 4 +++-
+ block/qed.c               | 3 ++-
+ block/raw-format.c        | 4 +++-
+ block/rbd.c               | 3 ++-
+ block/sheepdog.c          | 4 +++-
+ block/ssh.c               | 4 +++-
+ block/vdi.c               | 4 +++-
+ block/vhdx.c              | 3 ++-
+ block/vmdk.c              | 4 +++-
+ block/vpc.c               | 6 ++++--
+ 19 files changed, 49 insertions(+), 20 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 447051dbc6..6203e5946e 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -678,6 +678,7 @@ static int mirror_exit_common(Job *job)
-             bdrv_set_backing_hd(target_bs, backing, &local_err);
-             if (local_err) {
-                 error_report_err(local_err);
-+                local_err =3D NULL;
-                 ret =3D -EPERM;
-             }
-         }
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index ae9c4da4d0..57c8ea24b2 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -135,7 +135,8 @@ struct BlockDriver {
+     void (*bdrv_close)(BlockDriverState *bs);
+     int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
+                                        Error **errp);
+-    int coroutine_fn (*bdrv_co_create_opts)(const char *filename,
++    int coroutine_fn (*bdrv_co_create_opts)(BlockDriver *drv,
++                                            const char *filename,
+                                             QemuOpts *opts,
+                                             Error **errp);
+     int (*bdrv_make_empty)(BlockDriverState *bs);
+diff --git a/block.c b/block.c
+index cccae5add9..ff23e20443 100644
+--- a/block.c
++++ b/block.c
+@@ -483,7 +483,8 @@ static void coroutine_fn bdrv_create_co_entry(void *opa=
+que)
+     CreateCo *cco =3D opaque;
+     assert(cco->drv);
+=20
+-    ret =3D cco->drv->bdrv_co_create_opts(cco->filename, cco->opts, &local=
+_err);
++    ret =3D cco->drv->bdrv_co_create_opts(cco->drv,
++                                        cco->filename, cco->opts, &local_e=
+rr);
+     error_propagate(&cco->err, local_err);
+     cco->ret =3D ret;
+ }
+diff --git a/block/crypto.c b/block/crypto.c
+index 4425ebeb47..d577f89659 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -601,7 +601,8 @@ fail:
+     return ret;
+ }
+=20
+-static int coroutine_fn block_crypto_co_create_opts_luks(const char *filen=
+ame,
++static int coroutine_fn block_crypto_co_create_opts_luks(BlockDriver *drv,
++                                                         const char *filen=
+ame,
+                                                          QemuOpts *opts,
+                                                          Error **errp)
+ {
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 9bc3838b2a..65bc980bc4 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2405,7 +2405,9 @@ out:
+     return result;
+ }
+=20
+-static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts =
+*opts,
++static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
+                                            Error **errp)
+ {
+     BlockdevCreateOptions options;
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 77e8ff7b68..15859839a1 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -588,7 +588,9 @@ static int raw_co_create(BlockdevCreateOptions *options=
+, Error **errp)
+     return 0;
+ }
+=20
+-static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts =
+*opts,
++static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
+                                            Error **errp)
+ {
+     BlockdevCreateOptions options;
+diff --git a/block/gluster.c b/block/gluster.c
+index 4fa4a77a47..0aa1f2cda4 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1130,7 +1130,8 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn qemu_gluster_co_create_opts(const char *filename,
++static int coroutine_fn qemu_gluster_co_create_opts(BlockDriver *drv,
++                                                    const char *filename,
+                                                     QemuOpts *opts,
+                                                     Error **errp)
+ {
+diff --git a/block/nfs.c b/block/nfs.c
+index 9a6311e270..cc2413d5ab 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -662,7 +662,9 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn nfs_file_co_create_opts(const char *url, QemuOpts =
+*opts,
++static int coroutine_fn nfs_file_co_create_opts(BlockDriver *drv,
++                                                const char *url,
++                                                QemuOpts *opts,
+                                                 Error **errp)
+ {
+     BlockdevCreateOptions *create_options;
+diff --git a/block/parallels.c b/block/parallels.c
+index 7a01997659..6d4ed77f16 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -609,7 +609,8 @@ exit:
+     goto out;
+ }
+=20
+-static int coroutine_fn parallels_co_create_opts(const char *filename,
++static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
++                                                 const char *filename,
+                                                  QemuOpts *opts,
+                                                  Error **errp)
+ {
+diff --git a/block/qcow.c b/block/qcow.c
+index fce8989868..8973e4e565 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -934,7 +934,8 @@ exit:
+     return ret;
+ }
+=20
+-static int coroutine_fn qcow_co_create_opts(const char *filename,
++static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
++                                            const char *filename,
+                                             QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options =3D NULL;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index d1da3d91db..5f65fce924 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3558,7 +3558,9 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn qcow2_co_create_opts(const char *filename, QemuOpt=
+s *opts,
++static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
++                                             const char *filename,
++                                             QemuOpts *opts,
+                                              Error **errp)
+ {
+     BlockdevCreateOptions *create_options =3D NULL;
+diff --git a/block/qed.c b/block/qed.c
+index d8c4e5fb1e..1af9b3cb1d 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -720,7 +720,8 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn bdrv_qed_co_create_opts(const char *filename,
++static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
++                                                const char *filename,
+                                                 QemuOpts *opts,
+                                                 Error **errp)
+ {
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 3a76ec7dd2..93b25e1b6b 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -419,7 +419,9 @@ static int raw_has_zero_init_truncate(BlockDriverState =
+*bs)
+     return bdrv_has_zero_init_truncate(bs->file->bs);
+ }
+=20
+-static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts =
+*opts,
++static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
+                                            Error **errp)
+ {
+     return bdrv_create_file(filename, opts, errp);
+diff --git a/block/rbd.c b/block/rbd.c
+index 84115d34b4..e637639a07 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -437,7 +437,8 @@ static int qemu_rbd_co_create(BlockdevCreateOptions *op=
+tions, Error **errp)
+     return qemu_rbd_do_create(options, NULL, NULL, errp);
+ }
+=20
+-static int coroutine_fn qemu_rbd_co_create_opts(const char *filename,
++static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
++                                                const char *filename,
+                                                 QemuOpts *opts,
+                                                 Error **errp)
+ {
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index cfa84338a2..a8a7e32a41 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -2157,7 +2157,9 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn sd_co_create_opts(const char *filename, QemuOpts *=
+opts,
++static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
++                                          const char *filename,
++                                          QemuOpts *opts,
+                                           Error **errp)
+ {
+     BlockdevCreateOptions *create_options =3D NULL;
+diff --git a/block/ssh.c b/block/ssh.c
+index b4375cf7d2..84e92821c0 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -963,7 +963,9 @@ fail:
+     return ret;
+ }
+=20
+-static int coroutine_fn ssh_co_create_opts(const char *filename, QemuOpts =
+*opts,
++static int coroutine_fn ssh_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
+                                            Error **errp)
+ {
+     BlockdevCreateOptions *create_options;
+diff --git a/block/vdi.c b/block/vdi.c
+index 0142da7233..e1a11f2aa0 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -896,7 +896,9 @@ static int coroutine_fn vdi_co_create(BlockdevCreateOpt=
+ions *create_options,
+     return vdi_co_do_create(create_options, DEFAULT_CLUSTER_SIZE, errp);
+ }
+=20
+-static int coroutine_fn vdi_co_create_opts(const char *filename, QemuOpts =
+*opts,
++static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
+                                            Error **errp)
+ {
+     QDict *qdict =3D NULL;
+diff --git a/block/vhdx.c b/block/vhdx.c
+index f02d2611be..33e57cd656 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2046,7 +2046,8 @@ delete_and_exit:
+     return ret;
+ }
+=20
+-static int coroutine_fn vhdx_co_create_opts(const char *filename,
++static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
++                                            const char *filename,
+                                             QemuOpts *opts,
+                                             Error **errp)
+ {
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 8466051bc9..218d9c9800 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2588,7 +2588,9 @@ exit:
+     return blk;
+ }
+=20
+-static int coroutine_fn vmdk_co_create_opts(const char *filename, QemuOpts=
+ *opts,
++static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
++                                            const char *filename,
++                                            QemuOpts *opts,
+                                             Error **errp)
+ {
+     Error *local_err =3D NULL;
+diff --git a/block/vpc.c b/block/vpc.c
+index a65550298e..6df75e22dc 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1089,8 +1089,10 @@ out:
+     return ret;
+ }
+=20
+-static int coroutine_fn vpc_co_create_opts(const char *filename,
+-                                           QemuOpts *opts, Error **errp)
++static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
++                                           const char *filename,
++                                           QemuOpts *opts,
++                                           Error **errp)
+ {
+     BlockdevCreateOptions *create_options =3D NULL;
+     QDict *qdict;
 --=20
 2.25.1
 
