@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B580D19350E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:43:19 +0100 (CET)
-Received: from localhost ([::1]:44850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC3F19350D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 01:43:12 +0100 (CET)
+Received: from localhost ([::1]:44848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHGcA-00044w-PN
-	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
+	id 1jHGc3-0003ne-Gl
+	for lists+qemu-devel@lfdr.de; Wed, 25 Mar 2020 20:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXN-0003lh-3R
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXM-0003lf-Tu
  for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1jHGXL-0002Jx-K1
- for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:21 -0400
-Received: from ozlabs.org ([203.11.71.1]:37847)
+ (envelope-from <dgibson@ozlabs.org>) id 1jHGXL-0002KP-Le
+ for qemu-devel@nongnu.org; Wed, 25 Mar 2020 20:38:20 -0400
+Received: from ozlabs.org ([203.11.71.1]:48977)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1jHGXL-0002HR-6T; Wed, 25 Mar 2020 20:38:19 -0400
+ id 1jHGXL-0002HT-8d; Wed, 25 Mar 2020 20:38:19 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48nmL82D1Yz9sSR; Thu, 26 Mar 2020 11:38:08 +1100 (AEDT)
+ id 48nmL82cSnz9sSV; Thu, 26 Mar 2020 11:38:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1585183088;
- bh=So1EfJeN6iY6rJUzTS/vftDQ9jJeo8rs3eLLfunBMjU=;
+ bh=nHkn43nALS267IgxmjNcOhNlRhHPMQp8SdF+D7QlZrw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UQX9HXGBIE/T1YdxaKBKoFkZmgdxlsYZ/eENlTReXlclytdNrTkPkiiL6r6StSuNs
- PTtHJ70IPd8OiF+lVyoTXNXTRG5DCmCFN7lKf9xKGFKGtBN6oThbGhFOvZG5WZxITw
- 4DHNOGj9r5aQrRvSm+1kdlXw/9gLyQ7hG57GfT+o=
-Date: Thu, 26 Mar 2020 11:18:25 +1100
+ b=oKt/v6HHyds3B+Uuu34Iz6j57qfCd1/G9IoAel30QSnplEmPkHsz+YXObwg/tla7o
+ uPNAzu16Ad4u1JSEE49g7gztjnFlrv4pA0QkkuCPQaLNGfMnRg5nLWvJQ7/+kzlris
+ 5KqYgIL2JvGPtnFYDMAgmkSXBzBj2PNE7XJDQmtM=
+Date: Thu, 26 Mar 2020 11:19:37 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 2/4] ppc/spapr: Improve FWNMI machine check delivery
- corner case comments
-Message-ID: <20200326001825.GN36889@umbus.fritz.box>
+Subject: Re: [PATCH v2 3/4] ppc/spapr: Add FWNMI machine check delivery
+ warnings
+Message-ID: <20200326001937.GO36889@umbus.fritz.box>
 References: <20200325142906.221248-1-npiggin@gmail.com>
- <20200325142906.221248-3-npiggin@gmail.com>
+ <20200325142906.221248-4-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OQhbRXNHSL5w/5po"
+ protocol="application/pgp-signature"; boundary="GOzekVbrLdOLv44p"
 Content-Disposition: inline
-In-Reply-To: <20200325142906.221248-3-npiggin@gmail.com>
+In-Reply-To: <20200325142906.221248-4-npiggin@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -66,81 +66,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---OQhbRXNHSL5w/5po
+--GOzekVbrLdOLv44p
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2020 at 12:29:04AM +1000, Nicholas Piggin wrote:
-> Some of the conditions are not as clearly documented as they could be.
-> Also the non-FWNMI case does not need a large comment.
+On Thu, Mar 26, 2020 at 12:29:05AM +1000, Nicholas Piggin wrote:
+> Add some messages which explain problems and guest misbehaviour that
+> may be difficult to diagnose in rare cases of machine checks.
 >=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
 Applied to ppc-for-5.0.
 
 > ---
->  hw/ppc/spapr_events.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
+>  hw/ppc/spapr_events.c | 4 ++++
+>  hw/ppc/spapr_rtas.c   | 3 +++
+>  2 files changed, 7 insertions(+)
 >=20
 > diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index a4a540f43d..a908c5d0e9 100644
+> index a908c5d0e9..c8964eb25d 100644
 > --- a/hw/ppc/spapr_events.c
 > +++ b/hw/ppc/spapr_events.c
-> @@ -860,17 +860,13 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool reco=
-vered)
->      Error *local_err =3D NULL;
+> @@ -833,6 +833,8 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, =
+bool recovered)
+>      /* get rtas addr from fdt */
+>      rtas_addr =3D spapr_get_rtas_addr();
+>      if (!rtas_addr) {
+> +        error_report(
+> +"FWNMI: Unable to deliver machine check to guest: rtas_addr not found.");
+>          qemu_system_guest_panicked(NULL);
+>          g_free(ext_elog);
+>          return;
+> @@ -874,6 +876,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
+red)
+>           * that CPU called "ibm,nmi-interlock")
+>           */
+>          if (spapr->fwnmi_machine_check_interlock =3D=3D cpu->vcpu_id) {
+> +            error_report(
+> +"FWNMI: Unable to deliver machine check to guest: nested machine check."=
+);
+>              qemu_system_guest_panicked(NULL);
+>              return;
+>          }
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 29abe66d01..bcac0d00e7 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -462,6 +462,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>      }
 > =20
 >      if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
-> -        /*
-> -         * This implies that we have hit a machine check either when the
-> -         * guest has not registered FWNMI (i.e., "ibm,nmi-register" not
-> -         * called) or between system reset and "ibm,nmi-register".
-> -         * Fall back to the old machine check behavior in such cases.
-> -         */
-> +        /* Non-FWNMI case, deliver it like an architected CPU interrupt.=
- */
->          cs->exception_index =3D POWERPC_EXCP_MCHECK;
->          ppc_cpu_do_interrupt(cs);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +"FWNMI: ibm,nmi-interlock RTAS called with FWNMI not registered.\n");
+> +
+>          /* NMI register not called */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
 >          return;
->      }
-> =20
-> +    /* Wait for FWNMI interlock. */
->      while (spapr->fwnmi_machine_check_interlock !=3D -1) {
->          /*
->           * Check whether the same CPU got machine check error
-> @@ -882,8 +878,13 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recov=
-ered)
->              return;
->          }
->          qemu_cond_wait_iothread(&spapr->fwnmi_machine_check_interlock_co=
-nd);
-> -        /* Meanwhile if the system is reset, then just return */
->          if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
-> +            /*
-> +             * If the machine was reset while waiting for the interlock,
-> +             * abort the delivery. The machine check applies to a context
-> +             * that no longer exists, so it wouldn't make sense to deliv=
-er
-> +             * it now.
-> +             */
->              return;
->          }
->      }
-> @@ -894,7 +895,9 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
-red)
->           * We don't want to abort so we let the migration to continue.
->           * In a rare case, the machine check handler will run on the tar=
-get.
->           * Though this is not preferable, it is better than aborting
-> -         * the migration or killing the VM.
-> +         * the migration or killing the VM. It is okay to call
-> +         * migrate_del_blocker on a blocker that was not added (which the
-> +         * nmi-interlock handler would do when it's called after this).
->           */
->          warn_report("Received a fwnmi while migration was in progress");
->      }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -148,25 +130,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---OQhbRXNHSL5w/5po
+--GOzekVbrLdOLv44p
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl579NEACgkQbDjKyiDZ
-s5Jt/Q/6Ao6NohaQHiN4FOLnNAyfaES4K5iDLZiFhSzlbWFv4uiaZgzoMDDtCy0g
-SSwWlSoq01BYxAaIFl2FcGCeoaSX46WSO9pHmFpIPV9+YiXNCanhQzhvLq1ILdfk
-ih0/zEQvlYaVVsQDx8AHGLJ1WQmiEr9dUdhDOnHAOMv6024ZzRdeEQkkbQWACScA
-OG+EkIzNViQhYriT1wMUWumU31rOVytC7qudaMD2IN6jkPB4vj9KaxQuPVVtMleZ
-k00Jms6/1d3epLdk2+PbBzxyzKH5M7vBOqorRXfeVFE45b9P+28m0kuQg+thBblW
-JIpQYUKNcSBGcIlgS7zlAmZs6CWD7AQRBdq3gPnDeilJIcxxefFdc2uwOwFTsnMP
-Ikwe+XqG4+x/tlKshcHIavqWvmb2leSs6Oo5QyBmOIGgf6QR/R1GuSkoqZE96k4X
-fkemZRGSSJVGBRqx/h7LLDN54YbPpJqtDftwBYgE57bDa88G0egWtkVDG/Kta2Vp
-TsHfFOfnsCnwFDmaYEI/KrgtoH2Bh8eCgHD+NFCCPzp2KYildFdq8lqFgOJ/oqom
-4eu1jXqlS4roBB2RqUIaQqBsX09nA1TK9zCP1R1NQWySba6w0zuz2jmcnXpfd7ip
-FjtiNAWyzv5mIn7jzTKwpSdvT0k3DxUstDBq0Gob2M43x6GRhpY=
-=LvX2
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl579RkACgkQbDjKyiDZ
+s5JxohAAwVxv06KKsJsswIMcLOqBo/dl4t8thsBYTjGXJro1IBS7XFR1ETlZf+mz
+Uk1bok1WFG9486lmx5KlqXowTN3BvwFmn8KliUi7SZGS4mrXwkFqp4XAhSIZljem
+GwYdddvWhaWPcTFthSpdwIP/6LkTac2KdUlrdPni3XrJiB49i4grcX126MZhUR2S
+LM3PH+ZtqiOfyMu28VcvsY7LFo3OQJfBIcUE7RgcVWfynOwiQsYa4LA7SXfzDUde
+1TMwVH8mpn3ZZ8IG5SPDjnITpC/dcfjREbOsotvIgCWHeWbUxqzgRnYIUdrI1TTD
+2ifl/90J88WXmkIe2Jae3Nh4hWLkFpSzRngzET5bnrLm5X8SbBZQde4BbMRYcOpl
+p4piwIcw33PS70sQPQCv/ALxhsQpmKFlJYkWH8+j8vq2psG2I8Bt/TVNIJRX+8zQ
+ybx2LKshyJx5lSb9OjiV9NWtC72j2u/7ey8dV4fduq2bkI152XhKG6qqoQSqFRW5
+Kk2E3cRJG2S3PQp+J88ccmKAywWk80xUD28PWtB/FVN5wQJvTFJOVfJN/vtzcob2
+URfL/PySQJ4FLKt7uRxwNTuiZdfpqXcSUQl8Sry3xiUt4ojXRBgBxKpcFjzrDkO1
+ZlOVUD6qTA2CxIY+pno+5RsQs2YXp0LXrGyrVvtVuO3CxhA/N2U=
+=W8D3
 -----END PGP SIGNATURE-----
 
---OQhbRXNHSL5w/5po--
+--GOzekVbrLdOLv44p--
 
