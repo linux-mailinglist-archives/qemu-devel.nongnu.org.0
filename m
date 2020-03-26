@@ -2,87 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9EC194895
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:17:01 +0100 (CET)
-Received: from localhost ([::1]:59708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F5D1948C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:25:47 +0100 (CET)
+Received: from localhost ([::1]:59912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYw0-0007Cn-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
+	id 1jHZ4U-0000F9-TL
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jHYkj-0006Kq-3f
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:05:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHYuu-0006Do-N5
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jHYkh-0000dI-4n
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:05:20 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58798)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jHYkg-0000c9-VK
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:05:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585253118;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ErY7UtjOtKlkaCV79EY8IujFefhusVnoOtX8SKn0gMg=;
- b=L2+k0+LuEslmHwoBR0OhgBm8KtcXn+bOqirZvUxw6O9RcWtHiums4zbbCPbfQny7NbN+KT
- YeELqQpZAOKhvH6Kx7muk5MHunXDFMWKy1eCiKKZ7pAFKuPqTQW0jpjNixlTuwPl7Uz3So
- 8QFdorKuuuZqz6mjuXrGw8dE1ZUjBNg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-vaK-q7uuPvqpe_-eYzCojw-1; Thu, 26 Mar 2020 16:05:16 -0400
-X-MC-Unique: vaK-q7uuPvqpe_-eYzCojw-1
-Received: by mail-wm1-f69.google.com with SMTP id f8so3058894wmh.4
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 13:05:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ErY7UtjOtKlkaCV79EY8IujFefhusVnoOtX8SKn0gMg=;
- b=Pdcs8rC1WoFk/O0TAonEE6OnSDW7koMAJdBTR9rk+7hha162y3D/y00N2sK/IbWpjl
- p2j6OZ07iRHQ/MQUu+Igw23aPE2CaCNJNB91mTOFuU29AXP7ZwW10L4vHAVzJYv4OMGf
- RkVR+2Zv1M3SqbvXmc9xGS9JZ/pTCzYQZHocf5GPwH3r0EwYseferFV/nPLm1Yvn5wuz
- 7lns/JNA/nl1qlZIvcN00jDr0vkNBcvoxZ6l1Fp8fA+XzrrzKNLF3KSxTeJN4bRfYOe2
- hmTg37Be/0fQaI3ojhnHaBZjq0rM1h1lXChwD2wsYBJc9RAlCuR2Bp0gA698AtMxa1ON
- X7Vg==
-X-Gm-Message-State: ANhLgQ3DlS0XzEJEL/9X+Wgj45RJ0wIeeza6yU6k1a2u5pXXp83slAr4
- mcAzx6+5Lxi/DuYxKn5stZlJHSCZFEsGl28lqAkG+WXGY5LepYyd9h8jp5Hq1TUq9UdMv8yUyJR
- XVXPnG0YlSTeVLyo=
-X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr1759292wmi.13.1585253115026; 
- Thu, 26 Mar 2020 13:05:15 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu5CNMeM4VfCie2Iu39C5/Giil0peWaRpIWCSTNNq6x1L6P6UUFTK4qADXyU+GozR6HtMd4Sg==
-X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr1759269wmi.13.1585253114782; 
- Thu, 26 Mar 2020 13:05:14 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id c5sm12308679wma.3.2020.03.26.13.05.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Mar 2020 13:05:14 -0700 (PDT)
-Subject: Re: [PATCH] qemu/atomic.h: add #ifdef guards for stdatomic.h
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20200326170121.13045-1-alex.bennee@linaro.org>
- <fd05f470-1c3f-3357-ac91-26c06379bee2@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f01e8676-ce02-dcb1-e614-822699eb97d8@redhat.com>
-Date: Thu, 26 Mar 2020 21:05:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jHYut-0005ip-GQ
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:15:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50804)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHYut-0005iS-9r
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:15:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHYur-0006WP-G9
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:15:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 77E372E80C7
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:15:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <fd05f470-1c3f-3357-ac91-26c06379bee2@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Mar 2020 20:09:55 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier manuel-reimer pmaydell
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158516596046.18657.8423350120096244746.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158525339532.11569.16837643719119989361.malone@soybean.canonical.com>
+Subject: [Bug 1869073] Re: qemu-arm-static crashes "segmentation fault" when
+ running "git clone -s"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: acb3a53a6e8c334dd55a981b231fe0129e5d978f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,26 +66,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Reply-To: Bug 1869073 <1869073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/03/20 20:58, Richard Henderson wrote:
->> +
->> +#ifndef atomic_fetch_add
->>  #define atomic_fetch_add(ptr, n) __atomic_fetch_add(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_sub(ptr, n) __atomic_fetch_sub(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_and(ptr, n) __atomic_fetch_and(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_or(ptr, n)  __atomic_fetch_or(ptr, n, __ATOMIC_SEQ_CST)
->>  #define atomic_fetch_xor(ptr, n) __atomic_fetch_xor(ptr, n, __ATOMIC_SEQ_CST)
->> +#endif
-> Do we really get sequential consistency from <stdatomic.h>?
+"git crashes" was a known issue with some older versions of QEMU (we had
+race conditions and git happens to go multi-threaded for some operations
+including I think 'clone'), but they should all now be fixed. If it does
+happen again I would recommend trying the most recent QEMU release.
 
-Yes, it's the default value (to pass a memory order you need
-atomic_fetch_*_explicit).
+-- =
 
-Paolo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869073
 
-> Should we not in fact #undef as a workaround instead?
+Title:
+  qemu-arm-static crashes "segmentation fault" when running "git clone
+  -s"
 
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I want to use qemu-arm-static to cross-compile software. The compiler
+  itself is a native cross-compiler connected via "distcc".
+
+  The problem is that a script tries to do some stuff with "git" and
+  with a "git clone -s" command the whole story reproducibly stops with
+  a "segmentation fault".
+
+  I don't know how to properly debug the issue but it happens 100% of
+  the time that I get the "crash" or git just hangs forever with 100%
+  CPU usage.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869073/+subscriptions
 
