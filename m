@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6A194879
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:15:00 +0100 (CET)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EECE19486D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:12:25 +0100 (CET)
+Received: from localhost ([::1]:59584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYu3-00042y-H8
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
+	id 1jHYrY-00085G-8K
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLA-00082B-IH
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:57 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYL8-0007wj-T3
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYL9-00026I-C8
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:56 -0400
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:35406)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYL7-00025U-T6
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:54 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:35416)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYL9-000262-7t
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:55 -0400
-Received: by mail-qv1-xf43.google.com with SMTP id q73so3706624qvq.2
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:55 -0700 (PDT)
+ id 1jHYL7-00025L-Ou
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:53 -0400
+Received: by mail-qk1-x743.google.com with SMTP id k13so8208656qki.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g5Ui26IYflB7RMxLLOQyjjArRpQxbNqKCvou8uKMYcU=;
- b=q1Fmcxu053j1KdEh9oYBpX00DIb1chbO7U3ErqqW7nwGZ2E8Cbxo3dTtFeeDuzVSpy
- u0xspx2JKKfJnM6IRUgCm7vl327Zf3jbm5pjyeP+5pZy+HzEwFZ5b5QZVqAvgLhmf4rz
- dS56Wiyzq16RUPXdRFx4CeSGjsbuvWpIrizyhgxAOnIHd454+WkT6FkylCSqEjAxKsbB
- 1U6v7fYgOo95FtPL4gJ58PnpFMFAQaD/QFjS3NBjzSy1UACSs7F9d0LwlBAMS6Y9ptTi
- 7HjzBuOBbh0EBuqjp8gs7MwwFyjTlSt463PpzUEtWPMNy0Mmb6BHVJ0202JuVJYXYbs3
- TdBg==
+ bh=1b+dD7RxLqaUPVVNgXTFGKKstOqQ+qP/ZFHAKJHyCiE=;
+ b=oiOP8Pvs0iAUi0RJ/krm78vg3eL01ZQqQpHl1zVxM/WWr+GURS0LHBv0ClGOlMUZZQ
+ ccl7gaxvD35z8nXnYvevs5ke5j6YloiiWmCl03ffAf6bUAYicK5Rz0fnJiGlM2maJFaX
+ y8eyu2vODfDlS79Cy6hAdTrR1GkOCtQxpetIPADKCnaMEc16+EnNs5TL7gZ5qaMiRCCQ
+ qU1f5/NSx8fmZ7qGhB0PBzZPdoX8mYu/zS+ZPjmdTB8ZN8THWN36C1TR61yN+fcKX7t5
+ Aptf8pr/IPNfjBaqVvApGGPHluhTw9Kcl1sAuXrajdgditABLNoM1eVbRYwi58zVnuTL
+ 01Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g5Ui26IYflB7RMxLLOQyjjArRpQxbNqKCvou8uKMYcU=;
- b=XwydXkgueHJHrHlZgV71AeWXQZEg6ZxvUUT1ZgaylywrN43NbfzLt7t4sqg6jEetc0
- BB/kgJ3Pg8HRBLNDHFPNZI/ORkZ3yIqxUOiXdf8GzcMERaJJXXWB/z/GdPJI556xscLZ
- 5hGADCC2ktGukslM4mxeuhMvKX5gSomF6DCulTHr3ahsDstxTqQ2BO5MqAaVjwzRiF1N
- +eyOs7fAzB7Kcfz9I32CcVGjViQ4Z1j+fwEpJYgWNpPwOxVCrAz9klfVSx/K8Cn+h1y3
- uws6xvfSxmViuPW/iRolyqarXHJ+BEaoMgyYN+gIylpkfIHW9vUYtRy+OFbKCG7gn3cJ
- eMRQ==
-X-Gm-Message-State: ANhLgQ3/XbEdK39uROtumCBvW0svE9QKApm/v8qxjd/Y5Myt0HwJMoTj
- l9bNGgT7XVFyYo5mBRp/DWbrovle1m4pug==
-X-Google-Smtp-Source: ADFU+vvZ3V2ISvPPvcqqWL0MEa5ftj8yFnGYAorwVv35HMNyz9uu44/iqJ2sDVdbC7BekFxY+LKL7Q==
-X-Received: by 2002:ad4:4ba7:: with SMTP id i7mr9833152qvw.39.1585251531366;
- Thu, 26 Mar 2020 12:38:51 -0700 (PDT)
+ bh=1b+dD7RxLqaUPVVNgXTFGKKstOqQ+qP/ZFHAKJHyCiE=;
+ b=tyRju9OOUkC5Vc2CFN+zXvAMGYygZvTawRZlQ+YwwdRwld8zFXIRp2IdZYSzY7Yl06
+ tDxQwKPhCGwKNs4LL1ySVH2BKb6j+nyDUKBorNpRDi5KrUXXxopi42DwM9M+g0vxWCF9
+ gRSYcUUsmwcP2r5eS1tNSDz7oUMUEHfJ3ObrTznoApU2CXov4W72XC3YJt7OPy1wGUVN
+ cI1V7TFIXDdIQhKK2Zvn1LPc1LemX0onM7XIjLU/ConFjnP2qNDPp3peobpB3RBq8Xie
+ Pv/abvZJ/5gA4Lg01IK7WClR7TqjiNHmV2Nlqkj1DvbOz+OE8HeCf3RU1ewQQfKla3bx
+ MXhQ==
+X-Gm-Message-State: ANhLgQ397V9NOiywQ41dKfyn3ro0vY0lPkB4qwc2O5SMS8YHbxP5KZOq
+ 2q3e3/ILFVLpYsQNOsbqINKidgCOAS6+Xg==
+X-Google-Smtp-Source: ADFU+vt9CPpLbEJ55sNcnzQUKP7ktmDteHUwQMUiOQexvQIuAULTZDXpTGLG2tAtEWPaQV30j55owg==
+X-Received: by 2002:a37:b002:: with SMTP id z2mr9884193qke.289.1585251533055; 
+ Thu, 26 Mar 2020 12:38:53 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.50
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:50 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:52 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 56/74] sparc: convert to cpu_interrupt_request
-Date: Thu, 26 Mar 2020 15:31:38 -0400
-Message-Id: <20200326193156.4322-57-robert.foley@linaro.org>
+Subject: [PATCH v8 57/74] openrisc: convert to cpu_interrupt_request
+Date: Thu, 26 Mar 2020 15:31:39 -0400
+Message-Id: <20200326193156.4322-58-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,62 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- peter.puhov@linaro.org, alex.bennee@linaro.org,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ "Emilio G. Cota" <cota@braap.org>, peter.puhov@linaro.org,
+ Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/sparc64/sparc64.c | 4 ++--
- target/sparc/cpu.c   | 2 +-
+ hw/openrisc/cputimer.c | 2 +-
+ target/openrisc/cpu.c  | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/sparc64/sparc64.c b/hw/sparc64/sparc64.c
-index fe9c678459..191ebfbb93 100644
---- a/hw/sparc64/sparc64.c
-+++ b/hw/sparc64/sparc64.c
-@@ -57,7 +57,7 @@ void cpu_check_irqs(CPUSPARCState *env)
-     /* The bit corresponding to psrpil is (1<< psrpil), the next bit
-        is (2 << psrpil). */
-     if (pil < (2 << env->psrpil)) {
--        if (cs->interrupt_request & CPU_INTERRUPT_HARD) {
-+        if (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) {
-             trace_sparc64_cpu_check_irqs_reset_irq(env->interrupt_index);
-             env->interrupt_index = 0;
-             cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-@@ -88,7 +88,7 @@ void cpu_check_irqs(CPUSPARCState *env)
-                 break;
-             }
-         }
--    } else if (cs->interrupt_request & CPU_INTERRUPT_HARD) {
-+    } else if (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) {
-         trace_sparc64_cpu_check_irqs_disabled(pil, env->pil_in, env->softint,
-                                               env->interrupt_index);
-         env->interrupt_index = 0;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 3f05aba9d6..cef25238a5 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -704,7 +704,7 @@ static bool sparc_cpu_has_work(CPUState *cs)
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
+diff --git a/hw/openrisc/cputimer.c b/hw/openrisc/cputimer.c
+index 93268815d8..9475b77d0a 100644
+--- a/hw/openrisc/cputimer.c
++++ b/hw/openrisc/cputimer.c
+@@ -102,7 +102,7 @@ static void openrisc_timer_cb(void *opaque)
+         CPUState *cs = CPU(cpu);
  
--    return (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-+    return (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) &&
-            cpu_interrupts_enabled(env);
+         cpu->env.ttmr |= TTMR_IP;
+-        cs->interrupt_request |= CPU_INTERRUPT_TIMER;
++        cpu_interrupt_request_or(cs, CPU_INTERRUPT_TIMER);
+     }
+ 
+     switch (cpu->env.ttmr & TTMR_M) {
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index 5528c0918f..fd2da39124 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -32,8 +32,8 @@ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+ 
+ static bool openrisc_cpu_has_work(CPUState *cs)
+ {
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD |
+-                                    CPU_INTERRUPT_TIMER);
++    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD |
++                                        CPU_INTERRUPT_TIMER);
  }
  
+ static void openrisc_disas_set_info(CPUState *cpu, disassemble_info *info)
 -- 
 2.17.1
 
