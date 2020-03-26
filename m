@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806C4193FE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:38:03 +0100 (CET)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD9F193FED
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:40:55 +0100 (CET)
+Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHShu-0005nU-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1jHSkg-0002Px-31
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:40:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jHSfa-0002VD-ES
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHSiO-0007pF-Tr
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jHSfZ-0008Ci-BC
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:38 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:58814)
+ (envelope-from <mreitz@redhat.com>) id 1jHSiN-0000dE-8O
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:32 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46859)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jHSfZ-0008CO-6m
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:35:37 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHSiN-0000cz-39
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:38:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585229737;
+ s=mimecast20190719; t=1585229910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KWbqAjjEORmNRjveRi8aSNJU015o76XsqG11DIvUqsY=;
- b=eCjewxikLwYlrRSbiO/ehclg3H5c7N2wCZiysN+Ae3L43OGWZQAiNb+TZ8Fr1Gu2/I5Agt
- x8JNyglXxmuMiMomxkr7R4RV1p2ui/j+8+lUp6nNiyDllSsRNqmZNrJQwmNfs03l4e0KA9
- LWGExbkudNBNGNYA2JFMIxHunrQhcQI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-f1a09t40PXGgROs1I8lExg-1; Thu, 26 Mar 2020 09:35:33 -0400
-X-MC-Unique: f1a09t40PXGgROs1I8lExg-1
-Received: by mail-wm1-f70.google.com with SMTP id m4so2459622wmi.5
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 06:35:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oe5Sj9BOMqMHBwakfMzaHFgjRHOo6TbkLkxQohWf+J0=;
- b=QJvXOwBnoim/R3NEPY2tjrLVndTixy2a8F5wopxun0tleKOAPE2+cFg8ynjjHUKfWZ
- X2+iPBGSvQk9UUM88XGOIrW1M8VHRA0fINx5iq9Ek28yHarxvcXHI+RtME/cGb5tjIer
- H15C/+5YiB8EATTf/Z49qBP7kmKTxFiS/wCL4C5yXYJ2qBjY6nH//1zYig7voK8isvLl
- 5T1XTfUJGz170vrKiX0KlIiyTsSWnNbY+lBD0V/9mFJqlzBqlDEL1iYMsSqEzqqaCu6y
- QxkxKgK2QdiIY8wBmdiwUNPm92uKwyl8RR0Q/g8+uOuc6qK3/hkBY7q1SWVSPGpSQwNO
- DCWA==
-X-Gm-Message-State: ANhLgQ0b4U2k4TGvNQC+P7Shf7A+ODWZVrsoGvikVyb17Y5UN1TwxpWV
- Pg5Z5/F5gQGS6CzR+oABS4HMv4HsVkWu3w1/Hlzqq5xooweIY+WwkrAr5QlWsBQePqT13VRY3q/
- wZ4j8YzuUj/R/ajs=
-X-Received: by 2002:a7b:c050:: with SMTP id u16mr26923wmc.68.1585229731963;
- Thu, 26 Mar 2020 06:35:31 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsPv8aG1cKuA3PGgdPx2bc5XgKCByfANdnDEBVZcj2+K8sqXLcXhcpI/7Rr3+AWO2nVwsySSA==
-X-Received: by 2002:a7b:c050:: with SMTP id u16mr26903wmc.68.1585229731715;
- Thu, 26 Mar 2020 06:35:31 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-62-195.red.bezeqint.net. [109.67.62.195])
- by smtp.gmail.com with ESMTPSA id i1sm3584158wrq.89.2020.03.26.06.35.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 06:35:31 -0700 (PDT)
-Date: Thu, 26 Mar 2020 09:35:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v6 7/7] virtio-net: add migration support for RSS and
- hash report
-Message-ID: <20200326093451-mutt-send-email-mst@kernel.org>
-References: <20200320115751.19446-1-yuri.benditovich@daynix.com>
- <20200320115751.19446-8-yuri.benditovich@daynix.com>
- <CAOEp5OcZXEXx0gXZTUOvEbH8dteu5S9fzCFJiTGVZkJGyGrv0A@mail.gmail.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6XvtRCgBgAUpkCXGe2lYZCv7zyO5Rb+6Zpofh16gD48=;
+ b=LRtOg+5RO/Ho3xBnVDqniL1W28ERrtoHQa7ZWePf+0g1cUmYbRiggE/dvcHf9/qEFIj8wt
+ sS3+v9K7H0t7+R7rhx2z/VBNdESbgdrXpCMHcKnXL2fRp4+YNiGEdGzu6EmImAal1K4Or3
+ H9GntVtGQz3fJXKeBuCYqkyRlgo7sS8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-RSt-RuVkOI2BhNiDoyyD0g-1; Thu, 26 Mar 2020 09:38:28 -0400
+X-MC-Unique: RSt-RuVkOI2BhNiDoyyD0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F199DB60;
+ Thu, 26 Mar 2020 13:38:26 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-132.ams2.redhat.com
+ [10.36.112.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73B2F60BF7;
+ Thu, 26 Mar 2020 13:38:15 +0000 (UTC)
+Subject: Re: [PATCH 0/2] Fix the generic image creation code
+From: Max Reitz <mreitz@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20200326011218.29230-1-mlevitsk@redhat.com>
+ <e5855331-05a9-c828-5bdd-e2d06e0352a9@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <3f1e924d-7f52-87f2-8363-4658fdf833d8@redhat.com>
+Date: Thu, 26 Mar 2020 14:38:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5OcZXEXx0gXZTUOvEbH8dteu5S9fzCFJiTGVZkJGyGrv0A@mail.gmail.com>
+In-Reply-To: <e5855331-05a9-c828-5bdd-e2d06e0352a9@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,107 +97,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ integration@gluster.org, sheepdog@lists.wpkg.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Jason Dillaman <dillaman@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>,
+ "Richard W.M. Jones" <rjones@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code looks OK but patchew testing shows failures. If they are false positiv=
-es
-pls reply to that mail.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx
+Content-Type: multipart/mixed; boundary="aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj"
 
-On Thu, Mar 26, 2020 at 02:34:39PM +0200, Yuri Benditovich wrote:
-> ping
+--aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 26.03.20 13:23, Max Reitz wrote:
+> On 26.03.20 02:12, Maxim Levitsky wrote:
+>> The recent patches from Max Reitz allowed some block drivers to not
+>> provide the .bdrv_co_create_opts and still allow qemu-img to
+>> create/format images as long as the image is already existing
+>> (that is the case with various block storage drivers like nbd/iscsi/nvme=
+, etc)
+>>
+>> However it was found out that some places in the code depend on the
+>> .bdrv_co_create_opts/.create_opts to be !=3D NULL to decide if to allow
+>> image creation.
+>>
+>> To avoid adding failback code to all these places, just make generic fai=
+lback
+>> code be used by the drivers that need it, so that for outside user, ther=
+e
+>> is no diffirence if failback was used or not.
+>>
+>> Best regards,
+>> =09Maxim Levitsky
+>>
+>> Maxim Levitsky (2):
+>>   block: pass BlockDriver reference to the .bdrv_co_create
+>>   block: trickle down the fallback image creation function use to the
+>>     block drivers
 >=20
-> On Fri, Mar 20, 2020 at 1:58 PM Yuri Benditovich <yuri.benditovich@daynix=
-.com>
-> wrote:
+> Thanks, fixed the function parameter alignment, moved the declarations
+> from block.h into block_int.h, and applied the series to my block branch:
+
+(And the spelling fixes suggested by Eric)
+
+> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 >=20
->     Save and restore RSS/hash report configuration.
+> Max
 >=20
->     Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
->     ---
->     =A0hw/net/virtio-net.c | 37 +++++++++++++++++++++++++++++++++++++
->     =A01 file changed, 37 insertions(+)
->=20
->     diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->     index a0614ad4e6..7de7587abd 100644
->     --- a/hw/net/virtio-net.c
->     +++ b/hw/net/virtio-net.c
->     @@ -2842,6 +2842,13 @@ static int virtio_net_post_load_device(void *o=
-paque,
->     int version_id)
->     =A0 =A0 =A0 =A0 =A0}
->     =A0 =A0 =A0}
->=20
->     +=A0 =A0 if (n->rss_data.enabled) {
->     +=A0 =A0 =A0 =A0 trace_virtio_net_rss_enable(n->rss_data.hash_types,
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 n->rss_data.indirections_len,
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 sizeof(n->rss_data.key));
->     +=A0 =A0 } else {
->     +=A0 =A0 =A0 =A0 trace_virtio_net_rss_disable();
->     +=A0 =A0 }
->     =A0 =A0 =A0return 0;
->     =A0}
->=20
->     @@ -3019,6 +3026,32 @@ static const VMStateDescription
->     vmstate_virtio_net_has_vnet =3D {
->     =A0 =A0 =A0},
->     =A0};
->=20
->     +static bool virtio_net_rss_needed(void *opaque)
->     +{
->     +=A0 =A0 return VIRTIO_NET(opaque)->rss_data.enabled;
->     +}
->     +
->     +static const VMStateDescription vmstate_virtio_net_rss =3D {
->     +=A0 =A0 .name=A0 =A0 =A0 =3D "virtio-net-device/rss",
->     +=A0 =A0 .version_id =3D 1,
->     +=A0 =A0 .minimum_version_id =3D 1,
->     +=A0 =A0 .needed =3D virtio_net_rss_needed,
->     +=A0 =A0 .fields =3D (VMStateField[]) {
->     +=A0 =A0 =A0 =A0 VMSTATE_BOOL(rss_data.enabled, VirtIONet),
->     +=A0 =A0 =A0 =A0 VMSTATE_BOOL(rss_data.redirect, VirtIONet),
->     +=A0 =A0 =A0 =A0 VMSTATE_BOOL(rss_data.populate_hash, VirtIONet),
->     +=A0 =A0 =A0 =A0 VMSTATE_UINT32(rss_data.hash_types, VirtIONet),
->     +=A0 =A0 =A0 =A0 VMSTATE_UINT16(rss_data.indirections_len, VirtIONet)=
-,
->     +=A0 =A0 =A0 =A0 VMSTATE_UINT16(rss_data.default_queue, VirtIONet),
->     +=A0 =A0 =A0 =A0 VMSTATE_UINT8_ARRAY(rss_data.key, VirtIONet,
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 VIRTIO_NET_R=
-SS_MAX_KEY_SIZE),
->     +=A0 =A0 =A0 =A0 VMSTATE_VARRAY_UINT16_ALLOC(rss_data.indirections_ta=
-ble,
->     VirtIONet,
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 rss_data.indirections_len, 0,
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 vmstate_info_uint16, uint16_t),
->     +=A0 =A0 =A0 =A0 VMSTATE_END_OF_LIST()
->     +=A0 =A0 },
->     +};
->     +
->     =A0static const VMStateDescription vmstate_virtio_net_device =3D {
->     =A0 =A0 =A0.name =3D "virtio-net-device",
->     =A0 =A0 =A0.version_id =3D VIRTIO_NET_VM_VERSION,
->     @@ -3069,6 +3102,10 @@ static const VMStateDescription
->     vmstate_virtio_net_device =3D {
->     =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0has_ctrl_g=
-uest_offloads),
->     =A0 =A0 =A0 =A0 =A0VMSTATE_END_OF_LIST()
->     =A0 =A0 },
->     +=A0 =A0 .subsections =3D (const VMStateDescription * []) {
->     +=A0 =A0 =A0 =A0 &vmstate_virtio_net_rss,
->     +=A0 =A0 =A0 =A0 NULL
->     +=A0 =A0 }
->     =A0};
->=20
->     =A0static NetClientInfo net_virtio_info =3D {
->     --
->     2.17.1
->=20
->=20
+
+
+
+--aQbpX0eoFeVa3MdtORWcBueJjKE1pSTRj--
+
+--aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl58sEUACgkQ9AfbAGHV
+z0D0kgf/U/hhcSo5l3+bnG27VrLEbLPh3ITIZASp0GfDP2sto6DOkNFvWQpeFuPe
+ynoBQOp9RnALQ9kn1jepGczVCcscQ+UJVql9c6DoxX4GQ2aHENdknWljRhgyIcHB
+fxzxrQqWX/mQ++AOHZyoVi+It/EvMyFDNq0XlYF6VRuusdl2W6e65n84TQ3z0qZ0
+e+mA+hQ9el8dfDTNVtq8ehR9evAZCshIZkQFjCy3cSqztkHKFstAG/uX5wQqVWQM
+03bvoa5hbo/uERsfsciIsE6rargDyRcGpJo7/lOZ4qxV9v5BOyrUtWKaWmjjzZse
+f3KFDpg5GStHBCbO0l7BwvzKi7CSpQ==
+=JKl6
+-----END PGP SIGNATURE-----
+
+--aUtO7wyu74Q5Lgbk8QAkGX9au4vyGG7Yx--
 
 
