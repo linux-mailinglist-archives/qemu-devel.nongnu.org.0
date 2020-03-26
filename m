@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC50C194823
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:02:09 +0100 (CET)
-Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5821948A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:17:51 +0100 (CET)
+Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYhc-0000Nf-S7
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59292)
+	id 1jHYwo-0007ve-Rz
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLE-0008GQ-LI
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:01 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLG-0008Nk-Ov
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLD-00028R-ME
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:00 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:37734)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLF-00029Y-N9
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:02 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45624)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLD-00028F-I0
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:59 -0400
-Received: by mail-qt1-x842.google.com with SMTP id z24so5299625qtu.4
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:59 -0700 (PDT)
+ id 1jHYLF-00029N-IU
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:01 -0400
+Received: by mail-qk1-x742.google.com with SMTP id c145so8140955qke.12
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3+dDYhOsrCzCqoW7z+RZ/sAylJhW5dwNkVTgxwH+p1I=;
- b=sghoYMdz86LO2Hy5B+1LuEwfrk1FPwMEUvptutJ0pBrj6NvvBzHSdNdzbpmPCfh8hu
- F+so31ao33JJHSDk5CDHVxIgNJOnZkZomGuruWcbr5tY4DbcLqQEpQxQ9rDxMumrZC8V
- +yV3MKyM//dJkfwSG5a92TIi5yuoGra2kX6CS6+KgXg3gmmVMo+H8G8srYY7F7vyP4Qi
- YVbJXbRRFnNoYs63HRH8hY2p8n1Po7rDoigPj/sxQYOOT8D/s/9/alDRy6IyUJZfXLP6
- zlejRs3ExCg/1DX0Axm3y0RTsFoKtUHAQwEZ64F0FXb/81IPhv35DfXnV4GTfsawaghp
- Jzgg==
+ bh=gacJZESnVEqf4qDD4ve/Hru1eX3df4yi6C7OwVt2hqI=;
+ b=kBNhzknPUnADBAOos+I/ZAk0539ZD0y9aBnUxRzQUffxPzh1aBireyAk8kPHdMh7Ri
+ yVcUqo21xbeFGC5d+cYmaBTT8jTpuPp582/61fTXXDGzFzulcVAaBlERRbMNNqRAfNMA
+ JtN2B144yFlBo6rHmsDd0ml20GVV1KdzKSHpTCBGSBidZV3uUQM7sdYsB6V+JW1lyYUP
+ qjTofPY0hD8KEKYbU4f9JrxeGV/dcDYfvV+7tmtpq64uKqhvQWLCtFJSeQW9khciCqm9
+ W97sY8GbtbbONZHuPNTzvvbBGzifigWhXBX6ov5lqNB51KxO/i/FKNbBh110oS/7U0ca
+ ozXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3+dDYhOsrCzCqoW7z+RZ/sAylJhW5dwNkVTgxwH+p1I=;
- b=MahSj656nCNPERFbGsOHSSjgs4XswjE0U9id8u2bb24GmZdSJYU46tRggiMwuk+PbS
- U2e3SF3XsthTilTnBpCPed9LCj51RYYFpVuKLEdfzwd+S5T05+XYtXOpJmjGvF/NZDqT
- LPDzmbeu+AlK1hTF1SA53aB/V7pkcq0abnKV5LOZBF33c+3xOuKCEXJUjSZfR68pQ3BH
- fwvxcTcqm3Wau4bo0w+5Bz9UpB7fJN+iKAjVNR+7mTQZIZgiP5c3+VB7hkQjegbZoUtF
- BZfbi4z6P6/AA+6gafNyw74nKHsDkUXn7P+K1++jKJLqUvS87mzf/e6LY6R+C0Yp4JN9
- JqAQ==
-X-Gm-Message-State: ANhLgQ2I+lio7VzKES6/kjQcJ2HaAqFq9hEny2Oreih2ga2d+OpZ1wgS
- WKrbZ1ZhBc/bSlMg7+E4uJqRuM22QABhlQ==
-X-Google-Smtp-Source: ADFU+vtkbuMwTCvdNgfe5+aY/CkHym6TI6zrX1RWWO6+qrf3JLd/eehIrmlx8zOWuaYFsQCzAcwmuw==
-X-Received: by 2002:ac8:369d:: with SMTP id a29mr10653729qtc.338.1585251538730; 
- Thu, 26 Mar 2020 12:38:58 -0700 (PDT)
+ bh=gacJZESnVEqf4qDD4ve/Hru1eX3df4yi6C7OwVt2hqI=;
+ b=k2y91F5bL8C3HckzHNXHAz1bhdcTf/i50c+3aCbXSmngDtUM7/MJXxzlzTVnIQ1yQq
+ uZ5CSzzGQXNBBif81XwzKUNkotlq1LAPLOx+BXeRfUxe5LkoVPCtLQvfyIoahCdjGGj1
+ Fq04phRiQDlAtgRwjYk5dl5xauKLeYQ/J3O6F2hppOiDs6rm0u7xT9e/LLM9JuvvrneB
+ RP3asucs3W82/2brEXuLdxvlfl7Tv2kHRaq0YuPXnjgjLCS7dpwsf+BzRpG4nNtWwOce
+ +lHgX0azSqA46STiGrhDUsgO3sPnPdkmHjCcHhqithXmgx4f3RHiNf5IPxHEXzZbcU90
+ UmYg==
+X-Gm-Message-State: ANhLgQ1CA5+jkjJYKaQw/AiWTWvz+HmIyvv/uzdv386GgdSAKbd/uJ23
+ zrZ/YhabjuNSaDKg1x43QtCsp2NCBWcY/Q==
+X-Google-Smtp-Source: ADFU+vvJdPYuKO/NIsTjMMJoMvLouxPSroVvx43Z5Ev3tnATOKccpexNMB1h4DETKyhO08FXS7da1w==
+X-Received: by 2002:a37:453:: with SMTP id 80mr10007108qke.325.1585251540096; 
+ Thu, 26 Mar 2020 12:39:00 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.57
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:58 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:59 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 61/74] cpu: convert to interrupt_request
-Date: Thu, 26 Mar 2020 15:31:43 -0400
-Message-Id: <20200326193156.4322-62-robert.foley@linaro.org>
+Subject: [PATCH v8 62/74] cpu: call .cpu_has_work with the CPU lock held
+Date: Thu, 26 Mar 2020 15:31:44 -0400
+Message-Id: <20200326193156.4322-63-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::842
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,38 +86,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This finishes the conversion to interrupt_request.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/core/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/core/cpu.h | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 01091d0623..16caa6c589 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -271,7 +271,7 @@ static void cpu_common_reset(DeviceState *dev)
-         log_cpu_state(cpu, cc->reset_dump_flags);
-     }
- 
--    cpu->interrupt_request = 0;
-+    cpu_interrupt_request_set(cpu, 0);
-     cpu_halted_set(cpu, 0);
-     cpu->mem_io_pc = 0;
-     cpu->icount_extra = 0;
-@@ -411,7 +411,7 @@ static vaddr cpu_adjust_watchpoint_address(CPUState *cpu, vaddr addr, int len)
- 
- static void generic_handle_interrupt(CPUState *cpu, int mask)
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 1c3701b142..a01c258320 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -80,7 +80,8 @@ struct TranslationBlock;
+  * instantiatable CPU type.
+  * @parse_features: Callback to parse command line arguments.
+  * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
+- * @has_work: Callback for checking if there is work to do.
++ * @has_work: Callback for checking if there is work to do. Called with the
++ * CPU lock held.
+  * @do_interrupt: Callback for interrupt handling.
+  * @do_unaligned_access: Callback for unaligned access handling, if
+  * the target defines #TARGET_ALIGNED_ONLY.
+@@ -799,9 +800,16 @@ const char *parse_cpu_option(const char *cpu_option);
+ static inline bool cpu_has_work(CPUState *cpu)
  {
--    cpu->interrupt_request |= mask;
-+    cpu_interrupt_request_or(cpu, mask);
+     CPUClass *cc = CPU_GET_CLASS(cpu);
++    bool ret;
  
-     if (!qemu_cpu_is_self(cpu)) {
-         qemu_cpu_kick(cpu);
+     g_assert(cc->has_work);
+-    return cc->has_work(cpu);
++    if (cpu_mutex_locked(cpu)) {
++        return cc->has_work(cpu);
++    }
++    cpu_mutex_lock(cpu);
++    ret = cc->has_work(cpu);
++    cpu_mutex_unlock(cpu);
++    return ret;
+ }
+ 
+ /**
 -- 
 2.17.1
 
