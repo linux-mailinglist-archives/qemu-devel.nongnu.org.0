@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABAE194925
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:29:05 +0100 (CET)
-Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB4E1948C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:26:48 +0100 (CET)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHZ7g-0004s8-72
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36647)
+	id 1jHZ5T-0001hs-Dw
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jHZ4T-0000ay-BL
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHZ4M-0000RJ-Ms
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jHZ4S-0002Wo-2n
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52506)
+ (envelope-from <bounces@canonical.com>) id 1jHZ4L-0002Qg-FK
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52200)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jHZ4R-0002WT-Sf
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:44 -0400
+ id 1jHZ4L-0002QL-9l
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 16:25:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jHZ4R-0007ZO-04
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:25:43 +0000
+ id 1jHZ4K-0007Tt-IG
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:25:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F37962E80C0
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 88DE92E8047
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 20:25:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Mar 2020 20:16:02 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Mar 2020 20:16:26 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user syscall-abi
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dflogeras2 liuke marcin-konarski+u1
- philippe-vaucher pmaydell schneiderit
-X-Launchpad-Bug-Reporter: Kan Li (liuke)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158525376387.10961.14562889417372812541.launchpad@soybean.canonical.com>
-Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
- user-static qemu on 64-bit host
+X-Launchpad-Bug-Commenters: alex-l-williamson dgilbert-h hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <158525378711.18657.12345515496182587542.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ae5f6ffea3b2a77c216cd3ca1294542f0f87650b
+X-Launchpad-Hash: 83ced78154e828d4ad132d878f0d5810c46deb1f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,70 +66,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+Do we need something like a table of excluded IOVA regions in ACPI or somew=
+here; in a similar way we have a region of exluded physical ram areas?
+Or is the range of excluded IOVA's constant on any one architecture so it d=
+oesn't normally need to worry about it?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805913
+https://bugs.launchpad.net/bugs/1869006
 
 Title:
-  readdir() returns NULL (errno=3DEOVERFLOW) for 32-bit user-static qemu
-  on 64-bit host
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  This can be simply reproduced by compiling and running the attached C
-  code (readdir-bug.c) under 32-bit user-static qemu, such as qemu-arm-
-  static:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
 
-  # Setup docker for user-static binfmt
-  docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  # Compile the code and run (readdir for / is fine, so create a new direct=
-ory /test).
-  docker run -v /path/to/qemu-arm-static:/usr/bin/qemu-arm-static -v /path/=
-to/readdir-bug.c:/tmp/readdir-bug.c -it --rm arm32v7/ubuntu:18.10 bash -c '=
-{ apt update && apt install -y gcc; } >&/dev/null && mkdir -p /test && cd /=
-test && gcc /tmp/readdir-bug.c && ./a.out'
-  dir=3D0xff5b4150
-  readdir(dir)=3D(nil)
-  errno=3D75: Value too large for defined data type
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
 
-  Do remember to replace the /path/to/qemu-arm-static and /path/to
-  /readdir-bug.c to the actual paths of the files.
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
 
-  The root cause is in glibc:
-  https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
-linux/getdents.c;h=3D6d09a5be7057e2792be9150d3a2c7b293cf6fc34;hb=3Da5275ba5=
-378c9256d18e582572b4315e8edfcbfb#l87
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
 
-  By C standard, the return type of readdir() is DIR*, in which the
-  inode number and offset are 32-bit integers, therefore, glibc calls
-  getdents64() and check if the inode number and offset fits the 32-bit
-  range, and reports EOVERFLOW if not.
+  =
 
-  The problem here is for 32-bit user-static qemu running on 64-bit
-  host, getdents64 simply passing through the inode number and offset
-  from underlying getdents64 syscall (from 64-bit kernel), which is very
-  likely to not fit into 32-bit range. On real hardware, the 32-bit
-  kernel creates 32-bit inode numbers, therefore works properly.
-
-  The glibc code makes sense to do the check to be conformant with C
-  standard, therefore ideally it should be a fix on qemu side. I admit
-  this is difficult because qemu has to maintain a mapping between
-  underlying 64-bit inode numbers and 32-bit inode numbers, which would
-  severely hurt the performance. I don't expect this could be fix
-  anytime soon (or even there would be a fix), but it would be
-  worthwhile to surface this issue.
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1805913/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
