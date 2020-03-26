@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537DF19419A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:34:24 +0100 (CET)
-Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA5E1941AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 15:38:38 +0100 (CET)
+Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHTaR-0000hn-An
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
+	id 1jHTeX-0006Ke-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 10:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jHTWJ-0003wK-9G
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jHTWO-00049C-TZ
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jHTWI-0002x9-6C
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:07 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:25750)
+ (envelope-from <mreitz@redhat.com>) id 1jHTWN-0002z0-Ln
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36038)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWI-0002wv-2q
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:06 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jHTWN-0002yu-IE
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 10:30:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585233005;
+ s=mimecast20190719; t=1585233011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VWQfoyRMi2UB6tSfDv5ZcVme4G4SuLgZNeD3/Fu/LIY=;
- b=SNkfBsiC6F2dXutdvj9VdDpS7wz0s7JNH4lCjLAUgQZ3SGjt8NP+CwmcJ5BGD55BMi5HfN
- qCTuIFvxx2gpollf1hqfU9G8y/acFnDdeNZ5jz3SS8Wyg6aD0/TvwL5825Ko1Wtg4tSWl0
- V9vNRWMRMZv+Uun038+WvkDcM80a4f0=
+ bh=9bhfMlw8rOh9Mp+4yKemYJaPDGHY5FuU6pdPL1kBABw=;
+ b=KNyZhIm7hA8C08vEHDuUhlr8aKDbzsEixvnPwbHWWq2aJk6lBfNcCfjE5g24Dv3EOJRjqT
+ fKWas5CywcKgGa7U7f3DeHjI42m0GTs7hvxnlvjpbwfLEcD/lcKfcQ/QdiEUMyfslTRDZL
+ Kl/BOHabO+Mb4A8KlAx/xZVXNjCqc/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-hRcMrsSROhmf-hyMxP1Nzg-1; Thu, 26 Mar 2020 10:30:01 -0400
-X-MC-Unique: hRcMrsSROhmf-hyMxP1Nzg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-351-m5GEZ_NvOBa49IU0lifbwA-1; Thu, 26 Mar 2020 10:30:07 -0400
+X-MC-Unique: m5GEZ_NvOBa49IU0lifbwA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E9A710509E1;
- Thu, 26 Mar 2020 14:30:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC738010C1;
+ Thu, 26 Mar 2020 14:30:06 +0000 (UTC)
 Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1F745D9CD;
- Thu, 26 Mar 2020 14:29:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 164B460C18;
+ Thu, 26 Mar 2020 14:30:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/10] sheepdog: Consistently set bdrv_has_zero_init_truncate
-Date: Thu, 26 Mar 2020 15:29:30 +0100
-Message-Id: <20200326142933.625037-8-mreitz@redhat.com>
+Subject: [PULL 08/10] qemu-img: Fix check's leak/corruption fix report
+Date: Thu, 26 Mar 2020 15:29:31 +0100
+Message-Id: <20200326142933.625037-9-mreitz@redhat.com>
 In-Reply-To: <20200326142933.625037-1-mreitz@redhat.com>
 References: <20200326142933.625037-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +75,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+There are two problems with qemu-img check's report on how many leaks
+and/or corruptions have been fixed:
 
-block_int.h claims that .bdrv_has_zero_init must return 0 if
-.bdrv_has_zero_init_truncate does likewise; but this is violated if
-only the former callback is provided if .bdrv_co_truncate also exists.
-When adding the latter callback, it was mistakenly added to only one
-of the three possible sheepdog instantiations.
+(1) ImageCheck.has_leaks_fixed and ImageCheck.has_corruptions_fixed are
+only true when ImageCheck.leaks or ImageCheck.corruptions (respectively)
+are non-zero.  qcow2's check implementation will set the latter to zero
+after it has fixed leaks and corruptions, though, so leaks-fixed and
+corruptions-fixed are actually never reported after successful repairs.
+We should always report them when they are non-zero, just like all the
+other fields of ImageCheck.
 
-Fixes: 1dcaf527
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200324174233.1622067-5-eblake@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+(2) After something has been fixed and we run the check a second time,
+leaks_fixed and corruptions_fixed are taken from the first run; but
+has_leaks_fixed and has_corruptions_fixed are not.  The second run
+actually cannot fix anything, so with (1) fixed, has_leaks_fixed and
+has_corruptions_fixed will always be false here.  (With (1) unfixed,
+they will at least be false on successful runs, because then the number
+of leaks and corruptions found in the second run should be 0.)
+We should save has_leaks_fixed and has_corruptions_fixed just like we
+save leaks_fixed and corruptions_fixed.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200324172757.1173824-2-mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/sheepdog.c | 2 ++
- 1 file changed, 2 insertions(+)
+ qemu-img.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index a8a7e32a41..59f7ebb171 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -3271,6 +3271,7 @@ static BlockDriver bdrv_sheepdog_tcp =3D {
-     .bdrv_co_create               =3D sd_co_create,
-     .bdrv_co_create_opts          =3D sd_co_create_opts,
-     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
-+    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
-     .bdrv_getlength               =3D sd_getlength,
-     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
-     .bdrv_co_truncate             =3D sd_co_truncate,
-@@ -3309,6 +3310,7 @@ static BlockDriver bdrv_sheepdog_unix =3D {
-     .bdrv_co_create               =3D sd_co_create,
-     .bdrv_co_create_opts          =3D sd_co_create_opts,
-     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
-+    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
-     .bdrv_getlength               =3D sd_getlength,
-     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
-     .bdrv_co_truncate             =3D sd_co_truncate,
+diff --git a/qemu-img.c b/qemu-img.c
+index afddf33f08..b167376bd7 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -647,9 +647,9 @@ static int collect_image_check(BlockDriverState *bs,
+     check->leaks                    =3D result.leaks;
+     check->has_leaks                =3D result.leaks !=3D 0;
+     check->corruptions_fixed        =3D result.corruptions_fixed;
+-    check->has_corruptions_fixed    =3D result.corruptions !=3D 0;
++    check->has_corruptions_fixed    =3D result.corruptions_fixed !=3D 0;
+     check->leaks_fixed              =3D result.leaks_fixed;
+-    check->has_leaks_fixed          =3D result.leaks !=3D 0;
++    check->has_leaks_fixed          =3D result.leaks_fixed !=3D 0;
+     check->image_end_offset         =3D result.image_end_offset;
+     check->has_image_end_offset     =3D result.image_end_offset !=3D 0;
+     check->total_clusters           =3D result.bfi.total_clusters;
+@@ -803,9 +803,12 @@ static int img_check(int argc, char **argv)
+=20
+     if (check->corruptions_fixed || check->leaks_fixed) {
+         int corruptions_fixed, leaks_fixed;
++        bool has_leaks_fixed, has_corruptions_fixed;
+=20
+         leaks_fixed         =3D check->leaks_fixed;
++        has_leaks_fixed     =3D check->has_leaks_fixed;
+         corruptions_fixed   =3D check->corruptions_fixed;
++        has_corruptions_fixed =3D check->has_corruptions_fixed;
+=20
+         if (output_format =3D=3D OFORMAT_HUMAN) {
+             qprintf(quiet,
+@@ -822,7 +825,9 @@ static int img_check(int argc, char **argv)
+         ret =3D collect_image_check(bs, check, filename, fmt, 0);
+=20
+         check->leaks_fixed          =3D leaks_fixed;
++        check->has_leaks_fixed      =3D has_leaks_fixed;
+         check->corruptions_fixed    =3D corruptions_fixed;
++        check->has_corruptions_fixed =3D has_corruptions_fixed;
+     }
+=20
+     if (!ret) {
 --=20
 2.25.1
 
