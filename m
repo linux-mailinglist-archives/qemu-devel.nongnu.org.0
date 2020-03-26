@@ -2,36 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDA31937F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:40:32 +0100 (CET)
-Received: from localhost ([::1]:46756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B722193808
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 06:43:40 +0100 (CET)
+Received: from localhost ([::1]:46800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHLFi-0002vg-SI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46045)
+	id 1jHLIp-0006rS-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 01:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jHLEi-0002Wy-4O
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:39:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1jHLFb-0003A3-Ra
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:40:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jHLEf-0000SN-ME
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:39:23 -0400
-Received: from [192.146.154.243] (port=39587 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1jHLEf-0000Rf-Eq
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:39:21 -0400
-Received: from localhost.localdomain.com (unknown [10.40.48.82])
- by mcp01.nutanix.com (Postfix) with ESMTP id C25EF100941C;
- Thu, 26 Mar 2020 05:39:18 +0000 (UTC)
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com
-Subject: [PATCH] Refactor vhost_user_set_mem_table functions
-Date: Wed, 25 Mar 2020 06:35:06 -0400
-Message-Id: <1585132506-13316-1-git-send-email-raphael.norwitz@nutanix.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 192.146.154.243
+ (envelope-from <dgibson@ozlabs.org>) id 1jHLFa-0000py-ON
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 01:40:19 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52557)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1jHLFa-0000nQ-4N; Thu, 26 Mar 2020 01:40:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48nv2k4bs1z9sSJ; Thu, 26 Mar 2020 16:40:14 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1585201214;
+ bh=tFoVHKh7HsU8J89ErZFtizlb0QU9hcBN+dBv0Alr6Wo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pSyn+2zxuducNj6PIKeplUAeY72gP1706at90IJ1k+5wDbGT7gvELYE1CcVbFHrvx
+ LSd+UayRooU1NRpeOtsRqy3wMjl9WqleLhXBbC0hRu2jqk6fOye8cQ0cKI/3043O01
+ 2lxT9OLIjmG4v3TBSgZZBGdRJ74tSSsJrw7D9qiY=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: aik@ozlabs.ru,
+	groug@kaod.org
+Subject: [RFC for-5.1 0/4] Better handling of attempt NVLink2 unplug
+Date: Thu, 26 Mar 2020 16:40:05 +1100
+Message-Id: <20200326054009.454477-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,226 +52,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Turschmid <peter.turschm@nutanix.com>, raphael.s.norwitz@gmail.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ clg@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost_user_set_mem_table() and vhost_user_set_mem_table_postcopy() have
-gotten convoluted, and have some identical code.
+Currently, attempting to unplug an NVLink2 device will generally
+result in the guest crashing.  If you're lucky, it instead simply
+won't work and remain in a "pending unplug" state indefinitely.
 
-This change moves the logic populating the VhostUserMemory struct and
-fds array from vhost_user_set_mem_table() and
-vhost_user_set_mem_table_postcopy() to a new function,
-vhost_user_fill_set_mem_table_msg().
+There is code we could we could theoretically improve in qemu to tear
+these devices down better.  However since NVLink2 devices aren't hot
+pluggable in hardware, the guest side drivers usually don't cope with
+that anyway.
 
-No functionality is impacted.
+So, patch 4/4 blocks attempts to unplug NVLink2 devices.  The others
+are some preliminary cleanups to get us towards there.
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
----
- hw/virtio/vhost-user.c | 143 +++++++++++++++++++++++--------------------------
- 1 file changed, 67 insertions(+), 76 deletions(-)
+David Gibson (4):
+  spapr: Refactor locating NVLink2 devices for device tree creation
+  spapr: Helper to determine if a device is NVLink2 related
+  spapr: Fix failure path for attempting to hot unplug PCI bridges
+  spapr: Don't allow unplug of NVLink2 devices
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 08e7e63..ec21e8f 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -407,18 +407,79 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
-     return 0;
- }
- 
-+static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
-+                                             struct vhost_dev *dev,
-+                                             VhostUserMsg *msg,
-+                                             int *fds, size_t *fd_num,
-+                                             bool track_ramblocks)
-+{
-+    int i, fd;
-+    ram_addr_t offset;
-+    MemoryRegion *mr;
-+    struct vhost_memory_region *reg;
-+
-+    msg->hdr.request = VHOST_USER_SET_MEM_TABLE;
-+
-+    for (i = 0; i < dev->mem->nregions; ++i) {
-+        reg = dev->mem->regions + i;
-+
-+        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
-+        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
-+                                     &offset);
-+        fd = memory_region_get_fd(mr);
-+        if (fd > 0) {
-+            if (track_ramblocks) {
-+                assert(*fd_num < VHOST_MEMORY_MAX_NREGIONS);
-+                trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
-+                                                      reg->memory_size,
-+                                                      reg->guest_phys_addr,
-+                                                      reg->userspace_addr,
-+                                                      offset);
-+                u->region_rb_offset[i] = offset;
-+                u->region_rb[i] = mr->ram_block;
-+            } else if (*fd_num == VHOST_MEMORY_MAX_NREGIONS) {
-+                error_report("Failed preparing vhost-user memory table msg");
-+                return -1;
-+            }
-+            msg->payload.memory.regions[*fd_num].userspace_addr =
-+                reg->userspace_addr;
-+            msg->payload.memory.regions[*fd_num].memory_size =
-+                reg->memory_size;
-+            msg->payload.memory.regions[*fd_num].guest_phys_addr =
-+                reg->guest_phys_addr;
-+            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
-+            fds[(*fd_num)++] = fd;
-+        } else if (track_ramblocks) {
-+            u->region_rb_offset[i] = 0;
-+            u->region_rb[i] = NULL;
-+        }
-+    }
-+
-+    msg->payload.memory.nregions = *fd_num;
-+
-+    if (!*fd_num) {
-+        error_report("Failed initializing vhost-user memory map, "
-+                     "consider using -object memory-backend-file share=on");
-+        return -1;
-+    }
-+
-+    msg->hdr.size = sizeof(msg->payload.memory.nregions);
-+    msg->hdr.size += sizeof(msg->payload.memory.padding);
-+    msg->hdr.size += *fd_num * sizeof(VhostUserMemoryRegion);
-+
-+    return 1;
-+}
-+
- static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
-                                              struct vhost_memory *mem)
- {
-     struct vhost_user *u = dev->opaque;
-     int fds[VHOST_MEMORY_MAX_NREGIONS];
--    int i, fd;
-     size_t fd_num = 0;
-     VhostUserMsg msg_reply;
-     int region_i, msg_i;
- 
-     VhostUserMsg msg = {
--        .hdr.request = VHOST_USER_SET_MEM_TABLE,
-         .hdr.flags = VHOST_USER_VERSION,
-     };
- 
-@@ -433,48 +494,11 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
-         u->region_rb_len = dev->mem->nregions;
-     }
- 
--    for (i = 0; i < dev->mem->nregions; ++i) {
--        struct vhost_memory_region *reg = dev->mem->regions + i;
--        ram_addr_t offset;
--        MemoryRegion *mr;
--
--        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
--        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
--                                     &offset);
--        fd = memory_region_get_fd(mr);
--        if (fd > 0) {
--            assert(fd_num < VHOST_MEMORY_MAX_NREGIONS);
--            trace_vhost_user_set_mem_table_withfd(fd_num, mr->name,
--                                                  reg->memory_size,
--                                                  reg->guest_phys_addr,
--                                                  reg->userspace_addr, offset);
--            u->region_rb_offset[i] = offset;
--            u->region_rb[i] = mr->ram_block;
--            msg.payload.memory.regions[fd_num].userspace_addr =
--                reg->userspace_addr;
--            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
--            msg.payload.memory.regions[fd_num].guest_phys_addr =
--                reg->guest_phys_addr;
--            msg.payload.memory.regions[fd_num].mmap_offset = offset;
--            fds[fd_num++] = fd;
--        } else {
--            u->region_rb_offset[i] = 0;
--            u->region_rb[i] = NULL;
--        }
--    }
--
--    msg.payload.memory.nregions = fd_num;
--
--    if (!fd_num) {
--        error_report("Failed initializing vhost-user memory map, "
--                     "consider using -object memory-backend-file share=on");
-+    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+                                          true) < 0) {
-         return -1;
-     }
- 
--    msg.hdr.size = sizeof(msg.payload.memory.nregions);
--    msg.hdr.size += sizeof(msg.payload.memory.padding);
--    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
--
-     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
-         return -1;
-     }
-@@ -545,7 +569,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
- {
-     struct vhost_user *u = dev->opaque;
-     int fds[VHOST_MEMORY_MAX_NREGIONS];
--    int i, fd;
-     size_t fd_num = 0;
-     bool do_postcopy = u->postcopy_listen && u->postcopy_fd.handler;
-     bool reply_supported = virtio_has_feature(dev->protocol_features,
-@@ -559,7 +582,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
-     }
- 
-     VhostUserMsg msg = {
--        .hdr.request = VHOST_USER_SET_MEM_TABLE,
-         .hdr.flags = VHOST_USER_VERSION,
-     };
- 
-@@ -567,42 +589,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
-         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-     }
- 
--    for (i = 0; i < dev->mem->nregions; ++i) {
--        struct vhost_memory_region *reg = dev->mem->regions + i;
--        ram_addr_t offset;
--        MemoryRegion *mr;
--
--        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
--        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
--                                     &offset);
--        fd = memory_region_get_fd(mr);
--        if (fd > 0) {
--            if (fd_num == VHOST_MEMORY_MAX_NREGIONS) {
--                error_report("Failed preparing vhost-user memory table msg");
--                return -1;
--            }
--            msg.payload.memory.regions[fd_num].userspace_addr =
--                reg->userspace_addr;
--            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
--            msg.payload.memory.regions[fd_num].guest_phys_addr =
--                reg->guest_phys_addr;
--            msg.payload.memory.regions[fd_num].mmap_offset = offset;
--            fds[fd_num++] = fd;
--        }
--    }
--
--    msg.payload.memory.nregions = fd_num;
--
--    if (!fd_num) {
--        error_report("Failed initializing vhost-user memory map, "
--                     "consider using -object memory-backend-file share=on");
-+    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+                                          false) < 0) {
-         return -1;
-     }
- 
--    msg.hdr.size = sizeof(msg.payload.memory.nregions);
--    msg.hdr.size += sizeof(msg.payload.memory.padding);
--    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
--
-     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
-         return -1;
-     }
--- 
-1.8.3.1
+ hw/ppc/spapr_pci.c          |   6 ++
+ hw/ppc/spapr_pci_nvlink2.c  | 120 +++++++++++++++++++++++++-----------
+ include/hw/pci-host/spapr.h |   1 +
+ 3 files changed, 91 insertions(+), 36 deletions(-)
+
+--=20
+2.25.1
 
 
