@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606B71947BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:44:36 +0100 (CET)
-Received: from localhost ([::1]:58770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1391947DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:50:58 +0100 (CET)
+Received: from localhost ([::1]:58935 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYQd-0001Ej-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58697)
+	id 1jHYWn-0003AF-QU
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKN-0006wH-II
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:08 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKL-0001bT-EH
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKM-0006uQ-MW
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:07 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:39017)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKL-0001bb-Gj
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:06 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:46266)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYKL-0001as-A8
+ id 1jHYKL-0001bL-Cu
  for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:05 -0400
-Received: by mail-qk1-x743.google.com with SMTP id b62so8193688qkf.6
+Received: by mail-qk1-x743.google.com with SMTP id u4so8131113qkj.13
  for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KjBP9WZwlnczZ3SxEnPdyurMaB67UgSlf8Umf0tpZgo=;
- b=uFqvlcxooVEiTGNEsNcsRcXt5/VC1HstqJIHUqxEgyppf7yIbMNyrJInVP1QctuzPw
- 63uX8s/uSWBSLH/So4Oed3318c0pAXxUPD7ebHDl/yXpnJJS41qaN8cjGkO1FOJzIKNW
- DPc9nXYY0iKKsyodj0FXRqrJ4PBx5DgVndwaxo1dlAe5NXFueUx1mjPH1L0OCUq66obg
- 6E12viiSt/Uy1LXbd4NGpV0GtIXie9UP9YhIgV2vTEvEo4CaLwUNeXg5nCz+vNBoz/Sp
- 9ehmsmSMvWRtC0kXAPNimTkPckoqnd/wdpRKQN3SizerFXKX0XEofCtoC9QSC8qku6sB
- 2Xbg==
+ bh=4qeIcEWpz8LKLMc/KvwaeZt/B8JbWVxadE/kdF7i8Q0=;
+ b=UTHcj9MBsYf+7QJwkvCxEr+sJmI3dRAByba5AEmoCeBB8ywc4Rh9Z+UxzC17HO3NvU
+ p6QeKPbba1ry2xUy/JXcQYGmPH25xLnBgs7cK3OGfLbhKqQVeKcL/UaxlGrn9Au1Dd7I
+ Tr3GFvkXP0X2/hos4poYuS8cGBfm4bajJ4CkrxmEYwPyWQT15M+WuX8PoOoJ/8rvf1La
+ bqZESQZUXKCHynOlC4ZxGa5p6sWD9g6hGKapjx7W4foDBYnTgSexIjoqAFHcmQ3CkscI
+ IfNkPOnozCi0fG1PFau/CgEvTjpAxYcVlu/ElEWq3EVIX78CHN35ihDsAV/zyhvDMGIK
+ Mg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KjBP9WZwlnczZ3SxEnPdyurMaB67UgSlf8Umf0tpZgo=;
- b=WypUmJu4ic0eqUMAUSwl5lFPXGTSqx6fv+kXKDPPfZqYws9WIcK2phVCrNeSmHI8G+
- hbVKlXul1DYqvxHRb82sg3tEo40WVbkaEHLzOCxLz5VdrA9Yo+MyuPfsZ/tQd2RrJDo0
- l1xjGnlk6sP+FpFjvj5lQDxlvcVXEEG2ue+WZj+BbAmFZSLAzyK2BcyoQABfwdX4s4pJ
- gqzlr3wnB7DDxSHUU0a7LwjKbjAesEVqZlPNweJq/sWuPBmVyK3M4ve+nW3PMagXySt0
- AxDq2lHIAsVwZiOGU/+snzjiTpPb1/os0UZc9ffnFe2yaIrlGmZFGDcoT3oRvj1jSIXh
- xukw==
-X-Gm-Message-State: ANhLgQ0N1b9bBKAin2iI85Qu0rZvfQfz7l8ef2Nfr9XPLgNBWhYWwtBW
- Jj6WCqV/3NFCu16+9Fjh4Hexf+f5KUncKw==
-X-Google-Smtp-Source: ADFU+vtANT6goS5StLO/8gP1oOVpiOtjSlcNja9efNYcLEFWAWFP81dXHSl8Im2ka9iyqbHnDFB8dA==
-X-Received: by 2002:a37:a505:: with SMTP id o5mr10355628qke.30.1585251483153; 
- Thu, 26 Mar 2020 12:38:03 -0700 (PDT)
+ bh=4qeIcEWpz8LKLMc/KvwaeZt/B8JbWVxadE/kdF7i8Q0=;
+ b=oLfH+r22qV59ew5k1eviVsXeS3bFm+BykHn1/NRnNPhZvV9OqlTxwrR/F5jV/gZGm8
+ Mz0r9kOrHMWdoo+AqI5aSBLLnL95XXaBFWHAElYGwKpIcUo2TBk6Q6gMnIWqF9gPXeJW
+ BO3xdxcp7HCQamWGVkH0xACL1kaD+bS4YiTUIPsnv1ULSHB3nzKzAyCOInsLNlX60EaV
+ Mz3HDucIDRfiQb14fq+gO7Lhp6PpQlfFrwj288UNlRu3Aa0MxMX0qUKFGgH0/cTqmIoJ
+ skam2BUojmfsS/0WVf4qdT6UtZ9U/sPqHzcIz+YCMFS291NDtnMxhvPQ94K9IV7VPWoE
+ q0rg==
+X-Gm-Message-State: ANhLgQ2MhczQbmU4/45pWHwACQAzgEJtzVQM7KKgxTa+lru4WYAAt9v8
+ 2w7MPD1b0genkc2XtzV/heXK9wqznvDQWw==
+X-Google-Smtp-Source: ADFU+vssGlGcQrtAXwfOBKC6vxNMvU2j0nhq0CMOtVOsZgk2+zsZoIV+aRpFCqs7Yltk7bP3r2OHrw==
+X-Received: by 2002:a37:9dc9:: with SMTP id g192mr10247137qke.50.1585251484598; 
+ Thu, 26 Mar 2020 12:38:04 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.00
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:01 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:04 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 22/74] lm32: convert to cpu_halted
-Date: Thu, 26 Mar 2020 15:31:04 -0400
-Message-Id: <20200326193156.4322-23-robert.foley@linaro.org>
+Subject: [PATCH v8 23/74] m68k: convert to cpu_halted
+Date: Thu, 26 Mar 2020 15:31:05 -0400
+Message-Id: <20200326193156.4322-24-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -80,44 +80,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
- Michael Walle <michael@walle.cc>, "Emilio G. Cota" <cota@braap.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Emilio G. Cota" <cota@braap.org>,
  peter.puhov@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Michael Walle <michael@walle.cc>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/lm32/op_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/m68k/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/lm32/op_helper.c b/target/lm32/op_helper.c
-index e39fcd5647..8e0bd57b9d 100644
---- a/target/lm32/op_helper.c
-+++ b/target/lm32/op_helper.c
-@@ -32,7 +32,7 @@ void HELPER(hlt)(CPULM32State *env)
- {
-     CPUState *cs = env_cpu(env);
- 
--    cs->halted = 1;
-+    cpu_halted_set(cs, 1);
-     cs->exception_index = EXCP_HLT;
-     cpu_loop_exit(cs);
- }
-@@ -45,7 +45,7 @@ void HELPER(ill)(CPULM32State *env)
-             "Connect a debugger or switch to the monitor console "
-             "to find out more.\n");
-     vm_stop(RUN_STATE_PAUSED);
--    cs->halted = 1;
-+    cpu_halted_set(cs, 1);
-     raise_exception(env, EXCP_HALTED);
- #endif
- }
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 202498deb5..4a032a150e 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -222,7 +222,7 @@ static void cf_interrupt_all(CPUM68KState *env, int is_hw)
+                 do_m68k_semihosting(env, env->dregs[0]);
+                 return;
+             }
+-            cs->halted = 1;
++            cpu_halted_set(cs, 1);
+             cs->exception_index = EXCP_HLT;
+             cpu_loop_exit(cs);
+             return;
 -- 
 2.17.1
 
