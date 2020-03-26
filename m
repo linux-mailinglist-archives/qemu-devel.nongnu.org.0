@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A592194D85
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:51:27 +0100 (CET)
-Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2B2194D9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:57:30 +0100 (CET)
+Received: from localhost ([::1]:35352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHcHW-0006TL-2L
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37912)
+	id 1jHcNN-0001Q0-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHcGK-0005yb-Ts
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:50:14 -0400
+ (envelope-from <like.xu@linux.intel.com>) id 1jHcMD-0000nh-Ot
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:56:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHcGJ-0001cN-Hu
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:50:12 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43779)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHcGF-0001Za-3s
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:50:07 -0400
-Received: by mail-pf1-x443.google.com with SMTP id f206so3587593pfa.10
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 16:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JR62llYmlK3lOfZ0Ts1kjw4vIb48/JN+vpFQXWyBwc4=;
- b=vZP17B1x+rLK1Z2jOfRcwO+v+8ETY9C/vG7A/nkKcXS4duAD8lNS5Rfq86pgw6fGHA
- t0UEPvwHhk9R4HPazP8YeOkMz/+whPT6z6RsFl04uQkfKudhU09AF//2IOqmoVvahPd4
- a5IM7ZyUpYQHHg7AKu5SCR6xxNPg0riPnTACMu5eUV55KXMc8MRab6d9mkWds/kbKHY/
- JM2JiV752wf5FQYJY8LzLIztFs33npiWlLWXmqt38KaLVVwyZrso4ZK4+VBFzPEhPfXC
- krjdLfG3OfRgTPQsDi+y0wtK5z9uL4qvLeNo1PRYhRBmR4nmWGpa2jopwx6TqA/68XQ1
- gSeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JR62llYmlK3lOfZ0Ts1kjw4vIb48/JN+vpFQXWyBwc4=;
- b=hWxZOqNKw1dJPUtLdNi4Ny7JeTUZVAPy9cYv6QeANFRuDGyxZbFduDqdMCh7XEB9CD
- sZmSeC4pS3V2pT/v0kkNT8734KmK10Qr3KIxuN0KFEPs073DJLgE+xouCWqeNCTXpQOu
- Q/ZCDz8Q9cUozdwaCfxVYvbdm42gebfl8eazFD2j/5WCRhZIsHPxuYPmFtNsBpZg4Rb4
- av1CJcxR6wJP32JbCPqnB6Efej2+/cQvjgrWODgpbSpgD3GC61HPlxY2FYmpaK8RZgfe
- V5nuOncJm7LUDqeucqRsbS7xLDezdfN1klQd4JICVGgzyoqan6ic/NH2dlAyc0jtRzwU
- 9Gzg==
-X-Gm-Message-State: ANhLgQ37RBKIRB/ao9PnAIuTCGyhYD1NOonTz4BQxf0P2PUx2DHu8xLG
- Sp3UjVJ09o6mplWgPvEf9bjD2Q==
-X-Google-Smtp-Source: ADFU+vu+ZxIy+Gwm0W/tSEaG9pDPF/svz9HVR4lPNw30YQJtIO4WaxxZ5KZ8ABw2xjfjLh0slUbU9Q==
-X-Received: by 2002:a63:e511:: with SMTP id r17mr11053956pgh.352.1585266605811; 
- Thu, 26 Mar 2020 16:50:05 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id f3sm2422547pgg.46.2020.03.26.16.50.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Mar 2020 16:50:05 -0700 (PDT)
-Subject: Re: [PATCH for 5.0 v1 1/2] riscv: Don't use stage-2 PTE lookup
- protection flags
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1585262586.git.alistair.francis@wdc.com>
- <931db85d6890ed4bc2b527fd1011197cd28299aa.1585262586.git.alistair.francis@wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a7f32084-2060-1de5-8308-987bcddf1e6d@linaro.org>
-Date: Thu, 26 Mar 2020 16:50:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <like.xu@linux.intel.com>) id 1jHcMC-0007rQ-GB
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:56:17 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45021)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+ id 1jHcMC-0007ke-3j; Thu, 26 Mar 2020 19:56:16 -0400
+IronPort-SDR: 5zmWDaCiLXj5ORlAMG+5wgJqutdlPLvFEioVsD29e5aaQGgfBFFto/Nzi+FtqI5Pc/GkRSNahI
+ kg3RT47z55/w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2020 16:56:12 -0700
+IronPort-SDR: b3OJQl9lomahSV8T19IP0DhJSpAuyxYmtELbu7egZ1+0GxoglT90wo8W7IgdZQ8ledhpt/wZAX
+ c5a5HIdur9QA==
+X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="420904573"
+Received: from minggao1-mobl2.ccr.corp.intel.com (HELO [10.249.170.198])
+ ([10.249.170.198])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2020 16:56:10 -0700
+Subject: Re: [PATCH] i386/cpu: Expand MAX_FIXED_COUNTERS from 3 to 4 to for
+ Icelake
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20200317055413.66404-1-like.xu@linux.intel.com>
+ <b536e5e3-d102-ff82-4ebc-01114b9a1b7f@redhat.com>
+From: Like Xu <like.xu@linux.intel.com>
+Organization: Intel OTC
+Message-ID: <f72c8886-89e4-10a6-b90f-a7aeea1ed7ec@linux.intel.com>
+Date: Fri, 27 Mar 2020 07:56:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <931db85d6890ed4bc2b527fd1011197cd28299aa.1585262586.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <b536e5e3-d102-ff82-4ebc-01114b9a1b7f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,62 +63,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@dabbelt.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/20 3:44 PM, Alistair Francis wrote:
-> When doing the fist of a two stage lookup (Hypervisor extensions) don't
-> set the current protection flags from the second stage lookup of the
-> base address PTE.
+On 2020/3/27 2:48, Paolo Bonzini wrote:
+> On 17/03/20 06:54, Like Xu wrote:
+>> In the Intel SDM, "Table 18-2. Association of Fixed-Function
+>> Performance Counters with Architectural Performance Events",
+>> we may have a new fixed counter 'TOPDOWN.SLOTS' (since Icelake),
+>> which counts the number of available slots for an unhalted
+>> logical processor. Check commit 6017608936 in the kernel tree.
+>>
+>> Signed-off-by: Like Xu <like.xu@linux.intel.com>
+>> ---
+>>   target/i386/cpu.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>> index 576f309bbf..ec2b67d425 100644
+>> --- a/target/i386/cpu.h
+>> +++ b/target/i386/cpu.h
+>> @@ -1185,7 +1185,7 @@ typedef struct {
+>>   #define CPU_NB_REGS CPU_NB_REGS32
+>>   #endif
+>>   
+>> -#define MAX_FIXED_COUNTERS 3
+>> +#define MAX_FIXED_COUNTERS 4
+>>   #define MAX_GP_COUNTERS    (MSR_IA32_PERF_STATUS - MSR_P6_EVNTSEL0)
+>>   
+>>   #define TARGET_INSN_START_EXTRA_WORDS 1
+>>
 > 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu_helper.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Hi Like, the problem with this patch is that it breaks live migration;
+> the vmstate_msr_architectural_pmu record hardcodes MAX_FIXED_COUNTERS as
+> the number of registers.
 > 
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index d3ba9efb02..f36d184b7b 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -452,10 +452,11 @@ restart:
->          hwaddr pte_addr;
->  
->          if (two_stage && first_stage) {
-> +            int vbase_prot;
->              hwaddr vbase;
->  
->              /* Do the second stage translation on the base PTE address. */
-> -            get_physical_address(env, &vbase, prot, base, access_type,
-> +            get_physical_address(env, &vbase, &vbase_prot, base, access_type,
->                                   mmu_idx, false, true);
->  
->              pte_addr = vbase + idx * ptesize;
+> So it's more complicated, you need to add a new subsection (following
+> vmstate_msr_architectural_pmu) and transmit it only if the 4th counter
+> is nonzero (instead of the more complicated check in pmu_enable_needed).
+>   Just to be safe, I'd make the new subsection hold 16 counters and bump
+> MAX_FIXED_COUNTERS to 16.
+
+The new MAX_FIXED_COUNTERS looks good to me and
+and let me follow up this live migration issue.
+
+Thanks,
+Like Xu
+
+> 
+> Thanks,
+> 
+> Paolo
+> 
 > 
 
-Certainly stage2 pte lookup has nothing to do with the original lookup, so
-using a new variable for prot is correct.
-
-So as far as this minimal patch,
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-However, this bit of code doesn't look right:
-
-(1) Similarly, what has the original access_type got to do with the PTE lookup?
- Seems like this should be MMU_DATA_LOAD always.
-
-(2) Why is the get_physical_address return value ignored?  On failure, surely
-this should be some sort of PTE lookup failure.
-
-(3) Do we need to validate vbase_prot for write before updating the PTE for
-Access or Dirty?  That seems like a loop-hole to allow silent modification of
-hypervisor read-only memory.
-
-I do wonder if it might be easier to manage all of this by using additional
-TLBs to handle the stage2 and physical address spaces.  That's probably too
-invasive for this stage of development though.
-
-
-r~
 
