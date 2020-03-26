@@ -2,45 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824B1194B90
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 23:33:16 +0100 (CET)
-Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7B3194BD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 23:55:05 +0100 (CET)
+Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHb3r-0008H0-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 18:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56808)
+	id 1jHbOy-00045b-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 18:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHb27-0007Qz-7v
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:31:28 -0400
+ (envelope-from <prvs=3472fa30f=alistair.francis@wdc.com>)
+ id 1jHbLk-00018D-J8
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:51:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHb24-0008EO-6A
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:31:26 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43865)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <7c4e49a783c7b2f77aa81794892cf08b4feba914@lizzy.crudebyte.com>)
- id 1jHb23-0007ZW-Cq
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:31:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=L/QR5W5mCD3gzycwHZOJ92NxoawC1fkiwvh5xdRxRBo=; b=gV00B
- IK9Iskkc9Z2kLJsEvTeqFW1vIeCnYHVGxfhvouh3mmtRzI3s/9pmz90Fuk4O48YylYvfB4CTUr7dw
- Hp+0T8D4MnlW2H4/nDBGOr3JTYsm0e1M6mGbloc/UkHrxYAC4odw467Yecher0uXBt/GT6QHUPdj0
- QazoULBf7726mgLaOAjMz4RNFJn8nuFC1k7wbfUJnqd5vfTyQazSnbxtp7wVpwaxEowJrD7lXRRYd
- /QVkJfX/vtdGns2Yn1CF3So1zD1BjLM50ZV+ROlMdiQYtEguivPHJm6usuVZYtV+NoXv1XYGqjoAp
- mybqb/GhRVtN5kHUbIWX+31V/Eg+Q==;
-Message-Id: <cover.1585258105.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 26 Mar 2020 22:28:25 +0100
-Subject: [PATCH v5 0/6] 9pfs: readdir optimization
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
+ (envelope-from <prvs=3472fa30f=alistair.francis@wdc.com>)
+ id 1jHbLj-0001H8-I0
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 18:51:44 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:23225)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=3472fa30f=alistair.francis@wdc.com>)
+ id 1jHbLi-0001DZ-SR; Thu, 26 Mar 2020 18:51:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1585263117; x=1616799117;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cx0sbsH5WZU0XL1xvk5K9rUby/RenU9Pf5m/Dm09K3o=;
+ b=KSy5IDwbCVrJv1vvhpr5iTv4I0CSO5sa8Mas9YB+M5+cSiUnF2Es2Yc7
+ lT5C9W6gYSe2/yZ6kGWqiaQh1mgkhSMQKp/jZwVXs/o1LVIoiBTw3veTv
+ uWVP5XSyuMsUo90F9ku/N5LGkDaP53ruriZj4U+IfHy7vASOwcXDUC+pD
+ tG8eEsYI79c4mc8DTRVJnDmNloy69tqC6f3tZUjzEPRWQXHnmMDYpo3vD
+ 8pslTm/sgqkavsFTi7boBB0SxJj3V3a+NPiQH5PeGzbuj+Cm/ooMVZNby
+ DakvfhfBTcwg0oiKHZxw+8c+TkTSnKiFieQt94CjQUGvY/YBgHdW+5fWT w==;
+IronPort-SDR: 3f63lRvU3jVA0fKqBKjlrwtHHcO+gGLbgVBAI/460Chin1wlUZ156O+dxYssdLrZuDKQQ2LX3o
+ xxzwqhRDlhvlFXRe8JNF6RVscd/Lzd88dP/AyLWEXk6LBFg0UWYDEFUr+cGH1YkCCn/N1BPaIJ
+ +qzPTOycDPXxgt8N3N+NNUtSE63MzBs451bvVadMDRDx9TEiFz5zfN2fK7Pba+PD8J4Pj6F2Dd
+ v3XDW629drCOTEPXxWrEDMOyIIj2wEg1TJW07Jdd8J84ck+eNMGS61l5pJFD4zoxku8tEm15Ex
+ hpk=
+X-IronPort-AV: E=Sophos;i="5.72,310,1580745600"; d="scan'208";a="235858175"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 27 Mar 2020 06:51:52 +0800
+IronPort-SDR: 5tGSJxNxSs773aGbxe9PiJrY5tt1XIXZX2Qq2dXzRKemY0D8p9htZxtF6xab7NWf9L/FwA2avj
+ 5DwOoE4RDJTgfAzl7riSLIDDCzdT++GWYC7XJ8Q2v8Qqgwnd72nAe1cvNDblM3+Uup9GvfCPe8
+ ksVQb9t3dv+2Jbb4QzIkumUAj6dLik/QnAMSJULcDMPIw4wLZFE7rR1dbo0Hc0CEJcunta0DdT
+ +4ze4yygYtHi5INe1uvkZVhhf5Wge/dBQKoKj/MFSYDKOg7g5wcFIPraaruCuuSZ8r0EbJ4gB3
+ QVXKayTgQJbEqYRHJRMAGiVE
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2020 15:42:41 -0700
+IronPort-SDR: zysQK7Gk4I6cDx1oM3UkMyS+Vyc7baA44FVlzY6axaHNvQwSdS+Lpz6/CYnwxccfTwvyBujhv0
+ efaGQ8xk3aGTRMpptalYxnj2FS90uxv88tzsRr9R3Q50sPp2LK2PKge9Wfvu9XMckB94oZiYxd
+ R8XioFrbNlJOxFW2ErDGDbCmX0Yym2IpjDdCFXXkgflICxtzLWYTNhVYOe2ZbKDSGGZfi8Nt1m
+ w8vZeA0FHMMlyfjruGCMAcFjyJSsoaIfHk5DH+oU98EiktofSsbgsOC5QDuw1wOhEOVheb+2wa
+ rxw=
+WDCIronportException: Internal
+Received: from 2j0d3g2.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.54.250])
+ by uls-op-cesaip02.wdc.com with ESMTP; 26 Mar 2020 15:51:39 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH for 5.0 v1 0/2]  RISC-V: Fix Hypervisor guest user space
+Date: Thu, 26 Mar 2020 15:44:04 -0700
+Message-Id: <cover.1585262586.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.143.124
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,74 +82,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As previously mentioned, I was investigating performance issues with 9pfs.
-Raw file read/write of 9pfs is actually quite good, provided that client
-picked a reasonable high msize (maximum message size). I would recommend
-to log a warning on 9p server side if a client attached with a small msize
-that would cause performance issues for that reason.
+This series fixes two bugs in the RISC-V two stage lookup
+implementation. This fixes the Hypervisor userspace failing to start.
 
-However there are other aspects where 9pfs currently performs suboptimally,
-especially readdir handling of 9pfs is extremely slow, a simple readdir
-request of a guest typically blocks for several hundred milliseconds or
-even several seconds, no matter how powerful the underlying hardware is.
-The reason for this performance issue: latency.
-Currently 9pfs is heavily dispatching a T_readdir request numerous times
-between main I/O thread and a background I/O thread back and forth; in fact
-it is actually hopping between threads even multiple times for every single
-directory entry during T_readdir request handling which leads in total to
-huge latencies for a single T_readdir request.
+Alistair Francis (2):
+  riscv: Don't use stage-2 PTE lookup protection flags
+  riscv: AND stage-1 and stage-2 protection flags
 
-This patch series aims to address this severe performance issue of 9pfs
-T_readdir request handling. The actual performance optimization is patch 5.
-
-v4->v5:
-
-  * Rebased to master (SHA-1 762fa6d7).
-
-  * Dropped benchmark patches (see v4 if you want to run a benchmark on v5).
-
-  * Divided split-readdir test into 3 individual tests, which also fixes the
-    previously discussed transport error [patch 1].
-
-  * Fixed English spelling for 'split' [patch 1].
-
-  * Rename max_count -> maxsize [NEW patch 2].
-
-  * Divided previous huge readdir optimization patch into individual patches
-    [patch 3], [patch 4], [patch 5].
-
-  * Added comment on v9fs_readdir_response_size() [patch 3].
-
-  * Renamed v9fs_co_readdir_lowlat() -> v9fs_co_readdir_many() [patch 4].
-
-  * Adjusted comment on v9fs_co_readdir_many() [patch 4].
-
-  * Added comment on v9fs_co_run_in_worker() [NEW patch 6].
-
-  * Adjusted commit log message of several patches.
-
-Message-ID of previous version (v4):
-  cover.1579567019.git.qemu_oss@crudebyte.com
-
-Christian Schoenebeck (6):
-  tests/virtio-9p: added split readdir tests
-  9pfs readdir: rename max_count -> maxsize
-  9pfs: make v9fs_readdir_response_size() public
-  9pfs: add new function v9fs_co_readdir_many()
-  9pfs: T_readdir latency optimization
-  9pfs: clarify latency of v9fs_co_run_in_worker()
-
- hw/9pfs/9p.c                 | 148 ++++++++++++++--------------
- hw/9pfs/9p.h                 |  23 +++++
- hw/9pfs/codir.c              | 181 ++++++++++++++++++++++++++++++++---
- hw/9pfs/coth.h               |  15 ++-
- tests/qtest/virtio-9p-test.c | 108 +++++++++++++++++++++
- 5 files changed, 386 insertions(+), 89 deletions(-)
+ target/riscv/cpu_helper.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 -- 
-2.20.1
+2.26.0
 
 
