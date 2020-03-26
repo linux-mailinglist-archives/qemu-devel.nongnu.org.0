@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C08B193FD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:33:56 +0100 (CET)
-Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE7B193FD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 14:35:45 +0100 (CET)
+Received: from localhost ([::1]:51710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHSdv-0007Rd-53
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55370)
+	id 1jHSfg-0001Ma-AS
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 09:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jHSa1-0003uZ-CG
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:29:55 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1jHSah-0004cE-3w
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:30:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jHSa0-0004zu-5h
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:29:53 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:24094)
+ (envelope-from <mlevitsk@redhat.com>) id 1jHSaf-0005ov-SO
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:30:35 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:38871)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jHSZz-0004zm-UT
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:29:52 -0400
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jHSaf-0005oO-P2
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 09:30:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585229390;
+ s=mimecast20190719; t=1585229433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZtoyUJ6PE/9qGLkv2lMCLxBOo8GwNFuIYUexs1JlRFc=;
- b=JIlPV9pf/1+7Sn5DMTOZd2S53tegzu15qyWwUqK9OAAxk9U8GbtcClotxQoLjNBLSValwE
- cFFn+mhGrtVzLxolUH16IlwWTFWTzmcECh5dQRTn/CZ9zlnL1swaFhZsM38CdvloGnsaIV
- XRmG+0MNmxvIK9nZj5SI68yaMFhEJsI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-0Ss_1u3yM6eQmUjjamKfTA-1; Thu, 26 Mar 2020 09:29:49 -0400
-X-MC-Unique: 0Ss_1u3yM6eQmUjjamKfTA-1
-Received: by mail-wr1-f69.google.com with SMTP id y1so3038525wrn.10
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 06:29:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fxB69WNDtiZmWljnc/QZ62pSZjNih/V9hdMT7pwfsB4=;
- b=JPW1rXDwt+iExZlSs8xp9liKvuPg7dJJwf3LIg++aT1cWfrPUjUGAQEWPmNt3LG07A
- 9G27E7k48tnVh8TzkkFfcYSx5Xi/FZnbO9muobQ2m+hSOW/d/FuIxSdvwba+z9GRNSze
- 6ZCjpwhQPsGrdDB6I1A7eNep3Vrqa9f0rz6/gKqafjvSlYCAM0xHDeExMd1pL7EqeLg1
- XLZyi8lnAXyAXiRKA33xQOUqqY6lyv5sQmoMeKE50RZTmiUwUuBB2ajix1eNAa1OGqev
- 1ijL9gzp0hl0j2R+4hxhD+LwXZBVc4SdzpJwuGAin+/hUxq8jQe4jBF+EYudvL5QHCTf
- 8dDw==
-X-Gm-Message-State: ANhLgQ05IiRvbCP/VlK3LbDDIhegLGmPf1CR3QIhVp0WMhgR8a61b/b0
- zf5L23RFUo4r+uhYBe5vJvZqHzhYZnHUzmXzxpIz+Fp4e34rchReRv+S6ZxTDaGEVbblEPmU958
- 67tqsL8gSbyvEuo0=
-X-Received: by 2002:a1c:6745:: with SMTP id b66mr12883wmc.30.1585229384881;
- Thu, 26 Mar 2020 06:29:44 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtG8JjK5Bk7XDnOLvBSaCY5Rlex3hofBr/jUawogKbTImcmIrtveDgJPXcDCR+WdLUOERac6g==
-X-Received: by 2002:a1c:6745:: with SMTP id b66mr12868wmc.30.1585229384608;
- Thu, 26 Mar 2020 06:29:44 -0700 (PDT)
-Received: from redhat.com (bzq-109-67-62-195.red.bezeqint.net. [109.67.62.195])
- by smtp.gmail.com with ESMTPSA id s22sm3235617wmc.16.2020.03.26.06.29.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 06:29:44 -0700 (PDT)
-Date: Thu, 26 Mar 2020 09:29:41 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: acpi_pcihp_eject_slot() bug if passed 'slots == 0'
-Message-ID: <20200326092845-mutt-send-email-mst@kernel.org>
-References: <CAFEAcA-oWBjOXWmnLvPww9wrty_QbSc+Xv3BY3sQAnEXFkfQbA@mail.gmail.com>
- <20200326132901.7aecb9e5@redhat.com>
- <20200326135041.297de118@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200326135041.297de118@redhat.com>
+ bh=lx789NZD2FTE0bnjrcCqYKI2iF7YzeztVIhdMIJ91oo=;
+ b=SBsqKFJWHNsIT4dbhpfvfrHuyxwf69E7Z+zUTx6b9v0+84PBlvpYNAPvgcyv4iQC8Qx7F8
+ X9VkKspOc/y1oCFucs8UqqY4nxEtmC0VGdH9ir7xd7tmvyZB+odFIxH3LB4aHAnwPf428r
+ oFBW8mLwNwmJMy+KdckQu24YPalrB9A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-XFn1fKmVM5Ci7mvOpAWXNQ-1; Thu, 26 Mar 2020 09:30:30 -0400
+X-MC-Unique: XFn1fKmVM5Ci7mvOpAWXNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0532B800D54;
+ Thu, 26 Mar 2020 13:30:28 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCE7410002A5;
+ Thu, 26 Mar 2020 13:30:17 +0000 (UTC)
+Message-ID: <db9d7c00162e14c5923684c4d704b83fd8fd37f2.camel@redhat.com>
+Subject: Re: [PATCH 2/2] block: trickle down the fallback image creation
+ function use to the block drivers
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Date: Thu, 26 Mar 2020 15:30:16 +0200
+In-Reply-To: <922a6eb5-cb33-d2e4-ba0b-15078d1a6c59@redhat.com>
+References: <20200326011218.29230-1-mlevitsk@redhat.com>
+ <20200326011218.29230-3-mlevitsk@redhat.com>
+ <922a6eb5-cb33-d2e4-ba0b-15078d1a6c59@redhat.com>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,49 +73,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ integration@gluster.org, sheepdog@lists.wpkg.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Peter Lieven <pl@kamp.de>, "Richard W.M.
+ Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 26, 2020 at 01:50:41PM +0100, Igor Mammedov wrote:
-> On Thu, 26 Mar 2020 13:29:01 +0100
-> Igor Mammedov <imammedo@redhat.com> wrote:
->=20
-> > On Thu, 26 Mar 2020 11:52:36 +0000
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> >=20
-> > > Hi; Coverity spots that if hw/acpi/pcihp.c:acpi_pcihp_eject_slot()
-> > > is passed a zero 'slots' argument then ctz32(slots) will return 32,
-> > > and then the code that does '1U << slot' is C undefined behaviour
-> > > because it's an oversized shift. (This is CID 1421896.)
-> > >=20
-> > > Since the pci_write() function in this file can call
-> > > acpi_pcihp_eject_slot() with an arbitrary value from the guest,
-> > > I think we need to handle 'slots =3D=3D 0' safely. But what should
-> > > the behaviour be? =20
-> >=20
-> > 0 is not valid value, we should ignore and return early in this case
-> > like we do with bsel. I'll post a path shortly.
-> well, looking more that is only true for main bus, for bridges it can be
-> slot number can be zero,
+On Thu, 2020-03-26 at 08:20 -0500, Eric Blake wrote:
+> On 3/25/20 8:12 PM, Maxim Levitsky wrote:
+> > Instead of checking the .bdrv_co_create_opts to see if we need the failback,
+> 
+> fallback
+100% true.
+> 
+> > just implement the .bdrv_co_create_opts in the drivers that need it.
+> > 
+> > This way we don't break various places that need to know if the underlying
+> > protocol/format really supports image creation, and this way we still
+> > allow some drivers to not support image creation.
+> > 
+> > Fixes: fd17146cd93d1704cd96d7c2757b325fc7aac6fd
+> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1816007
+> > 
+> > Note that technically this driver reverts the image creation failback
+> 
+> fallback
+> 
+> > for the vxhs driver since I don't have a means to test it,
+> > and IMHO it is better to leave it not supported as it was prior to
+> > generic image creation patches.
+> > 
+> > Also drop iscsi_create_opts which was left accidently
+> 
+> accidentally
+True. I did a spell check on the commit message, but I guess I updated it
+afterward with this.
 
-It can but we don't allow slot zero hotplug with SHPC
-so it's easier if we don't allow this with ACPI either.
+> 
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> > +++ b/block/file-posix.c
+> > @@ -3513,6 +3513,8 @@ static BlockDriver bdrv_host_device = {
+> >       .bdrv_reopen_prepare = raw_reopen_prepare,
+> >       .bdrv_reopen_commit  = raw_reopen_commit,
+> >       .bdrv_reopen_abort   = raw_reopen_abort,
+> > +    .bdrv_co_create_opts = bdrv_co_create_opts_simple,
+> > +    .create_opts         = &bdrv_create_opts_simple,
+> 
+> I'd drop the leading & for consistency with the rest of this struct 
+> initializer.
 
-> then AML left shifts it and writes into B0EJ
-> which traps into pci_write(, data) and that is supposed to eject
-> slot 0 according to guest(AML).
->=20
-> Michael,
-> what's your take on it?
->=20
-> >=20
-> > >=20
-> > > thanks
-> > > -- PMM
-> > >  =20
-> >=20
-> >=20
+Can I? This is struct reference and I think that only for function references,
+the leading & is optional.
+
+
+Best regards,
+	Maxim Levitsky
+
 
 
