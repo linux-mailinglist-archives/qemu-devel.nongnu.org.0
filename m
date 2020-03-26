@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E22F194880
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:15:17 +0100 (CET)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8B81948B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 21:19:59 +0100 (CET)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYuK-0004SB-I2
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59443)
+	id 1jHYys-0002i2-EI
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 16:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLR-0000Sw-2y
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:14 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLU-0000cF-U7
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYLP-0002Es-V2
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:12 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41685)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYLT-0002G0-KH
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:16 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:40108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYLP-0002El-RC
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:11 -0400
-Received: by mail-qk1-x742.google.com with SMTP id q188so8167815qke.8
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:11 -0700 (PDT)
+ id 1jHYLT-0002Fn-Fm
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:39:15 -0400
+Received: by mail-qk1-x743.google.com with SMTP id l25so8190013qki.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hXS64xfFQVpKibsj9LpVhJbK9gFfN+Viw10h78ZF2Vg=;
- b=E9zgmuKxYSK0VF+OHcKpZMN5Quqt4ZtwwOOyy+HnVdwmgxWDlDjrwjYSwgnOO8bvwq
- LyILHWqzwhVFkJGJNru3QIuWDvrvSaw1jEzhI/w6/SGfNUa1TNbeMMQk2CHlWe6qBE8o
- otaIjLoKoqZbyhN9MXtKwfckI817FkMl9UVyYvGb67QL7udL+fKpbxeC5rN61HFAPGV9
- vTv+dnIfBBQtNp4XobXLlNzkar+MBo8C/yW6Pt5cl8nVnohC2xE/Qkp52qBNrihpgmjO
- sadr+T6BhVJot1p/pu9kcERYtfsq+K8UTjYEc6XRvfIM+Rt+Ux5ydzt3w5vnkUDlMlnG
- iBqA==
+ bh=rUhgLfadfGQvM7gNTBGDLFffVlG6lB5oP5ofMlz9KHY=;
+ b=sYMBLsJCvqIwN/gi2ckGzc/7uirPnb4iR08PTPScNMf+Me1O7JDvnpr5Vip7LYYMh6
+ G/2p7yrTjhuJdjlsRX3lAOp0/lvz0+IN5y7fQtoc0swhI8Y/LWYTCXO53vRzHZ4pNEGf
+ vY3XbWmjZieAW7fv72o360FfOtcypF2n9vLzxFFqe+CouSzWJCwhZxlEl6h3ngPldFOW
+ g5y1Un94Fh3LRmkqXP1zK/meOp6MH7UO2s5ZUC0Dw4LKlomGAkwxL2JltkYqOKK7wEq2
+ 89PVSk4QxIU+qRvjHBmus/U1brX+9vi4UrKTkhDSROqkoMWrhuyRkCVyhuFxkzTm5ICh
+ T+Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hXS64xfFQVpKibsj9LpVhJbK9gFfN+Viw10h78ZF2Vg=;
- b=A0QicGhx8v/lnc53JP/BwEzUKXIoFXL2MbMZCv1LM0QXxRZRidhhuRjluaXcnuGMcs
- SWfLPXT8CNT0VEf/QYbxLEcVAb8ndtv+JDAEZyj1RjefujzXrU62DDzHoF8a7puc4FAs
- h5gNPbzaHx1pAnR7OiI6TmUSmYmEgMQgWnYocV4/t+dSlDAD9lwvfeQNTHYagg83ylch
- NMPSqiysDpWGdill8SBZTDQD32Kgr0IgGuVbC24md+QYVdNz9lBTxpDjBqSnE7C/AxFZ
- D9CPfDO3qwo1vlsB2qGEcDugYkuNg5TJoMiYRxQr9kHEpf60J2CccnaHaOIyuatanUYm
- 0JSg==
-X-Gm-Message-State: ANhLgQ1oKS1KW08TFekGBIToUH7MMDo24663eDoJno5mMN1XQRCgh1vS
- 2LE7tC3EACuKYilECznb9q+oM7AIO2Y77g==
-X-Google-Smtp-Source: ADFU+vvMFRDxCqugl08snGGIMuHg1kr1vyHpfx1oOkGbe9V5K7mz8aAJnH2A6i5TxrqnxCFf7KLcDw==
-X-Received: by 2002:a37:410:: with SMTP id 16mr9858852qke.485.1585251551100;
- Thu, 26 Mar 2020 12:39:11 -0700 (PDT)
+ bh=rUhgLfadfGQvM7gNTBGDLFffVlG6lB5oP5ofMlz9KHY=;
+ b=DC3LsgnJcYEAu36PZ1h8j8Tl4kOECUxjBgFKxX9FaU2AqpWipqOhS8Bkw/CkNWSljj
+ 0lPjwkbfd5vGJV+QLQ1FUKm+lKC9JMRPG0LBQEfAvxKgbK/qPwMU0jfLsFCPrXVDtwII
+ 8bkvyXAAhiO1/AAQTyOOz53dyra2Dvny7s3LvR8eQRE10AB5WwlPuf771kt1D1H/cwAG
+ qCVqQkAbBkwjgyDmVY+G9vfYrYc5z9i/gdttz/vlDD4AmRfijlYgjXPpvTvGk+i4zrGI
+ nfr/RMjg5Qet9UzZirr+G/qFuB+DtVoVjI7Zt8wezxIzdBCZamIIV63fguCCE0hl9rCl
+ SB3A==
+X-Gm-Message-State: ANhLgQ1FKSqKSyL13XnRtLA6TgRdvxJ/JcBD+CdY0DROHTBraSIEzsLs
+ T3NVdVd9kfMG6uORr+VGwiyKttY6iTYnPg==
+X-Google-Smtp-Source: ADFU+vtr0Krx96ZywhDuDOB8FsVjdceqECd9/VaBUgM2IUECqso+6f+jcEXEJLahcqk5kwYktZx06w==
+X-Received: by 2002:a37:a807:: with SMTP id r7mr10566025qke.5.1585251553681;
+ Thu, 26 Mar 2020 12:39:13 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.09
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.39.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:39:10 -0700 (PDT)
+ Thu, 26 Mar 2020 12:39:13 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 70/74] cpu: rename all_cpu_threads_idle to
- qemu_tcg_rr_all_cpu_threads_idle
-Date: Thu, 26 Mar 2020 15:31:52 -0400
-Message-Id: <20200326193156.4322-71-robert.foley@linaro.org>
+Subject: [PATCH v8 72/74] cpus-common: release BQL earlier in run_on_cpu
+Date: Thu, 26 Mar 2020 15:31:54 -0400
+Message-Id: <20200326193156.4322-73-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,62 +86,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This function is only called from TCG rr mode, so add
-a prefix to mark this as well as an assertion.
+After completing the conversion to per-CPU locks, there is no need
+to release the BQL after having called cpu_kick.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- cpus.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ cpus-common.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/cpus.c b/cpus.c
-index 50ced4369f..05de56bd53 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -232,10 +232,12 @@ static bool cpu_thread_is_idle(CPUState *cpu)
-     return true;
- }
+diff --git a/cpus-common.c b/cpus-common.c
+index 9ca025149e..f5daf2d518 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -137,6 +137,11 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+         return;
+     }
  
--static bool all_cpu_threads_idle(void)
-+static bool qemu_tcg_rr_all_cpu_threads_idle(void)
- {
-     CPUState *cpu;
- 
-+    g_assert(qemu_is_tcg_rr());
++    /* We are going to sleep on the CPU lock, so release the BQL */
++    if (has_bql) {
++        qemu_mutex_unlock_iothread();
++    }
 +
-     CPU_FOREACH(cpu) {
-         if (!cpu_thread_is_idle(cpu)) {
-             return false;
-@@ -643,7 +645,7 @@ void qemu_start_warp_timer(void)
-     }
+     wi.func = func;
+     wi.data = data;
+     wi.done = false;
+@@ -145,21 +150,6 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
  
-     if (replay_mode != REPLAY_MODE_PLAY) {
--        if (!all_cpu_threads_idle()) {
-+        if (!qemu_tcg_rr_all_cpu_threads_idle()) {
-             return;
-         }
+     cpu_mutex_lock(cpu);
+     queue_work_on_cpu_locked(cpu, &wi);
+-
+-    /*
+-     * We are going to sleep on the CPU lock, so release the BQL.
+-     *
+-     * During the transition to per-CPU locks, we release the BQL _after_
+-     * having kicked the destination CPU (from queue_work_on_cpu_locked above).
+-     * This makes sure that the enqueued work will be seen by the CPU
+-     * after being woken up from the kick, since the CPU sleeps on the BQL.
+-     * Once we complete the transition to per-CPU locks, we will release
+-     * the BQL earlier in this function.
+-     */
+-    if (has_bql) {
+-        qemu_mutex_unlock_iothread();
+-    }
+-
+     while (!atomic_mb_read(&wi.done)) {
+         CPUState *self_cpu = current_cpu;
  
-@@ -1295,7 +1297,7 @@ static void qemu_tcg_rr_wait_io_event(void)
- {
-     CPUState *cpu;
- 
--    while (all_cpu_threads_idle()) {
-+    while (qemu_tcg_rr_all_cpu_threads_idle()) {
-         stop_tcg_kick_timer();
-         qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
-     }
-@@ -1651,7 +1653,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
-             atomic_mb_set(&cpu->exit_request, 0);
-         }
- 
--        if (use_icount && all_cpu_threads_idle()) {
-+        if (use_icount && qemu_tcg_rr_all_cpu_threads_idle()) {
-             /*
-              * When all cpus are sleeping (e.g in WFI), to avoid a deadlock
-              * in the main_loop, wake it up in order to start the warp timer.
 -- 
 2.17.1
 
