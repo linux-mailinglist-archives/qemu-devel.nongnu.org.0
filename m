@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D27193991
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 08:25:10 +0100 (CET)
-Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A9B19399A
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 08:26:50 +0100 (CET)
+Received: from localhost ([::1]:47512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHMt3-000668-Iv
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 03:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57113)
+	id 1jHMuf-0000GI-D3
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 03:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jHMs3-0005Ju-HS
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:08 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jHMs5-0005K0-G4
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jHMs2-0007rw-DT
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:57415)
+ (envelope-from <laurent@vivier.eu>) id 1jHMs4-0007si-BY
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:38897)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jHMs2-0007rb-5a
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:06 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jHMs4-0007sD-3O
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 03:24:08 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N4yuK-1jPAt61IAu-010pzm; Thu, 26 Mar 2020 08:23:56 +0100
+ id 1MFsER-1j1i5b3Vmx-00HQPR; Thu, 26 Mar 2020 08:23:57 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Linux user for 5.0 patches
-Date: Thu, 26 Mar 2020 08:23:46 +0100
-Message-Id: <20200326072352.2056553-1-laurent@vivier.eu>
+Subject: [PULL 1/6] linux-user,
+ configure: fix (again) syscall_nr.h dependencies cleanup
+Date: Thu, 26 Mar 2020 08:23:47 +0100
+Message-Id: <20200326072352.2056553-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200326072352.2056553-1-laurent@vivier.eu>
+References: <20200326072352.2056553-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q+9N6Ws1lMKgXf83wGqLeqojmG5PHJkth3J5bx+LtcUtjFbqd5Z
- AQWWhmaHCX8Pc25bHGgsKL1zlDIwAg+p1xyIg9Z1WWQow+FBbMAPw5yV0d697NPKtWgk3sD
- 9TbRv1DKcayZfCi1vRsZpN1PDXTFuAsgb3Nb9g+8cG203XMaOfQejoGzOiPedpEVoHNqBhj
- wKMWdwoGJSCadVwax0CUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BmOW5DDAf+c=:doPhIeXQng+l+emWA0V2px
- ixIXpljASNjdF3ygKgQsNN1UEDNRxnKXxxC49kk72Iz1lPLd++Y2VRH5ijHTlY3VvzqAo9pR9
- I0h6n7MgQosv7nK4XJCgF6pG2NQPAa29yd9D/lDDoLnE7abUXPHfrzo5MDdqDLXEqpWR7tR68
- WOBUkAHvs7M4EkSdMLhBk6KTjep2RfDbCbOAl20bykLmh0T+0FCH9bP8bUp/T6cX0wIv+GMyB
- lMlH3b1+9BaeSZeSi5f8silNmM0l9cfgPI/NdCDUPYGIyKhU/GLqUTpEzET5/HP5lgxBxRTFy
- ppPTq6Zm1uHIbf28c6Fa2byWxNXxzwOwgM74+ohQaNcAV+I/QQJhzh2/LDXhNSi0zGES0a76w
- T9GW/TV6UQdrlxEBN9s7QyhMQ3Y2KEe1kvtv/AePAAvhqYD+/c/okeHV61/OjH3rp9Ms778Vb
- DuSHctt54jBo7Sp+4DkI2ZsKcdsYXQk8zNZ2N8GpPduAdvjPFCagJUTIjf1DPFUIhDh8YrYDy
- orsena1N5pLJ51mAOwY77ifJKJ35Xp3g8F4Nc+5FZ8ATQrkwaLZVpIz2ZLrrbAVarU9CgbcFd
- SY8nLjtOsjNd2YutlInpytHrxkRQEg2KYyNG+rVsCleMFyLU4zOfZmT11gwQ4WgjDRP863cY3
- BQUx44CT+ZafZsr4PTQaDXm8QIq6v2v+p47JbmrVtAPoYeEmQPLPMJtdZcKsKD34/tRmHnsDA
- IXMBqxWDRj+q1sLV7OzNHS5RIIzUBsh7ycfPEU8UgkmQXh+eRa4jhLaeTEvpllR0TyXtPAY3/
- P8tdNl9CxwrE+nEBpGNLfuywTTHVC4oL+V9VuT8/7bmnX5aWKBS7ryfKPyJDVs2ZdmZrEIN
+X-Provags-ID: V03:K1:jd+OvPYm+kCNHyyetBI49o2wCmvezeSoNAwqDhb4dhN+/saLhiN
+ LyyD9bLT83nAGtsW3D61EXTVYyJlDSi45hwJxHL0uSrbc33emzZ29w3MViD16WsXDKm3VH7
+ 0p4vMah7WKVCoxMZVPMaiaX89l6D4IxeLzJzhYNI8hSTeRv+IiAQVQw0QKyRbjajd9hlDQE
+ v8b//KH2Xngvpru8pe4Tg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YQ6nJRH3Mp4=:GgGZMzynOawDE9hP8THjys
+ 4YkTEO3bTVFWHKNsAl7IjliTzKFH5R5ekAR6CkB+MSYS9ZhQY8jhFxdKQC7Gbi3qTvz5haipC
+ nsx62wJk+GXnsTPl593tDfg3kzdfwN9Uqpwxf/6q08o3N/65aoy1p1UW+nAGxpEqETyoZLJEP
+ KdOQtDAHpzSoth39jnPu8nUkbc3fjD1IUu5d793p3eu+N+hY+27HI8cXNmuh5eFIMbbzOSbhV
+ q7x9XYe7EEnHsNEsExUjcA5GBkUxYfkb8rfGTeJXZt55/W4rgyie3gMIDui7zHbgt+GKnKFmF
+ 60v54tOjOiwzcDFTNeGy3ZJoYcf9iaNf+0YnSAF53OKmbcOdJcnIv/OcZm2tuYfGUXmyazEKl
+ c1OJMT7pO3ubYkG/M1hsNnKe9NI1Upxzz4jsPdW1Mpvl1K6rlf4CWXDEnuR11hDDNhviHpytN
+ 8rzTg/FIsT3lW5L3uHPhuU7hisN0B4UuVZrMn3yROqqf/tyBs92VSO9ZKWzpVkLtHZF5/LBEl
+ Df8S+X+EKGUIcS0rnPXcF3DxVc7aWRKKm8V5Y0YJ2srvrv37drjD6UP7t8wEpMS4419Nsvmgr
+ O0qGuNZ43Ju6FCQIWLzBrwSxlk+/xbtwTQbN+KRKtwOznWOKbiHqXPcKJQ0N1aMdkUAdZkXh+
+ gB5hLjqOV4/qCzh0PRA2WprKAFpqDUhuPgZs3jYjogsCMHW1voNfKYi5Vpr5LV9QmCOCcntOh
+ iT8YdHn5SdAo1n9YfH6F4tQUf7D7O476yo6fYTi3PvIWKpKd1tT2L3birYKvNQhiH4yqlPS99
+ aGdq1h/MFBQmomjEAAQ1905EN8lmbwKBEM8mp3mg3W8sdtnvwWr+eyLokVTSFDZ4HyuDhwL
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,45 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 736cf607e40674776d752acc201f565723e86045:
+This patch fixes two problems:
+- it cleanups linux-user variants (for instance ppc64-linux-user
+  and ppc64le-linux-user)
+- it removes the .o file when it removes the .d file, otherwise the .o
+  file is never updated
 
-  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+Fixes: 5f29856b852d ("linux-user, configure: improve syscall_nr.h dependencies checking")
+Fixes: 4d6a835dea47 ("linux-user: introduce parameters to generate syscall_nr.h")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200325075757.1959961-1-laurent@vivier.eu>
+---
+ configure | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
-
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to a52f5f87bece827a338d6eb3332e3def86fb9c33:
-
-  linux-user: Flush out implementation of gettimeofday (2020-03-26 08:08:54 +0100)
-
-----------------------------------------------------------------
-Emulate x86_64 vsyscalls
-Fix syscall_nr.h cleanup
-
-----------------------------------------------------------------
-
-Laurent Vivier (1):
-  linux-user, configure: fix (again) syscall_nr.h dependencies cleanup
-
-Richard Henderson (5):
-  target/i386: Renumber EXCP_SYSCALL
-  linux-user/i386: Split out gen_signal
-  linux-user/i386: Emulate x86_64 vsyscalls
-  linux-user: Add x86_64 vsyscall page to /proc/self/maps
-  linux-user: Flush out implementation of gettimeofday
-
- configure                  |   8 +-
- linux-user/i386/cpu_loop.c | 201 ++++++++++++++++++++++++++-----------
- linux-user/syscall.c       |  39 ++++++-
- target/i386/cpu.h          |  12 ++-
- target/i386/translate.c    |  14 ++-
- 5 files changed, 205 insertions(+), 69 deletions(-)
-
+diff --git a/configure b/configure
+index da09c3589572..89fe881dd46f 100755
+--- a/configure
++++ b/configure
+@@ -1910,9 +1910,11 @@ for arch in alpha hppa m68k xtensa sh4 microblaze arm ppc s390x sparc sparc64 \
+     # remove the file if it has been generated in the source directory
+     rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
+     # remove the dependency files
+-    test -d ${arch}-linux-user && find ${arch}-linux-user -type f -name "*.d" \
+-         -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
+-         -exec rm {} \;
++    for target in ${arch}*-linux-user ; do
++        test -d "${target}" && find "${target}" -type f -name "*.d" \
++             -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h" {} \; \
++             -print | while read file ; do rm "${file}" "${file%.d}.o" ; done
++    done
+ done
+ 
+ if test -z "$python"
 -- 
 2.25.1
 
