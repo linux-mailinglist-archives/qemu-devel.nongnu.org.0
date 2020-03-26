@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45361947D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:48:57 +0100 (CET)
-Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23011947E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:51:07 +0100 (CET)
+Received: from localhost ([::1]:58950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYUq-00005S-Rc
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
+	id 1jHYWw-0003Uc-Oy
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKa-00079U-Jh
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:21 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKc-00079d-1G
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKZ-0001ip-7s
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:20 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40096)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKa-0001je-K1
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:21 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:33750)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYKY-0001iN-Py
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:18 -0400
-Received: by mail-qk1-x744.google.com with SMTP id l25so8186115qki.7
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:18 -0700 (PDT)
+ id 1jHYKa-0001j9-GT
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:20 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id c14so6574278qtp.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lqZ7VnMREamwmHiAXruvzR+fgaqzM3eON98Z9dE0b+o=;
- b=UCvQhIfUcPfh/PFnN4XvCTeZTf8m35iJfoFlILVkw85cSuOWp1bX55OxF7Qa2C9rD2
- o4sPh7aO0KP0WF7EV+TQFEkPwJ53WValgNUr4CPMX4sTCXI/Lc9E0sstPekWkploUyay
- LubC8DjMhNheMrdAhEICkW71sUY/ijsdz9xlJ9ufcK4EXGBdM/UdI9ly0KHdCuCia5w6
- 4Rlj+6MZ6K9L2sDdIkis6JKrMyB5h7CZThb3Y+Q8U/tEabYfvv2z6H4SxtIfgO1BgXPO
- 0eqj5+cRAIWQYsP7L/0ml+CTif9YECrmXaGtDzqg+FKtU1QtMWH6e+ti4uiskMpbsR51
- 9o/A==
+ bh=ShxiiQVChFNUTjmYIyg4bNMUbV8gv91VOcC+VfAQzoI=;
+ b=M5Js6u4oh8aYD/tFpbvxD/w5+X/QYDJAeGo+rIjgizoVoa5zFhQoCCNTzqgv6qw2UU
+ r9dTtv9J+G2iFj9Rn1g501SzPYq6ILY2thg+9+68QCLwJxc7eNIg4eEHqp91gwc7EaBy
+ 6/xvkAntXcoM5an4TadSuN2bc2MukxrxOH72j6LvAa+r/B1vjamh9aGt1ZgnQZOit8++
+ 2dShacu0Mm7xvhlTG1deVm9hF4X704FmKaco1++dVw/G6Sw3jUXaF0OtnVj72HEOwpY2
+ tRg5YrYF+7m6KeJXru1Uwn/CG0StZd9/Qy7U0l58IHAbR+176EYGrEwYTYinHv0q0QtR
+ Qnfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lqZ7VnMREamwmHiAXruvzR+fgaqzM3eON98Z9dE0b+o=;
- b=OTlMslZQN6dUtCdY7bu3Sfbp+Bitkp3WzCkAzQIUCLLpmWz6Mir+ZKFYUfp4EiH0co
- NXtfXVyF9BKEOPVc9GpJGBiyRoBysU0r4FbO8d4dTiGF2S6jh+QLDZFRRnZ3sils6Mea
- eCm4+Uq2rdrzubmfVucuNC3PXkENXRqeqnuV7Y8/PK22V4xAQ2tRvP5lh5sHj+wcjWtJ
- qmpKxzb0v+lp4sKH/ufHSgI7p6VOB5fKDIDXbZDf8Wl3egkMEyYCM1TqYvCofCbbiALO
- igiwr7GEWIzhlh2nqpoIHzib8gx/8aTx/2bv22cLD3Svq4fAK98e2r5ewVpYS75nUXvs
- 4kfQ==
-X-Gm-Message-State: ANhLgQ2aulDQrqFUs8b9qi1DxzFG9mjCDRKGR7NQX6ue87wy12ODSxN+
- 9AB6MXOEGvU4NMMwihDCe5EICJvr5TqG4A==
-X-Google-Smtp-Source: ADFU+vvafTpxQQNmV1oSE1zmB/zCDIzSL+ybLW7X/XTF3UAOtbQHQXWmx7O75gX85803k5WhGWkadA==
-X-Received: by 2002:a37:6357:: with SMTP id x84mr10357028qkb.490.1585251497714; 
- Thu, 26 Mar 2020 12:38:17 -0700 (PDT)
+ bh=ShxiiQVChFNUTjmYIyg4bNMUbV8gv91VOcC+VfAQzoI=;
+ b=YyriN/lgUUc6eRXxeOOKpcqGOZ7kYkxg2X10Elyyi+vnZBvHBrEKshSn+nFF4k0wm8
+ dpZZ1t863uk+jBYV/hr1s1pgBuQc8tluNxca88icQDdD5YZkmzNh9sFcu+ZQ/qk1Cm0o
+ WET3IYwU6vwz7liDd2wN9WsqHfMAvNewVKrpOzIACD//nfr6vadRGBxDv2vWP2v6J3Bm
+ ikkHGrzf5ImLxfdJXNG0nCPyfwSsAzL31/MZeu9vqbHJrYHnn8wshmpF1h/56Dn6q5k9
+ BF30CkloKTl8kbPNP0u97n9YXhu3yRf8Fj6jw5RcHA96uW3GSo+M3OSlLV/hgj4Wi0JY
+ yvRA==
+X-Gm-Message-State: ANhLgQ0amRT1X8bk9S+21kloQohyDqGemaqKqpzy5uU7DWVs0zj3toit
+ c2ByKAfq5HZ7qCS0UZXtiYkrktFbx4/f6g==
+X-Google-Smtp-Source: ADFU+vv/4y371roGO0+7dLaZKhPD/oc5VStpwf1kTl6jFWy4YqALbsYfvvBDGR3bQgajaeDdWdEPPg==
+X-Received: by 2002:ac8:2a8d:: with SMTP id b13mr9859335qta.90.1585251499002; 
+ Thu, 26 Mar 2020 12:38:19 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.16
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:17 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:18 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 32/74] cpu: convert to cpu_halted
-Date: Thu, 26 Mar 2020 15:31:14 -0400
-Message-Id: <20200326193156.4322-33-robert.foley@linaro.org>
+Subject: [PATCH v8 33/74] cpu: define cpu_interrupt_request helpers
+Date: Thu, 26 Mar 2020 15:31:15 -0400
+Message-Id: <20200326193156.4322-34-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::744
+X-Received-From: 2607:f8b0:4864:20::82d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,80 +86,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This finishes the conversion to cpu_halted.
+Add a comment about how atomic_read works here. The comment refers to
+a "BQL-less CPU loop", which will materialize toward the end
+of this series.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Note that the modifications to cpu_reset_interrupt are there to
+avoid deadlock during the CPU lock transition; once that is complete,
+cpu_interrupt_request will be simple again.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- accel/tcg/cpu-exec.c       | 2 +-
- cpus.c                     | 4 ++--
- hw/core/cpu.c              | 2 +-
- hw/core/machine-qmp-cmds.c | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ hw/core/cpu.c         | 27 +++++++++++++++++++++------
+ include/hw/core/cpu.h | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+), 6 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index e296894ea1..099dd83ee0 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -435,7 +435,7 @@ static inline bool cpu_handle_halt_locked(CPUState *cpu)
-             && replay_interrupt()) {
-             X86CPU *x86_cpu = X86_CPU(cpu);
- 
--            /* prevent deadlock; cpu_mutex must be acquired _after_ the BQL */
-+            /* locking order: cpu_mutex must be acquired _after_ the BQL */
-             cpu_mutex_unlock(cpu);
-             qemu_mutex_lock_iothread();
-             cpu_mutex_lock(cpu);
-diff --git a/cpus.c b/cpus.c
-index f27fb19b7c..50ced4369f 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -225,7 +225,7 @@ static bool cpu_thread_is_idle(CPUState *cpu)
-     if (cpu_is_stopped(cpu)) {
-         return true;
-     }
--    if (!cpu->halted || cpu_has_work(cpu) ||
-+    if (!cpu_halted(cpu) || cpu_has_work(cpu) ||
-         kvm_halt_in_kernel()) {
-         return false;
-     }
-@@ -1840,7 +1840,7 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
-                  *
-                  * cpu->halted should ensure we sleep in wait_io_event
-                  */
--                g_assert(cpu->halted);
-+                g_assert(cpu_halted(cpu));
-                 break;
-             case EXCP_ATOMIC:
-                 qemu_mutex_unlock_iothread();
 diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index d67bd58827..9683d6408a 100644
+index 9683d6408a..01091d0623 100644
 --- a/hw/core/cpu.c
 +++ b/hw/core/cpu.c
-@@ -257,7 +257,7 @@ static void cpu_common_reset(DeviceState *dev)
-     }
+@@ -99,14 +99,29 @@ static void cpu_common_get_memory_mapping(CPUState *cpu,
+  * BQL here if we need to.  cpu_interrupt assumes it is held.*/
+ void cpu_reset_interrupt(CPUState *cpu, int mask)
+ {
+-    bool need_lock = !qemu_mutex_iothread_locked();
++    bool has_bql = qemu_mutex_iothread_locked();
++    bool has_cpu_lock = cpu_mutex_locked(cpu);
  
-     cpu->interrupt_request = 0;
--    cpu->halted = 0;
-+    cpu_halted_set(cpu, 0);
-     cpu->mem_io_pc = 0;
-     cpu->icount_extra = 0;
-     atomic_set(&cpu->icount_decr_ptr->u32, 0);
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index eed5aeb2f7..7d33489110 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -58,7 +58,7 @@ CpuInfoList *qmp_query_cpus(Error **errp)
-         info->value = g_malloc0(sizeof(*info->value));
-         info->value->CPU = cpu->cpu_index;
-         info->value->current = (cpu == first_cpu);
--        info->value->halted = cpu->halted;
-+        info->value->halted = cpu_halted(cpu);
-         info->value->qom_path = object_get_canonical_path(OBJECT(cpu));
-         info->value->thread_id = cpu->thread_id;
- #if defined(TARGET_I386)
+-    if (need_lock) {
+-        qemu_mutex_lock_iothread();
++    if (has_bql) {
++        if (has_cpu_lock) {
++            atomic_set(&cpu->interrupt_request, cpu->interrupt_request & ~mask);
++        } else {
++            cpu_mutex_lock(cpu);
++            atomic_set(&cpu->interrupt_request, cpu->interrupt_request & ~mask);
++            cpu_mutex_unlock(cpu);
++        }
++        return;
++    }
++
++    if (has_cpu_lock) {
++        cpu_mutex_unlock(cpu);
+     }
+-    cpu->interrupt_request &= ~mask;
+-    if (need_lock) {
+-        qemu_mutex_unlock_iothread();
++    qemu_mutex_lock_iothread();
++    cpu_mutex_lock(cpu);
++    atomic_set(&cpu->interrupt_request, cpu->interrupt_request & ~mask);
++    qemu_mutex_unlock_iothread();
++    if (!has_cpu_lock) {
++        cpu_mutex_unlock(cpu);
+     }
+ }
+ 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 48b46c90ed..1c3701b142 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -522,6 +522,43 @@ static inline void cpu_halted_set(CPUState *cpu, uint32_t val)
+     cpu_mutex_unlock(cpu);
+ }
+ 
++/*
++ * When sending an interrupt, setters OR the appropriate bit and kick the
++ * destination vCPU. The latter can then read interrupt_request without
++ * acquiring the CPU lock, because once the kick-induced completes, they'll read
++ * an up-to-date interrupt_request.
++ * Setters always acquire the lock, which guarantees that (1) concurrent
++ * updates from different threads won't result in data races, and (2) the
++ * BQL-less CPU loop will always see an up-to-date interrupt_request, since the
++ * loop holds the CPU lock.
++ */
++static inline uint32_t cpu_interrupt_request(CPUState *cpu)
++{
++    return atomic_read(&cpu->interrupt_request);
++}
++
++static inline void cpu_interrupt_request_or(CPUState *cpu, uint32_t mask)
++{
++    if (cpu_mutex_locked(cpu)) {
++        atomic_set(&cpu->interrupt_request, cpu->interrupt_request | mask);
++        return;
++    }
++    cpu_mutex_lock(cpu);
++    atomic_set(&cpu->interrupt_request, cpu->interrupt_request | mask);
++    cpu_mutex_unlock(cpu);
++}
++
++static inline void cpu_interrupt_request_set(CPUState *cpu, uint32_t val)
++{
++    if (cpu_mutex_locked(cpu)) {
++        atomic_set(&cpu->interrupt_request, val);
++        return;
++    }
++    cpu_mutex_lock(cpu);
++    atomic_set(&cpu->interrupt_request, val);
++    cpu_mutex_unlock(cpu);
++}
++
+ static inline void cpu_tb_jmp_cache_clear(CPUState *cpu)
+ {
+     unsigned int i;
 -- 
 2.17.1
 
