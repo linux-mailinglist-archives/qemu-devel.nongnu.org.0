@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8B91947FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:55:39 +0100 (CET)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684EE194807
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 20:57:32 +0100 (CET)
+Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHYbK-00054b-U7
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58798)
+	id 1jHYd9-0000F3-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 15:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKX-000788-Ju
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:18 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKY-00079A-UG
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHYKV-0001go-D3
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:17 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:35405)
+ (envelope-from <robert.foley@linaro.org>) id 1jHYKW-0001hb-QX
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:18 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:39020)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHYKV-0001gI-9R
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:15 -0400
-Received: by mail-qk1-x741.google.com with SMTP id k13so8205838qki.2
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:14 -0700 (PDT)
+ id 1jHYKW-0001h1-N5
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 15:38:16 -0400
+Received: by mail-qk1-x742.google.com with SMTP id b62so8194629qkf.6
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 12:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yA2MVFEgaNK4nASIU4YwfLKatFbmzL92LfjZ1EBu5j0=;
- b=tW6S/bP1K8jbImgGY810ZRZ5TTGl80HzzkmPWP2sFPhQ/bjUMQa63XOid8gBfBnbZu
- ubkStz5VHgUNOWAej8EEDCTEioaMMb7swf0vpXm0rLA9aCj99WWm5/ibM0wfLRR3yz0N
- MlcUAy0yzwDol10jS9RDJt9WgMY5pGkSzTw/7GdkjmmX3rZy39FScA9SJmx/AWkv2IMt
- KamhVaYuLi8XOMY0t0SLTg0pCY7mhaDfJTzkkFqOqm4XDIa2IUKb9Tht27OGWOWB44t3
- wvRhAJdnqbzelkbACyYquktykQDFjN42qAUJpuVyT4J5UuQGQ41rR7XJTNW0V3LX6hKu
- /5SA==
+ bh=O0fBrT3P1tRSLH4phcxb7WjFxDduimB9rIeQgvMHfic=;
+ b=Ix/ppgNW371q67atX1d6cmfGUWOXxSPo7C2SBh2ugKoGfWEg4NUKasXK6aV3spE0b2
+ KlwElvLOBxB5KYiec8f8eIe54rhl1HC5W6e1OQSPXlMsD1pBJBwcdQ7QUYaW3JDr0l1E
+ NdMxepdRYNBvvnQz0nlFkS30SPyMRJoxag4bXQyzQBx1VJWeCQzYKx/0K6C61Uwc5kjs
+ uMYEKQMWqRleMKWrBC6I0vLmnZv2p6FtZmBg5Xv7zX0xD+AM0eHiSMIYUYOOCpaERYd/
+ yuZgYvYtGhZY3zMez/tVqbzD3jBoNt66oTAkOJXsYVj020PidgrvKnIB/qdGxjNKfnaK
+ 96Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yA2MVFEgaNK4nASIU4YwfLKatFbmzL92LfjZ1EBu5j0=;
- b=WBQi3u5KHTc5hEwoNU7oDmxxivlP4hvCfscprNb5iIozfWCXJhDLOykf7nqUDTPq7Z
- ztWJK9WAXxSybQQEa2yaUEs8WjjeD0IbRdKWUUxZ5XPbvrhHoocAPuAbTCer35QSJHAP
- 5vEOAfh1o7ygYVCHl7Oei9mV5DmgzWyVxbLqOAabW0YDEiXTiLV6CnfH3INQQ6WDxApA
- jldM+ZIJrTsYrjeBz1IXcxXEQWPFOlUqJNCWfr1pCLlJcJHaMTMWzdES3D5V22PnP9/w
- ytyn7PNzRNMOyc37A+LIt/fgm+ELMAqNO55GgIx8BzS144I8EjZP3O+P0vmwzAeKNtWj
- U+Rg==
-X-Gm-Message-State: ANhLgQ10jw/LBu8giPiOQRSpCOQ7/AaZHAOwInF8VefCFOpIPBES7wiX
- XKfY11V50IpphlOhawJ7WSQTJqhLnrd7jw==
-X-Google-Smtp-Source: ADFU+vuhkl+JVA8iANM0+T9c3E9/A5b6tcnFQb3UhXHhSw3T1MNf8s4/FRr6zkJWT6lMhy+UhoLinQ==
-X-Received: by 2002:a37:9dc9:: with SMTP id g192mr10248319qke.50.1585251493546; 
- Thu, 26 Mar 2020 12:38:13 -0700 (PDT)
+ bh=O0fBrT3P1tRSLH4phcxb7WjFxDduimB9rIeQgvMHfic=;
+ b=NQGuSk+rGc3/mQzG33uDFhsyOwiupn8g8vpiSJ7CzIa4tXYN6iOiPRQeZ4aNdWLRSj
+ m28ryvMmyrocdleyjHuij5wZnd2PUYKnmm1tfzNXAmI5ncdrUCPnMKQ+67Z1oTml99iz
+ IEOyUrJEfBYqo+qdQQ+N+KSzwoiJzuOgvsCN9anDIffCxr/CYleQZCtYl9YXypbcPK57
+ p9rg5t2y7aDyCS3E/WUa1pVyKlyoJUGkMIlxnq1KJLdgYdgS0JM+sBOyXklJvDqlUAcf
+ Bovj0n7+303UqMvRiw7KTrpvVODdEXJ4TV5/wxu0/F1E6X5tdfOKXHPVUX9RDAB/ObFu
+ xagQ==
+X-Gm-Message-State: ANhLgQ3eQQeIDalE7anl90r24EfG0w+WvovRoP96uA2XoIVri5dSRpbq
+ dQxu6nLB/4iSRaUFFe+57ywznF9HEwnPoA==
+X-Google-Smtp-Source: ADFU+vszECd+ASz2NNodepEaX7KkNG1/k2bVJoEWiHgbMY22a0kNucX+67VlNdq1fQ+JyDO6qfAczw==
+X-Received: by 2002:a05:620a:88e:: with SMTP id
+ b14mr10476524qka.449.1585251495038; 
+ Thu, 26 Mar 2020 12:38:15 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fd55:4e67:1038:8302])
- by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.12
+ by smtp.gmail.com with ESMTPSA id u51sm2161916qth.46.2020.03.26.12.38.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 12:38:13 -0700 (PDT)
+ Thu, 26 Mar 2020 12:38:14 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 29/74] gdbstub: convert to cpu_halted
-Date: Thu, 26 Mar 2020 15:31:11 -0400
-Message-Id: <20200326193156.4322-30-robert.foley@linaro.org>
+Subject: [PATCH v8 30/74] openrisc: convert to cpu_halted
+Date: Thu, 26 Mar 2020 15:31:12 -0400
+Message-Id: <20200326193156.4322-31-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326193156.4322-1-robert.foley@linaro.org>
 References: <20200326193156.4322-1-robert.foley@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,38 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- alex.bennee@linaro.org, robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ "Emilio G. Cota" <cota@braap.org>, peter.puhov@linaro.org,
+ Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Cc: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/openrisc/sys_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 013fb1ac0f..d95c32997a 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2063,10 +2063,10 @@ static void handle_query_thread_extra(GdbCmdContext *gdb_ctx, void *user_ctx)
-         g_autofree char *cpu_name;
-         cpu_name  = object_get_canonical_path_component(OBJECT(cpu));
-         g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
--                        cpu->halted ? "halted " : "running");
-+                        cpu_halted(cpu) ? "halted " : "running");
-     } else {
-         g_string_printf(rs, "CPU#%d [%s]", cpu->cpu_index,
--                        cpu->halted ? "halted " : "running");
-+                                   cpu_halted(cpu) ? "halted " : "running");
-     }
-     trace_gdbstub_op_extra_info(rs->str);
-     memtohex(gdbserver_state.str_buf, (uint8_t *)rs->str, rs->len);
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index d9fe6c5948..2615571ce7 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -134,7 +134,7 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+         if (env->pmr & PMR_DME || env->pmr & PMR_SME) {
+             cpu_restore_state(cs, GETPC(), true);
+             env->pc += 4;
+-            cs->halted = 1;
++            cpu_halted_set(cs, 1);
+             raise_exception(cpu, EXCP_HALTED);
+         }
+         break;
 -- 
 2.17.1
 
