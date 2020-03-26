@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D2194BEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:04:15 +0100 (CET)
-Received: from localhost ([::1]:34036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8445194BF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:10:28 +0100 (CET)
+Received: from localhost ([::1]:34476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHbXq-0000oV-3d
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48700)
+	id 1jHbdr-0003gT-V3
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jHbWc-00006t-RU
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:03:00 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHbcB-0001q7-SD
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:08:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.qemu.devel@gmail.com>) id 1jHbWb-0003NP-66
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:02:58 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37236)
+ (envelope-from <richard.henderson@linaro.org>) id 1jHbcA-0001EF-5b
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:08:43 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36313)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jHbWa-0003Ls-VA
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:02:57 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d1so10168834wmb.2
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 16:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oQLFXCMJ4w3X7wjuOz5gddlquTn/81xe2ZpNp/dZYm0=;
- b=LZt19BLVsvAFU9Q6K7PyUw0AUKqLbZo9aBa+wbzbH5017RDwtSm2THcm0mtDFz0TNH
- v8xCAZOaIIeF/zHbm2aTqufYiSSn6XT1mSDB5on5M+52yR84VRoBaHNp5tjiKpj/jf6+
- let1d44KUuYX7s8g8E4WGMKe1tG4npc9IVTtWLgCUvOWP+O927oulnDnpwJfu3TUchYo
- DVycHLNp0XTiBBg6/f6Vx/Y+aoNIEfOYfMS+idzf6+gZkvV5u2j8W9CKwKRmiZFQN9CI
- pZZfGOOD8OGx1j1JufuWfaWFHKXOFVVTpYBOujLVzm1/4tOiMOk7PesWCD06Q4f4j+ue
- 6lLQ==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jHbcA-0001E2-0j
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:08:42 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id g2so2741988plo.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 16:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F6i9arXen4TLeK0sY1KC/vE3U9xI96E0JovDA1nAh+A=;
+ b=ax2U9u49VmY0gE13qfwVJclO+B1Tzk6x0lBTKlYeB8FjPOuL4aesEUgEYCiT+/iWbu
+ Ti66yszpdyU6RBxsu7tM92nCKns3X/0HhuRzBHFsm5PsXwfOARJ8FZIMrD6KvD92HTsw
+ OaSQJiTBxacF5By+QvK9OlhAD0WfayjBqQwMGCmyggrVQ/1Esp1fZ/TxmOftAG10Aevs
+ lPpDbDXLHqRtcgxNg7qiKff0toKJLRIQyJQACRgEppCDIRL6kvRfr/3xpcaJudFHaEQC
+ duXYrQuJot/hgEvrKeKxV1MJ8TpZBdoyzZqZHySpriR5yQGpYDkAO/T6MQO48ASnmnfg
+ 7XNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oQLFXCMJ4w3X7wjuOz5gddlquTn/81xe2ZpNp/dZYm0=;
- b=Mj9RHIanfb0Pua5qiEPz7c4v4TocaunS9ZeHhcrEKk6RLxr9Lg8LzQTOFCneO1GcvS
- VYQoVR3ZfRNn6IZMgSAHQSR5YSQlSm0GySKo+lVE+3AHKpM4mEeBf7vm9iOnqkokjmXg
- hHOXffCPkPnO+cGIhbQ81SU3JstpqW9wrIMNBdDtXTUuu8PoKu+2yIOaKpzr6QNbt/Cm
- WJYdqW16l2Wvu7+PRMMTHwPUD15bj+OjQCtG2trYMPkbQnGBw6mvLZD1tuv8jR6Gq8w8
- nghD/0OTbbBHf1XZBDOrzvJOougBqwVqRZ97IjcE0zapNhM6hAk3C4+DCIIy5pTUODV0
- 8aeg==
-X-Gm-Message-State: ANhLgQ0V5nInK3GjEVABDNxPNwwLlvn1uzB0lgO74Ju28mNOievnz4E+
- uveDnFbdpnKoXkr1MbnsnD7rDMhRnF+T1TMV0RiF/Q==
-X-Google-Smtp-Source: ADFU+vs7QhOZ0Xknfo4Ie38ew1KHmubO6yWAtz9PRBNO26R3DHsNnclnX5xpIULq3WnZf5Zp00HXStbN07RuQHso6c8=
-X-Received: by 2002:adf:ba48:: with SMTP id t8mr11643823wrg.329.1585263775531; 
- Thu, 26 Mar 2020 16:02:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F6i9arXen4TLeK0sY1KC/vE3U9xI96E0JovDA1nAh+A=;
+ b=cEG9tuCizI3xwttgcHxxWpqmS98vYqCbMarv1Hn/aednbFvWky+tebx7tXuz4+GKNc
+ 6aslJ+Wzm6lzSz1McAHUX2pQCsy4PE05IufmDiwm9i3VhP+hWShi29RujovgAaKgfTVJ
+ FaQIo8hmRIr0ZotLPeZuBsW1Vw5JwH4LUvRHZ9NfKjueuUA2kmObfQKlE0x+d+OACF6Y
+ bXmN0xO5eaVJxhmm/Pd+c7CkUdluODoRlo8BpC5yJyQK7+hKYKB/yGMZhaNi5k9Cqczm
+ Wl2pcjyS274aXDP4tzHaU+T/Bd7529S3GVq9NwCHSWlTkHNb81sZTMxFS6OJerd/t44K
+ tucQ==
+X-Gm-Message-State: ANhLgQ0MiLi3Fy3/M4VCEHN1afYC5RYbxP9HI1uCRXiaMtNESMOO/Z/q
+ ANkBfOuzjcAgsUnFHBHgHAvHD8NUc7c=
+X-Google-Smtp-Source: ADFU+vvTAL4gO2DwpR7KsVUJzW9zNlhO3nWXvpY6XWDmwaadkij/Awxe93LkIjR/K8kpdSeYuP2bCw==
+X-Received: by 2002:a17:90a:208:: with SMTP id
+ c8mr2561202pjc.153.1585264120482; 
+ Thu, 26 Mar 2020 16:08:40 -0700 (PDT)
+Received: from localhost.localdomain (174-21-138-234.tukw.qwest.net.
+ [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id i187sm2530037pfg.33.2020.03.26.16.08.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Mar 2020 16:08:39 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.1 00/31] target/arm: SVE2, part 1
+Date: Thu, 26 Mar 2020 16:08:07 -0700
+Message-Id: <20200326230838.31112-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
-In-Reply-To: <20200325100520.206210-1-jiaxun.yang@flygoat.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 27 Mar 2020 01:02:41 +0200
-Message-ID: <CAHiYmc4+mjtFxvTvrKohG2YBAMVqEAVVDT1e-XfJLC9D_+fnyA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target/mips: Add loongson gs464 core
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: multipart/alternative; boundary="0000000000003747e505a1c9fc41"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::62c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,120 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhc@lemote.com, aleksandar.rikalo@rt-rk.com,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: rajav@quicinc.com, qemu-arm@nongnu.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003747e505a1c9fc41
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Posting this for early review.  It's based on some other patch
+sets that I have posted recently that also touch SVE, listed
+below.  But it might just be easier to clone the devel tree [2].
+While the branch itself will rebase frequently for development,
+I've also created a tag, post-sve2-20200326, for this posting.
 
-12:05 Sre, 25.03.2020. Jiaxun Yang <jiaxun.yang@flygoat.com> =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Loongson gs464 core can be found in Loongson-3A1000 processor.
-> This patchset add minimal support for that core.
-> There are still some instructions missing, I'm going to work on
-> them later.
->
-> The corresponding hw board is also missing. I'm using modified kernel
-> for malta for testing purpose and planing to take the design of Lemote's
-> KVM virtual machine.
->
-> Official manual of this core can be found here [1] (In Chinese).
-> My collection of instruction documents mainly based on Chinese
-> version of manual, binutils gas code and experiments on real machine
-> can be found here [2] (In English).
->
-> [1]:
-http://loongson.cn/uploadfile/cpu/3A1000/Loongson_3A1000_cpu_user_2.pdf
-> [2]: https://github.com/FlyGoat/loongson-insn/blob/master/loongson-ext.md
->
+This is mostly untested, as the most recently released Foundation
+Model does not support SVE2.  Some of the new instructions overlap
+with old fashioned NEON, and I can verify that those have not
+broken, and show that SVE2 will use the same code path.  But the
+predicated insns and bottom/top interleaved insns are not yet
+RISU testable, as I have nothing to compare against.
 
-Thanks, Jiaxun!
+The patches are in general arranged so that one complete group
+of insns are added at once.  The groups within the manual [1]
+have so far been small-ish.
 
-Just to mention whay you probably know, since this is a new feature, this
-is too late for 5.0, so we are shooting for integrsying it in 5.1.
 
-Speak to you later of course in more details.
+r~
 
-Yours,
-Aleksandar
+---
 
-> Jiaxun Yang (3):
->   target/mips: Introduce loongson ext & mmi ASE flags
->   target/mips: Add loongson ext lsdc2 instrustions
->   target/mips: Add loongson gs464 core
->
->  target/mips/mips-defs.h          |   2 +
->  target/mips/translate.c          | 166 ++++++++++++++++++++++++++++++-
->  target/mips/translate_init.inc.c |  25 ++++-
->  3 files changed, 188 insertions(+), 5 deletions(-)
->
-> --
-> 2.26.0.rc2
->
->
+[1] ISA manual: https://static.docs.arm.com/ddi0602/d/ISA_A64_xml_futureA-2019-12_OPT.pdf
 
---0000000000003747e505a1c9fc41
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[2] Devel tree: https://github.com/rth7680/qemu/tree/tgt-arm-sve-2
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">12:05 Sre, 25.03.2020. Jiaxun Yang &lt;<a href=3D"mailto:jia=
-xun.yang@flygoat.com">jiaxun.yang@flygoat.com</a>&gt; =D1=98=D0=B5 =D0=BD=
-=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt;<br>
-&gt; Loongson gs464 core can be found in Loongson-3A1000 processor.<br>
-&gt; This patchset add minimal support for that core.<br>
-&gt; There are still some instructions missing, I&#39;m going to work on<br=
->
-&gt; them later.<br>
-&gt;<br>
-&gt; The corresponding hw board is also missing. I&#39;m using modified ker=
-nel<br>
-&gt; for malta for testing purpose and planing to take the design of Lemote=
-&#39;s<br>
-&gt; KVM virtual machine.<br>
-&gt;<br>
-&gt; Official manual of this core can be found here [1] (In Chinese).<br>
-&gt; My collection of instruction documents mainly based on Chinese<br>
-&gt; version of manual, binutils gas code and experiments on real machine<b=
-r>
-&gt; can be found here [2] (In English).<br>
-&gt;<br>
-&gt; [1]: <a href=3D"http://loongson.cn/uploadfile/cpu/3A1000/Loongson_3A10=
-00_cpu_user_2.pdf">http://loongson.cn/uploadfile/cpu/3A1000/Loongson_3A1000=
-_cpu_user_2.pdf</a><br>
-&gt; [2]: <a href=3D"https://github.com/FlyGoat/loongson-insn/blob/master/l=
-oongson-ext.md">https://github.com/FlyGoat/loongson-insn/blob/master/loongs=
-on-ext.md</a><br>
-&gt;</p>
-<p dir=3D"ltr">Thanks, Jiaxun!</p>
-<p dir=3D"ltr">Just to mention whay you probably know, since this is a new =
-feature, this is too late for 5.0, so we are shooting for integrsying it in=
- 5.1.</p>
-<p dir=3D"ltr">Speak to you later of course in more details.</p>
-<p dir=3D"ltr">Yours,<br>
-Aleksandar</p>
-<p dir=3D"ltr">&gt; Jiaxun Yang (3):<br>
-&gt; =C2=A0 target/mips: Introduce loongson ext &amp; mmi ASE flags<br>
-&gt; =C2=A0 target/mips: Add loongson ext lsdc2 instrustions<br>
-&gt; =C2=A0 target/mips: Add loongson gs464 core<br>
-&gt;<br>
-&gt; =C2=A0target/mips/mips-defs.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A02 +<br>
-&gt; =C2=A0target/mips/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 166 =
-++++++++++++++++++++++++++++++-<br>
-&gt; =C2=A0target/mips/translate_init.inc.c |=C2=A0 25 ++++-<br>
-&gt; =C2=A03 files changed, 188 insertions(+), 5 deletions(-)<br>
-&gt;<br>
-&gt; -- <br>
-&gt; 2.26.0.rc2<br>
-&gt;<br>
-&gt;<br>
-</p>
+Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=163610
+("target/arm: sve load/store improvements")
 
---0000000000003747e505a1c9fc41--
+Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=164500
+("target/arm: Use tcg_gen_gvec_5_ptr for sve FMLA/FCMLA")
+
+Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=164048
+("target/arm: Implement ARMv8.5-MemTag, system mode")
+
+Richard Henderson (31):
+  target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
+  target/arm: Implement SVE2 Integer Multiply - Unpredicated
+  target/arm: Implement SVE2 integer pairwise add and accumulate long
+  target/arm: Remove fp_status from helper_{recpe,rsqrte}_u32
+  target/arm: Implement SVE2 integer unary operations (predicated)
+  target/arm: Split out saturating/rounding shifts from neon
+  target/arm: Implement SVE2 saturating/rounding bitwise shift left
+    (predicated)
+  target/arm: Implement SVE2 integer halving add/subtract (predicated)
+  target/arm: Implement SVE2 integer pairwise arithmetic
+  target/arm: Implement SVE2 saturating add/subtract (predicated)
+  target/arm: Implement SVE2 integer add/subtract long
+  target/arm: Implement SVE2 integer add/subtract interleaved long
+  target/arm: Implement SVE2 integer add/subtract wide
+  target/arm: Implement SVE2 integer multiply long
+  target/arm: Implement PMULLB and PMULLT
+  target/arm: Tidy SVE tszimm shift formats
+  target/arm: Implement SVE2 bitwise shift left long
+  target/arm: Implement SVE2 bitwise exclusive-or interleaved
+  target/arm: Implement SVE2 bitwise permute
+  target/arm: Implement SVE2 complex integer add
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+    long
+  target/arm: Implement SVE2 integer add/subtract long with carry
+  target/arm: Create arm_gen_gvec_[us]sra
+  target/arm: Create arm_gen_gvec_{u,s}{rshr,rsra}
+  target/arm: Implement SVE2 bitwise shift right and accumulate
+  target/arm: Create arm_gen_gvec_{sri,sli}
+  target/arm: Tidy handle_vec_simd_shri
+  target/arm: Implement SVE2 bitwise shift and insert
+  target/arm: Vectorize SABD/UABD
+  target/arm: Vectorize SABA/UABA
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+
+ target/arm/cpu.h           |  31 ++
+ target/arm/helper-sve.h    | 345 +++++++++++++++++
+ target/arm/helper.h        |  81 +++-
+ target/arm/translate-a64.h |   9 +
+ target/arm/translate.h     |  24 +-
+ target/arm/vec_internal.h  | 161 ++++++++
+ target/arm/sve.decode      | 217 ++++++++++-
+ target/arm/helper.c        |   3 +-
+ target/arm/kvm64.c         |   2 +
+ target/arm/neon_helper.c   | 515 ++++---------------------
+ target/arm/sve_helper.c    | 757 ++++++++++++++++++++++++++++++++++---
+ target/arm/translate-a64.c | 557 +++++++++++++++++++++++----
+ target/arm/translate-sve.c | 557 +++++++++++++++++++++++++++
+ target/arm/translate.c     | 626 ++++++++++++++++++++++--------
+ target/arm/vec_helper.c    | 411 ++++++++++++++++++++
+ target/arm/vfp_helper.c    |   4 +-
+ 16 files changed, 3532 insertions(+), 768 deletions(-)
+ create mode 100644 target/arm/vec_internal.h
+
+-- 
+2.20.1
+
 
