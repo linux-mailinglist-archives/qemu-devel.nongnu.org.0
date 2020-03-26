@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA416194C5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:24:56 +0100 (CET)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C20194C0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 00:16:03 +0100 (CET)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHbrr-0001fS-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58659)
+	id 1jHbjG-0004Tp-SH
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 19:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHbcV-0002YU-Ls
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHbcX-0002cq-8O
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHbcU-0001cl-GL
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:03 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36573)
+ (envelope-from <richard.henderson@linaro.org>) id 1jHbcV-0001ee-Mr
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:05 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36574)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHbcU-0001b3-A1
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:02 -0400
-Received: by mail-pf1-x442.google.com with SMTP id i13so3553596pfe.3
- for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 16:09:02 -0700 (PDT)
+ id 1jHbcV-0001dX-H3
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 19:09:03 -0400
+Received: by mail-pf1-x443.google.com with SMTP id i13so3553621pfe.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 16:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cv1t9pmvTM2or2y2OW8+tePDhkWPmqSM7xnDl7FKLbM=;
- b=uIqBnWL8T4v191boSmUZwB494xE/PGFRifYhV43jeTNSJ3Cj5Mm43BNKjSeUAl55sw
- vZpHh6nj8aEaZFog2zlzPCeedO3UXD8V9+nLMzCuqI9iircm7N7FIdUre1kskonwCdgr
- KBHtgE1vg8AQRYnz74dth6UCBR9+I222bWevRB9nK1VYtmgZ4rIND3oCiHe1/TrhKiRj
- IGGoyLmmMUQPujB2Rf9iBo5fch/Cxcbj0DMTZuam8fRBKKxY0j1JMG/s5Fbf0dobOhFe
- 8SVvRMM1qrpW8VkmErq1AKHlE96DpetQ8FrjlFbH2hHMWpY8JvoWgRElvU/Kt2HJGreR
- 6S+Q==
+ bh=6gFXa7U00jC32XzVhB/bZg7gt2oypaZr80DxmsTe9GI=;
+ b=UC7RaQjBnyI9Jsd1QHYb4JunreupUSW8ZCngkDpMBSwvQOxyLaqftlmlP5XFuK+nze
+ QyGHtHWGh//fU+Qaf5L7e0rY3w0oZ8q+XycCkbTXNsxv0UaDXibcCf2oIaZ5sn5aNUjF
+ OO0jKglu9zcYUtZ/AwGqb2IUpR/+V90dtejgWmLQb+ZqRPQaRA+LmBICmqdXJQD9fGvw
+ ku4AL7MNAh65IjqrF5lphjGQY/VHQLwHWtCGJ1+etq4UTRmG5jl6LmhneasoxctYHHSI
+ e6CEzWtynYSVEOccw4jB9AbUUzZCSGXLBUfWhtcGQ0AbXZOISjPsqrR2M1S3SVyo+hN+
+ Qgyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cv1t9pmvTM2or2y2OW8+tePDhkWPmqSM7xnDl7FKLbM=;
- b=cD5NE3WDJ7J4ulLw8t5WPRLYs8iMeZVZX2+kbvHesJmg9WZhFDyFOb4XQLyMPwHp7K
- psUq+VSe18iO9KlrPG5TIqKYFGZdwG0C6LhanICRclVTSj/X4xPp/Js47I+akgsjvkz7
- fIVEGxA0LT7uneqpwvE4x3EON3/Wtgp6F2MfTPzNb7RmTrj6Iew+pvXAFyO57OxuE8yx
- 8KUSLxTpfOgxPwnSWWRzkrRvpY9gy73N9oI2Qxkq3u7uOiYuY/kF0Bxl18hAJv/gEohV
- czJqYK2GjIEKRtut/xlcpdTSs+rGF4sJRhmJ4dO0rjNCjWYlWGIaWFCm/m49y+SmKAcV
- r5QA==
-X-Gm-Message-State: ANhLgQ0x0JEoLA+FQi7YU4tit+wViFT2Mm7Xc30eOrCxv+zm6PSmhNHa
- q5FJLDhvoZkmsgfdkYMva+u59GPGnjE=
-X-Google-Smtp-Source: ADFU+vt42cA3UfdHbYZGsk8oAxIRBhVuTro4FBG3J6f9YDSKvCyVbgXzqvmyUd8xI8so8TUdQnDSag==
-X-Received: by 2002:a63:e544:: with SMTP id z4mr10927219pgj.174.1585264140810; 
- Thu, 26 Mar 2020 16:09:00 -0700 (PDT)
+ bh=6gFXa7U00jC32XzVhB/bZg7gt2oypaZr80DxmsTe9GI=;
+ b=WwygLfA/3gaauGV3xEOSn1sWaTUdLjEtSaWMEhEMy3TIpbw5nXMaCalJKFqemL5CjO
+ tpiS2i3vAI03cmK4etjasokA8cReCG4KmUhiAzJ+Z8qIF+yaWiYEpxN+FLfB6y2Ir+eh
+ Be+ob7Zmpq+i9EWbb9r559wZ19H3r0rs8fVp+CJ6zb1wRmq6qgbAP/zjaMftLZc6fhCq
+ 21oiqEiTAboOEjli72pW37xX/7ao+UDfMzDeS8LXDjcJTbezK/fEOPCreRzrEZ25GmfB
+ NMsiont1iGeeIgk6qNxFiPdNBkCq8kDAGgJ1O2Nzc1hh/AtyW+g8JScs/N1cW5or2mJf
+ Njww==
+X-Gm-Message-State: ANhLgQ3XEK3QB737IfH40NC2sg1q1qN80uI9jEZ4RVDXlz+TMuBYXuYf
+ 0WfVlCcTB1FBTHTpF1OxJNLridgH8Hs=
+X-Google-Smtp-Source: ADFU+vt56MvLnhu81r+GJWVg0oIEDFWEYDoC9gjAoBVja7kBc+4HtJxVTFlbTqgidp/n1V+XPiBPpQ==
+X-Received: by 2002:aa7:9790:: with SMTP id o16mr11614378pfp.322.1585264142088; 
+ Thu, 26 Mar 2020 16:09:02 -0700 (PDT)
 Received: from localhost.localdomain (174-21-138-234.tukw.qwest.net.
  [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id i187sm2530037pfg.33.2020.03.26.16.08.59
+ by smtp.gmail.com with ESMTPSA id i187sm2530037pfg.33.2020.03.26.16.09.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 16:09:00 -0700 (PDT)
+ Thu, 26 Mar 2020 16:09:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/31] target/arm: Tidy SVE tszimm shift formats
-Date: Thu, 26 Mar 2020 16:08:23 -0700
-Message-Id: <20200326230838.31112-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/31] target/arm: Implement SVE2 bitwise shift left long
+Date: Thu, 26 Mar 2020 16:08:24 -0700
+Message-Id: <20200326230838.31112-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200326230838.31112-1-richard.henderson@linaro.org>
 References: <20200326230838.31112-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,76 +82,162 @@ Cc: rajav@quicinc.com, qemu-arm@nongnu.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than require the user to fill in the immediate (shl or shr),
-create full formats that include the immediate.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+ target/arm/helper-sve.h    |  8 +++++++
+ target/arm/sve.decode      |  8 +++++++
+ target/arm/sve_helper.c    | 34 ++++++++++++++++++++++++++
+ target/arm/translate-sve.c | 49 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 99 insertions(+)
 
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 943839e2dc..9c0c41ba80 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2372,3 +2372,11 @@ DEF_HELPER_FLAGS_4(sve2_umull_zzz_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ 
+ DEF_HELPER_FLAGS_4(sve2_pmull_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(sve2_pmull_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_3(sve2_sshll_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(sve2_sshll_s, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(sve2_sshll_d, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_3(sve2_ushll_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(sve2_ushll_s, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(sve2_ushll_d, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 04bf9e5ce8..440cff4597 100644
+index 440cff4597..36ef9de563 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -151,13 +151,17 @@
- @rd_rn_i6       ........ ... rn:5 ..... imm:s6 rd:5             &rri
+@@ -1207,3 +1207,11 @@ SMULLB_zzz      01000101 .. 0 ..... 011 100 ..... .....  @rd_rn_rm
+ SMULLT_zzz      01000101 .. 0 ..... 011 101 ..... .....  @rd_rn_rm
+ UMULLB_zzz      01000101 .. 0 ..... 011 110 ..... .....  @rd_rn_rm
+ UMULLT_zzz      01000101 .. 0 ..... 011 111 ..... .....  @rd_rn_rm
++
++## SVE2 bitwise shift left long
++
++# Note bit23 == 0 is handled by esz > 0 in do_sve2_shll_tb.
++SSHLLB          01000101 .. 0 ..... 1010 00 ..... .....  @rd_rn_tszimm_shl
++SSHLLT          01000101 .. 0 ..... 1010 01 ..... .....  @rd_rn_tszimm_shl
++USHLLB          01000101 .. 0 ..... 1010 10 ..... .....  @rd_rn_tszimm_shl
++USHLLT          01000101 .. 0 ..... 1010 11 ..... .....  @rd_rn_tszimm_shl
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 130697f3d9..e0a701c446 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -625,6 +625,8 @@ DO_ZPZZ(sve2_sqrshl_zpzz_h, int16_t, H1_2, do_sqrshl_h)
+ DO_ZPZZ(sve2_sqrshl_zpzz_s, int32_t, H1_4, do_sqrshl_s)
+ DO_ZPZZ_D(sve2_sqrshl_zpzz_d, int64_t, do_sqrshl_d)
  
- # Two register operand, one immediate operand, with predicate,
--# element size encoded as TSZHL.  User must fill in imm.
--@rdn_pg_tszimm  ........ .. ... ... ... pg:3 ..... rd:5 \
--                &rpri_esz rn=%reg_movprfx esz=%tszimm_esz
-+# element size encoded as TSZHL.
-+@rdn_pg_tszimm_shl  ........ .. ... ... ... pg:3 ..... rd:5 \
-+                    &rpri_esz rn=%reg_movprfx esz=%tszimm_esz imm=%tszimm_shl
-+@rdn_pg_tszimm_shr  ........ .. ... ... ... pg:3 ..... rd:5 \
-+                    &rpri_esz rn=%reg_movprfx esz=%tszimm_esz imm=%tszimm_shr
++#undef do_sqrshl_d
++
+ #define do_uqrshl_b(n, m) \
+    ({ uint32_t discard; do_uqrshl_bhs(n, m, 8, true, &discard); })
+ #define do_uqrshl_h(n, m) \
+@@ -639,6 +641,8 @@ DO_ZPZZ(sve2_uqrshl_zpzz_h, uint16_t, H1_2, do_uqrshl_h)
+ DO_ZPZZ(sve2_uqrshl_zpzz_s, uint32_t, H1_4, do_uqrshl_s)
+ DO_ZPZZ_D(sve2_uqrshl_zpzz_d, uint64_t, do_uqrshl_d)
  
- # Similarly without predicate.
--@rd_rn_tszimm   ........ .. ... ... ...... rn:5 rd:5 \
--                &rri_esz esz=%tszimm16_esz
-+@rd_rn_tszimm_shl   ........ .. ... ... ...... rn:5 rd:5 \
-+                    &rri_esz esz=%tszimm16_esz imm=%tszimm16_shl
-+@rd_rn_tszimm_shr   ........ .. ... ... ...... rn:5 rd:5 \
-+                    &rri_esz esz=%tszimm16_esz imm=%tszimm16_shr
++#undef do_uqrshl_d
++
+ #define DO_HADD_BHS(n, m)  (((int64_t)n + m) >> 1)
+ #define DO_HADD_D(n, m)    ((n >> 1) + (m >> 1) + (n & m & 1))
  
- # Two register operand, one immediate operand, with 4-bit predicate.
- # User must fill in imm.
-@@ -290,14 +294,10 @@ UMINV           00000100 .. 001 011 001 ... ..... .....         @rd_pg_rn
- ### SVE Shift by Immediate - Predicated Group
+@@ -1192,6 +1196,36 @@ DO_ZZZ_WTB(sve2_usubw_d, uint64_t, uint32_t, DO_SUB)
  
- # SVE bitwise shift by immediate (predicated)
--ASR_zpzi        00000100 .. 000 000 100 ... .. ... ..... \
--                @rdn_pg_tszimm imm=%tszimm_shr
--LSR_zpzi        00000100 .. 000 001 100 ... .. ... ..... \
--                @rdn_pg_tszimm imm=%tszimm_shr
--LSL_zpzi        00000100 .. 000 011 100 ... .. ... ..... \
--                @rdn_pg_tszimm imm=%tszimm_shl
--ASRD            00000100 .. 000 100 100 ... .. ... ..... \
--                @rdn_pg_tszimm imm=%tszimm_shr
-+ASR_zpzi        00000100 .. 000 000 100 ... .. ... .....  @rdn_pg_tszimm_shr
-+LSR_zpzi        00000100 .. 000 001 100 ... .. ... .....  @rdn_pg_tszimm_shr
-+LSL_zpzi        00000100 .. 000 011 100 ... .. ... .....  @rdn_pg_tszimm_shl
-+ASRD            00000100 .. 000 100 100 ... .. ... .....  @rdn_pg_tszimm_shr
+ #undef DO_ZZZ_WTB
  
- # SVE bitwise shift by vector (predicated)
- ASR_zpzz        00000100 .. 010 000 100 ... ..... .....   @rdn_pg_rm
-@@ -401,12 +401,9 @@ RDVL            00000100 101 11111 01010 imm:s6 rd:5
- ### SVE Bitwise Shift - Unpredicated Group
- 
- # SVE bitwise shift by immediate (unpredicated)
--ASR_zzi         00000100 .. 1 ..... 1001 00 ..... ..... \
--                @rd_rn_tszimm imm=%tszimm16_shr
--LSR_zzi         00000100 .. 1 ..... 1001 01 ..... ..... \
--                @rd_rn_tszimm imm=%tszimm16_shr
--LSL_zzi         00000100 .. 1 ..... 1001 11 ..... ..... \
--                @rd_rn_tszimm imm=%tszimm16_shl
-+ASR_zzi         00000100 .. 1 ..... 1001 00 ..... .....  @rd_rn_tszimm_shr
-+LSR_zzi         00000100 .. 1 ..... 1001 01 ..... .....  @rd_rn_tszimm_shr
-+LSL_zzi         00000100 .. 1 ..... 1001 11 ..... .....  @rd_rn_tszimm_shl
- 
- # SVE bitwise shift by wide elements (unpredicated)
- # Note esz != 3
++#define DO_ZZI_SHLL(NAME, TYPE, TYPEN, OP) \
++void HELPER(NAME)(void *vd, void *vn, uint32_t desc)           \
++{                                                              \
++    intptr_t i, opr_sz = simd_oprsz(desc);                     \
++    int sel = (simd_data(desc) & 1) * sizeof(TYPE);            \
++    int shift = simd_data(desc) >> 1;                          \
++    for (i = 0; i < opr_sz; i += sizeof(TYPE)) {               \
++        TYPE nn = (TYPEN)(*(TYPE *)(vn + i) >> sel);           \
++        *(TYPE *)(vd + i) = OP(nn, shift);                     \
++    }                                                          \
++}
++
++#define DO_SSHLL_H(val, sh)  do_sqrshl_bhs(val, sh, 16, false, NULL)
++#define DO_SSHLL_S(val, sh)  do_sqrshl_bhs(val, sh, 32, false, NULL)
++#define DO_SSHLL_D(val, sh)  do_sqrshl_d(val, sh, false, NULL)
++
++DO_ZZI_SHLL(sve2_sshll_h, int16_t, int8_t, DO_SSHLL_H)
++DO_ZZI_SHLL(sve2_sshll_s, int32_t, int16_t, DO_SSHLL_S)
++DO_ZZI_SHLL(sve2_sshll_d, int64_t, int32_t, DO_SSHLL_D)
++
++#define DO_USHLL_H(val, sh)  do_uqrshl_bhs(val, sh, 16, false, NULL)
++#define DO_USHLL_S(val, sh)  do_uqrshl_bhs(val, sh, 32, false, NULL)
++#define DO_USHLL_D(val, sh)  do_uqrshl_d(val, sh, false, NULL)
++
++DO_ZZI_SHLL(sve2_ushll_h, uint16_t, uint8_t, DO_USHLL_H)
++DO_ZZI_SHLL(sve2_ushll_s, uint32_t, uint16_t, DO_USHLL_S)
++DO_ZZI_SHLL(sve2_ushll_d, uint64_t, uint32_t, DO_USHLL_D)
++
++#undef DO_ZZI_SHLL
++
+ /* Two-operand reduction expander, controlled by a predicate.
+  * The difference between TYPERED and TYPERET has to do with
+  * sign-extension.  E.g. for SMAX, TYPERED must be signed,
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 67416a25ce..9873b83feb 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -6105,3 +6105,52 @@ DO_SVE2_ZZZ_WTB(UADDWB, uaddw, false)
+ DO_SVE2_ZZZ_WTB(UADDWT, uaddw, true)
+ DO_SVE2_ZZZ_WTB(USUBWB, usubw, false)
+ DO_SVE2_ZZZ_WTB(USUBWT, usubw, true)
++
++static bool do_sve2_shll_tb(DisasContext *s, arg_rri_esz *a,
++                            bool sel, bool uns)
++{
++    static gen_helper_gvec_2 * const fns[2][3] = {
++        { gen_helper_sve2_sshll_h,
++          gen_helper_sve2_sshll_s,
++          gen_helper_sve2_sshll_d },
++        { gen_helper_sve2_ushll_h,
++          gen_helper_sve2_ushll_s,
++          gen_helper_sve2_ushll_d },
++    };
++
++    if (a->esz <= 0 || !dc_isar_feature(aa64_sve2, s)) {
++        /*
++         * For < 0, invalid tsz encoding -- see tszimm_esz.
++         * For = 0, not a widening operation; note this implies bit23 = 0.
++         */
++        return false;
++    }
++    if (sve_access_check(s)) {
++        unsigned vsz = vec_full_reg_size(s);
++        tcg_gen_gvec_2_ool(vec_full_reg_offset(s, a->rd),
++                           vec_full_reg_offset(s, a->rn),
++                           vsz, vsz, (a->imm << 1) | sel,
++                           fns[uns][a->esz - 1]);
++    }
++    return true;
++}
++
++static bool trans_SSHLLB(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_shll_tb(s, a, false, false);
++}
++
++static bool trans_SSHLLT(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_shll_tb(s, a, true, false);
++}
++
++static bool trans_USHLLB(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_shll_tb(s, a, false, true);
++}
++
++static bool trans_USHLLT(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_shll_tb(s, a, true, true);
++}
 -- 
 2.20.1
 
