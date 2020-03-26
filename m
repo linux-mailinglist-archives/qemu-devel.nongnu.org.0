@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD05194A74
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:23:59 +0100 (CET)
-Received: from localhost ([::1]:60590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E608194A8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Mar 2020 22:27:58 +0100 (CET)
+Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHZyo-0003VE-D9
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39221)
+	id 1jHa2f-000681-EP
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 17:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jHZxe-0002mg-8u
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:22:47 -0400
+ (envelope-from <linus.walleij@linaro.org>) id 1jHa1V-0005Wh-CI
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:26:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jHZxd-0003ci-1T
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:22:46 -0400
-Resent-Date: Thu, 26 Mar 2020 17:22:46 -0400
-Resent-Message-Id: <E1jHZxd-0003ci-1T@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21108)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jHZxZ-0003YO-WC; Thu, 26 Mar 2020 17:22:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585257757; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RtwP5e3WvG0lSsA6M0biR96U7InVlhJBmlPDVI4owE4+hDy8XIhcxmNjnw3c9W9ogjLFnTUHrtBVAKpYX2eVYA+f6YhNTuMgQfE9uUO6dComnOxFL/vFyJGf9vLD3IellzbzGY09ubRQFK9Zu0ph2Dny+STvEfqDT/PdHDG3FJ0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585257757;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=UQ1oTNrf1VH1ahRuAhXyGf+I2a02qMIHYEK9VCDSIS4=; 
- b=R8mcRV2jgGt4UPBwTfekbp5TyKdjxePCPysow+VI0PXaUzNlVhwBdsyp0GvO+BOA3wCEgd7vimVXS6fnF0AGgrnHno0NDHFWuVh3N/p+mu786tGIEfNO8NV64iArX4ePaE+3XdJ9MW87GZ4B1b3g7arOtt6jWshdfRpRa19j2lU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585257756192308.1368310990623;
- Thu, 26 Mar 2020 14:22:36 -0700 (PDT)
-In-Reply-To: <20200326203414.18140-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/arm/collie: Put StrongARMState* into a
- CollieMachineState struct
-Message-ID: <158525775502.25711.13645073054159373855@39012742ff91>
+ (envelope-from <linus.walleij@linaro.org>) id 1jHa1U-0007ak-2n
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:26:45 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40907)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1jHa1T-0007YK-RF
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 17:26:44 -0400
+Received: by mail-lj1-x242.google.com with SMTP id 19so8027029ljj.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Mar 2020 14:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K6HhQ5CXYnVrjzdCb0GiH9KRJ8oDBIqHlDAtHtGoEj0=;
+ b=R1ZbV8ZHF2uNrvQMw6yLPcZXYX/L1Bi1ZDegFPmpGCQZQxDo4xJstG1+5lxSGccQjM
+ DtHC3HQ/jx2YMTytcd6ultwEU/i0RlVnZivmFm9vimqHtelawlsMju+sVKJ7lHhUFclt
+ CAT0JwPBKGwAs7QH0zYIR8ngkUu1HqQt+JNM8LA/bSlIAM7ldYL3U3TWwGQQsnl/Hel9
+ 6kj0OiO6KeusAjhbIL7po4EZAoa2QzUuNNDHmg7OdxCfj5w04nJlHikrm/4rjGHXVBbt
+ BztQyx2aUzDzf8VaHiOVqUzXyYasFaATNZCxsfBVkbIyEnDecxq0KQKBEI2iK76fHmnY
+ Nh5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K6HhQ5CXYnVrjzdCb0GiH9KRJ8oDBIqHlDAtHtGoEj0=;
+ b=tVKp1kUzFD7GMVgyeto/URr7Riu90141OOgwHZhirPSGF7HuYq+dmZ5xbmEafg033o
+ ojl0pSL6YlwQu03SCBEwhVWTs8nuA6y7DhrA7RZOa2SBpcuF8oQQkhJBFTgJT9X4wl76
+ UlV5Jbl/nRCQF1BUMMfXLP7MUegLjElyuwz9W78OMtc3s7uHhDPV3kI9FA/u5N48vi+7
+ 2NjG3Zzmgj3e9CeteGjG9uEqdk1hLkjV/r+7Cywg+zLQOOEQufyRf4XSvK9wRg8jqsQi
+ oYf2lc/J0m1knLtJUJ+ceQFFP/pnH6vUGtj7k8S5Ni+yiz7prqzim4j9qnj2X6Oo6nQs
+ alwQ==
+X-Gm-Message-State: AGi0PubC1dbowO4RGzoe8NEVKbi+7250mzJiKiOf/D58ChTU92S7INo3
+ pJ8Ptk4BZ+n5+j1sdYfzS8ic+Jw9AM8qsQMevyochw==
+X-Google-Smtp-Source: APiQypLsy28BzQ4YoJJE2i0gYrneALBvsp4MxQ5uVCHUPAjFEGFTMqFCGi01B7eAtiikChneeDns42u4uM1vGmEAXuk=
+X-Received: by 2002:a2e:9c48:: with SMTP id t8mr568502ljj.168.1585258002139;
+ Thu, 26 Mar 2020 14:26:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Thu, 26 Mar 2020 14:22:36 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+References: <20200324135328.5796-1-geert+renesas@glider.be>
+ <20200324135653.6676-1-geert+renesas@glider.be>
+ <20200324135653.6676-5-geert+renesas@glider.be>
+In-Reply-To: <20200324135653.6676-5-geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 26 Mar 2020 22:26:30 +0100
+Message-ID: <CACRpkdZuQrPqFPyoop9pv6MVwqwz_C6ZNKMxWqSFXdAMkhbsvQ@mail.gmail.com>
+Subject: Re: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,53 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMyNjIwMzQxNC4xODE0
-MC0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGRvY2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
-bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
-c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRv
-Y2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWlu
-Z3dAZmVkb3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAg
-ICAgYWFyY2g2NC1zb2Z0bW11L3RhcmdldC9hcm0vdHJhbnNsYXRlLWE2NC5vCiAgQ0MgICAgICBh
-YXJjaDY0LXNvZnRtbXUvdGFyZ2V0L2FybS9oZWxwZXItYTY0Lm8KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2h3L2FybS9jb2xsaWUuYzogSW4gZnVuY3Rpb24gJ2NvbGxpZV9pbml0JzoKL3RtcC9xZW11LXRl
-c3Qvc3JjL2h3L2FybS9jb2xsaWUuYzo2NzoyMTogZXJyb3I6ICdzJyB1bmRlY2xhcmVkIChmaXJz
-dCB1c2UgaW4gdGhpcyBmdW5jdGlvbikKICAgICBhcm1fbG9hZF9rZXJuZWwocy0+Y3B1LCBtYWNo
-aW5lLCAmY29sbGllX2JpbmZvKTsKICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVz
-dC9zcmMvaHcvYXJtL2NvbGxpZS5jOjY3OjIxOiBub3RlOiBlYWNoIHVuZGVjbGFyZWQgaWRlbnRp
-ZmllciBpcyByZXBvcnRlZCBvbmx5IG9uY2UgZm9yIGVhY2ggZnVuY3Rpb24gaXQgYXBwZWFycyBp
-bgptYWtlWzFdOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGh3L2FybS9j
-b2xsaWUub10gRXJyb3IgMQptYWtlWzFdOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2Jz
-Li4uLgogIEdFTiAgICAgYWFyY2g2NC1zb2Z0bW11L3RhcmdldC9hcm0vZGVjb2RlLXN2ZS5pbmMu
-YwptYWtlOiAqKiogW01ha2VmaWxlOjUyNzogYWFyY2g2NC1zb2Z0bW11L2FsbF0gRXJyb3IgMgpt
-YWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIEdFTiAgICAgeDg2XzY0
-LXNvZnRtbXUvcWVtdS1zeXN0ZW0teDg2XzY0LmV4ZQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNh
-bGwgbGFzdCk6Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkK
-c3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdk
-b2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1jZGI5MTRi
-ZjY2NTI0ZDdlYTNmMTAzZDIyZDEyMTlhNycsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0
-JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICct
-ZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICct
-ZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90
-bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNo
-ZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAt
-dWd6ejF6dm8vc3JjL2RvY2tlci1zcmMuMjAyMC0wMy0yNi0xNy4yMC4yMS43NzUxOi92YXIvdG1w
-L3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1p
-bmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
-YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWNkYjkxNGJmNjY1MjRkN2VhM2YxMDNkMjJkMTIx
-OWE3Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
-cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXVnenoxenZvL3NyYycKbWFrZTog
-KioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDJtMTQu
-NjIxcwp1c2VyICAgIDBtOC4zMTNzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDMyNjIwMzQxNC4xODE0MC0xLXBldGVyLm1heWRlbGxA
-bGluYXJvLm9yZy90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> The GPIO Aggregator will need a method to forward a .set_config() call
+> to its parent gpiochip.  This requires obtaining the gpio_chip and
+> offset for a given gpio_desc.  While gpiod_to_chip() is public,
+> gpio_chip_hwgpio() is not, so there is currently no method to obtain the
+> needed GPIO offset parameter.
+>
+> Hence introduce a public gpiod_set_config() helper, which invokes the
+> .set_config() callback through a gpio_desc pointer, like is done for
+> most other gpio_chip callbacks.
+>
+> Rewrite the existing gpiod_set_debounce() helper as a wrapper around
+> gpiod_set_config(), to avoid duplication.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v6:
+>   - New.
+
+This is nice, I tried to actually just apply this (you also sent some
+two cleanups that I tried to apply) byt Yue's cleanup patch
+commit d18fddff061d2796525e6d4a958cb3d30aed8efd
+"gpiolib: Remove duplicated function gpio_do_set_config()"
+makes none of them apply :/
+
+Yours,
+Linus Walleij
 
