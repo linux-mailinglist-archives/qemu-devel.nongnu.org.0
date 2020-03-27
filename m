@@ -2,104 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7508C19543B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:42:06 +0100 (CET)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCA919545B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:44:41 +0100 (CET)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHlV7-0005T3-Fm
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:42:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
+	id 1jHlXc-0000py-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32956)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jHlTu-0004yu-3z
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:40:51 -0400
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jHlWl-0000P6-Qd
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:43:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jHlTs-0005gm-9W
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:40:50 -0400
-Received: from mail-eopbgr10096.outbound.protection.outlook.com
- ([40.107.1.96]:37454 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jHlTl-00059V-27; Fri, 27 Mar 2020 05:40:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TscmiXrFhUmcH8Z6ebRYOTnrakfyJ+qJ2ydpuuyQtlmsBx+YOpJ0PWCJGiK7OHDL+pmhS0JVAuRMuPnrzYTItwFBWyK/rV0mDX4ajl+XHtPP7Vdeqahcyc/y2KmYov7MWphWMcm0LHqVvwmV85yWWDIIfN9n4LKtJRt/d2DU0zn7YWDcso9w9h4ODYwAFdG2ERF6rhHS/FhnuXk9NdZQ9DQQce7TISXeq7oUT+9cQaCGDPZ6HxZhJ5xX7qSjOOsCYPq7cty+7q8l9gfdhGsrhjvS0TcZx+06HoZc//bk77gt3X19qHHjgcdyPcXbbSN3Rn0NLTli3xJWvfG+EiXvGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J8ylHHCiO7QhLhIkkdNPwxv/14glTH56DaZLuaOJRzc=;
- b=PC8ZhYEtveuwZNv3h0beDFFrMnQL5exSAU0TwAZQlw+INNCQ/gaYqwPSg7CbnutpqDp9gHolPg7ZThRdhWjyBpyBrwG/kepTSzepiBDEhRY/KyPd3m4eMiFVB4wqb34TSr6dXWoEVtOX6hiB90CpDY/5uCv36tDtu+NLwDAvOfQIFyf/stY8zqQSffnTFSf0dz+Am3nxEP31ZoaSybtzbfkMJpJ+kNAE5WjN65l+51Y7DanKDwBnE2ORVvbqm+I9jWg9ICx13Ki4DmGbBkpQp3xRlkX/IZnQkwKH0CdP+rpA1qbZ4YArb93OSvI1XZCLgVyIGzfcSZXU8FzO9HDS7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J8ylHHCiO7QhLhIkkdNPwxv/14glTH56DaZLuaOJRzc=;
- b=Dy8S4E3/YeBuaheBKnLYfm4O14JNtx1zTtDM2ExvfeABDBA3xpPUJJP26jergQ6TqQqV3cKgKeOZ0uGLjwHu0OzFnXWquF474zIFe2RSaGVxI8bqAVK9yxzkAwL3fecU6wxMrUDCQ0FsnsX6Se4p9Bsq3q5gyHKMLBR+WhEf8wQ=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
- AM0PR08MB5441.eurprd08.prod.outlook.com (52.132.212.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Fri, 27 Mar 2020 09:40:38 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::9875:c099:713b:8219]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::9875:c099:713b:8219%4]) with mapi id 15.20.2835.025; Fri, 27 Mar 2020
- 09:40:38 +0000
-Subject: Re: [PATCH v9 3/4] qcow2: add zstd cluster compression
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200323142558.15473-1-dplotnikov@virtuozzo.com>
- <20200323142558.15473-4-dplotnikov@virtuozzo.com>
- <9ad0aa8d-b813-ae3a-2d4e-d1573e9cb582@virtuozzo.com>
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <662cb9bd-5528-ca4e-8698-40c8cd414f33@virtuozzo.com>
-Date: Fri, 27 Mar 2020 12:40:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <9ad0aa8d-b813-ae3a-2d4e-d1573e9cb582@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-ClientProxiedBy: FRYP281CA0012.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::22)
- To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1jHlWk-0000dy-Es
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:43:47 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2081 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1jHlWj-0000P3-K3; Fri, 27 Mar 2020 05:43:46 -0400
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 3C76AF4FE95B2783E299;
+ Fri, 27 Mar 2020 17:43:37 +0800 (CST)
+Received: from DGGEMM423-HUB.china.huawei.com (10.1.198.40) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 27 Mar 2020 17:43:36 +0800
+Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.202]) by
+ dggemm423-hub.china.huawei.com ([10.1.198.40]) with mapi id 14.03.0487.000;
+ Fri, 27 Mar 2020 17:43:29 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Subject: RE: [PATCH 1/3] gdbstub: prevent uninitialized warning
+Thread-Topic: [PATCH 1/3] gdbstub: prevent uninitialized warning
+Thread-Index: AQHWAoba+W411pX0qU+twtHpe83Qn6hbpIQAgACL2AA=
+Date: Fri, 27 Mar 2020 09:43:29 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83B6C9255@dggemm511-mbx.china.huawei.com>
+References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
+ <20200325092137.24020-2-kuhn.chenqun@huawei.com> <874kuanou9.fsf@linaro.org>
+In-Reply-To: <874kuanou9.fsf@linaro.org>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.133.205.93]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (178.34.151.159) by
- FRYP281CA0012.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20 via Frontend Transport; Fri, 27 Mar 2020 09:40:37 +0000
-X-Originating-IP: [178.34.151.159]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cdfa146d-87f1-4dc5-216c-08d7d232e820
-X-MS-TrafficTypeDiagnostic: AM0PR08MB5441:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB54412DB0456CF94235287655CFCC0@AM0PR08MB5441.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0355F3A3AE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(366004)(346002)(39850400004)(396003)(376002)(136003)(8676002)(81166006)(36756003)(81156014)(66476007)(6486002)(5660300002)(52116002)(66556008)(4326008)(2906002)(66946007)(31686004)(53546011)(956004)(2616005)(16526019)(186003)(26005)(316002)(31696002)(478600001)(8936002)(966005)(16576012)(86362001);
- DIR:OUT; SFP:1102; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qW9D+0cYD70mDEH0HjtVBzJbR/H3Rwew5LCl6ooHb5dVQo0XZZcmaJdRjgYnmGE7beyHF3JlenCQVHeDVWBcHvgd1YGfmQfC7rXa0yi15XHVtzLAUOvI3Saab0VOLZIbLsyKd2kuH9nKqsB5w97nk4Bkem1T8Ih95pf8J9EFq5AyDpjb+PzzYBQaxk8SaDGG876oznde82S2WumdWL88vFIIYpRyEk3VfFI96RWcEyp/KcQu/DC9a2W6FF/sf85F2MHTA2HH6fEHivtb3yymf2krb51TWLqsSkeyPbj8Ei3p0za8gpGJK58XsglGPe86PWSmmMW3zNsH/6YRl4gq4tKw+0707aFWTgRVa3kYne8kek3eEHcAUeYk/Y5azAsesrUE/VdEwnf+wHJ2pYJE6q7I7eD4Pkaq83tYh2OWkL/du1BuR9SSGDVI9chIwlGezg64O0d3KDuvfBjhzm7Bj5YNFm5cV8iGbUGTY9QF9zHNr8gNEJHrTiPnMnBWkoYLXR6wJ/Gs9Nwhnxfb9ukupw==
-X-MS-Exchange-AntiSpam-MessageData: eLVDOB8dMzytq1S1t7wZrcqllvHYYqmm87bZ2EJ8+tJlhp7o/LC0ip1XIhyfczwXciLdvtCiRj4xILsVIIN9kWsgmsUw6hlkKDUSp30bGtpan8Bz30uQvz7FKs322R4shbTnaUarB+14xDUYVN3Aww==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdfa146d-87f1-4dc5-216c-08d7d232e820
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2020 09:40:38.2031 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zjs2Hgc2dIXvLGs8NbRFIEaSow/pDrEdPCGwwiDdG8auk6IhJKF0bJKnZdW4v2+hqzw0ddxwTSRGzL3n/+tjt9s1+QleXCYcPc+p29tIzCo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5441
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 40.107.1.96
+X-Received-From: 45.249.212.189
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,273 +62,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
- armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>,
+ "mrezanin@redhat.com" <mrezanin@redhat.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 27.03.2020 11:43, Vladimir Sementsov-Ogievskiy wrote:
-> Should we note somehow in qcow2 spec that we use streamed version of=20
-> zstd with specific end byte?
-We didn't do it for zlib. zstd does it the same way as zlib, saves the=20
-compression output to some buffer.
-
->
-> 23.03.2020 17:25, Denis Plotnikov wrote:
->> zstd significantly reduces cluster compression time.
->> It provides better compression performance maintaining
->> the same level of the compression ratio in comparison with
->> zlib, which, at the moment, is the only compression
->> method available.
->>
->> The performance test results:
->> Test compresses and decompresses qemu qcow2 image with just
->> installed rhel-7.6 guest.
->> Image cluster size: 64K. Image on disk size: 2.2G
->>
->> The test was conducted with brd disk to reduce the influence
->> of disk subsystem to the test results.
->> The results is given in seconds.
->>
->> compress cmd:
->> =C2=A0=C2=A0 time ./qemu-img convert -O qcow2 -c -o compression_type=3D[=
-zlib|zstd]
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src.img [zlib|zstd]_compressed.img
->> decompress cmd
->> =C2=A0=C2=A0 time ./qemu-img convert -O qcow2
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [zlib|zstd]_compressed.img uncompresse=
-d.img
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compr=
-ession=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 decompression
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zlib=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 zstd=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 zlib=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zstd
->> ------------------------------------------------------------
->> real=C2=A0=C2=A0=C2=A0=C2=A0 65.5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 16=
-.3 (-75 %)=C2=A0=C2=A0=C2=A0 1.9=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 1.6 (-16 %)
->> user=C2=A0=C2=A0=C2=A0=C2=A0 65.0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15=
-.8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5.3=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2.5
->> sys=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3.3=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 0.2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 2.0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2.0
->>
->> Both ZLIB and ZSTD gave the same compression ratio: 1.57
->> compressed image size in both cases: 1.4G
->>
->> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> QAPI part:
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
-> [..]
->
->> +
->> +/*
->> + * qcow2_zstd_compress()
->> + *
->> + * Compress @src_size bytes of data using zstd compression method
->> + *
->> + * @dest - destination buffer, @dest_size bytes
->> + * @src - source buffer, @src_size bytes
->> + *
->> + * Returns: compressed size on success
->> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -ENOMEM destin=
-ation buffer is not enough to store=20
->> compressed data
->> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -EIO=C2=A0=C2=
-=A0=C2=A0 on any other error
->> + */
->> +static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const void *sr=
-c, size_t src_size)
->> +{
->> +=C2=A0=C2=A0=C2=A0 size_t ret;
->> +=C2=A0=C2=A0=C2=A0 ZSTD_outBuffer output =3D { dest, dest_size, 0 };
->> +=C2=A0=C2=A0=C2=A0 ZSTD_inBuffer input =3D { src, src_size, 0 };
->> +=C2=A0=C2=A0=C2=A0 ZSTD_CCtx *cctx =3D ZSTD_createCCtx();
->> +
->> +=C2=A0=C2=A0=C2=A0 if (!cctx) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EIO;
->> +=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * ZSTD spec: "You must continue calling ZSTD_c=
-ompressStream2()
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * with ZSTD_e_end until it returns 0, at which=
- point you are
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * free to start a new frame"
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * zstd simple interfac=
-e requires the exact compressed size.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * zstd stream interfac=
-e reads the comressed size from
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the compressed strea=
-m frame.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Instruct zstd to com=
-press the whole buffer and write
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the frame which incl=
-udes the compressed size.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This allows as to us=
-e zstd streaming semantics and
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * don't store the comp=
-ressed size for the zstd decompression.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ZSTD_compressStream2=
-(cctx, &output, &input, ZSTD_e_end);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ZSTD_isError(ret)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D -EIO;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- out;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Dest buffer isn't big eno=
-ugh to store compressed content */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (output.pos + ret > outpu=
-t.size) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D -ENOMEM;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- out;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 } while (ret);
->> +
->> +=C2=A0=C2=A0=C2=A0 /* if no error, the input data must be fully consume=
-d */
->> +=C2=A0=C2=A0=C2=A0 assert(input.pos =3D=3D input.size);
->> +=C2=A0=C2=A0=C2=A0 /* make sure we can safely return compressed buffer =
-size with=20
->> ssize_t *//z
->> +=C2=A0=C2=A0=C2=A0 assert(output.pos <=3D SSIZE_MAX);
->> +=C2=A0=C2=A0=C2=A0 ret =3D output.pos;
->> +
->> +out:
->> +=C2=A0=C2=A0=C2=A0 ZSTD_freeCCtx(cctx);
->> +=C2=A0=C2=A0=C2=A0 return ret;
->> +}
->> +
->> +/*
->> + * qcow2_zstd_decompress()
->> + *
->> + * Decompress some data (not more than @src_size bytes) to produce=20
->> exactly
->> + * @dest_size bytes using zstd compression method
->> + *
->> + * @dest - destination buffer, @dest_size bytes
->> + * @src - source buffer, @src_size bytes
->> + *
->> + * Returns: 0 on success
->> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -EIO on any er=
-ror
->> + */
->> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
-nst void *src, size_t src_size)
->> +{
->> +=C2=A0=C2=A0=C2=A0 size_t ret =3D 0;
->> +=C2=A0=C2=A0=C2=A0 ZSTD_outBuffer output =3D { dest, dest_size, 0 };
->> +=C2=A0=C2=A0=C2=A0 ZSTD_inBuffer input =3D { src, src_size, 0 };
->> +=C2=A0=C2=A0=C2=A0 ZSTD_DCtx *dctx =3D ZSTD_createDCtx();
->> +
->> +=C2=A0=C2=A0=C2=A0 if (!dctx) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EIO;
->> +=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0 {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ZSTD_decompressStrea=
-m(dctx, &output, &input);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ZSTD_isError(ret)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D -EIO;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- out;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Dest buffer size is =
-the image cluster size.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * It should be big eno=
-ugh to store uncompressed content.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * There shouldn't be a=
-ny cases when the decompressed content
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * size is greater then=
- the cluster size.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (output.pos + ret > outpu=
-t.size) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
-=3D -EIO;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- out;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 } while (ret);
->
->
-> Hmm. Unfortunately, zstd spec is not enough verbose to understand how=20
-> to use
-> these functions :).
->
-> But I found this in comment in=20
-> https://github.com/facebook/zstd/blob/dev/examples/streaming_decompressio=
-n.c=20
-> :
->
-> /* The return code is zero if the frame is complete, but there may
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-* be multiple frames concatenated together.
-In our case, there should be the only frame as we stored it with=20
-ZSTD_compressStream2(..., ZSTD_e_end)
-If explicitly state in the spec, that "zstd compressed cluster must=20
-contain the only zstd compressed frame"
-On the other hand, we actually don't need such a restriction and we=20
-should be able to decompress whatever is in the buffer (cluster)
-if it's zstd stream.
-
->
-> so, I think it would be safer to move to "while (input.pos <=20
-> input.size)" loop like in example.
-yes, I think It worth doing
->
-> and drop next assertion. And possibly do same for compression to be=20
-> consistent (and safer?).
->
->
->> +
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * If decompression went fine we must have the =
-compressed
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * cluster fully consumed and flushed
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 if (output.pos !=3D output.size) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D -EIO;
->> +=C2=A0=C2=A0=C2=A0 }
->> +out:
->> +=C2=A0=C2=A0=C2=A0 ZSTD_freeDCtx(dctx);
->> +=C2=A0=C2=A0=C2=A0 return ret;
->> +
->> +}
->> +#endif
->> +
->> =C2=A0 static int qcow2_compress_pool_func(void *opaque)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Qcow2CompressData *data =3D opaque;
->> @@ -217,6 +341,11 @@ qcow2_co_compress(BlockDriverState *bs, void=20
->> *dest, size_t dest_size,
->
->
-> [..]
->
->
-
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQWxleCBCZW5uw6llIFttYWlsdG86
+YWxleC5iZW5uZWVAbGluYXJvLm9yZ10NCj5TZW50OiBGcmlkYXksIE1hcmNoIDI3LCAyMDIwIDU6
+MTMgUE0NCj5UbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPg0KPkNj
+OiBxZW11LWRldmVsQG5vbmdudS5vcmc7IHFlbXUtdHJpdmlhbEBub25nbnUub3JnOyBaaGFuZ2hh
+aWxpYW5nDQo+PHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47IGxhdXJlbnRAdml2aWVy
+LmV1OyBFdWxlciBSb2JvdA0KPjxldWxlci5yb2JvdEBodWF3ZWkuY29tPjsgUGhpbGlwcGUgTWF0
+aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggMS8z
+XSBnZGJzdHViOiBwcmV2ZW50IHVuaW5pdGlhbGl6ZWQgd2FybmluZw0KPg0KPg0KPkNoZW4gUXVu
+IDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT4gd3JpdGVzOg0KPg0KPj4gQWNjb3JkaW5nIHRvIHRo
+ZSBnbGliIGZ1bmN0aW9uIHJlcXVpcmVtZW50cywgd2UgbmVlZCBpbml0aWFsaXNlDQo+PiAgICAg
+IHRoZSB2YXJpYWJsZS4gT3RoZXJ3aXNlIHRoZXJlIHdpbGwgYmUgY29tcGlsYXRpb24gd2Fybmlu
+Z3M6DQo+Pg0KPj4gcWVtdS9nZGJzdHViLmM6IEluIGZ1bmN0aW9uIOKAmGhhbmRsZV9xdWVyeV90
+aHJlYWRfZXh0cmHigJk6DQo+PiAvdXNyL2luY2x1ZGUvZ2xpYi0yLjAvZ2xpYi9nbGliLWF1dG9j
+bGVhbnVwcy5oOjI4OjM6IHdhcm5pbmc6DQo+PiAg4oCYY3B1X25hbWXigJkgbWF5IGJlIHVzZWQg
+dW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV21heWJlLXVuaW5pdGlhbGl6ZWRdDQo+
+PiAgICBnX2ZyZWUgKCpwcCk7DQo+PiAgICBefn5+fn5+fn5+fn4NCj4+DQo+PiBSZXBvcnRlZC1i
+eTogRXVsZXIgUm9ib3QgPGV1bGVyLnJvYm90QGh1YXdlaS5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5
+OiBDaGVuIFF1biA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+DQo+DQo+VGhhbmtzLA0KPg0KPkkn
+dmUgcHVsbGVkIGluIGEgZHVwbGljYXRlIGZpeCBmcm9tOg0KPg0KPiAgTWVzc2FnZS1JZDogPDIw
+MjAwMzI2MTUxNDA3LjI1MDQ2LTEtZHBsb3RuaWtvdkB2aXJ0dW96em8uY29tPg0KPg0KPmFuZCBh
+ZGRlZCB5b3VyIFJlcG9ydGVkLWJ5J3MNCg0KT0ssICBJZiBwb3NzaWJsZSwgYnJpbmcgTWlyb3Ns
+YXYgUmV6YW5pbmEncyAgIlJldmlld2VkLWJ5IiB0YWcuDQoNCmh0dHBzOi8vbGlzdHMuZ251Lm9y
+Zy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIwLTAzL21zZzA3NjUxLmh0bWwNCg0KVGhhbmtz
+Lg0KPg0KPj4gLS0tDQo+PiBDYzogIkFsZXggQmVubsOpZSIgPGFsZXguYmVubmVlQGxpbmFyby5v
+cmc+DQo+PiBDYzogIlBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIiA8cGhpbG1kQHJlZGhhdC5jb20+
+DQo+PiAtLS0NCj4+ICBnZGJzdHViLmMgfCA0ICsrLS0NCj4+ICAxIGZpbGUgY2hhbmdlZCwgMiBp
+bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9nZGJzdHVi
+LmMgYi9nZGJzdHViLmMNCj4+IGluZGV4IDAxM2ZiMWFjMGYuLjE3MWUxNTA5NTAgMTAwNjQ0DQo+
+PiAtLS0gYS9nZGJzdHViLmMNCj4+ICsrKyBiL2dkYnN0dWIuYw0KPj4gQEAgLTIwNjAsOCArMjA2
+MCw4IEBAIHN0YXRpYyB2b2lkDQo+aGFuZGxlX3F1ZXJ5X3RocmVhZF9leHRyYShHZGJDbWRDb250
+ZXh0ICpnZGJfY3R4LCB2b2lkICp1c2VyX2N0eCkNCj4+ICAgICAgICAgIC8qIFByaW50IHRoZSBD
+UFUgbW9kZWwgYW5kIG5hbWUgaW4gbXVsdGlwcm9jZXNzIG1vZGUgKi8NCj4+ICAgICAgICAgIE9i
+amVjdENsYXNzICpvYyA9IG9iamVjdF9nZXRfY2xhc3MoT0JKRUNUKGNwdSkpOw0KPj4gICAgICAg
+ICAgY29uc3QgY2hhciAqY3B1X21vZGVsID0gb2JqZWN0X2NsYXNzX2dldF9uYW1lKG9jKTsNCj4+
+IC0gICAgICAgIGdfYXV0b2ZyZWUgY2hhciAqY3B1X25hbWU7DQo+PiAtICAgICAgICBjcHVfbmFt
+ZSAgPSBvYmplY3RfZ2V0X2Nhbm9uaWNhbF9wYXRoX2NvbXBvbmVudChPQkpFQ1QoY3B1KSk7DQo+
+PiArICAgICAgICBnX2F1dG9mcmVlIGNoYXIgKmNwdV9uYW1lID0NCj4+ICsgICAgICAgICAgICBv
+YmplY3RfZ2V0X2Nhbm9uaWNhbF9wYXRoX2NvbXBvbmVudChPQkpFQ1QoY3B1KSk7DQo+PiAgICAg
+ICAgICBnX3N0cmluZ19wcmludGYocnMsICIlcyAlcyBbJXNdIiwgY3B1X21vZGVsLCBjcHVfbmFt
+ZSwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICBjcHUtPmhhbHRlZCA/ICJoYWx0ZWQgIiA6
+ICJydW5uaW5nIik7DQo+PiAgICAgIH0gZWxzZSB7DQo+DQo+DQo+LS0NCj5BbGV4IEJlbm7DqWUN
+Cg==
 
