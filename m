@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDFD195AFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:23:28 +0100 (CET)
-Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A787B195B11
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:27:15 +0100 (CET)
+Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrlX-0000Zu-Qk
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39562)
+	id 1jHrpC-0002fF-HM
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jHriA-0005sj-To
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:20:00 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1jHroL-000291-2e
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jHri9-0004yk-OQ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:58 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:57275)
+ (envelope-from <sgarzare@redhat.com>) id 1jHroJ-0002Zj-GS
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:20 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:51650)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHri9-0004w1-JD
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:57 -0400
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jHroJ-0002Xq-Cw
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585325997;
+ s=mimecast20190719; t=1585326378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WzIgZ8XqoLLXDLEutOzkw+h9pS2LHHFl9byIIxdSFP0=;
- b=Huu+x7ljOEnkiu5lI+ZQV4XV9pEW6xGLX4I8JAb9LuOTukoEiZv721X1LykurcCU5D/alS
- H0LwiJhT9wJnhIWtWzvjx7hYxx44CDCp0t4pYNkxWkjfa7dxOhFRiqzwJUyDttwaUwSbAc
- gr2Ndkzfh6K1iwFOqLSe/vP6MoGxjDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-32P2UKB7Me2BomMIpZ-pUg-1; Fri, 27 Mar 2020 12:19:53 -0400
-X-MC-Unique: 32P2UKB7Me2BomMIpZ-pUg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B97C80257F;
- Fri, 27 Mar 2020 16:19:52 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DDB025C1D8;
- Fri, 27 Mar 2020 16:19:44 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] nbd: Use shutdown(SHUT_WR) after last item sent
-Date: Fri, 27 Mar 2020 11:19:36 -0500
-Message-Id: <20200327161936.2225989-4-eblake@redhat.com>
-In-Reply-To: <20200327161936.2225989-1-eblake@redhat.com>
-References: <20200327161936.2225989-1-eblake@redhat.com>
+ bh=ezOFnLzUADpyQ4GrkDQ00Tfq0u1WbZB2xcWvMfBtHDM=;
+ b=cbkrAl83x5B3TR2erW46odLSflsQELgsTlM8G+aGDLrtzcth6XMNuo3LnORTuj5BucIVCw
+ 4wmCGwZCkYjjUPEZ0tc/gSuie/hbwKHEcXmjPUB75D7N6n2MHVmtUieZ1gewLczLjLP69h
+ aghxSfq1mLEGUUPf2snCsp64OQoY65E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-MCnkKiPPPKKXKqptzfflZw-1; Fri, 27 Mar 2020 12:26:16 -0400
+X-MC-Unique: MCnkKiPPPKKXKqptzfflZw-1
+Received: by mail-wm1-f70.google.com with SMTP id s14so4038398wmj.9
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 09:26:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FeDpo2CmL1gGY6sENPZxKlfP/U2QVlpoTA3tv+IamEM=;
+ b=X85E3tlzclnUmlXpSifUjUtCXsoMHVjio4y84A/DONgMV2hmJKfaVHhh3YXn2CWuhz
+ dBJcGci4X3J7RQDtnAq5jFHWHmhFK1xQNudknMUA0HXq00iMF1iXP6RHJb8BT3EO4xNt
+ qYZEbi0cLbOE+YoslW5nKfCz3dyaTEe6F83lEGwvufNfB2nKEINUub0yca9kSJuC4EyH
+ klol4WscN65VlSJyp3ggDHZiDeTAb+YR/sVQ3L2liDYB0eJBtnzcjEHwqrrFvBp2sUcl
+ GWQdQ8W+DCdcvHmAO91augs++43ndxDWcPkBqIej95etT8fgldB8gpUMAKU8KKVi1gIN
+ tsEA==
+X-Gm-Message-State: ANhLgQ2LaGQvRUmZOBkidhC03mSZjkjGmblFd56chs+G1w3iwA5uL/N9
+ MgTYVJIeqsBPYIddbOJziODIxsIn4nbsuxtHWxC7gsszBvsLqCFRaodgky2VWiOsoK7BbiMu+eP
+ RbWd5nkoGOD2ZwoE=
+X-Received: by 2002:adf:f8c1:: with SMTP id f1mr183712wrq.345.1585326375546;
+ Fri, 27 Mar 2020 09:26:15 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtA9vW6/qwn891AaDNo88Nafyl4cml1tflw36Lh+4bZnhbzn2t+CBOv01wKwUJnjWP8gNb2XA==
+X-Received: by 2002:adf:f8c1:: with SMTP id f1mr183698wrq.345.1585326375361;
+ Fri, 27 Mar 2020 09:26:15 -0700 (PDT)
+Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
+ [79.27.201.32])
+ by smtp.gmail.com with ESMTPSA id i21sm9091175wmb.23.2020.03.27.09.26.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Mar 2020 09:26:14 -0700 (PDT)
+Date: Fri, 27 Mar 2020 17:26:12 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Subject: Re: [PATCH v3 2/2] virtio-iommu: delete vqs in unrealize to fix
+ memleak
+Message-ID: <20200327162612.ic2ymmpfvyt5xbnp@steredhat>
+References: <20200327095642.18424-1-pannengyuan@huawei.com>
+ <20200327095642.18424-3-pannengyuan@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200327095642.18424-3-pannengyuan@huawei.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,88 +89,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>, zhang.zhanghailiang@huawei.com,
+ mst@redhat.com, qemu-devel@nongnu.org, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although the remote end should always be tolerant of a socket being
-arbitrarily closed, there are situations where it is a lot easier if
-the remote end can be guaranteed to read EOF even before the socket
-has closed.  In particular, when using gnutls, if we fail to inform
-the remote end about an impending teardown, the remote end cannot
-distinguish between our closing the socket as intended vs. a malicious
-intermediary interrupting things, and may result in spurious error
-messages.  Or, we can end up with a deadlock where both ends are stuck
-on a read() from the other end but neither gets an EOF.  Thus, after
-any time a client sends NBD_OPT_ABORT or NBD_CMD_DISC, or a server has
-finished replying (where appropriate) to such a request, it is worth
-informing the channel that we will not be transmitting anything else.
+On Fri, Mar 27, 2020 at 05:56:42PM +0800, Pan Nengyuan wrote:
+> req_vq/event_vq forgot to free in unrealize. Fix that.
+> And aslo do clean 's->as_by_busptr' hash table in unrealize to fix anothe=
+r leak.
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/nbd.c  | 1 +
- nbd/client.c | 3 ++-
- nbd/server.c | 4 ++++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+s/aslo/also
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 2160859f6499..2906484390f9 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1402,6 +1402,7 @@ static void nbd_client_close(BlockDriverState *bs)
+Maybe we can also update the subject in something like this:
+"virtio-iommu: avoid memleak in the unrealize"
 
-     if (s->ioc) {
-         nbd_send_request(s->ioc, &request);
-+        qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_WRITE, NULL);
-     }
+>=20
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> Acked-by: Eric Auger <eric.auger@redhat.com>
+> ---
+> Cc: Eric Auger <eric.auger@redhat.com>
+> ---
+> v3->v1/v2:
+> - Aslo clean 's->as_by_busptr' hash table in unrealize.(Suggested by Stef=
+ano Garzarella)
+> ---
+>  hw/virtio/virtio-iommu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index 4cee8083bc..694698fa0f 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -696,7 +696,10 @@ static void virtio_iommu_device_unrealize(DeviceStat=
+e *dev, Error **errp)
+>      g_tree_destroy(s->domains);
+>      g_tree_destroy(s->endpoints);
+> =20
+> +    virtio_delete_queue(s->req_vq);
+> +    virtio_delete_queue(s->event_vq);
+>      virtio_cleanup(vdev);
+> +    g_hash_table_destroy(s->as_by_busptr);
 
-     nbd_teardown_connection(bs);
-diff --git a/nbd/client.c b/nbd/client.c
-index ba173108baab..1b8b3a9ae3bd 100644
---- a/nbd/client.c
-+++ b/nbd/client.c
-@@ -1,5 +1,5 @@
- /*
-- *  Copyright (C) 2016-2019 Red Hat, Inc.
-+ *  Copyright (C) 2016-2020 Red Hat, Inc.
-  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
-  *
-  *  Network Block Device Client Side
-@@ -103,6 +103,7 @@ static void nbd_send_opt_abort(QIOChannel *ioc)
-      * even care if the request makes it to the server, let alone
-      * waiting around for whether the server replies. */
-     nbd_send_option_request(ioc, NBD_OPT_ABORT, 0, NULL, NULL);
-+    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_WRITE, NULL);
- }
+If you need to respin, you could move g_hash_table_destroy()
+at the beggining of unrealize(), just to follow a reverse order of
+realize().
 
+Thanks,
+Stefano
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 02b1ed080145..e21a1f662cc2 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1168,6 +1168,8 @@ static int nbd_negotiate_options(NBDClient *client, E=
-rror **errp)
-                                    "Option 0x%" PRIx32
-                                    " not permitted before TLS", option);
-                 if (option =3D=3D NBD_OPT_ABORT) {
-+                    qio_channel_shutdown(client->ioc,
-+                                         QIO_CHANNEL_SHUTDOWN_WRITE, NULL)=
-;
-                     return 1;
-                 }
-                 break;
-@@ -1187,6 +1189,8 @@ static int nbd_negotiate_options(NBDClient *client, E=
-rror **errp)
-                  * disconnecting, but that we must also tolerate
-                  * guests that don't wait for our reply. */
-                 nbd_negotiate_send_rep(client, NBD_REP_ACK, NULL);
-+                qio_channel_shutdown(client->ioc,
-+                                     QIO_CHANNEL_SHUTDOWN_WRITE, NULL);
-                 return 1;
-
-             case NBD_OPT_EXPORT_NAME:
---=20
-2.26.0.rc2
+>  }
+> =20
+>  static void virtio_iommu_device_reset(VirtIODevice *vdev)
+> --=20
+> 2.18.2
+>=20
+>=20
 
 
