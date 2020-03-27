@@ -2,72 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4954C195022
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 05:44:37 +0100 (CET)
-Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF88A19501A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 05:42:09 +0100 (CET)
+Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHgrE-0004oR-D8
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 00:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42039)
+	id 1jHgoq-0002aJ-Ts
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 00:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1jHgpo-0003ym-37
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:43:09 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jHgnp-0001hB-4S
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:41:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1jHgpm-0006jl-1L
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:43:07 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1538)
+ (envelope-from <pannengyuan@huawei.com>) id 1jHgno-0003DV-Ab
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:41:05 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43144 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1jHgpl-0006f9-Ps
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:43:05 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e7d844a0000>; Thu, 26 Mar 2020 21:42:51 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 26 Mar 2020 21:43:04 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 26 Mar 2020 21:43:04 -0700
-Received: from [10.40.103.35] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 27 Mar
- 2020 04:42:49 +0000
-Subject: Re: [PATCH v16 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
- dirty bitmap before unmap
-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <1585078359-20124-1-git-send-email-kwankhede@nvidia.com>
- <1585078359-20124-6-git-send-email-kwankhede@nvidia.com>
- <20200325021800.GC20109@joy-OptiPlex-7040>
- <3cabb357-b9c5-f8b3-5d57-1178ec0dde5a@nvidia.com>
- <20200327000426.GA26419@joy-OptiPlex-7040>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <b6524b4a-e6a0-7328-5003-7286f2fd61a8@nvidia.com>
-Date: Fri, 27 Mar 2020 10:12:43 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1jHgnn-00033m-WB
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 00:41:04 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 40AD66BAB3F4A34FB213;
+ Fri, 27 Mar 2020 12:40:58 +0800 (CST)
+Received: from localhost.huawei.com (10.175.104.216) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 27 Mar 2020 12:40:47 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/2] fix two virtio queues memleak
+Date: Fri, 27 Mar 2020 12:56:18 +0800
+Message-ID: <20200327045620.9082-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-In-Reply-To: <20200327000426.GA26419@joy-OptiPlex-7040>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1585284171; bh=/eY4Cemp7k65d1UPvele9vg+mEFz5dD6zNLRY1EZk+M=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=bpH+uPvEyUV9/yopyYsw/ETv09Dfm7eNzbeuiHMbX9QJRDDqXS0nJJ/8/vlPKXphk
- QwL/ndoLw0bB/2UePXTELBAsIQ/tg0TqM75KuOfkUo9dlOF8UFk51oRawBGOOiq9jb
- Epy37JFPJW44MZDMU9fi3CUMHbW4oeA3Jz1wVm79syRAkY5AFekpgViL9aGNsyyMjW
- ak10pYyaVtO9EHsphoCHX4PtpbZSGvAIGSCKKNi7tIw+50abG5J4I/j+szCs1t/L5O
- qOwXQLpdzR2cwQ9NTXMaC4kqgfmi+67fcftNG6+PHqgKjlXL8UWrlgT+tvYO4LysxF
- 2LEyGwOnrxf1A==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.65
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.216]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,133 +51,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: euler.robot@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series fix two vqs leak:
+1. Do delete vqs on the error path in virtio_blk_device_realize().
+2. Do delete vqs in virtio_iommu_device_unrealize() to fix another leaks.
 
+v2->v1:
+- Fix incorrect free in v1, it will cause a uaf.
 
-On 3/27/2020 5:34 AM, Yan Zhao wrote:
-> On Fri, Mar 27, 2020 at 05:39:44AM +0800, Kirti Wankhede wrote:
->>
->>
->> On 3/25/2020 7:48 AM, Yan Zhao wrote:
->>> On Wed, Mar 25, 2020 at 03:32:37AM +0800, Kirti Wankhede wrote:
->>>> DMA mapped pages, including those pinned by mdev vendor drivers, might
->>>> get unpinned and unmapped while migration is active and device is still
->>>> running. For example, in pre-copy phase while guest driver could access
->>>> those pages, host device or vendor driver can dirty these mapped pages.
->>>> Such pages should be marked dirty so as to maintain memory consistency
->>>> for a user making use of dirty page tracking.
->>>>
->>>> To get bitmap during unmap, user should allocate memory for bitmap, set
->>>> size of allocated memory, set page size to be considered for bitmap and
->>>> set flag VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP.
->>>>
->>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
->>>> ---
->>>>    drivers/vfio/vfio_iommu_type1.c | 54 ++++++++++++++++++++++++++++++++++++++---
->>>>    include/uapi/linux/vfio.h       | 10 ++++++++
->>>>    2 files changed, 60 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
->>>> index 27ed069c5053..b98a8d79e13a 100644
->>>> --- a/drivers/vfio/vfio_iommu_type1.c
->>>> +++ b/drivers/vfio/vfio_iommu_type1.c
->>>> @@ -982,7 +982,8 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
->>>>    }
->>>>    
->>>>    static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>>> -			     struct vfio_iommu_type1_dma_unmap *unmap)
->>>> +			     struct vfio_iommu_type1_dma_unmap *unmap,
->>>> +			     struct vfio_bitmap *bitmap)
->>>>    {
->>>>    	uint64_t mask;
->>>>    	struct vfio_dma *dma, *dma_last = NULL;
->>>> @@ -1033,6 +1034,10 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>>>    	 * will be returned if these conditions are not met.  The v2 interface
->>>>    	 * will only return success and a size of zero if there were no
->>>>    	 * mappings within the range.
->>>> +	 *
->>>> +	 * When VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP flag is set, unmap request
->>>> +	 * must be for single mapping. Multiple mappings with this flag set is
->>>> +	 * not supported.
->>>>    	 */
->>>>    	if (iommu->v2) {
->>>>    		dma = vfio_find_dma(iommu, unmap->iova, 1);
->>>> @@ -1040,6 +1045,13 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>>>    			ret = -EINVAL;
->>>>    			goto unlock;
->>>>    		}
->>>> +
->>>> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
->>>> +		    (dma->iova != unmap->iova || dma->size != unmap->size)) {
->>> potential NULL pointer!
->>>
->>> And could you address the comments in v14?
->>> How to handle DSI unmaps in vIOMMU
->>> (https://lore.kernel.org/kvm/20200323011041.GB5456@joy-OptiPlex-7040/)
->>>
->>
->> Sorry, I drafted reply to it, but I missed to send, it remained in my drafts
->>
->>   >
->>   > it happens in vIOMMU Domain level invalidation of IOTLB
->>   > (domain-selective invalidation, see vtd_iotlb_domain_invalidate() in
->> qemu).
->>   > common in VTD lazy mode, and NOT just happening once at boot time.
->>   > rather than invalidate page by page, it batches the page invalidation.
->>   > so, when this invalidation takes place, even higher level page tables
->>   > have been invalid and therefore it has to invalidate a bigger
->> combined range.
->>   > That's why we see IOVAs are mapped in 4k pages, but are unmapped in 2M
->>   > pages.
->>   >
->>   > I think those UNMAPs should also have GET_DIRTY_BIMTAP flag on, right?
->>
->>
->> vtd_iotlb_domain_invalidate()
->>     vtd_sync_shadow_page_table()
->>       vtd_sync_shadow_page_table_range(vtd_as, &ce, 0, UINT64_MAX)
->>         vtd_page_walk()
->>           vtd_page_walk_level() - walk over specific level for IOVA range
->>             vtd_page_walk_one()
->>               memory_region_notify_iommu()
->>               ...
->>                 vfio_iommu_map_notify()
->>
->> In the above trace, isn't page walk will take care of creating proper
->> IOTLB entry which should be same as created during mapping for that
->> IOTLB entry?
->>
-> No. It does walk the page table, but as it's dsi (delay & batched unmap),
-> pages table entry for a whole 2M (the higher level, not last level for 4K)
-> range is invalid, so the iotlb->addr_mask what vfio_iommu_map_notify()
-> receives is (2M - 1), not the same as the size for map.
-> 
+Pan Nengyuan (2):
+  virtio-blk: delete vqs on the error path in realize()
+  virtio-iommu: delete vqs in unrealize to fix memleak
 
-When do this happen? during my testing I never hit this case. How can I 
-hit this case?
+ hw/block/virtio-blk.c    | 3 +++
+ hw/virtio/virtio-iommu.c | 2 ++
+ 2 files changed, 5 insertions(+)
 
-In this case, will adjacent whole vfio_dmas will be clubbed together or 
-will there be any intersection of vfio_dmas?
+-- 
+2.18.2
 
-Thanks,
-Kirti
 
