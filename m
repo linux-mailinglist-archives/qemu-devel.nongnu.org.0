@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132A7195B3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:37:01 +0100 (CET)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140EB195B4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:39:17 +0100 (CET)
+Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHryd-0000JN-Un
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44971)
+	id 1jHs0q-0002Ca-6g
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jHrxh-00080M-QY
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:03 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jHryD-0000Fp-Qh
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jHrxg-0005Dq-Gt
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:01 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:41523)
+ (envelope-from <imammedo@redhat.com>) id 1jHryC-0006EU-MA
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36848)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jHrxg-0005D3-DN
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:00 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jHryC-0006DP-H0
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:36:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585326960;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1585326992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZGvmcFvskFL2QoyLFa/xybc/QFXFYo55FoW9kfBiyNk=;
- b=CpBE8v6TC0WSKLzN+vi44IW0hB3L33N8lq6dZ0RWEYrRjiLJclNxwmfXu1ofh82LkSTSvq
- RW1+ZTlhMzCuxsMKWdyYbrZidk/4GX4GBbt5cWs7TRQH1HlpL5/CCK/k06awqRO7XtM3Zo
- HcP7sE0DoFBtc+aikBUxLlpQo9YGI2A=
+ bh=WtaYyBmsS1WL7Rv6nm0rjI5B89mlmF+VqGJFTj8B4RE=;
+ b=HPyUHFcHVrdSjsw7Xj3xIGFKVgs1JzGa2VJ8UjZ/8fsQi+f4PoTy0USVc8KNkh3tvmThq3
+ s6ZeIAsvQz5k0fDLJ5DzQ9MCFbLeiKqzKa6lKHVwoa0l3xbBZuMSRGi3eHI1o54cxRn51q
+ m/rly05RIjp3ChEu8zLQIKEIa2khhjs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-n4AdHK_COFOthv1o3dWFww-1; Fri, 27 Mar 2020 12:35:56 -0400
-X-MC-Unique: n4AdHK_COFOthv1o3dWFww-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-330-fMBO72lmNDS-64HYVh8hXw-1; Fri, 27 Mar 2020 12:36:30 -0400
+X-MC-Unique: fMBO72lmNDS-64HYVh8hXw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A6511007269;
- Fri, 27 Mar 2020 16:35:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EE4219925;
- Fri, 27 Mar 2020 16:35:51 +0000 (UTC)
-Date: Fri, 27 Mar 2020 16:35:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 3/3] nbd: Use shutdown(SHUT_WR) after last item sent
-Message-ID: <20200327163548.GP1619@redhat.com>
-References: <20200327161936.2225989-1-eblake@redhat.com>
- <20200327161936.2225989-4-eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C70D1935790;
+ Fri, 27 Mar 2020 16:36:29 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E0365DA75;
+ Fri, 27 Mar 2020 16:36:23 +0000 (UTC)
+Date: Fri, 27 Mar 2020 17:36:22 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for-5.0] xen: fixup RAM memory region initialization
+Message-ID: <20200327173622.0fb2f5dc@redhat.com>
+In-Reply-To: <20200327104828.12647-1-imammedo@redhat.com>
+References: <20200327104828.12647-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200327161936.2225989-4-eblake@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +69,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: anthony.perard@citrix.com, pbonzini@redhat.com, rth@twiddle.net,
+ ehabkost@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 11:19:36AM -0500, Eric Blake wrote:
-> Although the remote end should always be tolerant of a socket being
-> arbitrarily closed, there are situations where it is a lot easier if
-> the remote end can be guaranteed to read EOF even before the socket
-> has closed.  In particular, when using gnutls, if we fail to inform
-> the remote end about an impending teardown, the remote end cannot
-> distinguish between our closing the socket as intended vs. a malicious
-> intermediary interrupting things, and may result in spurious error
-> messages.
+Paolo,
 
-Does this actually matter in the NBD case ?
+could you take it along with Olaf's xenfv patch?
 
-It has an explicit NBD command for requesting shutdown, and once
-that's processed, it is fine to just close the socket abruptly - I
-don't see a benefit to a TLS shutdown sequence on top.
-AFAIK, the TLS level clean shutdown is only required if the
-application protocol does not have any way to determine an
-unexpected shutdown itself.
 
-This is relevant for HTTP where the connection data stream may not
-have a well defined end condition.
+On Fri, 27 Mar 2020 06:48:28 -0400
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-In the NBD case though, we have an explicit NBD_CMD_DISC to trigger
-the disconnect. After processing that message, an EOF is acceptable
-regardless of whether ,
-before processing that message, any EOF is a unexpected.
-
->           Or, we can end up with a deadlock where both ends are stuck
-> on a read() from the other end but neither gets an EOF.
-
-If the socket has been closed abruptly why would it get stuck in
-read() - it should see EOF surely ?
-
->                                                          Thus, after
-> any time a client sends NBD_OPT_ABORT or NBD_CMD_DISC, or a server has
-> finished replying (where appropriate) to such a request, it is worth
-> informing the channel that we will not be transmitting anything else.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+> Since bd457782b3b0 ("x86/pc: use memdev for RAM") Xen
+> machine fails to start with:
+>    qemu-system-i386: xen: failed to populate ram at 0
+> 
+> The reason is that xen_ram_alloc() which is called by
+> memory_region_init_ram(), compares memory region with
+> statically allocated 'global' ram_memory memory region
+> that it uses for RAM, and does nothing in case it matches.
+> 
+> While it's possible feed machine->ram to xen_ram_alloc()
+> in the same manner to keep that hack working, I'd prefer
+> not to keep that circular dependency and try to untangle that.
+> 
+> However it doesn't look trivial to fix, so as temporary
+> fixup opt out Xen machine from memdev based RAM allocation,
+> and let xen_ram_alloc() do its trick for now.
+> 
+> Reported-by: Anthony PERARD <anthony.perard@citrix.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> PS:
+>    - compile tested only
+> 
+>  hw/i386/pc_piix.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index e6756216f9..6cb352363d 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -953,6 +953,10 @@ static void xenfv_machine_options(MachineClass *m)
+>      m->desc = "Xen Fully-virtualized PC";
+>      m->max_cpus = HVM_MAX_VCPUS;
+>      m->default_machine_opts = "accel=xen";
+> +    /*
+> +     * opt out of system RAM being allocated by generic code
+> +     */
+> +    m->default_ram_id = NULL;
+>  }
+>  
+>  DEFINE_PC_MACHINE(xenfv, "xenfv", pc_xen_hvm_init,
 
 
