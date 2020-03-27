@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CFB195782
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 13:50:47 +0100 (CET)
-Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780821957B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 14:04:08 +0100 (CET)
+Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHoRi-0003IT-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 08:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
+	id 1jHoed-0007sW-20
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 09:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jHoQE-0001ts-56
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:49:15 -0400
+ (envelope-from <eblake@redhat.com>) id 1jHode-0007SV-Dk
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 09:03:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jHoQC-000600-QM
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:49:14 -0400
-Resent-Date: Fri, 27 Mar 2020 08:49:14 -0400
-Resent-Message-Id: <E1jHoQC-000600-QM@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21146)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jHoQC-0005xB-H1
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:49:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585313345; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=P7UpwBWSp2Ek0DlN3nim5BLx0SFMD0WehCiTR96HPgm+Icsg5B6rd+Ml0gqMRM9ZWzT2sWubE370tepCszFx7n1KVOsdGDE7Y9meYH2fUicr8JT5wHz4H+SDHBMQCVNIZL7+QROfpWAPzNgWXV4HxMRJX99e0vd+7ioNCUlFTPQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585313345;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=I+Inte0WlAVaItb3HXxRZ28NzojKl5pDNaQ+hWEk/CU=; 
- b=TNUon5X8NxbLWPMvZBzUr9/+JGWlC8PwNG99jGwI4ivg5ighmxpCrJmBjo/NO+j5gRaDo4CygtyRsa6Ebh47KfNl3fZpOgLWO6dOPKdautJRQUvBlBv8l83nXELg8UU5lHjN3ilc/IUEp5aDU809w788e0iKkMxrVl+khkgLFb0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585313344386694.5867135750976;
- Fri, 27 Mar 2020 05:49:04 -0700 (PDT)
-In-Reply-To: <20200327121111.1530-1-kraxel@redhat.com>
-Subject: Re: [PATCH 0/6] acpi: i386 tweaks
-Message-ID: <158531334306.31566.8317858781379992985@39012742ff91>
+ (envelope-from <eblake@redhat.com>) id 1jHodc-0003m5-98
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 09:03:05 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:46329)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHodb-0003jL-V1
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 09:03:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585314183;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hXEGQdW7jUMoHIRWi7oKF7yHYQVCVXxsGoM5LfrEDLs=;
+ b=XESwfyqUsVFJXeWrfOcnLUaTNUCBJbxULMbF2UhhNu8ZhnF0SLhlR3dIPEQ9SQMcuPJAsC
+ Iacw7HTxCXNEFS0E5t3nv7kBM71wtn8tx7YLCSlzH2jRp6aPBaL0qiPqrteeUGChBRZBve
+ CGaf6vPl0jjoCPhR2caI3NrefIVarsU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-p3Z2IlQ_OhChBJwKkc3f_w-1; Fri, 27 Mar 2020 09:03:01 -0400
+X-MC-Unique: p3Z2IlQ_OhChBJwKkc3f_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A0A98017DF;
+ Fri, 27 Mar 2020 13:03:00 +0000 (UTC)
+Received: from [10.3.113.103] (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5663E1001B07;
+ Fri, 27 Mar 2020 13:02:59 +0000 (UTC)
+Subject: Re: [PATCH] monitor/hmp-cmds: add units for mirate_parameters.
+To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>, qemu-devel@nongnu.org
+References: <20200327073210.198080-1-maozhongyi@cmss.chinamobile.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d5576e1b-24bf-2f68-b58c-c9edf37c3f4c@redhat.com>
+Date: Fri, 27 Mar 2020 08:02:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Fri, 27 Mar 2020 05:49:04 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20200327073210.198080-1-maozhongyi@cmss.chinamobile.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,52 +74,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, rth@twiddle.net
+Cc: dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMyNzEyMTExMS4xNTMw
-LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
-ZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
-YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
-LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRX
-T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0
-IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKYWNwaS10ZXN0OiBXYXJuaW5nISBE
-U0RUIGJpbmFyeSBmaWxlIG1pc21hdGNoLiBBY3R1YWwgW2FtbDovdG1wL2FtbC1JNzQ2SDBdLCBF
-eHBlY3RlZCBbYW1sOnRlc3RzL2RhdGEvYWNwaS9wYy9EU0RUXS4KU2VlIHNvdXJjZSBmaWxlIHRl
-c3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QuYyBmb3IgaW5zdHJ1Y3Rpb25zIG9uIGhvdyB0byB1
-cGRhdGUgZXhwZWN0ZWQgZmlsZXMuCnRvIHNlZSBBU0wgZGlmZiBiZXR3ZWVuIG1pc21hdGNoZWQg
-ZmlsZXMgaW5zdGFsbCBJQVNMLCByZWJ1aWxkIFFFTVUgZnJvbSBzY3JhdGNoIGFuZCByZS1ydW4g
-dGVzdHMgd2l0aCBWPTEgZW52aXJvbm1lbnQgdmFyaWFibGUgc2V0KioKRVJST1I6L3RtcC9xZW11
-LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QuYzo0OTE6dGVzdF9hY3BpX2Fz
-bDogYXNzZXJ0aW9uIGZhaWxlZDogKGFsbF90YWJsZXNfbWF0Y2gpCkVSUk9SIC0gQmFpbCBvdXQh
-IEVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LmM6
-NDkxOnRlc3RfYWNwaV9hc2w6IGFzc2VydGlvbiBmYWlsZWQ6IChhbGxfdGFibGVzX21hdGNoKQpt
-YWtlOiAqKiogW2NoZWNrLXF0ZXN0LXg4Nl82NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
-b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMzAKICBURVNU
-ICAgIGlvdGVzdC1xY293MjogMDMxCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
-bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
-dXVpZD1kNGMwNmUxZGNkNmY0NGI0YmNmOTIyMWYyOWE1MzEwZicsICctdScsICcxMDAxJywgJy0t
-c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
-VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
-LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11
-LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hl
-dy10ZXN0ZXItdG1wLTNjemY0N3ltL3NyYy9kb2NrZXItc3JjLjIwMjAtMDMtMjctMDguMzUuMDAu
-MTU3MDU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11
-L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
-bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWQ0YzA2ZTFkY2Q2ZjQ0
-YjRiY2Y5MjIxZjI5YTUzMTBmCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
-WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTNjemY0
-N3ltL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3Ig
-MgoKcmVhbCAgICAxNG0zLjQwOHMKdXNlciAgICAwbTguNzc1cwoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMjcxMjExMTEuMTUzMC0x
-LWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On 3/27/20 2:32 AM, Mao Zhongyi wrote:
+
+In the subject: s/mirate/migrate/
+
+> When running:
+> (qemu) info migrate_parameters
+> announce-initial: 50 ms
+> announce-max: 550 ms
+> announce-step: 100 ms
+> compress-wait-thread: on
+> ...
+> max-bandwidth: 33554432 bytes/second
+> downtime-limit: 300 milliseconds
+> x-checkpoint-delay: 20000
+> ...
+> xbzrle-cache-size: 67108864
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
