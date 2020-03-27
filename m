@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4501960D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:06:44 +0100 (CET)
-Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95471960DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:08:21 +0100 (CET)
+Received: from localhost ([::1]:47586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHx7k-000632-04
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
+	id 1jHx9I-0007iq-UN
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx55-0003BY-SH
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:01 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHx57-0003Bj-5x
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx54-0000GY-M4
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:03:59 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33229)
+ (envelope-from <richard.henderson@linaro.org>) id 1jHx56-0000Ox-2Z
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:01 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46339)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHx54-0000DM-GN
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:03:58 -0400
-Received: by mail-pg1-x541.google.com with SMTP id d17so5243552pgo.0
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:03:58 -0700 (PDT)
+ id 1jHx55-0000JZ-TF
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:00 -0400
+Received: by mail-pg1-x542.google.com with SMTP id k191so5213653pgc.13
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:03:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=y0Khsh6UQLm4SSnMSPV2VuzsbkNKE7igcenjK3oMio8=;
- b=kCDtsAJoGFSOUFY9lAEXvEM4fSsCch7Hx+ApDoq+Xdv+o+cFwGCqk8oNAV1u70exk1
- OcJQ3hQbBqoyw/zZJy57tf1e9OrnGzbso8Rh3P+bGuMEpvx2roKEzRewoFeRLHAEJgqm
- SxdPzQlu0ZfSh7VbBGMDtUbqYgah202fhyS62CeROp8l/dBHtka42doOO6sKZgPJS9gV
- WjmcIFdsli9sRfnqChX0s8ycZZKo1g7mB1WAb1/EKbVU8ZVqHK70/MbvdxKoFq5jSR4d
- 14uDSWZ/7eD9RQNNAyaF3Ro27Rehxflvcz0ZX6lgQZCVSiUsZMNMPS2590wB9a7LWLXQ
- 17iw==
+ bh=AVWo3TkNC8dRck4gxr30FMdUL1YEqwhhQceYuT351jQ=;
+ b=TywaZMPBxS36l1077IGjGjRIwMvxk6h+ckm+IZ2ZxT4wkG2fvSASNvVRwC74lg9IBK
+ RWkYPVXbZQAS14XwoRydTHccywGqvyxEkIPN7ZOS6BvLsu6whpessyympzMfHn+HYXF+
+ qvw5DExOM13dPeQ47KUW5HS4R5D8xbFTXGg42zLPW/wfI2CEX2KrAF043ZuHlvBQAf2T
+ dJzB0IjhjhgL8l0kLQKx7JGmlsxtWUWuh5Z5a0wFlgoHtzNi327oSNkmLZIAN6BF1oYN
+ hGETAKSoHICMbT30GLiwyV1owGs0wC/8gqhvoxlLE+UvISSvY+oksTaE3wPrOderYn6h
+ ofQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y0Khsh6UQLm4SSnMSPV2VuzsbkNKE7igcenjK3oMio8=;
- b=m4WHrUFDeWvHyD1vUbzQsICMSwmqve8NA5ItOKAktfKvLGdr/miO2xdPMlIoBiwfmm
- 5Mxl8hdYzvnjFMKJz/XHm80cYoR+5KnOvLHjgNHWW+C4ix5XuEnUVOWRTCRS4BZE+BJq
- gF171eDLEj8wLTVeWmsAHL8wltrkESV/cozc4K4Yc/AtL68trqpdryiO6UhVcH9T+XH/
- TuUGwWt9eshSjha00F6MltxTYU4jmGbyQrkEQfB5s7MKMzaVCi05VphxEVHm1dNgSzO5
- DXwVxYFULu5spYW9zJEgZ9vMHvisa9OaEeb1n/Ld8oCIKRcWhktPnj46oEt84UuuaMvf
- hLjA==
-X-Gm-Message-State: ANhLgQ1LQJF3CGMa2iKWWXZaH222B7Av6PfuFIeT85QWmOAQS/GFVn41
- 7RTGu5wJXVlvrMvqh2csIrOHhSiw3YU=
-X-Google-Smtp-Source: ADFU+vuT//rKPg2fu0uEwd2siuQkQo34heKGqlxAc4SGr5vNfHiOKmcRFVEUuMfXhpB+3qDnsrRjLg==
-X-Received: by 2002:a62:fcc7:: with SMTP id e190mr1345817pfh.285.1585346637131; 
- Fri, 27 Mar 2020 15:03:57 -0700 (PDT)
+ bh=AVWo3TkNC8dRck4gxr30FMdUL1YEqwhhQceYuT351jQ=;
+ b=akpbeSwfR7OnNhyCpcBX6wnoHw6NwlbpSfIrgLWEKBPwndcs6gcPCH0SXFwK2rzAMF
+ BqHXE85gIKpRrIysqWx+8YtCfaJp95fZRBeV50lUSuI7SwKSlpte9tgJFXHBIwqIQKSQ
+ 806fP3SfeBgT5Ti76Wp5DNxEuhvyafW7CSY+mvnMdVuDjvPpHuKG3cVr3Y4ja+qc9j6x
+ 9gC7IS8PTIaZugnBo+POtKwJ0pDtvXKc5vBodfnsrGCJINpIJI/SRUwLbSqKcVnpD7A2
+ G3xeIRDT/hPafn99eRGdezItIh54EYRJf/06C6hCNKp3sPbDd/UVL9qFlbaB21hW+df2
+ CP6A==
+X-Gm-Message-State: ANhLgQ0u9xZ0k+6ALu7CP6xaJa1fiR8J74NhN+b+agBGjKH1qkMuAUKI
+ MQbtiXoiCxzg9gO4parFzQNkMQRVqdA=
+X-Google-Smtp-Source: ADFU+vt1BaMX3C12VyD+uTFPajirso7jSCoEdnN1WgNIxypn00i9s7+3r2eygsJaV1QCfCRZtuiO2g==
+X-Received: by 2002:a63:bf4e:: with SMTP id i14mr1405683pgo.41.1585346638398; 
+ Fri, 27 Mar 2020 15:03:58 -0700 (PDT)
 Received: from localhost.localdomain (174-21-138-234.tukw.qwest.net.
  [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id y29sm4516929pge.22.2020.03.27.15.03.55
+ by smtp.gmail.com with ESMTPSA id y29sm4516929pge.22.2020.03.27.15.03.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 15:03:56 -0700 (PDT)
+ Fri, 27 Mar 2020 15:03:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v3 1/7] configure: Drop adjustment of textseg
-Date: Fri, 27 Mar 2020 15:03:47 -0700
-Message-Id: <20200327220353.27233-2-richard.henderson@linaro.org>
+Subject: [PATCH for-5.0 v3 2/7] tcg: Remove softmmu code_gen_buffer fixed
+ address
+Date: Fri, 27 Mar 2020 15:03:48 -0700
+Message-Id: <20200327220353.27233-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327220353.27233-1-richard.henderson@linaro.org>
 References: <20200327220353.27233-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,102 +85,78 @@ Cc: dim@FreeBSD.org, Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adjustment was random and unnecessary.  The user mode
-startup code in probe_guest_base() will choose a value for
-guest_base that allows the host qemu binary to not conflict
-with the guest binary.
+The commentary talks about "in concert with the addresses
+assigned in the relevant linker script", except there is no
+linker script for softmmu, nor has there been for some time.
 
-With modern distributions, this isn't even used, as the default
-is PIE, which does the same job in a more portable way.
+(Do not confuse the user-only linker script editing that was
+removed in the previous patch, because user-only does not
+use this code_gen_buffer allocation method.)
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Remove mention of config-host.ld from make distclean
----
- configure | 47 -----------------------------------------------
- Makefile  |  2 +-
- 2 files changed, 1 insertion(+), 48 deletions(-)
+ accel/tcg/translate-all.c | 37 +++++--------------------------------
+ 1 file changed, 5 insertions(+), 32 deletions(-)
 
-diff --git a/configure b/configure
-index 89fe881dd4..2afcae61df 100755
---- a/configure
-+++ b/configure
-@@ -6498,49 +6498,6 @@ if test "$cpu" = "s390x" ; then
-   fi
- fi
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 78914154bf..9924e66d1f 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1043,47 +1043,20 @@ static inline void *alloc_code_gen_buffer(void)
+ {
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-    uintptr_t start = 0;
+     size_t size = tcg_ctx->code_gen_buffer_size;
+     void *buf;
  
--# Probe for the need for relocating the user-only binary.
--if ( [ "$linux_user" = yes ] || [ "$bsd_user" = yes ] ) && [ "$pie" = no ]; then
--  textseg_addr=
--  case "$cpu" in
--    arm | i386 | ppc* | s390* | sparc* | x86_64 | x32)
--      # ??? Rationale for choosing this address
--      textseg_addr=0x60000000
--      ;;
--    mips)
--      # A 256M aligned address, high in the address space, with enough
--      # room for the code_gen_buffer above it before the stack.
--      textseg_addr=0x60000000
--      ;;
--  esac
--  if [ -n "$textseg_addr" ]; then
--    cat > $TMPC <<EOF
--    int main(void) { return 0; }
--EOF
--    textseg_ldflags="-Wl,-Ttext-segment=$textseg_addr"
--    if ! compile_prog "" "$textseg_ldflags"; then
--      # In case ld does not support -Ttext-segment, edit the default linker
--      # script via sed to set the .text start addr.  This is needed on FreeBSD
--      # at least.
--      if ! $ld --verbose >/dev/null 2>&1; then
--        error_exit \
--            "We need to link the QEMU user mode binaries at a" \
--            "specific text address. Unfortunately your linker" \
--            "doesn't support either the -Ttext-segment option or" \
--            "printing the default linker script with --verbose." \
--            "If you don't want the user mode binaries, pass the" \
--            "--disable-user option to configure."
--      fi
+-    /* Constrain the position of the buffer based on the host cpu.
+-       Note that these addresses are chosen in concert with the
+-       addresses assigned in the relevant linker script file.  */
+-# if defined(__PIE__) || defined(__PIC__)
+-    /* Don't bother setting a preferred location if we're building
+-       a position-independent executable.  We're more likely to get
+-       an address near the main executable if we let the kernel
+-       choose the address.  */
+-# elif defined(__x86_64__) && defined(MAP_32BIT)
+-    /* Force the memory down into low memory with the executable.
+-       Leave the choice of exact location with the kernel.  */
+-    flags |= MAP_32BIT;
+-    /* Cannot expect to map more than 800MB in low memory.  */
+-    if (size > 800u * 1024 * 1024) {
+-        tcg_ctx->code_gen_buffer_size = size = 800u * 1024 * 1024;
+-    }
+-# elif defined(__sparc__)
+-    start = 0x40000000ul;
+-# elif defined(__s390x__)
+-    start = 0x90000000ul;
+-# elif defined(__mips__)
+-#  if _MIPS_SIM == _ABI64
+-    start = 0x128000000ul;
+-#  else
+-    start = 0x08000000ul;
+-#  endif
+-# endif
 -
--      $ld --verbose | sed \
--        -e '1,/==================================================/d' \
--        -e '/==================================================/,$d' \
--        -e "s/[.] = [0-9a-fx]* [+] SIZEOF_HEADERS/. = $textseg_addr + SIZEOF_HEADERS/" \
--        -e "s/__executable_start = [0-9a-fx]*/__executable_start = $textseg_addr/" > config-host.ld
--      textseg_ldflags="-Wl,-T../config-host.ld"
--    fi
--  fi
--fi
--
- # Check that the C++ compiler exists and works with the C compiler.
- # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
- if has $cxx; then
-@@ -8175,10 +8132,6 @@ if test "$gprof" = "yes" ; then
-   fi
- fi
+-    buf = mmap((void *)start, size, prot, flags, -1, 0);
++    buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+         return NULL;
+     }
  
--if test "$target_linux_user" = "yes" || test "$target_bsd_user" = "yes" ; then
--  ldflags="$ldflags $textseg_ldflags"
--fi
--
- # Newer kernels on s390 check for an S390_PGSTE program header and
- # enable the pgste page table extensions in that case. This makes
- # the vm.allocate_pgste sysctl unnecessary. We enable this program
-diff --git a/Makefile b/Makefile
-index fc2808fb4b..84ef881600 100644
---- a/Makefile
-+++ b/Makefile
-@@ -795,7 +795,7 @@ rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(M
- endef
- 
- distclean: clean
--	rm -f config-host.mak config-host.h* config-host.ld $(DOCS)
-+	rm -f config-host.mak config-host.h* $(DOCS)
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config-all-devices.mak config-all-disas.mak config.status
- 	rm -f $(SUBDIR_DEVICES_MAK)
+ #ifdef __mips__
+     if (cross_256mb(buf, size)) {
+-        /* Try again, with the original still mapped, to avoid re-acquiring
+-           that 256mb crossing.  This time don't specify an address.  */
++        /*
++         * Try again, with the original still mapped, to avoid re-acquiring
++         * the same 256mb crossing.
++         */
+         size_t size2;
+         void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
+         switch ((int)(buf2 != MAP_FAILED)) {
 -- 
 2.20.1
 
