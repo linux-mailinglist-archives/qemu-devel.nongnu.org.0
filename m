@@ -2,46 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FEF1950EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 07:14:49 +0100 (CET)
-Received: from localhost ([::1]:37576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE5D19510C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 07:28:00 +0100 (CET)
+Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHiGW-0006ed-2S
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 02:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48132)
+	id 1jHiTH-0000Eh-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 02:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dietmar@proxmox.com>) id 1jHiFm-0006As-LE
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 02:14:03 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHiSK-0008C0-Ij
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 02:27:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dietmar@proxmox.com>) id 1jHiFl-0003GV-L3
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 02:14:02 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:60466)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dietmar@proxmox.com>)
- id 1jHiFj-0002LO-4r; Fri, 27 Mar 2020 02:13:59 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A3F8E41C87;
- Fri, 27 Mar 2020 07:13:54 +0100 (CET)
-Date: Fri, 27 Mar 2020 07:13:53 +0100 (CET)
-From: Dietmar Maurer <dietmar@proxmox.com>
-To: Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Message-ID: <366613272.2.1585289633068@webmail.proxmox.com>
-In-Reply-To: <1614642655.1.1585289232685@webmail.proxmox.com>
-References: <20200326155628.859862-1-s.reiter@proxmox.com>
- <1614642655.1.1585289232685@webmail.proxmox.com>
-Subject: Re: [PATCH v2 0/3] Fix some AIO context locking in jobs
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev22
-X-Originating-Client: open-xchange-appsuite
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHiSJ-0003tI-4e
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 02:27:00 -0400
+Received: from cmccmta1.chinamobile.com ([221.176.66.79]:3973)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHiSI-0000yd-D2
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 02:26:59 -0400
+Received: from spf.mail.chinamobile.com (unknown[172.16.121.5]) by
+ rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee15e7d9c95898-d3635;
+ Fri, 27 Mar 2020 14:26:29 +0800 (CST)
+X-RM-TRANSID: 2ee15e7d9c95898-d3635
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from localhost.localdomain (unknown[112.25.154.146])
+ by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee35e7d9c9070d-18a74;
+ Fri, 27 Mar 2020 14:26:29 +0800 (CST)
+X-RM-TRANSID: 2ee35e7d9c9070d-18a74
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] monitor/hmp-cmds: don't silently output when running
+ 'migrate_set_downtime' fails
+Date: Fri, 27 Mar 2020 14:26:23 +0800
+Message-Id: <20200327062623.191818-1-maozhongyi@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 221.176.66.79
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,39 +50,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Dietmar Maurer <dietmar@proxmox.com>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, slp@redhat.com,
- mreitz@redhat.com, stefanha@redhat.com, jsnow@redhat.com
+Cc: dgilbert@redhat.com, Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-But I need to mention that it takes some time to reproduce this. This time I
-run/aborted about 500 backup jobs until it triggers.
+Although 'migrate_set_downtime' has been deprecated and replaced
+with 'migrate_set_parameter downtime_limit', it has not been
+completely eliminated, possibly due to compatibility with older
+versions. I think as long as this old parameter is running, we
+should report appropriate message when something goes wrong, not
+be silent.
 
-> > I *think* the second patch also fixes the hangs on backup abort that I and
-> > Dietmar noticed in v1, but I'm not sure, they we're somewhat intermittent
-> > before too.
-> 
-> No, I still get this freeze:
-> 
-> 0  0x00007f0aa4866916 in __GI_ppoll (fds=0x7f0a12935c40, nfds=2, timeout=<optimized out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
->     at ../sysdeps/unix/sysv/linux/ppoll.c:39
-> #1  0x000055d3a6c91d29 in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimized out>, __fds=<optimized out>)
->     at /usr/include/x86_64-linux-gnu/bits/poll2.h:77
-> #2  0x000055d3a6c91d29 in qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>, timeout=timeout@entry=-1) at util/qemu-timer.c:335
-> #3  0x000055d3a6c94511 in fdmon_poll_wait (ctx=0x7f0a97505e80, ready_list=0x7fff67e5c358, timeout=-1) at util/fdmon-poll.c:79
-> #4  0x000055d3a6c93af7 in aio_poll (ctx=0x7f0a97505e80, blocking=blocking@entry=true) at util/aio-posix.c:589
-> #5  0x000055d3a6bf4cd3 in bdrv_do_drained_begin
->     (poll=<optimized out>, ignore_bds_parents=false, parent=0x0, recursive=false, bs=0x7f0a9754c280) at block/io.c:429
-> #6  0x000055d3a6bf4cd3 in bdrv_do_drained_begin
->     (bs=0x7f0a9754c280, recursive=<optimized out>, parent=0x0, ignore_bds_parents=<optimized out>, poll=<optimized out>) at block/io.c:395
-> #7  0x000055d3a6be5c87 in blk_drain (blk=0x7f0a97abcc00) at block/block-backend.c:1617
-> #8  0x000055d3a6be686d in blk_unref (blk=0x7f0a97abcc00) at block/block-backend.c:473
-> #9  0x000055d3a6b9e835 in block_job_free (job=0x7f0a15f44e00) at blockjob.c:89
-> #10 0x000055d3a6b9fe29 in job_unref (job=0x7f0a15f44e00) at job.c:376
-> #11 0x000055d3a6b9fe29 in job_unref (job=0x7f0a15f44e00) at job.c:368
-> #12 0x000055d3a6ba07aa in job_finish_sync (job=job@entry=0x7f0a15f44e00, finish=finish@entry=
->     0x55d3a6ba0cd0 <job_cancel_err>, errp=errp@entry=0x0) at job.c:1004
-> #13 0x000055d3a6ba0cee in job_cancel_sync (job=job@entry=0x7f0a15f44e00) at job.c:947
+before:
+(qemu) migrate_set_downtime -1
+(qemu)
+
+after:
+(qemu) migrate_set_downtime -1
+Error: Parameter 'downtime_limit' expects an integer in the range of 0 to 2000 seconds
+
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+---
+ monitor/hmp-cmds.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9b94e67879..2a900a528a 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1181,8 +1181,14 @@ void hmp_migrate_pause(Monitor *mon, const QDict *qdict)
+ /* Kept for backwards compatibility */
+ void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict)
+ {
++    Error *err = NULL;
++
+     double value = qdict_get_double(qdict, "value");
+-    qmp_migrate_set_downtime(value, NULL);
++    qmp_migrate_set_downtime(value, &err);
++
++    if (err) {
++        hmp_handle_error(mon, err);
++    }
+ }
+ 
+ void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
+-- 
+2.17.1
+
+
 
 
