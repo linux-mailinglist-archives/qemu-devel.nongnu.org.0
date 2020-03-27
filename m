@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1712A195F3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 20:53:43 +0100 (CET)
-Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCC4195F80
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 21:19:01 +0100 (CET)
+Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHv2y-0006aR-Rd
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 15:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54612)
+	id 1jHvRU-0006C6-61
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jHv21-000676-JK
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 15:52:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHvOD-0002WG-OG
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jHv1z-0007jT-Ni
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 15:52:41 -0400
-Resent-Date: Fri, 27 Mar 2020 15:52:41 -0400
-Resent-Message-Id: <E1jHv1z-0007jT-Ni@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21474)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jHv1z-0007is-IC
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 15:52:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585338744; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=JAbbbk32n7RerDbn5VPeBQe6hQP/Xek094QKy+bFIi/ihLjVWC1rtG5rgpn8OxHMIrwQJ9NInF9WEdor+Iwbwzx20TYSXwr7n3EbTa+6skBYjHGLwuI6DREQ0QoklO14Vrb3k3d9MjNGvQO/PViSo4IyvpxZEZxVMm4y5nXWoy8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585338744;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=onCU91Y00aayk6B2hFSVEkkQY+cW5Azcg6tlq26S3lQ=; 
- b=lGANKf7WsEGg475G3Q/tNkioJcotwSPWGhdJz+vzWQxZhVigpXUX1ozp/z9eAERLp2dncbkifb1AvjPD6c3Lu2+CsLvZVFNCiAFYMh579zAWWkkxhvaGttWpHFIHJGXESU2ZeMs2Vk1fluzCi2K9NAI7yOHcJc/yiAFwW0ZIX8U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585338742694931.8411215705366;
- Fri, 27 Mar 2020 12:52:22 -0700 (PDT)
-In-Reply-To: <1242491200.59.1585326983523@webmail.proxmox.com>
-Subject: Re: AIO_WAIT_WHILE questions
-Message-ID: <158533874162.31566.8651298420239001818@39012742ff91>
+ (envelope-from <bounces@canonical.com>) id 1jHvOB-0003KE-W0
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38454)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHvOB-0003F6-Q1
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHvO9-0005Av-NC
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:15:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AC4CD2E80C0
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:15:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dietmar@proxmox.com
-Date: Fri, 27 Mar 2020 12:52:22 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Mar 2020 20:06:02 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h
+X-Launchpad-Bug-Reporter: Dr. David Alan Gilbert (dgilbert-h)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+Message-Id: <158533956244.22377.11770713570863953031.malonedeb@wampee.canonical.com>
+Subject: [Bug 1869426] [NEW] 5.0rc0->4.2 serial migraiton
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9d1dc39e8358ba86d108c13b1e1eb0c7622e044b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,116 +63,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1869426 <1869426@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xMjQyNDkxMjAwLjU5LjE1ODUz
-MjY5ODM1MjNAd2VibWFpbC5wcm94bW94LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5k
-CnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNh
-biBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9y
-YSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VU
-X0xJU1Q9eDg2XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9
-PT0KClBBU1MgMSBmZGMtdGVzdCAveDg2XzY0L2ZkYy9jbW9zClBBU1MgMiBmZGMtdGVzdCAveDg2
-XzY0L2ZkYy9ub19tZWRpYV9vbl9zdGFydApQQVNTIDMgZmRjLXRlc3QgL3g4Nl82NC9mZGMvcmVh
-ZF93aXRob3V0X21lZGlhCj09ODU5NT09V0FSTklORzogQVNhbiBkb2Vzbid0IGZ1bGx5IHN1cHBv
-cnQgbWFrZWNvbnRleHQvc3dhcGNvbnRleHQgZnVuY3Rpb25zIGFuZCBtYXkgcHJvZHVjZSBmYWxz
-ZSBwb3NpdGl2ZXMgaW4gc29tZSBjYXNlcyEKUEFTUyA0IGZkYy10ZXN0IC94ODZfNjQvZmRjL21l
-ZGlhX2NoYW5nZQpQQVNTIDUgZmRjLXRlc3QgL3g4Nl82NC9mZGMvc2Vuc2VfaW50ZXJydXB0ClBB
-U1MgNiBmZGMtdGVzdCAveDg2XzY0L2ZkYy9yZWxhdGl2ZV9zZWVrCi0tLQpxZW11LXN5c3RlbS14
-ODZfNjQ6IC90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9ibG9jay1iYWNrZW5kLmM6MTI3MTogaW50
-IGJsa19wcncoQmxvY2tCYWNrZW5kICosIGludDY0X3QsIHVpbnQ4X3QgKiwgaW50NjRfdCwgQ29y
-b3V0aW5lRW50cnkgKiwgQmRydlJlcXVlc3RGbGFncyk6IEFzc2VydGlvbiBgY3R4Xy0+bG9ja19j
-b3VudCA9PSAxJyBmYWlsZWQuCkJyb2tlbiBwaXBlCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9x
-dGVzdC9saWJxdGVzdC5jOjE3NToga2lsbF9xZW11KCkgZGV0ZWN0ZWQgUUVNVSBkZWF0aCBmcm9t
-IHNpZ25hbCA2IChBYm9ydGVkKQpFUlJPUiAtIHRvbyBmZXcgdGVzdHMgcnVuIChleHBlY3RlZCAx
-MywgZ290IDkpCm1ha2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL01ha2VmaWxlLmlu
-Y2x1ZGU6NjM2OiBjaGVjay1xdGVzdC14ODZfNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcg
-Zm9yIHVuZmluaXNoZWQgam9icy4uLi4KUEFTUyAxIGNoZWNrLXFqc29uIC9saXRlcmFscy9rZXl3
-b3JkClBBU1MgMiBjaGVjay1xanNvbiAvbGl0ZXJhbHMvc3RyaW5nL2VzY2FwZWQKLS0tClBBU1Mg
-MzIgdGVzdC1vcHRzLXZpc2l0b3IgL3Zpc2l0b3Ivb3B0cy9yYW5nZS9iZXlvbmQKUEFTUyAzMyB0
-ZXN0LW9wdHMtdmlzaXRvciAvdmlzaXRvci9vcHRzL2RpY3QvdW52aXNpdGVkCk1BTExPQ19QRVJU
-VVJCXz0ke01BTExPQ19QRVJUVVJCXzotJCgoICR7UkFORE9NOi0wfSAlIDI1NSArIDEpKX0gIHRl
-c3RzL3Rlc3QtY29yb3V0aW5lIC1tPXF1aWNrIC1rIC0tdGFwIDwgL2Rldi9udWxsIHwgLi9zY3Jp
-cHRzL3RhcC1kcml2ZXIucGwgLS10ZXN0LW5hbWU9InRlc3QtY29yb3V0aW5lIiAKPT04NjQ5PT1X
-QVJOSU5HOiBBU2FuIGRvZXNuJ3QgZnVsbHkgc3VwcG9ydCBtYWtlY29udGV4dC9zd2FwY29udGV4
-dCBmdW5jdGlvbnMgYW5kIG1heSBwcm9kdWNlIGZhbHNlIHBvc2l0aXZlcyBpbiBzb21lIGNhc2Vz
-IQo9PTg2NDk9PVdBUk5JTkc6IEFTYW4gaXMgaWdub3JpbmcgcmVxdWVzdGVkIF9fYXNhbl9oYW5k
-bGVfbm9fcmV0dXJuOiBzdGFjayB0b3A6IDB4N2ZmZTgwY2NhMDAwOyBib3R0b20gMHg3ZjdiMTRj
-MTAwMDA7IHNpemU6IDB4MDA4MzZjMGJhMDAwICg1NjQ0NTM0MTY5NjApCkZhbHNlIHBvc2l0aXZl
-IGVycm9yIHJlcG9ydHMgbWF5IGZvbGxvdwpGb3IgZGV0YWlscyBzZWUgaHR0cHM6Ly9naXRodWIu
-Y29tL2dvb2dsZS9zYW5pdGl6ZXJzL2lzc3Vlcy8xODkKUEFTUyAxIHRlc3QtY29yb3V0aW5lIC9i
-YXNpYy9uby1kYW5nbGluZy1hY2Nlc3MKLS0tClBBU1MgMTEgdGVzdC1haW8gL2Fpby9ldmVudC93
-YWl0ClBBU1MgMTIgdGVzdC1haW8gL2Fpby9ldmVudC9mbHVzaApQQVNTIDEzIHRlc3QtYWlvIC9h
-aW8vZXZlbnQvd2FpdC9uby1mbHVzaC1jYgo9PTg2NjQ9PVdBUk5JTkc6IEFTYW4gZG9lc24ndCBm
-dWxseSBzdXBwb3J0IG1ha2Vjb250ZXh0L3N3YXBjb250ZXh0IGZ1bmN0aW9ucyBhbmQgbWF5IHBy
-b2R1Y2UgZmFsc2UgcG9zaXRpdmVzIGluIHNvbWUgY2FzZXMhClBBU1MgMTQgdGVzdC1haW8gL2Fp
-by90aW1lci9zY2hlZHVsZQpQQVNTIDE1IHRlc3QtYWlvIC9haW8vY29yb3V0aW5lL3F1ZXVlLWNo
-YWluaW5nClBBU1MgMTYgdGVzdC1haW8gL2Fpby1nc291cmNlL2ZsdXNoCi0tLQpQQVNTIDI3IHRl
-c3QtYWlvIC9haW8tZ3NvdXJjZS9ldmVudC93YWl0L25vLWZsdXNoLWNiClBBU1MgMjggdGVzdC1h
-aW8gL2Fpby1nc291cmNlL3RpbWVyL3NjaGVkdWxlCk1BTExPQ19QRVJUVVJCXz0ke01BTExPQ19Q
-RVJUVVJCXzotJCgoICR7UkFORE9NOi0wfSAlIDI1NSArIDEpKX0gIHRlc3RzL3Rlc3QtYWlvLW11
-bHRpdGhyZWFkIC1tPXF1aWNrIC1rIC0tdGFwIDwgL2Rldi9udWxsIHwgLi9zY3JpcHRzL3RhcC1k
-cml2ZXIucGwgLS10ZXN0LW5hbWU9InRlc3QtYWlvLW11bHRpdGhyZWFkIiAKPT04NjY5PT1XQVJO
-SU5HOiBBU2FuIGRvZXNuJ3QgZnVsbHkgc3VwcG9ydCBtYWtlY29udGV4dC9zd2FwY29udGV4dCBm
-dW5jdGlvbnMgYW5kIG1heSBwcm9kdWNlIGZhbHNlIHBvc2l0aXZlcyBpbiBzb21lIGNhc2VzIQpQ
-QVNTIDEgdGVzdC1haW8tbXVsdGl0aHJlYWQgL2Fpby9tdWx0aS9saWZlY3ljbGUKUEFTUyAyIHRl
-c3QtYWlvLW11bHRpdGhyZWFkIC9haW8vbXVsdGkvc2NoZWR1bGUKUEFTUyAzIHRlc3QtYWlvLW11
-bHRpdGhyZWFkIC9haW8vbXVsdGkvbXV0ZXgvY29udGVuZGVkCi0tLQpQQVNTIDYgdGVzdC10aHJv
-dHRsZSAvdGhyb3R0bGUvZGV0YWNoX2F0dGFjaApQQVNTIDcgdGVzdC10aHJvdHRsZSAvdGhyb3R0
-bGUvY29uZmlnX2Z1bmN0aW9ucwpQQVNTIDggdGVzdC10aHJvdHRsZSAvdGhyb3R0bGUvYWNjb3Vu
-dGluZwo9PTg3MDM9PVdBUk5JTkc6IEFTYW4gZG9lc24ndCBmdWxseSBzdXBwb3J0IG1ha2Vjb250
-ZXh0L3N3YXBjb250ZXh0IGZ1bmN0aW9ucyBhbmQgbWF5IHByb2R1Y2UgZmFsc2UgcG9zaXRpdmVz
-IGluIHNvbWUgY2FzZXMhClBBU1MgOSB0ZXN0LXRocm90dGxlIC90aHJvdHRsZS9ncm91cHMKUEFT
-UyAxMCB0ZXN0LXRocm90dGxlIC90aHJvdHRsZS9jb25maWcvZW5hYmxlZApQQVNTIDExIHRlc3Qt
-dGhyb3R0bGUgL3Rocm90dGxlL2NvbmZpZy9jb25mbGljdGluZwotLS0KUEFTUyAxNCB0ZXN0LXRo
-cm90dGxlIC90aHJvdHRsZS9jb25maWcvbWF4ClBBU1MgMTUgdGVzdC10aHJvdHRsZSAvdGhyb3R0
-bGUvY29uZmlnL2lvcHNfc2l6ZQpNQUxMT0NfUEVSVFVSQl89JHtNQUxMT0NfUEVSVFVSQl86LSQo
-KCAke1JBTkRPTTotMH0gJSAyNTUgKyAxKSl9ICB0ZXN0cy90ZXN0LXRocmVhZC1wb29sIC1tPXF1
-aWNrIC1rIC0tdGFwIDwgL2Rldi9udWxsIHwgLi9zY3JpcHRzL3RhcC1kcml2ZXIucGwgLS10ZXN0
-LW5hbWU9InRlc3QtdGhyZWFkLXBvb2wiIAo9PTg3MDc9PVdBUk5JTkc6IEFTYW4gZG9lc24ndCBm
-dWxseSBzdXBwb3J0IG1ha2Vjb250ZXh0L3N3YXBjb250ZXh0IGZ1bmN0aW9ucyBhbmQgbWF5IHBy
-b2R1Y2UgZmFsc2UgcG9zaXRpdmVzIGluIHNvbWUgY2FzZXMhClBBU1MgMSB0ZXN0LXRocmVhZC1w
-b29sIC90aHJlYWQtcG9vbC9zdWJtaXQKUEFTUyAyIHRlc3QtdGhyZWFkLXBvb2wgL3RocmVhZC1w
-b29sL3N1Ym1pdC1haW8KUEFTUyAzIHRlc3QtdGhyZWFkLXBvb2wgL3RocmVhZC1wb29sL3N1Ym1p
-dC1jbwotLS0KUEFTUyAzOSB0ZXN0LWhiaXRtYXAgL2hiaXRtYXAvbmV4dF9kaXJ0eV9hcmVhL25l
-eHRfZGlydHlfYXJlYV80ClBBU1MgNDAgdGVzdC1oYml0bWFwIC9oYml0bWFwL25leHRfZGlydHlf
-YXJlYS9uZXh0X2RpcnR5X2FyZWFfYWZ0ZXJfdHJ1bmNhdGUKTUFMTE9DX1BFUlRVUkJfPSR7TUFM
-TE9DX1BFUlRVUkJfOi0kKCggJHtSQU5ET006LTB9ICUgMjU1ICsgMSkpfSAgdGVzdHMvdGVzdC1i
-ZHJ2LWRyYWluIC1tPXF1aWNrIC1rIC0tdGFwIDwgL2Rldi9udWxsIHwgLi9zY3JpcHRzL3RhcC1k
-cml2ZXIucGwgLS10ZXN0LW5hbWU9InRlc3QtYmRydi1kcmFpbiIgCj09ODc3OT09V0FSTklORzog
-QVNhbiBkb2Vzbid0IGZ1bGx5IHN1cHBvcnQgbWFrZWNvbnRleHQvc3dhcGNvbnRleHQgZnVuY3Rp
-b25zIGFuZCBtYXkgcHJvZHVjZSBmYWxzZSBwb3NpdGl2ZXMgaW4gc29tZSBjYXNlcyEKdGVzdC1i
-ZHJ2LWRyYWluOiAvdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svaW8uYzo0Mjk6IHZvaWQgYmRydl9k
-b19kcmFpbmVkX2JlZ2luKEJsb2NrRHJpdmVyU3RhdGUgKiwgX0Jvb2wsIEJkcnZDaGlsZCAqLCBf
-Qm9vbCwgX0Jvb2wpOiBBc3NlcnRpb24gYGN0eF8tPmxvY2tfY291bnQgPT0gMScgZmFpbGVkLgpF
-UlJPUiAtIHRvbyBmZXcgdGVzdHMgcnVuIChleHBlY3RlZCA0MiwgZ290IDApCm1ha2U6ICoqKiBb
-L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL01ha2VmaWxlLmluY2x1ZGU6NjQxOiBjaGVjay11bml0
-XSBFcnJvciAxClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rl
-c3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2NCwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0
-KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpz
-dWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2Rv
-Y2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTk5M2VmMjU1
-NGI1ZDQxYTFiZDFkNmYzZDlhM2RkNzAwJywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQn
-LCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9eDg2XzY0
-LXNvZnRtbXUnLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1l
-JywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVt
-dS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNo
-ZXctdGVzdGVyLXRtcC15eXQ3dW1uYy9zcmMvZG9ja2VyLXNyYy4yMDIwLTAzLTI3LTE1LjIzLjM5
-LjMwNDY5Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11
-L3J1bicsICd0ZXN0LWRlYnVnJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
-bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTk5M2VmMjU1NGI1ZDQx
-YTFiZDFkNmYzZDlhM2RkNzAwCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
-WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXl5dDd1
-bW5jL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtZGVidWdAZmVkb3JhXSBFcnJvciAy
-CgpyZWFsICAgIDI4bTQxLjQ5MnMKdXNlciAgICAwbTguOTgwcwoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTI0MjQ5MTIwMC41OS4xNTg1MzI2
-OTgzNTIzQHdlYm1haWwucHJveG1veC5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+Public bug reported:
+
+Migrating from 5.0rc0->4.2 with pc-q35-4.2 we get an error:
+
+Unknown savevm section or instance 'serial' 1
+
+dumping the migration streams it looks like 5.0 is duplicating the
+serial migration data:
+
+    "serial (26)": {
+        "divider": "0x000c",
+        "rbr": "0x00",
+        "ier": "0x00",
+        "iir": "0x01",
+        "lcr": "0x00",
+        "mcr": "0x00",
+        "lsr": "0x60",
+        "msr": "0xb0",
+        "scr": "0x00",
+        "fcr_vmstate": "0x00"
+    },
+    "serial (27)": {
+        "state": {
+            "divider": "0x000c",
+            "rbr": "0x00",
+            "ier": "0x00",
+            "iir": "0x01",
+            "lcr": "0x00",
+            "mcr": "0x00",
+            "lsr": "0x60",
+            "msr": "0xb0",
+            "scr": "0x00",
+            "fcr_vmstate": "0x00"
+        }
+    },
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869426
+
+Title:
+  5.0rc0->4.2 serial migraiton
+
+Status in QEMU:
+  New
+
+Bug description:
+  Migrating from 5.0rc0->4.2 with pc-q35-4.2 we get an error:
+
+  Unknown savevm section or instance 'serial' 1
+
+  dumping the migration streams it looks like 5.0 is duplicating the
+  serial migration data:
+
+      "serial (26)": {
+          "divider": "0x000c",
+          "rbr": "0x00",
+          "ier": "0x00",
+          "iir": "0x01",
+          "lcr": "0x00",
+          "mcr": "0x00",
+          "lsr": "0x60",
+          "msr": "0xb0",
+          "scr": "0x00",
+          "fcr_vmstate": "0x00"
+      },
+      "serial (27)": {
+          "state": {
+              "divider": "0x000c",
+              "rbr": "0x00",
+              "ier": "0x00",
+              "iir": "0x01",
+              "lcr": "0x00",
+              "mcr": "0x00",
+              "lsr": "0x60",
+              "msr": "0xb0",
+              "scr": "0x00",
+              "fcr_vmstate": "0x00"
+          }
+      },
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869426/+subscriptions
 
