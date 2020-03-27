@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF1195AB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:10:40 +0100 (CET)
-Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9369195B14
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:29:34 +0100 (CET)
+Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrZ9-00083y-A2
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35254)
+	id 1jHrrR-0004Bf-K7
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHrYB-0007dK-BB
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:09:40 -0400
+ (envelope-from <liq3ea@163.com>) id 1jHrqE-0003iw-Ek
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:28:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHrY9-0000N1-UI
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:09:38 -0400
-Received: from cmccmta3.chinamobile.com ([221.176.66.81]:4508)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jHrY8-0008IM-8B
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:09:37 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.7]) by
- rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee95e7e2523d18-deb2d;
- Sat, 28 Mar 2020 00:09:08 +0800 (CST)
-X-RM-TRANSID: 2ee95e7e2523d18-deb2d
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from [192.168.43.82] (unknown[117.136.46.213])
- by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee45e7e25223c2-cc6a8;
- Sat, 28 Mar 2020 00:09:08 +0800 (CST)
-X-RM-TRANSID: 2ee45e7e25223c2-cc6a8
-Subject: Re: [PATCH] monitor/hmp-cmds: add units for mirate_parameters.
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20200327073210.198080-1-maozhongyi@cmss.chinamobile.com>
- <20200327092951.bu4ju7rh53ig5t3l@steredhat> <20200327112814.GD2786@work-vm>
- <20200327131253.3axcri54an4pmuzf@steredhat> <20200327132136.GH2786@work-vm>
-From: maozy <maozhongyi@cmss.chinamobile.com>
-Message-ID: <aa647c52-09e9-b2bc-72f9-9d1d7d5b57e6@cmss.chinamobile.com>
-Date: Sat, 28 Mar 2020 00:09:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <20200327132136.GH2786@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 221.176.66.81
+ (envelope-from <liq3ea@163.com>) id 1jHrqA-0007mQ-Em
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:28:15 -0400
+Received: from m12-11.163.com ([220.181.12.11]:55806)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liq3ea@163.com>) id 1jHrq8-0006eU-Jn
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:28:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=Aoh9M8PIytTEynGlfU
+ LDMXmI1griONF7C7l3NKr6Jzk=; b=ZAW0I8Vq8CY6hciCuL0d+ZtugYkYWk501F
+ oaGxmVPOyByHFREwpHlJBUXxUard3L6YrytZQmCh9f/vxoeTMJdXjNWXn4dEkBYI
+ JU0TnO2UPuyh/soDeZFH35iSxtC8rCRYMu8O/7y0lPUCgbGC8o6tJhm6gWPXGNCx
+ MMFAIQW7k=
+Received: from ubuntu.localdomain (unknown [183.159.64.111])
+ by smtp7 (Coremail) with SMTP id C8CowACXme3DJX5eQrFqBg--.31568S4;
+ Sat, 28 Mar 2020 00:11:48 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ jasowang@redhat.com
+Subject: [PATCH] qtest: add tulip test case
+Date: Fri, 27 Mar 2020 09:11:46 -0700
+Message-Id: <20200327161146.16402-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: C8CowACXme3DJX5eQrFqBg--.31568S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr4DAr1rCr45Cr17ZF15CFg_yoWrXw4UpF
+ yUA3s09r48AF13Xrnak3W7JFy5Ga93uw1UCFy3Xr18uFZ8J3srKwn7Kr9F9Fn5uFWkXF15
+ Aw1ktF1fGF18tF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UBv3nUUUUU=
+X-Originating-IP: [183.159.64.111]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFATzbVaD4+gv1gAAsp
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 220.181.12.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,80 +56,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The tulip networking card emulation has an OOB issue in
+'tulip_copy_tx_buffers' when the guest provide malformed descriptor.
+This test will trigger a ASAN heap overflow crash.
 
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ tests/qtest/Makefile.include |  1 +
+ tests/qtest/tulip-test.c     | 91 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 tests/qtest/tulip-test.c
 
-On 3/27/20 9:21 PM, Dr. David Alan Gilbert wrote:
-> * Stefano Garzarella (sgarzare@redhat.com) wrote:
->> On Fri, Mar 27, 2020 at 11:28:14AM +0000, Dr. David Alan Gilbert wrote:
->>> * Stefano Garzarella (sgarzare@redhat.com) wrote:
->>>> Hi Mao,
->>>>
->>>> On Fri, Mar 27, 2020 at 03:32:10PM +0800, Mao Zhongyi wrote:
->>>>> When running:
->>>>> (qemu) info migrate_parameters
->>>>> announce-initial: 50 ms
->>>>> announce-max: 550 ms
->>>>> announce-step: 100 ms
->>>>> compress-wait-thread: on
->>>>> ...
->>>>> max-bandwidth: 33554432 bytes/second
->>>>> downtime-limit: 300 milliseconds
->>>>> x-checkpoint-delay: 20000
->>>>> ...
->>>>> xbzrle-cache-size: 67108864
->>>>>
->>>>> add units for the parameters 'x-checkpoint-delay' and
->>>>> 'xbzrle-cache-size', it's easier to read.
->>>>>
->>>>> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
->>>>> ---
->>>>>   monitor/hmp-cmds.c | 4 ++--
->>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->>>>> index 2a900a528a..8d22f96e57 100644
->>>>> --- a/monitor/hmp-cmds.c
->>>>> +++ b/monitor/hmp-cmds.c
->>>>> @@ -440,7 +440,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
->>>>>               MigrationParameter_str(MIGRATION_PARAMETER_DOWNTIME_LIMIT),
->>>>>               params->downtime_limit);
->>>>>           assert(params->has_x_checkpoint_delay);
->>>>> -        monitor_printf(mon, "%s: %u\n",
->>>>> +        monitor_printf(mon, "%s: %u" " milliseconds\n",
->>>>                                         ^
->>>> here we can remove the space and use a single string "%s: %u milliseconds\n"
->>>
->>> Yes.
->>>
->>>> I've noticed that we use both ms or milliseconds, if you want to clean up in a
->>>> separate patch, maybe we could use one of these everywhere. (I vote for 'ms')
->>>
->>> I do prefer 'ms', however we do seem to just use milliseconds in
->>> info migrate
->>
->> IIUC, currently with 'info migrate_parameters' we have:
->> - announce-initial, announce-max, and announce-step with 'ms'
->> - downtime-limit with 'milliseconds'
-> 
-> You're right, so we do - in that case I agree, lets just move them all
-> to 'ms'.
-> 
-thanks for your explanation, I got it, will fix it.
-
-Thanks
-Mao
-> Dave
-> 
->> Stefano
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 10a28de8a3..9e5a51d033 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -217,6 +217,7 @@ qos-test-obj-y += tests/qtest/es1370-test.o
+ qos-test-obj-y += tests/qtest/ipoctal232-test.o
+ qos-test-obj-y += tests/qtest/megasas-test.o
+ qos-test-obj-y += tests/qtest/ne2000-test.o
++qos-test-obj-y += tests/qtest/tulip-test.o
+ qos-test-obj-y += tests/qtest/nvme-test.o
+ qos-test-obj-y += tests/qtest/pca9552-test.o
+ qos-test-obj-y += tests/qtest/pci-test.o
+diff --git a/tests/qtest/tulip-test.c b/tests/qtest/tulip-test.c
+new file mode 100644
+index 0000000000..d91ddfd765
+--- /dev/null
++++ b/tests/qtest/tulip-test.c
+@@ -0,0 +1,91 @@
++/*
++ * QTest testcase for DEC/Intel Tulip 21143
++ *
++ * Copyright (c) 2020 Li Qiang <liq3ea@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qemu/module.h"
++#include "libqos/qgraph.h"
++#include "libqos/pci.h"
++#include "qemu/bitops.h"
++#include "hw/net/tulip.h"
++
++typedef struct QTulip_pci QTulip_pci;
++
++struct QTulip_pci {
++    QOSGraphObject obj;
++    QPCIDevice dev;
++};
++
++static void *tulip_pci_get_driver(void *obj, const char *interface)
++{
++    QTulip_pci *tulip_pci = obj;
++
++    if (!g_strcmp0(interface, "pci-device")) {
++        return &tulip_pci->dev;
++    }
++
++    fprintf(stderr, "%s not present in tulip_pci\n", interface);
++    g_assert_not_reached();
++}
++
++static void *tulip_pci_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
++{
++    QTulip_pci *tulip_pci = g_new0(QTulip_pci, 1);
++    QPCIBus *bus = pci_bus;
++
++    qpci_device_init(&tulip_pci->dev, bus, addr);
++    tulip_pci->obj.get_driver = tulip_pci_get_driver;
++
++    return &tulip_pci->obj;
++}
++
++static void tulip_large_tx(void *obj, void *data, QGuestAllocator *alloc)
++{
++    QTulip_pci *tulip_pci = obj;
++    QPCIDevice *dev = &tulip_pci->dev;
++    QPCIBar bar;
++    struct tulip_descriptor context;
++    char guest_data[4096];
++    uint64_t context_pa;
++    uint64_t guest_pa;
++
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++    context_pa = guest_alloc(alloc, sizeof(context));
++    guest_pa = guest_alloc(alloc, 4096);
++    memset(guest_data, 'A', sizeof(guest_data));
++    context.status = TDES0_OWN;
++    context.control = TDES1_BUF2_SIZE_MASK << TDES1_BUF2_SIZE_SHIFT |
++                      TDES1_BUF1_SIZE_MASK << TDES1_BUF1_SIZE_SHIFT;
++    context.buf_addr2 = context_pa + sizeof(struct tulip_descriptor);
++    context.buf_addr1 = guest_pa;
++
++    qtest_memwrite(dev->bus->qts, context_pa, &context, sizeof(context));
++    qtest_memwrite(dev->bus->qts, guest_pa, guest_data, sizeof(guest_data));
++    qpci_io_writel(dev, bar, 0x20, context_pa);
++    qpci_io_writel(dev, bar, 0x30, 1 << 13);
++    guest_free(alloc, context_pa);
++    guest_free(alloc, guest_pa);
++}
++
++static void tulip_register_nodes(void)
++{
++    QOSGraphEdgeOptions opts = {
++        .extra_device_opts = "addr=04.0",
++    };
++    add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
++
++    qos_node_create_driver("tulip", tulip_pci_create);
++    qos_node_consumes("tulip", "pci-bus", &opts);
++    qos_node_produces("tulip", "pci-device");
++
++    qos_add_test("tulip_large_tx", "tulip", tulip_large_tx, NULL);
++}
++
++libqos_init(tulip_register_nodes);
+-- 
+2.17.1
 
 
 
