@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194BF19547D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:54:10 +0100 (CET)
-Received: from localhost ([::1]:39304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67DD195487
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:55:13 +0100 (CET)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHlgn-0002V4-5n
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37965)
+	id 1jHlho-0004Fu-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHlci-0003Yk-4n
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jHlcj-0003br-4z
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:50:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHlch-0003wX-0G
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:56 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40321)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHlci-00042H-3K
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:57 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35621)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHlcg-0003uH-Pz
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:54 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a81so11584543wmf.5
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:49:54 -0700 (PDT)
+ id 1jHlch-0003yI-SX
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:56 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id f74so628370wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h75bfILekusPXGlQBXuZSQUYvT0dH6xycgkUfP0rfEE=;
- b=ePMCx7Jnyf+t5ffKVM6T+xLWU8xox/L0YaDLfCiPyBU2/7Tuq2NX1p9JDSqdAcHK4a
- UHnn+Hwg3H4uh9m2T/KyTasS9pFd9muPsfCtwKBNw2Q+GiOLUIsgoUHbAyDjhaze00az
- 2+xjDNKuM57bojqqeYx803PAHCU00z59seigOCd8tkvJJev0IxzAAkrQntLshItHt1Th
- eY4Ql7gYyWB4SCf8IA4uT59ACA4hTdYQOifXGINy2ZDtqB3UFiPt/t0PfxJn4oaOc2bZ
- 0aD/ju8rLYJtRfTMlKP4BIrcc287T711DIKI6WaD/P3H6j4g6gkQbZBgHBVnZA5lxM5J
- SUeg==
+ bh=SKd+3bU+Rf4qaLer/lKG48RI5FY7mtn7Z+QzafPJnHc=;
+ b=qY4bcVoyrj9UDssxhyjuqXC8vq/MDVYm4Kco8WPuCa/1FRA85vfW9FYoirvRCf2oXk
+ jnJJZjHeFz/QuhpvzYhy36xET487i6LD7Q3OfqxjL0Y5RGK+942BGBeu2Om4ymN3qYAb
+ ZYMBATi67tTUzBhpnZMFFEpXsoIl3d9NfnfInFgwWih0IF0Zkl2ZSKRKUuBdiPRZ6jru
+ 3faOd72M7bFrhKH+qjgj8HxF7iq+k/NB2A4q2qMlbELf6Eq7vtR67PCJ6+5UjJH3q/cC
+ idk77TwsUBLHW5hVTLEJoaPlEUcaMK22rbrlC9fLMq8rKdjxgRX3TG2ARvxS2qlVVFkj
+ s+GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h75bfILekusPXGlQBXuZSQUYvT0dH6xycgkUfP0rfEE=;
- b=ET2pyadbOb9/ISj+cutOHX+fkwOwmPpT1DEPUXYRw09U+NG0Lq7lPyNgd7VP7QP0kj
- e2cHTTvF59jB6wY1FvYwlnXLBFuJY9QDfAsNCUXY59jg1OfbFw89BOOEOnB2TwgOOkqM
- WIyRHnlmW2bWAx51CBXIsTlnaBozOb9osvsep6TeA9axPM9UyYswm1QVxaxrjMxbkoDd
- 8B4sIMxaxjoQeaLzUVIftky61UZLdm7UJ0oqF9LsRCSwdRirm6DJ0GwOK+G1ylapmyUA
- qNoCGwJooy6VThTz6LD9HYe/+gukzNWWaJNUNSneyQRJZCi4luxyJWGECA5nnZnHLwWs
- mnIQ==
-X-Gm-Message-State: ANhLgQ0VtCw+eucqmb4ixilWq7GcBJdebuuAxgEbdLhVhJAIgG2Lkiu4
- HUiLPS+RXnCl3wvgnqhTH2eqfoveOg8=
-X-Google-Smtp-Source: ADFU+vvIr4aRegORPxgo4omJNuOKvUF+VxF8PK2JiLilm7ZpGd1FvQ2R5Ou6EF3TCOFKVDlnJIbPfA==
-X-Received: by 2002:a1c:1fc9:: with SMTP id f192mr4673975wmf.4.1585302593872; 
- Fri, 27 Mar 2020 02:49:53 -0700 (PDT)
+ bh=SKd+3bU+Rf4qaLer/lKG48RI5FY7mtn7Z+QzafPJnHc=;
+ b=Olpe8WETV7D7/5mUmyq1lw4tDgSdbsMjJSFRmW73wAbo8pqb8xEJAuu6e3GO6hF+QL
+ f71rJ/JjMyLSDs5a0dE9fMfuw//3M4q7IOnJr9lK98m4+w403dYhOzaqLoxCaxOoHCBW
+ 2LFI0KIdjlnje8TOnfIYV/4RMtlXckep2zzeN+mk6eUukKXs7LTZoTHLyQk1P3m3JCVa
+ D1M2ZrM6KTNmfcI0Yl+jejbCgQItR+ctgA5diJGo7c6+0tDW3Hzho/JeHSTK1d6zsg9l
+ MXf3+3u91mXdACBcv3/LnYAgtfKg6xsZe6BnaE21kiAmIHlWhYEF52ijAQof30JkFjrX
+ wsgg==
+X-Gm-Message-State: ANhLgQ1pTQPiROgMh0NjkNZbYyipir9WBlDojhgk+ohlVgJTvVR8zoJr
+ bZBpabGiKnigc2q4oOxs5i2S8A==
+X-Google-Smtp-Source: ADFU+vuLCvy0OQamGzUTj2kLG5IO995mzays8B3zhDVSyqzJPmxKABKTj5GVkw12wSrOn7NUCQX1fg==
+X-Received: by 2002:a1c:1bd2:: with SMTP id b201mr896464wmb.181.1585302594857; 
+ Fri, 27 Mar 2020 02:49:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q4sm17123434wmj.1.2020.03.27.02.49.47
+ by smtp.gmail.com with ESMTPSA id y200sm7431526wmc.20.2020.03.27.02.49.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 02:49:50 -0700 (PDT)
+ Fri, 27 Mar 2020 02:49:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E7E471FF92;
- Fri, 27 Mar 2020 09:49:45 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 07A491FF93;
+ Fri, 27 Mar 2020 09:49:46 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/7] target/xtensa: add FIXME for translation memory leak
-Date: Fri, 27 Mar 2020 09:49:44 +0000
-Message-Id: <20200327094945.23768-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 7/7] gdbstub: fix compiler complaining
+Date: Fri, 27 Mar 2020 09:49:45 +0000
+Message-Id: <20200327094945.23768-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327094945.23768-1-alex.bennee@linaro.org>
 References: <20200327094945.23768-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dynamically allocating a new structure within the DisasContext can
-potentially leak as we can longjmp out of the translation loop (see
-test_phys_mem). The proper fix would be to use static allocation
-within the DisasContext but as the Xtensa translator imports it's code
-from elsewhere I leave that as an exercise for the maintainer.
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
+    ./gdbstub.c: In function ‘handle_query_thread_extra’:
+        /usr/include/glib-2.0/glib/glib-autocleanups.h:28:10:
+    error: ‘cpu_name’ may be used uninitialized in this function
+    [-Werror=maybe-uninitialized]
+        g_free (*pp);
+               ^
+    ./gdbstub.c:2063:26: note: ‘cpu_name’ was declared here
+        g_autofree char *cpu_name;
+                         ^
+    cc1: all warnings being treated as errors
+
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-Id: <20200326151407.25046-1-dplotnikov@virtuozzo.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Reported-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ gdbstub.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 8aa972cafdf..37f65b1f030 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -1174,6 +1174,11 @@ static void xtensa_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->callinc = ((tb_flags & XTENSA_TBFLAG_CALLINC_MASK) >>
-                    XTENSA_TBFLAG_CALLINC_SHIFT);
- 
-+    /*
-+     * FIXME: This will leak when a failed instruction load or similar
-+     * event causes us to longjump out of the translation loop and
-+     * hence not clean-up in xtensa_tr_tb_stop
-+     */
-     if (dc->config->isa) {
-         dc->insnbuf = xtensa_insnbuf_alloc(dc->config->isa);
-         dc->slotbuf = xtensa_insnbuf_alloc(dc->config->isa);
+diff --git a/gdbstub.c b/gdbstub.c
+index 013fb1ac0f1..171e1509509 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2060,8 +2060,8 @@ static void handle_query_thread_extra(GdbCmdContext *gdb_ctx, void *user_ctx)
+         /* Print the CPU model and name in multiprocess mode */
+         ObjectClass *oc = object_get_class(OBJECT(cpu));
+         const char *cpu_model = object_class_get_name(oc);
+-        g_autofree char *cpu_name;
+-        cpu_name  = object_get_canonical_path_component(OBJECT(cpu));
++        g_autofree char *cpu_name =
++            object_get_canonical_path_component(OBJECT(cpu));
+         g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
+                         cpu->halted ? "halted " : "running");
+     } else {
 -- 
 2.20.1
 
