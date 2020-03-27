@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0166919601D
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B7A19601E
 	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 21:56:58 +0100 (CET)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHw2D-0005jf-0q
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40199)
+	id 1jHw2C-0005hw-QG
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jHw10-0004op-SY
+ (envelope-from <bounces@canonical.com>) id 1jHw10-0004on-OR
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jHw0z-0001ez-K8
+ (envelope-from <bounces@canonical.com>) id 1jHw0z-0001eu-Ji
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44694)
+Received: from indium.canonical.com ([91.189.90.7]:44706)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jHw0z-0001bT-E6
+ id 1jHw0z-0001dC-Dq
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:55:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jHw0x-0000bJ-OY
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:55:39 +0000
+ id 1jHw0y-0000cj-En
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:55:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B6F482E80C7
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:55:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B9B22E80C0
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:55:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Mar 2020 20:43:05 -0000
+Date: Fri, 27 Mar 2020 20:47:17 -0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: dgilbert-h
 X-Launchpad-Bug-Reporter: Dr. David Alan Gilbert (dgilbert-h)
 X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
 References: <158533956244.22377.11770713570863953031.malonedeb@wampee.canonical.com>
-Message-Id: <158534178554.23234.22623623588699371.malone@wampee.canonical.com>
+Message-Id: <158534203790.24987.7892451603358662792.malone@soybean.canonical.com>
 Subject: [Bug 1869426] Re: 5.0rc0->4.2 serial migraiton
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a296f04231dee355be5db73cc878b9e21689a253";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 74ec42a85fb79fd35582f162c370fbea48ba2a59
+X-Launchpad-Hash: 2abda2bd812b00efbd0f580a7802321f9f78abcc
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,20 +68,8 @@ Reply-To: Bug 1869426 <1869426@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-git bisect says:
-
-c9808d602813bce4fada7bf9ecc463aa779b73f7 is the first bad commit
-commit c9808d602813bce4fada7bf9ecc463aa779b73f7
-Author: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Date:   Tue Oct 22 01:02:50 2019 +0200
-
-    serial: realize the serial device
-
-    Instead of calling serial_realize_core(), use the QDev realize
-    callback.
-
-    Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-    Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Marc-Andre: I think you're ending up with two top level objects with
+vmsd's
 
 -- =
 
