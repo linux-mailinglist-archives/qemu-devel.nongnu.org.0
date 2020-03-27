@@ -2,46 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54122195448
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:43:03 +0100 (CET)
-Received: from localhost ([::1]:39056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B0A19549D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:59:12 +0100 (CET)
+Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHlW2-0007Ig-EL
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58535)
+	id 1jHllf-0008AX-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1jHlUY-0005X9-Tp
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:41:31 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jHlkl-0007ih-SA
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:58:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1jHlUX-0000qf-T4
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:41:30 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:59668 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1jHlUX-0000d6-Hz
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:41:29 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 96FE8DFD26E2943A1E05;
- Fri, 27 Mar 2020 17:41:27 +0800 (CST)
-Received: from localhost.huawei.com (10.175.104.216) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 27 Mar 2020 17:41:18 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 2/2] virtio-iommu: delete vqs in unrealize to fix memleak
-Date: Fri, 27 Mar 2020 17:56:42 +0800
-Message-ID: <20200327095642.18424-3-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200327095642.18424-1-pannengyuan@huawei.com>
-References: <20200327095642.18424-1-pannengyuan@huawei.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1jHlkk-00018J-S0
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:58:15 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59162
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jHlkk-00016V-Mo
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:58:14 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02R9XAd8113242
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 05:58:14 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ywcj1kg9t-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 05:58:13 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Fri, 27 Mar 2020 09:58:05 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Mar 2020 09:58:03 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02R9w8ds46858658
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Mar 2020 09:58:08 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57B195204F;
+ Fri, 27 Mar 2020 09:58:08 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.169.170])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id CF84052052;
+ Fri, 27 Mar 2020 09:58:07 +0000 (GMT)
+Subject: Re: [PATCH] s390x/pv: Retry ioctls on -EINTR
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Cornelia Huck <cohuck@redhat.com>
+References: <20200327094339.26111-1-borntraeger@de.ibm.com>
+ <17439a57-46b1-d4d8-52fc-13516ae1db82@redhat.com>
+ <2c4613ec-6a56-4288-8aa8-5599f2624c3b@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Fri, 27 Mar 2020 10:58:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+In-Reply-To: <2c4613ec-6a56-4288-8aa8-5599f2624c3b@de.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 20032709-4275-0000-0000-000003B44CAE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20032709-4276-0000-0000-000038C9938F
+Message-Id: <db0ca7f9-0ab7-f0c8-4b86-ce5bc2a0a14e@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-27_02:2020-03-26,
+ 2020-03-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=770 impostorscore=0
+ suspectscore=0 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003270083
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id 02R9XAd8113242
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,42 +139,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, euler.robot@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>, zhang.zhanghailiang@huawei.com,
- mst@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-req_vq/event_vq forgot to free in unrealize. Fix that.
-And aslo do clean 's->as_by_busptr' hash table in unrealize to fix another leak.
+>> I fail to see where that is triggered in the kernel.
+>>
+>> t480s: ~/git/linux/arch/s390/kvm (HEAD losgel=C3=B6st bei next/master)=
+ $ git
+>> grep "EINTR"
+>> kvm-s390.c:     if (exit_reason =3D=3D -EINTR) {
+>> kvm-s390.c:             return -EINTR;
+>> kvm-s390.c:             rc =3D -EINTR;
+>> vsie.c: if (rc =3D=3D -EINTR) {
+>>
+>>
+>> Can you help me out? Is that documented?
+>=20
+> It is related to the kernel patch.
+> ksm_madvise->unmerge_ksm_pages has
+>=20
+>                 if (signal_pending(current))
+>                         err =3D -ERESTARTSYS;
+>=20
+>=20
+> entry.S will retranslate ERESTARTSYS into -EINTR.=20
+>=20
 
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Acked-by: Eric Auger <eric.auger@redhat.com>
----
-Cc: Eric Auger <eric.auger@redhat.com>
----
-v3->v1/v2:
-- Aslo clean 's->as_by_busptr' hash table in unrealize.(Suggested by Stefano Garzarella)
----
- hw/virtio/virtio-iommu.c | 3 +++
- 1 file changed, 3 insertions(+)
+In the end both patches fixes an odd-ball case. Marc had a test running
+that in parallel started guests and randomly killing QEMUs with pkill.
+The QEMUs did end with=20
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 4cee8083bc..694698fa0f 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -696,7 +696,10 @@ static void virtio_iommu_device_unrealize(DeviceState *dev, Error **errp)
-     g_tree_destroy(s->domains);
-     g_tree_destroy(s->endpoints);
- 
-+    virtio_delete_queue(s->req_vq);
-+    virtio_delete_queue(s->event_vq);
-     virtio_cleanup(vdev);
-+    g_hash_table_destroy(s->as_by_busptr);
- }
- 
- static void virtio_iommu_device_reset(VirtIODevice *vdev)
--- 
-2.18.2
+qemu-system-s390x: KVM PV command 0 (KVM_PV_ENABLE) failed: header rc 0 r=
+rc 0 IOCTL rc: -12
+
+instead of
+
+qemu-system-s390x: terminating on signal 15 from pid 26495 (pkill)
 
 
