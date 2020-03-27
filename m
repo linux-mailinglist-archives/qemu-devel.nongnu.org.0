@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB7D1960CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:05:29 +0100 (CET)
-Received: from localhost ([::1]:47528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4501960D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:06:44 +0100 (CET)
+Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHx6W-0004Fe-Cq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49228)
+	id 1jHx7k-000632-04
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx55-0003BW-76
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:00 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHx55-0003BY-SH
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx54-0000DZ-32
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:03:58 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40151)
+ (envelope-from <richard.henderson@linaro.org>) id 1jHx54-0000GY-M4
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:03:59 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33229)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHx53-00007P-NY
+ id 1jHx54-0000DM-GN
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:03:58 -0400
-Received: by mail-pg1-x541.google.com with SMTP id t24so5226601pgj.7
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:03:57 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id d17so5243552pgo.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IhC/nVnd7bFrZgWR3A7hvq/IiY26kCPnLCNhRT4oR7o=;
- b=GEgyfMfmTs968pxu/8o8guzeGk0it4YEt3XyqVr1YDIxnt5QsxF+bEcGtp+sqJL8LZ
- m/kOS3EfkzDNUbMqfsStRsl4E4VvFagaVs1QSUeO1TeW6tS78roLmQ5grn1LBZ/8c96I
- gxMc9QLieqCHaGJ8TJxnC0e2aeVzpG+HRODXPnryOaIHg2ZrZf2Kb1YzmUvJbaXwaCwt
- BiyiLqGmWBYY9rh+nE8sG1fZjmUyT8SJIZp9XACEm+e/8mMUBIkKXne9vdnaEUmTKmLq
- laeWRHWoENdHggl2lw6Iu9GBI+Q2b9fnpDdT5oOB2kuWh5eEwwXO3raSO1Ep37SqyHKW
- 9UgQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=y0Khsh6UQLm4SSnMSPV2VuzsbkNKE7igcenjK3oMio8=;
+ b=kCDtsAJoGFSOUFY9lAEXvEM4fSsCch7Hx+ApDoq+Xdv+o+cFwGCqk8oNAV1u70exk1
+ OcJQ3hQbBqoyw/zZJy57tf1e9OrnGzbso8Rh3P+bGuMEpvx2roKEzRewoFeRLHAEJgqm
+ SxdPzQlu0ZfSh7VbBGMDtUbqYgah202fhyS62CeROp8l/dBHtka42doOO6sKZgPJS9gV
+ WjmcIFdsli9sRfnqChX0s8ycZZKo1g7mB1WAb1/EKbVU8ZVqHK70/MbvdxKoFq5jSR4d
+ 14uDSWZ/7eD9RQNNAyaF3Ro27Rehxflvcz0ZX6lgQZCVSiUsZMNMPS2590wB9a7LWLXQ
+ 17iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IhC/nVnd7bFrZgWR3A7hvq/IiY26kCPnLCNhRT4oR7o=;
- b=LxIB00DxFyjwFegmHOPHxuUZW5LibpQsj9uKfHo2hAXNUs4e2DqOooAHn0PhEAZnkX
- T7SctI6b0AbZX06mzTUCXJYDTqOMmP2Rohl756up/K8jdqh7HjQQAEDOcbiN1x5XQBbN
- tj5zgdsMFGfZS+Pp6npt1fBJfeWHUBJqTUkrcdJUacfWiDD9etBBXKsNtFBL1TrN79tj
- iua7/qqYAQaS8aFgbbAs8Gxh75kuMagD/KgUFo74KANvqclCrTihEBBuLQigoq/NpE5u
- MrORwLjYhn+GnwEnU0IQPqn2d/30rRT6udPde8WhzoBCoGZiirURNcWF84/pCO6BYZGk
- 4Prw==
-X-Gm-Message-State: ANhLgQ2DyhL2eY3gP6Np21XRuKGzcOuMaqAdYCMx8BDbiSRojLh2I4Bg
- FI8hjUaJfQspTNz+JNGn3p9YetZAlaY=
-X-Google-Smtp-Source: ADFU+vs8SSViXUuv5/yYWTz6exWTpBgHwoJWT4fZIfpysl6AsAUC00glw5cXWDBHlHNMYYZ7AQOyEw==
-X-Received: by 2002:a62:14d6:: with SMTP id 205mr1361275pfu.155.1585346635594; 
- Fri, 27 Mar 2020 15:03:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=y0Khsh6UQLm4SSnMSPV2VuzsbkNKE7igcenjK3oMio8=;
+ b=m4WHrUFDeWvHyD1vUbzQsICMSwmqve8NA5ItOKAktfKvLGdr/miO2xdPMlIoBiwfmm
+ 5Mxl8hdYzvnjFMKJz/XHm80cYoR+5KnOvLHjgNHWW+C4ix5XuEnUVOWRTCRS4BZE+BJq
+ gF171eDLEj8wLTVeWmsAHL8wltrkESV/cozc4K4Yc/AtL68trqpdryiO6UhVcH9T+XH/
+ TuUGwWt9eshSjha00F6MltxTYU4jmGbyQrkEQfB5s7MKMzaVCi05VphxEVHm1dNgSzO5
+ DXwVxYFULu5spYW9zJEgZ9vMHvisa9OaEeb1n/Ld8oCIKRcWhktPnj46oEt84UuuaMvf
+ hLjA==
+X-Gm-Message-State: ANhLgQ1LQJF3CGMa2iKWWXZaH222B7Av6PfuFIeT85QWmOAQS/GFVn41
+ 7RTGu5wJXVlvrMvqh2csIrOHhSiw3YU=
+X-Google-Smtp-Source: ADFU+vuT//rKPg2fu0uEwd2siuQkQo34heKGqlxAc4SGr5vNfHiOKmcRFVEUuMfXhpB+3qDnsrRjLg==
+X-Received: by 2002:a62:fcc7:: with SMTP id e190mr1345817pfh.285.1585346637131; 
+ Fri, 27 Mar 2020 15:03:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-138-234.tukw.qwest.net.
  [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id y29sm4516929pge.22.2020.03.27.15.03.54
+ by smtp.gmail.com with ESMTPSA id y29sm4516929pge.22.2020.03.27.15.03.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 15:03:54 -0700 (PDT)
+ Fri, 27 Mar 2020 15:03:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v3 0/7] configure: Improve PIE and other linkage
-Date: Fri, 27 Mar 2020 15:03:46 -0700
-Message-Id: <20200327220353.27233-1-richard.henderson@linaro.org>
+Subject: [PATCH for-5.0 v3 1/7] configure: Drop adjustment of textseg
+Date: Fri, 27 Mar 2020 15:03:47 -0700
+Message-Id: <20200327220353.27233-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200327220353.27233-1-richard.henderson@linaro.org>
+References: <20200327220353.27233-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -77,32 +79,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dim@FreeBSD.org, alex.bennee@linaro.org, roger.pau@citrix.com
+Cc: dim@FreeBSD.org, Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
+ roger.pau@citrix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 3 is a rebase from January, with s/LDCONFIG/QEMU_LDCONFIG/.
-I plan on including this in the next tcg-next pull request, if there
-is no other commentary.
+This adjustment was random and unnecessary.  The user mode
+startup code in probe_guest_base() will choose a value for
+guest_base that allows the host qemu binary to not conflict
+with the guest binary.
 
+With modern distributions, this isn't even used, as the default
+is PIE, which does the same job in a more portable way.
 
-r~
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Remove mention of config-host.ld from make distclean
+---
+ configure | 47 -----------------------------------------------
+ Makefile  |  2 +-
+ 2 files changed, 1 insertion(+), 48 deletions(-)
 
-
-Richard Henderson (7):
-  configure: Drop adjustment of textseg
-  tcg: Remove softmmu code_gen_buffer fixed address
-  configure: Do not force pie=no for non-x86
-  configure: Always detect -no-pie toolchain support
-  configure: Unnest detection of -z,relro and -z,now
-  configure: Override the os default with --disable-pie
-  configure: Support -static-pie if requested
-
- configure                 | 116 +++++++++++---------------------------
- Makefile                  |   2 +-
- accel/tcg/translate-all.c |  37 ++----------
- 3 files changed, 38 insertions(+), 117 deletions(-)
-
+diff --git a/configure b/configure
+index 89fe881dd4..2afcae61df 100755
+--- a/configure
++++ b/configure
+@@ -6498,49 +6498,6 @@ if test "$cpu" = "s390x" ; then
+   fi
+ fi
+ 
+-# Probe for the need for relocating the user-only binary.
+-if ( [ "$linux_user" = yes ] || [ "$bsd_user" = yes ] ) && [ "$pie" = no ]; then
+-  textseg_addr=
+-  case "$cpu" in
+-    arm | i386 | ppc* | s390* | sparc* | x86_64 | x32)
+-      # ??? Rationale for choosing this address
+-      textseg_addr=0x60000000
+-      ;;
+-    mips)
+-      # A 256M aligned address, high in the address space, with enough
+-      # room for the code_gen_buffer above it before the stack.
+-      textseg_addr=0x60000000
+-      ;;
+-  esac
+-  if [ -n "$textseg_addr" ]; then
+-    cat > $TMPC <<EOF
+-    int main(void) { return 0; }
+-EOF
+-    textseg_ldflags="-Wl,-Ttext-segment=$textseg_addr"
+-    if ! compile_prog "" "$textseg_ldflags"; then
+-      # In case ld does not support -Ttext-segment, edit the default linker
+-      # script via sed to set the .text start addr.  This is needed on FreeBSD
+-      # at least.
+-      if ! $ld --verbose >/dev/null 2>&1; then
+-        error_exit \
+-            "We need to link the QEMU user mode binaries at a" \
+-            "specific text address. Unfortunately your linker" \
+-            "doesn't support either the -Ttext-segment option or" \
+-            "printing the default linker script with --verbose." \
+-            "If you don't want the user mode binaries, pass the" \
+-            "--disable-user option to configure."
+-      fi
+-
+-      $ld --verbose | sed \
+-        -e '1,/==================================================/d' \
+-        -e '/==================================================/,$d' \
+-        -e "s/[.] = [0-9a-fx]* [+] SIZEOF_HEADERS/. = $textseg_addr + SIZEOF_HEADERS/" \
+-        -e "s/__executable_start = [0-9a-fx]*/__executable_start = $textseg_addr/" > config-host.ld
+-      textseg_ldflags="-Wl,-T../config-host.ld"
+-    fi
+-  fi
+-fi
+-
+ # Check that the C++ compiler exists and works with the C compiler.
+ # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
+ if has $cxx; then
+@@ -8175,10 +8132,6 @@ if test "$gprof" = "yes" ; then
+   fi
+ fi
+ 
+-if test "$target_linux_user" = "yes" || test "$target_bsd_user" = "yes" ; then
+-  ldflags="$ldflags $textseg_ldflags"
+-fi
+-
+ # Newer kernels on s390 check for an S390_PGSTE program header and
+ # enable the pgste page table extensions in that case. This makes
+ # the vm.allocate_pgste sysctl unnecessary. We enable this program
+diff --git a/Makefile b/Makefile
+index fc2808fb4b..84ef881600 100644
+--- a/Makefile
++++ b/Makefile
+@@ -795,7 +795,7 @@ rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(M
+ endef
+ 
+ distclean: clean
+-	rm -f config-host.mak config-host.h* config-host.ld $(DOCS)
++	rm -f config-host.mak config-host.h* $(DOCS)
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-devices.mak config-all-disas.mak config.status
+ 	rm -f $(SUBDIR_DEVICES_MAK)
 -- 
 2.20.1
 
