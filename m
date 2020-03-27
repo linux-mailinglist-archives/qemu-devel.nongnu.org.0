@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6B91956E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 13:13:02 +0100 (CET)
-Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC61956E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 13:15:01 +0100 (CET)
+Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHnrB-0006vJ-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 08:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
+	id 1jHnt6-0001vS-9t
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 08:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jHnpc-0005Hd-NV
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:25 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jHnpe-0005Jm-74
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jHnpb-0002Ej-Dc
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:24 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:56540)
+ (envelope-from <kraxel@redhat.com>) id 1jHnpd-0002Li-0R
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:25 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:26205)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jHnpb-0002Cl-AE
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:23 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jHnpc-0002Iu-ST
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585311082;
+ s=mimecast20190719; t=1585311084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iecBE+0B1PGZoq65FTFsNM1AMbDLLSz4/8wfLx6LjOs=;
- b=Z0bwGD+M4DOsbX8kQgRrTjg06qiB/kdmuy89gwoSQtkm1uzu2xh8NVixJZxGgy9hXwOEyO
- oGuc1ljo4I4MHToXtfYvnvN5IrwpHZw6eG4pwxHRKKIrUJgmWOgBTEqEejRBYqXtTgZj3r
- ZK+rVVO+Jf2zXS34+ff6xsR7h2MC8c4=
+ bh=PgO6+1B/924aEFh7adFRZ27OOSLbW6GRY9QNhris/8k=;
+ b=Dhc6MZhJ440UXlPO2Q9+POXWV1AdkoWCG6HkLZknhlmQetvV8C7sg5O13CDo3Ys0ybHgaw
+ NHHCl1Ez4aiKS7oa4VYRx9oZY8kqj6xA6eQC7moFkk4rSPaVL52UfO9+vCMsBEf5LLgzfE
+ suU2q0CVVDsm0bHvV38SqWadfVs3h48=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-qIOTUP2fPRqVXEHceBeNQw-1; Fri, 27 Mar 2020 08:11:20 -0400
-X-MC-Unique: qIOTUP2fPRqVXEHceBeNQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-80-7u2zgjSYMm-Rs5pRprkzow-1; Fri, 27 Mar 2020 08:11:20 -0400
+X-MC-Unique: 7u2zgjSYMm-Rs5pRprkzow-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC3C1DBAB;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB45BDBAC;
  Fri, 27 Mar 2020 12:11:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
  [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 492395E01D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47409CDBD5;
  Fri, 27 Mar 2020 12:11:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EBA5B31E47; Fri, 27 Mar 2020 13:11:11 +0100 (CET)
+ id 0019731EA0; Fri, 27 Mar 2020 13:11:11 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] acpi: serial: don't use _STA method
-Date: Fri, 27 Mar 2020 13:11:10 +0100
-Message-Id: <20200327121111.1530-6-kraxel@redhat.com>
+Subject: [PATCH 6/6] acpi: parallel: don't use _STA method
+Date: Fri, 27 Mar 2020 13:11:11 +0100
+Message-Id: <20200327121111.1530-7-kraxel@redhat.com>
 In-Reply-To: <20200327121111.1530-1-kraxel@redhat.com>
 References: <20200327121111.1530-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -88,19 +88,19 @@ present we can simply drop it from the DSDT instead.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/acpi-build-pc.c | 32 ++++++++------------------------
- 1 file changed, 8 insertions(+), 24 deletions(-)
+ hw/i386/acpi-build-pc.c | 29 ++++++++---------------------
+ 1 file changed, 8 insertions(+), 21 deletions(-)
 
 diff --git a/hw/i386/acpi-build-pc.c b/hw/i386/acpi-build-pc.c
-index 18ca2fd46961..97af5eac3d79 100644
+index 97af5eac3d79..8bab105d5e44 100644
 --- a/hw/i386/acpi-build-pc.c
 +++ b/hw/i386/acpi-build-pc.c
-@@ -1204,50 +1204,34 @@ static Aml *build_lpt_device_aml(void)
+@@ -1169,39 +1169,26 @@ static Aml *build_mouse_device_aml(void)
      return dev;
  }
 =20
--static Aml *build_com_device_aml(uint8_t uid)
-+static void build_com_device_aml(Aml *scope, uint8_t uid)
+-static Aml *build_lpt_device_aml(void)
++static void build_lpt_device_aml(Aml *scope)
  {
      Aml *dev;
      Aml *crs;
@@ -109,27 +109,16 @@ index 18ca2fd46961..97af5eac3d79 100644
 -    Aml *else_ctx;
 -    Aml *zero =3D aml_int(0);
 -    Aml *is_present =3D aml_local(0);
--    const char *enabled_field =3D "CAEN";
-     uint8_t irq =3D 4;
-     uint16_t io_port =3D 0x03F8;
-=20
-     assert(uid =3D=3D 1 || uid =3D=3D 2);
-     if (uid =3D=3D 2) {
--        enabled_field =3D "CBEN";
-         irq =3D 3;
-         io_port =3D 0x02F8;
-     }
-+    if (!memory_region_present(get_system_io(), io_port)) {
++
++    if (!memory_region_present(get_system_io(), 0x0378)) {
 +        return;
 +    }
 =20
-     dev =3D aml_device("COM%d", uid);
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
-     aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
+     dev =3D aml_device("LPT");
+     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
 =20
 -    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
--    aml_append(method, aml_store(aml_name("%s", enabled_field), is_present=
-));
+-    aml_append(method, aml_store(aml_name("LPEN"), is_present));
 -    if_ctx =3D aml_if(aml_equal(is_present, zero));
 -    {
 -        aml_append(if_ctx, aml_return(aml_int(0x00)));
@@ -144,27 +133,24 @@ index 18ca2fd46961..97af5eac3d79 100644
 +    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
 =20
      crs =3D aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, io_port, io_port, 0x00, 0x08));
-     aml_append(crs, aml_irq_no_flags(irq));
+     aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
+     aml_append(crs, aml_irq_no_flags(7));
      aml_append(dev, aml_name_decl("_CRS", crs));
 =20
 -    return dev;
 +    aml_append(scope, dev);
  }
 =20
- static void build_isa_devices_aml(Aml *table)
-@@ -1265,8 +1249,8 @@ static void build_isa_devices_aml(Aml *table)
+ static void build_com_device_aml(Aml *scope, uint8_t uid)
+@@ -1248,7 +1235,7 @@ static void build_isa_devices_aml(Aml *table)
+     if (fdc) {
          aml_append(scope, build_fdc_device_aml(fdc));
      }
-     aml_append(scope, build_lpt_device_aml());
--    aml_append(scope, build_com_device_aml(1));
--    aml_append(scope, build_com_device_aml(2));
-+    build_com_device_aml(scope, 1);
-+    build_com_device_aml(scope, 2);
+-    aml_append(scope, build_lpt_device_aml());
++    build_lpt_device_aml(scope);
+     build_com_device_aml(scope, 1);
+     build_com_device_aml(scope, 2);
 =20
-     if (ambiguous) {
-         error_report("Multiple ISA busses, unable to define IPMI ACPI data=
-");
 --=20
 2.18.2
 
