@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC581960D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:06:50 +0100 (CET)
-Received: from localhost ([::1]:47568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0FC1960DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 23:10:24 +0100 (CET)
+Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHx7p-0006De-J9
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49312)
+	id 1jHxBH-0001CV-3M
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 18:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx5D-0003JB-Je
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:08 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jHxAE-0000KY-9Z
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:09:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jHx5C-0000qo-FK
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:07 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41631)
+ (envelope-from <richard.henderson@linaro.org>) id 1jHxAD-0002gj-8N
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:09:18 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46208)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jHx5C-0000nA-93
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:04:06 -0400
-Received: by mail-pf1-x444.google.com with SMTP id z65so5139767pfz.8
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:04:06 -0700 (PDT)
+ id 1jHxAC-0002ee-V9
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 18:09:17 -0400
+Received: by mail-pl1-x643.google.com with SMTP id s23so3942978plq.13
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 15:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mH3MQlQn4EGVflqbnGe+eX+0IVEAf165mtEujy/8ZaU=;
- b=FhfxSc4Ambo3/Jk8hS6nlwoAUA3aFcFDYErO1tIkB698neIN3FSb7O1sjPkXZGHkS8
- M6slEwm50IkEtLS4F0zdyC3+NNijNf5sPFxT2uHCjBt5/4BaBjq3/8FLwBQSUAbQ6XhG
- 9fiQ/AC4uEIUFt2w5nvbFJyYwdT06zkk2ua3yE38n5HFD61LScVtn+G6xh8UQLi5c7mQ
- GZDCBHYWyQkDgj1p6g12M5N4cYcoq8uvmzP2ba5STi3ed9Z4IAddcMbsyWaX2qfFwgAR
- AeB3XODOlhrqPfNdL6DW/kbV2k3QRdUvDjl0v+XtOwerfMKTZ1RbKLSzlFqY1YM/P0ER
- 7muw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=fpKTYRdPC59VS/tO81y54ASsJMqG0YJwBmkcDL7IWd4=;
+ b=HwBcxUbR/MeBC1hcr+y+DGQLF4KoONMwADCltrjV2M8cFdpDhlpcy4TqCAeQMa+Iit
+ egmbAEchjHe+78vnnggmcXrQfiokHM0MWVVilRv0nWvrHb8ramZvEXukm9abqIF8G/lq
+ XbktSM7wClQJQ4xuq3TC0PXjv2WFm3kRacF/TlbO6TfmrK1JwoS8zdLp3cPK8C26CDSs
+ nSmvuOH56+LCbxHr6F1MJZ7nnzivcPqx3O60cDPajvGBlz2UWptCW5bdsm6ygWXAUcJI
+ m0hTcAaW9K9eL98QxS0wA2/7WS3Gl1Uxxt6VBwSVGCHjr9szKbQkOER2mlvHvUxxMqnd
+ 4CRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mH3MQlQn4EGVflqbnGe+eX+0IVEAf165mtEujy/8ZaU=;
- b=ehFJUQhw8g3Owj7fYu1bldXzV6XspVyATOhRwFGoZQWiQK8he2ebDqAaFKLyTTz8XL
- gxIBpI9grV7EuFSUPQ8xhpLHUeEKdDklk5TaFvDFCV7lQlufDIdaj6ieGDwcoXsyb3Cf
- aVDHL+OAvv7vcnKoAqdtV3HotBxQOakxV4bn7o8KjA71xIwIhEBCPlONUDyDQxf1b/Bk
- IeHJLRZk6fjHSxYQIkLHRo5qh9KCOUBdrDl7U+ghRWzM1O/5cdqbyaJ+FCvkNOrB6K8L
- JIF+2yNxrNtGtXi1QJc3LSH+vQ61+gkOJG98/S4vaC0bclcAPdMiqtHUtjYFOd5zNY3l
- BHkg==
-X-Gm-Message-State: ANhLgQ189Wd6lgNLj6ez0NjN1TyVGJKiVBEMxSf0db9h4LSHygU0azvj
- C78IFVv37BYcjFgd/KYq3N63vYqToFI=
-X-Google-Smtp-Source: ADFU+vt42ukDlhBH76ag8n+5qZL6OrYHr3VjtA76CSYQgVp5+O1G8nqj5zacLhI+jXgej7/drbbtAA==
-X-Received: by 2002:a63:6fc6:: with SMTP id k189mr1396085pgc.175.1585346644986; 
- Fri, 27 Mar 2020 15:04:04 -0700 (PDT)
-Received: from localhost.localdomain (174-21-138-234.tukw.qwest.net.
- [174.21.138.234])
- by smtp.gmail.com with ESMTPSA id y29sm4516929pge.22.2020.03.27.15.04.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 15:04:04 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fpKTYRdPC59VS/tO81y54ASsJMqG0YJwBmkcDL7IWd4=;
+ b=OPDgVtfbfD4ALAlfEfYWUuRmk97w8DwOC7wVg7QU1LaT9tgro33WgADXAxc5Er/cO7
+ TXNaKjUIsQtWNDwzZMCmWiWVTd0AMRvi2ccebspyEDYK0kiyUIaek9BCtJERsYC9ZCah
+ RFfGgZrWkORIwC5qvaTnEPU1VU5hoF1K78NPx6fa66xoevr5glgwJKk6T2YbDEmn4O5C
+ 7LXysazbG5P98Zu8jSBmyQ7VQjA0xYHRdlTHcly2Cvwh+65gODGRq3PVMIXFirN2ZGH3
+ q87lfLN1dicCI58ejF19wvAxfDK4W3Q55dHZxygBzcASnT3EVFLeuCJNMBh3QPGrwyGC
+ rKyw==
+X-Gm-Message-State: ANhLgQ1Cy8GPcVD7hmnNZYa56LfLcPwETomrQcV1HmhO+mLKnA8naxjP
+ z9AaaHmmB2VIkP4Xr8+1vFMnNXK7wYo=
+X-Google-Smtp-Source: ADFU+vuPiWNrMUgNasqa4yowH3BGHK1Oya9NbEAsPU/CsJhjD9PH7bbtGgv/mhw6+fbuGJxLjJ4sJA==
+X-Received: by 2002:a17:90a:218b:: with SMTP id
+ q11mr1599135pjc.163.1585346953920; 
+ Fri, 27 Mar 2020 15:09:13 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id f129sm4885501pfb.190.2020.03.27.15.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Mar 2020 15:09:13 -0700 (PDT)
+Subject: Re: [PATCH v1 1/7] elf-ops: bail out if we have no function symbols
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200327094945.23768-1-alex.bennee@linaro.org>
+ <20200327094945.23768-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v3 7/7] configure: Support -static-pie if requested
-Date: Fri, 27 Mar 2020 15:03:53 -0700
-Message-Id: <20200327220353.27233-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200327220353.27233-1-richard.henderson@linaro.org>
-References: <20200327220353.27233-1-richard.henderson@linaro.org>
+Message-ID: <48f26426-f121-c0fa-030b-2f529192b474@linaro.org>
+Date: Fri, 27 Mar 2020 15:09:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200327094945.23768-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,70 +84,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dim@FreeBSD.org, alex.bennee@linaro.org, roger.pau@citrix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent toolchains support static and pie at the same time.
+On 3/27/20 2:49 AM, Alex Bennée wrote:
+> It's perfectly possible to have no function symbols in your elf file
+> and if we do the undefined behaviour sanitizer rightly complains about
+> us passing NULL to qsort. Check nsyms before we go ahead.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  include/hw/elf_ops.h | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
-As with normal dynamic builds, allow --static to default to PIE
-if supported by the toolchain.  Allow --enable/--disable-pie to
-override the default.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v2: Fix --disable-pie --static
-v3: Update for QEMU_LDFLAGS.
----
- configure | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/configure b/configure
-index b304bd0cf8..a16ae9a2be 100755
---- a/configure
-+++ b/configure
-@@ -1067,7 +1067,6 @@ for opt do
-   ;;
-   --static)
-     static="yes"
--    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-   ;;
-   --mandir=*) mandir="$optarg"
-@@ -2089,11 +2088,6 @@ if test "$static" = "yes" ; then
-   if test "$modules" = "yes" ; then
-     error_exit "static and modules are mutually incompatible"
-   fi
--  if test "$pie" = "yes" ; then
--    error_exit "static and pie are mutually incompatible"
--  else
--    pie="no"
--  fi
- fi
- 
- # Unconditional check for compiler __thread support
-@@ -2124,7 +2118,18 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
-   LDFLAGS_NOPIE="-no-pie"
- fi
- 
--if test "$pie" = "no"; then
-+if test "$static" = "yes"; then
-+  if test "$pie" != "no" && compile_prog "-fPIE -DPIE" "-static-pie"; then
-+    QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
-+    QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
-+    pie="yes"
-+  elif test "$pie" = "yes"; then
-+    error_exit "-static-pie not available due to missing toolchain support"
-+  else
-+    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-+    pie="no"
-+  fi
-+elif test "$pie" = "no"; then
-   QEMU_CFLAGS="$CFLAGS_NOPIE $QEMU_CFLAGS"
-   QEMU_LDFLAGS="$LDFLAGS_NOPIE $QEMU_LDFLAGS"
- elif compile_prog "-fPIE -DPIE" "-pie"; then
--- 
-2.20.1
-
+r~
 
