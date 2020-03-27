@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3775195D8A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:22:35 +0100 (CET)
-Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2293B195D81
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:21:13 +0100 (CET)
+Received: from localhost ([::1]:45464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtcn-0007xJ-FY
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1jHtbU-0005Xh-6l
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtUD-000260-LL
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:42 -0400
+ (envelope-from <pasic@linux.ibm.com>) id 1jHtXO-0007Yb-JJ
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:16:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtUC-000104-EQ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:41 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39595)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHtUB-0000yC-WF
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:40 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id e9so1477673wme.4
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pz4+hj7n/yl99ow8yOnM+Gbx/Hl9NI3JBuBBYB7hHVY=;
- b=vgi/GhxxGhhqht1b3r3vnllgAroWumGRu8wiJTJ1h04Wc3eXBd+VdLa4oAc0SP/067
- tQU6PAGk40XkUj+hdbO5cRagP8bPB3ZZtF5rUZgLB/aZEjZH36FqCOcW1G3DK0vIhNR/
- q0z9bxEg0wGnyJkWMlOSH8EuN7ZkhFYAzAhWqUNR9GJLJUgMZZ+ToqszI8ZIOICNhRlY
- lNfMl9Wzg1HB81RHIcGbvtIy83jRsbJ2Tg9x5hKs9hsqFWfAv6weQzaKtfmIkFPuMpvM
- +qjsxqDZryc4jN9oo9sDInYDzfnc38uJMBE0EBBczgyPYc66kTXuTrLBJh5ZoV64aWLj
- 2glA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pz4+hj7n/yl99ow8yOnM+Gbx/Hl9NI3JBuBBYB7hHVY=;
- b=UrG/JBlKE44vHqpEavUB6d4q1E7Ep3EiFwZ5xWbqpYUc8IJHQ65q/vyhA6OXPRkL6Z
- Uge7CYk1mW8U5cr0vINRTBvgrDNzg7KOt+Jp4JPz6mUwYsUdtV/NgtJn7KTESRmVe1PZ
- qjUVjOW2yKo31THHDVlCNbGXOs6lVAC+jFteSexiJnzWXu5jhYj/vNRy/lpseoMc/GOc
- 2EjB97jMtymc73CI/f1VOPHU5/hfj/eIhoYyIWTMRjTX1rT4tujp8OY0yBLnwaIEfsYz
- eW6vAfhjg9fddtj62nDb//eyE2y2rPyOGGODz/NgROWAH1HEAS9r+SL+GCg4JZNAXbtJ
- n9JQ==
-X-Gm-Message-State: ANhLgQ0OX6bq4QMAYm2o6C3NB6YSY1MGWoeI7/4KTxCKdT/niV/RJMOD
- WWFXNbfZHG5sxFYPbvmNubun7Q==
-X-Google-Smtp-Source: ADFU+vs5PznMquO/UxtuYNDI+AmZKF/Ro4tIfkXH33bRy7TVUX1FZZ0+ofxsG7Zxu3+kJuPiepqpfQ==
-X-Received: by 2002:a1c:197:: with SMTP id 145mr2495wmb.42.1585332818945;
- Fri, 27 Mar 2020 11:13:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a71sm8654257wmd.22.2020.03.27.11.13.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 11:13:28 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B7C31FF9B;
- Fri, 27 Mar 2020 18:13:21 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v2 12/12] .travis.yml: Add a KVM-only s390x job
-Date: Fri, 27 Mar 2020 18:13:20 +0000
-Message-Id: <20200327181320.23329-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200327181320.23329-1-alex.bennee@linaro.org>
-References: <20200327181320.23329-1-alex.bennee@linaro.org>
+ (envelope-from <pasic@linux.ibm.com>) id 1jHtXN-0008DX-6V
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:16:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63744)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1jHtXM-0008Ac-UP
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:16:57 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02RI4D3W052928
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 14:16:55 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ywbtmmx2e-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 14:16:55 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
+ Fri, 27 Mar 2020 18:16:47 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Mar 2020 18:16:43 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02RIGle940304842
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Mar 2020 18:16:47 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F240A4040;
+ Fri, 27 Mar 2020 18:16:47 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 86CFDA4051;
+ Fri, 27 Mar 2020 18:16:46 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.186.193])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 27 Mar 2020 18:16:46 +0000 (GMT)
+Date: Fri, 27 Mar 2020 19:16:30 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] s390x: Reject unaligned RAM sizes
+In-Reply-To: <20200327174620.06b9c324@redhat.com>
+References: <20200327152930.66636-1-david@redhat.com>
+ <64cefab8-f1e0-fbc7-27d3-4f28758c595a@de.ibm.com>
+ <d8fb50c1-639a-826c-0dce-e2ddc26ae5e1@redhat.com>
+ <24681aa0-9053-238f-89da-8ce08d34241d@de.ibm.com>
+ <20200327174620.06b9c324@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-TM-AS-GCONF: 00
+x-cbid: 20032718-0008-0000-0000-000003656C95
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20032718-0009-0000-0000-00004A86E786
+Message-Id: <20200327191630.6d46e7a8.pasic@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-27_06:2020-03-27,
+ 2020-03-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ mlxlogscore=999 lowpriorityscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003270148
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +95,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Fri, 27 Mar 2020 17:46:20 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Add a job to build QEMU on s390x with TCG disabled, so
-this configuration won't bitrot over time.
+> On Fri, 27 Mar 2020 17:05:34 +0100
+> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> 
+> > On 27.03.20 17:01, David Hildenbrand wrote:
+> > > On 27.03.20 16:34, Christian Borntraeger wrote:  
+> > >>
+> > >>
+> > >> On 27.03.20 16:29, David Hildenbrand wrote:  
+> > >>> Historically, we fixed up the RAM size (rounded it down), to fit into
+> > >>> storage increments. Since commit 3a12fc61af5c ("390x/s390-virtio-ccw: use
+> > >>> memdev for RAM"), we no longer consider the fixed-up size when
+> > >>> allcoating the RAM block - which will break migration.
+> > >>>
+> > >>> Let's simply drop that manual fixup code and let the user supply sane
+> > >>> RAM sizes. This will bail out early when trying to migrate (and make
+> > >>> an existing guest with e.g., 12345 MB non-migratable), but maybe we
+> > >>> should have rejected such RAM sizes right from the beginning.
+> > >>>
+> > >>> As we no longer fixup maxram_size as well, make other users use ram_size
+> > >>> instead. Keep using maxram_size when setting the maximum ram size in KVM,
+> > >>> as that will come in handy in the future when supporting memory hotplug
+> > >>> (in contrast, storage keys and storage attributes for hotplugged memory
+> > >>>  will have to be migrated per RAM block in the future).
+> > >>>
+> > >>> This fixes (or rather rejects early):
+> > >>>
+> > >>> 1. Migrating older QEMU to upstream QEMU (e.g., with "-m 1235M"), as the
+> > >>>    RAM block size changed.  
+> > >>
+> > >> Not sure I like this variant. Instead of breaking migration (that was 
+> > >> accidentially done by Igors changes) we now reject migration from older
+> > >> QEMUs to 5.0. This is not going to help those that still have such guests
+> > >> running and want to migrate.   
+> > > 
+> > > As Igor mentioned on another channel, you most probably can migrate an
+> > > older guest by starting it on the target with a fixed-up size.
+> > > 
+> > > E.g., migrate an old QEMU "-m 1235M" to a new QEMU "-m 1234M"  
+> > 
+> > Yes, that should probably work.
+> I'm in process of testing it.
+> 
+> > > Not sure how many such weird-size VMs we actually do have in practice.  
+> > 
+> > I am worried about some automated deployments where tooling has created
+> > these sizes for dozens or hundreds of containers in VMS and so.
+> Yep, it's possible but then that tooling/configs should be fixed to work with
+> new QEMU that validates user's input.
+> 
 
-This job is quick, running check-unit: Ran for 5 min 30 sec
-https://travis-ci.org/github/philmd/qemu/jobs/665456423
+@David: I'm a little confused. Is this fix about adding user input
+validation, or is it about changing what valid inputs are?
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200322154015.25358-1-philmd@redhat.com>
-Message-Id: <20200323161514.23952-12-alex.bennee@linaro.org>
+I don't see this alignment requirement documented, so my guess is the
+latter. And then, I'm not sure I'm sold on this.
 
-diff --git a/.travis.yml b/.travis.yml
-index 5672d129ec6..e0c72210b7a 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -525,6 +525,48 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
- 
-+    - name: "[s390x] GCC check (KVM)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - TEST_CMD="make check-unit"
-+        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-tools"
-+      script:
-+        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-+        - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-+        - |
-+          if [ "$BUILD_RC" -eq 0 ] ; then
-+              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              ${TEST_CMD} ;
-+          else
-+              $(exit $BUILD_RC);
-+          fi
-+
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
-     # This is the case when release candidate tags are created.
--- 
-2.20.1
+Regards,
+Halil
+
+
 
 
