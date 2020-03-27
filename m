@@ -2,38 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12569194F65
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 04:04:05 +0100 (CET)
-Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE1A194FC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 04:46:29 +0100 (CET)
+Received: from localhost ([::1]:36632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHfHv-0001Se-U4
-	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 23:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41543)
+	id 1jHfwy-0001Rf-K2
+	for lists+qemu-devel@lfdr.de; Thu, 26 Mar 2020 23:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1jHfGw-0000eI-CX
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 23:03:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHfwB-00012y-T1
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 23:45:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1jHfGu-0004wp-TJ
- for qemu-devel@nongnu.org; Thu, 26 Mar 2020 23:03:01 -0400
-Received: from [107.174.27.60] (port=45240 helo=ozlabs.ru)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>)
- id 1jHfGu-0004uy-OG; Thu, 26 Mar 2020 23:03:00 -0400
-Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id BE9B1AE8000E;
- Thu, 26 Mar 2020 23:01:09 -0400 (EDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-Date: Fri, 27 Mar 2020 14:02:54 +1100
-Message-Id: <20200327030254.21487-1-aik@ozlabs.ru>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 107.174.27.60
+ (envelope-from <bounces@canonical.com>) id 1jHfwA-0002zn-MX
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 23:45:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39424)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHfwA-0002yN-HM
+ for qemu-devel@nongnu.org; Thu, 26 Mar 2020 23:45:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHfw9-0004eF-AT
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 03:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4C5632E804C
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 03:45:37 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Mar 2020 03:40:12 -0000
+From: Hansni Bu <1868527@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hansni rth
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: Hansni Bu (hansni)
+References: <158495248924.11669.14742891693687812596.malonedeb@soybean.canonical.com>
+Message-Id: <158528041381.15565.11523529984219498902.launchpad@gac.canonical.com>
+Subject: [Bug 1868527] Re: alignment may overlap the TLB flags
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3a6db24bbe7280ec09bae73384238390fcc98ad3";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 48b813bab623d80f471269b3c9ba7416927f0c8c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -42,38 +65,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1868527 <1868527@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 736cf607e40674776d752acc201f565723e86045:
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
-  Update version for v5.0.0-rc0 release (2020-03-24 17:50:00 +0000)
+-- =
 
-are available in the Git repository at:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868527
 
-  git@github.com:aik/qemu.git tags/qemu-slof-20200327
+Title:
+  alignment may overlap the TLB flags
 
-for you to fetch changes up to 78b145a0330b9c44478f7404b97a710e692bfc96:
+Status in QEMU:
+  Invalid
 
-  pseries: Update SLOF firmware image (2020-03-27 13:58:00 +1100)
+Bug description:
+  Hi,
+  In QEMU-4.2.0, or git-9b26a610936deaf436af9b7e39e4b7f0a35e4409, alignment=
+ may overlap the TLB flags. =
 
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
+  For example, the alignment: MO_ALIGN_32,
+      MO_ALIGN_32 =3D 5 << MO_ASHIFT,
+  and the TLB flag: TLB_DISCARD_WRITE
+  #define TLB_DISCARD_WRITE   (1 << (TARGET_PAGE_BITS_MIN - 6))
 
- pc-bios/README   |   2 +-
- pc-bios/slof.bin | Bin 965008 -> 965112 bytes
- roms/SLOF        |   2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
+  then, in the function "get_alignment_bits", the assert may fail:
 
+  #if defined(CONFIG_SOFTMMU)
+      /* The requested alignment cannot overlap the TLB flags.  */
+      tcg_debug_assert((TLB_FLAGS_MASK & ((1 << a) - 1)) =3D=3D 0);
+  #endif
 
-*** Note: this is not for master, this is for pseries
+  However, the alignment of MO_ALIGN_32 is not used for now, so the
+  assert cannot be triggered in current version. Anyway it seems like a
+  potential conflict.
 
-This is a single regression fix for for 5.0:
-
-Greg Kurz (1):
-      slof: Only close stdout for virtio-serial devices
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868527/+subscriptions
 
