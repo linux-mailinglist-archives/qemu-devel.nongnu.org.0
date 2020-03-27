@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A730195D65
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:17:42 +0100 (CET)
-Received: from localhost ([::1]:45350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018EF195D7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:21:11 +0100 (CET)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtY5-0007B3-KL
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40554)
+	id 1jHtbR-0005Rd-R0
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtUB-00021B-B3
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:40 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtU8-0000w3-W9
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU8-0001zS-Lr
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:38 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40097)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU7-0000tl-1N
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:36 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44267)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHtU8-0000uK-QE
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:36 -0400
-Received: by mail-wr1-x434.google.com with SMTP id u10so12542776wro.7
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:35 -0700 (PDT)
+ id 1jHtU6-0000s5-QE
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:34 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m17so12500499wrw.11
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fDYf/1zmgKNKjKhgfcohx9pQW+K3uRqOoa+dvB2+KwU=;
- b=Jg3uVjPQioMHN9QODuTGcSLff1gZdlGv2bXwosnMObIDMnE2K6TvKV0ndwYd9eXA+2
- iyySRgoxIeeRxuOFCRQSjZ4uouCyp/5gKF2KN3obQjj+99xT3wBUvbvxxTvQGQxHkZfs
- gzPkSTyfCMkpTbsOZqGMft+9ZaLlPJJg135gUusAzzVHPN9Drqw1IVg73stmG3ETrWiK
- fZtkAh78fPbnjWujptvLe1wlR+qNCfyH9a058edHDnkhnKdaLj6JCUdEvtdmXMmLZE1e
- OPwyMuSwQZHpvZBm+3mtSgs1OYPojyZudFelpk1vT7Jx9gayUZQwh0XM78gdi0dAJlIm
- JeMg==
+ bh=hddMp6YbU7VIRh+p3dmSk6KMYfcJvHBxPkgSszrgB38=;
+ b=FBnVPvBws3bMpxRDx9HPW1/Gf91d7kKq+oTMdezJYqJ8B/C1A5QxDjUq2hlOgQDT2X
+ HI0QtCVA70y8UWH8Hk1A096qfYsDtJdHJ5o8HuFX0uEn4zF9mKGVcYZ2cGUx3nLZ1Qi3
+ eVvRt9dwxKFAEQ0jPrqDQTWvpEvg2UV+PFpdt4eSeUiEsQ0IXh7uYSoLjJqCYtCK78F9
+ +JHATAakpaAwj3e1fH1jVW/eWUYJqY9FcKOKHqjVYgaRSFG2tULyFOReKCW5oxJzHF5o
+ 8xmapk9WUmImKN1DF4A5LEl8tyxI8P5hlX4vRrkY62sEmeflnluKB8iLC1NP/iwT22kE
+ l0Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fDYf/1zmgKNKjKhgfcohx9pQW+K3uRqOoa+dvB2+KwU=;
- b=YdQFO7mIa8KxSc/KX/GPesr2Z3zvt47d303Bbak19r0HLaZITbnsxuSPUDuwhUQ9Nd
- smBssxfxGy4cw8fN8E12WFkRqmmpNTSlNKoMXfCA04AedXoBQ5a++9Temew/z3RYmIbN
- mfK+FM7CTLJP+WpxSRjhSux49GxOC73F874bqxIyh7oeRrwoTmF7o3PfsKMCdBQHvBYI
- paDY43d6nivkB99D7H3J7WISUTQQnjx9QfYaJss1NdOwUo9DNMbqZ1xk5h1x0IDKuYIm
- tUToXrrW7ZS2SSrl8hELiN/KcIFP5M6VcqbwF5VmMYdz29LXXT2Yl4WzMAt7c3TbqcRi
- /ggg==
-X-Gm-Message-State: ANhLgQ3bsaAmKj385hG7xAXsl0VUQcpoHTZFi2xgl3slq/LyRaA9HDsc
- k3YeUxKJBCOoF5Q4KJS7VnvfeA==
-X-Google-Smtp-Source: ADFU+vu9aNwfkwElnX0SVkN98i52JZvAeToS2wjWjo1/J5l6XflOryH0uTPx44VvQT+htebKETigYA==
-X-Received: by 2002:a5d:4984:: with SMTP id r4mr677442wrq.121.1585332815028;
- Fri, 27 Mar 2020 11:13:35 -0700 (PDT)
+ bh=hddMp6YbU7VIRh+p3dmSk6KMYfcJvHBxPkgSszrgB38=;
+ b=n9tqIGmTlUrj/HZDITYcV7tv7aM3ZoVtK6NIgQH9RC6/eOfgc5ZrPSYFzb9lqHCgAb
+ wVH4mG6MpqZHuLDlWV/oiBBf5FR4GgzNfCDeI2Rfip1ZCzbFfrhAXUG1KbcCTZ+kXCBS
+ zydw0kCJwnnMVf/hgRBgsNWlUHS3f9WASSJEbuspaWejDLnqklIX1T0Ny8gHP74zRo7V
+ Siybo1TBGJKVqo+UqSIN0jzanxUAtSmJjFsNAIuoNYy+LvMvLwKq3EubLwvgMqoAPnhd
+ 1mymHmu3A0vHXsqwGVdoK7QJ9aZp+FVmniSiXesVIs9bmFPvC1Ewk/YB7e51zv6r/a1H
+ kBdQ==
+X-Gm-Message-State: ANhLgQ3aORCA/BNyugTemJTAoxCN1aZ1kyMd7i+n9JHJtK/sA5E0dmAT
+ Nn90g2TtpwmNt8knSeX9kVO+kQ==
+X-Google-Smtp-Source: ADFU+vvPjPBs6/MnhZAbSULPe5UfNRCrR4pHpwNUGBVYGEGQC1z6qNAFu8ofUtGNeKYd2f5AYoy2ww==
+X-Received: by 2002:adf:d088:: with SMTP id y8mr711729wrh.36.1585332813597;
+ Fri, 27 Mar 2020 11:13:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w7sm9257528wrr.60.2020.03.27.11.13.24
+ by smtp.gmail.com with ESMTPSA id r15sm9843603wra.19.2020.03.27.11.13.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 Mar 2020 11:13:28 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 061041FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 1B6561FF98;
  Fri, 27 Mar 2020 18:13:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 08/12] tests/docker: Keep package list sorted
-Date: Fri, 27 Mar 2020 18:13:16 +0000
-Message-Id: <20200327181320.23329-9-alex.bennee@linaro.org>
+Subject: [PULL v2 09/12] tests/docker: Install gcrypt devel package in Debian
+ image
+Date: Fri, 27 Mar 2020 18:13:17 +0000
+Message-Id: <20200327181320.23329-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327181320.23329-1-alex.bennee@linaro.org>
 References: <20200327181320.23329-1-alex.bennee@linaro.org>
@@ -91,74 +92,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Keep package list sorted, this eases rebase/cherry-pick.
+In commit 6f8bbb374be we enabled building with the gcrypt library
+on the the Debian 'x86 host', which was based on Debian Stretch.
+Later in commit 698a71edbed we upgraded the Debian base image to
+Buster.
 
-Fixes: 3a6784813
+Apparently Debian Stretch was listing gcrypt as a QEMU dependency,
+but this is not the case anymore in Buster, so we need to install
+it manually (it it not listed by 'apt-get -s build-dep qemu' in
+the common debian10.docker anymore). This fixes:
+
+ $ ../configure $QEMU_CONFIGURE_OPTS
+
+  ERROR: User requested feature gcrypt
+         configure was not able to find it.
+         Install gcrypt devel >= 1.5.0
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200322120104.21267-2-philmd@redhat.com>
-Message-Id: <20200323161514.23952-8-alex.bennee@linaro.org>
+Message-Id: <20200322120104.21267-3-philmd@redhat.com>
+Message-Id: <20200323161514.23952-9-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-index cdd72de7ebf..9a2a2e515d7 100644
---- a/tests/docker/dockerfiles/centos7.docker
-+++ b/tests/docker/dockerfiles/centos7.docker
-@@ -2,6 +2,8 @@ FROM centos:7
- RUN yum install -y epel-release centos-release-xen-48
- 
- RUN yum -y update
-+
-+# Please keep this list sorted alphabetically
- ENV PACKAGES \
-     bison \
-     bzip2 \
-@@ -19,6 +21,7 @@ ENV PACKAGES \
-     libepoxy-devel \
-     libfdt-devel \
-     librdmacm-devel \
-+    libzstd-devel \
-     lzo-devel \
-     make \
-     mesa-libEGL-devel \
-@@ -33,7 +36,6 @@ ENV PACKAGES \
-     tar \
-     vte-devel \
-     xen-devel \
--    zlib-devel \
--    libzstd-devel
-+    zlib-devel
- RUN yum install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index a6522228c02..019eb12dcb1 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,6 @@
- FROM fedora:30
-+
-+# Please keep this list sorted alphabetically
- ENV PACKAGES \
-     bc \
-     bison \
-@@ -38,6 +40,7 @@ ENV PACKAGES \
-     libubsan \
-     libusbx-devel \
-     libxml2-devel \
-+    libzstd-devel \
-     llvm \
-     lzo-devel \
-     make \
-@@ -92,8 +95,7 @@ ENV PACKAGES \
-     vte291-devel \
-     which \
-     xen-devel \
--    zlib-devel \
--    libzstd-devel
-+    zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
- 
- RUN dnf install -y $PACKAGES
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index d4849f509f4..957f0bc2e79 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -16,6 +16,7 @@ RUN apt update && \
+     apt install -y --no-install-recommends \
+         libbz2-dev \
+         liblzo2-dev \
++        libgcrypt20-dev \
+         librdmacm-dev \
+         libsasl2-dev \
+         libsnappy-dev \
 -- 
 2.20.1
 
