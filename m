@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0943195D61
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:16:58 +0100 (CET)
-Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B67195D76
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:19:04 +0100 (CET)
+Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtXN-0006Cw-Qq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40513)
+	id 1jHtZP-0001MO-1I
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtU5-0001wh-3m
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:35 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU6-0001yA-Qp
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtU3-0000nP-QR
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:32 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:53886)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU5-0000qX-2v
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:34 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34239)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHtU3-0000mk-KR
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:31 -0400
-Received: by mail-wm1-x330.google.com with SMTP id b12so12404407wmj.3
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:31 -0700 (PDT)
+ id 1jHtU4-0000oZ-Pa
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:32 -0400
+Received: by mail-wr1-x431.google.com with SMTP id 65so12596047wrl.1
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l7mM2oj13ibfp0JE0ahAZG76SnCWxFa0MFbX0Uuu7f8=;
- b=U6cSY60OvvSW+ZuiJYUQU7R9lac4nTOUAZZmelcA/r2coyS1rQ8G3XOUlFXI2twgOC
- RQ4IgVtl5G6ZAV2XH5sLFohSBHIQrS/sX+mNs1mS1SO0uXgHmQcI4aRr+m//b58HhOAD
- ZXwHD85x8NEdyULRQnPY2kIb8XmazrZ8QMHbZ+3x3j72XRCa5do6BxgybHEcnMj5LIXV
- JJz72Lu1/0Mf5551sfkB/cQrzv6D5SNs71Wx7nA3TCBVy4riqrs/ez4a4+hyvOvkWTmB
- NRQKfpd7txNFxd9e5n9eZj/kukz4+I4wJLgpJS8xs65734oosGWEEwG/ViX3CjpUeQ+L
- 52xA==
+ bh=+VoMivlcvCf+pGhQz2DwJ+dxCP3nmc4/WScJnu17j8E=;
+ b=RNsp3J2lkNED/AQ/aRyUPH6eV6U6poLNNtSC0RC/YYs0d4NAhEUJdsFJ+qKWi26zgo
+ 3LvKLYi9PiD2zQPVAnowAg7JyqGwbqYRnOKUQtIWyekJPVFmyoSeOgzAzLleATVx9MLT
+ 023FdLj5Jzt4xgeH5eweSO0x3KEjWGzSQN6RohH+RSRONAJ3crfEGqxwdP71pyiiC1Je
+ 1+FxQG1qj0YH2T9aMTKnzEiU9bczrqqS7iQLLc5p1cmZsP5ys2RYRv3GygIeK6Ik+MlR
+ I7ZkCe4C8ulE1pBGlu/5yAlU4zT4H45n6nT/OWQOTS8bei0VL8TQQPk01JPpxD1gATDO
+ zEqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l7mM2oj13ibfp0JE0ahAZG76SnCWxFa0MFbX0Uuu7f8=;
- b=NmYDr4LPgcdzTsbRaylZZfdrFmaXxgJguJheld0mr+qb3CmOye5FdybCvL7gVOfUvu
- q1u0ei2/1NcjFMVF8wDKaJMHy1+jLWKzyCvSaquwEdPAYynM/iPvL/jyFbDba7QTBrwr
- seC+bAoBcSu3db1o4VR1yxTprsjHxNzlAiozrLgsz8r3XzMnktjLRh6hg7GkGEjdkhvh
- Bok1/bfl4KOaF2ZQN7yNqJ66WB5kOpvcssvmuT9dJgnounhVIBAu+37zw/tCyOu8TAgA
- PVvwvqLDJCxM+Hd9Pb6ofILgMKsdhsEJMga/I/QiKFm5B/HeAbizY16hUaoNPcO6j+e3
- nqhg==
-X-Gm-Message-State: ANhLgQ25Vb5CgaJUE47QMhxg7konMvF4pJ/b7oocYVX0FPJb8PTUJHrs
- saf3MmgPwiZ5iEwz6WiIQ+ESoA==
-X-Google-Smtp-Source: ADFU+vu5/mv9Q/2aSD0f97lALJQf1XmvpI92BuPQekk0hX2FxpxCWVVupEnYYLE0YGoTQeHbLyrNSw==
-X-Received: by 2002:a7b:cf09:: with SMTP id l9mr970618wmg.11.1585332810461;
- Fri, 27 Mar 2020 11:13:30 -0700 (PDT)
+ bh=+VoMivlcvCf+pGhQz2DwJ+dxCP3nmc4/WScJnu17j8E=;
+ b=cXWgAsId/+b8wY87hApNg5d2PFAA3nc0yQD2YXmmzRd8P7El5Cocc1Eqkl4EnIt7ua
+ fu2OXeXh9LufNSbUu9WsVwe6PoFJBp+J+ULuaSJxHneuqbbx00SYQRo9pzFsY3IHhDyh
+ TzR9zTZ0X3HvPZWCkMQzcbFaBDc3MEy62I3LpJgfhGrPiUlMIpehQLgL8KTENzA2E7Yw
+ +sicthKhOY35U3xOPWGJ8G2iyuQ0LyhQRJsnkWNilBmm9I4cxNeDjmtkREB7YtjM6OvO
+ MXTEkoGYl6yJPvrvlfC2OWH3mvmsUDnXJ34Ya+wBba1mlSwgdZXQj/vq8tU9DwOKFyVR
+ 0Zng==
+X-Gm-Message-State: ANhLgQ1wbQ9iPenxKQrGZIETgD7vVYf2vJ0O/4IqfnKbcqn1zOzIvGch
+ Ve3gIFGOobfrOpV9kNt7wM53jA==
+X-Google-Smtp-Source: ADFU+vtxCk/kUol5rLB28zKxjdvlQi4t0pC21jncyUJnaipcng/4l28NyC+amQb0X+5CKA1e7aQLUw==
+X-Received: by 2002:adf:ec02:: with SMTP id x2mr646562wrn.365.1585332811715;
+ Fri, 27 Mar 2020 11:13:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm6018729wrs.20.2020.03.27.11.13.23
+ by smtp.gmail.com with ESMTPSA id v11sm9479752wrm.43.2020.03.27.11.13.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 11:13:27 -0700 (PDT)
+ Fri, 27 Mar 2020 11:13:28 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D046E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id E499F1FF93;
  Fri, 27 Mar 2020 18:13:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 06/12] tests/vm: fix basevm config
-Date: Fri, 27 Mar 2020 18:13:14 +0000
-Message-Id: <20200327181320.23329-7-alex.bennee@linaro.org>
+Subject: [PULL v2 07/12] configure: disable MTTCG for MIPS guests
+Date: Fri, 27 Mar 2020 18:13:15 +0000
+Message-Id: <20200327181320.23329-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327181320.23329-1-alex.bennee@linaro.org>
 References: <20200327181320.23329-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,57 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the patch was merged it was part of a longer series which had
-already merged the config changes. Semu-revert the config related
-changes for now so things will build.
+While debugging check-acceptance failures I found an instability in
+the mips64el test case. Briefly the test case:
 
-Fixes: b081986c85fd2
+  retry.py -n 100 -c -- ./mips64el-softmmu/qemu-system-mips64el \
+    -display none -vga none -serial mon:stdio \
+    -machine malta -kernel ./vmlinux-4.7.0-rc1.I6400 \
+    -cpu I6400 -smp 8 -vga std \
+    -append "printk.time=0 clocksource=GIC console=tty0 console=ttyS0 panic=-1" \
+    --no-reboot
+
+Reports about a 9% failure rate:
+
+  Results summary:
+  0: 91 times (91.00%), avg time 5.547 (0.45 varience/0.67 deviation)
+  -6: 9 times (9.00%), avg time 3.394 (0.02 varience/0.13 deviation)
+  Ran command 100 times, 91 passes
+
+When re-run with "--accel tcg,thread=single" the instability goes
+away.
+
+  Results summary:
+  0: 100 times (100.00%), avg time 17.318 (249.76 varience/15.80 deviation)
+  Ran command 100 times, 100 passes
+
+Which seems to indicate there is some aspect of the MIPS MTTCG fixes
+that has been missed. Ideally we would fix that but I'm afraid I don't
+have time to investigate and am not super familiar with the
+architecture anyway. In lieu of someone tracking down the failure lets
+disable it for now.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200323161514.23952-6-alex.bennee@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Message-Id: <20200323161514.23952-7-alex.bennee@linaro.org>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index cffe7c4600e..756ccf7acae 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -358,23 +358,23 @@ class BaseVM(object):
-                           "local-hostname: {}-guest\n".format(name)])
-         mdata.close()
-         udata = open(os.path.join(cidir, "user-data"), "w")
--        print("guest user:pw {}:{}".format(self._config['guest_user'],
--                                           self._config['guest_pass']))
-+        print("guest user:pw {}:{}".format(self.GUEST_USER,
-+                                           self.GUEST_PASS))
-         udata.writelines(["#cloud-config\n",
-                           "chpasswd:\n",
-                           "  list: |\n",
--                          "    root:%s\n" % self._config['root_pass'],
--                          "    %s:%s\n" % (self._config['guest_user'],
--                                           self._config['guest_pass']),
-+                          "    root:%s\n" % self.ROOT_PASS,
-+                          "    %s:%s\n" % (self.GUEST_USER,
-+                                           self.GUEST_PASS),
-                           "  expire: False\n",
-                           "users:\n",
--                          "  - name: %s\n" % self._config['guest_user'],
-+                          "  - name: %s\n" % self.GUEST_USER,
-                           "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
-                           "    ssh-authorized-keys:\n",
--                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "    - %s\n" % SSH_PUB_KEY,
-                           "  - name: root\n",
-                           "    ssh-authorized-keys:\n",
--                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "    - %s\n" % SSH_PUB_KEY,
-                           "locale: en_US.UTF-8\n"])
-         proxy = os.environ.get("http_proxy")
-         if not proxy is None:
+diff --git a/configure b/configure
+index 89fe881dd46..e225a1e3ffe 100755
+--- a/configure
++++ b/configure
+@@ -7887,7 +7887,7 @@ case "$target_name" in
+     TARGET_SYSTBL_ABI=n32
+   ;;
+   mips64|mips64el)
+-    mttcg="yes"
++    mttcg="no"
+     TARGET_ARCH=mips64
+     TARGET_BASE_ARCH=mips
+     echo "TARGET_ABI_MIPSN64=y" >> $config_target_mak
 -- 
 2.20.1
 
