@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589EF196013
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 21:52:37 +0100 (CET)
-Received: from localhost ([::1]:46836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B059F19606A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 22:29:36 +0100 (CET)
+Received: from localhost ([::1]:47178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHvy0-00031U-7V
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39429)
+	id 1jHwXn-0003vm-87
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 17:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jHvx3-0002Lu-2h
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:51:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jHwWx-0003Aa-Ja
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 17:28:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1jHvx1-0000d2-JY
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:51:36 -0400
-Resent-Date: Fri, 27 Mar 2020 16:51:36 -0400
-Resent-Message-Id: <E1jHvx1-0000d2-JY@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21477)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1jHvx1-0000bs-BQ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:51:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1585342285; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Yge5ZocPUhg6hkGdos01lsxfL9B2bsACzY90/zGO6obLvypKeGr0mYoMtCOih8Uas5kozew+fA9PhGeA0CQdEE8sJbzat0ESDklHD3JH7LYqqE+4St3puEoAEJjG137TTraw374MupXVP9oMXCUHnIhDtM96rAo23c6Xhq7rTXg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1585342285;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=b9Sze/8lbE4wKJ3nkXwBOOCRjhtnFW96FfUiwiFcKTg=; 
- b=IIrp5lLnd487JY0d3OGVqfw9Ffp5StziCV/kG7XUwt1k7eBw3ZD9n2f5puLocUI57aRTkjkGGUdKAFphsXgTdc5ZSx4WJudp+OyNPOdzBTAsEFcxyF0Qbp8rxKZx5tE1Qnw9WmYH6YJmDuXYxFPoa5+Szu4B9MPFjhsjmkINzI8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1585342283245957.6059498290018;
- Fri, 27 Mar 2020 13:51:23 -0700 (PDT)
-In-Reply-To: <1242491200.59.1585326983523@webmail.proxmox.com>
-Subject: Re: AIO_WAIT_WHILE questions
-Message-ID: <158534228235.1378.514078368134920793@39012742ff91>
+ (envelope-from <peter.maydell@linaro.org>) id 1jHwWw-0007pF-AW
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 17:28:43 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:36357)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jHwWv-0007nb-Tw
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 17:28:42 -0400
+Received: by mail-oi1-x229.google.com with SMTP id k18so10131899oib.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 14:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XGYK6vm1j0waZeqUYiEuKA6Soo3ORUsfrTvhjCbOBHo=;
+ b=G+i5dRhYcmo1CHQXny+m15mUEL5B81VfpZKSx/DPjAlLbCbkGU0B5xme2Ha1+GM2mG
+ 9Kf99ba6vs9NuL+MReD6H/V+i43ho7kO5Tfddh7Z1ISeh+rHxeBjUK8rmtBinJAVVUtP
+ 5PlsQCtPsYH6LRfyMB9z6Jzkv2zCjTjWXqQUiZVIg+BjwIJVhsSLNvyM33d3af9SkptS
+ SisnquI61k/umceLX5yNGiOtmA9sUFG++jGuMUqwUXlweV9T1bP/D80SkxrlXNi7YhSl
+ onFF71a1SfwRL2ZRwLjI2lhVcYWxEaJaWHPaHjOCOz+Wyebb2CREdnjZB/9Hn73IbsF5
+ /EuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XGYK6vm1j0waZeqUYiEuKA6Soo3ORUsfrTvhjCbOBHo=;
+ b=Tdc5sG/HEMHf9RV+VH78s0qeUvvJD7ZvjMTocP3QaqEm3p4hYUdajhJz3i6G8LcFhK
+ FcITcM6IkzeFdqH0X1Le2PTLtEmim5bgrDBfviOG7htPg2/gHXJt3oyHT+F4Bnva7dKI
+ hUgrJKGBMT6pNdHizjrH5rJwnzFZlx3QBT3aPRbOKOYTzhH5DdZMHiADMh+EfwIAeRoD
+ fqvPSyO9DMFDvj+el5iOpogWTJrY7gaaZpVtTCkRN1HzeUUezeBr2KyM/A6KWU3axDb3
+ Uf/9JQ0ZrLRqwMMnU3OMajCaVI0CUJx2frtuJq/U7X1JHawseKLJJLzkai/YrRiXYj97
+ 0+NQ==
+X-Gm-Message-State: ANhLgQ3ZnF/ooKFFzVthWPaHXmTHdCOD+iy3P/6q8YkfDRGvcsfOqduQ
+ TR5imcQNwYn8Uus1Ee4u4zyK5EwHyUvpxQvMAyzFkw==
+X-Google-Smtp-Source: ADFU+vtMflyl8+7PfPfJfGso+V1dSth5t7TcmtWrQbNle7+qLMH5zP9TPQD+lsYSGj1k/U8wZ84nsZFX3sKDyszkWSQ=
+X-Received: by 2002:a05:6808:64c:: with SMTP id
+ z12mr676669oih.146.1585344520373; 
+ Fri, 27 Mar 2020 14:28:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dietmar@proxmox.com
-Date: Fri, 27 Mar 2020 13:51:23 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+References: <6dbdab0f-93ff-1df0-bff8-dd720d990be3.ref@yahoo.com>
+ <6dbdab0f-93ff-1df0-bff8-dd720d990be3@yahoo.com>
+In-Reply-To: <6dbdab0f-93ff-1df0-bff8-dd720d990be3@yahoo.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Mar 2020 21:28:28 +0000
+Message-ID: <CAFEAcA8aMhEYr2o3Pk7KrPd_t82nYS4PQw8+sPBkeNxT1LRC_A@mail.gmail.com>
+Subject: Re: Error building Qemu 2.12.0 on Fedora 31 GCC 9.2.1 with the below
+ error
+To: Viktor Madarasz <viktor.madarasz@yahoo.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,33 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xMjQyNDkxMjAwLjU5LjE1ODUz
-MjY5ODM1MjNAd2VibWFpbC5wcm94bW94LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogQUlPX1dBSVRfV0hJTEUgcXVlc3Rpb25zCk1lc3Nh
-Z2UtaWQ6IDEyNDI0OTEyMDAuNTkuMTU4NTMyNjk4MzUyM0B3ZWJtYWlsLnByb3htb3guY29tClR5
-cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2
-LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0
-Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDc3YTQ4YTcuLjEyN2ZlODYg
-IG1hc3RlciAgICAgLT4gbWFzdGVyClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYTEy
-OGFkMCBBSU9fV0FJVF9XSElMRSBxdWVzdGlvbnMKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9S
-OiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJu
-aW5ncywgMjYgbGluZXMgY2hlY2tlZAoKQ29tbWl0IGExMjhhZDBiMTAwOSAoQUlPX1dBSVRfV0hJ
-TEUgcXVlc3Rpb25zKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9
-PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
-YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xMjQyNDkxMjAwLjU5LjE1ODUzMjY5
-ODM1MjNAd2VibWFpbC5wcm94bW94LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+On Fri, 27 Mar 2020 at 20:49, Viktor Madarasz <viktor.madarasz@yahoo.com> wrote:
+>
+> Hi
+>
+> Im trying to build Qemu 2.12.0 on Fedora 31 with GCC 9.2.1 as this
+> particular qemu version is the only one working for my
+> qemu-systems-ppc64 emulation I need
+>
+> ./configure runs with no problem but running make breaks at this point.
+>
+
+If you try to build an old QEMU on a new distro like this
+you're likely to run a bunch of minor build bugs that have
+been fixed in mainline. You will probably need to trawl through
+the git history or the mailing list archives to find the
+relevant commits which fix them (searching for error messages
+is often a good tactic).
+
+You should also choose configure options to minimise the
+amount of source you build that you don't need. If you
+only need qemu-system-ppc64, then pass configure the
+"--target-list=ppc64-softmmu" argument and it will build
+only that and won't try to build the linux-user code at all.
+If configure of that vintage supports --disable-tools that
+is also going to be useful (and if some bit of source that
+looks uninteresting fails check to see if there's a relevant
+--disable-something to just stop building it.)
+
+thanks
+-- PMM
 
