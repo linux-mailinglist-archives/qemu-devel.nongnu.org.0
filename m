@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B84195D57
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:14:48 +0100 (CET)
-Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C1195D64
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:17:40 +0100 (CET)
+Received: from localhost ([::1]:45346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtVH-0003V5-H2
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40459)
+	id 1jHtY3-00076P-Gu
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtTz-0001kg-MS
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU2-0001oX-2Q
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtTy-0000gk-Gw
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:27 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44022)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtU0-0000ji-Vm
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:29 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHtTy-0000fp-AU
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:26 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id m11so6663353wrx.10
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:26 -0700 (PDT)
+ id 1jHtU0-0000ip-Pw
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:28 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d5so12606097wrn.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BVjll0Btf0ZgFKbd+CxXv9O+AQAJq5w3JoNQuRDkfgk=;
- b=Z9I6ODyFcuBBChjXasaT5mQtLEPar3QkRaY4PedHhvyIVj6ezyCUsX3oxY8Z2dpeGj
- 3QLWECtZE4CTNhUSJUBqtsxM8R/G12+RSwRL9u8EewsucON4rwDkL4PRLD1wUOQSFJwd
- 0b43TpXF6dFMfs7D+gaR2LsfD8r6EV3IYLJCuxFVh97sX1AGTj33np3hAuusRKhgFPfP
- Wy8vpWf3HfxLvzjgVchD/tXf78NHRDlklhKUYwV1WoMCvZ2CUf9BQN4ozQm2Ui8engNS
- dfkiBU8Mh1UT0gUUQibi+qRylLNbhLdEbmU1PPgULRX7NRD2Fo27GtU5nGkw002K8UAh
- 0ukQ==
+ bh=mFcHuHvBSlpN6GNuePYdv4kQDYYjvabQ2NuBORJmALw=;
+ b=WsF0c58MkcHb9XoDr0jA/5/kGC60lc7fehFaPkLVtrE1lLp/Sl99Aj8b0e2Cft+TIA
+ R085JqFWM21awGJxIG869OoGVlpX2ptp49NEgY2axWY6wBjfFaQCbAMs+aHr23m9AgHf
+ momcbsfLJKqBOidlUwo+sPF80b4cWIZkOg3SBZ/UYVgzilpVr5vzhMLQL+8SFrq3XSIW
+ 9AxKDhZ4shkcIdTW8O/lt4QOfjBa0mh6g/yyou99gAIUN0fEmFJltofaruBc4svIRzYg
+ kHpCHNPZJmnESIb393mnU2bk4nEN37FMGSypzkeYU5nkLQqKaWSUirRjys/r3yHTDEhC
+ 88mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BVjll0Btf0ZgFKbd+CxXv9O+AQAJq5w3JoNQuRDkfgk=;
- b=Md6jZnD/QA3IGVcRRVovzRdlKcY8d8HxrFE2ArErpCh7Owzl8AJuPvj/BfQkGh9gqT
- mldnYSCAa3tnR/2rPdKwkanOCfFKKLAFxQOPhfJvD+UOaJc8GsrK0facKic7DsQHLLeF
- frbEsoFwVZSkEm9MPVakk1I9Oxx41/yt6teWzFEUUMT/IZvqLv2RaBQWNB7FKnFSSRWB
- O3VVNtjJPuwhDdKZJ51nLdNYchQWLmPbyDkROQgoQW8iaZjt7JPPniyA5TYiducWsAT+
- NO7EHy81E9/IWfBjDMHUg9pvWOdaIWNHX0vy9EwHxInd6rJdv7xtPMEJ9A35NEgnDU4T
- 648Q==
-X-Gm-Message-State: ANhLgQ3NMjeLnoaInf5StfnO3PkjKZTvH8H4ERTT4Yn0Kfhr2XV2gytD
- GOHrVaLkxDipe6vI/piYLF9G+Q==
-X-Google-Smtp-Source: ADFU+vupHbLD/BOz056AJgq3ARrJWWNCY4FwvhkacMSFbt+fGPpJyNVpclMlX/z5xJ/r+izUGxhrjQ==
-X-Received: by 2002:adf:8182:: with SMTP id 2mr646042wra.37.1585332805271;
- Fri, 27 Mar 2020 11:13:25 -0700 (PDT)
+ bh=mFcHuHvBSlpN6GNuePYdv4kQDYYjvabQ2NuBORJmALw=;
+ b=EN0lE5RD44Ge4hPiOMyV1DY5QakvAGcv7DAXq9OHhT26+b42vHCrIZpDLZ/RcsOKg6
+ xDd+mumFgwkNmKFR7FRCYcn4jFJJydSfyV3Ck/KhC1MW1V+jQ1N7jUriRGwKkh3nhJGQ
+ H6VG0a199T5qxP0oOFe6nzOhHxFepK8KcWhzA/nXYCH3oqMDuUykvy0mDsr+Qvsbzcgj
+ 6yEDXtDCMepXjthOmd57FV8MkupvIXr/eNu8oe5MBhxqb97XUfgUETZkSmsj5erp4GvU
+ J+MaafBvKl8YRLGjS+Ib2/WC+aah53ehpEmXjlN+vT9OB34END+ZqlNO0xmwJcFUJKyT
+ 0jUw==
+X-Gm-Message-State: ANhLgQ3oIZHyJ4uSbE9GFbhBqw2ZYV74mkqdNuuoxhlqxBCoYaqxeVum
+ VNrpBHmAJ7nhRZHoPi5f20USJQ==
+X-Google-Smtp-Source: ADFU+vvdB/vZqJiURq2RjIABjdwcFmvbcahrbN/JHC59GlXi8Qm01l0HBRs0tVS4JnXqWcmmhydDaQ==
+X-Received: by 2002:a5d:4489:: with SMTP id j9mr648774wrq.161.1585332807754;
+ Fri, 27 Mar 2020 11:13:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n124sm8489975wma.11.2020.03.27.11.13.21
+ by smtp.gmail.com with ESMTPSA id i21sm9468489wmb.23.2020.03.27.11.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 Mar 2020 11:13:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8DA981FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id A224E1FF90;
  Fri, 27 Mar 2020 18:13:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 03/12] tests/vm: move vga setup
-Date: Fri, 27 Mar 2020 18:13:11 +0000
-Message-Id: <20200327181320.23329-4-alex.bennee@linaro.org>
+Subject: [PULL v2 04/12] tests/vm: update FreeBSD to 12.1
+Date: Fri, 27 Mar 2020 18:13:12 +0000
+Message-Id: <20200327181320.23329-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327181320.23329-1-alex.bennee@linaro.org>
 References: <20200327181320.23329-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,91 +90,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Move '-device VGA' from basevm.py to the guests, so they have
-the chance to opt out and run without display device.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200310083218.26355-3-kraxel@redhat.com>
-Message-Id: <20200323161514.23952-3-alex.bennee@linaro.org>
+Message-Id: <20200310083218.26355-4-kraxel@redhat.com>
+Message-Id: <20200323161514.23952-4-alex.bennee@linaro.org>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index c53fd354d95..cffe7c4600e 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -179,7 +179,6 @@ class BaseVM(object):
- 
-     def boot(self, img, extra_args=[]):
-         args = self._args + [
--            "-device", "VGA",
-             "-drive", "file=%s,if=none,id=drive0,cache=writeback" % img,
-             "-device", "virtio-blk,drive=drive0,bootindex=0"]
-         args += self._data_args + extra_args
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index 4843b4175e0..bd9c6cf295c 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -82,6 +82,7 @@ class FedoraVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args = [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-+            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init(300)
 diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 86770878b67..58166766d91 100755
+index 58166766d91..298967fe9cf 100755
 --- a/tests/vm/freebsd
 +++ b/tests/vm/freebsd
-@@ -92,6 +92,7 @@ class FreeBSDVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args = [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-+            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init()
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 55590f46015..f3257bc245a 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -86,6 +86,7 @@ class NetBSDVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args = [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-+            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init()
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index ab6abbedab5..0b705f49452 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -82,6 +82,7 @@ class OpenBSDVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args = [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-+            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init()
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 3266038fbde..15707753353 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -36,7 +36,10 @@ class UbuntuX86VM(basevm.BaseVM):
-         img_tmp = img + ".tmp"
-         subprocess.check_call(["cp", "-f", cimg, img_tmp])
-         self.exec_qemu_img("resize", img_tmp, "50G")
--        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-+        self.boot(img_tmp, extra_args = [
-+            "-device", "VGA",
-+            "-cdrom", self.gen_cloud_init_iso()
-+        ])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
-         self.ssh_root_check("apt-get update")
+@@ -24,8 +24,8 @@ class FreeBSDVM(basevm.BaseVM):
+     name = "freebsd"
+     arch = "x86_64"
+ 
+-    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
+-    csum = "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485fb99db"
++    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
++    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
+     size = "20G"
+     pkgs = [
+         # build tools
 -- 
 2.20.1
 
