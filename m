@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EDF195631
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 12:21:58 +0100 (CET)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326BC195627
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 12:20:02 +0100 (CET)
+Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHn3l-0003py-R9
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 07:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38141)
+	id 1jHn1t-0000oa-6c
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 07:20:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1jHmwk-0001Ne-HC
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:43 -0400
+ (envelope-from <jasowang@redhat.com>) id 1jHmwm-0001Rf-0r
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1jHmwj-0002Ge-53
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50960)
+ (envelope-from <jasowang@redhat.com>) id 1jHmwk-0002JL-IT
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:43 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:41582)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jHmwj-0002D6-0n
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:41 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1jHmwk-0002Ia-Dx
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 07:14:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585307679;
+ s=mimecast20190719; t=1585307682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4MxJPowySKOhY+nUVAcYVxWerfqWXbqkq59mtjxRxZg=;
- b=ZIzOuQ/3b1zLFXq1mmsE09CT6N4umQs+AgEbTf4Zi7lLHBMB6Ktwfg5Amzc9rQB4mMbYDl
- I4ddd4GHH1TfSHVw1shchJsHboCiwOvnMyDj2VWm/AaoCX2TXTyuMhiC12vUG+XEu9uxrp
- VqrSyVTKqkVThjUqFqwQHnOYUoY0Hhk=
+ bh=gwuzM2jNqoM564i9vFKMIxyP47Rn9FTVs3Xjz/vfwQI=;
+ b=FogLkZV4End+4CvdH1romgVItazkeXwuyG5rzes6Xy3ZkL4nrKzNFytblayGxjb2bn9oaS
+ /0rO+5QSai9Fdj+62oxyDzQ/CXVVbd/qRyLimfRNdWgoMBfaPYQb/s5f+vGH3bMEOxbXoP
+ +azLf2gnTzRy/NktxVMyv+5CxZgpEjo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-6EBbNfLNPoWJGN2TObTrwQ-1; Fri, 27 Mar 2020 07:14:37 -0400
-X-MC-Unique: 6EBbNfLNPoWJGN2TObTrwQ-1
+ us-mta-118-tF6MyFrWNuOWT5lY2swYHg-1; Fri, 27 Mar 2020 07:14:39 -0400
+X-MC-Unique: tF6MyFrWNuOWT5lY2swYHg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EEF8189F760;
- Fri, 27 Mar 2020 11:14:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDE62800D48;
+ Fri, 27 Mar 2020 11:14:38 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-77.pek2.redhat.com
  [10.72.12.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 994065E036;
- Fri, 27 Mar 2020 11:14:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C6855E016;
+ Fri, 27 Mar 2020 11:14:36 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 11/13] net/colo-compare.c: Expose "expired_scan_cycle" to users
-Date: Fri, 27 Mar 2020 19:14:05 +0800
-Message-Id: <1585307647-24456-12-git-send-email-jasowang@redhat.com>
+Subject: [PULL 12/13] net: tulip: check frame size and r/w data length
+Date: Fri, 27 Mar 2020 19:14:06 +0800
+Message-Id: <1585307647-24456-13-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1585307647-24456-1-git-send-email-jasowang@redhat.com>
 References: <1585307647-24456-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -58,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,154 +70,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-The "expired_scan_cycle" determines period of scanning expired
-primary node net packets.
+Tulip network driver while copying tx/rx buffers does not check
+frame size against r/w data length. This may lead to OOB buffer
+access. Add check to avoid it.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Limit iterations over descriptors to avoid potential infinite
+loop issue in tulip_xmit_list_update.
+
+Reported-by: Li Qiang <pangpei.lq@antfin.com>
+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
+Reported-by: Jason Wang <jasowang@redhat.com>
+Tested-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
- qemu-options.hx    |  4 +++-
- 2 files changed, 48 insertions(+), 4 deletions(-)
+ hw/net/tulip.c | 36 +++++++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index ec09b2a..10c0239 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -48,7 +48,6 @@ static NotifierList colo_compare_notifiers =3D
- #define COLO_COMPARE_FREE_PRIMARY     0x01
- #define COLO_COMPARE_FREE_SECONDARY   0x02
-=20
--/* TODO: Should be configurable */
- #define REGULAR_PACKET_CHECK_MS 3000
- #define DEFAULT_TIME_OUT_MS 3000
-=20
-@@ -94,6 +93,7 @@ typedef struct CompareState {
-     SocketReadState notify_rs;
-     bool vnet_hdr;
-     uint32_t compare_timeout;
-+    uint32_t expired_scan_cycle;
-=20
-     /*
-      * Record the connection that through the NIC
-@@ -823,7 +823,7 @@ static void check_old_packet_regular(void *opaque)
-     /* if have old packet we will notify checkpoint */
-     colo_old_packet_check(s);
-     timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)=
- +
--                REGULAR_PACKET_CHECK_MS);
-+              s->expired_scan_cycle);
- }
-=20
- /* Public API, Used for COLO frame to notify compare event */
-@@ -853,7 +853,7 @@ static void colo_compare_timer_init(CompareState *s)
-                                 SCALE_MS, check_old_packet_regular,
-                                 s);
-     timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)=
- +
--                    REGULAR_PACKET_CHECK_MS);
-+              s->expired_scan_cycle);
- }
-=20
- static void colo_compare_timer_del(CompareState *s)
-@@ -1018,6 +1018,39 @@ out:
-     error_propagate(errp, local_err);
- }
-=20
-+static void compare_get_expired_scan_cycle(Object *obj, Visitor *v,
-+                                           const char *name, void *opaque,
-+                                           Error **errp)
-+{
-+    CompareState *s =3D COLO_COMPARE(obj);
-+    uint32_t value =3D s->expired_scan_cycle;
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index cfac271..1295f51 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -170,6 +170,10 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct =
+tulip_descriptor *desc)
+         } else {
+             len =3D s->rx_frame_len;
+         }
 +
-+    visit_type_uint32(v, name, &value, errp);
-+}
++        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
++            return;
++        }
+         pci_dma_write(&s->dev, desc->buf_addr1, s->rx_frame +
+             (s->rx_frame_size - s->rx_frame_len), len);
+         s->rx_frame_len -=3D len;
+@@ -181,6 +185,10 @@ static void tulip_copy_rx_bytes(TULIPState *s, struct =
+tulip_descriptor *desc)
+         } else {
+             len =3D s->rx_frame_len;
+         }
 +
-+static void compare_set_expired_scan_cycle(Object *obj, Visitor *v,
-+                                           const char *name, void *opaque,
-+                                           Error **errp)
-+{
-+    CompareState *s =3D COLO_COMPARE(obj);
-+    Error *local_err =3D NULL;
-+    uint32_t value;
-+
-+    visit_type_uint32(v, name, &value, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-+    if (!value) {
-+        error_setg(&local_err, "Property '%s.%s' requires a positive value=
-",
-+                   object_get_typename(obj), name);
-+        goto out;
-+    }
-+    s->expired_scan_cycle =3D value;
-+
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
- static void compare_pri_rs_finalize(SocketReadState *pri_rs)
- {
-     CompareState *s =3D container_of(pri_rs, CompareState, pri_rs);
-@@ -1129,6 +1162,11 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-         s->compare_timeout =3D DEFAULT_TIME_OUT_MS;
++        if (s->rx_frame_len + len > sizeof(s->rx_frame)) {
++            return;
++        }
+         pci_dma_write(&s->dev, desc->buf_addr2, s->rx_frame +
+             (s->rx_frame_size - s->rx_frame_len), len);
+         s->rx_frame_len -=3D len;
+@@ -227,7 +235,8 @@ static ssize_t tulip_receive(TULIPState *s, const uint8=
+_t *buf, size_t size)
+=20
+     trace_tulip_receive(buf, size);
+=20
+-    if (size < 14 || size > 2048 || s->rx_frame_len || tulip_rx_stopped(s)=
+) {
++    if (size < 14 || size > sizeof(s->rx_frame) - 4
++        || s->rx_frame_len || tulip_rx_stopped(s)) {
+         return 0;
      }
 =20
-+    if (!s->expired_scan_cycle) {
-+        /* Set default value to 3000 MS */
-+        s->expired_scan_cycle =3D REGULAR_PACKET_CHECK_MS;
+@@ -275,7 +284,6 @@ static ssize_t tulip_receive_nc(NetClientState *nc,
+     return tulip_receive(qemu_get_nic_opaque(nc), buf, size);
+ }
+=20
+-
+ static NetClientInfo net_tulip_info =3D {
+     .type =3D NET_CLIENT_DRIVER_NIC,
+     .size =3D sizeof(NICState),
+@@ -558,7 +566,7 @@ static void tulip_tx(TULIPState *s, struct tulip_descri=
+ptor *desc)
+         if ((s->csr[6] >> CSR6_OM_SHIFT) & CSR6_OM_MASK) {
+             /* Internal or external Loopback */
+             tulip_receive(s, s->tx_frame, s->tx_frame_len);
+-        } else {
++        } else if (s->tx_frame_len <=3D sizeof(s->tx_frame)) {
+             qemu_send_packet(qemu_get_queue(s->nic),
+                 s->tx_frame, s->tx_frame_len);
+         }
+@@ -570,23 +578,31 @@ static void tulip_tx(TULIPState *s, struct tulip_desc=
+riptor *desc)
+     }
+ }
+=20
+-static void tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *=
+desc)
++static int tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *d=
+esc)
+ {
+     int len1 =3D (desc->control >> TDES1_BUF1_SIZE_SHIFT) & TDES1_BUF1_SIZ=
+E_MASK;
+     int len2 =3D (desc->control >> TDES1_BUF2_SIZE_SHIFT) & TDES1_BUF2_SIZ=
+E_MASK;
+=20
++    if (s->tx_frame_len + len1 > sizeof(s->tx_frame)) {
++        return -1;
 +    }
+     if (len1) {
+         pci_dma_read(&s->dev, desc->buf_addr1,
+             s->tx_frame + s->tx_frame_len, len1);
+         s->tx_frame_len +=3D len1;
+     }
+=20
++    if (s->tx_frame_len + len2 > sizeof(s->tx_frame)) {
++        return -1;
++    }
+     if (len2) {
+         pci_dma_read(&s->dev, desc->buf_addr2,
+             s->tx_frame + s->tx_frame_len, len2);
+         s->tx_frame_len +=3D len2;
+     }
+     desc->status =3D (len1 + len2) ? 0 : 0x7fffffff;
 +
-     if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
-         !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
++    return 0;
+ }
+=20
+ static void tulip_setup_filter_addr(TULIPState *s, uint8_t *buf, int n)
+@@ -651,13 +667,15 @@ static uint32_t tulip_ts(TULIPState *s)
+=20
+ static void tulip_xmit_list_update(TULIPState *s)
+ {
++#define TULIP_DESC_MAX 128
++    uint8_t i =3D 0;
+     struct tulip_descriptor desc;
+=20
+     if (tulip_ts(s) !=3D CSR5_TS_SUSPENDED) {
          return;
-@@ -1228,6 +1266,10 @@ static void colo_compare_init(Object *obj)
-                         compare_get_timeout,
-                         compare_set_timeout, NULL, NULL, NULL);
+     }
 =20
-+    object_property_add(obj, "expired_scan_cycle", "uint32",
-+                        compare_get_expired_scan_cycle,
-+                        compare_set_expired_scan_cycle, NULL, NULL, NULL);
-+
-     s->vnet_hdr =3D false;
-     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr=
-,
-                              compare_set_vnet_hdr, NULL);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 9e48e13..16debd0 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4615,7 +4615,7 @@ SRST
-         stored. The file format is libpcap, so it can be analyzed with
-         tools such as tcpdump or Wireshark.
+-    for (;;) {
++    for (i =3D 0; i < TULIP_DESC_MAX; i++) {
+         tulip_desc_read(s, s->current_tx_desc, &desc);
+         tulip_dump_tx_descriptor(s, &desc);
 =20
--    ``-object colo-compare,id=3Did,primary_in=3Dchardevid,secondary_in=3Dc=
-hardevid,outdev=3Dchardevid,iothread=3Did[,vnet_hdr_support][,notify_dev=3D=
-id][,compare_timeout=3D@var{ms}]``
-+    ``-object colo-compare,id=3Did,primary_in=3Dchardevid,secondary_in=3Dc=
-hardevid,outdev=3Dchardevid,iothread=3Did[,vnet_hdr_support][,notify_dev=3D=
-id][,compare_timeout=3D@var{ms}][,expired_scan_cycle=3D@var{ms}``
-         Colo-compare gets packet from primary\_inchardevid and
-         secondary\_inchardevid, than compare primary packet with
-         secondary packet. If the packets are same, we will output
-@@ -4626,6 +4626,8 @@ SRST
-         vnet\_hdr\_support flag, colo compare will send/recv packet with
-         vnet\_hdr\_len. Then compare\_timeout=3D@var{ms} determines the
-         maximum delay colo-compare wait for the packet.
-+        The expired\_scan\_cycle=3D@var{ms} to set the period of scanning
-+        expired primary node network packets.
-         If you want to use Xen COLO, will need the notify\_dev to
-         notify Xen colo-frame to do checkpoint.
+@@ -675,10 +693,10 @@ static void tulip_xmit_list_update(TULIPState *s)
+                 s->tx_frame_len =3D 0;
+             }
 =20
+-            tulip_copy_tx_buffers(s, &desc);
+-
+-            if (desc.control & TDES1_LS) {
+-                tulip_tx(s, &desc);
++            if (!tulip_copy_tx_buffers(s, &desc)) {
++                if (desc.control & TDES1_LS) {
++                    tulip_tx(s, &desc);
++                }
+             }
+         }
+         tulip_desc_write(s, s->current_tx_desc, &desc);
 --=20
 2.5.0
 
