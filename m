@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAA8195AF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:19:13 +0100 (CET)
-Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE76D195AF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:21:42 +0100 (CET)
+Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrhQ-0004qs-Lu
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38568)
+	id 1jHrjp-0006qi-VX
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jHrfk-0004FU-FJ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:17:33 -0400
+ (envelope-from <eblake@redhat.com>) id 1jHrhz-0005cn-L0
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jHrfi-0001O5-Tv
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:17:27 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:22113)
+ (envelope-from <eblake@redhat.com>) id 1jHrhy-0004fQ-8R
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:47 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43949)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jHrfi-0001MP-Ny
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:17:26 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHrhx-0004bk-OD
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585325845;
+ s=mimecast20190719; t=1585325980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dih+ydun9SdeT1WL+lC4Vb7S+BhIkEMHiGfzQCPeL5M=;
- b=OWAeK5JbbihO6XDp1Eg4HgeIsbj+/qC421jeoqvBzgs2ESq8/XrIfBtV/lZvY5n6Ywh4tT
- DLBHOws7wyzwQEcri5DzmKmQ3nlZecz+qfE/dBEbEx3kfUlFs0WTgSwQb0KTg+K7F6YhUm
- rOMkJwiytcYtxfcXzLbp3XBEHEFKhG0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-LN32xtnLN_2jOz2wJk-RMw-1; Fri, 27 Mar 2020 12:17:24 -0400
-X-MC-Unique: LN32xtnLN_2jOz2wJk-RMw-1
-Received: by mail-wr1-f71.google.com with SMTP id v17so705714wro.21
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 09:17:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JXNMK3T6RLDfuwi0a805cudJtUUCqWi7IUPU0Uf/YdM=;
- b=DmBqOKVeKaRbQ4MzYX2goOQB2u+mEUUkbulgNQAMt/DSAMQXI6wzDYzA+EIses7yMs
- 8LabA69CYUiu39LpsSZWo1ONUpx2fMxgCIRMyI0cFHY0eoZ37gChvsFmeE+xXGOmEC67
- 99A8mpCcPQvx7lHPWox5TjraKEJ+Lrm5xJPIuOfNczE/iHaA2r3JN5oMbjU7bibluEYX
- IBimPCtYBnfGsozZovpFYu54ierunNc3nHD1kjhuJDz8hkQJhFeo58vXiq5PbQJyIIeW
- ii8E9dOfa+SaDHYocu0hKHVktFI7cAPUPYhlJ5OhMB3kWsAoWCh6/DLt8ZMksKf/qlVU
- 37NA==
-X-Gm-Message-State: ANhLgQ1wK5q2ocqeEtY/JAtdoRK4CpsKATxs1RM9V+7+48jfMojpYBwh
- iKrIjMSKyAK4Yprq/YX/UJnQ73xuHhYZYU4JUVeNtNmtCxQuRWoxrO0FEoZA5KMX8EoCvqtrRVZ
- /Wqf/1BNl0zfpfNg=
-X-Received: by 2002:a5d:5687:: with SMTP id f7mr126724wrv.425.1585325842959;
- Fri, 27 Mar 2020 09:17:22 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vu0WtgWKoIExHPFFlttMzK12XVy2ZFPDMKiYF8Qyoibvkj+GVrKhqf6FL5/voa5AOgDrIukLA==
-X-Received: by 2002:a5d:5687:: with SMTP id f7mr126705wrv.425.1585325842716;
- Fri, 27 Mar 2020 09:17:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b55d:5ed2:8a41:41ea?
- ([2001:b07:6468:f312:b55d:5ed2:8a41:41ea])
- by smtp.gmail.com with ESMTPSA id d5sm9484277wrh.40.2020.03.27.09.17.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Mar 2020 09:17:22 -0700 (PDT)
-Subject: Re: [PATCH] hw/vfio: let readonly flag take effect for mmaped regions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- yan.y.zhao@intel.com, qemu-devel@nongnu.org
-References: <20200327111934.71066-1-yan.y.zhao@intel.com>
- <11c90e84-6c0c-9411-0d6c-7955136413c6@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c4eb2313-96b3-7e76-f48c-0059a40eabf7@redhat.com>
-Date: Fri, 27 Mar 2020 17:17:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aY34CquGdNoyZJ52ByWHlFyaeb4NffcZT0uK6VrsRVs=;
+ b=D6VBbEvrQ1Z6cdZKzNb6lPb7ZnDCmsI2uu2uwpfyhyqmkwk7HHYVZnh4WndkSWQxASTEST
+ 5+kmsMcFQrEKU4BbFhuXNSh5xWM8DeF0PmmDMiPSwxpGcKD7y17AnrF5mOEA46g5U9Zaot
+ zcGRG5fyvReh+zPvXo/ZEfTLcrPgL5Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-5-rZPgsmO2uORSxXwHoYFw-1; Fri, 27 Mar 2020 12:19:38 -0400
+X-MC-Unique: 5-rZPgsmO2uORSxXwHoYFw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED0D801E66;
+ Fri, 27 Mar 2020 16:19:38 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-103.phx2.redhat.com [10.3.113.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C6185C1D8;
+ Fri, 27 Mar 2020 16:19:36 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] nbd: Try for cleaner TLS shutdown
+Date: Fri, 27 Mar 2020 11:19:33 -0500
+Message-Id: <20200327161936.2225989-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <11c90e84-6c0c-9411-0d6c-7955136413c6@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,42 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.williamson@redhat.com, Xin Zeng <xin.zeng@intel.com>
+Cc: berrange@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/03/20 11:51, Philippe Mathieu-Daud=C3=A9 wrote:
->>=C2=A0 diff --git a/memory.c b/memory.c
->> index 601b749906..4b1071dc74 100644
->> --- a/memory.c
->> +++ b/memory.c
->> @@ -1313,6 +1313,9 @@ static void memory_region_ram_device_write(void
->> *opaque, hwaddr addr,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion *mr =3D opaque;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_memory_region_ram_device_wri=
-te(get_cpu_index(), mr,
->> addr, data, size);
->> +=C2=A0=C2=A0=C2=A0 if (mr->readonly) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0=C2=A0 }
->=20
-> Shouldn't this be in memory_region_dispatch_write()?
+I'm currently trying to debug a hang in 'nbdkit nbd' as a client when
+TLS is in use, when dealing with three processes:
+nbdkit example1[1] <=3Dtls=3D> nbdkit nbd[2] <=3Dplain=3D> qemu-nbd --list[=
+3]
 
-No, in general you want memory regions to get writes, so that they
-become for example a machine-check exception of some sorts.  However,
-memory_region_ram_device_write should probably be changed to a
-.write_with_attrs operation, so that it can return MEMTX_ERROR.
+In theory, when process [3] exits, the server side of process [2] is
+supposed to disconnect as client from process [1].  But we were
+hitting sporadic hangs where process [2] was stuck in a poll() while
+in gnutls cleanup code, which appears to be because it did not
+recognize a clean shutdown from process [3].
 
-> Please split this patch in 2, this (generic) hunk as first patch, then
-> the VFIO more specific change.
->=20
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (size) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 1:
->>
->=20
+I do not yet have a strong reproducible test case (which might include
+adding strategic sleep()s in one-off compilations) to prove that the
+problem is an unclean TLS shutdown, but at the same time, the gnutls
+documentation is clear that without proper use of gnutls_bye(), a
+client cannot distinguish between clean end of communications and a
+malicious interruption in service.  Shutting down the write side of a
+bi-directional socket as soon as possible makes it easier for a client
+to begin its own shutdown actions, and can help in avoiding deadlocks
+where both sides of a connection are waiting for the other side to
+close() the socket first.  If I can come up with a reliable test case,
+this series may be a candidate for 5.0; but for now, I'm only
+proposing it for 5.1 (we've had more than one release where qemu was
+not exploiting the full power of gnutls_bye(), and even if that
+triggers poor interaction with other endpoints such as nbdkit, going
+one more release with the same behavior isn't making things worse).
 
-No need, I can just add my Acked-by for Alex to pick up the patch.
+Eric Blake (3):
+  crypto: Add qcrypto_tls_shutdown()
+  io: Support shutdown of TLS channel
+  nbd: Use shutdown(SHUT_WR) after last item sent
 
-Paolo
+ qapi/crypto.json            | 15 +++++++++++++++
+ include/crypto/tlssession.h | 24 ++++++++++++++++++++++++
+ block/nbd.c                 |  1 +
+ crypto/tlssession.c         | 27 +++++++++++++++++++++++++++
+ io/channel-tls.c            | 27 ++++++++++++++++++++++++++-
+ nbd/client.c                |  3 ++-
+ nbd/server.c                |  4 ++++
+ 7 files changed, 99 insertions(+), 2 deletions(-)
+
+--=20
+2.26.0.rc2
 
 
