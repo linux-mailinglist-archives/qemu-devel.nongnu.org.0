@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC61956E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 13:15:01 +0100 (CET)
-Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC374195777
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 13:48:01 +0100 (CET)
+Received: from localhost ([::1]:41360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHnt6-0001vS-9t
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 08:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
+	id 1jHoP2-0000T5-Hr
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 08:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jHnpe-0005Jm-74
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:27 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jHoNU-00080j-4t
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:46:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jHnpd-0002Li-0R
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:25 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:26205)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jHnpc-0002Iu-ST
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:11:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585311084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PgO6+1B/924aEFh7adFRZ27OOSLbW6GRY9QNhris/8k=;
- b=Dhc6MZhJ440UXlPO2Q9+POXWV1AdkoWCG6HkLZknhlmQetvV8C7sg5O13CDo3Ys0ybHgaw
- NHHCl1Ez4aiKS7oa4VYRx9oZY8kqj6xA6eQC7moFkk4rSPaVL52UfO9+vCMsBEf5LLgzfE
- suU2q0CVVDsm0bHvV38SqWadfVs3h48=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-7u2zgjSYMm-Rs5pRprkzow-1; Fri, 27 Mar 2020 08:11:20 -0400
-X-MC-Unique: 7u2zgjSYMm-Rs5pRprkzow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB45BDBAC;
- Fri, 27 Mar 2020 12:11:19 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com
- [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47409CDBD5;
- Fri, 27 Mar 2020 12:11:19 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0019731EA0; Fri, 27 Mar 2020 13:11:11 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] acpi: parallel: don't use _STA method
-Date: Fri, 27 Mar 2020 13:11:11 +0100
-Message-Id: <20200327121111.1530-7-kraxel@redhat.com>
-In-Reply-To: <20200327121111.1530-1-kraxel@redhat.com>
-References: <20200327121111.1530-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+ (envelope-from <borntraeger@de.ibm.com>) id 1jHoNR-0004Un-KO
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 08:46:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22600
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jHoNQ-0004R1-Kc; Fri, 27 Mar 2020 08:46:21 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02RCX0d8039782; Fri, 27 Mar 2020 08:46:19 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ywewxuvmh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Mar 2020 08:46:19 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 02RCXD9m041450;
+ Fri, 27 Mar 2020 08:46:19 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ywewxuvm6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Mar 2020 08:46:19 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 02RCjh9m010533;
+ Fri, 27 Mar 2020 12:46:18 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma05wdc.us.ibm.com with ESMTP id 2ywawg26k1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Mar 2020 12:46:18 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02RCkItu49611250
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Mar 2020 12:46:18 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1D5B5124055;
+ Fri, 27 Mar 2020 12:46:18 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02C2D124053;
+ Fri, 27 Mar 2020 12:46:17 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.114.17.106])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 27 Mar 2020 12:46:17 +0000 (GMT)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: qemu-devel <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2] s390x/pv: Retry ioctls on -EINTR
+Date: Fri, 27 Mar 2020 08:46:16 -0400
+Message-Id: <20200327124616.34866-1-borntraeger@de.ibm.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-27_04:2020-03-27,
+ 2020-03-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 spamscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ bulkscore=0 phishscore=0 mlxscore=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003270111
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,87 +89,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Janosch Frank <frankja@linux.vnet.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The _STA method dates back to the days where we had a static DSDT.  The
-device is listed in the DSDT table unconditionally and the _STA method
-checks a bit in the isa bridge pci config space to figure whenever a
-given is isa device is present or not, then evaluates to 0x0f (present)
-or 0x00 (absent).
+PV_ENABLE (and maybe others) might return -EINTR when a signal is
+pending. See the Linux kernel patch "s390/gmap: return proper error code
+on ksm unsharing" for details. Let us retry the ioctl in that case.
 
-These days the DSDT is generated by qemu anyway, so if a device is not
-present we can simply drop it from the DSDT instead.
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fixes: 4d226deafc44 ("s390x: protvirt: Support unpack facility")
+Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Acked-by: Janosch Frank <frankja@linux.vnet.ibm.com>
+Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- hw/i386/acpi-build-pc.c | 29 ++++++++---------------------
- 1 file changed, 8 insertions(+), 21 deletions(-)
+ hw/s390x/pv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build-pc.c b/hw/i386/acpi-build-pc.c
-index 97af5eac3d79..8bab105d5e44 100644
---- a/hw/i386/acpi-build-pc.c
-+++ b/hw/i386/acpi-build-pc.c
-@@ -1169,39 +1169,26 @@ static Aml *build_mouse_device_aml(void)
-     return dev;
- }
-=20
--static Aml *build_lpt_device_aml(void)
-+static void build_lpt_device_aml(Aml *scope)
- {
-     Aml *dev;
-     Aml *crs;
--    Aml *method;
--    Aml *if_ctx;
--    Aml *else_ctx;
--    Aml *zero =3D aml_int(0);
--    Aml *is_present =3D aml_local(0);
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 8cf5cd2c9b..d3333d6e13 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -23,7 +23,11 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
+         .cmd = cmd,
+         .data = (uint64_t)data,
+     };
+-    int rc = kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
++    int rc;
 +
-+    if (!memory_region_present(get_system_io(), 0x0378)) {
-+        return;
-+    }
-=20
-     dev =3D aml_device("LPT");
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
-=20
--    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
--    aml_append(method, aml_store(aml_name("LPEN"), is_present));
--    if_ctx =3D aml_if(aml_equal(is_present, zero));
--    {
--        aml_append(if_ctx, aml_return(aml_int(0x00)));
--    }
--    aml_append(method, if_ctx);
--    else_ctx =3D aml_else();
--    {
--        aml_append(else_ctx, aml_return(aml_int(0x0f)));
--    }
--    aml_append(method, else_ctx);
--    aml_append(dev, method);
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-=20
-     crs =3D aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
-     aml_append(crs, aml_irq_no_flags(7));
-     aml_append(dev, aml_name_decl("_CRS", crs));
-=20
--    return dev;
-+    aml_append(scope, dev);
- }
-=20
- static void build_com_device_aml(Aml *scope, uint8_t uid)
-@@ -1248,7 +1235,7 @@ static void build_isa_devices_aml(Aml *table)
-     if (fdc) {
-         aml_append(scope, build_fdc_device_aml(fdc));
-     }
--    aml_append(scope, build_lpt_device_aml());
-+    build_lpt_device_aml(scope);
-     build_com_device_aml(scope, 1);
-     build_com_device_aml(scope, 2);
-=20
---=20
-2.18.2
++    do {
++        rc = kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
++    } while (rc == -EINTR);
+ 
+     if (rc) {
+         error_report("KVM PV command %d (%s) failed: header rc %x rrc %x "
+-- 
+2.25.1
 
 
