@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE2B195A85
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:00:50 +0100 (CET)
-Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02811195AC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:12:05 +0100 (CET)
+Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrPd-0007U1-K9
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:00:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58319)
+	id 1jHraW-0000jp-4u
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jHrO1-0006Ps-VD
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:59:11 -0400
+ (envelope-from <bounces@canonical.com>) id 1jHrZY-0000E3-Lv
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1jHrNy-0004bX-SE
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:59:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:34190)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jHrNy-0004Ux-LM
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:59:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585324745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=urPEWi8bNxhmPHyxhHCz5KMMw1qDmImArdNNtIqizm0=;
- b=UlZU1S2ncN1d5lVB14JTJFmb3uGDiZ4CF4cnuoy4wKkmhGC/ee39EKspG2aIUWbRW7pJAD
- JvEv/IhKqkdhAONgUufsfEXMENLOonvIzw6KM5tK9Y3zw+/1cwRoC1hf401mZq7XSdtEnE
- AQVFZPFUTb4obnycgBf0XDLAa8NYVC8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-C03ubxcYOcq_ETCdEjOkIw-1; Fri, 27 Mar 2020 11:59:04 -0400
-X-MC-Unique: C03ubxcYOcq_ETCdEjOkIw-1
-Received: by mail-wm1-f69.google.com with SMTP id f9so4005782wme.7
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 08:59:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=urPEWi8bNxhmPHyxhHCz5KMMw1qDmImArdNNtIqizm0=;
- b=Yy69bCIWNjOwgowCuQccja5LudINWZ6aGB00bfSzeSgA2NO3pnHwccE2TDMlM+J/XL
- 4e8F4MNgtfG1mVxuGlb6HlRSUgE2yRoDp/hY3fXl38SaXs1R7vUZdwjAhi/QB1EfLRAk
- 9Hmb6pQfjpB4GpsE4h3rs5wQKqaKSjZuJ0G2kjaeqB+ezsX1JMMsQtLyx8J4xf+wlzfN
- 4p8NTDNuUOZGo/N5UHb8EoPXzGik5OGnyisd9IT5BuEyXJZ8ZkTPbo+KPG3ZFKotaaCh
- 6Re9r+69YsPeXdspqA0mRsw8+Sc+sIUQXJwSdhVxJYL8HODi+T9HSL3wBb/4K7SZdtJR
- bQfw==
-X-Gm-Message-State: ANhLgQ1km4N0H2lNfwULK2ikuI+y4uJCpqp5U/7m4lix7fkoGk5vJarw
- sxR/Al8a8tKLYS16aThLFeTIsGZ7Eh706Byg92ZzoZypQNgX4bZajSd6SjfiA9+e4aasb8j+Rd+
- JU93MIWkn4DbwY8c=
-X-Received: by 2002:a5d:474b:: with SMTP id o11mr122702wrs.4.1585324742696;
- Fri, 27 Mar 2020 08:59:02 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvwUfLD+WlaFW7w59OhctCY7AmXuh1jLf8IA/Cd6U824rq9DnKlfc3aN8XSAb9JF5RsKEC8OA==
-X-Received: by 2002:a5d:474b:: with SMTP id o11mr122681wrs.4.1585324742443;
- Fri, 27 Mar 2020 08:59:02 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b55d:5ed2:8a41:41ea?
- ([2001:b07:6468:f312:b55d:5ed2:8a41:41ea])
- by smtp.gmail.com with ESMTPSA id z16sm8947650wrr.56.2020.03.27.08.59.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Mar 2020 08:59:01 -0700 (PDT)
-Subject: Re: [PATCH v4] piix: fix xenfv regression, add compat machine
- xenfv-qemu4
-To: Olaf Hering <olaf@aepfle.de>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20200113174521.3336-1-olaf@aepfle.de>
- <20200327151841.13877-1-olaf@aepfle.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <90544ada-060e-169b-c0cb-94d869070d97@redhat.com>
-Date: Fri, 27 Mar 2020 16:59:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1jHrZV-0005nH-UQ
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51102)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jHrZV-0005iP-KX
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jHrZS-0004Z7-7w
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 16:10:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3171B2E80CF
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 16:10:58 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200327151841.13877-1-olaf@aepfle.de>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Mar 2020 16:00:12 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user syscall-abi
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dflogeras2 liuke manuel-reimer marcin-konarski+u1
+ philippe-vaucher pmaydell schneiderit
+X-Launchpad-Bug-Reporter: Kan Li (liuke)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158532481268.21262.16578298070728808952.malone@gac.canonical.com>
+Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
+ user-static qemu on 64-bit host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a296f04231dee355be5db73cc878b9e21689a253";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4fabb8b3a7797a4d80496cfa3567ee53f29fb32f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,126 +68,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looks good, I would just do the following adjustments to have more
-consistency between pc and xenfv machine types:
+Yes, using a 32-bit host QEMU process will also work. You might run into
+a few guest programs that don't work with that -- a 64-bit QEMU process
+allows us to give the guest the full address space it might need, while
+a 32-bit QEMU process means that QEMU itself must share with the guest,
+so if the guest uses a lot of virtual memory or is picky about where it
+maps things then it might fail to mmap() things where it wants them. But
+it's probably overall the least-bad workaround at the current time.
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c565f41791..eb7b273508 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -948,26 +948,26 @@ DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
- 
- 
- #ifdef CONFIG_XEN
--static void xenfv_qemu_4_x_machine_options(MachineClass *m)
-+static void xenfv_4_2_machine_options(MachineClass *m)
- {
-     pc_i440fx_4_2_machine_options(m);
--    m->desc = "Xen Fully-virtualized PC (qemu 4.x compat)";
-+    m->desc = "Xen Fully-virtualized PC";
-     m->max_cpus = HVM_MAX_VCPUS;
-     m->default_machine_opts = "accel=xen";
--    m->smbus_no_migration_support = false;
- }
- 
--DEFINE_PC_MACHINE(xenfv_qemu4, "xenfv-qemu4", pc_xen_hvm_init,
--                  xenfv_qemu_4_x_machine_options);
-+DEFINE_PC_MACHINE(xenfv_4_2, "xenfv-4.2", pc_xen_hvm_init,
-+                  xenfv_4_2_machine_options);
- 
--static void xenfv_machine_options(MachineClass *m)
-+static void xenfv_3_1_machine_options(MachineClass *m)
- {
-     pc_i440fx_3_1_machine_options(m);
-     m->desc = "Xen Fully-virtualized PC";
-+    m->alias = "xenfv";
-     m->max_cpus = HVM_MAX_VCPUS;
-     m->default_machine_opts = "accel=xen";
- }
- 
--DEFINE_PC_MACHINE(xenfv, "xenfv", pc_xen_hvm_init,
--                  xenfv_machine_options);
-+DEFINE_PC_MACHINE(xenfv, "xenfv-3.1", pc_xen_hvm_init,
-+                  xenfv_3_1_machine_options);
- #endif
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805913
 
-On 27/03/20 16:18, Olaf Hering wrote:
-> With qemu4 an incompatible change was added to pc_piix, which makes it
-> practical impossible to migrate domUs started with qemu2 or qemu3 to
-> newer qemu versions. Commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea
-> added and enabled a new member "smbus_no_migration_support". In commit
-> 4ab2f2a8aabfea95cc53c64e13b3f67960b27fdf the vmstate_acpi got new
-> elements, which are conditionally filled. As a result, an incoming
-> migration expected smbus related data unless smbus migration was
-> disabled for a given MachineClass. Since first commit forgot to handle
-> 'xenfv', domUs started with qemu4 are incompatible with their qemu3
-> siblings.
-> 
-> Using other existing machine types, such as 'pc-i440fx-3.1', is not
-> possible because 'xenfv' creates the 'xen-platform' PCI device at
-> 00:02.0, while all other variants to run a domU would create it at
-> 00:04.0.
-> 
-> To cover both the existing and the broken case of 'xenfv' in a single
-> qemu binary, a new compatibility variant of 'xenfv-qemu4' must be added
-> which targets domUs started with qemu-4.0, qemu-4.1 and qemu-4.2. The
-> existing 'xenfv' restores compatibility of qemu5+ with qemu2/3.
-> 
-> Host admins who started domUs with qemu-4.x have to use a wrapper script
-> which appends '-machine xenfv-qemu4' to the device-model command line.
-> This is only required if there is no maintenance window which allows to
-> temporary shutdown the domU and restart it with a fixed device-model.
-> 
-> The wrapper script is as simple as this:
->   #!/bin/sh
->   exec /usr/bin/qemu-system-i386 "$@" -machine xenfv-qemu4
-> 
-> With xl this script will be enabled with device_model_override=, see
-> xl.cfg(5). To live migrate a domU, adjust the existing domU.cfg and pass
-> it to xl migrate or xl save/restore:
->   xl migrate -C new-domU.cfg domU remote-host
->   xl save domU CheckpointFile new-domU.cfg
->   xl restore new-domU.cfg CheckpointFile
-> 
-> With libvirt this script will be enabled with the <emulator> element in
-> domU.xml. Use 'virsh edit' prior 'virsh migrate' to replace the existing
-> <emulator> element to point it to the wrapper script.
-> 
-> Signed-off-by: Olaf Hering <olaf@aepfle.de>
-> ---
->  hw/i386/pc_piix.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index e6756216f9..c565f41791 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -948,8 +948,21 @@ DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
->  
->  
->  #ifdef CONFIG_XEN
-> +static void xenfv_qemu_4_x_machine_options(MachineClass *m)
-> +{
-> +    pc_i440fx_4_2_machine_options(m);
-> +    m->desc = "Xen Fully-virtualized PC (qemu 4.x compat)";
-> +    m->max_cpus = HVM_MAX_VCPUS;
-> +    m->default_machine_opts = "accel=xen";
-> +    m->smbus_no_migration_support = false;
-> +}
-> +
-> +DEFINE_PC_MACHINE(xenfv_qemu4, "xenfv-qemu4", pc_xen_hvm_init,
-> +                  xenfv_qemu_4_x_machine_options);
-> +
->  static void xenfv_machine_options(MachineClass *m)
->  {
-> +    pc_i440fx_3_1_machine_options(m);
->      m->desc = "Xen Fully-virtualized PC";
->      m->max_cpus = HVM_MAX_VCPUS;
->      m->default_machine_opts = "accel=xen";
-> 
+Title:
+  readdir() returns NULL (errno=3DEOVERFLOW) for 32-bit user-static qemu
+  on 64-bit host
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  This can be simply reproduced by compiling and running the attached C
+  code (readdir-bug.c) under 32-bit user-static qemu, such as qemu-arm-
+  static:
+
+  # Setup docker for user-static binfmt
+  docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  # Compile the code and run (readdir for / is fine, so create a new direct=
+ory /test).
+  docker run -v /path/to/qemu-arm-static:/usr/bin/qemu-arm-static -v /path/=
+to/readdir-bug.c:/tmp/readdir-bug.c -it --rm arm32v7/ubuntu:18.10 bash -c '=
+{ apt update && apt install -y gcc; } >&/dev/null && mkdir -p /test && cd /=
+test && gcc /tmp/readdir-bug.c && ./a.out'
+  dir=3D0xff5b4150
+  readdir(dir)=3D(nil)
+  errno=3D75: Value too large for defined data type
+
+  Do remember to replace the /path/to/qemu-arm-static and /path/to
+  /readdir-bug.c to the actual paths of the files.
+
+  The root cause is in glibc:
+  https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
+linux/getdents.c;h=3D6d09a5be7057e2792be9150d3a2c7b293cf6fc34;hb=3Da5275ba5=
+378c9256d18e582572b4315e8edfcbfb#l87
+
+  By C standard, the return type of readdir() is DIR*, in which the
+  inode number and offset are 32-bit integers, therefore, glibc calls
+  getdents64() and check if the inode number and offset fits the 32-bit
+  range, and reports EOVERFLOW if not.
+
+  The problem here is for 32-bit user-static qemu running on 64-bit
+  host, getdents64 simply passing through the inode number and offset
+  from underlying getdents64 syscall (from 64-bit kernel), which is very
+  likely to not fit into 32-bit range. On real hardware, the 32-bit
+  kernel creates 32-bit inode numbers, therefore works properly.
+
+  The glibc code makes sense to do the check to be conformant with C
+  standard, therefore ideally it should be a fix on qemu side. I admit
+  this is difficult because qemu has to maintain a mapping between
+  underlying 64-bit inode numbers and 32-bit inode numbers, which would
+  severely hurt the performance. I don't expect this could be fix
+  anytime soon (or even there would be a fix), but it would be
+  worthwhile to surface this issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805913/+subscriptions
 
