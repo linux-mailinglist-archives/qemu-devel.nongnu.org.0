@@ -2,64 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02811195AC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:12:05 +0100 (CET)
-Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C59195A98
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:06:53 +0100 (CET)
+Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHraW-0000jp-4u
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35875)
+	id 1jHrVT-0004F9-Uz
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jHrZY-0000E3-Lv
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:06 -0400
+ (envelope-from <david@redhat.com>) id 1jHrQa-0000q4-R3
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:01:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jHrZV-0005nH-UQ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51102)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jHrZV-0005iP-KX
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:11:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jHrZS-0004Z7-7w
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 16:10:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3171B2E80CF
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 16:10:58 +0000 (UTC)
+ (envelope-from <david@redhat.com>) id 1jHrQR-0008Na-QP
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:01:42 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:26204)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jHrQQ-0008Dg-QU
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:01:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585324891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RrgIo7o+rFU/gxodA+VGKkhUeDYeUpnpuj1v2ZDGiVI=;
+ b=G+ECyj3N8vsyof5hdOld7CPMctaBn7cfRm9mgvG53qJAsTgzC3yenCYv5YYrshLWE6TVxw
+ 0MaQIEiqZs6RpeFoVTUO+T8H2ZVrVNJa8JrW9fwG9QGlq40XSPzGjNmLInGBNQRc0lSNiY
+ TNTHYeRKbhwonj82BpzvyDRm5QmCvc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-KUq3i0UEO7aYisdRRFS0rA-1; Fri, 27 Mar 2020 12:01:30 -0400
+X-MC-Unique: KUq3i0UEO7aYisdRRFS0rA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7095B800D5F;
+ Fri, 27 Mar 2020 16:01:28 +0000 (UTC)
+Received: from [10.36.112.108] (ovpn-112-108.ams2.redhat.com [10.36.112.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9703CC8;
+ Fri, 27 Mar 2020 16:01:18 +0000 (UTC)
+Subject: Re: [PATCH v1] s390x: Reject unaligned RAM sizes
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <20200327152930.66636-1-david@redhat.com>
+ <64cefab8-f1e0-fbc7-27d3-4f28758c595a@de.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <d8fb50c1-639a-826c-0dce-e2ddc26ae5e1@redhat.com>
+Date: Fri, 27 Mar 2020 17:01:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Mar 2020 16:00:12 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user syscall-abi
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dflogeras2 liuke manuel-reimer marcin-konarski+u1
- philippe-vaucher pmaydell schneiderit
-X-Launchpad-Bug-Reporter: Kan Li (liuke)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158532481268.21262.16578298070728808952.malone@gac.canonical.com>
-Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
- user-static qemu on 64-bit host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a296f04231dee355be5db73cc878b9e21689a253";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4fabb8b3a7797a4d80496cfa3567ee53f29fb32f
+In-Reply-To: <64cefab8-f1e0-fbc7-27d3-4f28758c595a@de.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 216.205.24.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,75 +118,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, using a 32-bit host QEMU process will also work. You might run into
-a few guest programs that don't work with that -- a 64-bit QEMU process
-allows us to give the guest the full address space it might need, while
-a 32-bit QEMU process means that QEMU itself must share with the guest,
-so if the guest uses a lot of virtual memory or is picky about where it
-maps things then it might fail to mmap() things where it wants them. But
-it's probably overall the least-bad workaround at the current time.
+On 27.03.20 16:34, Christian Borntraeger wrote:
+> 
+> 
+> On 27.03.20 16:29, David Hildenbrand wrote:
+>> Historically, we fixed up the RAM size (rounded it down), to fit into
+>> storage increments. Since commit 3a12fc61af5c ("390x/s390-virtio-ccw: use
+>> memdev for RAM"), we no longer consider the fixed-up size when
+>> allcoating the RAM block - which will break migration.
+>>
+>> Let's simply drop that manual fixup code and let the user supply sane
+>> RAM sizes. This will bail out early when trying to migrate (and make
+>> an existing guest with e.g., 12345 MB non-migratable), but maybe we
+>> should have rejected such RAM sizes right from the beginning.
+>>
+>> As we no longer fixup maxram_size as well, make other users use ram_size
+>> instead. Keep using maxram_size when setting the maximum ram size in KVM,
+>> as that will come in handy in the future when supporting memory hotplug
+>> (in contrast, storage keys and storage attributes for hotplugged memory
+>>  will have to be migrated per RAM block in the future).
+>>
+>> This fixes (or rather rejects early):
+>>
+>> 1. Migrating older QEMU to upstream QEMU (e.g., with "-m 1235M"), as the
+>>    RAM block size changed.
+> 
+> Not sure I like this variant. Instead of breaking migration (that was 
+> accidentially done by Igors changes) we now reject migration from older
+> QEMUs to 5.0. This is not going to help those that still have such guests
+> running and want to migrate. 
 
--- =
+As Igor mentioned on another channel, you most probably can migrate an
+older guest by starting it on the target with a fixed-up size.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805913
+E.g., migrate an old QEMU "-m 1235M" to a new QEMU "-m 1234M"
 
-Title:
-  readdir() returns NULL (errno=3DEOVERFLOW) for 32-bit user-static qemu
-  on 64-bit host
+Not sure how many such weird-size VMs we actually do have in practice.
 
-Status in QEMU:
-  Confirmed
 
-Bug description:
-  This can be simply reproduced by compiling and running the attached C
-  code (readdir-bug.c) under 32-bit user-static qemu, such as qemu-arm-
-  static:
+-- 
+Thanks,
 
-  # Setup docker for user-static binfmt
-  docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  # Compile the code and run (readdir for / is fine, so create a new direct=
-ory /test).
-  docker run -v /path/to/qemu-arm-static:/usr/bin/qemu-arm-static -v /path/=
-to/readdir-bug.c:/tmp/readdir-bug.c -it --rm arm32v7/ubuntu:18.10 bash -c '=
-{ apt update && apt install -y gcc; } >&/dev/null && mkdir -p /test && cd /=
-test && gcc /tmp/readdir-bug.c && ./a.out'
-  dir=3D0xff5b4150
-  readdir(dir)=3D(nil)
-  errno=3D75: Value too large for defined data type
+David / dhildenb
 
-  Do remember to replace the /path/to/qemu-arm-static and /path/to
-  /readdir-bug.c to the actual paths of the files.
-
-  The root cause is in glibc:
-  https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
-linux/getdents.c;h=3D6d09a5be7057e2792be9150d3a2c7b293cf6fc34;hb=3Da5275ba5=
-378c9256d18e582572b4315e8edfcbfb#l87
-
-  By C standard, the return type of readdir() is DIR*, in which the
-  inode number and offset are 32-bit integers, therefore, glibc calls
-  getdents64() and check if the inode number and offset fits the 32-bit
-  range, and reports EOVERFLOW if not.
-
-  The problem here is for 32-bit user-static qemu running on 64-bit
-  host, getdents64 simply passing through the inode number and offset
-  from underlying getdents64 syscall (from 64-bit kernel), which is very
-  likely to not fit into 32-bit range. On real hardware, the 32-bit
-  kernel creates 32-bit inode numbers, therefore works properly.
-
-  The glibc code makes sense to do the check to be conformant with C
-  standard, therefore ideally it should be a fix on qemu side. I admit
-  this is difficult because qemu has to maintain a mapping between
-  underlying 64-bit inode numbers and 32-bit inode numbers, which would
-  severely hurt the performance. I don't expect this could be fix
-  anytime soon (or even there would be a fix), but it would be
-  worthwhile to surface this issue.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1805913/+subscriptions
 
