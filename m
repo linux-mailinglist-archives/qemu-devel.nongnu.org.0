@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85515195AF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:21:39 +0100 (CET)
-Received: from localhost ([::1]:44022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF80195AFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:23:30 +0100 (CET)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrjm-0006fO-EN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39441)
+	id 1jHrlZ-0000c7-Na
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:23:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jHrhz-0005d0-Ky
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:48 -0400
+ (envelope-from <eblake@redhat.com>) id 1jHri1-0005eb-DI
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jHrhy-0004ff-95
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:47 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:39873)
+ (envelope-from <eblake@redhat.com>) id 1jHrhz-0004hd-MI
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:49 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:50479)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHrhx-0004dg-QU
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:45 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jHrhz-0004gy-Ha
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:19:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585325984;
+ s=mimecast20190719; t=1585325987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hl2QeRFALRUYx31zZgprkAN+eRCTvjsgpmjOsW0+nOw=;
- b=Aanw9ows0W3XWKpvnl5F2OTZWUivfLNQNaugh3vJs7DdYMT6lvN5sY4snS24uIC3hOyw3L
- R8WZN9/AIUP5exZwzK+LpwQtqDa8VBNaPCBKfjNdLGPmERke5vJauVPkwRsH231OD73M6r
- hquZIFy0n0pbE2epKCzwLW8/I6C21PQ=
+ bh=a2yZyuVHJ8pbFolfMbYA0T7S/y89rJCjMePE+tPwNL4=;
+ b=QHeGllYmVcX86rLrBmJJp9HIuIEyNcxE0bLPPO6JmiuC4PUGrwaaPtvEQpjJG8wUVFkaKI
+ WuoaZ7OBEI1RXj+6LBBMwop2pt4dix0Ie747cANkwKGCtm3EJGvhKyVLMQLBUtRWMrub7i
+ vRgU60WcWdbayvNDMLxTvaGBCwRFlA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-IfS0Au2XONWCRNQSpXqiKA-1; Fri, 27 Mar 2020 12:19:42 -0400
-X-MC-Unique: IfS0Au2XONWCRNQSpXqiKA-1
+ us-mta-131-uPfziAzkNs6xA-sNm3jPYg-1; Fri, 27 Mar 2020 12:19:45 -0400
+X-MC-Unique: uPfziAzkNs6xA-sNm3jPYg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB4038010F6;
- Fri, 27 Mar 2020 16:19:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC407801A18;
+ Fri, 27 Mar 2020 16:19:44 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-103.phx2.redhat.com [10.3.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B4395C1D8;
- Fri, 27 Mar 2020 16:19:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5B0F5C1D8;
+ Fri, 27 Mar 2020 16:19:41 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] crypto: Add qcrypto_tls_shutdown()
-Date: Fri, 27 Mar 2020 11:19:34 -0500
-Message-Id: <20200327161936.2225989-2-eblake@redhat.com>
+Subject: [PATCH 2/3] io: Support shutdown of TLS channel
+Date: Fri, 27 Mar 2020 11:19:35 -0500
+Message-Id: <20200327161936.2225989-3-eblake@redhat.com>
 In-Reply-To: <20200327161936.2225989-1-eblake@redhat.com>
 References: <20200327161936.2225989-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -70,125 +70,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org
+Cc: berrange@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gnutls documents that applications that want to distinguish between a
-clean end-of-communication and a malicious client abruptly tearing the
-underlying transport out of under our feet need to use gnutls_bye().
-Our channel code is already set up to allow shutdown requests, but we
-weren't forwarding those to gnutls.  To make that work, we first need
-a new entry point that can isolate the rest of our code from the
-gnutls interface.
+Gnutls documents that while many apps simply yank out the underlying
+transport at the end of communication in the name of efficiency, this
+is indistinguishable from a malicious actor terminating the connection
+prematurely.  Since our channel I/O code already supports the notion of
+a graceful shutdown request, it is time to plumb that through to the
+TLS layer, and wait for TLS to give the all clear before then
+terminating traffic on the underlying channel.
+
+Note that channel-tls now always advertises shutdown support,
+regardless of whether the underlying channel also has that support.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/crypto.json            | 15 +++++++++++++++
- include/crypto/tlssession.h | 24 ++++++++++++++++++++++++
- crypto/tlssession.c         | 27 +++++++++++++++++++++++++++
- 3 files changed, 66 insertions(+)
+ io/channel-tls.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index b2a4cff683ff..1df0f4502885 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -119,6 +119,21 @@
-   'prefix': 'QCRYPTO_IVGEN_ALG',
-   'data': ['plain', 'plain64', 'essiv']}
+diff --git a/io/channel-tls.c b/io/channel-tls.c
+index 7ec8ceff2f01..f90905823e1d 100644
+--- a/io/channel-tls.c
++++ b/io/channel-tls.c
+@@ -360,10 +360,35 @@ static int qio_channel_tls_shutdown(QIOChannel *ioc,
+                                     Error **errp)
+ {
+     QIOChannelTLS *tioc =3D QIO_CHANNEL_TLS(ioc);
++    int ret =3D 0;
 
-+##
-+# @QCryptoShutdownMode:
-+#
-+# The supported modes for requesting shutdown of a crypto
-+# communication channel.
-+#
-+# @shut-wr: No more writes will be sent, but the remote end can still send
-+#           data to be read.
-+# @shut-rdwr: No more reads or writes should occur.
-+# Since: 5.1
-+##
-+{ 'enum': 'QCryptoShutdownMode',
-+  'prefix': 'QCRYPTO',
-+  'data': ['shut-wr', 'shut-rdwr']}
-+
- ##
- # @QCryptoBlockFormat:
- #
-diff --git a/include/crypto/tlssession.h b/include/crypto/tlssession.h
-index 15b9cef086cc..10c670e3b6a2 100644
---- a/include/crypto/tlssession.h
-+++ b/include/crypto/tlssession.h
-@@ -321,4 +321,28 @@ int qcrypto_tls_session_get_key_size(QCryptoTLSSession=
- *sess,
-  */
- char *qcrypto_tls_session_get_peer_name(QCryptoTLSSession *sess);
+     tioc->shutdown |=3D how;
 
-+/**
-+ * qcrypto_tls_shutdown:
-+ * @sess: the TLS session object
-+ * @how: the desired shutdown mode
-+ *
-+ * Prepare to terminate the session.  If @how is QCRYPTO_SHUT_WR, this
-+ * side will no longer write data, but should still process reads
-+ * until EOF; if @how is QCRYPTO_SHUT_RDWR, then the entire session
-+ * should shut down.  Use of this function is optional, since closing
-+ * the session implies QCRYPTO_SHUT_RDWR.  However, using this
-+ * function prior to terminating the underlying transport layer makes
-+ * it possible for the remote endpoint to distinguish between a
-+ * malicious party prematurely terminating the the connection and
-+ * normal termination.
-+ *
-+ * This function should only be used after a successful
-+ * qcrypto_tls_session_handshake().
-+ *
-+ * Returns: 0 for success, or -EAGAIN if more underlying I/O is
-+ * required to finish proper session shutdown.
-+ */
-+int qcrypto_tls_session_shutdown(QCryptoTLSSession *sess,
-+                                 QCryptoShutdownMode how);
-+
- #endif /* QCRYPTO_TLSSESSION_H */
-diff --git a/crypto/tlssession.c b/crypto/tlssession.c
-index 33203e8ca711..903301189069 100644
---- a/crypto/tlssession.c
-+++ b/crypto/tlssession.c
-@@ -521,6 +521,33 @@ qcrypto_tls_session_get_handshake_status(QCryptoTLSSes=
-sion *session)
- }
-
-
-+int qcrypto_tls_session_shutdown(QCryptoTLSSession *session,
-+                                 QCryptoShutdownMode how)
-+{
-+    gnutls_close_request_t mode;
-+    int ret;
-+
-+    assert(session->handshakeComplete);
-+    switch (how) {
-+    case QCRYPTO_SHUT_WR:
-+        mode =3D GNUTLS_SHUT_WR;
-+        break;
-+    case QCRYPTO_SHUT_RDWR:
-+        mode =3D GNUTLS_SHUT_RDWR;
-+        break;
-+    default:
-+        abort();
+-    return qio_channel_shutdown(tioc->master, how, errp);
++    do {
++        switch (how) {
++        case QIO_CHANNEL_SHUTDOWN_READ:
++            /* No TLS counterpart */
++            break;
++        case QIO_CHANNEL_SHUTDOWN_WRITE:
++            ret =3D qcrypto_tls_session_shutdown(tioc->session, QCRYPTO_SH=
+UT_WR);
++            break;
++        case QIO_CHANNEL_SHUTDOWN_BOTH:
++            ret =3D qcrypto_tls_session_shutdown(tioc->session,
++                                               QCRYPTO_SHUT_RDWR);
++            break;
++        default:
++            abort();
++        }
++    } while (ret =3D=3D -EAGAIN);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Cannot shut down TLS channel");
++        return -1;
 +    }
 +
-+    ret =3D gnutls_bye(session->handle, mode);
-+    if (ret =3D=3D GNUTLS_E_INTERRUPTED ||
-+        ret =3D=3D GNUTLS_E_AGAIN) {
-+        return -EAGAIN;
++    if (qio_channel_has_feature(tioc->master, QIO_CHANNEL_FEATURE_SHUTDOWN=
+)) {
++        return qio_channel_shutdown(tioc->master, how, errp);
 +    }
 +    return 0;
-+}
-+
-+
- int
- qcrypto_tls_session_get_key_size(QCryptoTLSSession *session,
-                                  Error **errp)
+ }
+
+ static int qio_channel_tls_close(QIOChannel *ioc,
 --=20
 2.26.0.rc2
 
