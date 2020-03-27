@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A60E19546D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:51:28 +0100 (CET)
-Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D64195470
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:52:40 +0100 (CET)
+Received: from localhost ([::1]:39264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHleB-0005Bh-Cu
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37823)
+	id 1jHlfM-00087d-14
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHlcd-0003NO-GI
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:52 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHlcc-0003iL-Jj
+ (envelope-from <alex.bennee@linaro.org>) id 1jHlcc-0003LD-I2
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:51 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52754)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHlcb-0003do-A1
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:50 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46507)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHlcc-0003gA-D8
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:50 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z18so10746827wmk.2
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:49:50 -0700 (PDT)
+ id 1jHlca-0003Xv-Vo
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:49:49 -0400
+Received: by mail-wr1-x441.google.com with SMTP id j17so10544549wru.13
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OZ5+uHHTVpcB1oDwgp/gP+r+CwoI6bpOzQcnXUvRt7M=;
- b=nvDaZKWsPycaLMQ1RALZosCGJIKvemRNj59SqxKFKLnKx5ecNnh1lnaWABMhX4fFNj
- 9mh56d58nUUZrPR8BYWE9VbEDk2mGbOsG1ezrz0pbLATi/3/1aWVlytLFFbfc+wnsS7/
- lR3EgpDX6+J4xh/8tIjGzmCAY9iJZcWfYpkL1Rl2707f7AbkKw0jHTtzHNftHB3LZ9OH
- JFITs9PZkea+q8bvt607m0Vp3Fo/P/yywcMy9nsiJzmNVYd8JGhHl3wNnfuo3asR3HSW
- ukRq/cIBqIC3mJFuJuTJLV5xc8FBOWMZaLNovcQEIZ7+mustAOZzR5TRW2E61ayMeveR
- HtIg==
+ bh=UvjQIXOYDmX/EoTXnR+r4XSFKQrLP267MXe/Bc4WNPw=;
+ b=YumT0yhKzv9AigpJ/m+kwl7j+CxbLGRmOx2luHxqdwL1f88CPIFa4Df5AxGvK8dRQQ
+ KWeANL3vPWc5trJQeuwUpmIAgeftnX/V72XcX3kwAuytuUsu5WQEayFoovTiWme+drXx
+ 6LTw2ijnk7fsw9fgNTxvOPnTJGzGRvC59aPPEUfpTA+s/DBiUTWFPZinzPnoyENuZTm8
+ MWEajZHfaKibu3xZzSn3mDNdks8WmIywA5Uq0Q+ckaMQVUE6qgD9FOwHwRIXEgagL+Bb
+ tcBtBS93mN4WfxqycBgtNLIAcH7d3iN8odFGcj5rfXL5ggiw34SKuJ0ZKyJLksaJt5SJ
+ w2lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OZ5+uHHTVpcB1oDwgp/gP+r+CwoI6bpOzQcnXUvRt7M=;
- b=CgqFeOBb1F9yNcl8Jn+Cuga70eStqdRuAxdakTq2Vd26pv1sDfqjZKw4YQGBpiNjjX
- K0UgznqmzWvKj9gB1o6IMDVJnFScJv0MRrvlxyV3jf1V47mxIXbTCGYg4TL9qabj1jb8
- ZBY6XmLGFQwcn070oTOUfqufjKTGi7cC5tXk88DPmzQe7PxxtcNrbY9b/HXw52QQidWC
- pTvXZUVaP+cFdxR+IaysoLzIJ1d285AvFWMu58UUJvIqRfmNWbs7JQbS2itX51ss452N
- v7MfTLkP4sIQq+pnaMEYTQMeY9/y7OyG/qSKMLNxLCUQbvTw2jbkiUj9D3JU3K8HMOsW
- ZDnw==
-X-Gm-Message-State: ANhLgQ1K65wcXPcys2rY2WVjWwbaRIKqkyNSuYumGTHMQipj/Yy1de9a
- 4sFubf7v45spKw9+eNA4QrmrGrjTcNI=
-X-Google-Smtp-Source: ADFU+vuAcWwrS4ZRUCgnGd0L7d5mzvotLCKvp8zCW/3NXcGEJ/L0I3ns+3L0hgJ0ZAeYH/E+tRoaow==
-X-Received: by 2002:a1c:6285:: with SMTP id w127mr4720362wmb.133.1585302589326; 
- Fri, 27 Mar 2020 02:49:49 -0700 (PDT)
+ bh=UvjQIXOYDmX/EoTXnR+r4XSFKQrLP267MXe/Bc4WNPw=;
+ b=L6HmDyGI3R0tfUSVTs73OqoY0Qc8eLcrAg2EbAiYGDuG0KxnqA3L+6AEB8cfTpmgk6
+ fy0bFi5w526mGcxXz/0pPDOE5A9CveoGUExqR1qIlP2yuEH7BUZJqgVMVWq2x9WIx0UW
+ KcM305AUh6l0mrw0zBNq2kJVHZCnC6YFnxdgRz87Ius6Xz4UgLn7XA97GR98b/ee9O7T
+ QjqjXGn+ok4pPIBxsBzzttuYL9zQsIHd6S/PJOrxCMMWxs4hw0p48xg0BJ2qAZ1uDWJ6
+ K2RKkyXmTLC7o9YD0Ngvee8Vay5ESdzzMWu19nJMPaDmQSMZLLYtnXB0JX5SOsOtzmks
+ 0Ppg==
+X-Gm-Message-State: ANhLgQ1tKlsnmO7IlWYaNgB+gTeidjOhu90gKhcP4kR1Tt7aFSHK4LQS
+ ddBBbLehj0tezLYruw8qKurytw==
+X-Google-Smtp-Source: ADFU+vuIaT7xdcg5XM4BpguZixEuC+PJLVvIgsJgU3zd6ub4XvdBVwfmI+t/8OXe0yZcqdYBqWc5PA==
+X-Received: by 2002:adf:e946:: with SMTP id m6mr14582541wrn.187.1585302587304; 
+ Fri, 27 Mar 2020 02:49:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c189sm7367293wmd.12.2020.03.27.02.49.46
+ by smtp.gmail.com with ESMTPSA id w204sm7521430wma.1.2020.03.27.02.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 Mar 2020 02:49:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 78A731FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 910461FF8C;
  Fri, 27 Mar 2020 09:49:45 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 1/7] elf-ops: bail out if we have no function symbols
-Date: Fri, 27 Mar 2020 09:49:39 +0000
-Message-Id: <20200327094945.23768-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/7] linux-user: protect fcntl64 with an #ifdef
+Date: Fri, 27 Mar 2020 09:49:40 +0000
+Message-Id: <20200327094945.23768-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327094945.23768-1-alex.bennee@linaro.org>
 References: <20200327094945.23768-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,38 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's perfectly possible to have no function symbols in your elf file
-and if we do the undefined behaviour sanitizer rightly complains about
-us passing NULL to qsort. Check nsyms before we go ahead.
+Checking TARGET_ABI_BITS is sketchy - we should check for the presence
+of the define to be sure. Also clean up the white space while we are
+there.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/elf_ops.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index a1411bfcab6..b5d4074d1e3 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -170,8 +170,13 @@ static int glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
-         }
-         i++;
-     }
--    syms = g_realloc(syms, nsyms * sizeof(*syms));
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 49395dcea97..a3da46d69f9 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11223,11 +11223,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+            This is a hint, so ignoring and returning success is ok.  */
+         return 0;
+ #endif
+-#if TARGET_ABI_BITS == 32
++#ifdef TARGET_NR_fcntl64
+     case TARGET_NR_fcntl64:
+     {
+-	int cmd;
+-	struct flock64 fl;
++        int cmd;
++        struct flock64 fl;
+         from_flock64_fn *copyfrom = copy_from_user_flock64;
+         to_flock64_fn *copyto = copy_to_user_flock64;
  
-+    /* check we have symbols left */
-+    if (nsyms == 0) {
-+        goto fail;
-+    }
-+
-+    syms = g_realloc(syms, nsyms * sizeof(*syms));
-     qsort(syms, nsyms, sizeof(*syms), glue(symcmp, SZ));
-     for (i = 0; i < nsyms - 1; i++) {
-         if (syms[i].st_size == 0) {
+@@ -11238,7 +11238,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+ #endif
+ 
+-	cmd = target_to_host_fcntl_cmd(arg2);
++        cmd = target_to_host_fcntl_cmd(arg2);
+         if (cmd == -TARGET_EINVAL) {
+             return cmd;
+         }
 -- 
 2.20.1
 
