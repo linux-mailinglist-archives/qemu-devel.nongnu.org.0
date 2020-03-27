@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C6D195F7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 21:18:43 +0100 (CET)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A67195F84
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 21:21:25 +0100 (CET)
+Received: from localhost ([::1]:46536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHvRC-0005qY-1J
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
+	id 1jHvTo-0000AL-W9
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 16:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jHvO7-0002Gq-0t
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:31 -0400
+ (envelope-from <jsnow@redhat.com>) id 1jHvO9-0002Ll-78
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jHvO5-000382-Us
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:30 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:43449)
+ (envelope-from <jsnow@redhat.com>) id 1jHvO8-0003Bv-3y
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:33 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:57040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jHvO5-00037A-QR
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:29 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jHvO8-0003BI-08
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 16:15:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585340129;
+ s=mimecast20190719; t=1585340131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPke/Eo9yLBSwedbOokwjPMQC/LRtOf0e/P1yN/8H/M=;
- b=JoQgRZSpQ8632ilSd3iQaZJ3IJpwQ5ndE3Cke8+cTHFeNPuUGYFh+MPrqQnoStymFU5i97
- UdFIR7wQeuaobY7YMUVn5DVOXaZWWpFUzZ+44FP4xPgKWl8DusK77W6EHzffCZ0iEQIRxp
- mmNS9qEUCUO7GzUa65MxXp3lq15X+fY=
+ bh=Wb57722k04O6Jmrt5TZW6SVzmKByiDi63Qbe3WI68UM=;
+ b=B2Q42VHF5/3GsPKBRdPl7Q/trQsn0CFpSrhStAnC+zZRtkpweiRjVvIkeFGyAQGTip6wcy
+ q+tUU/HhgM44Xw23A+k9Uy5YgvGBy5w/aif5IDDRB+X8scn0NMRto5IDXin7gpFT0BpwXs
+ ZiICdoZ3wO0nk/gNYLiGyHsFaywONns=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-JtKweeeHOQC9-lldGvQNjw-1; Fri, 27 Mar 2020 16:15:27 -0400
-X-MC-Unique: JtKweeeHOQC9-lldGvQNjw-1
+ us-mta-2-dfFpU7mVNl2109tX3WiM-g-1; Fri, 27 Mar 2020 16:15:29 -0400
+X-MC-Unique: dfFpU7mVNl2109tX3WiM-g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 124E4107ACC9;
- Fri, 27 Mar 2020 20:15:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B2CFDB21;
+ Fri, 27 Mar 2020 20:15:27 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-210.rdu2.redhat.com [10.10.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E51619C7F;
- Fri, 27 Mar 2020 20:15:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36E2519C7F;
+ Fri, 27 Mar 2020 20:15:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 3/5] via-ide: don't use PCI level for legacy IRQs
-Date: Fri, 27 Mar 2020 16:14:59 -0400
-Message-Id: <20200327201501.1417-4-jsnow@redhat.com>
+Subject: [PULL 4/5] via-ide: use qdev gpio rather than qemu_allocate_irqs()
+Date: Fri, 27 Mar 2020 16:15:00 -0400
+Message-Id: <20200327201501.1417-5-jsnow@redhat.com>
 In-Reply-To: <20200327201501.1417-1-jsnow@redhat.com>
 References: <20200327201501.1417-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,30 +88,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The PCI level calculation was accidentally left in when rebasing from a
-previous patchset. Since both IRQs are driven separately, the value
-being passed into the IRQ handler should be used directly.
+This prevents the memory from qemu_allocate_irqs() from being leaked which
+can in some cases be spotted by Coverity (CID 1421984).
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-id: 20200324210519.2974-2-mark.cave-ayland@ilande.co.uk
+Message-id: 20200324210519.2974-3-mark.cave-ayland@ilande.co.uk
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/ide/via.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/ide/via.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 8de4945cc1..2a55b7fbc6 100644
+index 2a55b7fbc6..be09912b33 100644
 --- a/hw/ide/via.c
 +++ b/hw/ide/via.c
-@@ -112,7 +112,6 @@ static void via_ide_set_irq(void *opaque, int n, int le=
-vel)
-         d->config[0x70 + n * 8] &=3D ~0x80;
-     }
+@@ -160,6 +160,7 @@ static void via_ide_reset(DeviceState *dev)
+ static void via_ide_realize(PCIDevice *dev, Error **errp)
+ {
+     PCIIDEState *d =3D PCI_IDE(dev);
++    DeviceState *ds =3D DEVICE(dev);
+     uint8_t *pci_conf =3D dev->config;
+     int i;
 =20
--    level =3D (d->config[0x70] & 0x80) || (d->config[0x78] & 0x80);
-     qemu_set_irq(isa_get_irq(NULL, 14 + n), level);
- }
+@@ -187,9 +188,10 @@ static void via_ide_realize(PCIDevice *dev, Error **er=
+rp)
+     bmdma_setup_bar(d);
+     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
 =20
++    qdev_init_gpio_in(ds, via_ide_set_irq, 2);
+     for (i =3D 0; i < 2; i++) {
+-        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+-        ide_init2(&d->bus[i], qemu_allocate_irq(via_ide_set_irq, d, i));
++        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
++        ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
+=20
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+         d->bmdma[i].bus =3D &d->bus[i];
 --=20
 2.21.1
 
