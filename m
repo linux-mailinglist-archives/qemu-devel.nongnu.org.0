@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6005D195D63
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:17:38 +0100 (CET)
-Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B84195D57
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:14:48 +0100 (CET)
+Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtY1-00074j-EX
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:17:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
+	id 1jHtVH-0003V5-H2
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:14:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtU0-0001ll-Lx
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:29 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jHtTz-0000ib-Ov
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtTz-0001kg-MS
  for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:28 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50681)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHtTy-0000gk-Gw
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:27 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44022)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jHtTz-0000h9-JF
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:27 -0400
-Received: by mail-wm1-x332.google.com with SMTP id d198so12436020wmd.0
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:27 -0700 (PDT)
+ id 1jHtTy-0000fp-AU
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:13:26 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id m11so6663353wrx.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gyO7FMb6Kog7HFYI2emP9ylf6WG5qE9183WrVkkssuU=;
- b=JXWLUWWDRFiD3ptFdy/HuWqTIY4aC8tmTMIbODVAEFnJCWV20yIYn3/gRJ22Y4NRt2
- vOnm0ewqvTnptRuf/mx3hug//Bd1XhIqPmU4YVrK1q9KMsN+5aX6BBhN5b7zaA9s4UjX
- bICQ1/Bjp2InROzJHfB5+G2+yKmMjtYCBV6VAjaZfryisunxgN4CowxK8n4cvkN3jbrA
- dsxByfeBaTwatrWwRHBsUjCCRepCkYu4T95dO4USLt1D2OYSpUA2GaH0kNqDrOiKTZhi
- TfEtrsTNqqC8h5c8XHwZwl2fAgV50YoJ3krE2XITEteFq9hGczaeyQBrLsMR6Kd62ccN
- h/wA==
+ bh=BVjll0Btf0ZgFKbd+CxXv9O+AQAJq5w3JoNQuRDkfgk=;
+ b=Z9I6ODyFcuBBChjXasaT5mQtLEPar3QkRaY4PedHhvyIVj6ezyCUsX3oxY8Z2dpeGj
+ 3QLWECtZE4CTNhUSJUBqtsxM8R/G12+RSwRL9u8EewsucON4rwDkL4PRLD1wUOQSFJwd
+ 0b43TpXF6dFMfs7D+gaR2LsfD8r6EV3IYLJCuxFVh97sX1AGTj33np3hAuusRKhgFPfP
+ Wy8vpWf3HfxLvzjgVchD/tXf78NHRDlklhKUYwV1WoMCvZ2CUf9BQN4ozQm2Ui8engNS
+ dfkiBU8Mh1UT0gUUQibi+qRylLNbhLdEbmU1PPgULRX7NRD2Fo27GtU5nGkw002K8UAh
+ 0ukQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gyO7FMb6Kog7HFYI2emP9ylf6WG5qE9183WrVkkssuU=;
- b=cszCjVe67sopQ7D/Tvx2LXlpZk9JQPl/bMYpboXSSUiWOCyowiJ4fLgLV88eUqXFgA
- r7rloYJuWej5jPtho+iT7tXZ1e9Az8/FuE+VWJL/k6NL7M9uElQP8w/8EQn1mCVq0hF6
- gTGu3Ga+hmrqciPFDMUtSRrPWJr3Qda6378GmKqn9QW9uaELWEn0tjPjs3SeUUcp9xoh
- baYgvk7vranUthMNfpJx1XHCJAT2DphL66D6bM1AhNTq4mJx7+il6elTXHvfA0whb5B8
- +uuSZnpM8nvy8UFPqFETR748/Z5x4P36XHNOOcn45BMsyOSqSUOAebYxNyfUU8mjld/r
- 4pNw==
-X-Gm-Message-State: ANhLgQ1sfTgMd4LAQnxOQgW3pSXxd7pxasigO19e+aF5M4CaN5Kl1Go+
- VhVknTbDbix3uHMxt1PcUw//s0dwyrg=
-X-Google-Smtp-Source: ADFU+vvedPAJFVLXPsshlqRMdHNq58JkBTBDWkZOommE7vWFVGnpb1B0ss/ctXgsjD6BAJtZ64esuA==
-X-Received: by 2002:a1c:5641:: with SMTP id k62mr6953630wmb.82.1585332806566; 
- Fri, 27 Mar 2020 11:13:26 -0700 (PDT)
+ bh=BVjll0Btf0ZgFKbd+CxXv9O+AQAJq5w3JoNQuRDkfgk=;
+ b=Md6jZnD/QA3IGVcRRVovzRdlKcY8d8HxrFE2ArErpCh7Owzl8AJuPvj/BfQkGh9gqT
+ mldnYSCAa3tnR/2rPdKwkanOCfFKKLAFxQOPhfJvD+UOaJc8GsrK0facKic7DsQHLLeF
+ frbEsoFwVZSkEm9MPVakk1I9Oxx41/yt6teWzFEUUMT/IZvqLv2RaBQWNB7FKnFSSRWB
+ O3VVNtjJPuwhDdKZJ51nLdNYchQWLmPbyDkROQgoQW8iaZjt7JPPniyA5TYiducWsAT+
+ NO7EHy81E9/IWfBjDMHUg9pvWOdaIWNHX0vy9EwHxInd6rJdv7xtPMEJ9A35NEgnDU4T
+ 648Q==
+X-Gm-Message-State: ANhLgQ3NMjeLnoaInf5StfnO3PkjKZTvH8H4ERTT4Yn0Kfhr2XV2gytD
+ GOHrVaLkxDipe6vI/piYLF9G+Q==
+X-Google-Smtp-Source: ADFU+vupHbLD/BOz056AJgq3ARrJWWNCY4FwvhkacMSFbt+fGPpJyNVpclMlX/z5xJ/r+izUGxhrjQ==
+X-Received: by 2002:adf:8182:: with SMTP id 2mr646042wra.37.1585332805271;
+ Fri, 27 Mar 2020 11:13:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l4sm7998434wru.1.2020.03.27.11.13.21
+ by smtp.gmail.com with ESMTPSA id n124sm8489975wma.11.2020.03.27.11.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 Mar 2020 11:13:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 709911FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 8DA981FF8F;
  Fri, 27 Mar 2020 18:13:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 02/12] tests/vm: write raw console log
-Date: Fri, 27 Mar 2020 18:13:10 +0000
-Message-Id: <20200327181320.23329-3-alex.bennee@linaro.org>
+Subject: [PULL v2 03/12] tests/vm: move vga setup
+Date: Fri, 27 Mar 2020 18:13:11 +0000
+Message-Id: <20200327181320.23329-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200327181320.23329-1-alex.bennee@linaro.org>
 References: <20200327181320.23329-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,39 +90,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
-to watch the install console.
+Move '-device VGA' from basevm.py to the guests, so they have
+the chance to opt out and run without display device.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200310083218.26355-2-kraxel@redhat.com>
-Message-Id: <20200323161514.23952-2-alex.bennee@linaro.org>
+Message-Id: <20200310083218.26355-3-kraxel@redhat.com>
+Message-Id: <20200323161514.23952-3-alex.bennee@linaro.org>
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 8400b0e07f6..c53fd354d95 100644
+index c53fd354d95..cffe7c4600e 100644
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -213,6 +213,9 @@ class BaseVM(object):
-     def console_init(self, timeout = 120):
-         vm = self._guest
-         vm.console_socket.settimeout(timeout)
-+        self.console_raw_path = os.path.join(vm._temp_dir,
-+                                             vm._name + "-console.raw")
-+        self.console_raw_file = open(self.console_raw_path, 'wb')
+@@ -179,7 +179,6 @@ class BaseVM(object):
  
-     def console_log(self, text):
-         for line in re.split("[\r\n]", text):
-@@ -234,6 +237,9 @@ class BaseVM(object):
-         while True:
-             try:
-                 chars = vm.console_socket.recv(1)
-+                if self.console_raw_file:
-+                    self.console_raw_file.write(chars)
-+                    self.console_raw_file.flush()
-             except socket.timeout:
-                 sys.stderr.write("console: *** read timeout ***\n")
-                 sys.stderr.write("console: waiting for: '%s'\n" % expect)
+     def boot(self, img, extra_args=[]):
+         args = self._args + [
+-            "-device", "VGA",
+             "-drive", "file=%s,if=none,id=drive0,cache=writeback" % img,
+             "-device", "virtio-blk,drive=drive0,bootindex=0"]
+         args += self._data_args + extra_args
+diff --git a/tests/vm/fedora b/tests/vm/fedora
+index 4843b4175e0..bd9c6cf295c 100755
+--- a/tests/vm/fedora
++++ b/tests/vm/fedora
+@@ -82,6 +82,7 @@ class FedoraVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
++            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init(300)
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 86770878b67..58166766d91 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -92,6 +92,7 @@ class FreeBSDVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
++            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init()
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 55590f46015..f3257bc245a 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -86,6 +86,7 @@ class NetBSDVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
++            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init()
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index ab6abbedab5..0b705f49452 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -82,6 +82,7 @@ class OpenBSDVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
++            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init()
+diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index 3266038fbde..15707753353 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -36,7 +36,10 @@ class UbuntuX86VM(basevm.BaseVM):
+         img_tmp = img + ".tmp"
+         subprocess.check_call(["cp", "-f", cimg, img_tmp])
+         self.exec_qemu_img("resize", img_tmp, "50G")
+-        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
++        self.boot(img_tmp, extra_args = [
++            "-device", "VGA",
++            "-cdrom", self.gen_cloud_init_iso()
++        ])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+         self.ssh_root_check("apt-get update")
 -- 
 2.20.1
 
