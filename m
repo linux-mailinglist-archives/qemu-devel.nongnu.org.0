@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A787B195B11
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:27:15 +0100 (CET)
-Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECBC195B20
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 17:32:51 +0100 (CET)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHrpC-0002fF-HM
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
+	id 1jHrub-0006re-VJ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 12:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1jHroL-000291-2e
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:22 -0400
+ (envelope-from <berto@igalia.com>) id 1jHrtU-0006Jl-HE
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:31:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1jHroJ-0002Zj-GS
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:20 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:51650)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jHroJ-0002Xq-Cw
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:26:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585326378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ezOFnLzUADpyQ4GrkDQ00Tfq0u1WbZB2xcWvMfBtHDM=;
- b=cbkrAl83x5B3TR2erW46odLSflsQELgsTlM8G+aGDLrtzcth6XMNuo3LnORTuj5BucIVCw
- 4wmCGwZCkYjjUPEZ0tc/gSuie/hbwKHEcXmjPUB75D7N6n2MHVmtUieZ1gewLczLjLP69h
- aghxSfq1mLEGUUPf2snCsp64OQoY65E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-MCnkKiPPPKKXKqptzfflZw-1; Fri, 27 Mar 2020 12:26:16 -0400
-X-MC-Unique: MCnkKiPPPKKXKqptzfflZw-1
-Received: by mail-wm1-f70.google.com with SMTP id s14so4038398wmj.9
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 09:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FeDpo2CmL1gGY6sENPZxKlfP/U2QVlpoTA3tv+IamEM=;
- b=X85E3tlzclnUmlXpSifUjUtCXsoMHVjio4y84A/DONgMV2hmJKfaVHhh3YXn2CWuhz
- dBJcGci4X3J7RQDtnAq5jFHWHmhFK1xQNudknMUA0HXq00iMF1iXP6RHJb8BT3EO4xNt
- qYZEbi0cLbOE+YoslW5nKfCz3dyaTEe6F83lEGwvufNfB2nKEINUub0yca9kSJuC4EyH
- klol4WscN65VlSJyp3ggDHZiDeTAb+YR/sVQ3L2liDYB0eJBtnzcjEHwqrrFvBp2sUcl
- GWQdQ8W+DCdcvHmAO91augs++43ndxDWcPkBqIej95etT8fgldB8gpUMAKU8KKVi1gIN
- tsEA==
-X-Gm-Message-State: ANhLgQ2LaGQvRUmZOBkidhC03mSZjkjGmblFd56chs+G1w3iwA5uL/N9
- MgTYVJIeqsBPYIddbOJziODIxsIn4nbsuxtHWxC7gsszBvsLqCFRaodgky2VWiOsoK7BbiMu+eP
- RbWd5nkoGOD2ZwoE=
-X-Received: by 2002:adf:f8c1:: with SMTP id f1mr183712wrq.345.1585326375546;
- Fri, 27 Mar 2020 09:26:15 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtA9vW6/qwn891AaDNo88Nafyl4cml1tflw36Lh+4bZnhbzn2t+CBOv01wKwUJnjWP8gNb2XA==
-X-Received: by 2002:adf:f8c1:: with SMTP id f1mr183698wrq.345.1585326375361;
- Fri, 27 Mar 2020 09:26:15 -0700 (PDT)
-Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.201.32])
- by smtp.gmail.com with ESMTPSA id i21sm9091175wmb.23.2020.03.27.09.26.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 09:26:14 -0700 (PDT)
-Date: Fri, 27 Mar 2020 17:26:12 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH v3 2/2] virtio-iommu: delete vqs in unrealize to fix
- memleak
-Message-ID: <20200327162612.ic2ymmpfvyt5xbnp@steredhat>
-References: <20200327095642.18424-1-pannengyuan@huawei.com>
- <20200327095642.18424-3-pannengyuan@huawei.com>
+ (envelope-from <berto@igalia.com>) id 1jHrtT-00063I-5c
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 12:31:40 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:37476)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1jHrtS-0005Kt-Ie; Fri, 27 Mar 2020 12:31:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=ZCCG9kSP0SJrJBQZPPPQeWt8eczXan67QrBQ5iUFrzU=; 
+ b=ZvqfkxDGrIEvQjakAmIN4IaeHLB2dEDPf8uvWZVQfn1+OVFhu3DfQ2YZfnhYPNVNq/1EpGVoWoCimI14VLXYmbqlGuwxDUFcNy+/2AuG5O0lz11gE4G+W5uu1c6XoxXS4sXkTYiVob0I2SI58hAui+YekfrrkQ9wSwycJRioE1krn2A/2K5A8z8V0Vc9x4khkTkRwvm5YmYHMCin6QDzN/NzCBEJdTOCWFnaweY7gifHQ9k6+CD+/Qt2xvl3k6/vA5AqeiF2gye3xBD9WJigxlmTmYf9MaxWeZa0n9Ofd+xpCFpJH9sQFuX9AzHJY74HfY9atYmwk6/onS0wv1upWg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jHrt9-0007qI-H2; Fri, 27 Mar 2020 17:31:19 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jHrt9-00044G-6P; Fri, 27 Mar 2020 17:31:19 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] qcow2: Forbid discard in qcow2 v2 images with backing
+ files
+In-Reply-To: <20200327141442.GA6901@linux.fritz.box>
+References: <20200324121636.24136-1-berto@igalia.com>
+ <20200327141442.GA6901@linux.fritz.box>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 27 Mar 2020 17:31:19 +0100
+Message-ID: <w51h7y9hi94.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200327095642.18424-3-pannengyuan@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,61 +58,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, zhang.zhanghailiang@huawei.com,
- mst@redhat.com, qemu-devel@nongnu.org, euler.robot@huawei.com
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 05:56:42PM +0800, Pan Nengyuan wrote:
-> req_vq/event_vq forgot to free in unrealize. Fix that.
-> And aslo do clean 's->as_by_busptr' hash table in unrealize to fix anothe=
-r leak.
+On Fri 27 Mar 2020 03:14:42 PM CET, Kevin Wolf wrote:
+>> +echo "# Create a backing image and fill it with data"
+>> +BACKING_IMG="$TEST_IMG.base"
+>> +TEST_IMG="$BACKING_IMG" _make_test_img 128k
+>> +$QEMU_IO -c 'write -P 0xff 0 128k' "$BACKING_IMG" | _filter_qemu_io
+>> +
+>> +for qcow2_compat in 0.10 1.1; do
+>> +    echo "# Create an image with compat=$qcow2_compat and a backing file"
+>> +    _make_test_img -o "compat=$qcow2_compat" -b "$BACKING_IMG"
+>
+> I would write some non-zero data to the backing file so that you can
+> later distinguish zero clusters from unallocated clusters.
 
-s/aslo/also
+I'm doing that already (immediately before the 'for' loop).
 
-Maybe we can also update the subject in something like this:
-"virtio-iommu: avoid memleak in the unrealize"
+I'll add the output of qemu-img map in v3.
 
->=20
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> Acked-by: Eric Auger <eric.auger@redhat.com>
-> ---
-> Cc: Eric Auger <eric.auger@redhat.com>
-> ---
-> v3->v1/v2:
-> - Aslo clean 's->as_by_busptr' hash table in unrealize.(Suggested by Stef=
-ano Garzarella)
-> ---
->  hw/virtio/virtio-iommu.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> index 4cee8083bc..694698fa0f 100644
-> --- a/hw/virtio/virtio-iommu.c
-> +++ b/hw/virtio/virtio-iommu.c
-> @@ -696,7 +696,10 @@ static void virtio_iommu_device_unrealize(DeviceStat=
-e *dev, Error **errp)
->      g_tree_destroy(s->domains);
->      g_tree_destroy(s->endpoints);
-> =20
-> +    virtio_delete_queue(s->req_vq);
-> +    virtio_delete_queue(s->event_vq);
->      virtio_cleanup(vdev);
-> +    g_hash_table_destroy(s->as_by_busptr);
-
-If you need to respin, you could move g_hash_table_destroy()
-at the beggining of unrealize(), just to follow a reverse order of
-realize().
-
-Thanks,
-Stefano
-
->  }
-> =20
->  static void virtio_iommu_device_reset(VirtIODevice *vdev)
-> --=20
-> 2.18.2
->=20
->=20
-
+Berto
 
