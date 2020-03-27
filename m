@@ -2,114 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9EA195D9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:26:35 +0100 (CET)
-Received: from localhost ([::1]:45548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51C6195DB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:34:14 +0100 (CET)
+Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtgg-0001nq-CN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42978)
+	id 1jHto5-0003IW-QK
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jHtfq-0001O1-Tt
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:25:44 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1jHtio-0002fK-BJ
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jHtfo-0005DE-Hz
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:25:42 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:36345)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jHtfo-0005Ct-BM
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:25:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585333540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=s8TodULzX1Yu0lioMji1bqcW5l2vnZMpTZp05CZhbaA=;
- b=WxLzPx1mVoKqdXYBJklzND66lOI1HrRXQY3R1EwzXrR33WX8K0BbNX1nKHppOY+J9S813v
- QId16QFQq5qiX3RhrK/4f2KDAvGN4YTJBAt4wXnwA6KHf96T4ZtVnQJNvMz7x3dHFVs4RR
- 4FjVM1troIYORi2r4CjSRZWpuFtSZk0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-yD1cEqM7NxOUeu-xGsfQWg-1; Fri, 27 Mar 2020 14:25:36 -0400
-X-MC-Unique: yD1cEqM7NxOUeu-xGsfQWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2ED4107ACC4;
- Fri, 27 Mar 2020 18:25:34 +0000 (UTC)
-Received: from [10.36.112.108] (ovpn-112-108.ams2.redhat.com [10.36.112.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D1A95C1D4;
- Fri, 27 Mar 2020 18:25:32 +0000 (UTC)
-Subject: Re: [PATCH v1] s390x: Reject unaligned RAM sizes
-To: Halil Pasic <pasic@linux.ibm.com>
-References: <20200327152930.66636-1-david@redhat.com>
- <64cefab8-f1e0-fbc7-27d3-4f28758c595a@de.ibm.com>
- <d8fb50c1-639a-826c-0dce-e2ddc26ae5e1@redhat.com>
- <24681aa0-9053-238f-89da-8ce08d34241d@de.ibm.com>
- <20200327174620.06b9c324@redhat.com>
- <20200327191630.6d46e7a8.pasic@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <1ea5874a-fba2-12cd-5f94-da04a002b01f@redhat.com>
-Date: Fri, 27 Mar 2020 19:25:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (envelope-from <lukasstraub2@web.de>) id 1jHtim-0001cR-Uy
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:28:46 -0400
+Received: from mout.web.de ([212.227.17.11]:46545)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1jHtim-0001bU-HH
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:28:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1585333696;
+ bh=qob3+YCwO4A8KmOzFMnt914xc3pti955IR5mYwhB14U=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=ErF2kQPl+rc6VQC4+LtKZUhVN7CtWuuiV4TdLezpTGnx7m3pRRumPvN42XeDRZOFE
+ nL0OS5O5JglCtOt6L5t2SUtXWSMBUEklCRYguVGA8ypoqzwk/ULtd3oQhgzA+XqNDm
+ T4XSw9FDO5lr0NeAhbgJLQndVMxVWmR4rzcw8sVM=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.1]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LyUgM-1jKlUc2Ar8-015rnE; Fri, 27
+ Mar 2020 19:28:16 +0100
+Date: Fri, 27 Mar 2020 19:28:07 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Derek Su <jwsu1986@gmail.com>
+Subject: Re: [PATCH v3 2/2] net/colo-compare.c: handling of the full primary
+ or secondary queue
+Message-ID: <20200327192807.121412ab@luklap>
+In-Reply-To: <CAFKS8hUUC4LCDJDdRmiHXa2VHdhrcytJGyXFFxz85h4p1hiJRw@mail.gmail.com>
+References: <20200325094354.19677-1-dereksu@qnap.com>
+ <20200325094354.19677-3-dereksu@qnap.com>
+ <20200327184549.3802f959@luklap>
+ <CAFKS8hUUC4LCDJDdRmiHXa2VHdhrcytJGyXFFxz85h4p1hiJRw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200327191630.6d46e7a8.pasic@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/agWQaIwuM4wNECznfh0ZGXb";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:08TkCdWPEw6dIcuOyXMSgoxW0aHWfDFLYXjH6/LI3HaXHVV87mW
+ hCS/Vi17TasP4e+vJtUe36u5EfSlH4ca9iMa426xGuWajwQij8MNHJOzP3RAUfl6liuJT7p
+ GSBlAn59uhHv+bD9kqB5Cl6Mgwj68mI/43oWEm6ouikka73/u1OHy1W0ngk5oMUKWVtdEM7
+ 78NzP6n00Df+hBQQLCKRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/pFDlUHs6IQ=:db8tUAdsjJaQHZEgTM3rnV
+ so01umYz1BoEAwrLGySCfvWBF51KF5BuY+JzfdjdFUCid5xJ9GjzxvuyQ13QyzPp/pIxzROKq
+ i0rb8/2oNeLxWrRaRAuSRyvNi1qWFI2sG9LJiqCA4URzGw+24YVBUfNVvYfDrkfbwvk67+pVY
+ mnCpDVzwHKdAFEkvU0+4FvFysiSzQU5ONLwuUi9FuxjLZVEq6+RhyVrVBz0saUVdkd/Rld7L9
+ BUcsXHLa/5l7uwXKgTlQrmIT8T6hLEAH4yTXPTKmEywKsW7f70mSU82cCBmRzgdqGHm/Do9D1
+ +ICu1kFoc5T6NNI3z9YKQhKatmAb5ydURTWk1umX8Zh9N6hlopDjhzf0BbAfiyHPr/t2pUGcU
+ j0DNHc+x7xGMPY8zWD6PvYfXNLuqBtmoKMb5EG++60EvXUH54Y7/dPyBQa+keWu2f7ak/xycj
+ 9E3Zg0a9L77A5lsYGJv9PbG+4eQUy5OnvIv2ot8qT2+hP3CxjOyv2eEkQtRvX4K8X70tnkVwj
+ k3VKnP/vujX5oNFzn9QZIzFmGA8lzwUY7D04VJ7XKanM0MO7Pn7aVQnRg2mJeWHVb8EA3algx
+ WsbaEatTz+jzyxBt+czUV8gojP/Qt6MkhWe2cN93rz2GE42Nyc3ENWTbivVjiWaQvS84rJoMk
+ UPnFwmXmT433rQ/R5vmZlp+SWicYXfs+89e+dUwpt7/Uot2+NadMDoOJ4ZFe9ESNTK3WVZ6so
+ yXDyVpRZUAnDNFaL+7smVTbyqQXWCdJ/C8oQj57gAL+/pb93gYb73cML0EfbRze2Raqa1aBJ1
+ DxBXS25QshwZkbQyFFSvk2OqWut/t3W2lk9s7N5kb72cQPKFj3tGUwhFC3Njs2wh/EwkRcWRy
+ m5+VG3r46j8DBjI2fB6q+h0blhwkcWhnlt0ACVwsefQ6qIjGwO2sL45s9iWo9iDVLQ9xnvqEc
+ 80Ejgusiv5YcU3IZvbeSI/X62RlMBBOvFGwfjzQ6gZkLrP/8xrCO/1M1PEhrX95xv9p4+jJHE
+ yfDCQKJPNA/dZMER6V9+V+LevEi4J6yPxq+IngVNiEV5WVPfKfqdsu8Q1ubltERTrCU4FPckk
+ PGQAbSXWJjiuV+IQoG7u769zantgoyg0i6CnwHvFuE4X9xtxWyXHC/Z+1x9IqkfU8aAVhxet6
+ OBrp9qTo5lgm8APDZVERxtCnGGYUFyHfXwzwNDHa8MMPjuwSYRknzcPLY9e+1t+t4gbWRp38r
+ n0+r9Afn/h2tLLeYP
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-Received-From: 212.227.17.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,91 +81,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: lizhijian@cn.fujitsu.com, chyang@qnap.com, Derek Su <dereksu@qnap.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org, ctcheng@qnap.com, "Zhang,
+ Chen" <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.03.20 19:16, Halil Pasic wrote:
-> On Fri, 27 Mar 2020 17:46:20 +0100
-> Igor Mammedov <imammedo@redhat.com> wrote:
-> 
->> On Fri, 27 Mar 2020 17:05:34 +0100
->> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>
->>> On 27.03.20 17:01, David Hildenbrand wrote:
->>>> On 27.03.20 16:34, Christian Borntraeger wrote:  
->>>>>
->>>>>
->>>>> On 27.03.20 16:29, David Hildenbrand wrote:  
->>>>>> Historically, we fixed up the RAM size (rounded it down), to fit into
->>>>>> storage increments. Since commit 3a12fc61af5c ("390x/s390-virtio-ccw: use
->>>>>> memdev for RAM"), we no longer consider the fixed-up size when
->>>>>> allcoating the RAM block - which will break migration.
->>>>>>
->>>>>> Let's simply drop that manual fixup code and let the user supply sane
->>>>>> RAM sizes. This will bail out early when trying to migrate (and make
->>>>>> an existing guest with e.g., 12345 MB non-migratable), but maybe we
->>>>>> should have rejected such RAM sizes right from the beginning.
->>>>>>
->>>>>> As we no longer fixup maxram_size as well, make other users use ram_size
->>>>>> instead. Keep using maxram_size when setting the maximum ram size in KVM,
->>>>>> as that will come in handy in the future when supporting memory hotplug
->>>>>> (in contrast, storage keys and storage attributes for hotplugged memory
->>>>>>  will have to be migrated per RAM block in the future).
->>>>>>
->>>>>> This fixes (or rather rejects early):
->>>>>>
->>>>>> 1. Migrating older QEMU to upstream QEMU (e.g., with "-m 1235M"), as the
->>>>>>    RAM block size changed.  
->>>>>
->>>>> Not sure I like this variant. Instead of breaking migration (that was 
->>>>> accidentially done by Igors changes) we now reject migration from older
->>>>> QEMUs to 5.0. This is not going to help those that still have such guests
->>>>> running and want to migrate.   
->>>>
->>>> As Igor mentioned on another channel, you most probably can migrate an
->>>> older guest by starting it on the target with a fixed-up size.
->>>>
->>>> E.g., migrate an old QEMU "-m 1235M" to a new QEMU "-m 1234M"  
->>>
->>> Yes, that should probably work.
->> I'm in process of testing it.
->>
->>>> Not sure how many such weird-size VMs we actually do have in practice.  
->>>
->>> I am worried about some automated deployments where tooling has created
->>> these sizes for dozens or hundreds of containers in VMS and so.
->> Yep, it's possible but then that tooling/configs should be fixed to work with
->> new QEMU that validates user's input.
->>
-> 
-> @David: I'm a little confused. Is this fix about adding user input
-> validation, or is it about changing what valid inputs are?
+--Sig_/agWQaIwuM4wNECznfh0ZGXb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-We used to silently fixup the user input instead of bailing out. So it's
-rather the latter. It was never the right choice to silently fixup
-instead of just bailing out. We never should have done that.
+On Sat, 28 Mar 2020 02:20:21 +0800
+Derek Su <jwsu1986@gmail.com> wrote:
 
-> 
-> I don't see this alignment requirement documented, so my guess is the
-> latter. And then, I'm not sure I'm sold on this.
+> Lukas Straub <lukasstraub2@web.de> =E6=96=BC 2020=E5=B9=B43=E6=9C=8828=E6=
+=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=881:46=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Wed, 25 Mar 2020 17:43:54 +0800
+> > Derek Su <dereksu@qnap.com> wrote:
+> > =20
+> > > The pervious handling of the full primary or queue is only dropping
+> > > the packet. If there are lots of clients to the guest VM,
+> > > the "drop" will lead to the lost of the networking connection
+> > > until next checkpoint.
+> > >
+> > > To address the issue, this patch drops the packet firstly.
+> > > Then, send all queued primary packets, remove all queued secondary
+> > > packets and do checkpoint.
+> > >
+> > > Signed-off-by: Derek Su <dereksu@qnap.com>
+> > > ---
+> > >  net/colo-compare.c | 41 ++++++++++++++++++++++++++++++-----------
+> > >  1 file changed, 30 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/net/colo-compare.c b/net/colo-compare.c
+> > > index cdd87b2aa8..1a52f50fbe 100644
+> > > --- a/net/colo-compare.c
+> > > +++ b/net/colo-compare.c
+> > > @@ -125,6 +125,12 @@ static const char *colo_mode[] =3D {
+> > >      [SECONDARY_IN] =3D "secondary",
+> > >  };
+> > >
+> > > +enum {
+> > > +    QUEUE_INSERT_ERR =3D -1,
+> > > +    QUEUE_INSERT_OK =3D 0,
+> > > +    QUEUE_INSERT_FULL =3D 1,
+> > > +};
+> > > +
+> > >  static int compare_chr_send(CompareState *s,
+> > >                              const uint8_t *buf,
+> > >                              uint32_t size,
+> > > @@ -211,8 +217,10 @@ static int colo_insert_packet(GQueue *queue, Pac=
+ket *pkt, uint32_t *max_ack)
+> > >  }
+> > >
+> > >  /*
+> > > - * Return 0 on success, if return -1 means the pkt
+> > > - * is unsupported(arp and ipv6) and will be sent later
+> > > + * Return QUEUE_INSERT_OK on success.
+> > > + * If return QUEUE_INSERT_FULL means list is full, and
+> > > + * QUEUE_INSERT_ERR means the pkt is unsupported(arp and ipv6) and
+> > > + * will be sent later
+> > >   */
+> > >  static int packet_enqueue(CompareState *s, int mode, Connection **co=
+n)
+> > >  {
+> > > @@ -234,7 +242,7 @@ static int packet_enqueue(CompareState *s, int mo=
+de, Connection **con)
+> > >      if (parse_packet_early(pkt)) {
+> > >          packet_destroy(pkt, NULL);
+> > >          pkt =3D NULL;
+> > > -        return -1;
+> > > +        return QUEUE_INSERT_ERR;
+> > >      }
+> > >      fill_connection_key(pkt, &key);
+> > >
+> > > @@ -258,11 +266,12 @@ static int packet_enqueue(CompareState *s, int =
+mode, Connection **con)
+> > >                       "drop packet", colo_mode[mode]);
+> > >          packet_destroy(pkt, NULL);
+> > >          pkt =3D NULL;
+> > > +        return QUEUE_INSERT_FULL;
+> > >      }
+> > >
+> > >      *con =3D conn;
+> > >
+> > > -    return 0;
+> > > +    return QUEUE_INSERT_OK;
+> > >  }
+> > >
+> > >  static inline bool after(uint32_t seq1, uint32_t seq2)
+> > > @@ -995,17 +1004,22 @@ static void compare_pri_rs_finalize(SocketRead=
+State *pri_rs)
+> > >  {
+> > >      CompareState *s =3D container_of(pri_rs, CompareState, pri_rs);
+> > >      Connection *conn =3D NULL;
+> > > +    int ret;
+> > >
+> > > -    if (packet_enqueue(s, PRIMARY_IN, &conn)) {
+> > > +    ret =3D packet_enqueue(s, PRIMARY_IN, &conn);
+> > > +    if (ret =3D=3D QUEUE_INSERT_OK) {
+> > > +        /* compare packet in the specified connection */
+> > > +        colo_compare_connection(conn, s);
+> > > +    } else if (ret =3D=3D QUEUE_INSERT_FULL) {
+> > > +        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+> > > +        colo_compare_inconsistency_notify(s);
+> > > +    } else {
+> > >          trace_colo_compare_main("primary: unsupported packet in");
+> > >          compare_chr_send(s,
+> > >                           pri_rs->buf,
+> > >                           pri_rs->packet_len,
+> > >                           pri_rs->vnet_hdr_len,
+> > >                           false);
+> > > -    } else {
+> > > -        /* compare packet in the specified connection */
+> > > -        colo_compare_connection(conn, s);
+> > >      }
+> > >  }
+> > >
+> > > @@ -1013,12 +1027,17 @@ static void compare_sec_rs_finalize(SocketRea=
+dState *sec_rs)
+> > >  {
+> > >      CompareState *s =3D container_of(sec_rs, CompareState, sec_rs);
+> > >      Connection *conn =3D NULL;
+> > > +    int ret;
+> > >
+> > > -    if (packet_enqueue(s, SECONDARY_IN, &conn)) {
+> > > -        trace_colo_compare_main("secondary: unsupported packet in");
+> > > -    } else {
+> > > +    ret =3D packet_enqueue(s, SECONDARY_IN, &conn);
+> > > +    if (ret =3D=3D QUEUE_INSERT_OK) {
+> > >          /* compare packet in the specified connection */
+> > >          colo_compare_connection(conn, s);
+> > > +    } else if (ret =3D=3D QUEUE_INSERT_FULL) {
+> > > +        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+> > > +        colo_compare_inconsistency_notify(s);
+> > > +    } else {
+> > > +        trace_colo_compare_main("secondary: unsupported packet in");
+> > >      }
+> > >  }
+> > > =20
+> >
+> > Hi,
+> > I don't think we have to flush here because the (post-)checkpoint event=
+ will flush the packets for us.
+> > =20
+>=20
+> Hi,
+> Yes, the periodical checkpoint can flush the packets.
+>=20
+> But, if many clients send many packets to the vm,
+> there is a high probability that packets are dropped because the
+> primary/secondary queues are always full.
+> It causes lots of re-transmission between clients and vm and
+> deteriorate service response to clients.
+>=20
+> Sincerely,
+> Derek Su
 
-Well, we can add documentation with the next release. It's something to
-end up in the release notes.
+I mean that we can still initiate a checkpoint here, but not do the flushin=
+g here.
 
-If somebody specified "-m 1235", he always received "1234 MB" and never
-"1235 MB". You could also call that a BUG, which should have bailed out
-right from the start (there wasn't even a warning).
+Regards,
+Lukas Straub
 
--- 
-Thanks,
+> > Regards,
+> > Lukas Straub =20
 
-David / dhildenb
 
+--Sig_/agWQaIwuM4wNECznfh0ZGXb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl5+RbcACgkQNasLKJxd
+slg0+A//edDlwRkLEbI3gx6S0g2YhNShU6tKkeAHc+iKrtBj2O9uPKZejXZXuV14
+hdpw1co8Zf9sEy+EOjtP96N58pjldzgk2gD0/Ndb/TONs4wT0ucKoX+OMSgl5YLS
+9BHFUQhHcDqDkrEQQW+Ybprhhki3JdazdNfbCG+9+uppzf7BqoTr7F0oDC25E6NQ
+HYlvwtuCDPobAZDE8bNX7anqwsmp0Bp3PTkqfilHweIpHuWVB0g1rmhqMX2xBpJZ
+uoCbgZlkziwJtjf1WIDY84AVpe2IrK6mIWCFUhzWupcn+qYgIIJqD44ntJvKcS1+
+hLvpeKrp+jV2N1dNpWf+rH2I/uUHrfytYXSRL75QMJiMJ0zjYZlj1f4D6JLeyFoy
+xHGLm31nGBRciWUp72lFX8i5lQQh4lCS5Ibv6kiq+ELSKxM8R+ERsuO40fQLO0kr
++TRRTgQtU9QvtnabbU2SUEIivxchD6DFeEnb6q06vxHb7QXvkdnjpvqsnsV7H0+Y
+q9kAh5pDR2yDVBuY1ea4tfTNC8kC9DqKMyI3L0tK34Hih6ITUR2oWkVOwVsWLuXH
+t+5kSmI6fISSoVTOPfmQUmImMRnGVUW1hnYuGTsGPR0515CRxN6aK9GXfYgDDt8u
+4gisfqWiK8f5pxjQZhnworqicHEBg66ZGVa/d4qXhwd0Ghxdtfk=
+=Crfs
+-----END PGP SIGNATURE-----
+
+--Sig_/agWQaIwuM4wNECznfh0ZGXb--
 
