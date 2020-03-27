@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A890E195384
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:04:39 +0100 (CET)
-Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E39195393
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 10:08:39 +0100 (CET)
+Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHkus-000372-4R
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46022)
+	id 1jHkyk-0005GM-KF
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 05:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50943)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1jHktp-0002ao-A8
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:03:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jHkxy-0004rr-Rm
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:07:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1jHktn-00049w-RH
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:03:32 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:38396)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jHktn-000473-Ms
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585299810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M9ZXxd+otGLFKV9zNmsAMnci/ht8sgy82YcJhprkxhY=;
- b=VsP661kQfNWou9xDduQjCmLdcE9isv96B8/PcCoIiPkoakAC3fi8pG/E/6frOTt5fT8UFC
- 78+8FDYjr4m4f3c9UNOjYrAxHbl2tz2fgfX4tinnECZZqtwQWIXbFNeYR258eVVmZL2zg0
- qmFviayNpsdw0EziCnKvLeRdg/q47PI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-KzXho_BRMYeUXX0PY016bg-1; Fri, 27 Mar 2020 05:03:26 -0400
-X-MC-Unique: KzXho_BRMYeUXX0PY016bg-1
-Received: by mail-wm1-f72.google.com with SMTP id s14so3634195wmj.9
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:03:26 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1jHkxx-0001ni-CR
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:07:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39425)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jHkxx-0001lU-26
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 05:07:49 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p10so10454239wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 02:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xXACT3yOLoBasvUhAI59brexatvgAkSpmbxuVkkNYcw=;
+ b=w9xGO7DNATToExK6QY7ObUp7BjDa/daHWHT1w7dfIhQfbUFZ+4MlXRqEQEbLqYYlHY
+ TymWH89hDo8Kapb1tmC+0XjX1oCzITkiyZq65XY0pG08PGQtwTfwQpt4XGDBkQnYU0RF
+ +KzSrXYfCrr1awANFzQyWBjFQOwNU3xFnHZipGTinpWXf4ZU7vnYFsFLnjpzuhv//IKz
+ FQGnyUaCsrOYwRr/244sjYtH6o9NXyVrvI5fWwa0V42kIylAtyQDzncRbjyS760+Rvnn
+ sCa4GoABnd3xrK/dFM53JD9NvkiI29CpGx6EUrnM6p3+N3yH/MFHp8pAZa13eNJQ24Qs
+ ddAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=esJ1e/t5lGoB4qLbZ7c/zNcWYUZebybi7hCiQoFubUU=;
- b=ZdWq6GWDQfDkwk6Z5lkTItSLrIbEVt9QcwRseFgz7WUJd4m7SSTa8V4pjTuFgEkhUG
- 4ngOJRPRVFmfdDzz3V2LJzKPRgBIYi3AUR50kG5uJFgALjKY5D8K3n2gpff7tuaPbPaB
- 7GHrEjomM/aqb/RwcWGZjhID2vfnTk8mZ1L25YdnKtUb7S0BZGCQQUb7F9H7pepJoVjX
- N87WJKCjk7altFiCIHPwCTs/Za3DpleI+30XDbArQWVIZQNPi2r0CiPav+dDcR48BBXE
- SL5F+oCmSnGmct/0v+cOrPB8wCeXTX3XjgwkILlDFnb9GI2lXNraMzetQy5IJCm1MGho
- NPtw==
-X-Gm-Message-State: ANhLgQ3L791uUF2H0PvpYeN1favcLtE7wnyoN5n0qdn4184/i9qCKAQM
- /K1NhzB6NVtx8uUsZC4Kb1dvI+oA63BrxobSGDHyK9DUoC4DRiCKQxYvv28pkqb27Qzl7COsHCZ
- G2FfxVKE2zU7zjEs=
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr4246197wma.158.1585299805477; 
- Fri, 27 Mar 2020 02:03:25 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvApV1+WLa8a9fg8Rld5ZuOJMw8kl81XQ4g9wXqFKGDxXUQyJbL08h6yBgevQy0ztVi7T/RaA==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr4246173wma.158.1585299805270; 
- Fri, 27 Mar 2020 02:03:25 -0700 (PDT)
-Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.201.32])
- by smtp.gmail.com with ESMTPSA id r11sm7830875wrn.24.2020.03.27.02.03.24
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=xXACT3yOLoBasvUhAI59brexatvgAkSpmbxuVkkNYcw=;
+ b=PQWgZYVY517/2P29Kae7m7imcq8TxSkLbkVUxuoUs9TrBbrsUpV9NgLP0wkhdS3PCr
+ s93Av1OxAkigOVT8R5PZTIkTX/1zA28qvemVhx94yyt7lWI9GeI5xYq9N9gBgxpkeMVr
+ LHsUIkUUQ+flsV8tUYGUdgh3rspdSc4k/mOdu4rhlzBqr6h2f8FZTXxrj6tgmJPGWJWU
+ SryiA4PhXYbIPfJFyF4H4cifC9WBY+ORUDompfCcg3rV+VH5aSfj8I3J252eZXYTVG/L
+ mbWUuBGogW9XUAmB3yBzZ27Rk2OZMgTVSIxK1kki1Vww2aJJlDVGDrbY3yfaXD3/kUjL
+ ei+Q==
+X-Gm-Message-State: ANhLgQ3LVtDMwP0j0pKRLaSab1KUJbtrME5HNJR6fU91pUh8b0R6VJs/
+ JL++zNeCUv6RhYhwTl7j3ftMC9Ogm3A=
+X-Google-Smtp-Source: ADFU+vu+kDzx9qgFp3Sf+l5cCzuN8yO63QHZ+/qwy9A4MrcesVvqxj7QT/jbfI0UkJ8lyx8JNIR68w==
+X-Received: by 2002:adf:83c4:: with SMTP id 62mr14792087wre.105.1585300066101; 
+ Fri, 27 Mar 2020 02:07:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o16sm3893523wrw.75.2020.03.27.02.07.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Mar 2020 02:03:24 -0700 (PDT)
-Date: Fri, 27 Mar 2020 10:03:22 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH v2 2/2] virtio-iommu: delete vqs in unrealize to fix
- memleak
-Message-ID: <20200327090322.gxlfxmbuvcjut5dk@steredhat>
-References: <20200327045620.9082-1-pannengyuan@huawei.com>
- <20200327045620.9082-3-pannengyuan@huawei.com>
+ Fri, 27 Mar 2020 02:07:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0BC6E1FF7E;
+ Fri, 27 Mar 2020 09:07:44 +0000 (GMT)
+References: <20200326151407.25046-1-dplotnikov@virtuozzo.com>
+User-agent: mu4e 1.3.10; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH] gdbstub: fix compiler complaining
+In-reply-to: <20200326151407.25046-1-dplotnikov@virtuozzo.com>
+Date: Fri, 27 Mar 2020 09:07:43 +0000
+Message-ID: <877dz6np28.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200327045620.9082-3-pannengyuan@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 63.128.21.74
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,42 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, zhang.zhanghailiang@huawei.com,
- mst@redhat.com, qemu-devel@nongnu.org, euler.robot@huawei.com
+Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 27, 2020 at 12:56:20PM +0800, Pan Nengyuan wrote:
-> req_vq/event_vq forgot to free in unrealize. Fix that.
->=20
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+
+Denis Plotnikov <dplotnikov@virtuozzo.com> writes:
+
+>     ./gdbstub.c: In function =E2=80=98handle_query_thread_extra=E2=80=99:
+>         /usr/include/glib-2.0/glib/glib-autocleanups.h:28:10:
+>     error: =E2=80=98cpu_name=E2=80=99 may be used uninitialized in this f=
+unction
+>     [-Werror=3Dmaybe-uninitialized]
+>         g_free (*pp);
+>                ^
+>     ./gdbstub.c:2063:26: note: =E2=80=98cpu_name=E2=80=99 was declared he=
+re
+>         g_autofree char *cpu_name;
+>                          ^
+>     cc1: all warnings being treated as errors
+>
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+
+Queued to for-5.0/random-fixes, thanks.
+
 > ---
-> Cc: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/virtio/virtio-iommu.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> index 4cee8083bc..9d2ff0693c 100644
-> --- a/hw/virtio/virtio-iommu.c
-> +++ b/hw/virtio/virtio-iommu.c
-> @@ -696,6 +696,8 @@ static void virtio_iommu_device_unrealize(DeviceState=
- *dev, Error **errp)
->      g_tree_destroy(s->domains);
->      g_tree_destroy(s->endpoints);
-> =20
-> +    virtio_delete_queue(s->req_vq);
-> +    virtio_delete_queue(s->event_vq);
->      virtio_cleanup(vdev);
->  }
+>  gdbstub.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 013fb1ac0f..171e150950 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -2060,8 +2060,8 @@ static void handle_query_thread_extra(GdbCmdContext=
+ *gdb_ctx, void *user_ctx)
+>          /* Print the CPU model and name in multiprocess mode */
+>          ObjectClass *oc =3D object_get_class(OBJECT(cpu));
+>          const char *cpu_model =3D object_class_get_name(oc);
+> -        g_autofree char *cpu_name;
+> -        cpu_name  =3D object_get_canonical_path_component(OBJECT(cpu));
+> +        g_autofree char *cpu_name =3D
+> +            object_get_canonical_path_component(OBJECT(cpu));
+>          g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
+>                          cpu->halted ? "halted " : "running");
+>      } else {
 
-Hi Pan,
-this patch LGTM, I left a comment on v1 about cleaning 's->as_by_busptr'
-hash table as well.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
-Thanks,
-Stefano
-
+--=20
+Alex Benn=C3=A9e
 
