@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882CA1959AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 16:22:47 +0100 (CET)
-Received: from localhost ([::1]:42980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AE41959B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 16:24:21 +0100 (CET)
+Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHqoo-0001r5-Kd
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 11:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41426)
+	id 1jHqqK-0004eM-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 11:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jHqmH-0006qR-My
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:10 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jHqmL-0006vx-4k
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jHqmG-00050P-Ic
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36939)
+ (envelope-from <kwolf@redhat.com>) id 1jHqmK-0005Gr-1d
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:12 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37970)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jHqmG-0004zi-Es
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:08 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jHqmJ-0005Br-TS
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 11:20:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585322408;
+ s=mimecast20190719; t=1585322411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8yUy2od8jmlo+ij62SPFyh2R7CK8Hv7caNbM0yYSL4M=;
- b=Yf0FOyM197E5OVdsNRoanUIyGVittRZink23Rj1bxKZV/SB0XaKgoKu0DN/barU4jeLCpA
- Tw9Hk2rh0uU+IasgPHeOTPiWrx7gxRR0PuqBb3F6VjvB0uDWp408SXHwLaN/RNtENb1dtR
- LSER3IJQjaWBFCSjRrn63fTs4zhxPyw=
+ bh=fk0sEoSyk8D0WdjxUBUaxLMY5WyOh3Tqo/eYf9My26Y=;
+ b=g4tuTwkvSHJJal0z9T3aP+juxxdR8Ms9MMVzPnTYli38IIlUkSJJcNvsd+alwLfzeyTUet
+ 08VF8fRrlGiK2zKNRjq4LgzdwviUyWwc1bpe+P4JoIvwlsPUB1V336aDiuzt8/175qpm/A
+ AMiv6DIjS6m2rgByYKnBH2LwKrGjfhg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-FKllr7WSNGih7SbO-mS-Zw-1; Fri, 27 Mar 2020 11:20:06 -0400
-X-MC-Unique: FKllr7WSNGih7SbO-mS-Zw-1
+ us-mta-194-KVAwSHTqNcubNw_Y5A92cA-1; Fri, 27 Mar 2020 11:20:09 -0400
+X-MC-Unique: KVAwSHTqNcubNw_Y5A92cA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE40A800D50;
- Fri, 27 Mar 2020 15:20:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3275800D53;
+ Fri, 27 Mar 2020 15:20:07 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-253.ams2.redhat.com
  [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE83177E5;
- Fri, 27 Mar 2020 15:20:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40AA9177E5;
+ Fri, 27 Mar 2020 15:20:05 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/6] block/iscsi:use the flags in iscsi_open() prevent Clang
- warning
-Date: Fri, 27 Mar 2020 16:19:45 +0100
-Message-Id: <20200327151950.11820-2-kwolf@redhat.com>
+Subject: [PULL 2/6] block: fix bdrv_root_attach_child forget to unref child_bs
+Date: Fri, 27 Mar 2020 16:19:46 +0100
+Message-Id: <20200327151950.11820-3-kwolf@redhat.com>
 In-Reply-To: <20200327151950.11820-1-kwolf@redhat.com>
 References: <20200327151950.11820-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 216.205.24.74
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +74,32 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Clang static code analyzer show warning:
-  block/iscsi.c:1920:9: warning: Value stored to 'flags' is never read
-        flags &=3D ~BDRV_O_RDWR;
-        ^        ~~~~~~~~~~~~
+bdrv_root_attach_child promises to drop child_bs reference on failure.
+It does it on first handled failure path, but not on the second. Fix
+that.
 
-In iscsi_allocmap_init() only checks BDRV_O_NOCACHE, which
-is the same in both of flags and bs->open_flags.
-We can use the flags instead bs->open_flags to prevent Clang warning.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200311032927.35092-1-kuhn.chenqun@huawei.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200324155921.23822-1-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/iscsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 14680a436a..4e216bd8aa 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2002,7 +2002,7 @@ static int iscsi_open(BlockDriverState *bs, QDict *op=
-tions, int flags,
-         iscsilun->cluster_size =3D iscsilun->bl.opt_unmap_gran *
-             iscsilun->block_size;
-         if (iscsilun->lbprz) {
--            ret =3D iscsi_allocmap_init(iscsilun, bs->open_flags);
-+            ret =3D iscsi_allocmap_init(iscsilun, flags);
+diff --git a/block.c b/block.c
+index af3faf664e..2e3905c99e 100644
+--- a/block.c
++++ b/block.c
+@@ -2617,6 +2617,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *c=
+hild_bs,
+             error_propagate(errp, local_err);
+             g_free(child);
+             bdrv_abort_perm_update(child_bs);
++            bdrv_unref(child_bs);
+             return NULL;
          }
      }
-=20
 --=20
 2.20.1
 
