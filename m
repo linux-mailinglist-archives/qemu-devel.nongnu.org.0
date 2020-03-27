@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D46195DB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:33:11 +0100 (CET)
-Received: from localhost ([::1]:45594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6539A195DC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Mar 2020 19:40:46 +0100 (CET)
+Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jHtn4-0003rH-G9
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
+	id 1jHtuP-0006mH-3A
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 14:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jHtlK-0003Gq-R4
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:31:24 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1jHtta-0006IO-6X
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:39:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jHtlJ-0000jP-5z
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:31:22 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33327)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jHtlI-0000he-NQ
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:31:21 -0400
-Received: by mail-lj1-x242.google.com with SMTP id f20so11284013ljm.0
- for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YM+mZVnIoOOnkVmaqk5LohqCwxsDoS3kTLEUUXJOTcU=;
- b=dDYW4O7qK0JdtZCQ8Oin2UrY7zWv1M5VZwJKIjOfZYL4RzhwGRuNeo5RChUxWz3YxI
- Yh4U8OZPJsZfGF54hdn9N/qMTE6t4aHnHMmGaGAEp6r/0au6raQGqZ5KNrZh7jSo9j3C
- 1DkvTHI5bKmNSke8PJpF5CDLyc+8BpPKtMjgVhI0ArZXdJcH1EK7RTBAuGnG8Yc9MXl4
- Fyl2mitalK00zNBmXs430ibN77RwnyNJ+MvBpf6zmYcHa26LCNEJL3lSxRXj+ka2sB+e
- eeBR3REIMlxynBnM/x3un8jswxJawPN+c6NkIpzPCSgOeUeyemgsmkWtMULoN92aolHS
- TkpQ==
+ (envelope-from <sgarzare@redhat.com>) id 1jHttY-00059q-0w
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:39:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:26178)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1jHttX-00058v-RJ
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 14:39:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585334390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YUeAYgR0jYVILYEpMJqIEcKL+JoY1EJAMBHzpU/d4nE=;
+ b=UXq428XJBB73sYHzNxva6MTuKhLf0j2LthYYu1xJvimaW87dg00TUnAgaHuq/X2yIU8hgz
+ emVvk5QcXegGdB/xqgk4iCNPgBR9H0n1ibx6HopU0P9h496vCqCAOp+K5I3V28zhs814qE
+ 1XQcug6ldyRJtdHWSJeYyGl7ys4TAuw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-rZyoA0V0MmiyEYA0VnIDwg-1; Fri, 27 Mar 2020 14:39:49 -0400
+X-MC-Unique: rZyoA0V0MmiyEYA0VnIDwg-1
+Received: by mail-wm1-f71.google.com with SMTP id m4so5874733wme.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 11:39:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YM+mZVnIoOOnkVmaqk5LohqCwxsDoS3kTLEUUXJOTcU=;
- b=s4F8L+ziRqYNujeWBmMedwEZVb4GlLPkKNZDbJG88tUygeZ1WYJHnL9AL//RMJq+aU
- pAqL9ui1qsrPMGLJyLnbUnA7ztZHEilJFBYDUPS4wVz6YEzb5yp9EUbBx16+DQ6MKay7
- Y2o/pRbN0bsowue3NN/DMixq8lLPzvyegyyusX30qLhMvKajH7Qb24snDCdcb/MW/8kw
- R7LhRmCx+j9SQnmsh70lRnMVE8aSUsfe8T7pHKH8ssr2oZfSk92ljssVLUnfPWdFZ083
- ZgqExrfHaoJr6vJZLM/rp7rgt9fgvGlKSqFdrl9/xl/UWpE0Fa/uRyOsVUKPyz4xQrzg
- EP1g==
-X-Gm-Message-State: AGi0PuaQflmeLE3IMBWIe6HyCk+IgmAuAihhdfUuoTxb7/G7itzSzkSs
- ziujuR90LI4AYi+3bhh/f8jeBnlXlbgMFGqc5G0MUw==
-X-Google-Smtp-Source: APiQypKc46TSkZlqYVsQjhUSSqb0w3MF2ID8aGj6om3c+EVuQ/R+W09J0osLorNvkR/w9vQ8KYJvKKaTuHBHFljaCHw=
-X-Received: by 2002:a05:651c:287:: with SMTP id
- b7mr162153ljo.129.1585333878362; 
- Fri, 27 Mar 2020 11:31:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+hpJFkq4EHPR3JIh3yYN15Xgiwb87CE/C2CgJ6aYP90=;
+ b=WD8iWKGVh4aFdPFVcDyLaLnBtr3XgqV5A76lpo5a9UVVwgTwLI6/2lP6lAAM0ll4X2
+ 4JdGYlpkWP9h4yjUQZCx8kW/B2EUVz5KBTpwgGzeZRDm5hI2OrvNVXuikI9VG3y3b0Tm
+ EekbGjsDisHAPZaFpqVWUwZAxaMBjqiYmr3ZVX6S8PalISDWG/5KkmBQehpnRH9LzR5U
+ IOLS5pdvsovWUskamQRB4R+orD6gUXG0G/AjlLeZuZpQ+FeuhzOHk3F+tbkqXlDtkljx
+ KmvOxo5Xwgu3EDwvMbf3paGbqIVrVVvY/T61KXqASsphAOxeaqsv4IiApYW69pXvrLC1
+ 5VEw==
+X-Gm-Message-State: ANhLgQ3eevD7Dai4jQ0Nq5hsVDAwYtILePMUoDL9XMT9Qamr12f19cJ7
+ XQb6BVX3B5wMpQy0VwyTbyn/8Vz0RHwQe69yNqPjA0pJx4rxFVbAak/bk+bdqV266wztuVTs+IH
+ M86QtkY2+Eydgi/A=
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr812052wrw.196.1585334387518; 
+ Fri, 27 Mar 2020 11:39:47 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvIo807PvS90s/qokPCuzFdUlIsXRNEbs+E9ATMQBE2OES5VzCsDMFHkGq56uUlEHr5gDvDrQ==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr812029wrw.196.1585334387199; 
+ Fri, 27 Mar 2020 11:39:47 -0700 (PDT)
+Received: from steredhat (host32-201-dynamic.27-79-r.retail.telecomitalia.it.
+ [79.27.201.32])
+ by smtp.gmail.com with ESMTPSA id o26sm8559560wmc.33.2020.03.27.11.39.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Mar 2020 11:39:46 -0700 (PDT)
+Date: Fri, 27 Mar 2020 19:39:44 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] monitor/hmp-cmds: add units for migrate_parameters.
+Message-ID: <20200327183944.ioggi7eibzbn7yqe@steredhat>
+References: <bfceb9751f76533c823e9ec91ac14f4bc94a47b6.1585324937.git.maozhongyi@cmss.chinamobile.com>
 MIME-Version: 1.0
-References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200327051457.GA2815@t420>
-In-Reply-To: <20200327051457.GA2815@t420>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Fri, 27 Mar 2020 14:30:49 -0400
-Message-ID: <CAEyhzFsWc+qpWLFU3XT0Vb_jeAHbE5Bxoejq21_q-1_vZBp8iw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/74] per-CPU locks
-To: "Emilio G. Cota" <cota@braap.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+In-Reply-To: <bfceb9751f76533c823e9ec91ac14f4bc94a47b6.1585324937.git.maozhongyi@cmss.chinamobile.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.128.21.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,63 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Puhov <peter.puhov@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Mar 2020 at 01:14, Emilio G. Cota <cota@braap.org> wrote:
->
-> (Apologies if I missed some Cc's; I was not Cc'ed in patch 0
->  so I'm blindly crafting a reply.)
+On Sat, Mar 28, 2020 at 12:14:54AM +0800, Mao Zhongyi wrote:
+> When running:
+> (qemu) info migrate_parameters
+> announce-initial: 50 ms
+> announce-max: 550 ms
+> announce-step: 100 ms
+> compress-wait-thread: on
+> ...
+> max-bandwidth: 33554432 bytes/second
+> downtime-limit: 300 milliseconds
+> x-checkpoint-delay: 20000
+> ...
+> xbzrle-cache-size: 67108864
+>=20
+> add units for the parameters 'x-checkpoint-delay' and
+> 'xbzrle-cache-size', it's easier to read, also move
+> milliseconds to ms to keep the same style.
+>=20
+> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+> ---
+>  monitor/hmp-cmds.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Sorry I forgot to including you in patch 0, my bad. Will be sure to
-include you in the future.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-> On Thu, Mar 26, 2020 at 15:30:43 -0400, Robert Foley wrote:
-> > This is a continuation of the series created by Emilio Cota.
-> > We are picking up this patch set with the goal to apply
-> > any fixes or updates needed to get this accepted.
->
-> Thanks for picking this up!
->
-> > Listed below are the changes for this version of the patch,
-> > aside from the merge related changes.
-> >
-> > Changes for V8:
-> > - Fixed issue where in rr mode we could destroy the BQL twice.
->
-> I remember doing little to no testing in record-replay mode, so
-> there should be more bugs hiding in there :-)
+Thanks,
+Stefano
 
-Thanks for the tip!  We will give record-replay some extra testing to
-hopefully shake some things out. :)
->
-> > - Found/fixed bug that had been hit in testing previously during
-> > the last consideration of this patch.
-> >  We reproduced the issue hit in the qtest: bios-tables-test.
-> >  The issue was introduced by dropping the BQL, and found us
-> >  (very rarely) missing the condition variable wakeup in
-> >  qemu_tcg_rr_cpu_thread_fn().
->
-> Aah, this one:
->   https://patchwork.kernel.org/patch/10838149/#22516931
-> How did you identify the problem? Was it code inspection or using a tool
-> like rr? I remember this being hard to reproduce reliably.
+>=20
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 2a900a528a..790fad3afe 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -436,11 +436,11 @@ void hmp_info_migrate_parameters(Monitor *mon, cons=
+t QDict *qdict)
+>              MigrationParameter_str(MIGRATION_PARAMETER_MAX_BANDWIDTH),
+>              params->max_bandwidth);
+>          assert(params->has_downtime_limit);
+> -        monitor_printf(mon, "%s: %" PRIu64 " milliseconds\n",
+> +        monitor_printf(mon, "%s: %" PRIu64 " ms\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_DOWNTIME_LIMIT),
+>              params->downtime_limit);
+>          assert(params->has_x_checkpoint_delay);
+> -        monitor_printf(mon, "%s: %u\n",
+> +        monitor_printf(mon, "%s: %u ms\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_X_CHECKPOINT_DELA=
+Y),
+>              params->x_checkpoint_delay);
+>          assert(params->has_block_incremental);
+> @@ -453,7 +453,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const =
+QDict *qdict)
+>          monitor_printf(mon, "%s: %s\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESSI=
+ON),
+>              MultiFDCompression_str(params->multifd_compression));
+> -        monitor_printf(mon, "%s: %" PRIu64 "\n",
+> +        monitor_printf(mon, "%s: %" PRIu64 " bytes\n",
+>              MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE=
+),
+>              params->xbzrle_cache_size);
+>          monitor_printf(mon, "%s: %" PRIu64 "\n",
+> --=20
+> 2.17.1
+>=20
+>=20
+>=20
 
-Same here, it was hard to reproduce. I did try to use rr on some
-shorter runs but no luck there.
-
-We ran it overnight on one of our ARM servers and it eventually
-reproduced after about 12 hours in a loop across all the
-bios-table-test(s) (no rr).  Never got it to reproduce on an x86
-server.  It was fairly consistent too on the same ARM host, it always
-reproduced within 8-12 hrs or so, and we were able to reproduce it
-several times.
-
-Thanks & Regards,
--Rob
 
