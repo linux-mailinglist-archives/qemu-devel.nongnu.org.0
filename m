@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74167196683
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 15:04:03 +0100 (CET)
-Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D511966CF
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 15:52:48 +0100 (CET)
+Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIC4A-0000VW-11
-	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 10:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
+	id 1jICpL-0004LU-B6
+	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 10:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <changbin.du@gmail.com>) id 1jIC3A-0008Vl-6l
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 10:03:01 -0400
+ (envelope-from <alex-krasikov@yandex-team.ru>) id 1jI9pI-00087L-HQ
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 07:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <changbin.du@gmail.com>) id 1jIC39-0002Ai-6R
- for qemu-devel@nongnu.org; Sat, 28 Mar 2020 10:03:00 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39975)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <changbin.du@gmail.com>)
- id 1jIC37-0002A2-4e; Sat, 28 Mar 2020 10:02:57 -0400
-Received: by mail-pl1-x642.google.com with SMTP id h11so4616221plk.7;
- Sat, 28 Mar 2020 07:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=J4NbX63enxz8LHoh8wHu1+3eT2IUoLyMTy2RULZE4I4=;
- b=B6GaNvBZNP7kQEbX3iGRK2z8wcsPa7xthpN3NwQBPk1qjZZa8im7DxofvOsMhU8GB6
- g4K4rFncw3jCY4ZkmtpRysftgdTgG/InPMPis49J5f+bW5p8fIegEYAf+8k2GUVaSW8X
- XCMty4w5D25gfH48ZsR2UxDbmp5Yfn+5+bSbp3XFQkNAcSa/LCY54ZwF/VyqPnaEXkf8
- u4KD5TjPigvJQazQe4sAEe7M82bgI00hrXdgxsbJETGnBnF5kKjsVSrqdAeX5k3IBM90
- UTQo246Ae/GP45/IK9ralxq8c2Gks4p0bR/IeVBo9TlLuLycy5EM6UCX6TxkSJmLOvw9
- uYMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=J4NbX63enxz8LHoh8wHu1+3eT2IUoLyMTy2RULZE4I4=;
- b=B8/VAvVgP5Re1Nk3G6ni2i2Job5nMK3K5JNJ5mKKcnIc4X91qSfBnoiWMVslz/V8MU
- Jp3ChwIlmHUqPdXcrTD23v9yaMRCyCKGWcZc3MH0Vz+fT+r5nVYrLPpEStWZJPCQMEz8
- xTwaNSkq+GwzxSRBqxuOg5VdljwQbSNuWZbXM5aTBtXD7fPBDVUW9pe14QZFXDo9uUFT
- MPklISkp2xgA0BpTI/amoM4NB0oOdryThkDGtDPVFJPsuGXJLke0B9IIr4RaUqSbgz4V
- MhaYe/5tATFf67z//3e6BgF8tLixkGn40EEdeF9yRoVhAvn4/84CicmL4UCn+fol+22X
- CKAA==
-X-Gm-Message-State: ANhLgQ2Sl2tBbS3gVCuTHoMAaMudwx761DaGP9xnWSYomUCZfpUDfkbp
- LoXEPUBydteqTiT0lt7VZNo=
-X-Google-Smtp-Source: ADFU+vsRocEIbI/qmFasnDKf8b1PDjp3UZcUCP6FDY07LLHKvsF9uArlPBxeQLJLOPXy9axo2ciDgA==
-X-Received: by 2002:a17:90b:24f:: with SMTP id
- fz15mr5085224pjb.138.1585404174316; 
- Sat, 28 Mar 2020 07:02:54 -0700 (PDT)
-Received: from vultr.guest ([149.248.10.52])
- by smtp.gmail.com with ESMTPSA id i14sm5978258pgh.47.2020.03.28.07.02.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Mar 2020 07:02:53 -0700 (PDT)
-From: Changbin Du <changbin.du@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] target/arm: fix incorrect current EL bug in aarch32 exception
- emulation
-Date: Sat, 28 Mar 2020 22:02:32 +0800
-Message-Id: <20200328140232.17278-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ (envelope-from <alex-krasikov@yandex-team.ru>) id 1jI9pE-0005Fl-Jm
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 07:40:30 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:47348)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex-krasikov@yandex-team.ru>)
+ id 1jI9pD-0005C3-T1
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 07:40:28 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 450152E09D9;
+ Sat, 28 Mar 2020 14:40:22 +0300 (MSK)
+Received: from sas1-9998cec34266.qloud-c.yandex.net
+ (sas1-9998cec34266.qloud-c.yandex.net [2a02:6b8:c14:3a0e:0:640:9998:cec3])
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ txwmjhNGTR-eM8iv00B; Sat, 28 Mar 2020 14:40:22 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1585395622; bh=4eVtLQG3em9wzX00O5mcBGQDiDZUIbsALFFrNXvVOaE=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=ic0nQMeWWDucDA7H5XVq3ws5imhsbVerEngPFVKZMs2cZ3Kzbhfi3QXb6az8odYBG
+ q9wvuBeHbVXwvZYMBEeaQR2Y7JZTznHe9kbJqU8xpAnPTI5LJLrCita+hyBzEMDdSJ
+ 2keehLg03dwyB9SMfmei6Muw6W1F5K0S4WtF8j1c=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from unknown (unknown [2a02:6b8:b080:8404::1:3])
+ by sas1-9998cec34266.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 6lMAd8fQ0l-eLWWloOM; Sat, 28 Mar 2020 14:40:21 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+To: berrange@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [RFC PATCH] crypto/secret: support fetching secrets from Linux keyring
+Date: Sat, 28 Mar 2020 14:40:14 +0300
+Message-Id: <20200328114014.6362-1-alex-krasikov@yandex-team.ru>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2a02:6b8:0:1619::183
+X-Mailman-Approved-At: Sat, 28 Mar 2020 10:51:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,45 +65,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Changbin Du <changbin.du@gmail.com>
+Cc: yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arm_current_el() should be invoked after mode switching. Otherwise, we
-get a wrong current EL value, since current EL is also determined by
-current mode.
+Add the ability for the secret object to obtain secret data from the
+Linux in-kernel key managment and retention facility, as an extra option
+to the existing ones: reading from a file or passing directly as a
+string.
 
-Fixes: 4a2696c0d4 ("target/arm: Set PAN bit as required on exception entry")
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
+The secret is identified by the key serial number.  The upper layers
+need to instantiate the key and make sure the QEMU process has access
+rights to read it.
+
+Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
 ---
- target/arm/helper.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ crypto/secret.c         | 88 +++++++++++++++++++++++++++++++++++++++--
+ include/crypto/secret.h |  3 ++
+ 2 files changed, 88 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b7b6887241..163c91a1cc 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9172,7 +9172,6 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
+diff --git a/crypto/secret.c b/crypto/secret.c
+index 1cf0ad0ce8..2e8be6241c 100644
+--- a/crypto/secret.c
++++ b/crypto/secret.c
+@@ -19,6 +19,8 @@
+  */
  
-     /* Change the CPU state so as to actually take the exception. */
-     switch_mode(env, new_mode);
--    new_el = arm_current_el(env);
+ #include "qemu/osdep.h"
++#include <asm/unistd.h>
++#include <linux/keyctl.h>
+ #include "crypto/secret.h"
+ #include "crypto/cipher.h"
+ #include "qapi/error.h"
+@@ -28,6 +30,40 @@
+ #include "trace.h"
  
-     /*
-      * For exceptions taken to AArch32 we must clear the SS bit in both
-@@ -9184,6 +9183,10 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
-     env->condexec_bits = 0;
-     /* Switch to the new mode, and to the correct instruction set.  */
-     env->uncached_cpsr = (env->uncached_cpsr & ~CPSR_M) | new_mode;
+ 
++static inline
++long keyctl_read(key_serial_t key, uint8_t *buffer, size_t buflen)
++{
++#ifdef __NR_keyctl
++    return syscall(__NR_keyctl, KEYCTL_READ, key, buffer, buflen, 0);
++#else
++    errno = ENOSYS;
++    return -1;
++#endif
++}
 +
-+    /* This must be after mode switching. */
-+    new_el = arm_current_el(env);
++static
++long keyctl_read_alloc(key_serial_t key, uint8_t **buffer)
++{
++    uint8_t *loc_buf;
++    long retcode = keyctl_read(key, NULL, 0);
++    if (retcode < 0) {
++        return retcode;
++    }
++    loc_buf = g_malloc(retcode + 1);
++    retcode = keyctl_read(key, loc_buf, retcode + 1);
++   /*
++    * We don't have key operations locks between syscalls.
++    * For example, the key could have been removed or expired.
++    */
++    if (retcode >= 0) {
++        loc_buf[retcode] = '\0';
++        *buffer = loc_buf;
++    } else {
++        g_free(loc_buf);
++    }
++    return retcode;
++}
 +
-     /* Set new mode endianness */
-     env->uncached_cpsr &= ~CPSR_E;
-     if (env->cp15.sctlr_el[new_el] & SCTLR_EE) {
+ static void
+ qcrypto_secret_load_data(QCryptoSecret *secret,
+                          uint8_t **output,
+@@ -41,10 +77,28 @@ qcrypto_secret_load_data(QCryptoSecret *secret,
+     *output = NULL;
+     *outputlen = 0;
+ 
+-    if (secret->file) {
++    if (secret->syskey) {
++        uint8_t *buffer = NULL;
++        long retcode;
++        if (secret->data || secret->file) {
++            error_setg(errp,
++                       "'syskey', 'file' and 'data' are mutually exclusive");
++            return;
++        }
++        retcode = keyctl_read_alloc(secret->syskey, &buffer);
++        if (retcode < 0) {
++            error_setg_errno(errp, errno,
++                       "Unable to read serial key %08x",
++                       secret->syskey);
++            return;
++        } else {
++            *outputlen = retcode;
++            *output = buffer;
++        }
++    } else if (secret->file) {
+         if (secret->data) {
+             error_setg(errp,
+-                       "'file' and 'data' are mutually exclusive");
++                       "'syskey', 'file' and 'data' are mutually exclusive");
+             return;
+         }
+         if (!g_file_get_contents(secret->file, &data, &length, &gerr)) {
+@@ -60,7 +114,8 @@ qcrypto_secret_load_data(QCryptoSecret *secret,
+         *outputlen = strlen(secret->data);
+         *output = (uint8_t *)g_strdup(secret->data);
+     } else {
+-        error_setg(errp, "Either 'file' or 'data' must be provided");
++        error_setg(errp,
++                   "Either 'syskey' or 'file' or 'data' must be provided");
+     }
+ }
+ 
+@@ -298,6 +353,29 @@ qcrypto_secret_prop_get_file(Object *obj,
+ }
+ 
+ 
++static void
++qcrypto_secret_prop_set_syskey(Object *obj, Visitor *v,
++                               const char *name, void *opaque,
++                               Error **errp)
++{
++    QCryptoSecret *secret = QCRYPTO_SECRET(obj);
++    int32_t value;
++    visit_type_int32(v, name, &value, errp);
++    secret->syskey = value;
++}
++
++
++static void
++qcrypto_secret_prop_get_syskey(Object *obj, Visitor *v,
++                               const char *name, void *opaque,
++                               Error **errp)
++{
++    QCryptoSecret *secret = QCRYPTO_SECRET(obj);
++    int32_t value = secret->syskey;
++    visit_type_int32(v, name, &value, errp);
++}
++
++
+ static void
+ qcrypto_secret_prop_set_iv(Object *obj,
+                            const char *value,
+@@ -384,6 +462,10 @@ qcrypto_secret_class_init(ObjectClass *oc, void *data)
+                                   qcrypto_secret_prop_get_file,
+                                   qcrypto_secret_prop_set_file,
+                                   NULL);
++    object_class_property_add(oc, "syskey", "key_serial_t",
++                                  qcrypto_secret_prop_get_syskey,
++                                  qcrypto_secret_prop_set_syskey,
++                                  NULL, NULL, NULL);
+     object_class_property_add_str(oc, "keyid",
+                                   qcrypto_secret_prop_get_keyid,
+                                   qcrypto_secret_prop_set_keyid,
+diff --git a/include/crypto/secret.h b/include/crypto/secret.h
+index 5e07e29bae..9d350e35ed 100644
+--- a/include/crypto/secret.h
++++ b/include/crypto/secret.h
+@@ -31,6 +31,8 @@
+ typedef struct QCryptoSecret QCryptoSecret;
+ typedef struct QCryptoSecretClass QCryptoSecretClass;
+ 
++typedef int32_t key_serial_t;
++
+ /**
+  * QCryptoSecret:
+  *
+@@ -125,6 +127,7 @@ struct QCryptoSecret {
+     QCryptoSecretFormat format;
+     char *data;
+     char *file;
++    key_serial_t syskey;
+     char *keyid;
+     char *iv;
+ };
 -- 
-2.25.1
+2.17.1
 
 
