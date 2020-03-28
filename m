@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109D219675F
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 17:32:53 +0100 (CET)
-Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C659196760
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 17:32:55 +0100 (CET)
+Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jIEOB-0000yh-Rx
-	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 12:32:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54837)
+	id 1jIEOE-000132-33
+	for lists+qemu-devel@lfdr.de; Sat, 28 Mar 2020 12:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIEMk-0008Ox-OY
+ (envelope-from <chadkennedyonline@yahoo.com>) id 1jIEMk-0008Ow-Pn
  for qemu-devel@nongnu.org; Sat, 28 Mar 2020 12:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jIEMj-0000Hx-Dq
+ (envelope-from <chadkennedyonline@yahoo.com>) id 1jIEMj-0000I7-Jt
  for qemu-devel@nongnu.org; Sat, 28 Mar 2020 12:31:22 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:33010)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jIEMi-000075-UE; Sat, 28 Mar 2020 12:31:21 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07656042|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.183342-0.000380833-0.816277;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03311; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=9; SR=0; TI=SMTPD_---.H6k3Dvn_1585413065; 
-Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.H6k3Dvn_1585413065) by smtp.aliyun-inc.com(10.147.40.2);
- Sun, 29 Mar 2020 00:31:06 +0800
-Subject: Re: [PATCH v6 57/61] target/riscv: floating-point scalar move
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
- <20200317150653.9008-58-zhiwei_liu@c-sky.com>
- <b3505142-78fb-4142-1fb0-aafc20c1788f@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <c388808c-5c5f-872d-24ec-c41417a229f3@c-sky.com>
-Date: Sun, 29 Mar 2020 00:31:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from sonic315-13.consmr.mail.bf2.yahoo.com ([74.6.134.123]:43134)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chadkennedyonline@yahoo.com>)
+ id 1jIEMj-0000Gy-E0
+ for qemu-devel@nongnu.org; Sat, 28 Mar 2020 12:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1585413080; bh=8oREIDk+rbfY5EW4o+DQF/t3P1aDM79CZad1RX4a6k0=;
+ h=Date:From:To:Subject:References:From:Subject;
+ b=kHdKV8smKa1rUMFepTR2FyyVDpAGOiPOhiiPmc8tsBhgNL7rstKbvuacRLdYK91tjGiN6dLuRto/sy6GGP2CYt+9SaQTApcbeMfwcSl1JynjGppzkhJNSa/SKg+jbNb4cbpcnRc8ajwnxxWLv7JeOiS2kkDd9JQqzV5QVORVwH42ewByOEymJtLOatnaqAI/miIo/U9qcT0PlEBqsjLktKMhgJV9eQSJamSSJtgSGdAmoVAjvX+CKGEqkSA3vhW4iiNl3fEjYn0/13BMmomvjHBhRTk/jjkW5CzEdEWLPg7/bba0CpGKq/RQRXHqlXw3NMlFOx6uvedmlLy9XuMo2A==
+X-YMail-OSG: Gl8cXJAVM1kq3agTTFuYEtsuvG69KNAp8XNQPs2Sz6LDF4sjmeYKXB5Sief0koq
+ gSofDNN_ny9K0ZfkOFEpesKhl.QnQP4oC7CdzmWnqYSlz9.kPwWFNbLkcVkWVuy4IwJFws_VUot0
+ FXlKTz3fY0ryKqeY5mqCKR1vol5fCaQc9itb3mQ0ddpjAUdpwarMhEv.Gqy9m.Y0M62H0ofSUXge
+ saZ_cyywWEo45.aRr8ZFk0S8k73KziqBr9eYvWoQlKx0rEUbtBh8G.oRFUTZn6C_1J370AxgXdMq
+ 2sKIxd6EwlYneTLDRJGKy57gkui03O3QMXEvC_MUy8WL4MKWYBAA7q_21K.TDVaDK4EklqdTICIu
+ BJO1y9g.F6R7WzeDYw_DHi.fOP19nGpssxh0w0597hyhOdRILv8.BH9puAv3zcB8S8qSLymY6ILQ
+ SpmrO3qGQV5d3vStoltnzgVlOv7wSsNp5JVsCZktdJfzLaWU9YOjxvyswnrOEB3B5ko30afJjDih
+ ybilkm0B4V_5qT5VehqXHkRvSPOTKNc1PK0bvMXFKwo5BS0W2sr1ZRLPKPIiPMO77Oq6QzWDKYTI
+ g5opamZTzIx3wAOPfbjJu0uGwCZCKwRVlacZQyonFQQg1AvwlI.ZbB3ORgBiZ9jMiKrL.VjM_YoP
+ s_ToyKNelu5bjHdGgi3F8vRNbmiL_au3bEDeQX8Ys_gm0Iq.EUXTtllDqyWrNyJXS1DO9ALnyH_Q
+ QC3cLNzl9ekT0AtaZWdlJ2zc1sijRz2iJyzE1mCphZnYmGYovqkqYV4FKNhsA3Kf7X_Lq14xab7k
+ KPayK2ONrjzjfOkUMof2Ncle4nB4LoGNz6QqLk2Q1zh4KD6DbO2lco5ZBTPOlJL3YmwuE2gYS1jG
+ wnNu4ZqXLzJ._O9AViClN3YV7u4jsd.l7yb3tFx8uxYKwu38PIVZ.jg3Ixvs0FBg221EeYwWNOxs
+ y4gqFEFBNiZXnyS6b8nnCQEzTtbEonMXmNEoC5W9eQhNU2HvpQU0PYWevyTPyAawpq7AkDZIjiBd
+ Hmt2betLJeo2.zaFWpPwfj6K7.7cAjd4Gle3UdI7wZsClLMtbWqmjl8LxIxakCbt56HIMF8MhB6o
+ 69mw.yFQ34A7VJxWXP97tPgovitSnhkxNJMLu_1fmD0p9tF.EA3ZFEZQiNBaEzkfr5qDFK3FgKGP
+ mkTc3M.lX4mDOWH9nGXWcG5r4e9OSp4brFKIgrwVmUs6H1ZiRrnJvQJwgAderCtwRPlUidnFGKXY
+ L7j6YCtQ4lHVQXScH5nIYt6zzRKBVFBdEisgSyVC.QoKVp6qf9qEBJWK3rZKrokL__Cj4M1UNXx_
+ TceiZbwL5_3.sLgIyQQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic315.consmr.mail.bf2.yahoo.com with HTTP; Sat, 28 Mar 2020 16:31:20 +0000
+Date: Sat, 28 Mar 2020 16:31:15 +0000 (UTC)
+From: Chad Kennedy <chadkennedyonline@yahoo.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Message-ID: <1076116481.206160.1585413075911@mail.yahoo.com>
+Subject: Request for Wiki write access
 MIME-Version: 1.0
-In-Reply-To: <b3505142-78fb-4142-1fb0-aafc20c1788f@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_206159_539423149.1585413075910"
+References: <1076116481.206160.1585413075911.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15555 YMailNorrin Mozilla/5.0 (Windows NT 10.0; Win64;
+ x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149
+ Safari/537.36
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 74.6.134.123
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,72 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+------=_Part_206159_539423149.1585413075910
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+I'm getting started with building QEMU on Windows and, following the instru=
+ctions at=C2=A0=C2=A0https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSY=
+S2,=C2=A0I ran into some small issues. I'd like to be able to tweak the wik=
+i a bit to help save others who might follow behind me some time.
+Therefore, I'm requesting a wiki account per the bottom of=C2=A0https://wik=
+i.qemu.org/Main_Page
+Thanks and best regards!
 
 
-On 2020/3/28 11:44, Richard Henderson wrote:
-> On 3/17/20 8:06 AM, LIU Zhiwei wrote:
->> +/* Floating-Point Scalar Move Instructions */
->> +static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
->> +{
->> +    if (!s->vill && has_ext(s, RVF) &&
->> +        (s->mstatus_fs != 0) && (s->sew != 0)) {
->> +#ifdef HOST_WORDS_BIGENDIAN
->> +        int ofs = vreg_ofs(s, a->rs2) + ((7 >> s->sew) << s->sew);
->> +#else
->> +        int ofs = vreg_ofs(s, a->rs2);
->> +#endif
-> Use endian_ofs from patch 55.
-Yes, I forgot it.
->
->> +        switch (s->sew) {
->> +        case MO_8:
->> +            tcg_gen_ld8u_i64(cpu_fpr[a->rd], cpu_env, ofs);
->> +            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
->> +                            0xffffffffffffff00ULL);
->> +            break;
-> MO_8 should be illegal.
-Yes, it has been checked in s->sew != 0.
->
->> +        case MO_16:
->> +            tcg_gen_ld16u_i64(cpu_fpr[a->rd], cpu_env, ofs);
->> +            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
->> +                            0xffffffffffff0000ULL);
->> +            break;
->> +        case MO_32:
->> +            tcg_gen_ld32u_i64(cpu_fpr[a->rd], cpu_env, ofs);
->> +            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
->> +                            0xffffffff00000000ULL);
->> +            break;
->> +        default:
->> +            if (has_ext(s, RVD)) {
->> +                tcg_gen_ld_i64(cpu_fpr[a->rd], cpu_env, ofs);
->> +            } else {
->> +                tcg_gen_ld32u_i64(cpu_fpr[a->rd], cpu_env, ofs);
->> +                tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
->> +                                0xffffffff00000000ULL);
->> +            }
->> +            break;
-> Maybe better with MO_64 and default: g_assert_not_reached().
->
->> +static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
->> +{
->> +    if (!s->vill && has_ext(s, RVF) && (s->sew != 0)) {
->> +        TCGv_ptr dest;
->> +        TCGv_i64 src1;
->> +        static gen_helper_vfmv_s_f * const fns[3] = {
->> +            gen_helper_vfmv_s_f_h,
->> +            gen_helper_vfmv_s_f_w,
->> +            gen_helper_vfmv_s_f_d
-> You shouldn't need to duplicate the vmv_s_x_* helpers.
-All these helpers will be away in v7.
 
-Zhiwei
->
-> r~
 
+
+
+
+------=_Part_206159_539423149.1585413075910
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"yahoo-style-wrap" style=3D"font-fami=
+ly:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;"><div dir=
+=3D"ltr" data-setdir=3D"false">I'm getting started with building QEMU on Wi=
+ndows and, following the instructions at&nbsp;&nbsp;<a href=3D"https://wiki=
+.qemu.org/Hosts/W32#Native_builds_with_MSYS2" rel=3D"nofollow" target=3D"_b=
+lank" class=3D"">https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2</=
+a>,&nbsp;I ran into some small issues. I'd like to be able to tweak the wik=
+i a bit to help save others who might follow behind me some time.</div><div=
+ dir=3D"ltr" data-setdir=3D"false"><br></div><div dir=3D"ltr" data-setdir=
+=3D"false">Therefore, I'm requesting a wiki account per the bottom of&nbsp;=
+<a href=3D"https://wiki.qemu.org/Main_Page" rel=3D"nofollow" target=3D"_bla=
+nk">https://wiki.qemu.org/Main_Page</a></div><div dir=3D"ltr" data-setdir=
+=3D"false"><br></div><div dir=3D"ltr" data-setdir=3D"false">Thanks and best=
+ regards!<br><div><br></div><div><br></div><div><br></div></div><div><br></=
+div><div><br></div><div><br></div></div></body></html>
+------=_Part_206159_539423149.1585413075910--
 
