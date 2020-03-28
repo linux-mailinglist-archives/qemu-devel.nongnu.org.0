@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC58196346
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 04:06:41 +0100 (CET)
-Received: from localhost ([::1]:49604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D6A196359
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Mar 2020 04:24:23 +0100 (CET)
+Received: from localhost ([::1]:49728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jI1o0-00046k-Pr
-	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 23:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
+	id 1jI258-0001B3-9N
+	for lists+qemu-devel@lfdr.de; Fri, 27 Mar 2020 23:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi.qiang@intel.com>) id 1jI1mp-0002ok-Uf
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:05:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jI24L-0000hf-4e
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenyi.qiang@intel.com>) id 1jI1mo-0004Of-V5
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:05:27 -0400
-Received: from mga12.intel.com ([192.55.52.136]:6621)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chenyi.qiang@intel.com>)
- id 1jI1mo-0003if-Kd
- for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:05:26 -0400
-IronPort-SDR: FjBJezPUKwmXuSe/YUtwT3EAMDxV7q31sBOwDuS8CSRv0wbnFTfmeRl9kbhloKOOqnD3nR6G8O
- cwtMNqDE+ukg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Mar 2020 20:05:26 -0700
-IronPort-SDR: E6xUX6bHhwz0NAifiT25F9XlqR9f99ez9esiTB424WnLAYjqUYHkLZm/IjpwrCS5/MirCV5YUw
- /umKFFpwaWcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,314,1580803200"; d="scan'208";a="421319479"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by orsmga005.jf.intel.com with ESMTP; 27 Mar 2020 20:05:24 -0700
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v2 4/4] target/i386: modify Icelake-Client and Icelake-Server
- CPU model number
-Date: Sat, 28 Mar 2020 11:06:25 +0800
-Message-Id: <20200328030625.16428-5-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200328030625.16428-1-chenyi.qiang@intel.com>
-References: <20200328030625.16428-1-chenyi.qiang@intel.com>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 192.55.52.136
+ (envelope-from <richard.henderson@linaro.org>) id 1jI24K-0001kK-5j
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:33 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:41411)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jI24J-0001jm-OD
+ for qemu-devel@nongnu.org; Fri, 27 Mar 2020 23:23:32 -0400
+Received: by mail-pl1-x644.google.com with SMTP id d24so390580pll.8
+ for <qemu-devel@nongnu.org>; Fri, 27 Mar 2020 20:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xqS5xXKI/hCKceagn++9iVyTAvEWIV2FzcPrX6crXZo=;
+ b=qMGJ3Cv4+l1ohNI0g+56NAffWvN+SZo7+8Jq3i2zmntS52fH80xXHD8gLY+OEdbwLi
+ P6JwYNOyY+63C1yTJ/lhG0CLXaiilvpvkjkzqMEBS22Jwf9YIw1NAWpsNqPDspw/8ewA
+ 4lBLgcU0+bxFQEc5ZJ0Jd2NI77fFNjMfm4mDZCRTCsaPANaA8TlJUXFZfM4XsxZiaJWY
+ /EVODTuVFNPBXpePJ1/S53nJkZ/9Ti+CLUvY9OB5tO5GAulwM4+kfaoHV1GhoMH0PGck
+ uCOxtdh54TJ46omrAAiEPXSYDxDrLPYsETCW6fI/ugJxYe7w9oL1yk+47fYdJdmYpcdE
+ NgWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xqS5xXKI/hCKceagn++9iVyTAvEWIV2FzcPrX6crXZo=;
+ b=E9jXRzxjInxTBLjpS3gISoen9eMrLAjHC3RXxk6xMZp31Iz9L2M/IQ5xLGONofob6c
+ rng5jtp07x6ZZ8QSCbb89kRQuz/v2rrlnviT+XaG6HAbWUsveH35PzAU4pruSscbCs2e
+ tvvA8GrKyE7vg8U9zkHC8wXAN1aPGggKI5hzoo74IITmGXe03XBVA2pQONGxLf2RBc9V
+ EfWTjkVvygKf+QDqchPQRO60Jhe+grUjztP3mGWV5nKB31jYrF2I+OqsX5pPXT+jjtut
+ y5Evd0h++hhW4nn7nIiOgy1kj6V7lLEqDZ/2CBZITiXyeXYY6bhRaNOKAx21LqOmNdMN
+ wupw==
+X-Gm-Message-State: ANhLgQ3MTVrIO94IXpXJAt+HlWTCTHDfwaaxV6glEul2719Zv34A7o8A
+ QhsQ31Hg0YTqYu/yXSPjT/z+7A==
+X-Google-Smtp-Source: ADFU+vsdIuiwW0hYzxehjnj8SEonUninEKuYDCkFn2VAMLAxJ/OcegFgWionZAu38qk44yrN2X0R4g==
+X-Received: by 2002:a17:90a:5205:: with SMTP id v5mr2840210pjh.0.1585365810319; 
+ Fri, 27 Mar 2020 20:23:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-138-234.tukw.qwest.net. [174.21.138.234])
+ by smtp.gmail.com with ESMTPSA id d26sm5174511pfo.37.2020.03.27.20.23.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Mar 2020 20:23:29 -0700 (PDT)
+Subject: Re: [PATCH v6 41/61] target/riscv: vector floating-point merge
+ instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200317150653.9008-1-zhiwei_liu@c-sky.com>
+ <20200317150653.9008-42-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e0d4678b-1a24-3e90-768a-efd0f0311b68@linaro.org>
+Date: Fri, 27 Mar 2020 20:23:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200317150653.9008-42-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,42 +84,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
- Robert Hoo <robert.hu@linux.intel.com>
+Cc: guoren@linux.alibaba.com, wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the Intel Icelake family list, Icelake-Client uses model
-number 125(0x7D) and Icelake-Server uses model number 106(0x6A).
+On 3/17/20 8:06 AM, LIU Zhiwei wrote:
+> +    for (i = 0; i < vl; i++) {                            \
+> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
+> +            ETYPE s2 = *((ETYPE *)vs2 + H(i));            \
+> +            *((ETYPE *)vd + H1(i)) = s2;                  \
 
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- target/i386/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+H1 should be H.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index babb074abf..5bd52f2c4b 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3328,7 +3328,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_INTEL,
-         .family = 6,
--        .model = 126,
-+        .model = 125,
-         .stepping = 0,
-         .features[FEAT_1_EDX] =
-             CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
-@@ -3441,7 +3441,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_INTEL,
-         .family = 6,
--        .model = 134,
-+        .model = 106,
-         .stepping = 0,
-         .features[FEAT_1_EDX] =
-             CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
--- 
-2.17.1
+> +        } else {                                          \
+> +            *((ETYPE *)vd + H(i)) = (ETYPE)s1;            \
+> +        }                                                 \
 
+You can also hoist the s2 dereference out of the IF, and let the assignment be
+unconditional.
+
+  *((ETYPE *)vd + H(i))
+    = (!vm && !vext_elem_mask(v0, mlen, i) ? s2 : s1);
+
+
+r~
 
